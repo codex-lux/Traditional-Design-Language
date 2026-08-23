@@ -107,11 +107,13 @@ def tdl_get_fault(fault_id: str, style: str = "") -> str:
     return J(core.get_fault(fault_id, style or None))
 
 @mcp.tool()
-def tdl_measurement_vocabulary(slot: str = "", style: str = "") -> str:
-    """Every variable name the fault corpus can test on, with units and how many faults use each.
-    Call this before tdl_check_measurements so you measure the right things and name them
-    correctly — the tests are exact-match on variable name."""
-    return J(core.measurement_vocabulary(slot or None, style or None))
+def tdl_measurement_vocabulary(slot: str = "", style: str = "", include_constraints: bool = True) -> str:
+    """Every variable name the corpus can test on — the fault corpus, counted by actual test
+    usage, plus (by default) a style's migrated constraint tests (schema/constraint.schema.json,
+    WP-1.1) — with units, measurable_from, and which corpus (source) tests on each. Call this
+    before tdl_check_measurements or tdl_check_style_constraints so you measure the right things
+    and name them correctly — the tests are exact-match on variable name."""
+    return J(core.measurement_vocabulary(slot or None, style or None, include_constraints))
 
 @mcp.tool()
 def tdl_check_measurements(measurements: dict, style: str = "", slot: str = "",
@@ -121,8 +123,24 @@ def tdl_check_measurements(measurements: dict, style: str = "", slot: str = "",
     failed, with the value, the threshold and the fix), which are CLEAR, and which COULD NOT BE
     JUDGED for want of a number. Anything unjudged is unknown, never passed; say so to the human.
     Style-specific exceptions are applied automatically, so a five-foot Georgian portico will not
-    be reported as the four-foot-porch fault. Use tdl_measurement_vocabulary for the variable names."""
+    be reported as the four-foot-porch fault. Use tdl_measurement_vocabulary for the variable names.
+    For a style's own hard/soft constraints rather than the element-level fault corpus, use
+    tdl_check_style_constraints instead."""
     return J(core.check_measurements(measurements, style or None, slot or None, limit=limit))
+
+@mcp.tool()
+def tdl_check_style_constraints(style: str, measurements: dict) -> str:
+    """Evaluate one style's own constraints (schema/constraint.schema.json, WP-1.1 — 140 of ~660
+    migrated so far) against a dict of measurements, without building a whole plan record. Give
+    a dict like {"roof_pitch_rise_per_12": 9} and get back which constraints are PRESENT
+    (violated — a test actually failed, with the value and what was required), which are CLEAR,
+    which COULD NOT BE JUDGED for want of a variable, and which are judgment_only (a hard
+    constraint the sources don't determine numerically, listed for hand review, never silently
+    passed). Anything unjudged is unknown, never passed. Use tdl_measurement_vocabulary(style=...)
+    for the variable names this style's constraints reference. tdl_check_plan runs the same
+    evaluation as part of a full plan check; use this tool when you only have a style and some
+    numbers, not a whole plan."""
+    return J(core.check_style_constraints(style, measurements))
 
 @mcp.tool()
 def tdl_get_massing(massing_id: str = "", style: str = "") -> str:
@@ -185,7 +203,9 @@ def tdl_check_plan(plan: dict, strict: bool = False) -> str:
     public-to-private gradient, with circulation treated as rank-transparent. GROUPING: declared
     groupings' required rooms and massing fit. FAULT: the 209-fault corpus against whatever
     measurements the plan supplies. CODE: IRC model text, ADVISORY and jurisdictional — never a
-    permit review. STYLE: forbidden variants the plan declares, and the style's own hard constraints.
+    permit review. STYLE: forbidden variants the plan declares, and the style's own migrated
+    constraints evaluated present/clear/unjudged (WP-1.2) — a constraint without a test yet is
+    still listed for hand review, exactly as before.
 
     Findings come back with severity, layer, the rule's reasoning, and a fix. Absence of a room type
     is reported separately as 'completeness' rather than as a failure, because a plan record that does

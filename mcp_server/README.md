@@ -1,6 +1,6 @@
 # Traditional Design Language — MCP server
 
-23 tools that let an AI consult the corpus while advising a human on a real house.
+24 tools that let an AI consult the corpus while advising a human on a real house.
 
 ## Install
 
@@ -64,8 +64,9 @@ Grouped by the layer of the stack each one reads from — see `docs/model.md` fo
 |---|---|
 | `tdl_find_faults` | Search 209 named errors, with per-style exceptions surfaced |
 | `tdl_get_fault` | Cause, correct practice, three tiers of fix, detection |
-| `tdl_measurement_vocabulary` | Exactly what to measure, and what to call it |
-| `tdl_check_measurements` | **Evaluate the corpus against real numbers.** |
+| `tdl_measurement_vocabulary` | Exactly what to measure, and what to call it — fault- and constraint-sourced |
+| `tdl_check_measurements` | **Evaluate the fault corpus against real numbers.** |
+| `tdl_check_style_constraints` | **Evaluate one style's own constraints against real numbers**, without a whole plan record (WP-1.2) |
 
 **The phrase layer — groupings and partis**
 
@@ -101,7 +102,7 @@ Grouped by the layer of the stack each one reads from — see `docs/model.md` fo
 
 **Call `tdl_find_faults` before recommending a detail, not after.** And read `EXCEPTION_FOR_THIS_STYLE` before repeating a rule at a client — several styles legitimately do what is a fault everywhere else.
 
-**Unjudged is not passed.** `tdl_check_measurements` separates faults that failed a test from faults it could not evaluate. Tell the human which is which.
+**Unjudged is not passed.** `tdl_check_measurements` and `tdl_check_style_constraints` both separate a failed test from one they could not evaluate. Tell the human which is which.
 
 **Judgment slots are the point, not a gap.** Rules flagged `judgment: true` are not determined by the sources. Put them to the human rather than inventing a number. A rules engine that cannot admit ignorance will produce houses that violate no constraint and are still dead.
 

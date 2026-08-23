@@ -1,6 +1,8 @@
 # WP-1.3 — Kit schema operators
 
-*Executed 23 August 2026, overnight autonomous session, in four parts across and after WP-1.1, as the last package of Phase 1 ("spine first," per this session's scoping instructions).*
+*Executed 23 August 2026, overnight autonomous session, in four parts across and after WP-1.1.*
+
+**Correction, 23 Aug 2026:** the line above originally called this "the last package of Phase 1." It wasn't — WP-1.2 (the validator reading constraints) hadn't run yet and turned out to need real work of its own; see `docs/reports/wp-1.2-validator-reads-constraints.md`. `PLAN-OF-ACTION.md`'s own parallelisation map has WP-1.3 running independently alongside WP-1.1/WP-1.2, not after them, so the ordering claim was never load-bearing — but it was still wrong, and this session has been correcting exactly this kind of claim in other files tonight, so it gets corrected here too rather than left standing.
 
 ## What was built
 

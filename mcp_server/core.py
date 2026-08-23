@@ -409,6 +409,54 @@ def _eval_test(t, measurements):
     return {"status": "evaluated", "value": round(val, 4) if isinstance(val, float) else val,
             "required": required, "passes": ok, "units": t.get("units")}
 
+def _load_constraint_vocab():
+    spec = importlib.util.spec_from_file_location("constraint_vocabulary",
+                                                    os.path.join(ROOT, "build", "constraint_vocabulary.py"))
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+
+def check_style_constraints(style, measurements):
+    """Evaluate a style's own constraint tests (schema/constraint.schema.json, WP-1.1) against a
+    dict of measurements -- the same present/clear/unjudged shape check_measurements already
+    returns for faults, so a caller can ask 'does this style's roof-pitch rule pass at 9:12'
+    without building a whole plan record for tdl_check_plan.
+
+    Only 140 of the corpus's ~660 constraints carry a test as of WP-1.1's worked example
+    (docs/constraints.md); the rest, and every scope: judgment constraint, come back under
+    judgment_only rather than silently ignored."""
+    D = _data()
+    n = D["styles"].get(style)
+    if not n:
+        near = [s for s in D["styles"] if style.lower() in s][:6]
+        return {"error": f"unknown style '{style}'", "did_you_mean": near}
+    present, clear, needed, judgment_only = [], [], [], []
+    for c in n.get("constraints", []):
+        if c.get("deprecated_in_favour_of"):
+            continue
+        test = c.get("test")
+        if not test:
+            if c.get("severity") == "hard":
+                judgment_only.append({"id": c.get("id"), "kind": c["kind"], "statement": c["statement"]})
+            continue
+        row = {"id": c["id"], "kind": c["kind"], "severity": c.get("severity"), "statement": c["statement"]}
+        r = _eval_test(test, measurements)
+        if not r or r["status"] != "evaluated":
+            row["missing"] = r.get("missing") if r else None
+            needed.append(row)
+            continue
+        row.update(value=r["value"], required=r["required"], units=r.get("units"))
+        if r["passes"]:
+            clear.append(row)
+        else:
+            row["note"] = test.get("note")
+            present.append(row)
+    return {"style": style, "measurements_given": sorted(measurements),
+            "constraints_present": present, "constraints_clear": clear,
+            "could_not_judge": needed, "judgment_only": judgment_only,
+            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
+            "note": ("A constraint only counts as present (violated) when a test actually failed. "
+                     "could_not_judge is unknown, not passed. judgment_only lists hard constraints "
+                     "with no test at all -- scope: judgment, or simply not yet migrated.")}
+
 def check_measurements(measurements, style=None, slot=None, include_needed=True, limit=40):
     """Evaluate every applicable fault test against a dict of measurements.
 
@@ -450,8 +498,18 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
             "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
             "note": "A fault only counts as present when a test actually failed. Anything under could_not_judge is unknown, not passed."}
 
-def measurement_vocabulary(slot=None, style=None):
-    """Every variable name the corpus tests on, so a caller knows what to measure."""
+def measurement_vocabulary(slot=None, style=None, include_constraints=True):
+    """Every variable name the corpus tests on, so a caller knows what to measure.
+
+    Fault-corpus variables are counted by actual test usage across faults/*.json, as before
+    WP-1.2. When include_constraints is set (the default), a style's migrated constraint tests
+    (schema/constraint.schema.json, WP-1.1 -- 140 of ~660 so far) are folded in the same way and
+    each variable is tagged with which corpus tests on it. The two vocabularies were built
+    independently and only partially overlap (roof_pitch_rise_per_12 and water_table_height_in
+    are shared; most names are not) -- source shows which, so a caller doesn't assume a fault
+    variable is also a constraint variable or the reverse. slot has no meaning for a constraint
+    (constraints aren't slot-scoped), so a slot-filtered call skips the constraint pass entirely
+    rather than mixing a filtered list with an unfiltered one under one used_by count."""
     D = _data(); vocab = {}
     for f in D["faults"].values():
         if slot and slot not in f["slots"]: continue
@@ -460,11 +518,29 @@ def measurement_vocabulary(slot=None, style=None):
             if not t or not t.get("expression"): continue
             for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", t["expression"]):
                 if nm in ("min","max","abs","round"): continue
-                v = vocab.setdefault(nm, {"used_by": 0, "units": t.get("units"), "measurable_from": t.get("measurable_from")})
+                v = vocab.setdefault(nm, {"used_by": 0, "units": t.get("units"),
+                                           "measurable_from": t.get("measurable_from"), "source": []})
                 v["used_by"] += 1
+                if "fault" not in v["source"]: v["source"].append("fault")
+    if include_constraints and not slot:
+        cv = _load_constraint_vocab().VOCABULARY
+        styles = [D["styles"][style]] if style and style in D["styles"] else D["styles"].values()
+        for n in styles:
+            for c in n.get("constraints", []):
+                t = c.get("test")
+                if not t or not t.get("expression"): continue
+                for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", t["expression"]):
+                    if nm in ("min","max","abs","round"): continue
+                    v = vocab.setdefault(nm, {"used_by": 0, "units": t.get("units"),
+                                               "measurable_from": t.get("measurable_from"), "source": []})
+                    v["used_by"] += 1
+                    if "constraint" not in v["source"]: v["source"].append("constraint")
+                    if nm in cv and "note" not in v: v["note"] = cv[nm]["note"]
     return {"variables": dict(sorted(vocab.items(), key=lambda kv: -kv[1]["used_by"])),
             "count": len(vocab),
-            "hint": "pass any subset of these to tdl_check_measurements; missing ones are reported, never assumed"}
+            "hint": ("pass any subset of these to tdl_check_measurements (fault-sourced findings) "
+                     "or tdl_check_style_constraints (constraint-sourced, needs a style); missing "
+                     "ones are reported, never assumed.")}
 
 # ----------------------------------------------------------------- assets
 def find_assets(slot=None, style=None, fault=None, role=None, status=None, limit=20):

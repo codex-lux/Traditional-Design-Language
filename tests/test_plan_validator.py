@@ -302,6 +302,31 @@ class TestConstraintEvaluation:
         assert hits == [], f"the shipped plan's 12ft passage is within c03's 10-14ft band: {hits}"
         assert result["constraint_summary"]["clear"] >= 1
 
+    def test_deliberately_wrong_tidewater_pitch_fails_as_wp_1_2_acceptance_names_it(self, plan_check_module, corpus):
+        """PLAN-OF-ACTION.md's own WP-1.2 acceptance criterion, verbatim: 'a deliberately wrong
+        variant (pitch 12:12 on Tidewater) fails the pitch constraint.'"""
+        plan = load_plan("tidewater-georgian-careful")
+        plan["measurements"] = {"roof_pitch_rise_per_12": 12}
+        result = plan_check_module.check(plan, corpus)
+        hits = [f for f in result["findings"] if f.get("rule") == "tidewater-georgian.c02"]
+        assert len(hits) == 1 and hits[0]["severity"] == "serious"
+
+    def test_compose_score_already_counts_a_failed_hard_constraint(self, plan_check_module, corpus, compose_module):
+        """PLAN-OF-ACTION.md asks WP-1.2 to 'teach compose.py to score constraint findings
+        (fatal on a hard constraint present, the same 100/8/1 weights)'. compose.score() sums
+        SEV_W over plan_check.check()'s own findings list with no constraint-specific code at
+        all -- so a failed hard constraint (CONSTRAINT_SEV maps hard -> serious, SEV_W['serious']
+        == 8) already moves the score the moment plan_check.py evaluates it. Nothing to add."""
+        plan = {"id": "t", "name": "T", "style": "georgian-colonial-american",
+                "massing": "centre-passage-single-pile", "groupings": [], "context": {},
+                "levels": [{"id": "ground", "index": 0, "floor_to_ceiling_ft": 9, "rooms": []}],
+                "adjacencies": [], "declared": {}}
+        plan["measurements"] = {"roof_pitch_rise_per_12": 6}
+        bad = compose_module.score(plan_check_module.check(plan, corpus))
+        plan["measurements"] = {"roof_pitch_rise_per_12": 9}
+        ok = compose_module.score(plan_check_module.check(plan, corpus))
+        assert bad - ok == 8, "the failed roof-pitch constraint should cost exactly SEV_W['serious']"
+
     def test_derive_constraint_vars_ground_floor_only(self, plan_check_module):
         plan = load_plan("tidewater-georgian-careful")
         v = plan_check_module.derive_constraint_vars(plan)
