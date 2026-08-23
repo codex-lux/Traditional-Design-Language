@@ -68,6 +68,18 @@ def constraint_vocabulary_module():
     return constraint_vocabulary
 
 
+@pytest.fixture(scope="session")
+def structure_module():
+    import structure
+    return structure
+
+
+@pytest.fixture(scope="session")
+def render_section_module():
+    import render_section
+    return render_section
+
+
 def load_style(style_id):
     with open(os.path.join(ROOT, "styles", f"{style_id}.json")) as f:
         return json.load(f)

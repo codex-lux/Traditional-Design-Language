@@ -27,6 +27,8 @@ CHECKS = [
     ("proportion_engine.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),
+    ("structure.py", ["plans/spec-builder-colonial.json"]),
+    ("structure.py", ["plans/tidewater-georgian-careful.json"]),
     ("compose.py", ["briefs/family-georgian.json"]),
     ("build.py", []),
 ]

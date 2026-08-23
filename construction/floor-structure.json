@@ -1,0 +1,13 @@
+{
+  "$comment": "WP-3.1. Backs 'report spans that exceed the module's capacity' and the acceptance criterion's own literal case, 'no 2x10 spanning 18 ft passes silently.' Two separate tables, because this corpus already treats hand-timber framing and modern light framing as genuinely different systems (proportions/modules/timber-bay.json's own 'structural' conflict entry: engineered lumber 'abolished the constraint that generated the system'). A style in timber-bay.json's applies_to list is checked against the BAY MODULE itself (16-20 ft is the span a hewn joist will make, per that pack's own sourced note) rather than against a dimensional-lumber table that assumes a system the style never had.",
+  "version": "0.1.0",
+  "units": "ft",
+  "light_frame_joist_spans": [
+    {"member": "2x8", "depth_in": 7.25, "max_clear_span_ft": 12.0, "note": "16 in o.c., typical residential live/dead load, conventional span-table figure -- rounded and illustrative, verify against a stamped span table or local code for any real span."},
+    {"member": "2x10", "depth_in": 9.25, "max_clear_span_ft": 16.0, "note": "16 in o.c. Same caveat as 2x8."},
+    {"member": "2x12", "depth_in": 11.25, "max_clear_span_ft": 18.5, "note": "16 in o.c. Same caveat."},
+    {"member": "engineered-i-joist-9.5", "depth_in": 9.5, "max_clear_span_ft": 20.0, "note": "A typical 9.5 in TJI-class engineered I-joist. Engineered lumber spans depend heavily on the specific product and flange rating; this figure is a conservative round number, not a manufacturer's span chart."},
+    {"member": "engineered-i-joist-11.875", "depth_in": 11.875, "max_clear_span_ft": 24.0, "note": "A typical 11.875 in TJI-class engineered I-joist. Same caveat as above."}
+  ],
+  "authority": {"strength": "conventional", "note": "Rounded, illustrative figures drawn from conventional residential span-table ranges. This catalog exists to make plan_check-style 'no silent pass' honesty available at the structural layer, not to replace a stamped calculation -- every finding this produces should read as advisory, matching schema/brief.schema.json's own jurisdiction-field caveat for code checks generally."}
+}

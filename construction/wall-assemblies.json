@@ -1,0 +1,107 @@
+{
+  "$comment": "WP-3.1. The 'small construction/ catalog of wall assemblies with thicknesses and bearing capacity' PLAN-OF-ACTION.md's WP-3.1 brief asks for -- one record per construction_type (elements/slots.json's own `construction_type` slot examples, exactly), distinguishing exterior, bearing-interior, and partition thickness, and whether the assembly bears at all. This is deliberately a SEPARATE catalog from the proportion packs (proportions/modules/timber-bay.json, storey-graduation.json): those describe how a traditional design is composed and are sourced from period authorities; this one describes what a wall assembly physically is and is sourced from conventional/typical construction data, the same honesty distinction schema/brief.schema.json's own `jurisdiction` field already draws for code checks ('advisory and jurisdictional'). Every figure here is a typical range for estimating purposes, not a substitute for a stamped structural or code review -- see each record's own `authority` block; none claims 'documented' strength the way a period pattern-book citation would.",
+  "version": "0.1.0",
+  "units": "in",
+  "assemblies": [
+    {
+      "id": "solid-masonry-two-wythe",
+      "name": "Solid masonry, two wythe (brick or stone bearing wall)",
+      "bearing": "load-bearing-masonry",
+      "exterior_thickness_in": [13, 18],
+      "bearing_interior_thickness_in": [9, 13],
+      "partition_thickness_in": [4, 5],
+      "note": "Two wythes of brick with a collar joint, or coursed rubble/ashlar of comparable overall dimension. Matches elements/slots.json's wall_thickness_masonry slot note directly (13-18 in). Interior bearing walls are typically one wythe lighter than the exterior envelope; a non-bearing interior partition in the same house is ordinarily a single wythe or a stud wall, not masonry at all.",
+      "authority": {"strength": "conventional", "note": "Figure ranges are typical construction data, cross-checked against elements/slots.json's wall_thickness_masonry note, not a period source in their own right."}
+    },
+    {
+      "id": "solid-masonry-three-wythe",
+      "name": "Solid masonry, three wythe",
+      "bearing": "load-bearing-masonry",
+      "exterior_thickness_in": [18, 22],
+      "bearing_interior_thickness_in": [13, 18],
+      "partition_thickness_in": [4, 9],
+      "note": "A third wythe over the two-wythe assembly, typical of a taller bearing wall or a lower storey carrying more storeys above it -- the wall commonly steps down a wythe at an upper floor, which this catalog does not model per-storey (see 'What was deliberately not done' in docs/structure.md).",
+      "authority": {"strength": "conventional"}
+    },
+    {
+      "id": "masonry-veneer-over-frame",
+      "name": "Masonry veneer over a wood or steel frame backup",
+      "bearing": "veneer-non-bearing",
+      "exterior_thickness_in": [9, 12],
+      "bearing_interior_thickness_in": [4.5, 6.5],
+      "partition_thickness_in": [4, 5],
+      "note": "About 1 in air cavity plus 3.5-4 in brick veneer plus a 2x4 or 2x6 stud backup wall plus sheathing and interior finish. The veneer itself carries no load above its own weight -- the frame behind it is the bearing structure, so bearing_interior_thickness_in here describes the FRAME's own interior bearing partitions, not a masonry wythe.",
+      "authority": {"strength": "conventional"}
+    },
+    {
+      "id": "braced-timber-frame",
+      "name": "Braced (post-and-beam) timber frame with infill or applied cladding",
+      "bearing": "load-bearing-frame",
+      "exterior_thickness_in": [8, 10],
+      "bearing_interior_thickness_in": [6, 8],
+      "partition_thickness_in": [4, 5],
+      "note": "Posts run 8-11 in on the face in surviving first-period frames (proportions/modules/timber-bay.json's own note); the overall wall including sheathing, infill or nogging, and cladding runs a little narrower than the post face alone once the wrap is outboard of the frame (see timber-bay.json's 'energy-code' conflict entry on why the enclosure is now built outboard of an exposed frame).",
+      "authority": {"strength": "conventional", "note": "Post dimension itself is documented (timber-bay.json, Cummings survey); the assembled wall thickness here is a conventional estimate built from it."}
+    },
+    {
+      "id": "balloon-frame",
+      "name": "Balloon frame (continuous studs, floor structure hung from ribbon)",
+      "bearing": "load-bearing-frame",
+      "exterior_thickness_in": [6, 10],
+      "bearing_interior_thickness_in": [4.5, 6.5],
+      "partition_thickness_in": [4, 5],
+      "note": "2x4 to 2x6 studs plus sheathing, cladding and interior finish. Matches elements/slots.json's wall_thickness_frame slot note directly (6-10 in). Structurally distinguished from platform framing only by the continuous stud run past the floor line, which this catalog's thickness figures do not differ on.",
+      "authority": {"strength": "conventional"}
+    },
+    {
+      "id": "platform-frame",
+      "name": "Platform frame (stud walls built storey by storey on each floor platform)",
+      "bearing": "load-bearing-frame",
+      "exterior_thickness_in": [6, 10],
+      "bearing_interior_thickness_in": [4.5, 6.5],
+      "partition_thickness_in": [4, 5],
+      "note": "The near-universal modern light-frame method. Same thickness range as balloon framing -- the difference between the two is sequencing and fire-stopping at the floor line, not wall thickness.",
+      "authority": {"strength": "conventional"}
+    },
+    {
+      "id": "log",
+      "name": "Log (solid hewn or milled log wall)",
+      "bearing": "load-bearing-solid",
+      "exterior_thickness_in": [8, 14],
+      "bearing_interior_thickness_in": [8, 14],
+      "partition_thickness_in": [4, 6],
+      "note": "The wall thickness IS the log diameter or squared-log face -- there is ordinarily no separate interior/exterior distinction on a bearing log wall, unlike a stud or masonry assembly. A non-bearing interior partition in a log house is typically a stud wall, not a lighter log course.",
+      "authority": {"strength": "conventional"}
+    },
+    {
+      "id": "adobe",
+      "name": "Adobe (sun-dried mud brick, load-bearing)",
+      "bearing": "load-bearing-mass",
+      "exterior_thickness_in": [10, 24],
+      "bearing_interior_thickness_in": [10, 18],
+      "partition_thickness_in": [8, 10],
+      "note": "Traditional Southwest adobe walls run thick because the material has essentially no tensile strength and the wall does double duty as thermal mass; a lower storey under more storeys above, or a taller wall, wants the thicker end of the range.",
+      "authority": {"strength": "conventional"}
+    },
+    {
+      "id": "rammed-earth",
+      "name": "Rammed earth, load-bearing",
+      "bearing": "load-bearing-mass",
+      "exterior_thickness_in": [16, 24],
+      "bearing_interior_thickness_in": [12, 18],
+      "partition_thickness_in": [8, 12],
+      "note": "Modern engineered rammed earth is thinner than historic examples but still runs thick relative to a frame wall -- the mass-wall slenderness limit (elements/constraint vocabulary's wall_height_to_thickness_ratio) governs the minimum at any real storey height.",
+      "authority": {"strength": "conventional"}
+    },
+    {
+      "id": "structural-insulated-panel",
+      "name": "Structural insulated panel (SIP)",
+      "bearing": "load-bearing-panel",
+      "exterior_thickness_in": [4.5, 12],
+      "bearing_interior_thickness_in": [4.5, 8.5],
+      "partition_thickness_in": [3.5, 4.5],
+      "note": "A foam core between two structural skins, sized by insulation target rather than by bearing capacity in most residential applications -- common panel thicknesses are 4.5, 6.5, 8.25 and 10.25 in.",
+      "authority": {"strength": "conventional"}
+    }
+  ]
+}
