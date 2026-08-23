@@ -1,0 +1,59 @@
+{
+  "id": "good-02-portico-library-house",
+  "name": "Good Example 2 — two-story house with entrance portico and axial stair hall",
+  "style": "georgian-revival",
+  "context": {
+    "entrance_faces": "S"
+  },
+  "levels": [
+    {
+      "id": "ground", "index": 0, "floor_to_ceiling_ft": 10,
+      "rooms": [
+        {"id": "portico", "type": "entry-porch", "name": "Portico",
+          "width_ft": 8, "length_ft": 14, "exterior_walls": ["S"],
+          "doors": [{"to": "foyer", "width_ft": 3.5}]},
+        {"id": "foyer", "type": "entrance-hall", "name": "Foyer",
+          "width_ft": 8, "length_ft": 10, "exterior_walls": ["S"],
+          "doors": [{"to": "portico", "width_ft": 3.5}, {"to": "stair-hall", "width_ft": 4}]},
+        {"id": "stair-hall", "type": "stair-hall", "name": "Stair Hall",
+          "width_ft": 9, "length_ft": 16,
+          "doors": [{"to": "foyer", "width_ft": 4}, {"to": "living", "width_ft": 5, "type": "open"},
+                     {"to": "library", "width_ft": 4}, {"to": "kitchen", "width_ft": 4}]},
+        {"id": "library", "type": "library", "name": "Library",
+          "width_ft": 14, "length_ft": 16, "exterior_walls": ["S", "W"],
+          "windows": [{"wall": "S", "width_ft": 4, "height_ft": 6, "count": 2, "operable": true}],
+          "doors": [{"to": "stair-hall", "width_ft": 4}]},
+        {"id": "living", "type": "living-room", "name": "Living Room",
+          "width_ft": 15, "length_ft": 20, "exterior_walls": ["S"],
+          "windows": [{"wall": "S", "width_ft": 4, "height_ft": 6, "count": 3, "operable": true}],
+          "doors": [{"to": "stair-hall", "width_ft": 5, "type": "open"}, {"to": "dining", "width_ft": 4}]},
+        {"id": "dining", "type": "dining-room", "name": "Dining Room",
+          "width_ft": 14, "length_ft": 16, "exterior_walls": ["E"],
+          "windows": [{"wall": "E", "width_ft": 4, "height_ft": 5, "count": 2, "operable": true}],
+          "doors": [{"to": "living", "width_ft": 4}, {"to": "kitchen", "width_ft": 3}]},
+        {"id": "kitchen", "type": "kitchen", "name": "Kitchen",
+          "width_ft": 13, "length_ft": 15, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 4, "height_ft": 4, "count": 2, "operable": true}],
+          "fixtures": ["sink", "dishwasher", "range"],
+          "doors": [{"to": "stair-hall", "width_ft": 4}, {"to": "dining", "width_ft": 3},
+                     {"to": "guest-bedroom", "width_ft": 3}, {"to": "mudroom", "width_ft": 3}]},
+        {"id": "guest-bedroom", "type": "bedroom", "name": "Guest Bedroom",
+          "width_ft": 12, "length_ft": 14, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 3, "height_ft": 4, "count": 1, "operable": true}],
+          "doors": [{"to": "kitchen", "width_ft": 3}]},
+        {"id": "family", "type": "family-room", "name": "Family Room",
+          "width_ft": 16, "length_ft": 18, "exterior_walls": ["W", "N"],
+          "windows": [{"wall": "W", "width_ft": 5, "height_ft": 6, "count": 2, "operable": true}],
+          "doors": [{"to": "kitchen", "width_ft": 5, "type": "open"}, {"to": "terrace", "width_ft": 6, "type": "double"}]},
+        {"id": "terrace", "type": "terrace", "name": "Terrace",
+          "width_ft": 10, "length_ft": 24, "exterior_walls": ["W"],
+          "doors": [{"to": "family", "width_ft": 6, "type": "double"}]},
+        {"id": "mudroom", "type": "mudroom", "name": "Mud Room",
+          "width_ft": 7, "length_ft": 9,
+          "doors": [{"to": "kitchen", "width_ft": 3}]}
+      ]
+    }
+  ],
+  "declared": {},
+  "note": "source_image: Plan Examples/Good Examples/Screenshot 2026-08-21 181138.png. transcription_confidence: medium -- room labels and adjacency are clear, dimensions are scaled by eye against the drawing's graphic scale bar (0-6-12), not printed. The plan continues to an upper floor (implied by an 'up' stair mark) that is outside this crop and is not modelled. style: LOW confidence (georgian-revival, a guess from the axial foyer-stair hall-library sequence and formal portico; no elevation given). WP-2.1."
+}

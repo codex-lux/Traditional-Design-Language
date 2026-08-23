@@ -1,0 +1,63 @@
+{
+  "id": "good-04-rambling-porch-farmhouse",
+  "name": "Good Example 4 — rambling one-story house with north porch and enclosed porch",
+  "style": "american-farmhouse-vernacular",
+  "context": {
+    "entrance_faces": "S"
+  },
+  "levels": [
+    {
+      "id": "ground", "index": 0, "floor_to_ceiling_ft": 10,
+      "rooms": [
+        {"id": "north-porch", "type": "entry-porch", "name": "North Porch",
+          "width_ft": 8, "length_ft": 22, "exterior_walls": ["N", "W"],
+          "doors": [{"to": "guest-bedroom", "width_ft": 3.5}, {"to": "exercise", "width_ft": 3.5}]},
+        {"id": "guest-bedroom", "type": "bedroom", "name": "Guest Bedroom",
+          "width_ft": 14, "length_ft": 16, "exterior_walls": ["N", "W"],
+          "windows": [{"wall": "W", "width_ft": 4, "height_ft": 5, "count": 1, "operable": true}],
+          "doors": [{"to": "north-porch", "width_ft": 3.5}, {"to": "gbath", "width_ft": 2.6}]},
+        {"id": "gbath", "type": "bathroom", "name": "Guest Bath",
+          "width_ft": 7, "length_ft": 9,
+          "doors": [{"to": "guest-bedroom", "width_ft": 2.6}]},
+        {"id": "exercise", "type": "study", "name": "Exercise Room",
+          "width_ft": 10, "length_ft": 12,
+          "doors": [{"to": "north-porch", "width_ft": 3.5}, {"to": "parlor", "width_ft": 3}],
+          "note": "room_type_unmapped: 'Exercise Room', no dedicated catalog type; mapped to study as the nearest small-flexible-room fit. Candidate new room type: exercise-room."},
+        {"id": "parlor", "type": "parlor", "name": "Parlor",
+          "width_ft": 13, "length_ft": 16,
+          "doors": [{"to": "exercise", "width_ft": 3}, {"to": "entry", "width_ft": 4}]},
+        {"id": "entry", "type": "vestibule", "name": "Entry",
+          "width_ft": 6, "length_ft": 8, "exterior_walls": ["S"],
+          "doors": [{"to": "parlor", "width_ft": 4}, {"to": "dining", "width_ft": 4}]},
+        {"id": "dining", "type": "dining-room", "name": "Dining Room",
+          "width_ft": 14, "length_ft": 15, "exterior_walls": ["S"],
+          "windows": [{"wall": "S", "width_ft": 4, "height_ft": 5, "count": 1, "operable": true}],
+          "doors": [{"to": "entry", "width_ft": 4}, {"to": "rear-porch", "width_ft": 3}]},
+        {"id": "enclosed-porch", "type": "sunroom", "name": "Enclosed Porch",
+          "width_ft": 10, "length_ft": 14, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 4, "height_ft": 5, "count": 3, "operable": true}],
+          "doors": [{"to": "terrace", "width_ft": 4, "type": "open"}, {"to": "family", "width_ft": 4, "type": "open"}]},
+        {"id": "terrace", "type": "terrace", "name": "Terrace",
+          "width_ft": 10, "length_ft": 16, "exterior_walls": ["N"],
+          "doors": [{"to": "enclosed-porch", "width_ft": 4, "type": "open"}]},
+        {"id": "family", "type": "family-room", "name": "Family Room",
+          "width_ft": 15, "length_ft": 17, "exterior_walls": ["N", "E"],
+          "windows": [{"wall": "E", "width_ft": 4, "height_ft": 6, "count": 2, "operable": true}],
+          "doors": [{"to": "enclosed-porch", "width_ft": 4, "type": "open"}, {"to": "kitchen", "width_ft": 4, "type": "open"}]},
+        {"id": "kitchen", "type": "kitchen", "name": "Kitchen",
+          "width_ft": 13, "length_ft": 15, "exterior_walls": ["E"],
+          "windows": [{"wall": "E", "width_ft": 4, "height_ft": 4, "count": 2, "operable": true}],
+          "fixtures": ["sink", "dishwasher", "range"],
+          "doors": [{"to": "family", "width_ft": 4, "type": "open"}, {"to": "mudroom", "width_ft": 3}]},
+        {"id": "mudroom", "type": "mudroom", "name": "Mudroom",
+          "width_ft": 6, "length_ft": 9,
+          "doors": [{"to": "kitchen", "width_ft": 3}, {"to": "rear-porch", "width_ft": 3}]},
+        {"id": "rear-porch", "type": "entry-porch", "name": "Rear Porch",
+          "width_ft": 8, "length_ft": 20, "exterior_walls": ["E"],
+          "doors": [{"to": "mudroom", "width_ft": 3}, {"to": "dining", "width_ft": 3}]}
+      ]
+    }
+  ],
+  "declared": {},
+  "note": "source_image: Plan Examples/Good Examples/Screenshot 2026-08-21 181729.png. transcription_confidence: medium -- room labels and adjacency clear; dimensions scaled by eye against the drawing's own graphic scale bar (0-6-12), no printed dimension. There is a second stair (near Exercise Room) implying an upper floor outside this crop, not modelled. style: LOW confidence (american-farmhouse-vernacular, a guess from the rambling one-story massing and porch-heavy plan; no elevation given). WP-2.1."
+}

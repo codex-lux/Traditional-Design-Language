@@ -1,0 +1,56 @@
+{
+  "id": "good-03-parlor-drawing-room-house",
+  "name": "Good Example 3 — center-hall house with parlor, drawing room and full-width porch",
+  "style": "greek-revival-american",
+  "context": {
+    "entrance_faces": "W"
+  },
+  "levels": [
+    {
+      "id": "ground", "index": 0, "floor_to_ceiling_ft": 11,
+      "rooms": [
+        {"id": "parlor", "type": "parlor", "name": "Parlor",
+          "width_ft": 16, "length_ft": 18, "exterior_walls": ["W", "N"],
+          "windows": [{"wall": "W", "width_ft": 4, "height_ft": 7, "count": 1, "operable": true}],
+          "doors": [{"to": "foyer", "width_ft": 4}, {"to": "living", "width_ft": 5, "type": "open"}]},
+        {"id": "living", "type": "living-room", "name": "Living Room",
+          "width_ft": 17, "length_ft": 22, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 4, "height_ft": 7, "count": 2, "operable": true}],
+          "doors": [{"to": "parlor", "width_ft": 5, "type": "open"}, {"to": "stair-hall", "width_ft": 5, "type": "open"},
+                     {"to": "dining", "width_ft": 5, "type": "open"}]},
+        {"id": "dining", "type": "dining-room", "name": "Dining Room",
+          "width_ft": 15, "length_ft": 16, "exterior_walls": ["N", "E"],
+          "windows": [{"wall": "E", "width_ft": 4, "height_ft": 6, "count": 3, "operable": true}],
+          "doors": [{"to": "living", "width_ft": 5, "type": "open"}, {"to": "porch", "width_ft": 6, "type": "double"}]},
+        {"id": "porch", "type": "piazza", "name": "Porch",
+          "width_ft": 10, "length_ft": 30, "exterior_walls": ["E"],
+          "doors": [{"to": "dining", "width_ft": 6, "type": "double"}]},
+        {"id": "foyer", "type": "entrance-hall", "name": "Foyer",
+          "width_ft": 9, "length_ft": 12, "exterior_walls": ["W"],
+          "doors": [{"to": "parlor", "width_ft": 4}, {"to": "drawing", "width_ft": 4}, {"to": "stair-hall", "width_ft": 5, "type": "open"}]},
+        {"id": "drawing", "type": "drawing-room", "name": "Drawing Room",
+          "width_ft": 15, "length_ft": 17, "exterior_walls": ["W"],
+          "windows": [{"wall": "W", "width_ft": 4, "height_ft": 7, "count": 1, "operable": true}],
+          "doors": [{"to": "foyer", "width_ft": 4}]},
+        {"id": "stair-hall", "type": "stair-hall", "name": "Stair Hall",
+          "width_ft": 9, "length_ft": 20,
+          "doors": [{"to": "foyer", "width_ft": 5, "type": "open"}, {"to": "living", "width_ft": 5, "type": "open"},
+                     {"to": "office", "width_ft": 3}, {"to": "kitchen", "width_ft": 4}, {"to": "library", "width_ft": 4}]},
+        {"id": "office", "type": "study", "name": "Office",
+          "width_ft": 10, "length_ft": 12,
+          "doors": [{"to": "stair-hall", "width_ft": 3}]},
+        {"id": "kitchen", "type": "kitchen", "name": "Kitchen",
+          "width_ft": 14, "length_ft": 16, "exterior_walls": ["E"],
+          "windows": [{"wall": "E", "width_ft": 4, "height_ft": 4, "count": 2, "operable": true}],
+          "fixtures": ["sink", "dishwasher", "range"],
+          "doors": [{"to": "stair-hall", "width_ft": 4}, {"to": "porch", "width_ft": 3}]},
+        {"id": "library", "type": "library", "name": "Library",
+          "width_ft": 14, "length_ft": 17, "exterior_walls": ["W"],
+          "windows": [{"wall": "W", "width_ft": 4, "height_ft": 6, "count": 2, "operable": true}],
+          "doors": [{"to": "stair-hall", "width_ft": 4}]}
+      ]
+    }
+  ],
+  "declared": {},
+  "note": "source_image: Plan Examples/Good Examples/Screenshot 2026-08-21 181550.png. transcription_confidence: medium -- clear labels and adjacency, dimensions scaled by eye against the drawing's own graphic scale bar (0-6-12), not printed. The plan continues to an upper floor via two 'up' stairs (one off the stair hall, one off the library) that are outside this crop and not modelled. style: LOW confidence (greek-revival-american, a guess from the strict bilateral symmetry, full-width entry porch and Parlor/Drawing Room distinction; no elevation given). WP-2.1."
+}

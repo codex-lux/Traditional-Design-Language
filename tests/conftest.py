@@ -78,6 +78,11 @@ def load_plan(name):
         return json.load(f)
 
 
+def load_reference_plan(name):
+    with open(os.path.join(ROOT, "plans", "reference", f"{name}.json")) as f:
+        return json.load(f)
+
+
 def minimal_plan(rooms, style="georgian-colonial-american", massing="centre-passage-single-pile"):
     """A minimal, schema-shaped plan record with a single ground level.
 

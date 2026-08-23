@@ -1,0 +1,75 @@
+{
+  "id": "bad-03-narrow-lot-townhome",
+  "name": "Bad Example 3 — three-story narrow-lot townhome",
+  "style": "new-urbanist-traditional",
+  "context": {
+    "budget_tier": "mid"
+  },
+  "levels": [
+    {
+      "id": "ground", "index": 0, "floor_to_ceiling_ft": 9,
+      "rooms": [
+        {"id": "garage", "type": "garage", "name": "2 Car Garage",
+          "width_ft": 18, "length_ft": 20,
+          "doors": [{"to": "family", "width_ft": 3}, {"to": "exterior", "width_ft": 16, "type": "garage"}]},
+        {"id": "family", "type": "family-room", "name": "Family",
+          "width_ft": 12, "length_ft": 14, "exterior_walls": ["S"],
+          "windows": [{"wall": "S", "width_ft": 3, "height_ft": 4, "count": 1, "operable": true}],
+          "doors": [{"to": "garage", "width_ft": 3}, {"to": "dining", "width_ft": 6, "type": "open"}]},
+        {"id": "dining", "type": "dining-room", "name": "Dining",
+          "width_ft": 10, "length_ft": 11,
+          "doors": [{"to": "family", "width_ft": 6, "type": "open"}, {"to": "kitchen", "width_ft": 6, "type": "open"}]},
+        {"id": "kitchen", "type": "kitchen", "name": "Kitchen",
+          "width_ft": 10, "length_ft": 11, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 3, "height_ft": 4, "count": 1, "operable": true}],
+          "fixtures": ["sink", "dishwasher", "range"],
+          "doors": [{"to": "dining", "width_ft": 6, "type": "open"}]}
+      ]
+    },
+    {
+      "id": "second", "index": 1, "floor_to_ceiling_ft": 9,
+      "rooms": [
+        {"id": "master-suite", "type": "primary-bedroom", "name": "Master Suite",
+          "width_ft": 14, "length_ft": 16, "exterior_walls": ["S"],
+          "windows": [{"wall": "S", "width_ft": 4, "height_ft": 5, "count": 1, "operable": true}],
+          "doors": [{"to": "mbath", "width_ft": 2.6}, {"to": "hall", "width_ft": 3}]},
+        {"id": "mbath", "type": "primary-bathroom", "name": "Master Bath",
+          "width_ft": 8, "length_ft": 10,
+          "doors": [{"to": "master-suite", "width_ft": 2.6}, {"to": "mclst", "width_ft": 2.6}]},
+        {"id": "mclst", "type": "closet", "name": "Master Closet",
+          "width_ft": 6, "length_ft": 8,
+          "doors": [{"to": "mbath", "width_ft": 2.6}]},
+        {"id": "hall", "type": "stair-hall", "name": "Upper Hall",
+          "width_ft": 4, "length_ft": 14,
+          "doors": [{"to": "master-suite", "width_ft": 3}, {"to": "bedroom2", "width_ft": 3},
+                     {"to": "bedroom3", "width_ft": 3}, {"to": "hallbath", "width_ft": 2.6}]},
+        {"id": "bedroom2", "type": "bedroom", "name": "Bedroom 2",
+          "width_ft": 12, "length_ft": 13, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 3, "height_ft": 4, "count": 1, "operable": true}],
+          "doors": [{"to": "hall", "width_ft": 3}, {"to": "clst2", "width_ft": 2.6}]},
+        {"id": "clst2", "type": "closet", "name": "Closet", "width_ft": 4, "length_ft": 6,
+          "doors": [{"to": "bedroom2", "width_ft": 2.6}]},
+        {"id": "bedroom3", "type": "bedroom", "name": "Bedroom 3",
+          "width_ft": 11, "length_ft": 12, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 3, "height_ft": 4, "count": 1, "operable": true}],
+          "doors": [{"to": "hall", "width_ft": 3}, {"to": "clst3", "width_ft": 2.6}]},
+        {"id": "clst3", "type": "closet", "name": "Closet", "width_ft": 4, "length_ft": 6,
+          "doors": [{"to": "bedroom3", "width_ft": 2.6}]},
+        {"id": "hallbath", "type": "bathroom", "name": "Bathroom",
+          "width_ft": 6, "length_ft": 8,
+          "doors": [{"to": "hall", "width_ft": 2.6}]}
+      ]
+    },
+    {
+      "id": "third", "index": 2, "floor_to_ceiling_ft": 8.5,
+      "rooms": [
+        {"id": "gameroom", "type": "great-room", "name": "Gameroom",
+          "width_ft": 20, "length_ft": 22, "exterior_walls": ["S", "N"],
+          "windows": [{"wall": "S", "width_ft": 4, "height_ft": 4, "count": 1, "operable": true}],
+          "note": "room_type_unmapped: 'Gameroom', a third-floor recreation room with no dedicated bath or closet shown. Mapped to great-room as the nearest large-multipurpose-room fit. Candidate new room type: game-room / bonus-room."}
+      ]
+    }
+  ],
+  "declared": {},
+  "note": "source_image: Plan Examples/Bad Examples/images.jpg. transcription_confidence: LOW throughout -- the source is a small marketing-sheet composite (elevation renderings plus three thumbnail floor plans) whose room labels and dimension lines are largely illegible at the resolution provided; only the job summary block is clearly legible (level areas 750/1208/470 sf, width 22'-2\", depth 56'-10\", overall height 39'-6\"). Room list, placement and every dimension below are reconstructed from what could be made out of the thumbnails plus the level-area totals as a sanity check (each level's summed room area is kept within about 10% of its printed total), not read directly off legible room-by-room labels the way bad-01 and bad-02 could be. Flagged in docs/reports/wp-2.1-reference-corpus.md as an example of source material too degraded to transcribe reliably. style: new-urbanist-traditional (narrow-lot rear-loaded townhome), a guess from massing alone. WP-2.1."
+}

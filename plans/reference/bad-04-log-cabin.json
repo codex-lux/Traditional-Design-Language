@@ -1,0 +1,48 @@
+{
+  "id": "bad-04-log-cabin",
+  "name": "Bad Example 4 — two-story log home planning set",
+  "style": "log-vernacular-american",
+  "context": {
+    "budget_tier": "value"
+  },
+  "levels": [
+    {
+      "id": "ground", "index": 0, "floor_to_ceiling_ft": 8.5,
+      "rooms": [
+        {"id": "wrap-porch", "type": "entry-porch", "name": "Wraparound Porch",
+          "width_ft": 6, "length_ft": 30, "exterior_walls": ["S", "W"],
+          "doors": [{"to": "living", "width_ft": 3}],
+          "note": "The elevation shows a continuous posted porch on piers wrapping at least two elevations; only its south run is modelled as a room here."},
+        {"id": "kitchen", "type": "kitchen", "name": "Kitchen",
+          "width_ft": 10, "length_ft": 12, "exterior_walls": ["N"],
+          "windows": [{"wall": "N", "width_ft": 3, "height_ft": 3, "count": 1, "operable": true}],
+          "fixtures": ["sink", "range"],
+          "doors": [{"to": "living", "width_ft": 3}, {"to": "bath", "width_ft": 2.6}]},
+        {"id": "bath", "type": "bathroom", "name": "Bath",
+          "width_ft": 6, "length_ft": 8,
+          "doors": [{"to": "kitchen", "width_ft": 2.6}]},
+        {"id": "living", "type": "living-room", "name": "Living Room",
+          "width_ft": 16, "length_ft": 20, "exterior_walls": ["S", "E"],
+          "windows": [{"wall": "S", "width_ft": 3, "height_ft": 4, "count": 2, "operable": true}],
+          "doors": [{"to": "kitchen", "width_ft": 3}, {"to": "wrap-porch", "width_ft": 3}, {"to": "stair-hall", "width_ft": 3}]},
+        {"id": "stair-hall", "type": "stair-hall", "name": "Stair",
+          "width_ft": 6, "length_ft": 8,
+          "doors": [{"to": "living", "width_ft": 3}]}
+      ]
+    },
+    {
+      "id": "upper", "index": 1, "floor_to_ceiling_ft": 8,
+      "rooms": [
+        {"id": "bedroom", "type": "bedroom", "name": "Bedroom",
+          "width_ft": 13, "length_ft": 15, "exterior_walls": ["S"],
+          "windows": [{"wall": "S", "width_ft": 4, "height_ft": 4, "count": 2, "operable": true}],
+          "doors": [{"to": "upper-hall", "width_ft": 3}]},
+        {"id": "upper-hall", "type": "stair-hall", "name": "Upper Stair / Loft",
+          "width_ft": 8, "length_ft": 10,
+          "doors": [{"to": "bedroom", "width_ft": 3}]}
+      ]
+    }
+  ],
+  "declared": {"roof_form": "gable"},
+  "note": "source_image: Plan Examples/Bad Examples/planning-set-for-log-home-sample.jpg. transcription_confidence: LOW -- this is a full CAD construction set (elevation, two framing/floor plans, door and window schedules, title block) at a resolution where the room labels and the 'AREAS' table's individual figures are not reliably legible; only the overall shape (a roughly 24x30 two-storey log cabin on piers with a wraparound porch, gable roof, per the door/window schedule a handful of double-hung and trapezoid gable windows) could be read with confidence. The room list is a plausible reconstruction from the massing, not a label-by-label transcription. Flagged in docs/reports/wp-2.1-reference-corpus.md alongside bad-03 as source material too degraded for a confident transcription. WP-2.1."
+}

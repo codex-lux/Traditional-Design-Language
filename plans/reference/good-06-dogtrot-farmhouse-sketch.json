@@ -1,0 +1,51 @@
+{
+  "id": "good-06-dogtrot-farmhouse-sketch",
+  "name": "Good Example 6 — hand-sketched farmhouse with breakfast bay and front/rear porches",
+  "style": "american-farmhouse-vernacular",
+  "context": {},
+  "levels": [
+    {
+      "id": "ground", "index": 0, "floor_to_ceiling_ft": 10,
+      "rooms": [
+        {"id": "garage", "type": "garage", "name": "Garage",
+          "width_ft": 22, "length_ft": 22, "exterior_walls": ["N", "W"],
+          "doors": [{"to": "mudroom", "width_ft": 3}, {"to": "exterior", "width_ft": 16, "type": "garage"}]},
+        {"id": "mudroom", "type": "mudroom", "name": "Mudroom",
+          "width_ft": 7, "length_ft": 10,
+          "doors": [{"to": "garage", "width_ft": 3}, {"to": "powder", "width_ft": 2.6}, {"to": "kitchen", "width_ft": 3}]},
+        {"id": "powder", "type": "powder-room", "name": "Powder Room",
+          "width_ft": 5, "length_ft": 6,
+          "doors": [{"to": "mudroom", "width_ft": 2.6}]},
+        {"id": "breakfast", "type": "breakfast-room", "name": "Breakfast Nook",
+          "width_ft": 10, "length_ft": 12, "exterior_walls": ["W"],
+          "windows": [{"wall": "W", "width_ft": 3, "height_ft": 4, "count": 3, "operable": true}],
+          "doors": [{"to": "kitchen", "width_ft": 6, "type": "open"}],
+          "note": "Bay window with a round table drawn inside it; identified by furniture glyph, no text label on the source."},
+        {"id": "kitchen", "type": "kitchen", "name": "Kitchen",
+          "width_ft": 12, "length_ft": 15,
+          "fixtures": ["sink", "dishwasher", "range"],
+          "doors": [{"to": "mudroom", "width_ft": 3}, {"to": "breakfast", "width_ft": 6, "type": "open"},
+                     {"to": "dining", "width_ft": 6, "type": "open"}],
+          "note": "Identified by a kitchen island glyph, no text label on the source."},
+        {"id": "dining", "type": "dining-room", "name": "Dining Room",
+          "width_ft": 13, "length_ft": 15,
+          "doors": [{"to": "kitchen", "width_ft": 6, "type": "open"}, {"to": "living", "width_ft": 6, "type": "open"},
+                     {"to": "front-porch", "width_ft": 3.5}],
+          "note": "Identified by a rectangular dining table and chairs glyph, no text label on the source."},
+        {"id": "living", "type": "living-room", "name": "Living Room",
+          "width_ft": 17, "length_ft": 18, "exterior_walls": ["S"],
+          "windows": [{"wall": "S", "width_ft": 4, "height_ft": 5, "count": 2, "operable": true}],
+          "doors": [{"to": "dining", "width_ft": 6, "type": "open"}, {"to": "front-porch", "width_ft": 6, "type": "double"}],
+          "note": "Identified by a seating-group glyph, no text label on the source."},
+        {"id": "front-porch", "type": "entry-porch", "name": "Front Porch",
+          "width_ft": 8, "length_ft": 30, "exterior_walls": ["S"],
+          "doors": [{"to": "dining", "width_ft": 3.5}, {"to": "living", "width_ft": 6, "type": "double"}]},
+        {"id": "rear-porch", "type": "entry-porch", "name": "Rear Porch",
+          "width_ft": 8, "length_ft": 22, "exterior_walls": ["N"],
+          "doors": [{"to": "garage", "width_ft": 3.5}]}
+      ]
+    }
+  ],
+  "declared": {},
+  "note": "source_image: Plan Examples/Good Examples/4a.jpg. transcription_confidence: LOW-MEDIUM -- this hand-drawn plan carries NO text room labels and no dimensions or scale bar at all; every room's identity is inferred from furniture glyphs (car outlines for the garage, a toilet fixture, a round table in a bay for the breakfast nook, a kitchen island, a rectangular dining table, a seating group for the living room) and every dimension is an estimate from typical room proportions for that inferred use, not read off the drawing. This is the weakest-evidence transcription in the good set; flagged explicitly in docs/reports/wp-2.1-reference-corpus.md as a case where the validator's findings should be trusted much less than on a dimensioned source. style: LOW confidence (american-farmhouse-vernacular, from the massing and porch treatment alone). WP-2.1."
+}
