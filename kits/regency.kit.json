@@ -6,8 +6,30 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "bow_radius_ft": {
+          "range": [
+            11.5,
+            19.7
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "regency proportional_system typical_ratios: 'Bow front radius 3.5-6.0 m'"
+        },
+        "bow_projection_ft": {
+          "range": [
+            2,
+            4
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "regency proportional_system typical_ratios: 'projecting 0.6-1.2 m from the wall plane'"
+        }
+      },
+      "rule_append": "The disciplined near-symmetry the family names directly on this style is a bow, bay or canted front usually centred on a villa or at one end of a terrace unit; at the largest scale (Nash's Regent's Park terraces) a whole row is composed as a single palace-fronted object and the individual house disappears entirely.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -32,10 +54,36 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wide-bracketed-overhang",
+          "status": "canonical",
+          "note": "'Wide eaves projecting 450-750 mm on brackets over a shallow slate roof, where Georgian would have a parapet or a modillion cornice tight to the wall' -- named directly as one of this style's own diagnostic tells."
+        },
+        {
+          "id": "shallow-parapet",
+          "status": "permitted",
+          "note": "The alternative to the bracketed eave (defining_characteristics: 'or alternatively a very shallow parapet'), plainer and lower than the Georgian and Baroque parapets this style descends from."
+        }
+      ],
+      "parameters": {
+        "overhang_in": {
+          "range": [
+            17.7,
+            29.5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "regency constraint c04 (soft, tested): '450-750mm'"
+        }
+      },
+      "rule": "Where wide eaves are used they project 450-750 mm on visible brackets or a plain soffit, and the roof pitch stays 22-30 degrees in slate (soft constraint c04) -- a steep roof under wide eaves belongs to the Italianate, forty years later.",
+      "sources": [
+        "regency style node, defining_characteristics, diagnostic_tells, constraint c04"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -110,10 +158,18 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "stucco-scored",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from permitted to canonical -- 'stuccoed walls, ruled and lined to imitate ashlar, painted in pale stone or cream, over a brick carcass' is the first-listed defining characteristic of this style, and its own distinguished_from entry against english-georgian names material honesty as the whole dividing line: 'Georgian shows brick or ashlar... Regency renders everything in stucco.'"
+        }
+      ],
+      "rule_append": "Stucco must be continuous over every visible elevation of a rendered mass, ruled and lined to imitate ashlar, with the ruled lining confined to the ground storey where a rusticated base is intended; stucco on the front with bare brick returns is forbidden (hard constraint c01).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -194,10 +250,25 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "shallow-parapet",
+          "status": "permitted",
+          "note": "The alternative to the wide bracketed eave (defining_characteristics) -- very shallow, unornamented, never the urn-and-statuary-loaded Baroque parapet this slot would otherwise inherit from the sibling english-baroque node."
+        },
+        {
+          "id": "statuary-loaded-parapet",
+          "status": "forbidden",
+          "note": "Not this style's vocabulary at all; ornament goes into cast and wrought iron, not sculpted stonework (defining_characteristics)."
+        }
+      ],
+      "rule": "Where a parapet is used rather than a bracketed eave, it is shallow and plain -- the roofline is not where this style spends its ornamental budget.",
+      "sources": [
+        "regency style node, defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "rainwater": {
       "group": "envelope",
@@ -211,10 +282,26 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "floor-length-sash",
+          "status": "canonical",
+          "op": "add",
+          "note": "'Floor-length windows on the principal storey opening onto a cast-iron balcony, frequently under a tented copper canopy' -- the second-listed defining characteristic, and the feature this style's own long description names as the whole change of priority: 'the drawing room and the garden become continuous'."
+        }
+      ],
+      "parameters": {
+        "floor_gap_max_in": {
+          "value": 5.9,
+          "unit": "in",
+          "kind": "measured",
+          "source": "regency constraint c02 (hard): 'within 150 mm of the finished floor'"
+        }
+      },
+      "rule_append": "On the principal storey the sash is taken down to within 150 mm of the finished floor and opens onto a balcony or veranda not less than 900 mm deep (hard constraint c02); a floor-length window with no balcony is, in this style's own words, 'a hazard and a period error'.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_proportion": {
       "group": "openings",
@@ -232,10 +319,20 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "unmoulded-flat-architrave",
+          "status": "canonical",
+          "note": "'Unmoulded flat architraves' is named directly among the style's own Greek-not-Roman detail (defining_characteristics) -- replacing the deep, boldly keyed Baroque segmental arch this slot would otherwise inherit from the sibling english-baroque node, which is precisely the wrong register for a style whose whole distinguishing move against Georgian is to delete rather than model."
+        }
+      ],
+      "rule": "A plain, flat, unmoulded band -- 'a Regency architrave is often a plain flat band with a single incised line' -- never the deep keyed arch of the Baroque generation.",
+      "sources": [
+        "regency style node, defining_characteristics, distinguished_from"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_head_wood": {
       "group": "openings",
@@ -295,10 +392,29 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "greek-doric-porch",
+          "status": "canonical",
+          "op": "add",
+          "note": "'A Greek Doric porch with baseless, unfluted or partly fluted columns and a plain entablature, against the Roman Doric or Ionic doorcase of Georgian work' -- this style's own single most reliable order-bearing signature after the iron balcony (diagnostic_tells), and the one place an order appears at all on most Regency fronts."
+        }
+      ],
+      "parameters": {
+        "column_height_diameters": {
+          "range": [
+            6,
+            7
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "regency proportional_system typical_ratios: 'Greek Doric column height 6-7 diameters, baseless'"
+        }
+      },
+      "rule_append": "Where the entrance carries an order at all, it is a plain, baseless, six-to-seven-diameter Greek Doric porch with an unmoulded abacus -- quoted from Stuart and Revett as a motif rather than generated from a system, and often the only classical apparatus on the whole front; most Regency doorcases carry no order whatsoever, the surround itself no more than a flat unmoulded architrave.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -328,17 +444,51 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "greek-doric",
+          "status": "atypical",
+          "note": "The one order this style actually uses, and only as a motif at the porch (see door_surround), not as the generative module of the elevation -- this style's own governing_logic states the point directly: 'Georgian proportional habits, loosened and lightened, with Greek orders used as motifs rather than as a generative module.'"
+        },
+        {
+          "id": "ionic",
+          "status": "forbidden",
+          "note": "The Palladian loggia order this slot would otherwise inherit -- wrong for a style that binds no order pack primary or secondary at all (see this style's own proportion_packs, chambers-doric entry: 'NOT the style's real order, and bound only as the nearest available analogue')."
+        },
+        {
+          "id": "giant-order",
+          "status": "forbidden",
+          "note": "The Baroque device; absent here as everywhere else in the post-1715 family."
+        }
+      ],
+      "rule": "No order governs a Regency elevation at all -- composition is scenographic, decided by the terrace or the bow, not by a module propagated from a column diameter. Where the Greek Doric appears it is quoted whole from Stuart and Revett as a motif at the entrance, never generalised into the rest of the design the way every other member of the family generalises its own order.",
+      "sources": [
+        "regency style node, proportional_system, proportion_packs"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_diameters": {
+          "range": [
+            6,
+            7
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "regency proportional_system typical_ratios: 'Greek Doric column height 6-7 diameters, baseless'"
+        }
+      },
+      "rule": "Where a column appears at all it is the baseless Greek Doric of the entrance porch, 6-7 diameters -- there is no columnar system elsewhere on the house.",
+      "sources": [
+        "regency style node, proportional_system"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -356,31 +506,111 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "window-aedicule",
+          "status": "forbidden",
+          "note": "The Palladian piano-nobile window aedicule this slot would otherwise inherit -- wrong for a style that deletes rather than models its window surrounds (see window_head_masonry: 'a Regency architrave is often a plain flat band with a single incised line')."
+        },
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "No applied pilaster order runs on the ordinary Regency front; the flat unmoulded architrave (window_head_masonry) does the whole job Georgian and Palladian give to a pilaster."
+        }
+      ],
+      "rule": "No pilaster order, generally: ornament goes to the iron balcony and the bow, not to an applied vertical order on the wall.",
+      "sources": [
+        "regency style node, defining_characteristics, distinguished_from"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "incised-line-only",
+          "status": "canonical",
+          "note": "'A Regency architrave is often a plain flat band with a single incised line' (distinguished_from, adam-style) -- Adam thins the Georgian moulding, Regency deletes most of what is left of it. This overrides the Palladian modillion this slot would otherwise inherit, which is a richer enrichment than this style's own text describes."
+        },
+        {
+          "id": "modillion",
+          "status": "atypical",
+          "note": "Occurs on grander terrace work (Cumberland Terrace's sculptured pediment) but is not the ordinary villa or terrace-unit condition."
+        },
+        {
+          "id": "dentil",
+          "status": "atypical",
+          "note": "Same grading as modillion -- occasional on the grandest work, not the everyday condition."
+        }
+      ],
+      "rule": "The cornice is reduced nearly to a diagram: a single incised line stands in for the modillion or dentil band on the ordinary house.",
+      "sources": [
+        "regency style node, distinguished_from"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cast-iron-balcony-rail",
+          "status": "canonical",
+          "note": "'Cast and wrought iron used as the principal ornament: balconies, verandas, railings, porches, in anthemion, lyre, heart and trellis patterns' -- this style's own defining characteristic replaces the classical stone balustrade with an iron one, and it is the site of the ornamental budget the rest of the family spends in stone."
+        },
+        {
+          "id": "plain-balustraded-parapet",
+          "status": "permitted",
+          "note": "Occurs, at reduced scale, where a shallow parapet rather than a bracketed eave is used (see parapet, eave_condition)."
+        },
+        {
+          "id": "statuary-loaded-parapet",
+          "status": "forbidden",
+          "note": "The Baroque device this whole post-1715 family excludes."
+        }
+      ],
+      "rule": "The classical balustrade's whole ornamental role is transferred to cast and wrought iron -- balconies, verandas and railings in anthemion, lyre, heart and trellis patterns -- which is where this style spends the budget every other member spends in carved stone.",
+      "sources": [
+        "regency style node, defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "ironwork-as-principal-ornament",
+          "status": "canonical",
+          "note": "'Cast and wrought iron used as the principal ornament' (defining_characteristics) -- the single fastest way to state how this style differs from every other member of the family, all of which put their ornament budget into stone or plaster."
+        },
+        {
+          "id": "greek-key-and-anthemion",
+          "status": "canonical",
+          "note": "'Greek rather than Roman detail, sparingly used: baseless Doric columns, incised anthemion and Greek key, unmoulded flat architraves' (defining_characteristics) -- sparing and linear, the opposite of Adam's floral polychrome vocabulary this style descends from and reacts against (distinguished_from, adam-style)."
+        },
+        {
+          "id": "mixed-exotic-mode",
+          "status": "permitted",
+          "note": "Indian, Egyptian, Chinese and Gothic rooms occur in the same Regency house (description, long: Royal Pavilion) but each mode must be complete within a room or a whole building, never blended with Greek or Roman detail on one elevation (soft constraint c05)."
+        },
+        {
+          "id": "mixed-greek-and-roman-on-one-elevation",
+          "status": "forbidden",
+          "note": "Soft constraint c05: 'Greek and Roman detail may not be mixed on one elevation.'"
+        }
+      ],
+      "rule": "Ornament is sparse and linear where it is classical at all -- incised anthemion, Greek key, a baseless Doric porch -- and concentrated instead in ironwork: balconies, verandas and railings are where this style's real decorative energy goes, not the wall.",
+      "sources": [
+        "regency style node, defining_characteristics, description (long), constraint c05"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_type": {
       "group": "threshold",
@@ -405,10 +635,31 @@
     },
     "porch_rail": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cast-iron-balcony-rail",
+          "status": "canonical",
+          "note": "'A cast-iron balcony with an ogee-tented copper hood over a floor-length window -- the single most reliable Regency signature and one that appears in no earlier style' (diagnostic_tells)."
+        }
+      ],
+      "parameters": {
+        "rail_height_in": {
+          "range": [
+            35.4,
+            41.3
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "regency proportional_system typical_ratios: 'rail height 900-1050 mm'"
+        }
+      },
+      "rule": "A cast-iron balcony rail in anthemion, lyre, heart or trellis pattern, very often carrying a tented copper canopy overhead -- the style's single most reliable signature.",
+      "sources": [
+        "regency style node, defining_characteristics, diagnostic_tells, proportional_system"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_ceiling": {
       "group": "threshold",

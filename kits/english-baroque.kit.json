@@ -11,10 +11,31 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Hipped and concealed behind a parapet or balustrade so the volume reads as a single geometric solid (hard constraint c02, defining_characteristics)."
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "A visible gable end on a Baroque principal elevation is forbidden outright (hard constraint c02: 'a visible gable end on a Baroque front is forbidden'). Overrides the generic front-gable content this slot would otherwise inherit from the corpus's deep vernacular ancestry, which is architecturally wrong for this style."
+        },
+        {
+          "id": "side-gable",
+          "status": "forbidden",
+          "note": "Same objection as front-gable -- any visible gable on the principal elevation breaks the single-solid reading the parapet exists to produce."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "The roof is hipped, low enough in profile to disappear, and concealed on every principal elevation behind a parapet or balustrade; the mass therefore reads as one unbroken geometric solid rather than as a wall-plus-roof assembly.",
+      "sources": [
+        "english-baroque style node, constraint c02 and defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -67,10 +88,20 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "skyline-pedestal",
+          "status": "canonical",
+          "note": "Chimney stacks are treated as pedestals in the sculpted skyline alongside urns, statuary and cupolas -- defining_characteristics: 'A sculpted skyline of urns, statuary, cupolas and chimney stacks treated as pedestals'. Never a minimal utilitarian stack, the same qualitative rule this slot's generic Tudor-Jacobean content already states, but the specific vocabulary here is classical urn-and-pedestal, not the clustered spiral Tudor shaft."
+        }
+      ],
+      "rule": "The chimney is a major, deliberately conspicuous element of the roofscape, composed with the urns and statuary that load the balustraded parapet rather than left as a plain utilitarian stack.",
+      "sources": [
+        "english-baroque style node, defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,10 +119,33 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flanking-symmetrical-dependencies",
+          "status": "canonical",
+          "note": "At the grandest scale this is quadrant colonnades or curved hyphens linking the main block to flanking service pavilions -- 'forecourts, quadrant colonnades or curved wings, and flanking service pavilions' per defining_characteristics, and the approach sequence this composition produces runs a quarter of a mile at Blenheim and Castle Howard."
+        },
+        {
+          "id": "none",
+          "status": "permitted",
+          "note": "The ordinary Restoration/Queen Anne house -- the compact double-pile brick box -- carries no wing composition at all; the extended scheme belongs to the great houses, not the everyday one."
+        }
+      ],
+      "parameters": {
+        "main_to_wing_ridge_ratio_min": {
+          "value": 1.3,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-baroque proportional_system typical_ratios: 'main block to wing ridge height ratio not less than 1.3:1'"
+        }
+      },
+      "rule": "Where a wing composition occurs it extends the block outward into forecourts, quadrant colonnades or curved hyphens and flanking service pavilions, the whole hierarchy legible in ridge height -- main block over wing not less than 1.3 to 1. This replaces the generic H-plan gentry-house reading this slot would otherwise inherit from the corpus's deeper Tudor-Jacobean ancestry: the shape is symmetrical dependencies flanking a main range in both cases, but Baroque's own wings are detached-or-linked service pavilions reached by a colonnade, not integral hall-range wings.",
+      "sources": [
+        "english-baroque style node, defining_characteristics, massing_affinities, proportional_system, exemplars (Blenheim, Castle Howard)"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "construction_type": {
       "group": "envelope",
@@ -180,24 +234,63 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "bold-modillion-cornice",
+          "status": "canonical",
+          "note": "'A bold modillion cornice' is named directly among the ordinary house's defining features (description, long); on the great house it is the crowning member of the giant entablature (see entablature slot). Overrides the outright prohibition this slot would otherwise inherit from the corpus's deep Mediterranean-vernacular ancestry, which has no applied classical cornice at all."
+        }
+      ],
+      "rule": "A strongly projecting cornice -- classically modillioned, projecting roughly its own depth -- terminates the wall on every principal elevation, whether it crowns a giant entablature or the smaller order of the everyday house.",
+      "sources": [
+        "english-baroque style node, description (long), defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_ratio_of_entablature": {
+          "value": 0.4,
+          "unit": "ratio",
+          "kind": "editorial",
+          "note": "The frieze occupies roughly the middle third of the entablature's total 1/4-1/5 column-height depth; no figure specific to the frieze band alone is stated in this node's own text, so this is carried as a reasoned proportion within the entablature's own stated ratio rather than as a directly sourced number."
+        }
+      },
+      "rule": "Part of the continuous giant entablature (see entablature slot), never a separate applied band -- the family's construction-only Mediterranean-vernacular ancestry this slot would otherwise inherit has no entablature at all to carry one.",
+      "sources": [
+        "english-baroque style node, proportional_system"
+      ],
+      "status": "drafted",
+      "confidence": "low"
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "balustraded",
+          "status": "canonical",
+          "note": "Conceals the hipped roof on every principal elevation so the volume reads as one solid (hard constraint c02, defining_characteristics)."
+        }
+      ],
+      "parameters": {
+        "conceals_roof": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "source": "english-baroque constraint c02"
+        }
+      },
+      "rule": "A balustraded parapet conceals the roof on every principal elevation and carries the urns, statuary and pedestal-treated chimneys of the sculpted skyline.",
+      "sources": [
+        "english-baroque style node, constraint c02, defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "rainwater": {
       "group": "envelope",
@@ -232,10 +325,25 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "segmental-arch-keyed",
+          "status": "canonical",
+          "note": "Boldly keyed segmental-arched heads with exaggerated voussoirs -- diagnostic_tells: keystones 'enlarged out of all proportion and often carried up into the string course above'."
+        },
+        {
+          "id": "flat-arch-gauged-brick",
+          "status": "permitted",
+          "note": "The plainer everyday-house answer, distinguished from the later Georgian flat arch by a heavier, more deeply keyed profile."
+        }
+      ],
+      "rule": "The window head is cut deep and keyed boldly -- an oversized keystone frequently continues upward into the string course above -- so that the opening reads as a piece of the wall's mass rather than as a punched hole.",
+      "sources": [
+        "english-baroque style node, description (long), diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_head_wood": {
       "group": "openings",
@@ -295,10 +403,24 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "door-hood-scrolled-brackets",
+          "status": "canonical",
+          "op": "add",
+          "note": "'A door hood of carved wood or stone on large scrolled console brackets over a six-panel door -- the Queen Anne town house signature' (diagnostic_tells): the everyday house's whole classical apparatus concentrated at the entrance."
+        },
+        {
+          "id": "giant-order-portico",
+          "status": "permitted",
+          "op": "add",
+          "note": "On the grand house, the entrance sits within or beneath the giant order itself rather than in a separate applied surround."
+        }
+      ],
+      "rule_append": "On the ordinary Restoration or Queen Anne house this resolves to a door hood on large scrolled console brackets over a six-panel door -- the type's own named signature; on the great house the giant order itself is the surround.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -328,24 +450,99 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "giant-order",
+          "status": "canonical",
+          "note": "The colossal order embracing two or more storeys, in pilaster or engaged-column form, scaling the elevation to the whole block rather than to a single floor -- the single detail that dates a facade before 1730 (diagnostic_tells) and that Palladianism abolished immediately afterward."
+        },
+        {
+          "id": "corinthian",
+          "status": "permitted",
+          "note": "Blenheim's own exemplar note: 'giant Corinthian order' on the nation's war-trophy house."
+        },
+        {
+          "id": "composite",
+          "status": "permitted",
+          "note": "Easton Neston, 'a giant Composite order -- the style at most disciplined and least theatrical', per this style's own exemplars."
+        },
+        {
+          "id": "doric",
+          "status": "permitted",
+          "note": "Seaton Delaval's 'banded giant Doric columns'."
+        }
+      ],
+      "parameters": {
+        "authority": {
+          "value": "Vignola's Regola (1562, in translation from the mid-17th c.) for the giant order; Gibbs's own early work (St Mary-le-Strand, 1714-17) for the smaller order of the ordinary house",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Unlike every other member of the family, which settles on one governing order overlay, Baroque uses whichever order the commission calls for -- Corinthian at Blenheim, Composite at Easton Neston, Doric at Seaton Delaval -- because the order here is a scaling device for the whole mass, not a fixed vocabulary. What is constant is that it runs a whole number of storeys (hard constraint c01) and lands on a continuous plinth or rusticated basement.",
+      "sources": [
+        "english-baroque style node, defining_characteristics, exemplars, constraint c01"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_diameters": {
+          "range": [
+            8,
+            10
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "english-baroque proportional_system typical_ratios: 'column height 8-10 diameters depending on order'"
+        },
+        "storeys_embraced": {
+          "range": [
+            2,
+            2.5
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "english-baroque proportional_system typical_ratios: 'giant order height 2 to 2.5 storeys'"
+        }
+      },
+      "rule": "The column is giant-scaled -- 8 to 10 diameters depending on order, embracing two to 2.5 storeys -- and, where rustication is used, banded across the shaft in the same courses as the wall field, so that the column reads as compressed under its own load rather than as a free classical member (diagnostic_tells; Seaton Delaval's banded Doric). This replaces the plain, unfluted, order-less vernacular pier this slot would otherwise inherit through the corpus's deep Mediterranean-vernacular ancestry, which has no giant order at all.",
+      "sources": [
+        "english-baroque style node, proportional_system, diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "total_height_ratio": {
+          "range": [
+            0.2,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-baroque proportional_system typical_ratios: 'entablature depth 1/4 to 1/5 of column height'"
+        },
+        "cornice_projection_ratio": {
+          "value": 1.0,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-baroque proportional_system typical_ratios: 'cornice projection roughly equal to its own depth'"
+        }
+      },
+      "rule": "A continuous entablature crowns the giant order, one quarter to one fifth of column height, with the cornice projecting roughly its own depth to cast a strong shadow -- the mass-and-shadow logic this style's own governing_logic states directly: proportions 'deliberately stretched or compressed for effect, which is precisely the licence Palladianism withdrew'.",
+      "sources": [
+        "english-baroque style node, proportional_system"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,31 +553,86 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "giant-pilaster",
+          "status": "canonical",
+          "note": "The giant order embraces two or more storeys as often in pilaster form as in engaged or free-standing column form (defining_characteristics), and where rustication is used it runs across the pilasters exactly as across the field wall, so the vertical member appears built of the same courses as the wall (diagnostic_tells). This overrides the outright prohibition this slot would otherwise inherit from the corpus's deep Mediterranean-vernacular ancestry -- correct for a rendered farmhouse tradition with no applied order at all, and precisely wrong for a style whose defining characteristic is the giant order."
+        }
+      ],
+      "rule": "A giant pilaster order, banded with the same rustication as the field wall where rustication is used, is one of the two standard ways (with the engaged or free giant column) this style scales its elevation to the whole block.",
+      "sources": [
+        "english-baroque style node, defining_characteristics, diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion",
+          "status": "canonical",
+          "note": "The style's own domestic legacy is named directly: 'the ordinary Restoration and Queen Anne house... a bold modillion cornice' (description, long). This overrides the outright prohibition this slot would otherwise inherit from the corpus's deep Mediterranean-vernacular ancestry."
+        },
+        {
+          "id": "dentil",
+          "status": "permitted",
+          "note": "Occurs alongside or in place of the modillion on the smaller, everyday house; the giant-order entablature of the grand house is more often plain-modillioned."
+        }
+      ],
+      "rule": "A bold, strongly projecting modillion cornice is the everyday signature of the style's domestic legacy -- the compact Restoration and Queen Anne house that is the immediate ancestor of the Georgian box.",
+      "sources": [
+        "english-baroque style node, description (long)"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "balustraded-parapet",
+          "status": "canonical",
+          "note": "'Hipped roofs concealed behind a balustraded parapet so that the volume reads as a geometric solid' (defining_characteristics) and 'loaded with urns, statuary, cupolas and chimneys treated as pedestals' -- the balustrade is not decorative trim here, it is the device that hides the roof. Overrides the outright prohibition this slot would otherwise inherit from the corpus's deep medieval-vernacular ancestry, which has no classical balustrade at all -- exactly backwards for a style whose roof-concealment strategy depends on one."
+        }
+      ],
+      "rule": "A classical turned balustrade runs the length of the parapet, concealing the roof and carrying urns and statuary; a plain or crenellated masonry parapet with no balustrade is a different, earlier idiom.",
+      "sources": [
+        "english-baroque style node, defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "sculpted-skyline",
+          "status": "canonical",
+          "note": "Urns, statuary, cupolas and pedestal-treated chimneys loading a balustraded parapet (defining_characteristics) -- ornament here is deliberately applied for effect, the opposite of the corpus's deep Mediterranean-vernacular ancestry this slot would otherwise inherit, which restricts ornament to what construction itself requires."
+        },
+        {
+          "id": "exaggerated-keystone",
+          "status": "canonical",
+          "note": "'Keystones enlarged out of all proportion and often carried up into the string course above' (diagnostic_tells)."
+        },
+        {
+          "id": "banded-rustication",
+          "status": "canonical",
+          "note": "Rustication running across pilasters and columns as well as the field wall (diagnostic_tells), required continuous around all faces including returns by hard constraint c04."
+        }
+      ],
+      "rule": "Ornament is applied deliberately for compositional effect -- mass and shadow are the subject, achieved through banded rustication, oversized keystones, and a sculpted skyline of urns, statuary and pedestal-treated chimneys.",
+      "sources": [
+        "english-baroque style node, defining_characteristics, diagnostic_tells, constraint c04"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_type": {
       "group": "threshold",
@@ -440,10 +692,10 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "At this style's own point on the family's shared trim tradition the register is at its fullest and most deeply modelled -- 'full and deeply modelled in Baroque and Palladian rooms' per the family's own text -- calibrated to the double-height entrance hall and dramatised stair this style names as its interior climax, well outside the trim pack's ordinary 11-13 ft room calibration.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "baseboard": {
       "group": "interior",

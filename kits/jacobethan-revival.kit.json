@@ -6,8 +6,23 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "near-symmetrical",
+          "status": "canonical",
+          "note": "The style's own proportional_system.symmetry field, and its own diagnostic_tells: 'The plan is symmetrical and the front door is on the centre line, which almost never happens in Tudor Revival.'"
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "The inherited value from tudor-revival (via the regional_of edge) is exactly this variant's own point of departure from its parent: distinguished_from states the parent style is picturesque and asymmetrical where Jacobethan is symmetrical and grid-driven."
+        }
+      ],
+      "rule": "Broadly symmetrical, most often E- or H-shaped, with a centred entrance on axis -- the formal reversal of the parent style's deliberate asymmetry.",
+      "confidence": "high",
+      "note": "Specified rather than extends: tudor-revival's own composition_parti resolves to picturesque-asymmetrical canonical, and this variant needs the opposite ranking, not a refinement of it.",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -53,10 +68,37 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "parapeted",
+          "status": "canonical",
+          "note": "Hard constraint c01: the wall carries a minimum 12 in past the roof plane, capped with coping not less than 6 in thick."
+        },
+        {
+          "id": "half-timbered",
+          "status": "forbidden",
+          "note": "Hard constraint c02: 'Applied half-timbering is forbidden. The variant is defined by its absence; a single timbered panel returns the building to tudor-revival.' The inherited value from tudor-revival is exactly this variant's defining reversal."
+        }
+      ],
+      "parameters": {
+        "parapet_rise_min": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c01."
+        },
+        "coping_thickness_min": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c01."
+        }
+      },
+      "rule": "Gables on principal elevations are parapeted -- straight with copings and finials, or shaped in curvilinear Flemish-derived profiles -- never half-timbered and never a raking eave with a bargeboard.",
+      "confidence": "high",
+      "note": "Overrides tudor-revival's half-timbered/parapeted-forbidden binding outright: this variant exists specifically as the parapeted, all-masonry reversal of that rule.",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +109,32 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "cluster_shaft_count": {
+          "range": [
+            2,
+            4
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "note": "Hard constraint c05."
+        },
+        "shaft_cross_section_min": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c05: not less than 18 in square each."
+        },
+        "height_above_ridge_min": {
+          "value": 4,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "c05: rises not less than 4'0\" above the adjacent ridge."
+        }
+      },
+      "note": "tudor-revival's own extends already carries chimney forward as a primary vertical accent with its own plan-width and projection numbers; this adds the variant's own clustered-shaft dimensions from c05, which differ from the parent's single-stack figures.",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -110,17 +174,42 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stone-ashlar",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Masonry construction -- ashlar, or brick with stone dressings -- with no half-timbering.'"
+        },
+        {
+          "id": "brick-common-bond",
+          "status": "canonical",
+          "note": "Brick with stone dressings, the second stated option."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "The style is defined by this material's absence; see gable_treatment and hard constraint c02."
+        }
+      ],
+      "rule": "All-masonry: ashlar, or brick with stone dressings at openings and quoins, never a two-material wall with timber above.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "This variant's whole point of departure from tudor-revival's two-material wall (see primary_cladding, gable_treatment, c02)."
+        }
+      ],
+      "rule": "There is no second cladding material: the wall is masonry from base to parapet.",
+      "confidence": "high",
+      "note": "Reverses tudor-revival's own secondary_cladding binding (half-timber-infill, specified), which is exactly the trait this variant forbids.",
+      "status": "drafted"
     },
     "material_change_rule": {
       "group": "envelope",
@@ -211,17 +300,64 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "fixed",
+          "status": "canonical",
+          "note": "Mullioned and transomed panes within a stone grid -- composed as a continuous glazed wall, per defining_characteristics, rather than individual operable sash."
+        },
+        {
+          "id": "casement-leaded",
+          "status": "permitted",
+          "note": "The operable lights within the mullion grid, where any pane opens at all."
+        }
+      ],
+      "rule": "Windows are composed as continuous glazed walls in stone or cast-stone mullions and transoms, not as individually punched sash -- overriding the casement-band system tudor-revival inherits from british-arts-and-crafts.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "light_width": {
+          "range": [
+            18,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Hard constraint c03."
+        },
+        "mullion_width": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "c03."
+        },
+        "min_lights_per_opening": {
+          "value": 3,
+          "unit": "count",
+          "kind": "measured",
+          "note": "c03: 'minimum of three lights per opening on principal rooms. Single punched windows with wood casings void the variant.'"
+        },
+        "glazed_area_pct_elevation": {
+          "range": [
+            35,
+            55
+          ],
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule": "The mullion grid, not the sash, sets the proportion: light width 18-24 in, mullions 4-6 in, at least three lights per principal opening.",
+      "confidence": "high",
+      "note": "Specified rather than extends: tudor-revival's own inherited leaf-width figures (16-22 in wide by 40-56 in high, individual casement leaves) describe a different window system entirely -- a grouped operable casement, not a fixed mullion grid.",
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -267,10 +403,11 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Window bays repeat at a constant module across each range, and the projecting wings of the E- or H-plan repeat the same module -- the whole elevation reads as one grid system, the opposite of the parent style's deliberate cluster-and-blank-wall irregularity.",
+      "confidence": "high",
+      "note": "Overrides tudor-revival's extended cluster/non-alignment rule: bay_rhythm here is explicitly 'regular and grid-driven... the opposite of Tudor Revival's deliberate irregularity.'",
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -295,10 +432,24 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "form": {
+          "value": "an ornamented porch or frontispiece, four-centred or flat-arched under a label moulding, deliberately carrying a classical order as a single quotation",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "max_width_bays": {
+          "value": 1.5,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Hard constraint c04: not exceeding 1.5 bay widths."
+        }
+      },
+      "rule": "On the centre line, within a frontispiece not exceeding 1.5 bay widths, under a four-centred or flat arch with a label moulding (c04) -- and, per the style's own lineage note ('the heavy classical porch grafted onto a Gothic body'), the one place in the composition where a classical order is deliberately introduced.",
+      "confidence": "high",
+      "note": "Overrides tudor-revival's own door_surround, which forbids any classical order outright; here the order is not absent but a single deliberate quotation at the entrance only -- see order/column/entablature below.",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -328,24 +479,43 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "doric-roman",
+          "status": "canonical",
+          "applies_when": {
+            "note": "entrance frontispiece only."
+          },
+          "note": "Sourced from the style's own proportion_packs binding (vignola-doric, entrance porch only): 'the jacobean ancestor edge... describes the heavy classical porch grafted onto a Gothic body, and Doric is the sturdy, plain order this corpus consistently assigns to load-bearing and entrance-porch work.'"
+        }
+      ],
+      "rule": "A single deliberate classical order, at the entrance frontispiece only -- never elsewhere on the building, and never absent the way the family-wide prohibition would otherwise leave it.",
+      "confidence": "medium",
+      "note": "Overrides the family-wide order-forbidden binding this slot would otherwise inherit through tudor-revival/british-arts-and-crafts. This is the one deliberate exception the style's own text and its own proportion_packs note both describe.",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "doric-roman",
+          "status": "canonical",
+          "note": "Entrance frontispiece only; see order."
+        }
+      ],
+      "rule": "Where the entrance frontispiece carries an order, its columns or engaged half-columns are Doric, full proportion -- see order.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A correct Doric entablature caps the entrance frontispiece order only; there is no entablature elsewhere on the building, which remains parapeted masonry.",
+      "confidence": "medium",
+      "note": "Overrides the inherited family-wide prohibition for the same single-quotation exception as order and column.",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,10 +526,17 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "doric-roman",
+          "status": "permitted",
+          "note": "Engaged pilasters flanking the frontispiece opening are the ordinary way the entrance order is actually built, per the same entrance-only exception as order/column/entablature."
+        }
+      ],
+      "rule": "Engaged Doric pilasters may frame the entrance frontispiece only.",
+      "confidence": "low",
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -384,10 +561,22 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "entry-portico",
+          "status": "canonical",
+          "note": "The projecting classical frontispiece is exactly this option, reversing tudor-revival's own forbidding of it -- see door_surround, c04."
+        },
+        {
+          "id": "engaged-under-roof",
+          "status": "forbidden",
+          "note": "The parent style's recessed, shadowed entrance is the picturesque answer this variant's on-axis frontispiece replaces."
+        }
+      ],
+      "rule": "The entrance is marked by a projecting, ornamented frontispiece on the centre line, not recessed within a gabled bay.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",

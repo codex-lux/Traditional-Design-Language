@@ -18,59 +18,149 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_degrees": {
+          "range": [
+            36.9,
+            45.0
+          ],
+          "unit": "deg",
+          "kind": "derived"
+        }
+      },
+      "rule": "Roof pitch 9:12 to 12:12 (c03, hard); below 8:12 the loft is unusable and the house reads as minimal-traditional, above 12:12 it reads as a First Period two-storey house cut down.",
+      "note": "Specified rather than extends because the family cascade's inherited medieval-british floor of 'not less than 45 degrees' does not match: this variant's own hard constraint runs from 36.9 degrees (9:12), a full step shallower than the inherited floor.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wood-shingle",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Side-gable roof of wood shingle (own defining characteristic #4).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "overhang_max": {
+          "value": 8,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Kept under 8 in on exposed coastal sites (c05, soft)."
+        },
+        "window_head_to_cornice_offset_max": {
+          "value": 14,
+          "unit": "in",
+          "kind": "measured",
+          "note": "The single most reliable Cape tell: the first-floor window head sits within 14 in of the cornice underside (c01, hard)."
+        }
+      },
+      "rule": "Near-flush eave, 8 ft to 9 ft 6 in above the floor, with the window head almost touching the cornice -- the eave is not a trim decision, it is a consequence of there being no full second storey (own diagnostic tell).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "rake_width_max": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Rake trim not more than 6 in wide (c04, soft).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "return_depth": {
+          "range": [
+            6,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "A plain return of 6 to 12 in at the corner, never a full modillion cornice return -- that belongs to Georgian work (c04, soft).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush",
+          "status": "canonical",
+          "note": "Blind, or carrying one small window each; no dormers, no projections (own defining characteristic #7)."
+        }
+      ],
+      "rule": "The gable ends are blind or carry a single small window; nothing else.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gabled",
+          "status": "forbidden",
+          "applies_when": {
+            "note": "front (street) roof slope"
+          },
+          "note": "No original Cape has a front dormer; presence of one means a 20th-century Cape Cod Revival house (own distinguished_from note and hard constraint c02)."
+        },
+        {
+          "id": "shed",
+          "status": "permitted",
+          "applies_when": {
+            "note": "rear slope only, as a later addition"
+          },
+          "note": "A rear-slope dormer is a permissible later addition; it is not part of the original type."
+        }
+      ],
+      "rule": "No dormers on the front (street) roof slope (c02, hard). Rear-slope dormers are a permissible later addition.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "position": {
+          "value": "central on the ridge on a full Cape; off-centre, following whichever rooms are built, on a half or three-quarter Cape",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " The stack does not move as the house grows; an off-centre chimney on a half or three-quarter Cape is the honest signature of an unfinished growth sequence, not a mistake (own long description).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,10 +178,23 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "growth_sequence": {
+          "set": [
+            "quarter",
+            "half",
+            "three-quarter",
+            "full"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "note": "Door begins offset toward one end and steps toward the centre as bays are added; the chimney stays fixed throughout (see chimney)."
+        }
+      },
+      "rule_append": " In the Cape specifically this is a named, literal growth grammar -- quarter, half, three-quarter, full -- legible on the facade as the count and placement of window bays around a fixed chimney, not merely additive in the abstract sense the parent family states.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "construction_type": {
       "group": "envelope",
@@ -384,10 +487,10 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "The Cape presents no porch of any kind -- 'no dormers, no porch, no projections' (own defining characteristic #7); the entry is a plain stoop within the wall plane (see steps_and_stoop).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_depth": {
       "group": "threshold",
@@ -419,10 +522,17 @@
     },
     "steps_and_stoop": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stoop-only",
+          "status": "canonical",
+          "note": "A modest step or steps at the door, unelaborated; the house has no projections of any kind (own defining characteristic #7)."
+        }
+      ],
+      "rule": "No projecting stoop or platform; the threshold is a plain step within the wall plane.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "entry_sequence": {
       "group": "threshold",
@@ -433,10 +543,30 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "first_floor": {
+          "range": [
+            82,
+            90
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "6 ft 10 in to 7 ft 6 in (own proportional_system)."
+        },
+        "loft_at_ridge": {
+          "range": [
+            72,
+            84
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "6 ft to 7 ft at the ridge."
+        }
+      },
+      "rule": "The Cape's ceiling is markedly lower than any two-storey New England type because the eave sits 8-9.5 ft above the floor and the upper rooms live entirely within the roof volume.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "trim_family": {
       "group": "interior",

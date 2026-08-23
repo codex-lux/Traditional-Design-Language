@@ -6,8 +6,31 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "frontal-axial-trabeated",
+          "status": "canonical",
+          "op": "add",
+          "note": "Frontal and centralised, A-B-A: a heavy pylon or portico at the centre flanked by near-blank battered wall, never a repeating march of equal bays (proportional_system)."
+        },
+        {
+          "id": "massed-picturesque",
+          "status": "forbidden",
+          "op": "add",
+          "note": "The style's own massing_affinities forbid it outright: 'picturesque irregularity is incompatible with a frontal, symmetrical, mass-dominated style.'"
+        }
+      ],
+      "parameters": {
+        "symmetry": {
+          "value": "strict-bilateral",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "Egyptian Revival sits on the strict-bilateral institutional side of that split: frontal, centralised, A-B-A, with a dominant pylon or portico flanked by blank battered wall.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -95,8 +118,24 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "balloon-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The style's own text is explicit: 'you cannot batter a balloon-framed wall convincingly.' Demoted from the family's permitted."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "No frame technology batters convincingly; every surviving example is masonry (stuccoed brick, stone, or cast iron)."
+        }
+      ],
+      "rule_append": "In practice the style is masonry only: the battered wall is a mason's and plasterer's problem, and no frame technology, braced or balloon, produces a convincing batter.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +149,37 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stuccoed-brick",
+          "status": "canonical",
+          "note": "The Egyptian Building, Richmond, gets its effect from stuccoed brick and cast iron."
+        },
+        {
+          "id": "dressed-sandstone-ashlar",
+          "status": "canonical",
+          "note": "Grove Street Cemetery Gateway, New Haven: Portland (Connecticut) sandstone."
+        },
+        {
+          "id": "cast-iron-elements",
+          "status": "permitted",
+          "note": "Fence, hermai, and applied ornament at the Richmond example."
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "note": "No wood cladding; battering cannot be built in light frame (see construction_type)."
+        },
+        {
+          "id": "board-and-batten",
+          "status": "forbidden",
+          "note": "Wood cladding of any kind; battering cannot be built in light frame."
+        }
+      ],
+      "rule": "The wall is stuccoed brick or dressed stone ashlar; both surviving primary exemplars are masonry, and the mismatch between this masonry style and the era's cheap balloon frame is exactly why the mode stayed confined to institutional budgets (see the style's own long description).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -145,10 +211,11 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No horizontal string course crosses the battered plane. The style's own defining_characteristics call for 'massive, unbroken, minimally fenestrated wall surface'; a belt course breaks that plane. Editorial inference from the stated characteristic, not a directly quoted prohibition.",
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -180,17 +247,36 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cavetto-cornice-with-torus-roll",
+          "status": "canonical",
+          "note": "Torus roll below cavetto cornice, in that order, with no intervening classical moulding (c02)."
+        }
+      ],
+      "parameters": {
+        "cavetto_height_to_torus_diameter_ratio": {
+          "range": [
+            4.8,
+            7.2
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Cavetto cornice height 0.8 to 1.2 times the torus roll diameter, times six (proportional_system typical_ratios)."
+        }
+      },
+      "rule": "Every terminating horizontal edge is composed torus roll below cavetto cornice, in that order, without intervening classical mouldings; dentils, modillions, and egg-and-dart are forbidden anywhere on the building (c02).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "No packs field: this style's own proportion_packs is deliberately empty (no proportion-layer coverage exists in this library for Egyptian Revival), so this cornice figure is stated as a plain measured ratio rather than a pack-derived expr."
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical entablature exists on this building (see `entablature`); ornament (the winged sun disk) sits directly in the cavetto, not on a frieze band.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "parapet": {
       "group": "envelope",
@@ -211,10 +297,24 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "small-rectangular-trabeated",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "window_area_max_pct_of_elevation": {
+          "value": 20,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "typical_ratios: 'window area not exceeding 20 percent of any elevation.'"
+        }
+      },
+      "rule": "Openings are small, rectangular, and post-and-lintel; the wall is massive and minimally fenestrated by design, not by later infill.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
@@ -232,17 +332,41 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-lintel",
+          "status": "canonical"
+        },
+        {
+          "id": "segmental-arch",
+          "status": "forbidden",
+          "note": "c03: a single round or pointed arch voids the identification."
+        },
+        {
+          "id": "round-arch",
+          "status": "forbidden",
+          "note": "c03."
+        }
+      ],
+      "parameters": {
+        "window_head_rise_in": {
+          "value": 0,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Zero rise: c03's own test expression, the geometric signature of a flat lintel span with no arch."
+        }
+      },
+      "rule": "All openings shall be spanned by lintels. No arches. A single round or pointed arch voids the identification (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_head_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Masonry-only style (see construction_type); there is no wood-frame condition to specify a wood head for.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -253,10 +377,10 @@
     },
     "window_surround_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Masonry-only style; no wood surround condition exists.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_sill": {
       "group": "openings",
@@ -295,10 +419,24 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "battered-pylon-jambs-with-winged-disk",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "sun_disk_placement": {
+          "value": "once per elevation, in the cavetto directly over the principal entry",
+          "unit": "none",
+          "kind": "measured",
+          "note": "c05."
+        }
+      },
+      "rule": "The entry is flanked by battered pylon or pier jambs, with the winged sun disk (or vulture, or uraeus) placed once per elevation in the cavetto directly over the door. Repeating the disk along a frieze is a twentieth-century cinema convention, not a nineteenth-century one (c05).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -328,31 +466,75 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Not a classical order: no entasis, no fluting, and the vocabulary is bundled-reed/papyrus rather than Doric/Ionic/Corinthian/Tuscan/Composite. See `column`.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "bundled-reed-or-papyrus-shaft",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "shaft_height_diameters": {
+          "range": [
+            4,
+            5.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "'The squattest proportion in any Western revival' (typical_ratios)."
+        },
+        "intercolumniation_diameters": {
+          "range": [
+            1.5,
+            2.5
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        },
+        "fluting": {
+          "value": false,
+          "unit": "none",
+          "kind": "measured"
+        },
+        "entasis": {
+          "value": false,
+          "unit": "none",
+          "kind": "measured"
+        },
+        "capital_form": {
+          "set": [
+            "lotus",
+            "palm",
+            "bundled-reed-bud"
+          ],
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Shaft height 4 to 5.5 base diameters, with intercolumniation 1.5 to 2.5 diameters. Shafts are reed-bundle or palm form and never carry classical fluting or entasis (c04).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical architrave-frieze-cornice triad. The cavetto cornice (see `cornice`) sits on the wall or the column capitals directly, with nothing between.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Distinguished_from greek-revival-american, verbatim: Egyptian Revival 'terminates in a cavetto with no pediment ever.'",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
@@ -363,10 +545,10 @@
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "c02, verbatim: 'Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.'",
+      "confidence": "high",
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -377,17 +559,53 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "winged-sun-disk-vulture-or-uraeus",
+          "status": "canonical"
+        },
+        {
+          "id": "obelisk-gatepost-or-terminal",
+          "status": "permitted"
+        },
+        {
+          "id": "torus-roll-and-cavetto",
+          "status": "canonical"
+        },
+        {
+          "id": "egg-and-dart",
+          "status": "forbidden",
+          "note": "c02."
+        },
+        {
+          "id": "classical-guilloche-or-acanthus",
+          "status": "forbidden",
+          "note": "c02: no classical enrichment on this building."
+        }
+      ],
+      "rule": "The winged sun disk (or vulture, or uraeus), the obelisk, and the torus-roll-and-cavetto edge are the whole of the vocabulary; no classical enrichment (egg-and-dart, acanthus, guilloche) appears anywhere.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "distyle-in-antis-between-battered-piers",
+          "status": "canonical",
+          "note": "The style's own massing_affinities: 'in the Egyptian variant the centre is distyle in antis between battered piers rather than a pedimented portico.'"
+        },
+        {
+          "id": "projecting-pedimented-portico",
+          "status": "forbidden",
+          "note": "The style never uses a pedimented portico; see the canonical distyle-in-antis form."
+        }
+      ],
+      "rule": "Where a portico exists it stands in antis between the battered piers of the facade, never as a projecting pedimented portico.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
@@ -398,10 +616,13 @@
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "column"
+      ],
+      "rule": "Whatever `column` specifies: bundled-reed or papyrus shafts with lotus or palm capitals. There is no separate porch order.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",
@@ -618,10 +839,17 @@
     },
     "orientation_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "frontal-axial-read-head-on",
+          "status": "canonical"
+        }
+      ],
+      "rule": "The composition is frontal and centralised and is meant to be read head-on along its axis, not obliquely; there is no picturesque approach to compose for (proportional_system: bay_rhythm 'frontal and centralised... never a repeating march of equal bays').",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted"
     },
     "outbuilding_types": {
       "group": "site",

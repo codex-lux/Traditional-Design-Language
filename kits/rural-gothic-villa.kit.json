@@ -18,10 +18,17 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "max_pitch_spread": {
+          "value": 2,
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "Every pitch on the building shall be within 2:12 of every other; mixing a steep front gable with a shallow rear roof is prohibited (c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -53,10 +60,35 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "principal_gable_width_ratio": {
+          "range": [
+            1.4,
+            2.2
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Wider band than the parent's 1.4-2.0: this variant's own typical_ratios and c01 both give 1.4 to 2.2."
+        },
+        "min_distinct_gables": {
+          "value": 3,
+          "unit": "count",
+          "kind": "measured",
+          "note": "c01."
+        }
+      },
+      "variants": [
+        {
+          "id": "equal-width-gables",
+          "status": "forbidden",
+          "op": "add",
+          "note": "c01, verbatim: 'equal gables are forbidden.'"
+        }
+      ],
+      "rule_append": "The composition presents not fewer than three gables of distinct width (c01).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +99,26 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "height_above_ridge_ft": {
+          "range": [
+            4,
+            8
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Taller than the parent's 3-6 ft: this variant's own c03 and typical_ratios give 4 to 8 ft."
+        },
+        "flue_expression": {
+          "value": "each flue a separate shaft or panel",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "A flush or capped-off stack destroys the silhouette the type depends on (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -267,10 +315,16 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "non-repeating-by-room",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Non-repeating. Openings are placed by room requirement; two windows on one elevation may differ in width, head height, and sill height without fault.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -281,10 +335,23 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "oriel-or-bay-with-label-mould-tracery",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "min_relief_in": {
+          "value": 2,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Oriel or bay windows on the principal rooms, with label mouldings and tracery heads worked in the wall material at not less than 2 in relief.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entry_door": {
       "group": "openings",
@@ -377,17 +444,52 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "pierced-cusped-bargeboard-pattern",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "c05: 'flat sawn-board substitutes place the building in the Carpenter Gothic variant instead' — this variant's own tracery is worked in the material."
+        },
+        {
+          "id": "worked-tracery-min-2in-relief",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "parameters": {
+        "min_relief_in": {
+          "value": 2,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c05."
+        }
+      },
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "coverage_min_pct_of_elevation": {
+          "value": 35,
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "A veranda, loggia, or cloister not less than 8 ft deep is attached to at least one principal elevation, covering not less than 35 percent of that elevation's length (c04).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
@@ -618,10 +720,16 @@
     },
     "orientation_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "oblique-approach-corner-composition",
+          "status": "canonical"
+        }
+      ],
+      "rule": "The drive arrives obliquely so the house is first seen as a corner composition, never head-on (diagnostic tells).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "outbuilding_types": {
       "group": "site",

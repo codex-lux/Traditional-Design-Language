@@ -11,15 +11,15 @@
         {
           "id": "strict-bilateral-symmetry",
           "status": "forbidden",
-          "note": "No member of this family uses rigid classical symmetry, not even the one member closest to it. Second Empire's own record explicitly claims only 'symmetrical or near-symmetrical... in contrast to the picturesque styles it descends from' \u2014 it is the family's single exception to picturesque massing, and even it stops at near-symmetrical, never claiming the arithmetic strict-bilateral discipline of Georgian, Federal or Greek Revival."
+          "note": "No member of this family uses rigid classical symmetry, not even the one member closest to it. Second Empire's own record explicitly claims only 'symmetrical or near-symmetrical... in contrast to the picturesque styles it descends from' — it is the family's single exception to picturesque massing, and even it stops at near-symmetrical, never claiming the arithmetic strict-bilateral discipline of Georgian, Federal or Greek Revival."
         },
         {
           "id": "additive-vernacular",
           "status": "permitted",
-          "note": "Folk Victorian's own composition \u2014 inherited unchanged from a folk house type \u2014 is genuinely additive-vernacular; the style adds catalogue ornament to an existing folk massing without recomposing it."
+          "note": "Folk Victorian's own composition — inherited unchanged from a folk house type — is genuinely additive-vernacular; the style adds catalogue ornament to an existing folk massing without recomposing it."
         }
       ],
-      "rule": "The family's defining move \u2014 'a dominant mass with a deliberately complex silhouette' \u2014 rules out the rigid arithmetic symmetry of the classical streams outright; eight of the nine members hold some form of picturesque, balanced, or additive asymmetry, and the ninth, Second Empire, only softens to near-symmetrical rather than crossing into true classical strictness. Which of near-symmetrical, balanced-asymmetrical, picturesque-asymmetrical or additive-vernacular actually governs a given member is a per-style decision the family does not adjudicate.",
+      "rule": "The family's defining move — 'a dominant mass with a deliberately complex silhouette' — rules out the rigid arithmetic symmetry of the classical streams outright; eight of the nine members hold some form of picturesque, balanced, or additive asymmetry, and the ninth, Second Empire, only softens to near-symmetrical rather than crossing into true classical strictness. Which of near-symmetrical, balanced-asymmetrical, picturesque-asymmetrical or additive-vernacular actually governs a given member is a per-style decision the family does not adjudicate.",
       "confidence": "high",
       "status": "drafted"
     },
@@ -121,7 +121,7 @@
           "note": "Modern manufactured technology, anachronistic to the whole family."
         }
       ],
-      "rule": "Construction is load-bearing masonry (Richardsonian Romanesque, Queen Anne Patterned Masonry, and the row-house branches of Second Empire and Richardsonian) or braced/balloon timber frame (Folk Victorian, Stick Style, Shingle Style, and the wood-clad Queen Anne subtypes) \u2014 no branch uses a masonry veneer over a frame backup, platform framing, or a structural insulated panel, all of which postdate the family's floruit.",
+      "rule": "Construction is load-bearing masonry (Richardsonian Romanesque, Queen Anne Patterned Masonry, and the row-house branches of Second Empire and Richardsonian) or braced/balloon timber frame (Folk Victorian, Stick Style, Shingle Style, and the wood-clad Queen Anne subtypes) — no branch uses a masonry veneer over a frame backup, platform framing, or a structural insulated panel, all of which postdate the family's floruit.",
       "confidence": "high",
       "status": "drafted"
     },
@@ -304,7 +304,7 @@
           "note": "Every member's floruit ends by 1910 (decline_end 1925 at the latest, Folk Victorian), decades before the insulated glazing unit existed."
         }
       ],
-      "rule": "Glazing is true divided-lite, single-pane sash throughout \u2014 grouped multi-sash bands in Shingle Style, paired arched sash in Second Empire and Queen Anne, plain single sash in Folk Victorian \u2014 never an insulated glazing unit.",
+      "rule": "Glazing is true divided-lite, single-pane sash throughout — grouped multi-sash bands in Shingle Style, paired arched sash in Second Empire and Queen Anne, plain single sash in Folk Victorian — never an insulated glazing unit.",
       "confidence": "high",
       "status": "drafted"
     },

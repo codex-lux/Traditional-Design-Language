@@ -6,22 +6,62 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "massed-picturesque-silhouette",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "rule_append": "Gothic Revival takes the picturesque half of the family's split: composition is governed by silhouette hierarchy — a dominant gable, subordinate gables of unequal width, and a chimney group completing the outline against the sky — not by axial or bilateral symmetry.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "multi-gable-unequal-width",
+          "status": "canonical"
+        },
+        {
+          "id": "low-hip",
+          "status": "forbidden",
+          "note": "Suppresses the gable, which the style's own defining_characteristics make the governing compositional element."
+        }
+      ],
+      "parameters": {
+        "principal_pitch_min": {
+          "value": 12,
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "note": "c01."
+        }
+      },
+      "rule": "Steeply pitched roof, 12:12 or greater, with the gable as the governing compositional element (c01). Below 12:12 the building reads as Carpenter Gothic ornament applied to a folk box.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": 12,
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": 18,
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "12:12 to 18:12; below 12:12 the style fails (c01, typical_ratios).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,31 +72,76 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "close-eave-no-brackets",
+          "status": "canonical"
+        },
+        {
+          "id": "wide-bracketed-eave",
+          "status": "forbidden",
+          "note": "Diagnostic tell against Italianate: 'brackets under a wide eave with no bargeboard: Italianate.' The two vocabularies do not mix on one building."
+        }
+      ],
+      "rule": "The eave is close and unbracketed; the rake (see `rake_condition`), not the eave, carries the style's ornament.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "bargeboard-full-rake-pierced",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "verge_overhang_in": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Bargeboard, where used, follows the full length of the rake from eave to apex without interruption, with a verge overhang of 12 to 24 in so the board is read against shadow. A bargeboard applied only to the upper third of the rake is forbidden (c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "The rake is finished in bargeboard, not a boxed classical cornice with mitred returns; a cornice return signals Greek Revival millwork, not Gothic Revival (see distinguished_from).",
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted"
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pointed-gable-with-drip-mould",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "principal_gable_width_ratio": {
+          "range": [
+            1.4,
+            2.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Principal gable width 1.4 to 2.0 times the width of the largest subordinate gable (typical_ratios)."
+        }
+      },
+      "rule": "Pointed or lancet openings in the principal gable, with label or drip mouldings over the heads.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +152,31 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clustered-diagonal-stack",
+          "status": "canonical"
+        },
+        {
+          "id": "hidden-in-gable-end",
+          "status": "forbidden",
+          "note": "Diagnostic tell: 'Greek Revival chimneys are hidden in the gable end' — the opposite of this style's practice."
+        }
+      ],
+      "parameters": {
+        "height_above_ridge_ft": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Clustered or diagonally set chimney stacks, carried well above the ridge and composed as part of the outline.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,10 +194,17 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "additive-by-room-use",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Irregular, additive plan generated by room use rather than by symmetry, with the elevation following the plan.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Carpenter Gothic demotes this (its own body is a regular bay-count box interrupted by one central gable); see that variant's own delta."
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +223,47 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "board-and-batten-vertical",
+          "status": "canonical"
+        },
+        {
+          "id": "clapboard",
+          "status": "permitted",
+          "note": "Where masonry is not used, per defining_characteristics: 'in masonry examples, an insistently vertical fenestration rhythm.'"
+        }
+      ],
+      "parameters": {
+        "board_width_in": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "batten_width_in": {
+          "range": [
+            2,
+            3
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "batten_spacing_in": {
+          "range": [
+            12,
+            16
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Where board-and-batten is used, boards are 8 to 12 in wide with battens 2 to 3 in wide at 12 to 16 in on centre, running unbroken from water table to eave (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -124,10 +274,10 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Board-and-batten and clapboard shall not be mixed on the same elevation; the batten field runs unbroken from water table to eave with no crossing belt course (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -145,10 +295,10 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "c03: 'No horizontal belt course may cross the batten field.'",
+      "confidence": "high",
+      "status": "drafted"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -206,22 +356,73 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "landscape-tone-body",
+          "status": "canonical",
+          "note": "Fawn, drab, grey, or straw."
+        },
+        {
+          "id": "white-body",
+          "status": "forbidden",
+          "note": "c05: Downing 'regarded it as the principal aesthetic error of the American countryside.'"
+        }
+      ],
+      "parameters": {
+        "trim_value_offset": {
+          "value": "2 to 3 values darker than the body",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Body colour is a landscape tone (fawn, drab, grey, straw) with trim two to three values darker, per Downing's explicit instruction in The Architecture of Country Houses. White is prohibited on the body (c05).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "square-headed-body",
+          "status": "canonical"
+        },
+        {
+          "id": "pointed-lancet-or-ogee-gable",
+          "status": "permitted",
+          "note": "Confined to principal gable, entry, and stair (c04)."
+        }
+      ],
+      "parameters": {
+        "pointed_head_max_pct": {
+          "value": 30,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "c04: not more than 30 percent of the openings on any elevation."
+        }
+      },
+      "rule": "Pointed and lancet heads are confined to the principal gable, the entry, and the stair window, not exceeding 30 percent of the openings on any elevation. Universal pointed heads produce a church, not a house (c04, soft).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_to_width": {
+          "range": [
+            2.5,
+            3.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "'Taller than any preceding American style' (typical_ratios)."
+        }
+      },
+      "rule": "Window height to width 2.5:1 to 3.5:1.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -239,10 +440,21 @@
     },
     "window_head_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "square-sawn-wood-head",
+          "status": "canonical"
+        },
+        {
+          "id": "pointed-or-lancet-sawn-wood-head",
+          "status": "permitted",
+          "note": "Confined per c04; see `window_type`."
+        }
+      ],
+      "rule": "Heads are sawn from wood stock, square-headed for the great majority of openings and pointed only where `window_type` permits.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -328,66 +540,88 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical order governs a Gothic Revival elevation; the family's own rule confines the classical apparatus group to the classical stream, and this style is squarely picturesque.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical column; porch posts are turned or chamfered wood (see the variant kits for the sawn-post vocabulary).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical entablature anywhere on the building.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No pediment; the gable itself, finished in bargeboard, does the work a pediment would do in the classical stream.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No pilaster order.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical cornice enrichment; the eave is unbracketed and the rake is bargeboard (see `eave_condition`, `rake_condition`).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical balustrade in the style's vocabulary.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pierced-cusped-bargeboard-pattern",
+          "status": "canonical"
+        },
+        {
+          "id": "drip-mould-label-square-return",
+          "status": "canonical",
+          "note": "Diagnostic tell: label mouldings that stop with square returns, rather than continuing as a string course, distinguish this from 1920s Tudor Revival."
+        },
+        {
+          "id": "continuous-string-course-label",
+          "status": "forbidden",
+          "note": "Tudor Revival, not Gothic Revival (diagnostic tells)."
+        }
+      ],
+      "rule": "Pierced and cusped bargeboard on the rake, and label or drip mouldings over pointed openings that stop with square returns rather than running on as a continuous string course.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "integral-veranda",
+          "status": "canonical"
+        }
+      ],
+      "rule": "A veranda or porch treated as a permanent part of the composition rather than as an appendage.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",

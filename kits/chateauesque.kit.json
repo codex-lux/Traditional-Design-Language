@@ -11,17 +11,75 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Steep, often broken into multiple intersecting hips over an irregular plan."
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted"
+        },
+        {
+          "id": "pyramidal",
+          "status": "permitted",
+          "applies_when": {
+            "note": "conical roofs on round towers"
+          }
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "The inherited value from germanic-vernacular (a taxed-narrow-lot urban gable-front logic) does not apply to an American Gilded Age estate house and is corrected here."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Dutch Colonial and Colonial Revival; unrelated to a French Renaissance roof vocabulary."
+        },
+        {
+          "id": "flat-parapet",
+          "status": "forbidden",
+          "note": "The opposite move from Beaux-Arts; see balustrade."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A steep hipped roof, or a set of intersecting steep hips, is the dominant compositional mass — the style's own proportional_system states there is 'no governing module; proportion is set by the roof, which is designed as an inhabited mass roughly equal in height to the top two storeys.'",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_min": {
+          "value": "14:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "chateauesque.c02"
+        },
+        "pitch_typical_range": {
+          "range": [
+            14,
+            20
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "tower_pitch": {
+          "value": "steeper than the adjacent principal mass, often conical",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "Not less than 14:12, the style's own hard constraint, and typically 14:12 to 20:12 on principal masses. Corrects an inherited 45-degree (=12:12) floor drawn from british-picturesque, which is a full pitch class shallower than what this style's own c02 requires.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -60,17 +118,83 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wall-dormer",
+          "status": "canonical",
+          "note": "THE diagnostic move: the style's own diagnostic_tells state 'if the dormers stop at the eave rather than cutting through it, it is not Chateauesque.' Stone surrounds continuous from sill to a pedimented, finialed, or crocketed dormer head."
+        },
+        {
+          "id": "pedimented",
+          "status": "canonical"
+        },
+        {
+          "id": "hipped",
+          "status": "permitted"
+        },
+        {
+          "id": "segmental-arched",
+          "status": "permitted"
+        },
+        {
+          "id": "shed-dormer",
+          "status": "forbidden",
+          "note": "A twentieth-century attic-conversion device with no place cutting through a chateau's stone-surrounded wall dormers."
+        },
+        {
+          "id": "eyebrow-dormer",
+          "status": "forbidden",
+          "note": "Shingle Style and Richardsonian; the low unbroken curve is the opposite move from a wall dormer's vertical stone surround."
+        }
+      ],
+      "parameters": {
+        "min_count_breaking_cornice": {
+          "value": 2,
+          "unit": "count",
+          "kind": "measured",
+          "source": "chateauesque.c03"
+        },
+        "min_rise_above_cornice": {
+          "value": "half a storey",
+          "unit": "none",
+          "kind": "measured",
+          "source": "chateauesque.c03"
+        }
+      },
+      "status": "drafted",
+      "rule": "At least two wall dormers must break the cornice line and rise not less than half a storey above it, with stone surrounds continuous from the sill below the cornice to the dormer pediment above. A roof-set dormer beginning entirely above the eave is forbidden as the primary type.",
+      "confidence": "high",
+      "judgment": false
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "min_plan_footprint": {
+          "value": "4'-0\" x 2'-6\"",
+          "unit": "none",
+          "kind": "measured",
+          "source": "chateauesque.c04"
+        },
+        "min_height_above_ridge": {
+          "value": 4,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "chateauesque.c04"
+        },
+        "shaft_treatment": {
+          "value": "corbelled or panelled",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "note": "The inherited 'tall-multiple-vertical-accent' canonical variant from british-picturesque already agrees with this style in kind; this delta only adds the style's own hard-constraint numbers (c04), which the ancestor's Gothic/Queen Anne/Baronial framing did not carry.",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "A minimum 4'-0\" x 2'-6\" plan footprint, rising not less than 4'-0\" above the adjacent ridge, with a corbelled or panelled shaft."
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -110,10 +234,34 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stone-ashlar",
+          "status": "canonical",
+          "note": "Dressed limestone or granite, coursed, with joints under 3/8 in per the style's own diagnostic_tells."
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "forbidden",
+          "note": "The inherited canonical value, from english-georgian by way of the georgian-colonial-american chain, is a different masonry tradition entirely and is corrected here."
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "note": "A light-frame cladding; incompatible with load-bearing ashlar construction (c01)."
+        },
+        {
+          "id": "stucco",
+          "status": "forbidden",
+          "note": "A veneer economy the style's own c05 names directly as one of the reductions that 'destroys it' and produces Queen Anne with a turret instead."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Load-bearing dressed ashlar, carved on site, not cast or veneered — chateauesque.c01. 'If it is wood, it is not Beaux-Arts' applies here even more strongly: if it is not real coursed stone, it is not Chateauesque.",
+      "confidence": "high",
+      "judgment": false
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -131,10 +279,19 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "expression": {
+          "value": "a continuous ashlar plinth or watertable in the same stone as the wall above; no exposed timber sill",
+          "unit": "none",
+          "kind": "editorial"
+        }
+      },
+      "status": "drafted",
+      "rule": "A masonry plinth in the wall's own stone. The inherited value (a timber-frame Sockel clear of grade, from germanic-vernacular) presupposes a light frame this style does not have and is corrected here.",
+      "confidence": "medium",
+      "judgment": true
     },
     "water_table": {
       "group": "envelope",
@@ -152,10 +309,28 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stone-ashlar-quoin",
+          "status": "canonical"
+        },
+        {
+          "id": "continuous-coursed-masonry",
+          "status": "permitted",
+          "note": "Where the corner is turned by a round tower rather than a square quoin."
+        },
+        {
+          "id": "none",
+          "status": "forbidden",
+          "note": "The inherited value ('no masonry quoin — the corner is a structural timber post') is germanic-vernacular's exposed-timber-frame logic and has no application to a load-bearing ashlar wall; corrected here."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A real ashlar quoin or a coursed masonry corner, never an exposed frame member.",
+      "confidence": "high",
+      "judgment": false
     },
     "corner_board": {
       "group": "envelope",
@@ -166,10 +341,31 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_depth": {
+          "range": [
+            16,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "chateauesque.c01",
+          "note": "Raises the inherited 12-24 in floor to the style's own hard minimum of 16 in — the inherited range's bottom third (12-16 in) does not satisfy c01."
+        },
+        "jamb_material": {
+          "value": "returned in the same stone as the face",
+          "unit": "none",
+          "kind": "measured",
+          "source": "chateauesque.c01"
+        }
+      },
+      "status": "drafted",
+      "note": "The inherited 12-24 in band (from mediterranean-vernacular) already overlaps correctly at its upper end; this delta only tightens the floor to match the style's own hard constraint.",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "The reveal is not less than 16 in, and jambs are returned in the same stone as the face — chateauesque.c01. Thin-set veneer with a 1 in reveal voids the style outright."
     },
     "reveal_frame": {
       "group": "envelope",
@@ -211,10 +407,28 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "casement-leaded",
+          "status": "canonical",
+          "note": "Multi-light, per the style's own defining_characteristics: 'multi-light casement or transomed sash.'"
+        },
+        {
+          "id": "sash-with-transom",
+          "status": "permitted"
+        },
+        {
+          "id": "double-hung",
+          "status": "forbidden",
+          "note": "The inherited canonical value is drawn from a Victorian/Queen Anne/Baronial finding (british-picturesque) unrelated to this style's own stated glazing."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Multi-light casement, or a fixed sash with a transom, behind a round- or basket-arched stone surround — never a plain double-hung sash.",
+      "confidence": "high",
+      "judgment": false
     },
     "window_proportion": {
       "group": "openings",
@@ -225,10 +439,33 @@
     },
     "window_lite_pattern": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "multi-light-casement",
+          "status": "canonical"
+        },
+        {
+          "id": "12/12",
+          "status": "forbidden",
+          "note": "The inherited Georgian date-ladder (12/12 through 6/6) belongs to georgian-colonial-american and has no application here."
+        },
+        {
+          "id": "9/6",
+          "status": "forbidden",
+          "note": "Part of the inherited Georgian date-ladder (georgian-colonial-american); the wide flat muntin grid reads as Colonial, not as a leaded chateau casement."
+        },
+        {
+          "id": "6/6",
+          "status": "forbidden",
+          "note": "Same Georgian date-ladder; forbidden for the same reason as 9/6."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Small rectangular lights in a leaded or muntined casement, not the Georgian sash ladder.",
+      "confidence": "medium",
+      "judgment": true
     },
     "window_head_masonry": {
       "group": "openings",
@@ -288,10 +525,24 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "nail-studded-plank-door-with-strap-hinges",
+          "status": "canonical",
+          "note": "Set in a monumental round- or basket-arched stone surround; the door itself is plain and the surround carries the elaboration."
+        },
+        {
+          "id": "six-panel-raised-and-fielded",
+          "status": "forbidden",
+          "note": "The inherited value is a Georgian catalog door and reads as domestic rather than as the entrance to a fortified-derived stone house."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A plain, heavy plank or panelled door within an elaborated round- or basket-arched stone surround — the surround, not the leaf, carries the style's statement.",
+      "confidence": "medium",
+      "judgment": true
     },
     "door_surround": {
       "group": "openings",
@@ -328,59 +579,185 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "composite",
+          "status": "canonical",
+          "note": "The style's own bound proportion pack (vignola-composite) names this order directly: its fused Ionic-volute-over-Corinthian-acanthus capital is 'a defensible formal echo of a style built at the exact historical seam between Gothic structure and Renaissance ornament.'"
+        },
+        {
+          "id": "corinthian",
+          "status": "permitted"
+        },
+        {
+          "id": "doric-roman",
+          "status": "atypical"
+        },
+        {
+          "id": "ionic-scamozzi",
+          "status": "atypical"
+        },
+        {
+          "id": "vernacular-abstracted",
+          "status": "forbidden",
+          "note": "The style presumes a published Renaissance canon quoted from measured chateau drawings, not an abstracted vernacular reading."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Bound only, and narrowly, at the round-arched or basket-arched stone door and window surrounds the style's own defining_characteristics name. It never governs the roof, the dormers, the turrets, the chimneys or the skyline, which are Gothic vocabulary this order does not touch.",
+      "note": "Overrides an incorrect cascade: the family lineage walk lands on french-vernacular (via the norman-vernacular reference edge) and forbids the entire classical-apparatus group with the rule 'all three are vernacular/folk building traditions' — true of the farm buildings french-vernacular actually describes, and wrong for this style, which is emphatically not one. Restored per the style's own bound proportion pack and diagnostic_tells.",
+      "confidence": "high",
+      "judgment": true
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-pilaster-at-surround",
+          "status": "canonical",
+          "note": "Applied to the jamb of a door or window surround only; never free-standing."
+        },
+        {
+          "id": "free-standing-portico-column",
+          "status": "forbidden",
+          "note": "A portico is a Beaux-Arts and Colonial move. Chateauesque is entered through a stone surround set flush in a load-bearing wall, not approached through a colonnade — see distinguished_from beaux-arts-american."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Where the order appears at all it is engaged, never free-standing.",
+      "confidence": "high",
+      "judgment": true
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "extent": {
+          "value": "door and window surrounds only; there is no continuous classical entablature run at the eaves",
+          "unit": "none",
+          "kind": "editorial"
+        }
+      },
+      "status": "drafted",
+      "rule": "No running eaves entablature. The style's own proportional_system states plainly that 'there is no governing module; proportion is set by the roof' — the roof and its dormers do the compositional work a continuous entablature does in Beaux-Arts or Colonial Revival.",
+      "confidence": "medium",
+      "judgment": true
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "triangular",
+          "status": "permitted",
+          "applies_when": {
+            "note": "over a door or window surround only"
+          }
+        },
+        {
+          "id": "segmental",
+          "status": "permitted",
+          "applies_when": {
+            "note": "over a door or window surround only"
+          }
+        },
+        {
+          "id": "broken-scroll",
+          "status": "atypical"
+        },
+        {
+          "id": "open-bed",
+          "status": "forbidden",
+          "note": "A Beaux-Arts/Adam device."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A small pediment may cap a door or window surround; it is not a roofline element. The dormer's own gable termination — which the style's defining_characteristics separately describe as terminating 'in pediments, finials, or crockets' — is roof furniture, not this classical-apparatus slot, and is carried on the dormer instead.",
+      "confidence": "medium",
+      "judgment": true
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-flanking-surround",
+          "status": "canonical"
+        },
+        {
+          "id": "giant-order-facade-pilaster",
+          "status": "forbidden",
+          "note": "A Beaux-Arts and Neoclassical Revival device across a flat wall; Chateauesque's wall is broken by towers and dormers, not by a pilastered rhythm."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Confined to the jambs of an opening surround, matching column.",
+      "confidence": "high",
+      "judgment": true
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No continuous modillion or dentil course. The roof, not a classical cornice, terminates the wall.",
+      "note": "Replaces an incorrect ancestor note (french-vernacular's 'no order-derived vocabulary at all', true of farm buildings and not of this style). The real reason is different: the style has no continuous classical cornice for a modillion or dentil course to run along in the first place — the eave is subordinate to, and frequently interrupted by, the roof and its wall dormers, per the style's own 'no governing module; proportion is set by the roof.'",
+      "confidence": "medium",
+      "judgment": true
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No balustraded parapet or roofline balustrade of any kind; the roof itself is the termination.",
+      "note": "Replaces an incorrect ancestor note. The real reason is the style's own distinguished_from entry against beaux-arts-american, stated directly: 'Beaux-Arts is horizontal...and terminates in a balustrade or attic rather than a roof. Chateauesque is vertical...and defined by an enormous roof.' A balustraded parapet is precisely the device that would make a Chateauesque house read as Beaux-Arts.",
+      "confidence": "high",
+      "judgment": false
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "acanthus",
+          "status": "permitted",
+          "note": "At the order, where bound — capitals only."
+        },
+        {
+          "id": "rope-and-rosette",
+          "status": "atypical"
+        },
+        {
+          "id": "swag-and-urn",
+          "status": "forbidden",
+          "note": "Beaux-Arts and Neoclassical Revival register."
+        },
+        {
+          "id": "fan-and-patera",
+          "status": "forbidden",
+          "note": "Adam/Federal register."
+        },
+        {
+          "id": "guttae-triglyph",
+          "status": "forbidden",
+          "note": "Greek Doric register; unrelated to a French Renaissance-Gothic seam."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "This slot covers only the classical half of the style's genuinely bifurcated ornament. The dominant, primary ornament vocabulary — crockets, finials, tracery, late Gothic in register — is outside what this classical-apparatus slot can name; no slot in the current ontology holds a distinct late-Gothic ornament set, so it stays recorded in prose here rather than invented as a fake classical entry.",
+      "confidence": "high",
+      "judgment": true
     },
     "porch_type": {
       "group": "threshold",
@@ -625,17 +1002,64 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gate-lodge",
+          "status": "canonical"
+        },
+        {
+          "id": "carriage-house",
+          "status": "canonical"
+        },
+        {
+          "id": "stable",
+          "status": "permitted"
+        },
+        {
+          "id": "greenhouse-conservatory",
+          "status": "permitted"
+        },
+        {
+          "id": "detached-kitchen",
+          "status": "forbidden",
+          "note": "The inherited value is drawn from a Chesapeake/Tidewater plantation programme with no bearing on a Gilded Age Newport or Hudson Valley estate; corrected here."
+        },
+        {
+          "id": "quarters-for-enslaved-workers",
+          "status": "forbidden",
+          "note": "Same inherited plantation-programme error; this style's period and clientele have no such building."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Estate outbuildings appropriate to an 1880-1910 Northeastern fortune — a gate lodge, a carriage house, stabling — composed at reduced scale in the same stone vocabulary as the main house, not a Southern plantation service yard.",
+      "confidence": "high",
+      "judgment": true
     },
     "fence_wall": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stone-wall-with-piers",
+          "status": "canonical"
+        },
+        {
+          "id": "wrought-iron-fence-with-stone-piers",
+          "status": "canonical"
+        },
+        {
+          "id": "painted-wood-picket",
+          "status": "forbidden",
+          "note": "The inherited canonical value belongs to a Georgian domestic dooryard and understates the scale of an estate whose exemplars include Biltmore and Ochre Court."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Stone wall or wrought-iron fence on stone piers, matching the house's own ashlar.",
+      "confidence": "medium",
+      "judgment": true
     },
     "landscape_idiom": {
       "group": "site",

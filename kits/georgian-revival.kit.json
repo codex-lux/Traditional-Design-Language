@@ -67,10 +67,41 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gable-end-paired",
+          "status": "canonical"
+        },
+        {
+          "id": "interior-ridge-chimney",
+          "status": "forbidden",
+          "note": "c05."
+        },
+        {
+          "id": "flush-metal-flue",
+          "status": "forbidden",
+          "note": "c05."
+        }
+      ],
+      "parameters": {
+        "min_plan_footprint": {
+          "value": "3'-6\" x 2'-0\"",
+          "unit": "none",
+          "kind": "measured",
+          "source": "georgian-revival.c05"
+        },
+        "min_height_above_ridge": {
+          "value": 2.5,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "georgian-revival.c05"
+        }
+      },
+      "status": "drafted",
+      "rule": "Built at the gable ends, paired, minimum 3'6\"x2'0\" plan, rising not less than 2'6\" above the ridge -- c05. Overrides the inherited british-picturesque generic finding with this variant's own numbers.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -81,17 +112,46 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "first_floor_ceiling": {
+          "range": [
+            9.5,
+            10.5
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "second_floor_ceiling": {
+          "range": [
+            9,
+            9.5
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Storey heights 9'6\"-10'6\" first, 9'0\"-9'6\" second -- still taller than eighteenth-century practice but closer to it than plain colonial-revival's figures."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "garrison-block-massing",
+          "status": "forbidden",
+          "op": "add",
+          "note": "massing_affinities names this directly: 'the overhang belongs to the seventeenth-century reference, not the Georgian one.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +170,27 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "brick-flemish-bond",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-english-bond",
+          "status": "permitted"
+        },
+        {
+          "id": "running-bond-veneer",
+          "status": "forbidden",
+          "note": "c01 and diagnostic_tells: 'running bond with no water table indicates general Colonial Revival,' not this accurate wing."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Flemish or English bond, joints 3/8 in or finer -- c01, a hard constraint. Overrides the inherited queen-anne-american binding (reached via colonial-revival's own deep chain), which does not require a documented bond at all.",
+      "confidence": "high",
+      "judgment": false
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -138,17 +215,32 @@
     },
     "water_table": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "A moulded water table at grade -- c01, required, not optional, on this variant specifically."
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "depth": {
+          "range": [
+            4,
+            8
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "A belt course at the second-floor line, 4-8 in deep -- c01, defining_characteristics. Overrides the inherited queen-anne-american binding with this variant's own required masonry-horizontal, which plain colonial-revival does not carry.",
+      "confidence": "high",
+      "judgment": false
     },
     "corner_quoin": {
       "group": "envelope",
@@ -180,10 +272,29 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "total_depth": {
+          "range": [
+            14,
+            20
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "georgian-revival.c04"
+        },
+        "gable_return_min": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "source": "georgian-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "rule": "Total depth 14-20 in with modillions or dentils spaced to the bay module, carried fully around the building including gable returns of not less than 18 in -- c04. Overrides the inherited colonial-revival cornice (12-18 in), which is the general style's shallower figure.",
+      "confidence": "high",
+      "judgment": false
     },
     "frieze": {
       "group": "envelope",
@@ -225,10 +336,48 @@
     },
     "window_lite_pattern": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "9/9",
+          "status": "canonical",
+          "note": "c03, hard constraint."
+        },
+        {
+          "id": "12/12",
+          "status": "canonical",
+          "note": "c03."
+        },
+        {
+          "id": "6/6",
+          "status": "permitted"
+        },
+        {
+          "id": "1/1",
+          "status": "forbidden",
+          "note": "c03: '1/1 and 6/1 sash void the variant.'"
+        },
+        {
+          "id": "6/1",
+          "status": "forbidden",
+          "note": "c03."
+        }
+      ],
+      "parameters": {
+        "muntin_width": {
+          "range": [
+            0.625,
+            0.875
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "georgian-revival.c03"
+        }
+      },
+      "status": "drafted",
+      "rule": "9/9 or 12/12 on principal elevations, muntins 5/8-7/8 in, true divided or full-depth simulated with an interior spacer -- c03, a hard constraint. diagnostic_tells: 'this variant is where the revival actually tries to match the original's glazing.' Overrides the inherited queen-anne-american binding with this variant's own, narrower, documented set.",
+      "confidence": "high",
+      "judgment": false
     },
     "window_head_masonry": {
       "group": "openings",
@@ -295,10 +444,33 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "leaf": {
+          "value": "3'0\" x 6'8\" to 3'0\" x 7'0\"",
+          "unit": "none",
+          "kind": "measured",
+          "source": "georgian-revival.c02"
+        },
+        "overall_width_max": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "georgian-revival.c02"
+        },
+        "pediment_apex_max": {
+          "value": "below the second-floor sill line",
+          "unit": "none",
+          "kind": "measured",
+          "source": "georgian-revival.c02"
+        }
+      },
+      "status": "drafted",
+      "note": "This variant's own doorcase is deliberately larger and more elaborate than plain colonial-revival's (c01's 6'0\" pediment cap) but still held to a single-leaf, one-storey discipline -- distinguished_from neoclassical-revival names the ceiling directly.",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Overall width not exceeding 8'0\" (against the general style's 6'0\" cap), pediment apex below the second-floor sill line; double doors and two-storey porticos are forbidden -- c02."
     },
     "transom_sidelight": {
       "group": "openings",

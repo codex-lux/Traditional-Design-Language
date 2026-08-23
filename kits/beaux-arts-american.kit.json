@@ -6,8 +6,39 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "strict-bilateral-pavilion-rhythm",
+          "status": "canonical",
+          "op": "add",
+          "note": "A-B-B-B-A: advanced end and centre pavilions, recessed intermediate wall -- the style's own proportional_system bay_rhythm, stated directly."
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "op": "add",
+          "note": "Absolute symmetry per proportional_system.symmetry: strict-bilateral."
+        }
+      ],
+      "parameters": {
+        "bay_rhythm": {
+          "value": "A-B-B-B-A pavilion rhythm: advanced end bays and an advanced centre, regular intermediate rhythm between",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "pavilion_projection_min": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "source": "beaux-arts-american.c03"
+        }
+      },
+      "note": "The family's composition_parti slot deliberately leaves symmetry class open across all 21 members; this style is the one that most needs a real answer, and states it here without touching the family's additive-vernacular prohibition or its own rule sentence.",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "End and centre pavilions advanced not less than 18 in from the intermediate wall plane -- c03, a hard constraint. A flat facade with applied ornament is Neoclassical Revival, not Beaux-Arts."
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -95,8 +126,19 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "canonical",
+          "op": "add",
+          "note": "American Beaux-Arts practice specifically: masonry-and-terracotta envelope wrapped around a modern iron/steel/reinforced-concrete frame, still detailed to genuine masonry-mass discipline -- the family note's own stated exception."
+        }
+      ],
+      "note": "The family (via continental-baroque-neoclassical) already states this correctly in prose; this delta only promotes the American steel-frame-plus-masonry-skin reading from a footnote to a named canonical variant, since it is how nearly every large Beaux-Arts American commission was actually built.",
+      "confidence": "medium",
+      "judgment": true
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -131,10 +173,20 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "rustication": {
+          "value": "rusticated base not less than one full storey, joints 3/4 to 1-1/2 in deep",
+          "unit": "none",
+          "kind": "measured",
+          "source": "beaux-arts-american.c02"
+        }
+      },
+      "status": "drafted",
+      "rule": "A rusticated ground storey with vermiculated or banded joints, under a smooth ashlar upper wall -- diagnostic_tells, matching the hard-constraint minimum storey height and joint depth in c02.",
+      "confidence": "high",
+      "judgment": false
     },
     "water_table": {
       "group": "envelope",
@@ -166,10 +218,32 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_depth_min": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "beaux-arts-american.c02"
+        },
+        "jamb_material": {
+          "value": "returned in the same material as the face",
+          "unit": "none",
+          "kind": "measured",
+          "source": "beaux-arts-american.c02"
+        },
+        "arch_construction": {
+          "value": "true voussoirs and keystones at arched openings",
+          "unit": "none",
+          "kind": "measured",
+          "source": "beaux-arts-american.c02"
+        }
+      },
+      "status": "drafted",
+      "rule": "Minimum 12 in reveal at openings, jambs returned in the same material as the face, arches with true voussoirs and keystones -- c02, a hard constraint.",
+      "confidence": "high",
+      "judgment": false
     },
     "reveal_frame": {
       "group": "envelope",
@@ -319,7 +393,8 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "empty",
+      "note": "Not authored. Style status is 'historical' with no revival_periods and the style's own text states 'almost nobody can afford to build another' -- this is not a contemporary buildable node in the sense docs/inheritance.md's garage_strategy guidance targets (20th-century-forward, actively built work)."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,59 +403,240 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "composite",
+          "status": "canonical",
+          "note": "Primary bound pack (vignola-composite). The imperial, triumphal-arch register the style's own lineage names directly."
+        },
+        {
+          "id": "corinthian",
+          "status": "canonical",
+          "note": "The domestic register for the Newport houses (Marble House, Rosecliff), both quoting Corinthian-ordered French royal models."
+        },
+        {
+          "id": "ionic-scamozzi",
+          "status": "permitted"
+        },
+        {
+          "id": "doric-roman",
+          "status": "permitted",
+          "note": "Service wings and secondary elevations."
+        },
+        {
+          "id": "tuscan",
+          "status": "atypical"
+        },
+        {
+          "id": "vernacular-abstracted",
+          "status": "forbidden",
+          "note": "c01: 'Orders must be executed to a published canon...An order without a full entablature is void.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Executed to a published canon (Vignola) with entasis, correct capital, base and entablature -- c01. Frequently paired or coupled rather than single, which is the style's fastest diagnostic tell against Neoclassical Revival.",
+      "note": "Overrides an incorrect cascade: the lineage walk lands on french-vernacular (via a distant reference edge) and forbids the entire classical-apparatus group with a rule true of vernacular farm buildings and false of this style, whose hard constraint c01 makes the order the single most load-bearing fact in the kit.",
+      "confidence": "high",
+      "judgment": false
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "paired-coupled-columns",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Paired or coupled columns and pilasters. Neoclassical Revival uses single columns; pairing is the fastest Beaux-Arts marker.'"
+        },
+        {
+          "id": "engaged-column",
+          "status": "canonical"
+        },
+        {
+          "id": "free-standing-single-column",
+          "status": "permitted",
+          "note": "Where the composition genuinely calls for a single order, but this is the Neoclassical Revival reading and should be rare here."
+        }
+      ],
+      "parameters": {
+        "coupled_clear_spacing": {
+          "range": [
+            1.0,
+            1.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Diameters clear between a coupled pair, per the style's own proportional_system typical_ratios."
+        },
+        "pair_to_pair_spacing": {
+          "range": [
+            3,
+            4
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Diameters between pairs."
+        }
+      },
+      "status": "drafted",
+      "rule": "Paired or coupled far more often than single -- the style's fastest diagnostic tell.",
+      "confidence": "high",
+      "judgment": false
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "depth_ratio": {
+          "range": [
+            0.2,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "beaux-arts-american.c01"
+        },
+        "cornice_projection_min": {
+          "value": "not less than the entablature depth",
+          "unit": "none",
+          "kind": "measured",
+          "source": "beaux-arts-american.c01"
+        }
+      },
+      "status": "drafted",
+      "rule": "Entablature depth 1/5 to 1/4 of column height; cornice projection not less than the entablature depth -- c01, a hard constraint. Deep and heavily projecting, per defining_characteristics.",
+      "confidence": "high",
+      "judgment": false
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "triangular",
+          "status": "permitted"
+        },
+        {
+          "id": "segmental",
+          "status": "permitted"
+        },
+        {
+          "id": "broken-scroll",
+          "status": "atypical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Subordinate to the pavilion-and-attic composition the style actually terminates in (c04); a pediment is one available device among several, not the primary skyline move.",
+      "confidence": "medium",
+      "judgment": true
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-giant-order",
+          "status": "canonical",
+          "note": "Articulates the recessed wall plane between advanced pavilions -- c03."
+        },
+        {
+          "id": "paired-pilaster",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Runs the recessed intermediate wall between the advanced end and centre pavilions that c03 requires.",
+      "confidence": "high",
+      "judgment": false
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "presence": {
+          "value": "present wherever the entablature is bound; scaled to the monumental cornice, not the domestic one",
+          "unit": "none",
+          "kind": "editorial"
+        }
+      },
+      "status": "drafted",
+      "rule": "A full modillion or dentil course runs with the deep, heavily projecting cornice defining_characteristics describes -- this is the entablature's own module at the roofline, not a separate invention.",
+      "confidence": "medium",
+      "judgment": true
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "parapet-balustrade",
+          "status": "canonical",
+          "note": "c04: the composition must terminate above the cornice -- balustrade, attic storey, or sculptural group -- to a height not less than 1/8 of the wall height."
+        },
+        {
+          "id": "attic-storey-with-panels",
+          "status": "canonical"
+        },
+        {
+          "id": "plain-cornice-termination",
+          "status": "forbidden",
+          "note": "c04: 'A cornice that simply stops leaves the style unfinished.' This is precisely the move distinguished_from names against chateauesque, which terminates in a roof instead."
+        }
+      ],
+      "parameters": {
+        "min_termination_height": {
+          "value": 0.125,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "beaux-arts-american.c04",
+          "note": "Fraction of wall height."
+        }
+      },
+      "status": "drafted",
+      "rule": "The skyline is populated -- balustrades, urns, statuary, attic cartouches -- per diagnostic_tells, and is a hard-adjacent constraint (c04, soft severity) that the cornice never simply stops at.",
+      "confidence": "high",
+      "judgment": false
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "swag-and-urn",
+          "status": "canonical",
+          "note": "defining_characteristics: 'swags, cartouches, garlands, keystone masks, and free-standing figures on the skyline.'"
+        },
+        {
+          "id": "acanthus",
+          "status": "canonical",
+          "note": "Composite and Corinthian capitals."
+        },
+        {
+          "id": "rope-and-rosette",
+          "status": "permitted"
+        },
+        {
+          "id": "fan-and-patera",
+          "status": "forbidden",
+          "note": "Adam/Federal register, a different and later academic tradition."
+        },
+        {
+          "id": "guttae-triglyph",
+          "status": "atypical",
+          "note": "Doric service ranges only."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Abundant sculptural ornament in quantity, executed by hand at a density that would be oppressive at domestic scale -- swags, cartouches, garlands, keystone masks, skyline figures.",
+      "confidence": "high",
+      "judgment": false
     },
     "porch_type": {
       "group": "threshold",

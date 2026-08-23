@@ -11,24 +11,139 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-parapet",
+          "status": "canonical",
+          "note": "New Mexico, Texas, Arizona: round beams behind a parapet."
+        },
+        {
+          "id": "hip",
+          "status": "permitted",
+          "note": "The low tile roof of California and later Texas; own defining_characteristics."
+        },
+        {
+          "id": "side-gable",
+          "status": "forbidden",
+          "note": "Own diagnostic_tells: 'No gable roof anywhere in the compound.'"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Same as side-gable."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "No gable roof anywhere in the compound (own diagnostic_tells)."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "An Anglo/Dutch device, absent from this tradition."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "No gable roof anywhere in the compound (own diagnostic_tells)."
+        },
+        {
+          "id": "catslide",
+          "status": "forbidden",
+          "note": "No gable roof anywhere in the compound (own diagnostic_tells)."
+        },
+        {
+          "id": "saltbox",
+          "status": "forbidden",
+          "note": "No gable roof anywhere in the compound (own diagnostic_tells)."
+        },
+        {
+          "id": "shed",
+          "status": "forbidden",
+          "note": "The portal roof is a lean-to structure but the MAIN roof is never a shed; kept off the main massing's own list."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No gable roof anywhere in the compound (own diagnostic_tells): the roof is either flat behind a parapet, draining to canales, or a low hip under half-round clay tile. Which one is climate-determined, not a style choice.",
+      "confidence": "high"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_flat": {
+          "value": "0:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "note": "The azotea: canales drainage at 1/4 in per ft, not a roof pitch in the pitched-roof sense."
+        },
+        "pitch_tile_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_tile_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_forbidden_above": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "Either flat (1/4 in per ft to canales, behind a 12-24 in parapet) or 3:12 to 5:12 under half-round clay tile -- own hard constraint c04. Pitches above 6:12 are foreign to the tradition.",
+      "confidence": "high",
+      "note": "Specified rather than extends: the inherited colonial-iberian-americas figure (20-30 degrees, roughly 4.4:12-7:12) is a highland-Mexico tile figure with no flat-roof branch at all, and its upper bound exceeds this style's own 6:12 ceiling -- a genuine numeric conflict, not a refinement."
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-masonry-terrace",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "New Mexico",
+              "Texas",
+              "Arizona"
+            ]
+          },
+          "note": "The azotea, a monolithic lime-mortar/masonry flat terrace roof, not a discrete applied material -- see parapet and rainwater."
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "California",
+              "Florida"
+            ]
+          },
+          "note": "Teja, low-pitched, with a deep overhang; later also Texas."
+        },
+        {
+          "id": "wood-shingle",
+          "status": "forbidden",
+          "note": "Not part of this tradition's roofing vocabulary; contrast the Anglo-hybrid Monterey variant, where it arrives with Yankee sawmills."
+        },
+        {
+          "id": "slate",
+          "status": "forbidden",
+          "note": "Not part of this tradition's roofing vocabulary; the pitched roof is clay tile."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Roof material is climate-determined, not stylistically free: flat lime-mortar azotea in the dry high desert (New Mexico, Texas, Arizona), low-pitched clay tile on the wetter coast (California, later Texas). Mixing the two on one building is a revival error.",
+      "confidence": "high",
+      "note": "Restates the inherited colonial-iberian-americas rule with this style's own American-borderlands region labels; the ancestor's applies_when conditions (altiplano, tierra caliente) are highland-Mexico geography and never match this node's own regions."
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -88,20 +203,90 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "additive-accretive",
+          "status": "canonical",
+          "note": "Own massing_affinities: the linear room-file 'before it closes into a court' -- rooms are added end to end and the wing folds around the placita as need and money allow."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "The building grows by adding rooms end to end in a single-span-deep file, which folds around a courtyard as it accretes rather than being composed as a block from the start.",
+      "confidence": "high"
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "adobe",
+          "status": "canonical",
+          "op": "replace",
+          "note": "New Mexico and Texas; own defining_characteristics."
+        },
+        {
+          "id": "rammed-earth",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Coquina shellstone (St. Augustine) and rubble (California, Arizona) fall under this id in the absence of a dedicated rubble-construction id."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "permitted",
+          "op": "replace"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "atypical",
+          "op": "replace",
+          "note": "A later Anglo-hybrid addition only -- as at the González-Alvarez House's frame upper floor -- never the ground-storey load-bearing wall this style is defined by."
+        },
+        {
+          "id": "log",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Not part of this branch; the German Pennsylvania and backcountry branches build in log, not this one."
+        }
+      ],
+      "rule_append": "The wall is load-bearing mass -- adobe, rammed earth, rubble stone or coquina shellstone, whichever the province's ground provides -- never a frame with a veneer, and its height must not exceed ten times its thickness for adobe (eight times for unreinforced rubble) without buttressing."
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "thickness_in": {
+          "range": [
+            18,
+            60
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own defining_characteristics: 18 in to 5 ft; Acoma's Mission San Esteban del Rey reaches 9 ft at its extreme."
+        },
+        "height_to_thickness_ratio_adobe_max": {
+          "value": 10,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Own hard constraint c01."
+        },
+        "height_to_thickness_ratio_rubble_max": {
+          "value": 8,
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "The wall is between 18 in and 5 ft thick, sized to the height it must carry (not more than 10 times its thickness for adobe, 8 times for unreinforced rubble) rather than to any proportional module -- own hard constraint c01.",
+      "confidence": "high",
+      "note": "The inherited colonial-iberian-americas figure (24-40 in) is a highland-Mexico seismic-response range narrower than this style's own documented span; overridden with this node's own defining_characteristics and c01."
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -152,24 +337,43 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No quoin. Own diagnostic_tells: 'wall surfaces undulate -- hand-applied plaster over irregular adobe gives no straight arris and no true plane' -- there is no sharp corner for a quoin to sit on."
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No corner board. The mass wall has no frame corner to trim, and the plastered corner is deliberately soft rather than sharp."
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_depth_in": {
+          "range": [
+            18,
+            60
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Expresses the full wall thickness -- own hard constraint c03."
+        },
+        "reveal_splay": {
+          "value": "splayed toward the interior, widening the opening on the room side",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "The reveal shows the full depth of the wall: 'the window is a tunnel, not a hole' (own diagnostic_tells). Total glazed and door area does not exceed 15% of exterior wall area -- own hard constraint c03 -- and no exterior architrave or trim conceals the depth.",
+      "confidence": "high"
     },
     "reveal_frame": {
       "group": "envelope",
@@ -194,10 +398,21 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "height": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c04."
+        }
+      },
+      "status": "drafted",
+      "note": "The inherited height range (24-36 in) is a different figure from this style's own hard constraint (12-24 in); overridden by key rather than restating the whole slot."
     },
     "rainwater": {
       "group": "envelope",
@@ -206,22 +421,64 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "parameters": {
+        "wall_finish": {
+          "value": "mud plaster (enjarre) or lime plaster over adobe, rubble or rammed earth, whitewashed",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "The finish is mud or lime plaster, not a hard cement stucco: it is re-applied by hand periodically and the wall's undulation is part of the finish, not a defect corrected by it."
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "fixed",
+          "status": "canonical",
+          "note": "Or simply barred and unglazed, per own defining_characteristics: 'often simply barred rather than glazed.'"
+        },
+        {
+          "id": "casement-leaded",
+          "status": "permitted",
+          "note": "The earlier Hispanic layer, per the Monterey variant's own distinguished_from note."
+        },
+        {
+          "id": "double-hung",
+          "status": "forbidden",
+          "note": "An Anglo-American introduction; appears only where a later Anglo hybrid (e.g. Monterey Colonial) grafts onto this tradition, at which point the node has changed."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "glazed_area_pct_wall_max": {
+          "value": 15,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Own hard constraint c03."
+        },
+        "glazed_area_pct_wall_typical": {
+          "range": [
+            6,
+            15
+          ],
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "Total window and door area does not exceed 15% of exterior wall area -- a proportion set by what a gravity wall with no tensile capacity can afford to lose, not by a treatise ratio.",
+      "confidence": "high"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -316,10 +573,25 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-in-the-dependency-position",
+          "status": "canonical",
+          "note": "Hidden behind the blind street wall, entered from a side or rear service gate -- consistent with the style's own inward orientation: 'An Anglo house presents itself to the road and hides its yard; the Spanish house does the opposite.'"
+        },
+        {
+          "id": "front-facing-attached",
+          "status": "forbidden",
+          "note": "A garage door punched in the closed street wall contradicts the single controlled entry the whole composition depends on (own street_relationship)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "judgment": true,
+      "invented": true,
+      "confidence": "low",
+      "note": "No historical precedent exists for any traditional style (docs/inheritance.md); authored to be consistent with the style's own inward-facing, single-controlled-entry logic, not retrieved."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -335,10 +607,11 @@
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No classical column. The order is forbidden at the field-wall level already (own composition_parti: 'facade composition is not order-regulated'); the portal's own posts are simple wood, not a classical member -- see porch_support."
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -384,24 +657,75 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "recessed-loggia",
+          "status": "canonical",
+          "note": "The portal or corredor: a posted or arcaded covered walk, functioning as the corridor of a building that has no corridors. The closest fit in this ontology's enum to what own defining_characteristics calls a 'portal or corredor.'"
+        },
+        {
+          "id": "full-width",
+          "status": "permitted",
+          "note": "Where the portal fronts a single linear range rather than wrapping the court."
+        },
+        {
+          "id": "wrap-around",
+          "status": "permitted",
+          "note": "The full arcaded quadrangle of a mission or larger hacienda."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A portal or corredor -- a posted or arcaded covered walk, 8 to 14 ft deep -- faces the court, not the street, and serves as the building's circulation: one crosses open air to move from room to room rather than passing down an interior corridor.",
+      "confidence": "high"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            8,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own proportional_system."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "square-post",
+          "status": "canonical",
+          "note": "Simple wood post, sometimes carved as a corbel at the head -- own diagnostic_tells: 'a carved corbel over a post' is one of the style's only two permitted ornamental gestures."
+        },
+        {
+          "id": "arcaded-masonry-pier",
+          "status": "permitted",
+          "note": "The mission and larger-hacienda answer: square piers carrying an arcade, per own massing_affinities."
+        }
+      ],
+      "parameters": {
+        "post_spacing_ft": {
+          "range": [
+            6,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own proportional_system: bay rhythm set by post or pier spacing, not by the wall openings behind it."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_rail": {
       "group": "threshold",
@@ -440,10 +764,18 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "profile_family": {
+          "value": "none; the domestic interior is unornamented mud plaster and whitewash",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "There is no applied interior trim profile family. Own description: the domestic building is unornamented -- mud plaster, whitewash, a carved corbel over a post, an iron grille -- and everything the province could afford in carving went onto the single ornamented location, the church portada or campanario, not the house.",
+      "confidence": "high"
     },
     "baseboard": {
       "group": "interior",
@@ -559,10 +891,12 @@
     },
     "public_private_gradient": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Inverted from the Anglo default: the street elevation is a wall with a door in it, and the good rooms, the loggia, the fountain and the family face inward to the court. An Anglo house presents itself to the road and hides its yard; the Spanish house does the opposite.",
+      "confidence": "high"
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
@@ -587,10 +921,14 @@
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Daylight is limited by the depth of the reveal rather than by window area: a small, deep-set opening in a 2-5 ft wall admits a shaft of light rather than illuminating the room broadly. This is a different mechanism from a single-window-wall model and follows directly from the wall thickness the structure requires.",
+      "judgment": true,
+      "confidence": "medium",
+      "note": "Stated in the style's own bound proportion pack note (room-vernacular) as well as implied by the reveal depth in defining_characteristics; not a separately sourced daylighting study."
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -646,10 +984,12 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "The building sits on the ground, on a shallow stone footing at most -- never raised on a storey of piers or arcaded basement. Own distinguished_from (french-colonial-american): the Spanish tradition 'sits on the ground and faces inward to a court,' against the French tradition's raised floor facing outward to a gallery.",
+      "confidence": "high"
     }
   }
 }

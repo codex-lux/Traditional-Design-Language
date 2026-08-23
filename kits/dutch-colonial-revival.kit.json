@@ -11,17 +11,60 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gambrel",
+          "status": "canonical"
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "The inherited value; a gambrel, not a gable of any kind, is this variant's whole identity."
+        }
+      ],
+      "parameters": {
+        "lower_slope": {
+          "range": [
+            20,
+            24
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "dutch-colonial-revival.c01"
+        },
+        "upper_slope": {
+          "range": [
+            6,
+            9
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "dutch-colonial-revival.c01"
+        },
+        "break_point": {
+          "range": [
+            55,
+            65
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "dutch-colonial-revival.c01",
+          "note": "Percent of total roof height above the eave."
+        }
+      },
+      "status": "drafted",
+      "rule": "A two-slope gambrel: 20:12-24:12 below, 6:12-9:12 above, breaking at 55-65 percent of roof height -- c01, a hard constraint. Slopes closer than 8:12 apart produce a mansard and void the variant.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_pitch": {
       "group": "massing-and-roof",
       "binding": "open",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "empty",
+      "note": "Superseded by roof_form's own two-slope parameters (c01) -- a single rise_in_12 value cannot describe a gambrel's two independent slopes, so the real numbers live there instead of being forced into this slot."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +75,32 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "kick_projection": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "dutch-colonial-revival.c04"
+        },
+        "kick_flare_start": {
+          "range": [
+            18,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Up the slope from the eave."
+        }
+      },
+      "status": "drafted",
+      "rule": "Where an eave kick is used it projects 12-24 in past the wall, flares continuously across the full elevation, and returns at the gable ends -- c04. diagnostic_tells: 'its presence marks an architect or a good builder; its absence marks a catalog house.'",
+      "confidence": "high",
+      "judgment": false
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -60,10 +125,51 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "shed-dormer",
+          "status": "canonical",
+          "note": "Full-length, per defining_characteristics: 'the lower slope pierced by a long shed dormer... providing full-height second-floor accommodation.'"
+        },
+        {
+          "id": "gabled",
+          "status": "permitted",
+          "note": "A row of gabled dormers in place of a single shed dormer."
+        }
+      ],
+      "parameters": {
+        "min_headroom_at_3ft_in": {
+          "value": 7,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "dutch-colonial-revival.c02"
+        },
+        "dormer_setback_min": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "source": "dutch-colonial-revival.c03"
+        },
+        "dormer_ridge_below_main_min": {
+          "value": 24,
+          "unit": "in",
+          "kind": "measured",
+          "source": "dutch-colonial-revival.c03"
+        },
+        "dormer_length_pct_roof": {
+          "range": [
+            50,
+            75
+          ],
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "The lower slope must genuinely enclose habitable second-floor area -- minimum 7'0\" clear headroom 3'0\" in from the wall -- c02. A full-length shed dormer face sets back not less than 18 in from the wall plane, ridge not less than 24 in below the main ridge -- c03. Overrides the inherited georgian-colonial-american rule ('never break the eave line'), which is a different roof discipline entirely.",
+      "confidence": "high",
+      "judgment": false
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -81,10 +187,31 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "wall_height_to_eave": {
+          "range": [
+            9,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "One storey plus knee wall."
+        },
+        "roof_height_eave_to_ridge": {
+          "range": [
+            12,
+            16
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Wall height to eave 9-12 ft (one storey plus knee wall); roof height eave to ridge 12-16 ft -- the roof, not the wall, carries most of the building's height, which is the source of the type's whole floor-area economy."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -274,10 +401,22 @@
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "op": "add",
+          "applies_when": {
+            "note": "on dormer windows"
+          }
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Not permitted on dormer windows -- c05."
     },
     "special_window": {
       "group": "openings",
@@ -316,10 +455,19 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "attached-wing-under-a-subordinate-gambrel",
+          "status": "permitted",
+          "op": "add",
+          "note": "Continues the parent hip/gambrel roof discipline the way the inherited colonial-revival delta already permits for a hip roof."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true
     },
     "glazing_assembly": {
       "group": "openings",

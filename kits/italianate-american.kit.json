@@ -6,22 +6,63 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "balanced-asymmetrical-bracket-unified",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "rule_append": "Italianate is the other picturesque half of the family's split, but looser than Gothic Revival's silhouette hierarchy: 'the style works on a symmetrical box as readily as on an L' (defining_characteristics), with the constant bracket rhythm — not axial symmetry, not silhouette hierarchy — doing the work of unifying whatever plan results.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "low-hip-suppressed",
+          "status": "canonical"
+        },
+        {
+          "id": "shallow-gable",
+          "status": "permitted"
+        },
+        {
+          "id": "steep-gable",
+          "status": "forbidden",
+          "note": "Contradicts the defining low-pitched, suppressed roof; that is Gothic Revival's territory (distinguished_from)."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "'Add a mansard over the same brackets and it is Second Empire' — the single most common misidentification (diagnostic tells)."
+        }
+      ],
+      "rule": "Low-pitched hipped or shallow gabled roof, visually suppressed; the roof must be substantially concealed by the cornice when viewed from 40 ft at eye height (c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": 3,
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": 5,
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Principal roof pitch shall not exceed 5:12 (c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,17 +73,46 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wide-bracketed-eave",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "eave_projection_in": {
+          "range": [
+            18,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "bracket_spacing_in": {
+          "range": [
+            24,
+            48
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "bracket_pairing": {
+          "value": "paired at every external corner",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Eave projection between 18 and 36 in, brackets spaced 24 to 48 in on centre and paired at every external corner. Spacing greater than 48 in reads as ornament rather than as rhythm and fails the style (c01).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Diagnostic tell against Gothic Revival: 'brackets under a wide eave with no bargeboard: Italianate.' No bargeboard vocabulary here.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "cornice_return": {
       "group": "massing-and-roof",
@@ -81,17 +151,55 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "first_floor_ceiling_ft": {
+          "range": [
+            11,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "diminish_pct_per_storey": {
+          "range": [
+            8,
+            15
+          ],
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule": "First-floor ceiling 11 to 14 ft, diminishing 8 to 15 percent per storey above.",
+      "packs": [
+        {
+          "pack": "storey-graduation",
+          "precedence": 1
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "l-plan-tower-reentrant",
+          "status": "permitted"
+        },
+        {
+          "id": "symmetrical-box",
+          "status": "permitted"
+        },
+        {
+          "id": "additive-ell",
+          "status": "permitted"
+        }
+      ],
+      "rule": "An asymmetrical or additive plan is permitted but not required; the style works on a symmetrical box as readily as on an L.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +218,30 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clapboard-horizontal",
+          "status": "permitted"
+        },
+        {
+          "id": "brownstone-ashlar",
+          "status": "permitted",
+          "note": "The rowhouse register."
+        },
+        {
+          "id": "rusticated-masonry-coursed",
+          "status": "permitted"
+        },
+        {
+          "id": "board-and-batten-vertical",
+          "status": "forbidden",
+          "note": "Gothic Revival's signature; contradicts this style's horizontal emphasis (distinguished_from: 'horizontal versus vertical')."
+        }
+      ],
+      "rule": "Horizontal emphasis throughout: string courses, quoins, and clapboard or rusticated masonry courses reading across the elevation.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -145,17 +273,29 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "string-course-continuous",
+          "status": "canonical"
+        }
+      ],
+      "rule": "String courses articulate the horizontal read across the elevation (defining_characteristics).",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "quoins-emphasizing-horizontal-coursing",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Quoins reinforce the horizontal read rather than a classical corner order (defining_characteristics).",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "corner_board": {
       "group": "envelope",
@@ -180,10 +320,31 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "bracketed-fascia-cornice",
+          "status": "canonical"
+        },
+        {
+          "id": "modillion-dentil-cornice",
+          "status": "forbidden",
+          "note": "Diagnostic tell: 'if the cornice is carried on modillions or dentils rather than on sawn scroll brackets, it is Renaissance Revival and not Italianate.'"
+        }
+      ],
+      "parameters": {
+        "fascia_depth_ratio_of_projection": {
+          "range": [
+            0.5,
+            0.667
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Cornice fascia depth 1/2 to 2/3 of the eave projection, carried on sawn scroll brackets, never on modillions or dentils.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -211,17 +372,42 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "round-arched-paired",
+          "status": "canonical"
+        },
+        {
+          "id": "segmental-arched",
+          "status": "permitted"
+        },
+        {
+          "id": "pointed-or-lancet",
+          "status": "forbidden",
+          "note": "c03: window heads on any single elevation shall be of one family only; mixing round and pointed heads is forbidden."
+        }
+      ],
+      "rule": "Tall narrow windows with round-arched or segmental heads, frequently paired, with projecting hoods or moulded surrounds. One head family per elevation (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_to_width": {
+          "range": [
+            2.5,
+            3
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Window height to width 2.5:1 to 3:1.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -239,10 +425,16 @@
     },
     "window_head_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "projecting-moulded-hood",
+          "status": "canonical"
+        }
+      ],
+      "rule": "A projecting hood or moulded surround over the arched or segmental head.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -267,10 +459,16 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "paired-read-as-single",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Paired windows are read as a single opening — 'a two-light rhythm no other style of the period uses so consistently' (diagnostic tells, stated of the villa child and true of the parent style generally).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -328,80 +526,117 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical order governs the composition. Where classical detail appears at all — an incidental quoined corner, a plain door surround — it is at the plainest register (see the optional vignola-tuscan pack binding on the style node) and is never a projecting colonnade with entasis (diagnostic tells: 'never classical columns with entasis').",
+      "confidence": "high",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "chamfered-or-turned-wood-post",
+          "status": "canonical"
+        },
+        {
+          "id": "cast-iron-post",
+          "status": "permitted"
+        },
+        {
+          "id": "fluted-classical-column-with-entasis",
+          "status": "forbidden",
+          "note": "Diagnostic tells, verbatim."
+        }
+      ],
+      "rule": "Cast-iron or wooden porch posts with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical entablature; the cornice is the sawn bracket cornice (see `cornice`), not an order-derived entablature.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No pediment in the style's vocabulary; the tower and the eave, not a pediment, carry the composition's vertical and horizontal accents.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No pilaster order.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Diagnostic tells, verbatim: modillions or dentils on the cornice signal Renaissance Revival, not Italianate.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical balustrade in the style's vocabulary; cast-iron cresting, where used, is ornament rather than a classical balustrade.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "sawn-scroll-bracket-vocabulary",
+          "status": "canonical"
+        }
+      ],
+      "rule": "The bracket, the arched window head, the moulded hood, the turned porch post, and cast-iron cresting: ornament manufactured by steam saw and shipped by rail, not carved.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "veranda-bracketed-cornice",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Where a veranda is used, its cornice carries brackets at the main eave module or at exactly half that spacing (c05).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_min_ft": {
+          "value": 7,
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Porch depth not less than 7 ft where a veranda is used (c05).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "column"
+      ],
+      "rule": "Whatever `column` specifies: chamfered or turned wood, or cast iron.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",

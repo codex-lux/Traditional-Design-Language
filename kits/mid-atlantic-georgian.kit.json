@@ -95,8 +95,24 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "op": "replace",
+          "note": "18-24 in coursed stone or 13-18 in brick (c01, hard) -- the region's near-universal wall; 'the only American region where the Georgian house is normally built of stone.'"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Demoted from the inherited Georgian family's general permitted status: masonry is this region's canonical answer, not merely one option among several."
+        }
+      ],
+      "note": "Promotes masonry to canonical and demotes frame for this specifically stone-building region.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +126,27 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stone-ashlar",
+          "status": "canonical",
+          "note": "Wissahickon schist or local limestone, coursed ashlar on the front, rubble elsewhere -- 'the only American region where the Georgian house is normally built of stone' (own long description)."
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "canonical",
+          "note": "Delaware and the Maryland shore."
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "note": "The New England answer; this region 'expresses its wall rather than its trim' (own long description)."
+        }
+      ],
+      "rule": "Load-bearing masonry -- schist, limestone or brick -- is the region's near-universal wall, overriding the inherited Georgian family's wood-clapboard default.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -145,10 +178,50 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "pent-roof-shed",
+          "status": "canonical",
+          "op": "add",
+          "applies_when": {
+            "date_range": [
+              1715,
+              1770
+            ]
+          },
+          "note": "An unsupported shed 30-42 in deep at the second-floor line, on work before c. 1770 -- a Delaware Valley speciality appearing nowhere else in Georgian America in this form (own diagnostic tell #1). Mapped to this cardinality-many slot for lack of a dedicated pent-roof/mid-wall-shed slot in the ontology, alongside -- not instead of -- the parent's moulded belt course, since the two horizontal devices coexist (own long description: 'Two horizontal devices are the region's signature')."
+        }
+      ],
+      "parameters": {
+        "pent_projection": {
+          "range": [
+            30,
+            42
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "pent_pitch": {
+          "range": [
+            25,
+            35
+          ],
+          "unit": "deg",
+          "kind": "measured"
+        },
+        "pent_corner_return": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " Before about 1770, a second, competing horizontal -- the pent roof -- may also cross the facade or gable at the second-floor line: an unsupported shed 30-42 in deep at 25-35 degrees, returning 12-24 in at the corners (c05, soft); its presence dates a house to before the Revolution and within about eighty miles of Philadelphia (own long description).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -232,10 +305,36 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "keystoned-flat-arch",
+          "status": "canonical",
+          "op": "add",
+          "note": "Flat gauged brick arch with a 4-6 in rise and a 6-9 in projecting keystone -- the region's own signature, explicitly the feature tidewater-georgian's own kit forbids as wrong for Virginia ('the commonest way to build a Philadelphia front in Virginia'), and this node's own diagnostic tell #3."
+        }
+      ],
+      "parameters": {
+        "keystone_width": {
+          "range": [
+            6,
+            9
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "arch_rise": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " Window heads here are masonry and carry a keystone: a flat gauged brick arch, rise 4-6 in with a 6-9 in keystone, or a dressed stone lintel (c04, hard); a wood architrave head on masonry is incorrect.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_head_wood": {
       "group": "openings",

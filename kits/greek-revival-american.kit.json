@@ -18,10 +18,24 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_min": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "greek-revival-american constraint c05"
+        },
+        "pitch_max": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "greek-revival-american constraint c05"
+        }
+      },
+      "rule_append": "Narrower than the family's own 3:12-9:12 band: 4:12 to 6:12 (soft constraint c05) so that any gable reads as a pediment. Pitches above 8:12 push the building toward Gothic Revival.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -60,10 +74,10 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Where an upper half-storey is habitable it is lit through frieze-band windows, not a dormer, and a frieze window and a dormer must never appear on the same elevation (hard constraint c03) -- the frieze-band attic window is the style's own quietly ingenious substitute for the dormer the inherited Georgian roof relies on.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -81,10 +95,27 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "storey_diminution_required": {
+          "value": false,
+          "unit": "none",
+          "kind": "editorial",
+          "note": "Deliberately breaks the inherited Federal and Georgian diminishing-storey rule rather than merely adjusting it: this style unifies the whole facade height behind one continuous entablature carried on full-height columns, and its own typical_ratios name no diminution ratio at all, unlike federal-style's explicit 0.80-0.90 / 0.60-0.75."
+        },
+        "ceiling_height_ft": {
+          "range": [
+            10,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "storey-graduation pack authority note, 'Greek Revival 10-12 ft'"
+        }
+      },
+      "rule": "The column height equals the full facade height of the block it fronts, without exception in canonical work (proportional_system); the eye is not asked to read a graduated hierarchy of storeys behind the portico, because the order unifies them into one volume.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -159,10 +190,29 @@
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "corner-pilasters",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from permitted: a broad flat corner pilaster board is the style's standard corner treatment, not a decorative option among several."
+        }
+      ],
+      "parameters": {
+        "corner_pilaster_width_in": {
+          "range": [
+            8,
+            14
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-american typical_ratios",
+          "note": "Overrides the inherited Federal 1-1/4 in board-THICKNESS ceiling, which is a different dimension (thickness, not width) and remains compatible: the Greek Revival corner is a wide, flat, thin board, not a thick or deeply projecting one."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -180,17 +230,49 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "parameters": {
+        "cornice_of_entablature_ratio": {
+          "value": 0.25,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "greek-revival-american proportional_system: architrave : frieze : cornice approximately 3 : 3 : 2",
+          "note": "The cornice is the '2' of the 3:3:2 subdivision, i.e. one quarter of the full entablature depth."
+        }
+      },
+      "rule": "The cornice is the corona of a full entablature run continuously as a deep horizontal band around the building -- not the shallow, Federal-thinned corona that overrides this slot on the style's own parent -- and it is not reduced below constraint c02's floor: a cornice thinner than 1/8 of column height reads as Federal or Colonial Revival regardless of the columns below it.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "parameters": {
+        "frieze_depth_in": {
+          "range": [
+            10,
+            20
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-american typical_ratios; greek-revival-northern typical_ratios (10-20 in)"
+        },
+        "frieze_window_height_max_ratio": {
+          "value": 0.333,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "greek-revival-american constraint c03: frieze-band windows 'no taller than one third of the frieze depth'"
+        }
+      },
+      "rule": "A deep frieze band, 10 to 20 in, carried continuously under the eave, frequently pierced by small horizontal windows lighting a habitable attic (constraint c03) -- this is the diagnostic tell the style names before any other: small horizontal windows set into the frieze board directly under the eave, which no other American style does.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "parapet": {
       "group": "envelope",
@@ -281,10 +363,10 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No special window: no Palladian, no Venetian, no lunette, no oculus. Greek vocabulary is exclusive (constraint c04) and every one of the family's special windows depends on a curve or an arch this style eliminates; the habitable attic is lit through the frieze band instead (see frieze), not through a special window form.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "entry_door": {
       "group": "openings",
@@ -295,17 +377,80 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-architrave-with-crown-and-frieze",
+          "status": "canonical",
+          "note": "Broad flat pilasters carrying a heavy flat entablature -- Greek Revival's rectangular answer to the Georgian pedimented frontispiece and the Federal fanlight alike."
+        },
+        {
+          "id": "engaged-columns-and-pediment",
+          "status": "permitted",
+          "note": "On the grandest examples, matching the order of the main portico."
+        },
+        {
+          "id": "gibbs-surround",
+          "status": "forbidden",
+          "note": "Blocked and rusticated jambs are a Georgian device this style forbids alongside every other arch-derived or curved ornament (constraint c04)."
+        },
+        {
+          "id": "fanlight-over",
+          "status": "forbidden",
+          "note": "The Federal signature this style's own distinguished_from clause names directly against it: 'elliptical rather than rectangular transom lights'."
+        },
+        {
+          "id": "broken-scroll-pediment",
+          "status": "forbidden",
+          "note": "Curved, Baroque-derived ornament; excluded by the same vocabulary discipline as arches and domes (constraint c04)."
+        },
+        {
+          "id": "swan-neck-pediment",
+          "status": "forbidden",
+          "note": "Same objection as broken-scroll-pediment."
+        },
+        {
+          "id": "no-surround",
+          "status": "forbidden",
+          "note": "The entrance is where the style concentrates its whole classical vocabulary; a bare opening is not this style at any scale, from the plainest upland farmhouse to the largest plantation portico."
+        }
+      ],
+      "rule": "A rectangular opening framed by broad flat pilasters carrying a heavy flat entablature at least 12 in deep, inside a pilastered surround -- no curve, no ellipse, no rustication anywhere in the assembly.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "canonical",
+          "note": "The single fastest Federal/Greek Revival discriminator on a plain house: rectangular, never curved."
+        },
+        {
+          "id": "sidelights",
+          "status": "permitted",
+          "note": "Optional rather than required -- unlike Federal, where the fanlight requires them."
+        },
+        {
+          "id": "none",
+          "status": "permitted"
+        },
+        {
+          "id": "elliptical-fanlight",
+          "status": "forbidden",
+          "note": "The Federal signature this style eliminates outright (defining_characteristics: 'elliptical fanlights eliminated')."
+        },
+        {
+          "id": "semicircular-fanlight",
+          "status": "forbidden",
+          "note": "Same exclusion as elliptical-fanlight; a round-headed transom is a Roman/Jeffersonian or Georgian device, not this style's."
+        }
+      ],
+      "rule": "The entrance is a rectangular opening with a rectangular transom, sidelights optional, inside the pilastered surround (constraint c04) -- door transom shape is the single fastest Federal/Greek Revival discriminator on a plain house.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_door": {
       "group": "openings",
@@ -328,45 +473,243 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "doric-greek",
+          "status": "canonical",
+          "note": "Baseless, 5.5-7 lower diameters. The order's own defining_characteristics: 'baseless fluted Doric, Greek Ionic, or the Tower-of-the-Winds Corinthian; no Roman arches, no domes, no Composite'."
+        },
+        {
+          "id": "ionic-greek",
+          "status": "canonical",
+          "note": "8.5-9.5 diameters. No Benjamin/dedicated Greek Ionic pack exists in this corpus; the style's own binding of plain vignola-ionic is an honest stand-in, its 9-diameter column landing inside this range."
+        },
+        {
+          "id": "corinthian",
+          "status": "permitted",
+          "note": "The Tower-of-the-Winds type specifically, about 10 diameters -- named in the style's own typical_ratios, rare relative to Doric and Ionic."
+        },
+        {
+          "id": "doric-roman",
+          "status": "forbidden",
+          "note": "A base under a Doric order means Roman, which means Jeffersonian or a later revival, per this style's own diagnostic_tells."
+        },
+        {
+          "id": "ionic-scamozzi",
+          "status": "forbidden",
+          "note": "The Adam-attenuated Federal order this style thickens against, per its own reacts_against lineage edge."
+        },
+        {
+          "id": "tuscan",
+          "status": "forbidden",
+          "note": "Roman, and absent from the style's own three named Greek orders."
+        },
+        {
+          "id": "composite",
+          "status": "forbidden",
+          "note": "Explicitly excluded in defining_characteristics: 'no Composite'."
+        },
+        {
+          "id": "vernacular-abstracted",
+          "status": "atypical",
+          "note": "The upland vernacular's trim-only expression carries the proportion without a built order at all; see greek-revival-upland-vernacular."
+        }
+      ],
+      "parameters": {
+        "authority": {
+          "value": "Asher Benjamin, The Architect, or Practical House Carpenter (1830); Minard Lafever, The Beauties of Modern Architecture (1835); James Stuart and Nicholas Revett, The Antiquities of Athens (1762-1830), at fourth hand through the handbooks",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Greek orders only -- baseless fluted Doric, Greek Ionic, or the rare Tower-of-the-Winds Corinthian -- taken at second or third hand from Stuart and Revett through Benjamin and Lafever; no Roman arches, domes, Composite, or base under a Doric column.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "variants": [
+        {
+          "id": "doric-roman-plain",
+          "status": "forbidden",
+          "note": "Roman, not Greek, and a base under a Doric order rules the building out of this style regardless of the rest of its trim."
+        },
+        {
+          "id": "ionic-scamozzi-fluted",
+          "status": "forbidden",
+          "note": "Adam-attenuated Federal proportion."
+        },
+        {
+          "id": "square-pier",
+          "status": "atypical",
+          "note": "The upland vernacular's carpenter answer where a built order is not affordable at all."
+        }
+      ],
+      "parameters": {
+        "height_diameters_doric": {
+          "range": [
+            5.5,
+            7
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "benjamin-doric pack (7 diameters); Parthenon Doric is 5.5"
+        },
+        "height_diameters_ionic": {
+          "range": [
+            8.5,
+            9.5
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "base": {
+          "value": "none under Doric; a base is permitted under Ionic and Corinthian only",
+          "unit": "none",
+          "kind": "measured",
+          "source": "constraint c01 / c04"
+        },
+        "construction": {
+          "value": "built up of staves like a barrel and hollow inside, flutes gouged not applied, shaft entasis carried through the joint, ventilated at cap and base",
+          "unit": "none",
+          "kind": "measured",
+          "source": "greek-revival-northern constraint c05, generalised to the style"
+        }
+      },
+      "rule": "The column is thickened rather than thinned -- 5.5 to 7 diameters for Doric, 8.5 to 9.5 for Ionic -- sitting directly on the porch deck with no base under a Doric order; in wood it is built up of staves rather than turned solid, and the illusion of stone is completed in white lead paint.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "parameters": {
+        "total_height_ratio": {
+          "range": [
+            0.2,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "greek-revival-american constraint c02: 'entablature depth must be 1/4 to 1/5 of column height'"
+        },
+        "subdivision": {
+          "value": "architrave : frieze : cornice approximately 3 : 3 : 2",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "min_ratio_reads_as_federal": {
+          "value": 0.125,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Below 1/8 of column height the entablature reads as Federal or Colonial Revival regardless of the columns below it."
+        }
+      },
+      "rule": "The single most diagnostic ratio in the style: entablature depth is 1/4 to 1/5 of column height, subdivided architrave : frieze : cornice at approximately 3 : 3 : 2 -- the exact proportional inversion of the Federal entablature this style reacts against.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "broken-scroll",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Curved, Baroque-derived furniture logic; excluded outright by this style's vocabulary discipline (constraint c04), not merely restricted to doorways."
+        },
+        {
+          "id": "swan-neck",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Same exclusion as broken-scroll."
+        },
+        {
+          "id": "segmental",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A segmental (curved) pediment is an arch-derived form; constraint c04 forbids round-headed arches in every other guise and this is the same exclusion applied to the pediment."
+        }
+      ],
+      "parameters": {
+        "rise_over_span": {
+          "range": [
+            0.182,
+            0.222
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "greek-revival-american proportional_system: 'pediment height 1/4.5 to 1/5.5 of its span'"
+        }
+      },
+      "rule_append": "Where no full pediment is built, the cornice must return at least 12 in onto the gable end (constraint c05) -- the cheapest possible gesture toward a pediment, and the commonest single Greek Revival tell in vernacular work.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "parameters": {
+        "width_in": {
+          "range": [
+            8,
+            14
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-american typical_ratios: 'corner pilasters 8-14 inches'"
+        },
+        "projection_in": {
+          "range": [
+            1,
+            1.5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-northern typical_ratios"
+        }
+      },
+      "rule": "A broad, flat, unmoulded pilaster board, 8 to 14 in wide -- ornament by profile and mass rather than by relief carving, and against the Federal pilaster's 3 in projection cap this is width, not depth, doing the work.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "plain-bed-mould",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The Doric entablature's own cornice runs on guttae and mutules, not a modillion or dentil course; where Doric governs, the bed mould is plain."
+        },
+        {
+          "id": "dentil-band",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Correct under an Ionic or Corinthian order, not under Doric."
+        },
+        {
+          "id": "modillion-block",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The Federal-thinned and Georgian modillion block; this style's cornice depth is carried by mass and projection, not by a run of carved blocks."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -377,17 +720,121 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "variants": [
+        {
+          "id": "guttae-triglyph",
+          "status": "canonical",
+          "note": "The Doric signature -- 'correctly detailed with triglyphs, metopes and guttae' per this style's own exemplar note on Berry Hill."
+        },
+        {
+          "id": "acanthus",
+          "status": "permitted",
+          "note": "Only where the rare Tower-of-the-Winds Corinthian order is used; not a general-purpose motif here."
+        },
+        {
+          "id": "none",
+          "status": "permitted",
+          "note": "The upland vernacular strain runs no carved ornament at all; the trim widths alone carry the classical reading."
+        },
+        {
+          "id": "swag-and-urn",
+          "status": "forbidden",
+          "note": "Adamesque and Federal. Excluded here on the same reacts_against logic that makes this style's own entablature the proportional inverse of Federal's."
+        },
+        {
+          "id": "fan-and-patera",
+          "status": "forbidden",
+          "note": "Federal low-relief applied ornament; this style carves in mass, not in applied composition."
+        },
+        {
+          "id": "husk-chain",
+          "status": "forbidden",
+          "note": "Federal, pendant and thin; the opposite register from this style's broad flat trim."
+        },
+        {
+          "id": "oval-patera",
+          "status": "forbidden",
+          "note": "The Adam oval, a Federal signature this style is defined against."
+        },
+        {
+          "id": "reeding",
+          "status": "forbidden",
+          "note": "Low-relief Adamesque surface treatment; not part of this style's flat-board, mass-and-profile vocabulary."
+        },
+        {
+          "id": "dentil",
+          "status": "atypical",
+          "note": "See modillion_dentil: correct only under Ionic or Corinthian, not the canonical Doric."
+        },
+        {
+          "id": "modillion",
+          "status": "forbidden",
+          "note": "See modillion_dentil."
+        }
+      ],
+      "parameters": {
+        "relief": {
+          "value": "carved in mass or built up in wood, never applied composition casting",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Greek vocabulary is exclusive (constraint c04): guttae and triglyphs under the Doric entablature, acanthus reserved for the rare Corinthian order, and no round-headed arch, dome, elliptical fanlight, or Adamesque applied motif anywhere on the building.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "entry-portico",
+          "status": "canonical",
+          "note": "Full-height, the governing facade gesture: column height equals the full height of the block it fronts, without exception in canonical work."
+        },
+        {
+          "id": "full-width-porch",
+          "status": "permitted",
+          "note": "The temple-front-with-wings and gable-front massings both run a full-width, full-height portico or colonnade across the principal block."
+        },
+        {
+          "id": "stoop-only",
+          "status": "atypical",
+          "note": "The cheapest vernacular examples reduce to trim boards and a doorway with no portico at all; see greek-revival-upland-vernacular."
+        },
+        {
+          "id": "two-tier-engaged-portico",
+          "status": "forbidden",
+          "note": "A superimposed two-order portico is a Georgian and Southern-colonial device; this style's single continuous entablature runs the full height on one order."
+        },
+        {
+          "id": "recessed-loggia",
+          "status": "forbidden",
+          "note": "Cutting a loggia into the front breaks the wall plane the full-height portico depends on."
+        },
+        {
+          "id": "wrap-around-porch",
+          "status": "forbidden",
+          "note": "Queen Anne; a Northern Greek Revival house never wraps its colonnade (see greek-revival-southern-plantation for the variant that does, on different grounds)."
+        },
+        {
+          "id": "engaged-under-roof",
+          "status": "forbidden",
+          "note": "A Creole and Gulf Coast device, not this style's own vocabulary."
+        },
+        {
+          "id": "sleeping-porch",
+          "status": "forbidden",
+          "note": "1900-1930, decades after the style's own floruit ends in 1860."
+        }
+      ],
+      "rule": "A portico whose column height equals the full facade height of the block it fronts (hard constraint c01) -- a two-storey block with one-storey columns is not Greek Revival, it is Colonial Revival or a later hybrid.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
@@ -398,10 +845,52 @@
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "baseless-greek-doric-column",
+          "status": "canonical",
+          "op": "add",
+          "note": "Sits directly on the porch deck with no base; a base under a Doric column means Roman, which means Jeffersonian or a later revival (this style's own diagnostic_tells)."
+        },
+        {
+          "id": "doric-roman-column",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Roman, based; excluded by the same rule as above."
+        },
+        {
+          "id": "tuscan-column",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Roman, not among the style's three named Greek orders."
+        },
+        {
+          "id": "ionic-column",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Greek Ionic at 8.5-9.5 diameters remains one of the style's own three named orders, but Doric is the far commoner porch support."
+        },
+        {
+          "id": "column-without-answering-pilaster",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Inherited rule still holds: a free column with no answering pilaster on the wall behind it reads as furniture stood in front of the house."
+        }
+      ],
+      "parameters": {
+        "column_height_diameters": {
+          "range": [
+            5.5,
+            7
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "greek-revival-american proportional_system, Doric"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_rail": {
       "group": "threshold",
@@ -440,24 +929,59 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "trim-classical:wall_section_greek",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The inherited Georgian record already names this id as 'the successor's successor' and forbids it; this style is that successor, and the flip from forbidden to canonical is the point."
+        },
+        {
+          "id": "trim-classical:wall_section_georgian",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Heavier and more deeply modelled than this style's own corner-blocked, pedestal-less trim; mixing families is the interior equivalent of mixing typefaces."
+        },
+        {
+          "id": "trim-classical:wall_section_federal",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Federal's flattened, applied-composition family is the proportional opposite of this style's heavy carved corner-block trim."
+        }
+      ],
+      "rule_append": "The pedestal has been abandoned entirely -- heavy symmetrical architraves with corner blocks, deep plain baseboards, a black marble mantel of two square posts and a slab.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "baseboard": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "height_in": {
+          "value": 10.25,
+          "unit": "in",
+          "kind": "measured",
+          "source": "trim-classical pack, wall_section_greek_revival",
+          "note": "10 1/4 in in only two members, against Georgian's 6 7/8 in in three -- 'the pedestal has been abandoned entirely'."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "casing": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "corner_block": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "note": "Heavy symmetrical architraves with corner blocks are the style's own stated interior signature, distinct from the mitred Georgian and Federal casing this slot otherwise inherits."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "crown": {
       "group": "interior",

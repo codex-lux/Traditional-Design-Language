@@ -6,8 +6,33 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "additive-vernacular",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1760
+            ]
+          },
+          "note": "Three bays, before symmetry arrives."
+        },
+        {
+          "id": "near-symmetrical-gentry-front",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1760,
+              1820
+            ]
+          },
+          "note": "Own proportional_system: symmetry is 'near-symmetrical' and the door centres on a five-bay front 'once symmetry arrives' after c. 1760, 'because the neighbours were English.'"
+        }
+      ],
+      "confidence": "high"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -60,10 +85,11 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No continuous shed dormer on any roof slope -- own hard constraint c03, the diagnostic marker of Dutch Colonial Revival and absent from every colonial Bergen house."
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -288,10 +314,17 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "dutch-door",
+          "status": "canonical",
+          "note": "Split horizontally into independently operable upper and lower leaves -- own defining_characteristics."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "door_surround": {
       "group": "openings",
@@ -302,10 +335,38 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1760,
+              1820
+            ]
+          },
+          "note": "Own defining_characteristics: 'a Dutch door with a transom' after c. 1760."
+        },
+        {
+          "id": "none",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1760
+            ]
+          }
+        },
+        {
+          "id": "sidelights",
+          "status": "forbidden",
+          "note": "Not part of this plain-door tradition; contrast the Georgian frontispiece next door."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_door": {
       "group": "openings",
@@ -384,24 +445,63 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "full-width",
+          "status": "canonical",
+          "note": "Born in the mid-18th century when posts were put under the sprung eave and it was extended to 8-10 ft -- own description: 'the direct ancestor of a habit that would eventually cover the entire United States.'"
+        },
+        {
+          "id": "none",
+          "status": "permitted",
+          "note": "Earlier work, before the eave was posted."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            8,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own soft constraint c05."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "square-post",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "post_spacing_ft": {
+          "range": [
+            8,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own soft constraint c05."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "porch_rail": {
       "group": "threshold",
@@ -412,10 +512,12 @@
     },
     "porch_ceiling": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "The porch roof is the continued sprung-eave roof plane itself, not a separate structure with its own pitch -- own soft constraint c05 and diagnostic_tells: 'the porch, where present, is an extension of the roof plane rather than a separate structure.'",
+      "confidence": "high"
     },
     "steps_and_stoop": {
       "group": "threshold",
@@ -538,17 +640,47 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hall-and-parlor",
+          "status": "canonical",
+          "note": "'The plan behind it stays simple and stays Dutch for a long time... no passage' -- own description."
+        },
+        {
+          "id": "center-passage-single-pile",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1760,
+              1820
+            ]
+          },
+          "note": "Arrives only 'because the neighbours were English,' own description -- the same Anglicization that centres the door on a five-bay front."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gable-end-paired",
+          "status": "canonical",
+          "note": "One or both gable ends, serving hearths in each principal room -- own defining_characteristics; matches the sibling chimney binding."
+        },
+        {
+          "id": "central-stack",
+          "status": "forbidden",
+          "note": "First Period New England; destroys the open Dutch plan (matches sibling chimney rule, own c01)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -580,10 +712,28 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical",
+          "note": "One or two rooms deep, own proportional_system, for the long Dutch-plan floruit."
+        },
+        {
+          "id": "double-pile",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1760,
+              1820
+            ]
+          },
+          "note": "The post-1760 Bergen house with a centre hall behind the Dutch section, own massing_affinities."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "daylight_strategy": {
       "group": "plan-logic",

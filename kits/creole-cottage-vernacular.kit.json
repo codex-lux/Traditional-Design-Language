@@ -67,10 +67,22 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "interior-on-room-partition",
+          "status": "canonical",
+          "note": "On the partition between each pair of rooms, so the masonry heats two rooms and stays inside the envelope; never on the exterior gable wall (c04, own long description)."
+        },
+        {
+          "id": "gable-end-exterior",
+          "status": "forbidden",
+          "note": "The Dutch/New England/Tidewater answer; wrong here because it would put the chimney mass outside the envelope in a plan that keeps it interior."
+        }
+      ],
+      "rule": "Chimneys are internal, on the partition between paired rooms, never on the exterior gable wall (c04, soft).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -384,24 +396,49 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "abat-vent",
+          "status": "canonical",
+          "op": "add",
+          "note": "Unique to the Gulf Creole tradition: a roof plane or separate shed projecting 30-48 in over the sidewalk on wrought-iron rods or timber brackets, with nothing touching the ground -- the dense urban cottage's answer where posts cannot stand on the banquette (own diagnostic tell #2, c03 hard)."
+        }
+      ],
+      "note": "Adds the abat-vent as a second, cottage-specific canonical option alongside the parent's inherited galerie.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "abat_vent_projection": {
+          "range": [
+            30,
+            48
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " Where the front shelter is an abat-vent rather than a galerie, it projects 30-48 in (c03, hard).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "iron-rod-or-bracket-no-post",
+          "status": "canonical",
+          "op": "add",
+          "note": "For the abat-vent condition: wrought-iron rods or timber brackets carry the projecting shed, and nothing touches grade."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_rail": {
       "group": "threshold",
@@ -538,10 +575,21 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "front_door_count": {
+          "set": [
+            2,
+            4
+          ],
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " In the cottage specifically there are two or four identical front doors, one per front room, with no window between them and no way to tell which is 'the' entrance (own diagnostic tell #1); the shotgun's later, single-file, one-room-wide plan is easily confused with this but is a genuinely different, later type (own distinguished_from note).",
+      "note": "Refines the parent french-colonial-american no-corridor rule with the cottage's own specific door count and the shotgun-house disambiguation.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -646,10 +694,21 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "floor_height_above_grade": {
+          "range": [
+            12,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " In the cottage specifically, 12-36 in on brick piers (c04, hard); no basement, no water table.",
+      "note": "Narrows the parent's family-wide raised-floor minimum (>=18 in) to the cottage's own measured range.",
+      "status": "drafted",
+      "confidence": "high"
     }
   }
 }

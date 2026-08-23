@@ -6,8 +6,21 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "centre_advance_in": {
+          "range": [
+            11.8,
+            23.6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "english-georgian-country-house proportional_system typical_ratios: 'Centre projection 300-600 mm over three bays'"
+        }
+      },
+      "rule_append": "All four elevations use the same bay module, window head and cornice, so the house resolves as a solid seen in the round from the park rather than a front with a back (hard constraint c03) -- the discipline a terrace or a town house never has to meet, since neither is seen from more than one side.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -81,17 +94,55 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "second_floor_ratio_of_first": {
+          "range": [
+            0.7,
+            0.8
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-georgian-country-house proportional_system typical_ratios: 'second floor 0.7-0.8 of the first'"
+        },
+        "attic_ratio_of_first": {
+          "range": [
+            0.5,
+            0.6
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-georgian-country-house proportional_system typical_ratios: 'attic 0.5-0.6'"
+        }
+      },
+      "rule_append": "This is the free-standing case the family text describes by default: ground floor tallest, every storey above diminishing, restated as this variant's own hard constraint c02 -- the graduation identifies the building as rural 'at a glance' against the town house's inverted, first-floor-peaked arrangement.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flanking-symmetrical-dependencies",
+          "status": "canonical",
+          "note": "Overrides the generic H-plan Tudor gentry-house content this slot would otherwise inherit through the corpus's deep vernacular ancestry: this variant's own service wing is a screened, ASYMMETRICAL block joined to a strictly symmetrical main range (defining_characteristics, constraint c01), the reverse relationship of a Tudor E/H-plan, where the wings themselves are symmetrical about the hall range."
+        }
+      ],
+      "parameters": {
+        "wing_ridge_deficit_pct_min": {
+          "value": 25,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "english-georgian-country-house constraint c04 (hard, tested)"
+        }
+      },
+      "rule": "The main block is strictly symmetrical about the entrance axis, including chimney positions; asymmetry is permitted only in the service wing, which must be visually subordinate, set back, and screened by planting so that the park's own fiction -- that the house is not a place of work -- holds (hard constraints c01, c04).",
+      "sources": [
+        "english-georgian-country-house style node, defining_characteristics, constraints c01, c04"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "construction_type": {
       "group": "envelope",
@@ -218,10 +269,24 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "sash_ratio": {
+          "range": [
+            1.7,
+            2.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-georgian-country-house proportional_system typical_ratios and constraint c02"
+        }
+      },
+      "rule": "Sash proportion 1.7:1 to 2:1, in 12-over-12 lights before about 1770 and 6-over-6 after (the same dating ladder as the trunk style, run the full length of this type's 1720-1830 span) -- a single vertical sash proportion, replacing the wide horizontal medieval mullion-and-transom window this slot would otherwise inherit through the corpus's deep Tudor-Jacobean ancestry.",
+      "sources": [
+        "english-georgian-country-house style node, proportional_system, constraint c02"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -232,10 +297,21 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-gauged-brick-arch",
+          "status": "canonical",
+          "note": "The same distinction the parent style states directly against its own Baroque ancestor -- 'a flat-arched or gauged-brick window head instead of a keyed segmental one' -- replacing the deep, boldly keyed Baroque head this slot would otherwise inherit from the sibling english-baroque node."
+        }
+      ],
+      "rule": "A flat gauged-brick or plain stone arch, restrained to match the wall ornament this variant limits to plinth, string course, quoins and crowning cornice (soft constraint c05); never the deep keyed Restoration head.",
+      "sources": [
+        "english-baroque style node, distinguished_from (english-georgian entry)",
+        "english-georgian-country-house style node, constraint c05"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_head_wood": {
       "group": "openings",
@@ -295,10 +371,10 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "'A Doric or Ionic doorcase from a plate' at grade or up a short flight is the type's actual entrance -- not a portico standing on a rusticated basement, which would reclassify the house as Palladian (soft constraint c05: 'Pilasters or a portico require a Palladian rather than a Georgian classification').",
+      "status": "drafted",
+      "confidence": "high"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -328,10 +404,25 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gibbs-ionic",
+          "status": "canonical",
+          "note": "'The five-part scheme, the pedimented centre, the Venetian window and the piano nobile survive here in reduced and affordable form, transmitted through Gibbs, Ware and Robert Morris's Select Architecture' (this node's own lineage note) -- replacing the Palladio-mediated order this slot would otherwise inherit, which belongs to the aristocratic parent this variant deliberately builds at a quarter of the cost."
+        },
+        {
+          "id": "gibbs-doric",
+          "status": "permitted",
+          "note": "The subordinate wing and service court's plainer order, graded below the main block's Ionic centre exactly as hard constraint c04 requires the wing to be subordinate in height."
+        }
+      ],
+      "rule": "The order appears at the doorcase and, where used, the cornice and any Venetian window -- drawn from exactly the Gibbs and Ware plates the American colonies also owned, at the same date, for the same reason -- never from a portico standing on a rusticated basement.",
+      "sources": [
+        "english-georgian-country-house style node, lineage, proportion_packs"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "column": {
       "group": "classical-apparatus",
@@ -356,10 +447,25 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "window-aedicule",
+          "status": "forbidden",
+          "note": "Overrides the Palladian piano-nobile window-aedicule this slot would otherwise inherit -- this variant's own soft constraint c05 forbids the applied pilaster order outright: 'Pilasters or a portico require a Palladian rather than a Georgian classification.'"
+        },
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "Wall ornament is limited to plinth, string course, quoins and crowning cornice, plus one accented centre (soft constraint c05) -- no applied pilaster order runs anywhere on the elevation."
+        }
+      ],
+      "rule": "No pilaster order at all: a house that carries one has crossed into the Palladian style, per this variant's own explicit classification rule.",
+      "sources": [
+        "english-georgian-country-house style node, constraint c05"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -377,10 +483,25 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plinth-string-quoin-cornice-only",
+          "status": "canonical",
+          "note": "'Wall ornament limited to plinth, string course, quoins and crowning cornice, plus one accented centre' (soft constraint c05) -- replacing the Palladian licensed-points-only rule (centrepiece, piano-nobile aedicules, cornice, Venetian and Diocletian windows) this slot would otherwise inherit, which assumes a piano-nobile hierarchy and a rusticated basement this variant does not build."
+        },
+        {
+          "id": "portico-or-applied-pilaster",
+          "status": "forbidden",
+          "note": "Soft constraint c05: a portico or applied pilaster order reclassifies the house as Palladian rather than Georgian."
+        }
+      ],
+      "rule": "Ornament is confined to plinth, string course, quoins, crowning cornice and one accented centre bay -- everything else the doorcase carries.",
+      "sources": [
+        "english-georgian-country-house style node, constraint c05, diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_type": {
       "group": "threshold",
@@ -625,10 +746,20 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "screened-service-court",
+          "status": "canonical",
+          "note": "'A service wing that is symmetrical about nothing, joined to a main block that is symmetrical about everything' (diagnostic_tells) -- the stable and service court is deliberately screened from the park front by planting so the park's fiction that the house is not a place of work can hold (description, long)."
+        }
+      ],
+      "rule": "Service and stable accommodation is pushed into a subordinate wing or a detached court, joined by a passage, and screened from the principal park front by trees -- never displayed on the same elevation as the main block.",
+      "sources": [
+        "english-georgian-country-house style node, diagnostic_tells, description (long)"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "fence_wall": {
       "group": "site",
@@ -639,10 +770,25 @@
     },
     "landscape_idiom": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "landscape-park",
+          "status": "canonical",
+          "note": "Capability Brown's practice from the 1750s onward 'removed the formal garden, brought grass up to the walls, and made the house an object standing in an idealised pasture' (description, long) -- replacing the working-agricultural-ground idiom (terraced retaining walls, an axial approach) this slot would otherwise inherit through the corpus's deep mediterranean-vernacular ancestry, which describes a wholly different Italian farmhouse relationship to its land."
+        },
+        {
+          "id": "designed-ornamental-garden-as-separate-work",
+          "status": "forbidden",
+          "note": "The whole point of the landscape park is that grass runs to the wall with no formal garden or forecourt intervening; a house set in a designed ornamental garden read as its own separate work belongs to an earlier or later idiom."
+        }
+      ],
+      "rule": "Grass to the walls, no formal forecourt, and a roofline and four elevations composed to resolve when seen in the round at a quarter of a mile -- the house is designed to stand as a single object in an idealised, grazed landscape, not framed by a garden.",
+      "sources": [
+        "english-georgian-country-house style node, description (long)"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "grade_relationship": {
       "group": "site",

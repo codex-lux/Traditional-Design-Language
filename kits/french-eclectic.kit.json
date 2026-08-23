@@ -11,17 +11,76 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Hipped roof of equal pitch on all four sides with no front gable. One dominant cross-gable and the house is Tudor Revival, not French Eclectic.' Overrides the inherited tudor-revival cross-gable value, which is precisely the wrong-style tell."
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "forbidden",
+          "note": "A cross-gable dominant enough to read as a gable-on-hip crosses c01's 25 percent front-elevation-width cap and converts the house to Tudor Revival."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "The inherited tudor-revival canonical value; forbidden here for the reason stated on 'hip'."
+        }
+      ],
+      "parameters": {
+        "front_gable_width_max_pct": {
+          "value": 25,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "french-eclectic.c01"
+        }
+      },
+      "status": "drafted",
+      "rule": "A hipped roof at substantially the same pitch on all faces, ridge short relative to the plan; no front-facing gable may occupy more than 25 percent of the primary elevation width -- c01, a hard constraint.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_min": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "french-eclectic.c01"
+        },
+        "pitch_typical_range": {
+          "range": [
+            12,
+            18
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_constancy": {
+          "value": "constant within 1:12 across all faces",
+          "unit": "none",
+          "kind": "measured",
+          "source": "french-eclectic.c01"
+        },
+        "eave_to_wall_ratio": {
+          "range": [
+            0.6,
+            1.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "So the roof reads as 40-50 percent of the elevation."
+        }
+      },
+      "status": "drafted",
+      "rule": "Not less than 12:12 and constant within 1:12 across all faces -- c01. Corrects an inherited tudor-revival value (10:12 minimum, permitted to vary by cross-gable) that describes the wrong style's roof discipline.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -53,24 +112,82 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush",
+          "status": "canonical",
+          "note": "No dominant front gable at all is the usual case -- diagnostic_tells names its absence directly."
+        },
+        {
+          "id": "half-timbered",
+          "status": "atypical",
+          "note": "Where a subordinate gable end occurs on the informal subtype only; never the dominant gable-front reading the inherited tudor-revival binding describes."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "The style is defined by the absence of a dominant front-facing gable, which is the element that would immediately make the house read as Tudor Revival. Overrides the inherited value, which states half-timbering as the style's 'identifying gable treatment' -- true of Tudor Revival, not of this style.",
+      "confidence": "high",
+      "judgment": false
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wall-dormer",
+          "status": "canonical",
+          "note": "c02: dormers of the principal rank must be wall dormers whose cheeks continue the wall material and whose sills sit at or below the eave line."
+        },
+        {
+          "id": "segmental-arched",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'most often arched or segmental-headed with hipped or eyebrow roofs.'"
+        },
+        {
+          "id": "hipped",
+          "status": "permitted"
+        },
+        {
+          "id": "gabled",
+          "status": "permitted",
+          "applies_when": {
+            "note": "secondary attic lights only"
+          }
+        },
+        {
+          "id": "shed-dormer",
+          "status": "forbidden",
+          "note": "No period existence on a principal elevation; a twentieth-century attic conversion, same reasoning as the family's other members."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A dormer of the principal rank breaks through the cornice line, its cheeks masonry continuous with the wall below -- c02. Roof-set dormers beginning entirely above the eave are permitted only as secondary attic lights. Corrects an inherited georgian-colonial-american value ('never break the eave line'), which is the exact opposite fact.",
+      "confidence": "high",
+      "judgment": false
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "tall-slim-stuccoed-at-ridge-end",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Chimneys are tall, slim and often stuccoed, placed at ridge ends; the massive corbelled brick stack of Tudor Revival is absent.'"
+        },
+        {
+          "id": "massive-corbelled-brick-stack",
+          "status": "forbidden",
+          "note": "The inherited tudor-revival canonical value; diagnostic_tells names its absence as one of the style's own identifying marks."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Tall and slim, frequently stuccoed to match the wall, placed at ridge ends -- deliberately not the massive corbelled brick stack that identifies Tudor Revival.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -110,10 +227,39 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stucco",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Massive masonry or stucco wall with quoins, water table.'"
+        },
+        {
+          "id": "brick-common-bond",
+          "status": "canonical"
+        },
+        {
+          "id": "stone-rubble",
+          "status": "permitted"
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "The inherited tudor-revival two-tier masonry-below/half-timber-above assembly is that style's own defining device, not this one's; French Eclectic walls are single-material by design."
+        }
+      ],
+      "parameters": {
+        "reveal_min": {
+          "value": 5,
+          "unit": "in",
+          "kind": "measured",
+          "source": "french-eclectic.c04"
+        }
+      },
+      "status": "drafted",
+      "rule": "A single, massive-reading masonry or stucco wall, expressed with quoins and a water table rather than a floor-line material change -- minimum 5 in reveal at jambs (c04). Flush-set windows in a thin veneer wall read as builder-grade and break the style.",
+      "confidence": "high",
+      "judgment": false
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -218,10 +364,20 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "leaf_proportion_min": {
+          "value": 2.5,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-eclectic.c05"
+        }
+      },
+      "status": "drafted",
+      "rule": "Casement leaf proportion not less than 1:2.5, height:width -- c05, a hard-adjacent constraint. Corrects an inherited tudor-revival value (a wide 2:1-4:1 horizontal multi-light grid) that is the reverse proportion of this style's own tall casement.",
+      "confidence": "high",
+      "judgment": false
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -295,10 +451,26 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "round-arched-masonry-surround",
+          "status": "canonical",
+          "op": "add",
+          "note": "description: 'the entrance is modest, sometimes only a stone surround and an arched door.' Promoted from the inherited binding's second, subordinate option to this style's own canonical choice."
+        },
+        {
+          "id": "four-centred-tudor-arch",
+          "status": "forbidden",
+          "op": "add",
+          "note": "Tudor Revival's own device; this style's entrance is a round or segmental arch, not a pointed Tudor one."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "The inherited tudor-revival binding already offered a round-arched masonry surround as an alternative to its own four-centred Tudor arch; this delta promotes the option this style actually wants to canonical and forbids the pointed-arch option.",
+      "confidence": "medium",
+      "judgment": true
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +488,25 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "attached-subordinate-hip-wing",
+          "status": "canonical",
+          "op": "add",
+          "note": "Continues the wall material and the constant-pitch hip roof discipline (c01), the style's own equivalent to the inherited tudor-revival cross-gable wing, which does not fit a house with no dominant gable to subordinate to."
+        },
+        {
+          "id": "attached-subordinate-cross-gable",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The inherited canonical value presumes a gabled massing vocabulary this style does not have."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true
     },
     "glazing_assembly": {
       "group": "openings",

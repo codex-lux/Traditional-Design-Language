@@ -18,10 +18,26 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_min": {
+          "value": "7:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "garrison-revival.c04"
+        },
+        "pitch_max": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "garrison-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "7:12 to 9:12, side gable -- c04. Below 6:12 the box loses the proportion that makes the overhang legible; above 10:12 the house reads as a Cape."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -67,10 +83,19 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "gable-end-single",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule_append": "An end chimney, expressed as mass, per this variant's own defining_characteristics -- not the ridge-centred stack of cape-cod-revival, its closest sibling."
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -81,17 +106,62 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "first_floor_ceiling": {
+          "range": [
+            8.5,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "second_floor_ceiling": {
+          "range": [
+            8.5,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Storey heights 8'6\"-9'0\" for both floors -- lower than high-style Colonial Revival, because this is a builder type."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "jetty_overhang": {
+          "range": [
+            8,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "garrison-revival.c01"
+        },
+        "jetty_continuity": {
+          "value": "continuous across the full width of the front elevation, soffit framed and finished as a soffit",
+          "unit": "none",
+          "kind": "measured",
+          "source": "garrison-revival.c01"
+        },
+        "drop_dimensions": {
+          "value": "5-8 in diameter, 8-14 in long, at both outer ends and aligned with the corner posts",
+          "unit": "none",
+          "kind": "measured",
+          "source": "garrison-revival.c02"
+        }
+      },
+      "status": "drafted",
+      "rule": "The second storey projects 8-18 in beyond the first on the front elevation, continuous across the full width, with turned or carved pendant drops at both outer ends -- c01, c02, hard constraints. Overrides the inherited tudor-jacobean binding, which has no jetty logic at all and belongs to a different framing tradition.",
+      "confidence": "high",
+      "judgment": false
     },
     "construction_type": {
       "group": "envelope",
@@ -295,10 +365,20 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "hood_width_max": {
+          "value": 6,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "garrison-revival.c05"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width -- c05. A two-storey portico is incompatible with a jettied elevation."
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +396,20 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "attached-wing",
+          "status": "canonical",
+          "op": "add",
+          "note": "diagnostic_tells names it directly: 'the attached garage that dates it after 1935' is standard on this variant."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "The inherited colonial-revival binding (extends over georgian-colonial-american, permitting an attached subordinate wing per c05) already fits this variant well; this delta only confirms the attached wing as the variant's own typical case rather than a permitted option.",
+      "confidence": "medium",
+      "judgment": true
     },
     "glazing_assembly": {
       "group": "openings",

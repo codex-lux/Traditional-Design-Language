@@ -18,10 +18,18 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_max": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "jeffersonian-classicism constraint c03"
+        }
+      },
+      "rule_append": "Roof pitch must not exceed 4:12 (hard constraint c03) and is concealed behind a balustrade, Chinese railing or parapet at least 3 ft high -- see parapet and balustrade -- so the building reads as a single classical volume rather than a roofed one.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -60,10 +68,10 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "Dormers on a principal elevation are forbidden (hard constraint c03). The mezzanine and second-storey windows are tucked directly under the entablature instead -- the diagnostic tell that a demonstrably two-storey house 'reads as one storey' from outside, which a dormer would give away instantly.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -81,17 +89,53 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "reads_as_single_storey": {
+          "value": true,
+          "unit": "none",
+          "kind": "editorial",
+          "note": "Jefferson's real trick, and no proportion pack in this corpus models it: the mezzanine floor is suppressed behind the entablature so a demonstrably two-storey house reads as one -- concealment, not diminution. Recorded here as the closest this schema can come to an acknowledged gap."
+        },
+        "mezzanine_window_height_in": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Small, square, set directly under the cornice line -- the diagnostic_tells' own leading example."
+        }
+      },
+      "rule": "A house that appears to be one storey but is demonstrably two, with small square mezzanine windows tucked directly under the cornice -- suppressed rather than graduated, unlike the Georgian and Federal storey hierarchy this slot ordinarily encodes.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "subordinate-ell",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A visible above-grade ell is exactly the two-storey service wing constraint c04 forbids; Jefferson's characteristic inversion terraces the dependency into the slope instead."
+        },
+        {
+          "id": "flanking-symmetrical-dependencies",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Retained as the parti, but terraced into the slope rather than raised as visible pavilions -- Jefferson's own inversion of the Palladian five-part scheme."
+        },
+        {
+          "id": "five-part-palladian",
+          "status": "canonical",
+          "op": "replace"
+        }
+      ],
+      "rule_append": "Dependencies are terraced, sunk below the principal floor level, or run out as low L-wings whose roofs form usable terraces, so the main block reads as a single volume (hard constraint c04); a visible two-storey service wing breaks the parti.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +154,35 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "brick-flemish-bond",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The material palette is fixed rather than a matter of regional taste (constraint c05): red brick in Flemish bond, painted brick or a facing stone falling outside the style entirely."
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Constraint c05: painted brick, stone facing, or contrasting trim colours fall outside the style."
+        },
+        {
+          "id": "stone-ashlar",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Same fixed-palette rule; the columns may be stuccoed to imitate stone, but the wall itself is brick, never faced in real stone."
+        },
+        {
+          "id": "stucco-on-brick",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Permitted on the columns themselves (sanded paint imitating stone) but not as the wall's primary cladding."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -194,10 +263,25 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "balustraded-parapet",
+          "status": "canonical",
+          "note": "Or a Chinese-lattice railing; either conceals the low roof so the building reads as one classical volume rather than a roofed one."
+        }
+      ],
+      "parameters": {
+        "height_min_in": {
+          "value": 36,
+          "unit": "in",
+          "kind": "measured",
+          "source": "jeffersonian-classicism constraint c03"
+        }
+      },
+      "rule": "Overrides the inherited Georgian prohibition ('the wall terminates in the cornice and the roof is shown') outright: here the roof is not shown. A parapet, Chinese railing or balustrade at least 3 ft high is required wherever the low roof would otherwise be visible (hard constraint c03) -- this is exactly the case docs/inheritance.md names as legitimate: overriding a parent's forbidden binding where the child genuinely disagrees.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "rainwater": {
       "group": "envelope",
@@ -206,8 +290,18 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "trim_color": {
+          "value": "white-painted wood; stuccoed or sanded-paint columns imitating stone",
+          "unit": "none",
+          "kind": "measured",
+          "source": "jeffersonian-classicism constraint c05"
+        }
+      },
+      "rule_append": "Material palette is fixed (soft constraint c05): red brick body, white-painted trim, and, where used, stuccoed or sanded-paint columns imitating stone. Painted brick, stone facing, or contrasting trim colours fall outside the style.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_type": {
       "group": "openings",
@@ -281,10 +375,28 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "oculus-oeil-de-boeuf",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Round-headed and Diocletian windows are permitted and characteristic (constraint c02), unlike the Greek Revival vocabulary that forbids them outright."
+        },
+        {
+          "id": "lunette",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "palladian-venetian",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Correct Roman/Palladian geometry rather than the Adam-thinned Federal version of the same window."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "entry_door": {
       "group": "openings",
@@ -328,24 +440,126 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "doric-roman",
+          "status": "canonical",
+          "note": "8 lower diameters, correct antique weight -- the Virginia Capitol's original, before Jefferson's own Ionic substitution."
+        },
+        {
+          "id": "ionic-scamozzi",
+          "status": "canonical",
+          "note": "9 diameters, exactly matching this style's own stated ratio. The order Jefferson actually built at the Capitol, substituted for Corinthian because Virginia workmen could cut it."
+        },
+        {
+          "id": "corinthian",
+          "status": "canonical",
+          "note": "10 diameters. Deployed alongside Doric and Ionic as a stated pedagogical program at the University of Virginia's Academical Village -- three correct orders side by side, unlike any other node in this family."
+        },
+        {
+          "id": "tuscan",
+          "status": "permitted"
+        },
+        {
+          "id": "doric-greek",
+          "status": "forbidden",
+          "note": "The Greek baseless Doric is explicitly forbidden alongside the frieze-band attic window (constraint c02); Roman and Greek vocabularies must not be mixed on one building."
+        },
+        {
+          "id": "ionic-greek",
+          "status": "forbidden",
+          "note": "Same exclusion as doric-greek."
+        },
+        {
+          "id": "vernacular-abstracted",
+          "status": "forbidden",
+          "note": "The whole point of this style is a correctly measured antique order, not an abstraction from local habit."
+        }
+      ],
+      "parameters": {
+        "column_height_diameters_doric": {
+          "value": 8,
+          "unit": "count",
+          "kind": "measured",
+          "source": "jeffersonian-classicism proportional_system; palladio-doric pack"
+        },
+        "column_height_diameters_ionic": {
+          "value": 9,
+          "unit": "count",
+          "kind": "measured",
+          "source": "palladio-ionic pack"
+        },
+        "column_height_diameters_corinthian": {
+          "value": 10,
+          "unit": "count",
+          "kind": "measured",
+          "note": "The palladio-corinthian pack's own column is 9.5 diameters -- a half-diameter short of this stated figure, the closest match available in this corpus's 36 packs, recorded as a visible discrepancy rather than rounded away."
+        },
+        "authority": {
+          "value": "Andrea Palladio, I Quattro Libri dell'Architettura (1570), in the English editions Jefferson called his 'bible', read as a transcriber of Roman antiquity rather than as a Venetian master to imitate",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Orders are executed at correct antique proportion -- Roman Doric at 8 diameters, Ionic at 9, Corinthian at 10 -- taken from Palladio as a transcriber of measured Roman antiquity, never attenuated for fashion the way the contemporaneous Federal orders are (hard constraint c01). Attenuated columns above 10 diameters convert the building to Federal.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "variants": [
+        {
+          "id": "ionic-scamozzi-fluted",
+          "status": "canonical",
+          "note": "Correct antique weight at 9 diameters -- not the Adam-attenuated Federal version of the same nominal order."
+        },
+        {
+          "id": "doric-roman-plain",
+          "status": "canonical"
+        },
+        {
+          "id": "square-pier",
+          "status": "forbidden",
+          "note": "No order at all; the style's whole argument is a correctly measured antique order, not its absence."
+        }
+      ],
+      "parameters": {
+        "height_diameters_max": {
+          "value": 10,
+          "unit": "count",
+          "kind": "measured",
+          "source": "jeffersonian-classicism constraint c01: 'attenuated columns above 10 diameters convert the building to Federal'"
+        }
+      },
+      "rule": "Correct entasis and correct plinth height at antique weight -- never drawn slenderer than 10 diameters even at the order's tallest (Corinthian). Correctness is the point, not fashion: this is the proportional argument the style's own lineage states directly against both Adam and Federal.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "parameters": {
+        "total_height_ratio": {
+          "range": [
+            0.2,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "jeffersonian-classicism constraint c01: 'entablature depth 1/4 to 1/5 of column height', order-independent"
+        }
+      },
+      "rule": "Entablature depth is 1/4 to 1/5 of column height regardless of which order governs -- the same numeric band as Greek Revival's, arrived at from the opposite authority (Palladio's correct Roman antiquity rather than Stuart and Revett's measured Athens) and never mixed with Greek vocabulary on the same building (constraint c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -370,17 +584,88 @@
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "roof-deck-balustrade",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Required rather than merely permitted: it is the device that conceals the roof (constraint c03), not an optional roof-deck amenity."
+        },
+        {
+          "id": "chinese-lattice-railing",
+          "status": "canonical",
+          "op": "add",
+          "note": "The alternative the style's own defining_characteristics names explicitly, alongside a plain balustrade."
+        }
+      ],
+      "parameters": {
+        "height_in": {
+          "value": 36,
+          "unit": "in",
+          "kind": "measured",
+          "source": "jeffersonian-classicism constraint c03",
+          "note": "Overrides the inherited 30-33 in Georgian decorative figure. At 36 in this also resolves the code conflict the inherited record notes: the period-correct Jeffersonian height already clears the modern 36 in residential guard minimum, because 3 ft is Jefferson's own stated floor, not a decorative datum."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "variants": [
+        {
+          "id": "dentil",
+          "status": "canonical",
+          "note": "Correct Roman relief -- the Georgian vocabulary this style shares directly, at antique weight."
+        },
+        {
+          "id": "modillion",
+          "status": "canonical"
+        },
+        {
+          "id": "guttae-triglyph",
+          "status": "forbidden",
+          "note": "Roman and Greek vocabularies must not be mixed on one building (constraint c02); triglyph and guttae are the Doric-Greek signature."
+        },
+        {
+          "id": "acanthus",
+          "status": "permitted",
+          "note": "Correct under the Corinthian order specifically, per the pedagogical program at the University of Virginia."
+        },
+        {
+          "id": "swag-and-urn",
+          "status": "forbidden",
+          "note": "Adamesque and Federal; Jefferson's own reacts_against edge against adam-style is explicit -- he refused fashionable attenuation for correct antique weight."
+        },
+        {
+          "id": "fan-and-patera",
+          "status": "forbidden",
+          "note": "Same Adamesque exclusion as swag-and-urn."
+        },
+        {
+          "id": "husk-chain",
+          "status": "forbidden",
+          "note": "Federal pendant motif; not part of the correct antique Roman vocabulary this style draws on."
+        },
+        {
+          "id": "oval-patera",
+          "status": "forbidden",
+          "note": "The Adam oval; this style's ornament is drawn from measured Roman plates, not from Adam's fashionable London surfaces."
+        },
+        {
+          "id": "reeding",
+          "status": "forbidden",
+          "note": "Low-relief Adamesque surface treatment, the opposite of this style's correct antique carving."
+        }
+      ],
+      "rule": "Ornament is carved at correct antique relief and belongs to whichever single order governs the building -- Roman dentil, modillion and, under Corinthian, acanthus -- and it is never thinned toward Adam's fashionable attenuation nor mixed with the Greek guttae-triglyph vocabulary on the same building.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -573,10 +858,31 @@
     },
     "service_zone_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "terraced-sunk-dependency",
+          "status": "canonical",
+          "note": "Not among the inherited ontology's own listed examples (detached-dependency, basement-service, rear-ell, hyphenated-dependency); Jefferson's L-wings running out below grade with roofs that double as terraces are a genuine fourth strategy this ontology's example list did not anticipate."
+        },
+        {
+          "id": "basement-service",
+          "status": "permitted"
+        },
+        {
+          "id": "detached-dependency",
+          "status": "forbidden",
+          "note": "A visible, freestanding dependency pavilion is the Palladian original Jefferson deliberately inverted; see wing_strategy."
+        },
+        {
+          "id": "rear-ell",
+          "status": "forbidden",
+          "note": "A visible above-grade ell breaks the single-volume reading constraint c04 requires."
+        }
+      ],
+      "rule": "Service dependencies are terraced, sunk below the principal floor level, or run out as low L-wings whose roofs form usable terraces, so that the main block reads as a single volume (hard constraint c04) -- the same fact wing_strategy states at the massing level, restated here at the plan level because the two slots answer different questions about the same decision.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "depth_and_pile": {
       "group": "plan-logic",

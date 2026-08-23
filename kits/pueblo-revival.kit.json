@@ -6,22 +6,53 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "additive-vernacular",
+          "status": "canonical",
+          "note": "The family kit's own note names Pueblo Revival as the single deliberate exception to the family's forbidding of additive-vernacular composition. This style's own proportional_system states it directly: symmetry is 'additive-vernacular', and 'the absence of any framing module means proportion is judged as sculptural mass rather than as composition.'"
+        }
+      ],
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat",
+          "status": "canonical"
+        },
+        {
+          "id": "hip",
+          "status": "forbidden",
+          "note": "Inherited from Spanish Colonial Revival; a hard-constraint violation here -- c01: 'any pitched roof visible from a principal elevation voids the style.'"
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "Same reasoning as hip."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Roof must be flat or near-flat, concealed behind an irregular parapet 18-30 in above the roof deck. Any pitched roof visible from a principal elevation voids the style (c01, hard).",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "roof_pitch_rise_per_12": {
+          "value": 0.25,
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "note": "Own text states the maximum as 1/4 in per foot of run, expressed here as an equivalent rise-per-12 value; effectively flat."
+        }
+      },
+      "rule": "Maximum 1/4 in per foot to internal or canale drainage -- flat or near-flat (c01, hard).",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +63,21 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "no-eave-parapet-conceals-roof",
+          "status": "canonical"
+        },
+        {
+          "id": "overhang_max_12",
+          "status": "forbidden",
+          "note": "Inherited from Spanish Colonial Revival; this style has no eave of any kind -- c03: 'No eave, fascia, gutter, downspout, corner bead line, or applied trim may appear on the exterior.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "No eave anywhere on the exterior; the flat roof deck is concealed entirely behind the parapet (c03, hard).",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -53,24 +95,34 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "The roof is flat behind a parapet; there is no gable end to treat (c01).",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "The roof is flat and concealed behind a parapet; a dormer has no roof slope to sit in (c01).",
+      "status": "drafted"
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rounded-low-stuccoed-stack",
+          "status": "canonical"
+        },
+        {
+          "id": "tall-multiple-vertical-accent",
+          "status": "forbidden",
+          "note": "Inherited from British Picturesque; contradicts the style's own governing description that 'the whole thing is one continuous rounded surface' with no dramatic vertical incident."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "judgment": true,
+      "rule": "Where a chimney is expressed at all it is a low, rounded, stuccoed stack consistent with the wall it rises from -- not a tall, deliberately conspicuous silhouette accent. Editorial inference from the style's own governing description; not a directly sourced chimney specification.",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,15 +140,54 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stepped-terraced-blocks",
+          "status": "canonical",
+          "note": "massing_affinities: 'massed-picturesque' canonical -- 'the stepped, terraced accumulation of flat-roofed blocks at differing heights is the whole formal idea.'"
+        },
+        {
+          "id": "placita-courtyard-u",
+          "status": "permitted",
+          "note": "massing_affinities: courtyard-u common -- 'the historically correct New Mexican domestic plan and the strongest residential option.'"
+        },
+        {
+          "id": "simple-rectilinear-block",
+          "status": "forbidden",
+          "note": "Inherited from Mission Revival; too simple for this style's own defining stepped, terraced massing."
+        },
+        {
+          "id": "four-over-four",
+          "status": "forbidden",
+          "note": "massing_affinities names this explicitly: 'a symmetrical double-pile block with a centred entrance is fundamentally alien to the type.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Stepped, terraced massing of blocks at differing heights, set back from one another to recall the multi-storey Puebloan roomblock -- the whole formal idea, not a simple single block.",
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stucco-over-wood-frame",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'the revival often achieves the look in 2 in. of stucco over frame' -- the ordinary case."
+        },
+        {
+          "id": "stucco-over-concrete-block",
+          "status": "permitted"
+        },
+        {
+          "id": "stucco-over-adobe",
+          "status": "atypical",
+          "note": "The genuinely authentic material, but rare in revival work; distinguished_from names 18-36 in adobe as belonging to the original, not the revival."
+        }
+      ],
+      "rule": "Thick earth-toned stucco over wood frame, concrete block, or (rarely, and most authentically) adobe; walls read as continuous rounded mass with corners and arrises radiused not less than 3 in and a visible outward batter of 1 in 24 to 1 in 40 over the lower 3-6 ft.",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +201,21 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "earth-toned-stucco",
+          "status": "canonical"
+        },
+        {
+          "id": "off-white-warm-earth-stucco",
+          "status": "forbidden",
+          "note": "Inherited from Spanish Colonial Revival; this style's own colour is more specifically earth-toned -- 'the colour of the ground it stands on' -- rather than SCR's off-white-leaning range."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Thick earth-toned stucco, one continuous rounded surface with no eave, fascia, or applied trim to interrupt it.",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -131,10 +233,9 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No masonry base or material change at grade -- the wall batters continuously into the ground at 1 in 24 to 1 in 40 over the lower 3-6 ft (typical_ratios), the same stucco surface throughout. Overrides the rock-faced stone base inherited from Shingle Style.",
+      "status": "drafted"
     },
     "water_table": {
       "group": "envelope",
@@ -173,17 +274,23 @@
     },
     "reveal_frame": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_min_in": {
+          "value": 10,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Wall thickness must be expressed with a minimum 10 in reveal at all openings, jambs and heads returned in stucco, corners and parapet arrises radiused not less than 3 in (c03, hard). Overrides the 6-12 in reveal inherited from Spanish Colonial Revival with this style's own, larger, hard-constraint minimum.",
+      "status": "drafted"
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No cornice, fascia, or applied trim of any kind may appear on the exterior (c03, hard) -- overrides the plain-boxed cornice inherited from Spanish Colonial Revival.",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -194,20 +301,71 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "irregular-undulating-parapet",
+          "status": "canonical"
+        },
+        {
+          "id": "curvilinear-shaped-parapet",
+          "status": "forbidden",
+          "note": "Inherited from Mission Revival; distinguished_from names this directly: Mission Revival 'has a pitched tile roof and a curvilinear shaped parapet on smooth machine-flat stucco. Pueblo Revival has a flat roof, an irregular parapet, rounded wall surfaces, and vigas.' The undulation here comes from hand-formed construction, not from a designed decorative curve."
+        }
+      ],
+      "parameters": {
+        "parapet_height_in": {
+          "range": [
+            18,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "parapet_top_variation_min_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Parapet 18-30 in above the roof deck, its top line varying by at least 4 in over its length -- a dead-straight parapet indicates a Territorial or commercial building, not this style (c01, hard; diagnostic_tells).",
+      "status": "drafted"
     },
     "rainwater": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "canale-projecting-spout",
+          "status": "canonical"
+        },
+        {
+          "id": "no-gutter-drip-to-grade",
+          "status": "forbidden",
+          "note": "Inherited from Georgian Colonial American; this style's own drainage method is named directly in defining_characteristics: 'flat roof drained through projecting canales behind an irregular, gently undulating parapet.'"
+        }
+      ],
+      "parameters": {},
+      "rule": "The flat roof drains through projecting canales (wood or metal spouts) piercing the parapet, or internally -- never a gutter and downspout, which c03 forbids outright.",
+      "status": "drafted"
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "earth-toned-matching-ground",
+          "status": "canonical"
+        },
+        {
+          "id": "pale-uniform-stucco",
+          "status": "forbidden",
+          "note": "Inherited from Mission Revival; this style's own colour is explicitly earth-toned -- 'the colour of the ground it stands on... almost white at noon and burnt orange at five o'clock' -- not Mission Revival's pale/white body."
+        }
+      ],
+      "parameters": {},
+      "rule": "Earth-toned stucco matching the local ground colour, reversing the pale-uniform-stucco canonical for Mission Revival.",
+      "status": "drafted"
     },
     "window_type": {
       "group": "openings",
@@ -218,10 +376,21 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "overall_width_to_height": {
+          "range": [
+            0.625,
+            0.833
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Own typical_ratios states 'openings 1:1.2 to 1:1.6' (height:width); expressed here as width:height = 0.625-0.833 -- more square than Mission Revival's own 0.45-0.625, and small relative to wall (solid-to-void 8:1 or greater)."
+        }
+      },
+      "rule": "Openings 1:1.2 to 1:1.6, solid-to-void ratio 8:1 or greater on principal elevations -- small, deeply recessed, favouring wall.",
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -253,10 +422,16 @@
     },
     "window_surround_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-heavy-timber-lintel-only",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "No applied wood casing anywhere; the opening's expression is the deeply returned stucco jamb (minimum 10 in reveal) and a heavy timber lintel at the head -- not, as in Spanish Colonial Revival, an arch.",
+      "status": "drafted"
     },
     "window_sill": {
       "group": "openings",
@@ -267,24 +442,28 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "additive-irregular-no-alignment",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Additive and irregular: openings are placed by internal need, do not align between storeys, and are separated by broad blank wall (bay_rhythm). Overrides the grouped A-BBB-A arched rhythm inherited from Richardsonian Romanesque, which presumes a compositional order this style does not have.",
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No applied trim of any kind on the exterior (c03, hard) -- overrides the raised-panel shutter pair inherited from Georgian Colonial American.",
+      "status": "drafted"
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No decorative special window shape -- the quatrefoil window inherited from Mission Revival is that style's own signature, not this one's. Openings here are uniformly small, deeply recessed, and rectangular.",
+      "status": "drafted"
     },
     "entry_door": {
       "group": "openings",
@@ -295,17 +474,28 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-heavy-timber-lintel-only",
+          "status": "canonical"
+        },
+        {
+          "id": "carved-cast-churrigueresque",
+          "status": "forbidden",
+          "note": "Inherited from Spanish Colonial Revival, whose own c03 requires an elaborate carved entrance surround. distinguished_from states the opposite directly: Pueblo Revival 'has flat roofs, no tile, no worked ornament, and substitutes timber and earth for iron and glaze.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "No ornament at the entrance -- a deeply recessed opening with a heavy timber lintel, the same as any other opening in the wall, not a decorated frontispiece.",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "judgment": true,
+      "note": "No applied trim on the exterior (c03) and no worked ornament at the entrance (distinguished_from vs. spanish-colonial-revival); a classical rectangular transom-and-sidelight assembly does not belong to this style's plain recessed openings. Editorial inference -- the style's own text does not address the entrance transom directly.",
+      "status": "drafted"
     },
     "secondary_door": {
       "group": "openings",
@@ -316,10 +506,22 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "garage-as-lowest-stepped-terrace-block",
+          "status": "canonical"
+        },
+        {
+          "id": "detached-behind-placita-wall",
+          "status": "permitted",
+          "note": "Where the placita/courtyard-u plan is used (massing_affinities: common)."
+        }
+      ],
+      "invented": true,
       "parameters": {},
-      "status": "empty"
+      "rule": "The car is housed in the lowest, plainest of the stepped terraced blocks the style's own massing is built from, or -- where a placita plan is used -- tucked behind the courtyard wall out of the principal elevation. No historical precedent exists for this element; this is an editorial extension of the style's own additive, stepped-block massing logic.",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +586,16 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "portal-post-and-corbel",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "A portal -- a post-and-corbel covered porch with peeled log posts and carved corbels -- on at least one principal elevation (defining_characteristics). Where a gallery-house or portal fronts a linear range it is the standard Santa Fe street condition (massing_affinities).",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
@@ -398,17 +606,55 @@
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "peeled-log-post-and-corbel",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "post_size_in": {
+          "range": [
+            8,
+            10
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "post_spacing_ft": {
+          "range": [
+            7,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "corbel_length_in": {
+          "range": [
+            30,
+            42
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Portal posts 8-10 in square or round at 7-9 ft on centre, with corbels 30-42 in long (typical_ratios) -- peeled log, not a classical or Craftsman post.",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-open-portal",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "judgment": true,
+      "rule": "The portal is typically open between posts, with no applied rail -- consistent with the style's own blanket prohibition on applied trim (c03). Editorial inference; the style's own text does not address a porch rail directly.",
+      "status": "drafted"
     },
     "porch_ceiling": {
       "group": "threshold",

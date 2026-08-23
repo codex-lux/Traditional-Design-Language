@@ -11,17 +11,56 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "gambrel",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Demoted from the parent's atypical-outside-New-England default: own massing_affinities rates the gambrel-block 'common' in Rhode Island and coastal Massachusetts."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical"
+        },
+        {
+          "id": "hip",
+          "status": "permitted"
+        },
+        {
+          "id": "gambrel",
+          "status": "permitted"
+        }
+      ],
+      "parameters": {
+        "pitch_min": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "11:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "10:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "Rise:run between 9:12 and 11:12 (own hard constraint c02) -- steep by Georgian standards, against 7:12-9:12 in the Chesapeake, because snow load and the First Period framing habit both push it up. Below 8:12 the house reads Chesapeake or Federal; above 12:12 it reads First Period.",
+      "confidence": "high",
+      "note": "Specified rather than extends, matching tidewater-georgian's own reasoning for the same slot: the parent's four region-scoped pitch parameters (pitch_new_england among them) would all merge through and sit alongside this restatement as noise once this variant node exists to hold the fact properly (docs/inheritance.md)."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -67,10 +106,34 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "gable-end-exterior",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A Southern device and climatically wrong here -- own hard constraint c01's rationale: an exterior stack loses its stored heat to the outside in a Northern winter."
+        },
+        {
+          "id": "paired-and-joined-by-arched-curtain",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The Chesapeake's exterior-stack signature; incompatible with this variant's interior-chimney rule."
+        }
+      ],
+      "parameters": {
+        "inset_from_gable_ft": {
+          "range": [
+            5,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own hard constraint c01."
+        }
+      },
+      "status": "drafted",
+      "rule_append": "Two chimneys emerging from the roof slope 5 to 12 ft in from the gable ends and flanking the ridge is the single fastest discriminator against every Southern Georgian variant."
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -95,8 +158,27 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "braced-timber-frame",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The regional default stated directly rather than left as a parent applies_when.regions parameter, per docs/inheritance.md: little building stone in eastern Massachusetts, brick expensive and cold, and a surplus of ship's-joinery skill instead."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "atypical",
+          "op": "replace",
+          "note": "The Southern and Mid-Atlantic answer; occasional but not this variant's own tradition."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "atypical",
+          "op": "replace"
+        }
+      ]
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +192,47 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "flush-board-rusticated",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The style's signature move on its most ambitious houses: boards bevelled, laid flush, scored to imitate ashlar coursing, and painted with sand thrown into the wet paint so the surface takes the light like cut stone -- the Isaac Royall House and the Jeremiah Lee Mansion both do this."
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "This variant is wood construction; brick belongs to its Chesapeake and Mid-Atlantic siblings."
+        },
+        {
+          "id": "brick-common-bond",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "This variant is wood construction; brick belongs to its Chesapeake and Mid-Atlantic siblings."
+        },
+        {
+          "id": "stone-ashlar",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Little building stone in eastern Massachusetts -- the whole reason the flush-board imitation exists."
+        },
+        {
+          "id": "stucco-on-brick",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "There is no brick beneath to stucco on a wood-frame wall."
+        }
+      ],
+      "parameters": {
+        "sanded_paint_finish": {
+          "value": "sand thrown into wet paint on the rusticated principal elevation, to catch light like cut stone",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -152,10 +271,35 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "brick-quoins",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Wood construction; there is no brick to quoin."
+        },
+        {
+          "id": "stone-quoins",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Wood construction; there is no stone to quoin."
+        },
+        {
+          "id": "rubbed-brick-corner",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Wood construction; there is no brick to rub."
+        },
+        {
+          "id": "corner-boards",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Own diagnostic_tells: 'wooden quoins at the corners' -- corner boards scored and sanded to the same rusticated imitation as the wall, not a plain trim board."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "corner_board": {
       "group": "envelope",
@@ -239,10 +383,51 @@
     },
     "window_head_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "wood-architrave-with-crown",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Stated directly rather than only conditioned on braced-timber-frame, since this variant's construction_type is now canonically that."
+        },
+        {
+          "id": "gauged-flat-arch",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Own hard constraint c04: keystones, gauged arches and stone lintels belong to the masonry variants and must not appear on a clapboard wall."
+        },
+        {
+          "id": "segmental-gauged-arch",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Own hard constraint c04: masonry heads must not appear on a clapboard wall."
+        },
+        {
+          "id": "keystoned-flat-arch",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Own hard constraint c04: masonry heads must not appear on a clapboard wall."
+        },
+        {
+          "id": "dressed-stone-lintel",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Own hard constraint c04: masonry heads must not appear on a clapboard wall."
+        }
+      ],
+      "parameters": {
+        "wood_architrave_width_in": {
+          "range": [
+            5,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c04."
+        }
+      },
+      "status": "drafted"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -253,10 +438,17 @@
     },
     "window_surround_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "none-masonry-reveal",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "There is no masonry reveal on a clapboard or rusticated-board wall."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "window_sill": {
       "group": "openings",
@@ -295,10 +487,20 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "frontispiece_width_ft": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule_append": "The whole assembly is 3 to 5 ft wide and carved in pine at a scale no English house of the same rank would have attempted in stone -- everything the house has to spend goes on this one element."
     },
     "transom_sidelight": {
       "group": "openings",
@@ -433,10 +635,29 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "first_floor": {
+          "range": [
+            102,
+            114
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "8 ft 6 in - 9 ft 6 in, own proportional_system -- distinctly lower than the 10-12 ft of Virginia, for the same reason: climate and the cost of heating a room."
+        },
+        "second_floor": {
+          "range": [
+            96,
+            105
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "8 ft 0 in - 8 ft 9 in."
+        }
+      },
+      "status": "drafted"
     },
     "trim_family": {
       "group": "interior",
@@ -545,10 +766,29 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "interior-paired-flanking-ridge",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The regional default stated directly; own hard constraint c01."
+        },
+        {
+          "id": "gable-end-paired",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Own description: 'never on the exterior of a gable wall' -- the Southern device this variant exists to contrast with."
+        },
+        {
+          "id": "exterior-end",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Own description: 'never on the exterior of a gable wall' -- an exterior stack loses its stored heat to the outside in a Northern winter."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -580,10 +820,20 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "double_pile_depth_ft": {
+          "range": [
+            32,
+            38
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own proportional_system; narrower than the parent's general 32-40 ft Northern/Mid-Atlantic band."
+        }
+      },
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",

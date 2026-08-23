@@ -5,9 +5,14 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The massing shall remain asymmetrical with one dominant mass exceeding every other by at least 50 percent, and the ridge shall remain non-rectangular in plan (c02): a symmetrical facade with classical trim is Colonial Revival, not this variant.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-free-classic.json constraints c02"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -144,11 +149,21 @@
       "status": "empty"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "moulded-belt-course",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "rule_append": "Wall texture change occurs at a moulded belt course rather than a plain butt joint, matching the classical detailing of the rest of the building.",
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/queen-anne-free-classic.json constraints c05"
+      ],
+      "group": "envelope"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -179,11 +194,24 @@
       "status": "empty"
     },
     "cornice": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "dentil-return-cornice",
+          "status": "canonical"
+        },
+        {
+          "id": "modillion-return-cornice",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Where a dentil or modillion cornice is used it shall run continuously at the eave and shall return on the gable rake; a dentil course that stops at the corner is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-free-classic.json constraints c03"
+      ],
+      "group": "envelope"
     },
     "frieze": {
       "group": "envelope",
@@ -280,11 +308,37 @@
       "status": "empty"
     },
     "special_window": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "palladian",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "parameters": {
+        "palladian_center_to_side_ratio": {
+          "range": [
+            1.5,
+            2
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        },
+        "max_count": {
+          "value": 1,
+          "unit": "count",
+          "kind": "measured",
+          "note": "c04: repetition of the motif destroys its hierarchical function."
+        }
+      },
+      "rule_append": "Not more than one Palladian, Venetian, or cottage window shall appear on the building, placed in the principal gable or at the stair.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-free-classic.json constraints c04, proportional_system.typical_ratios"
+      ],
+      "group": "openings"
     },
     "entry_door": {
       "group": "openings",
@@ -327,11 +381,29 @@
       "status": "empty"
     },
     "order": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "tuscan",
+          "status": "canonical"
+        },
+        {
+          "id": "doric-roman",
+          "status": "permitted"
+        },
+        {
+          "id": "ionic-scamozzi",
+          "status": "permitted"
+        }
+      ],
+      "note": "Judgment binding, matching the style's own vignola-tuscan/vignola-ionic proportion-pack choices: no style-book overlay in this library names this variant, so Vignola's base proportions are cited directly rather than a fabricated named source.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "sources": [
+        "styles/queen-anne-free-classic.json proportion_packs (vignola-tuscan, vignola-ionic notes)"
+      ],
+      "group": "classical-apparatus"
     },
     "column": {
       "group": "classical-apparatus",
@@ -348,11 +420,26 @@
       "status": "empty"
     },
     "pediment": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "swan-neck",
+          "status": "permitted",
+          "note": "Used sparingly, at the entrance only."
+        },
+        {
+          "id": "broken-scroll",
+          "status": "permitted",
+          "note": "Used sparingly, at the entrance only."
+        }
+      ],
+      "rule": "Swan-neck or broken pediments, garlands, and swags are used sparingly and only at the entrance, never repeated across the elevation.",
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/queen-anne-free-classic.json defining_characteristics"
+      ],
+      "group": "classical-apparatus"
     },
     "pilaster": {
       "group": "classical-apparatus",
@@ -362,11 +449,50 @@
       "status": "empty"
     },
     "modillion_dentil": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "dentil-course",
+          "status": "canonical"
+        },
+        {
+          "id": "modillion-course",
+          "status": "permitted"
+        }
+      ],
+      "parameters": {
+        "block_width": {
+          "range": [
+            2,
+            3
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "block_spacing": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "On centre."
+        },
+        "course_depth": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-free-classic.json proportional_system.typical_ratios"
+      ],
+      "group": "classical-apparatus"
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -397,18 +523,80 @@
       "status": "empty"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "tuscan-column",
+          "status": "canonical"
+        },
+        {
+          "id": "doric-column",
+          "status": "permitted"
+        },
+        {
+          "id": "ionic-column",
+          "status": "permitted"
+        },
+        {
+          "id": "turned-post",
+          "status": "forbidden",
+          "note": "c01: turned spindlework, pierced valances, and lathe-turned posts are prohibited anywhere on the building."
+        }
+      ],
+      "parameters": {
+        "shaft_height_diameters": {
+          "range": [
+            7,
+            9
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        },
+        "columns_per_position": {
+          "set": [
+            1,
+            2,
+            3
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "pedestal_height": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Porch supports shall be classical columns of correct proportion, shaft height 7 to 9 diameters, used singly or in groups of two or three on a pedestal or solid balustrade.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-free-classic.json constraints c01, proportional_system.typical_ratios"
+      ],
+      "group": "threshold"
     },
     "porch_rail": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "solid-pedestal-balustrade",
+          "status": "canonical"
+        },
+        {
+          "id": "turned-baluster",
+          "status": "forbidden",
+          "note": "c01: lathe-turned members are prohibited anywhere on the building."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/queen-anne-free-classic.json defining_characteristics, constraints c01"
+      ],
+      "group": "threshold"
     },
     "porch_ceiling": {
       "group": "threshold",
@@ -439,11 +627,22 @@
       "status": "empty"
     },
     "trim_family": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "carpenter-plain-stock",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Interior trim stays flat-stock carpenter's work, bought from the same millwork catalogue moment as the plain American house generally; the classical vocabulary is exterior porch trim and does not carry into a room-as-an-order interior derivation.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "Deliberately trim-craftsman-family rather than trim-classical, matching the style's own proportion_packs reasoning: importing a Federal/Georgian room-as-an-order interior system here would claim a lineage this node does not have.",
+      "sources": [
+        "styles/queen-anne-free-classic.json proportion_packs (trim-craftsman note)"
+      ],
+      "group": "interior"
     },
     "baseboard": {
       "group": "interior",

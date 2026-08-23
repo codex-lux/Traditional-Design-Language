@@ -6,8 +6,17 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "strict-symmetrical-party-wall-row",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "rule_append": "The townhouse's own symmetry is 'near-symmetrical', not the parent's balanced-asymmetrical: the party wall and the fixed lot width leave no room for a picturesque asymmetrical composition, and c01 requires the main cornice to be continuous in height, projection and bracket module across every house in the row.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -81,10 +90,20 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "diminish_pct_per_storey": {
+          "range": [
+            10,
+            15
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Tighter band than the parent's 8-15 percent: c03 fixes 10-15 percent for the townhouse case."
+        }
+      },
+      "confidence": "high",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -110,10 +129,22 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "brownstone-ashlar",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "clapboard-horizontal",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "No wood cladding on a masonry party-wall row; the type is brownstone, pressed brick, or brick with brownstone trim (defining_characteristics)."
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -180,10 +211,17 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "party_wall_alignment_tolerance_in": {
+          "value": 2,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "The cornice line is continuous across the whole row and must align across party walls within 2 in (c01); a step in cornice height means either a later infill or a different builder (diagnostic tells).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -232,10 +270,25 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "arched-hood-parlour-floor",
+          "status": "canonical"
+        },
+        {
+          "id": "flush-surround-or-square-head-upper",
+          "status": "canonical"
+        },
+        {
+          "id": "hood-on-every-storey",
+          "status": "forbidden",
+          "note": "c04: reads as coarse."
+        }
+      ],
+      "rule": "Arched heads with projecting hoods are used on the parlour floor only; upper storeys take the same arch profile with a flush moulded surround, or square heads (c04).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_head_wood": {
       "group": "openings",
@@ -267,10 +320,17 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "paired-read-as-single",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Not the norm on the narrow lot; the type's real rhythm is unequal bay widths (bay_rhythm: 'the entrance bay is narrower than the parlour bays'). Pairing survives mainly on the wider double-parlour corner-lot house."
+        }
+      ],
+      "confidence": "medium",
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -384,10 +444,17 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "veranda-bracketed-cornice",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A party-wall row has no side elevation for a freestanding veranda; the stoop (see `steps_and_stoop`) is the type's entry feature instead."
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
@@ -419,10 +486,34 @@
     },
     "steps_and_stoop": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "high-stoop-6-to-10-risers",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "riser_count": {
+          "range": [
+            6,
+            10
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "parlour_floor_height_above_grade_ft": {
+          "range": [
+            4,
+            7
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "The parlour floor is raised 4 to 7 ft above sidewalk level on a stoop of 6 to 10 risers, with an exposed basement storey below (c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entry_sequence": {
       "group": "threshold",
@@ -604,10 +695,16 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "party-wall-continuous-street-wall",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Party wall, lot depth, and one purchased set of parts per row together produce a continuous street wall of a single repeated cornice line and stoop rhythm; 'no architect designed that street.'",
+      "confidence": "high",
+      "status": "drafted"
     },
     "setback_rule": {
       "group": "site",
@@ -646,10 +743,13 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "steps_and_stoop"
+      ],
+      "rule": "The principal floor sits a full storey above grade on an exposed English basement; a ground-level entrance converts the type into a later English-basement or Renaissance Revival row (c02).",
+      "confidence": "high",
+      "status": "drafted"
     }
   }
 }

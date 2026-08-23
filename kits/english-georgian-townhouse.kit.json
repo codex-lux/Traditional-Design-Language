@@ -6,8 +6,30 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "frontage_ft_second_third_rate": {
+          "range": [
+            16.4,
+            24.6
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'Frontage 5.0-7.5 m for a second- or third-rate house, giving three bays'"
+        },
+        "frontage_ft_fourth_rate": {
+          "range": [
+            13.1,
+            16.4
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: '4.0-5.0 m and two bays for a fourth rate'"
+        }
+      },
+      "rule_append": "The unit of composition is the terrace, not the house (governing_logic): two or three equal bays per house, the door taking one of them, repeated without variation along the run -- individual expression is confined to the doorcase, fanlight and door colour (hard constraint c05).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -81,10 +103,77 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "graduated-principal-floor-tallest",
+          "status": "canonical",
+          "op": "add",
+          "note": "The party-walled town-house case the family's own text names directly: 'the principal (usually first) floor is the tallest, because that is where the drawing room sits, one flight up from the street and noise.'"
+        }
+      ],
+      "parameters": {
+        "basement_ft": {
+          "range": [
+            7.9,
+            8.9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'basement 2.4-2.7 m'"
+        },
+        "ground_ft": {
+          "range": [
+            9.8,
+            11.2
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'ground 3.0-3.4 m'"
+        },
+        "first_floor_ft": {
+          "range": [
+            10.8,
+            12.8
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'first floor 3.3-3.9 m (the tallest)'"
+        },
+        "second_floor_ft": {
+          "range": [
+            8.9,
+            9.8
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'second 2.7-3.0 m'"
+        },
+        "garret_ft": {
+          "range": [
+            7.5,
+            8.5
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'garret 2.3-2.6 m'"
+        },
+        "first_over_ground_pct_min": {
+          "value": 5,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "english-georgian-townhouse constraint c03 (hard, tested)"
+        },
+        "first_over_ground_pct_max": {
+          "value": 20,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "english-georgian-townhouse constraint c03 (hard, tested)"
+        }
+      },
+      "rule_append": "Applying the country-house ground-floor-tallest graduation to a terrace produces a facade that looks top-heavy and wrong (hard constraint c03) -- here the graduation peaks one storey up, at the drawing-room floor, and runs basement, ground, first (tallest), second, garret as a five-tier vertical social section rather than the free-standing house's four-tier decorative one.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -218,10 +307,33 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "ground_and_second_floor_ratio": {
+          "range": [
+            1.6,
+            1.9
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: '1.6:1 to 1.9:1 at ground and second floors'"
+        },
+        "first_floor_ratio": {
+          "range": [
+            2.0,
+            2.4
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: '2:1 to 2.4:1 at the first floor'"
+        }
+      },
+      "rule": "Inverted from the country-house default: the tallest, most vertical sash sits one flight up at the drawing-room floor, not at the door (hard constraint c03). This replaces the wide, horizontal medieval mullion-and-transom window this slot would otherwise inherit through the corpus's deep Tudor-Jacobean ancestry, which has no place on a regulated Georgian terrace front at all.",
+      "sources": [
+        "english-georgian-townhouse style node, proportional_system, constraint c03"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -232,10 +344,20 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-gauged-brick-arch",
+          "status": "canonical",
+          "note": "Gauged and rubbed brick reserved for openings and the entrance (english-georgian's own primary_cladding rule, inherited unchanged): a flat, thin, precisely jointed arch, not the deep, boldly keyed Baroque segmental head this slot would otherwise inherit from the sibling english-baroque node -- exactly the distinction the parent style names against its own Baroque ancestor ('a flat-arched or gauged-brick window head instead of a keyed segmental one')."
+        }
+      ],
+      "rule": "A flat gauged-brick arch, thin-jointed and precisely cut, replaces the Restoration/Queen Anne keyed segmental head -- one of the diagnostic differences the parent style states directly against its own Baroque ancestor.",
+      "sources": [
+        "english-baroque style node, distinguished_from (english-georgian entry)"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_head_wood": {
       "group": "openings",
@@ -295,10 +417,10 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "This is the type's one licensed indulgence: 'a doorcase and fanlight that differ from house to house on a street where nothing else does' (diagnostic_tells). The Gibbs surround -- alternating rusticated blocks around the opening -- is an English device first given currency on Gibbs's own window architraves at St Martin-in-the-Fields, and it is what a London, Dublin or Edinburgh speculative builder actually worked from, not an American export reading of the same plates.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -328,10 +450,25 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gibbs-ionic",
+          "status": "canonical",
+          "note": "'Bound here, not at the trunk style, for a reason specific to this variant... the Gibbs surround is an ENGLISH device' (this node's own proportion_packs) -- replacing the Palladio-Ionic content this slot would otherwise inherit through the corpus's english-palladian branch, which is architecturally the wrong transmission line for a speculatively built terrace house whose builders owned Gibbs's own plates, not Leoni's or Ware's Palladio editions."
+        },
+        {
+          "id": "gibbs-doric",
+          "status": "permitted",
+          "note": "The plainer doorcase of the fourth-rate and lower third-rate house, where the budget does not run to a fanlight-and-pilasters frontispiece."
+        }
+      ],
+      "rule": "The order appears at the doorcase only, and it is Gibbs's own -- the plates a London, Dublin or Edinburgh speculative builder actually owned -- not the Palladio-mediated reading the free-standing english-palladian style uses.",
+      "sources": [
+        "english-georgian-townhouse style node, proportion_packs"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "column": {
       "group": "classical-apparatus",
@@ -356,10 +493,25 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "window-aedicule",
+          "status": "forbidden",
+          "note": "The Palladian piano-nobile window-aedicule rule this slot would otherwise inherit does not apply -- this type has no rusticated basement and no piano nobile in the Palladian sense; ornament is confined to the doorcase alone (hard constraint c05), not distributed across a storey of window surrounds."
+        },
+        {
+          "id": "doorcase-pilaster",
+          "status": "canonical",
+          "note": "The Gibbs doorcase's own pilasters, the one place an applied order appears on the front at all (see door_surround, order)."
+        }
+      ],
+      "rule": "The pilaster's only licensed appearance is flanking the doorcase; nothing else on the regulated street front carries one.",
+      "sources": [
+        "english-georgian-townhouse style node, constraint c05"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -377,10 +529,20 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "doorcase-fanlight-railings-only",
+          "status": "canonical",
+          "note": "'Cornice or parapet line, floor levels, material and railing pattern must be continuous across the terrace. Individual expression is confined to the doorcase, fanlight and door colour' (hard constraint c05) -- replacing the Palladian licensed-points-only rule (centrepiece, piano-nobile aedicules, cornice) this slot would otherwise inherit, which assumes a free-standing composition this party-walled type does not have."
+        }
+      ],
+      "rule": "Ornament is licensed to exactly one point on the regulated street front: the doorcase, its fanlight, and the door's paint colour. Everything else -- cornice line, floor levels, material, railing pattern -- must match the neighbours exactly.",
+      "sources": [
+        "english-georgian-townhouse style node, constraint c05, diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_type": {
       "group": "threshold",
@@ -559,10 +721,20 @@
     },
     "public_private_gradient": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "vertical-social-section",
+          "status": "canonical",
+          "note": "'A vertical social section -- basement service, ground-floor dining, first-floor principal drawing room, bedroom floor, garret -- expressed in graduated window heights' (defining_characteristics). Privacy and status run up the section, not back through the plan the way a free-standing house organises them."
+        }
+      ],
+      "rule": "Public and private gradient is vertical, not horizontal: the servants move in the basement and by a back stair, the family receives one flight up in the drawing room, sleeps above that, and the garret houses the servants again at the top -- the whole hierarchy legible from the street in the graduated window heights.",
+      "sources": [
+        "english-georgian-townhouse style node, defining_characteristics, description (long)"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
@@ -573,17 +745,35 @@
     },
     "service_zone_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "basement-service-with-area-access",
+          "status": "canonical",
+          "note": "'The whole service life pushed down into a basement lit by an area cut in front of the pavement and up a back stair' -- coal delivered through a round iron plate into vaults under the pavement, servants sleeping in the garret behind the parapet (description, long)."
+        }
+      ],
+      "rule": "All service function is pushed into the basement -- kitchen lit by the front area, coal taken directly into vaults under the pavement through an iron plate -- and connects to the family floors above by a dedicated back stair, never through the principal rooms.",
+      "sources": [
+        "english-georgian-townhouse style node, description (long), diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "depth_ft_max": {
+          "value": 41,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse constraint c04 (hard, tested): 'Plan depth not to exceed 12.5 m without a light well or closet-wing set-back'"
+        }
+      },
+      "rule_append": "Front and back rooms are lit only from the two short ends of the lot; beyond a 12.5 m plan depth the middle of the plan goes dark without a light well or a closet-wing set-back (hard constraint c04) -- a constraint the free-standing country house, lit on four sides, never has to solve.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -604,10 +794,40 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "party-wall-terrace-with-front-area",
+          "status": "canonical",
+          "note": "'A front area with railings, steps up to a raised entrance, and coal vaults extending under the pavement' (defining_characteristics) -- the area is a sunken trench admitting light to the basement kitchen, bridged by the front steps (diagnostic_tells)."
+        }
+      ],
+      "parameters": {
+        "area_width_ft": {
+          "range": [
+            3.9,
+            6.6
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'area 1.2-2.0 m wide and one full storey deep'"
+        },
+        "front_steps_risers": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "english-georgian-townhouse proportional_system typical_ratios: 'front steps 3-6 risers above pavement level'"
+        }
+      },
+      "rule": "The house meets the street across a sunken front area with railings, bridged by three to six steps up to the raised entrance; round cast-iron coal plates set into the pavement mark the vaults beneath, and party walls run up through the roof as a fire break with no window permitted on the party-wall elevation (hard constraint c04).",
+      "sources": [
+        "english-georgian-townhouse style node, defining_characteristics, diagnostic_tells, proportional_system, constraint c04"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "setback_rule": {
       "group": "site",

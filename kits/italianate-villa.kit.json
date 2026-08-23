@@ -18,10 +18,10 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Applies identically to the tower cap; no mansard is permitted anywhere on the building including the tower, and no ridge shall be visible from a viewpoint 40 ft from the facade at eye height (c04).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +32,21 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "eave_projection_in": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Narrower band than the parent's 18-36 in: the villa's own c03 fixes it tighter."
+        }
+      },
+      "rule_append": "Bracket spacing is carried across every mass of the building — tower, main block, and wing — without change of module (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -81,17 +92,59 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "tower_height_above_cornice_storeys": {
+          "range": [
+            1.0,
+            1.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Expressed in storeys above the main cornice, not in ft."
+        },
+        "tower_plan_size_ft": {
+          "range": [
+            12,
+            16
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "note": "The parent's 11-14 ft first floor and 8-15 percent diminution both inherit unchanged; only the tower's own vertical figure is new.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "l-plan-tower-reentrant",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "symmetrical-box",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Legitimate (foursquare massing_affinity 'possible') but forfeits the type's defining element, the tower."
+        }
+      ],
+      "parameters": {
+        "long_arm_to_short_arm_ratio": {
+          "range": [
+            1.5,
+            2.5
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "The tower stands at the reentrant angle of the L, rising not less than one full storey above the main cornice, with its own bracketed eave at the same bracket module as the main building (c01).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
@@ -384,17 +437,30 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "veranda-bracketed-cornice",
+          "status": "canonical",
+          "op": "replace"
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "depth_min_ft": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "The villa's own c05 sets 8 ft where the parent's general figure is 7 ft."
+        }
+      },
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
@@ -552,10 +618,21 @@
     },
     "stair_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "tower-base",
+          "status": "canonical"
+        },
+        {
+          "id": "tower-unoccupied",
+          "status": "forbidden",
+          "note": "c02: 'the tower shall be occupied at every level by a stair, hall, or room. Hollow decorative towers are prohibited.'"
+        }
+      ],
+      "rule": "The tower contains or adjoins the stair at every level, resolving the awkward internal corner where the two arms of the L meet.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "public_private_gradient": {
       "group": "plan-logic",

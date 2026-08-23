@@ -6,22 +6,73 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "near-symmetrical",
+          "status": "canonical",
+          "op": "add",
+          "note": "proportional_system.symmetry, and diagnostic_tells: 'Composition is broadly symmetrical or axial even when the plan rambles -- the entrance sits on an axis that continues through the house to a garden feature.'"
+        }
+      ],
+      "note": "eclectic-revivals leaves symmetry class to each member; this is Mediterranean Revival's own. Unlike its sibling spanish-colonial-revival, this style is not forbidden from strict or picturesque composition -- 'as [massed-picturesque] dominates, the building shades into spanish-colonial-revival' -- so no variant is forbidden here.",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'The roof is hipped, low, and continuous around the whole building; Spanish Colonial Revival breaks its roof into varied planes at varied heights.'"
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "That multi-plane, varied-height roof is explicitly the sibling style's own signature, and this style's own hard constraint c02 forbids any gable facing a principal elevation."
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "c02: 'Gables facing a principal elevation are forbidden; that move belongs to spanish-colonial-revival.'"
+        }
+      ],
+      "rule": "A single continuous hipped roof line around the whole building, uniform in height -- never the broken, multi-plane roof of spanish-colonial-revival.",
+      "confidence": "high",
+      "note": "Overrides the family's front-gable default, and deliberately differs from the sibling style's own multi-plane roof_form (see spanish-colonial-revival.kit.json), which is exactly the trait this style's c02 forbids.",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "editorial"
+        },
+        "eave_overhang_max": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Hard constraint c02."
+        }
+      },
+      "rule": "Roof pitch 3:12 to 5:12 in clay tile, hipped, with eave overhang not exceeding 18 in and no exposed dimensional rafter tails (c02).",
+      "confidence": "high",
+      "note": "Specified rather than extends: the inherited family default (british-picturesque, minimum 45 degrees = 12:12) is roughly three times this style's own maximum pitch.",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +83,18 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "overhang_max": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Cornices and eaves are minimal or absent; where present, a simple moulded band -- never the modillioned overhang of italian-renaissance-revival, and never the wide exposed-rafter overhang of mission-revival.",
+      "confidence": "high",
+      "note": "Overrides the inherited mediterranean-vernacular bracket eave (600-1200 mm on paired modiglioni, the Italian villa vernacular's own much larger overhang), which is not this style's own diagnostic eave.",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -95,8 +154,27 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "platform-frame",
+          "status": "canonical",
+          "note": "The wall is 'stucco walls of expressed mass' (defining_characteristics) achieved over a frame with expressed lath, the same ordinary construction logic as the style's Californian and Floridian siblings mission-revival and spanish-colonial-revival."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "permitted"
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted",
+          "note": "The largest estate and hotel work -- Vizcaya, Ca' d'Zan."
+        }
+      ],
+      "rule": "Wood frame carrying an applied stucco skin is the ordinary case; the wall's thickness is read, not structural, except at the grandest estate scale.",
+      "confidence": "high",
+      "note": "Overrides the inherited continental-baroque-neoclassical masonry-and-terracotta answer, which is Italian Renaissance Revival's American-office construction logic, not this warmer, more vernacular style's own.",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +188,21 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stucco",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "forbidden",
+          "note": "The family's inherited brick answer (english-georgian) belongs to the classical wing, not this one."
+        }
+      ],
+      "rule": "Stucco wall of expressed mass, with openings cut deep into it rather than set flush -- the style's whole surface.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -180,10 +269,21 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-boxed",
+          "status": "permitted"
+        },
+        {
+          "id": "modillion-cornice",
+          "status": "forbidden",
+          "note": "diagnostic_tells: 'Cornices and eaves are minimal or absent; where present they are a simple moulded band, never the modillioned overhang of Italian Renaissance Revival.'"
+        }
+      ],
+      "rule": "Where a cornice occurs at all it is a simple plastered or moulded band, minimal or absent -- never a classical modillioned overhang.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -316,10 +416,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "attached-side-wing-set-back",
+          "status": "canonical",
+          "note": "A subordinate wing set back from the near-axial entrance front, so the blank street wall and its single elaborated door -- the style's own described sequence -- are not interrupted by a second opening competing for attention."
+        },
+        {
+          "id": "attached-flush-facing-street",
+          "status": "forbidden",
+          "note": "The style's approach sequence is 'a blank, glaring, pale wall with a single elaborated door in it'; a garage door on the same wall breaks that composition."
+        }
+      ],
+      "rule": "No traditional precedent exists; the garage is kept subordinate and off the principal approach wall so the single-door sequence the style depends on is not doubled.",
+      "invented": true,
+      "confidence": "medium",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,17 +497,46 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "recessed-loggia",
+          "status": "canonical",
+          "note": "Hard constraint c03: at least one covered outdoor room -- loggia, arcade, or gallery -- opening off a principal interior room; 'a Mediterranean Revival house without one is incomplete.'"
+        },
+        {
+          "id": "stoop-only",
+          "status": "forbidden",
+          "note": "The Georgian stoop this slot would otherwise inherit has no outdoor-room logic at all, which is this style's whole spatial argument."
+        }
+      ],
+      "rule": "At least one loggia, arcade, or gallery, treated as a primary room and opening off a principal interior room -- not a portico, not a stoop.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_min": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Hard constraint c03."
+        },
+        "depth_typical_range": {
+          "range": [
+            10,
+            16
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Not less than 8 ft clear depth (c03); typically 10-16 ft.",
+      "confidence": "high",
+      "note": "Overrides the inherited Georgian portico-depth figures (5-8 ft), which describe an entrance piece rather than this style's habitable outdoor room.",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",

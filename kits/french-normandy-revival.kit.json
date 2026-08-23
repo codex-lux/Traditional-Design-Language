@@ -6,8 +6,24 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "parameters": {
+        "bay_rhythm": {
+          "value": "additive and grouped -- each wing carries its own loose casement rhythm; the tower is the only element that resolves the composition",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "confidence": "high",
+      "judgment": false
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -18,10 +34,32 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_range": {
+          "range": [
+            12,
+            16
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "french-normandy-revival.c02",
+          "note": "Narrower than the inherited french-eclectic 12:12-18:12 band."
+        },
+        "tower_pitch_range": {
+          "range": [
+            18,
+            24
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Main roof pitch 12:12 to 16:12, constant within 1:12 across all faces -- c02, narrower than the parent style's own 12:12-18:12 band -- with the tower's conical roof exceeding it by not less than 4:12."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -53,10 +91,36 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "half-timbered",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from the parent french-eclectic's 'atypical' (a status the parent's own note leaves room for on this variant): defining_characteristics names half-timbered panels directly, and this is the one point where the family 'borrows heavily from Tudor Revival.'"
+        }
+      ],
+      "parameters": {
+        "member_width": {
+          "range": [
+            5,
+            8
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "french-normandy-revival.c03"
+        },
+        "frame_plausibility": {
+          "value": "continuous verticals sill to plate, horizontals terminating at posts, braces at 45 degrees or steeper, members projecting not less than 1 in from the infill plane",
+          "unit": "none",
+          "kind": "measured",
+          "source": "french-normandy-revival.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Where half-timbering is used it must describe a plausible frame under the parent Tudor rule -- c03."
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -88,10 +152,38 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "tower_diameter_min": {
+          "value": 9,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "french-normandy-revival.c01"
+        },
+        "tower_position": {
+          "value": "at the inside corner where two wings meet, containing the entrance or a stair",
+          "unit": "none",
+          "kind": "measured",
+          "source": "french-normandy-revival.c01"
+        },
+        "tower_roof_pitch_min": {
+          "value": "18:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "french-normandy-revival.c01"
+        },
+        "tower_roof_exceeds_main_by": {
+          "value": 4,
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "french-normandy-revival.c02"
+        }
+      },
+      "status": "drafted",
+      "rule": "A round or polygonal entrance tower, minimum 9'0\" diameter, capped with a conical roof at 18:12 or steeper, sits at the junction of two hipped wings and contains the entrance or a stair -- c01, a hard constraint. A tower applied flat to a facade voids the variant. Overrides the inherited continental-baroque-neoclassical corps-de-logis reading, an axial Beaux-Arts parti unrelated to this variant's picturesque tower-and-wings composition.",
+      "confidence": "high",
+      "judgment": false
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +202,25 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "half-timber-infill",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Forbidden on the inherited french-eclectic parent (whose calm all-masonry mainline it correctly voids); reinstated here, since it is one of this variant's own three named wall materials."
+        },
+        {
+          "id": "stone-rubble",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Mixed brick, rubble stone, and stucco, with half-timbered panels in gables and upper storeys -- unlike the parent style's single-material wall, this variant is multi-material by design."
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -124,10 +231,20 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "min_offset": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured",
+          "source": "french-normandy-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "rule": "Vertical material changes occur at a floor line, a water table, or a jetty, with a minimum 4 in horizontal offset. Stone below and stucco above stopping mid-storey is forbidden -- c04.",
+      "confidence": "high",
+      "judgment": false
     },
     "foundation_expression": {
       "group": "envelope",
@@ -267,10 +384,29 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "leaf_width": {
+          "range": [
+            16,
+            22
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "french-normandy-revival.c05"
+        },
+        "group_size": {
+          "value": "twos and threes",
+          "unit": "none",
+          "kind": "measured",
+          "source": "french-normandy-revival.c05"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Casements grouped in twos and threes, leaves 16-22 in wide; double-hung sash on principal elevations is forbidden -- c05."
     },
     "shutter": {
       "group": "openings",

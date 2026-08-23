@@ -6,8 +6,23 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "astylar-symmetrical-palazzo",
+          "status": "canonical",
+          "op": "add"
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "op": "add",
+          "note": "massing_affinities: 'picturesque irregularity destroys the only compositional rule the style has.'"
+        }
+      ],
+      "rule_append": "Renaissance Revival is on the strict-bilateral institutional side of the family's split (c01): the principal elevation is exactly symmetrical about the entrance axis, with no projecting bay, tower, or wing permitted to break it.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -32,10 +47,24 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-dentil-cornice-terminated",
+          "status": "canonical"
+        },
+        {
+          "id": "wide-bracketed-eave",
+          "status": "forbidden",
+          "note": "Diagnostic tell: sawn brackets, not modillions or dentils, signal Italianate, not Renaissance Revival."
+        }
+      ],
+      "determined_by": [
+        "cornice"
+      ],
+      "rule": "The eave is terminated by the modillioned or dentilled crowning cornice, never by sawn brackets — the fastest distinguishing tell against Italianate.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -81,10 +110,41 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "storey_diminish_pct": {
+          "range": [
+            12,
+            22
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Equivalent to c02's 'each storey 78 to 88 percent of the one below', restated as diminish-percentage."
+        },
+        "piano_nobile_min_ratio": {
+          "value": 1.15,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "c02."
+        },
+        "rusticated_base_ratio": {
+          "range": [
+            0.8,
+            1.0
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Floor-to-floor heights diminish monotonically upward, each storey between 78 and 88 percent of the one below, with the piano nobile at least 1.15 times the storey above it (c02). 'The only style in this branch that is' genuinely proportional in the storey-height sense.",
+      "packs": [
+        {
+          "pack": "storey-graduation",
+          "precedence": 1
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -95,8 +155,34 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "balloon-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Defining_characteristics, verbatim: 'a wooden Renaissance Revival is a contradiction.'"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Same fact; no wood-frame register exists for this style."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "canonical",
+          "op": "replace"
+        }
+      ],
+      "rule_append": "Masonry only: ashlar, brownstone, pressed brick, or cast iron. Every frame variant the family otherwise permits is forbidden here.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +196,35 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "brownstone-ashlar",
+          "status": "canonical"
+        },
+        {
+          "id": "pressed-brick",
+          "status": "permitted"
+        },
+        {
+          "id": "cast-iron-front",
+          "status": "permitted",
+          "note": "The commercial register: 'a catalogue of columns, arches, spandrels, and cornices, orderable by number, assembled in weeks.'"
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "note": "Defining_characteristics, verbatim: 'a wooden Renaissance Revival is a contradiction.'"
+        },
+        {
+          "id": "board-and-batten-vertical",
+          "status": "forbidden",
+          "note": "Same: no wood cladding of any kind in this masonry style."
+        }
+      ],
+      "rule": "Ashlar, brownstone, pressed brick, or cast iron; a wooden Renaissance Revival is a contradiction.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -145,17 +256,44 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "string-course-flat-wall",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Flat, uninterrupted wall plane articulated by string courses and quoins rather than by projection.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "full-height-alternating-quoin",
+          "status": "canonical"
+        },
+        {
+          "id": "partial-height-decorative-quoin",
+          "status": "forbidden",
+          "note": "c05."
+        }
+      ],
+      "parameters": {
+        "quoin_face_length_in": {
+          "range": [
+            18,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Quoins run the full height of the corner from water table to cornice in an unbroken alternating rhythm, long faces 18 to 30 in. Partial-height or purely decorative quoining is prohibited (c05).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "corner_board": {
       "group": "envelope",
@@ -180,10 +318,42 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-or-dentil-crowning-cornice",
+          "status": "canonical"
+        },
+        {
+          "id": "sawn-scroll-bracket-cornice",
+          "status": "forbidden",
+          "note": "Diagnostic tell, verbatim: that would be Italianate."
+        }
+      ],
+      "parameters": {
+        "cornice_depth_ratio_of_facade_height": {
+          "range": [
+            0.0625,
+            0.0833
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "1/16 to 1/12 of total facade height (c03)."
+        }
+      },
+      "rule": "A single dominant crowning cornice, modillioned or dentilled, terminating the wall against the sky, projecting 1/16 to 1/12 of total facade height and running unbroken across the full width including party walls (c03).",
+      "packs": [
+        {
+          "pack": "palladio-composite",
+          "precedence": 1
+        },
+        {
+          "pack": "vignola-corinthian",
+          "precedence": 2
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -211,10 +381,21 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-rectangular-pedimented-or-entablatured",
+          "status": "canonical"
+        },
+        {
+          "id": "round-arched",
+          "status": "forbidden",
+          "note": "Italianate's signature, not this style's; storey heads here are classical pediments/entablatures, not arches."
+        }
+      ],
+      "rule": "Window heads are differentiated by storey — typically pedimented or entablatured below, square-headed above — never round-arched.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
@@ -232,17 +413,41 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pedimented-or-entablatured-piano-nobile",
+          "status": "canonical"
+        },
+        {
+          "id": "square-headed-upper-storeys",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "alternation_closure": {
+          "value": "an alternating pediment sequence begins and ends with the same type so the row reads as closed",
+          "unit": "none",
+          "kind": "measured",
+          "note": "c04."
+        }
+      },
+      "rule": "Window head treatment changes at each storey and is uniform within a storey. Where alternating pediments are used, the alternation begins and ends with the same type (c04).",
+      "packs": [
+        {
+          "pack": "opening-proportion",
+          "precedence": 1
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_head_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Masonry-only style; 'a wooden Renaissance Revival is a contradiction.'",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -267,10 +472,23 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "equal-spacing-regular-bays",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "center_bay_widen_max_pct": {
+          "value": 15,
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule": "Three, five, or seven bays at equal spacing, with the centre bay optionally widened by not more than 15 percent.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -328,45 +546,122 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "composite-order-moulding-only",
+          "status": "canonical",
+          "note": "palladio-composite: the branch's most literally classical node."
+        },
+        {
+          "id": "corinthian-order-moulding-only",
+          "status": "permitted",
+          "note": "vignola-corinthian: the plainer bank or smaller-house register."
+        },
+        {
+          "id": "freestanding-colonnade",
+          "status": "forbidden",
+          "note": "Astylar: 'no columns, no portico, no pediment on the facade as a whole' (defining_characteristics)."
+        }
+      ],
+      "rule": "The order supplies the profile family for the cornice's modillion/dentil course and the window aedicules — the enrichment of what IS built — without ever being expressed as a freestanding column, since the composition is astylar.",
+      "packs": [
+        {
+          "pack": "palladio-composite",
+          "precedence": 1
+        },
+        {
+          "pack": "vignola-corinthian",
+          "precedence": 2
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Defining_characteristics, verbatim: 'astylar composition: no columns, no portico, no pediment on the facade as a whole.'",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "astylar-order-derived-moulding",
+          "status": "canonical"
+        },
+        {
+          "id": "freestanding-portico-entablature",
+          "status": "forbidden",
+          "note": "Astylar; no portico exists to carry one."
+        }
+      ],
+      "rule": "The bound order (see `order`) governs the moulding profile applied to the crowning cornice and the window surrounds, never a portico entablature.",
+      "packs": [
+        {
+          "pack": "palladio-composite",
+          "precedence": 1
+        },
+        {
+          "pack": "vignola-corinthian",
+          "precedence": 2
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "alternating-triangular-segmental-window-pediment",
+          "status": "canonical",
+          "note": "Diagnostic tell: 'a Renaissance signature and appears in no other American style of the period.'"
+        },
+        {
+          "id": "single-crowning-facade-pediment",
+          "status": "forbidden",
+          "note": "Defining_characteristics: 'no pediment on the facade as a whole.'"
+        }
+      ],
+      "rule": "Pediments appear over individual window heads, alternating triangular and segmental in a row, never as a single pediment crowning the whole facade.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Astylar: no engaged pilaster order either; enrichment is confined to window surrounds and the cornice (see `order`, `entablature`).",
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-or-dentil-course",
+          "status": "canonical"
+        }
+      ],
+      "rule": "A single dominant crowning cornice, modillioned or dentilled (defining_characteristics; diagnostic tell against Italianate's sawn brackets).",
+      "packs": [
+        {
+          "pack": "palladio-composite",
+          "precedence": 1
+        },
+        {
+          "pack": "vignola-corinthian",
+          "precedence": 2
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -433,17 +728,52 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "height_proportion"
+      ],
+      "parameters": {
+        "parlour_ceiling_ft": {
+          "range": [
+            11,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Interior ceiling heights follow the exterior storey graduation directly; the double-parlour floor runs fourteen-foot ceilings and eleven-foot windows to the floor.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "astylar-order-derived-trim",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "parlour_ceiling_ft": {
+          "range": [
+            11,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "The pedestal:field:entablature wall division is the direct interior counterpart of the astylar exterior order bound above; well inside the trim-classical pack's calibrated range at this style's ceiling heights.",
+      "packs": [
+        {
+          "pack": "trim-classical",
+          "precedence": 1
+        }
+      ],
+      "confidence": "high",
+      "status": "drafted"
     },
     "baseboard": {
       "group": "interior",

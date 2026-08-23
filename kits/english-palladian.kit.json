@@ -11,10 +11,25 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "'Low hipped or pedimented roofs behind a parapet' (defining_characteristics), with the giant order's own pediment marking the centrepiece rather than a gable end."
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "The composed centrepiece is a portico pediment, not a gable roof; overrides the generic front-gable content this slot would otherwise inherit from the corpus's deep vernacular ancestry."
+        }
+      ],
+      "rule": "Low, hipped or shallow-pedimented, kept behind a parapet -- the roof is never the composed feature of the elevation, the pedimented centrepiece and the piano nobile aedicules are.",
+      "sources": [
+        "english-palladian style node, defining_characteristics"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -81,17 +96,66 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "basement_ft": {
+          "range": [
+            8.9,
+            11.5
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-palladian proportional_system typical_ratios: 'basement 2.7-3.5 m'"
+        },
+        "piano_nobile_ft": {
+          "range": [
+            14.75,
+            19.7
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-palladian proportional_system typical_ratios: 'piano nobile storey height 4.5-6.0 m'"
+        },
+        "attic_ratio_of_piano_nobile": {
+          "value": 0.6,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-palladian proportional_system typical_ratios: 'attic storey roughly 0.6 of the piano nobile'"
+        }
+      },
+      "rule_append": "Re-anchored around the piano nobile rather than the ground floor: a rusticated basement of service rooms carries the tallest storey in the house -- the piano nobile of state rooms -- with the attic roughly 0.6 of it above. This is a three-tier hierarchy of RANK (service, state, subordinate), not the family's ordinary four-tier hierarchy of gradually diminishing ordinary storeys; the ground-floor-tallest default the family states elsewhere in this slot does not hold on this style at all.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flanking-symmetrical-dependencies",
+          "status": "canonical",
+          "note": "Main block, low hyphens, terminal pavilions, with a strict hierarchy of ridge heights (defining_characteristics) -- the five-part-palladian massing this style's own name gives to the whole catalogue category."
+        },
+        {
+          "id": "none",
+          "status": "permitted",
+          "note": "The compact villa case (Mereworth, Chiswick, Campbell's smaller designs) -- a double-pile block with no hyphens at all."
+        }
+      ],
+      "parameters": {
+        "ridge_step_down_pct_min": {
+          "value": 25,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "english-palladian constraint c05 (soft, tested)"
+        }
+      },
+      "rule": "Where hyphens and pavilions occur, ridge heights step down by at least 25 percent at each stage from the main block (hard constraint c05) -- a stricter, more literally rule-governed hierarchy than Baroque's looser 1.3:1 minimum, consistent with this style's own governing habit of checking every dimension against a published rule.",
+      "sources": [
+        "english-palladian style node, defining_characteristics, constraint c05"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "construction_type": {
       "group": "envelope",
@@ -281,10 +345,25 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "venetian-serliana",
+          "status": "canonical",
+          "note": "Centred in a shallow projecting bay, usually under a relieving arch and often flanked by blind niches (diagnostic_tells) -- one of the two licensed exotic openings."
+        },
+        {
+          "id": "diocletian-thermal",
+          "status": "permitted",
+          "note": "A semicircular half-round window divided by two mullions, in a pavilion or attic (diagnostic_tells) -- the other licensed exotic opening."
+        }
+      ],
+      "rule": "The Venetian (serliana) window and the Diocletian (thermal) window are the two, and only two, licensed exotic openings; no other special window type appears in canonical work.",
+      "sources": [
+        "english-palladian style node, defining_characteristics, diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "entry_door": {
       "group": "openings",
@@ -295,10 +374,18 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "temple-portico",
+          "status": "canonical",
+          "op": "add",
+          "note": "A pedimented portico of the bound order, full height of the piano nobile plus its entablature, free-standing or engaged, landing on the rusticated basement rather than an invented plinth (hard constraint c04) -- reached by the external stair that raises the visitor deliberately above grade."
+        }
+      ],
+      "rule_append": "The portico must be full height of the piano nobile plus its entablature and land on the rusticated basement (hard constraint c04); an entrance at grade with no portico and no external stair is a Georgian, not a Palladian, front.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -328,59 +415,217 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "ionic",
+          "status": "canonical",
+          "note": "The loggia and portico order of the type in most of this style's own exemplars -- Mereworth and the smaller villas run Ionic."
+        },
+        {
+          "id": "corinthian",
+          "status": "permitted",
+          "note": "The grandest porticoes: Chiswick House's 'hexastyle Corinthian portico', per this style's own exemplars."
+        },
+        {
+          "id": "giant-order",
+          "status": "forbidden",
+          "note": "The Baroque device this style was formed explicitly to eliminate (hard constraint c02) -- a single portico of one order on a rusticated basement replaces it."
+        }
+      ],
+      "parameters": {
+        "authority": {
+          "value": "Palladio's I Quattro Libri (1570), transmitted directly via Giacomo Leoni's 1716 and Isaac Ware's 1738 English editions, not through an intermediate British handbook",
+          "unit": "none",
+          "kind": "measured",
+          "source": "english-palladian style node, proportion_packs (palladio-ionic note)"
+        }
+      },
+      "rule": "A single order, correctly proportioned to Palladio's own published rule, replaces the Baroque giant order -- Ionic for the loggia and the ordinary portico, Corinthian for the grandest. The entablature runs at a fifth of the column height (Palladio's own division) rather than Vignola's quarter, and modillions rather than dentils finish the cornice -- the two measurable consequences of transmission one step closer to the source than the rest of the family.",
+      "sources": [
+        "english-palladian style node, defining_characteristics, exemplars, constraint c02, proportion_packs"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_diameters_ionic": {
+          "range": [
+            9,
+            10
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "english-palladian proportional_system typical_ratios: 'column height 9-10 diameters for Ionic'"
+        },
+        "height_diameters_corinthian": {
+          "range": [
+            9.5,
+            10
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "english-palladian proportional_system typical_ratios: '9.5-10 for Corinthian'"
+        },
+        "intercolumniation_diameters": {
+          "range": [
+            2.25,
+            3
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "english-palladian proportional_system typical_ratios: 'portico intercolumniation 2.25 to 3 diameters (eustyle or systyle)'"
+        }
+      },
+      "rule": "A free-standing or engaged single-storey column of canonical, unattenuated Palladian proportion -- 9 to 10 diameters -- spaced at Vitruvian eustyle or systyle intercolumniation, never banded, stretched or compressed for effect the way Baroque licenses.",
+      "sources": [
+        "english-palladian style node, proportional_system"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_ratio": {
+          "value": 0.2,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-palladian style node, proportion_packs (palladio-ionic note): 'the entablature at a fifth of the column rather than Vignola's quarter'"
+        }
+      },
+      "rule": "The entablature runs at Palladio's own fifth of the column height, not Vignola's quarter -- a measurably shallower crown than Baroque's 1/4-1/5 range at its own deepest -- finished with modillions rather than dentils.",
+      "sources": [
+        "english-palladian style node, proportion_packs"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "broken-scroll-pediment",
+          "status": "forbidden",
+          "op": "add",
+          "note": "Forbidden outright alongside the giant order and banded rustication (hard constraint c02) -- precisely the Baroque device this style was formed to eliminate."
+        },
+        {
+          "id": "swan-neck-pediment",
+          "status": "forbidden",
+          "op": "add",
+          "note": "Same objection as broken-scroll-pediment (hard constraint c02)."
+        }
+      ],
+      "rule_append": "Where a pediment marks the centrepiece it is a single whole triangular gable, full height of the piano nobile plus its entablature, landing on the rusticated basement (hard constraint c04) -- never on a plinth invented for the purpose.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "window-aedicule",
+          "status": "canonical",
+          "note": "A pediment on consoles or pilasters framing each piano nobile window -- 'window aedicules... on the piano nobile only, with the storeys above and below left completely plain -- the vertical hierarchy of ornament is the style's signature' (diagnostic_tells). Ornamenting a basement or attic window inverts the hierarchy and is a hard error (constraint c03)."
+        }
+      ],
+      "parameters": {
+        "restricted_to_storey": {
+          "value": "piano nobile only",
+          "unit": "none",
+          "kind": "measured",
+          "source": "english-palladian constraint c03 (hard)"
+        }
+      },
+      "rule": "The pilaster's licensed appearance is the window aedicule -- a pediment on consoles or pilasters -- and it occurs on the piano nobile alone; the storeys above and below stay completely plain (hard constraint c03).",
+      "sources": [
+        "english-palladian style node, diagnostic_tells, constraint c03"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion",
+          "status": "canonical",
+          "note": "Modillions rather than dentils, per this style's own transmission through Palladio's Ionic entablature -- the measurable consequence, alongside the fifth-of-column-height entablature depth, of a source one step closer to Palladio than the rest of the family (proportion_packs, palladio-ionic note)."
+        },
+        {
+          "id": "dentil",
+          "status": "forbidden",
+          "note": "The Vignola/Gibbs-mediated reading the rest of the family uses; this style's own entablature is Palladio's directly, and Palladio's cornice runs modillions."
+        }
+      ],
+      "rule": "The cornice is finished in modillions, not dentils -- the direct consequence of this style's transmission from Palladio's own published entablature rather than through an intermediate handbook.",
+      "sources": [
+        "english-palladian style node, proportion_packs"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-balustraded-parapet",
+          "status": "permitted",
+          "note": "A parapet may run a plain classical balustrade concealing the low roof, but never loaded with the urns and statuary of the Baroque skyline this style was formed to eliminate."
+        },
+        {
+          "id": "statuary-loaded-parapet",
+          "status": "forbidden",
+          "note": "Skyline statuary is forbidden outright alongside the giant order and banded rustication (hard constraint c02)."
+        }
+      ],
+      "rule": "Where a balustrade occurs it is a plain classical run concealing the roofline, never the sculpted, urn-and-statue-loaded skyline of the Baroque parapet this style reacts against directly.",
+      "sources": [
+        "english-palladian style node, constraint c02"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "licensed-points-only",
+          "status": "canonical",
+          "note": "'Plain ashlar or fine brick wall surfaces with ornament concentrated at licensed points: the centrepiece, the piano nobile window aedicules, the cornice' (defining_characteristics) -- the Venetian and Diocletian windows are the two further licensed exotic openings."
+        },
+        {
+          "id": "giant-order",
+          "status": "forbidden",
+          "note": "Forbidden outright (hard constraint c02)."
+        },
+        {
+          "id": "banded-rustication",
+          "status": "forbidden",
+          "note": "Forbidden outright (hard constraint c02) -- rustication is confined to the plinth-course basement, not banded across the wall or the order."
+        },
+        {
+          "id": "skyline-statuary",
+          "status": "forbidden",
+          "note": "Forbidden outright (hard constraint c02) -- the sculpted Baroque skyline this style was formed to eliminate."
+        }
+      ],
+      "rule": "Ornament is licensed to a small, fixed set of points -- the centrepiece, the piano nobile aedicules, the cornice, the Venetian and Diocletian windows -- and forbidden everywhere else on the wall. This is the polemical opposite of Baroque's ornament-for-effect: correctness against invention.",
+      "sources": [
+        "english-palladian style node, defining_characteristics, constraint c02, distinguished_from"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_type": {
       "group": "threshold",
@@ -433,17 +678,33 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "mean_type": {
+          "set": [
+            "arithmetic"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "source": "english-palladian constraint c01 (hard): narrows the inherited three-way arithmetic/geometric/harmonic choice to the arithmetic mean specifically -- 'a harder and more literal reading of this pack than any of its Gibbs-mediated descendants apply' (proportion_packs, room-harmonic note)"
+        },
+        "ratio_tolerance_pct": {
+          "value": 3,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "english-palladian constraint c01 (hard)"
+        }
+      },
+      "rule_append": "Every room plan must conform to one of Palladio's approved ratios within 3 percent, and ceiling height is the room's own arithmetic mean of length and breadth -- checkable against a published plate, not a range left to judgment (hard constraint c01).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "At full Palladian richness: heavy, rectangular-box rooms with deeply coffered ceilings and marble chimneypieces, the register the family's own text names as what Adam's later thinning reacts against directly -- the enfilade of aligned doors, 'you can see through four rooms at once,' is itself the ornament.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "baseboard": {
       "group": "interior",
@@ -538,10 +799,10 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The centred hall is reached by an external stair that raises the visitor deliberately above grade to the piano nobile -- socially exact and, this style's own long description admits, 'practically miserable', since the service floor sits below the family and the state floor above it. This is the one member of the family where the family's own generic center-hall/side-hall framing needs the piano-nobile qualification: the hall this style centres is not at grade.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "hearth_position": {
       "group": "plan-logic",

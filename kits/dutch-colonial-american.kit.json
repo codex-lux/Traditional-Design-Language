@@ -11,17 +11,61 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "The rural farmhouse -- hall-and-parlor and gambrel-block -- presents its long eave, not its gable, to the approach; door centred on five-bay work after c. 1730 (own bay_rhythm)."
+        },
+        {
+          "id": "gambrel",
+          "status": "canonical",
+          "note": "The eighteenth-century arrival (c. 1720+) that gets a full upper storey out of a low wall (own long description); see roof_pitch for gambrel geometry."
+        },
+        {
+          "id": "front-gable",
+          "status": "permitted",
+          "note": "The urban expression only -- Nieuw Amsterdam, Kingston, Albany -- where the parapeted gable turns to the street exactly as in the Netherlandish original (own lineage note); the inherited germanic-vernacular/low-countries-vernacular default, but not the rural family norm."
+        }
+      ],
+      "rule": "The rural farmhouse is side-gable or gambrel, not front-gable; front-gable is the urban minority case, the reverse of what the inherited cascade states by default.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "gambrel_lower_slope": {
+          "range": [
+            60,
+            72
+          ],
+          "unit": "deg",
+          "kind": "measured"
+        },
+        "gambrel_upper_slope": {
+          "range": [
+            18,
+            30
+          ],
+          "unit": "deg",
+          "kind": "measured"
+        },
+        "gambrel_break_point": {
+          "range": [
+            55,
+            70
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Of the half-span."
+        }
+      },
+      "rule_append": " Where the roof is gambrel rather than straight-gabled, the two slopes diverge sharply -- 60-72 degrees below, breaking to 18-30 degrees above at 55-70% of the half-span -- rather than holding one pitch throughout; a gambrel whose two slopes differ by less than 30 degrees reads as a twentieth-century barn-roof house (c03, soft).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +76,59 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "spring-eave-flared",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1790
+            ]
+          },
+          "note": "The lower rafters continue past the wall face on a concave curve, projecting 18-36 in; only later given posts to become a porch (own diagnostic tell and long description)."
+        },
+        {
+          "id": "flush-tight",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1625,
+              1700
+            ]
+          },
+          "note": "Seventeenth-century work, before the spring eave developed."
+        }
+      ],
+      "parameters": {
+        "wall_plate_height": {
+          "range": [
+            84,
+            108
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "7-9 ft above the finished floor (c02, hard); above 10 ft the roof stops governing the elevation and the building reads Georgian."
+        },
+        "spring_eave_projection": {
+          "range": [
+            18,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1790
+            ]
+          }
+        }
+      },
+      "rule": "A low wall plate, 7 to 9 ft above the floor, so the roof carries most of the visual mass of the building; on eighteenth-century work a deep flared spring eave projects 18-36 in beyond the wall plane.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -67,10 +160,30 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gable-end-interior",
+          "status": "canonical"
+        },
+        {
+          "id": "gable-end-exterior",
+          "status": "canonical"
+        },
+        {
+          "id": "interior-paired-flanking-ridge",
+          "status": "forbidden",
+          "note": "A New England device; incompatible with the open one- or two-room Dutch plan (c01, hard)."
+        },
+        {
+          "id": "central-stack",
+          "status": "forbidden",
+          "note": "First Period New England; destroys the open hall-and-parlor Dutch plan the gable-end chimney serves."
+        }
+      ],
+      "rule": "Chimneys sit at or within the gable end walls; a single central stack is a New England device and destroys the Dutch plan, which depends on an open one- or two-room volume (c01, hard).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -100,8 +213,20 @@
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "thickness": {
+          "range": [
+            20,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Load-bearing stone walls 20-30 in thick, laid in lime mortar with wide joints; a thin stone veneer over frame is a different building (c05, soft).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -110,10 +235,40 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stone-ashlar",
+          "status": "canonical",
+          "applies_when": {
+            "note": "entrance elevation; Hudson Valley limestone or Hackensack sandstone"
+          },
+          "note": "Dressed and coursed stone on the entrance elevation only, rubble on the other three -- 'a house with one good face' (own diagnostic tell and long description)."
+        },
+        {
+          "id": "stone-rubble",
+          "status": "canonical",
+          "applies_when": {
+            "note": "flank and rear elevations"
+          }
+        },
+        {
+          "id": "brick-common-bond",
+          "status": "canonical",
+          "applies_when": {
+            "note": "urban gable-front work, cross bond"
+          },
+          "note": "Nieuw Amsterdam, Kingston, Albany, gable turned to the street."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "The German Fachwerk answer, generic to the inherited germanic-vernacular ancestor; the American Dutch branch's H-bent frame is interior structure, exposed inside the room, not an exterior expressed frame-and-infill wall -- the frame retreats indoors once stone is available (own long description)."
+        }
+      ],
+      "rule": "Walls follow the geology: dressed stone on the show face and rubble elsewhere in the country, brick in cross bond in the towns; the frame itself is never left exposed as an exterior wall the way German Fachwerk leaves it.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -503,10 +658,22 @@
     },
     "fireplace_surround": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "jambless-open-hearth",
+          "status": "canonical",
+          "note": "No side cheeks: fire on a raised hearth against a flat wall, hood of plaster-on-lath or timber suspended on iron rods, sometimes trimmed with a valance; before c. 1750 (own long description and diagnostic tell #1). Occurs in no other American colonial tradition."
+        },
+        {
+          "id": "bolection-moulding",
+          "status": "forbidden",
+          "note": "The English/Georgian answer -- a moulded surround around a recessed firebox with jambs -- is the opposite of the jambless Dutch hearth."
+        }
+      ],
+      "rule": "The jambless fireplace is decisive and occurs in no other American tradition; anyone who has stood in front of one understands why the Dutch kept it and why the English thought it wasteful (own long description).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "built_ins": {
       "group": "interior",

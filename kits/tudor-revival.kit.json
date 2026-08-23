@@ -6,22 +6,74 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "op": "add",
+          "note": "The style's own proportional_system states the parti in these words: no elevation reads as symmetrical and the front door is not at the centre of the facade."
+        },
+        {
+          "id": "strict-bilateral",
+          "status": "forbidden",
+          "op": "add",
+          "note": "The style's own massing_affinities calls the symmetrical double-pile block 'the failure mode of the style, not an expression of it.'"
+        },
+        {
+          "id": "even-bay-front",
+          "status": "forbidden",
+          "op": "add",
+          "note": "bay_rhythm is additive, not rhythmic; an even, repeating bay spacing has, in the style's own words, 'left the style.'"
+        }
+      ],
+      "note": "eclectic-revivals leaves symmetry class to each member to state; this is Tudor Revival's own.",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "cross-gable",
+          "status": "canonical",
+          "op": "add",
+          "note": "defining_characteristics: 'one or more prominent front-facing cross-gables of unequal size' -- the plural, unequal cross-gable is as central to the type as the single gable inherited from the family."
+        }
+      ],
+      "note": "The family's front-gable binding (germanic-vernacular) is retained as the base gable-fronted case; this adds the style's own signature plural, unequal cross-gable massing.",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "10:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "16:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "editorial",
+          "note": "Midpoint of the style's own stated 10:12-16:12 range."
+        },
+        "cross_gable_relative_to_main": {
+          "value": "must equal or exceed the main roof pitch, never shallower",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Main roof pitch not less than 10:12, typically 10:12 to 16:12; a subordinate cross-gable's pitch must equal or exceed the main roof, never shallower. Below 10:12 the style's own hard constraint (c03) voids it.",
+      "confidence": "high",
+      "note": "Specified rather than extends: the inherited family default (british-picturesque, minimum 45 degrees = 12:12) is a STRICTER floor than this style's own sourced 10:12 (~39.8 degrees) minimum, so merging would silently tighten the style's own documented range instead of expressing it. This style's own numbers, sourced from its own constraint c03 and proportional_system, replace the family default outright.",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -53,10 +105,31 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "half-timbered",
+          "status": "canonical",
+          "note": "The style's identifying gable treatment; distinguished_from names its absence as the single test that returns a building to Colonial Revival, and its formalisation into stone with no timber at all as the test that moves it to jacobethan-revival."
+        },
+        {
+          "id": "shingled",
+          "status": "permitted"
+        },
+        {
+          "id": "parapeted",
+          "status": "forbidden",
+          "note": "The parapeted, shaped gable belongs to jacobethan-revival, the formal masonry wing of the same import; its presence here is exactly the tell distinguished_from names for that variant."
+        },
+        {
+          "id": "flush",
+          "status": "forbidden",
+          "note": "A flush gable with no timbering or bargeboard has, per the style's own diagnostic_tells, 'left the style' the same way a level ridge or a resolved timber corner would."
+        }
+      ],
+      "rule": "The gable end is half-timbered -- stuccoed infill within applied timber members that must describe a structurally plausible frame (c01, c02) -- never parapeted, never left flush.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +140,23 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "plan_width_min": {
+          "value": 3,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Hard constraint c05: not less than 3'0\" wide in plan."
+        },
+        "projection_from_wall_min": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c05: projects at least 12 in from the wall face; a flush or concealed flue is, in the style's own words, incoherent."
+        }
+      },
+      "note": "The family's tall-multiple-vertical-accent variant (british-picturesque) already states the chimney is deliberately oversized and a primary vertical accent; this adds the style's own specific plan dimensions from its hard constraint c05.",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -95,8 +181,36 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "canonical",
+          "note": "The style's own long description names this as the decisive economic fact: 'the perfection of masonry veneer... gave American builders the appearance of English mass at American labour rates,' and it is the reason the style could descend from estates to $6,000 suburban houses within twenty-five years."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "permitted",
+          "note": "Where the half-timbered upper storey is genuinely structural rather than a veneered pattern, on the more architect-designed examples."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted",
+          "note": "The grander estate examples -- Meadow Brook Hall's 'genuinely varied stonework.'"
+        },
+        {
+          "id": "balloon-frame",
+          "status": "atypical"
+        },
+        {
+          "id": "platform-frame",
+          "status": "atypical"
+        }
+      ],
+      "rule": "Masonry-veneer-over-frame is the type case, not the fallback: the style's whole diffusion from millionaire estate to speculative suburb runs on veneer over a wood frame at American labour rates.",
+      "confidence": "high",
+      "note": "Specified rather than extends: the inherited value (english-classical, solid-masonry-two-wythe canonical, masonry-veneer-over-frame FORBIDDEN as fatal) is not a partial mismatch to refine but the opposite ranking for this style's single most economically significant construction fact.",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,24 +224,61 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "brick-common-bond",
+          "status": "canonical",
+          "note": "The lower storey, per the style's own defining_characteristics: 'masonry or stone below.'"
+        },
+        {
+          "id": "stone-rubble",
+          "status": "canonical"
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "canonical",
+          "note": "The upper storey; stuccoed infill within applied timber -- see gable_treatment and secondary_cladding."
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "forbidden",
+          "note": "The all-brick single-material Georgian wall this slot would otherwise inherit (english-georgian) is exactly what this style's multi-material rule (c04) contradicts."
+        }
+      ],
+      "rule": "The wall is multi-material by design, not by accident: masonry or stone at the ground storey, stuccoed half-timbering above, changing at a floor line or jetty (see material_change_rule).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "half-timber-infill",
+          "status": "canonical",
+          "note": "Stuccoed half-timbering above the masonry storey -- the style's defining two-material wall, directly overriding the family's single-material rule."
+        }
+      ],
+      "rule": "A second material above the ground storey is not merely permitted but required: the style's own defining_characteristics name the horizontal material change between storeys as one of six necessary features.",
+      "confidence": "high",
+      "note": "Overrides the family's inherited single-cladding-material prohibition (georgian-colonial-american), which is correct for the classical wing of this family and wrong for Tudor Revival's whole formal argument.",
+      "status": "drafted"
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "min_offset_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Hard constraint c04: a minimum 4 in horizontal offset, or a water table, at the change."
+        }
+      },
+      "rule_append": "The change must occur at a floor line or at a projecting jetty; a material change stopping mid-storey without the offset is forbidden (c04).",
+      "note": "The inherited Arts-and-Crafts material-honesty rule (british-arts-and-crafts) already states the principle correctly; this adds the style's own sourced number for where and how much.",
+      "status": "drafted"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -218,10 +369,35 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "leaf_width": {
+          "range": [
+            16,
+            22
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "leaf_height": {
+          "range": [
+            40,
+            56
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "leaf_proportion": {
+          "range": [
+            2.2,
+            2.8
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "note": "The family's overall grid ratio (tudor-jacobean) states the whole window's width:height; this adds the style's own sourced individual-casement-leaf dimensions from its typical_ratios.",
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -267,10 +443,22 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "cluster_size": {
+          "set": [
+            2,
+            3,
+            4
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "note": "Casements grouped in 2, 3, or 4, per the style's own typical_ratios."
+        }
+      },
+      "rule_append": "Clusters do not align between storeys; any facade producing an even, repeating bay spacing has left the style.",
+      "note": "The inherited horizontal-band rule (british-arts-and-crafts) is refined with the style's own specific cluster count and its own explicit non-alignment rule.",
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -295,10 +483,24 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gibbs-surround",
+          "status": "forbidden",
+          "note": "No classical order is used anywhere in this style (order, column, pilaster, entablature are family-forbidden below); the inherited pilasters-and-entablature answer belongs to the family's classical wing, not this one."
+        }
+      ],
+      "parameters": {
+        "form": {
+          "value": "a Tudor (four-centred) arch, or a heavy round-arched masonry surround, usually recessed and set within a projecting gabled bay",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "The entrance is framed by a four-centred Tudor arch or a heavy round-arched masonry surround, never a classical order.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +518,40 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "attached-subordinate-cross-gable",
+          "status": "canonical",
+          "note": "The garage as a lower, subordinate cross-gable wing continuing the wall's own material change and roof pitch -- one more picturesque volume in an already additive massing, rather than an applied box."
+        },
+        {
+          "id": "detached-matching-outbuilding",
+          "status": "permitted"
+        },
+        {
+          "id": "attached-flush-facing-street",
+          "status": "forbidden",
+          "note": "A garage door on the principal elevation substitutes a flat, rhythmic opening for the deliberately non-resolving asymmetrical composition the whole style depends on."
+        }
+      ],
+      "parameters": {
+        "door_orientation": {
+          "value": "turned off the principal elevation wherever the lot allows",
+          "unit": "none",
+          "kind": "editorial"
+        },
+        "roof_pitch_match": {
+          "value": true,
+          "unit": "none",
+          "kind": "editorial",
+          "note": "The garage wing's roof continues the main roof's own pitch and material, never a shallower applied lean-to."
+        }
+      },
+      "rule": "No traditional precedent exists; the garage is authored as one more subordinate gabled volume in the style's own additive massing vocabulary, its door turned away from the approach.",
+      "invented": true,
+      "confidence": "medium",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +616,32 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-under-roof",
+          "status": "canonical",
+          "note": "The entrance is 'recessed and often placed in a projecting gabled bay' rather than fronted by a freestanding porch."
+        },
+        {
+          "id": "stoop-only",
+          "status": "permitted",
+          "note": "The compressed suburban version, where the picturesque is reduced to one gable and one chimney."
+        },
+        {
+          "id": "entry-portico",
+          "status": "forbidden",
+          "note": "A freestanding classical portico is the family's classical answer, and this style forbids the order it would require."
+        },
+        {
+          "id": "full-width",
+          "status": "forbidden",
+          "note": "A full-width porch reads as a single continuous datum, which fights the picturesque asymmetry the style's own bay_rhythm and massing depend on."
+        }
+      ],
+      "rule": "The threshold is compression before release: a low, recessed, shadowed entrance under its own gabled bay, not a freestanding classical portico.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",

@@ -5,23 +5,83 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "additive-vernacular",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from the family's 'permitted' to this style's canonical and only real case: massing is inherited unchanged from the folk house type, and ornament never recomposes it."
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "op": "add",
+          "note": "c01: a tower, wraparound porch, or polygonal bay above the first floor converts the building to Queen Anne outright; this style keeps a folk footprint of not more than two primary volumes."
+        }
+      ],
+      "rule_append": "Concretely: gable-front, gable-front-and-wing, I-house, hall-and-parlor, or pyramidal-cottage massing, unchanged from the underlying folk type; the ornament is confined to zones that type already had.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json defining_characteristics, constraints c01"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "front-gable",
+          "status": "canonical",
+          "note": "The narrow-lot town version, and the most easily catalogued (massing_affinities)."
+        },
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "The I-house and hall-and-parlor cases."
+        },
+        {
+          "id": "pyramidal",
+          "status": "permitted",
+          "note": "The pyramidal-cottage massing affinity."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "A genuinely irregular cross-gable composition has left the type; classify as Queen Anne instead (massing_affinities: 'atypical')."
+        }
+      ],
+      "rule": "A rectangular or simple L ridge inherited from the folk house type: gable-front, gable-front-and-wing, I-house, hall-and-parlor, or pyramidal cottage. No tower, no wraparound, no complex ridge.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json massing_affinities, constraints c01"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Roof pitch follows local vernacular practice rather than a style convention, and ranges 6:12 to 12:12 accordingly.",
+      "status": "drafted",
+      "confidence": "high",
+      "note": "Deliberately a wide band, not a style-specific number: the style's own text is explicit that pitch is inherited from the local folk tradition, not imposed by the Victorian layer.",
+      "sources": [
+        "styles/folk-victorian.json proportional_system.typical_ratios"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -31,11 +91,20 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "boxed-with-sawn-brackets",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Applied sawn ornament (brackets) is confined to the eave and cornice zone, factory-produced and catalogue-ordered.",
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/folk-victorian.json defining_characteristics"
+      ],
+      "group": "massing-and-roof"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -52,11 +121,31 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "sunburst-panel",
+          "status": "canonical",
+          "note": "One decorated gable panel, catalogue-ordered."
+        },
+        {
+          "id": "pierced-bargeboard",
+          "status": "permitted",
+          "note": "The oldest millwork layer, inherited from Gothic Revival (Lizzie Garrard House, American Gothic House exemplars)."
+        },
+        {
+          "id": "flush",
+          "status": "permitted",
+          "note": "The plain gable of the underlying folk type where no ornament was purchased for it."
+        }
+      ],
+      "rule": "Applied ornament in the gable is confined to a single decorated panel or bargeboard treatment; the field is otherwise flush and untextured, matching the rest of the wall.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json defining_characteristics, constraints c02"
+      ],
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -109,25 +198,45 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clapboard",
+          "status": "canonical"
+        },
+        {
+          "id": "drop-siding",
+          "status": "canonical"
+        }
+      ],
+      "rule": "A single wall cladding, unbroken and untextured, on every elevation including the rear.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json defining_characteristics, constraints c02"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No second cladding material or texture change: the wall surface between porch, eave, and gable carries one cladding material on every elevation. Two textures on a Folk Victorian body is the diagnostic move into Queen Anne.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json constraints c02, distinguished_from queen-anne-american"
+      ],
+      "group": "envelope"
     },
     "material_change_rule": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Applied ornament is confined to the porch, the eave and cornice, and the gable field; wall surfaces between these zones carry one cladding material, unbroken and untextured, on every elevation including the rear.",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "sources": [
+        "styles/folk-victorian.json constraints c02"
+      ],
+      "group": "envelope"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -224,11 +333,26 @@
       "status": "empty"
     },
     "window_lite_pattern": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "lite_pattern": {
+          "set": [
+            "2/2",
+            "1/1"
+          ],
+          "unit": "none",
+          "kind": "derived",
+          "note": "Large-pane cylinder and plate glass, available after 1870, over the style's 1870-1925 span."
+        }
+      },
+      "rule": "Plain sash glazing, 2/2 or 1/1, consistent with the large-pane glass the catalogue trade actually supplied over the style's floruit.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "sources": [
+        "styles/folk-victorian.json proportion_packs (sash-light note)"
+      ],
+      "group": "openings"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -252,11 +376,25 @@
       "status": "empty"
     },
     "window_surround_wood": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-casing",
+          "status": "canonical"
+        },
+        {
+          "id": "moulded-architrave",
+          "status": "forbidden",
+          "note": "Elaboration belongs to the porch, eave, and gable; the wall between them, including window surrounds, stays plain."
+        }
+      ],
+      "rule": "Plain surrounds: symmetrical or simply organised fenestration, one or two windows per room.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json defining_characteristics"
+      ],
+      "group": "openings"
     },
     "window_sill": {
       "group": "openings",
@@ -294,11 +432,26 @@
       "status": "empty"
     },
     "door_surround": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-casing",
+          "status": "canonical"
+        },
+        {
+          "id": "ornamented-surround",
+          "status": "forbidden",
+          "note": "Ornament is applied only where the folk type already had an element to decorate (c05: porch, eave, gable, door surround itself is not one of the purchased zones)."
+        }
+      ],
+      "rule": "Plain door surround, matching the plain window surrounds; the entrance is not an ornamented zone the way the porch, cornice, and gable are.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "sources": [
+        "styles/folk-victorian.json constraints c02, c05"
+      ],
+      "group": "openings"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -383,25 +536,111 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "full-width",
+          "status": "canonical"
+        },
+        {
+          "id": "engaged-under-roof",
+          "status": "canonical",
+          "note": "The L-shaped case: the porch runs the full length of both faces of the reentrant angle."
+        },
+        {
+          "id": "wraparound",
+          "status": "forbidden",
+          "note": "c01: a wraparound porch converts the building to Queen Anne."
+        },
+        {
+          "id": "entry-portico",
+          "status": "forbidden",
+          "note": "A partial or entrance-only porch does not satisfy the type (c03); the porch is the entire architecture of the house, not an accent on it."
+        }
+      ],
+      "rule": "A porch shall run the full width of the principal elevation, or the full length of both faces of the reentrant angle in an L. A partial or entrance-only porch does not satisfy the type.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json constraints c03"
+      ],
+      "group": "threshold"
     },
     "porch_depth": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_min": {
+          "value": 6,
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "depth_max": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json constraints c03"
+      ],
+      "group": "threshold"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "turned-post-with-sawn-bracket",
+          "status": "canonical"
+        },
+        {
+          "id": "chamfered-post-with-sawn-bracket",
+          "status": "canonical",
+          "note": "The earlier, Italianate-derived layer; a chamfered square post is the carpenter-built stand-in a Benjamin-pattern-book builder reached for."
+        }
+      ],
+      "parameters": {
+        "frieze_depth": {
+          "range": [
+            8,
+            16
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Spindle frieze or pierced valance at the porch head."
+        },
+        "spindle_diameter": {
+          "range": [
+            1.25,
+            2
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "spindle_spacing": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "On centre."
+        },
+        "ornament_stock_thickness_max": {
+          "value": 1.25,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Nothing on the building is thicker; the c04 dimensional-consistency ceiling."
+        }
+      },
+      "rule": "Turned or chamfered posts with sawn brackets, and usually a spindle frieze or pierced valance at the porch head, all dimensionally consistent with millwork stock and one turned profile used throughout the building.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/folk-victorian.json defining_characteristics, proportional_system.typical_ratios, constraints c04"
+      ],
+      "group": "threshold"
     },
     "porch_rail": {
       "group": "threshold",
@@ -425,11 +664,15 @@
       "status": "empty"
     },
     "entry_sequence": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A single threshold: the porch is the entire architecture of the house, and the sequence from street to door is grade, porch, door, with no intervening portico or vestibule.",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "sources": [
+        "styles/folk-victorian.json description.long"
+      ],
+      "group": "threshold"
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -439,11 +682,22 @@
       "status": "empty"
     },
     "trim_family": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "carpenter-plain-stock",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Trim follows the plain carpenter-stock tradition of the underlying folk house; factory-turned parts are confined to the porch, cornice, and gable, and do not enter the interior trim family, which stays a board is a board.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "Judgment binding, echoing the style's own proportion_packs precedence-4 reasoning for trim-craftsman over trim-classical.",
+      "sources": [
+        "styles/folk-victorian.json proportion_packs (trim-craftsman note)"
+      ],
+      "group": "interior"
     },
     "baseboard": {
       "group": "interior",

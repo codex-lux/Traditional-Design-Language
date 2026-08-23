@@ -11,10 +11,18 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "gambrel",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Late eighteenth-century Hudson work only, adopted from the south (own massing_affinities rates it only 'possible'); in its earliest and best work this variant has no gambrel at all -- a real narrowing of the parent dutch-colonial-american's canonical rating, which reflects the wider Dutch colonial family including New Jersey."
+        }
+      ],
+      "note": "Demotes the parent's canonical gambrel to permitted for this specifically stone, steep-straight-gable variant.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -32,10 +40,29 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "spring_eave_projection": {
+          "range": [
+            18,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Narrower than the parent dutch-colonial-american's wider family figure of 18-36 in (c04, soft)."
+        },
+        "spring_eave_sweep_radius": {
+          "range": [
+            5,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " In this variant specifically the spring eave's projection is capped at 18-24 in, on a sweep radius of 5-9 ft, rather than the wider Dutch colonial family's 18-36 in.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -110,10 +137,21 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "stone-ashlar",
+          "status": "canonical",
+          "op": "replace",
+          "applies_when": {
+            "note": "grey limestone or sandstone, Ulster/Albany County"
+          },
+          "note": "This variant's own stone is the Hudson Valley limestone belt (Kingston, Hurley, New Paltz) and the Albany-region beds -- distinct from the Hackensack Valley's red-brown Newark sandstone the parent dutch-colonial-american also describes, which belongs to the New Jersey Dutch gambrel branch (own distinguished_from note)."
+        }
+      ],
+      "note": "Narrows the parent's generic stone description to this variant's own specific quarry region.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_cladding": {
       "group": "envelope",

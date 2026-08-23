@@ -6,8 +6,44 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "regular-octagon-radial",
+          "status": "canonical",
+          "op": "add"
+        },
+        {
+          "id": "massed-picturesque",
+          "status": "forbidden",
+          "op": "add",
+          "note": "massing_affinities: 'the octagon cannot be added to; picturesque growth destroys the figure that justifies the type.'"
+        }
+      ],
+      "parameters": {
+        "side_count": {
+          "value": 8,
+          "unit": "count",
+          "kind": "measured"
+        },
+        "side_length_ft": {
+          "range": [
+            12,
+            20
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "side_equality_tolerance_pct": {
+          "value": 5,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "c01: 'all eight sides equal within 5 percent.'"
+        }
+      },
+      "rule_append": "A regular octagon, all eight sides equal within 5 percent, side length 12 to 20 ft. Irregular or elongated octagons forfeit the wall-economy argument that is the type's only justification (c01).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -88,15 +124,35 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-or-breezeway-linked-wing",
+          "status": "canonical"
+        },
+        {
+          "id": "attached-ell-extending-one-face",
+          "status": "forbidden",
+          "note": "c05: 'extending one face of the octagon destroys the type.'"
+        }
+      ],
+      "rule": "Additions are prohibited on the primary figure. Where more space is required, build a detached or breezeway-linked wing (c05).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "lime-and-gravel-concrete-board-formed",
+          "status": "permitted",
+          "op": "add"
+        }
+      ],
+      "rule_append": "Fowler's second thesis: many examples are built in lime-and-gravel concrete, formed in lifts using board formwork; look for horizontal form lines under the stucco skin.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +166,24 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "stucco-over-gravel-concrete",
+          "status": "permitted",
+          "op": "add"
+        }
+      ],
+      "parameters": {
+        "form_line_evidence": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "note": "Horizontal form lines under the stucco are the diagnostic tell for concrete construction."
+        }
+      },
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -384,17 +454,40 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wrap-continuous-five-plus-faces",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "coverage_min_faces": {
+          "value": 5,
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "rule": "A veranda runs continuously across not fewer than five faces at a uniform depth, breaking only at the entrance face (c04).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            7,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Veranda depth 7 to 10 ft, uniform on every face it crosses (c04).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
@@ -545,17 +638,26 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "stair_position"
+      ],
+      "rule": "Where the core is a stack of flues rather than the stair, hearth position is the core itself; the two are alternate readings of the same required central element (c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "stair_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "central-core",
+          "status": "canonical"
+        }
+      ],
+      "rule": "A central core, being either the principal stair or a stack of flues, serves all eight sectors at every storey. Without it the eight-hip roof has nothing to bear on and the plan has no organising element (c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "public_private_gradient": {
       "group": "plan-logic",
@@ -566,10 +668,23 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "max_sides_per_room": {
+          "value": 3,
+          "unit": "count",
+          "kind": "measured",
+          "note": "c03: no single room shall occupy more than three of the eight sides."
+        },
+        "min_openings_per_principal_room": {
+          "value": 2,
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "rule": "No single room shall occupy more than three of the eight sides, and each principal room shall have openings on at least two faces. This is what buys the cross-light and cross-ventilation the type exists for (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "service_zone_strategy": {
       "group": "plan-logic",
@@ -587,10 +702,21 @@
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "directions_per_principal_room": {
+          "range": [
+            3,
+            4
+          ],
+          "unit": "count",
+          "kind": "derived",
+          "note": "Derived from the room-adjacency rule (a room open on 2+ of 8 radially-spaced faces receives light from multiple directions), not an independently sourced figure."
+        }
+      },
+      "rule": "Light arrives from three or four directions in every principal room, so the quality of illumination is soft and shadowless in a way rectangular rooms of the period do not achieve.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "storage_strategy": {
       "group": "plan-logic",

@@ -66,11 +66,38 @@
       "status": "empty"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "corbelled-panelled-stack",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "height_above_ridge": {
+          "range": [
+            4,
+            8
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "cap_projection": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Chimney stacks rise 4 to 8 ft above the adjacent ridge and carry a corbelled or panelled cap; in this subtype the chimney is a primary compositional element and may not be suppressed.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-patterned-masonry.json constraints c03"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -94,9 +121,38 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "This variant is load-bearing or substantially masonry construction; a timber-frame wall belongs to the spindlework or free classic subtypes instead."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The family's default wood construction; this variant is specifically the masonry expression of the parent style, not the balloon-framed majority."
+        }
+      ],
+      "rule_append": "Load-bearing or substantially masonry wall construction in pressed or moulded brick, not the family's default balloon frame.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-patterned-masonry.json defining_characteristics"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -109,25 +165,59 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "brick-pressed",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-moulded",
+          "status": "canonical"
+        },
+        {
+          "id": "terra-cotta-panel",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Pressed or moulded brick, with moulded, rubbed, or gauged brick and terra cotta panels as the ornamental vocabulary in place of sawn and turned woodwork.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-patterned-masonry.json defining_characteristics"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rock-faced-stone-base",
+          "status": "canonical",
+          "note": "Brownstone or granite at the base."
+        },
+        {
+          "id": "moulded-brick-frieze",
+          "status": "canonical",
+          "note": "At the top of the elevation."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-patterned-masonry.json description.long"
+      ],
+      "group": "envelope"
     },
     "material_change_rule": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Not fewer than two masonry materials or brick colours shall appear on each principal elevation, with every change occurring on a horizontal course line. A vertical or diagonal material change is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-patterned-masonry.json constraints c01"
+      ],
+      "group": "envelope"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -231,11 +321,33 @@
       "status": "empty"
     },
     "window_head_masonry": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "segmental-brick-arch",
+          "status": "canonical"
+        },
+        {
+          "id": "gauged-flat-arch",
+          "status": "canonical"
+        },
+        {
+          "id": "jack-arch-with-keystone",
+          "status": "permitted"
+        },
+        {
+          "id": "full-semicircular-arch",
+          "status": "forbidden",
+          "note": "A full semicircular arch springing from a squat column moves the building toward Richardsonian Romanesque and should be classified there."
+        }
+      ],
+      "rule": "Arches shall be segmental or flat with rubbed voussoirs.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-patterned-masonry.json constraints c05"
+      ],
+      "group": "openings"
     },
     "window_head_wood": {
       "group": "openings",
@@ -397,11 +509,25 @@
       "status": "empty"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "masonry-pier",
+          "status": "canonical"
+        },
+        {
+          "id": "turned-post",
+          "status": "forbidden",
+          "note": "c02: applied sawn or turned wooden ornament is prohibited on masonry elevations; a spindled porch places the building in the spindlework subtype."
+        }
+      ],
+      "rule": "Where a porch occurs at all it is small and masonry-piered, not the wraparound wooden porch of the other subtypes.",
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/queen-anne-patterned-masonry.json diagnostic_tells, constraints c02"
+      ],
+      "group": "threshold"
     },
     "porch_rail": {
       "group": "threshold",

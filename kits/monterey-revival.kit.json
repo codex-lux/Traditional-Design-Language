@@ -6,22 +6,51 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "near-symmetrical",
+          "status": "canonical",
+          "note": "The style's own proportional_system.symmetry field, and distinguished_from spanish-colonial-revival: 'a frontal, near-symmetrical two-storey block whose entire architectural argument is a single horizontal balcony.'"
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "The inherited value from spanish-colonial-revival (via the regional_of edge) is this variant's own point of departure: the balcony's continuous, unbroken run depends on a frontal, near-regular composition, not a courtyard-organised asymmetrical one."
+        }
+      ],
+      "rule": "A frontal, near-symmetrical two-storey block, entry centred or one bay off centre, three to five evenly spaced bays.",
+      "confidence": "high",
+      "note": "Specified rather than extends: spanish-colonial-revival's own composition_parti resolves to picturesque-asymmetrical canonical, and this variant needs the opposite ranking.",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "op": "add",
+          "note": "defining_characteristics: 'Low-pitched side-gable or hipped roof.' Added alongside the parent's inherited hip/cross-gable, since the two-storey balcony block is closer to a single unified block than to spanish-colonial-revival's accreted, multi-plane massing."
+        }
+      ],
+      "note": "The parent's hip and cross-gable options are retained for the L-shaped and courtyard-u massing this style's own massing_affinities also permit; side-gable is added as this variant's own canonical case for the simple rectangular block.",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_max": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "note": "The style's own typical_ratios give 3:12 to 6:12 -- one step steeper at the top than the parent's inherited 5:12 ceiling."
+        }
+      },
+      "note": "Only the maximum changes; the parent's 3:12 floor, its eave-overhang and clay-tile figures all inherit correctly.",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -81,10 +110,34 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "ground_ceiling_ft": {
+          "range": [
+            9,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "second_ceiling_ft": {
+          "range": [
+            8,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "balcony_line_ratio": {
+          "value": "55:45",
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "The balcony line is placed so the lower mass reads as the heavier of the two."
+        }
+      },
+      "rule": "The balcony floor line, not a cornice or a belt course, is the storey division that governs the elevation; the ground storey reads heavier, roughly 55:45.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -117,17 +170,32 @@
     },
     "secondary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clapboard",
+          "status": "canonical"
+        },
+        {
+          "id": "board-and-batten",
+          "status": "canonical"
+        },
+        {
+          "id": "shingle",
+          "status": "permitted"
+        }
+      ],
+      "rule": "A lighter Anglo-American material -- clapboard, board-and-batten, or shingle -- clads the second storey above the stuccoed ground floor, per defining_characteristics.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where the material changes from stucco to wood, it must fall exactly at the balcony floor line and continue around any return; a change that stops at an outside corner is the characteristic production-housing failure (hard constraint c03).",
+      "confidence": "high",
+      "note": "This is the variant's own hard constraint, more specific than any belt-course rule the cascade would otherwise supply.",
+      "status": "drafted"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -274,10 +342,19 @@
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "leaf_to_sash_ratio": {
+          "value": 1.0,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Hard constraint c04: each leaf must cover the full opening on its own, not half of it -- the reverse of the family's usual half-width-pair convention, because the sash is the only Anglo element carrying the hybrid argument."
+        }
+      },
+      "rule": "Shutters, where used, must each be sized to cover the full opening and hung on real hardware -- a full-leaf pair, not the family's usual half-width pair.",
+      "confidence": "high",
+      "note": "This is the style's own most explicitly sourced proportional claim (c04), already reflected at the pack level (sash-light) but not yet stated as a kit binding.",
+      "status": "drafted"
     },
     "special_window": {
       "group": "openings",
@@ -316,10 +393,24 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "attached-side-wing-below-balcony-return",
+          "status": "canonical",
+          "note": "The garage is a lower side wing set back from the principal elevation, so the balcony's own full-width, unbroken run across the primary block (hard constraint c01) is never interrupted or competed with."
+        },
+        {
+          "id": "attached-flush-facing-street",
+          "status": "forbidden",
+          "note": "The parent's courtyard-wall answer has no courtyard here; a garage door on the frontal elevation directly competes with the single continuous balcony datum the whole composition depends on."
+        }
+      ],
+      "rule": "No traditional precedent exists; the garage is kept off the principal elevation entirely so it cannot shorten or interrupt the required full-width balcony (c01).",
+      "invented": true,
+      "confidence": "medium",
+      "note": "Overrides the inherited spanish-colonial-revival answer (detached-behind-courtyard-wall), which presumes a courtyard this frontal, near-symmetrical type does not have.",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,31 +475,94 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "full-width",
+          "status": "canonical",
+          "note": "The style's whole architectural argument, per its own hard constraint c01: a balcony running the full width of the principal elevation, at the second floor rather than the ground -- massing_affinities calls it 'a gallery raised to the second storey and reduced to one face.'"
+        },
+        {
+          "id": "recessed-loggia",
+          "status": "forbidden",
+          "note": "The parent style's ground-floor loggia answer is not this variant's threshold at all; the balcony is the threshold, and it is upstairs."
+        },
+        {
+          "id": "stoop-only",
+          "status": "permitted",
+          "note": "At the ground-floor entry itself, subordinate to the balcony above it."
+        }
+      ],
+      "rule": "The balcony must run the full width of the principal elevation and be not less than 6 ft deep (c01); a centred or partial balcony converts the house into an ordinary two-storey stucco box with a decorative appendage.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "balcony_depth_min": {
+          "value": 6,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Hard constraint c01."
+        },
+        "balcony_depth_typical": {
+          "range": [
+            6,
+            8
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Below 6 ft the balcony fails as usable space and reads as trim rather than as the gallery the whole type depends on.",
+      "confidence": "high",
+      "note": "Overrides the inherited queen-anne-american porch-depth figures, which describe a ground-floor veranda, not this style's second-storey balcony.",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "square-post",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'A slender, almost thin balcony rail and posts, quite unlike the heavy iron of the parent style.'"
+        },
+        {
+          "id": "cantilevered-no-post",
+          "status": "permitted",
+          "note": "defining_characteristics names 'cantilevered or post-supported' as the two structural options."
+        },
+        {
+          "id": "doric-roman-column",
+          "status": "forbidden",
+          "note": "The heavy classical column this slot would otherwise inherit (georgian-colonial-american) is exactly the wrong register: the balcony reads as light and continuous, not as a colonnade."
+        }
+      ],
+      "rule": "Where posts are used they are slender, square, and widely spaced -- the balcony is a shading gallery, not a porch of columns.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "iron-or-turned-wood-slender",
+          "status": "canonical",
+          "note": "defining_characteristics: 'iron or turned-wood balcony rail,' and diagnostic_tells' 'slender, almost thin' reading."
+        },
+        {
+          "id": "turned-baluster-rail",
+          "status": "forbidden",
+          "note": "The heavy Georgian turned baluster this slot would otherwise inherit is a different register from this style's own explicitly thin rail."
+        }
+      ],
+      "rule": "The rail is slender iron or turned wood -- deliberately light, never the heavy classical balustrade of the family's colonial wing.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "porch_ceiling": {
       "group": "threshold",

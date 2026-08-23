@@ -47,16 +47,30 @@ def test_derives_from_module_family():
     assert "derives_from_module" not in by_id["entablature"]
 
 
-def test_new_wall_thickness_slots_are_open_on_every_kit():
-    """build.py added the two new slots to all 132 kits as open/empty --
-    nothing pre-existing should have been accidentally specified for a slot
-    that didn't exist until this package."""
+def test_new_wall_thickness_slots_exist_on_every_kit():
+    """build.py (WP-1.3) added the two new slots to every kit file.
+
+    UPDATED 23 Aug 2026 (WP-4.2, wave B): this test originally also asserted
+    that both slots were still `open`/`empty` on every kit -- true at the
+    moment the slots were introduced, when the assertion's real job was to
+    catch build.py's migration accidentally pre-populating something. That
+    job is done; it is not a corpus invariant. Kit-fill work is now
+    intentionally specifying these slots with real, sourced content where a
+    style or family's own text supports it -- e.g.
+    colonial-iberian-americas.wall_thickness_masonry (24-40 in, sourced from
+    mexican-colonial and mexican-hacienda's own measured ranges). Asserting
+    every kit stays open/empty would make this test fail every time
+    legitimate authoring happens, which is the opposite of what a test
+    should do. What still matters and is still checked: the slot exists,
+    with the right group, on every kit file -- i.e. build.py's migration
+    reached everything and check_kits.py has something to validate no
+    matter which kits have been authored yet."""
     import glob
     for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
         kit = json.load(open(path))
         for sid in ("wall_thickness_masonry", "wall_thickness_frame"):
-            slot = kit["slots"][sid]
-            assert slot["binding"] == "open" and slot["status"] == "empty", (path, sid)
+            assert sid in kit["slots"], (path, sid)
+            assert kit["slots"][sid]["group"] == "envelope", (path, sid)
 
 
 def test_validate_rejects_bad_derives_from_module():

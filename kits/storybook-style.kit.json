@@ -6,8 +6,20 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "note": "The style's own proportional_system states symmetry directly as 'picturesque-asymmetrical', and c02 (hard) forbids a strictly symmetrical principal elevation outright, requiring at least three of ridge line, eave line, wall plane, window head heights, or chimney profile to be deliberately irregular."
+        },
+        {
+          "id": "strict-bilateral",
+          "status": "forbidden",
+          "note": "storybook-style.c02, hard: 'a strictly symmetrical principal elevation is forbidden.'"
+        }
+      ],
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -18,10 +30,27 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "pitch_max_18_12",
+          "status": "canonical",
+          "op": "add",
+          "note": "typical_ratios states the principal roof pitch as '12:12 to 18:12', wider than the 16:12 upper bound inherited from Tudor Revival + Cotswold Cottage Revival."
+        }
+      ],
+      "parameters": {
+        "ridge_deflection_in": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "typical_ratios: 'ridge deliberately deflected 3 to 6 in below level over its length' -- the sagging ridge is a designed dimension, not damage (c03: deviations between 5 and 25 percent of nominal, consistent in direction)."
+        }
+      },
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -53,10 +82,22 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "decorative-non-structural-half-timbering",
+          "status": "canonical",
+          "note": "The style's own lineage note is direct: Tudor Revival 'supplies the half-timbering... In Storybook the timbering ceases to correspond to any frame and becomes drawing.' diagnostic_tells confirms this as a positive identifier: 'half-timbering that does not meet at the corners or align across a floor line.'"
+        },
+        {
+          "id": "no-half-timbered-gable",
+          "status": "forbidden",
+          "note": "Inherited from Cotswold Cottage Revival, whose own stone-and-stucco vocabulary genuinely forbids half-timbering. Storybook's own text directly contradicts this inherited prohibition -- it takes half-timbering from Tudor Revival and exaggerates it into pure applied drawing."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Half-timbering, where used, follows no real frame: it does not meet at the corners, does not align across a floor line, and is understood by the designer as surface drawing rather than structure -- the opposite of Tudor Revival's own honest-frame rule (distinguished_from: 'if the timbering resolves at the corners, it is Tudor Revival').",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +108,30 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "oversized-sculptural-stack-many-pots",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "chimney_width_to_flue_ratio": {
+          "range": [
+            1.5,
+            2.5
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        },
+        "chimney_height_above_ridge_ft": {
+          "value": 4,
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "The principal chimney is the tallest and most massive element of the composition -- not less than 1.5 to 2.5 times the width required by its flues, terminating at least 4 ft above the main ridge, often occupying up to a third of the gable end, and carrying more chimney pots than the flues require (c04, soft; description.long). Overrides the inherited Cotswold Cottage Revival numbers (1/4-1/3 width, 3'0\" above ridge) with this style's own, more extreme figures.",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,15 +149,44 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "agglomerated-picturesque-massing",
+          "status": "canonical",
+          "note": "massing_affinities: 'massed-picturesque' canonical -- 'the agglomerated irregular mass with multiple roof directions is the style's home skeleton.'"
+        },
+        {
+          "id": "gable-front-and-wing",
+          "status": "permitted",
+          "note": "massing_affinities: common -- 'an ordinary L-plan cottage with the whole apparatus applied to the street-facing gable', the commonest speculative version."
+        },
+        {
+          "id": "flanking-symmetrical-dependencies",
+          "status": "forbidden",
+          "note": "Inherited from Tudor-Jacobean's E/H-plan gentry-house system; directly contradicts this style's own picturesque-asymmetrical governing logic and c02's hard forbidding of a symmetrical principal elevation."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wood-frame-wire-lath-portland-cement-stucco",
+          "status": "canonical",
+          "note": "The style's own description names the technique directly: 'a cheap and completely plastic wall system -- wood frame with wire lath and portland cement stucco -- that could be shaped into any profile a modeller could sketch.'"
+        },
+        {
+          "id": "masonry-or-masonry-veneer-only",
+          "status": "forbidden",
+          "note": "Inherited from Cotswold Cottage Revival, whose genuine stone construction this style explicitly does not use -- it simulates stone in troweled plaster instead."
+        }
+      ],
+      "rule": "Wood frame with wire lath and portland cement stucco, hand-modelled by studio-trained plasterers into any profile the design calls for -- not real masonry.",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +200,26 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "troweled-modelled-plastic-stucco",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Wall surface as plastic material -- troweled and modelled stucco, simulated or genuinely distressed masonry, timbering that follows no frame.'"
+        },
+        {
+          "id": "simulated-distressed-stone",
+          "status": "permitted"
+        },
+        {
+          "id": "never-half-timbering",
+          "status": "forbidden",
+          "note": "Inherited from Cotswold Cottage Revival; contradicted directly by this style's own use of decorative half-timbering (see gable_treatment) as an applied surface drawing over the stucco."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "The wall is a plastic, hand-worked material -- troweled and modelled stucco, or stucco worked to simulate weathered or distressed masonry -- not a fixed material assembly with a single honest logic.",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -124,10 +230,21 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "material-as-picture-changes-wherever-the-design-calls-for-it",
+          "status": "canonical"
+        },
+        {
+          "id": "material-honesty-change-only-at-structural-event",
+          "status": "forbidden",
+          "note": "Inherited from British Arts and Crafts + Tudor Revival's Ruskin/Morris material-honesty rule. This is the exact opposite of Storybook's own governing logic: the style is 'not trying to be authentic and does not think it should be' -- an architecture where stucco is troweled to imitate stone or thatch specifically because the material is theatrical, not structurally honest."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Material changes wherever the picture calls for it, not only at a genuine structural event -- the wall is set design, not a structural argument (description.long).",
+      "status": "drafted"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -138,17 +255,15 @@
     },
     "water_table": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical moulded water table -- the wall is a continuous plastic stucco surface (defining_characteristics); overrides the moulded-brick-ovolo water table inherited from Georgian Colonial American.",
+      "status": "drafted"
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical belt course banding -- the wall is one continuous, hand-worked plastic surface, not an applied storey system; overrides the belt course inherited from Queen Anne American.",
+      "status": "drafted"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -180,10 +295,9 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical cornice -- the roof edge is the rolled, swept eave that eave_condition describes, not a boxed classical entablature. Overrides the modillion cornice inherited from English Georgian.",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -218,10 +332,25 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "casement_light_width_in": {
+          "range": [
+            6,
+            10
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "typical_ratios: 'casement lights 6 to 10 in wide, in openings under 3 ft' -- the individual leaded light dimension this style's own text gives, additive to the wide-horizontal grid proportion inherited from Tudor."
+        },
+        "opening_width_max_ft": {
+          "value": 3,
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -267,10 +396,16 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "no-rhythm-disrupt-accidental-regularity",
+          "status": "canonical",
+          "op": "add",
+          "note": "bay_rhythm: 'None. Openings are placed by internal need and by pictorial balance; any perceived rhythm is accidental and should be disrupted.' Windows are placed 'where a room needed them rather than where the elevation wanted them' (description.long)."
+        }
+      ],
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -288,24 +423,51 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "board-and-strap-with-visible-iron",
+          "status": "canonical"
+        },
+        {
+          "id": "six-panel-raised-and-fielded",
+          "status": "forbidden",
+          "note": "Inherited from Georgian Colonial American; a classical panelled door has no place on this style's stage-set entrance, per defining_characteristics: 'board-and-strap door.'"
+        }
+      ],
+      "parameters": {
+        "height_in": {
+          "range": [
+            72,
+            78
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "typical_ratios: 'entry door height 6 ft 0 in to 6 ft 6 in -- 10 to 15 percent under convention.'"
+        }
+      },
+      "rule": "A board-and-strap door with visible iron hardware, deliberately shorter than a person expects at 6'0\"-6'6\" -- the door being undersized is one of the style's own named bounded deviations (typical_ratios; description.long).",
+      "status": "drafted"
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "catslide_ground_clearance_ft": {
+          "value": 7,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "diagnostic_tells: 'a roof that sweeps down to within 6 or 7 ft of the ground on one side (catslide).' Additive detail to the inherited low-arched-plank-door-recessed binding from Cotswold Cottage Revival, which already matches this style well."
+        }
+      },
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No classical rectangular transom or sidelight assembly -- the entrance is a single low arched opening (door_surround; diagnostic_tells), not a pilastered Federal/Greek Revival frontispiece. Overrides the rectangular-multi-light-transom inherited from Greek Revival American.",
+      "status": "drafted"
     },
     "secondary_door": {
       "group": "openings",
@@ -316,10 +478,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "cottage-scale-modesty",
+          "status": "canonical",
+          "op": "add",
+          "note": "c05, advisory: 'the idiom is coherent only at cottage scale... applied to a house of more than roughly 2,500 sq ft or more than two full storeys, the exaggerations invert and read as bombast.' The garage, inherited from Tudor Revival as a subordinate cross-gabled volume, should stay small and modest rather than becoming a second dominant incident competing with the chimney."
+        }
+      ],
+      "invented": true,
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",

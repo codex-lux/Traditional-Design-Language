@@ -384,24 +384,57 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-under-roof",
+          "status": "canonical",
+          "note": "The piazza -- one or two tiers along the south or west flank -- roof structurally continuous with or clearly subordinate to the main roof, never a shed applied afterward (c04, hard)."
+        },
+        {
+          "id": "wrap-around",
+          "status": "permitted",
+          "note": "Where the piazza turns the corner onto a second flank."
+        },
+        {
+          "id": "entry-portico",
+          "status": "atypical",
+          "note": "May occur at the street door itself, but is subordinate to the piazza, which is the real threshold."
+        },
+        {
+          "id": "stoop-only",
+          "status": "forbidden",
+          "note": "The inherited Georgian family default; wrong here because the piazza, not the stoop, is the type's organizing threshold."
+        }
+      ],
+      "rule": "The piazza is the threshold; the street door is often not the real entrance at all (own long description and diagnostic tell #1).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth": {
+          "range": [
+            10,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Piazza depth not less than 10 ft, at least equal to the depth of an interior room (c04, hard).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": " On a two-tier piazza the orders must be superimposed -- heavier below, lighter above -- never identical columns stacked on both levels, which reads as a modern deck (c03, hard).",
+      "note": "The inherited Georgian porch_support binding already governs the order and column proportion; this adds only the piazza-specific superimposition requirement.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_rail": {
       "group": "threshold",
@@ -426,17 +459,45 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "sequence": {
+          "value": "street door (sometimes false, opening only onto the piazza) -> piazza, a shaded outdoor room -> the real entrance, reached off the piazza",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "The visitor is admitted sideways through the piazza, not frontally through a facade; a door in the street or garden wall may open only onto the piazza and not into the house at all (own diagnostic tell #1 and long description).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "principal_floor": {
+          "range": [
+            144,
+            168
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "12-14 ft; not less than 11 ft 6 in (c02, hard)."
+        },
+        "second_floor": {
+          "range": [
+            120,
+            144
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "10-12 ft (own proportional_system)."
+        }
+      },
+      "rule": "Principal-floor ceiling not less than 11 ft 6 in, typically 12-14 ft -- a full storey taller than the inherited Georgian family's 9-11 ft, because the stack effect and the vertical sash proportion both depend on it (c02, hard).",
+      "note": "Specified rather than extends, matching Tidewater Georgian's own precedent for this slot: merging the parent's derived 9-11 ft figure alongside a materially different 12-14 ft figure would leave the resolved kit carrying a contradictory range.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "trim_family": {
       "group": "interior",
@@ -538,10 +599,22 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-hall",
+          "status": "canonical",
+          "note": "The Charleston single house: one room wide, end to the street, side hall running the depth of the lot toward the piazza -- the region's dominant urban expression (own massing_affinities)."
+        },
+        {
+          "id": "center-hall",
+          "status": "permitted",
+          "note": "The grander 'double house', four rooms to a floor, facing the street conventionally (own distinguished_from note against charleston-single-house)."
+        }
+      ],
+      "rule": "Side-hall is the dominant urban parti here, not merely a lot-driven exception the way the inherited Georgian family treats it; the single house is the type's default.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -587,10 +660,11 @@
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": " Here the two-wall rule is a cross-ventilation requirement before it is a daylight one: openings must align front to back through the plan to sustain a cross draft off the piazza breeze; a blocked enfilade defeats the reason the section is shaped this way (c05, soft).",
+      "note": "The inherited Georgian daylight_strategy already states two-wall lighting; this reframes the same geometry around airflow, which is the operative reason here.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -604,10 +678,22 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gable-end-to-street",
+          "status": "canonical",
+          "note": "The single house turns its narrow end to the street and gives its composed long elevation -- the piazza flank -- to the side yard, not to the public way (own long description: 'the system... survives being turned ninety degrees')."
+        },
+        {
+          "id": "frontal-to-the-road",
+          "status": "permitted",
+          "note": "The double house only, which faces the street conventionally."
+        }
+      ],
+      "rule": "The house is not seen frontally as the inherited Georgian family assumes; the single house's composed elevation is not the street elevation at all.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "setback_rule": {
       "group": "site",
@@ -618,10 +704,24 @@
     },
     "orientation_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "piazza_bearing": {
+          "value": 225,
+          "unit": "deg",
+          "kind": "measured",
+          "note": "Due southwest."
+        },
+        "tolerance": {
+          "value": 45,
+          "unit": "deg",
+          "kind": "measured"
+        }
+      },
+      "rule": "Governing factor is the compass, not the approach: the piazza must face within 45 degrees of southwest to catch the prevailing summer breeze and shade the long wall; a piazza on the north flank is decoration and defeats the type (c01, hard).",
+      "note": "Overrides the inherited Georgian family's 'approach and composition' governing factor, which is a soft criterion here and subordinate to this hard climatic one.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "outbuilding_types": {
       "group": "site",
@@ -646,10 +746,33 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "raised-basement",
+          "status": "canonical",
+          "note": "The principal floor is raised a full storey above an arcaded brick service basement, to escape ground damp and the mosquito line; the entry stair rises a full storey (own diagnostic tell #5)."
+        },
+        {
+          "id": "low-plinth-on-a-level-site",
+          "status": "forbidden",
+          "note": "The inherited Georgian family answer, correct for the Northern and Tidewater branches; wrong for a subtropical port city that must lift its principal floor above the ground damp and insect line."
+        }
+      ],
+      "parameters": {
+        "basement_ceiling": {
+          "range": [
+            96,
+            108
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "8-9 ft (own proportional_system)."
+        }
+      },
+      "rule": "The house is raised a full storey on an arcaded, often stuccoed and scored, brick service basement -- a genuinely different section from the inherited Georgian low-plinth answer, not a variation on it.",
+      "confidence": "high",
+      "status": "drafted"
     }
   }
 }

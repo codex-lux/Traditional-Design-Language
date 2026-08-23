@@ -6,22 +6,55 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "strict-bilateral",
+          "status": "canonical",
+          "op": "add",
+          "note": "The style's own proportional_system states symmetry directly as 'strict-bilateral' -- a symmetrical rectangular main block with the entrance on the centre line."
+        }
+      ],
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical"
+        },
+        {
+          "id": "side-gable",
+          "status": "canonical"
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Inherited from Shingle Style; a low-pitched hipped or side-gable roof behind a continuous cornice is what defining_characteristics describes, not a gambrel."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Symmetrical rectangular main block with a low-pitched hipped or side-gable roof and a continuous cornice, often with a balustrade or parapet.",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "roof_pitch_rise_per_12": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Roof pitch 4:12 to 6:12 behind the portico, often invisible behind a balustrade (neoclassical-revival.c05).",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -67,10 +100,22 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "paired-symmetrical-subordinate",
+          "status": "canonical"
+        },
+        {
+          "id": "tall-multiple-vertical-accent",
+          "status": "forbidden",
+          "note": "The inherited British Picturesque reading treats the chimney as a primary silhouette event; this style's strict-bilateral, cornice-dominated composition subordinates every roof element to the portico and the continuous cornice line."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "judgment": true,
+      "rule": "Chimneys are paired and symmetrical about the axis, kept low and subordinate to the roofline the continuous cornice defines -- consistent with the style's strict-bilateral symmetry (proportional_system) and its low, often balustrade-concealed roof (c05). Editorial inference: the style's own text does not describe chimneys directly.",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,15 +133,48 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "temple-front-with-lower-wings",
+          "status": "canonical",
+          "note": "massing_affinities: 'temple-front-with-wings' canonical -- 'portico on the centre block, lower wings either side,' and 'four-over-four' canonical -- 'the common domestic case: a two-room-deep centre-passage block with a portico applied.'"
+        },
+        {
+          "id": "five-part-palladian",
+          "status": "permitted",
+          "note": "massing_affinities: common on grand estate examples, hyphens and dependencies included."
+        },
+        {
+          "id": "corps-de-logis-with-pavilion-terminated-wings",
+          "status": "forbidden",
+          "note": "The inherited Baroque/Beaux-Arts system of independently roofed, distinguished end pavilions does not describe this style's plain symmetrical block with lower flanking wings."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "A symmetrical rectangular main block, most often a two-room-deep centre-passage block with the portico applied; grander examples add lower flanking wings, not independently terminated pavilions.",
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "balloon-frame-with-masonry-veneer",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-bearing-masonry",
+          "status": "permitted"
+        },
+        {
+          "id": "light-timber-frame-forbidden-in-family-cascade",
+          "status": "canonical",
+          "note": "The inherited Beaux-Arts/Baroque family rule states 'light timber frame construction has no place anywhere in this family.' The style's own description directly contradicts this: the colossal portico is 'a screen in front of a conventional balloon-framed or brick-bearing house.' That is the whole point of the style's honesty about its own thinness -- overridden here."
+        }
+      ],
+      "rule": "The portico is very rarely doing structural work; it screens a conventional balloon-framed or brick-bearing house. Reverses the inherited Beaux-Arts-French rule that forbids light frame construction outright.",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +188,22 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "smooth-wall-plane",
+          "status": "canonical",
+          "note": "Brick, stucco, or smooth wood siding -- whatever reads as a plain plane behind the order, not a texture in its own right."
+        },
+        {
+          "id": "shingle",
+          "status": "forbidden",
+          "note": "Inherited from Shingle Style; directly contradicts defining_characteristics's 'smooth or lightly rusticated wall surface treated as a plane behind the order rather than as a texture.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Smooth or lightly rusticated wall surface treated as a plane behind the order rather than as a texture.",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -131,10 +221,17 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "rustication": {
+          "value": "smooth or lightly rusticated plinth, joints shallow or scored rather than deeply channelled",
+          "unit": "none",
+          "kind": "editorial",
+          "note": "Overrides the inherited Beaux-Arts-American value by key. distinguished_from is explicit: Beaux-Arts is 'richer and wetter -- rusticated bases,' and Neoclassical Revival is 'the same grammar stripped to plain wall.'"
+        }
+      },
+      "status": "drafted"
     },
     "water_table": {
       "group": "envelope",
@@ -206,8 +303,20 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "white-or-pale-uniform",
+          "status": "canonical"
+        },
+        {
+          "id": "landscape-tone-body",
+          "status": "forbidden",
+          "note": "Inherited from Gothic Revival American via Downing's rule prohibiting white. The style's own lineage note reverses this explicitly: its reacts_against edge to richardsonian-romanesque states the Court of Honor was 'a deliberate repudiation of Richardson's weight and of Victorian polychromy in favour of white, thin, axial classicism' -- 'the White City.'"
+        }
+      ],
+      "rule": "White or a pale uniform body colour, in keeping with the style's origin as the 'White City' vocabulary of the 1893 Court of Honor.",
+      "status": "drafted"
     },
     "window_type": {
       "group": "openings",
@@ -281,10 +390,30 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "palladian-window",
+          "status": "canonical"
+        },
+        {
+          "id": "lunette-window",
+          "status": "canonical"
+        },
+        {
+          "id": "bay",
+          "status": "forbidden",
+          "note": "Inherited from Queen Anne American; a projecting bay does not fit a plain wall plane treated as a screen behind the order."
+        },
+        {
+          "id": "oriel",
+          "status": "forbidden",
+          "note": "Same reasoning as bay."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Regularly spaced double-hung sash aligned vertically between storeys, frequently with a Palladian or lunette window on the axis.",
+      "status": "drafted"
     },
     "entry_door": {
       "group": "openings",
@@ -316,10 +445,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-outbuilding-off-axis",
+          "status": "canonical"
+        }
+      ],
+      "invented": true,
       "parameters": {},
-      "status": "empty"
+      "rule": "The car is kept entirely off the symmetrical primary facade: a detached outbuilding, or a service wing set well back and below the main cornice line, so nothing competes with the portico's axis. No historical precedent exists for this element; this is an editorial extension of the style's own strict-bilateral, portico-dominant composition.",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,38 +464,113 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "doric",
+          "status": "permitted"
+        },
+        {
+          "id": "ionic",
+          "status": "canonical"
+        },
+        {
+          "id": "corinthian",
+          "status": "canonical"
+        },
+        {
+          "id": "composite",
+          "status": "permitted"
+        }
+      ],
+      "parameters": {
+        "entasis_taper_min": {
+          "value": "1/6 base diameter",
+          "unit": "none",
+          "kind": "measured",
+          "note": "neoclassical-revival.c01: minimum taper of 1/6 the base diameter over the shaft height, taper beginning no lower than 1/3 the shaft height. Untapered cylindrical or box columns are forbidden at colossal scale."
+        }
+      },
+      "rule": "Columns must be built to a published order with required entasis -- the order is correct, shaft tapering, capital turned or cast to a published profile, where Colonial Revival will accept an untapered box column (c01; diagnostic_tells).",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "single-column",
+          "status": "canonical"
+        },
+        {
+          "id": "paired-coupled-columns",
+          "status": "forbidden",
+          "note": "The style's own distinguished_from names paired/coupled columns as precisely what separates it from Beaux-Arts-American: 'Neoclassical Revival is the same grammar stripped to plain wall and single columns, which is why it could be built in wood.' The inherited Beaux-Arts-American binding calls pairing 'the style's fastest diagnostic tell' -- against this style."
+        }
+      ],
+      "parameters": {
+        "shaft_height_ft": {
+          "range": [
+            18,
+            24
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "base_diameter_in": {
+          "range": [
+            20,
+            28
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Single columns rising two or more storeys, 18-24 ft tall on a two-storey house, 20-28 in diameter at the base -- not paired or coupled.",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "depth_ratio": {
+          "range": [
+            0.2,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Entablature depth must be between 1/5 and 1/4 of column height and carried on the return elevations for at least one bay; under 1/6 of column height it reads as a fascia board and voids the order (c02, hard).",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "flat-entablature-termination",
+          "status": "permitted",
+          "op": "add",
+          "note": "defining_characteristics: columns rise 'to a pediment or entablature' -- the portico may terminate flat rather than in a pediment, an alternative the inherited Beaux-Arts American triangular/segmental pediment binding does not offer."
+        }
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilaster-continuing-order-across-flanking-wall",
+          "status": "permitted",
+          "note": "Where used at all, a pilaster simply continues the portico's giant order across the plain flanking wall -- not the inherited Beaux-Arts-American system of paired pilasters filling a recessed wall between advanced pavilions, which presumes the pavilion massing this style does not use."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -370,45 +581,167 @@
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "roofline-parapet-balustrade",
+          "status": "canonical"
+        },
+        {
+          "id": "attic-storey-populated-with-urns-statuary",
+          "status": "forbidden",
+          "note": "Inherited from Beaux-Arts-American; the style's own defining_characteristics gives only 'a continuous cornice, often with a balustrade or parapet' -- a plain railing, not the sculptural skyline Beaux-Arts specifies."
+        }
+      ],
+      "parameters": {
+        "height_min_in": {
+          "value": 30,
+          "unit": "in",
+          "kind": "measured"
+        },
+        "baluster_clear_spacing_max_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Where a balustrade is used it is a minimum 30 in high with balusters spaced no more than 4 in clear, so it reads as railing rather than as ornament (c05).",
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "minimal-order-does-the-work",
+          "status": "canonical"
+        },
+        {
+          "id": "swag-and-urn",
+          "status": "forbidden",
+          "note": "distinguished_from is explicit: Beaux-Arts is 'richer and wetter... swags, cartouches, sculptural groups, exuberant stone carving. Neoclassical Revival is the same grammar stripped to plain wall.'"
+        },
+        {
+          "id": "acanthus",
+          "status": "permitted",
+          "note": "Confined to the order's own capitals (Corinthian/Composite), not applied as separate wall ornament."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "The grammar is stripped to plain wall and a correct order; the order itself is the ornament. Abundant applied sculptural ornament -- swags, cartouches, garlands, keystone masks, skyline figures -- is not this style's vocabulary.",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "projecting-colossal-order-portico",
+          "status": "canonical"
+        },
+        {
+          "id": "recessed-loggia",
+          "status": "forbidden",
+          "note": "Inherited from Shingle Style; the style's whole diagnosis is a projecting full-height portico, not a void carved into the volume."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "A full-height entrance portico with columns rising two or more storeys to a pediment or entablature, dominating the primary facade -- the single most defining element of the style.",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "depth_min_ft": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "depth_typical_range_ft": {
+          "range": [
+            10,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Portico depth must be a minimum of 8'0\" clear from wall face to column centreline, and preferably 10'0\"-14'0\"; a colossal order in front of less than 6'0\" of porch is a stage flat and is forbidden (c03, hard).",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "single-order-classical-column",
+          "status": "canonical"
+        },
+        {
+          "id": "post-and-diagonal-brace",
+          "status": "forbidden",
+          "note": "Inherited from Stick Style; irrelevant to a colossal-order portico governed by a published classical order (c01)."
+        }
+      ],
+      "parameters": {
+        "shaft_height_ft": {
+          "range": [
+            18,
+            24
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "base_diameter_in": {
+          "range": [
+            20,
+            28
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "intercolumniation_diameters": {
+          "range": [
+            2.25,
+            3.0
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "The colossal order itself: single columns 18-24 ft tall, 20-28 in base diameter, at 2.25-3.0 diameters clear intercolumniation (centre pair may open to 3.5 to frame the entrance) -- c01, c04.",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "classical-turned-baluster-rail",
+          "status": "canonical"
+        },
+        {
+          "id": "open-rail-straight-baluster",
+          "status": "forbidden",
+          "note": "Inherited from Stick Style; a rectilinear straight-baluster frame rail does not belong to a colossal classical order."
+        }
+      ],
+      "parameters": {
+        "height_min_in": {
+          "value": 30,
+          "unit": "in",
+          "kind": "measured"
+        },
+        "baluster_clear_spacing_max_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Where a rail occurs under the portico it is the same classical balustrade the roofline uses -- minimum 30 in high, balusters spaced no more than 4 in clear (c05).",
+      "status": "drafted"
     },
     "porch_ceiling": {
       "group": "threshold",

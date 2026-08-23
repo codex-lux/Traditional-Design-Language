@@ -18,10 +18,23 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_range": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "andalusian-spanish-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "3:12 to 5:12, constant across the composition -- c04, narrower and lower than the general Spanish Colonial Revival range."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +45,29 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "overhang": {
+          "range": [
+            0,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "andalusian-spanish-revival.c04"
+        },
+        "termination": {
+          "value": "a plastered edge or a shaped rafter tail, never a fascia-and-gutter edge",
+          "unit": "none",
+          "kind": "measured",
+          "source": "andalusian-spanish-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Eave overhang 0-12 in, terminating in a plastered edge or a shaped rafter tail -- c04. Composition shingle and a fascia-and-gutter edge void the type."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -145,10 +177,14 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No belt course of any kind; the wall plane is unbroken.",
+      "note": "Overrides the inherited richardsonian-romanesque binding. defining_characteristics states the wall as 'uninterrupted planes of white or cream lime-washed stucco' -- a belt course is exactly the kind of horizontal break this idiom's whole discipline of subtraction refuses.",
+      "confidence": "high",
+      "judgment": false
     },
     "corner_quoin": {
       "group": "envelope",
@@ -166,10 +202,29 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_depth": {
+          "range": [
+            8,
+            14
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "andalusian-spanish-revival.c01"
+        },
+        "reveal_to_wall_ratio_min": {
+          "value": 0.333,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Not less than one-third the apparent wall thickness."
+        }
+      },
+      "status": "drafted",
+      "rule": "Not less than 8 in, and not less than one-third the apparent wall thickness -- c01, a hard constraint, and 'the single most common failure in contemporary versions.' Overrides the inherited richardsonian-romanesque ashlar-reveal binding, an unrelated stone-construction logic.",
+      "confidence": "high",
+      "judgment": false
     },
     "reveal_frame": {
       "group": "envelope",
@@ -232,24 +287,49 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-course-continues",
+          "status": "canonical"
+        },
+        {
+          "id": "segmental-brick-arch",
+          "status": "permitted",
+          "note": "Plastered over; the single ornamental event, where used, per c02."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Ordinarily no distinct head at all -- the stucco plane continues over the opening -- overriding the inherited georgian-colonial-american gauged-brick-arch binding, which belongs to an unrelated masonry tradition this style does not use.",
+      "confidence": "high",
+      "judgment": false
     },
     "window_head_wood": {
       "group": "openings",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "No wood-trimmed head condition exists in this style; overrides an inherited georgian-colonial-american value that presumes a wood-trim tradition this masonry-and-stucco idiom does not have.",
+      "confidence": "medium",
+      "judgment": true
     },
     "window_surround_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-opening-cut-in-the-mass",
+          "status": "canonical",
+          "note": "The deep reveal (c01) is the only surround; an applied architrave defeats the mass expression the whole idiom depends on."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No applied surround. The wall's own depth is the window's only frame -- overrides the inherited georgian-colonial-american binding (flat-architrave-with-crown), a wood-trim device from an unrelated masonry tradition.",
+      "confidence": "high",
+      "judgment": false
     },
     "window_surround_wood": {
       "group": "openings",
@@ -260,38 +340,95 @@
     },
     "window_sill": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stucco-wash-sill",
+          "status": "canonical"
+        },
+        {
+          "id": "tile-sill",
+          "status": "permitted"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A simple stuccoed or tiled sill, not a projecting profiled member -- overrides the inherited shingle-style binding, unrelated to this construction.",
+      "confidence": "medium",
+      "judgment": true
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "glazing_pct_sun_exposed_max": {
+          "value": 18,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "andalusian-spanish-revival.c03"
+        }
+      },
+      "status": "drafted",
+      "rule": "Irregular and interior-driven -- openings are placed by the room behind them and the elevation is composed by solid-to-void balance, not a repeating bay. Glazing on south and west elevations not to exceed 18 percent of wall area unless shaded by an arcade or a 4 ft overhang -- c03, a hard climatic constraint. Overrides the inherited richardsonian-romanesque binding, an unrelated ashlar-fenestration rule.",
+      "confidence": "high",
+      "judgment": false
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "Wrought iron grilles carry the functional and expressive role a shutter carries elsewhere in this family -- defining_characteristics: 'Wrought iron used sparingly and structurally -- grilles, gate hardware, a balcony rail.' Overrides the inherited georgian-colonial-american shutter binding, a different tradition's answer to the same opening.",
+      "confidence": "high",
+      "judgment": false
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "bay-window",
+          "status": "forbidden",
+          "note": "A projecting bay reads as an addition and breaks the uninterrupted wall plane the idiom depends on."
+        },
+        {
+          "id": "oriel",
+          "status": "forbidden",
+          "note": "A projecting Tudor/Queen Anne device; breaks the uninterrupted wall plane the same way a bay window does."
+        },
+        {
+          "id": "grille-window",
+          "status": "canonical",
+          "note": "A small, deep-set, iron-grilled opening -- the one place ornament is permitted to concentrate, per c02."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Where a special window occurs it is a small grilled opening, never a projecting bay or oriel, which would break the wall plane.",
+      "confidence": "medium",
+      "judgment": true
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plank-door-iron-strapped",
+          "status": "canonical"
+        },
+        {
+          "id": "six-panel-raised-and-fielded",
+          "status": "forbidden",
+          "note": "The inherited georgian-colonial-american value; a Georgian catalog door has no place in this idiom."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A heavy plank door, iron-strapped, deeply set -- description names the type directly: 'a wooden gate opening into a courtyard.'",
+      "confidence": "medium",
+      "judgment": true
     },
     "door_surround": {
       "group": "openings",
@@ -384,10 +521,33 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "The courtyard, entered through a controlled gate, carries the outdoor-room role a porch plays elsewhere in this taxonomy -- c05."
+        },
+        {
+          "id": "stoop-only",
+          "status": "permitted"
+        },
+        {
+          "id": "full-width-porch",
+          "status": "forbidden",
+          "note": "The outdoor room is the courtyard, entered through a controlled gate; a street-facing porch contradicts the type at the level of plan, the same way massing_affinities forbids a centred four-over-four entry."
+        },
+        {
+          "id": "wrap-around-porch",
+          "status": "forbidden",
+          "note": "The outdoor room is the courtyard, entered through a controlled gate; a street-facing porch contradicts the type at the level of plan, the same way massing_affinities forbids a centred four-over-four entry."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No porch. The sequence is a wall, then a gate, then a court -- description: 'The elevation is merely the wall that makes the sequence possible.'",
+      "confidence": "high",
+      "judgment": false
     },
     "porch_depth": {
       "group": "threshold",
@@ -398,17 +558,23 @@
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "No porch exists to support (see porch_type); overrides an inherited stick-style binding that has no bearing on this idiom at all.",
+      "confidence": "high",
+      "judgment": false
     },
     "porch_rail": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "Same reasoning as porch_support.",
+      "confidence": "high",
+      "judgment": false
     },
     "porch_ceiling": {
       "group": "threshold",
@@ -426,10 +592,26 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "gate_type": {
+          "value": "a controlled gate or zaguan",
+          "unit": "none",
+          "kind": "measured",
+          "source": "andalusian-spanish-revival.c05"
+        },
+        "courtyard_enclosure_min": {
+          "value": "at least three sides",
+          "unit": "none",
+          "kind": "measured",
+          "source": "andalusian-spanish-revival.c05"
+        }
+      },
+      "status": "drafted",
+      "rule": "The courtyard is reachable only through a controlled gate or zaguan and is enclosed on at least three sides -- c05. A patio open to the street is a different building. Overrides the inherited georgian-colonial-american threshold sequence, a centre-passage front-door logic this courtyard-organized idiom does not share.",
+      "confidence": "high",
+      "judgment": false
     },
     "ceiling_height_rule": {
       "group": "interior",

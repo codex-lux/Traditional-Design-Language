@@ -18,10 +18,20 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_rise_in_12": {
+          "range": [
+            12,
+            17
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " In this variant specifically, rise:run runs 12:12 to 17:12 (own proportional_system) -- the steep end of the inherited family's 'not less than 45 degrees' floor.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -53,10 +63,22 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush",
+          "status": "canonical",
+          "note": "Most work carries the overhang on the front only."
+        },
+        {
+          "id": "jettied-gable-end",
+          "status": "permitted",
+          "note": "The overhang occasionally repeats at the gable ends as a second overhang, and rarely a third at the gable peak (own long description); at the gable end it sits at the attic floor line rather than the second-floor line (own diagnostic tell #5)."
+        }
+      ],
+      "rule": "The overhang is primarily a front-facade feature; a gable-end repeat, where present, sits at the attic floor line, not the second-floor line.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +89,25 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "gable-end-exterior",
+          "status": "forbidden",
+          "op": "add",
+          "note": "Gable-end chimneys with a jetty produce a combination that does not occur in surviving First Period fabric (c03, hard)."
+        }
+      ],
+      "parameters": {
+        "count": {
+          "value": 1,
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "rule_append": " Exactly one central chimney; gable-end stacks never occur together with a jetty in surviving First Period work (c03, hard).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -145,10 +182,63 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "framed-overhang-jetty",
+          "status": "canonical",
+          "note": "The style's defining feature, mapped to this slot for lack of a dedicated wall-projection/jetty slot in the 95-slot ontology (own proportion_packs note names this exact gap: 'no pack in this corpus dimensions a framed overhang'). A structural second-floor overhang on cantilevered joist ends bearing the upper posts, not a decorative applied moulding."
+        }
+      ],
+      "parameters": {
+        "overhang_framed": {
+          "range": [
+            14,
+            20
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "overhang_hewn": {
+          "range": [
+            2,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "overhang_max": {
+          "value": 24,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Never exceeded (c01, hard); the cantilever of a 7-9 in second-floor joist cannot be increased without changing the structure to something the tradition never built."
+        },
+        "pendant_count": {
+          "value": 4,
+          "unit": "count",
+          "kind": "measured",
+          "note": "Across a five-bay front, at post positions only, and only where the overhang is framed (c02, hard)."
+        },
+        "pendant_length": {
+          "range": [
+            8,
+            14
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "pendant_diameter": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "A framed overhang projecting 14-20 in (2-6 in if merely hewn from the solid), never more than 24 in, with four carved drop pendants at the post positions on a five-bay front. Not a fighting platform: no loopholes, no firing purpose (c05, advisory) -- the overhang is a structural and social display device, not the defensive feature folklore claims.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -218,10 +308,20 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "second_over_first_height": {
+          "range": [
+            0.8,
+            0.9
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Second-floor window height runs 80-90% of the first-floor window height (c04, soft); equal windows on both floors is the twentieth-century Garrison Revival's signature error (own distinguished_from note).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",

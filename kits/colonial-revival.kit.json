@@ -6,8 +6,38 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "strict-bilateral-odd-bay",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "parameters": {
+        "bay_count": {
+          "set": [
+            3,
+            5,
+            7
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "bay_spacing": {
+          "range": [
+            9,
+            11
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Wider than the 7-8 ft rhythm of hand-hewn eighteenth-century framing -- diagnostic of the 'slack' revival read against a 'taut' original."
+        }
+      },
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Symmetrical or near-symmetrical on an odd bay count with the entrance centred and given the greatest architectural emphasis on the building."
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -46,10 +76,21 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "min_cornice_projection_for_return": {
+          "value": 10,
+          "unit": "in",
+          "kind": "measured",
+          "source": "colonial-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "note": "diagnostic_tells names the failure mode directly: 'Cornice returns are short decorative stubs applied to the gable end rather than the full eaves carried around a framed roof.'",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "A return is permitted only where the eave carries a full classical cornice of at least 10 in projection continuing around the corner -- c04. A return applied to a bare fascia is forbidden."
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -81,10 +122,35 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "first_floor_ceiling_ft": {
+          "range": [
+            9,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "second_floor_ceiling_ft": {
+          "range": [
+            8.5,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "delta_vs_georgian": {
+          "value": "roughly a foot more per floor than eighteenth-century practice",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "Storey heights exceed the eighteenth-century models being quoted by roughly a foot per floor. Corrects an inherited English piano-nobile framework (english-georgian's 11-14 ft principal/9-11 ft ground) that has no application here -- the American Colonial Revival first floor, not an English-style raised second floor, is the principal storey.",
+      "confidence": "high",
+      "judgment": false
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -95,8 +161,19 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "platform-frame",
+          "status": "canonical",
+          "op": "add",
+          "note": "The dominant construction after about 1930, and the style runs to 1955 -- well past the inherited victorian-family finding that platform framing 'postdates the family's floruit.' Corrected for this style's own, later date range."
+        }
+      ],
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Platform framing is canonical, not anachronistic, for the majority of the style's own 1880-1955 run."
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -180,10 +257,23 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "total_depth": {
+          "range": [
+            12,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Near 1/20 of the wall height, against 8-12 in on genuine colonial work."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Total cornice depth 12-18 in, near 1/20 of the wall height -- deeper than the 8-12 in of the genuine colonial work being quoted."
     },
     "frieze": {
       "group": "envelope",
@@ -218,10 +308,25 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "opening_size": {
+          "value": "3'0\" x 5'6\" to 3'4\" x 6'0\"",
+          "unit": "none",
+          "kind": "measured",
+          "note": "About 15-20 percent greater in area than the Georgian originals quoted."
+        },
+        "wall_to_opening_ratio": {
+          "value": "roughly 4:1 before 1915, tightening toward 5:1 or 6:1 afterwards",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "A vertical classical sash opening, enlarged from its Georgian model rather than a horizontal Tudor grid -- the inherited value (via tudor-jacobean) is corrected here.",
+      "confidence": "high",
+      "judgment": false
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -267,10 +372,20 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "vertical_alignment_tolerance": {
+          "value": 2,
+          "unit": "in",
+          "kind": "measured",
+          "source": "colonial-revival.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Second-storey window jambs align with first-storey jambs within 2 in of centreline, and head heights are constant across each storey -- c03, 'the fastest disqualifier in the whole style.'"
     },
     "shutter": {
       "group": "openings",
@@ -295,10 +410,48 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "door_leaf_width": {
+          "value": 3,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "colonial-revival.c01"
+        },
+        "door_leaf_height": {
+          "range": [
+            6.67,
+            7
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "colonial-revival.c01"
+        },
+        "pilaster_width_max": {
+          "value": 8,
+          "unit": "in",
+          "kind": "measured",
+          "source": "colonial-revival.c01"
+        },
+        "pediment_width_max": {
+          "value": 6,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "colonial-revival.c01"
+        },
+        "sidelight_width_max": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "colonial-revival.c01"
+        }
+      },
+      "status": "drafted",
+      "note": "The inherited pilasters-and-entablature binding (english-georgian) is the right assembly; this delta supplies the style's own, larger, catalog-derived numbers in place of the Georgian original's.",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Dimensioned per c01: a 3'0\" wide by 6'8\"-7'0\" tall leaf, pilasters not wider than 8 in, a pediment not wider than 6'0\" overall, sidelights not wider than 12 in each. A surround set out for an 8'0\" leaf reads as commercial and voids the style."
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +469,34 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "attached-subordinate-wing",
+          "status": "permitted",
+          "op": "add",
+          "note": "diagnostic_tells states plainly: 'Anything with an attached garage...is Colonial Revival by definition -- the colonies had none of these.' An attached garage, properly subordinated, is idiomatic here in a way it is not on the stricter Georgian original."
+        }
+      ],
+      "parameters": {
+        "min_setback_from_main_block": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "colonial-revival.c05"
+        },
+        "max_ridge_drop_below_main": {
+          "value": 2,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "colonial-revival.c05"
+        }
+      },
+      "status": "drafted",
+      "note": "The inherited georgian-colonial-american binding is already excellent and its detached-dependency logic still applies; this delta adds the style's own tolerance for an attached (but properly subordinated) garage wing, and the exact c05 setback/ridge numbers in place of the ancestor's own invented 20 ft figure.",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Where attached, the garage wing's face sits back not less than 8'0\" from the main block and its ridge sits not less than 2'0\" below the main ridge, and no garage door occurs on the symmetrical primary facade -- c05."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,24 +505,67 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "ionic-scamozzi",
+          "status": "canonical",
+          "note": "gibbs-ionic is the style's own bound primary pack."
+        },
+        {
+          "id": "doric-roman",
+          "status": "permitted",
+          "note": "gibbs-doric, the style's own bound secondary pack."
+        },
+        {
+          "id": "tuscan",
+          "status": "permitted"
+        },
+        {
+          "id": "corinthian",
+          "status": "atypical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A real, if catalog-sourced, order at the entry and, on larger examples, a one-storey entry portico -- distinguished_from neoclassical-revival states directly: 'Colonial Revival keeps its portico to one storey.' Corrects an inherited Victorian 'no true order' finding that contradicts the style's own already-bound door_surround (pilasters-and-entablature).",
+      "confidence": "high",
+      "judgment": false
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-column-at-surround",
+          "status": "canonical"
+        },
+        {
+          "id": "free-standing-one-storey-portico-column",
+          "status": "permitted",
+          "note": "massing_affinities: five-part-palladian estate examples."
+        },
+        {
+          "id": "colossal-two-storey-column",
+          "status": "forbidden",
+          "note": "distinguished_from neoclassical-revival: a colossal portico belongs to that style, not this one."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Single columns, never coupled -- coupling is the Beaux-Arts marker this style's own lineage explicitly reacts against.",
+      "confidence": "high",
+      "judgment": true
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Present at the entry surround (door_surround: pilasters-and-entablature) and, where a full entry portico occurs, at the portico -- never a continuous giant-order entablature across the whole facade.",
+      "confidence": "medium",
+      "judgment": true
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,17 +576,42 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-flanking-entry",
+          "status": "canonical",
+          "note": "c01: not wider than 8 in."
+        }
+      ],
+      "parameters": {
+        "width_max": {
+          "value": 8,
+          "unit": "in",
+          "kind": "measured",
+          "source": "colonial-revival.c01"
+        }
+      },
+      "status": "drafted",
+      "rule": "Flanks the entry surround, not wider than 8 in -- c01, a hard constraint.",
+      "confidence": "high",
+      "judgment": false
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "presence": {
+          "value": "modillions, dentils, or a plain bed moulding, per the style's own defining_characteristics",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "A continuous classical cornice carries modillions, dentils, or a plain bed moulding, returned at the rake -- corrects an inherited british-picturesque forbidding that contradicts this style's own already-bound cornice slot (modillion-cornice canonical).",
+      "confidence": "high",
+      "judgment": false
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -377,10 +622,28 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "swag-and-urn",
+          "status": "permitted"
+        },
+        {
+          "id": "fan-and-patera",
+          "status": "canonical",
+          "note": "The fanlight and Adamesque colonnette the style's own lineage names as a source (federal-style, weight 0.7), 'used far more freely than the Federal period did.'"
+        },
+        {
+          "id": "none",
+          "status": "forbidden",
+          "note": "The inherited value ('ornament almost entirely absent') is mediterranean-vernacular's own defining_characteristics and is the literal opposite of a style whose entrance 'is doing all the work' and whose trim is milled by the catalog yard."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Ornament is concentrated at the entrance -- pilasters, entablature, pediment, fanlight and/or sidelights -- and is catalog-milled rather than hand-carved, but genuinely present and often oversized relative to its Georgian model.",
+      "confidence": "high",
+      "judgment": false
     },
     "porch_type": {
       "group": "threshold",

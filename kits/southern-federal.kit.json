@@ -18,10 +18,24 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_min": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "southern-federal proportional_system"
+        },
+        "pitch_max": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "southern-federal proportional_system"
+        }
+      },
+      "rule_append": "Generally without dormers on the principal slope; this variant's own band sits at the steep end of the family's inherited 3:12-9:12 range, matching the deeper single-pile section it roofs.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -67,10 +81,25 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "gable-end-exterior",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from permitted: exterior-end stacks standing proud of the wall to shed heat outside the envelope are this variant's own diagnostic tell, and a Southern habit New England never adopted."
+        }
+      ],
+      "parameters": {
+        "standoff_min_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured",
+          "source": "southern-federal constraint c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,10 +117,17 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "five-part-palladian",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The Chesapeake signature -- 'far more common here than in Northern Federal', per defining_characteristics -- and a social diagram before it is a compositional one: the household to be housed was larger and more stratified."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +146,18 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "brick_joint_max_in": {
+          "value": 0.375,
+          "unit": "in",
+          "kind": "measured",
+          "source": "southern-federal constraint c04"
+        }
+      },
+      "rule_append": "Flemish-bond brick with thin joints no wider than 3/8 in is the prestige wall; frame with beaded weatherboard is the vernacular equivalent, per this variant's own defining_characteristics.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -145,10 +189,17 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "projection_max_in": {
+          "value": 2,
+          "unit": "in",
+          "kind": "measured",
+          "source": "southern-federal constraint c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -335,10 +386,18 @@
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "entrance_colonnette_diameter_max_in": {
+          "value": 8,
+          "unit": "in",
+          "kind": "measured",
+          "source": "southern-federal constraint c05",
+          "note": "Overrides the inherited 7 in figure generalised at federal-style from new-england-federal's own c05 -- this variant's own porch is 'a working shading element rather than only a doorway frame' and its colonnette runs a hair thicker as a result."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -433,10 +492,30 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "first_floor_in": {
+          "range": [
+            120,
+            156
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "southern-federal constraint c02"
+        },
+        "window_head_to_ceiling_offset_in": {
+          "range": [
+            12,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "southern-federal proportional_system"
+        }
+      },
+      "rule_append": "Principal-storey ceiling height 10 to 13 ft (hard constraint c02); ceilings under 9 ft convert the building to a Northern Federal proportion regardless of the trim.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "trim_family": {
       "group": "interior",
@@ -538,10 +617,18 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "passage_operable_both_ends": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "source": "southern-federal constraint c01",
+          "note": "Not merely circulation: the through-passage is a cross-ventilation device as much as a hall, and it is measurably the coolest place on the property in July."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -580,10 +667,30 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical",
+          "note": "Overrides the inherited Georgian double-pile default: 'one room deep so that every room is cross-ventilated and lit from two sides' (massing_affinities), the regional workhorse."
+        },
+        {
+          "id": "double-pile",
+          "status": "atypical",
+          "note": "Filling in behind the passage removes the variant's climatic reason for existing and must be a deliberate, argued decision (hard constraint c01)."
+        }
+      ],
+      "parameters": {
+        "max_depth_ft": {
+          "value": 20,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "southern-federal constraint c01"
+        }
+      },
+      "rule": "No room may be more than 20 ft deep without a second exterior wall (hard constraint c01); the single-pile plan is not a cost saving but the mechanism the through-passage ventilation strategy depends on.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -646,10 +753,22 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "raised-basement",
+          "status": "canonical",
+          "note": "Overrides the inherited Georgian low-plinth default: the principal floor is lifted 3 to 6 ft above grade with an exterior stair to the entrance, one of this variant's own diagnostic_tells."
+        },
+        {
+          "id": "low-plinth-on-a-level-site",
+          "status": "permitted",
+          "note": "The plainer Piedmont farmhouse version, without the raised basement of the grander Chesapeake five-part houses."
+        }
+      ],
+      "rule": "The principal floor is frequently raised three to six feet above grade on a basement, lifting the main rooms above the damp and into more air -- a device this variant shares with the Georgian precedent it descends from, not one Federal ornament changes.",
+      "confidence": "medium",
+      "status": "drafted"
     }
   }
 }

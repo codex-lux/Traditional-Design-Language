@@ -5,23 +5,63 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "near-symmetrical",
+          "status": "canonical",
+          "op": "add",
+          "note": "The family's single exception: only near-symmetrical, never crossing into true classical strict-bilateral discipline (victorian.kit.json's own note on this variant)."
+        }
+      ],
+      "rule_append": "Governed by the roof storey and the pavilion hierarchy: the mansard height sets the crown, and central or end pavilions establish an A-B-A or A-B-C-B-A rhythm inherited from French practice.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json proportional_system"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "mansard",
+          "status": "canonical"
+        }
+      ],
+      "rule": "A mansard roof, dual-pitched with a steep lower slope, forming a full habitable storey on all elevations. The mansard shall be continuous on all elevations of the mass it crowns, including rear and side elevations; a mansard applied to the street front only is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json defining_characteristics, constraints c01"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "lower_slope_deg": {
+          "range": [
+            65,
+            80
+          ],
+          "unit": "deg",
+          "kind": "measured"
+        },
+        "upper_slope_max": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "The lower mansard slope shall be between 65 and 80 degrees from horizontal, and the upper slope shall not exceed 4:12 and shall not be visible from eye height 40 ft from the building.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json constraints c02"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -59,11 +99,32 @@
       "status": "empty"
     },
     "dormer": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gabled",
+          "status": "canonical"
+        },
+        {
+          "id": "pedimented",
+          "status": "permitted"
+        }
+      ],
+      "parameters": {
+        "centering_tolerance": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Dormers centred on the openings of the storey below within this tolerance."
+        }
+      },
+      "rule": "Dormers shall be provided one per structural bay and shall be centred on the openings of the storey below. Dormer count and spacing shall not be varied independently of the fenestration.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json constraints c03"
+      ],
+      "group": "massing-and-roof"
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -80,11 +141,24 @@
       "status": "empty"
     },
     "height_proportion": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "mansard_to_storey_ratio": {
+          "range": [
+            0.8,
+            1.0
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "The mansard storey height is 0.8 to 1.0 times the storey below, read as one more graduated storey in the stack rather than an unrelated roof form.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json proportional_system.typical_ratios, proportion_packs (storey-graduation note)"
+      ],
+      "group": "massing-and-roof"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -151,11 +225,20 @@
       "status": "empty"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "quoin",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Quoins carried from the Italianate substrate at the corners of the body below the curb cornice.",
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/second-empire.json defining_characteristics"
+      ],
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -179,11 +262,39 @@
       "status": "empty"
     },
     "cornice": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "moulded-bracketed-curb-cornice",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "bracket_spacing": {
+          "range": [
+            24,
+            48
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "On centre."
+        },
+        "projection": {
+          "range": [
+            18,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "A moulded and bracketed cornice at the curb line where wall meets roof, at the same module as any porch or bay cornice on the building, preserving the Italianate rhythm the style inherits.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json defining_characteristics, constraints c04"
+      ],
+      "group": "envelope"
     },
     "frieze": {
       "group": "envelope",
@@ -217,11 +328,24 @@
       "status": "empty"
     },
     "window_proportion": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_width_ratio": {
+          "range": [
+            2.2,
+            2.6
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "The tall end of the Anglo-American range; the sash-light pack's window_proportion authority_note names Second Empire directly."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json proportion_packs (sash-light note)"
+      ],
+      "group": "openings"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -238,11 +362,24 @@
       "status": "empty"
     },
     "window_head_wood": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "segmental-arch-head",
+          "status": "canonical"
+        },
+        {
+          "id": "round-arch-head",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Arched or segmental window heads, carried from the Italianate substrate.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json defining_characteristics"
+      ],
+      "group": "openings"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -266,11 +403,20 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "paired",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Tall narrow paired windows, regular and pavilioned across the wall.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/second-empire.json defining_characteristics, proportional_system.bay_rhythm"
+      ],
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -432,11 +578,25 @@
       "status": "empty"
     },
     "ceiling_height_rule": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "first_floor": {
+          "range": [
+            10,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Italianate-derived ceilings, inside trim-classical's well-calibrated 11-13 ft band rather than its low-ceiling failure zone (proportion_packs note)."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "sources": [
+        "styles/second-empire.json proportion_packs (storey-graduation, trim-classical notes)"
+      ],
+      "group": "interior"
     },
     "trim_family": {
       "group": "interior",

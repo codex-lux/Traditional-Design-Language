@@ -25,10 +25,24 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wood-shingle",
+          "status": "canonical",
+          "note": "Cypress shingle -- consistent with own exemplars' cypress framing and the Gulf Coast French Creole tradition generally."
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "The inherited figure is a Mediterranean/Provençal material (coppi e embrici) reaching this node through a distant french-vernacular/mediterranean-vernacular ancestor chain; not attested for the Louisiana river-parish tradition this variant actually describes."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "judgment": true,
+      "confidence": "low",
+      "note": "Editorial correction, not drawn from this node's own text, which does not state a roof material explicitly; overriding the inherited Mediterranean figure on general regional-consensus grounds rather than a quoted source."
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -60,17 +74,37 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gabled",
+          "status": "canonical",
+          "note": "Own soft constraint c05: dormers, where used, sit in the main slope with their faces set back behind the gallery line."
+        },
+        {
+          "id": "wall-dormer",
+          "status": "forbidden",
+          "note": "Own diagnostic_tells: 'dormers set into the main roof slope rather than above the gallery' -- a dormer breaking the gallery roof plane instead is the wrong location."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "position": {
+          "value": "internal, within the body of the house, never at an exposed gable end",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "Chimneys are internal -- own defining_characteristics -- consistent with a plan of rooms opening onto one another and the gallery rather than organized around an exterior stack.",
+      "confidence": "high"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,10 +122,17 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "linear-ell-farmhouse",
+          "status": "forbidden",
+          "op": "add",
+          "note": "Own massing_affinities rates this atypical: 'service wings occasionally extend to the rear, but the type resists the ell' -- the gallery and the encircling composition do not accommodate an ell easily."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
@@ -124,10 +165,12 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "The wall material changes at the gallery floor line exactly as the column does (own hard constraint c03): masonry (brick or stuccoed brick) below, colombage with bousillage or briquette-entre-poteaux infill under weatherboard above. A uniform material top to bottom is incompatible with the type, the same way a uniform column order is.",
+      "confidence": "high"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -267,10 +310,12 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "On the gallery elevation, openings are doors, not windows, all the way round -- own diagnostic_tells: every principal room opens onto the gallery through full-height French casement doors, own hard constraint c04. True windows, where they occur at all, are confined to elevations without a gallery.",
+      "confidence": "high"
     },
     "shutter": {
       "group": "openings",
@@ -295,10 +340,12 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No classical door surround; the French casement doors sit plain in the wall, consistent with the classical apparatus being forbidden throughout this style -- there is no ceremonial single entrance to distinguish, since every gallery bay is an equivalent door.",
+      "confidence": "medium"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -419,24 +466,49 @@
     },
     "steps_and_stoop": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "An exterior stair, architecturally expressed, rises from grade to the gallery -- own hard constraint c01 -- distinct from the utilitarian interior stair to the garret tucked in one of the rear cabinets (own defining_characteristics).",
+      "confidence": "high"
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "The only route to the principal floor is up an exterior stair to the gallery; there is no front door in the Anglo sense and no way to reach the principal floor from inside the service storey. Own description: 'reached not through the house but by an exterior stair rising to the gallery. There is no front door in the Anglo sense; there is a stair, a gallery, and a row of French doors.'",
+      "confidence": "high"
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "principal_floor_in": {
+          "range": [
+            144,
+            168
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "12-14 ft, own defining_characteristics and proportional_system."
+        },
+        "service_storey_in": {
+          "range": [
+            96,
+            120
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "8-10 ft, own proportional_system."
+        }
+      },
+      "status": "drafted",
+      "rule": "Principal-floor ceilings run 12 to 14 ft; the masonry service storey below is markedly lower, 8 to 10 ft.",
+      "confidence": "high"
     },
     "trim_family": {
       "group": "interior",
@@ -489,10 +561,22 @@
     },
     "stair_type": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exterior-stair-to-gallery",
+          "status": "canonical",
+          "note": "The architecturally expressed principal stair -- own hard constraint c01."
+        },
+        {
+          "id": "enclosed-cabinet-stair",
+          "status": "canonical",
+          "note": "The utilitarian interior stair to the garret, inside a rear cabinet -- own defining_characteristics."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "newel_balustrade": {
       "group": "interior",
@@ -545,17 +629,41 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "distributed",
+          "status": "canonical",
+          "note": "Multiple internal chimneys serving different rooms of the multi-room Creole plan, rather than one dominant mass."
+        },
+        {
+          "id": "gable-end-paired",
+          "status": "forbidden",
+          "note": "Own defining_characteristics: chimneys are internal, never at the gable end."
+        },
+        {
+          "id": "exterior-end",
+          "status": "forbidden",
+          "note": "Same reasoning."
+        },
+        {
+          "id": "central-stack",
+          "status": "forbidden",
+          "note": "First Period New England; incompatible with this style's multi-room, no-corridor plan."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "stair_position": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Two stairs of entirely different character: the principal stair is exterior, rising from grade to the gallery, and is not part of the interior plan at all; a second, interior stair to the garret is tucked inside one of the rear cabinets flanking the loggia.",
+      "confidence": "high"
     },
     "public_private_gradient": {
       "group": "plan-logic",
@@ -580,10 +688,22 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "one-and-a-half-pile",
+          "status": "canonical",
+          "note": "Own proportional_system: body 30-44 ft deep, with a front range of principal rooms and a shallower rear zone -- 'a rear loggia recessed between projecting cabinets' -- not a single uniform-depth range."
+        },
+        {
+          "id": "single-pile",
+          "status": "forbidden",
+          "note": "Overrides the inherited french-vernacular claim of 'no family member has a double-pile precedent': this variant's own recorded depth (30-44 ft total) and its rear loggia-and-cabinets zone are deeper and more differentiated than a single 18-23 ft range."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "daylight_strategy": {
       "group": "plan-logic",

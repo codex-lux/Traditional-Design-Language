@@ -11,17 +11,39 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The variant's own signature -- low hip 'frequently screened by a balustrade or captain's walk', a silhouette diagnostic_tells names directly against the steep-gabled colonial houses this variant's own carpenters had been building the season before."
+        }
+      ],
+      "rule_append": "Where hipped, the low roof is very often screened by a balustrade or captain's walk (see balustrade) -- a device this variant's diagnostic_tells calls out as unmistakable 'in a region whose colonial houses had steep gables and a huge central chimney'.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_min": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "new-england-federal constraint c04"
+        },
+        "pitch_max": {
+          "value": "8:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "new-england-federal constraint c04"
+        }
+      },
+      "rule_append": "Low enough to read Federal, steep enough to shed New England snow (soft constraint c04): below 5:12 the assembly fails in zone 5A-6A snow loads, and above 9:12 it reads colonial.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -67,10 +89,18 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "single-central-stack",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Hard constraint c03: the central chimney is forbidden outright, not merely demoted -- it is the plan liberation that distinguishes this variant from its new-england-georgian parent."
+        }
+      ],
+      "rule_append": "Gable-end or paired interior stacks flanking the stair hall (hard constraint c03) -- never the massive central chimney of the colonial house this variant's carpenters had been building the season before.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -81,10 +111,18 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "townhouse_storey_ratio_ft": {
+          "value": "12 : 10 : 7.5",
+          "unit": "none",
+          "kind": "measured",
+          "source": "new-england-federal proportional_system: 'Three-storey brick townhouse: storey heights approximately 12 : 10 : 7.5 feet'",
+          "note": "This variant's own measured figure, close to but slightly steeper than the inherited Federal 0.80-0.90/0.60-0.75 band (12/10.2/8.16 ft under the pure ratio) -- bound as the governing case for the Beacon Hill and Chestnut Street townhouse."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -110,10 +148,30 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "clapboard_exposure_principal_in": {
+          "range": [
+            4,
+            5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-england-federal proportional_system"
+        },
+        "clapboard_exposure_secondary_in": {
+          "range": [
+            5,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-england-federal proportional_system"
+        }
+      },
+      "rule_append": "Clear eastern white pine, worked to the thinnest exposure the material affords -- the crisp, wide, hand-run mouldings the style's own description names as possible only in this species.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -370,10 +428,17 @@
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "captains-walk",
+          "status": "canonical",
+          "op": "add",
+          "note": "A widow's-walk balustrade set on the low hip roof itself, distinct from the inherited roof-deck-balustrade's own forecourt-wall alternative -- diagnostic_tells names it directly as a variant signature."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
@@ -604,10 +669,22 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "party-walled-urban-row",
+          "status": "canonical",
+          "note": "Beacon Hill, Salem's Chestnut Street, Providence's Benefit Street -- massing_affinities names townhouse-row as canonical, and this variant's own description calls Boston's party-wall urbanism 'the finest American urbanism before 1850'."
+        },
+        {
+          "id": "frontal-to-the-road",
+          "status": "permitted",
+          "note": "The free-standing five-bay merchant house; the more common case outside the seaport core."
+        }
+      ],
+      "rule": "The urban and highest-status expression of this variant abandons the free-standing house entirely for the party wall; the free-standing case remains correct and common but is not the variant's own most distinctive contribution.",
+      "confidence": "medium",
+      "status": "drafted"
     },
     "setback_rule": {
       "group": "site",

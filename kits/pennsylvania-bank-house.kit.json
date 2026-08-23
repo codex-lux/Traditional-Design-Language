@@ -6,8 +6,21 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "additive-vernacular",
+          "status": "canonical",
+          "note": "Own proportional_system: symmetry is 'additive-vernacular' and bay rhythm is 'irregular and driven by the plan... rarely aligns floor to floor.'"
+        },
+        {
+          "id": "strict-bilateral-odd-bay",
+          "status": "forbidden",
+          "note": "The Georgian answer, inherited via a distant lineage splice on the parent style and wrong for this variant specifically: own distinguished_from (mid-atlantic-georgian) -- 'unaligned windows and no ceremonial approach at all.'"
+        }
+      ],
+      "confidence": "high"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -18,10 +31,22 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_rise_12_min": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "note": "Own soft constraint c05."
+        },
+        "pitch_rise_12_max": {
+          "value": "14:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +57,13 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A steep gable roof, 45-50 degrees, framed with a liegender Stuhl leaning-post truss over a usable loft -- own defining_characteristics. There is no bracketed or corbelled Mediterranean eave; the roof edge is a plain vernacular verge.",
+      "confidence": "medium",
+      "note": "Overrides the inherited mediterranean-vernacular content (paired brackets/modiglioni, corbelled tile courses -- an Italian-villa rationale with no basis in this Pennsylvania German tradition)."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -100,8 +128,30 @@
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "lower_storey_thickness_in": {
+          "range": [
+            22,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Not less than 22 in to carry earth pressure -- own hard constraint c02."
+        },
+        "upper_storey_thickness_in": {
+          "range": [
+            18,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "The lower, banked storey is thicker than the storey above it -- 22 to 30 in against 18 to 24 in -- because it alone carries earth pressure on its bermed side; the two storeys are not a uniform wall.",
+      "confidence": "high",
+      "note": "Overrides the inherited mediterranean-vernacular figure (16-28 in, a single Italian-villa range with no earth-pressure distinction), which does not apply to this variant's two structurally different storeys."
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -145,10 +195,44 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pent-roof-band",
+          "status": "canonical",
+          "note": "Own diagnostic_tells: 'a pent roof band across the facade with no posts beneath it.' The closest ontological fit for a Pennsylvania German pent roof -- a narrow secondary roof band at the second-floor line, structurally independent of the main roof."
+        }
+      ],
+      "parameters": {
+        "projection_in": {
+          "range": [
+            30,
+            42
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own soft constraint c05."
+        },
+        "pitch_deg": {
+          "range": [
+            25,
+            35
+          ],
+          "unit": "deg",
+          "kind": "measured"
+        },
+        "corner_return_in": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "A pent roof projects 30 to 42 in at the second-floor line across the facade, unposted, returning 12 to 24 in at the corners -- own soft constraint c05.",
+      "confidence": "medium"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -166,10 +250,20 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_masonry": {
+          "range": [
+            16,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Scaled to this variant's own thicker lower-storey wall (22-30 in) rather than the parent's general 12-24 in range."
+        }
+      },
+      "status": "drafted"
     },
     "reveal_frame": {
       "group": "envelope",
@@ -180,10 +274,11 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No classical cornice, modillion or otherwise. The classical apparatus this style's own germanic-vernacular ancestor forbids at every other slot is not revived here at the roof edge; the roof terminates plainly, and the second-floor band is the pent roof, not a cornice."
     },
     "frieze": {
       "group": "envelope",
@@ -267,10 +362,13 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Small irregular windows placed for the rooms behind them rather than for external rhythm, with two hard exceptions: no openings at all in the bermed uphill wall below the principal floor, and where a spring is captured, its discharge is through an arched opening 18-30 in wide at the base of the downhill wall -- own soft constraint c04.",
+      "confidence": "high",
+      "note": "Overrides the inherited nordic-alpine-vernacular content, which is written for a solid LOG wall's course-interruption logic and does not apply to this variant's stone construction."
     },
     "shutter": {
       "group": "openings",
@@ -309,10 +407,17 @@
     },
     "secondary_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "service-level-downhill-door",
+          "status": "canonical",
+          "note": "Of equal practical, if not architectural, importance to the upper door -- own distinguished_from (mid-atlantic-georgian): 'the bank house gets two doors of equal practical importance.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "garage_strategy": {
       "group": "openings",
@@ -419,17 +524,28 @@
     },
     "steps_and_stoop": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "At the upper entrance, sometimes a short bridge or a stone stoop crosses from the higher ground to the Stube-level door; at the lower entrance there are typically no steps at all, since the service-level floor sits within 12 in of the downhill grade.",
+      "confidence": "medium"
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "threshold_count": {
+          "value": 2,
+          "unit": "count",
+          "kind": "measured",
+          "note": "Two independent entrances, not two thresholds on one path -- own hard constraint c03."
+        }
+      },
+      "status": "drafted",
+      "rule": "Two exterior doors at two different levels, on different elevations, of unequal architectural status: one enters the lower service storey from the downhill grade, one enters the Stube level from the upper grade, sometimes across a short bridge or a stone stoop. A single ceremonial entrance destroys the type -- own hard constraint c03: the service level must be enterable without passing through the house.",
+      "confidence": "high"
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -440,10 +556,20 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "profile_family": {
+          "value": "plain, unmoulded joinery; no classical profile family",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "There is no applied classical trim profile family, consistent with the germanic-vernacular ancestor's forbidding of the classical apparatus throughout; interior joinery is plain rather than gibbsian.",
+      "judgment": true,
+      "confidence": "low",
+      "note": "Editorial inference from the consistent absence of classical ornament elsewhere in this style's own record; own node text does not itself describe interior trim in detail."
     },
     "baseboard": {
       "group": "interior",
@@ -587,10 +713,13 @@
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Daylight is asymmetric by elevation, not a percentage of total wall area: the bermed uphill wall has few or no openings below the principal floor, while the exposed downhill wall carries most of the building's glazing. The parent style's general aperture-percentage figure does not capture this asymmetry.",
+      "confidence": "medium",
+      "note": "Directly follows from own hard/soft constraints c02 and c04 (no uphill openings below the principal floor) rather than a separately sourced daylighting study."
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -646,10 +775,30 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "cross_slope_min_pct": {
+          "value": 12.5,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "1:8, own hard constraint c01. On a level site the type cannot exist."
+        },
+        "fall_min_ft": {
+          "value": 6,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own hard constraint c01."
+        },
+        "finished_floor_to_grade_max_in": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c02: within 12 in of downhill grade at the exposed wall, and the uphill wall bermed to within 12 in of the principal floor."
+        }
+      },
+      "status": "drafted",
+      "rule_append": "The type requires a real cross-slope of at least one in eight across the building depth, giving a fall of not less than 6 ft; a house with a walkout basement on flat ground is not a bank house."
     }
   }
 }

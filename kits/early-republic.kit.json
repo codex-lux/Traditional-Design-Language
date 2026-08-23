@@ -11,7 +11,7 @@
         {
           "id": "strict-bilateral-symmetry",
           "status": "canonical",
-          "note": "The family's ideological core. Federal, Jeffersonian Roman classicism and Greek Revival all record 'strict-bilateral' as their governing symmetry \u2014 each stream claims classical symmetry as a political argument about the form of government, not only a compositional habit."
+          "note": "The family's ideological core. Federal, Jeffersonian Roman classicism and Greek Revival all record 'strict-bilateral' as their governing symmetry — each stream claims classical symmetry as a political argument about the form of government, not only a compositional habit."
         },
         {
           "id": "off-centre-entrance",
@@ -31,10 +31,10 @@
         {
           "id": "additive-vernacular",
           "status": "forbidden",
-          "note": "Growth by accretion is exactly the colonial habit the pattern book displaced. Even the cheapest Upland Vernacular Greek Revival farmhouse is composed, not accreted \u2014 Grecian trim is applied precisely to make an old accretive plan read as classical."
+          "note": "Growth by accretion is exactly the colonial habit the pattern book displaced. Even the cheapest Upland Vernacular Greek Revival farmhouse is composed, not accreted — Grecian trim is applied precisely to make an old accretive plan read as classical."
         }
       ],
-      "rule": "Every stream of the family \u2014 Federal, Jeffersonian Roman classicism, and Greek Revival alike \u2014 composes its principal elevation in strict bilateral symmetry; picturesque, balanced-asymmetrical and additive-vernacular partis are forbidden outright. The one tolerated departure is the Greek Revival gable-front house, where a side-hall door is pushed to the end bay because the pediment itself, not the door, supplies the symmetry.",
+      "rule": "Every stream of the family — Federal, Jeffersonian Roman classicism, and Greek Revival alike — composes its principal elevation in strict bilateral symmetry; picturesque, balanced-asymmetrical and additive-vernacular partis are forbidden outright. The one tolerated departure is the Greek Revival gable-front house, where a side-hall door is pushed to the end bay because the pediment itself, not the door, supplies the symmetry.",
       "confidence": "high",
       "status": "drafted"
     },
@@ -60,7 +60,7 @@
           "source": "southern-federal proportional_system"
         }
       },
-      "rule": "Roof pitch across the family runs markedly lower than the Georgian/colonial precedent it replaces \u2014 from a nearly flat, balustrade-concealed 3:12 in Jeffersonian and plantation Greek Revival work up to a still-shallow 9:12 in the steepest Southern Federal hip \u2014 and the roof is characteristically treated as subordinate mass: hidden behind a parapet or balustrade in Federal and Jeffersonian work, or flattened into a pediment in Greek Revival, rather than left as a dominant visible form.",
+      "rule": "Roof pitch across the family runs markedly lower than the Georgian/colonial precedent it replaces — from a nearly flat, balustrade-concealed 3:12 in Jeffersonian and plantation Greek Revival work up to a still-shallow 9:12 in the steepest Southern Federal hip — and the roof is characteristically treated as subordinate mass: hidden behind a parapet or balustrade in Federal and Jeffersonian work, or flattened into a pediment in Greek Revival, rather than left as a dominant visible form.",
       "confidence": "high",
       "status": "drafted"
     },
@@ -135,7 +135,7 @@
         {
           "id": "balloon-frame",
           "status": "permitted",
-          "note": "Available only within the family's later floruit (post-1830) and explicitly the dominant construction of Northern Greek Revival clapboard work \u2014 the earliest Federal work of the 1780s-90s predates it and could not have used it."
+          "note": "Available only within the family's later floruit (post-1830) and explicitly the dominant construction of Northern Greek Revival clapboard work — the earliest Federal work of the 1780s-90s predates it and could not have used it."
         },
         {
           "id": "log",
@@ -158,7 +158,7 @@
           "note": "Modern manufactured technology, anachronistic to the whole family."
         }
       ],
-      "rule": "Construction is load-bearing masonry, or braced or balloon timber frame \u2014 balloon framing becomes available and is explicitly attested from the 1830s on in the Northern Greek Revival branch, but is not available to the earliest Federal work of the 1780s-90s, which predates it. No branch uses masonry veneer over a frame backup, platform framing, or a structural insulated panel, all of which postdate the family's 1860 floruit end.",
+      "rule": "Construction is load-bearing masonry, or braced or balloon timber frame — balloon framing becomes available and is explicitly attested from the 1830s on in the Northern Greek Revival branch, but is not available to the earliest Federal work of the 1780s-90s, which predates it. No branch uses masonry veneer over a frame backup, platform framing, or a structural insulated panel, all of which postdate the family's 1860 floruit end.",
       "confidence": "high",
       "status": "drafted"
     },
@@ -290,7 +290,7 @@
     "window_grouping_rule": {
       "group": "openings",
       "binding": "specified",
-      "rule": "Openings are single, evenly spaced, and aligned vertically floor to floor across every stream of the family \u2014 Federal's 'vertically aligned openings', Jeffersonian's 'even bay rhythm derived from the portico's intercolumniation', and Greek Revival's 'even intercolumniation... imposed on the wall behind it' are the same discipline stated three ways. Paired or ribboned windows are not part of the vocabulary. The one permitted disturbance is a single centred feature \u2014 a Palladian or triple window over a Federal entrance, or the portico's own module in Jeffersonian and Greek Revival work \u2014 and it must sit on the composition's own axis, never off-centre.",
+      "rule": "Openings are single, evenly spaced, and aligned vertically floor to floor across every stream of the family — Federal's 'vertically aligned openings', Jeffersonian's 'even bay rhythm derived from the portico's intercolumniation', and Greek Revival's 'even intercolumniation... imposed on the wall behind it' are the same discipline stated three ways. Paired or ribboned windows are not part of the vocabulary. The one permitted disturbance is a single centred feature — a Palladian or triple window over a Federal entrance, or the portico's own module in Jeffersonian and Greek Revival work — and it must sit on the composition's own axis, never off-centre.",
       "confidence": "high",
       "status": "drafted"
     },

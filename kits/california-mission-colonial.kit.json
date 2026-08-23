@@ -6,8 +6,11 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": " Within that field-wall discipline, the arcaded corredor itself runs as a long, slow, uninterrupted rhythm of identical bays -- typically ten to twenty of them, on square masonry piers -- with no accent, no privileged bay and no termination other than the corner of the court; composition is spent entirely on the single church portada, never on the arcade (own proportional_system.bay_rhythm).",
+      "note": "The inherited colonial-iberian-americas rule ('ornament confined to entry') is correct and untouched; this adds the arcade's own additive bay rhythm, which the ancestor's rule does not by itself state.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -18,10 +21,36 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_degrees": {
+          "range": [
+            14.0,
+            22.6
+          ],
+          "unit": "deg",
+          "kind": "derived"
+        }
+      },
+      "rule": "Roof pitch 3:12 to 5:12 under half-round clay tile; pitches above 6:12 are foreign to the tradition (c02).",
+      "note": "Specified rather than extends: the inherited colonial-iberian-americas band (20-30 degrees) is calibrated for the wider Iberian-Americas family's flat-azotea/tile split and is measurably shallower and narrower here -- 3:12-5:12 is about 14.0-22.6 degrees, mostly below the ancestor's 20-degree floor. Restating avoids a resolved kit that quietly carries the wrong number.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -53,10 +82,22 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush",
+          "status": "canonical",
+          "note": "The great majority of ranges and church gables are plain and unshaped, terminating the tile roof without ornament."
+        },
+        {
+          "id": "parapeted",
+          "status": "atypical",
+          "note": "The shaped or curvilinear parapet gable occurs on only a few mission facades; the 1890s Mission Revival made it the universal signature, which this node's own distinguished_from note against mission-revival explicitly corrects."
+        }
+      ],
+      "rule": "Gable treatment is plain by default; a shaped parapet gable is a real but minority historical feature, not the type's signature.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -95,13 +136,48 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "adobe",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The mission ranges and most church walls; the type's defining material (own defining characteristics)."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Stone rubble at the grandest churches (e.g. Mission Santa Barbara, in local sandstone) where adobe alone could not span the height; still lime-plastered and whitewashed to read the same as adobe."
+        }
+      ],
+      "note": "Promotes adobe from the family's generic 'permitted' rating (true across six unrelated branches) to canonical for this branch specifically, and adds the documented stone exception.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "thickness_church": {
+          "range": [
+            36,
+            60
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "3-5 ft at the church specifically, thicker than the 24-36 in range-room wall the inherited colonial-iberian-americas figure (24-40 in) already covers."
+        },
+        "height_to_thickness_max": {
+          "value": 8,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Height not more than 8x thickness without buttressing; where exceeded, external buttresses at not more than 15 ft o.c. (c03, hard)."
+        }
+      },
+      "note": "Adds the church's own thicker figure and the height-to-thickness buttressing rule on top of the inherited 24-40 in mass-wall parameter, without restating it.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -384,24 +460,81 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "engaged-under-roof",
+          "status": "canonical",
+          "note": "The arcaded corredor, 10-14 ft deep on square masonry piers, is the sole circulation for the whole quadrangle -- every room is entered from it (own defining characteristic and circulation_parti binding)."
+        },
+        {
+          "id": "wrap-around",
+          "status": "permitted",
+          "note": "The corredor runs along more than one range face onto the court on a closed or three-sided quadrangle."
+        },
+        {
+          "id": "full-width",
+          "status": "forbidden",
+          "note": "The corredor faces the court only; the outer face of the quadrangle is largely blind (own diagnostic tell)."
+        }
+      ],
+      "rule": "The corredor is the type's only porch and its only circulation system; it never faces the public approach.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth": {
+          "range": [
+            10,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Corredor depth not less than 10 ft; below that it stops functioning as circulation and shade and becomes a covered walk (c04, hard).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "square-masonry-pier",
+          "status": "canonical",
+          "note": "2 ft 6 in to 4 ft wide, no base, no capital, carrying a semicircular arch whose clear opening runs 1.5 to 2.5 times the pier width (c01, hard)."
+        },
+        {
+          "id": "slender-classical-column-with-capital",
+          "status": "forbidden",
+          "note": "The Mission Revival's thin-pier arcade on wood frame or brick with stucco; structurally impossible in adobe and the type's own distinguished_from note against mission-revival."
+        }
+      ],
+      "parameters": {
+        "pier_width": {
+          "range": [
+            30,
+            48
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "arch_opening_to_pier_ratio": {
+          "range": [
+            1.5,
+            2.5
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Square masonry piers, not columns, under semicircular arches, with no capitals and often no imposts (own diagnostic tell).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",

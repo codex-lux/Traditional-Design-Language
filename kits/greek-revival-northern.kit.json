@@ -11,10 +11,17 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "front-gable",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Overrides the inherited Georgian prohibition ('turns the gable into the principal elevation, which inverts the style's parti') outright: rotating the gable to the road is this variant's own demographic bulk -- 'rotate the house, get a pediment for nothing' -- and the family's own composition_parti already tolerates the off-centre door this parti requires."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -88,15 +95,60 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "subordinate-ell",
+          "status": "canonical",
+          "note": "The upright-and-wing: 'arguably the most-built American house form of the nineteenth century', per this variant's own massing_affinities -- Greek Revival in origin before it becomes style-neutral."
+        }
+      ],
+      "parameters": {
+        "wing_ridge_offset_ft": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "greek-revival-northern constraint c03"
+        },
+        "wing_setback_min_ft": {
+          "value": 2,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "greek-revival-northern constraint c03"
+        }
+      },
+      "rule": "The wing ridge sits 3 to 6 ft below the main ridge and the wing's front plane is recessed at least 2 ft behind the temple block (hard constraint c03) -- a wing flush with the temple front destroys the hierarchy and produces a two-fronted house with no entry logic.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "braced-timber-frame",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Painted white clapboard over braced or balloon frame is the dominant construction of this variant -- 'painted white clapboard over braced or balloon frame as the dominant construction, brick in the towns', per defining_characteristics."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Explicitly attested from the 1830s on in this variant specifically, per the family's own construction_type rule."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted",
+          "op": "replace",
+          "note": "'Brick in the towns' -- the minority, urban case."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -342,10 +394,18 @@
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "columnless_total_depth_min_in": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-northern constraint c01",
+          "note": "On a house without columns, the corner pilaster and entablature must still run continuously at a total eave assembly depth of at least 18 in on a two-storey house -- the trim-only expression of this style's entablature ratio where no order is built."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,10 +416,21 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "width_in": {
+          "range": [
+            10,
+            14
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-northern typical_ratios",
+          "note": "Narrows the inherited 8-14 in style range to this variant's own measured band -- 'corner pilaster boards 10-14 inches wide where a Federal house of the same size had a 4-inch corner board', diagnostic_tells' own leading comparison."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",

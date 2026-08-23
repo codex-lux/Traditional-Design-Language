@@ -46,10 +46,21 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "return_depth_in": {
+          "range": [
+            10,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios: 'cornice returns 10-18 inches'"
+        }
+      },
+      "rule_append": "Narrower than the 12-24 in figure generalised at the ancestor from the better-documented New England Georgian houses: defining_characteristics names 'clipped cornice returns' specifically, a shorter, plainer return proportioned to the frieze board rather than to a full entablature.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -105,8 +116,21 @@
     },
     "wall_thickness_frame": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "log_core_encased_in": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular constraint c05 (advisory, section)"
+        }
+      },
+      "rule": "Where an existing log or hewn-timber core is encased in weatherboard -- 'extremely common and routinely missed' per the style's own lineage note -- the resulting wall reads 8 to 12 in thick and the weatherboard is furred out to a consistent plane over it. Ordinary new-built frame wall thickness is not stated by the style and is left open; this slot addresses the log-encasement case specifically, which is where this variant has something distinctive to say.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "primary_cladding": {
       "group": "envelope",
@@ -173,10 +197,21 @@
     },
     "reveal_frame": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "reveal_frame_log_encased_in": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "in",
+          "kind": "editorial",
+          "source": "derived: wall_thickness_frame's log_core_encased_in (8-12in) minus the inherited frame reveal_frame parameter's own 0.75-2in shallow reveal, applied to a thicker wall than ordinary balloon or braced frame"
+        }
+      },
+      "rule_append": "Where the wall is a furred-out log core rather than ordinary balloon or braced frame, the window jamb sits noticeably deeper than the inherited under-2-in frame reveal (diagnostic_tells: 'window jambs unusually deep: there are logs inside') -- a legible feature of the type per constraint c05, not a defect to be trimmed away.",
+      "status": "drafted",
+      "confidence": "low"
     },
     "cornice": {
       "group": "envelope",
@@ -187,10 +222,21 @@
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "frieze_depth_in": {
+          "range": [
+            10,
+            16
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios and constraint c01 (hard): 'frieze board 10-16 inches on a two-storey house'"
+        }
+      },
+      "rule_append": "The frieze board is this style's single most load-bearing piece of trim -- 10 to 16 in deep, run continuously under the eave on every elevation, at least 10 in or the classical reading collapses outright (hard constraint c01). Unlike the temple-front nodes, no order sits behind it: the frieze is simply a wide board, and its width is doing all the work the order does elsewhere in the family.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "parapet": {
       "group": "envelope",
@@ -328,24 +374,80 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "vernacular-abstracted",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from atypical to canonical: this is the defining fact of the node, not an exception to it. The style's own governing_logic states classical proportion is 'carried entirely by board width and eave depth, with no orders present' -- no shaft, capital or base is built anywhere on the house."
+        },
+        {
+          "id": "doric-greek",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A built Doric order belongs to a variant that can afford columns; per the style's own constraint c04, 'if columns are wanted, the building belongs to a different variant.'"
+        },
+        {
+          "id": "ionic-greek",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Same objection as doric-greek -- no built order at all on this variant."
+        },
+        {
+          "id": "corinthian",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Same objection -- the Tower-of-the-Winds order is rarer even on the temple-front nodes that do build columns."
+        }
+      ],
+      "rule_append": "The Grecian identity is carried entirely by trim profile and board proportion -- corner pilaster boards, frieze depth, door entablature -- run with planes a local carpenter already owned; encoding the widths and depths honestly matters more here than anywhere else in the family precisely because there is no order to fall back on if the proportions are wrong (see the style's own governing_logic).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "square-pier",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from atypical to canonical: 'no columns anywhere on the building' is this variant's own diagnostic tell. Where a porch post gets classical treatment at all it is chamfered with a lamb's-tongue stop (see porch_support), not turned or built up as a shaft."
+        }
+      ],
+      "parameters": {
+        "post_size_in": {
+          "set": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular constraint c04 (soft, structural): 'square or chamfered posts 4x4 to 6x6'"
+        }
+      },
+      "rule_append": "No built column exists on this variant at all -- the diameters-per-order figures above (5.5-7 Doric, 8.5-9.5 Ionic) do not apply; the porch is carried on 4x4 to 6x6 square or chamfered posts (constraint c04).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "total_depth_in": {
+          "range": [
+            14,
+            22
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios: 'total eave assembly 14-22 inches'"
+        }
+      },
+      "rule_append": "The inherited order-derived ratio (entablature = 1/4 to 1/5 of column height) has no column to measure from on this variant: the eave assembly is instead sized directly in absolute board dimensions, 14 to 22 in total depth, the frieze board making up the greater part of it (see frieze).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,10 +458,30 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "width_in": {
+          "range": [
+            10,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios and constraint c01 (hard: corner pilaster boards no less than 10 in wide)"
+        },
+        "cap_depth_in": {
+          "range": [
+            2,
+            3
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios"
+        }
+      },
+      "rule_append": "This is the whole trick of the stratum: an ordinary corner board widened from about 4 in to 10-12 in and given a 2-3 in cap so it reads as a pilaster, with no fluting, entasis or applied ornament of any kind -- diagnostic_tells: 'corner boards 10-12 inches wide with a simple capital, and no columns anywhere on the building'.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -384,10 +506,29 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "entry-portico",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A portico costs columns, and this variant does not build any (constraint c04: 'if columns are wanted, the building belongs to a different variant'). The style's own hard constraint c01 (column height equals full facade height) presupposes a column that does not exist here."
+        },
+        {
+          "id": "full-width-porch",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The nearest existing id to 'a shed or hip porch on square or chamfered posts' running across the ordinary front elevation. Genuine gap, honestly noted: no id in this vocabulary distinguishes a plain-post porch from a colonnade, so this binding carries the width fact (full-width) without the height/order fact the parent's own definition of this id assumes."
+        },
+        {
+          "id": "stoop-only",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Promoted from atypical to permitted: the cheapest examples of the stratum reduce to trim boards and a doorway with no porch at all, per the ancestor's own anticipatory note naming this variant directly."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "porch_depth": {
       "group": "threshold",
@@ -398,10 +539,62 @@
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "baseless-greek-doric-column",
+          "status": "forbidden",
+          "op": "add",
+          "note": "No built order on this variant (c04) -- free-standing classical columns are out of character; a house with a real Doric column belongs to a different variant. (This id is only introduced further up the cascade by greek-revival-american's own extends, not by the georgian-colonial-american base this checker's ancestor scan sees -- op:add rather than op:replace for that reason, though the merge effect on the resolved kit is identical.)"
+        },
+        {
+          "id": "ionic-column",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Same objection -- no built order at all."
+        },
+        {
+          "id": "chamfered-post",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Overrides the ancestor's own 'Vernacular and Gothic Revival' forbiddance -- this variant is exactly that vernacular, and the chamfer with a lamb's-tongue stop is its named porch support (constraint c04, diagnostic_tells)."
+        },
+        {
+          "id": "dimensional-lumber-post",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Overrides the ancestor's objection ('a 6x6 with a cap. No order, no diminution, no entasis') -- that description is exactly constraint c04's square post, and the absence of order is the point on this node, not a defect."
+        },
+        {
+          "id": "square-pier",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted to canonical alongside chamfered-post -- the two names for the same 4x4-6x6 post (constraint c04)."
+        }
+      ],
+      "parameters": {
+        "post_size_in": {
+          "set": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular constraint c04"
+        },
+        "chamfer_stop_in": {
+          "range": [
+            12,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular constraint c04: 'chamfer stopped 12-18 inches from deck and soffit'"
+        }
+      },
+      "rule_append": "No answering pilaster, entasis or diminution applies -- there is no order behind the post to answer.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_rail": {
       "group": "threshold",
@@ -433,10 +626,30 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "first_floor": {
+          "range": [
+            108,
+            126
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios: 'ceiling heights 9-10.5 feet ground'"
+        },
+        "second_floor": {
+          "range": [
+            102,
+            114
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios: '8.5-9.5 upper'"
+        }
+      },
+      "rule_append": "Narrower and lower than the family-wide band: 9 to 10.5 ft ground floor, 8.5 to 9.5 ft upper -- an ordinary farmhouse storey height, not the 12-14 ft of the plantation variant a few doors down the same lineage.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "trim_family": {
       "group": "interior",
@@ -580,10 +793,44 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from permitted to canonical, narrower than the inherited 18-22 ft: the I-house is the substrate this whole variant dresses, and it is by definition one room deep (massing_affinities: i-house 'canonical... two storeys, one room deep')."
+        },
+        {
+          "id": "double-pile",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Demoted from canonical: double-pile is the Northern/Mid-Atlantic norm the ancestor generalises from, but the defining I-house and double-pen forms of this stratum are single-pile by definition (constraint c03, hard)."
+        }
+      ],
+      "parameters": {
+        "single_pile_depth_ft": {
+          "range": [
+            16,
+            20
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular constraint c03 (hard, tested) and proportional_system typical_ratios"
+        },
+        "passage_width_ft": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "greek-revival-upland-vernacular proportional_system typical_ratios: 'passage 8-12 feet wide'"
+        }
+      },
+      "rule_append": "Where a central passage is used it must be operable at both ends and the block must stay single-pile (constraint c03, hard) -- doubling the depth without adding cross-ventilation converts a working summer plan into a dark box.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "daylight_strategy": {
       "group": "plan-logic",

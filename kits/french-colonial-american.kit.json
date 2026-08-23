@@ -11,17 +11,48 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "No gable end anywhere (own diagnostic tell #4)."
+        },
+        {
+          "id": "side-gable",
+          "status": "atypical",
+          "note": "Occasional Illinois Country double-pitched work; Louisiana practice is overwhelmingly hipped."
+        }
+      ],
+      "rule": "Roof hipped on all four sides with no gable end anywhere.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_deg_body": {
+          "range": [
+            40,
+            50
+          ],
+          "unit": "deg",
+          "kind": "measured"
+        },
+        "pitch_deg_gallery": {
+          "range": [
+            20,
+            30
+          ],
+          "unit": "deg",
+          "kind": "measured"
+        }
+      },
+      "rule": "Steep hipped or double-pitched roof, 40-50 degrees on the main mass, breaking to 20-30 degrees over the gallery at the wall plane (c03, hard); a single continuous slope is a later Anglo simplification.",
+      "note": "Overrides the inherited mediterranean-vernacular low pitch (3:12-6:12, roughly 14-27 degrees), which is a dry-climate answer; the Gulf Coast's heavy rainfall wants a fast-shedding steep roof instead, and the pitch break itself is the tradition's single fastest diagnostic tell.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -274,10 +305,23 @@
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exterior-louvred-blind",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "leaf_to_opening_ratio": {
+          "value": 0.5,
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Exterior louvred blinds on every opening, leaf width equal to half the clear opening so that a closed pair exactly covers it (c05, soft).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "special_window": {
       "group": "openings",
@@ -288,10 +332,36 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "french-casement-pair",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "opening_width": {
+          "range": [
+            66,
+            84
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "5 ft 6 in to 7 ft 0 in overall."
+        },
+        "height_below_ceiling": {
+          "range": [
+            12,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Full ceiling height less 12-18 in."
+        }
+      },
+      "rule": "Openings are French casement doors, two leaves, 5 ft 6 in to 7 ft 0 in wide overall and full ceiling height less 12-18 in (c05, soft).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "door_surround": {
       "group": "openings",
@@ -384,24 +454,58 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "full-width",
+          "status": "canonical",
+          "note": "Galerie at least 8 ft deep, often wrapping two to four sides (own defining characteristic #1)."
+        },
+        {
+          "id": "wrap-around",
+          "status": "permitted",
+          "note": "Where the gallery encircles rather than fronts (own massing_affinities)."
+        },
+        {
+          "id": "stoop-only",
+          "status": "forbidden",
+          "note": "Not a galerie of any depth; the type has no stoop-only threshold."
+        }
+      ],
+      "rule": "A galerie at least eight feet deep on the principal elevation, commonly wrapping two to four sides, carried on light colonnettes or masonry piers.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth": {
+          "range": [
+            8,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Galerie depth not less than 8 ft measured from wall face to column centreline; below 6 ft it stops shading the wall at midday and becomes decoration (c02, hard). Up to 14 ft on the raised plantation house.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "colonnette-light",
+          "status": "canonical",
+          "note": "Light colonnettes carrying the galerie; two-tier work changes material at the gallery floor, with no pediment and no central-hall order, unlike the Greek Revival successor (own distinguished_from note)."
+        }
+      ],
+      "rule": "Light colonnettes or masonry piers carry the galerie; the columns change material at the gallery floor on two-tier work.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",
@@ -538,10 +642,22 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "no-corridor-room-to-room",
+          "status": "canonical",
+          "note": "Circulation is room to room through paired French casement doors, or by stepping out onto the galerie and re-entering elsewhere; there is no hall and no single privileged front door (own long description, hard constraint c01)."
+        },
+        {
+          "id": "center-hall",
+          "status": "forbidden",
+          "note": "A hall is a room with one door and no cross-breeze -- a dead room in this climate (own long description); its presence is the decisive plan test against the later Anglo and Greek Revival successors (own distinguished_from notes)."
+        }
+      ],
+      "rule": "No interior corridor; every habitable room has openings on two opposite or adjacent walls for cross-ventilation (c01, hard).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -587,10 +703,18 @@
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "cross_ventilation_required": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Every principal room has full-height French door openings on two opposite or adjacent walls (c01, hard).",
+      "note": "Overrides the inherited mediterranean-vernacular strategy of small, deep-reveal openings and low aperture ratio (5-20% of wall), which carries the cooling load on thermal mass; this tradition does the opposite -- large openings, cross-ventilation and shade from the galerie/abat-vent, not a thick shaded wall.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -646,10 +770,33 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "raised-on-piers",
+          "status": "canonical",
+          "applies_when": {
+            "note": "vernacular cottage"
+          }
+        },
+        {
+          "id": "raised-on-masonry-service-storey",
+          "status": "canonical",
+          "applies_when": {
+            "note": "plantation house"
+          }
+        }
+      ],
+      "parameters": {
+        "floor_height_min": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Finished floor raised not less than 18 in above grade on piers, or a full masonry service storey on the plantation house; in flood-prone parishes, above the base flood elevation. Slab-on-grade is incompatible with the type (c04, soft).",
+      "confidence": "high",
+      "status": "drafted"
     }
   }
 }

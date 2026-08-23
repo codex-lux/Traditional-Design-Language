@@ -6,22 +6,80 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "strict-bilateral",
+          "status": "canonical",
+          "op": "add",
+          "note": "proportional_system.symmetry is 'strict-bilateral', and bay_rhythm states vertical alignment between storeys is absolute -- 'a single misaligned window is visible from across the street.'"
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "op": "add",
+          "note": "defining_characteristics: 'no picturesque projection... nothing overhangs, nothing turns a corner, nothing surprises.'"
+        }
+      ],
+      "parameters": {
+        "bay_count": {
+          "set": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "note": "eclectic-revivals leaves symmetry class to each member; this is Italian Renaissance Revival's own, sourced from bay_rhythm ('strictly even, three to nine bays').",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Low-pitched hipped roof... often not visible from the street on urban examples.'"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Hard constraint c03: 'no gable facing any principal elevation.' The family's inherited front-gable answer (germanic-vernacular) is exactly this style's own forbidden case."
+        }
+      ],
+      "rule": "Low-pitched hipped roof with no gable facing any principal elevation (c03).",
+      "confidence": "high",
+      "note": "Overrides the family's front-gable default, which contradicts this style's own hard constraint.",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "editorial"
+        }
+      },
+      "rule": "Roof pitch 3:12 to 5:12, clay tile only, with no gable facing any principal elevation (hard constraint c03).",
+      "confidence": "high",
+      "note": "Specified rather than extends: the inherited family default (british-picturesque, minimum 45 degrees = 12:12) is roughly three times this style's own maximum pitch.",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -81,10 +139,24 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "second_storey_max_pct_of_first": {
+          "value": 90,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Hard constraint c01: second-storey clear height not more than 90 percent of the first."
+        },
+        "third_storey_max_pct_of_second": {
+          "value": 85,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "c01: third not more than 85 percent of the second."
+        }
+      },
+      "rule_append": "Equal storey heights place the building in Colonial or Neoclassical Revival instead (c01).",
+      "note": "The inherited Georgian graduation ratios (english-georgian) already state storeys diminish; this adds the style's own harder, numerically tested floor.",
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -180,10 +252,33 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "projection_ratio_min": {
+          "value": 0.0625,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Hard constraint c02: not less than 1/16 of total wall height."
+        },
+        "projection_min_absolute": {
+          "value": 24,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c02: not less than 24 in on any two-storey example."
+        },
+        "bracket_spacing": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "c02: modillions or brackets spaced 12-24 in on centre."
+        }
+      },
+      "rule_append": "A cornice under 12 in voids the style (c02).",
+      "note": "The inherited modillion-cornice base (english-georgian) is the right family, but its own projection ratio (about 1.0, an entablature-derived figure) is a different, much deeper convention than this style's own boxed-domestic proportion; this adds the style's own sourced numbers on top of the inherited variant list rather than the parent's ratio.",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -316,10 +411,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "attached-side-wing-set-back",
+          "status": "canonical",
+          "note": "A subordinate, lower wing set back from the principal planar wall, so the garage door never interrupts the flat, unbroken wall plane the style's whole calm depends on."
+        },
+        {
+          "id": "attached-flush-facing-street",
+          "status": "forbidden",
+          "note": "Defining_characteristics: the wall is 'treated as a plane... no picturesque projection'; a garage door punched into the principal facade breaks the calm, evenly-fenestrated wall the style is built on."
+        }
+      ],
+      "rule": "No traditional precedent exists; the garage is kept subordinate and set back so it never competes with the flat planar wall and its strict bay rhythm.",
+      "invented": true,
+      "confidence": "medium",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,24 +436,34 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "vernacular-abstracted",
+          "status": "forbidden",
+          "note": "Redundant with the general rule below; retained only to keep the family's inherited forbidding visible as a deliberate override, not an oversight."
+        }
+      ],
+      "rule": "Where an order is used at all it is engaged as a pilaster within the wall plane, never free-standing and never carried on a portico (hard constraint c05).",
+      "confidence": "high",
+      "note": "Overrides the family-wide 'no classical order of any kind' binding this slot would otherwise inherit (french-vernacular): this style's whole compositional system is a stacked classical order, only ever engaged rather than free-standing.",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "No free-standing, entasis-bearing column appears anywhere on the exterior; c05 forbids any column projecting more than 1/6 of its width in front of the wall plane.",
+      "confidence": "high",
+      "note": "Overrides the inherited family-wide column-forbidden binding: not the column itself but its free-standing use is what this style prohibits.",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A full entablature caps the wall at the cornice (see cornice); where pilasters occur they carry a correctly proportioned entablature band, never a fascia standing in for one.",
+      "confidence": "high",
+      "note": "Overrides the inherited family-wide entablature-forbidden binding: the cornice IS the entablature here, at building scale.",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,10 +474,19 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "projection_max_of_width": {
+          "value": 0.1667,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Hard constraint c05: projection not exceeding 1/6 of its width."
+        }
+      },
+      "rule": "The pilaster, not the free-standing column, is this style's whole classical apparatus -- engaged in the wall plane, framing aedicules at the upper storeys.",
+      "confidence": "high",
+      "note": "Overrides the inherited family-wide pilaster-forbidden binding, which correctly governs the family's picturesque/vernacular wing but not this classical one.",
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -384,10 +511,22 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "recessed-loggia",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Recessed entrance under an arch, on the centre line, without a projecting portico.'"
+        },
+        {
+          "id": "entry-portico",
+          "status": "forbidden",
+          "note": "diagnostic_tells: 'No portico and no columns in front of the wall.' The style's whole calm depends on nothing projecting from the planar wall."
+        }
+      ],
+      "rule": "The entrance is a recessed arch on the centre line, cut into the plane of the wall, never a projecting portico.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",

@@ -11,17 +11,58 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "saltbox",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The defining feature: a continuous roof plane over two full front storeys and a one-storey rear lean-to, ridge set forward at 35-45% of plan depth."
+        },
+        {
+          "id": "side-gable",
+          "status": "permitted",
+          "op": "replace",
+          "note": "The pre-addition state of the same house, before the lean-to is built; the front elevation reads identically either way."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "Own defining_characteristics and c02/c04 fix the asymmetric roof this variant exists to name; the parent's side-gable default is demoted to the pre-lean-to condition rather than removed."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "front_slope_deg": {
+          "range": [
+            45,
+            52
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "note": "Own hard constraint c02."
+        },
+        "rear_slope_broken_deg": {
+          "range": [
+            38,
+            45
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "note": "Where the lean-to was added after the main frame; a shallower, independent rafter run."
+        },
+        "rear_slope_integral_deg": {
+          "value": "matches front slope exactly",
+          "unit": "none",
+          "kind": "measured",
+          "note": "Where the lean-to was framed from the start, the same rafter run simply continues past the plate."
+        }
+      },
+      "status": "drafted",
+      "rule_append": "The front slope runs 45-52 degrees; where the rear lean-to is a later addition the catslide breaks to a shallower 38-45 degrees, and where it was framed integrally the same unbroken rafter run continues at the front pitch -- the break itself is the field evidence for which happened.",
+      "note": "Inherits new-england-colonial's single-slope range as the front-slope figure and adds the second, asymmetric rear slope this variant is defined by."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +73,29 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "front_eave_height_ft": {
+          "range": [
+            16,
+            18
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "rear_eave_height_ft": {
+          "range": [
+            6.5,
+            8.5
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own hard constraint c01: above 10 ft the catslide is cosmetic and the type is not present."
+        }
+      },
+      "status": "drafted",
+      "rule_append": "The rear eave is low enough to touch, 6 ft 6 in to 8 ft 6 in above grade, against a front eave of 16-18 ft -- the same flush, minimal eave condition the parent specifies, at two very different heights on the same building."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -60,10 +120,11 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No dormer on the rear catslide. Own hard constraint c03: the slope exists to shed weather and hold heat, and puncturing it for a dormer is the Colonial Revival's habit, not the colonial one."
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -88,10 +149,11 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule_append": "The characteristic addition is a single-storey rear lean-to framed as a shorter, independent span leaned on the main block's existing rear plate -- no new plate, chimney or second-floor framing required -- which is why the type is the cheapest way to add space to an existing First Period house rather than a composed design."
     },
     "construction_type": {
       "group": "envelope",
@@ -267,10 +329,11 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule_append": "On the rear elevation the rule is at its most literal: windows are few, small, and set at odd, inconsistent heights because the opening is placed wherever the falling rafter line and the room behind it allow, with no dormer break and few or no second-floor rear openings at all."
     },
     "shutter": {
       "group": "openings",
@@ -433,10 +496,27 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "lean_to_ceiling_at_main_wall": {
+          "value": 84,
+          "unit": "in",
+          "kind": "measured",
+          "note": "7 ft 0 in, where the lean-to meets the main block."
+        },
+        "lean_to_ceiling_at_rear_wall": {
+          "range": [
+            60,
+            72
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "5 ft 0 in - 6 ft 0 in, following the rafters down."
+        }
+      },
+      "status": "drafted",
+      "rule_append": "In the lean-to the ceiling is not a plane but a slope: it follows the rafters down from 7 ft 0 in at the main house wall to 5 ft 0 in - 6 ft 0 in at the rear wall, so the governing dimension is the knee-wall head height rather than a single room height."
     },
     "trim_family": {
       "group": "interior",
@@ -545,10 +625,17 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "oven_in_rear_cheek": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "note": "The stack serves the front rooms and the rear kitchen fireplace; own defining_characteristics."
+        }
+      },
+      "status": "drafted"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -573,17 +660,64 @@
     },
     "service_zone_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "integral-rear-lean-to",
+          "status": "canonical",
+          "note": "Framed from the start as part of the original design."
+        },
+        {
+          "id": "added-rear-lean-to",
+          "status": "canonical",
+          "note": "Built onto an existing two-storey house; identifiable by the pitch break in the rafter run at the old plate line (own diagnostic_tells)."
+        }
+      ],
+      "parameters": {
+        "contents": {
+          "value": "kitchen, buttery, and borning room",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "oven_position": {
+          "value": "in the rear cheek of the central stack, serving the largest fireplace in the house",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "The service rooms are consolidated in a single-storey rear lean-to holding the kitchen (moved out of the hall), a buttery, and a borning room, all served by the biggest fireplace in the house at the back of the central stack, with the oven in its rear cheek.",
+      "confidence": "high"
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "one-and-a-half-pile",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The main block plus rear lean-to is this variant's defining plan depth, not merely a permitted option."
+        },
+        {
+          "id": "single-pile",
+          "status": "permitted",
+          "op": "replace",
+          "note": "The pre-lean-to state of the same house."
+        }
+      ],
+      "parameters": {
+        "lean_to_depth_ft": {
+          "range": [
+            10,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own constraint c04."
+        }
+      },
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",

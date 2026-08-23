@@ -11,10 +11,17 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Own distinguished_from (california-mission-colonial): 'New Mexico has no tile, no arcade, no arch and no pitched roof: it has vigas, canales, parapets and posts.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -25,17 +32,57 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-masonry-terrace",
+          "status": "canonical",
+          "note": "The only roof this variant builds; stated unconditionally rather than region-gated since the whole variant is the New Mexico condition."
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "Own distinguished_from (california-mission-colonial): no tile, no pitched roof."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exposed-rafter-tails",
+          "status": "canonical",
+          "note": "The vigas themselves, projecting through the wall and genuinely carrying the roof -- own hard constraint c05: 'non-structural applied viga ends are the single clearest marker of Pueblo Revival.'"
+        },
+        {
+          "id": "bracketed-eave",
+          "status": "forbidden",
+          "note": "No pitched-roof eave assembly exists on the flat-roof condition; the only projection is the structural viga."
+        },
+        {
+          "id": "fascia-and-gutter-eave",
+          "status": "forbidden",
+          "note": "There is no eave in the pitched-roof sense at all; the roof edge is the parapet, and water leaves through canales, not a gutter."
+        }
+      ],
+      "parameters": {
+        "viga_projection_in": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c05."
+        }
+      },
+      "status": "drafted",
+      "rule": "The roof has no eave in the ordinary sense: it terminates at the parapet, and the only projection beyond the wall face is the structural viga ends, 12 to 24 in, which must actually carry the roof.",
+      "confidence": "high"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -60,17 +107,26 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No dormer. The roof is flat behind a parapet, with no gable or eave anywhere -- own hard constraint c03."
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "type": {
+          "value": "corner fogon flue, small and low, rather than a freestanding masonry stack",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "The chimney is a small flue rising from the corner fireplace, not a freestanding stack of the kind a framed tradition builds; it is a minor roof event, never a principal one.",
+      "confidence": "medium"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -95,13 +151,56 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "adobe",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Moulded sun-dried brick in a wooden form -- the Spanish contribution to the older Puebloan coursed-earth tradition."
+        },
+        {
+          "id": "rammed-earth",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Not this branch's technique; own description is specific to moulded adobe brick, not tapia."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "No coursed stone or brick masonry tradition here; contrast the coquina of Florida or the rubble of California."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "No coursed stone or brick masonry tradition here."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "No timber-frame branch survives in this variant; even the roof framing is post-and-beam vigas laid on a bearing wall, not a stud frame."
+        }
+      ]
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "parameters": {
+        "thickness_in": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c01; narrower than the parent's general 18-60 in borderlands range."
+        }
+      }
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -110,10 +209,22 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "adobe",
+          "status": "canonical",
+          "note": "The wall's own material, finished in mud plaster -- the cladding and the structure are the same substance."
+        },
+        {
+          "id": "stucco",
+          "status": "forbidden",
+          "note": "Own hard constraint c04: cement stucco on historic adobe traps moisture at the interface and destroys the wall from within -- a preservation failure as well as a stylistic one. Only mud plaster or lime wash is permitted."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -131,10 +242,12 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A stone footing carries the adobe brick wall above -- the one place in the wall assembly that is not earth -- own defining_characteristics.",
+      "confidence": "high"
     },
     "water_table": {
       "group": "envelope",
@@ -166,10 +279,21 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_depth_in": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Matches this variant's own wall thickness, own hard constraint c01."
+        }
+      },
+      "status": "drafted",
+      "rule_append": "The deep reveal is also the daylighting device: light entering through 2 to 3 ft of splayed adobe diffuses into a warm, grainy glow with no glare, off a plastered surface that has no flat plane and no sharp corner anywhere."
     },
     "reveal_frame": {
       "group": "envelope",
@@ -218,10 +342,25 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "glazed_area_pct_wall_max": {
+          "value": 12,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Own hard constraint c01, narrower than the parent style's general 15%."
+        },
+        "glazed_area_pct_wall_typical": {
+          "range": [
+            6,
+            12
+          ],
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -246,10 +385,22 @@
     },
     "window_surround_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-opening-cut-in-the-mass",
+          "status": "canonical",
+          "note": "The opening reads as a hole cut in a mass; there is no arch and therefore no alfiz -- see distinguished_from (california-mission-colonial): 'no arch.'"
+        },
+        {
+          "id": "alfiz",
+          "status": "forbidden",
+          "note": "The alfiz encloses an ARCHED opening; this tradition has no arch on a domestic wall (contrast the Moorish-Andalusian ancestor it is otherwise inherited from)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_surround_wood": {
       "group": "openings",
@@ -391,17 +542,35 @@
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own proportional_system; narrower than the parent style's general 8-14 ft."
+        }
+      },
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "zapata_profile": {
+          "value": "carved wood corbel of a specific New Mexican profile, doing real structural work at the post head",
+          "unit": "none",
+          "kind": "measured",
+          "note": "Own diagnostic_tells: 'portal posts with carved zapatas of a specific New Mexican profile, doing real structural work' -- the one place, besides the church portada, this tradition permits carving."
+        }
+      },
+      "status": "drafted",
+      "rule_append": "The post head carries a carved wooden corbel (zapata) that does real structural work transferring the beam load to the post; a decorative bracket that carries nothing is the Pueblo Revival tell."
     },
     "porch_rail": {
       "group": "threshold",
@@ -545,10 +714,33 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "corner",
+          "status": "canonical",
+          "note": "The fogón -- a Spanish-Puebloan hybrid, own defining_characteristics -- rather than a wall-centred hearth."
+        },
+        {
+          "id": "central-stack",
+          "status": "forbidden",
+          "note": "First Period New England, not this tradition."
+        },
+        {
+          "id": "gable-end-paired",
+          "status": "forbidden",
+          "note": "This tradition builds a single corner fogon, not paired gable-end stacks."
+        },
+        {
+          "id": "exterior-end",
+          "status": "forbidden",
+          "note": "This tradition builds a single corner fogon, not an exterior-end stack."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A corner fireplace (fogón), small, high and shallow, set diagonally across the corner of the room, burning wood upright -- own description and diagnostic_tells.",
+      "confidence": "high"
     },
     "stair_position": {
       "group": "plan-logic",

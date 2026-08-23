@@ -25,10 +25,17 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "Inherited from the cascade's mediterranean-vernacular branch (pulled in via the english-georgian lineage splice), but nothing in this style's own record supports clay tile: the roof is framed with a liegender Stuhl leaning-post truss over a usable grain loft (own defining characteristic #4), a northern-European timber roof system. Left otherwise open rather than asserting an unsourced replacement -- this node's own sources do not name a roof material."
+        }
+      ],
+      "note": "A deliberate correction of a spurious cascade inheritance, not a positive claim about what the material is.",
+      "confidence": "low",
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -67,10 +74,18 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "central-single-stack",
+          "status": "canonical",
+          "note": "A plain, functional masonry stack over the Kuche/Stube partition -- not the inherited Tudor 'clustered-shafted-decorative' chimney pulled in via the english-georgian lineage splice, which belongs to an entirely different, ornament-forward tradition."
+        }
+      ],
+      "note": "Corrects a spurious cascade inheritance from tudor-jacobean; this tradition's chimney is a service element, not a compositional one.",
+      "judgment": true,
+      "confidence": "high",
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -246,10 +261,28 @@
     },
     "window_surround_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-opening-cut-in-the-mass",
+          "status": "canonical",
+          "note": "Deep reveal showing the full wall depth is the surround; a flush jamb reveals a veneer (c04, soft)."
+        }
+      ],
+      "parameters": {
+        "reveal_depth": {
+          "range": [
+            18,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Equal to the wall thickness, since the reveal is the wall depth."
+        }
+      },
+      "rule": "Window and door reveals must show the full wall depth on the stone Flurkuchenhaus; a flush jamb reveals a veneer.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_surround_wood": {
       "group": "openings",
@@ -295,10 +328,22 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-hood",
+          "status": "canonical",
+          "note": "A plain door with a simple hood or pent, not a classical surround -- this node's own distinguished_from note against mid-atlantic-georgian states the contrast directly: 'the German house gives you... a plain door with a hood.'"
+        },
+        {
+          "id": "pilasters-and-entablature",
+          "status": "forbidden",
+          "note": "The inherited Georgian answer, pulled in via the english-georgian lineage splice; explicitly the wrong-region test against mid-atlantic-georgian (own distinguished_from note)."
+        }
+      ],
+      "rule": "The entrance carries no classical order; a plain door with a hood is the type's own answer, the opposite of the Georgian house down the same road.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -538,17 +583,51 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "asymmetric-three-room-flurkuchenhaus",
+          "status": "canonical",
+          "note": "Kuche (kitchen, open hearth), Stube (stove-room, closed jamb stove) and Kammer (chamber) around the central chimney, with no through passage (own defining characteristic #1)."
+        },
+        {
+          "id": "center-hall",
+          "status": "forbidden",
+          "note": "The inherited Georgian answer, pulled in via the english-georgian lineage splice; this plan has no through passage of any kind."
+        },
+        {
+          "id": "hall-and-parlor",
+          "status": "permitted",
+          "note": "The nearest catalogued skeleton (own massing_affinities), with the caveat that the German plan divides unequally into three rooms, not two equal ones."
+        }
+      ],
+      "rule": "No through passage; three unequal rooms around the chimney, organized by the heating technology, not by an entry axis (own defining characteristic #1).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "central-stack",
+          "status": "canonical",
+          "note": "On the partition between kitchen and stove-room, serving an open hearth on the Kuche side and a closed five-plate jamb stove aperture on the Stube side (own hard constraint c01) -- central for a service-wall reason, not New England's thermal-mass reason."
+        },
+        {
+          "id": "gable-end-paired",
+          "status": "forbidden",
+          "note": "The Dutch colonial answer; wrong here because the chimney serves the kitchen hearth and the stove aperture from one central partition wall, not paired gable stacks."
+        },
+        {
+          "id": "corner",
+          "status": "forbidden",
+          "note": "Dutch and French colonial; a corner hearth has no chimney position on this style's central partition-wall stack."
+        }
+      ],
+      "rule": "The chimney mass sits on the partition between kitchen and stove-room; moving it to the gable ends dissolves the plan type (c01, hard).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -580,10 +659,21 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "kuche_share": {
+          "range": [
+            45,
+            55
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Kuche occupies 45-55% of the plan; Stube and Kammer share the remainder, Stube the larger (own proportional_system)."
+        }
+      },
+      "rule": "The plan is a single range of three unequal rooms side by side around the chimney wall -- not the Georgian double-pile front-and-back logic inherited via the english-georgian lineage splice.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -618,10 +708,19 @@
     },
     "orientation_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "governing_factor": {
+          "value": "the slope, not the compass",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "The house is sited by the slope, not by solar orientation: it is set across a hillside so the lower service storey opens at grade downhill and is banked uphill (see grade_relationship).",
+      "note": "Overrides the cascade's inherited mediterranean-vernacular loggia-facing rule (bearing 135-225 degrees, southeast-southwest), pulled in via the english-georgian lineage splice; this tradition has no loggia at all and the rule has no counterpart here.",
+      "judgment": true,
+      "confidence": "high",
+      "status": "drafted"
     },
     "outbuilding_types": {
       "group": "site",
@@ -646,10 +745,17 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "bank-sited",
+          "status": "canonical",
+          "note": "The house is set across a slope so the lower storey opens at grade on the downhill side and is buried on the uphill side, yielding a cool frost-free service level -- often over a spring -- with its own door, and a dry principal floor entered from the upper grade: 'two front doors on two different levels... the most reliable single tell of the tradition' (own long description, own diagnostic tell #4)."
+        }
+      ],
+      "rule": "The ground is not levelled and dug into for a cellar in the English manner; it is built across, banking the service storey.",
+      "confidence": "high",
+      "status": "drafted"
     }
   }
 }

@@ -6,8 +6,18 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "parameters": {
+        "bay_rhythm": {
+          "value": "none -- openings placed by internal need and picturesque judgement; any repeating rhythm defeats the variant's whole premise",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "note": "EXTENDS on a family/style-inherited slot that was already correctly 'designed, not accreted' -- this delta adds the variant's own, unusually strong statement against bay rhythm without touching the inherited additive-vernacular prohibition.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -18,10 +28,26 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_min": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c01"
+        },
+        "roof_pct_of_elevation_min": {
+          "value": 45,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c01"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Not less than 12:12, with the roof occupying not less than 45 percent of the elevation height -- c01."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,17 +58,39 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "roll_radius": {
+          "range": [
+            6,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c01"
+        },
+        "treatment": {
+          "value": "rolled, swept, or clipped, carried continuously around external corners",
+          "unit": "none",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c01"
+        }
+      },
+      "status": "drafted",
+      "rule": "Rolled, swept, or clipped, radius 6-12 in, carried continuously around external corners in imitation of thatch or stone slate -- c01, a hard constraint. A straight fascia and a square rake void the variant.",
+      "confidence": "high",
+      "judgment": false
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Carried around the corner unbroken, same rolled treatment as the eave -- never a boxed-and-returned Georgian rake."
     },
     "cornice_return": {
       "group": "massing-and-roof",
@@ -53,10 +101,14 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No half-timbered gable of any kind.",
+      "note": "Replaces the inherited tudor-revival canonical value (half-timbered). c03 forbids applied half-timbering outright on this variant; diagnostic_tells names its absence as one of the identifying marks separating this cottage from its parent style.",
+      "confidence": "high",
+      "judgment": false
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +119,46 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "massive-front-elevation-stack",
+          "status": "canonical",
+          "note": "c02: on the entrance elevation, 1/4 to 1/3 of that elevation's width, often flanking or framing the front door."
+        },
+        {
+          "id": "tall-multiple-vertical-accent",
+          "status": "forbidden",
+          "note": "The inherited tudor-revival value describes a different, roofline-accent logic; this variant's chimney is a single dominant front-elevation mass, not a multiplied silhouette accent."
+        }
+      ],
+      "parameters": {
+        "width_fraction_of_elevation": {
+          "range": [
+            0.25,
+            0.333
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c02"
+        },
+        "projection_min": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c02"
+        },
+        "height_above_ridge_min": {
+          "value": 3,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c02"
+        }
+      },
+      "status": "drafted",
+      "rule": "A masonry chimney on the entrance elevation, occupying 1/4 to 1/3 of that elevation's width, projecting not less than 12 in, rising not less than 3'0\" above the ridge -- c02, a hard constraint. diagnostic_tells: 'often 1/4 to 1/3 of the elevation's width.'",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -95,8 +183,27 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted"
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "canonical",
+          "note": "distinguished_from cotswold-vernacular: 'the revival is usually veneer or thin masonry with a light roof,' unlike the genuine 18-24 in load-bearing original."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "note": "c03: applied half-timbering is forbidden outright, and there is no exposed structural frame of any kind on this variant."
+        }
+      ],
+      "rule": "Masonry or masonry veneer only; overrides the inherited tudor-revival binding, which presumes the parent style's masonry-below/timber-above two-material wall this variant explicitly forbids.",
+      "confidence": "high",
+      "judgment": false
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,17 +217,39 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stone-rubble",
+          "status": "canonical",
+          "note": "Irregular coursed stone."
+        },
+        {
+          "id": "stucco",
+          "status": "canonical",
+          "note": "Over masonry."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "c03: 'Applied half-timbering is forbidden.' diagnostic_tells: 'No half-timbering. Its presence returns the building to the parent Tudor Revival.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Irregular coursed stone, or stucco over masonry, or the two combined -- never half-timbering. Material change occurs only at a chimney, corner, or wing junction, never mid-plane -- c03.",
+      "confidence": "high",
+      "judgment": false
     },
     "secondary_cladding": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "A single wall material (stone, or stucco over stone) per elevation is the point; where both occur the change is structural (chimney/corner/junction), not a decorative secondary material the way Tudor Revival's floor-line change is.",
+      "confidence": "medium",
+      "judgment": true
     },
     "material_change_rule": {
       "group": "envelope",
@@ -134,7 +263,8 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "empty",
+      "note": "The inherited germanic-vernacular value (a timber-frame Sockel plinth) presupposes a light frame this variant does not have (c03 forbids exposed timber outright) and is removed rather than replaced with an unsupported guess -- the style's own text does not state a foundation figure."
     },
     "water_table": {
       "group": "envelope",
@@ -166,10 +296,20 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "reveal_depth_min": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "rule": "Minimum 6 in reveal at all openings, with stone or wood lintels visible over doors and principal windows -- c04. Overrides the inherited mediterranean-vernacular 12-24 in band with this variant's own, shallower minimum.",
+      "confidence": "high",
+      "judgment": false
     },
     "reveal_frame": {
       "group": "envelope",
@@ -267,10 +407,28 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "leaf_width": {
+          "range": [
+            14,
+            20
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "cotswold-cottage-revival.c04"
+        },
+        "group_size": {
+          "value": "twos and threes",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "Grouped in twos and threes, leaves 14-20 in wide, with wide blank stone between groups -- no repeating rhythm."
     },
     "shutter": {
       "group": "openings",
@@ -295,10 +453,33 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "low-arched-plank-door-recessed",
+          "status": "canonical"
+        },
+        {
+          "id": "four-centred-tudor-arch",
+          "status": "forbidden",
+          "note": "The inherited tudor-revival canonical value; this variant's door is round-arched or plank, recessed under a catslide, projecting gable, or hood, not a pointed Tudor surround."
+        }
+      ],
+      "parameters": {
+        "door_head_height": {
+          "range": [
+            6.33,
+            6.83
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "6'4\"-6'10\", deliberately low."
+        }
+      },
+      "status": "drafted",
+      "rule": "A low, arched or plank entrance door, recessed under a projecting bay, a hood, or a catslide roof running down to head height.",
+      "confidence": "high",
+      "judgment": false
     },
     "transom_sidelight": {
       "group": "openings",

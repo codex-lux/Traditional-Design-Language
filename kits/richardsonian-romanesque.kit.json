@@ -5,16 +5,43 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "balanced-asymmetrical",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "rule_append": "Governed by mass and by the arch rather than by module: the entrance arch's span sets the wall's apparent thickness, the coursing scale, and the depth of every reveal, with a Beaux-Arts parti discipline organising the plan beneath it.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json proportional_system"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Broad, simple, low hipped forms, subordinate to the wall mass."
+        },
+        {
+          "id": "cross-gable",
+          "status": "permitted",
+          "note": "A few large gables, never a multiplication of small ones."
+        }
+      ],
+      "rule": "Broad simple roof forms, low hipped or with a few large gables, always subordinate to the wall mass; the roof is never the primary compositional event.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -94,14 +121,55 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The style insists on load-bearing masonry at exactly the moment American construction was abandoning it (description.long); a timber-frame wall is not this style."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The family's default wood construction; this style insists on load-bearing masonry at exactly the moment American construction was abandoning it (description.long)."
+        }
+      ],
+      "rule_append": "Exterior walls shall be load-bearing masonry of not less than 16 in nominal thickness at the ground storey; a thin stone veneer over a frame wall is prohibited outright.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json constraints c01"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "thickness_min": {
+          "value": 16,
+          "unit": "in",
+          "kind": "measured",
+          "note": "At the ground storey; the style is entirely an argument about wall thickness (c01)."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json constraints c01"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -109,11 +177,21 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rock-faced-ashlar",
+          "status": "canonical",
+          "note": "Squared ashlar of granite, sandstone, or brownstone, quarry-tooled and laid in broken-range or random coursing, with the face projecting 2 to 4 in beyond the joint."
+        }
+      ],
+      "rule": "Load-bearing masonry construction in rock-faced squared ashlar; one material runs from water table to eave on every elevation.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics, diagnostic_tells"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -123,11 +201,14 @@
       "status": "empty"
     },
     "material_change_rule": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "One wall material shall run from water table to eave on every elevation. Texture, colour, and coursing may vary within the material; a change of material at a storey line is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json constraints c04"
+      ],
+      "group": "envelope"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -144,11 +225,32 @@
       "status": "empty"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "carved-foliate-band",
+          "status": "permitted"
+        }
+      ],
+      "parameters": {
+        "max_bands_per_elevation": {
+          "value": 2,
+          "unit": "count",
+          "kind": "measured"
+        },
+        "max_pct_elevation_area": {
+          "value": 8,
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule": "Carved ornament, where used at all, is confined to capitals, the entrance arch, and not more than two continuous bands per elevation, totalling not more than 8 percent of the elevation area.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json constraints c05"
+      ],
+      "group": "envelope"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -165,11 +267,24 @@
       "status": "empty"
     },
     "reveal_masonry": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "reveal": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Window openings are deeply recessed in the wall thickness; the depth of the reveal is what tells the eye the wall carries load.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics, constraints c01"
+      ],
+      "group": "envelope"
     },
     "reveal_frame": {
       "group": "envelope",
@@ -210,11 +325,21 @@
       "status": "empty"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "double-hung-sash",
+          "status": "canonical"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "The style's own quoted Romanesque vocabulary predates the sash entirely; the actual glazing mechanism, like the rest of this Victorian branch, is the contemporary double-hung sash of the period.",
+      "sources": [
+        "styles/richardsonian-romanesque.json proportion_packs (sash-light note)"
+      ],
+      "group": "openings"
     },
     "window_proportion": {
       "group": "openings",
@@ -266,11 +391,14 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Openings are grouped rather than evenly distributed: a large arched opening, a band of three or five smaller openings under a single relieving arch or lintel, and long stretches of blank wall. The rhythm is A-BBB-A, not A-A-A-A.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json diagnostic_tells, proportional_system.bay_rhythm, constraints c03"
+      ],
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -294,11 +422,54 @@
       "status": "empty"
     },
     "door_surround": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "semicircular-arch-on-squat-columns",
+          "status": "canonical"
+        },
+        {
+          "id": "pointed-arch",
+          "status": "forbidden",
+          "note": "c02: pointed, segmental, and elliptical arches are forbidden at the entrance."
+        },
+        {
+          "id": "segmental-arch",
+          "status": "forbidden",
+          "note": "c02."
+        }
+      ],
+      "parameters": {
+        "arch_span": {
+          "range": [
+            8,
+            16
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "voussoir_depth_ratio": {
+          "range": [
+            0.125,
+            0.167
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "1/8 to 1/6 of the span."
+        },
+        "column_height_diameters_max": {
+          "value": 3.5,
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "The principal entrance is a deep semicircular arch springing from short heavy columns or directly from a plinth or the ground; where columns support the arch, shaft height shall not exceed 3.5 base diameters.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics, proportional_system.typical_ratios, constraints c02"
+      ],
+      "group": "openings"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -327,25 +498,34 @@
       "status": "empty"
     },
     "order": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No true classical order -- a base-shaft-capital-entablature system proportioned to a module -- governs any part of the composition. Ornament is concentrated in narrow bands of carved Byzantine or Romanesque foliage, never a real order.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics"
+      ],
+      "group": "classical-apparatus"
     },
     "column": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No classical, entasis-bearing column. The squat columns at the entrance arch are massive masonry supports, not a proportioned classical order.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics, constraints c02"
+      ],
+      "group": "classical-apparatus"
     },
     "entablature": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No entablature is built anywhere; cornices and wall-head enrichment are Romanesque mouldings and corbel courses, never a base-shaft-entablature run.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics"
+      ],
+      "group": "classical-apparatus"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -362,11 +542,14 @@
       "status": "empty"
     },
     "modillion_dentil": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No modillion or dentil course; ornament is carved Byzantine or Romanesque foliage at capitals, string courses, and the entrance arch, of a wholly different character.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/richardsonian-romanesque.json defining_characteristics"
+      ],
+      "group": "classical-apparatus"
     },
     "balustrade": {
       "group": "classical-apparatus",

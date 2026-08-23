@@ -11,17 +11,51 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical"
+        },
+        {
+          "id": "saltbox",
+          "status": "permitted",
+          "note": "The rear lean-to Wills used constantly to add depth without breaking the symmetrical front."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "The inherited value (queen-anne-american, via the parent's own deep chain) is a Victorian massing move; a Cape's roof is a single unbroken side-gable plane."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A single unbroken side-gable roof, optionally extended by a rear lean-to (saltbox); never a cross-gable or hip.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_min": {
+          "value": "8:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "cape-cod-revival.c01"
+        },
+        "pitch_max": {
+          "value": "10:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "cape-cod-revival.c01"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "8:12 to 10:12, and the eave soffit must sit not more than 12 in above the second-floor window head line -- c01, a hard constraint. A tall wall with a low roof is Minimal Traditional, not this variant."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -46,10 +80,14 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No cornice return of any kind.",
+      "note": "c05: cornice returns are explicitly forbidden. Overrides the inherited colonial-revival extends binding, which requires a full running cornice of 10 in projection before permitting a return -- moot here since no such cornice exists on this variant at all.",
+      "confidence": "high",
+      "judgment": false
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -60,17 +98,69 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "max_pct_of_roof_length": {
+          "value": 50,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "cape-cod-revival.c04"
+        },
+        "face_setback_min": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "cape-cod-revival.c04"
+        },
+        "ridge_below_main_min": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "source": "cape-cod-revival.c04"
+        }
+      },
+      "status": "drafted",
+      "rule": "Dormers, where used, total not more than 50 percent of the roof length on any one slope, faces set back not less than 12 in from the wall plane, ridges not less than 18 in below the main ridge -- c04. Overrides the inherited georgian-colonial-american rule ('never break the eave line'), which describes a different roof discipline than a Cape's own dormer-lit half storey.",
+      "confidence": "high",
+      "judgment": false
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "central-ridge-stack",
+          "status": "canonical"
+        },
+        {
+          "id": "paired-gable-end",
+          "status": "permitted"
+        },
+        {
+          "id": "off-centre-single-stack",
+          "status": "forbidden",
+          "note": "diagnostic_tells: 'a builder's compromise.'"
+        }
+      ],
+      "parameters": {
+        "min_plan_footprint_central": {
+          "value": "3'-0\" x 3'-0\"",
+          "unit": "none",
+          "kind": "measured",
+          "source": "cape-cod-revival.c03"
+        },
+        "min_height_above_ridge": {
+          "value": 2,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "cape-cod-revival.c03"
+        }
+      },
+      "status": "drafted",
+      "rule": "A masonry chimney is required, on the ridge at or near the centre, or paired at the gable ends -- minimum 3'0\"x3'0\" plan for a central stack, rising not less than 2'0\" above the ridge -- c03, a hard constraint. Overrides the inherited british-picturesque generic 'tall multiple vertical accent' finding with this variant's own, more specific position and dimension rule.",
+      "confidence": "high",
+      "judgment": false
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -81,10 +171,35 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "wall_height_grade_to_eave": {
+          "range": [
+            11,
+            13
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "cape-cod-revival.c02"
+        },
+        "wall_height_max": {
+          "value": 13,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "cape-cod-revival.c02"
+        },
+        "eave_to_window_head_max": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "cape-cod-revival.c01"
+        }
+      },
+      "status": "drafted",
+      "rule": "Front wall may not exceed 13'0\" from grade to eave; all upper-floor light on the front and rear comes from dormers -- c02, a hard constraint. Overrides the inherited colonial-revival storey-height figures (9-10 ft ground, 8.5-9 ft second as independent storeys), which describe a full two-storey wall this variant forbids outright.",
+      "confidence": "high",
+      "judgment": false
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -95,8 +210,23 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "balloon-frame",
+          "status": "permitted",
+          "note": "Earlier examples."
+        },
+        {
+          "id": "platform-frame",
+          "status": "canonical",
+          "note": "The dominant construction after about 1935 -- the FHA and Levittown era this variant is named for."
+        }
+      ],
+      "rule": "Light wood frame throughout; never masonry. A Cape's whole economic logic (Wills's office, the FHA, Levittown) is a small, cheaply framed box.",
+      "confidence": "high",
+      "judgment": false
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -159,10 +289,23 @@
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "width": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "cape-cod-revival.c05"
+        }
+      },
+      "status": "drafted",
+      "rule": "Plain corner boards, 4-6 in, and nothing more -- c05.",
+      "confidence": "high",
+      "judgment": false
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -180,10 +323,23 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "eave_moulding_width": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "cape-cod-revival.c05"
+        }
+      },
+      "status": "drafted",
+      "rule": "No cornice beyond a simple 4-6 in eave moulding. Modillions, dentils, and full entablature runs are forbidden -- c05, and diagnostic_tells: 'the presence of a modillioned cornice means the house has left this variant.' Overrides the inherited colonial-revival cornice (12-18 in, modillion-cornice canonical), which is precisely the device this variant forbids.",
+      "confidence": "high",
+      "judgment": false
     },
     "frieze": {
       "group": "envelope",
@@ -225,10 +381,41 @@
     },
     "window_lite_pattern": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "6/6",
+          "status": "canonical"
+        },
+        {
+          "id": "8/12",
+          "status": "canonical"
+        },
+        {
+          "id": "9/9",
+          "status": "forbidden",
+          "note": "Part of the inherited general colonial-revival/georgian date-ladder; this variant's own sources (Wills's office standard) name 6/6 or 8/12 specifically."
+        },
+        {
+          "id": "12/12",
+          "status": "forbidden",
+          "note": "Same inherited date-ladder; forbidden for the same reason as 9/9."
+        }
+      ],
+      "parameters": {
+        "lights_total": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "6/6 or 8/12 sash, 24-36 lights total, small relative to the wall.",
+      "confidence": "high",
+      "judgment": false
     },
     "window_head_masonry": {
       "group": "openings",
@@ -295,10 +482,27 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "overall_width_max": {
+          "value": 5.5,
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "leaf_width": {
+          "range": [
+            2.67,
+            3.0
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "A modest pilastered or hooded surround, overall width not exceeding 5'6\" for a 2'8\"-3'0\" leaf. Overrides the inherited colonial-revival c01 numbers (3'0\" leaf, up to 6'0\" pediment), which are the general style's larger figure -- this variant's own is smaller again.",
+      "confidence": "high",
+      "judgment": false
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +520,29 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-matching-outbuilding",
+          "status": "canonical",
+          "note": "Keeps the small, taut primary volume the whole variant depends on intact; the garage is a separate small gabled building, not a wing."
+        },
+        {
+          "id": "linked-by-breezeway",
+          "status": "permitted"
+        },
+        {
+          "id": "attached-flush-facing-street",
+          "status": "forbidden",
+          "note": "Would overwhelm a footprint this variant's own typical_ratios state as 24-28 ft deep by 32-40 ft wide."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A detached or breezeway-linked garage, kept subordinate to and separate from the compact primary volume the variant's whole proportional discipline depends on.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +607,23 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stoop-only",
+          "status": "canonical"
+        },
+        {
+          "id": "full-width-porch",
+          "status": "forbidden",
+          "note": "c05 (by omission): ornament is limited to the door surround, eave moulding, and corner boards; a porch is not on that list."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No porch beyond a stoop -- defining_characteristics states this directly.",
+      "confidence": "high",
+      "judgment": false
     },
     "porch_depth": {
       "group": "threshold",

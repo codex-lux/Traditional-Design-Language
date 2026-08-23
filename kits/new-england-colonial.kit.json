@@ -11,31 +11,148 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "Ridge runs the long dimension; the defining_characteristics record this outright."
+        },
+        {
+          "id": "saltbox",
+          "status": "permitted",
+          "note": "The integral or added lean-to (catslide) is 'the normal growth move after about 1660' per massing_affinities -- a later state of the same house, not a different roof design."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "A Dutch and Hudson Valley device, not part of the English-derived First Period repertoire."
+        },
+        {
+          "id": "hip",
+          "status": "forbidden",
+          "note": "A classical-tradition roof form; absent from the medieval-derived frame vocabulary this style draws on."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "A Second Empire form, over a century after this style's floruit."
+        },
+        {
+          "id": "flat-parapet",
+          "status": "forbidden",
+          "note": "Incompatible with a steep structural roof and the exposed frame it carries."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Side-gable, ridge running the long dimension of the frame bay; the saltbox/catslide profile is the same house after its rear lean-to addition, not a separate design.",
+      "confidence": "high"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "pitch_min": {
+          "value": "10:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "14:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_degrees": {
+          "range": [
+            40,
+            50
+          ],
+          "unit": "deg",
+          "kind": "derived"
+        }
+      },
+      "status": "drafted",
+      "rule": "Rise:run between 10:12 and 14:12 (40-50 degrees, own constraint c02): steep enough that the roof itself is doing structural work, but resolved narrower here than the family's generic 45-degree-and-up floor because 40-45 degrees is also attested and the 50-55 degree band the family's medieval-british ancestor allows for a thatch or stone-slate roof does not apply -- this style's covering is split shingle.",
+      "confidence": "high",
+      "note": "Specified rather than extends: medieval-british's inherited 45-degree floor and this node's own hard constraint (c02, 40-50 degrees / 10:12-14:12) disagree at the low end, and the family rule's own reasoning is keyed to a heavy thatch or stone-slate roof this style never actually built in. Restating avoids a resolved kit that quietly carries a wrong lower bound."
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wood-shingle",
+          "status": "canonical",
+          "note": "Split (riven) shingle -- the actual covering."
+        },
+        {
+          "id": "thatch",
+          "status": "forbidden",
+          "note": "The steep pitch preserves the proportion the thatched English original needed, but the style's own description is explicit that thatch itself 'was never actually used here.'"
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "No documented use; the covering is split shingle."
+        },
+        {
+          "id": "clay-tile-flat",
+          "status": "forbidden",
+          "note": "No documented use; the covering is split shingle."
+        },
+        {
+          "id": "slate",
+          "status": "forbidden",
+          "note": "No local slate industry serving this floruit; reserved for later, grander work."
+        },
+        {
+          "id": "composition-shingle",
+          "status": "forbidden",
+          "note": "Anachronistic to the family's floruit."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush-or-minimal",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1620,
+              1700
+            ]
+          },
+          "note": "A 17th-century rafter foot lands on the plate rather than past it; there is no applied cornice to speak of."
+        },
+        {
+          "id": "boxed-and-returned",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1780
+            ]
+          },
+          "note": "The boxed cornice arrives in the 18th century as applied joinery, not as part of the frame, and its appearance is one of the better date markers available on a First Period house (per this style's own proportion-pack rationale)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Window heads within a few inches of the eave, with no frieze band; the eave is flush with the frame until the boxed, returned cornice of applied 18th-century joinery starts to appear.",
+      "confidence": "medium"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -46,17 +163,66 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1620,
+              1700
+            ]
+          }
+        },
+        {
+          "id": "boxed-return",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1780
+            ]
+          },
+          "note": "Its appearance on an otherwise First Period massing is one of the clearer single dating tells the type offers."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush",
+          "status": "canonical"
+        },
+        {
+          "id": "bargeboard",
+          "status": "permitted",
+          "note": "The framed overhang (jetty) with carved drop pendants at the gable, as at the Parson Capen House -- an urban and higher-style pre-1700 device, not universal."
+        },
+        {
+          "id": "pedimented",
+          "status": "forbidden",
+          "note": "No classical order before c. 1710 (defining_characteristics)."
+        },
+        {
+          "id": "parapeted",
+          "status": "forbidden",
+          "note": "A masonry-envelope device; this style's gable is a clapboarded frame end."
+        },
+        {
+          "id": "half-timbered",
+          "status": "forbidden",
+          "note": "The English parent shows its frame; New England covers it entirely in clapboard because exposed infill does not survive the freeze-thaw climate (distinguished_from: english-medieval-timber-frame)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -67,10 +233,32 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "extends",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "base_min_ft": {
+          "value": 7,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own hard constraint c01's floor."
+        },
+        "base_typical_ft": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "count": {
+          "value": 1,
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule_append": "Exactly one stack, positioned within the plan rather than at a gable end -- own hard constraint c01 -- with a base not less than 7 ft square and typically 8-12 ft, occupying roughly a third of the plan depth; the front door opens directly against this mass rather than into a passage.",
+      "note": "Extends the family's inherited 'oversized and prominent' rule (from british-vernacular) with the actual count, position and size this style fixes and the family does not: the British ancestor explicitly leaves count and position to the style level because its two members disagree, and this is that resolution."
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -95,8 +283,46 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "braced-timber-frame",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Oak post-and-beam with summer beam, gunstock posts and mortise-and-tenon joinery, entirely clad in clapboard; the family's default framing method here, not merely one option among several."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "This branch of the family builds in frame; masonry is confined to the chimney mass, never the envelope."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "This branch of the family builds in frame; masonry is confined to the chimney mass."
+        },
+        {
+          "id": "adobe",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Not a New England technique."
+        },
+        {
+          "id": "rammed-earth",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Not a New England technique."
+        },
+        {
+          "id": "log",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The German Pennsylvania and backcountry branches, not this one."
+        }
+      ]
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +336,81 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clapboard",
+          "status": "canonical",
+          "note": "Riven or sawn, 4-5 in exposure on the weather elevation."
+        },
+        {
+          "id": "shingle",
+          "status": "permitted",
+          "applies_when": {
+            "regions": [
+              "coastal Massachusetts"
+            ]
+          },
+          "note": "5-6 in exposure on the coast (own constraint c05)."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "The frame is covered entirely, never exposed (distinguished_from: english-medieval-timber-frame)."
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "forbidden",
+          "note": "'No masonry veneer' (defining_characteristics)."
+        },
+        {
+          "id": "brick-common-bond",
+          "status": "forbidden",
+          "note": "'No masonry veneer' (defining_characteristics)."
+        },
+        {
+          "id": "stone-ashlar",
+          "status": "forbidden",
+          "note": "No building-stone tradition in this style's coastal New England hearth region."
+        },
+        {
+          "id": "stone-rubble",
+          "status": "forbidden",
+          "note": "No building-stone tradition in this style's coastal New England hearth region."
+        },
+        {
+          "id": "stucco",
+          "status": "forbidden",
+          "note": "Not part of this style's envelope vocabulary; the wall is clapboard or shingle over frame."
+        }
+      ],
+      "parameters": {
+        "exposure_weather_elevation": {
+          "range": [
+            4,
+            5
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "exposure_other_elevations": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Upper bound; own constraint c05."
+        },
+        "exposure_coastal_shingle": {
+          "range": [
+            5,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "Riven or sawn clapboard at 4-5 in exposure on the weather elevation (up to 6 in elsewhere), or shingle at 5-6 in on the coast; no masonry veneer anywhere.",
+      "confidence": "high"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -124,10 +421,14 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "One cladding material covers the whole envelope from sill to eave on every elevation; the only masonry on the building is the chimney mass, which is never veneered onto the frame and never treated as a decorative material change at grade or at a storey line.",
+      "judgment": true,
+      "confidence": "medium",
+      "note": "Editorial synthesis of 'no masonry veneer' (defining_characteristics) with the absence of any documented storey-line material break in the sources given; not a separately sourced rule."
     },
     "foundation_expression": {
       "group": "envelope",
@@ -145,24 +446,51 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No belt or string course. 'There is no moulding anywhere except a chamfer and its stop' (style description); a belt course is a classical device this style's own ancestor (medieval-british) already forbids at the apparatus level, and nothing in the envelope group revives it."
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No quoin. Frame construction gives the corner nothing to quoin, and the classical vocabulary quoins belong to is absent before c. 1710."
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "mitred-no-board",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1620,
+              1700
+            ]
+          },
+          "note": "Consistent with the style's near-total absence of applied trim before 1700."
+        },
+        {
+          "id": "plain-board",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1780
+            ]
+          }
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "judgment": true,
+      "confidence": "low",
+      "note": "Editorial inference from the style's stated absence of moulding before 1700, not a directly quoted corner-board source."
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -187,17 +515,19 @@
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No frieze band of any width. Own hard constraint c03: a frieze over 4 in converts the elevation to Georgian, and the diagnostic reading for this style is precisely that the window head sits close under the plate with nothing between them."
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No parapet on a steep gabled roof carried on a visible eave."
     },
     "rainwater": {
       "group": "envelope",
@@ -211,24 +541,94 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "casement-leaded",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1620,
+              1700
+            ]
+          },
+          "note": "Diamond-quarry leaded lights; glass imported and taxed, so openings stay small."
+        },
+        {
+          "id": "double-hung",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1780
+            ]
+          },
+          "note": "Counterweighted sash arrives about 1700."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "height_to_width": {
+          "value": 1.7,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Own proportional_system: opening 2'6\"-3'4\" wide by 4'0\"-5'6\" high. Set by the casement and frame bay, not a treatise ratio -- narrower than the family's own bound sash-light pack's 1.85-2.6 measured band."
+        }
+      },
+      "status": "drafted",
+      "rule": "Openings run close to 1:1.7 (height:width), set by the casement and the frame bay rather than by any pattern-book proportion.",
+      "confidence": "medium"
     },
     "window_lite_pattern": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "diamond-leaded",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1620,
+              1700
+            ]
+          }
+        },
+        {
+          "id": "12/12",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1750
+            ]
+          }
+        },
+        {
+          "id": "9/6",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1740,
+              1770
+            ]
+          }
+        },
+        {
+          "id": "6/6",
+          "status": "forbidden",
+          "note": "Own constraint c04: six-over-six on a First Period massing is an anachronism of at least fifty years."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -239,10 +639,48 @@
     },
     "window_head_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1620,
+              1700
+            ]
+          },
+          "note": "The casement sits flush under the plate with nothing over it."
+        },
+        {
+          "id": "flat-casing-head",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1780
+            ]
+          }
+        },
+        {
+          "id": "pedimented-head",
+          "status": "forbidden",
+          "note": "No classical order before c. 1710."
+        },
+        {
+          "id": "cornice-head",
+          "status": "forbidden",
+          "note": "No classical order before c. 1710 (defining_characteristics)."
+        },
+        {
+          "id": "backband-head",
+          "status": "forbidden",
+          "note": "Colonial Revival tell."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -253,10 +691,41 @@
     },
     "window_surround_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-casing",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1780
+            ]
+          }
+        },
+        {
+          "id": "moulded-architrave",
+          "status": "atypical"
+        },
+        {
+          "id": "backband-architrave",
+          "status": "forbidden",
+          "note": "Wide trim with a backband is the Colonial Revival tell (distinguished_from: colonial-revival), not the original."
+        },
+        {
+          "id": "pilaster-and-entablature",
+          "status": "forbidden",
+          "note": "A fully classical assembly, absent before c. 1710."
+        },
+        {
+          "id": "crossette-architrave",
+          "status": "forbidden",
+          "note": "A fully classical assembly, absent before c. 1710."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_sill": {
       "group": "openings",
@@ -281,10 +750,11 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No palladian, lunette, oculus, or diocletian window. These are Georgian- and revival-era markers that postdate this style's own floruit and are among the clearest tells that a Georgian door or window has been added to a First Period house (distinguished_from: georgian-colonial-american)."
     },
     "entry_door": {
       "group": "openings",
@@ -295,17 +765,41 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1620,
+              1700
+            ]
+          }
+        },
+        {
+          "id": "modest-entry-frame",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1780
+            ]
+          },
+          "note": "Own defining_characteristics: 'after 1700 a modest entry frame,' the one ornamental exception the style allows."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium"
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No transom or sidelight. These belong to the classical frontispiece Georgian influence introduces after about 1720 (distinguished_from: georgian-colonial-american) and have no place on an unadorned First Period door."
     },
     "secondary_door": {
       "group": "openings",
@@ -316,10 +810,30 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-in-the-dependency-position",
+          "status": "canonical",
+          "note": "Matches the style's own additive, accretive growth logic (wing_strategy): a later structure added at a distance, the way a lean-to or outshot was added, rather than composed into the front."
+        },
+        {
+          "id": "front-facing-attached",
+          "status": "forbidden",
+          "note": "A garage door on the entrance elevation contradicts the near-symmetrical, chimney-centred front this style's own composition_parti depends on."
+        },
+        {
+          "id": "porte-cochere",
+          "status": "forbidden",
+          "note": "A 19th-century device, centuries after this style's floruit."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "judgment": true,
+      "invented": true,
+      "confidence": "low",
+      "note": "No historical precedent exists for any traditional style (docs/inheritance.md); this is authored to be consistent with the style's own additive massing logic, not retrieved."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -426,24 +940,55 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "One threshold: the exterior door opens directly into a lobby barely large enough to close the door behind you, hard against the chimney base, with no intervening hall -- from the lobby the visitor turns immediately left or right into a heated room. 'The entry is not a hall but a porch' (style description).",
+      "confidence": "high"
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "under_summer_beam": {
+          "range": [
+            80,
+            90
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "6 ft 8 in - 7 ft 6 in; own proportional_system figure."
+        },
+        "to_joists": {
+          "range": [
+            84,
+            96
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "7 ft 0 in - 8 ft 0 in."
+        }
+      },
+      "status": "drafted",
+      "rule": "Ceiling height is measured to the underside of the exposed summer beam, not to the joists: 6 ft 8 in to 7 ft 6 in under the beam, 7 ft 0 in to 8 ft 0 in between beams. A modern adult reads the room with the beam at eye level.",
+      "confidence": "high"
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "profile_family": {
+          "value": "exposed frame with a chamfered arris and a carved chamfer stop; no applied moulding profile family",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "rule": "There is no moulding anywhere except the chamfer and its stop -- lamb's-tongue, ogee, or taper -- which is the one decorative decision the carpenter made and, per the style's own description, the one he made carefully.",
+      "confidence": "high"
     },
     "baseboard": {
       "group": "interior",
@@ -461,17 +1006,19 @@
     },
     "crown": {
       "group": "interior",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No interior crown or cornice moulding; the ceiling is either the exposed joists or a plain plastered surface meeting the summer beam directly."
     },
     "chair_rail": {
       "group": "interior",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "No chair rail. The style's applied interior trim is confined to the chamfer stop; a chair rail is a later classical convention."
     },
     "wainscot": {
       "group": "interior",
@@ -489,10 +1036,18 @@
     },
     "stair_type": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "winder-boxed-stair",
+          "status": "canonical",
+          "note": "'A cramped winder squeezed between the stack and the front door' (style description)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "A tight, boxed winder stair occupying the lobby beside the chimney mass, not a straight run with landings.",
+      "confidence": "high"
     },
     "newel_balustrade": {
       "group": "interior",
@@ -545,17 +1100,46 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "central-stack",
+          "status": "canonical"
+        },
+        {
+          "id": "gable-end-paired",
+          "status": "forbidden",
+          "note": "Southern colonial or post-1740 Georgian (own diagnostic_tells)."
+        },
+        {
+          "id": "exterior-end",
+          "status": "forbidden",
+          "note": "Contradicts own hard constraint c01: exactly one chimney, positioned within the plan, not at a gable end."
+        },
+        {
+          "id": "corner",
+          "status": "forbidden",
+          "note": "Dutch and French colonial."
+        },
+        {
+          "id": "distributed",
+          "status": "forbidden",
+          "note": "Contradicts own hard constraint c01: a single central stack, not distributed hearths."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Exactly one hearth mass, central in the plan, serving fireplaces back-to-back in the rooms that flank it -- own hard constraint c01.",
+      "confidence": "high"
     },
     "stair_position": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "In the lobby entry, immediately beside the chimney mass and against the front door -- the same cramped space the plan's only threshold occupies.",
+      "confidence": "high"
     },
     "public_private_gradient": {
       "group": "plan-logic",
@@ -580,17 +1164,36 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical"
+        },
+        {
+          "id": "one-and-a-half-pile",
+          "status": "permitted",
+          "note": "The rear lean-to (saltbox) addition, common after about 1660."
+        },
+        {
+          "id": "double-pile",
+          "status": "forbidden",
+          "note": "Requires the paired-interior-chimney plan Georgian influence brings; incoherent with a single central stack."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high"
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "Light comes in small hard patches from windows set high and tight under the plate; the fire end of the room is bright and warm and the far corner is cold and dark. Glass is a luxury import and the strategy is conservation, not composition.",
+      "judgment": true,
+      "confidence": "medium"
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -604,10 +1207,12 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "rule": "The house sits in a clearing, not on a street, and has no urban face: it is symmetrical only by accident of the chimney's centrality, the front carries the five-bay composition and the rear and gable ends may carry little or nothing. Settlement was against a scarce, cleared lot, not a platted frontage.",
+      "confidence": "medium"
     },
     "setback_rule": {
       "group": "site",

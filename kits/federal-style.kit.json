@@ -81,10 +81,31 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "second_over_first": {
+          "range": [
+            0.8,
+            0.9
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "federal-style constraint c04 / proportional_system"
+        },
+        "third_over_first": {
+          "range": [
+            0.6,
+            0.75
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "The third storey diminishes further than the inherited Georgian attic-over-second ratio; the style's own diagnostic_tells name shortened third-storey windows directly."
+        }
+      },
+      "rule_append": "Second-floor storey height runs 0.80-0.90 of the first, and the third storey 0.60-0.75 of the first (hard constraint c04) -- a steeper, more visible graduation than the inherited Georgian rule. Equal storey heights read as twentieth-century Colonial Revival.",
+      "note": "extends rather than specified: the inherited principle (each storey diminishes so the front sits down rather than floats) is still exactly Federal's own logic; only the numeric band tightens.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -152,17 +173,39 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "brick-quoins",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Constraint c05: masonry is Flemish bond with joints no wider than 3/8 in and no quoins. Rusticated or heavily articulated masonry reads as Georgian or a later revival, not Federal."
+        },
+        {
+          "id": "stone-quoins",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Same prohibition as brick-quoins (constraint c05)."
+        }
+      ],
+      "rule_append": "No quoins (constraint c05, soft): the corner is read in the flat wall plane itself, or by a flat applied pilaster, never by projecting masonry relief.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "board_thickness_max_in": {
+          "value": 1.25,
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-england-federal constraint c01, generalised to the style"
+        }
+      },
+      "rule_append": "Where a masonry corner is executed in applied board (flat fluted pilaster or a scored 'quoin'), the board does not exceed 1-1/4 in in thickness and the whole assembly is painted a single light colour -- exposed wood grain or a contrasting trim colour destroys the masonry illusion the style depends on.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -180,17 +223,34 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "cornice_projection_ratio_max": {
+          "value": 0.04,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "federal-style constraint c02",
+          "note": "1/25 of facade height, a hard ceiling; the inherited Georgian corona-at-full-projection reading is capped rather than replaced."
+        }
+      },
+      "rule_append": "Projection is capped at 1/25 of facade height (hard constraint c02): the cornice casts a shadow of an inch or two at noon, never the deep corona shadow of the Georgian original it thins.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "frieze_depth_max_in": {
+          "value": 14,
+          "unit": "in",
+          "kind": "measured",
+          "source": "federal-style constraint c02"
+        }
+      },
+      "rule_append": "Frieze depth does not exceed 14 in (constraint c02); on the flat Federal wall the frieze is the field for applied composition ornament -- swags, urns, paterae -- rather than for carved relief.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "parapet": {
       "group": "envelope",
@@ -225,10 +285,29 @@
     },
     "window_lite_pattern": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "6/9",
+          "status": "canonical",
+          "op": "add",
+          "note": "Not in the inherited Georgian list at all. Federal's second characteristic sash count alongside 6/6, both carrying the thinner Federal muntin."
+        }
+      ],
+      "parameters": {
+        "muntin_width": {
+          "range": [
+            0.625,
+            0.875
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "federal-style constraint c01",
+          "note": "Replaces the inherited single 0.875 in value with the style's own hard ceiling and typical range; muntins at Georgian width (1-1/4 in and up) collapse the style at any distance beyond fifty feet."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -281,10 +360,18 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "palladian-venetian",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted from a Mid-Atlantic regional canonical to canonical across the style, and specifically centred over the entrance rather than merely in a centre bay -- defining_characteristics names the stacked fanlight-and-Palladian-window composition directly."
+        }
+      ],
+      "note": "A New England Federal signature above all (see new-england-federal), but the style file itself names it as a defining characteristic with no regional restriction, so the promotion is made at this level.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "entry_door": {
       "group": "openings",
@@ -295,17 +382,88 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "fanlight-over",
+          "status": "canonical",
+          "note": "Elliptical, set flush in the wall plane rather than in a projecting frontispiece -- the single defining move of the style."
+        },
+        {
+          "id": "plain-architrave-with-crown-and-frieze",
+          "status": "permitted"
+        },
+        {
+          "id": "gibbs-surround",
+          "status": "forbidden",
+          "note": "Blocked and rusticated jambs are a projecting, relief-carved Georgian device; Federal ornament recedes into the wall plane rather than advancing from it."
+        },
+        {
+          "id": "pilasters-carrying-triangular-pediment",
+          "status": "forbidden",
+          "note": "A projecting pedimented frontispiece is exactly the Georgian object-in-front-of-the-wall the style's own distinguished_from clause names against it."
+        },
+        {
+          "id": "broken-scroll-pediment",
+          "status": "forbidden",
+          "note": "Baroque furniture logic; Federal ornament recedes into the wall rather than piling up projecting scrollwork over the door."
+        },
+        {
+          "id": "swan-neck-pediment",
+          "status": "forbidden",
+          "note": "Same objection as broken-scroll-pediment: a solid projecting pediment element the flat Federal surround does not carry."
+        },
+        {
+          "id": "no-surround",
+          "status": "forbidden",
+          "note": "Even at its thinnest the entrance carries the fanlight and sidelight assembly; it is never a bare opening."
+        }
+      ],
+      "parameters": {
+        "max_projection_in": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured",
+          "source": "federal-style constraint c02",
+          "note": "The door surround is the one element permitted to project beyond the style's general 3 in ceiling, and even it is capped at 6 in."
+        }
+      },
+      "rule": "The entrance is a hole in the wall crowned by an elliptical fanlight rather than an object standing in front of the wall: no projecting frontispiece, no blocked-and-rusticated Gibbs jambs, no broken or scrolled pediment. Ornament is confined within 6 in of the wall plane (constraint c02).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "elliptical-fanlight",
+          "status": "canonical",
+          "note": "The style's single most recognisable feature: an ellipse rather than a semicircle, and set flush rather than in a projecting hood."
+        },
+        {
+          "id": "semicircular-fanlight",
+          "status": "permitted"
+        },
+        {
+          "id": "sidelights",
+          "status": "canonical",
+          "note": "Required whenever a fanlight is used (constraint c03): an elliptical fanlight requires flanking sidelights and a single-storey entrance treatment."
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "forbidden",
+          "note": "Reads as Georgian, or later as the Greek Revival rectangular-transom marker (constraint c04 there); Federal's transom is always curved."
+        },
+        {
+          "id": "none",
+          "status": "atypical",
+          "note": "The plainest houses forgo the fanlight, but it is the style's own signature and its absence is the exception here, not the rule it is on the Georgian parent."
+        }
+      ],
+      "rule": "An elliptical fanlight with flanking sidelights, spun in lead cames as thin as the craft allows; the entrance treatment above it is always single-storey (constraint c03) -- a two-storey portico over a fanlight converts the building to Greek Revival or Neoclassical Revival regardless of the trim below it.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_door": {
       "group": "openings",
@@ -328,24 +486,127 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "ionic-scamozzi",
+          "status": "canonical",
+          "note": "The Adam-attenuated Ionic, run at 9-11 diameters rather than Georgian's 7-8."
+        },
+        {
+          "id": "corinthian",
+          "status": "canonical",
+          "note": "Named alongside Ionic in the style's own typical_ratios as the two Adam-attenuated Federal orders."
+        },
+        {
+          "id": "doric-roman",
+          "status": "forbidden",
+          "note": "Georgian's heavier order; Federal thins rather than replaces the order family, and Doric's proportions read too solid for the style's attenuated register."
+        },
+        {
+          "id": "tuscan",
+          "status": "atypical"
+        },
+        {
+          "id": "doric-greek",
+          "status": "forbidden",
+          "note": "Arrives with Benjamin's 1830 Grecian plates, forty-plus years after Federal's floruit ends."
+        },
+        {
+          "id": "ionic-greek",
+          "status": "forbidden",
+          "note": "Same anachronism as doric-greek."
+        },
+        {
+          "id": "vernacular-abstracted",
+          "status": "forbidden",
+          "note": "Federal's order is thinned but still drawn from a book to a rule (Benjamin's plates); an abstracted order with no measured authority behind it is a different, later habit."
+        }
+      ],
+      "parameters": {
+        "column_height_diameters": {
+          "range": [
+            9,
+            11
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "federal-style proportional_system; benjamin-ionic pack (10 diameters)"
+        },
+        "authority": {
+          "value": "Asher Benjamin, The American Builder's Companion (1806), by way of Robert and James Adam's Works in Architecture (1773-78)",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "One Adam-attenuated order -- Ionic or Corinthian, run at 9 to 11 diameters against Georgian's 7 to 8 -- governs the whole building; delicacy is a proportional decision, not a decorative one, and Roman Doric or any Greek order is out of register or out of period.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "variants": [
+        {
+          "id": "ionic-plain-shaft",
+          "status": "canonical",
+          "note": "Federal columns and colonnettes are more often plain-shafted than fluted; entrance colonnettes in particular are frequently slim turned or built-up shafts rather than a full fluted order."
+        },
+        {
+          "id": "ionic-scamozzi-fluted",
+          "status": "permitted"
+        },
+        {
+          "id": "doric-roman-plain",
+          "status": "forbidden",
+          "note": "Georgian's own plain column choice; solid at 7-8 diameters, against Federal's slenderer 9-11."
+        },
+        {
+          "id": "square-pier",
+          "status": "forbidden",
+          "note": "Reads as structural mass, the opposite of the attenuated colonnette Federal reaches for at the entrance."
+        }
+      ],
+      "parameters": {
+        "height_diameters": {
+          "range": [
+            9,
+            11
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "entrance_colonnette_diameter_max_in": {
+          "value": 7,
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-england-federal constraint c05, generalised to the style"
+        }
+      },
+      "rule": "The column is drawn slenderer than any antique authority permits -- 9 to 11 diameters -- and at the entrance is very often reduced further to a colonnette that frames the door rather than carries a roof.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "parameters": {
+        "total_height_ratio_of_storey_max": {
+          "value": 0.125,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "federal-style proportional_system: 'entablature depth under 1/8 of the storey it crowns'"
+        }
+      },
+      "rule": "The entablature is thinned along with the column below it -- under one eighth of the storey height it crowns -- so that the whole apparatus reads as a band rather than a projecting order.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,17 +617,51 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "parameters": {
+        "projection_max_in": {
+          "value": 3,
+          "unit": "in",
+          "kind": "measured",
+          "source": "federal-style constraint c02"
+        },
+        "reeded_or_flat": {
+          "value": "flat or shallow-reeded, applied in low relief",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "A pilaster is a flat or shallow-reeded band applied to the wall plane, projecting no more than 3 in (constraint c02) -- the Georgian pilaster's engaged-column depth is exactly what Federal removes.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "plain-bed-mould",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted over the Georgian modillion block, consistent with the style's own hard cornice-projection ceiling; a full modillion course cannot be built within a cornice capped at 1/25 of facade height."
+        },
+        {
+          "id": "modillion-block",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Survives only at the largest scale of Federal work, and even there it is shallow relief rather than the deep Georgian block."
+        },
+        {
+          "id": "dentil-band",
+          "status": "permitted",
+          "op": "add"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -377,17 +672,111 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "determined_by": [
+        "order"
+      ],
+      "variants": [
+        {
+          "id": "swag-and-urn",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1785,
+              1835
+            ]
+          }
+        },
+        {
+          "id": "fan-and-patera",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1785,
+              1835
+            ]
+          },
+          "note": "Applied low-relief composition ornament, frequently cast rather than carved -- defining_characteristics names it directly."
+        },
+        {
+          "id": "reeding",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1785,
+              1835
+            ]
+          }
+        },
+        {
+          "id": "gouged-and-fluted-frieze",
+          "status": "permitted"
+        },
+        {
+          "id": "guttae-triglyph",
+          "status": "forbidden",
+          "note": "Doric, and later the Greek Revival marker Federal ornament is defined against."
+        },
+        {
+          "id": "acanthus",
+          "status": "forbidden",
+          "note": "Deep, bold Georgian and Corinthian carving; Federal's Corinthian, where used, is drawn as thin as its Ionic."
+        },
+        {
+          "id": "dentil",
+          "status": "forbidden",
+          "note": "Bold Georgian relief; see modillion_dentil, where Federal specifies a plain bed mould instead."
+        },
+        {
+          "id": "modillion",
+          "status": "atypical"
+        },
+        {
+          "id": "none",
+          "status": "permitted"
+        }
+      ],
+      "parameters": {
+        "relief": {
+          "value": "low relief, under 2 in, frequently applied composition (Coade stone or Wellford-type cast ornament) rather than carved in situ",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "concentration": {
+          "value": "frieze band, door surround, fireplace surround; never the corner or the plain wall field",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Ornament recedes into the wall plane: swags, urns, paterae, husk chains and reeding, applied in low relief -- frequently as cast composition rather than carved wood -- and confined to the frieze, the door surround and the mantel. The bold Georgian vocabulary of dentils, modillions and deep acanthus carving is exactly what is withdrawn.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "entry-portico",
+          "status": "canonical",
+          "op": "replace",
+          "note": "A small semicircular or elliptical portico on slender colonnettes, sized to frame the fanlight rather than to shelter anyone -- new-england-federal's own description calls it 'a frame, not a roof'."
+        },
+        {
+          "id": "full-width-porch",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A full-height, full-width colonnade reads as Greek Revival or Jeffersonian, not Federal; constraint c03 forbids a two-storey portico outright."
+        },
+        {
+          "id": "two-tier-engaged-portico",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Two full storeys of superimposed order is exactly the two-storey portico constraint c03 forbids."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "porch_depth": {
       "group": "threshold",
@@ -440,24 +829,53 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "trim-classical:wall_section_federal",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "trim-classical:wall_section_georgian",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Federal thins the Georgian family rather than mixing in a new one; but the two profile sets are not interchangeable at the wall -- the Georgian pedestal and full entablature are heavier than the style's own hard ceilings permit."
+        }
+      ],
+      "rule_append": "The interest is reeded into the face of the moulding rather than standing proud of it -- Federal is not Georgian made smaller, it is Georgian made flatter, with composition ornament standing in for carved wood.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "baseboard": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "height_in": {
+          "value": 6.125,
+          "unit": "in",
+          "kind": "measured",
+          "source": "trim-classical pack, wall_section_federal",
+          "note": "Overrides the inherited Georgian 8.5 in figure: 6 1/8 in in three members against Georgian's 6 7/8 in."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "casing": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "width_in": {
+          "value": 4.5,
+          "unit": "in",
+          "kind": "measured",
+          "source": "trim-classical pack, wall_section_federal / casing_federal",
+          "note": "Overrides the inherited 6 in Georgian figure: 4 1/2 in in seven members."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "crown": {
       "group": "interior",

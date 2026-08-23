@@ -11,12 +11,12 @@
         {
           "id": "additive-vernacular",
           "status": "forbidden",
-          "note": "Every member of this family \u2014 the strict-symmetrical institutional stream (Egyptian Revival, Renaissance Revival, Octagon House) as much as the picturesque stream (Gothic Revival, Italianate) \u2014 is composed by an architect or pattern-book author toward a historical or theoretical argument, never grown by accretion the way a real vernacular building is. Downing's own theory (a house should be composed to be read in silhouette against the landscape) is explicitly a composition doctrine, not a growth doctrine, even where the result looks irregular."
+          "note": "Every member of this family — the strict-symmetrical institutional stream (Egyptian Revival, Renaissance Revival, Octagon House) as much as the picturesque stream (Gothic Revival, Italianate) — is composed by an architect or pattern-book author toward a historical or theoretical argument, never grown by accretion the way a real vernacular building is. Downing's own theory (a house should be composed to be read in silhouette against the landscape) is explicitly a composition doctrine, not a growth doctrine, even where the result looks irregular."
         }
       ],
-      "rule": "The family is designed, not accreted, in every one of its nine members \u2014 but the family splits close to evenly on WHAT kind of design discipline governs: Egyptian Revival, Renaissance Revival and Octagon House hold strict bilateral (or, for the octagon, radially regular) symmetry as a compositional law in its own right, while Gothic Revival and Italianate treat picturesque irregularity and silhouette hierarchy as the compositional law instead. Which of those two disciplines governs is a per-style decision the family does not adjudicate.",
+      "rule": "The family is designed, not accreted, in every one of its nine members — but the family splits close to evenly on WHAT kind of design discipline governs: Egyptian Revival, Renaissance Revival and Octagon House hold strict bilateral (or, for the octagon, radially regular) symmetry as a compositional law in its own right, while Gothic Revival and Italianate treat picturesque irregularity and silhouette hierarchy as the compositional law instead. Which of those two disciplines governs is a per-style decision the family does not adjudicate.",
       "confidence": "high",
-      "note": "The family's own defining_characteristics list 'Irregular, asymmetrical massing' as if it were universal, but three of the nine members (Egyptian Revival, Renaissance Revival, Octagon House) explicitly forbid the massed-picturesque massing and hold strict-bilateral or radially-regular symmetry instead \u2014 Renaissance Revival calls picturesque irregularity the thing that 'destroys the only compositional rule the style has.' The family description is written from the Gothic/Italianate half of the family; this kit does not repeat that overclaim.",
+      "note": "The family's own defining_characteristics list 'Irregular, asymmetrical massing' as if it were universal, but three of the nine members (Egyptian Revival, Renaissance Revival, Octagon House) explicitly forbid the massed-picturesque massing and hold strict-bilateral or radially-regular symmetry instead — Renaissance Revival calls picturesque irregularity the thing that 'destroys the only compositional rule the style has.' The family description is written from the Gothic/Italianate half of the family; this kit does not repeat that overclaim.",
       "status": "drafted"
     },
     "roof_form": {
@@ -117,7 +117,7 @@
           "note": "Modern manufactured technology, anachronistic to the whole family."
         }
       ],
-      "rule": "The family covers the same technological transition its own description names: solid load-bearing masonry (Egyptian Revival, Renaissance Revival, and the Italianate/Renaissance Revival row-house branches) for institutional and urban work, and braced or, from the 1830s-40s on, balloon timber frame for the picturesque villa and cottage branches the sawmill made affordable. No member builds with a thin masonry veneer over a frame backup, platform framing, or a structural insulated panel \u2014 all three postdate every member's floruit, which ends by 1890 at the latest.",
+      "rule": "The family covers the same technological transition its own description names: solid load-bearing masonry (Egyptian Revival, Renaissance Revival, and the Italianate/Renaissance Revival row-house branches) for institutional and urban work, and braced or, from the 1830s-40s on, balloon timber frame for the picturesque villa and cottage branches the sawmill made affordable. No member builds with a thin masonry veneer over a frame backup, platform framing, or a structural insulated panel — all three postdate every member's floruit, which ends by 1890 at the latest.",
       "confidence": "high",
       "status": "drafted"
     },
@@ -300,7 +300,7 @@
           "note": "Every member's floruit ends by 1890 at the latest (decline_end 1905 for the latest, Carpenter Gothic), roughly four decades before the insulated glazing unit existed."
         }
       ],
-      "rule": "Glazing is true divided-lite, single-pane sash throughout \u2014 round-arched, segmental, pointed, lancet or ogee-headed, depending on which branch of the family \u2014 never an insulated glazing unit.",
+      "rule": "Glazing is true divided-lite, single-pane sash throughout — round-arched, segmental, pointed, lancet or ogee-headed, depending on which branch of the family — never an insulated glazing unit.",
       "confidence": "high",
       "status": "drafted"
     },

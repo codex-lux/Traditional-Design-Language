@@ -6,8 +6,16 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "near-symmetrical",
+          "status": "canonical",
+          "op": "add",
+          "note": "The style's own proportional_system states symmetry directly as 'near-symmetrical'. A hipped stucco cube with a centred arcade and a parapet over the entrance reads as symmetrical from the street."
+        }
+      ],
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -18,10 +26,20 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "roof_pitch_rise_per_12": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Roof pitch 3:12 to 5:12 in clay tile - low and quiet under the parapet, the opposite of the steep Gothic/Queen Anne roofs otherwise inherited (mission-revival.c05).",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +50,25 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "open-wide-overhang-exposed-rafter-tails",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "eave_projection_in": {
+          "range": [
+            24,
+            42
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Wide overhanging eave, 24-42 in, on exposed rafter tails at 24-32 in on centre, where the eave is expressed at all - the opposite of the closed, tight eave otherwise inherited, and itself the feature that distinguishes Mission Revival from Spanish Colonial Revival's minimal, closed eave (mission-revival.c05; diagnostic_tells).",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -88,15 +121,36 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "simple-rectilinear-block",
+          "status": "canonical"
+        },
+        {
+          "id": "courtyard-u-wrap",
+          "status": "permitted",
+          "note": "Institutional, hotel, and school examples where an arcade wraps a patio (massing_affinities)."
+        }
+      ],
+      "rule": "Simple, blocky, largely rectilinear massing with openings cut plainly into the wall (defining_characteristics) - not a Beaux-Arts corps-de-logis with pavilion-terminated wings. The commonest residential form is a hipped stucco cube (foursquare, canonical); larger institutional work wraps an arcade around a courtyard.",
+      "status": "drafted"
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stucco-over-wood-frame",
+          "status": "canonical"
+        },
+        {
+          "id": "stucco-over-hollow-clay-tile",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Thin stucco or plaster over wood frame (or, in more substantial work, hollow clay tile) - explicitly not the massive adobe of the actual missions being quoted: diagnostic_tells contrasts the revival's 'thin stucco over frame' against the original's '3-5 ft adobe'. Solid two-wythe load-bearing masonry is not this style's construction.",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +164,15 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "smooth-stucco",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Smooth stucco or plaster, one continuous plane from grade to parapet, unbroken by belt course, quoin, or cornice (mission-revival.c04; defining_characteristics). Rock-faced ashlar is not this style's wall.",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -145,10 +204,9 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "No belt course may interrupt the continuous stucco plane (mission-revival.c04) - overrides the carved foliate band inherited from richardsonian-romanesque.",
+      "status": "drafted"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -180,10 +238,9 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "note": "Stucco runs in one continuous plane from grade to parapet with no cornice of any kind (mission-revival.c04) - overrides the classical modillion cornice inherited from english-georgian via georgian-colonial-american.",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -194,10 +251,33 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "curvilinear-shaped-parapet",
+          "status": "canonical"
+        },
+        {
+          "id": "stepped-shaped-parapet",
+          "status": "permitted"
+        },
+        {
+          "id": "scalloped-shaped-parapet",
+          "status": "permitted"
+        }
+      ],
+      "parameters": {
+        "parapet_height_in": {
+          "range": [
+            36,
+            96
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "At least one curvilinear, scalloped, or stepped parapet (the espadana) rises a minimum of 3'0\" above the adjacent eave or roof line, usually over the entrance or at a gable end, capped with tile or a shaped coping. This is the style's single hard-required diagnostic (mission-revival.c01) and directly overrides the inherited Georgian rule that the roof is shown with no concealing parapet - here the parapet is the whole point.",
+      "status": "drafted"
     },
     "rainwater": {
       "group": "envelope",
@@ -206,8 +286,15 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pale-uniform-stucco",
+          "status": "canonical"
+        }
+      ],
+      "rule": "One uninterrupted pale stucco surface - white, cream, or a light sand tone ('bright, plain, and slightly severe'; description.long). This reverses the inherited Downing landscape-tone rule, which explicitly prohibits white on the body; here pale or white is canonical.",
+      "status": "drafted"
     },
     "window_type": {
       "group": "openings",
@@ -218,10 +305,21 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "overall_width_to_height": {
+          "range": [
+            0.45,
+            0.625
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Own typical_ratios states 'wall openings 1:1.6 to 1:2.2' (height:width); expressed here as width:height = 0.45-0.625. A plain, moderately vertical proportion, not the wide horizontal multi-light grid otherwise inherited."
+        }
+      },
+      "rule": "Wall openings 1:1.6 to 1:2.2, cut plainly with a 3-6 in reveal and no applied casing.",
+      "status": "drafted"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -253,10 +351,25 @@
     },
     "window_surround_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-reveal-only",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "reveal_in": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Wall openings are cut plainly into the stucco with a 3-6 in reveal and no applied casing of any kind - overrides the flat narrow wood casing otherwise inherited.",
+      "status": "drafted"
     },
     "window_sill": {
       "group": "openings",
@@ -281,10 +394,16 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "quatrefoil-window",
+          "status": "canonical",
+          "note": "'Where the missions had a quatrefoil window, the revival puts one over the door' - the style's own signature secondary opening, typically centred above the entry."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted"
     },
     "entry_door": {
       "group": "openings",
@@ -295,10 +414,16 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-plain-opening",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "No ornament at the entrance: the door is cut plainly into the stucco wall with no carved or cast surround, twisted column, or Churrigueresque relief (mission-revival.c02). A carved/cast entrance surround is the single tell that converts the building to Spanish Colonial Revival. This overrides the semicircular-arch-on-squat-columns entrance otherwise inherited, which describes this style's own porch arcade, not its door.",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +441,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-stucco-outbuilding",
+          "status": "canonical"
+        }
+      ],
+      "invented": true,
       "parameters": {},
-      "status": "empty"
+      "rule": "The car is housed in a detached or minimally-attached stucco volume finished to match the house - plain wall, low tile-roofed or shed roof, no parapet of its own - set back from the front plane and turned off the entrance elevation, so the arcade and parapet stay the only things read from the street. No historical precedent exists for this element; this is an editorial extension consistent with the style's own logic of a plain stucco volume with a single ornamented event.",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +516,16 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "arcaded-veranda",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "A porch or veranda carried on heavy square piers with round arches between them, engaged under the main roof or a lean-to extension of it - the arcade, not a colonnade or a Stick Style frame porch.",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
@@ -398,17 +536,52 @@
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "arcade-pier-round-arch",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "pier_width_in": {
+          "range": [
+            18,
+            30
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "clear_span_ft": {
+          "range": [
+            6,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "arch_spring_height_min_ft": {
+          "value": 7,
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Arcade piers 18-30 in wide with clear spans of 6'0\"-9'0\" and semicircular arches springing at not less than 7'0\" above the porch floor. Slender turned or classical columns are forbidden; the arcade must read as wall pierced, not as posts (mission-revival.c03). Overrides the post-and-diagonal-brace support otherwise inherited from Stick Style.",
+      "status": "drafted"
     },
     "porch_rail": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-solid-parapet-wall",
+          "status": "canonical"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "judgment": true,
+      "rule": "Where a rail occurs at all it is a low solid stuccoed wall between piers, not an open baluster rail - the arcade reads as wall pierced by arches, and an open turned-baluster rail is a wood-frame Victorian device this style's own heavy-walled vocabulary does not use. Editorial inference from the style's governing plainness (c02-c04), not a directly sourced rail specification.",
+      "status": "drafted"
     },
     "porch_ceiling": {
       "group": "threshold",

@@ -109,7 +109,7 @@
         {
           "id": "balloon-frame",
           "status": "forbidden",
-          "note": "Not developed until the 1830s, after the defining floruit of every member \u2014 including the latest-dated, Pennsylvania Bank House and Cape Cod Colonial."
+          "note": "Not developed until the 1830s, after the defining floruit of every member — including the latest-dated, Pennsylvania Bank House and Cape Cod Colonial."
         },
         {
           "id": "platform-frame",
@@ -122,7 +122,7 @@
           "note": "A modern manufactured assembly, anachronistic to every branch."
         }
       ],
-      "rule": "Every branch bears its own weight \u2014 in solid masonry, braced timber frame, log, or adobe/rammed earth, whichever the transplanted building culture brought \u2014 but none of the family's six national traditions built with balloon framing, platform framing, structural insulated panels, or a thin masonry veneer over a frame backup, because all four postdate the family's floruit. Which load-bearing method a given branch uses is a per-tradition decision the family does not adjudicate.",
+      "rule": "Every branch bears its own weight — in solid masonry, braced timber frame, log, or adobe/rammed earth, whichever the transplanted building culture brought — but none of the family's six national traditions built with balloon framing, platform framing, structural insulated panels, or a thin masonry veneer over a frame backup, because all four postdate the family's floruit. Which load-bearing method a given branch uses is a per-tradition decision the family does not adjudicate.",
       "confidence": "high",
       "status": "drafted"
     },
@@ -503,15 +503,15 @@
       "group": "plan-logic",
       "binding": "specified",
       "judgment": true,
-      "rule": "Storage is furniture-based \u2014 chests, presses, cupboards, built-in cabinets flanking a hearth at most \u2014 not organized around a dedicated closet as a plan element; where a closet does appear (occasionally, flanking a chimney breast, in the highest-style later Georgian work) it is a local elaboration rather than a family trait, and should not be assumed present without a specific reason stated at the style or variant level.",
+      "rule": "Storage is furniture-based — chests, presses, cupboards, built-in cabinets flanking a hearth at most — not organized around a dedicated closet as a plan element; where a closet does appear (occasionally, flanking a chimney breast, in the highest-style later Georgian work) it is a local elaboration rather than a family trait, and should not be assumed present without a specific reason stated at the style or variant level.",
       "confidence": "medium",
-      "note": "Editorial judgment, not a documented rule: none of the 21 member style records describe a dedicated closet, and this rests on the general architectural-history consensus that the built-in closet becomes routine only after this family's floruit \u2014 but no single source was checked to confirm the absence for every branch.",
+      "note": "Editorial judgment, not a documented rule: none of the 21 member style records describe a dedicated closet, and this rests on the general architectural-history consensus that the built-in closet becomes routine only after this family's floruit — but no single source was checked to confirm the absence for every branch.",
       "status": "drafted"
     },
     "services_strategy": {
       "group": "plan-logic",
       "binding": "specified",
-      "rule": "The family's floruit predates ducted heat, pressurized plumbing, and electrical wiring; the masonry chimney mass \u2014 or, in the adobe, rammed-earth and log branches, the fireplace or corner fog\u00f3n \u2014 is the building's only service run, carrying flues and nothing else. Any mechanical, plumbing, or electrical strategy shown in a design generated from this family is necessarily a later insertion into the historic fabric, not a family-native decision.",
+      "rule": "The family's floruit predates ducted heat, pressurized plumbing, and electrical wiring; the masonry chimney mass — or, in the adobe, rammed-earth and log branches, the fireplace or corner fogón — is the building's only service run, carrying flues and nothing else. Any mechanical, plumbing, or electrical strategy shown in a design generated from this family is necessarily a later insertion into the historic fabric, not a family-native decision.",
       "confidence": "high",
       "status": "drafted"
     },

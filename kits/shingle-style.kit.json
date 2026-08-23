@@ -5,16 +5,47 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "rule_append": "There is no module and no bay system; the design is controlled by keeping one material unbroken over an irregular volume, and by making the roof large and simple enough to gather that volume into one shape.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json proportional_system"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gambrel",
+          "status": "canonical",
+          "note": "The Colonial inheritance."
+        },
+        {
+          "id": "cross-gable",
+          "status": "permitted"
+        },
+        {
+          "id": "catslide",
+          "status": "permitted",
+          "note": "The long rear catslide, taken from seventeenth-century New England to bring the roof to the ground."
+        }
+      ],
+      "rule": "A broad sheltering roof of large simple planes, often gambrel or a long sweeping gable, coming low to the ground; the largest single plane not less than 40 percent of total roof area.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json defining_characteristics, massing_affinities, proportional_system.typical_ratios"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -31,11 +62,32 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "closed-tight-no-brackets",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "eave_overhang_max": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured"
+        },
+        "rake_overhang_max": {
+          "value": 10,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Eave overhang shall not exceed 12 in and rake overhang shall not exceed 10 in, both closed tight to the wall plane with no exposed brackets, rafter tails, or purlin ends.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c02"
+      ],
+      "group": "massing-and-roof"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -52,11 +104,27 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "decorative_butt_max_pct": {
+          "value": 10,
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule": "Shingle exposure is uniform over the entire building; decorative butt patterning, where used at all, shall not exceed 10 percent of total wall area and shall occur only within a single gable field.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c04"
+      ],
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -109,46 +177,87 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "shingle",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "exposure": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "The shingle field shall be continuous across every storey line, corner, and change of plane on all elevations. This single rule is what separates the style from Queen Anne and admits no exceptions.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json defining_characteristics, constraints c01"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No second cladding material may interrupt the continuous shingle field.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c01"
+      ],
+      "group": "envelope"
     },
     "material_change_rule": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The shingle field is continuous across every storey line, corner, and change of plane; the sole permitted material change is a rock-faced masonry base terminating at or below the first-floor sill line.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c01, c05"
+      ],
+      "group": "envelope"
     },
     "foundation_expression": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rock-faced-stone-base",
+          "status": "permitted",
+          "note": "A Richardson-derived signature: the base terminates at or below the first-floor window sill line and is the only material change permitted on the elevation."
+        }
+      ],
+      "rule": "Where a masonry base is used it shall be rock-faced, shall terminate at or below the first-floor window sill line, and shall be the only material change permitted on the elevation.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c05, diagnostic_tells"
+      ],
+      "group": "envelope"
     },
     "water_table": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No water table may interrupt the shingle field.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c01"
+      ],
+      "group": "envelope"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No belt or storey band may interrupt the shingle field.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c01"
+      ],
+      "group": "envelope"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -158,11 +267,14 @@
       "status": "empty"
     },
     "corner_board": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No corner board may interrupt the shingle field; the shingles wrap the corner. A corner board is the single diagnostic tell that moves a building to Queen Anne.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c01, diagnostic_tells"
+      ],
+      "group": "envelope"
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -186,11 +298,14 @@
       "status": "empty"
     },
     "frieze": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No frieze board may interrupt the shingle field.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c01"
+      ],
+      "group": "envelope"
     },
     "parapet": {
       "group": "envelope",
@@ -224,11 +339,23 @@
       "status": "empty"
     },
     "window_lite_pattern": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "lite_pattern": {
+          "set": [
+            "multi-light-over-single-light"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "note": "Multi-light upper sash over single-light lower, a documented late-19th-century pattern."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/shingle-style.json defining_characteristics"
+      ],
+      "group": "openings"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -252,25 +379,77 @@
       "status": "empty"
     },
     "window_surround_wood": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-casing-narrow",
+          "status": "canonical"
+        },
+        {
+          "id": "moulded-architrave",
+          "status": "forbidden",
+          "note": "c03: projecting hoods, crowns, pedimented heads, and moulded sills are prohibited."
+        }
+      ],
+      "parameters": {
+        "width_max": {
+          "value": 3,
+          "unit": "in",
+          "kind": "measured"
+        },
+        "projection_max": {
+          "value": 1,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Window and door casing shall not exceed 3 in in width and shall not project more than 1 in from the shingle plane.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c03"
+      ],
+      "group": "openings"
     },
     "window_sill": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush-in-plane",
+          "status": "canonical"
+        },
+        {
+          "id": "moulded-projecting-sill",
+          "status": "forbidden",
+          "note": "c03."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json constraints c03"
+      ],
+      "group": "openings"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "group_size": {
+          "range": [
+            2,
+            5
+          ],
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "rule": "Horizontal window bands of multiple sash grouped under a single head, separated by long stretches of plain shingle; the rhythm belongs to the openings, not to a structural bay.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json defining_characteristics, proportional_system.bay_rhythm"
+      ],
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -383,11 +562,24 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "recessed-loggia",
+          "status": "canonical"
+        },
+        {
+          "id": "engaged-under-roof",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Porches and loggias read as voids carved out of the volume, not as attached structures.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/shingle-style.json defining_characteristics"
+      ],
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",

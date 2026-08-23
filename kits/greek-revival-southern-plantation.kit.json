@@ -18,10 +18,24 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "greek-revival-southern-plantation proportional_system"
+        },
+        "pitch_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "greek-revival-southern-plantation proportional_system"
+        }
+      },
+      "rule_append": "Lower than the parent style's own 4:12-6:12 band: hipped or low-pedimented, often carrying a belvedere or roof monitor for stack ventilation rather than for view.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -211,17 +225,34 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "floor-length-triple-hung",
+          "status": "canonical",
+          "op": "add",
+          "note": "Diagnostic tell: 'unmistakable from outside by the sill line running down to the deck'. On the gallery elevations the window is a door -- there is no vocabulary variable in this corpus that captures the sash-as-door mechanism itself (see the style's own opening-proportion pack note), so it is recorded here as its own window type instead."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "height_over_width_gallery": {
+          "range": [
+            2.8,
+            3.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "greek-revival-southern-plantation proportional_system: 'window opening 1:2.8 to 1:3.5 width to height where floor-length'"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -384,24 +415,58 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "full-width-porch",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Promoted to canonical: the colossal colonnade runs the full width of the principal facade and frequently all four sides."
+        },
+        {
+          "id": "wrap-around-porch",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Overrides the parent style's own forbidding of this id -- the parent's own note anticipates the override by name: 'a Northern Greek Revival house never wraps its colonnade (see greek-revival-southern-plantation for the variant that does, on different grounds)'. Here the wrap is peripteral shading, not Queen Anne picturesque massing."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "gallery_depth_ft": {
+          "range": [
+            8,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "greek-revival-southern-plantation constraint c02 / proportional_system"
+        }
+      },
+      "rule": "Gallery depth minimum 8 ft, 10-12 typical (hard constraint c02), sufficient to shade the full window height at the summer solstice; a colonnade shallower than 8 ft is ornament, not a climate device, and the plan behind it must then be re-justified.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "spacing_ft": {
+          "range": [
+            9,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "greek-revival-southern-plantation typical_ratios: 'column spacing 9-14 feet on centre'"
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium"
     },
     "porch_rail": {
       "group": "threshold",
@@ -433,10 +498,27 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "ground_floor_min_in": {
+          "value": 144,
+          "unit": "in",
+          "kind": "measured",
+          "source": "greek-revival-southern-plantation constraint c03 (hard, tested)"
+        },
+        "upper_floor_range_ft": {
+          "range": [
+            11,
+            13
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "greek-revival-southern-plantation proportional_system typical_ratios"
+        }
+      },
+      "rule_append": "Principal-floor ceiling 12 ft minimum (hard constraint c03), 12-14 ft typical; upper floor 11-13 ft. Height is functional, not decorative: the extra volume keeps the heat that accumulates during the day above head height while the cross-passage and floor-length openings move air below it.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "trim_family": {
       "group": "interior",
@@ -573,17 +655,25 @@
     },
     "service_zone_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Kitchen and service functions belong in detached dependencies or a rear ell, never in the main block (constraint c05); this is the same detached-service diagram inherited from southern-federal, unchanged by the colonnade. The scale this type displays -- the colossal colonnade, the twelve-to-fourteen-foot ceilings, the acreage of trim -- was built on cotton and sugar wealth and on the labour of enslaved people between 1830 and 1861; the servants and enslaved workers who ran the house moved along back stairs and detached dependencies kept out of the principal sightlines by the same plan logic that hides the kitchen. Any reconstruction of this variant should record that history in its documentation rather than let the detached-service convention read as mere architectural tidiness.",
+      "judgment": true,
+      "status": "drafted",
+      "confidence": "high"
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical",
+          "op": "add",
+          "note": "The style's own massing_affinities note the four-over-four main block is 'frequently thinned to single-pile for ventilation': rooms one deep on both sides of the through-passage so every principal room has openings on opposite walls (constraint c03's cross-ventilation clause). Added alongside the inherited double-pile four-over-four rather than replacing it, since both are attested exemplars (Oak Alley's core is closer to double-pile, Rosedown and the dogtrot-derived Gaineswood are thinner)."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "daylight_strategy": {
       "group": "plan-logic",

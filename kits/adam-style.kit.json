@@ -180,10 +180,10 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Thinned by roughly a third from mid-Georgian section and projecting at about 0.6 of Palladian practice at the same room height (hard constraint c03, proportional_system) -- the retained Georgian cornice, cut back rather than replaced in type.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "frieze": {
       "group": "envelope",
@@ -194,10 +194,25 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-parapet",
+          "status": "canonical",
+          "note": "Adam's exteriors are 'frequently a Georgian elevation with the mouldings thinned' (description, long) -- a plain, near-unornamented parapet concealing the roof, not the urn-and-statuary-loaded Baroque skyline this slot would otherwise inherit from the sibling english-baroque node."
+        },
+        {
+          "id": "statuary-loaded-parapet",
+          "status": "forbidden",
+          "note": "The Baroque device this style's whole design programme reacted against; no exemplar in this node's own list carries one."
+        }
+      ],
+      "rule": "A plain parapet conceals the roof, exactly as in the retained Georgian shell -- Adam puts nearly all its design intelligence indoors and leaves the roofline correspondingly unremarkable (description, long: 'this is a style that put nearly all of its intelligence indoors').",
+      "sources": [
+        "adam-style style node, description (long)"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "rainwater": {
       "group": "envelope",
@@ -232,10 +247,25 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "shallow-relieving-arch",
+          "status": "canonical",
+          "note": "'A shallow blind relieving arch linking the first-floor windows' (diagnostic_tells) -- a flat, understated linking device, replacing the exaggerated, boldly keyed segmental arch this slot would otherwise inherit from the sibling english-baroque node, which is precisely the wrong register for a style whose whole exterior programme is thinning."
+        },
+        {
+          "id": "flat-arch-gauged-brick",
+          "status": "permitted",
+          "note": "The ordinary retained-Georgian head, where no relieving arch links the storey."
+        }
+      ],
+      "rule": "A shallow, flat, understated head -- at most a blind relieving arch linking a run of first-floor windows -- never the deep, boldly keyed segmental arch of the Baroque generation this style's own exteriors otherwise resemble.",
+      "sources": [
+        "adam-style style node, diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "medium"
     },
     "window_head_wood": {
       "group": "openings",
@@ -295,17 +325,40 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "attenuated-doorcase-with-fanlight",
+          "status": "canonical",
+          "op": "add",
+          "note": "The single fastest exterior tell: a radiating spider-web fanlight over a six-panel door, 'far more elaborate and much thinner in section than a mid-Georgian fan' (diagnostic_tells), set in an otherwise restrained, thinned Georgian surround."
+        }
+      ],
+      "rule_append": "Crowned, on canonical work, by a radiating spider-web fanlight in fine lead or wrought iron -- thinner in section than any earlier fan -- which is very often the only classical apparatus on an otherwise plain exterior.",
+      "status": "drafted",
+      "confidence": "high"
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "radiating-fanlight",
+          "status": "canonical",
+          "note": "'A radiating spider-web fanlight in fine lead or wrought iron over a six-panel door, far more elaborate and much thinner in section than a mid-Georgian fan' -- named directly as this style's single fastest diagnostic tell."
+        },
+        {
+          "id": "elliptical-fanlight",
+          "status": "permitted",
+          "note": "The broader elliptical form, less diagnostic than the full radiating pattern but common on the same doorcases."
+        }
+      ],
+      "rule": "The fanlight is radiating and fine-sectioned, not the plainer or more solid mid-Georgian fan it replaces -- ironwork and lead as delicate as the plasterwork inside.",
+      "sources": [
+        "adam-style style node, defining_characteristics, diagnostic_tells"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "secondary_door": {
       "group": "openings",
@@ -328,24 +381,92 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "ionic",
+          "status": "canonical",
+          "note": "The lighter of the two orders Adam's own screens and porticoes favour -- Syon's Ante-Room, among this node's own exemplars."
+        },
+        {
+          "id": "corinthian",
+          "status": "permitted",
+          "note": "The order of the grandest rooms -- Kedleston's alabaster-columned Marble Hall, per this node's own exemplars -- bound secondary because the preface treats richness as the exception, not the default register."
+        },
+        {
+          "id": "giant-order",
+          "status": "forbidden",
+          "note": "Not this style's own device -- Adam remodels the retained Georgian/Palladian shell rather than replacing it with a Baroque colossal order, and inherits english-palladian's own prohibition against it for the same underlying reason."
+        }
+      ],
+      "parameters": {
+        "attenuation_diameters": {
+          "range": [
+            10,
+            11
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "adam-style proportional_system typical_ratios: 'Columns attenuated to 10-11 diameters where the canonical Ionic is 9 and Corinthian 9.5-10'"
+        },
+        "authority": {
+          "value": "Chambers's Treatise on Civil Architecture (1759) as the retained shell baseline -- Adam's own professional generation and rival, both teaching proportion in London in the 1760s-70s -- with the 10-11 diameter attenuation a stated delta on top of it, not a member of any pack in this corpus",
+          "unit": "none",
+          "kind": "measured",
+          "source": "adam-style style node, proportion_packs (chambers-ionic note)"
+        }
+      },
+      "rule": "The order is Georgian/Chambers proportion, deliberately thinned -- columns drawn a full diameter or more beyond any published treatise's canonical figure, so that the shaft reads as pattern and drawing rather than as load-bearing mass. There is no dedicated Adam order pack in this corpus; the attenuation is carried as this node's own stated ratio on top of the Chambers baseline.",
+      "sources": [
+        "adam-style style node, proportional_system, proportion_packs"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_diameters": {
+          "range": [
+            10,
+            11
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "adam-style proportional_system typical_ratios"
+        }
+      },
+      "rule": "Attenuated 10-11 diameters against the canonical Ionic 9 and Corinthian 9.5-10 -- the single most measurable expression of the thinning this style applies to every retained Georgian and Palladian member.",
+      "sources": [
+        "adam-style style node, proportional_system"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "cornice_projection_ratio_of_palladian": {
+          "value": 0.6,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "adam-style proportional_system typical_ratios: 'cornice projection reduced to roughly 0.6 of Palladian practice at the same room height'"
+        },
+        "profile_reduction_fraction": {
+          "value": 0.33,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "adam-style constraint c03 (hard): 'cornice and architrave profiles reduced by roughly a third from mid-Georgian section'"
+        }
+      },
+      "rule": "Adam is Georgian thinned; if it is not thinner it is not Adam (hard constraint c03). Cornice projection runs at roughly 0.6 of Palladian practice at the same room height, and cornice and architrave sections are cut back by about a third from mid-Georgian norms.",
+      "sources": [
+        "adam-style style node, proportional_system, constraint c03"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -356,17 +477,38 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "attenuated-column-screen",
+          "status": "canonical",
+          "note": "'A screen of two or four attenuated columns across the end of a room, defining a recess that is neither a separate room nor part of the main volume' (diagnostic_tells) -- the interior device this style actually reaches for, unlike Palladian's exterior-only piano-nobile window aedicule, which this style does not use at all: Adam's exteriors are frequently a plain thinned Georgian elevation with almost no applied pilaster order."
+        }
+      ],
+      "parameters": {
+        "relief_projection_mm": {
+          "range": [
+            5,
+            15
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "adam-style proportional_system typical_ratios: 'ornament relief depth 5-15 mm'"
+        }
+      },
+      "rule": "Where the pilaster or engaged column appears at all, it is far more often the interior screen dividing a shaped room than an exterior order -- overriding the inherited Palladian piano-nobile window aedicule, which is a different device this style does not use.",
+      "sources": [
+        "adam-style style node, diagnostic_tells, description (long)"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Where a modillion or dentil cornice is retained from the remodelled shell it is drawn to the same roughly one-third profile reduction as every other moulding on this style (hard constraint c03) -- this style thins the inherited feature rather than replacing its type.",
+      "status": "drafted",
+      "confidence": "medium"
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -377,10 +519,42 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "adam-grotesque-repertoire",
+          "status": "canonical",
+          "note": "'Fans, paterae, husk swags, anthemion, urns, sphinxes and arabesque grotesques' in very low relief, drawn rather than modelled (defining_characteristics) -- the small, endlessly recombined vocabulary that is this style's actual signature, replacing both the Palladian licensed-points-only rule and the Baroque sculpted-skyline vocabulary this slot would otherwise inherit."
+        },
+        {
+          "id": "polychromy",
+          "status": "canonical",
+          "note": "Ornament picked out in pale green, lilac, rose, straw and terracotta against white or off-white ground (defining_characteristics) -- replacing the white-and-gold or plain plaster of the Palladian generation."
+        },
+        {
+          "id": "coade-stone-panel",
+          "status": "permitted",
+          "note": "The exterior signature: 'a shallow blind relieving arch linking the first-floor windows and a Coade stone panel or plaque' on an otherwise near-plain Georgian elevation (diagnostic_tells)."
+        }
+      ],
+      "parameters": {
+        "relief_depth_mm": {
+          "range": [
+            5,
+            15
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "adam-style proportional_system typical_ratios",
+          "note": "Hard-capped at 20 mm by constraint c01."
+        }
+      },
+      "rule": "A small, endlessly recombined vocabulary in very low relief -- 5 to 15 mm, never exceeding 20 mm (hard constraint c01) -- drawn in pattern rather than modelled in shadow, and polychromed rather than left white. Ceiling, carpet, chimneypiece, furniture, mirrors and metalwork share one vocabulary in a single principal room (hard constraint c02).",
+      "sources": [
+        "adam-style style node, defining_characteristics, constraints c01, c02"
+      ],
+      "status": "drafted",
+      "confidence": "high"
     },
     "porch_type": {
       "group": "threshold",
@@ -440,10 +614,10 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "At this style's own point on the family's shared trim tradition the profiles are 'thinned further and flattened into low-relief pattern' -- the family's own text names Adam directly as the register between core Georgian's thinning and Regency's near-total deletion, drawn rather than modelled, 5-15 mm deep and never past 20 (hard constraint c01).",
+      "status": "drafted",
+      "confidence": "high"
     },
     "baseboard": {
       "group": "interior",

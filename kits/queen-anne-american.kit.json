@@ -5,23 +5,82 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "op": "add",
+          "note": "The style's own proportional_system.symmetry, verbatim."
+        }
+      ],
+      "rule_append": "One mass shall dominate the composition, exceeding every other mass by at least 50 percent in either height above eave or plan area (c01); a composition of equal masses is Stick Style or an incoherent accumulation, not Queen Anne.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json proportional_system, constraints c01"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cross-gable",
+          "status": "canonical"
+        },
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Especially in combination with a corner tower."
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted"
+        },
+        {
+          "id": "side-gable",
+          "status": "forbidden",
+          "note": "c05: a simple rectangular hip or gable with applied ornament is Folk Victorian, not Queen Anne."
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Same reasoning as side-gable: a simple rectangular ridge is the Folk Victorian case."
+        }
+      ],
+      "rule": "A complex, non-rectangular ridge with at least one front-facing gable; the ridge shape is itself diagnostic against Folk Victorian's simple rectangle or L.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json defining_characteristics, constraints c05"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical_range": {
+          "range": [
+            9,
+            14
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Principal roof pitch 9:12 or greater; where a tower is present its own roof is pitched steeper than the main roof.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json proportional_system.typical_ratios, constraints c05"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -52,11 +111,33 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cut-shingle-fishscale",
+          "status": "canonical"
+        },
+        {
+          "id": "cut-shingle-diamond",
+          "status": "canonical"
+        },
+        {
+          "id": "cut-shingle-sawtooth",
+          "status": "permitted"
+        },
+        {
+          "id": "half-timbered-panel",
+          "status": "permitted",
+          "note": "Arrives via the Stick Style applied board grid (lineage note); a real transmission, not a fresh invention."
+        }
+      ],
+      "rule": "Cut shingles in fish-scale, diamond, or sawtooth patterning fill at least one principal gable above the clapboarded wall.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json diagnostic_tells, defining_characteristics"
+      ],
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -109,25 +190,52 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clapboard",
+          "status": "canonical",
+          "note": "The lower zone, below the texture-change band."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "permitted"
+        }
+      ],
+      "rule": "At least two distinct wall textures appear on each principal elevation, changing at a horizontal belt course, water table, or storey line; a texture change at a vertical joint or mid-panel is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json constraints c02"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cut-shingle",
+          "status": "canonical",
+          "note": "The upper zone: clapboard below and cut shingle above is the style's own stated default pattern."
+        }
+      ],
+      "rule": "The second texture required by c02, applied above the belt/storey line that terminates the primary cladding.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json description.long, constraints c02"
+      ],
+      "group": "envelope"
     },
     "material_change_rule": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Not fewer than two distinct wall textures shall appear on each principal elevation, and each texture change shall occur at a horizontal belt course, water table, or storey line. A texture change at a vertical joint or mid-panel is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json constraints c02"
+      ],
+      "group": "envelope"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -144,11 +252,25 @@
       "status": "empty"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "position_pct_wall_height": {
+          "range": [
+            60,
+            75
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Where the texture change occurs, measured from grade."
+        }
+      },
+      "rule": "The belt course (or second-floor line) that carries the required texture change sits at 60-75 percent of overall wall height.",
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/queen-anne-american.json proportional_system.typical_ratios"
+      ],
+      "group": "envelope"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -224,11 +346,25 @@
       "status": "empty"
     },
     "window_lite_pattern": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "lite_pattern": {
+          "set": [
+            "queen-anne-margin",
+            "1/1",
+            "2/2"
+          ],
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Windows frequently carry a single large pane bordered by small coloured panes, a Shaw device transmitted intact; plain 1/1 or 2/2 sash elsewhere.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json diagnostic_tells"
+      ],
+      "group": "openings"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -280,11 +416,40 @@
       "status": "empty"
     },
     "special_window": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "bay",
+          "status": "canonical"
+        },
+        {
+          "id": "oriel",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "projection": {
+          "range": [
+            18,
+            42
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "projection_min": {
+          "value": 18,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c04 hard floor: a flat unbroken principal elevation fails the style."
+        }
+      },
+      "rule": "Every principal elevation shall carry at least one projection of not less than 18 in: a bay, oriel, tower, or projecting gable.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json constraints c04, proportional_system.typical_ratios"
+      ],
+      "group": "openings"
     },
     "entry_door": {
       "group": "openings",
@@ -383,18 +548,59 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wrap-around",
+          "status": "canonical"
+        },
+        {
+          "id": "full-width",
+          "status": "permitted"
+        },
+        {
+          "id": "entry-portico",
+          "status": "forbidden",
+          "note": "The porch is a wrapping, connective element, not a portico (description.long)."
+        }
+      ],
+      "rule": "A porch wraps at least one corner, one storey high and of substantial depth; not less than 7 ft deep, continuing not less than 8 ft along the returning elevation.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json constraints c03, description.long"
+      ],
+      "group": "threshold"
     },
     "porch_depth": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_min": {
+          "value": 7,
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "depth_typical_range": {
+          "range": [
+            7,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "wrap_min_run": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Minimum continuation along the returning elevation past the corner."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json constraints c03, proportional_system.typical_ratios"
+      ],
+      "group": "threshold"
     },
     "porch_support": {
       "group": "threshold",
@@ -537,11 +743,21 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "living-hall",
+          "status": "canonical",
+          "note": "The style's own real innovation, more consequential to what followed it than the ornament: a large room containing the fireplace and stair, opening through wide cased openings into parlour and dining room, so the ground floor reads as continuous flowing space."
+        }
+      ],
+      "rule": "A living hall containing the fireplace and stair organises the plan, opening through wide cased openings into the principal rooms rather than a corridor with rooms off it.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-american.json defining_characteristics, description.long"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",

@@ -5,23 +5,62 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "op": "add"
+        }
+      ],
+      "rule_append": "No single mass shall exceed any other by more than 30 percent in height or plan area (c05, soft): Stick Style composition is a balance of comparable gables, not a dominant-mass hierarchy; a dominant mass produces a Queen Anne house instead.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json proportional_system, constraints c05"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cross-gable",
+          "status": "canonical"
+        },
+        {
+          "id": "gable-front-and-wing",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Steep gabled roofs with prominent cross gables and a vigorous irregular silhouette, composed of masses of comparable weight rather than one dominant volume.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json defining_characteristics, massing_affinities"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "14:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json proportional_system.typical_ratios"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -31,11 +70,44 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exposed-bracket-or-rafter-tail",
+          "status": "canonical"
+        },
+        {
+          "id": "boxed-no-support",
+          "status": "forbidden",
+          "note": "A boxed eave with no visible support contradicts the style's entire premise (c04)."
+        }
+      ],
+      "parameters": {
+        "overhang": {
+          "range": [
+            18,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "bracket_spacing": {
+          "range": [
+            24,
+            48
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "On centre."
+        }
+      },
+      "rule": "Deep overhanging eaves on exposed brackets, purlins, or rafter tails.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json defining_characteristics, constraints c04"
+      ],
+      "group": "massing-and-roof"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -52,11 +124,20 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "applied-king-post-truss",
+          "status": "canonical"
+        }
+      ],
+      "rule": "A gable truss or king-post ornament in every principal gable, applied rather than structural: diagonals forming a truss that carries nothing is the single most reliable tell of the style.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json defining_characteristics, diagnostic_tells"
+      ],
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -109,11 +190,25 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "clapboard",
+          "status": "canonical",
+          "note": "The infill within the stick panels."
+        },
+        {
+          "id": "shingle",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Wall surface subdivided into panels by the stickwork, with clapboard or shingle infill; texture changes only at a stick band.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json defining_characteristics"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -123,11 +218,14 @@
       "status": "empty"
     },
     "material_change_rule": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Wall cladding shall change texture only at a stickwork band, and not more than two textures may occur on any one elevation. A texture change in the middle of a panel field is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json constraints c03"
+      ],
+      "group": "envelope"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -144,11 +242,39 @@
       "status": "empty"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stick-band-horizontal",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "stock_width": {
+          "range": [
+            3.5,
+            5.5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Actual dressed dimension of 1x4 to 1x6 nominal stock."
+        },
+        "projection": {
+          "range": [
+            0.75,
+            1
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "A horizontal stickwork band at every floor line and at the eave, running continuous and unbroken around the building.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json constraints c01, c02"
+      ],
+      "group": "envelope"
     },
     "corner_quoin": {
       "group": "envelope",
@@ -158,11 +284,38 @@
       "status": "empty"
     },
     "corner_board": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stick-band-vertical",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "stock_width": {
+          "range": [
+            3.5,
+            5.5
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "projection": {
+          "range": [
+            0.75,
+            1
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Vertical stickwork members at every corner and at each side of every opening group; stickwork applied to the principal elevation only is prohibited.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json constraints c01, c02"
+      ],
+      "group": "envelope"
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -397,18 +550,71 @@
       "status": "empty"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "post-and-diagonal-brace",
+          "status": "canonical"
+        },
+        {
+          "id": "turned-post",
+          "status": "forbidden",
+          "note": "No turned spindles anywhere in the stickwork; a turned member moves the building to Queen Anne."
+        }
+      ],
+      "parameters": {
+        "post_size_nominal": {
+          "set": [
+            "5x5",
+            "6x6",
+            "7x7",
+            "8x8"
+          ],
+          "unit": "none",
+          "kind": "measured"
+        },
+        "brace_angle": {
+          "value": 45,
+          "unit": "deg",
+          "kind": "measured"
+        },
+        "brace_length_ratio": {
+          "range": [
+            0.3,
+            0.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Of post height."
+        }
+      },
+      "rule": "Porches and verandas built as visible frames of posts, diagonal braces, and open rails rather than as trabeated classical structures. Entirely rectilinear: no turned spindles, no scrolled brackets, no curved members anywhere.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/stick-style.json defining_characteristics, proportional_system.typical_ratios, diagnostic_tells"
+      ],
+      "group": "threshold"
     },
     "porch_rail": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "open-rail-straight-baluster",
+          "status": "canonical"
+        },
+        {
+          "id": "turned-baluster",
+          "status": "forbidden",
+          "note": "Straight lines only; a curved or turned member moves the building to Queen Anne."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "sources": [
+        "styles/stick-style.json diagnostic_tells"
+      ],
+      "group": "threshold"
     },
     "porch_ceiling": {
       "group": "threshold",

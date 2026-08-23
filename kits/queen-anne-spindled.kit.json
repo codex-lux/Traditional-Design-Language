@@ -52,11 +52,21 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "min_coverage_pct": {
+          "value": 60,
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "Not fewer than one principal gable shall be filled with patterned cut shingles over not less than 60 percent of its field, with the texture change from the wall below occurring at a belt course or storey line.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-spindled.json constraints c03"
+      ],
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -280,11 +290,21 @@
       "status": "empty"
     },
     "special_window": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "palladian",
+          "status": "forbidden",
+          "op": "add",
+          "note": "c02: a Palladian or Venetian window places the building in the free classic subtype."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-spindled.json constraints c02"
+      ],
+      "group": "openings"
     },
     "entry_door": {
       "group": "openings",
@@ -327,25 +347,36 @@
       "status": "empty"
     },
     "order": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No column with entasis or classical capital anywhere on the building; the porch order is lathe-turned, not classical.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-spindled.json constraints c02"
+      ],
+      "group": "classical-apparatus"
     },
     "column": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No classical, entasis-bearing column. Any column present is turned, not proportioned to an order.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-spindled.json constraints c02"
+      ],
+      "group": "classical-apparatus"
     },
     "entablature": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No entablature; classical elements generally are prohibited on this subtype (c02).",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "c02 names column, cornice and Palladian window explicitly; entablature is not separately named and this extends that reading by inference from 'classical elements are prohibited.'",
+      "sources": [
+        "styles/queen-anne-spindled.json constraints c02"
+      ],
+      "group": "classical-apparatus"
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -362,11 +393,14 @@
       "status": "empty"
     },
     "modillion_dentil": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No dentil or modillion cornice anywhere on the building. Any of these places the building in the free classic subtype instead.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-spindled.json constraints c02"
+      ],
+      "group": "classical-apparatus"
     },
     "balustrade": {
       "group": "classical-apparatus",
@@ -397,18 +431,101 @@
       "status": "empty"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "turned-post",
+          "status": "canonical"
+        },
+        {
+          "id": "classical-column",
+          "status": "forbidden",
+          "note": "c02: any column with entasis or a classical capital places the building in the free classic subtype."
+        }
+      ],
+      "parameters": {
+        "post_swell_diameter": {
+          "range": [
+            5,
+            8
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "post_spacing": {
+          "range": [
+            6,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "On centre."
+        },
+        "bracket_diagonal": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "c05: at the head of every post, on both faces at corners."
+        }
+      },
+      "rule": "Turned porch posts with a pronounced swell, with a sawn bracket or knee brace at the head of every post.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-spindled.json defining_characteristics, proportional_system.typical_ratios, constraints c02, c05"
+      ],
+      "group": "threshold"
     },
     "porch_rail": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "turned-baluster",
+          "status": "canonical"
+        },
+        {
+          "id": "solid-pedestal-balustrade",
+          "status": "forbidden",
+          "note": "c02: classical elements, including a solid classical balustrade, place the building in the free classic subtype."
+        }
+      ],
+      "parameters": {
+        "spindle_diameter": {
+          "range": [
+            1.5,
+            2.5
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "spindle_spacing": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "On centre."
+        },
+        "frieze_depth": {
+          "range": [
+            10,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "A spindle frieze or pierced valance runs the porch's full length, with a second turned spindle band frequently at the rail; one turned profile is used for all posts and one for all balusters on the building.",
+      "status": "drafted",
+      "confidence": "high",
+      "sources": [
+        "styles/queen-anne-spindled.json defining_characteristics, proportional_system.typical_ratios, constraints c01, c04"
+      ],
+      "group": "threshold"
     },
     "porch_ceiling": {
       "group": "threshold",

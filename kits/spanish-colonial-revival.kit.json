@@ -6,22 +6,82 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "op": "add",
+          "note": "The style's own proportional_system states this directly: bay_rhythm is 'deliberately irregular... any regular repeating bay rhythm pushes the building toward Mediterranean Revival.'"
+        },
+        {
+          "id": "strict-bilateral",
+          "status": "forbidden",
+          "op": "add",
+          "note": "An axial symmetrical block is exactly what distinguished_from names as the move toward mediterranean-revival instead."
+        }
+      ],
+      "note": "eclectic-revivals leaves symmetry class to each member; this is Spanish Colonial Revival's own, sourced from its own proportional_system.symmetry field.",
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical"
+        },
+        {
+          "id": "cross-gable",
+          "status": "canonical",
+          "note": "Gables and hips mixed freely -- defining_characteristics: roof 'broken into multiple planes at multiple heights ... describing an accreted, asymmetrical mass.'"
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "A single uniform gable-fronted form contradicts the required multi-plane, varied-height roof (c01), and also reads as mission-revival's uniform roofline, which diagnostic_tells names as the opposite case."
+        }
+      ],
+      "rule": "Adjacent roof planes on the primary elevation must differ in eave or ridge height by not less than 2'0\" (c01); a single uniform roof line voids the style.",
+      "confidence": "high",
+      "note": "Overrides the family's inherited single front-gable answer (germanic-vernacular), which describes a unified gabled silhouette this style's own hard constraint explicitly forbids.",
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "editorial"
+        },
+        "eave_overhang_max": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "note": "c01: not exceeding 12 in, with no exposed dimensional rafter tails."
+        }
+      },
+      "rule": "Roof pitch 3:12 to 5:12 in clay barrel or mission tile, eave overhang not exceeding 12 in, no exposed rafter tails.",
+      "confidence": "high",
+      "note": "Specified rather than extends: the inherited family default (british-picturesque, minimum 45 degrees = 12:12, for the family's steep-roofed Gothic/Baronial/Queen-Anne wing) is roughly three times this style's own maximum pitch -- not a number to refine but a different roof entirely.",
+      "status": "drafted"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +92,18 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "overhang_max": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Eave overhang minimal, not exceeding 12 in, with a closed or plastered edge and no exposed rafter tails -- the opposite of mission-revival's wide overhang on exposed tails (24-42 in), which diagnostic_tells names as the test that separates the two.",
+      "confidence": "high",
+      "note": "Overrides the inherited mediterranean-vernacular bracket eave (600-1200 mm on paired modiglioni), a genuinely different, much larger overhang drawn from the Italian villa vernacular rather than this style's own Spanish/Latin sources.",
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -53,10 +121,22 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flush",
+          "status": "canonical",
+          "note": "A plain stuccoed gable end, tile-coped where a coping occurs, consistent with the style's own blank-wall-plus-concentrated-ornament logic (c03)."
+        },
+        {
+          "id": "parapeted",
+          "status": "forbidden",
+          "note": "diagnostic_tells: 'No curvilinear shaped parapet. If there is one, the building is Mission Revival, or a hybrid.'"
+        }
+      ],
+      "rule": "The gable is plain stuccoed wall, never a curvilinear or scalloped shaped parapet -- that silhouette belongs to mission-revival.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -95,8 +175,31 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "platform-frame",
+          "status": "canonical",
+          "note": "distinguished_from spanish-colonial-american states plainly: 'the revival is stucco over wood frame.'"
+        },
+        {
+          "id": "balloon-frame",
+          "status": "permitted"
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted",
+          "note": "The grandest estate examples -- Casa del Herrero."
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "atypical"
+        }
+      ],
+      "rule": "Wood frame carrying an applied stucco skin over expressed lath is the ordinary case; the style's mass is read, not structural, except on the grandest estate work.",
+      "confidence": "high",
+      "note": "Overrides the inherited victorian-sourced solid-masonry answer, which is the wrong construction logic for a stucco-skinned frame wall.",
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +213,28 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stucco",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "forbidden",
+          "note": "The family's inherited brick answer (english-georgian) belongs to the classical wing, not this one."
+        }
+      ],
+      "parameters": {
+        "colour_range": {
+          "value": "off-white to warm earth tones",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Stucco wall of expressed mass, off-white to warm earth tones, is the style's whole surface.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -173,17 +294,45 @@
     },
     "reveal_frame": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "reveal": {
+          "range": [
+            6,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Hard constraint c02."
+        },
+        "jamb_finish": {
+          "value": "returned or splayed in stucco, no applied wood casing",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Wall thickness must be expressed at every opening with a minimum 6 in reveal from stucco face to frame; flush windows in a thin stucco skin void the style (c02).",
+      "confidence": "high",
+      "note": "Overrides the inherited georgian-colonial-american brick reveal figures, which describe a masonry wall's assembly rather than a stuccoed frame wall's returned jamb.",
+      "status": "drafted"
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-boxed",
+          "status": "permitted"
+        },
+        {
+          "id": "modillion-cornice",
+          "status": "forbidden",
+          "note": "diagnostic_tells: cornices and eaves are 'minimal or absent... never the modillioned overhang of Italian Renaissance Revival.'"
+        }
+      ],
+      "rule": "Where a cornice occurs at all it is a simple plastered or moulded band, minimal or absent -- never a classical modillioned overhang.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -253,10 +402,21 @@
     },
     "window_surround_wood": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none-opening-cut-in-the-mass",
+          "status": "canonical"
+        },
+        {
+          "id": "flat-architrave-with-crown",
+          "status": "forbidden",
+          "note": "The inherited Georgian wood architrave is exactly the 'applied wood casing' this style's own hard constraint c02 forbids."
+        }
+      ],
+      "rule": "No applied wood casing anywhere; the opening's expression is the returned stucco jamb and, at principal openings, the arch (see reveal_frame).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "window_sill": {
       "group": "openings",
@@ -295,10 +455,31 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gibbs-surround",
+          "status": "forbidden",
+          "note": "No classical order governs this style's ornament; the entrance quotes Spanish Baroque/Churrigueresque relief, not Gibbs."
+        }
+      ],
+      "parameters": {
+        "min_blank_wall_each_side": {
+          "value": 12,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Hard constraint c03."
+        },
+        "max_elevations_ornamented": {
+          "value": 2,
+          "unit": "count",
+          "kind": "measured",
+          "note": "c03: not more than two elevations may carry worked ornament."
+        }
+      },
+      "rule": "The principal entrance surround -- carved, cast or moulded, often Churrigueresque -- must be the single most elaborate element on the building, with a minimum 12 ft run of unornamented wall on each side (c03).",
+      "confidence": "high",
+      "status": "drafted"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +497,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-behind-courtyard-wall",
+          "status": "canonical",
+          "note": "The courtyard-organised plan already has a natural place for the car: behind the patio wall, off the street elevation entirely, consistent with the style's own blank-street-wall-plus-concentrated-entry-ornament logic (c03)."
+        },
+        {
+          "id": "attached-flush-facing-street",
+          "status": "forbidden",
+          "note": "A garage door on the principal street elevation is itself an unornamented opening that competes with the single-most-elaborate-element rule (c03) and can break the required blank wall run on at least one side of the entrance."
+        }
+      ],
+      "rule": "No traditional precedent exists; the courtyard organisation gives this style a natural place to hide the car that the family's classical wing does not have.",
+      "invented": true,
+      "confidence": "medium",
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +578,31 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "recessed-loggia",
+          "status": "canonical",
+          "note": "massing_affinities names courtyard-u as canonical: 'an L or U of ranges around a patio.'"
+        },
+        {
+          "id": "engaged-under-roof",
+          "status": "permitted"
+        },
+        {
+          "id": "stoop-only",
+          "status": "forbidden",
+          "note": "The Georgian stoop-only answer this slot would otherwise inherit has no outdoor-room logic at all, which is the style's own organising idea."
+        },
+        {
+          "id": "full-width",
+          "status": "forbidden",
+          "note": "A single continuous porch reads as one regular datum, against the style's own irregular, clustered bay_rhythm."
+        }
+      ],
+      "rule": "The threshold opens onto a patio or courtyard through a loggia, not a portico or a stoop; asymmetrical massing organises around at least one outdoor room.",
+      "confidence": "high",
+      "status": "drafted"
     },
     "porch_depth": {
       "group": "threshold",
