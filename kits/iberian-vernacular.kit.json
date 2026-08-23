@@ -1,0 +1,634 @@
+{
+  "style": "iberian-vernacular",
+  "style_name": "Iberian Vernacular",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "pitch": {
+          "range": [
+            20,
+            30
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular typical_ratios"
+        }
+      },
+      "rule": "Where the tile-roofed condition applies, canal tile at 20-30 degrees; the alternative is a flat azotea terrace. No deep projecting eave is used on either — shading is done by the court, not by the roof.",
+      "confidence": "high"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "note": "Brick or rubble."
+        },
+        {
+          "id": "rammed-earth",
+          "status": "permitted",
+          "note": "Tapia, the third of the three materials the style names."
+        }
+      ],
+      "rule": "Massive load-bearing wall — brick, rubble or tapia — never a framed alternative.",
+      "confidence": "high",
+      "note": "andalusian-courtyard-vernacular.c02: 'Walls 500-700 mm of brick, rubble or tapia, lime-rendered and limewashed.'"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "thickness": {
+          "range": [
+            19.7,
+            27.6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular.c02",
+          "note": "500-700mm converted to inches."
+        }
+      },
+      "rule": "Wall 20-28 in (500-700 mm) thick, giving the thermal lag the passive-cooling strategy depends on.",
+      "confidence": "high"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "stucco",
+          "status": "canonical",
+          "note": "Lime render, limewashed annually — 'cal', renewed by every household every spring."
+        },
+        {
+          "id": "cement-stucco",
+          "status": "forbidden",
+          "note": "Cement render is explicitly prohibited: it traps moisture in a mass wall and destroys both the wall and the vapour-open behaviour the whitewash provides (c02, hard)."
+        }
+      ],
+      "parameters": {
+        "solar_reflectance": {
+          "value": 80,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular description",
+          "note": "'It reflects roughly eighty per cent of incident solar radiation, it is vapour-open so the wall can dry, and it is mildly antiseptic.'"
+        }
+      },
+      "rule": "Lime plaster, limewashed white and renewed annually, is mandatory — a performance layer before it is an aesthetic. Cement render is a hard prohibition, not a variant.",
+      "confidence": "high"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Whitewash (cal) over every surface including the wall base, with an optional coloured skirting band at the base — ochre or blue is typical — 800-1000 mm high.",
+      "parameters": {
+        "skirt_band_height": {
+          "range": [
+            31.5,
+            39.4
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular diagnostic_tells",
+          "note": "800-1000mm converted to inches."
+        }
+      },
+      "confidence": "high"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Street-facing openings are small, high, and under about 8 percent of the street wall area; the house's real glazing faces the court. A room has a door to the court and a small high window to the street, and no other openings.",
+      "parameters": {
+        "street_wall_glazing_max_pct": {
+          "value": 8,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular typical_ratios"
+        }
+      },
+      "confidence": "high"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "wrought-iron-reja",
+          "status": "canonical",
+          "note": "A grille, not a shutter in the operable sense — projects from the wall face so a person can lean out without opening anything."
+        }
+      ],
+      "rule": "Street windows are protected by a wrought-iron grille (reja) that bows outward from the wall face rather than sitting flush; this is the type's substitute for an operable shutter on the street elevation.",
+      "confidence": "high"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "zaguan-street-door",
+          "status": "canonical",
+          "note": "A single heavy door at the street, opening into the covered zaguan passage."
+        }
+      ],
+      "rule": "One controlled entry only: a heavy street door opening into a covered passage (the zaguan). A second street entrance, or a court entered directly off the pavement, breaks the type.",
+      "confidence": "high",
+      "note": "andalusian-courtyard-vernacular.c03, hard."
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "At the court end of the zaguan stands a cancela, a light iron gate that leaves the patio fully visible from the street while remaining physically closed — the house shows itself and stays shut.",
+      "confidence": "high"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or module governs the composition; the proportional system is a shading calculation and a joist span, not a compositional one.",
+      "confidence": "high",
+      "note": "Style's own governing_logic: 'Nothing here is compositional.' Consistent with its own room-vernacular proportion-pack binding note: 'the only columns in the type are the plain, unornamented court arcade — there is no entablature and no classical order to invoke.'"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "Court arcade columns are plain and unornamented, carrying arches directly with no entablature.",
+      "confidence": "high"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "thresholds_crossed": {
+          "value": 2,
+          "unit": "count",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular description and c03",
+          "note": "Street door, then the covered zaguan passage, then the cancela at the court — two controlled thresholds with a passage between them."
+        }
+      },
+      "rule": "Street door, then a covered passage (zaguan) roughly the width of a person or a cart, then a light iron gate (cancela) at the court — two controlled thresholds, and the second one is transparent rather than opaque.",
+      "confidence": "high"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "value": {
+          "value": "courtyard-perimeter, no internal corridor",
+          "unit": "none",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular description",
+          "note": "'All the rooms of the house open onto it and there is no corridor anywhere in the building.'"
+        }
+      },
+      "rule": "Every room opens directly onto the court; there is no internal corridor anywhere in the plan.",
+      "confidence": "high"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "value": {
+          "value": "single-pile",
+          "unit": "none",
+          "kind": "measured",
+          "source": "andalusian-courtyard-vernacular defining_characteristics and proportional_system",
+          "note": "Room depth is set by a timber joist span of 3.5-5m clear."
+        }
+      },
+      "rule": "Single-pile ranges, cross-ventilated between the court and the street window; room depth is fixed by the timber joist span, 3.5-5 m (11.5-16.4 ft) clear.",
+      "confidence": "high"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The court must carry planting and water — a well-head, fountain or pila, and potted plants hung on the walls. A paved, unplanted, dry patio is a lightwell, not the type; the evaporative cooling is functional, not decorative.",
+      "confidence": "high",
+      "note": "andalusian-courtyard-vernacular.c05, hard."
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

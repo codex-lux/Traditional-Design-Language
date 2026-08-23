@@ -1,0 +1,610 @@
+{
+  "style": "germanic-vernacular",
+  "style_name": "Germanic Vernacular",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The gable, not the eave, is the composed and entered face.",
+      "parameters": {
+        "form": {
+          "value": "front-gable",
+          "unit": "none",
+          "kind": "derived",
+          "confidence": "medium"
+        }
+      },
+      "judgment": true,
+      "confidence": "medium",
+      "note": "Inferred from massing_affinities rather than a literal roof_form statement in either node's text: german-fachwerk lists gable-front as 'canonical' ('the narrow taxed lot turns the gable to the square'); north-german-hall-house lists gable-front as 'common' and states 'the gable is the entrance and the only designed face.'"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Steep — not less than about 45 degrees in either roofing material.",
+      "parameters": {
+        "pitch": {
+          "range": [
+            45.0,
+            60.0
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "confidence": "high",
+          "note": "german-fachwerk.c04: roof pitch not less than 45 degrees for tile or slate, up to the 45-60 degree range stated in defining_characteristics. north-german-hall-house.c03: reed thatch at 45-50 degrees. The two ranges overlap at 45-50; the family range given here is the union."
+        }
+      },
+      "judgment": false,
+      "confidence": "high"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The exposed frame carries through into the gable as the family's signature — jettied and jointed at the German street front, or the single composed elevation carrying the Grootdor at the hall house.",
+      "parameters": {
+        "treatment": {
+          "set": [
+            "half-timbered"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "medium"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Load-bearing exposed timber frame (Fachwerk) with non-structural infill panels, not a masonry wall system.",
+      "parameters": {
+        "construction": {
+          "value": "braced-timber-frame",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "high",
+      "note": "german-fachwerk is Fachwerk by definition. north-german-hall-house's own lineage entry states outright that it 'is built in Fachwerk and shares its jointing, its bay module and its infill practice entirely' with german-fachwerk (hybridizes_with, weight 0.5, inherits_kit: true) — the hall house is a plan/section type built in this framing system, not a different one."
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Infill panels (Gefach) of wattle-and-daub or brick nogging between exposed structural timbers; the frame itself is never covered by applied siding.",
+      "parameters": {
+        "cladding": {
+          "value": "half-timber-infill",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "medium",
+      "note": "Explicit for german-fachwerk ('non-structural infill panels (Gefach) of wattle-and-daub or brick nogging'). Not independently restated for north-german-hall-house, whose own text describes the frame and the daub/thatch envelope but does not detail infill material — inferred via its direct, inherits_kit:true lineage to german-fachwerk."
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The bottom sill sits clear of grade on a masonry or fired-brick plinth (Sockel); primary structural timber never touches the earth.",
+      "parameters": {
+        "plinth_height": {
+          "range": [
+            300.0,
+            400.0
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "confidence": "medium",
+          "note": "german-fachwerk.c02 states the plinth explicitly: at least 300 mm above finished grade. north-german-hall-house's own constraints (c01-c05) do not restate a plinth number; the practice is carried here on the strength of the shared framing system and general exposed-timber-frame vernacular practice, not on an explicit hall-house citation."
+        }
+      },
+      "judgment": true,
+      "confidence": "medium"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No masonry quoin of any kind — the corner is a structural timber post, exposed, not a masonry assembly.",
+      "judgment": false,
+      "confidence": "high",
+      "note": "Both members expose the frame fully at the corner; there is no masonry corner treatment to speak of. See corner_board for the parallel finding on the frame trade's own side.",
+      "parameters": {
+        "treatment": {
+          "value": "none",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      }
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No applied corner board either — the structural corner post is exposed on the finished building, not concealed under trim.",
+      "judgment": false,
+      "confidence": "high",
+      "note": "german-fachwerk's own diagnostic_tells state the frame is exposed 'never behind it'; a Fachwerk or hall-house corner covered by a board the way a clapboard building's is would misrepresent the type.",
+      "parameters": {
+        "treatment": {
+          "value": "none",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      }
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. german-fachwerk's only classical contact is carved Renaissance-pattern-book ornament (rosettes, Vitruvian scroll, dentil bands) quoted onto the sill beam and brackets via a `references` edge with `inherits_kit: false` — vocabulary quoted onto the timber, not a real order, entablature or column system. north-german-hall-house has no classical reference of any kind.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

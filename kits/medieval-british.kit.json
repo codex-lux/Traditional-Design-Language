@@ -1,0 +1,531 @@
+{
+  "style": "medieval-british",
+  "style_name": "Medieval British",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "parameters": {
+        "pitch_min_deg": {
+          "value": 45,
+          "unit": "deg",
+          "kind": "measured",
+          "note": "Stated as an identical hard-constraint floor, in near-identical wording, on both english-gothic (c05) and english-medieval-timber-frame (c03)."
+        },
+        "pitch_min_thatch_deg": {
+          "range": [
+            50,
+            55
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "note": "The stricter floor both of the same two constraints state for thatch or stone-slate covering."
+        }
+      },
+      "rule": "The roof is steeply pitched -- not less than 45 degrees, and 50-55 degrees under thatch or stone slate -- because the roof itself is the structure doing the work (an open hammerbeam or crown-post roof, or a heavy stone-slate or thatch covering) rather than a shape applied over a ceiling.",
+      "note": "Directly and near-identically stated as a hard constraint on two of the three members (english-gothic c05, english-medieval-timber-frame c03) and consistent with the family's own defining_characteristics ('Steep roofs'). norman-romanesque-english's own file gives no explicit roof-pitch figure -- its attention is entirely on the masonry envelope -- so extending the figure to it is this author's judgment, not a quoted source; marked judgment: true for that reason. Left OPEN at family level, deliberately, is roof_form and window/opening size: english-gothic's whole argument is maximising glazed area through Perpendicular tracery, which directly contradicts the family's own summary phrase 'small openings' -- a case where checking the real member text against the family blurb caught the blurb overstating a shared trait that Gothic alone does not share.",
+      "sources": [
+        "english-gothic.json c05, english-medieval-timber-frame.json c03"
+      ]
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical order of any kind is used anywhere in this family; a Norman respond, a Gothic pier, and a timber post are each sized by load and by the geometry of their own construction system, never by a Tuscan or Corinthian module.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "There is no classical column. Norman work uses a cushion- or scallop-capped respond or shaft; Gothic work uses a clustered or moulded pier; timber-frame work uses a jointed oak post. None derives its proportion from an order.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No entablature, classical or approximate, is built anywhere in this family. A Norman wall carries its own mass to a plain wall-head; a Gothic wall's load runs down through piers and buttresses to the ground; a timber frame's load runs down through posts to a sill. None of the three has any use for a base-shaft-entablature logic.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No pediment, triangular or otherwise, appears over any opening in this family. A Gothic opening is finished with a hood mould and label stops; a Norman opening is finished with a plain arched or square hood; a timber opening is simply cut into the panel. None quotes a temple front.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No pilaster is applied to a wall or a corner. Norman buttresses are flat, shallow-projecting strips of genuine load-bearing masonry, not a decorative flattened column; Gothic buttresses project and step back structurally; a timber frame has no wall-applied member of any kind, only the structural post itself.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No modillion or dentil course appears anywhere in this family. Where a cornice-like member exists at all it is a plain weathered masonry offset (Norman, Gothic) or a jetty bressumer (timber-frame), never a run of classical blocks.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical turned balustrade appears anywhere in this family. A parapet, where one exists, is a plain or crenellated masonry wall, never a run of classical balusters.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical ornament vocabulary -- swag-and-urn, guttae-triglyph, acanthus, fan-and-patera -- is used anywhere in this family. Each member has its own, wholly non-classical vocabulary instead: Norman chevron, billet, cable and beakhead cut into the arris of a voussoir; Gothic tracery patterns and moulded label stops; timber-frame carved bressumers, curved braces and (regionally) patterned panels. None of these is a classical motif.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference from silence: norman-romanesque-english's own proportional_system states directly 'there is no order, no entablature and no applied system of proportion'; english-gothic's whole argument is that Gothic structure (piers, buttresses, tracery) replaced the order rather than using one; english-medieval-timber-frame's proportional_system states equally directly 'there is no applied proportional theory of any kind' and its whole vocabulary is carpentry (posts, braces, jetties), not masonry orders. All three members are outside the classical stream entirely, unlike the family's own later Tudor-Jacobean cousin, where an approximate applied order does eventually appear. Mirrors the precedent already set for american-arts-and-crafts.kit.json."
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

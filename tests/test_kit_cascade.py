@@ -8,6 +8,27 @@ rather than restates — a fully-specified child makes its ancestors dead
 weight. These tests pin that the three-level chain still resolves with all
 three levels actually contributing, and that check_kits.py still catches the
 dangling-replace failure mode that exercise found.
+
+UPDATED 23 Aug 2026 (WP-4.2, opening the kit-fill work): `build/build.py`'s
+cascade computation now splices a style-rank ancestor's own family in
+immediately after that ancestor, before its further lineage ancestors — the
+mechanism OQ 20 named as unbuilt ('the full three-level test... has not run
+yet because Phase 4's kit-fill is deliberately deferred'). Families carry no
+lineage edges of their own (member_of is organisational, not descent), so
+they could not previously appear in any `_cascade` at all; WP-4.2's own task
+text ('27 family nodes... then 90 styles using extends against the family')
+requires that they do. Concretely, tidewater-georgian's chain is now FOUR
+populated levels, not three: its own kit, its parent style's kit
+(georgian-colonial-american), that style's own family kit (american-
+colonial), then english-georgian (a real lineage/descent ancestor from a
+DIFFERENT family, english-classical, reached because georgian-colonial-
+american descends from it directly — the two mechanisms, member_of family
+and lineage descent, are independent and both real). This is additive, not a
+regression: every previously-resolved slot value on all three pre-existing
+populated kits is unchanged (diffed directly against a resolve_kit.py --json
+snapshot taken immediately before this change landed) — the family entries
+are new fallback candidates, currently empty until WP-4.2 authors them, that
+do not preempt any binding a real ancestor already supplied.
 """
 import json
 import os
@@ -20,9 +41,16 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class TestThreeLevelCascade:
     def test_tidewater_chain_starts_with_all_three_populated_kits(self, resolve_kit_module):
+        """Chain order as of WP-4.2's family-cascade mechanism: own kit, parent
+        style, that style's own family (american-colonial, currently empty
+        but real and present), then english-georgian — a genuine lineage/
+        descent ancestor from a different family, reached because
+        georgian-colonial-american itself descends_from english-georgian
+        directly. See this file's module docstring for the full mechanism."""
         graph = resolve_kit_module.load_graph()
         chain = resolve_kit_module.chain_for(graph, "tidewater-georgian")
-        assert chain[:3] == ["tidewater-georgian", "georgian-colonial-american", "english-georgian"]
+        assert chain[:4] == ["tidewater-georgian", "georgian-colonial-american",
+                              "american-colonial", "english-georgian"]
 
     def test_all_three_levels_contribute_bindings(self, resolve_kit_module):
         """This is the '0% from the family kit is dead weight' check inverted:
@@ -34,6 +62,52 @@ class TestThreeLevelCascade:
             kit = json.load(open(kit_path))
             non_open = sum(1 for s in kit["slots"].values() if s.get("binding") != "open")
             assert non_open > 0, f"{style_id} contributes nothing to the cascade"
+
+
+class TestFamilyCascade:
+    """WP-4.2 (23 Aug 2026): family nodes now get a kit file, and participate
+    in every member's cascade as the nearest, most-shared ancestor a style
+    can `extends` against — the mechanism this whole work package depends
+    on. See build/build.py's cascade_chain()/family_of() and this file's
+    module docstring for the design."""
+
+    def test_every_family_node_has_a_kit_file(self, resolve_kit_module):
+        graph = resolve_kit_module.load_graph()
+        families = [i for i, n in graph["nodes"].items() if n["rank"] == "family"]
+        assert len(families) == 27
+        for fam in families:
+            path = os.path.join(ROOT, "kits", f"{fam}.kit.json")
+            assert os.path.exists(path), f"{fam} has no kit file"
+
+    def test_a_styles_own_family_is_the_first_cascade_entry(self, resolve_kit_module):
+        """A style with no real lineage/descent ancestors of its own still
+        reaches its family — family participation does not depend on the
+        style also having a documented descends_from edge."""
+        graph = resolve_kit_module.load_graph()
+        chain = resolve_kit_module.chain_for(graph, "georgian-colonial-american")
+        assert chain[1] == "american-colonial"
+
+    def test_a_variants_cascade_reaches_its_family_through_its_parent_style(self, resolve_kit_module):
+        """A variant's member_of points at its parent STYLE, not directly at
+        the family — family_of() must walk through that style rather than
+        stopping there, and the variant reaches the same family its parent
+        style would (american-colonial), not the style itself a second time."""
+        graph = resolve_kit_module.load_graph()
+        chain = resolve_kit_module.chain_for(graph, "tidewater-georgian")
+        assert chain.count("american-colonial") == 1
+        assert chain.count("georgian-colonial-american") == 1
+
+    def test_family_kit_regenerates_without_dropping_authored_content(self, resolve_kit_module):
+        """build.py's kit-directory step preserves any already-authored slot
+        content on a family kit exactly the way it always has for style/
+        variant kits (the existing-content merge in build.py's step 1) —
+        this just confirms family kits went through the same code path,
+        not a separate, easier-to-drift one."""
+        path = os.path.join(ROOT, "kits", "american-colonial.kit.json")
+        kit = json.load(open(path))
+        assert kit["style"] == "american-colonial"
+        assert kit["ontology_version"] and kit["kit_version"]
+        assert len(kit["slots"]) == 95
 
 
 class TestRuleAppend:

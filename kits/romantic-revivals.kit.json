@@ -1,0 +1,543 @@
+{
+  "style": "romantic-revivals",
+  "style_name": "Romantic Revivals",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "additive-vernacular",
+          "status": "forbidden",
+          "note": "Every member of this family \u2014 the strict-symmetrical institutional stream (Egyptian Revival, Renaissance Revival, Octagon House) as much as the picturesque stream (Gothic Revival, Italianate) \u2014 is composed by an architect or pattern-book author toward a historical or theoretical argument, never grown by accretion the way a real vernacular building is. Downing's own theory (a house should be composed to be read in silhouette against the landscape) is explicitly a composition doctrine, not a growth doctrine, even where the result looks irregular."
+        }
+      ],
+      "rule": "The family is designed, not accreted, in every one of its nine members \u2014 but the family splits close to evenly on WHAT kind of design discipline governs: Egyptian Revival, Renaissance Revival and Octagon House hold strict bilateral (or, for the octagon, radially regular) symmetry as a compositional law in its own right, while Gothic Revival and Italianate treat picturesque irregularity and silhouette hierarchy as the compositional law instead. Which of those two disciplines governs is a per-style decision the family does not adjudicate.",
+      "confidence": "high",
+      "note": "The family's own defining_characteristics list 'Irregular, asymmetrical massing' as if it were universal, but three of the nine members (Egyptian Revival, Renaissance Revival, Octagon House) explicitly forbid the massed-picturesque massing and hold strict-bilateral or radially-regular symmetry instead \u2014 Renaissance Revival calls picturesque irregularity the thing that 'destroys the only compositional rule the style has.' The family description is written from the Gothic/Italianate half of the family; this kit does not repeat that overclaim.",
+      "status": "drafted"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted",
+          "note": "Renaissance Revival ('a wooden Renaissance Revival is a contradiction'), Egyptian Revival's institutional masonry, and the Italianate and Renaissance Revival brownstone/brick row branches."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "permitted"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "permitted"
+        },
+        {
+          "id": "balloon-frame",
+          "status": "permitted",
+          "note": "The family's own defining technology: the family description names balloon framing, machine-cut nails and the steam scroll saw as the enabling condition that made the picturesque, ornament-heavy Gothic and Italianate branches affordable for the first time. Carpenter Gothic is explicitly 'light wood frame construction' with every ornamental element sawn from stock board."
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "forbidden",
+          "note": "A later technique (broadly post-1900) than any member's floruit, all of which end by 1890 at the latest. Where a member builds in masonry it is genuinely load-bearing; where it builds in frame the wall is clapboard or board-and-batten over the frame, not a masonry skin."
+        },
+        {
+          "id": "platform-frame",
+          "status": "forbidden",
+          "note": "Twentieth-century, after every member's floruit ends."
+        },
+        {
+          "id": "structural-insulated-panel",
+          "status": "forbidden",
+          "note": "Modern manufactured technology, anachronistic to the whole family."
+        }
+      ],
+      "rule": "The family covers the same technological transition its own description names: solid load-bearing masonry (Egyptian Revival, Renaissance Revival, and the Italianate/Renaissance Revival row-house branches) for institutional and urban work, and braced or, from the 1830s-40s on, balloon timber frame for the picturesque villa and cottage branches the sawmill made affordable. No member builds with a thin masonry veneer over a frame backup, platform framing, or a structural insulated panel \u2014 all three postdate every member's floruit, which ends by 1890 at the latest.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "true-divided-single-pane",
+          "status": "canonical"
+        },
+        {
+          "id": "insulated-glazing-unit",
+          "status": "forbidden",
+          "note": "Every member's floruit ends by 1890 at the latest (decline_end 1905 for the latest, Carpenter Gothic), roughly four decades before the insulated glazing unit existed."
+        }
+      ],
+      "rule": "Glazing is true divided-lite, single-pane sash throughout \u2014 round-arched, segmental, pointed, lancet or ogee-headed, depending on which branch of the family \u2014 never an insulated glazing unit.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

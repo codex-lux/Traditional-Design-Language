@@ -1,0 +1,590 @@
+{
+  "style": "tudor-jacobean",
+  "style_name": "Tudor & Jacobean",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "clustered-shafted-decorative",
+          "status": "canonical",
+          "note": "Octagonal, spiral or moulded shafts, standing well above what a flue requires — Tudor's signature and the family's own stated defining characteristic."
+        },
+        {
+          "id": "classical-pier-chimney",
+          "status": "permitted",
+          "note": "Later members (Elizabethan, Jacobean) sometimes disguise the stack as a classical pier, but the underlying logic — tall, deliberately conspicuous, part of the skyline composition — is unchanged."
+        },
+        {
+          "id": "flush-minimal-stack",
+          "status": "forbidden",
+          "note": "A stack that does not announce itself defeats the entire point: in 1520 a visible chimney was a status display, not a mechanical afterthought, and every member of the family treats it as such."
+        }
+      ],
+      "rule": "The chimney is a major, deliberately conspicuous compositional element of the roofscape — tall, multi-flued, and given real sculptural or architectural treatment — never a minimal utilitarian stack. This is named directly in the family's own defining characteristics and is documented across all three members, from Tudor's clustered spiral shafts to the later members' classical-pier disguises.",
+      "sources": [
+        "Tudor & Jacobean family node, defining_characteristics",
+        "tudor.json defining_characteristics and diagnostic_tells",
+        "elizabethan.json description (chimneys disguised as classical piers)"
+      ]
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "flanking-symmetrical-dependencies",
+          "status": "canonical",
+          "note": "The E- or H-plan: a central range with wings projecting symmetrically to either side. 'canonical' for h-plan-manor massing across all three members' own massing_affinities entries — the single most consistent fact in this family."
+        },
+        {
+          "id": "additive-accretive",
+          "status": "forbidden",
+          "note": "The vernacular farmhouse's telescoping, unplanned-growth logic. This family's wings are laid out as a single composed scheme from the start, however irregular the result reads today."
+        },
+        {
+          "id": "telescoping",
+          "status": "forbidden",
+          "note": "The New England Cape-to-full-house growth sequence; this family's wings are built out as a single composed E- or H-plan scheme, not added on in stages."
+        }
+      ],
+      "rule": "The plan is organised as symmetrical flanking wings around a central hall range — the E- or H-plan gentry house — rather than as a single undifferentiated block or an unplanned, additive sequence. This is canonical across the whole family: h-plan-manor massing is rated 'canonical' in Tudor's, Elizabethan's and Jacobean's own massing_affinities entries alike.",
+      "sources": [
+        "tudor.json, elizabethan.json, jacobean.json massing_affinities (h-plan-manor: canonical, all three)"
+      ]
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "casement-leaded",
+          "status": "canonical",
+          "note": "Small quarries in lead cames, set in stone or oak mullions and transoms — the family's universal glazing logic."
+        },
+        {
+          "id": "double-hung",
+          "status": "forbidden",
+          "note": "Explicitly forbidden by name in two of the three members (tudor.c03: 'no sash windows'; jacobean.c04: 'sash windows are forbidden... an eighteenth-century alteration'), and anachronistic for the third: the sash does not exist yet in Elizabethan England."
+        }
+      ],
+      "rule": "The window is a leaded casement of many small lights set directly into stone or oak mullions and transoms — never a sash. This is stated as an explicit hard prohibition on two of the three members by name and is simply anachronistic for the third; no member of this family ever uses a sliding sash.",
+      "sources": [
+        "tudor.json c03, jacobean.json c04, elizabethan.json proportional_system"
+      ]
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "parameters": {
+        "overall_width_to_height": {
+          "range": [
+            2.0,
+            4.0
+          ],
+          "unit": "ratio",
+          "kind": "editorial",
+          "note": "Directly measured for Tudor ('2:1 to 4:1 wide overall'); carried as an editorial estimate for Elizabethan and Jacobean, whose sources describe an equally extensive multi-light grid without stating the same overall ratio explicitly."
+        },
+        "individual_light_proportion": {
+          "range": [
+            1.0,
+            1.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "The single mullioned light is close to square or slightly taller than wide; it is the window AS A WHOLE, assembled from many such lights, that reads horizontal."
+        }
+      },
+      "rule": "The window is wide rather than tall: a horizontal multi-light grid of mullions and transoms, not a single vertical opening. This is the reverse of the later classical family's vertical sash proportion, and it holds across all three members even though only Tudor's own sources state the overall ratio as a number.",
+      "note": "Marked editorial rather than measured for the family-wide range because Elizabethan and Jacobean support the qualitative claim (a wide grid, not a tall single opening) strongly but do not restate Tudor's own numeric ratio; the range is this author's reasonable extension across the family, not an independently sourced figure for each member.",
+      "sources": [
+        "tudor.json proportional_system.typical_ratios"
+      ]
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "true-module-derived-entablature",
+          "status": "forbidden",
+          "note": "No member of this family has one. Tudor forbids classical orders any structural role at all. Elizabethan's frontispiece orders are stacked and applied by rule of thumb from engraved plates, 'not from any theory of proportion' (elizabethan.json proportional_system), and its own hard constraint (c02) bars them from carrying a roof or forming a portico. Jacobean's porch columns are real and project structurally, but the style's own text states plainly that they are 'approximated from engravings... not proportioned to a module the way a correct order is.'"
+        },
+        {
+          "id": "applied-crude-entablature",
+          "status": "permitted",
+          "note": "Where present at all (Elizabethan and Jacobean frontispieces only, never Tudor) it is a decorative band read as classical ornament, not a load-bearing or module-governed run."
+        }
+      ],
+      "rule": "This family never has a true, correctly proportioned, module-derived entablature. Tudor forbids the classical orders any structural role outright; where later members apply an entablature at all — on an Elizabethan or Jacobean entrance frontispiece — it is an approximate, rule-of-thumb band copied from an engraved plate, explicitly disclaimed by the styles' own sources as not proportioned to any real system, and it never carries roof load or forms a genuine portico.",
+      "sources": [
+        "tudor.json c02, elizabethan.json c02 and proportional_system, jacobean.json distinguished_from (english-baroque) and proportion_packs note"
+      ]
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

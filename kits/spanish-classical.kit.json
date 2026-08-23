@@ -1,0 +1,557 @@
+{
+  "style": "spanish-classical",
+  "style_name": "Spanish Classical",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Composition is retablo-derived, not order-regulated: a bounded ornamental panel (the portada) — divided into stacked horizontal registers and framed by a hard moulding — is set against an otherwise plain field wall. The field's own window rhythm is placed by the rooms behind it, independent of and often uncoordinated with the portada's axis.",
+      "parameters": {
+        "ornamented_area_pct": {
+          "range": [
+            15,
+            25
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "churrigueresque.c02/typical_ratios ('under 25 percent'), spanish-plateresque.c01/typical_ratios ('15-40 percent, at least 60 percent plain')",
+          "note": "Range given is the overlap of both members' own stated figures. spanish-plateresque's own full range runs to 40%; churrigueresque is capped under 25%. The shared, safely-overlapping core is 15-25%."
+        },
+        "registers": {
+          "range": [
+            2,
+            5
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "churrigueresque typical_ratios ('two to four registers'), spanish-plateresque defining_characteristics ('two to five stacked horizontal registers')"
+        }
+      },
+      "confidence": "high",
+      "note": "Both members' own governing_logic states this identically in substance: churrigueresque 'there is no classical module... the only continuous dimension in the design is the estipite itself'; spanish-plateresque 'Retablo, not order... The plain wall around it has no proportional system at all.' This is the single most important shared fact in the family and the reason neither member has a good classical-order fit at the style level (docs/reports/wp-4.1-proportion-pack-bindings.md)."
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "note": "Brick construction with a Mudejar substrate is explicit for both members, underneath the classicising ornamental skin."
+        }
+      ],
+      "rule": "Masonry construction — commonly brick — with a Mudejar substrate (artesonado or par y nudillo timber ceilings, tile paving and dado) persisting underneath the classicising ornamental programme; the portada itself is an applied, non-structural skin (see door_surround), not a structural system in its own right.",
+      "confidence": "high",
+      "note": "churrigueresque: 'the substrate remains Mudejar: brick and tile construction, artesonado ceilings.' spanish-plateresque: 'Underneath a Plateresque facade the building is very often Mudejar: brick construction, a par y nudillo or artesonado timber ceiling, tile paving and dado' and its own c05 (soft) constraint: 'Where the interior carpentry is Mudejar... it must be allowed to remain so. Coffering... in the Italian manner is a common revival error.'"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "stone-ashlar",
+          "status": "canonical",
+          "note": "Plain dressed ashlar is the shared field material for both members: 'absolutely plain golden ashlar' (spanish-plateresque); 'plain tezontle or ashlar field walls' (churrigueresque)."
+        },
+        {
+          "id": "tezontle",
+          "status": "permitted",
+          "applies_when": {
+            "regions": [
+              "Mexico"
+            ]
+          },
+          "note": "The volcanic-stone field wall documented specifically for churrigueresque's New World phase, paired with pale chiluca limestone ornament; not attested for spanish-plateresque, which is a Spain-only phase (1500-1560, before New World Spanish colonial building matured)."
+        }
+      ],
+      "rule": "A plain, dressed stone field wall sets off the portada; the field itself carries no order or applied classical grammar.",
+      "confidence": "high"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Window placement on the plain field wall follows the rooms behind it, independent of the portada's own axis and register rhythm; the two systems are not reconciled.",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "spanish-plateresque states this directly and explicitly: 'the window rhythm of the building is independent of it and frequently in conflict with it, and the conflict is not resolved.' churrigueresque does not restate this in the same terms, but its own parallel statement that 'nave and flank walls left plain' with ornament confined to two named surfaces (west front, transept portal) is consistent with the same logic; carried at medium confidence rather than high because only one member states it explicitly."
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The portada is an applied, non-structural ornamental panel carried on the wall behind it — dressed stone or moulded plaster — not a structural frontispiece and not to be modelled as one.",
+      "parameters": {
+        "relief_depth_max": {
+          "value": 24,
+          "unit": "in",
+          "kind": "measured",
+          "source": "churrigueresque.c04 ('rarely more than 600mm deep'), spanish-plateresque.c03 ('typically 300-600mm deep')",
+          "note": "600mm converted to inches. Both members give near-identical depth ceilings for the applied portada; churrigueresque additionally requires seismic buttressing behind it in Mexican work, kept as prose rather than a second parameter."
+        }
+      },
+      "confidence": "high"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order regulates the wall or the elevation. Classical members — columns, pilasters — appear only as quoted ornamental elements within the bounded portada panel, never structurally or compositionally governing the field.",
+      "confidence": "high",
+      "note": "churrigueresque: 'The orders are present and systematically dismantled... there is no classical module.' spanish-plateresque: 'the proportional system of the facade is retablo proportion, not classical proportion.' Both members' own lineage edges to roman-classical are typed 'references' with inherits_kit:false, not 'descends_from' — the corpus's own encoding already marks this family as outside the classical-inheritance stream. Confirmed by WP-4.1: neither member has a real order-pack fit; the room-harmonic bindings both carry are flagged as the thinnest, most doubtful bindings in that whole pass."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No continuous entablature or cornice crosses the portada or the facade. Every horizontal is broken, doubled or returned at each vertical member (churrigueresque), or never carried across the whole wall at all (spanish-plateresque).",
+      "confidence": "high",
+      "note": "churrigueresque.c03 (hard): 'No straight uninterrupted entablature or cornice may cross the portada.' spanish-plateresque.c02 (hard): columns and pilasters 'must not carry a continuous entablature across the facade... If a real order regulates the whole wall, the building has become Italian Renaissance or Herreran, not Plateresque.' Both are explicit hard constraints stating the identical negation."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

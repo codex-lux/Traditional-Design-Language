@@ -10,12 +10,16 @@ This makes style inheritance work like a cascade. A child style inherits its par
 
 ## Resolution order
 
-For any node, the cascade chain is the transitive closure of its `inherits_kit` edges, walked highest-weight-first, deduplicated, nearest ancestor first. It is precomputed as `_cascade` in `dist/taxonomy.json`.
+For any node, the cascade chain is the transitive closure of its `inherits_kit` edges, walked highest-weight-first, deduplicated, nearest ancestor first — **plus, since WP-4.2 (23 Aug 2026), each style-rank ancestor's own family**, spliced in immediately after that ancestor and before its further lineage ancestors. It is precomputed as `_cascade` in `dist/taxonomy.json` by `build/build.py`.
+
+Family participation is a second, independent mechanism from lineage descent, not a special case of it. `member_of` (which family node a style or variant sits inside) and `lineage` (real, documented transmission of building practice) answer different questions — the README calls `member_of` "the drawer a node lives in... for browsing and nothing else" — and family nodes carry no `lineage` edges of their own at all, so before WP-4.2 a family could never appear in any `_cascade`, no matter how real the sharing it represents. `build/build.py`'s `family_of(i)` walks `member_of` upward from a style or variant to the nearest `rank: family` ancestor (through the parent style, for a variant, without adding that style a second time — it is already reached via lineage if it has a `descends_from`/`regional_of` edge back to it). Every time the lineage walk lands on a style-rank ancestor, that ancestor's own family is inserted right after it — nearest and most-shared first, most distant and most specific descent last:
 
 ```
 tidewater-georgian
-  → georgian-colonial-american
-  → english-georgian
+  → georgian-colonial-american        (real lineage: tidewater is a regional_of georgian)
+  → american-colonial                 (georgian-colonial-american's own family, WP-4.2)
+  → english-georgian                  (real lineage: georgian descends_from english-georgian)
+  → english-classical                 (english-georgian's own family, WP-4.2)
   → english-palladian
   → palladian
   → italian-renaissance
@@ -35,7 +39,7 @@ tidewater-georgian
   → dutch-urban-gable-house
 ```
 
-To resolve slot *S* for node *N*: take *N*'s own binding if `binding` is `specified` or `forbidden`; otherwise walk the chain and take the first specified binding found; otherwise the slot is `open`.
+To resolve slot *S* for node *N*: take *N*'s own binding if `binding` is `specified` or `forbidden`; otherwise walk the chain (family entries included, in their spliced position) and take the first specified binding found; otherwise the slot is `open`. This is strictly additive to every pre-WP-4.2 resolution — a family entry only ever fills a slot no real ancestor already specified, since it is one more candidate in the walk, never reordered ahead of an already-present real ancestor.
 
 ## Binding states
 

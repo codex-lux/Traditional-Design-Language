@@ -1,0 +1,561 @@
+{
+  "style": "renaissance-classical",
+  "style_name": "Renaissance Classical",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The principal elevation is strictly bilaterally symmetrical. All three members state this identically in their own proportional_system.symmetry field; two of the three (italian-renaissance, italian-baroque) explicitly mark 'massed-picturesque' massing forbidden in their own massing_affinities, and the third (palladian) is unambiguously symmetrical about its dominant centre.",
+      "parameters": {
+        "symmetry_class": {
+          "value": "strict-bilateral",
+          "unit": "none",
+          "kind": "measured",
+          "source": "italian-renaissance.json / palladian.json / italian-baroque.json proportional_system.symmetry"
+        }
+      },
+      "variants": [
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "canonical",
+          "note": "Identical value across all three members' own proportional_system.symmetry."
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "italian-renaissance and italian-baroque both mark 'massed-picturesque' forbidden in their own massing_affinities — 'the precise negation of the Renaissance argument that a building is a single resolved figure,' and Baroque irregularity 'is always resolved about an axis.'"
+        }
+      ]
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Masonry construction throughout — ashlar stone (italian-renaissance), stucco over brick 'treated as a legitimate finish standing in for ashlar' (palladian, verbatim from its own defining_characteristics), or masonry/reinforced construction required wherever the wall curves in plan (italian-baroque's own hard constraint c04). Light timber frame construction has no place in this family.",
+      "parameters": {
+        "construction_family": {
+          "value": "load-bearing masonry or masonry-faced (stucco-over-brick)",
+          "unit": "none",
+          "kind": "measured",
+          "source": "italian-renaissance.json / palladian.json / italian-baroque.json"
+        }
+      },
+      "variants": [
+        {
+          "id": "light-timber-frame",
+          "status": "forbidden",
+          "note": "No member of this family builds primary walls in light timber frame."
+        }
+      ]
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A single treatise-derived classical order — module-propagated, shaft, capital and entablature varying together — governs any colonnade; where registers are superimposed they run heavier/plainer below to lighter/richer above. Which specific order(s) and which treatise (Palladio's own, for italian-renaissance and palladian; Vignola's, for italian-baroque) is decided at the style level, not here."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A continuous entablature runs above the order and terminates the composition. Even where the wall itself is deformed, the entablature must remain one continuous member: italian-baroque's own hard constraint (c01) makes a straight entablature over a curved wall an error, and italian-renaissance's crowning cornice — the same member read at building scale — is its own single most diagnostic feature (its own c03, 1/12-1/16 of facade height)."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "Deliberately left open: the members directly contradict each other. italian-renaissance's own c05 reserves the pedimented portico for churches and forbids it on a domestic front ('no pedimented projecting portico on a domestic front'); palladian's defining_characteristics puts exactly that — 'the temple front... applied to a domestic building' — at the center of its own identity. Forcing one answer here would silently overwrite whichever style is right.",
+      "rule": "Whether a pedimented portico may appear on a domestic front is a real, documented disagreement within the family and is resolved at the style level, not here.",
+      "variants": [
+        {
+          "id": "temple-front-portico-on-house",
+          "status": "permitted",
+          "note": "palladian's own defining identity; 'a pediment over a house rather than over a church' is its fastest diagnostic tell."
+        },
+        {
+          "id": "reserved-for-churches-not-houses",
+          "status": "permitted",
+          "note": "italian-renaissance's own c05 (soft, cultural): the temple front is reserved for churches until Palladio."
+        }
+      ]
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Room ceiling height is derived from the room's own plan proportion — the arithmetic, geometric or harmonic mean of its width and length — rather than set independently of the plan. Stated directly as governing_logic for palladian and confirmed as italian-renaissance's own founding method (both bind the room-harmonic pack directly, unmodified); italian-baroque's fit is real but weaker, and its own room-harmonic binding note says so explicitly: the pack 'governs the individual room... it does not reach... the oval, triangle-and-circle plan geometry that generates the whole building.'",
+      "parameters": {
+        "mean_type": {
+          "set": [
+            "arithmetic",
+            "geometric",
+            "harmonic"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "source": "Palladio, I quattro libri, Book I ch. XXIII; Wittkower (1949)"
+        }
+      }
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

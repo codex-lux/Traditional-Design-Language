@@ -1,0 +1,636 @@
+{
+  "style": "mediterranean-vernacular",
+  "style_name": "Mediterranean Vernacular",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "Deliberately left open: the two members name two different, mutually exclusive symmetry classes in their own proportional_system.symmetry field (balanced-asymmetrical vs. additive-vernacular), and tuscan-vernacular's own c04 states that imposing symmetry on it 'converts the building into a villa' — i.e. into the other member. Neither reading is more 'the family' than the other; both are real and distinguish the two members from each other on purpose.",
+      "rule": "Symmetry class is the primary thing that tells the two members apart and is resolved at the style level, not here.",
+      "variants": [
+        {
+          "id": "balanced-asymmetrical-off-axis-tower",
+          "status": "permitted",
+          "note": "italian-villa-vernacular's own proportional_system.symmetry is literally 'balanced-asymmetrical'; its own c02 requires the tower off the centre line and taller than the block by at least 30% — a deliberate, composed asymmetry, not an accident."
+        },
+        {
+          "id": "additive-vernacular",
+          "status": "permitted",
+          "note": "tuscan-vernacular's own proportional_system.symmetry is literally 'additive-vernacular'; growth is by adding 4.0-4.5 m cells along the contour with no imposed rhythm."
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "tuscan-vernacular's own massing_affinities explicitly forbids this: 'the irregularity is a byproduct of accretion, never a composition... reads immediately as false here.'"
+        }
+      ]
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Low-pitched throughout, roughly 3:12 to 6:12. italian-villa-vernacular's own hard constraint (c01) sets 3:12-5:12; tuscan-vernacular's own hard constraint (c03) sets 4:12-6:12. The two ranges overlap at 4:12-5:12; a roof outside the outer bound of 3:12-6:12 is outside the family in either member.",
+      "parameters": {
+        "pitch_range": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "rise_in_12",
+          "kind": "editorial",
+          "note": "Union of the two members' own hard-constraint ranges; 4:12-5:12 is the overlap and the safest single value absent a style-level choice."
+        }
+      }
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Low-fired clay roof tile throughout — coppi e embrici (half-round cap-and-pan), laid without underlayment in both members. No wood shingle, slate, or metal roofing appears in either style's own description.",
+      "parameters": {
+        "material": {
+          "set": [
+            "clay-tile-barrel"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json / tuscan-vernacular.json typical_ratios (coppi e embrici)"
+        }
+      }
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The eave projects well beyond the wall face — on paired brackets (modiglioni) in italian-villa-vernacular, on corbelled tile courses (gronda) in tuscan-vernacular — to throw a shadow line down the rendered wall and carry rainwater clear of it. The two members' own overhang dimensions barely overlap (villa 600-1200 mm on brackets; farm 300-600 mm on corbelled tile), so no single figure or bracket-vs-corbel choice is stated here — only the shared functional principle."
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Load-bearing masonry throughout, rendered/limewashed or left as coursed stone — rubble limestone or mixed stone-and-brick in tuscan-vernacular (500-700 mm walls, 'the mass doing the thermal work'), rendered and limewashed mass masonry in italian-villa-vernacular. No light timber frame anywhere in the family; the wall is real structural mass in both members, not cladding over a frame.",
+      "parameters": {
+        "construction_family": {
+          "value": "load-bearing masonry",
+          "unit": "none",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json / tuscan-vernacular.json defining_characteristics"
+        }
+      },
+      "variants": [
+        {
+          "id": "light-timber-frame",
+          "status": "forbidden",
+          "note": "Neither member ever built primary walls in timber frame; wood appears only as floor/roof/loggia framing."
+        }
+      ]
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Wall thickness runs thick across the family, roughly 400 to 700 mm (16-28 in) depending on storey and member: tuscan-vernacular states 500-700 mm at ground reducing to 400-500 mm above; italian-villa-vernacular states 450-600 mm — both the direct expression of the same load-bearing rubble/mass-masonry construction.",
+      "parameters": {
+        "thickness_range": {
+          "range": [
+            16,
+            28
+          ],
+          "unit": "in",
+          "kind": "editorial",
+          "note": "Union of the two members' own stated ranges (tuscan-vernacular 400-700mm / 16-28in; italian-villa-vernacular 450-600mm / 18-24in) — a synthesized bracket, not a single measured figure."
+        }
+      }
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Openings are set deep into the thick wall, roughly 300 to 600 mm (12-24 in), so the wall reads as real mass rather than a thin veneer punched with holes. italian-villa-vernacular states 300-450 mm reveals; tuscan-vernacular's own hard constraint (c02) requires reveals of at least 350 mm and its typical_ratios give 400-600 mm.",
+      "parameters": {
+        "reveal_depth": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "editorial",
+          "note": "Union of both members' own stated reveal ranges."
+        }
+      }
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "No applied classical (moulded stone) cornice occurs. The roofline in both members is finished by a functional bracketed or corbelled eave overhang, not a classical crown moulding — see `eave_condition` for the real detail. Neither member's text names 'cornice' directly; this redirect is an inference held at low confidence."
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "No classical frieze band occurs, for the same reason as `cornice`: the family has no applied entablature to carry one. Held at low confidence for the same reason — neither member's text names 'frieze' directly."
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "No graduated classical order (moulded base, fluted or enriched shaft, full entablature) appears anywhere in this family. italian-villa-vernacular's own c04 states 'no pediment and no applied order on the exterior'; tuscan-vernacular's own lineage note states plainly 'the order system is not inherited at all.' Where columns occur, see the `column` slot."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Where a loggia or arcade occurs — the family's only columnar element — its columns (or piers) are plain and unfluted and carry a simple impost band directly, never a moulded capital-and-full-entablature combination, consistent with the family's own 'no applied order' rule. italian-villa-vernacular's own c04 states this explicitly ('unfluted Tuscan or Doric carrying an impost, not an entablature'); tuscan-vernacular's loggia piers (where present) are sized by span alone ('pier width 0.4-0.6 of the clear opening') with no order vocabulary at all."
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "No classical entablature (architrave-frieze-cornice run) occurs anywhere in the family. Stated directly for italian-villa-vernacular (c04: loggia columns carry 'an impost, not an entablature'); tuscan-vernacular's loggia piers, where present, are sized by span alone with no order vocabulary at all."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "No pediment appears anywhere in the family. Stated directly for italian-villa-vernacular (c04: 'no pediment... on the exterior'); consistent with tuscan-vernacular's own description of a working farmhouse with openings 'placed by internal need rather than by facade rhythm' and 'no ornament.'"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "No applied pilaster order occurs. Neither member's own text names a pilaster specifically; this is inferred from italian-villa-vernacular's own broader rule ('no applied order on the exterior') and is marked as an inference, not a direct quotation, hence lower confidence than the `order` slot itself."
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Ornament is confined to what construction itself requires — an arch impost, an eaves bracket or corbel course, a chimney's tile cap — and is never applied decoratively for its own sake. This restates the family's own defining_characteristics verbatim: 'Ornament almost entirely absent, concentrated where it is unavoidable.'"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Small, deeply-reveal openings keep glazed area a low fraction of wall area, so thermal mass — not shading or ventilation — carries the cooling load. tuscan-vernacular's own hard constraint (c02) caps aperture area at 12 percent of any wall; italian-villa-vernacular's own typical_ratios run a little more generously, 12-20 percent. Both sit far below a light-frame style's typical glazing ratio.",
+      "parameters": {
+        "aperture_pct_wall": {
+          "range": [
+            5,
+            20
+          ],
+          "unit": "percent",
+          "kind": "editorial",
+          "note": "Union of tuscan-vernacular's 5-10%/<=12% and italian-villa-vernacular's 12-20%."
+        }
+      }
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The principal shaded outdoor room (the loggia, or the aia threshing floor) opens toward the sun's low-angle side. italian-villa-vernacular's own hard-adjacent constraint (c05) requires the loggia to face between southeast and southwest; tuscan-vernacular states the same siting descriptively rather than as a formal constraint ('shade trees on the south side'). The villa's figure is the better-documented of the two and is used here.",
+      "parameters": {
+        "bearing_range": {
+          "range": [
+            135,
+            225
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json c05",
+          "note": "0 = north. Directly from italian-villa-vernacular's own hard-adjacent constraint; tuscan-vernacular corroborates only descriptively."
+        }
+      }
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The house is inseparable from its working agricultural ground — terraced retaining walls and an axial approach in italian-villa-vernacular, the aia and contour-following siting in tuscan-vernacular — never a house with a designed ornamental garden read as a separate architectural work."
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

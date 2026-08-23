@@ -1,0 +1,570 @@
+{
+  "style": "british-arts-and-crafts",
+  "style_name": "British Arts and Crafts",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "balanced-asymmetrical",
+          "status": "canonical",
+          "note": "The style's own recorded symmetry class. Composition is 'balanced by mass, not by axis, and designed in section as much as in elevation' (proportional_system.governing_logic)."
+        },
+        {
+          "id": "strict-bilateral-classical",
+          "status": "atypical",
+          "note": "The style's own massing_affinities rates the symmetrical double-pile four-over-four box 'atypical,' noting the one real exception by name: 'Lutyens's later classical phase deliberately returns to it.' A documented individual departure, not a second reading of the tradition itself."
+        }
+      ],
+      "rule": "The plan generates the elevation, not the reverse: the building is composed from the inside out around use, sun, and view, and the resulting massing is balanced by weight rather than governed by an axis. Directly stated as the style's own governing_logic and consistent with the family's own emphasis on construction-led rather than facade-led design.",
+      "note": "Marked judgment: true because, unlike british-picturesque (where this same fact is confirmed identically across three independent members), here it rests on one member's own text -- though that member's own massing_affinities already records the one genuine exception (Lutyens's classical phase) by name, which is a reasonable basis for confidence even at n=1.",
+      "sources": [
+        "arts-and-crafts-british.json proportional_system.symmetry and governing_logic, massing_affinities"
+      ]
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "rule": "One honest primary material clads each distinct mass or volume, chosen for that material's own structural or local logic rather than for appearance, and it changes only at a genuine structural event -- a floor level, a change of volume -- marked by a proper transition (an oversail, a tile course, a plinth), never arbitrarily. This is the movement's founding material-honesty argument, stated as a hard constraint on the family's one current member (c01, c02) and traceable directly to Ruskin's and Morris's own writing, which the family node's own defining_characteristics restate as 'Material honesty: construction expressed rather than concealed.'",
+      "note": "Marked judgment: true because with only one member currently in this family, this binding rests on that one style's own hard constraints plus the family's own stated ideology rather than on cross-member agreement -- though the ideology itself is close to definitional of what 'Arts and Crafts' means, which is why it is bound rather than left open.",
+      "sources": [
+        "British Arts and Crafts family node, defining_characteristics",
+        "arts-and-crafts-british.json c01, c02"
+      ]
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "casement-leaded",
+          "status": "canonical",
+          "note": "arts-and-crafts-british's own defining_characteristics and hard constraint c03 both state this directly; the leaded casement, grouped in bands, is one of the movement's clearest and most widely documented identifying marks across its architects."
+        },
+        {
+          "id": "double-hung",
+          "status": "atypical",
+          "note": "Not forbidden outright -- Red House and other early work mixes sash and casement by room -- but the casement is what the movement is actually known for and what its own hard constraints govern."
+        }
+      ],
+      "rule": "The casement, not the sash, is the family's characteristic window -- small leaded lights grouped into horizontal bands, the deliberate inverse of the classical family's vertical punched sash opening.",
+      "note": "Marked judgment: true and confidence medium because the underlying style's own text records that its founding building (Red House) used sash windows in places alongside casements, so 'canonical, not absolute' is this author's honest reading of a real style whose founder didn't follow the rule his successors then made diagnostic.",
+      "sources": [
+        "arts-and-crafts-british.json defining_characteristics, diagnostic_tells, c03"
+      ]
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "horizontal-band-under-shared-lintel",
+          "status": "canonical",
+          "note": "Stated as a hard constraint (c03: 'windows are casements grouped into horizontal bands under a common lintel and mullion line') and named in diagnostic_tells as 'the exact inverse of the Georgian vertical punched opening.'"
+        },
+        {
+          "id": "regular-grid-vertically-aligned",
+          "status": "forbidden",
+          "note": "c03's own second clause: 'Isolated vertical punched openings in a regular grid belong to the classical stream, not here.'"
+        }
+      ],
+      "rule": "Windows cluster into continuous horizontal bands, sized and placed by the room behind them, with no repeating bay and no requirement that openings align vertically between floors; long stretches of blank wall alternate with continuous glazing rather than a grid of individually punched openings.",
+      "sources": [
+        "arts-and-crafts-british.json c03, proportional_system.bay_rhythm"
+      ]
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical order of any kind is used. A post is sized by its load and its batter, never by a module derived from a Tuscan or Corinthian diameter.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical, entasis-bearing column appears anywhere. Porch and canopy supports are square posts or battered piers.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No engaged classical entablature is built. Where a cornice or a lintel band occurs it is a plain carpenter's or mason's construction detail, doing real structural work, never the base-shaft-cap logic of an order.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No pediment, triangular or otherwise, appears over an opening or an entrance. A gable, where one occurs, is a roof shape generated by the plan, never a pediment quoting a temple front.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No pilaster is applied to a wall or a corner. Where a wall needs a vertical stop it is a plain post, a buttress, or the wall's own return, never a flattened classical column.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No modillion or dentil course appears anywhere; a roof edge, where it is finished at all, is a plain fascia or an exposed rafter tail, never a run of classical blocks.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No turned classical balustrade appears at a porch, stair, or roof edge. A rail, where used, is a plain square baluster or a simple board rail.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical ornament vocabulary -- swag-and-urn, guttae-triglyph, acanthus, fan-and-patera -- is used anywhere. Ornament, where it exists at all, is craft enrichment of real construction: a carved beam end, a wrought hinge, a leaded pattern, a fireplace tile -- never an applied classical motif.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. With only one member currently in this family (arts-and-crafts-british), this is not a survey of agreement across several styles the way it is for the other five families -- it is instead near-tautological: the refusal of period quotation, including classical quotation, is the movement's own founding argument, not an incidental trait of its one style. arts-and-crafts-british's own diagnostic_tells states it in as many words -- 'No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell' -- and its distinguished_from entry against gothic-revival-british notes the movement 'keeps the ethics and discards the archaeology.' A future second member that used a classical order would, by this family's own founding logic, not really belong to it. Mirrors the identical precedent already set on the American sibling family, american-arts-and-crafts.kit.json."
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

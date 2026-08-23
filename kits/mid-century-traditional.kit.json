@@ -1,0 +1,572 @@
+{
+  "style": "mid-century-traditional",
+  "style_name": "Mid-Century Traditional",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "platform-frame",
+          "status": "canonical"
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "permitted",
+          "note": "Common in neo-eclectic's applied brick and stone fronts; not a bearing material anywhere in the family."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "forbidden",
+          "note": "No member of this family is a load-bearing masonry building; the whole family is production-frame construction from minimal-traditional's 8 ft precut stud onward."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "forbidden",
+          "note": "Same reasoning as solid-masonry-two-wythe."
+        }
+      ],
+      "rule": "The family is wood-frame throughout -- platform framing from the postwar period onward -- with masonry appearing only as a non-bearing veneer, never as a bearing wall.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "No member states 'construction_type' by name, but the technology is named repeatedly and consistently: minimal-traditional's own governing_logic names 'the 16-inch stud bay, the 8-foot precut stud'; ranch-style names 'the engineered light wood truss' and 'the 4-by-8 sheet of plywood and gypsum board'; neo-eclectic names the same truss and sheet-goods modules plus 'thin brick and stone veneer on a wire-lath backing' as its own applied finish. Marked judgment because it is inferred from consistently named technology rather than a slot any member addresses directly by this name."
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "rule": "All window heads on a given storey and elevation align to a single datum; where a genuine break in the wall or roof plane does not intervene, misalignment is this family's clearest and most repeated tell of a badly resolved elevation.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "neo-eclectic states this as an explicit zero-tolerance hard constraint (c03: 'all window heads on a given storey of a given elevation shall align to one datum,' with departures permitted only at a genuine plane change of 24 in or more) and names its own violation as 'head-height failure' in its long description. ranch-style's own governing_logic names the head datum as one of the only three things 'someone controlled by eye' to make a ranch read as well-proportioned rather than residual. minimal-traditional's own bound proportion pack note states 'the single-head-datum rule... still organizes what compositional discipline the elevation has' even in a plan-driven, otherwise ungoverned facade."
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "specified",
+      "parameters": {
+        "leaf_to_sash_ratio_min": {
+          "value": 0.45,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "minimal-traditional.c03 and neo-eclectic.c02, identical figure in both"
+        }
+      },
+      "rule": "Where shutters are used, each leaf must be sized to plausibly close over the sash it flanks -- not less than 45 percent of the window's width -- hinged at the jamb, and omitted entirely from ganged, arched, bay, or non-rectangular windows. Half-width, screwed-flat shutters are this family's single most common and most explicitly named failure.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "minimal-traditional's own hard constraint (c03) and neo-eclectic's own hard constraint (c02) state this rule in nearly identical language with the identical 45 percent figure. ranch-style does not restate the constraint directly but names the same failure as a diagnostic tell of its own later, degraded phase ('decorative shutters, scalloped bargeboard... applied to an otherwise unornamented long low box -- the 1955-1970 traditionalizing overlay'), so all three members converge on the same rule, two by explicit constraint and one by naming its violation."
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "specified",
+      "invented": true,
+      "variants": [
+        {
+          "id": "detached-rear-of-lot",
+          "status": "permitted",
+          "note": "minimal-traditional's own strategy -- 'a detached garage at the rear of the lot, reached by a driveway beside the house' -- explicitly named in its own distinguished_from entry against ranch-style as the trait that separates the two nodes. Historically superseded within the family but not wrong; it is the strategy every later member abandoned once postwar lots widened."
+        },
+        {
+          "id": "attached-set-back-or-side-loaded",
+          "status": "canonical",
+          "note": "ranch-style's own hard constraints (c01: setback not less than 4 ft behind the primary facade plane, or side-/rear-/alley-loaded; c02: garage door width not more than 33 percent of the street-facing facade) and neo-eclectic's own hard constraint (c05) restate the identical two numbers almost verbatim: 4 ft setback, 33 percent width ceiling, three-car garages split or turned."
+        },
+        {
+          "id": "attached-flush-or-forward-of-facade",
+          "status": "forbidden",
+          "note": "The 'snout house' -- a garage projecting forward of the front door plane -- is named explicitly as forbidden by ranch-style c01 ('a garage face forward of the front door is forbidden') and is listed as neo-eclectic's own named diagnostic failure ('a garage projecting forward of the front door plane (the snout house), with the entry recessed behind it')."
+        }
+      ],
+      "parameters": {
+        "attached_setback_min_ft": {
+          "value": 4,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "ranch-style.c01 and neo-eclectic.c05, identical figure in both"
+        },
+        "attached_door_width_max_pct": {
+          "value": 33,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "ranch-style.c02 and neo-eclectic.c05, identical figure in both"
+        }
+      },
+      "rule": "This family exists because of the garage problem -- its own description names the unsolved street-elevation garage as 'the single largest gap in the traditional kit of parts.' Minimal Traditional avoided the problem by keeping the garage detached at the rear; every member built after it inherited an attached garage and converged, independently stated in two members with identical numbers, on the same fix: set the door back at least 4 ft behind the front facade plane (or side-/rear-/alley-load it), and never let the garage doors exceed a third of the street-facing facade. A garage flush with or forward of the front door plane is this family's most named and most repeated failure mode.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The 4 ft / 33 percent figures are not an editorial synthesis -- they are the same two numbers, stated as hard constraints, in both ranch-style (c01, c02) and neo-eclectic (c05). This is as close to a genuinely measured family-wide commonality as this corpus offers."
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "specified",
+      "parameters": {
+        "projection_in": {
+          "range": [
+            0.25,
+            0.75
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "neo-eclectic states this range directly ('trim profile projection 1/4 to 3/4 in'); minimal-traditional's own casing is 2 1/4 in wide with 'a projection under 3/4 in,' the same ceiling."
+        }
+      },
+      "rule": "Applied trim stays shallow in actual projection throughout the family -- well under an inch -- even as the applied ornament's scale and busyness increased sharply from Minimal Traditional to Neo-Eclectic. Real classical-depth trim (3 to 6 in of projection) is the family's own repeatedly named point of comparison and the thing it does not deliver, not a trait it shares.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Directly quantified in minimal-traditional (2 1/4 in casing, under 3/4 in projection) and neo-eclectic (1/4-3/4 in projection, explicitly contrasted against the 3-6 in of 'the sources quoted'). ranch-style's own text does not give a trim dimension at all, and its own bound proportion pack notes that 'many built ranches in fact ran no applied interior trim at all' -- consistent with, but not independent confirmation of, the shallow-projection rule. Marked judgment because Ranch's silence is being read as consistent with, not as a third independent data point for, the other two."
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

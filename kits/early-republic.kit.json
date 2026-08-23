@@ -1,0 +1,586 @@
+{
+  "style": "early-republic",
+  "style_name": "Early Republic",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "canonical",
+          "note": "The family's ideological core. Federal, Jeffersonian Roman classicism and Greek Revival all record 'strict-bilateral' as their governing symmetry \u2014 each stream claims classical symmetry as a political argument about the form of government, not only a compositional habit."
+        },
+        {
+          "id": "off-centre-entrance",
+          "status": "permitted",
+          "note": "Tolerated only on the Greek Revival gable-front (temple) parti, where a side-hall door is pushed to the end bay because the pediment itself, not the door, supplies the composition's symmetry. Not tolerated on a broadside elevation."
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "Inherited prohibition from the Georgian tradition every stream of this family descends from. Picturesque composition belongs to the Romantic Revivals that displace this family after 1840-60, not to it."
+        },
+        {
+          "id": "balanced-asymmetrical",
+          "status": "forbidden",
+          "note": "Near-symmetry with a deliberate offset is a later, Picturesque-era habit, not a Federal, Jeffersonian or Greek Revival one."
+        },
+        {
+          "id": "additive-vernacular",
+          "status": "forbidden",
+          "note": "Growth by accretion is exactly the colonial habit the pattern book displaced. Even the cheapest Upland Vernacular Greek Revival farmhouse is composed, not accreted \u2014 Grecian trim is applied precisely to make an old accretive plan read as classical."
+        }
+      ],
+      "rule": "Every stream of the family \u2014 Federal, Jeffersonian Roman classicism, and Greek Revival alike \u2014 composes its principal elevation in strict bilateral symmetry; picturesque, balanced-asymmetrical and additive-vernacular partis are forbidden outright. The one tolerated departure is the Greek Revival gable-front house, where a side-hall door is pushed to the end bay because the pediment itself, not the door, supplies the symmetry.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "jeffersonian-classicism and greek-revival-southern-plantation proportional_system"
+        },
+        "pitch_max": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "southern-federal proportional_system"
+        }
+      },
+      "rule": "Roof pitch across the family runs markedly lower than the Georgian/colonial precedent it replaces \u2014 from a nearly flat, balustrade-concealed 3:12 in Jeffersonian and plantation Greek Revival work up to a still-shallow 9:12 in the steepest Southern Federal hip \u2014 and the roof is characteristically treated as subordinate mass: hidden behind a parapet or balustrade in Federal and Jeffersonian work, or flattened into a pediment in Greek Revival, rather than left as a dominant visible form.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "permitted",
+          "note": "Federal and Southern Federal brick work, and stuccoed brick in Greek Revival Southern Plantation colonnades."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "permitted"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "permitted",
+          "note": "New England Federal's white pine construction; the frame equivalent throughout the vernacular Greek Revival branches."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "permitted",
+          "note": "Available only within the family's later floruit (post-1830) and explicitly the dominant construction of Northern Greek Revival clapboard work \u2014 the earliest Federal work of the 1780s-90s predates it and could not have used it."
+        },
+        {
+          "id": "log",
+          "status": "permitted",
+          "note": "Upland Vernacular Greek Revival frequently conceals a log or hewn-timber core inside a weatherboarded frame wall, a survival of the region's earlier German-Pennsylvania and backcountry building practice."
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "forbidden",
+          "note": "A later nineteenth/twentieth-century technique; every masonry wall bound to this family is load-bearing."
+        },
+        {
+          "id": "platform-frame",
+          "status": "forbidden",
+          "note": "Twentieth-century, long after the family's floruit ends in 1860."
+        },
+        {
+          "id": "structural-insulated-panel",
+          "status": "forbidden",
+          "note": "Modern manufactured technology, anachronistic to the whole family."
+        }
+      ],
+      "rule": "Construction is load-bearing masonry, or braced or balloon timber frame \u2014 balloon framing becomes available and is explicitly attested from the 1830s on in the Northern Greek Revival branch, but is not available to the earliest Federal work of the 1780s-90s, which predates it. No branch uses masonry veneer over a frame backup, platform framing, or a structural insulated panel, all of which postdate the family's 1860 floruit end.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "rule": "Openings are single, evenly spaced, and aligned vertically floor to floor across every stream of the family \u2014 Federal's 'vertically aligned openings', Jeffersonian's 'even bay rhythm derived from the portico's intercolumniation', and Greek Revival's 'even intercolumniation... imposed on the wall behind it' are the same discipline stated three ways. Paired or ribboned windows are not part of the vocabulary. The one permitted disturbance is a single centred feature \u2014 a Palladian or triple window over a Federal entrance, or the portico's own module in Jeffersonian and Greek Revival work \u2014 and it must sit on the composition's own axis, never off-centre.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "true-divided-single-pane",
+          "status": "canonical"
+        },
+        {
+          "id": "insulated-glazing-unit",
+          "status": "forbidden",
+          "note": "The family's floruit ends by 1860, roughly seventy years before the insulated glazing unit existed."
+        }
+      ],
+      "rule": "Glazing is true divided-lite, single-pane sash throughout, never an insulated glazing unit; Federal's characteristically thin sub-seven-eighths-inch muntin and Greek Revival's larger handbook panes are both true divided lite, differing only in bar width, not in glazing technology.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

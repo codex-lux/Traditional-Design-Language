@@ -1,0 +1,571 @@
+{
+  "style": "british-picturesque",
+  "style_name": "British Picturesque & Revival",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "note": "Recorded, in identical wording, as the symmetry class of all three members' own proportional_system entries."
+        },
+        {
+          "id": "deliberate-small-scale-symmetric-quotation",
+          "status": "permitted",
+          "note": "The one documented exception: queen-anne-british's own massing_affinities allows 'the smaller Queen Anne rectory or dower house, symmetrical and hipped, quoting the 1700 house directly' as a possible form, and its own constraint c05 permits a centred entry specifically where the whole building is a deliberate small-scale quotation of a 1700 house. A conscious historical quotation, not an accidental lapse into symmetry."
+        },
+        {
+          "id": "strict-bilateral-classical",
+          "status": "forbidden",
+          "note": "gothic-revival-british's own massing_affinities explicitly forbids the symmetrical double-pile four-over-four box with a centred door: 'contradicts the plan-driven asymmetry that defines the style after 1840.'"
+        }
+      ],
+      "rule": "The facade is composed picturesquely and asymmetrically, generated from the plan rather than imposed on it, with the entrance placed wherever the plan requires rather than centred on an axis. This is the family's own first-listed defining characteristic and is recorded in identical words -- 'picturesque-asymmetrical' -- on all three members' own proportional_system entries. The one recognised exception is a deliberate, self-aware small-scale quotation of an actually symmetrical historical source (Queen Anne's occasional quotation of a genuine 1700 house), which remains a conscious historical reference rather than a lapse into the classical parti.",
+      "sources": [
+        "British Picturesque family node, defining_characteristics",
+        "gothic-revival-british.json, queen-anne-british.json, scottish-baronial.json proportional_system.symmetry (all: picturesque-asymmetrical)"
+      ]
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "pitch_min_deg": {
+          "value": 45,
+          "unit": "deg",
+          "kind": "measured",
+          "note": "The floor stated or implied by all three members: gothic-revival-british c04 ('not less than 45 degrees'), queen-anne-british (45-55 typical), scottish-baronial (45-55 typical)."
+        },
+        "pitch_typical_range_deg": {
+          "range": [
+            45,
+            55
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "note": "The overlap of all three members' own typical_ratios figures (gothic-revival 45-60 with 50-55 typical; queen-anne 45-55; baronial 45-55)."
+        }
+      },
+      "rule": "The roof is steeply pitched, not less than 45 degrees and typically 45-55 degrees, across all three members -- consistent with a family whose skyline and silhouette are, in the family's own words, primary design material rather than a shape left over above the walls.",
+      "sources": [
+        "gothic-revival-british.json c04 and proportional_system, queen-anne-british.json proportional_system, scottish-baronial.json proportional_system"
+      ]
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "tall-multiple-vertical-accent",
+          "status": "canonical",
+          "note": "Clustered or shafted (Gothic Revival), thin and numerous and 'well out of proportion to the flues they carry' (Queen Anne, c04), or corbelled and part of the wall-head incident (Baronial) -- the same underlying move in three different vocabularies."
+        },
+        {
+          "id": "flush-minimal-stack",
+          "status": "forbidden",
+          "note": "A stack that does not read as a deliberate vertical accent defeats the point in a family whose skyline is its primary design material."
+        }
+      ],
+      "rule": "The chimney is built deliberately taller and more conspicuous than its flue requires and is used as a primary vertical accent in the silhouette -- tall and clustered in Gothic Revival, thin and multiplied well past functional need in Queen Anne, corbelled and part of the wall-head composition in Baronial. All three members describe this in their own words, and it follows directly from the family's own stated principle that silhouette and skyline are primary design material.",
+      "sources": [
+        "gothic-revival-british.json defining_characteristics/diagnostic_tells, queen-anne-british.json c04, scottish-baronial.json defining_characteristics"
+      ]
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "double-hung-sash",
+          "status": "canonical",
+          "note": "The actual glazing mechanism across all three members despite each quoting a pre-sash historical source. gothic-revival-british's own diagnostic_tells names 'plate glass or two-pane sashes behind pointed or square-headed stone openings in domestic work' as itself the tell that 'betrays the Victorian date'; queen-anne-british uses the sash as a defining characteristic outright; scottish-baronial's diagnostic_tells contrasts revival buildings' 'large plate-glass or two-pane sashes' against a genuine tower house's tiny unglazed openings."
+        }
+      ],
+      "rule": "Whatever historical vocabulary a member quotes -- medieval tracery, a 1700 brick house, a sixteenth-century tower house, none of which had a sliding sash -- the actual window mechanism throughout this family is the contemporary Victorian double-hung sash. This is a case where the shared trait belongs to the century the buildings were actually built in, not to the century they quote, and each member's own sources say so explicitly.",
+      "note": "Marked judgment: true because the underlying observation (three quite different revival vocabularies converge on the one contemporary glazing technology) is this author's synthesis of what each source states about its own member, not a single directly-quoted family-wide claim.",
+      "sources": [
+        "gothic-revival-british.json diagnostic_tells, queen-anne-british.json defining_characteristics, scottish-baronial.json diagnostic_tells"
+      ]
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No true classical order -- a base-shaft-capital-entablature system proportioned to a module -- governs any part of the composition in this family. Where classical-flavoured detail appears at all (a Queen Anne brick pilaster panel, a Baronial dormer pediment) it is applied Victorian ornament copied flat onto a wall, never a real order.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Only a PART of the classical-apparatus group is forbidden at the family level, deliberately -- not the whole group, which would overreach. gothic-revival-british's own hard constraint (c05) forbids 'orders, pediments, entablatures, quoins, symmetrical porticoes' outright, and scottish-baronial's own governing_logic states 'None classical' -- but queen-anne-british's own defining_characteristics list explicitly names 'pilasters' among its brick-relief ornament and 'balustrades' among its white-painted joinery, and scottish-baronial's own defining_characteristics names 'carved dormer pediments' as part of its wall-head ornament. So pediment, pilaster and balustrade are each genuinely used by at least one member as applied Victorian-domestic decoration and are correctly left OPEN here, not forced into a blanket family prohibition the real member texts contradict. What IS genuinely absent from all three -- no member ever uses a true, module-derived classical order, its column, its entablature, or a modillion/dentil cornice enrichment -- is forbidden below."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical, entasis-bearing column is used anywhere in this family. Supports, where they occur -- a porch post, a balcony bracket -- are Victorian carpentry or ironwork, not a proportioned classical member.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Only a PART of the classical-apparatus group is forbidden at the family level, deliberately -- not the whole group, which would overreach. gothic-revival-british's own hard constraint (c05) forbids 'orders, pediments, entablatures, quoins, symmetrical porticoes' outright, and scottish-baronial's own governing_logic states 'None classical' -- but queen-anne-british's own defining_characteristics list explicitly names 'pilasters' among its brick-relief ornament and 'balustrades' among its white-painted joinery, and scottish-baronial's own defining_characteristics names 'carved dormer pediments' as part of its wall-head ornament. So pediment, pilaster and balustrade are each genuinely used by at least one member as applied Victorian-domestic decoration and are correctly left OPEN here, not forced into a blanket family prohibition the real member texts contradict. What IS genuinely absent from all three -- no member ever uses a true, module-derived classical order, its column, its entablature, or a modillion/dentil cornice enrichment -- is forbidden below."
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No entablature, classical or approximate, is built anywhere in this family. Cornices and wall-head enrichment are Victorian mouldings, corbel courses, or carpenter's work, never a base-shaft-entablature run.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Only a PART of the classical-apparatus group is forbidden at the family level, deliberately -- not the whole group, which would overreach. gothic-revival-british's own hard constraint (c05) forbids 'orders, pediments, entablatures, quoins, symmetrical porticoes' outright, and scottish-baronial's own governing_logic states 'None classical' -- but queen-anne-british's own defining_characteristics list explicitly names 'pilasters' among its brick-relief ornament and 'balustrades' among its white-painted joinery, and scottish-baronial's own defining_characteristics names 'carved dormer pediments' as part of its wall-head ornament. So pediment, pilaster and balustrade are each genuinely used by at least one member as applied Victorian-domestic decoration and are correctly left OPEN here, not forced into a blanket family prohibition the real member texts contradict. What IS genuinely absent from all three -- no member ever uses a true, module-derived classical order, its column, its entablature, or a modillion/dentil cornice enrichment -- is forbidden below."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No modillion or dentil course appears anywhere in this family; none of the three members' own defining characteristics or diagnostic tells mentions one, and their cornice and wall-head treatments (Victorian moulded brick, corbel tables, plain eaves) are of a wholly different character.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Only a PART of the classical-apparatus group is forbidden at the family level, deliberately -- not the whole group, which would overreach. gothic-revival-british's own hard constraint (c05) forbids 'orders, pediments, entablatures, quoins, symmetrical porticoes' outright, and scottish-baronial's own governing_logic states 'None classical' -- but queen-anne-british's own defining_characteristics list explicitly names 'pilasters' among its brick-relief ornament and 'balustrades' among its white-painted joinery, and scottish-baronial's own defining_characteristics names 'carved dormer pediments' as part of its wall-head ornament. So pediment, pilaster and balustrade are each genuinely used by at least one member as applied Victorian-domestic decoration and are correctly left OPEN here, not forced into a blanket family prohibition the real member texts contradict. What IS genuinely absent from all three -- no member ever uses a true, module-derived classical order, its column, its entablature, or a modillion/dentil cornice enrichment -- is forbidden below."
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

@@ -1,0 +1,714 @@
+{
+  "style": "american-arts-and-crafts",
+  "style_name": "American Arts and Crafts",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "stub",
+      "note": "Deliberately left open. Craftsman, California Bungalow and Craftsman Bungalow are canonically gabled; Prairie School is canonically hipped and its own hard constraint (prairie-school.c01) forbids a gabled principal roof outright. This is the single largest real disagreement inside the family -- see roof_pitch, which IS shared, for the trait that survives the split."
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Roof pitch stays low across the whole family, 3:12 to 6:12 -- never a steep or vertical reading -- which is what lets the deep eave register as a plane rather than a gesture.",
+      "confidence": "high",
+      "note": "Synthesized from the members' own documented ranges: arts-and-crafts-american 4:12-6:12, craftsman 3:12-6:12, prairie-school 3:12-4:12, california-bungalow 3:12-5:12, craftsman-bungalow 4:12-6:12. The union is 3:12-6:12; every member's own band sits inside it. ROOF FORM (gable vs hip) is the family's real internal split and is left open at composition below -- pitch is shared, form is not.",
+      "status": "drafted"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exposed-rafter-tails",
+          "status": "permitted",
+          "note": "Canonical in the Craftsman lineage (arts-and-crafts-american, craftsman, california-bungalow, craftsman-bungalow all name exposed, shaped rafter tails and knee braces as a defining or diagnostic trait)."
+        },
+        {
+          "id": "closed-soffit-continuous-plane",
+          "status": "permitted",
+          "note": "Canonical in Prairie School, whose own diagnostic_tells state 'the eave soffit is clean: no rafter tails, no knee braces, no brackets' and whose c02 forbids exposed structure outright."
+        }
+      ],
+      "parameters": {
+        "projection_in": {
+          "range": [
+            24,
+            48
+          ],
+          "unit": "in",
+          "kind": "editorial",
+          "note": "Union of the members' own stated eave/rake bands (24-36 in for the Craftsman lineage, 30-48 in for Prairie and California Bungalow)."
+        }
+      },
+      "rule": "The eave projects deep enough to throw the wall into shadow for most of the day across every branch of the family; whether the soffit displays the rafters (Craftsman lineage) or closes into one unbroken plane (Prairie) is the family's principal internal branch point and is deliberately not resolved here.",
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "platform-frame",
+          "status": "canonical",
+          "note": "The dominant technology across the family's whole floruit (1900-1935), spanning the transition from balloon to platform framing."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "permitted",
+          "note": "The earlier houses, before roughly 1910-1915."
+        },
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "forbidden",
+          "note": "No member's exemplars are load-bearing masonry; masonry throughout the family is reserved for piers, foundations and chimneys, never the primary wall. A masonry bearing wall belongs to Georgian or Colonial Revival, not to this family."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "forbidden",
+          "note": "Same reasoning as solid-masonry-two-wythe: no member's exemplars are load-bearing masonry."
+        }
+      ],
+      "rule": "The primary structure is wood frame; masonry is reserved for bases, piers, foundations and chimneys and never carries the wall as a bearing material.",
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted",
+      "note": "Not explicitly stated as 'construction_type' by name in any member's own text -- inferred from the fact that every exemplar across all five member nodes (Gamble House, Craftsman Farms, Bungalow Heaven, Robie House, Sears kit houses) is wood-frame with masonry accents only, and none is described as a bearing-masonry building. Marked judgment because it is an inference from consistent absence rather than a documented statement."
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "specified",
+      "rule": "No more than three wall materials per elevation, each change occurring only at a real structural line -- water table, belt, plate, or gable line -- and returning fully around any corner it meets.",
+      "parameters": {
+        "max_materials_per_elevation": {
+          "value": 3,
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly and repeatedly documented: arts-and-crafts-american's own hard constraint (c05) states this almost verbatim; craftsman's defining_characteristics state 'stacked natural materials expressing base, wall, and gable, with each transition at a structural line'; california-bungalow repeats the same principle. Not found stated for prairie-school specifically, but prairie's own wall treatment (continuous stucco or Roman brick, rarely stacked) does not contradict the rule -- it simply exercises the single-material end of it."
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "rule": "Quoins are a classical masonry-order device and are incompatible with a family whose whole argument is that ornament must be produced by construction rather than applied from a pattern-book vocabulary.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Not separately discussed in any member's own text -- no member ever shows a quoined corner in its exemplars or diagnostic_tells -- but this follows directly from the family-wide classical-apparatus prohibition below and the general 'ornament must arise from construction' rule that is this family's own stated defining content."
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-board",
+          "status": "canonical",
+          "note": "Wide, flat, unmoulded -- matches the family's own repeated diagnostic of 'wide flat unpainted trim.'"
+        },
+        {
+          "id": "mitred-no-board",
+          "status": "permitted",
+          "note": "Common where board-and-batten cladding is used, especially in the California branch."
+        },
+        {
+          "id": "pilaster-corner",
+          "status": "forbidden",
+          "note": "A classical device; see the family-wide classical-apparatus prohibition."
+        }
+      ],
+      "rule": "The corner is a plain, flat board sized to the trim it terminates, never a classical pilaster or moulded backband.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Inferred from the family's repeated 'wide flat trim' diagnostic (arts-and-crafts-american, craftsman-bungalow) rather than a slot the members discuss by name."
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "specified",
+      "rule": "Materials are left in their own colour and texture -- unpainted or matte-stained wood, clinker brick, river rock, stucco, matte tile -- never painted white or high-gloss; the reform argument is that a material honestly shown does not need a coat to explain it.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "AAC's own defining_characteristics states this almost word for word ('Materials left in their own colour and texture: unpainted or matte-stained wood...'); craftsman's long description states flatly 'Nothing is painted white.' Not separately restated for Prairie or the two variants, but nothing in their own texts contradicts it and Prairie's stucco-and-Roman-brick palette is consistent with the same ethic."
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "moulded-cap",
+          "status": "permitted"
+        },
+        {
+          "id": "flat-casing-head",
+          "status": "canonical"
+        },
+        {
+          "id": "drip-cap",
+          "status": "permitted"
+        },
+        {
+          "id": "pedimented-head",
+          "status": "forbidden",
+          "note": "A classical device; see the family-wide classical-apparatus prohibition."
+        },
+        {
+          "id": "cornice-head",
+          "status": "forbidden",
+          "note": "Same reason."
+        }
+      ],
+      "rule": "Window heads are flat, wide, and unmoulded or lightly moulded -- never a pedimented or cornice head, which would import a classical order this family explicitly rejects.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "No member states a window-head profile explicitly; this follows from the family's repeated 'wide flat trim, no applied classical ornament' rule (arts-and-crafts-american c03, craftsman distinguished_from colonial-revival) rather than a directly documented figure. Left open for window_head_masonry, since solid masonry bearing walls are themselves forbidden at construction_type and a masonry window head is largely moot for this family."
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-casing",
+          "status": "canonical"
+        },
+        {
+          "id": "moulded-architrave",
+          "status": "permitted"
+        },
+        {
+          "id": "crossette-architrave",
+          "status": "forbidden",
+          "note": "A classical device."
+        },
+        {
+          "id": "pilaster-and-entablature",
+          "status": "forbidden",
+          "note": "A classical device; see the family-wide classical-apparatus prohibition."
+        }
+      ],
+      "rule": "The surround is flat, wide casing, not a classical architrave with ears or a pilastered entablature.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Follows the same 'wide flat unpainted trim' diagnostic used across the family rather than a member text naming this slot directly."
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "diamond-leaded",
+          "status": "forbidden",
+          "note": "A Tudor/English Arts and Crafts device, not the American movement's own vocabulary; the American branch's art glass is rectilinear, not diamond-paned."
+        }
+      ],
+      "rule": "Art glass, where used, is rectilinear and geometric -- never floral, curvilinear, or diamond-leaded -- and its pattern is derived from the building's own structural geometry rather than borrowed from a decorative catalogue.",
+      "confidence": "medium",
+      "status": "drafted",
+      "note": "Directly stated for arts-and-crafts-american (diagnostic_tells: 'Art glass in rectilinear, non-floral geometry') and for prairie-school (long description: 'rectilinear geometry and no curves'; diagnostic_tells: 'no curves'). Not separately emphasized in craftsman's or the two bungalow variants' own texts, but nothing in them contradicts it."
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical order is used anywhere in the family; a column is a post, sized by the load and the batter, not by a module derived from a Tuscan or Corinthian diameter.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "Porch supports are square posts or battered piers, never a turned, fluted, or entasis-bearing classical column.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No engaged classical entablature is built; where a cornice or frieze occurs it is a carpenter's or mason's construction detail, not the base-shaft-cap logic of an order.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No pediment, triangular or otherwise, appears over an opening or a portico; a gable is a roof shape, not a pediment quoting a temple front.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No pilaster is applied to a wall or a corner; where the wall needs a vertical stop it is a plain post or board, never a flattened classical column.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No modillion or dentil course appears anywhere in the family; a cornice, where one exists, is a plain board or a bracket run, never a run of classical blocks.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No turned classical balustrade appears at a porch, stair, or roof edge; a rail, where used, is a simple square or battered picket, not a run of classical balusters.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "rule": "No classical ornament vocabulary -- swag-and-urn, guttae-triglyph, acanthus, fan-and-patera -- is used anywhere in the family; ornament, where it exists at all, is the structure itself (a joint, a bracket, a rafter end) left visible, not an applied classical motif.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The whole classical-apparatus group is forbidden at the family level. This is not an inference: arts-and-crafts-american's own hard constraint (c03) forbids applied classical orders outright; craftsman's own distinguished_from entry against colonial-revival states it 'has no orders at all'; prairie-school's own hard constraint (c02) forbids 'any classical or revival ornament.' All three direct style children and both variants (which inherit the craftsman prohibition) agree. This mirrors the precedent docs/inheritance.md itself gives for family-level classical-apparatus prohibition (Prairie forbidding 'most of the classical apparatus outright')."
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "specified",
+      "rule": "One coherent interior trim family: flat, wide, unmoulded or lightly moulded boards, in the wood's own colour, with a picture rail as the room's organizing datum rather than a classical crown. No classical profile family is mixed in.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded: craftsman's and craftsman-bungalow's own proportion_packs cite the trim-craftsman pack as close to a primary source, describing 'the picture rail as the room's datum' and 'the three-board casing family.' arts-and-crafts-american binds the same pack for the same reason. Prairie School binds trim-craftsman only 'optional' and with an explicit caveat that Wright's own bespoke geometric oak trim is a real gap the pack doesn't capture -- but Prairie's own trim ethic (geometric, non-classical, catalog-adjacent in its plan-book 'Prairie box' form) does not contradict the flat-unmoulded rule, it simply executes it more severely."
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "specified",
+      "parameters": {
+        "width_in": {
+          "range": [
+            4,
+            5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Drawn directly from craftsman-bungalow's own diagnostic tell: 'a wide flat casing 4 to 5 in deep around every opening.'"
+        }
+      },
+      "rule": "Casing is flat stock, 4 to 5 in wide, with little or no back-band, sized like a board rather than derived from an order.",
+      "confidence": "medium",
+      "status": "drafted"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "forbidden",
+      "rule": "A sprung classical crown moulding is forbidden; the picture rail, not a crown, is the room's upper datum.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly quoted from craftsman's own proportion_packs note: 'the explicit prohibition on a mitred casing or a sprung classical crown that the movement was founded to object to.'"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "specified",
+      "rule": "Built-in cabinetry -- bookcases flanking the hearth, a dining buffet, a window seat, a plate rail -- is original fabric that fixes the plan against rearrangement, not an optional upgrade added after the design is otherwise complete.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "One of the most repeatedly and explicitly documented traits in the whole family: arts-and-crafts-american's defining_characteristics ('built-in cabinetry replacing movable furniture'), craftsman's defining_characteristics ('built-in seating and cabinetry fixing the plan against rearrangement'), craftsman-bungalow's own hard constraint (c05, 'the hearth and its flanking built-ins must occupy a full wall'), and prairie-school's shared lineage note that it inherits 'the built-in furniture' from the same reform ethic."
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "open-plan",
+          "status": "canonical"
+        },
+        {
+          "id": "hall-and-parlor",
+          "status": "forbidden",
+          "note": "The formal parlour this family's whole reform programme was organized to eliminate."
+        }
+      ],
+      "rule": "The formal parlour is eliminated; circulation opens around a hearth-centred living space rather than through a sequence of closed, single-purpose rooms.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "arts-and-crafts-american: 'reorganized the middle-class plan around an open hearth-centred living room' and 'the open living room with built-in cabinetry...replacing fewer rooms'; craftsman-bungalow's own diagnostic tell: 'front door opens directly into the living room with no vestibule'; prairie-school's own lineage text: Wright's programme was to 'eliminate...the room-by-room subdivision of the ground floor.' Convergent across all three direct style children independently."
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "specified",
+      "rule": "House, interior fittings, furniture, and garden are conceived as one commission under one grammar; the landscape is not a separate decorative layer added after the building is finished.",
+      "confidence": "medium",
+      "status": "drafted",
+      "note": "AAC's own defining_characteristics states this directly ('House, interior fittings, furniture, and garden conceived as one commission under one grammar'), reinforced by the Gamble House and Craftsman Farms exemplars (whole-commission design) and by the California Bungalow's bungalow-court type, which is explicitly a landscape-and-massing move at once. Marked editorial because no member gives a dimensional or plant-list specification -- the claim is about design authorship, not a measurable rule."
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

@@ -1,0 +1,527 @@
+{
+  "style": "low-countries-vernacular",
+  "style_name": "Low Countries Vernacular",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The gable is the family's principal site of architectural expression — a shaped wall rising above or dominating the roofline — but its specific geometry is NOT shared and differs sharply by member.",
+      "judgment": true,
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "free-standing-screen-gable",
+          "status": "permitted",
+          "note": "cape-dutch: a moulded, plastered gable 'standing free above the eave line of a thatched roof' (curvilinear/holbol geometry). dutch-urban-gable-house: 'a decorated masonry gable screen ... resolving on a single vertical axis' that is explicitly 'a screen in front of the roof, not the end of it' (stepped/neck/bell geometry)."
+        },
+        {
+          "id": "structural-gable-as-roof-end",
+          "status": "permitted",
+          "note": "flemish-vernacular: 'the gable is structural' and 'genuinely the end of a roof rather than a screen in front of one' — the opposite condition from the other two members. Stepped (crow-stepped), capped in stone or tile."
+        }
+      ],
+      "note": "No proportion pack in this corpus currently models any of these gable geometries — a curvilinear Cape Dutch module, or a stepped/bell/neck module for the Low Countries urban front — named as a real, unresolved gap in docs/reports/wp-4.1-proportion-pack-bindings.md ('no \"gable geometry\" system of any kind currently exists in the library'). This slot is authored as editorial judgment for that reason, not derived from any pack, and stays that way until such a pack exists."
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Growth strategy divides cleanly in two, by settlement type, and the two do not converge to one family-wide answer.",
+      "judgment": false,
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "rural-additive-enclosure",
+          "status": "permitted",
+          "note": "cape-dutch: additive letter-plan growth, langhuis to T to U to H, ranges pinwheeling around a small rear court within a walled werf. flemish-vernacular: growth by enclosure, single range to L to three-sided to a fully closed square farm (vierkantshoeve) with one gated entrance."
+        },
+        {
+          "id": "none-fixed-urban-lot",
+          "status": "permitted",
+          "note": "dutch-urban-gable-house: a single fixed-frontage taxed lot; the house grows upward and backward within one build, never by adding a second range or enclosing a yard — there is no working precinct to enclose."
+        }
+      ]
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No true classical order, entablature or run of modillions/dentils in any family member. Each member's only contact with classicism is quoted surface ornament carried by a `references` lineage edge with `inherits_kit: false` (dutch-urban-gable-house and flemish-vernacular both quote Antwerp Mannerist / Vredeman de Vries pattern sheets onto an unchanged wall; cape-dutch's late gables quote Louis XVI profiles onto an unchanged wall and plan) — never a structural order.",
+      "judgment": false,
+      "confidence": "high",
+      "note": "Explicitly forbidden rather than left open because all three members' own texts independently make the same point: ornament is quoted onto the wall, the wall and plan 'do not change at all' (cape-dutch), and 'the prints, not the buildings, travelled' (flemish-vernacular, dutch-urban-gable-house)."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No true classical order, entablature or run of modillions/dentils in any family member. Each member's only contact with classicism is quoted surface ornament carried by a `references` lineage edge with `inherits_kit: false` (dutch-urban-gable-house and flemish-vernacular both quote Antwerp Mannerist / Vredeman de Vries pattern sheets onto an unchanged wall; cape-dutch's late gables quote Louis XVI profiles onto an unchanged wall and plan) — never a structural order.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No true classical order, entablature or run of modillions/dentils in any family member. Each member's only contact with classicism is quoted surface ornament carried by a `references` lineage edge with `inherits_kit: false` (dutch-urban-gable-house and flemish-vernacular both quote Antwerp Mannerist / Vredeman de Vries pattern sheets onto an unchanged wall; cape-dutch's late gables quote Louis XVI profiles onto an unchanged wall and plan) — never a structural order.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No true classical order, entablature or run of modillions/dentils in any family member. Each member's only contact with classicism is quoted surface ornament carried by a `references` lineage edge with `inherits_kit: false` (dutch-urban-gable-house and flemish-vernacular both quote Antwerp Mannerist / Vredeman de Vries pattern sheets onto an unchanged wall; cape-dutch's late gables quote Louis XVI profiles onto an unchanged wall and plan) — never a structural order.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

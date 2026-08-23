@@ -1,0 +1,666 @@
+{
+  "style": "colonial-iberian-americas",
+  "style_name": "Colonial Iberian Americas",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The elevation is a plain field wall — tezontle, ashlar, rubble or lime plaster — broken only at the controlled entry (the zaguan portal or, on the hacienda, the estate gate), which alone carries the ornament budget; window openings and the rest of the wall stay plain. Facade composition is not order-regulated.",
+      "parameters": {
+        "ornament_confined_to_entry": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "source": "mexican-colonial.c04, mexican-hacienda.c05",
+          "note": "Both members state this as a hard/soft co-occurrence or cultural constraint in near-identical language."
+        }
+      },
+      "confidence": "high",
+      "judgment": false,
+      "note": "Shared across both members' own hard constraints (mexican-colonial.c04: ornament confined to portada/surrounds/cornice; mexican-hacienda.c05: ornament budget goes to gate and chapel). Not the churrigueresque/plateresque retablo-panel logic of the spanish-classical family — here the principle is plain-field-with-one-ornamented-opening, not a stacked ornamental register."
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "pitch": {
+          "range": [
+            20,
+            30
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "mexican-colonial and mexican-hacienda typical_ratios, both '20-30 degrees'",
+          "note": "Applies only to the tile-roofed lowland condition; the azotea condition is flat (0 deg) and is not a variant of this parameter — see roof_material."
+        }
+      },
+      "rule": "Where the tile-roofed condition applies, pitch is 20-30 degrees with a deep overhang (see eave_condition).",
+      "confidence": "high"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "flat-masonry-terrace",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "altiplano",
+              "highland Mexico above c. 1800m"
+            ]
+          },
+          "note": "The azotea: a monolithic lime-mortar/masonry flat terrace roof, not a discrete applied material — see parapet and rainwater slots. Both members state this explicitly for the dry highlands."
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "tierra caliente",
+              "Gulf coast",
+              "Pacific coast",
+              "Yucatan"
+            ]
+          },
+          "note": "Teja, low-pitched, with a deep overhang. Both members state 'clay tile' explicitly for the wet/hot lowlands; 'barrel' profile is the standard Mexican vernacular form and is an editorial inference from general convention rather than a directly quoted profile."
+        }
+      ],
+      "rule": "Roof material is climate-determined, not stylistically free: a flat lime-mortar azotea on the dry highlands, low-pitched clay tile in the wet and hot lowlands. Mixing the two on one building is a revival error (mexican-colonial.c02).",
+      "confidence": "high"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "overhang_depth": {
+          "range": [
+            28,
+            47
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "mexican-colonial.c02 note (700-1000mm) and mexican-hacienda typical_ratios (800-1200mm)",
+          "note": "Union of both members' stated overhang ranges. Applies to the tile-roofed lowland condition only; the azotea condition has no eave (see parapet)."
+        }
+      },
+      "rule": "On the tile-roofed condition, a deep overhang — roughly 28-47 in (700-1200 mm) — shelters the wall and the arcade below. On the flat azotea condition there is no eave at all; the roof edge is the parapet.",
+      "confidence": "high"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "adobe",
+          "status": "canonical",
+          "note": "The default mass-wall construction for both members."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "permitted",
+          "note": "Rubble, tezontle, or dressed stone (ashlar/chiluca) in place of adobe — mexican-colonial names tezontle and ashlar explicitly; mexican-hacienda names rubble and cut limestone in the Yucatan."
+        }
+      ],
+      "rule": "Load-bearing mass-wall construction — adobe, rubble, or dressed/rough stone depending on region and budget — never a framed or veneer wall. The wall is structural and thick; nothing in either member's own text describes a framed alternative.",
+      "confidence": "high",
+      "note": "mexican-colonial: 'adobe, rubble or tezontle walls'; mexican-hacienda: 'adobe or rubble, or cut limestone in the Yucatan.'"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "thickness": {
+          "range": [
+            24,
+            40
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "mexican-colonial.c01 (600-1000mm), mexican-hacienda.c01 (700-1000mm)",
+          "note": "Union of both members' own stated ranges (600-1000mm and 700-1000mm respectively, ~24-39.4in); a two-storey building requires the arcade to act as a stiffening ring in seismic zones (mexican-colonial.c01)."
+        }
+      },
+      "rule": "Mass wall 24-40 in (600-1000 mm) thick, load-bearing, at a seismic-response scale rather than a proportional one.",
+      "confidence": "high"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "stucco",
+          "status": "canonical",
+          "note": "Lime plaster, colour-washed. Universal on the hacienda ('walls are lime-plastered and colour-washed... colour is regional'); one of three explicit options on mexican-colonial."
+        },
+        {
+          "id": "stone-ashlar",
+          "status": "permitted",
+          "note": "Exposed dressed stone or tezontle field, unplastered — an urban Mexican Colonial option (chiluca, tezontle) not attested for the rural hacienda, which is consistently plastered."
+        }
+      ],
+      "rule": "Lime-plastered, colour-washed masonry is the default field finish; exposed dressed or vesicular stone is a permitted urban alternative documented for Mexican Colonial specifically.",
+      "confidence": "medium",
+      "note": "Colour-washing is explicit for the hacienda ('the ochres and deep reds of the Bajio, the almagre red and cream of Yucatan'); mexican-colonial's iconic red-and-cream tezontle/chiluca combination is left unplastered instead, so the two members diverge here more than most slots — hence 'permitted' rather than a second canonical, and status held at medium confidence."
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "height": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "confidence": "medium",
+          "source": "mexican-colonial typical_ratios ('azotea flat with a 600-900 mm parapet')",
+          "note": "Figure is mexican-colonial's own stated ratio (600-900mm ~ 24-36in); mexican-hacienda states the same feature qualitatively ('flat azotea roofs with parapets and canales on the dry highlands') without its own number, so this parameter is sourced from one member and extended to the family with medium confidence rather than high."
+        }
+      },
+      "rule": "On the altiplano/highland azotea condition, the roof edge is a solid masonry parapet, not an eave — there is no eave assembly on the flat-roof condition.",
+      "confidence": "medium",
+      "judgment": true
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "On the flat azotea condition, roofs drain through stone canales (scuppers) projecting through the parapet; no hung gutter is used anywhere in the tradition.",
+      "parameters": {
+        "gutter_type": {
+          "value": "none-canales-only",
+          "unit": "none",
+          "kind": "measured",
+          "source": "mexican-colonial description; mexican-hacienda defining_characteristics",
+          "note": "Both members state canales explicitly and neither mentions a hung gutter system."
+        }
+      },
+      "confidence": "high"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order regulates the field wall or the elevation. Ornament is confined to the entry (see composition_parti); where a portada does carry classical-derived members (estipite, pilaster) it is inherited from the spanish-classical lineage (churrigueresque, spanish-plateresque) and belongs at the style level, not stated generically here.",
+      "confidence": "high",
+      "note": "mexican-colonial's own governing_logic: 'Facade composition is governed by the portada... rather than by any order regulating the wall.' mexican-hacienda's own governing_logic: 'Nothing is derived from an order, and no elevation is composed as a whole.'"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "value": {
+          "value": "arcaded-corredor-loop, no internal corridor",
+          "unit": "none",
+          "kind": "measured",
+          "source": "mexican-colonial description ('all of the rooms opening onto the corredor around it'); mexican-hacienda description ('the rooms are single-pile and have no corridors')",
+          "note": "Both members state this explicitly and in near-identical terms."
+        }
+      },
+      "rule": "Every room is entered from the arcaded corredor running around the patio; there is no internal corridor anywhere in the plan.",
+      "confidence": "high"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "value": {
+          "value": "single-pile",
+          "unit": "none",
+          "kind": "measured",
+          "source": "mexican-colonial.c03, mexican-hacienda.c02",
+          "note": "Both members state this as a hard constraint in near-identical language: room depth may not exceed the viga span, ranges are single-pile, and the building grows by adding courts rather than by thickening a range."
+        }
+      },
+      "rule": "Ranges are single-pile, one room deep, their depth fixed by the local timber viga span; a building grows by adding courts, never by thickening a range.",
+      "confidence": "high"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "A largely closed or blind wall to the street or perimeter, entered through a single controlled gate — the zaguan on the urban house, one or two gates in the casco's perimeter wall on the hacienda. The architectural investment sits inside, around the court(s), not on the public face.",
+      "parameters": {
+        "controlled_entries": {
+          "set": [
+            1,
+            2
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "mexican-colonial description; mexican-hacienda defining_characteristics",
+          "note": "mexican-colonial: 'a single controlled entry (zaguan)'; mexican-hacienda: 'one or two controlled gates.'"
+        }
+      },
+      "confidence": "high"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "A perimeter wall — the blind street elevation on the urban house, the full walled casco on the hacienda — is structural to the social and architectural plan, not decorative; it is what makes the controlled single entry meaningful.",
+      "confidence": "high",
+      "judgment": true,
+      "note": "Synthesized from both members' own descriptions of a closed perimeter with controlled access; not a separately quoted 'fence_wall' fact in either text, hence judgment:true even though the underlying evidence (blind street wall / walled casco) is explicit."
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

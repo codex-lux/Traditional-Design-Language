@@ -1,0 +1,720 @@
+{
+  "style": "english-classical",
+  "style_name": "English Classical",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "Every member of this family composes the facade before the plan is fitted behind it. Organic, informal or picturesque asymmetry is the thing the whole family — from Wren's generation through Regency — never does; it is the picturesque and Arts and Crafts families that later react against exactly this rule."
+        }
+      ],
+      "rule": "The facade is governed by a ruled, legible composition — strict bilateral symmetry in most members, a disciplined near-symmetry around a bow or canted front in Regency, a controlled off-centre entrance in the party-walled town house — and in every case the composition is decided before the plan, not fitted behind it. Bay count and the exact symmetry class are a style- or lot-driven decision the family deliberately leaves open: odd-bay, centred fronts are typical of free-standing work, but a narrow urban lot can run an even, off-centre front without breaking the family's real rule, which is legibility and vertical bay alignment, not a fixed parity.",
+      "note": "Deliberately lighter than english-georgian's own composition_parti binding (which forbids even-bay fronts outright). That rule is true for the free-standing Georgian box but is contradicted by the family's own town-house member, which runs genuine even-bay, off-centre fronts on narrow lots — so the family kit states only what all seven members actually share.",
+      "sources": [
+        "Colen Campbell, Vitruvius Britannicus (1715)",
+        "James Gibbs, A Book of Architecture (1728)",
+        "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)"
+      ]
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "graduated-ground-tallest",
+          "status": "permitted",
+          "note": "The free-standing case: ground floor tallest, each storey above diminishing. Adam, Baroque, Palladian, Georgian and Regency country and villa work."
+        },
+        {
+          "id": "graduated-principal-floor-tallest",
+          "status": "permitted",
+          "note": "The party-walled town-house case: the principal (usually first) floor is the tallest, because that is where the drawing room sits, one flight up from the street and noise."
+        },
+        {
+          "id": "equal-storey-heights",
+          "status": "forbidden",
+          "note": "Every member of the family graduates its storey heights for the same reason: it is what makes an elevation sit down rather than float. Equal heights are the single fastest tell of an incorrect design across the whole family, not just within any one member."
+        }
+      ],
+      "parameters": {
+        "storeys_equal_permitted": {
+          "value": false,
+          "unit": "none",
+          "kind": "editorial",
+          "note": "Restated as a parameter for anything reading only parameters rather than variants."
+        }
+      },
+      "rule": "Storey heights are never equal. Every member graduates its floor heights into a hierarchy; which storey is tallest — the ground floor in free-standing work, the first floor in the party-walled town house — is a function of plan type, but the graduation itself, and the prohibition on equal storeys, is shared across the whole family.",
+      "note": "The exact percentages differ by member (Georgian's 10-20% ground-over-first is not Palladian's three-tier service/state/subordinate hierarchy or the town house's first-floor peak) and are correctly left to the style level; only the qualitative rule — always graduated, never equal — is genuinely universal.",
+      "sources": [
+        "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732"
+      ]
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical"
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "permitted",
+          "note": "Grander country-house and Palladian ashlar work."
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "forbidden",
+          "note": "No such assembly existed in this family's period; it is the American adaptation, not the English original (see english-georgian.kit.json's own primary_cladding note)."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "note": "The construction of the medieval and Tudor-Jacobean carcass this family's masonry practice replaced, not this family's own."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "forbidden",
+          "note": "A nineteenth-century American technique, centuries after and an ocean away from this family's period."
+        },
+        {
+          "id": "platform-frame",
+          "status": "forbidden",
+          "note": "A twentieth-century American technique, unrelated to this family's masonry construction."
+        }
+      ],
+      "rule": "The wall is solid masonry — brick, overwhelmingly, or ashlar and coursed stone in the stone counties — never a timber frame under cladding. Where a member renders the wall (Regency's scored stucco), the render sits on a masonry carcass; the family's material logic never becomes a frame wall with an applied veneer.",
+      "sources": [
+        "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+        "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)"
+      ]
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "brick-flemish-bond",
+          "status": "permitted",
+          "note": "The commonest choice across the family from about 1630 onward; canonical at the Georgian, Baroque and Adam styles specifically."
+        },
+        {
+          "id": "brick-english-bond",
+          "status": "permitted",
+          "note": "Earlier and persistent in vernacular and northern work throughout the family."
+        },
+        {
+          "id": "stone-ashlar",
+          "status": "permitted",
+          "note": "Bath, Edinburgh, and the grandest Palladian and Baroque commissions."
+        },
+        {
+          "id": "stucco-scored",
+          "status": "permitted",
+          "note": "Later, from about 1780, and the Regency default — but always applied over a brick carcass, never a substitute for one."
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "note": "The American colonial adaptation; this family is English/British and masonry throughout."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "Belongs to the medieval and Tudor-Jacobean streams this family superseded, not to it."
+        },
+        {
+          "id": "log",
+          "status": "forbidden",
+          "note": "A frontier construction and cladding technique with no place in this urban and country-house masonry tradition."
+        }
+      ],
+      "rule": "Cladding is always a masonry material or a render over masonry — brick in Flemish or English bond, ashlar or coursed stone, or scored stucco over a brick carcass. No member of the family clads in clapboard, half-timbering, or log; those belong to other streams entirely. Which of the permitted materials is canonical, and in what proportion, is a style-level decision the family does not fix — Georgian and Baroque reach for brick first, Palladian for ashlar at its grandest, Regency for stucco almost universally.",
+      "sources": [
+        "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+        "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)"
+      ]
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "double-hung-sash",
+          "status": "canonical"
+        },
+        {
+          "id": "casement-leaded",
+          "status": "forbidden",
+          "note": "Superseded before the family's period opens; a leaded casement as the primary window belongs to the medieval and Tudor-Jacobean work this family's whole generation defined itself against."
+        }
+      ],
+      "rule": "The vertically sliding, counterweighted double-hung sash is the governing opening type across the entire family, from the earliest Restoration and Baroque work to the latest Regency villa. The exact glazing-bar section and lite pattern date a house to a decade and are correctly left to the style or variant level; the sash itself is the one constant.",
+      "sources": [
+        "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+        "Hentie Louw, research on the development of the sash window"
+      ]
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "out-of-column-openings",
+          "status": "forbidden",
+          "note": "The one rule every member of the family shares without exception."
+        }
+      ],
+      "rule": "Openings align vertically between storeys without exception — no window sits out of column with the one above or below it — across every register of the family, from the even Georgian metronome and the hierarchical Baroque A-B-B-A rhythm to the Regency front interrupted only by a bow. Vertical bay alignment is named directly in the family's own defining characteristics.",
+      "sources": [
+        "English Classical family node, defining_characteristics"
+      ]
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "unornamented-entry",
+          "status": "forbidden",
+          "note": "Every member of this family elaborates its entrance; a flush, plain door with no surround at all belongs to a plainer vernacular tradition outside the family."
+        }
+      ],
+      "rule": "The entrance is where this family concentrates its ornamental budget: a doorcase, portico or door-hood carrying markedly more classical enrichment than the wall field around it. Which surround — Gibbs's blocked and rusticated jambs, a pedimented aedicule with engaged columns, a full temple portico, a baseless Greek Doric porch, a delicately thinned Adam fanlight — is deliberately NOT fixed here: the family's own members bind genuinely different order overlays to this and neighbouring slots (Adam draws on Chambers, Baroque on Vignola or an early Gibbs, core Georgian on Chambers, the Georgian town house specifically on Gibbs for the surround he originated, and Regency on no order at all), and forcing one choice at the family level would contradict that real, deliberate divergence. What is shared is only that the entrance, and not the wall, is the site of the family's ornament.",
+      "note": "judgment: the fact that the entrance carries the ornamental budget is directly stated by multiple members (english-georgian, english-baroque, english-georgian-townhouse); the general framing sentence synthesising it as a family-wide law is this author's own reasoning from that evidence, not a single quoted source.",
+      "judgment": true,
+      "sources": [
+        "English Classical family members' own descriptions and diagnostic_tells (english-georgian, english-baroque, english-georgian-townhouse)"
+      ]
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "non-classical-trim-family",
+          "status": "forbidden",
+          "note": "Mixing in a vernacular, Gothic or non-classical profile family is never correct on a member of this family, however thinned the classical profiles themselves become."
+        }
+      ],
+      "rule": "One coherent classical moulding tradition runs through the whole family's interior work — full and deeply modelled in Baroque and Palladian rooms, thinned through core Georgian practice, thinned further and flattened into low-relief pattern by Adam, and reduced nearly to an incised line by Regency. Every member is a variation on the same trim family, never a different one mixed in; only the degree of enrichment changes, and that degree is a style-level decision this kit deliberately leaves open.",
+      "sources": [
+        "Adam-style, english-baroque, english-palladian, english-georgian and regency style nodes, proportion_packs (all bind trim-classical, at successively lighter registers)"
+      ]
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "center-hall",
+          "status": "permitted",
+          "note": "The free-standing case: country house, villa, and the wider town lot."
+        },
+        {
+          "id": "side-hall",
+          "status": "permitted",
+          "note": "The party-walled urban case, where a centre hall is not physically possible on a narrow lot."
+        },
+        {
+          "id": "hall-and-parlor",
+          "status": "forbidden",
+          "note": "A vernacular and medieval parti, not this family's."
+        },
+        {
+          "id": "cross-passage",
+          "status": "forbidden",
+          "note": "The medieval hall-house's entry parti, superseded by this family's generation, not used by it."
+        },
+        {
+          "id": "central-chimney-lobby",
+          "status": "forbidden",
+          "note": "The New England colonial answer to a cold climate; this family's hearths are gable-end or paired, not central-stack lobby-entry."
+        },
+        {
+          "id": "open-plan",
+          "status": "forbidden",
+          "note": "A twentieth-century idea with no place in a family whose rooms are always discrete, ratio-governed volumes."
+        }
+      ],
+      "rule": "A hall-and-stair organises the plan and the principal rooms are of resolvable classical proportion around it. Whether the hall is centred or displaced to one side is a function of the lot — free-standing work centres it, the party-walled town house cannot — not a stylistic choice, and both are canonical within the family. The medieval and vernacular partis (hall-and-parlor, cross-passage, central-chimney lobby) never appear here.",
+      "note": "Marked judgment: true because this is this author's own synthesis across the family's free-standing and party-walled members rather than a single directly-quoted source; the underlying facts (which member uses which parti) are well documented, but stating the two-mode split as the family's shared law is an inference, not a restatement.",
+      "sources": [
+        "English Classical family members' massing_affinities and proportional_system.bay_rhythm entries"
+      ]
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "double-pile",
+          "status": "canonical"
+        },
+        {
+          "id": "single-pile",
+          "status": "atypical",
+          "note": "Occurs only at the very narrowest fourth-rate town-house lots, and even there the type more often approaches it by adding a rear closet wing to a single principal range than by building genuinely single-pile."
+        }
+      ],
+      "rule": "The plan is double-pile — two rooms deep, front and back — across free-standing and party-walled work alike; it is the working module the family's proportional systems assume throughout.",
+      "sources": [
+        "English Classical family members' massing_affinities (four-over-four, side-hall-double-pile, five-part-palladian entries throughout)"
+      ]
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

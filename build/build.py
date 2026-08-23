@@ -25,9 +25,13 @@ for g in slots_doc["groups"]:
         SLOTS.append({**s, "group": g["id"], "group_name": g["name"]})
 
 # ---------- 1. kit directories ----------
+# WP-4.2: family nodes (rank "family") now get a kit file too, same 95-slot skeleton as
+# every style/variant. A family kit is not part of the lineage DAG (families carry no
+# lineage edges at all -- they are member_of's organisational drawer, not descent) but it
+# does participate in the cascade below as each member's nearest, most-shared ancestor.
 made = 0
 for i, n in nodes.items():
-    if n["rank"] not in ("style", "variant"):
+    if n["rank"] not in ("style", "variant", "family"):
         continue
     path = f"kits/{i}.kit.json"
     existing = json.load(open(path))["slots"] if os.path.exists(path) else {}
@@ -47,19 +51,52 @@ for i, n in nodes.items():
     json.dump(kit, open(path, "w"), indent=2, ensure_ascii=False); made += 1
 
 # ---------- 2. cascade ----------
-def cascade_chain(i, seen=None):
-    """Ancestors whose kit this node inherits, nearest first."""
-    seen = seen or set()
+def cascade_chain(i, seen):
+    """i's real-descent ancestors, nearest first, walking `lineage` edges with
+    inherits_kit: true. Whenever the walk lands on a style-rank ancestor, that ancestor's
+    OWN family (WP-4.2, see family_of() below) is spliced in immediately after it and
+    before that ancestor's own further lineage ancestors — nearest and most-shared first,
+    most distant and most specific descent last. `seen` is shared across the whole
+    recursion so a family reached through one branch is not revisited through another."""
     out = []
     for e in sorted(nodes[i].get("lineage", []), key=lambda e: -e.get("weight", 1)):
         if not e.get("inherits_kit"): continue
         t = e["target"]
         if t in seen or t not in nodes: continue
-        seen.add(t); out.append(t); out.extend(cascade_chain(t, seen))
+        seen.add(t); out.append(t)
+        if nodes[t]["rank"] == "style":
+            fam = family_of(t)
+            if fam and fam not in seen:
+                seen.add(fam); out.append(fam)
+        out.extend(cascade_chain(t, seen))
     return out
 
+def family_of(i):
+    """WP-4.2: nearest ancestor of rank 'family' reached by walking `member_of`
+    (organisational placement, not lineage/descent) up from i. A variant's member_of is
+    its parent style, not its family directly, so this walks through that style without
+    adding it (the style itself is reached separately, via real lineage descent, if at
+    all). Returns None for a family or tradition node itself, or an orphaned node."""
+    cur = nodes[i].get("member_of")
+    seen = {i}
+    while cur and cur in nodes and cur not in seen:
+        seen.add(cur)
+        if nodes[cur]["rank"] == "family":
+            return cur
+        cur = nodes[cur].get("member_of")
+    return None
+
 for i, n in nodes.items():
-    n["_cascade"] = cascade_chain(i)
+    seen = {i}
+    out = []
+    if n["rank"] == "style":
+        # i's own family comes before i's own lineage ancestors -- the nearest, most-
+        # shared base a style extends against, per PLAN-OF-ACTION.md's WP-4.2.
+        fam = family_of(i)
+        if fam:
+            seen.add(fam); out.append(fam)
+    out.extend(cascade_chain(i, seen))
+    n["_cascade"] = out
     n["_children"] = []
     n["_descendants"] = []
 for i, n in nodes.items():

@@ -1,0 +1,669 @@
+{
+  "style": "nordic-alpine-vernacular",
+  "style_name": "Nordic & Alpine Vernacular",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Pitch is set by the roofing material and the local precipitation regime, not by a fixed style number, and both members independently state the same two-band split.",
+      "parameters": {
+        "pitch_snow_dominant": {
+          "range": [
+            18.0,
+            30.0
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "confidence": "high",
+          "note": "scandinavian-log-vernacular.c04: sod roofs 22-30 degrees. swiss-chalet.c04 / defining_characteristics: 18-25 degrees in the high alps. Union given here."
+        },
+        "pitch_rain_or_shingle": {
+          "range": [
+            35.0,
+            45.0
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "confidence": "high",
+          "note": "Both members give the identical figure independently: scandinavian-log-vernacular's split-shingle roofs run 35-45 degrees, and swiss-chalet's lower-valley/Mittelland roofs run 35-45 degrees. The one numeric coincidence in this kit not manufactured by rounding a shared range — both sources state 35-45 verbatim."
+        }
+      },
+      "judgment": false,
+      "confidence": "high"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "A log wall cannot be lengthened once built. The household or farm grows by adding a pen, stacking a storey, or adding a wholly separate building — never by extending one wall.",
+      "parameters": {
+        "growth_unit": {
+          "value": "pen-storey-or-building",
+          "unit": "none",
+          "kind": "editorial",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "high",
+      "note": "Both members' own hard constraints use almost identical wording: scandinavian-log-vernacular.c01 ('No log wall may exceed about 9 m without an intersecting cross-wall... the building grows by adding pens, storeys or separate buildings; a wall cannot simply be made longer') and swiss-chalet.c01 ('No log wall may exceed about 9 m ... the type grows by stacking storeys or adding a separate building, never by lengthening a wall').",
+      "packs": [
+        {
+          "pack": "log-module",
+          "precedence": 1,
+          "note": "log-module's own wing_strategy derived_rule states the identical mechanism ('You cannot make a pen bigger... a household that needs more room builds another pen') and is bound at expression=module, i.e. the log-length ceiling itself. Numeric calibration (12-18 ft) is American/Upland-South; both Nordic and Alpine members independently state a slightly longer 6-9 m (20-30 ft) ceiling in their own text, so use this pack for the generative mechanism, not its numeric band."
+        }
+      ]
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Solid horizontally-stacked, corner-notched log wall (Blockbau/laft) with no frame at all — the family's single defining construction fact.",
+      "parameters": {
+        "construction": {
+          "value": "log",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "high",
+      "note": "Both members' own text states this identically and cross-references the other: swiss-chalet's distinguished_from entry for scandinavian-log-vernacular opens 'Both are Blockbau, and they share the log-length constraint and the settlement problem.'",
+      "packs": [
+        {
+          "pack": "log-module",
+          "precedence": 1,
+          "note": "log-module's own applies_to list names nordic-alpine-vernacular directly, alongside both scandinavian-log-vernacular and swiss-chalet by id — the one pack in the corpus explicitly scoped to this family as a whole, not just judgment-bound to it."
+        }
+      ]
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The structural log wall is left exposed as the finished wall in both traditions; nothing is applied over it as siding. (Finish differs — see color_strategy.)",
+      "parameters": {
+        "cladding": {
+          "value": "log",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "high"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The bottom (sill) log sits clear of grade on a stone base — pads, a dry-laid footing, or the uphill grade itself — and is never in contact with soil.",
+      "parameters": {
+        "clearance": {
+          "range": [
+            300.0,
+            450.0
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "confidence": "medium",
+          "note": "scandinavian-log-vernacular.c03 states this explicitly and numerically: sill log on stone pads at least 300 mm clear of grade, treated as a sacrificial course. swiss-chalet.c04 states the same categorical rule ('must sit on a masonry base or on the uphill grade, never on the ground') without a number; the upper end of the range is not independently sourced for the chalet and is carried here by analogy to the same structural logic, not a chalet-specific figure."
+        }
+      },
+      "judgment": true,
+      "confidence": "medium",
+      "packs": [
+        {
+          "pack": "log-module",
+          "precedence": 1,
+          "note": "log-module's own foundation_expression rule (pier height, part * 1.5, 18 in typical) is calibrated to the American Upland-South pier-and-crawlspace system, a different assembly from a Nordic/Alpine stone-pad or masonry base — cited for the shared underlying principle (never let the sill touch grade), not for its specific 18 in figure."
+        }
+      ]
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The corner is a visible, projecting, notched log joint — not a masonry quoin — in both traditions. The specific notch profile is regional and is not shared across the family.",
+      "parameters": {
+        "treatment": {
+          "value": "corner-notched-log-visible",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "high",
+      "note": "scandinavian-log-vernacular names several regional notch profiles (findal, dovetail, round, square) as 'regional signatures as reliable as an accent.' swiss-chalet's own text does not name a specific profile but its diagnostic_tells state 'log courses visibly continuous across the whole wall, with the corner notching exposed and projecting at the corners' — the same generic condition. The profile itself is left open, correctly, at the family level.",
+      "packs": [
+        {
+          "pack": "log-module",
+          "precedence": 1,
+          "note": "log-module's own corner_quoin derived rules (projection ~0.75 x part, notch depth ~40% of log thickness) are calibrated to the American Upland-South notch band and are not re-derived here for the Nordic/Alpine scale, but the mechanism — the overhang and the notch depth ratio being the diagnostic detail of the whole craft — transfers directly."
+        }
+      ]
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "The family splits into exactly two documented, mutually exclusive finishes, and both members' own texts name the contrast explicitly rather than leaving it implicit.",
+      "judgment": false,
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "bare-weathered-unpainted",
+          "status": "permitted",
+          "note": "swiss-chalet: timber left bare; 'the sun-blackened larch of a two-hundred-year-old south face is the finest weathering material in Europe.' Its own constraint c05 keeps ornament off the log wall itself."
+        },
+        {
+          "id": "falu-red-white-trim",
+          "status": "permitted",
+          "note": "scandinavian-log-vernacular: Falu red from the 18th century onward, with white lead trim at the windows, applied 'to the whole cluster or none of it' (c05, soft). Not used before ~1700."
+        }
+      ],
+      "note": "swiss-chalet's own distinguished_from entry states the contrast directly: 'The chalet leaves timber bare; the Nordic farm paints it red.'"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "No applied moulded architrave or casing — the log ends themselves form the jamb, with a settlement gap above the head, in both traditions.",
+      "parameters": {
+        "surround": {
+          "value": "log-jamb-no-applied-surround",
+          "unit": "none",
+          "kind": "measured",
+          "confidence": "high"
+        }
+      },
+      "judgment": false,
+      "confidence": "high",
+      "note": "scandinavian-log-vernacular.c02 and swiss-chalet.c02 both require a settlement gap above every opening head with no rigid element passing through the wall without a slip joint. This is the same principle log-module's own window_surround_wood rule states for the American branch of the same construction system ('no architrave, no backband and no casing on the outside of a log wall').",
+      "packs": [
+        {
+          "pack": "log-module",
+          "precedence": 1,
+          "note": "log-module explicitly names applying a moulded surround to a log building as 'the commonest single error in log revival work' — the same warning applies directly to both Nordic and Alpine work."
+        }
+      ]
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "Openings are small and few, sized and placed to interrupt as few log courses as possible; a large or ribboned opening is structurally impossible in a solid log wall.",
+      "judgment": false,
+      "confidence": "high",
+      "note": "scandinavian-log-vernacular: 'There is no bay rhythm. Openings are cut where the room needs them, few and small.' swiss-chalet: openings 'must be small and grouped, because each one interrupts the continuity of the courses' — chalet additionally organises its small openings into a banded Fensterband (three to six lights), which is NOT independently attested for the Nordic branch and is left as a chalet-specific refinement, not asserted here at family level.",
+      "packs": [
+        {
+          "pack": "log-module",
+          "precedence": 2,
+          "note": "log-module's window_grouping_rule derived rule (max opening width ~42 in on its own American calibration) states the identical mechanism — every opening cuts the wall logs and load has to arch over the gap — but its numeric ceiling is not re-derived here for the Nordic/Alpine scale."
+        }
+      ]
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high",
+      "note": "swiss-chalet's Lauben galleries do carry real 'sawn or turned balustrades,' and scandinavian-log-vernacular's raised stabbur/loft carries a comparable carved gallery — but both are vernacular carpentry railings, not a classical/order-derived balustrade, and they attach to different elements (an integral gallery on the main dwelling for the chalet; a subsidiary storehouse for the Nordic farm). Forbidden here in the classical-apparatus sense; a style-level kit should record the real railings via porch_rail instead, which this family kit deliberately leaves open given how differently the two members deploy it."
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order or apparatus in either member. All ornament in this family is carved/sawn vernacular carpentry (bargeboard, purlin ends, gallery balustrades, inscription bands) concentrated on the gable, not an order-derived vocabulary.",
+      "judgment": false,
+      "confidence": "high"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

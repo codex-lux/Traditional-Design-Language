@@ -1,0 +1,601 @@
+{
+  "style": "british-vernacular",
+  "style_name": "British Vernacular",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "additive-vernacular",
+          "status": "canonical",
+          "note": "Recorded identically as the symmetry class of both members' own proportional_system entries."
+        },
+        {
+          "id": "near-symmetrical-gentry-front",
+          "status": "permitted",
+          "note": "cotswold-vernacular's own bay_rhythm text records the one documented exception: 'a facade acquires symmetry only when a gentry client asked for it -- which in the Cotswolds happens from about 1620 and produces the characteristic gabled, near-symmetrical manor front.' A client's deliberate ask, not the tradition's own default logic."
+        }
+      ],
+      "rule": "The building is composed by addition, not by axis: openings and masses are placed where the room or the function needs them, and the whole grows without an overriding compositional plan. This is recorded in identical words -- 'additive-vernacular' -- on both members' own proportional_system entries, and it is the vernacular counterpart to the picturesque family's own deliberate, designed asymmetry: here the irregularity is genuinely unplanned, not composed for effect.",
+      "sources": [
+        "cotswold-vernacular.json, english-cottage-vernacular.json proportional_system.symmetry and bay_rhythm"
+      ]
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "pitch_min_deg": {
+          "value": 45,
+          "unit": "deg",
+          "kind": "measured",
+          "note": "english-cottage-vernacular's own hard floor (c01). cotswold-vernacular's own hard floor is stricter, 48 degrees (c01), because stone slate is heavier than thatch -- both are covered by this family-wide minimum."
+        },
+        "pitch_typical_deg": {
+          "value": 50,
+          "unit": "deg",
+          "kind": "measured",
+          "note": "Both members' own sources independently name 50 degrees as the practical or typical figure."
+        }
+      },
+      "rule": "The roof is steeply pitched -- never less than 45 degrees, and 50 degrees is the practical norm for both members -- because in every case the pitch is set by what the roof covering itself demands (graded stone slate, thatch) rather than by any applied proportional taste. Named directly in the family's own defining characteristics ('Steep roofs sized to the covering material').",
+      "note": "cotswold-vernacular's own floor is a full 3 degrees stricter (48 vs 45) because stone slate is heavier than thatch -- a real, material-driven difference within the shared rule, not a contradiction of it.",
+      "sources": [
+        "British Vernacular family node, defining_characteristics",
+        "cotswold-vernacular.json c01, english-cottage-vernacular.json c01"
+      ]
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "oversized-prominent-stack",
+          "status": "canonical",
+          "note": "cotswold-vernacular: 'massive stone chimney stacks... rising well above the ridge.' english-cottage-vernacular: 'a single dominant chimney stack... disproportionately large relative to the house,' and c05 requires it to rise at least 1 m above the ridge."
+        },
+        {
+          "id": "minimal-flush-stack",
+          "status": "forbidden",
+          "note": "Both members describe the stack as deliberately oversized relative to what the flue alone would need; a minimal stack contradicts both."
+        }
+      ],
+      "rule": "The chimney is built larger and more conspicuous than its flue requires and rises well above the ridge, standing as one of the building's principal visual events rather than a minimal utilitarian stack. How many stacks, and where -- a single dominant gable-end or lobby-entry stack for the cottage, one or more massive gable-end stacks for the grander Cotswold house -- is left to the style level, since the two members do not agree on count, only on prominence.",
+      "sources": [
+        "cotswold-vernacular.json defining_characteristics, english-cottage-vernacular.json defining_characteristics and c05"
+      ]
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "additive-accretive",
+          "status": "canonical",
+          "note": "english-cottage-vernacular's own defining_characteristics states it outright: 'An additive plan that grows by cell, outshot and lean-to rather than by any composed extension.' Its own distinguished_from entry against storybook-style sharpens the point further: 'Real cottages are irregular by accretion; storybook cottages are irregular by drawing.'"
+        },
+        {
+          "id": "flanking-symmetrical-dependencies",
+          "status": "atypical",
+          "note": "The gentry exception again: cotswold-vernacular's grander E- or half-H-plan manors (Owlpen, Snowshill, Chastleton) do compose symmetrical wings, but only once a client's ambition has entered the picture -- the family's own ordinary logic is accretive, not composed."
+        }
+      ],
+      "rule": "The building grows by genuine, unplanned addition -- a cell, an outshot, a lean-to added as need and money allowed -- never by a single composed scheme of matched wings. This is the vernacular's defining growth logic and the exact opposite of the family's own picturesque cousin, where the SAME irregular result is arrived at by deliberate design instead.",
+      "sources": [
+        "english-cottage-vernacular.json defining_characteristics and distinguished_from (storybook-style)"
+      ]
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "parameters": {
+        "wall_thickness_range_mm": {
+          "range": [
+            450,
+            700
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "note": "Union of both members' own stated ranges: cotswold-vernacular 500-700 mm (coursed limestone rubble); english-cottage-vernacular 450-600 mm in cob, 350-500 mm in rubble. Overlap and near-overlap across all three mass-wall materials."
+        }
+      },
+      "rule": "Wherever this family builds in a mass material -- stone rubble, cob, clay lump -- the wall is exceptionally thick by any later standard, 450-700 mm depending on material, and the thickness itself is structural rather than decorative: it is what a wall of unreinforced stone, cob or rubble needs to stand, not a chosen expression.",
+      "note": "Scoped to the mass-wall condition only. Where english-cottage-vernacular builds instead in low timber frame with daub infill, the wall is only about 150 mm and is governed by wall_thickness_frame (left open at the family level, since this is a minority condition within one member rather than a family-wide fact).",
+      "sources": [
+        "cotswold-vernacular.json proportional_system.typical_ratios, english-cottage-vernacular.json proportional_system.typical_ratios"
+      ]
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "out-of-column-by-need",
+          "status": "canonical",
+          "note": "english-cottage-vernacular's own diagnostic_tells states this outright: 'Openings placed by internal need and never in vertical alignment between floors -- the opposite of every classical rule.' cotswold-vernacular's own bay_rhythm agrees: 'openings are placed where rooms need them.'"
+        }
+      ],
+      "rule": "Openings are few, small and placed strictly by the internal need of the room behind them, never to satisfy an external rhythm or a vertical alignment between floors. This is the direct opposite of the classical family's own window_grouping_rule, and one member states the contrast explicitly in its own words.",
+      "sources": [
+        "english-cottage-vernacular.json diagnostic_tells, cotswold-vernacular.json proportional_system.bay_rhythm"
+      ]
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "hall-and-parlor",
+          "status": "canonical",
+          "note": "'canonical' in both members' own massing_affinities entries -- the two-cell, lobby-entry plan produced by the Great Rebuilding is the standard yeoman, weaver's or husbandman's plan across the whole family."
+        },
+        {
+          "id": "center-hall",
+          "status": "forbidden",
+          "note": "The classical family's plan, reached only by a client with the money and the ambition to compose a facade -- explicitly the exception (cotswold-vernacular's post-1620 gentry front), not this family's own default."
+        }
+      ],
+      "rule": "The plan is the two-cell hall-and-parlour house with a lobby-entry stack, or its single-cell ancestor before a second cell is added -- never a centre-hall plan generated by an external facade. Both members' own massing_affinities rate this canonical.",
+      "sources": [
+        "cotswold-vernacular.json, english-cottage-vernacular.json massing_affinities (hall-and-parlor: canonical, both)"
+      ]
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}

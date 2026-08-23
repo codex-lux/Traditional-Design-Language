@@ -1,0 +1,587 @@
+{
+  "style": "iberian-islamic",
+  "style_name": "Iberian Islamic",
+  "ontology_version": "0.5.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "note": "Brick. mudejar's structural and ornamental material throughout; one of moorish-andalusian's two named wall materials."
+        },
+        {
+          "id": "rammed-earth",
+          "status": "permitted",
+          "note": "Tapia. moorish-andalusian's other named wall material; not attested for mudejar, whose own text is brick-centred throughout."
+        }
+      ],
+      "rule": "Massive load-bearing wall construction in brick or, in Moorish work specifically, rammed earth (tapia). No framed or veneer alternative appears in either member's own text.",
+      "confidence": "high"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "thickness": {
+          "range": [
+            24,
+            27.6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "moorish-andalusian.c02 (600-900mm), mudejar.c05 (500-700mm)",
+          "note": "Range given is the overlap of both members' own stated figures (600-900mm and 500-700mm respectively); the full union is roughly 20-35in. Moorish-andalusian's own text ties the thickness explicitly to a 12-hour thermal lag."
+        }
+      },
+      "rule": "Mass wall roughly 20-35 in (500-900 mm) thick depending on member; the shared, safely-overlapping core is about 24-28 in (600-700 mm).",
+      "confidence": "high"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "alfiz",
+          "status": "canonical",
+          "note": "A rectangular moulded frame enclosing the arch, so the arch never floats free on the wall. Hard constraint in mudejar (c03: 'any arched opening of consequence must be enclosed by an alfiz'); explicit diagnostic tell in moorish-andalusian."
+        }
+      ],
+      "rule": "Any significant arched opening — window or door alike — is enclosed by an alfiz, a rectangular moulded frame that squares off the arch against the wall plane. An arch left to float free on the wall is outside the grammar of both members.",
+      "confidence": "high"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "External openings toward the street are minimal, small, and set high, above head height; the building's real fenestration faces inward onto the court. This is not a stylistic preference but a hard rule in both members.",
+      "parameters": {
+        "street_wall_glazing_max_pct": {
+          "value": 5,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "moorish-andalusian.c02",
+          "note": "Explicit hard constraint on moorish-andalusian: openings in the outer street wall not to exceed 5% of its area. mudejar states the same principle qualitatively ('external openings small and high; large openings face the patio', mudejar.c05) without its own percentage figure."
+        }
+      },
+      "confidence": "high"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "No classical order and no absolute module govern the composition. Setting-out is geometric (compass-and-straightedge construction from a square or a star polygon), not order-derived.",
+      "confidence": "high",
+      "note": "moorish-andalusian's own governing_logic: 'There is no order and no absolute module: the setting-out is a compass-and-straightedge procedure.' No pack in the 36-pack proportion library models this Islamic geometric system either — see docs/reports/wp-4.1-proportion-pack-bindings.md, which left both moorish-andalusian and mudejar entirely unbound at the style level for exactly this reason."
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "forbidden",
+      "status": "drafted",
+      "rule": "Arches are carried directly on columns or piers in an arcade, never on a stone entablature. No classical entablature run exists in either member's own vocabulary.",
+      "confidence": "high",
+      "note": "moorish-andalusian diagnostic_tells: 'columns... carrying brick or plaster arches, not stone entablatures.' Consistent with the wider corpus convention that classical-apparatus slots are bound only within the classical stream; this family sits outside it."
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "glazed-tile-dado",
+          "status": "canonical",
+          "note": "Azulejo or alicatado tile from the floor to a datum height, above which the wall changes material and pattern entirely."
+        }
+      ],
+      "parameters": {
+        "dado_height": {
+          "range": [
+            59,
+            79
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "moorish-andalusian typical_ratios (1.5-2.0m), mudejar typical_ratios (1.2-2.0m)",
+          "note": "Overlap of both members' stated tile-dado heights, converted to inches; the full union is roughly 47-79in (1.2-2.0m)."
+        }
+      },
+      "rule": "A glazed tile dado runs from the floor to a horizontal datum, above which the wall surface changes material (to carved plaster in Moorish work, to brick or plain render in Mudejar work) and pattern completely, with a horizontal band usually marking the transition.",
+      "confidence": "high",
+      "note": "moorish-andalusian's own hard constraint (c03) states this stratification as a strict rule with three tiers (tile/plaster/timber); mudejar's own text and typical_ratios confirm the tile dado's presence and height band but do not restate the full three-tier stratification as explicitly, so only the tile-dado fact itself — not the full stratification rule — is bound here as genuinely shared."
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "value": {
+          "value": "courtyard-perimeter, no internal corridor",
+          "unit": "none",
+          "kind": "measured",
+          "source": "moorish-andalusian description ('reached from the court rather than from internal corridors')",
+          "note": "Explicit for moorish-andalusian. mudejar's own text does not restate this directly (its focus is church/tower typology rather than domestic planning) but its courtyard-full and townhouse-row massing affinities describe the same single-pile, court-entered organisation by extension; confidence held at medium for mudejar's share of this fact."
+        }
+      },
+      "rule": "Rooms are entered from the court or its surrounding portico, not from an internal corridor.",
+      "confidence": "medium",
+      "judgment": true
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "status": "drafted",
+      "parameters": {
+        "value": {
+          "value": "single-pile",
+          "unit": "none",
+          "kind": "measured",
+          "source": "moorish-andalusian description ('single-pile ranges around the court'); mudejar massing_affinities note ('fully enclosed courts with single-pile ranges')",
+          "note": "Both members state this explicitly."
+        }
+      },
+      "rule": "Ranges are single-pile around the court, so every room can be cross-ventilated or lit from the court.",
+      "confidence": "high"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "specified",
+      "status": "drafted",
+      "rule": "A high, blind or near-blind wall faces the street; the sole entry is a single controlled door. In Moorish work the passage is bent or set off-axis specifically so the court is never visible from the street.",
+      "confidence": "high",
+      "judgment": true,
+      "note": "moorish-andalusian states this explicitly and in detail ('a single door, often set off-axis and reached through a bent passage so that no one on the street can see in'). mudejar's own text does not restate the bent-passage detail (its focus is ecclesiastical/civic building, not the domestic courtyard house specifically), but its courtyard-full and townhouse-row massing affinities are consistent with the same convention; the bent-passage clause specifically is carried at judgment-level confidence for the family as a whole rather than asserted as equally sourced for both members."
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "stub",
+      "note": "Water on the principal axis is a hard, explicit requirement for moorish-andalusian (c05: 'Water is required on the principal axis of any court of consequence... A dry court is a yard') but is not restated anywhere in mudejar's own text, whose typology (churches, towers, civic buildings) is not organised around a residential/palatial water-courtyard in the way the Moorish and vernacular members are. Left open at the family level rather than forced onto a member it is not documented for; belongs on moorish-andalusian's own style kit."
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    }
+  }
+}
