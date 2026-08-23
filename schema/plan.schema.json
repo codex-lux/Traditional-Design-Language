@@ -70,6 +70,22 @@
         }
       }
     },
+    "site": {
+      "type": "object", "additionalProperties": false,
+      "description": "Lot and settlement data beyond what `context` already carries. `context.lot_width_ft`/`lot_depth_ft`/`entrance_faces` stay where they were first established (WP-0.1) and are already load-bearing across the reference corpus and the composer; this object holds the fields WP-2.4 added so the composer can honour lot width, site-scope constraints (the Charleston piazza bearing, a bank house's cross-slope) can evaluate, and the renderer can draw the lot. A plan or brief with no site data omits this object entirely — nothing requires it.",
+      "properties": {
+        "street_bearing_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing (0 = north, clockwise) of the street the principal front faces." },
+        "setback_front_ft": { "type": "number" },
+        "setback_side_ft": { "type": "number" },
+        "setback_rear_ft": { "type": "number" },
+        "slope_direction_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing of the downhill direction across the lot. Distinct from cross_slope_pct, which is the slope's magnitude." },
+        "cross_slope_pct": { "type": "number", "description": "Cross-slope of the site across the building's depth, as a percentage -- what a bank house's plan type depends on existing at all." },
+        "prevailing_summer_wind_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing the prevailing summer wind blows FROM." },
+        "piazza_bearing_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing a piazza, porch, loggia or gallery faces, for a style that ties that orientation to sun or wind -- the Charleston single house's canonical use." },
+        "party_wall_condition": { "enum": ["freestanding", "party-wall-one-side", "party-wall-both-sides", "row"] },
+        "note": { "type": "string" }
+      }
+    },
     "adjacencies": {
       "type": "array",
       "description": "Relationships the doors do not express — a shared wall, a sight line, an acoustic separation.",

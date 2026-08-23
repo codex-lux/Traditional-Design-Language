@@ -98,6 +98,15 @@ def derive_constraint_vars(plan):
     ctx = plan.get("context") or {}
     if ctx.get("lot_width_ft") is not None: v["lot_width_ft"] = ctx["lot_width_ft"]
     if ctx.get("lot_depth_ft") is not None: v["lot_depth_ft"] = ctx["lot_depth_ft"]
+    # WP-2.4: `site` is unambiguous plan structure exactly the way `context` already is --
+    # every field on it is a fact about the lot the plan record itself asserts, not something
+    # inferred from geometry -- so every key present passes straight through by name. A plan
+    # that omits `site` entirely (nothing required it) simply leaves these unjudged, same as
+    # any other constraint variable no measurement supplies.
+    site = plan.get("site") or {}
+    for k, val in site.items():
+        if k == "note" or val is None: continue
+        v[k] = val
     return v
 
 class Findings:

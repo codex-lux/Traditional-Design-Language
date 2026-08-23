@@ -14,15 +14,15 @@ One doc per layer, in stack order — bottom (the alphabet) to top (the platform
 | 8 | Critic — plan validator | [`plans.md`](plans.md) | The plan schema and `plan_check.py`: six layers (rooms, adjacency/privacy, groupings, faults, code, style), "unjudged is not passed." |
 | 9 | Generator — composer | [`compose.md`](compose.md) | Template-seeded, validator-scored; N contrasting candidates, never one; decision logs and trade-aways. |
 | 10 | Generator — geometry | [`geometry.md`](geometry.md) | Bay-grid placement with counted relaxations, both levels solved jointly; what it satisfies vs. what it composes. |
-| 11 | Evidence — images | [`assets.md`](assets.md) | Records authored before files exist; `license` never `unknown`; good/bad pairs. |
-| 12 | Governance | [`open-questions.md`](open-questions.md) | 27 numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
+| 11 | Site & settlement | [`site.md`](site.md) | The `site` schema object, lot-width-aware composing (independently, in both `compose.py`'s estimate and `geometry.py`'s solver), site-scope constraint evaluation, the lot drawn in the SVG, and site-and-settlement kit-slot consumption. |
+| 12 | Evidence — images | [`assets.md`](assets.md) | Records authored before files exist; `license` never `unknown`; good/bad pairs. |
+| 13 | Governance | [`open-questions.md`](open-questions.md) | 27 numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
 | — | Reports | [`reports/`](reports/) | One file per completed work package from the Plan of Action — `reports/<wp-id>-<slug>.md` — what was built, what was found, what was deliberately not done, and any new open question it raised. |
 
 Docs that don't exist yet, because their layer doesn't exist yet — added as each work package lands (see `../CHANGELOG.md` and `../PLAN-OF-ACTION.md`):
 
 - `structure.md` — walls, storeys, bearing lines, stairs (WP-3.1)
 - `elevation.md` — the elevation generator (WP-3.2)
-- `site.md` — the site/lot layer (WP-2.4)
 
 ## Regenerating things instead of hand-editing them
 

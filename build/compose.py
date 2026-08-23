@@ -171,6 +171,7 @@ def instantiate(parti_id, brief):
 
     gc, uc = ceilings_for(brief["style"])
     log.append(f"Ceiling heights {gc:.1f} ft ground and {uc:.1f} ft above, taken from the style's own kit.")
+    log += site_kit_log(brief["style"])
 
     levels = {}
     for r in rooms:
@@ -200,6 +201,7 @@ def instantiate(parti_id, brief):
             "style": brief["style"], "massing": brief.get("massing") or p["massing"],
             "groupings": p.get("groupings", []),
             "context": brief.get("context", {}),
+            "site": brief.get("site", {}),
             "levels": [{"id": {0: "ground", 1: "upper", -1: "cellar"}.get(lv, f"level{lv}"),
                         "index": lv, "floor_to_ceiling_ft": round(gc if lv == 0 else uc, 1),
                         "rooms": levels[lv]} for lv in sorted(levels)],
@@ -223,6 +225,36 @@ def symmetrise_doors(plan):
     for r in idx.values():
         r["doors"] = [d for d in (r.get("doors") or []) if d["to"] == "exterior" or d["to"] in idx]
         if not r["doors"]: r.pop("doors")
+
+def site_kit_log(style):
+    """WP-2.4: 'consume the seven site-and-settlement slots where a kit specifies them.'
+    Five of the seven (street_relationship, outbuilding_types, fence_wall, landscape_idiom,
+    grade_relationship) are `binding: specified` with a single canonical variant wherever a
+    style's kit gives one, and canonical_choices() already folds those into plan['declared']
+    — that mechanism is generic across every slot group, not site-specific, and predates this
+    package. The other two are not variant-shaped: orientation_rule is `parameters`-only
+    editorial prose (a chimney axis, a passage axis — not a value compose.py's own room
+    placement reads yet, so it is surfaced, not silently acted on), and setback_rule is
+    deliberately `binding: open` on the one style that specifies anything about it at all
+    (georgian-colonial-american's own note calls it 'the cleanest open in the kit' — the same
+    style is sited on the street line in Annapolis and at the end of a half-mile approach at
+    Westover). Both would otherwise vanish with no record the kit was even asked."""
+    kit = (C["kits"].get(style) or {}).get("slots") or {}
+    log = []
+    rec = kit.get("orientation_rule")
+    if rec and rec.get("parameters"):
+        bits = [f"{k.replace('_', ' ')}: {v.get('value')}" for k, v in rec["parameters"].items() if v.get("value")]
+        if bits:
+            log.append(f"Kit's orientation_rule ({style}): " + "; ".join(bits) + ". Editorial, not yet computed into the plan's own orientation.")
+    rec = kit.get("setback_rule")
+    # binding: open + status: empty is just an untouched slot (every style's kit has one until
+    # authored) -- only a status past "empty" means a style deliberately drafted reasoning for
+    # leaving it open, which is the case worth surfacing.
+    if rec and rec.get("binding") == "open" and rec.get("status") not in (None, "empty"):
+        log.append(f"Kit leaves setback_rule open for {style}"
+                    + (f": {rec['note'][:160]}" if rec.get("note") else "")
+                    + " — a settlement-pattern decision, not a style rule. The brief's own site.setback_front_ft/setback_side_ft govern, not the kit.")
+    return log
 
 def canonical_choices(style):
     kit = (C["kits"].get(style) or {}).get("slots", {})
@@ -314,25 +346,52 @@ def reclaim(plan, target, tol, res):
     return res, log
 
 # ---------------------------------------------------------------- footprint
+def lot_usable_width_ft(plan):
+    """WP-2.4: the width a parti's bays actually have to fit inside -- lot_width_ft (from
+    `site`, falling back to the older `context` location) less both side setbacks. Returns
+    None when the plan states no lot width at all, which means 'unconstrained,' not zero."""
+    site = plan.get("site") or {}
+    ctx = plan.get("context") or {}
+    lot_width = site.get("lot_width_ft")
+    if lot_width is None: lot_width = ctx.get("lot_width_ft")
+    if lot_width is None: return None
+    side = site.get("setback_side_ft") or 0
+    return max(0.0, lot_width - 2 * side)
+
 def footprint(plan, parti):
     lv0 = next((l for l in plan["levels"] if l.get("index") == 0), plan["levels"][0])
     a0 = sum(r.get("width_ft", 0) * r.get("length_ft", 0) for r in lv0["rooms"]
              if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
     bm = (parti.get("scaling") or {}).get("bay_module_ft") or 10
     mx = (parti.get("scaling") or {}).get("max_bay_count") or 5
+    notes = []
+    # WP-2.4: a lot caps how many bays this diagram may ever reach here, regardless of what
+    # the parti's own catalogue maximum allows -- "a 24 ft town-house parti for a 30 ft lot;
+    # not a five-bay Georgian on a 40 ft lot" (PLAN-OF-ACTION.md, WP-2.4).
+    usable = lot_usable_width_ft(plan)
+    lot_infeasible = False
+    if usable is not None:
+        lot_mx = max(1, int(usable // bm))
+        if lot_mx < mx:
+            notes.append(f"Lot caps this diagram at {lot_mx} bays instead of its usual {mx}: "
+                          f"{usable:.0f} ft usable width ({bm:.0f} ft bays) after side setbacks.")
+        mx = min(mx, lot_mx)
+        if lot_mx < 3:
+            lot_infeasible = True
+            notes.append(f"This diagram needs at least 3 bays ({3*bm:.0f} ft) and the lot clears only "
+                          f"{usable:.0f} ft usable width after side setbacks. It does not fit this lot.")
     bays = max(3, min(mx, round(math.sqrt(a0 * 1.6) / bm)))
     width = round(bays * bm, 1)
     depth = round(a0 / width, 1) if width else 0
-    notes = []
     if depth > 38: notes.append(f"Footprint {width} x {depth} ft — deeper than about 38 ft, which needs a double-pile section and will leave interior rooms unlit.")
     if bays >= mx and a0 / (bays * bm) > 34: notes.append(f"At {bays} bays this diagram is at the width it grows to; further area wants a dependency, not more room.")
     return {"level_0_area_sf": round(a0), "bays": bays, "bay_module_ft": bm,
-            "footprint_ft": [width, depth], "notes": notes}
+            "footprint_ft": [width, depth], "notes": notes, "lot_infeasible": lot_infeasible}
 
 # ---------------------------------------------------------------- compose
 def compose(brief, candidates=4):
     picks = pick_partis(brief, limit=max(candidates + 2, 6))
-    out = []
+    out, dropped_lot = [], []
     for pick in picks:
         plan, log, parti = instantiate(pick["parti"], brief)
         res, rlog = repair(plan)
@@ -346,6 +405,12 @@ def compose(brief, candidates=4):
         counts = res["counts"]
         total = score(res) + (60 if miss > tol else 0) - pick["fit"] * 6
         fp = footprint(plan, parti)
+        if fp["lot_infeasible"]:
+            # WP-2.4 acceptance: a candidate that cannot physically fit the stated lot is
+            # never returned, however well it would otherwise have scored — dropped here,
+            # not merely outscored, so it can never appear even as the only candidate.
+            dropped_lot.append({"parti": pick["parti"], "parti_name": parti["name"], "why": fp["notes"][-1]})
+            continue
         out.append({
             "parti": pick["parti"], "parti_name": parti["name"],
             "score": round(total, 1), "style_fit": pick["fit"],
@@ -358,7 +423,7 @@ def compose(brief, candidates=4):
                       for f in res["findings"] if f["severity"] in ("fatal", "serious")][:8],
             "plan": plan})
     out.sort(key=lambda c: (c["counts"].get("fatal", 0), c["score"]))
-    return {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
+    result = {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
             "target_area_sf": brief["target_area_sf"], "bedrooms": brief.get("bedrooms", 3),
             "candidates": out[:candidates],
             "how_to_read_this": [
@@ -366,6 +431,12 @@ def compose(brief, candidates=4):
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",
               "A plan with no fatal findings is not therefore good. The corpus can tell you what is wrong and cannot tell you what is alive."]}
+    if dropped_lot:
+        result["dropped_lot_infeasible"] = dropped_lot
+        result["how_to_read_this"].append(
+            f"{len(dropped_lot)} diagram(s) were considered and dropped because they cannot fit the stated "
+            f"lot at all, even at their minimum bay count — see dropped_lot_infeasible, not silently omitted.")
+    return result
 
 # ---------------------------------------------------------------- cli
 def main():

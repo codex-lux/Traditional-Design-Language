@@ -240,10 +240,44 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     return s, notes
 
 # ---------------------------------------------------------------- the solve
+def lot_usable_width_ft(plan):
+    """WP-2.4. Same rule as build/compose.py's own lot_usable_width_ft -- kept as a second,
+    independent copy rather than a cross-module import, because geometry.py is loaded
+    standalone via _mod() throughout this codebase (see main(), and every test's
+    geometry_module fixture) and importing compose.py into it would pull in the composer's
+    own heavy corpus load for a four-line helper. If this drifts from compose.py's version,
+    docs/site.md says so and names both call sites."""
+    site = plan.get("site") or {}
+    ctx = plan.get("context") or {}
+    lot_width = site.get("lot_width_ft")
+    if lot_width is None: lot_width = ctx.get("lot_width_ft")
+    if lot_width is None: return None
+    side = site.get("setback_side_ft") or 0
+    return max(0.0, lot_width - 2 * side)
+
 def solve(plan, parti=None, candidates=250, seed=7):
     rng = random.Random(seed)
     bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
-    maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
+    catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
+    maxbay = catalog_maxbay
+    # WP-2.4: compose.py's own footprint() estimate already caps candidate selection by lot
+    # width, but this solver derives its own bay count independently (from the massing's pile
+    # depth, not from compose.py's estimate) and is the placement that actually gets rendered
+    # -- so it needs the same cap, or a plan that "fit the lot" in compose.py's estimate can
+    # still be solved wider than its own lot right here, and the SVG lot line would be a lie
+    # about the building drawn inside it. Unlike the parti's own catalogue max_bay_count --
+    # which the growth loop below is already allowed to exceed by up to 3 bays rather than
+    # leave a room too deep -- the lot is a physical fact, not a diagram convention, so it
+    # bounds that growth loop too (see growth_ceiling below), not just the starting guess.
+    lot_usable = lot_usable_width_ft(plan)
+    lot_maxbay = None
+    if lot_usable is not None:
+        lot_maxbay = max(1, int(lot_usable // bay))
+        maxbay = min(maxbay, lot_maxbay)
+        if lot_maxbay < 2:
+            return {"error": f"lot too narrow: {lot_usable:.0f} ft usable width after side setbacks "
+                              f"cannot hold even this diagram's minimum 2 bays ({2*bay:.0f} ft) at its "
+                              f"{bay:.0f} ft bay module."}
     tol = bay * 0.28                                    # the relaxation allowance
     levels = {lv.get("index", i): lv for i, lv in enumerate(plan["levels"])}
     prep = {}
@@ -267,11 +301,16 @@ def solve(plan, parti=None, candidates=250, seed=7):
     target_depth = PILE.get(m.get("depth_rooms"), 32.0)
     need = max(a0, au)
     grown, bays = [], max(2, min(maxbay, round((need / target_depth) / bay)))
+    # growth_ceiling: the catalogue allows growing 3 bays past its own stated max before this
+    # loop gives up and lets a room go deep instead; the lot (when stated) still bounds that,
+    # since it can allow fewer bays than the catalogue max, not more.
+    growth_ceiling = catalog_maxbay + 3
+    if lot_maxbay is not None: growth_ceiling = min(growth_ceiling, lot_maxbay)
     while True:
         W = bays * bay
         H = need / W
         # grow the footprint before compromising a room — the stated infeasibility ordering
-        if H <= target_depth * 1.18 or bays >= maxbay + 3: break
+        if H <= target_depth * 1.18 or bays >= growth_ceiling: break
         bays += 1; grown.append(bays)
     while bays > 2 and need / ((bays - 1) * bay) <= target_depth * 1.18:
         bays -= 1
@@ -304,10 +343,13 @@ def solve(plan, parti=None, candidates=250, seed=7):
                                  "area_sf": round(w * h)}
     plan["footprint"] = {"width_ft": W, "depth_ft": H, "bays": bays, "bay_module_ft": bay,
                          "area_sf": round(W * H), "slack_sf": round(slack)}
+    if lot_usable is not None:
+        plan["footprint"]["lot_usable_width_ft"] = round(lot_usable, 1)
     rel = best["relaxations"]
     plan["geometry_report"] = {
         "score": best["score"], "ground_score": best["sg"], "upper_score": best["su"], "vertical_score": best["sv"],
         "bays_grown": grown,
+        "lot_capped": (lot_maxbay is not None and lot_maxbay < catalog_maxbay),
         "relaxations": {"count": len(rel), "max_off_grid_ft": round(max(rel), 2) if rel else 0,
                         "note": ("Cuts taken off the bay line to make a room fit. Each one is a joist run that "
                                  "does not land on a bearing line and a window bay that will not centre." if rel

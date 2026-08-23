@@ -33,6 +33,22 @@
         "note": { "type": "string" }
       }
     },
+    "site": {
+      "type": "object", "additionalProperties": false,
+      "description": "Lot and settlement data beyond `context.lot_width_ft`/`lot_depth_ft`/`entrance_faces` (see schema/plan.schema.json's `site` for the full rationale). Set `lot_width_ft` in `context` as before; this object is where the composer reads setbacks, street bearing and the other WP-2.4 site fields it needs to filter partis and evaluate site-scope constraints.",
+      "properties": {
+        "street_bearing_deg": { "type": "number", "minimum": 0, "maximum": 359 },
+        "setback_front_ft": { "type": "number" },
+        "setback_side_ft": { "type": "number" },
+        "setback_rear_ft": { "type": "number" },
+        "slope_direction_deg": { "type": "number", "minimum": 0, "maximum": 359 },
+        "cross_slope_pct": { "type": "number" },
+        "prevailing_summer_wind_deg": { "type": "number", "minimum": 0, "maximum": 359 },
+        "piazza_bearing_deg": { "type": "number", "minimum": 0, "maximum": 359 },
+        "party_wall_condition": { "enum": ["freestanding", "party-wall-one-side", "party-wall-both-sides", "row"] },
+        "note": { "type": "string" }
+      }
+    },
     "household": { "type": "string", "description": "Free text. Who lives here and how they use a house — the thing that decides whether the dining room gets built and never used." },
     "candidates": { "type": "integer", "default": 4, "description": "How many contrasting plans to return." },
     "note": { "type": "string" }

@@ -24,10 +24,38 @@ def render(plan, path, scale=7.0):
     if not levels: raise SystemExit("no geometry on this plan — run build/geometry.py first")
     fp = plan.get("footprint", {})
     W, H = fp.get("width_ft", 40), fp.get("depth_ft", 30)
+
+    # ---------------------------------------------------------- WP-2.4 site / lot geometry
+    # Model coordinates already put south (the street side, by the existing window-wall
+    # convention below) at y=0 and north at y=H, origin at the building's own SW corner —
+    # the lot is the same coordinate system, just usually bigger, with the building inset
+    # from its edges by the setbacks. A plan with no lot_width_ft/lot_depth_ft (from `site`,
+    # falling back to the older `context` location) renders exactly as before this package —
+    # every extra_* stays 0 and nothing about the existing layout changes.
+    site = plan.get("site") or {}
+    ctx = plan.get("context") or {}
+    lot_w = site.get("lot_width_ft"); lot_w = lot_w if lot_w is not None else ctx.get("lot_width_ft")
+    lot_d = site.get("lot_depth_ft"); lot_d = lot_d if lot_d is not None else ctx.get("lot_depth_ft")
+    has_lot = bool(lot_w and lot_d)
+    x_off = y_off = 0.0
+    extra_left = extra_right = extra_top = extra_bottom = 0.0
+    setback_side = setback_front = setback_rear = None
+    if has_lot:
+        setback_side = site.get("setback_side_ft")
+        x_off = setback_side if setback_side is not None else max(0.0, (lot_w - W) / 2)
+        setback_front = site.get("setback_front_ft") or 0.0
+        setback_rear = site.get("setback_rear_ft")
+        y_off = setback_front
+        extra_left = x_off * scale
+        extra_right = max(0.0, lot_w - W - x_off) * scale
+        extra_bottom = y_off * scale
+        extra_top = max(0.0, lot_d - H - y_off) * scale
+
     pad, gap, top = 42, 58, 96
     pw, ph = W*scale, H*scale
-    total_w = pad*2 + len(levels)*pw + (len(levels)-1)*gap
-    total_h = top + ph + 84
+    panel_w = pw + extra_left + extra_right
+    total_w = pad*2 + len(levels)*panel_w + (len(levels)-1)*gap
+    total_h = top + extra_top + ph + extra_bottom + 84
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
          f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
     s.append(f'<style>'
@@ -52,11 +80,25 @@ def render(plan, path, scale=7.0):
                  + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else "") + '</text>')
 
     for i, lv in enumerate(levels):
-        ox = pad + i*(pw+gap); oy = top
+        ox = pad + i*(panel_w+gap) + extra_left; oy = top + extra_top
         # convert model (x east, y north, origin SW) to screen (y down)
-        X = lambda v: ox + v*scale
-        Y = lambda v: oy + (H - v)*scale
+        X = lambda v, ox=ox: ox + v*scale
+        Y = lambda v, oy=oy: oy + (H - v)*scale
         s.append(f'<text class="lb" x="{ox}" y="{oy-12}">{_esc((lv.get("name") or lv["id"]).upper())}</text>')
+        if has_lot:
+            lx0, ly0, lx1, ly1 = -x_off, -y_off, lot_w - x_off, lot_d - y_off
+            s.append(f'<rect x="{X(lx0):.1f}" y="{Y(ly1):.1f}" width="{(lx1-lx0)*scale:.1f}" height="{(ly1-ly0)*scale:.1f}" '
+                     f'fill="none" stroke="{PAL["ink3"]}" stroke-width="1.2" stroke-dasharray="2 3"/>')
+            s.append(f'<text class="dm" x="{X(lx0):.1f}" y="{(Y(ly1)-6):.1f}">LOT {_fmt(lot_w)} x {_fmt(lot_d)}</text>')
+            # buildable envelope: lot inset by the actual front/side/rear setbacks, which is
+            # not always exactly where the building sits (setback_side/setback_rear may be
+            # unstated, in which case x_off/y_off above already fell back to a centred guess)
+            sf = setback_front or 0.0
+            ss = setback_side if setback_side is not None else x_off
+            sr = setback_rear if setback_rear is not None else max(0.0, ly1 - H)
+            ex0, ey0, ex1, ey1 = ss - x_off, sf - y_off, (lot_w - ss) - x_off, (lot_d - sr) - y_off
+            s.append(f'<rect x="{X(ex0):.1f}" y="{Y(ey1):.1f}" width="{(ex1-ex0)*scale:.1f}" height="{(ey1-ey0)*scale:.1f}" '
+                     f'fill="none" stroke="{PAL["copper"]}" stroke-width="0.8" stroke-dasharray="5 3"/>')
         s.append(f'<rect x="{X(0):.1f}" y="{Y(H):.1f}" width="{pw:.1f}" height="{ph:.1f}" fill="{PAL["paper"]}" stroke="none"/>')
         # bay lines
         bm = fp.get("bay_module_ft") or 10
@@ -131,7 +173,19 @@ def render(plan, path, scale=7.0):
         # scale bar
         s.append(f'<line class="pt" x1="{X(0):.1f}" y1="{Y(0)+22:.1f}" x2="{X(10):.1f}" y2="{Y(0)+22:.1f}" stroke="{PAL["brass"]}"/>')
         s.append(f'<text class="dm" x="{X(0):.1f}" y="{Y(0)+34:.1f}">10 ft</text>')
-        s.append(f'<text class="dm" x="{X(W):.1f}" y="{Y(0)+34:.1f}" text-anchor="end">north is up</text>')
+        # north arrow: a real glyph, not just the caption, since screen-up is model-north by
+        # this file's own X/Y convention above. street_bearing_deg (WP-2.4, from `site`) is
+        # reported as a label rather than used to rotate the drawing -- the room rectangles
+        # are axis-aligned to the model frame, not to true north, so an honest arrow points
+        # up and says what bearing that up direction actually is on the ground.
+        nx, ny = X(W) - 8, Y(0) + 12
+        s.append(f'<g stroke="{PAL["brass"]}" fill="{PAL["brass"]}">'
+                 f'<line x1="{nx:.1f}" y1="{ny:.1f}" x2="{nx:.1f}" y2="{ny-16:.1f}" stroke-width="1.4"/>'
+                 f'<path d="M {nx-3.5:.1f} {ny-11:.1f} L {nx:.1f} {ny-18:.1f} L {nx+3.5:.1f} {ny-11:.1f} Z"/>'
+                 f'</g>')
+        street_bearing = site.get("street_bearing_deg") if has_lot else None
+        cap = "NORTH IS UP" + (f" · STREET BEARS {street_bearing:.0f}°" if street_bearing is not None else "")
+        s.append(f'<text class="dm" x="{X(W):.1f}" y="{Y(0)+34:.1f}" text-anchor="end">{cap}</text>')
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
     return path

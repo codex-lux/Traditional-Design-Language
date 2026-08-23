@@ -112,7 +112,11 @@ VOCABULARY = {
                             "note": "Compass bearing the piazza/porch/loggia faces. The Charleston single house's 'within 45 degrees of southwest' constraint is the canonical use."},
     "party_wall_condition": {"units": "enum", "scope": "site", "note": "freestanding / party-wall-one-side / party-wall-both-sides / row."},
     "setback_front_ft": {"units": "ft", "scope": "site", "note": ""},
+    "setback_side_ft": {"units": "ft", "scope": "site", "note": "WP-2.4. What the composer subtracts (both sides) from lot_width_ft to get the usable width a parti's bays must fit inside."},
+    "setback_rear_ft": {"units": "ft", "scope": "site", "note": "WP-2.4."},
+    "slope_direction_deg": {"units": "deg", "scope": "site", "note": "WP-2.4. Compass bearing of the downhill direction across the lot -- distinct from cross_slope_pct, which is the slope's magnitude, not its direction."},
     "cross_slope_pct": {"units": "percent", "scope": "site", "note": "Cross-slope of the site across the building's depth -- what a bank house's plan type depends on existing at all."},
+    "prevailing_summer_wind_deg": {"units": "deg", "scope": "site", "note": "WP-2.4. Compass bearing the prevailing summer wind blows FROM. Named for the Tidewater chimney-to-wind and Creole gallery-to-breeze rules PLAN-OF-ACTION.md names as this variable's motivating cases; neither is migrated into a `test` yet (WP-1.1 migrated two families of ~27), so nothing in the corpus references it yet -- it is here so that migration can use it without a second vocabulary pass."},
 
     # ---------------------------------------------------------------- section scope
     "ceiling_height_ground_in": {"units": "in", "scope": "section", "note": "Shared with the fault corpus's ceiling_height_in where the constraint and a fault are really the same rule at different scope."},
