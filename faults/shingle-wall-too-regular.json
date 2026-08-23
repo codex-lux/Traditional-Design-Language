@@ -1,0 +1,180 @@
+{
+  "id": "shingle-wall-too-regular",
+  "name": "Shingles laid like tile",
+  "aka": [
+    "the uniform sidewall",
+    "machine-cut shingle field",
+    "the mitred shingle corner"
+  ],
+  "slots": [
+    "primary_cladding",
+    "corner_board"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "A shingled wall of identical machine-sawn shingles, all the same width, laid to a dead-straight chalk line at a uniform exposure, with butt edges in perfect alignment and the corners mitred and caulked. It reads as a tiled surface rather than a woven one. On the other side of the same fault: a wall where a band of fishscale or diamond shingle has been applied as a decorative stripe between two courses of plain siding.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Modern shingles are sawn to a narrow width range and packed in bundles; panelised shingle products go further and pre-assemble courses on a backer, which fixes the exposure, the width rhythm and the corner. The mitred corner is faster than a woven one — weaving a corner means fitting and back-bevelling two shingles at every course, roughly 3-4 minutes each — and it does not require a skilled hand.",
+    "cost_saved": "Woven corners add about $16-$30 per lineal foot of corner. Random-width shingles laid by hand run $2-$5/sf above panelised product across the whole wall."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "a shingled wall is a fabric, and a fabric shows the hand that laid it",
+      "statement": "Random width with constant exposure is the correct grain: the horizontal lines are exact and the vertical joints are unpredictable. Uniform width plus exact exposure gives a grid, and a grid is the one thing a shingled wall must never become."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "shingle-style",
+      "statement": "Shingle butts are plain and uniform; patterned fish-scale or diamond coursing over more than a small panel indicates Queen Anne. Run your eye along a corner: if the shingles wrap the corner with no corner board, it is Shingle Style."
+    }
+  ],
+  "correct_practice": "Keep the exposure exact and let the widths be random. Sidewall exposure for 16 in shingles is 5 to 7 1/2 in single-coursed (the Cedar Bureau maximum is 7 1/2 in; historic New England sidewalls run 4 1/2 to 6 in) and up to 12 in double-coursed, where the under-course is a lower grade and the outer course is laid with a 1/8 to 1/2 in projecting butt for a heavier shadow. Widths should range across the full 3-14 in band in the bundle, with no two adjacent shingles of the same width and joints offset at least 1 1/2 in from the course below and never lining through within three courses. Corners are woven — alternate courses lapping past each other, the exposed corner shingle back-bevelled — or, in a more formal frame idiom, stopped by a corner board. Where patterned coursing occurs, it is a Queen Anne device and belongs to a whole gable or a whole panel, bounded by a member, not to a two-course stripe.",
+  "fixes": {
+    "right": "Hand-laid random-width shingles at a constant exposure, woven corners, joints offset, and a doubled or tripled starter course at the base with a 1-2 in projecting flare.",
+    "cheap": "Randomise for free. Instruct the crew to draw from three bundles at once and never place two adjacent shingles within 1 in of the same width. It costs nothing and it is the single largest visual difference between a hand-laid wall and a panelised one. If the corner cannot be woven, use a real corner board rather than a mitre — a mitred shingle corner is the worst of the three options because it neither weaves nor stops.",
+    "dishonest": "Staining a panelised shingle wall with a variegated colour to fake irregularity. Colour variation reads as weathering, not as fabric, and it decouples the tone pattern from the joint pattern, which the eye picks up as artificial within a few years as the stain fades unevenly across joints that do not correspond to it."
+  },
+  "detection": "Measure widths. In a straight-on photograph, measure ten adjacent shingles in one course; a hand-laid wall gives a coefficient of variation above about 0.2 and a panelised or uniform-width wall gives near zero. Then trace the vertical joints: if any joint line continues through three or more courses, the offsetting rule was ignored. At the corner, look for the alternating lap of a woven corner — the corner shingle should visibly come from the left face on one course and the right face on the next; a continuous vertical line at the corner means a mitre or a metal cap. Finally check the base: a shingled wall almost always starts with a doubled course, which shows as a heavier shadow at the first course; its absence is a quick tell.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "Uniformity of BUTT and exposure is correct here — the style wants a taut continuous surface, not a picturesque one, and its shingles are plain and evenly coursed. It also runs shingles over corners with no corner board, which is an omission fault anywhere else.",
+      "bounds": "Uniform exposure, yes; uniform width, no — the continuity depends on the vertical joints being unreadable, which random width provides and uniform width destroys. And the no-corner-board licence requires a woven corner: it is a licence to omit a member, not to substitute a mitre or a cap for one.",
+      "bounds_test": {
+        "expression": "coefficient_of_variation_of_shingle_widths_in_one_course",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.2,
+        "note": "The licence is on EXPOSURE uniformity, not on width uniformity — and the two are opposite. Continuity depends on the vertical joints being unreadable, which random width provides and uniform width destroys, so the primary test is unchanged and it is the exposure test that relaxes."
+      },
+      "applies_when": {
+        "slots": [
+          "primary_cladding"
+        ],
+        "note": "Plain uniform butts and even coursing; patterned fishscale over more than a small panel indicates Queen Anne."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Patterned coursing — fishscale, diamond, sawtooth, staggered butt — is a legitimate Queen Anne device and is deliberately regular, because the pattern is the point.",
+      "bounds": "A pattern belongs to a bounded field: a whole gable, a whole storey band between two moulded belts, or a whole tower face. A two- or three-course stripe of fishscale floating in a plain wall is not a Queen Anne device, it is a trim package.",
+      "bounds_test": {
+        "expression": "patterned_field_bounded_by_a_member_or_a_gable",
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "A pattern belongs to a bounded field — a whole gable, a whole storey band between two moulded belts, a whole tower face. A floating three-course stripe scores zero."
+      },
+      "applies_when": {
+        "slots": [
+          "secondary_cladding",
+          "gable_treatment"
+        ]
+      }
+    },
+    {
+      "style": "folk-victorian",
+      "why": "A modest single band of patterned shingle in a gable, bounded by the rake, is within the vocabulary.",
+      "bounds": "Bounded by the gable geometry itself, which is a real boundary.",
+      "bounds_test": {
+        "expression": "patterned_field_bounded_by_a_member_or_a_gable",
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Bounded by the gable geometry itself, which is a real boundary."
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "Weathered unpainted shingle sidewalls laid to a tight 5 in exposure with very straight coursing are authentic, and part of the type's plainness.",
+      "bounds": "Tight coursing, yes; the widths still vary, and the corners are woven or stopped by a narrow corner board.",
+      "bounds_test": {
+        "expression": "sidewall_exposure_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 4.5,
+        "upper": 6,
+        "note": "Tight coursing is authentic; the widths still vary, and the corners are woven or stopped by a narrow corner board."
+      },
+      "applies_when": {
+        "regions": [
+          "New England"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "clapboard-exposure-drift",
+      "difference": "Different material with different rules: a shingle wall's exposure SHOULD be uniform, and it is the widths that must vary. Applying the clapboard reasoning to shingles gets the diagnosis backwards."
+    }
+  ],
+  "sources": [
+    "Cedar Shake & Shingle Bureau, maximum exposures for sidewall application (16 in shingle: 7 1/2 in single-course, 12 in double-course)",
+    "NPS Preservation Brief 19: The Repair and Replacement of Historic Wooden Shingle Roofs",
+    "styles/shingle-style.json, defining_characteristics and diagnostic_tells",
+    "kits/georgian-colonial-american.kit.json, primary_cladding / shingle-siding (forbidden on a Georgian front)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "cladding",
+    "shingle",
+    "material",
+    "texture"
+  ],
+  "test": {
+    "expression": "coefficient_of_variation_of_shingle_widths_in_one_course",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 0.2,
+    "note": "Measure ten adjacent shingles in one course. Hand-laid random-width work gives a coefficient above about 0.2 across a 3-14 in bundle range; panelised or uniform-width product gives near zero. This is the whole fault in one number, and it is available from any reasonably resolved straight-on photograph."
+  },
+  "secondary_tests": [
+    {
+      "expression": "sidewall_exposure_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 4.5,
+      "upper": 7.5,
+      "note": "Cedar Bureau maximum for a 16 in shingle single-coursed is 7 1/2 in; historic New England sidewalls run 4 1/2 to 6 in. Double-coursing goes to 12 in with a lower-grade under-course and a 1/8-1/2 in projecting outer butt for a heavier shadow. Note the polarity: exposure SHOULD be uniform here — it is the widths that must vary, the opposite of the clapboard rule."
+    },
+    {
+      "expression": "courses_before_a_vertical_joint_line_repeats",
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 3,
+      "note": "Joints offset at least 1 1/2 in from the course below and never lining through within three courses. A joint continuing through three or more courses means the offsetting rule was ignored, or the wall is panelised."
+    },
+    {
+      "expression": "woven_corner_courses / corner_courses",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "At the corner the exposed shingle should visibly come from the left face on one course and the right face on the next. A continuous vertical line at the corner means a mitre or a metal cap — the worst of the three options, because it neither weaves nor stops."
+    }
+  ],
+  "co_occurs_with": [
+    "j-channel-corner",
+    "material-change-with-no-plane-change"
+  ],
+  "inverted_by": [
+    {
+      "style": "queen-anne-american",
+      "statement": "Within a patterned field the fault inverts: fishscale, diamond and sawtooth coursing must be exactly regular, because the pattern is the point, and random variation inside a patterned panel reads as bad workmanship rather than as fabric. What remains a fault is the pattern's EXTENT — a two- or three-course stripe floating in a plain wall is a trim package, not a Queen Anne device."
+    }
+  ]
+}

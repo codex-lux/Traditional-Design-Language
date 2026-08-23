@@ -1,0 +1,37 @@
+{
+  "id": "american-colonial",
+  "name": "American Colonial",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1607,
+    "floruit_end": 1780,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The first American architecture: four European building cultures transplanted to four different climates, each mutating within two generations.",
+    "long": "The colonial period is best read as a controlled experiment. English, Dutch, German, French, and Spanish settlers each brought a coherent building tradition and each met conditions their tradition had not anticipated — colder winters, hotter summers, different timber, no guild structure, and a labour economy in which skilled craft was scarce and land was not.\n\nWhat survived the transplant is instructive and consistent: the section survived, the plan survived, the surface did not. Roof pitch, chimney position, ceiling height, and the relationship to grade persisted for centuries. Ornament vanished almost immediately and returned only when pattern books arrived in the 1730s.\n\nThe variant level is where this family becomes operationally useful. New England Georgian and Tidewater Georgian are the same style and different buildings, and the differences — cladding, chimney position, roof pitch, plan depth — are climatic and quantifiable."
+  },
+  "defining_characteristics": [
+    "Transplanted European traditions adapting to unanticipated climates",
+    "Structural and planning logic surviving where surface ornament did not",
+    "Scarcity of skilled craft producing simplification within a generation",
+    "Strong regional divergence within each national tradition",
+    "Pattern-book classicism arriving late and unevenly after about 1730"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

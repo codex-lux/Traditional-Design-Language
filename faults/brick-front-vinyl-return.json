@@ -1,0 +1,233 @@
+{
+  "id": "brick-front-vinyl-return",
+  "name": "The brick blanket",
+  "aka": [
+    "three-sided brick",
+    "the movie-set front",
+    "brick front, vinyl sides",
+    "the painted front and the unpainted returns"
+  ],
+  "slots": [
+    "material_change_rule",
+    "secondary_cladding",
+    "primary_cladding",
+    "color_strategy"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "Brick or stone on the street elevation only, stopping at the two front corners, with vinyl or fibre-cement siding on the returns and the rear. From the sidewalk the house is masonry; from the driveway next door it is a frame house wearing a mask, and the joint at the corner is a vertical line of trim about 1 in wide with the veneer's cut edge behind it. The same arithmetic produces the same fault in paint alone: a saturated body colour on the street front and a cheap neutral on the returns and the rear, changing at an outside corner behind the corner board.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Brick veneer runs $16-$30/sf installed against $5-$12/sf for lap siding, and the front elevation is what appears in the marketing photograph and the appraiser's comparables. Cladding the front only captures nearly all of the perceived value at about a third of the masonry quantity. It is a pricing decision made in the sales office, not a detailing decision made at the drawing board, and it is usually locked before an architect sees the elevations.",
+    "cost_saved": "On a typical 2,400 sf two-storey house, wrapping brick on all four elevations rather than the front adds roughly 1,400-1,800 sf of veneer, about $28,000-$50,000 (2026 US)."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / secondary_cladding (binding: forbidden)",
+      "statement": "A single volume has one cladding material, top to bottom and on all four elevations; there is no second material."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / material_change_rule",
+      "statement": "Material may change only where the building changes volume or where a projecting horizontal course runs the full way round; it may never change at an unreturned corner and never on the entrance elevation alone."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a wall material is a property of a volume, not of an elevation",
+      "statement": "An elevation is a view. A volume is a thing. Cladding a view rather than a thing is what makes the result read as scenery."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / color_strategy / body-colour-changing-between-elevations (forbidden)",
+      "statement": "All four elevations are one volume and one colour. A painted front with unpainted or differently painted returns is the colour version of this same pathology."
+    }
+  ],
+  "correct_practice": "One cladding per volume, carried identically round all four elevations of that volume. Where budget will not carry masonry all round, change the VOLUME, not the elevation: build a masonry main block and a frame ell, hyphen or rear wing, so that the material change coincides with a change of plan, roof and ridge height, and lands at an INSIDE corner where the two volumes meet. That is how every period house with two materials on it did it, and it costs no more than the dishonest version because the masonry quantity is the same — it is only distributed to a form that can justify it. The rule governs colour identically: one body colour per volume, on every elevation including the rear, changing only where the building changes volume. A subordinate wing, an ell or an outbuilding may take a different and usually plainer colour, and the New England farmstead's white house with a red barn and grey sheds is exactly that device used well — a hierarchy of volumes, never a hierarchy of viewing angles.",
+  "fixes": {
+    "right": "Wrap the veneer round all four elevations of the main block, and take the saving out of the plan by making the block smaller. A 2,000 sf all-brick house is a better object than a 2,400 sf brick-fronted one and costs the same.",
+    "cheap": "Redraw the massing so the frame part is a genuine subordinate volume: pull the rear third back 2 ft in plan, drop its ridge 18-24 in, and let the masonry return past the new inside corner by at least 12 in with a full water table and cornice return. No change in quantities, complete change in reading. This is the tier that actually gets built. In the colour case the equivalent cheap move is to choose a cheaper colour and use it everywhere: a mid-tone in a standard base on four elevations costs less than a deep base on one and a half, and where a repaint must be phased, sequence it by ELEMENT — whole body, then whole trim, then shutters and door — never by elevation.",
+    "dishonest": "Returning the brick 16-24 in round the corner and then stopping it behind a corner board — the 'brick return' the trade offers as a compromise. It converts a two-dimensional lie into a three-dimensional one and makes the cut edge more prominent, not less: you now see the veneer's thickness in the shadow at the stop. Also dishonest: matching the siding colour to the brick so the change is less visible, which sacrifices the one thing frame cladding does well without buying any mass. The colour version of the same evasion is matching the return colour closely enough that 'nobody will notice'. Two near-identical colours meeting at an outside corner is worse than two obviously different ones, because the eye reads the small difference as fading or as a botched repair rather than as a decision, so the house looks badly maintained instead of merely cheap."
+  },
+  "detection": "Photograph or view the house from an oblique angle, 30-45 degrees off the front. If the masonry terminates within a foot or two of the front corner with a vertical trim strip, the fault is present. From the front alone, three tells: (1) the water table, if any, does not turn the corner — look for it dying into a vertical board; (2) the brick has no returned reveal at the outermost window of the end bay; (3) the foundation below the siding on the return is at the same height as the brick ledge on the front, showing that one wall plane serves both materials, meaning there was never a change of volume. Aerial and satellite imagery settles it instantly: look for a single unbroken roof plane over two different wall materials. The same oblique view answers the colour question: compare the body value and hue on the two visible elevations, and check the corner board's shadowed edge for a sliver of a different colour past it. An attached garage in a different body colour under a continuous roof plane is the same fault — a garage is not a separate volume just because it holds cars.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "tudor-revival",
+      "why": "A horizontal change of material between storeys — masonry below, stuccoed half-timber above — is a defining characteristic, not a fault. But it is horizontal and it runs the whole way round.",
+      "bounds": "The change must be horizontal, must return on all elevations at the same datum, and must occur at a real plane change (a jetty, a drip course, or an oversail of 1.5-4 in). A Tudor Revival house with stone on the front and vinyl on the sides commits this fault exactly as a Georgian one does.",
+      "bounds_test": {
+        "expression": "upper_storey_oversail_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "Jetty, drip course or oversail. Below 1.5 in the change is flush and the Tudor licence has become the flush-change fault; a genuine jetty runs 4-16 in."
+      },
+      "applies_when": {
+        "slots": [
+          "material_change_rule",
+          "secondary_cladding"
+        ],
+        "note": "Licence covers a HORIZONTAL change only, at one datum, returning on all elevations. It says nothing about a vertical stop at a corner, which remains this fault under any style label."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "Craftsman legitimately stacks materials — masonry base, shingle or clapboard wall, shingled gable — and legitimately changes material at the porch-roof line, because that line is a real structural datum with a roof on it.",
+      "bounds": "The change must be at a horizontal structural line that continues round the building, and each band must be complete on every elevation. Stone on the front porch base only, with the return in siding down to grade, is the same fault under a different style label.",
+      "bounds_test": {
+        "expression": "material_bands_complete_on_all_faces / material_bands",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Each band must be complete on every elevation of the volume. Stone on the front porch base with the return in siding fails this at 0.5."
+      },
+      "applies_when": {
+        "slots": [
+          "porch_type",
+          "roof_form"
+        ],
+        "note": "The change must sit on a real horizontal structural line that continues round the building — a porch roof that exists, or a gable plate."
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "A bank house is genuinely two things: a masonry ground storey cut into the hill and a frame or lighter storey above, and the elevations differ because the SECTION differs.",
+      "bounds": "The material follows the earth line, not the street. If the stone is high on the downhill front and absent on the uphill sides where it should be highest, the logic has been inverted and it is the fault again.",
+      "bounds_test": {
+        "expression": "stone_height_uphill_in / stone_height_downhill_in",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "section",
+        "threshold": 1.0,
+        "note": "The stone follows the earth line, so it must be at least as high where the ground is highest. A ratio under 1.0 means the material is following the street rather than the section, and the logic has been inverted."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "An urban party-wall type may present a finished stucco or brick street front and rougher common brick on a flank that was never meant to be seen, because a neighbour was expected to build against it.",
+      "bounds": "Only in a true party-wall or zero-lot-line condition where the flank is genuinely concealed or was built expecting to be. A detached suburban house on a 60 ft lot has no such elevation.",
+      "bounds_test": {
+        "expression": "setback_from_lot_line_at_rough_flank_ft",
+        "direction": "at-most",
+        "units": "ft",
+        "measurable_from": "plan",
+        "threshold": 0,
+        "note": "A true party-wall or zero-lot-line condition. A detached house on a 60 ft lot has no elevation that was expected to be built against."
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "A colour hierarchy across a farmstead — white house, red barn, unpainted sheds — and across the additive ells of a connected farmstead is a genuine and expressive tradition.",
+      "bounds": "Each volume is one colour on all of its own faces. The hierarchy runs between buildings and between attached volumes with their own roofs and ridge heights, never between the elevations of one volume.",
+      "bounds_test": {
+        "expression": "faces_of_volume_in_one_body_colour / faces_of_volume",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "The hierarchy is BETWEEN volumes. Within any one volume the rule is unchanged, so the test is the same test applied per volume."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Polychrome schemes legitimately pick out a tower, a bay or a gable in a different colour from the main body.",
+      "bounds": "The picked-out element must be a real projecting volume or a bounded panel field, complete on all its own faces. Painting the front of a tower differently from its side is the fault inside the exception.",
+      "bounds_test": {
+        "expression": "faces_of_picked_out_volume_in_accent_colour / faces_of_picked_out_volume",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Painting the front of a tower differently from its side fails at 0.5. The picked-out element must be complete on all its own faces."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "material-change-with-no-plane-change",
+      "difference": "That fault is about a HORIZONTAL change with nothing to justify it in section. This one is about a VERTICAL termination at an outside corner. They frequently occur together on the same house."
+    },
+    {
+      "fault": "wainscot-that-stops",
+      "difference": "The wainscot fault is the same disease at a smaller scale and in the horizontal direction — a partial-height base rather than a partial-elevation skin."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, secondary_cladding and material_change_rule",
+    "NPS Preservation Brief 16: The Use of Substitute Materials on Historic Building Exteriors",
+    "Brick Industry Association, Technical Notes 28",
+    "RSMeans-type unit pricing for anchored brick veneer vs. lap siding, 2025-2026",
+    "kits/georgian-colonial-american.kit.json, color_strategy / body-colour-changing-between-elevations (forbidden)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "material-honesty",
+    "material-change",
+    "production-housing",
+    "veneer",
+    "colour"
+  ],
+  "test": {
+    "expression": "faces_of_volume_clad_in_primary_material / faces_of_volume",
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "Count the faces of one VOLUME, not of the building. Anything under 1.0 is the fault. Needs an oblique or aerial view; a straight-on front photograph cannot evaluate it, which is precisely why the fault survives."
+  },
+  "secondary_tests": [
+    {
+      "expression": "plan_offset_at_material_change_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "plan",
+      "threshold": 24,
+      "note": "A legitimate change happens where one volume meets another, which means an INSIDE corner with a real plan offset. Under about 24 in the two volumes are not distinguishable and the change is happening at an outside corner in disguise."
+    },
+    {
+      "expression": "ridge_height_difference_between_volumes_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "elevation",
+      "threshold": 18,
+      "note": "The second half of the volume test. A material change with a plan offset but no ridge break is still one volume wearing two skins."
+    },
+    {
+      "expression": "faces_of_volume_in_one_body_colour / faces_of_volume",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "The colour version of the same rule. An attached garage in a different body colour under a continuous roof plane fails this, because a garage is not a separate volume just because it holds cars."
+    }
+  ],
+  "co_occurs_with": [
+    "material-change-with-no-plane-change",
+    "wainscot-that-stops",
+    "brick-ledge-base",
+    "veneer-reveal-collapse"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit binds secondary_cladding to 'forbidden' at slot level; a second material on one volume is not a degradation of the style, it is a departure from it."
+    },
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "Craftsman legitimately stacks materials, so the eye is not startled by two of them — but the stacking must be horizontal and complete, and a vertical stop at a corner is still wrong."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "minor",
+      "why": "A style built on textural variety absorbs an inconsistent return better than a formal one, though it does not license it."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "library-study-pair",
+  "name": "Library and Study Pair",
+  "scale": "pair",
+  "confidence": "medium",
+  "description": "The room for work and the room for books, which are often one room asked to be two. Their requirements diverge sharply: a study wants a door that closes and a wall for a desk; a library wants continuous wall, even north light and no glare on a screen or a page.",
+  "rooms": [
+    {
+      "room": "library",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "study",
+      "role": "primary",
+      "count": "0-1"
+    },
+    {
+      "room": "closet",
+      "role": "servant",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "Continuous shelf wall of at least 10 linear ft and preferably 16. A library with three windows and a door has no wall left and becomes a sitting room with a bookcase.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "continuous_shelf_wall_ft at-least 10"
+    },
+    {
+      "statement": "North or east light on the working surface, and never a window directly facing a desk — the glare makes the best-placed desk unusable.",
+      "kind": "daylight",
+      "severity": "strong"
+    },
+    {
+      "statement": "A real door that closes, and acoustic separation from the kitchen and any eating area. A study without a door is a desk.",
+      "kind": "acoustic",
+      "severity": "hard"
+    },
+    {
+      "statement": "Where the room is on the public side of the house it takes public trim and a formal position; where it is a working study it belongs in the family zone. Trying to be both produces a room used for neither.",
+      "kind": "hierarchy",
+      "severity": "preferred"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "four-over-four",
+      "fit": "common",
+      "position": "one ground quadrant, usually front"
+    },
+    {
+      "massing": "foursquare",
+      "fit": "common"
+    },
+    {
+      "massing": "five-part-palladian",
+      "fit": "canonical",
+      "position": "one dependency — the historic use of the flanking wing"
+    },
+    {
+      "massing": "bungalow-linear",
+      "fit": "possible",
+      "position": "a den off the living room, usually with a wide cased opening rather than a door"
+    }
+  ],
+  "expansion_logic": "Split rather than enlarge: when a library has to serve as an office and a spare bedroom, the honest answer is two smaller rooms.",
+  "privacy_span": [
+    2,
+    4
+  ],
+  "typical_area_sf": [
+    120,
+    320
+  ],
+  "servicing_strategy": "Data and power at the desk wall, drawn before the shelving; a library retrofitted for a workstation always loses a bay of shelf.",
+  "circulation_parti": [
+    "center-hall",
+    "side-hall",
+    "open-plan"
+  ],
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "note": "Often in a dependency rather than the main block, which is where a modern client should be encouraged to put a home office too."
+    },
+    {
+      "style": "craftsman",
+      "note": "The den off the living room with a wide cased opening and built-in shelving; the built-in is definitional."
+    },
+    {
+      "style": "tudor-revival",
+      "note": "The style with the strongest claim on the room — panelled, north-lit, and the one place the idiom's darkness is an asset."
+    }
+  ],
+  "sources": [
+    "Kerr, The Gentleman's House",
+    "Lancaster, The American Bungalow"
+  ]
+}

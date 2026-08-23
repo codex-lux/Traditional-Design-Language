@@ -1,0 +1,226 @@
+{
+  "id": "nursery",
+  "name": "Nursery",
+  "aka": [
+    "day nursery",
+    "night nursery",
+    "children's room",
+    "baby's room"
+  ],
+  "function_class": "sleeping",
+  "description": "The room for a child too young to have a bedroom. In its historical form it is a suite at the top of a large house - day nursery, night nursery and nurse's room - deliberately remote from the principal rooms, because the governing idea was that children should not be heard. In its modern form it is the room nearest the primary bedroom, because the governing idea is exactly the reverse. The design consequence of that inversion is the whole entry: everything about the historical nursery is about containing sound and everything about the modern one is about carrying it in one direction and blocking it in the other.",
+  "history": {
+    "appears": 1750,
+    "declines": 1930,
+    "replaced_by": "the child's bedroom, adjoining the parents'",
+    "note": "The nursery suite is a feature of houses with resident nursery staff and it is at its most developed between about 1830 and 1914, on the top floor or in a wing, with its own stair, its own bath and often its own kitchen arrangements - Girouard's account of the Victorian country house makes the point that the nursery was as segregated from the family as the servants were, and by the same devices. It disappears with the nurse, in the 1920s in America and after 1918 in Britain, and what replaces it is a nursery in the modern sense: one room, next to the parents, with a monitor in it. The best thing to know about designing one is that it is a room with a design life of about four years and a service life of eighty, so the correct dimension is not the crib's, it is the bedroom's - build it as a bedroom, give it a bedroom's closet and a bedroom's egress window, and let it be a nursery for a while."
+  },
+  "dimensions": {
+    "area_sf": [
+      110,
+      180
+    ],
+    "width_ft": [
+      10,
+      13
+    ],
+    "length_ft": [
+      11,
+      15
+    ],
+    "proportion": [
+      1.0,
+      1.35
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "Not the crib - the crib is small and fits anywhere. The critical dimension is THE ROOM IT BECOMES, which is a bedroom, so 11 by 12 is the floor for the same reasons given at bedroom. The genuinely nursery-specific number is the CHANGING POSITION: a changing table is 20 by 36 at 36 to 38 in high and you stand square in front of it with a child on it and both hands occupied, so it needs 36 in of clear floor in front and it must not be reachable only by passing between the crib and a wall. And the crib itself has a placement rule that is a real constraint: a crib may not be within reach of a window, a blind cord, a curtain, a shelf or a wall-mounted anything, and it should not stand against a cold exterior wall - which in a small room eliminates most of the walls and is why nurseries feel harder to plan than they look."
+  },
+  "furniture": [
+    {
+      "item": "crib",
+      "footprint_in": [
+        30,
+        54
+      ],
+      "clearance_in": 30,
+      "note": "Interior 28 by 52 by US standard; exterior about 30 by 54. Clear access on one long side and one end for lifting a child out with both arms; 30 in, because you lift with your back straight."
+    },
+    {
+      "item": "changing table or dresser with a changing top",
+      "footprint_in": [
+        36,
+        20
+      ],
+      "clearance_in": 36,
+      "note": "Top at 36-38 in. A dresser with a changing pad is the right answer because it survives the nursery phase."
+    },
+    {
+      "item": "glider or nursing chair",
+      "footprint_in": [
+        30,
+        34
+      ],
+      "clearance_in": 16,
+      "note": "A glider or rocker travels 10-16 in front to back and cannot be put against a wall behind a door swing. This is the piece of furniture nurseries are most often too small for and it is the piece that gets used at 3 am."
+    },
+    {
+      "item": "bookcase / low storage",
+      "footprint_in": [
+        36,
+        12
+      ],
+      "clearance_in": 30,
+      "note": "Must be anchored to the wall. Furniture tip-over is a real and regulated hazard (US STURDY Act 2022 and CPSC 16 CFR 1261), and a blocking strap fitted at framing costs nothing."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.0,
+    "sides_lit": 1,
+    "orientation": "North or east, and the reason is the opposite of every other bedroom: a nursery is used for DAYTIME sleep and wants to be darkenable, so an aspect that does not need heavy blackout is worth having. A west-facing nursery in summer is a room a child will not nap in.",
+    "glazing_fraction": [
+      0.08,
+      0.13
+    ],
+    "note": "One window is enough. Its position matters more than its size, because the crib cannot go near it: keep the window on the wall the crib is NOT on, and if there is only one usable wall, the window is the constraint that decides the plan."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "Within earshot through one closed door, which in practice is within about 25 ft with no more than one intervening door. This is the modern rule and it is the exact reverse of the historical one.",
+        "relation": "same-floor",
+        "strength": "strong",
+        "exceptions": [
+          "Historical nursery wings with resident staff, where remoteness was the design intent and a separate stair served it."
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "bathroom",
+        "why": "Bathing a small child happens two or three times a week and involves carrying a wet child. Same floor, and preferably no stair and no public space between.",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "linen-press",
+        "why": "The highest-turnover linen in the house is in this room.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "laundry",
+        "why": "Sound in the direction you do not want it: the machine wakes the child, and the whole point of the adjacency set is one-way transmission.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "living-room",
+        "why": "A nursery sharing a floor or a wall with the room where the household stays up is the commonest reason a family stops using their own living room after 8 pm.",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "plant-room",
+        "why": "Equipment noise and, if it is a combustion appliance, the room you least want on the other side of a shared wall.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "passage",
+      "landing",
+      "primary-bedroom"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The most-closed door in the house for the longest continuous hours. A transfer grille rather than a door undercut, because an undercut also transmits light and sound from the corridor.",
+    "heat": "A nursery wants a slightly higher set-point and much better temperature stability than the rest of the house, and it is usually the smallest room on the branch, which means it is the most over- and under-served by a single-zone system. If nothing else in the house has a damper, this room should.",
+    "electrical": "Tamper-resistant receptacles are required everywhere in dwellings now, and cord management is a design problem, not a housekeeping one: put the receptacles where the lamp and the monitor go and nowhere within 3 ft of the crib wall.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "nurseries",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "A suite on the attic or second floor with a nurse's room adjoining, plain-trimmed and often with a fixed guard to the window, remote from the principal apartments and served by the back stair."
+    },
+    {
+      "style": "victorian",
+      "name_in_style": "day nursery and night nursery",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Two rooms, the day nursery a schoolroom and playroom, the night nursery for sleeping, with the nurse between them. The Victorian house is where the segregation is most complete."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "nursery",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "By this date one room, next to the parents. The word survives but the institution has already changed."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Not a room. Children slept in the chambers with adults or in the garret, and infants slept in the parents' chamber in a cradle or a truckle bed - which is functionally the modern arrangement, arrived at from the other direction."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "the small bedroom",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "No dedicated nursery; the smallest bedroom serves and the Craftsman built-in chest in the hall serves the storage. The type's honest answer."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "A nursery is a sleeping room from the day it is occupied: emergency escape and rescue opening, 68 degrees F heating capability, and smoke alarms in and adjacent to it.",
+      "ref": "IRC R310, R303.10, R314",
+      "conflict": "Rooms drawn as 'nursery', 'study' or 'bonus room' to avoid the egress requirement are the commonest deliberate evasion in residential permitting, and the room is always used for sleeping. If it can hold a bed, give it an egress window."
+    },
+    {
+      "requirement": "Window opening control devices or fall protection where a window sill is less than 24 in above the finished floor and more than 72 in above the exterior grade.",
+      "ref": "IRC R312.2",
+      "conflict": "Directly opposed to the egress requirement's 44 in maximum sill: the code wants the sill low enough to climb out of and high enough not to fall out of, and between 24 and 44 in is the band that satisfies both. Draw the sill at 30 to 36 in and both are met, which is also where a period sill sits."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "garrison-block",
+    "cape-cod-massing",
+    "gambrel-block",
+    "massed-picturesque",
+    "cross-gable-victorian",
+    "mansard-block",
+    "ranch-linear",
+    "ranch-l"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "daylight_strategy",
+    "window_sill",
+    "storage_strategy"
+  ],
+  "faults": [
+    "primary-suite-off-the-formal-hall",
+    "egress-window-flips-the-proportion",
+    "the-room-nobody-enters"
+  ],
+  "sources": [
+    "Mark Girouard, Life in the English Country House (1978), on nursery segregation",
+    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981)",
+    "IRC R310, R312.2, R303.10",
+    "CPSC 16 CFR 1220 (full-size cribs) and 16 CFR 1261 (clothing storage unit stability)"
+  ],
+  "confidence": "high"
+}

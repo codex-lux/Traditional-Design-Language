@@ -1,0 +1,218 @@
+{
+  "id": "new-england-georgian",
+  "name": "New England Georgian",
+  "aka": [
+    "Northern Colonial Georgian",
+    "New England high-style colonial"
+  ],
+  "rank": "variant",
+  "member_of": "georgian-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1710,
+    "floruit_start": 1730,
+    "floruit_end": 1790,
+    "decline_end": 1800,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1880,
+        "end": 1955,
+        "revival_node": "georgian-revival",
+        "note": "Sketched by McKim, Mead & White and their contemporaries on the 1877 Colonial tour of Marblehead, Salem and Portsmouth; the New England Georgian house is the direct model for most of what Americans now call 'Colonial'."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "eastern Massachusetts",
+      "coastal New Hampshire and southern Maine",
+      "Rhode Island",
+      "Connecticut"
+    ],
+    "hearth": "the merchant ports — Boston, Salem, Marblehead, Newport, Portsmouth — where shipping fortunes and imported books arrived in the same hulls",
+    "climate_zones": [
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "georgian-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "new-england-colonial",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The frame, the clapboard skin, the steep roof and the cold-climate habits are inherited unchanged; only the plan, the chimney arrangement and the trim are new."
+    }
+  ],
+  "description": {
+    "short": "The Georgian grammar executed in wood by shipwrights' carpenters: clapboard or rusticated board walls, paired chimneys set inboard of the ridge, steep Northern roof pitches and the most elaborately carved doorways in colonial America.",
+    "long": "New England Georgian is the tradition's answer to a specific problem: how to build a stone architecture out of pine. There is very little building stone in eastern Massachusetts, brick was expensive and cold, and the region had a surplus of extraordinarily skilled ship's joiners. The answer was to translate the whole classical apparatus into wood and then, on the most ambitious houses, to disguise the wood as stone. Boards are cut to a bevelled edge, laid flush, scored to imitate ashlar coursing, and painted with sand thrown into the wet paint so the surface takes the light like cut stone. The Isaac Royall House at Medford and the Jeremiah Lee Mansion at Marblehead both do this; so, later, does Mount Vernon. Nothing else in colonial America is quite so confident a piece of make-believe, and it works, at thirty feet, completely.\n\nThe chimney arrangement is the fastest way to tell a New England Georgian house from any of its Southern cousins. Northern winters make an exterior chimney a heat leak, so the stacks stay inside the envelope: two of them, symmetrically placed, rising through the roof slope five to twelve feet in from the gable ends and flanking the ridge, or on smaller houses a single central stack pierced by a passage running past it. Southern Georgian puts its chimneys at the gable walls and frequently outside them entirely. That one difference tracks the climate exactly, and it changes the roofline, the plan and the room layout with it.\n\nThe roof stays steep by Georgian standards — nine to eleven in twelve, against seven to nine in the Chesapeake — because snow load and the First Period habit both push it up, and it terminates in a boxed modillion cornice that returns a full twelve to twenty-four inches across each gable end. That full return, meeting a corner pilaster or a heavy corner board, is the second reliable tell. Windows sit in a plain flat architrave five to six inches wide with a simple crown moulding, without keystones or gauged arches, because there is no masonry to arch. Ceilings run eight and a half to nine and a half feet, distinctly lower than the ten to twelve of Virginia — again the climate, and the cost of heating a room.\n\nEverything the house has to spend goes on the doorway. Engaged pilasters or three-quarter columns carrying a full entablature and a triangular, segmental or scroll (swan's neck) pediment, the whole thing three to five feet wide and carved in pine at a scale no English house of the same rank would have attempted in stone. There is no fanlight and no sidelight before about 1780; where you see one, the house is Federal or has been improved.\n\nInside, the passage is panelled floor to ceiling, the stair has three turned balusters to a tread with a moulded and ramped handrail, and the best room's chimney breast is a full architectural composition — bolection-moulded panels, a pilastered overmantel, and a cornice that agrees with every other cornice in the room because they were all taken from the same plate."
+  },
+  "defining_characteristics": [
+    "Wood construction: clapboard at 4–5 in exposure, or flush boarding, or boarding rusticated and sanded to imitate ashlar on the principal elevation",
+    "Chimneys interior and paired, rising through the roof slope 5–12 ft in from the gable ends and flanking the ridge — never on the exterior of a gable wall",
+    "Steep Northern roof pitch, 9:12 to 11:12, side-gable, gambrel or hipped, with a boxed modillion or dentil cornice",
+    "Full cornice returns of 12–24 in across each gable end, meeting corner pilasters or heavy corner boards of 6–12 in",
+    "Flat wood architrave window trim, 5–6 in wide with a crown moulding, without keystone, gauged arch or masonry lintel",
+    "A heavily carved entrance frontispiece — pilasters or engaged columns carrying an entablature and a triangular, segmental or scroll pediment — with no fanlight or sidelights before c. 1780",
+    "Double-pile centre-passage plan 32–38 ft deep, with ceilings of 8 ft 6 in – 9 ft 6 in"
+  ],
+  "diagnostic_tells": [
+    "Two chimneys emerging from the roof slope well inboard of the gable ends — the single fastest discriminator against every Southern Georgian variant",
+    "A wooden wall imitating stone: scored flush boarding, sometimes with sand in the paint, and wooden quoins at the corners",
+    "Full deep cornice returns, not the clipped triangular 'pork chop' of later work",
+    "A big pedimented doorway with no fanlight",
+    "Roof visibly steeper than a Virginia or Charleston Georgian house of the same size"
+  ],
+  "distinguished_from": [
+    {
+      "node": "tidewater-georgian",
+      "difference": "Five explicit differences, all measurable: cladding (wood versus Flemish-bond brick with glazed headers); chimney position (interior, inboard of the ridge, versus gable-end or exterior); roof pitch (9:12–11:12 versus 7:12–9:12, and gable versus hip); window head (flat wood architrave versus segmental or flat gauged brick arch); and plan depth (double-pile 32–38 ft with an attached service ell versus single-pile 18–22 ft with detached dependencies). Ceiling heights differ too — 8 ft 6 in – 9 ft 6 in against 10–12 ft."
+    },
+    {
+      "node": "new-england-colonial",
+      "difference": "The First Period house has one enormous central chimney, a 12:12-or-steeper roof, window heads jammed under the eave and no classical order. Many New England Georgian houses are First Period frames re-clad; read the chimney count and the passage, not the doorway."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Revival versions use muntins under 3/4 in or applied grilles, generic stock mouldings rather than a coherent order, shutters narrower than half the opening, a fanlight on a nominally 1750 house, and an attached garage. Trim identical on all four elevations is a revival tell; colonial houses spend on the front."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "A pattern-book order — most often Doric or Ionic from Gibbs or Langley — supplies the doorway and cornice module; the five-bay facade is then divided arithmetically.",
+    "typical_ratios": [
+      "Facade 42–52 ft wide, five bays; depth 32–38 ft double-pile",
+      "Window opening height:width 1.9:1 to 2.1:1; second-floor windows 82–88% of first-floor height",
+      "Pier between windows 0.7 to 1.0 times the window width",
+      "Ceilings 8 ft 6 in – 9 ft 6 in first floor, 8 ft 0 in – 8 ft 9 in second",
+      "Passage 10–13 ft wide; cornice 20–30 in overall height",
+      "Roof rise:run 9:12 to 11:12",
+      "Corner pilaster 10–16 in wide; corner board 6–10 in"
+    ],
+    "bay_rhythm": "Five bays, even and unaccented, the centre distinguished only by the doorway; on the largest houses a shallow pedimented centre pavilion projecting 12–24 in.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The double-pile Georgian block, four rooms per floor about a central passage."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "common",
+      "note": "The more modest inland version."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "common",
+      "note": "Gambrel-roofed Georgian houses are frequent in Rhode Island and coastal Massachusetts."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible",
+      "note": "Urban lots in Boston, Salem and Portsmouth."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "The connected New England farmstead — big house, little house, back house, barn — grows off the Georgian block."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Chimneys interior, paired, set 5–12 ft in from the gable end walls and flanking the ridge. Exterior gable-end chimneys are a Southern device and are climatically wrong here — they lose the stack's stored heat to the outside."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 9:12 to 11:12. Below 8:12 the house reads Chesapeake or Federal; above 12:12 it reads First Period."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Cornice returns 12–24 in deep across the gable, carrying the full cornice profile including modillions or dentils. A clipped triangular return is a twentieth-century economy and is forbidden."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Window heads are flat wood architraves 5–6 in wide with a crown moulding. Keystones, gauged brick arches and stone lintels belong to the masonry variants and must not appear on a clapboard wall."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Sash 12/12 to c. 1750, 9/6 c. 1740–1770, 6/6 after c. 1765. Shutter leaf width equals half the clear opening. No fanlight or sidelights before c. 1780."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Isaac Royall House",
+      "location": "Medford, Massachusetts",
+      "year": 1737,
+      "note": "Built out from a late 17th-century Usher core in the 1730s and raised to three storeys in the 1740s. The west facade is rusticated to simulate ashlar; the east has aproned windows, a modillion cornice and wooden quoining. The surviving slave quarters make it the most historically important Georgian house in New England."
+    },
+    {
+      "name": "Vassall-Craigie-Longfellow House",
+      "location": "105 Brattle Street, Cambridge, Massachusetts",
+      "year": 1759,
+      "note": "Wood construction with a giant order of Ionic pilasters and a pedimented centre pavilion — the classical apparatus in pine at full scale."
+    },
+    {
+      "name": "Jeremiah Lee Mansion",
+      "location": "Marblehead, Massachusetts",
+      "year": 1768,
+      "note": "Three storeys of rusticated wood scored to imitate stone, with a projecting pedimented pavilion and a two-storey stair hall; among the most ambitious wooden houses in colonial America."
+    },
+    {
+      "name": "Lady Pepperrell House",
+      "location": "Kittery Point, Maine",
+      "year": 1760,
+      "note": "A restrained late-Georgian block with a giant order of pilasters and a pedimented doorway; the type at its most disciplined."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Fiske Kimball, Domestic Architecture of the American Colonies and of the Early Republic (1922)",
+    "Helen Park, A List of Architectural Books Available in America before the Revolution (1973)",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625–1725 (1979)",
+    "Antoinette F. Downing and Vincent J. Scully, The Architectural Heritage of Newport, Rhode Island (1952)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "wood",
+    "rusticated-board",
+    "interior-chimneys",
+    "steep-pitch",
+    "pediment-door"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "PROMOTED from optional. The Northern house is a box frame before it is a composition, and the 16 ft bay is why the double-pile depth lands at 32–38 ft rather than the 40 ft the Mid-Atlantic reaches in masonry. Corner post, chimney girt and summer beam still set out the plan under the plaster.",
+      "precedence": 2
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "note": "DEMOTED almost to nothing. The wall is wood; brick appears only in the chimney stacks and the cellar. Where the pack's water table and belt-course rules are invoked on a clapboard house they must be re-derived from the board exposure, not from the brick gauge.",
+      "precedence": 9
+    },
+    {
+      "pack": "gibbs-ionic",
+      "role": "primary",
+      "authority": "gibbs-ionic",
+      "note": "Unchanged from the parent, but carrying more weight here than anywhere else: the New England frontispiece is the most heavily carved doorway in colonial America and it is executed in wood at full order, so the order's proportions are visible at arm's length and errors in them are not survivable.",
+      "precedence": 1
+    }
+  ]
+}

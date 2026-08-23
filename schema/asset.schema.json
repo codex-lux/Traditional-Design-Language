@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/asset.schema.json",
+  "title": "Visual Asset",
+  "description": "A format-agnostic image record. The RECORD carries the meaning; the file is swappable — a sketch today, a HABS photograph tomorrow, a commissioned render later. Records are authored BEFORE the file exists, with status 'wanted' and a shot spec, so the gap is visible rather than silent and an agent can already use the record. The alt_text is the machine-readable form of the picture and is required on every record, file or no file.",
+  "type": "object",
+  "required": ["id", "kind", "role", "depicts", "caption", "alt_text", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "kind": {
+      "enum": ["photograph", "measured-drawing", "hand-sketch", "line-diagram", "render", "detail-drawing", "plan", "elevation", "section", "historic-plate", "ai-generated"],
+      "description": "What sort of picture it is. Deliberately wide: the right medium differs by subject, and a rule diagram, a built example, and a millwork section are not interchangeable."
+    },
+    "role": {
+      "enum": ["correct", "incorrect", "comparison", "reference", "diagram", "process", "context"],
+      "description": "correct / incorrect are the good-and-bad pair that does the teaching. Pair them with pair_with."
+    },
+    "pair_with": { "type": ["string", "null"], "description": "id of the opposing record. A correct/incorrect pair must reference each other." },
+    "depicts": {
+      "type": "object",
+      "description": "What the image is ABOUT. These bindings are how an agent finds the right picture, and how a slot or fault surfaces its illustration.",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": { "type": "array", "items": { "type": "string" }, "description": "style node ids" },
+        "slots": { "type": "array", "items": { "type": "string" }, "description": "element slot ids" },
+        "faults": { "type": "array", "items": { "type": "string" }, "description": "fault ids" },
+        "packs": { "type": "array", "items": { "type": "string" }, "description": "proportion pack ids" },
+        "members": { "type": "array", "items": { "type": "string" }, "description": "specific assembly member ids, e.g. corinthian.entablature.corona" },
+        "massings": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "caption": { "type": "string", "description": "What a reader sees under the image. One or two sentences, and it should make the teaching point, not merely name the building." },
+    "alt_text": {
+      "type": "string",
+      "minLength": 60,
+      "description": "A precise verbal description of what the image shows, written so that a model with no access to the file can reason from it. On a 'wanted' record this doubles as the shot spec — it tells a photographer or renderer exactly what must be in frame."
+    },
+    "shot_spec": {
+      "type": "object",
+      "description": "Present on wanted records. What has to be true of the picture for it to do its job.",
+      "additionalProperties": false,
+      "properties": {
+        "subject": { "type": "string" },
+        "vantage": { "type": "string", "description": "e.g. 'square-on elevation, no perspective convergence', 'raking light from the left to read profile depth'." },
+        "must_show": { "type": "array", "items": { "type": "string" } },
+        "must_avoid": { "type": "array", "items": { "type": "string" } },
+        "lighting": { "type": "string" },
+        "scale_cue": { "type": "string", "description": "How the viewer will judge size — a person, a door, a dimensioned rule." }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string" },
+        "author": { "type": "string" },
+        "date": { "type": "string" },
+        "building": { "type": "string" },
+        "location": { "type": "string" },
+        "habs_number": { "type": "string", "description": "Historic American Buildings Survey reference, where applicable. HABS material is public domain and professionally measured." },
+        "url": { "type": "string" },
+        "license": {
+          "enum": ["public-domain", "cc0", "cc-by", "cc-by-sa", "owned", "licensed", "unknown"],
+          "description": "Never ship an asset at 'unknown'. The validator warns."
+        },
+        "attribution_required": { "type": "boolean", "default": false },
+        "attribution_text": { "type": "string" }
+      }
+    },
+    "file": {
+      "type": ["object", "null"],
+      "description": "Null while status is 'wanted'. Format-agnostic by design.",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string" },
+        "format": { "enum": ["jpg", "png", "webp", "svg", "pdf", "tif"] },
+        "width": { "type": ["integer", "null"] },
+        "height": { "type": ["integer", "null"] },
+        "bytes": { "type": ["integer", "null"] },
+        "sha256": { "type": "string" }
+      }
+    },
+    "generated_from": {
+      "type": ["object", "null"],
+      "description": "Set when the image is a render of a rule rather than a picture of a building. A diagram produced by the proportion engine records its inputs here, so it can be regenerated exactly and so the drawing and the data can never silently disagree.",
+      "additionalProperties": false,
+      "properties": {
+        "pack": { "type": "string" },
+        "module_in": { "type": "number" },
+        "parameters": { "type": "object" },
+        "engine_version": { "type": "string" }
+      }
+    },
+    "status": {
+      "enum": ["wanted", "sourced", "approved", "rejected", "placeholder"],
+      "description": "wanted: specified, no file. sourced: file present, unreviewed. approved: reviewed and correct. rejected: kept so the same wrong image is not sourced twice."
+    },
+    "priority": { "enum": ["critical", "high", "normal", "low"], "default": "normal" },
+    "review_note": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

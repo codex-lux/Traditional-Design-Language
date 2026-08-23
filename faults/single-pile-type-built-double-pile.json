@@ -1,0 +1,174 @@
+{
+  "id": "single-pile-type-built-double-pile",
+  "name": "One Room Deep, Built Two",
+  "aka": [
+    "the thickened plan",
+    "the lost cross-breeze",
+    "the fattened I-house"
+  ],
+  "slots": [
+    "depth_and_pile",
+    "daylight_strategy",
+    "room_adjacency_overrides"
+  ],
+  "severity": "fatal",
+  "frequency": "common",
+  "category": "composition",
+  "symptom": "A house whose type is defined by being one room deep - a Chesapeake I-house, a Charleston single house, a Creole cottage, a Monterey or hacienda range, a dogtrot - built at 32 to 40 ft deep instead of 18 to 22. The front elevation is unchanged and correct. Behind it, half the rooms now have windows on one wall or none, nothing cross-ventilates, and the whole environmental argument the type was making has been deleted without a single visible change from the street.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Depth is the cheapest direction to add area. A single-pile house at 20 ft deep needs 1.6 linear feet of exterior wall for every 10 sq ft of floor; at 36 ft deep it needs 0.9. Doubling the pile roughly halves the envelope cost per square foot, shortens the roof span run, and keeps the frontage - which is what the elevation rules govern and what the client is shown - exactly as drawn. Air conditioning removes the immediate penalty, so the fault is invisible in occupation until the power goes off.",
+    "cost_saved": "$25,000-$60,000 on a 2,400 sq ft house in exterior wall, foundation perimeter, roof edge and window count, relative to the same area taken in a single pile."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / depth_and_pile / single_pile_depth_ft = 18-22",
+      "statement": "Single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation decision, not a poverty one. It survived in Virginia for decades after New England went double-pile, and the reason is summer, not money."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "charleston-single-house",
+      "statement": "The plan must remain single-pile: one room on each side of the stair passage, room depth 16-20 ft, with operable windows on two opposite walls of every principal room."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "raised-creole-plantation",
+      "statement": "No interior corridor on the principal floor; every principal room opens onto the gallery through French casement doors, and every room has openings on two walls."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "mexican-hacienda",
+      "statement": "Room depth must not exceed the viga span, about 6 m clear. Every range is single-pile and every room is entered from the corredor. Thickening a range to gain area destroys the ventilation and the circulation at once."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / depth_and_pile.width = storey_height * 0.78 * 1.2",
+      "statement": "The back rooms of a double-pile plan carry only about 1.2 times the head height of depth, which is why they are the service rooms, the closets and the stairs - and why putting a principal room there is a mistake no amount of end-wall glazing fixes."
+    }
+  ],
+  "correct_practice": "Establish first whether the type's depth is a preference or a rule. Where a style node carries a hard single-pile constraint - Charleston single house, raised Creole, hacienda, dogtrot, Chesapeake I-house - the depth is the type, and the correct way to gain area is to build LONG, not DEEP: another bay, a rear ell at right angles, a dependency, a second range across a court. All four are historically documented and all four keep every room with openings on two walls. Where the type permits a double pile - Georgian at 32 to 40 ft, and most Northern work - the double pile comes with its own obligations: the back rooms are second-rank rooms lit borrowed or end-on and carrying about 1.2 times the head height of depth, so the service rooms, the stairs and the storage go there and the principal rooms stay at the front. A double-pile plan with four equal principal rooms and no borrowed light is a plan that has taken the depth and refused the consequences.",
+  "fixes": {
+    "right": "Take the area in length or in an ell, and hold the pile at 18-22 ft so every room keeps two window walls.",
+    "cheap": "Keep the depth and buy back the second wall with a light court or a notch. Cutting a 10 by 12 ft notch out of the rear plane - a rear court between two ells, which is what the L-plan farmhouse and the U-plan hacienda already are - restores an exterior wall to four rooms and costs two exterior corners, roughly $3,000-$6,000. Where even that is refused, put every principal room on the perimeter and give the middle band to stairs, baths, closets and the plant room, which is the double pile's own historic answer.",
+    "dishonest": "Glazing the rear wall heavily to compensate. The back rooms are not dark because there is too little glass at the back; they are dark because the middle of the plan has no wall at all. A rear glass wall lights the rear rooms and leaves the middle exactly as it was, and it usually adds a west or south glare problem on top."
+  },
+  "detection": "Measure the depth of the main block against its eave height, which is a proxy available in an oblique photograph. A single-pile house reads as a thin volume - depth roughly equal to or less than the eave height plus a little - and a double-pile one reads as a block. On the roof: a single-pile house of 18-22 ft at a 9:12 pitch has a ridge about 7-8 ft above the eave, while a 36 ft deep house at the same pitch has one at 13-14 ft, so the SAME facade under a much taller roof is the tell. From a plan, count rooms with openings on two or more walls as a fraction of principal rooms; below 1.0 on a single-pile type the fault is present.",
+  "test": {
+    "expression": "main_block_depth_ft",
+    "threshold": 22.0,
+    "direction": "at-most",
+    "units": "ft",
+    "measurable_from": "plan",
+    "note": "For types with a hard single-pile constraint. A second and better test where the plan is available: principal_rooms_with_openings_on_two_walls / principal_rooms, which must equal 1.0. Depth alone is measurable from an aerial or oblique photograph and is the practical screen."
+  },
+  "applies_to": [
+    "charleston-single-house",
+    "charleston-georgian",
+    "tidewater-georgian",
+    "raised-creole-plantation",
+    "creole-cottage-vernacular",
+    "french-colonial-american",
+    "mexican-hacienda",
+    "monterey-colonial",
+    "andalusian-courtyard-vernacular",
+    "dogtrot-vernacular",
+    "shotgun-house",
+    "american-farmhouse-vernacular",
+    "greek-revival-upland-vernacular",
+    "american-folk-vernacular",
+    "cape-dutch",
+    "spanish-colonial-american"
+  ],
+  "exceptions": [
+    {
+      "style": "georgian-colonial-american",
+      "why": "Double-pile at 32 to 40 ft is canonical for the Northern and Mid-Atlantic Georgian house and is not a fault at all; the depth was bought with a passage that ventilates the middle and a rear stair hall that lights it.",
+      "bounds": "Requires the passage open at both ends and the rear rooms treated as second rank. A double-pile Georgian with a blocked passage has the depth and none of the compensations.",
+      "bounds_test": {
+        "expression": "main_block_depth_ft",
+        "threshold": 40.0,
+        "direction": "at-most",
+        "units": "ft",
+        "measurable_from": "plan"
+      },
+      "applies_when": {
+        "regions": [
+          "New England",
+          "Mid-Atlantic"
+        ]
+      }
+    },
+    {
+      "style": "new-england-georgian",
+      "why": "Same: the Northern answer is depth, because winter dominates and a compact plan is warmer.",
+      "bounds": "32-40 ft, one and a half piles at most in frame construction where the 16 ft timber bay governs."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The row-house type is double-pile and deeper still, and solves the middle with a light well, an areaway and very tall rooms.",
+      "bounds": "Requires the light well or rear extension setback and 10-12 ft ceilings. A row house with a sealed middle is dark and always was."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "Listed here only to be explicit: the type is one room deep either side of the passage and this is never relaxed, even though the same builders built double houses on wider lots.",
+      "bounds": "Room depth 16-20 ft, street frontage not over 28 ft. A double-pile single house is a double house, and the correct response is to call it one."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "room-deeper-than-its-daylight",
+      "difference": "That is one room too deep for its head height and can happen anywhere. This is a change of plan type: the rooms may each be within the daylight rule and the house has still lost its cross-ventilation."
+    },
+    {
+      "fault": "interior-transom-removed",
+      "difference": "That removes the double pile's remedy. This creates the condition the remedy was for."
+    }
+  ],
+  "co_occurs_with": [
+    "interior-transom-removed",
+    "room-deeper-than-its-daylight"
+  ],
+  "severity_by_style": [
+    {
+      "style": "charleston-single-house",
+      "severity": "fatal",
+      "why": "Hard constraint; the single pile is the machine and the piazza only works if the air has somewhere to go."
+    },
+    {
+      "style": "mexican-hacienda",
+      "severity": "fatal",
+      "why": "Room depth is capped by the viga span and every room is entered from the corredor; a deep range has no circulation either."
+    },
+    {
+      "style": "dogtrot-vernacular",
+      "severity": "fatal",
+      "why": "Single-pile throughout so that every room ventilates across; a deep pen makes the passage ornamental."
+    },
+    {
+      "style": "tidewater-georgian",
+      "severity": "serious",
+      "why": "The single pile is the regional answer rather than an absolute rule, and one-and-a-half pile Chesapeake houses exist."
+    },
+    {
+      "style": "new-england-georgian",
+      "severity": "not-applicable",
+      "why": "Double-pile is the canonical form here."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json depth_and_pile, single_pile_depth_ft and its note on climate",
+    "styles/charleston-single-house.json, styles/raised-creole-plantation.json, styles/mexican-hacienda.json, styles/dogtrot-vernacular.json hard constraints",
+    "proportions/systems/room-vernacular.json depth_and_pile derived rules",
+    "HABS measured plans of Virginia and Maryland I-houses; Henry Glassie, Folk Housing in Middle Virginia (1975)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "plan",
+    "depth",
+    "ventilation",
+    "climate",
+    "fatal",
+    "invisible-from-the-street"
+  ]
+}

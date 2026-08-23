@@ -1,0 +1,205 @@
+{
+  "id": "porch-too-shallow-to-inhabit",
+  "name": "The Four-Foot Porch",
+  "aka": [
+    "the porch you cannot sit on",
+    "the rocking-chair test",
+    "the decorative veranda"
+  ],
+  "slots": [
+    "porch_depth",
+    "porch_type",
+    "entry_sequence"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A porch that runs the width of the house, has columns, a rail, a ceiling and a roof, and is 4 to 6 ft deep. Nobody can sit on it: a rocking chair is 30 to 34 in deep and needs 12 to 18 in behind it to rock and 30 in in front of it to pass, so a 5 ft porch with a rail on one side and a door swinging out on the other has no usable dimension left. It is furnished, if at all, with two chairs pushed against the wall and a table nobody can reach. The house advertises an outdoor room and does not provide one.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Porch depth is the cheapest thing on a set of drawings to reduce and the last thing anyone measures. It costs roof, deck, footings, columns and railing per square foot of covered area and returns no appraised square footage — porches are excluded or heavily discounted in almost every appraisal method — so a porch is pure cost against the loan. It is also constrained by the setback: pushing a porch from 5 ft to 8 ft moves the house 3 ft back on the lot, which on a shallow lot costs rear yard. The depth therefore ratchets down through value engineering while the elevation drawing, which shows the porch in silhouette, does not change.",
+    "cost_saved": "About 90-180 USD per square foot of porch, so 3 ft of extra depth on a 30 ft front is roughly 8,000-16,000 USD. This is the single largest saving in the threshold group and the reason the fault is endemic."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_depth / portico_depth_ft = 5-8, stoop_depth_ft = 4-6",
+      "statement": "A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "craftsman / porch_depth",
+      "statement": "A Craftsman or Queen Anne porch below about 7 ft fails as an outdoor room, and being an outdoor room is what that porch is for."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "furniture dimensions, not aesthetics, set the threshold for an inhabited porch",
+      "statement": "A rocking chair is 30-34 in deep and rocks through another 12-18 in; a passing clearance is 30-36 in; a rail and its shoe occupy 6 in. Sum: 78-88 in, so 7 ft is the floor for a porch that is used and 8 ft is comfortable. This number is not a style preference — it is the reason the 7 ft figure exists at all."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R311.3 — landing at a door, minimum 36 in in the direction of travel",
+      "statement": "Code sets a 36 in landing, which is why a 4 ft porch is legal. Code-minimum here produces a porch that is legal and useless, and it is the clearest case in the corpus of a code minimum being mistaken for a design dimension."
+    }
+  ],
+  "correct_practice": "Decide first what the porch IS, because the two answers are genuinely different and the corpus's own ontology got this wrong before it was corrected. An INHABITED PORCH — Craftsman, Queen Anne, Folk Victorian, farmhouse vernacular, Shingle Style, Southern vernacular — must be not less than 7 ft deep clear of the rail and is comfortable at 8 to 10 ft, because furniture and circulation set the number. A PIECE OF THE ORDER — a Georgian or Federal entry portico, a Colonial Revival frontispiece — is 5 to 8 ft deep and is supposed to be shelter and architecture rather than a room; its depth is set by the projection of the order and by the requirement that a person stand out of the rain while a door opens outward, and enlarging it to 7 ft to satisfy the inhabited-porch threshold makes it wrong. The test for which rule applies is the porch's WIDTH: a porch narrower than about a third of the front is a portico and takes the 5-8 ft rule; a porch running the full width of the front is claiming to be a room and takes the 7 ft rule. A full-width 5 ft porch fails both, which is why it is the endemic case.",
+  "fixes": {
+    "right": "Seven feet clear inside the rail for any porch that runs more than a third of the front; five to eight for a one-bay portico, sized off the order.",
+    "cheap": "Trade width for depth at constant area, which costs nothing. A 30 ft by 5 ft porch and a 19 ft by 8 ft porch are the same 150 sq ft, the same roof area, the same number of footings and roughly the same money — and one of them can be sat on. A partial-width deep porch is also better composition on almost every style than a full-width shallow one, because it lets the entrance be an event rather than a stretch of the same thing. Second free move: put the rail's BACK face at the column line rather than its front face, and use a rail no more than 4 in thick, recovering 6-8 in of usable depth.",
+    "dishonest": "Deleting the rail to make the shallow porch feel deeper. It does feel deeper and it usually triggers the guard requirement anyway once the deck is 30 in above grade, so the rail comes back at the inspection. Also dishonest: calling a 5 ft full-width porch a 'veranda' or a 'piazza', which are both terms for deep porches."
+  },
+  "detection": "Measure depth against a known reference in an oblique photograph — the door width (usually 36 in), a column diameter, or a deck board (5 1/2 in). Clear depth from the face of the house to the inside face of the rail is the number. Under 6 ft on a full-width porch is the fault; under 5 ft is severe. The furniture test is faster and needs no measurement: is there a chair on the porch, and if so, is it against the wall? A porch furnished only along the wall, or not furnished at all on an occupied house, has failed. Third check, which separates the portico case from the porch case: measure the porch's width against the width of the front elevation. Under about 0.35 it is a portico and the 5-8 ft rule applies; over about 0.7 it is claiming to be a room.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "porch_clear_depth_ft",
+    "threshold": 7.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "photograph",
+    "note": "Clear depth from the house wall to the inside face of the rail, for any porch running more than about a third of the front elevation. The threshold is furniture-derived, not stylistic: rocking chair 30-34 in plus 12-18 in of rock plus 30-36 in of passage plus 6 in of rail. Entry porticos are a different rule and take 5-8 ft — see exceptions, and check the width ratio first."
+  },
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The porch is half the argument of the house — the transition from the street to the interior is what the Craftsman plan is organised around. A 5 ft Craftsman porch is a Craftsman elevation on a house that does not work."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "severity": "fatal",
+      "why": "Same."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "fatal",
+      "why": "The wrap-around porch is the style's principal social space."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "serious",
+      "why": "The full-width porch is the working face of the house."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "serious",
+      "why": "The stoop-porch is the household's connection to the street and a shallow one severs it."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "not-applicable",
+      "why": "The Georgian threshold is a stoop or a one-bay portico of 5-8 ft, which is correct by its own rule and would be wrong at 8 ft of full width."
+    },
+    {
+      "style": "federal-style",
+      "severity": "not-applicable",
+      "why": "Same: the entrance is a frontispiece, not a room."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "georgian-colonial-american",
+      "why": "A Georgian entry portico is 5 to 6 ft deep and is SUPPOSED to be a piece of the order rather than an outdoor room. Its depth is set by the projection of the entablature and the requirement that a person stand out of the rain while an outward-swinging door clears. Enlarging it to 7 ft makes it wrong: a deep Georgian portico reads as a Colonial Revival porch and destroys the reading of the entrance as a single accented event on an otherwise unaccented facade.",
+      "bounds": "5 to 8 ft, one bay wide, centred, carrying the bound order, and NOT running more than about a third of the front. The moment the covered area runs full width it has become a porch and the 7 ft rule returns.",
+      "bounds_test": {
+        "expression": "porch_width / front_elevation_width",
+        "threshold": 0.35,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "slots": [
+          "porch_type",
+          "porch_depth"
+        ],
+        "note": "applies to entry-portico and stoop-only, never to full-width or wrap-around"
+      }
+    },
+    {
+      "style": "federal-style",
+      "why": "The Federal entrance is a frontispiece — often a semicircular or elliptical portico of 5 to 7 ft — and its shallowness is part of its delicacy.",
+      "bounds": "One bay, centred, carrying an order. A curved Federal portico may be as little as 4 ft at its shallowest point at the sides because the depth is measured on the axis.",
+      "applies_when": {
+        "date_range": [
+          1785,
+          1830
+        ]
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The Charleston piazza is 8 to 12 ft deep and runs the full FLANK of the house rather than the front — it is an outdoor room and comfortably passes the inhabited-porch rule, but it should be measured on the flank elevation, not on the street front, and a Charleston house's street elevation correctly has no porch at all.",
+      "bounds": "The piazza must be on the flank, oriented to catch the prevailing breeze, and 8 ft or more. A 5 ft piazza is this fault; a street-front porch on a single house is a different fault.",
+      "bounds_test": {
+        "expression": "porch_clear_depth_ft",
+        "threshold": 8.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ]
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The urban Italianate entrance is a stoop with a bracketed hood of 3 to 4 ft projection, which is a doorhead rather than a porch and is correct at that depth. The threshold ritual happens on the steps, not under cover.",
+      "bounds": "There must be no columns standing on the stoop and no rail returning along its face; a hood is carried on consoles from the wall.",
+      "applies_when": {
+        "slots": [
+          "porch_type"
+        ],
+        "note": "stoop-only with a bracketed hood"
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "georgian-colonial-american",
+      "statement": "Here the opposite is the fault: a Georgian entry portico deepened past 8 ft, or run full width, destroys the entrance as the single accented event and reads as a Colonial Revival porch on a Georgian house."
+    },
+    {
+      "style": "federal-style",
+      "statement": "Same inversion — a Federal frontispiece enlarged into a room contradicts the style's whole argument about delicacy at the entrance."
+    }
+  ],
+  "co_occurs_with": [
+    "porch-hung-on-the-wall",
+    "four-by-four-under-a-roof",
+    "porch-ceiling-of-exposed-joists"
+  ],
+  "alternative_to": [
+    "decorative-pair-at-the-entry"
+  ],
+  "confused_with": [
+    {
+      "fault": "decorative-pair-at-the-entry",
+      "difference": "That is a small entry assembly that never claimed to be a room. This is a full-width porch that claims to be one and is not. They are alternative answers to the same commercial problem — how to signal a porch without paying for one — and almost never appear on the same house."
+    },
+    {
+      "fault": "stoop-without-a-landing",
+      "difference": "That is a code and use failure at the door threshold, measured in the direction of travel. This is the porch's depth as a room. A 4 ft porch can satisfy the landing rule and still fail this one."
+    }
+  ],
+  "sources": [
+    "elements/slots.json, porch_depth note (0.2.0 correction of the universal 7 ft assertion)",
+    "kits/georgian-colonial-american.kit.json, porch_depth (portico 5-8 ft, stoop 4-6 ft, and the note that the slot definition is wrong for this style)",
+    "IRC R311.3 landing requirements",
+    "HABS documentation of Charleston piazzas and of Craftsman bungalow porches",
+    "Standard furniture dimensions: porch rocker 30-34 in deep, rocking arc 12-18 in"
+  ],
+  "confidence": "high",
+  "tags": [
+    "porch",
+    "depth",
+    "cost",
+    "endemic",
+    "use",
+    "ontology-bias"
+  ]
+}

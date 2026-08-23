@@ -1,0 +1,212 @@
+{
+  "id": "beaux-arts-american",
+  "name": "American Beaux-Arts",
+  "aka": [
+    "Beaux-Arts Classicism",
+    "American Renaissance",
+    "Academic Classicism"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "historical",
+  "period": {
+    "origin": 1876,
+    "floruit_start": 1885,
+    "floruit_end": 1930,
+    "decline_end": 1942,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "New York City and Newport, Rhode Island",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "3A",
+      "2A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "beaux-arts-french",
+      "type": "descends_from",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "Direct and literal transmission. Hunt entered the Ecole in 1846; by 1900 several hundred Americans had followed, and the American profession simply is the Ecole's method applied to American programmes."
+    },
+    {
+      "target": "french-neoclassical",
+      "type": "references",
+      "weight": 0.8,
+      "note": "Louis XV and Louis XVI models supply most of the domestic vocabulary - Petit Trianon, Grand Trianon, the Parisian hotel particulier."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.8,
+      "note": "Imperial scale, the triumphal arch motif, coffered vaults and the Composite order, mediated through Ecole restoration studies of Roman ruins."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.6,
+      "note": "The palazzo wall and the stacked order, shared with italian-renaissance-revival, which is its restrained sibling."
+    },
+    {
+      "target": "palladian",
+      "type": "references",
+      "weight": 0.4,
+      "note": "Villa parti and the rhythm of the Palladian bay, largely as filtered through French academic teaching."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "reacts_against",
+      "weight": 0.7,
+      "note": "The 1893 Exposition was a deliberate national repudiation of Richardsonian weight and of Victorian eclecticism in favour of white, axial, correct classicism."
+    }
+  ],
+  "description": {
+    "short": "The high academic classicism of the American Gilded Age: monumental, richly sculptural, and rigorously planned on Ecole des Beaux-Arts principles of axis and hierarchy, built for the largest fortunes and the greatest public commissions between 1885 and 1930.",
+    "long": "American Beaux-Arts is less a style than a method that produced one. What Americans acquired at the Ecole des Beaux-Arts in Paris was not a set of shapes but a way of designing: begin with the parti, organise the plan on one or more axes, arrange spaces in a hierarchy from vestibule to principal room, express that hierarchy on the elevation, and render the result with enough authority to sell it. Richard Morris Hunt was the first American admitted, in 1846; Charles McKim, Louis Sullivan, John Carrere, Thomas Hastings, Whitney Warren and hundreds more followed. When the American economy after 1880 produced fortunes without precedent, this method was the only one available that could organise a hundred-room house or a railway terminal, and it took the commissions.\n\nThe formal signature is richness under discipline. Masonry, usually limestone or marble, with a rusticated base and a smooth upper wall. A full classical order at monumental scale, frequently paired or coupled, and frequently engaged rather than free. Deep entablatures and heavy projecting cornices, balustraded parapets, quoins, and a facade wall broken by pavilions - the ends and the centre advanced, the intervals recessed. Sculptural ornament in quantity: swags, cartouches, keystone masks, garlanded panels, figures on the skyline. Symmetry is absolute, and interior circulation is grand and processional, with the stair treated as a public event.\n\nThe 1893 World's Columbian Exposition in Chicago is the pivot. Burnham's coordination of Hunt, McKim, Post, Peabody and others produced the Court of Honor - uniform cornice line, white plaster surfaces, colossal orders, a lagoon on axis - and was seen by roughly a quarter of the American population. It converted a professional method into a national style within eighteen months and launched the City Beautiful movement, which carried it into every state capitol, courthouse, library and station for the next thirty years. It also gave the culture a name for itself: the American Renaissance, which is what its practitioners believed they were staging.\n\nWhat a Beaux-Arts house is like to stand in is the answer to a question its clients were asking about themselves. The approach is axial and takes longer than it needs to. The vestibule is compressed and dark; the hall beyond it is enormous, top-lit or lit from a courtyard, with a stair rising in one flight and returning in two. Every material is the real one - marble, bronze, oak, plaster run in situ - and the ornament is executed by people who were very good at it, at a density that would be oppressive if the rooms were smaller. It is architecture as argument, and the argument is that the United States had arrived. The Depression and the income tax ended it more completely than any change of taste; the buildings survive, and almost nobody can afford to build another."
+  },
+  "defining_characteristics": [
+    "Symmetrical monumental masonry composition with a rusticated base, smooth upper wall, and advanced end and centre pavilions",
+    "Colossal or monumental classical order, frequently paired or coupled, correctly detailed and often engaged with the wall",
+    "Deep entablature and heavily projecting cornice, usually surmounted by a balustrade or an attic storey",
+    "Abundant sculptural ornament - swags, cartouches, garlands, keystone masks, and free-standing figures on the skyline",
+    "Plan organised on a dominant axis with a processional sequence from entrance to principal room, and a ceremonial stair",
+    "Genuine and costly materials worked by hand: cut limestone or marble, bronze, plaster run in place"
+  ],
+  "diagnostic_tells": [
+    "Paired or coupled columns and pilasters. Neoclassical Revival uses single columns; pairing is the fastest Beaux-Arts marker.",
+    "The skyline is populated - balustrades, urns, statuary, attic cartouches. Neoclassical Revival stops at the cornice.",
+    "Facade relief: the wall advances and recedes in pavilions of 18-36 in. Colonial and Neoclassical Revival keep the wall flat.",
+    "Rusticated ground storey with vermiculated or banded joints, under a smooth ashlar upper wall.",
+    "If it is wood, it is not Beaux-Arts. The style presumes cut stone and the masons to work it."
+  ],
+  "distinguished_from": [
+    {
+      "node": "neoclassical-revival",
+      "difference": "Neoclassical Revival is the same grammar with the sculpture, the pairing, the rustication and the pavilion relief removed - which is what made it buildable in wood in a county seat. Beaux-Arts is what the same offices did when the budget was unlimited."
+    },
+    {
+      "node": "italian-renaissance-revival",
+      "difference": "Italian Renaissance Revival is deliberately flat, planar and restrained, with a single heavy cornice and no sculpture; it is the sober alternative chosen by clients who found Beaux-Arts vulgar. The two are contemporaneous and often by the same architects."
+    },
+    {
+      "node": "chateauesque",
+      "difference": "Chateauesque is vertical, French Renaissance and late Gothic in ornament, and dominated by an enormous steep roof. Beaux-Arts is horizontal, Roman and French neoclassical in ornament, and terminates in a balustrade or attic rather than a roof."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The classical order with a module of one column diameter, deployed under Ecole compositional discipline: axis, hierarchy, poche, and the marche - the designed sequence of movement through the plan. Elevation proportion follows plan hierarchy rather than the reverse.",
+    "typical_ratios": [
+      "Base : principal storey : attic roughly 1 : 2 : 0.7 in height",
+      "Entablature 1/4 to 1/5 of column height; cornice projection equal to or greater than entablature depth",
+      "Coupled columns spaced 1.0-1.5 diameters clear between the pair, 3-4 diameters between pairs",
+      "Pavilion projection 18-36 in. from the recessed wall plane",
+      "Principal room clear height 16-22 ft; ceremonial stair rising 9-12 ft in a single first flight"
+    ],
+    "bay_rhythm": "A-B-B-B-A pavilion rhythm: advanced end bays and an advanced centre, with a regular intermediate rhythm between. The centre bay is always the widest and always contains the entrance.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "At mansion scale - a symmetrical double-pile block with a monumental order and pavilions."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "common",
+      "note": "Where a portico dominates the centre block and lower wings extend either side."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "Estate examples with hyphens and dependencies; the American villa parti at full budget."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "The hotel particulier plan - a cour d'honneur entered through a screen, with the corps de logis at the rear."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "possible",
+      "note": "Institutional and club programmes with a full enclosed court."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Orders must be executed to a published canon with entasis, correct capital, base and entablature. Entablature depth 1/5 to 1/4 of column height, cornice projection not less than the entablature depth. An order without a full entablature is void."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Wall must be, or must fully express, cut stone: minimum 12 in. reveal at openings, jambs returned in the same material as the face, arches with true voussoirs and keystones, and a rusticated base of not less than one full storey with joints 3/4 to 1-1/2 in. deep."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The primary facade must be modelled in depth: end and centre pavilions advanced not less than 18 in. from the intermediate wall plane. A flat facade with applied ornament is Neoclassical Revival, not Beaux-Arts."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "The composition must terminate above the cornice - balustrade, attic storey, or sculptural group - to a height of not less than 1/8 of the wall height. A cornice that simply stops leaves the style unfinished."
+    },
+    {
+      "kind": "cultural",
+      "severity": "advisory",
+      "statement": "Do not attempt below roughly 10,000 sq ft or in any material other than stone, terra cotta, or full-thickness cast masonry. Every reduction available - flat wall, single columns, no sculpture, wood construction - produces Neoclassical Revival, which is a legitimate style; a reduced Beaux-Arts is not."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Marble House",
+      "location": "Newport, Rhode Island",
+      "year": 1892,
+      "note": "Richard Morris Hunt for William K. Vanderbilt, after the Petit Trianon. 500,000 cubic feet of marble; the American Beaux-Arts house in its purest state."
+    },
+    {
+      "name": "Rosecliff",
+      "location": "Newport, Rhode Island",
+      "year": 1902,
+      "note": "Stanford White of McKim, Mead & White, after the Grand Trianon at Versailles. Terra cotta rather than marble, and the better building for it."
+    },
+    {
+      "name": "New York Public Library, Stephen A. Schwarzman Building",
+      "location": "New York, New York",
+      "year": 1911,
+      "note": "Carrere & Hastings, 1897-1911. The Ecole plan method - axis, hierarchy, marche - applied to a public programme at the highest level achieved in America."
+    },
+    {
+      "name": "Court of Honor, World's Columbian Exposition",
+      "location": "Chicago, Illinois",
+      "year": 1893,
+      "note": "Burnham with Hunt, McKim, Post, Peabody and others. Temporary and demolished, and the origin point of both this style and neoclassical-revival."
+    }
+  ],
+  "sources": [
+    "Richard Guy Wilson, The American Renaissance 1876-1917 (1979)",
+    "Arthur Drexler, ed., The Architecture of the Ecole des Beaux-Arts (1977)",
+    "Leland M. Roth, McKim, Mead & White, Architects (1983)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "academic-classicism",
+    "gilded-age",
+    "ecole-des-beaux-arts",
+    "city-beautiful",
+    "load-bearing-masonry"
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "id": "swag-and-urn-before-its-date",
+  "name": "Swags On A House That Predates Them",
+  "aka": [
+    "the Adam motif on a Georgian",
+    "fan-and-patera too early",
+    "the Federal ornament fifty years early"
+  ],
+  "slots": [
+    "ornament_vocabulary",
+    "door_surround",
+    "entablature",
+    "pediment"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "anachronism",
+  "symptom": "Adamesque ornament — swags of drapery, urns, oval paterae, fan and sunburst motifs, husk chains, reeding — applied to a house whose other evidence dates it before about 1785. The commonest instance is a swag-and-urn panel in the frieze of a door surround on a house with a 9:12 roof, 12/12 sash, a bold modillion cornice and heavy bolection mouldings, all of which are Georgian, with a Federal frieze in the middle of them. The reverse also occurs and is the same fault mirrored: heavy Georgian bolection and acanthus on a house whose thin cornice, elliptical fanlight and attenuated proportions are Federal.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Composition and polyurethane ornament catalogues organise their products by shape, not by period: a page of 'friezes', a page of 'appliques', a page of 'medallions'. The swag-and-urn panel is among the most produced items in the category because it is the motif most people recognise as 'colonial', and it fits a standard 6 or 8 in frieze. A builder specifying a door surround chooses a header, a pair of pilasters and a frieze appliqué from three separate pages, and the period of each is not stated anywhere in the ordering process.",
+    "cost_saved": "Nothing. A plain frieze costs less than an ornamented one, and a period-correct Georgian gouged or fluted frieze costs about the same as a moulded swag panel. This fault adds money to make the house wrong.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / ornament_vocabulary / swag-and-urn = forbidden, applies_when date_range 1700-1785",
+      "statement": "Adamesque and Federal, from about 1785."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / ornament_vocabulary / fan-and-patera, husk-chain, oval-patera, reeding = forbidden, 1700-1785",
+      "statement": "Adamesque low-relief ornament, from about 1785. Its shallowness is the point of it and it is the opposite of the bold cut relief this style is made of. The Adam oval is the Federal signature; Georgian ornament is square, round or acanthus."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / ornament_vocabulary / relief",
+      "statement": "Bold and deep, cut rather than applied; the relief is what separates Georgian from Federal more reliably than the motif does."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "adam-style, federal-style",
+      "statement": "Robert Adam's published work begins in the 1760s in Britain and reaches American practice through the 1780s and 1790s; the American Federal vocabulary of swags, urns, ovals and husk chains is a post-Revolutionary phenomenon and is one of the clearest datable boundaries in American architecture."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an ornament vocabulary is a dated artefact and dates the building that wears it",
+      "statement": "Motifs travel with the publications and the craftsmen who introduce them. The swag and the oval patera enter American work with the Adam plates; putting them on a 1750 house asserts a book that had not been written."
+    }
+  ],
+  "correct_practice": "Georgian ornament, 1700-1785: bold and deep, CUT rather than applied, and drawn from the bound order — dentils, modillions, egg-and-dart, bead-and-reel, guttae and triglyphs where Doric, acanthus, rosettes, and gouged or fluted friezes. Its geometry is square, round or acanthine. Its relief is deep enough to cast a real shadow, because it is carved into a member rather than glued onto one. Federal and Adamesque ornament, from about 1785: swags, urns, oval paterae, fans and sunbursts, husk chains, reeding, and elliptical geometry — and its relief is deliberately SHALLOW, because low relief is the point of Adam's manner and is what distinguishes it. The concentration rule is the same in both: ornament belongs at the entrance, at the chimney breast of the best room, and at the stair, and almost nowhere else. It does not appear on the rear or the ends of the building, which is the rule most often broken by houses that get the motif right.",
+  "fixes": {
+    "right": "Establish the date from the roof pitch, the sash lite pattern, the cornice type and the plan, and take the ornament vocabulary from that date. Where the date is genuinely Federal, use the Federal vocabulary and thin the whole apparatus with it — the ornament is not separable from the proportions.",
+    "cheap": "Delete it. A plain frieze on a correct door surround is right in every period; an ornamented frieze is right in one. Deletion saves 150-500 USD and improves the house. Where the ornament must stay for the client, the free move is to choose the motif that is correct in BOTH periods — dentils, egg-and-dart, rosettes and plain fluting are all Georgian and survive into Federal work — so the surround is dateable to a range rather than to the wrong end of it.",
+    "dishonest": "Using the Federal motif and adding depth to it, on the theory that deep relief makes it Georgian. A deeply carved swag is a Federal motif carved wrong: the swag's shallowness is intrinsic to the manner, and a bold swag reads as a Victorian revival of a Federal motif, which is a third period."
+  },
+  "detection": "Date the house from three high-signal, non-ornamental features first, then check the ornament against them. Roof pitch: Georgian is 8:12 to 12:12, Federal 6:12 to 9:12. Sash: Georgian is 12/12 or 9/9 with muntins of about 7/8 in, Federal is 6/6 with muntins nearer 5/8 in. Cornice: Georgian carries bold modillions, Federal a fine dentil band. Overall proportion: Federal windows and doors are visibly more attenuated. Then look at the motif. Swags, urns, oval paterae, fans, sunbursts, husk chains and reeding are Federal and after 1785. Acanthus, egg-and-dart, bead-and-reel, triglyphs, bolection and deep-cut fluting are Georgian and before it. Dentils, modillions and rosettes are both. If the motifs and the fabric disagree, the ornament is the newer of the two and is a catalogue choice. Second check for the harder case: RELIEF. Measure the ornament's projection against its own width. Georgian ornament runs 0.15 to 0.35; Adamesque runs 0.03 to 0.10 and looks pressed rather than carved.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "ornament_motif_earliest_date - building_fabric_latest_date",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "A date-window test. The swag, urn, oval patera, fan, husk chain and reeding enter American practice about 1785; where the building's non-ornamental evidence — roof pitch, sash lite pattern, cornice type, proportion — dates it earlier, the motif is an anachronism. Evaluable from a photograph by any model that can classify both the motif and the fabric."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Five separate Adamesque motifs are forbidden by name in the kit with date ranges. This slot is where the Georgian/Federal boundary is most legible."
+    },
+    {
+      "style": "new-england-georgian",
+      "severity": "serious",
+      "why": "Same boundary, and New England has the best-documented sequence of it."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The Greek Revival rejected both Georgian and Federal ornament for a Grecian vocabulary — anthemion, honeysuckle, the Greek key. A swag on a Greek Revival house is two vocabularies out."
+    },
+    {
+      "style": "federal-style",
+      "severity": "not-applicable",
+      "why": "This is where the swag belongs."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "Colonial Revival deliberately conflates the whole colonial and early republican period into one vocabulary; that conflation is the style's own historical position and is a hundred and twenty years old itself."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "colonial-revival",
+      "why": "Colonial Revival practice from 1880 onward deliberately mixed Georgian and Federal motifs, and did so knowingly — the style is a synthesis of the colonial past as understood at the time, not a reconstruction of any one decade. A Colonial Revival house with a Georgian cornice and a Federal fanlight is being itself.",
+      "bounds": "The mixing must stay inside the colonial and early republican range, roughly 1700-1830. Reaching outside it — Victorian brackets, Craftsman rafter tails, Greek anthemia — is a different fault and a real one. And the RELIEF must be consistent: a house cannot have deep-cut Georgian ornament in one place and pressed Adamesque in another and read as one building.",
+      "applies_when": {
+        "date_range": [
+          1880,
+          1955
+        ]
+      }
+    },
+    {
+      "style": "adam-style",
+      "why": "The source.",
+      "bounds": "The whole apparatus must be Adamesque: shallow relief, elliptical geometry, attenuated proportions, delicate cornices. Adam motifs on Georgian proportions are the fault whichever direction the mismatch runs."
+    },
+    {
+      "style": "early-republic",
+      "why": "The transitional decades of 1785-1800 genuinely contain buildings with Georgian bones and Adamesque ornament, because that is what happened: existing houses were updated and new ones were built by craftsmen trained before the plates arrived.",
+      "bounds": "The layering must read as layering — the ornament newer, concentrated at the entrance and the best room, and not distributed evenly over a fabric it postdates. A uniformly Adamesque skin on Georgian bones is a design decision, not a historical one.",
+      "bounds_test": {
+        "expression": "ornament_motif_earliest_date - building_fabric_latest_date",
+        "threshold": 0,
+        "upper": 40,
+        "direction": "between",
+        "units": "count",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1785,
+          1810
+        ]
+      }
+    },
+    {
+      "style": "southern-federal",
+      "why": "Southern Federal work retains Georgian boldness longer than New England does, and deep relief with Federal motifs is a documented regional trait rather than an error.",
+      "bounds": "Applies to relief depth only, not to the motif's date. A swag before 1785 remains an anachronism in any region.",
+      "applies_when": {
+        "regions": [
+          "chesapeake",
+          "upland-south",
+          "lowcountry"
+        ],
+        "date_range": [
+          1790,
+          1830
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "three-periods-on-one-elevation",
+    "shallow-relief-on-a-bold-order",
+    "router-scale-ornament",
+    "fanlight-before-its-date"
+  ],
+  "confused_with": [
+    {
+      "fault": "fanlight-before-its-date",
+      "difference": "Same boundary, different element: the elliptical fanlight is the Federal signature at the door opening, and this fault is the Federal signature in the ornament. They date a house identically and travel together on catalogue entrances."
+    },
+    {
+      "fault": "shallow-relief-on-a-bold-order",
+      "difference": "That is about the DEPTH of relief being wrong for the period, which can happen with a correctly dated motif. This is about the motif itself being out of period. The kit says relief separates Georgian from Federal more reliably than motif does, which makes that fault the more sensitive test and this one the more legible."
+    },
+    {
+      "fault": "turned-post-out-of-period",
+      "difference": "Same anachronism pattern at the porch."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, ornament_vocabulary — five forbidden Adamesque variants with date ranges and the relief note",
+    "Robert and James Adam, The Works in Architecture (1773-1778)",
+    "Asher Benjamin, The Country Builder's Assistant (1797) — the first American book carrying the Adamesque vocabulary",
+    "Fiske Kimball, Domestic Architecture of the American Colonies and of the Early Republic",
+    "Composition and polyurethane ornament catalogues (Decorators Supply, Fypon) — organised by shape rather than period"
+  ],
+  "confidence": "high",
+  "tags": [
+    "ornament",
+    "anachronism",
+    "georgian-federal-boundary",
+    "catalogue",
+    "cost-negative"
+  ]
+}

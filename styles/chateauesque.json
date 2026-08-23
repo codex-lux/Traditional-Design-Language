@@ -1,0 +1,208 @@
+{
+  "id": "chateauesque",
+  "name": "Chateauesque",
+  "aka": [
+    "Chateau Style",
+    "Francois I Style",
+    "Chateauesque Revival"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "historical",
+  "period": {
+    "origin": 1878,
+    "floruit_start": 1880,
+    "floruit_end": 1910,
+    "decline_end": 1930,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "New York City and Newport, Rhode Island",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-renaissance-chateau",
+      "type": "references",
+      "weight": 1.0,
+      "note": "Blois, Chambord, Chenonceau and Azay-le-Rideau, measured and drawn by American students in Paris and reassembled at American scale."
+    },
+    {
+      "target": "english-gothic",
+      "type": "references",
+      "weight": 0.5,
+      "note": "Late Gothic tracery, crockets and pinnacles supply the vertical ornament that the French Renaissance model itself inherited."
+    },
+    {
+      "target": "beaux-arts-french",
+      "type": "descends_from",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The true parent. Richard Morris Hunt was the first American admitted to the Ecole; this style is the direct output of that training applied to American fortunes."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Shares the American taste for heavy load-bearing ashlar and the craft base of cut-stone masons trained in the 1880s building boom."
+    },
+    {
+      "target": "second-empire",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The immediate American precursor for a tall, steep, dormered French roof as a status marker."
+    },
+    {
+      "target": "french-renaissance-chateau",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The briefest and most expensive American revival: a full-scale reconstruction of the sixteenth-century Loire chateau in load-bearing cut stone, built for perhaps two hundred families between 1880 and 1910 and effectively impossible thereafter.",
+    "long": "Chateauesque is the one style in this branch that does not cheat. Where Tudor Revival veneers brick over a wood frame and Colonial Revival buys its cornice from a catalog, the Chateauesque house is genuinely a masonry building: bearing walls of dressed limestone or granite, carved on site by immigrant French, Italian and Scottish masons, with steep slate roofs framed heavily enough to carry them. This is why the style lasted only thirty years. It required a labour supply and a tolerance of cost that the American economy offered exactly once, in the window between the 1880s building boom and the First World War, and it required clients of the Vanderbilt order, of whom there were never many.\n\nThe style is one man's argument before it is anything else. Richard Morris Hunt, the first American to train at the Ecole des Beaux-Arts, built the William K. Vanderbilt house on Fifth Avenue in 1882 and made the case that a new American fortune could purchase not merely a large house but a specific historical dignity - that of the French crown at the moment when the Gothic was giving way to the Renaissance. The reference was chosen with care. The Francois I chateau is itself a hybrid, medieval in silhouette and Italian in detail, built by a new monarchy consolidating power. American railroad money recognised itself in that, and the recognition was flattering enough to justify the expense.\n\nThe necessary features are constant across every real example. A steeply pitched hipped roof, usually 14:12 or more, in slate. Multiple vertical elements piercing the eave line: tall wall dormers with elaborated stone surrounds carried up through the cornice, corbelled turrets, and finialed pinnacles. Round or polygonal towers, often at the corners, frequently containing stairs. Massive corbelled chimneys treated as compositional elements. Round-arched or basket-arched openings with pilastered and pedimented stone surrounds. And, decisively, a wall of load-bearing ashlar with real carved detail, since every element of the style presupposes stone that can be cut.\n\nStanding in front of Biltmore or Ochre Court, what strikes first is not the size but the density of incident above the eave. The building keeps going after it should have stopped - dormer, turret, cresting, chimney, finial - so that the skyline is busier than the wall, and the eye is pulled upward and never settles. The stone is pale and finely jointed and the shadows are sharp. Up close the carving is genuinely good, and its goodness is disconcerting, because it makes no allowance for the fact that nobody standing at ground level can read it. That surplus of craft delivered where it cannot be seen is what a Chateauesque house is for."
+  },
+  "defining_characteristics": [
+    "Load-bearing masonry of dressed ashlar with carved detail executed in stone, not cast or veneered",
+    "Steeply pitched hipped roof, typically 14:12 or steeper, in slate, with a busy skyline of vertical incident",
+    "Tall wall dormers whose stone surrounds rise through the cornice line and terminate in pediments, finials, or crockets",
+    "Round or polygonal towers and corbelled turrets, usually engaged with the mass rather than free-standing",
+    "Massive multi-flue chimneys treated as compositional elements and often corbelled or panelled",
+    "Openings with elaborated stone surrounds - pilasters, entablatures, basket or round arches - and multi-light casement or transomed sash"
+  ],
+  "diagnostic_tells": [
+    "If the dormers stop at the eave rather than cutting through it, it is not Chateauesque; the through-cornice wall dormer is the style's signature move.",
+    "Stone is load-bearing and coursed with joints under 3/8 in.; any veneered or cast-stone wall places the building in a later, cheaper style borrowing the imagery.",
+    "The roof is taller than the top storey it covers. A Second Empire mansard is flat-topped and boxy; the Chateauesque roof is a steep hip or a set of steep hips that come to ridges and points.",
+    "Ornament is late Gothic in vocabulary - crockets, finials, tracery - but the openings underneath are Renaissance and round-arched. That specific collision dates the reference to about 1520.",
+    "Almost never suburban and almost never wood. A frame house with a corner turret is Queen Anne, not Chateauesque."
+  ],
+  "distinguished_from": [
+    {
+      "node": "second-empire",
+      "difference": "Second Empire, 1855-1885, uses a mansard: a double-pitched roof with a flat deck, dormers set in the lower slope, and generally symmetrical massing. Chateauesque uses a steep single-pitch hip with dormers rising through the cornice, and is asymmetrical."
+    },
+    {
+      "node": "french-renaissance-chateau",
+      "difference": "The original is a defensive-descended structure with a moat-derived plan, walls 3-5 ft thick, tiny interior circulation and no central heating; it was built over decades in campaigns. The revival is a single-campaign house with a Beaux-Arts axial plan, plumbing, and an American service wing behind a French face."
+    },
+    {
+      "node": "beaux-arts-american",
+      "difference": "Beaux-Arts is horizontal, classical, and Roman or Italian in reference - balustraded parapet, low roof, paired columns. Chateauesque is vertical, late Gothic in ornament, and defined by an enormous roof."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Vertical accumulation. There is no governing module; proportion is set by the roof, which is designed as an inhabited mass roughly equal in height to the top two storeys, and by the stone course heights, which regulate the wall.",
+    "typical_ratios": [
+      "Roof height from eave to ridge 0.8 to 1.2 times the height of the storey below it",
+      "Roof pitch 14:12 to 20:12 on principal masses; conical tower roofs steeper still",
+      "Wall dormer width 6-10 ft, projecting above the cornice by 1/2 to 1 full storey height",
+      "Tower diameter 12-18 ft, height to eave 1.2 to 1.5 times the adjacent wall height",
+      "Ashlar course heights 12-18 in. with joints 1/4 to 3/8 in."
+    ],
+    "bay_rhythm": "Grouped and interrupted. Openings gather into vertical stacks aligned with the dormers above and are separated by wide plain ashlar; the rhythm is set by the roof furniture rather than by the wall.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "An assembly of towered and gabled masses of differing height, resolved by the roof rather than by the plan."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "Estate examples with projecting wings enclosing an entrance forecourt."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "Biltmore and the largest examples; a genuine cour d'honneur."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "atypical",
+      "note": "A symmetrical double-pile block cannot support the skyline the style requires."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Wall construction must be, or must convincingly express, load-bearing masonry: minimum 16 in. apparent wall thickness at window reveals, jambs returned in the same stone as the face, and heads carried on real arches or lintels. Thin-set veneer with 1 in. reveals voids the style."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Principal roof pitch not less than 14:12. Roof height from eave to ridge not less than 0.8 times the height of the storey immediately below. A Chateauesque composition with a shallow roof does not exist."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "At least two wall dormers must break the cornice line and rise a minimum of half a storey above it, with their stone surrounds continuous from the window sill below the cornice to the dormer pediment above. Roof-set dormers that begin above the eave are forbidden as the primary dormer type."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Chimney stacks a minimum of 4'0\" x 2'6\" in plan, rising at least 4'0\" above the adjacent ridge, with corbelled or panelled shafts. Flush metal flues are forbidden."
+    },
+    {
+      "kind": "cultural",
+      "severity": "advisory",
+      "statement": "Do not apply this style below roughly 8,000 sq ft or outside masonry construction. Every economy available to the other revivals in this family - veneer, cast ornament, catalog trim, shallow roof - destroys it, and the reduced version is Queen Anne with a turret."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Biltmore House",
+      "location": "Asheville, North Carolina",
+      "year": 1895,
+      "note": "Richard Morris Hunt for George Washington Vanderbilt; begun 1889. Explicitly composed after Blois, Chambord and Chenonceau. 178,926 sq ft, the largest private house in the United States."
+    },
+    {
+      "name": "Ochre Court",
+      "location": "Newport, Rhode Island",
+      "year": 1892,
+      "note": "Richard Morris Hunt for Ogden Goelet. Louis XIII register - steep roofs, turrets, tall chimneys, elaborate dormers - on a compact Newport site."
+    },
+    {
+      "name": "William K. Vanderbilt House ('Petit Chateau')",
+      "location": "660 Fifth Avenue, New York, New York",
+      "year": 1882,
+      "note": "Richard Morris Hunt. The founding building of the style in America. Demolished 1926, which is itself the clearest statement of the style's economics."
+    },
+    {
+      "name": "Casa Loma",
+      "location": "Toronto, Ontario",
+      "year": 1914,
+      "note": "E. J. Lennox for Henry Pellatt; begun 1911. Late, Canadian, and eclectic enough to show the style dissolving into general castellated romance."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Paul R. Baker, Richard Morris Hunt (1980)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)",
+    "Richard Guy Wilson, The American Renaissance 1876-1917 (1979)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "gilded-age",
+    "load-bearing-masonry",
+    "francophile",
+    "extinct-economics"
+  ]
+}

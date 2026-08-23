@@ -1,0 +1,221 @@
+{
+  "id": "italian-renaissance-revival",
+  "name": "Italian Renaissance Revival",
+  "aka": [
+    "Italian Renaissance",
+    "Renaissance Revival",
+    "Neo-Renaissance",
+    "Palazzo Style"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "revival",
+  "period": {
+    "origin": 1882,
+    "floruit_start": 1890,
+    "floruit_end": 1935,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "New York City",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "3A",
+      "3B",
+      "2A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The claimed ancestor: the fifteenth- and sixteenth-century Florentine and Roman palazzo, reached through measured plates and photographs rather than through any continuous practice."
+    },
+    {
+      "target": "palladian",
+      "type": "references",
+      "weight": 0.7,
+      "note": "Villa parti, arcaded loggia and window aedicule; the villa subtype quotes Palladio directly."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The true descent. Same offices - McKim, Mead & White above all - same draughting room, same clients, differing chiefly in restraint."
+    },
+    {
+      "target": "beaux-arts-french",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Ecole composition and the analytique exercise, which trained the eye that reads a palazzo elevation as a stacked order problem."
+    },
+    {
+      "target": "italianate-american",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The American Victorian palazzo habit - bracketed cornice, round-arched openings, low hipped roof - persisting in builder practice and re-academicised after 1890."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "reacts_against",
+      "weight": 0.7,
+      "note": "The Villard Houses of 1882-84 are an explicit rebuke of Romanesque weight and rustication in favour of a flat, correct, planar palazzo wall."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The academic American palazzo: a symmetrical masonry block with a low tile-hipped roof, a heavy bracketed or modillioned cornice, differentiated storeys with arcaded openings below and diminishing windows above, built as the sober alternative to Beaux-Arts display.",
+    "long": "Italian Renaissance Revival begins in 1882 on Madison Avenue, when Joseph Morrill Wells of McKim, Mead & White persuaded his partners to abandon a picturesque scheme for the Villard Houses and instead build a flat-walled palazzo modelled on the Cancelleria in Rome. The building was a professional event. It demonstrated that an American commercial-scale residence could be composed as a single planar block of correctly-proportioned storeys, and it made the palazzo the default for anyone who wanted to appear cultivated rather than merely rich. For fifty years afterwards the same formula was applied to town houses, country villas, clubs, banks, libraries and apartment buildings.\n\nThe grammar is compact and unusually rule-bound. The block is symmetrical and rectangular; the roof is low-pitched and hipped, tiled in red or green, with a wide overhang on brackets; the wall is treated as a plane and its storeys are differentiated in the Renaissance manner, so that the ground floor is heavier - rusticated, arcaded, or both - and each storey above it is lighter and shorter, with windows diminishing in height and elaboration as they rise. Openings are round-arched at the ground and rectangular above, often within aedicules of pilasters and pediment. A string course marks each floor. The entrance is recessed under an arch. This system is genuinely proportional in a way Colonial Revival's is not: change the ground storey height and everything above it must change.\n\nWhat produced it, beyond the Ecole training that produced the whole family, was a specific economic fact - the arrival in America of the professional stone contractor and of terra cotta as a mass-produced substitute for carved stone. Terra cotta could deliver a modillioned cornice, an aedicule, and a full arcade at a fraction of the cost of carving, and it is the reason the style spread from Vanderbilt-scale town houses to speculative apartment blocks in Chicago and Kansas City within twenty years. The buyers were the American haute bourgeoisie - bankers, publishers, professionals - who wanted Renaissance associations for exactly the reasons a Medici would have recognised: mercantile wealth seeking the legitimacy of learning.\n\nA good Italian Renaissance Revival building is calm to the point of severity, and its calm is what people remember. The wall is flat and cool, jointed finely, with no projection except the cornice, and the cornice is enormous - four to six feet of overhang throwing a hard black shadow across the top of the building on any sunny day. The windows sit in the wall rather than on it. There is no picturesque incident anywhere; nothing overhangs, nothing turns a corner, nothing surprises. Standing beneath the cornice on a bright afternoon and looking up into that band of shadow is the whole aesthetic experience the style has to offer, and it is a genuinely good one."
+  },
+  "defining_characteristics": [
+    "Symmetrical rectangular masonry block treated as a planar wall, with no picturesque projection",
+    "Low-pitched hipped roof, 3:12 to 5:12, covered in clay tile, often not visible from the street on urban examples",
+    "A heavy projecting cornice on modillions or brackets, with an overhang of substantial depth relative to the wall",
+    "Storey differentiation in the Renaissance manner: heavier and taller at the ground, progressively lighter and shorter above, with string courses marking each floor",
+    "Round-arched openings and/or an arcaded loggia at the ground storey, rectangular openings above, frequently within pilastered aedicules",
+    "Recessed entrance under an arch, on the centre line, without a projecting portico"
+  ],
+  "diagnostic_tells": [
+    "Storey heights diminish upward and windows shrink with them. Colonial and Neoclassical Revival keep storey heights nearly equal and windows identical between floors.",
+    "The cornice overhang is 1/12 to 1/16 of the total wall height and is carried on visible modillions - much deeper than any Colonial Revival cornice and much plainer than any Beaux-Arts one.",
+    "No portico and no columns in front of the wall. The order, where present, is engaged as pilasters within the wall plane.",
+    "Tile roof plus a symmetrical flat-walled block plus arched ground-floor openings. Take away the symmetry and the arcade wraps a courtyard, and it becomes Mediterranean Revival.",
+    "Compared with the Italian original: the revival has plate glass, an even and generous fenestration, no ground-floor shops, no rustication above the first storey, and a service plan behind the piano nobile that no palazzo had."
+  ],
+  "distinguished_from": [
+    {
+      "node": "italianate-american",
+      "difference": "Italianate, 1840-1885, is a wood or brick Victorian type with a square tower, tall thin round-arched windows with elaborate hoods, and a bracketed cornice that is scaled to a house rather than to a palace. Italian Renaissance Revival is academically proportioned, masonry, and treats the wall as a plane."
+    },
+    {
+      "node": "mediterranean-revival",
+      "difference": "Mediterranean Revival is looser, warmer, and organised around outdoor rooms - loggias, courtyards, terraces, arcaded galleries - with rougher stucco and asymmetrical extension. Italian Renaissance Revival is a formal symmetrical block whose exterior spaces, if any, are subordinate."
+    },
+    {
+      "node": "italian-renaissance",
+      "difference": "The original palazzo is a fortified urban courtyard building with a blind or barred ground storey, a cortile as the only source of light to the interior rooms, and 3-4 ft masonry walls. The revival opens the ground floor with an arcaded loggia, glazes generously, and plans on American corridor logic."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The stacked classical order in the Renaissance manner. A nominal order governs each storey, the orders diminish upward in the canonical sequence, and the cornice is proportioned to the full height of the building rather than to the top storey.",
+    "typical_ratios": [
+      "Storey heights descending roughly 1.0 : 0.85 : 0.7 from ground to third",
+      "Cornice projection 1/12 to 1/16 of total wall height; on a 40 ft wall, 30-40 in.",
+      "Window openings 1:1.8 to 1:2.2 at the ground storey, tightening to 1:1.5 at the top",
+      "Roof pitch 3:12 to 5:12 in barrel or pan-and-cover clay tile",
+      "Arcade piers 1/3 to 1/2 of the clear arch span; arch springing at 2/3 of opening height"
+    ],
+    "bay_rhythm": "Strictly even, three to nine bays, with all bays equal except where a centre bay is widened for the entrance arch. Vertical alignment between storeys is absolute - unlike every picturesque style in this family, a single misaligned window is visible from across the street.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The suburban and country version: a symmetrical double-pile block under a low tile hip."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Villa examples with a loggia on the garden side and service wings returning."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "possible",
+      "note": "The literal palazzo case, a full cortile, as at Vizcaya."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "possible",
+      "note": "Where the villa subtype is taken directly from Palladio."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "The reduced builder version, 1905-1925: a hipped tile-roofed cube with a bracketed cornice and an arched entry."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Storey heights must diminish upward. Second-storey clear height not more than 90 percent of the first, third not more than 85 percent of the second. Equal storey heights place the building in Colonial or Neoclassical Revival."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Cornice projection not less than 1/16 of total wall height and not less than 24 in. on any two-storey example, carried on modillions or brackets spaced 12-24 in. on centre. A cornice under 12 in. voids the style."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Roof pitch 3:12 to 5:12, clay tile only, with no gable facing any principal elevation. Asphalt shingle, or any pitch above 6:12, is forbidden."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Masonry walls must express thickness at openings with a minimum 6 in. reveal, and arches must be true arches with visible voussoirs or a moulded archivolt - not flat headers behind a stucco curve."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "No projecting portico or free-standing column in front of the wall plane. Where an order is used it must be engaged as a pilaster with a projection not exceeding 1/6 of its width."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Villard Houses",
+      "location": "451 Madison Avenue, New York, New York",
+      "year": 1884,
+      "note": "Joseph Morrill Wells for McKim, Mead & White, after the Palazzo della Cancelleria in Rome. The founding building of the style in America."
+    },
+    {
+      "name": "Boston Public Library, McKim Building",
+      "location": "Boston, Massachusetts",
+      "year": 1895,
+      "note": "McKim, Mead & White. Not domestic, but the clearest demonstration of the arcaded palazzo wall as a compositional system."
+    },
+    {
+      "name": "The Breakers",
+      "location": "Newport, Rhode Island",
+      "year": 1895,
+      "note": "Richard Morris Hunt for Cornelius Vanderbilt II, on a sixteenth-century Genoese palazzo model. The style at maximum budget, where it overlaps Beaux-Arts."
+    },
+    {
+      "name": "Vizcaya",
+      "location": "Miami, Florida",
+      "year": 1916,
+      "note": "F. Burrall Hoffman with Paul Chalfin. Veneto villa parti around a true cortile; the point where Italian Renaissance Revival and Mediterranean Revival separate."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Leland M. Roth, McKim, Mead & White, Architects (1983)",
+    "Richard Guy Wilson, The American Renaissance 1876-1917 (1979)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "academic-classicism",
+    "palazzo",
+    "terra-cotta",
+    "urban"
+  ]
+}

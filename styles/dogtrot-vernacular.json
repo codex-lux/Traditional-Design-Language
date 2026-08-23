@@ -1,0 +1,191 @@
+{
+  "id": "dogtrot-vernacular",
+  "name": "Dogtrot",
+  "aka": [
+    "dog-run",
+    "breezeway house",
+    "possum trot",
+    "two-pens-and-a-passage"
+  ],
+  "rank": "variant",
+  "member_of": "log-vernacular-american",
+  "status": "historical",
+  "period": {
+    "origin": 1780,
+    "floruit_start": 1790,
+    "floruit_end": 1900,
+    "decline_end": 1940,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1975,
+        "end": 2026,
+        "revival_node": null,
+        "note": "The open central breezeway has had a substantial second life in Southern regional modernism - Fay Jones, Lake|Flato, Rural Studio - where it is used exactly as the original used it, as a shaded outdoor room that cools the volumes on either side."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Upland South",
+      "Appalachia",
+      "Deep South",
+      "Ozarks",
+      "Texas",
+      "Gulf South"
+    ],
+    "hearth": "the Tennessee Valley and the southern Appalachian foothills",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "log-vernacular-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "appalachian-log-house",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The dogtrot is a combinatorial move on the pen: two of them under one roof with a gap. Its notching, spans, chimneys and roof are inherited unchanged from the single-pen tradition."
+    }
+  ],
+  "description": {
+    "short": "Two log pens under one continuous roof with an open, unheated passage between them - the coolest place on a Southern farm in August, and the clearest case in American building of a room whose only programme is moving air.",
+    "long": "The dogtrot solves two problems with one move. The first is structural: a log pen cannot exceed the length of a log a small crew can lift, so a bigger house has to be more than one pen. The second is climatic: in the humid Upland and Deep South, a compact heated house is unbearable for four months of the year. Setting the two pens eight to twelve feet apart and running a single roof and a single floor across the gap solves both at once. The passage draws air by venturi effect between the two masses, its floor stays shaded all day, and it becomes the room where the household actually lives from May to September - where meals are eaten, work is done, tools are kept, and visitors are received. The rooms on either side keep their own gable-end chimneys and their own doors onto the passage. A loft over one or both pens sleeps children, and a rear shed usually appears within a decade.\n\nThe conditions are the same frontier conditions that produced the log tradition generally, with heat added. The form spreads with settlement from the Tennessee Valley through Alabama, Mississippi, Arkansas and into east Texas between about 1790 and 1860, following the same Scots-Irish and German families who carried log construction down the Great Wagon Road. It appears across the whole social range, which is what makes it interesting: Jacob Wolf built a two-storey hewn-log dogtrot in 1829 at Norfork, Arkansas to serve as the county courthouse, and Sam Houston lived in one at Huntsville, Texas from 1847. It is not a poverty type. It is a climate type that happened to be cheap, and its persistence past the arrival of sawmills - dogtrots were built in frame well into the twentieth century - shows that people were choosing the passage, not merely tolerating it.\n\nWhat the type reacts against, if anything, is the enclosed Anglo hall. Its nearest relative, the center-passage plan of the Chesapeake, does the same environmental job with a hall that has doors at both ends; the dogtrot simply removes the doors and the walls. It is worth noticing that the two solutions arrive from opposite directions at the same answer, and that the wealthier the builder, the more likely the passage is to be enclosed. That enclosure is in fact the single most common transformation in Southern vernacular architecture: a dogtrot gets its breezeway walled in, gains a front door and a stair, and becomes a center-passage house, which is why so many apparently ordinary Southern farmhouses have a strange room proportion and a pair of chimneys too far apart.\n\nStanding in the passage on a July afternoon is the entire argument. The temperature drop between the yard and the breezeway is real and immediate, and the air is always moving even when the trees are still, because two masses of hot air on either side and a shaded gap between them make a pressure difference that does not need wind. The floor is worn smooth by traffic. Both pen doors stand open and you can see into two rooms at once, which gives the small house an unexpected spatial generosity. Overhead, one continuous roof structure runs across all three volumes, and looking up at the underside you see the whole logic of the type at a glance: two boxes, a gap, one roof, and the gap is the best part."
+  },
+  "defining_characteristics": [
+    "Two log (or later frame) pens under one continuous unbroken roof, separated by an open central passage",
+    "Passage open at both ends, unheated, and floored continuously with the pens",
+    "Each pen retains its own gable-end chimney and its own door onto the passage",
+    "Pens read as separate volumes under a shared roof rather than as one long building",
+    "Passage width 8-12 feet, roughly half to two-thirds of a pen's width",
+    "Single-pile section throughout so that every room ventilates across",
+    "Growth by rear shed, loft, or enclosure of the passage - the last of which converts the type"
+  ],
+  "diagnostic_tells": [
+    "One roof ridge running continuously over what are visibly three volumes, the middle one open",
+    "Chimneys at the two far gable ends and nothing in the middle - the widest chimney spacing of any American folk house of its size",
+    "Two front doors facing each other across the passage rather than facing the yard",
+    "In an enclosed example: a center hall with an odd floor level or an odd width, chimneys unusually far apart, and weatherboard seams where the passage walls were infilled",
+    "Loft openings visible in the passage gable, showing the passage was never intended to be a room"
+  ],
+  "distinguished_from": [
+    {
+      "node": "massing:double-pen",
+      "difference": "The double pen has its two rooms contiguous with a shared wall and two front doors on the same facade. The dogtrot separates them with an open passage. The gap is the entire type, and filling it converts one to the other."
+    },
+    {
+      "node": "massing:center-passage-single-pile",
+      "difference": "Both are two rooms flanking a passage, and an enclosed dogtrot is physically indistinguishable from a center-passage house. The distinction is historical and evidential: an original center-passage house has a stair in the hall and a front door; a converted dogtrot has infill framing, mismatched floor levels, and chimneys spaced for two independent pens."
+    },
+    {
+      "node": "appalachian-log-house",
+      "difference": "The parent variant covers single and contiguous double pens. The dogtrot is the specific configuration with an open passage, and it is far more common in the hotter parts of the Upland and Deep South than in the mountains proper."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Log length sets the pens; the passage is dimensioned by airflow and by the width a single roof structure can span between two pens without an intermediate bearing point. The three-part rhythm is a consequence of both.",
+    "typical_ratios": [
+      "Each pen 16-20 feet by 14-18 feet",
+      "Passage 8-12 feet wide, typically 0.5-0.7 of a pen's width and never wider than a pen",
+      "Overall front length 40-52 feet across the three volumes",
+      "Wall height 8-10 log courses, 7-9 feet to the plate",
+      "Roof pitch 8:12 to 12:12, one unbroken ridge; eave overhang 24-36 inches",
+      "Front porch, where present, 6-8 feet deep across the full front"
+    ],
+    "bay_rhythm": "A three-part rhythm of pen-void-pen, in which the void is narrower than the solids. This is the only compositional rule the type has, and it is a strong one: a passage as wide as a pen reads as a breezeway between two buildings rather than as one house.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "dogtrot",
+      "affinity": "canonical",
+      "note": "The type and the massing are the same object."
+    },
+    {
+      "massing": "double-pen",
+      "affinity": "common",
+      "note": "The immediate sibling, and what a dogtrot becomes when the passage is enclosed."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "possible",
+      "note": "The starting state: many dogtrots began as one pen and acquired the second pen and passage later."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "possible",
+      "note": "The end state after enclosure - the single most common type-transformation in Southern vernacular building."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "The passage must be open at both ends, unheated, and unglazed. Screening is tolerable; enclosing it converts the building to a center-passage house and must be recorded as such rather than described as a dogtrot.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Passage width 8-12 feet and never greater than the width of a single pen (typically 0.5-0.7 of it). A passage as wide as or wider than a pen dissolves the composition into two separate buildings under a carport.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "One continuous unbroken ridge must run over both pens and the passage, with the passage floor continuous and at the same level as the pen floors. A break in the ridge, or a stepped floor, destroys the reading of a single house.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Each pen is limited to 16-20 feet between notched corners and carries its own gable-end chimney. A central chimney is impossible in this plan and a single chimney serving both pens indicates a saddlebag, which is a different type.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Orient the passage axis to the prevailing summer breeze - generally south to southwest in the Upland South - and keep it shaded at both ends. The passage is a cooling device before it is a circulation space, and a badly oriented one is merely a hole in the house.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Jacob Wolf House",
+      "location": "Norfork, Baxter County, Arkansas",
+      "year": 1829,
+      "note": "A two-storey hewn-log dogtrot built to serve as the county courthouse; the oldest standing public structure in Arkansas, National Register 1973. Evidence that the type carried institutional as well as domestic use."
+    },
+    {
+      "name": "Woodland (Sam Houston's home)",
+      "location": "Sam Houston State University campus, Huntsville, Walker County, Texas",
+      "year": 1847,
+      "note": "A classic dogtrot: rectangular log chambers flanking a central breezeway, brick chimneys at the ends, clapboarded over the logs, with a winding stair to the loft."
+    },
+    {
+      "name": "Gaineswood (original core)",
+      "location": "Demopolis, Marengo County, Alabama",
+      "year": 1861,
+      "note": "Nathan Bryan Whitfield's Greek Revival mansion grew outward from an existing dogtrot log house between 1843 and 1861 - the type as substrate, and a useful demonstration that a folk plan can survive under any amount of applied classicism. Built in campaigns 1843-1861."
+    }
+  ],
+  "sources": [
+    "Henry Glassie, 'The Types of the Southern Mountain Cabin', in Jan Brunvand, The Study of American Folklore (1968)",
+    "Terry G. Jordan, American Log Buildings: An Old World Heritage (1985)",
+    "Fred Kniffen, 'Folk Housing: Key to Diffusion', Annals of the Association of American Geographers 55 (1965)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "Encyclopedia of Arkansas, 'Jacob Wolf House'"
+  ],
+  "confidence": "high",
+  "tags": [
+    "folk",
+    "vernacular",
+    "log",
+    "climate-machine",
+    "breezeway",
+    "upland-south"
+  ]
+}

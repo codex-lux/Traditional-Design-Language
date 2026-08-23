@@ -1,0 +1,808 @@
+{
+  "id": "vignola-doric",
+  "name": "Doric Order (Vignola, mutulary)",
+  "aka": [
+    "Ordine Dorico",
+    "Roman Doric",
+    "Mutulary Doric",
+    "Vignola's Second Doric"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature)",
+    "author": "Giacomo Barozzi da Vignola",
+    "year": 1562,
+    "strength": "canonical",
+    "url": "https://archive.org/details/fiveordersofarch00vign",
+    "note": "Vignola gives TWO Doric entablatures. Tavola XI is copied from the Theatre of Marcellus and has a DENTIL bed mould with a cavetto cymatium. Tavola XII is his own composition 'cavata da diversi frammenti delle antichita di Roma', with MUTULES (modiglioni) over each triglyph and a cyma recta cymatium. This pack encodes TAVOLA XII, the mutulary Doric. Figures from the 1889 Juglaris & Locke translation and the Italian 'Dei cinque ordini' commentary, cross-checked against Ware, The American Vignola."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "semidiameter of the column at its base",
+    "parts": 12,
+    "default_size_in": 6.0,
+    "note": "12 parts, as Tuscan. Vignola: 'partita tutta la sua altezza in parti 20, di una di esse parti se ne fa il suo modulo, che si divide in dodici parti, come quello del Toscano.' The whole order without pedestal is 20 modules: 16 column, 4 entablature.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 16,
+    "shaft_height_modules": 14,
+    "diminution": 0.8333333333333334,
+    "entasis_begins_at": 0.3333333333333333,
+    "fluting": {
+      "count": 20,
+      "profile": "twenty channels meeting in a sharp arris, no fillet; segment of a 60-degree arc struck either from the centre of a semicircle or from the apex of an equilateral triangle on the chord (Vignola gives both constructions)",
+      "fillet": false
+    }
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 5.333333333333333,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_socle",
+          "name": "Pedestal base, socle (zoccolo)",
+          "height_parts": 4,
+          "projection_parts": 4.5,
+          "profile": "plinth",
+          "note": "Vignola gives the Doric pedestal base 10 parts of height and 4 1/2 parts of projection, ornamented with five members: zoccolo, plinto, gola dritta, tondino, listello. The member list and the 10-part total are stated; the division among the five is apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_base_plinth",
+          "name": "Pedestal base, plinth (plinto)",
+          "height_parts": 2,
+          "projection_parts": 4.5,
+          "profile": "plinth",
+          "confidence": "low",
+          "note": "Apportioned within the stated 10-part base."
+        },
+        {
+          "id": "ped_base_cyma",
+          "name": "Pedestal base, cyma recta (gola dritta)",
+          "height_parts": 2.5,
+          "projection_parts": 3.5,
+          "profile": "cyma-recta",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "ped_base_bead",
+          "name": "Pedestal base, bead (tondino)",
+          "height_parts": 1,
+          "projection_parts": 1.5,
+          "profile": "astragal",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Pedestal base, fillet (listello)",
+          "height_parts": 0.5,
+          "projection_parts": 1.0,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "ped_die",
+          "name": "Pedestal die (dado)",
+          "height_parts": 48,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "4 modules exactly, left plain. Stated by Vignola and independently by Brown's Study of the Orders ('a die of four modules in height').",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_cap_cyma",
+          "name": "Pedestal cap, cyma reversa (gola rovescia)",
+          "height_parts": 2,
+          "projection_parts": 3,
+          "profile": "cyma-reversa",
+          "note": "Cap is half a module high with half a module of projection. Five members, listed by Vignola in this order; unlike the Tuscan pedestal the Doric cap has a true corona. Division among the five is apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_cap_corona",
+          "name": "Pedestal cap, corona (gocciolatoio)",
+          "height_parts": 2,
+          "projection_parts": 5,
+          "profile": "corona",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "ped_cap_fillet",
+          "name": "Pedestal cap, fillet (listello)",
+          "height_parts": 0.5,
+          "projection_parts": 5.25,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "ped_cap_ovolo",
+          "name": "Pedestal cap, half ovolo (mezzo ovolo)",
+          "height_parts": 1,
+          "projection_parts": 6,
+          "profile": "quarter-round",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "ped_cap_pianetto",
+          "name": "Pedestal cap, fillet (pianetto)",
+          "height_parts": 0.5,
+          "projection_parts": 6,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth (plinto)",
+          "height_parts": 4,
+          "projection_parts": 5,
+          "profile": "plinth",
+          "note": "Ware's Doric table gives 1/6 D for both the height and the projection of the plinth - 4 parts. Vignola gives the whole base 1 module of height and 5 parts of projection, 'poco meno della quinta parte del diametro'. Base and plinth totals agree between sources; the plinth height rests on Ware alone.",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_torus",
+          "name": "Torus (toro)",
+          "height_parts": 5,
+          "projection_parts": 4,
+          "profile": "torus",
+          "note": "Vignola names four members - plinto, toro, tondino, imoscapo. Ware: the Doric base is the Tuscan base 'with additional moldings, a bead being added above the Torus'. The division of the 8 parts above the plinth is apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "base_bead",
+          "name": "Bead (tondino)",
+          "height_parts": 1.5,
+          "projection_parts": 2,
+          "profile": "astragal",
+          "note": "The member that distinguishes the Doric base from the Tuscan. Height apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "base_apophyge",
+          "name": "Cincture and congé of the shaft (imoscapo)",
+          "height_parts": 1.5,
+          "projection_parts": 1,
+          "profile": "apophyge",
+          "note": "Vignola counts the imoscapo in the base: 'alla base coll'imoscapo della colonna si dara un modulo'. Height apportioned.",
+          "confidence": "low"
+        }
+      ]
+    },
+    "shaft": {
+      "height_modules": 14,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "shaft_body",
+          "name": "Shaft (fusto), twenty flutes",
+          "height_parts": 165,
+          "projection_parts": 0,
+          "profile": "flat",
+          "count": 20,
+          "spacing_parts": null,
+          "note": "Vignola: 'il fusto della colonna senza l'imoscapo si fara di moduli 14'. Twenty channels meeting in a sharp arris. Ware: each channel is about 1/6 D wide (actually .157 D), showing an arc of 60 degrees, the arris standing at about 102 degrees; ten arrises show in elevation.",
+          "confidence": "high"
+        },
+        {
+          "id": "shaft_apophyge",
+          "name": "Apophyge at the top of the shaft (sommoscapo)",
+          "height_parts": 1.5,
+          "projection_parts": 0,
+          "profile": "congé",
+          "note": "Height apportioned; the flutes begin and end where the congés end.",
+          "confidence": "low"
+        },
+        {
+          "id": "shaft_fillet",
+          "name": "Fillet under the astragal",
+          "height_parts": 0.5,
+          "projection_parts": 0.5,
+          "profile": "fillet",
+          "note": "The bead above is twice the height of this fillet.",
+          "confidence": "medium"
+        },
+        {
+          "id": "shaft_astragal",
+          "name": "Astragal / collarino bead (tondino)",
+          "height_parts": 1,
+          "projection_parts": 1,
+          "profile": "astragal",
+          "note": "Vignola counts the collarino in the SHAFT, not the capital: the capital is 'un modulo di altezza, senza il collarino, il quale va compreso nel fusto della colonna'. The astragal and its fillet together fall within a 1/16 D square.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "capital": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "cap_necking",
+          "name": "Necking / frieze of the capital (fregio)",
+          "height_parts": 4,
+          "projection_parts": 0,
+          "profile": "flat",
+          "enrichment": "in Vignola's Tavola XI the necking carries rose paterae on the axis of each column; plain is equally correct and far commoner",
+          "note": "Ware's Doric table gives 1/6 D = 4 parts for the necking, and the same for the echinus-and-bead group and for the abacus group - the capital divides into three equal parts, as in the Tuscan. Both sources agree.",
+          "confidence": "high"
+        },
+        {
+          "id": "cap_fillet",
+          "name": "Fillet (listello)",
+          "height_parts": 0.5,
+          "projection_parts": 2,
+          "profile": "fillet",
+          "note": "MUTULARY VARIANT. In the dentil Doric (Tavola XI) Vignola supports the echinus on three fillets; in the mutulary Doric (Tavola XII) he makes the two upper of the three into a bead: 'de' tre listelli, ne forma dei due superiori un tondino'. This pack encodes the mutulary version, so one fillet and one bead.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_bead",
+          "name": "Bead under the echinus (tondino)",
+          "height_parts": 1.5,
+          "projection_parts": 2.75,
+          "profile": "astragal",
+          "enrichment": "bead-and-reel (fusaroli)",
+          "confidence": "medium",
+          "note": "Vignola enriches this bead with fusaroli in the mutulary capital. Height apportioned within Ware's 4-part echinus-and-bead group."
+        },
+        {
+          "id": "cap_echinus",
+          "name": "Echinus (ovolo)",
+          "height_parts": 2,
+          "projection_parts": 4.5,
+          "profile": "ovolo",
+          "enrichment": "egg-and-dart (quarto di tondo intagliato con ovoli)",
+          "confidence": "medium",
+          "note": "Carved in the mutulary capital, plain in the dentil one. Height apportioned within the 4-part group."
+        },
+        {
+          "id": "cap_abacus",
+          "name": "Abacus (gocciolatoio)",
+          "height_parts": 2,
+          "projection_parts": 5.5,
+          "profile": "abacus",
+          "note": "Capital projection 5 1/2 parts. Ware: the abacus projects one sixth on each side beyond the upper diameter of the shaft.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_cyma",
+          "name": "Abacus cymatium, cyma reversa (gola rovescia)",
+          "height_parts": 1.5,
+          "projection_parts": 5.5,
+          "profile": "cyma-reversa",
+          "enrichment": "water-leaf (frondette) in the mutulary capital",
+          "confidence": "medium",
+          "note": "Height apportioned within Ware's 4-part abacus group."
+        },
+        {
+          "id": "cap_fillet_top",
+          "name": "Fillet over the cymatium (pianetto)",
+          "height_parts": 0.5,
+          "projection_parts": 5.5,
+          "profile": "fillet",
+          "confidence": "medium",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_lower_fascia",
+          "name": "Lower band / fascia",
+          "height_parts": 4,
+          "projection_parts": 0,
+          "profile": "fascia",
+          "note": "Ware: 'The Architrave is divided into two Bands, or Fascias. The lower one occupies the lower third of the Architrave, and the Taenia, Regula, and Guttae the upper third.' Ware's table gives 1/6 D = 4 parts for the lower band. The two-fascia architrave belongs to Vignola's mutulary Tavola XII; his dentil Tavola XI architrave is a single plain face.",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_upper_fascia",
+          "name": "Upper band / fascia",
+          "height_parts": 4,
+          "projection_parts": 0.5,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "The middle third. The face of the metopes comes over the lower band; the triglyph projects slightly beyond the upper band."
+        },
+        {
+          "id": "arch_regula",
+          "name": "Regula with six guttae",
+          "height_parts": 2,
+          "projection_parts": 1,
+          "profile": "fillet",
+          "count": 6,
+          "spacing_parts": 2,
+          "note": "The regula is the width of the triglyph above it - 1 module, 12 parts - and carries six pendent guttae, conical or pyramidal, at 2 parts on centres. It occurs only under a triglyph. Ware's table gives 1/6 D = 4 parts for guttae, regula and taenia together; the taenia takes half of that, leaving 2 parts for the regula and its drops.",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_taenia",
+          "name": "Taenia",
+          "height_parts": 2,
+          "projection_parts": 2,
+          "profile": "fillet",
+          "note": "Ware: 'Half of this third goes to the Taenia, the projection of which equals its height.' 1/12 D = 2 parts, projecting 2 parts. The taenia runs continuously and does NOT break around the triglyph - the cap of the triglyph, up in the cornice, is the member that does.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.5,
+      "sums_check": false,
+      "members": [
+        {
+          "id": "triglyph",
+          "name": "Triglyph",
+          "height_parts": 18,
+          "projection_parts": 1,
+          "profile": "triglyph",
+          "count": 3,
+          "spacing_parts": 30,
+          "note": "SUMS_CHECK IS FALSE FOR THIS ASSEMBLY, and honestly so: the Doric frieze is not a vertical stack. Triglyph and metope are the FULL height of the frieze and stand side by side, so their heights cannot sum to it. Triglyph 3/4 D high (18 parts) by 1/2 D wide (12 parts); three shanks each 1/6 D (4 parts) wide, bevelled on the edge, giving two full channels and two half channels; the plain face of a shank is 1/12 D, exactly the width of a channel. Spacing 1 1/4 D = 30 parts on centres, which equals triglyph plus metope. A triglyph is centred on every column axis. Count 3 is per ditriglyph bay (7 1/2 modules on centres = three triglyph pitches).",
+          "confidence": "high"
+        },
+        {
+          "id": "metope",
+          "name": "Metope",
+          "height_parts": 18,
+          "projection_parts": 0,
+          "profile": "metope",
+          "count": 3,
+          "spacing_parts": 30,
+          "enrichment": "Vignola fills the metopes with ox skulls (teschi di bue), paterae, shields and military trophies; plain metopes are equally canonical and are what American practice almost always builds",
+          "note": "Exactly square, 3/4 D on a side (18 x 18 parts). The fragment of metope between the last triglyph and the corner of the frieze is 1/6 D (4 parts) wide - the single hardest thing to get right in Doric, and the tell that a Doric frieze has been drawn rather than copied.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_triglyph_cap",
+          "name": "Cap of the triglyph (fascia)",
+          "height_parts": 1.5,
+          "projection_parts": 2,
+          "profile": "fascia",
+          "note": "A broad fillet, a sort of upper taenia. Unlike the taenia below it, this one BREAKS around the angles of the triglyph, crowning both triglyph and metope. Ware: the cornice's 18 parts divide into four quarters of 4 1/2; the cap of the triglyph and the narrow fillet above it share the lower half of the lowest quarter.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_fillet",
+          "name": "Narrow fillet over the cap of the triglyph (listello)",
+          "height_parts": 0.75,
+          "projection_parts": 3,
+          "profile": "fillet",
+          "note": "Does NOT break around the triglyph, so it shows a broad soffit over the metopes and at the corner of the building. Height apportioned within Ware's stated 2 1/4-part pair.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_ovolo",
+          "name": "Ovolo (bed mould)",
+          "height_parts": 2.25,
+          "projection_parts": 5,
+          "profile": "ovolo",
+          "note": "Ware: 'The upper half of the lower quarter, above this little fillet, is an Ovolo.' 2 1/4 parts, stated.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_mutule_band",
+          "name": "Mutule band with mutules (modiglioni)",
+          "height_parts": 3.75,
+          "projection_parts": 18,
+          "profile": "mutule",
+          "count": 3,
+          "spacing_parts": 30,
+          "enrichment": "thirty-six guttae in six rows of six on each mutule soffit, with a drip moulding",
+          "note": "THE DISTINGUISHING MEMBER OF THIS ORDER. A broad fascia carrying one mutule over each triglyph, 1/2 D (12 parts) wide, the same width as the triglyph below. Ware's table gives the mutule projection as 3/4 D = 18 parts. Ware: the second quarter of the cornice is occupied by the mutule band. Height apportioned within that 4 1/2-part quarter, the remainder going to the cyma reversa above.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_cyma_over_mutule",
+          "name": "Cyma reversa crowning the mutules and band (gola rovescia)",
+          "height_parts": 0.75,
+          "projection_parts": 19,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "Height apportioned within the second quarter."
+        },
+        {
+          "id": "corn_corona",
+          "name": "Corona (gocciolatoio)",
+          "height_parts": 3.75,
+          "projection_parts": 22,
+          "profile": "corona",
+          "note": "Ware: the third quarter is 'the Corona and the small Cyma Reversa above it'. The soffit of the corona is slightly inclined, recalling the slope of the rafters. Total cornice projection is one full diameter - 2 modules, 24 parts - which is the one place Vignola breaks his own rule that a cornice projects its own height.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_cyma_over_corona",
+          "name": "Small cyma reversa over the corona (gola rovescia)",
+          "height_parts": 0.75,
+          "projection_parts": 22.5,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "Height apportioned within the third quarter."
+        },
+        {
+          "id": "corn_fillet_under_cyma",
+          "name": "Fillet under the cymatium (pianetto)",
+          "height_parts": 0.75,
+          "projection_parts": 22.75,
+          "profile": "fillet",
+          "note": "Ware: the top quarter embraces 'the gutter, or Cymatium, and the Fillet below'.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_cymatium",
+          "name": "Cymatium, cyma recta (gola dritta)",
+          "height_parts": 3,
+          "projection_parts": 24,
+          "profile": "cyma-recta",
+          "note": "MUTULARY MARKER. Vignola crowns the mutulary Doric with a cyma recta; the denticulated Doric of Tavola XI gets a large cavetto instead. If you see a cavetto gutter over mutules you are looking at the Albano Doric, not Vignola's.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_fillet_top",
+          "name": "Fillet over the cymatium (listello)",
+          "height_parts": 0.75,
+          "projection_parts": 24,
+          "profile": "fillet",
+          "confidence": "medium",
+          "note": "Height apportioned within the top quarter."
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 12,
+          "projection_parts": 2,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "1 module."
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze with triglyphs and metopes",
+          "height_parts": 18,
+          "projection_parts": 1,
+          "profile": "triglyph",
+          "confidence": "high",
+          "note": "1 1/2 modules."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice with mutules",
+          "height_parts": 18,
+          "projection_parts": 24,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "1 1/2 modules high, 2 modules (one diameter) of projection."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The entablature is one quarter the height of the column, base and capital included.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 4",
+      "tolerance": 0.001,
+      "note": "4 modules against 16. Vignola, Tavola XIII."
+    },
+    {
+      "statement": "The pedestal is one third the height of the column, base and capital included.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules / 3",
+      "tolerance": 0.001,
+      "note": "5 modules 4 parts = 64 parts against a 16-module (192-part) column. Vignola, Tavola X: 'Il piedestallo Dorico deve essere moduli cinque e un terzo in altezza.'"
+    },
+    {
+      "statement": "The entablature is the sum of architrave, frieze and cornice.",
+      "expression": "assemblies.entablature.height_modules == assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is the sum of base, shaft and capital.",
+      "expression": "assemblies.base.height_modules + assemblies.shaft.height_modules + assemblies.capital.height_modules == column.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is eight diameters high.",
+      "expression": "column.height_modules == 16",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The cornice is exactly as high as the frieze.",
+      "expression": "assemblies.cornice.height_modules == assemblies.frieze.height_modules",
+      "tolerance": 0.001,
+      "note": "Italian commentary, Tavola XI: 'Alla cornice vien data tutta l'altezza del fregio.' Both are 1 1/2 modules."
+    },
+    {
+      "statement": "Triglyph plus metope equals the triglyph spacing on centres.",
+      "expression": "assemblies.frieze.members.triglyph.spacing_parts == module.parts * 2.5",
+      "tolerance": 0.001,
+      "note": "Triglyph 12 parts wide plus square metope 18 parts wide = 30 parts = 2.5 modules = 1 1/4 diameters on centres. This is the constraint that makes Doric hard: every column axis must land on a multiple of it. Widths are carried in the member notes because the schema dimensions members by height and projection only."
+    },
+    {
+      "statement": "The shaft diminishes to five sixths of its lower diameter.",
+      "expression": "column.diminution == 5/6",
+      "tolerance": 0.002
+    },
+    {
+      "statement": "Diminution begins at one third the height of the shaft.",
+      "expression": "column.entasis_begins_at == 1/3",
+      "tolerance": 0.002
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "monotriglyph",
+        "clear_diameters": 1.5,
+        "note": "One triglyph over the opening; columns 2 1/2 D on centres. Ware: 'This is the most common arrangement.' Vignola does not draw it, but it is the spacing every Doric portico defaults to."
+      },
+      {
+        "name": "ditriglyph",
+        "clear_diameters": 2.75,
+        "note": "VIGNOLA'S OWN DORIC SPACING. Tavola XIII gives 5 1/2 modules clear (2 3/4 D), 7 1/2 modules on centres (3 3/4 D), which puts two triglyphs over the opening. He chooses it because 'con questa distanza rimangono bene spartite le metope ed i triglifi'."
+      },
+      {
+        "name": "coupled",
+        "clear_diameters": 0.3333333333333333,
+        "note": "Doric columns cannot truly be coupled. Even with the bases touching the axes are 1 1/3 D apart, which exceeds the 1 1/4 D triglyph pitch by 1/12 D. Ware: the discrepancy is absorbed by narrowing the bases, widening the triglyphs, or moving the columns off the triglyph axes - all three at once if necessary."
+      },
+      {
+        "name": "arched-doric",
+        "clear_diameters": 3.5,
+        "note": "Tavola XIV: pilasters 3 modules wide, 7 modules between them, arch two squares. Tavola XV, with pedestal: pilasters 5 modules, 10 modules between, 15 modules on centres, arch 10 wide by 20 high."
+      }
+    ],
+    "default": "ditriglyph"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 4",
+      "units": "in",
+      "authority_note": "Vignola's first invariant. A 10 ft Doric column carries a 2 ft 6 in. entablature, of which 7 1/2 in. is architrave, 11 1/4 in. frieze and 11 1/4 in. cornice.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "count",
+      "expression": "storey_height / (module * 7.5)",
+      "units": "count",
+      "authority_note": "Doric column spacing is quantised: axes must fall on a multiple of 1 1/4 diameters (30 parts) because a triglyph is centred on every column. Vignola's own ditriglyph spacing is 7 1/2 modules on centres; monotriglyph is 5. There is no continuous adjustment available - this is the constraint that makes Doric the hardest order to lay out and the reason Ware devotes a whole plate to it.",
+      "judgment": false,
+      "note": "Yields the number of bays a given run will take at ditriglyph spacing; round to a whole number and let the module absorb the remainder, never the spacing."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height / 3",
+      "units": "in",
+      "range": [
+        30,
+        40
+      ],
+      "authority_note": "THE ACTUAL HISTORICAL DERIVATION, and it is the same in every order because the pedestal rule is the same: the pedestal is one third the column. Read the room as the order and the pedestal cap lands at one third the ceiling. In Doric the cap is a richer member than in Tuscan - cyma reversa, corona, fillet, half-ovolo, fillet - which is what a Doric chair rail should be: a small cornice, not a moulded board.",
+      "judgment": false,
+      "note": "The wainscot below it IS the pedestal - base, die, cap - so its cap and the chair rail are one member, not two; a wainscot whose panelling stops at a different height from the rail reads as two systems fighting. The rail itself is the pedestal cap: ceiling_height * 6/168 in Tuscan, ceiling_height * 6/192 in Doric."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "ceiling_height / 16",
+      "units": "in",
+      "range": [
+        5,
+        12
+      ],
+      "authority_note": "The base of the order at room scale: one module of a sixteen-module column. A 9 ft ceiling gives 6 3/4 in. - noticeably lighter than the Tuscan 7 11/16 in. from the same ceiling, because the Doric column is slenderer relative to its height. The plinth of the order is the logic: Vignola's Doric plinth is 4 parts of 12, so the baseboard's plinth block is one third of its height and the moulded cap two thirds.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.5 / 16",
+      "units": "in",
+      "range": [
+        6,
+        18
+      ],
+      "authority_note": "Room as an order at reduced module: the Doric cornice alone, 1 1/2 modules of a 16-module column. A 9 ft ceiling gives 10 1/8 in.",
+      "judgment": false,
+      "note": "Run it as a real Doric cornice - cap of triglyph, ovolo, mutule band, corona, cyma recta - or do not call it Doric. A Doric room cornice without mutules is a Tuscan cornice with extra steps."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height * 2.0 / 16",
+      "units": "in",
+      "range": [
+        8,
+        24
+      ],
+      "authority_note": "Doric is the exception Ware flags: the cornice projects MORE than its height - one full diameter, 2 modules, against 1 1/2 modules of height, a ratio of 4:3. A Doric crown run at equal projection and drop is wrong and reads as timid.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "count",
+      "expression": "ceiling_height / (ceiling_height * 30 / 192)",
+      "units": "count",
+      "authority_note": "Mutules are spaced at 1 1/4 diameters - 30 parts of the 192-part column - one over each triglyph. At room scale that is one mutule every ceiling_height * 30/192, i.e. every 16 7/8 in. in a 9 ft room. Set them out from the centre of the principal wall or the fireplace axis, never from a corner.",
+      "judgment": false
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 6",
+      "units": "in",
+      "range": [
+        3.5,
+        8
+      ],
+      "authority_note": "The casing is the entablature architrave brought down to the opening. In Doric it takes the two-fascia form of Tavola XII - lower band one third, upper band one third, taenia and regula the top third - and where the door carries a full entablature the regula and its six guttae go under the taenia at every triglyph. One sixth of the opening width is the standard classical door-architrave rule.",
+      "judgment": false,
+      "note": "The same rule governs the window surround; where a window takes a full entablature or a pediment above, that entablature is opening_width/2 deep for a 1:2 opening."
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "height",
+      "expression": "opening_width / 2",
+      "units": "in",
+      "authority_note": "Treat the door height as the column height; the entablature over it is a quarter of that, and a 1:2 opening makes it half the opening width. Vignola's arched Doric opening is exactly two squares, 7 modules by 14.",
+      "judgment": false,
+      "note": "A full Doric entablature over a 36 in. door is 18 in. deep and must accommodate whole triglyphs: 36 in. of opening at 1 1/4 D spacing forces the module, so the door width and the triglyph pitch have to be reconciled before anything else is drawn."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 8",
+      "units": "in",
+      "range": [
+        6,
+        16
+      ],
+      "authority_note": "A Doric column is eight diameters. A 10 ft column is 15 in. at the base, diminishing to 12 1/2 in. Note that the same porch height gives a fatter column in Tuscan (7 D) and a slenderer one in Ionic (9 D) - the order is a choice about weight, and this is where that choice becomes a dimension.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "column_height * 1.5 / 16",
+      "units": "in",
+      "range": [
+        10,
+        36
+      ],
+      "authority_note": "Building-scale main cornice from a real or implied Doric order. Its projection is column_height * 2/16, i.e. one third more than its height.",
+      "judgment": false
+    },
+    {
+      "target_slot": "frieze",
+      "dimension": "height",
+      "expression": "storey_height * 1.5 / 16",
+      "units": "in",
+      "range": [
+        8,
+        30
+      ],
+      "authority_note": "Where the elevation has no order, the frieze band is standing in for one, and the choice of datum - storey, wall, whole building - is not determined by any classical source. In Doric there is a second undetermined choice on top of it: whether to carry triglyphs at all on a wall that has no columns for them to sit over.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, twice over. Triglyphs on a blank wall are defensible (they are all over Greek Revival) but they need a rational set-out - centred on window axes, or on the corners - or they read as wallpaper."
+    },
+    {
+      "target_slot": "porch_depth",
+      "dimension": "width",
+      "expression": "96",
+      "units": "in",
+      "range": [
+        84,
+        144
+      ],
+      "authority_note": "No classical source gives a porch depth. Below about 7 ft a porch is decoration; above it, a room.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. In Doric there is a real coupling: the depth sets the height, the height sets the module, and the module sets the triglyph pitch, which then quantises the bay. Fix the depth first and expect to iterate."
+    },
+    {
+      "target_slot": "balustrade",
+      "dimension": "height",
+      "expression": "36",
+      "units": "in",
+      "range": [
+        30,
+        42
+      ],
+      "authority_note": "Ware is explicit: balustrades, like steps, are proportioned to the human figure, not to the order. 'A Balustrade, like a Parapet, is intended to lean upon, and should not be more than 3 or 4 feet high.'",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Code, the hand and the sight line govern; the module does not. Ware's baluster proportions (cap one quarter, base one quarter, belly at one third the height) apply once the height is chosen."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "A correct Doric entablature is 2 diameters deep. On a 10 in. column that is 20 in. of architrave, frieze and cornice, of which the cornice alone projects 20 in. from the frieze face. Nothing in that assembly corresponds to a 2x header; a 2x8 or 2x10 porch beam is 7 1/4 to 9 1/4 in. and lands somewhere inside the frieze.",
+      "resolution": "Frame it as a box: carry the load on a flitch plate or a doubled LVL sized to span the ditriglyph bay, hold the structural member entirely within the frieze and architrave zone, and hang the cornice off outriggers cantilevered back over the plate. The 20 in. projection needs a real cantilever with a tail at least twice the projection - it is a framing problem, not a trim problem, and it is the item most often value-engineered into a 6 in. crown. Never let the structural depth set the entablature depth; the entablature is the quarter-of-the-column invariant.",
+      "severity": "blocking"
+    },
+    {
+      "with": "egress-code",
+      "statement": "Doric intercolumniation is quantised to multiples of 1 1/4 diameters because a triglyph must be centred on every column. On a 10 in. column monotriglyph gives 15 in. clear and ditriglyph 27 1/2 in. clear - the latter still short of the 32 in. clear width required at an exit door, with no intermediate spacing available.",
+      "resolution": "Three honest moves, in order of preference: (1) increase the module - a 12 in. column gives 33 in. clear at ditriglyph, which clears; (2) go to three triglyphs over the entrance bay only, and accept an unequal rhythm that is centred on the door; (3) set the columns off the triglyph axes, which Ware sanctions as one of the devices for absorbing the coupling discrepancy, and which nobody will notice at 25 ft. What you must not do is narrow the triglyphs to buy clearance - the metope stops being square and the whole frieze goes wrong.",
+      "severity": "blocking"
+    },
+    {
+      "with": "cost",
+      "statement": "The mutulary cornice carries 36 guttae on every mutule and a mutule over every triglyph. A 24 ft Doric porch at ditriglyph spacing has roughly 19 mutules and therefore about 684 individually set drops, plus 6 guttae under every regula. This is the single largest cost item in a correct Doric order and it is where the order is usually abandoned.",
+      "resolution": "In descending order of honesty: (1) Gibbs's device - panel the centre of the mutule and eliminate the eight central guttae, which halves the setting labour and has 18th-century authority; (2) cast the mutule complete in high-density urethane or GFRC and set it as a unit, which at this repetition is far cheaper than milled wood and is invisible at 15 ft; (3) switch to Vignola's OTHER Doric, the denticulated Tavola XI, where the mutules are very shallow and carry 18 guttae instead of 36. Do not simply delete the guttae; a mutule without drops is a bracket, and the order loses the thing that makes it Doric.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The cornice carries four fillets at 3/4 part. At the default 6 in. module that is 3/8 in., which builds; at a 3 in. module (a 6 in. pilaster, which is what a Doric interior crown usually amounts to) it is 3/16 in., and at the 1/48-module fillets Vignola figures elsewhere on the plate it is below the thickness of the paint film.",
+      "resolution": "Set a hard floor of 3/16 in. for a painted fillet. Below it, merge the fillet into the member above and record the merge explicitly. Also check the guttae: at a 3 in. module a gutta is 1/4 in. in diameter and 3/8 in. long, which is at the edge of what a router or a casting will hold a crisp edge on. If the guttae will not hold, the room is too small for Doric and should take Tuscan.",
+      "severity": "minor"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The Doric pedestal is 5 1/3 modules, one third of the column. On a 10 ft column that lifts the porch floor 3 ft 4 in. above grade, which needs 40 ft of ramp at 1:12 plus landings, or a lift.",
+      "resolution": "Do not shrink the pedestal - it is the second invariant and the order will read as sunk. Use a continuous pedestal (Ware's term) as a retaining plinth, take the accessible route in at grade on the side or rear elevation, and let the front steps be the ceremonial entry. Where a single accessible front entry is required, drop the order to a stylobate - Vignola's Doric is drawn without a pedestal in Tavolae XIII and XIV, and that is the canonical way out.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "jeffersonian-classicism",
+    "english-georgian",
+    "english-georgian-country-house",
+    "english-palladian",
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "charleston-georgian",
+    "mid-atlantic-georgian",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-southern-plantation",
+    "neoclassical-revival",
+    "colonial-revival",
+    "beaux-arts-american",
+    "new-classical",
+    "regency"
+  ],
+  "sources": [
+    "Vignola, Regola delli cinque ordini d'architettura (Rome, 1562), Tavole X-XV",
+    "Vignola, The Five Orders of Architecture, tr. Tommaso Juglaris & Warren Locke (Norwood Press, 1889), Plates VII-XII and XXIX; archive.org/details/fiveordersofarch00vign",
+    "William R. Ware, The American Vignola (1902/1904; 1920 printing), Plates V, VI and VII, 'The Doric Order', and Plate XVIII, 'Doric Intercolumniations'; archive.org/details/cu31924091026504",
+    "Anon., Dei cinque ordini d'architettura di M. Jacopo Barozzi da Vignola, Parte II (Politecnico di Torino digital library, digit.biblio.polito.it/4220) - member-by-member composition of both Doric entablatures",
+    "Frank Chouteau Brown / Study of the Orders, archive.org/details/studyoforders00browiala - independent confirmation of the pedestal (base 5/6 module, die 4 modules, cap 1/2 module) and entablature",
+    "Calder Loth, 'The Albano and Vignola Mutulary Doric Orders', Institute of Classical Architecture & Art, Classical Comments - transmission of the mutulary Doric through Gibbs to American practice",
+    "Robert Chitham, The Classical Orders of Architecture (1985) - consulted only through secondary citation; not available in full text for this pass"
+  ],
+  "confidence": "high",
+  "notes": "DORIC, encoded from Vignola's own figures in modules and parts, module = semidiameter, 12 parts.\n\nWHICH DORIC: Vignola gives two, and this pack encodes the MUTULARY one - Tavola XII, 'cavata da diversi frammenti delle antichita di Roma', with modiglioni (mutules) over each triglyph, a two-fascia architrave, a carved echinus and bead in the capital, and a CYMA RECTA cymatium. The alternative is Tavola XI, the denticulated Doric copied from the Theatre of Marcellus, with a dentil course in place of the mutule band, three plain fillets under the echinus, a single plain architrave face, and a large CAVETTO cymatium. The mutulary is chosen because it is the one that reached American building: Gibbs put it in Rules for Drawing (1732), Chambers and Swan carried it, and it is the Doric of the Anglo-American Georgian and Greek Revival portico. It is also the version that carries the apparatus this pack is asked to encode - mutules with guttae in the cornice soffit. The dentil Doric differs ONLY in the cornice, the architrave fasciae and three small capital members; a future overlay pack can carry those deltas without restating the order.\n\nWELL SOURCED, agreed by three independent witnesses: column 16 modules (base 1, shaft 14, capital 1); entablature 4 modules (architrave 1, frieze 1 1/2, cornice 1 1/2); pedestal 5 modules 4 parts (base 10 parts, die 4 modules, cap 1/2 module); base projection 5 parts; capital projection 5 1/2 parts; cornice projection 2 modules; triglyph 1/2 D wide by 3/4 D high; metope square at 3/4 D; corner metope 1/6 D; triglyph pitch 1 1/4 D; shank 1/6 D; twenty flutes; six guttae under the regula, thirty-six under each mutule; clear intercolumniation 5 1/2 modules.\n\nSUMS_CHECK IS FALSE ON THE FRIEZE ONLY, and deliberately. Triglyph and metope are both the full 18-part height of the frieze and stand side by side; their heights cannot sum to the frieze. Every other assembly sums exactly.\n\nWHAT IS WEAK. The division of the 10-part pedestal base, the 6-part pedestal cap and the 8 parts of the column base above the plinth is apportioned, not sourced - Vignola gives these as figured dimensions on the plate and no full-text source consulted transcribes the numerals. The MEMBERS and their ORDER are Vignola's, listed member by member in the Italian commentary; the individual heights are ours. Those members carry confidence 'low'. Within the capital and cornice the apportionment is much better constrained, because Ware's rules (capital in three equal parts; cornice in four equal quarters, with the two lower fillets sharing the lower half of the lowest quarter and the ovolo the upper half) pin the groups even where they do not pin the members - those carry 'medium'.\n\nONE CORRECTION WORTH RECORDING: the Doric intercolumniations are NOT the Vitruvian five. Pycnostyle, systyle, eustyle, diastyle and araeostyle are unavailable in this order because the triglyph quantises the spacing to multiples of 1 1/4 diameters. Vignola gives ditriglyph (5 1/2 modules clear, 7 1/2 on centres); Ware records monotriglyph (1 1/2 D clear, 2 1/2 on centres) as the commoner modern arrangement. The Vitruvian names are recorded in the Tuscan pack, where they do apply.\n\nAPPLIES_TO includes the Greek Revival nodes with a caveat: American Greek Revival at its most correct uses GREEK Doric - baseless, roughly six diameters, no pedestal - which this pack does not describe. It is listed because the carpenter's Doric of the vernacular and northern Greek Revival, and the Doric of every Greek Revival interior cornice and door surround, is Roman and comes out of Vignola by way of Benjamin and Lafever."
+}

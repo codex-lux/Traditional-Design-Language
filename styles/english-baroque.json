@@ -1,0 +1,211 @@
+{
+  "id": "english-baroque",
+  "name": "English Baroque",
+  "aka": [
+    "Wren Baroque",
+    "Vanbrughian Baroque",
+    "Queen Anne Baroque"
+  ],
+  "rank": "style",
+  "member_of": "english-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1666,
+    "floruit_start": 1690,
+    "floruit_end": 1730,
+    "decline_end": 1750,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1930,
+        "revival_node": null,
+        "note": "Edwardian Baroque — the imperial manner of town halls, insurance offices and Whitehall, sometimes called Wrenaissance. Domestic only at the largest scale."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland"
+    ],
+    "hearth": "London after the Fire of 1666, and the great Yorkshire and Northumberland commissions of Vanbrugh and Hawksmoor",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "jacobean",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "The trade base is continuous. Wren's masons, bricklayers and joiners were trained in the Artisan Mannerist workshops of the 1630s-50s, and the London brick house of the 1670s is a Jacobean carcass with a classical cornice."
+    },
+    {
+      "target": "palladian",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "Through Inigo Jones and the Office of Works. Jones's Palladian drawings and buildings passed to John Webb and thence into the institutional memory of the royal works that Wren inherited as Surveyor in 1669."
+    },
+    {
+      "target": "french-baroque",
+      "type": "hybridizes_with",
+      "weight": 0.6,
+      "inherits_kit": false,
+      "note": "Wren's only foreign journey was to Paris in 1665, where he studied the Louvre works, met Bernini and saw his Louvre designs, and absorbed the French planning of the hotel and the chateau. French practice, not Italian, is the proximate source of the English Baroque plan."
+    },
+    {
+      "target": "italian-baroque",
+      "type": "references",
+      "weight": 0.55,
+      "inherits_kit": false,
+      "note": "Quoted without descent, and this is the sharpest case of the distinction in the whole British branch. Neither Wren, Hawksmoor nor Vanbrugh ever went to Italy; Borromini and Bernini reached them through engravings and through Paris. The result is an English Baroque that is inventive precisely because it was working from second-hand evidence."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "The orders, the triumphal arch motif and the Roman bath plan, known through Palladio's and Serlio's reconstructions rather than from the ruins."
+    }
+  ],
+  "description": {
+    "short": "England's brief, heavy, self-invented Baroque: giant orders, banded rustication and sculpted skylines composed for shadow and mass, by three men who had never seen Rome.",
+    "long": "English Baroque exists because of a fire, a war and a shortage of information. The Fire of 1666 handed Christopher Wren fifty-one City churches and a cathedral, and with them the authority to invent an English classicism from a standing start; the peace and prosperity following 1688 paid for the great houses; and the fact that none of its three principal figures — Wren, Nicholas Hawksmoor and John Vanbrugh — ever travelled to Italy meant they were reconstructing the Baroque from prints, from Palladio's plates and from one visit to Paris. Not knowing the rules exactly is why Hawksmoor could invent details that no Italian would have permitted and that are, on their own terms, better.\n\nThe style's whole subject is mass and shadow. Openings are cut deep and keyed with exaggerated voussoirs; walls are banded with rustication that runs across pilasters as if the building were being quarried rather than assembled; the giant order rises through two storeys so that the elevation is scaled to the whole block instead of to its floors; roofs are hipped and hidden behind balustrades so that the mass reads as a single geometric solid, and then the skyline is loaded with urns, statues, cupolas and chimneys treated as pedestals. At Blenheim and Castle Howard the composition extends outward into quadrant colonnades, courts and flanking service blocks, producing an approach sequence a quarter of a mile long. This is architecture as statecraft, and the two greatest examples were literally paid for by the nation as war trophies.\n\nWhat it was reacting against was the flat, gabled, insular Jacobean manner, and what it produced in reaction was itself so extravagant that a counter-reaction followed within a decade. Colen Campbell's Vitruvius Britannicus of 1715 attacked the 'affected and licentious' Italians by name, Lord Burlington bought Palladio's and Jones's drawings, and by 1730 the giant order had been legislated out of English taste. Baroque's domestic legacy survives instead in the ordinary Restoration and Queen Anne house, which is where most of this node's usable kit lives: a compact double-pile brick box with a hipped roof, dormers, a bold modillion cornice, tall segmental- or flat-arched sash windows, and a carved wood or stone door hood on scrolled brackets. That house is the immediate parent of the Georgian house and of American colonial building.\n\nStanding at the foot of Vanbrugh's north front at Seaton Delaval is an experience closer to standing under a cliff than in front of a house. The rustication is so heavy and the shadows so deep that the wall stops reading as a surface at all; the giant Doric columns are banded, which makes them look compressed under their own load; and everything is scaled about a third larger than the human body expects. Inside, the compensation is spatial drama — halls rising through two or three storeys, stairs turning around top-lit voids — and it is the last time English domestic architecture was allowed to be theatrical without apologising for it."
+  },
+  "defining_characteristics": [
+    "The giant (colossal) order embracing two or more storeys, in pilaster or engaged column form, scaling the elevation to the block rather than to the floor",
+    "Mass and shadow as the compositional subject: deep reveals, heavy banded rustication, boldly keyed arches, strongly projecting cornices",
+    "Hipped roofs concealed behind a balustraded parapet so that the volume reads as a geometric solid",
+    "A sculpted skyline of urns, statuary, cupolas and chimney stacks treated as pedestals",
+    "Extended composition beyond the block: forecourts, quadrant colonnades or curved wings, and flanking service pavilions",
+    "Double-height entrance hall and a dramatised stair as the interior climax",
+    "In the ordinary house, the compact double-pile brick box with hipped roof, dormers, modillion cornice, tall sashes and a carved door hood on scrolled brackets"
+  ],
+  "diagnostic_tells": [
+    "A giant order running through two storeys — the single detail that Palladianism abolished after 1715, and therefore the fastest way to date a facade to before 1730",
+    "Rustication banded across pilasters and columns as well as walls, so that the vertical members appear to be built of the same courses as the field",
+    "Keystones enlarged out of all proportion and often carried up into the string course above",
+    "Balustraded parapet with urns, concealing the roof entirely, on a building whose plan is nonetheless English and double-pile",
+    "A door hood of carved wood or stone on large scrolled console brackets over a six-panel door — the Queen Anne town house signature"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-palladian",
+      "difference": "Palladianism is the direct, explicit reaction. It abolishes the giant order in favour of a single portico on a rusticated basement, flattens the wall, halves the ornament, and derives every dimension from Palladio's published rules. Where Baroque models mass, Palladianism composes a diagram. If the facade is doing something Palladio never published, it is Baroque."
+    },
+    {
+      "node": "english-georgian",
+      "difference": "Georgian is the domesticated, ruled, repeatable descendant. The Queen Anne house of 1700 and the Georgian house of 1760 share a plan and a construction, but Georgian has graduated storey heights, thinner glazing bars, a flat-arched or gauged-brick window head instead of a keyed segmental one, and no giant order under any circumstances."
+    },
+    {
+      "node": "jacobean",
+      "difference": "Both are heavy, but Jacobean orders are approximate and applied to a porch while Baroque orders are proportioned to a module and used to organise the whole mass. Jacobean gables; Baroque parapets. Jacobean mullions; Baroque sashes."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The classical orders with the module taken as the lower column diameter (or half-diameter), used correctly but freely — proportions are deliberately stretched or compressed for effect, which is precisely the licence Palladianism withdrew.",
+    "typical_ratios": [
+      "Giant order height 2 to 2.5 storeys, column height 8-10 diameters depending on order",
+      "Entablature depth 1/4 to 1/5 of column height; cornice projection roughly equal to its own depth",
+      "Rusticated basement 0.5 to 0.75 the height of the principal storey above it",
+      "Sash proportion 1.8:1 to 2.1:1 height to width, in 12-over-12 or 9-over-9 lights with glazing bars 25-32 mm wide",
+      "Main block to wing ridge height ratio not less than 1.3:1"
+    ],
+    "bay_rhythm": "Emphatically hierarchical rather than even: a dominant centre of three to five bays, subordinate flanking bays, and terminal pavilions, with bay spacing widening at the centre. Rhythm is A-B-B-A-B-B-A rather than the Georgian metronome.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "Main block, quadrant or straight hyphens, and flanking service pavilions — the diagram of Castle Howard and Blenheim, arriving in England through Baroque before Palladianism codified it."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The Restoration and Queen Anne double-pile house with hipped roof and central stair hall — the everyday form of the style and the direct ancestor of the Georgian box."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The great forecourt open to the approach, as at Blenheim."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "Post-Fire London brick terraces, rebuilt to the 1667 Act's four rates of building — the origin of the English urban house as a regulated product."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Where a giant order is used it must run a whole number of storeys and land on a continuous plinth or rusticated basement; it may not stop mid-storey or die into a string course.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Roofs are hipped and concealed behind a parapet or balustrade on principal elevations. A visible gable end on a Baroque front is forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Sash proportion 1.8:1 to 2.1:1 height to width, with glazing bars not thinner than 25 mm. Thin bars date the window to after 1780 and break the period.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Rustication, if used, must be continuous around all faces of the mass it belongs to, including returns; rustication applied to a front elevation only is the commonest modern failure of the style.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Main block ridge or parapet height must exceed flanking wings by at least 30 percent; the hierarchy is the composition.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Castle Howard",
+      "location": "North Yorkshire, England",
+      "year": 1712,
+      "note": "Begun 1699 by John Vanbrugh with Nicholas Hawksmoor for the third Earl of Carlisle; main block substantially complete by 1712, dome 1706. The first English house to be conceived as landscape-scale theatre."
+    },
+    {
+      "name": "Blenheim Palace",
+      "location": "Woodstock, Oxfordshire, England",
+      "year": 1722,
+      "note": "Built 1705-22 by Vanbrugh and Hawksmoor as the nation's gift to the Duke of Marlborough after Blenheim (1704). Giant Corinthian order, colossal rusticated gate towers, and a great court reached across Vanbrugh's bridge."
+    },
+    {
+      "name": "Seaton Delaval Hall",
+      "location": "Northumberland, England",
+      "year": 1728,
+      "note": "Built 1719-28, Vanbrugh's last house. Banded giant Doric columns, a compressed central block between long service wings, and the most physically overbearing domestic elevation in England."
+    },
+    {
+      "name": "Easton Neston",
+      "location": "Northamptonshire, England",
+      "year": 1702,
+      "note": "Hawksmoor's only complete country house, c.1695-1702. A single compact block in fine ashlar with a giant Composite order — the style at its most disciplined and least theatrical."
+    }
+  ],
+  "sources": [
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "Kerry Downes, English Baroque Architecture (1966)",
+    "Kerry Downes, Hawksmoor (1959)",
+    "Mark Girouard, Life in the English Country House (1978)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "giant-order",
+    "rustication",
+    "mass-and-shadow"
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "id": "six-panel-door-everywhere",
+  "name": "The Six-Panel Door On Everything",
+  "aka": [
+    "the colonial slab",
+    "one door for every style"
+  ],
+  "slots": [
+    "entry_door"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "The same six-panel door — two short over two tall over two short, in moulded steel or fibreglass with a shallow embossed grain — appears on a Greek Revival, an Italianate, a Craftsman, a Tudor Revival and a Spanish Colonial Revival house on the same street. On four of the five it is the wrong door by a century or a continent, and on the fifth it is the right pattern executed in the wrong material at the wrong depth.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "The insulated moulded door is the volume product, and its tooling amortises across millions of units, so the six-panel skin is by far the cheapest door face in the market. It also carries the whole thermal, security and fire rating of the entrance with no further thought, which is why it survives every value-engineering pass. The pattern was chosen once, in the 1970s, as the most recognisably 'traditional' face and has never had to be reconsidered.",
+    "cost_saved": "A moulded six-panel insulated unit runs 400 to 900 USD installed; a made-to-pattern wood door in the right idiom runs 2,500 to 8,000 USD. This is the single largest ratio in the openings group."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "greek-revival-american / entry_door",
+      "statement": "Greek vocabulary is exclusive. The Greek Revival door is two tall panels or four, not six, and the entrance is a rectangular opening with a rectangular transom inside a pilastered surround."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entry_door / panel_arrangement",
+      "statement": "Six panels: two short over two tall over two short, raised and fielded on the outer face. The pattern is correct here and is a Georgian and Colonial Revival pattern specifically."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a panelled door is a frame-and-panel assembly and its divisions record how it was made",
+      "statement": "Stiles, rails and muntins in a real door are sized to resist racking and to allow the panels to move. A moulded skin has the divisions of a door with the section of a sheet, so all its shadows are 1/8 in deep where the original's were 5/8 in."
+    }
+  ],
+  "correct_practice": "Match the panel arrangement to the style and the date, and match the panel relief to the material. Georgian and Colonial Revival: six raised and fielded panels, two short over two tall over two short, leaf 1 3/4 to 2 1/4 in thick. Federal: six panels flattened and more delicate, often with reeded muntins, or four with a fanlight above. Greek Revival: two tall panels or four, broad flat stiles, no fielding, rectangular transom and sidelights. Italianate: two or four tall panels, frequently arched at the top pair, often with glass in the upper pair. Craftsman: a single wide leaf with three or four vertical lights over one or two flat panels, a shelf and dentil under the lights, 1 3/4 in minimum. Tudor: vertical boards with strap hinges and a plank or arched head. Spanish Colonial Revival: heavy plank or carved leaf, deeply recessed. In every case the panel must be genuinely raised or genuinely recessed by not less than 3/8 in, because the panel's shadow is the whole reading.",
+  "fixes": {
+    "right": "A wood door made to the style's own panel arrangement, in the right thickness, with real fielding or real flat panels according to the family.",
+    "cheap": "Choose the flat-panel or plank version of the moulded product rather than the raised-panel one, and paint it a strong dark colour. Flat panels are correct for more styles than raised ones, the moulded product's shallow relief hurts a flat panel far less than a fielded one, and a dark colour makes the panel shadows read that would otherwise be lost. Zero added cost, and it moves the door from wrong to plausible on Greek Revival, Italianate, Craftsman and Modern Farmhouse alike.",
+    "dishonest": "An applied moulding kit glued onto a flush slab to make panels. The mouldings sit proud of the face rather than the panel sitting behind it, so every shadow falls on the wrong side of every line, which is immediately legible and worse than a plain slab."
+  },
+  "detection": "Count and measure the panels and compare with the style's date. Six panels in the 2-2-2 arrangement on anything other than Georgian, Colonial Revival, Federal or a Dutch Colonial Revival is the anachronism. Then check the relief: photograph the door in raking light and look at the shadow depth at the panel edge. Under about 1/4 in indicates a moulded skin. Third: look at the stile width beside the lock. A real door's lock stile is 4 1/2 to 6 in and reads as a substantial vertical; a moulded skin's is drawn thinner because the tooling wanted more panel.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "georgian-colonial-american",
+      "why": "The six-panel arrangement is the canonical Georgian door and is correct here in raised and fielded form.",
+      "bounds": "Raised and fielded on the outer face, 1 3/4 to 2 1/4 in thick, in wood, under a real surround. The pattern being right does not licence the moulded execution.",
+      "bounds_test": {
+        "expression": "door_panel_relief_depth_in",
+        "threshold": 0.375,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The pattern being right does not licence the moulded execution. Raised and fielded on the outer face, 1 3/4 to 2 1/4 in thick, in wood, under a real surround."
+      }
+    },
+    {
+      "style": "colonial-revival",
+      "why": "Same pattern, and the revival is the reason the pattern is everywhere.",
+      "bounds": "The revival's own entrance is larger and more elaborate than any colonial precedent, so the door comes with a surround that earns it. A six-panel slab in a bare opening is not Colonial Revival, it is the absence of a style.",
+      "bounds_test": {
+        "expression": "entrance_composition_width_in / door_leaf_width_in",
+        "threshold": 1.6,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The revival's entrance is deliberately larger and more elaborate than any colonial precedent, and that surround is what the exception is buying. A six-panel slab in a bare opening is not Colonial Revival, it is the absence of a style."
+      },
+      "applies_when": {
+        "date_range": [
+          1880,
+          1955
+        ]
+      }
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "why": "The type carries a classical entry with a pilastered surround and a colonial door, and the divided Dutch door is its own variant of the same panel logic.",
+      "bounds": "Where a Dutch door is used, the divide is at the lock rail and both halves are independently hung.",
+      "bounds_test": {
+        "expression": "door_panel_relief_depth_in",
+        "threshold": 0.375,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Where a Dutch door is used, the divide is at the lock rail and both halves are independently hung."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "every-door-the-same-door",
+      "difference": "That fault is about the same door being repeated at front, side, rear and garage of one house. This one is about the same door appearing across styles that never shared it."
+    },
+    {
+      "fault": "door-too-wide-for-its-surround",
+      "difference": "Pattern versus dimension."
+    },
+    {
+      "fault": "bottom-rail-no-deeper-than-the-top",
+      "difference": "That fault is about the rails within a leaf of any pattern — four equal rails and no visual footing. A correctly patterned Georgian six-panel door can still have equal rails, and a moulded skin usually does."
+    },
+    {
+      "fault": "router-scale-ornament",
+      "difference": "That fault is about carved ornament whose every internal corner shares a radius. It is the same tooling logic applied to a different element, and moulded doors and routed surrounds arrive on the same purchase order."
+    }
+  ],
+  "sources": [
+    "Asher Benjamin, The American Builder's Companion (1806), door plates",
+    "Measured entrance doors, HABS documentation 1700-1930",
+    "Contemporary moulded-door manufacturer literature"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry",
+    "door",
+    "panel",
+    "anachronism",
+    "catalog"
+  ],
+  "test": {
+    "expression": "door_panel_relief_depth_in",
+    "threshold": 0.375,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The panel must be genuinely raised or genuinely recessed by not less than 3/8 in, because the panel's shadow is the whole reading. Photograph in raking light and measure the shadow at a panel edge; under about 1/4 in indicates a moulded skin whose shadows are 1/8 in where the original's were 5/8 in."
+  },
+  "secondary_tests": [
+    {
+      "expression": "lock_stile_width_in",
+      "threshold": 4.5,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "A real door's lock stile is 4 1/2 to 6 in and reads as a substantial vertical. A moulded skin draws it thinner because the tooling wanted more panel area, and this is measurable from a frontal photograph using the leaf width as scale."
+    },
+    {
+      "expression": "door_leaf_thickness_in",
+      "threshold": 1.75,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "site-visit",
+      "note": "1 3/4 to 2 1/4 in. HONEST LIMIT: not measurable from a street photograph, and it is the dimension that decides whether the door sounds and moves like a door."
+    },
+    {
+      "expression": "distinct_door_panel_arrangements_in_use_across_the_style_set",
+      "threshold": 1,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The anachronism itself has no ratio: the correct panel arrangement is a lookup against style and date, not a threshold. Georgian and Colonial Revival take six in 2-2-2; Greek Revival two or four tall; Italianate two or four with the upper pair often arched or glazed; Craftsman three or four vertical lights over one or two flat panels; Tudor vertical boards with strap hinges; Spanish Colonial Revival a heavy plank or carved leaf. This entry exists to record that the schema cannot express the rule, not to test it."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The style's vocabulary is exclusive and its door is two or four tall panels with broad flat stiles; six panels in 2-2-2 is a different century."
+    },
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The glazed-and-shelved Craftsman door is one of the style's few unmistakable elements and a six-panel colonial slab erases it."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "fatal",
+      "why": "The board-and-strap or plank door under an arched head is the entrance the whole picturesque composition arrives at."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "The pattern is canonical here; only the moulded execution and the shallow relief remain at issue."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "Same pattern, and the revival is the reason the pattern is everywhere."
+    }
+  ],
+  "co_occurs_with": [
+    "every-door-the-same-door",
+    "bottom-rail-no-deeper-than-the-top",
+    "router-scale-ornament",
+    "entry-not-the-most-elaborated-element"
+  ]
+}

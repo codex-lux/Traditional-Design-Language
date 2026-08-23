@@ -1,0 +1,220 @@
+{
+  "id": "j-channel-corner",
+  "name": "The corner post instead of a corner board",
+  "aka": [
+    "the vinyl corner post",
+    "J-channel everywhere",
+    "the hollow corner"
+  ],
+  "slots": [
+    "corner_board",
+    "primary_cladding"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "The wall's corner is a hollow extruded post, typically 3 to 3 1/2 in on each face with a deep central groove, into whose two slots the siding courses are pushed. The same channel appears round every window and door as a U-shaped trough about 3/4 in deep with the siding cut into it and daylight visible in the gap. Nothing on the elevation stands proud of anything else.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Vinyl must be hung loose and cut short to move, so every termination needs a receiving channel that hides a 1/4 in expansion gap. The corner post and the J-channel are that channel. They are cheap, they need no back-caulking, and they let an unskilled crew produce a weathertight termination without a single accurate cut. The consequence is that trim ceases to be a member sitting ON the wall and becomes a socket sitting BEHIND it — the exact inversion of what trim is.",
+    "cost_saved": "A corner post is $1.80-$3.50 per lineal foot installed; a real corner board with a backband is $11-$22. Around openings, J-channel is $1.30/lf against $9-$18 for a built-up surround."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / corner_board",
+      "statement": "A corner board is TRIM, measured at 6-10 in on surviving frame work, and sized by the clapboard it terminates."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / corner_treatment.width, note",
+      "statement": "In frame work the corner board must be wider than the casing of the adjacent window and it must be run past it, not butted to it."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "trim stops the cladding; the cladding does not stop the trim",
+      "statement": "In every traditional frame assembly the corner board is fixed first and the siding is cut to it, so the board is proud and the siding butts. A receiving channel reverses the sequence and therefore the depth."
+    }
+  ],
+  "correct_practice": "The corner is stopped by a board, and the board is proud. A frame corner board is 6-10 in wide on the face, 3/4 to 1 1/8 in thick, fixed before the siding, with the siding butted to it and the joint backed rather than caulked. Traditionally the two boards are of unequal width — one runs past the other by its own thickness, so that the wider face is 3/4 in wider than the narrower, and the corner reads as a single member rather than as a mitre. Where an order is applied the corner becomes a pilaster at 10-16 in wide with a base and cap. The controlling rule is comparative: the corner board must be WIDER than the casing of the adjacent window, which the trim pack puts at one sixth of the opening — 6 in at a 3 ft window. A corner narrower than the window casing beside it is the fastest way to make a good front look thin.",
+  "fixes": {
+    "right": "Real corner boards, 6-10 in wide, with a backband if the trim family carries one, run past each other at the corner, siding butted and back-primed, in wood or a cellular PVC of at least 3/4 in.",
+    "cheap": "Where vinyl is fixed, sheathe the corners with 5/4 PVC boards OVER the vinyl's corner post — set out on the wall so they stand 1 1/8 in proud of the siding face, 8 in wide on one face and 8 3/4 in on the other. Around $14 per lineal foot of corner, roughly $600 on a house, and it converts the whole elevation's reading, because the corner is where the eye goes to find the wall's edge. Do the same at the openings with a wide flat casing laid over the J-channel.",
+    "dishonest": "Using a wide 'vinyl trim' corner post — the 4 1/2 or 5 in versions the manufacturers sell for exactly this complaint. It is wider but no more proud: the siding still lands INSIDE it, so the corner remains a recess. Width without projection does not fix a depth fault. Test it by looking for a shadow ON the corner post from the siding, which never appears, versus a shadow ON the siding from the board, which always should."
+  },
+  "detection": "Ask which element is in front. Zoom to any corner: if the siding courses run INTO a channel and the corner element's face is behind or level with the siding face, it is a post. If the siding butts against a board whose face is 3/4 to 1 1/8 in in front of it, casting a shadow onto the siding, it is a corner board. The same test at every window: a J-channel shows the siding's cut ends inside a trough and a dark 1/4 in gap along the trim; a real casing shows the siding's cut ends butted to a proud face. Third tell: measure the corner element's width. Under 4 in on both faces, and equal on both faces, is a stock post; 6-10 in and unequal by about 3/4 in is a board.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style deliberately runs shingles over the corner with NO corner board — the corner is woven or laced and the skin is continuous. An omission fault everywhere else is the defining gesture here.",
+      "bounds": "The licence covers OMISSION, not substitution: the corner must be woven (alternate courses lapping past each other, each course's corner shingle mitred or laced) so the corner is a fabric event with its own visible texture. A metal or vinyl corner cap, a mitred corner with a caulk joint, or a shingle panel product's factory corner are none of them this. The licence also extends only to shingle: a Shingle Style house's clapboarded ground storey, where one occurs, takes a corner board.",
+      "bounds_test": {
+        "expression": "woven_corner_courses / corner_courses",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "The licence covers OMISSION, not substitution. Every course must lap past its neighbour with the exposed corner shingle back-bevelled, so the corner alternates left-face and right-face up its whole height. A metal or vinyl corner cap, a mitre with a caulk joint, or a shingle panel product's factory corner all score zero on this and none of them is the exception."
+      },
+      "applies_when": {
+        "slots": [
+          "primary_cladding"
+        ],
+        "construction": [
+          "braced-timber-frame",
+          "balloon-frame",
+          "platform-frame"
+        ],
+        "note": "Holds only where primary_cladding at that corner is actually shingle. A Shingle Style house's clapboarded ground storey takes a corner board, and the licence does not reach it."
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "No corner board, no trim of any kind — the corner is a rounded mass.",
+      "bounds": "Requires the rounded render arris and the wall batter; absence of trim on a crisp stud-framed corner is not the exception.",
+      "bounds_test": {
+        "expression": "arris_radius_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "upper": 3.0,
+        "note": "Requires the rounded render arris and the wall batter. Absence of trim on a crisp stud-framed corner is not the exception."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "rammed-earth"
+        ]
+      }
+    },
+    {
+      "style": "log-vernacular-american",
+      "why": "The corner is the notched log ends, which are the structure and need no board.",
+      "bounds": "Requires real projecting log ends. Squared corner boxing over a log corner is a later and lesser treatment, and applied 'log ends' on a frame corner are a different fault entirely.",
+      "bounds_test": {
+        "expression": "log_end_projection_past_wall_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 4,
+        "note": "Real projecting notched log ends. Applied 'log ends' on a frame corner are a different fault entirely."
+      },
+      "applies_when": {
+        "construction": [
+          "log"
+        ]
+      }
+    },
+    {
+      "style": "appalachian-log-house",
+      "why": "As above — half-dovetail or V-notch corners are the expression.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "log_end_projection_past_wall_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 4,
+        "note": "Half-dovetail or V-notch corners are the expression, and in the flush-notched types the corner shows the joinery rather than a projection — in that case the test is the visible notch, not the overhang."
+      },
+      "applies_when": {
+        "construction": [
+          "log"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "corner-board-thinner-than-the-casing",
+      "difference": "That fault has a real board of the wrong width; this one has no board at all. The fixes differ: one is a resize, the other is a change of assembly."
+    },
+    {
+      "fault": "architrave-that-is-not-there",
+      "difference": "Same inversion of depth, at the opening rather than at the corner. J-channel is the openings version of this fault and the two are almost always found together."
+    }
+  ],
+  "sources": [
+    "NPS Preservation Brief 8: Aluminum and Vinyl Siding on Historic Buildings",
+    "proportions/systems/facade-classical.json, corner_treatment.width note",
+    "kits/georgian-colonial-american.kit.json, corner_board",
+    "styles/shingle-style.json, diagnostic_tells"
+  ],
+  "confidence": "high",
+  "tags": [
+    "cladding",
+    "corner",
+    "profile-depth",
+    "vinyl"
+  ],
+  "test": {
+    "expression": "corner_element_face_projection_past_siding_face_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 0.75,
+    "note": "The whole fault in one measurement: which element is in front. A corner BOARD is fixed first and the siding butts to it, so its face stands 3/4-1 1/8 in proud and casts a shadow onto the siding. A corner POST receives the siding into two slots, so its face is behind or level with the siding and the value is zero or negative. The same test applied at an opening separates a real casing from a J-channel."
+  },
+  "secondary_tests": [
+    {
+      "expression": "corner_element_face_width_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 6,
+      "upper": 10,
+      "note": "Stock vinyl posts run 3-3 1/2 in on each face and equal on both; a corner board is 6-10 in and the two faces differ by about 3/4 in because one runs past the other. Equal narrow faces are a post."
+    },
+    {
+      "expression": "visible_gap_between_siding_end_and_trim_face_in",
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.0625,
+      "note": "A J-channel shows the siding's cut ends inside a trough with a dark 1/4 in expansion gap along the trim. A butted board shows the cut ends tight to a proud face. The gap is a direct read of the assembly sequence."
+    }
+  ],
+  "alternative_to": [
+    "corner-board-thinner-than-the-casing"
+  ],
+  "co_occurs_with": [
+    "architrave-that-is-not-there",
+    "panel-seam-and-nailing-hem",
+    "clapboard-exposure-drift"
+  ],
+  "severity_by_style": [
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "No corner board is the correct answer; there is no member whose absence can be a fault."
+    },
+    {
+      "style": "pueblo-revival",
+      "severity": "not-applicable",
+      "why": "No corner board, no trim of any kind — the corner is a rounded mass."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The corner is a broad flat pilaster or anta carrying a base and a capital; replacing it with a receiving channel deletes an order element, not a trim item."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A corner board is the fault. The shingles wrap the corner woven or laced, with no board at all — the one style where the omission everywhere else diagnostic is the diagnostic FOR the style. A corner board makes it Queen Anne."
+    },
+    {
+      "style": "log-vernacular-american",
+      "statement": "A corner board is the fault. The corner is the notched log ends, which are the structure; boxing them in is a later and lesser treatment."
+    },
+    {
+      "style": "pueblo-revival",
+      "statement": "A corner board is the fault. The corner is a rounded rendered mass with a batter and no applied trim anywhere on the exterior."
+    }
+  ]
+}

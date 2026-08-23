@@ -1,0 +1,269 @@
+{
+  "id": "picturesque-parti-on-a-formal-style",
+  "name": "The Picturesque Georgian",
+  "aka": [
+    "the articulated colonial",
+    "bump-out Georgian"
+  ],
+  "slots": [
+    "composition_parti",
+    "roof_form",
+    "wing_strategy"
+  ],
+  "severity": "fatal",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "A Georgian house composed picturesquely is not a defective Georgian; it is a different species."
+    },
+    {
+      "style": "palladian",
+      "severity": "fatal",
+      "why": "The composition IS the building."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "A temple front cannot be assembled additively."
+    },
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "As above."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The revival is genuinely looser about massing than the original and always was - but not this loose."
+    },
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "As Georgian."
+    }
+  ],
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A house detailed as Georgian or Colonial Revival - pedimented door surround, 6/6 sash, shutters, a dentil cornice - and assembled as a picturesque composition: a projecting entry gable, a bumped-out breakfast nook, a two-storey mass beside a one-and-a-half-storey mass, roofs of unequal ridge height meeting on the main block, and no single dominant volume anywhere.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Plan efficiency and lot coverage drive the jogs, and design guidelines drive the rest: a great many municipal and HOA codes require 'articulation' or 'facade relief' in linear feet, and a bump-out is the cheapest way to deliver it. The elevation is then generated from the plan by extrusion, and nobody at any point draws the building as a set of masses. It is worth noticing that this fault is usually cost-NEGATIVE - every jog adds corner framing, flashing and a roof intersection - but it buys plan area, and area is what is priced.",
+    "cost_saved": "Usually none: $150-400 per jog in added framing and flashing. What it saves is plan efficiency and compliance with an articulation requirement.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / composition_parti / picturesque-asymmetrical = forbidden",
+      "statement": "A Georgian house composed picturesquely is not a Georgian house with a defect; it is a different species. The regularity is a claim about the owner's mind."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_form / picturesque-roof-intersection = forbidden",
+      "statement": "Two roofs of unequal ridge height meeting on the main block."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / composition_parti / pavilion_projection",
+      "statement": "12-36 in, the only permitted break in the front plane, and only on the centre bay."
+    }
+  ],
+  "correct_practice": "Some styles have a compositional law that outranks their ornament, and this is what the composition_parti slot exists to say. Georgian's law is strict bilateral symmetry about a central entrance; one simple roof solid about one ridge, unbroken across the full length of the main block; and every departure from the front plane limited to a centre pavilion breaking forward 12 to 36 inches on the centre bay only. Two roofs of unequal ridge height meeting on the main block is forbidden outright. This is not a preference about taste: no quality of trim recovers a picturesquely composed Georgian, because the regularity is the content. Conversely the styles that WANT picturesque composition have their own law, and it is not 'anything': the masses must be of clearly unequal weight with one dominant, and adjacent roof planes must differ decisively rather than approximately.",
+  "fixes": {
+    "right": "Collapse the composition back to one dominant mass with subordinate wings, and take the parti from the style rather than from the plan.",
+    "cheap": "Delete the bump-outs and take the area in depth. A 28 ft deep rectangle costs less per square foot than a 24 ft rectangle with three bump-outs, because jogs are where corners, flashing and roof intersections live. This fix pays for itself and improves the plan.",
+    "dishonest": "Keeping the picturesque massing and adding more Georgian trim to compensate. Every added pediment makes the disagreement between the parti and the vocabulary more conspicuous."
+  },
+  "test": {
+    "expression": "count_of_distinct_ridge_heights_on_the_main_block",
+    "threshold": 1,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "From an oblique photograph. One ridge height is correct for a formal style; two or more with none dominant is a picturesque parti wearing formal trim."
+  },
+  "secondary_tests": [
+    {
+      "expression": "largest_single_volume_visible_area / total_visible_massing_area",
+      "threshold": 0.6,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Does one volume contain more than about 60 per cent of the building? If not, the composition is additive whatever the trim says - and this test is what the picturesque styles pass and this failure mode does not."
+    },
+    {
+      "expression": "deepest_projection_from_the_front_plane_in",
+      "threshold": 36,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The only permitted break in a Georgian front plane is a centre pavilion of 12-36 in, and it must be on the centre bay."
+    },
+    {
+      "expression": "count_of_projections_from_the_front_plane",
+      "threshold": 1,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "One, and central. Three bump-outs is the signature of a plan extruded into an elevation."
+    }
+  ],
+  "detection": "From an oblique photograph, count the distinct ridge heights on the main block. One is correct for a formal style; two or more with none obviously dominant is a picturesque parti. Second check: does a single volume contain more than about 60 per cent of the building's visible mass? If not, the composition is additive whatever the trim says. Third: look at the front plane and measure the deepest projection - on a Georgian it should be on the centre bay and under 36 in.",
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "georgian-revival",
+    "colonial-revival",
+    "federal-style",
+    "greek-revival-american",
+    "palladian",
+    "english-palladian",
+    "neoclassical-revival",
+    "jeffersonian-classicism",
+    "adam-style",
+    "beaux-arts-american",
+    "italian-renaissance-revival"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "Irregular, freely composed massing unified entirely by the skin is the style's definition; the roof gathers the volume rather than the plan ordering it.",
+      "bounds": "The unification must be real: one continuous shingle field over every corner and storey line, and one roof plane not less than 40 per cent of the total roof area.",
+      "bounds_test": {
+        "expression": "largest_single_roof_plane_area / total_roof_area",
+        "threshold": 0.4,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The unification must be real: one continuous shingle field over every corner and storey line, and one roof plane not less than 40 per cent of the total."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "The multiplication of masses and gables is the point.",
+      "bounds": "The masses must still be hierarchically unequal, with a dominant gable or tower; equal masses read as accident here too.",
+      "bounds_test": {
+        "expression": "largest_single_volume_visible_area / second_largest_volume_visible_area",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The masses must be hierarchically unequal, with a dominant gable or tower. Equal masses read as accident here too."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Picturesque asymmetry is the declared symmetry class, with a principal cross-gable steeper than the main roof.",
+      "bounds": "The principal cross-gable must be steeper than the main roof, never shallower, and it must be the dominant event.",
+      "bounds_test": {
+        "expression": "principal_cross_gable_slope_angle_deg - main_roof_slope_angle_deg",
+        "threshold": 0,
+        "direction": "at-least",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "note": "The principal cross-gable must be steeper than the main roof, never shallower, and it must be the dominant event."
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Roof planes meeting at different heights with ridges deliberately not aligning is a diagnostic tell.",
+      "bounds": "Adjacent roof planes must differ in height by not less than 2 ft 0 in. Small differences read as error in this style too - the irregularity has to be decisive.",
+      "bounds_test": {
+        "expression": "min_height_difference_between_adjacent_roof_planes_in",
+        "threshold": 24,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Not less than 2 ft 0 in. Small differences read as error in this style too - the irregularity has to be decisive."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "Deliberate romantic irregularity is the whole idiom.",
+      "bounds": "It must be crafted irregularity - swept roofs, rolled eaves, modelled chimneys - not orthogonal bump-outs.",
+      "bounds_test": {
+        "expression": "count_of_orthogonal_bump_outs_from_the_main_plane",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "It must be crafted irregularity - swept roofs, rolled eaves, modelled chimneys - not orthogonal bump-outs."
+      }
+    },
+    {
+      "style": "french-normandy-revival",
+      "why": "A round tower, a steep-roofed entrance mass and asymmetric wings are canonical.",
+      "bounds": "One dominant mass, usually the tower or the entrance pavilion.",
+      "bounds_test": {
+        "expression": "largest_single_volume_visible_area / second_largest_volume_visible_area",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "One dominant mass, usually the tower or the entrance pavilion."
+      }
+    },
+    {
+      "style": "richardsonian-romanesque",
+      "why": "Asymmetrical massing under broad arches and heavy stone is definitional.",
+      "bounds": "The masses must be weighted and hierarchical.",
+      "bounds_test": {
+        "expression": "largest_single_volume_visible_area / second_largest_volume_visible_area",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The masses must be weighted and hierarchical."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A formal symmetrical parti is the fault. The volume must be irregular and freely composed, unified by the skin rather than by articulation."
+    },
+    {
+      "style": "tudor-revival",
+      "statement": "Symmetry is the fault, and a cross-gable shallower than the main roof is a second one - the principal cross-gable must always be the steeper."
+    },
+    {
+      "style": "queen-anne-american",
+      "statement": "A single simple mass is the fault."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "statement": "Aligned ridges are the fault; adjacent roof planes must differ in height by not less than 2 ft."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "co-equal-mass",
+      "difference": "That fault is a specific relation between two masses. This one is the absence of any compositional law at all in a style that has a strict one."
+    },
+    {
+      "fault": "one-bay-symmetry-break",
+      "difference": "That is a flat-elevation fault. This is a massing fault, and a house can be perfectly symmetrical in elevation while being additive in three dimensions."
+    }
+  ],
+  "co_occurs_with": [
+    "co-equal-mass",
+    "one-bay-symmetry-break",
+    "wing-pitch-drift"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json composition_parti, roof_form, wing_strategy",
+    "elements/slots.json note on composition_parti (added 0.2.0 to make this prohibition sayable)",
+    "project style nodes: shingle-style, tudor-revival, spanish-colonial-revival"
+  ],
+  "confidence": "high",
+  "tags": [
+    "parti",
+    "massing",
+    "composition",
+    "fatal",
+    "endemic"
+  ]
+}

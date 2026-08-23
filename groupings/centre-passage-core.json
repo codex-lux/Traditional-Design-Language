@@ -1,0 +1,134 @@
+{
+  "id": "centre-passage-core",
+  "name": "Centre Passage Core",
+  "aka": [
+    "central hall core",
+    "through-passage core"
+  ],
+  "scale": "core",
+  "confidence": "high",
+  "description": "A through-passage from front door to back, with the stair in it and rooms to either side. It is a circulation device, a climate device and a social device at once: it lets a visitor be received without entering a room, it draws air through the house on a summer afternoon, and it makes the facade symmetrical because the door is now genuinely in the middle.",
+  "rooms": [
+    {
+      "room": "centre-passage",
+      "role": "connector",
+      "count": "1"
+    },
+    {
+      "room": "stair-hall",
+      "role": "connector",
+      "count": "0-1",
+      "note": "Where the stair is separated from the passage rather than standing in it."
+    },
+    {
+      "room": "parlor",
+      "role": "primary",
+      "count": "1-2"
+    },
+    {
+      "room": "dining-room",
+      "role": "primary",
+      "count": "0-1"
+    },
+    {
+      "room": "hall",
+      "role": "optional",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "Both ends of the passage have doors, and they are aligned. A passage closed at the back is a corridor and loses the reason the type exists.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Passage width 8 to 14 ft, and roughly one fifth to one quarter of the facade. Below 8 ft the stair cannot turn and the passage stops being a room.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "passage_width_ft / facade_width_ft between 0.18 and 0.27"
+    },
+    {
+      "statement": "Flanking rooms are equal or near-equal, and their windows align vertically with those above. The passage buys the symmetry and the symmetry has to be honoured.",
+      "kind": "hierarchy",
+      "severity": "strong"
+    },
+    {
+      "statement": "The stair rises in the passage or in a hall opening off it, never through a room.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Where the plan is single-pile, the passage cross-ventilates the whole house. Filling in behind to make it double-pile buys area and loses the draft, and that trade should be made deliberately.",
+      "kind": "daylight",
+      "severity": "preferred"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "center-passage-single-pile",
+      "fit": "canonical",
+      "position": "the whole footprint"
+    },
+    {
+      "massing": "four-over-four",
+      "fit": "canonical",
+      "position": "central bay, both floors"
+    },
+    {
+      "massing": "i-house",
+      "fit": "canonical"
+    },
+    {
+      "massing": "five-part-palladian",
+      "fit": "canonical",
+      "position": "main block"
+    },
+    {
+      "massing": "charleston-single",
+      "fit": "forbidden",
+      "note": "The single house is entered sideways off a piazza and has no through-passage; that is precisely its distinction."
+    },
+    {
+      "massing": "creole-cottage",
+      "fit": "forbidden",
+      "note": "Hall-less by design — the gallery is the circulation."
+    }
+  ],
+  "expansion_logic": "Rear ell off one flanking room for service; or flanking dependencies joined by hyphens, which turns it into the five-part composition. Growth must respect the axis or the whole logic fails.",
+  "privacy_span": [
+    1,
+    3
+  ],
+  "typical_area_sf": [
+    900,
+    2400
+  ],
+  "servicing_strategy": "Paired gable-end stacks serving the flanking rooms; the passage itself is unheated and is the better for it.",
+  "circulation_parti": [
+    "center-hall",
+    "double-pile-stair-hall"
+  ],
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "note": "The canonical case, and the reason Georgian facades are symmetrical."
+    },
+    {
+      "style": "federal-style",
+      "note": "Passage often widens into an oval or apsidal stair hall at the rear, which is where Adamesque planning shows off."
+    },
+    {
+      "style": "greek-revival-american",
+      "note": "Frequently becomes a side-hall plan when the gable turns to the street, which trades the cross-draft for a narrower lot."
+    }
+  ],
+  "faults": [
+    "passage-too-narrow-to-receive"
+  ],
+  "sources": [
+    "Glassie, Folk Housing in Middle Virginia",
+    "Waterman, The Dwellings of Colonial America",
+    "Upton, Architecture in the United States"
+  ]
+}

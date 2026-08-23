@@ -1,0 +1,110 @@
+{
+  "id": "sleeping-porch-cluster",
+  "name": "Sleeping Porch Cluster",
+  "scale": "cluster",
+  "confidence": "medium",
+  "description": "A screened or open porch used for sleeping, attached to a bedroom and treated as part of it. A public-health idea before it was an architectural one — fresh air was the tuberculosis treatment — and it is the best cheap bedroom in a hot climate.",
+  "rooms": [
+    {
+      "room": "sleeping-porch",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "bedroom",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "bathroom",
+      "role": "secondary",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "Entered from the bedroom it serves, not from a corridor. A sleeping porch off a hall is a porch.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Depth not less than 8 ft — a bed is 6 ft 3 in and needs a passage beside it.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "porch_depth_ft at-least 8"
+    },
+    {
+      "statement": "Oriented to the prevailing summer breeze and away from the afternoon sun; east and north-east are the useful aspects.",
+      "kind": "daylight",
+      "severity": "strong"
+    },
+    {
+      "statement": "Roofed by the main roof or a continuous extension of it, never by a separate applied canopy.",
+      "kind": "adjacency",
+      "severity": "strong"
+    },
+    {
+      "statement": "Where it is enclosed later — and it nearly always is — the enclosure must keep the opening proportion, or the elevation acquires a band of squat windows where a void used to be.",
+      "kind": "sequence",
+      "severity": "preferred"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "airplane-bungalow",
+      "fit": "canonical",
+      "position": "the pop-up room itself, which is a sleeping porch lifted into the breeze"
+    },
+    {
+      "massing": "bungalow-linear",
+      "fit": "canonical",
+      "position": "rear, off the back bedroom"
+    },
+    {
+      "massing": "foursquare",
+      "fit": "common",
+      "position": "over the front porch or at a rear corner"
+    },
+    {
+      "massing": "charleston-single",
+      "fit": "common",
+      "position": "the upper piazza, which serves the same purpose without being named for it"
+    },
+    {
+      "massing": "gallery-house",
+      "fit": "common"
+    }
+  ],
+  "expansion_logic": "Enclose it and it becomes a room, which is what happened to nearly all of them after air conditioning. Doing that well means keeping the opening rhythm.",
+  "privacy_span": [
+    4,
+    5
+  ],
+  "typical_area_sf": [
+    80,
+    200
+  ],
+  "servicing_strategy": "No heat, no plumbing, and screens rather than glass. Adding conditioning converts it into a room and it should then be detailed as one.",
+  "circulation_parti": [
+    "open-plan",
+    "side-hall"
+  ],
+  "style_variation": [
+    {
+      "style": "craftsman",
+      "note": "Canonical, and part of the style's health argument as much as its plan."
+    },
+    {
+      "style": "colonial-revival",
+      "note": "Common on the 1910-1930 examples and almost always enclosed since."
+    },
+    {
+      "style": "charleston-single-house",
+      "note": "The upper piazza does the job and always did, two centuries before the idea was medicalised."
+    }
+  ],
+  "sources": [
+    "Lancaster, The American Bungalow",
+    "Winter, The California Bungalow"
+  ]
+}

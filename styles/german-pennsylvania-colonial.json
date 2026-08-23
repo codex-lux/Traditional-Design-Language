@@ -1,0 +1,212 @@
+{
+  "id": "german-pennsylvania-colonial",
+  "name": "German Pennsylvania Colonial",
+  "aka": [
+    "Pennsylvania German Traditional",
+    "Pennsylvania Dutch",
+    "Continental Colonial"
+  ],
+  "rank": "style",
+  "member_of": "american-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1683,
+    "floruit_start": 1720,
+    "floruit_end": 1830,
+    "decline_end": 1870,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1920,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "Revived mainly as the 'Pennsylvania farmhouse' — fieldstone, pent eave, six-over-six sash — within the broader Colonial Revival rather than as a distinct named revival."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "southeastern Pennsylvania",
+      "Maryland piedmont",
+      "Shenandoah Valley, Virginia",
+      "western North Carolina backcountry",
+      "Ontario (Waterloo County)"
+    ],
+    "hearth": "the limestone country of Lancaster, Berks, Lebanon and Montgomery counties, Pennsylvania, settled from the Rhenish Palatinate and Switzerland after 1710",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "german-fachwerk",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The framing tradition arrives intact and is built in Pennsylvania for a generation — the Golden Plough Tavern at York is half-timbered exactly as a Palatine house would be — before stone and log displace it."
+    },
+    {
+      "target": "north-german-hall-house",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Secondary: the habit of housing family, stock and crop under one steep roof survives in the Pennsylvania forebay bank barn more than in the dwelling."
+    },
+    {
+      "target": "scandinavian-log-vernacular",
+      "type": "hybridizes_with",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "Horizontal log construction reached the Delaware from New Sweden; the Germans adopted it, added V- and dovetail-notching and their own three-room plan, and made it the substrate of backcountry American building all the way to the Ozarks."
+    },
+    {
+      "target": "english-georgian",
+      "type": "descends_from",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "After about 1770 the Continental plan is progressively regularized behind a symmetrical five-bay Anglo front — the same house, wearing a different face."
+    }
+  ],
+  "description": {
+    "short": "The Continental stone and log house of the Palatine and Swiss migration: a three-room asymmetric plan around a central chimney serving a closed iron stove, built into a hillside wherever the ground allowed.",
+    "long": "Pennsylvania German building is the one colonial tradition organized around a heating technology rather than around a fireplace. The Palatine settler brought the five-plate jamb stove — a cast-iron box open only to the back, fed through a hole in the masonry from the kitchen hearth on the other side of the wall. This single device restructures the plan. The kitchen, the Küche, becomes a large room containing the only open fire; the stove-room, the Stube, sits on the other side of the chimney wall and is heated without smoke, soot, draught, or the need for anyone to tend it from within; and the Kammer, the sleeping chamber, tucks in behind the Stube. Three rooms, not two; asymmetric, not paired; and the chimney is central not because of thermal mass — the English reason — but because it is a service wall between a wet room and a dry one. The Anglo world took two hundred years to arrive at the same idea and called it a mechanical core.\n\nThe second organizing idea is the ground. Where the English built on a level platform and dug a cellar, the German builder set the house across a slope so that the lower storey opens at grade on the downhill side and is buried on the uphill side. This yields a cool, frost-free service level — often built directly over a spring, its water running out through an arched opening — reached from outside without stairs, and a dry principal floor entered from the upper grade. Two front doors on two different levels is the result, and it is the most reliable single tell of the tradition. Nothing about it is picturesque; it is a refrigerator, a root cellar and a dairy obtained for the cost of moving earth.\n\nThe walls are squared limestone or sandstone laid in lime mortar, eighteen to thirty inches thick, with dressed quoins and unusually large corner stones, or else horizontal log with V-notched or full-dovetail corners and mud-and-straw chinking. The roof is steep, forty-five to fifty degrees, framed with a liegender Stuhl — a leaning-post truss that stands clear of the attic floor and leaves the loft usable for grain. Windows are small, irregularly placed, and set where the room wanted them rather than where the elevation did; glass was expensive and the frontier was not safe. A pent roof, a shallow shed thirty to forty inches deep running across the facade at the second-floor line, keeps water off the wall and off anyone standing at the door.\n\nStanding inside, the surprise is the silence and the dryness. A stone house with two-foot walls and small openings has a stillness that a timber house does not; the Stube in winter, warmed by a stove and lit by two small deep-set windows, is one of the most comfortable rooms colonial America produced, and it does this without a fire in sight. The tradition was negotiating against nothing more exotic than English fashion and English land law, and it lost the elevation while keeping the section — which is the pattern of nearly every immigrant building culture in America."
+  },
+  "defining_characteristics": [
+    "Asymmetric three-room Flurküchenhaus plan — Küche, Stube, Kammer — arranged around a central chimney mass, with no through passage",
+    "Central chimney serving an open cooking hearth in the kitchen and a closed five-plate jamb stove fed through the wall into the stove-room",
+    "Load-bearing squared stone (or V-notched horizontal log) walls 18–30 in thick, with oversized dressed quoins",
+    "Steep gable roof, 45–50 degrees, framed with a liegender Stuhl leaning-post truss over a usable loft",
+    "Small, irregularly spaced openings placed by interior need rather than by facade composition, with deep reveals",
+    "Vaulted or barrel-arched masonry cellar, frequently over a spring",
+    "Pent roof — a shallow shed 30–42 in deep at the second-floor line — across the facade or the gable end on eighteenth-century work"
+  ],
+  "diagnostic_tells": [
+    "A pent roof band across the facade at the second-floor line, with no posts under it",
+    "Windows that do not line up floor to floor, in a house otherwise carefully built — the plan is winning the argument with the elevation",
+    "Very large squared quoin stones against smaller coursed wall stone",
+    "A door at the gable end entering the kitchen, plus a second door on the facade — two entrances of unequal status",
+    "Interior: a flat chimney wall in the stove-room with a small square iron-lined aperture, the ghost of a jamb stove"
+  ],
+  "distinguished_from": [
+    {
+      "node": "mid-atlantic-georgian",
+      "difference": "Both are masonry, five-bay, steep-roofed and Pennsylvanian, and after 1780 they converge. The test is the plan and the openings: Georgian gives you a centre passage, a symmetrical rear elevation, aligned windows floor to floor, and a classical door surround. The German house gives you an asymmetric three-room plan, unaligned windows and a plain door with a hood."
+    },
+    {
+      "node": "dutch-colonial-american",
+      "difference": "Both build thick stone with steep roofs. The Dutch house has gable-end hearths, an open jambless fire, exposed anchor beams and a low plate; the German house has a central chimney with a closed stove, a liegender Stuhl truss and a banked lower storey."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "The twentieth-century 'Pennsylvania farmhouse' takes the fieldstone, the pent eave and the six-over-six sash and applies them to a symmetrical centre-hall plan with aligned windows, a fireplace in every room, thin veneer stone and an attached garage. Wall thickness at the window reveal settles it: two feet of real masonry, or four inches of veneer."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The three-room plan module: a kitchen bay of 16–20 ft and a stove-room/chamber bay of the same total width, divided roughly 2:1, with the chimney on the dividing wall.",
+    "typical_ratios": [
+      "Overall 28–38 ft × 22–30 ft, i.e. close to 4:3",
+      "Küche occupies 45–55% of the plan; Stube and Kammer share the remainder, Stube the larger",
+      "Wall thickness 18–30 in at the ground storey, reducing 2–4 in at the upper floor",
+      "Ceiling 7 ft 0 in – 8 ft 6 in; loft usable to the collar of the liegender Stuhl",
+      "Window opening ratio near 1:1.6, and total glazed area under 8% of wall area on early work"
+    ],
+    "bay_rhythm": "Irregular on early work; a nominal three- or five-bay front emerges after 1770 but the door is often still off-centre because the chimney wall is.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "The nearest catalogued skeleton to the Flurküchenhaus, with the caveat that the German plan divides unequally and adds a third room."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The regularized post-1780 Pennsylvania farmhouse, sometimes with the distinctive paired central doors."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The log Einraumhaus of first settlement."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "possible",
+      "note": "Anglicized late work."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "Growth by attaching kitchen and summer-kitchen wings along the contour."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "The chimney mass sits on the partition between kitchen and stove-room, serving an open hearth on one side and a closed stove aperture on the other. Moving it to the gable ends dissolves the plan type."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 10:12 to 12:12 (40–50 degrees). Pennsylvania German work does not go below 9:12; a 6:12 roof on fieldstone is a twentieth-century invention."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Pent roof, where used, projects 30–42 in at the second-floor line at a pitch of 25–35 degrees, is unsupported by posts, and returns 12–24 in around the corner. It is a pre-1780 feature; on later work it reads as revival."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Load-bearing wall 18–30 in of squared stone, with quoins 1.5 to 2.5 times the height of the field coursing. Window and door reveals must show the full wall depth; a flush jamb reveals a veneer."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Openings by period: small casements with iron hardware to c. 1760; nine-over-six sash c. 1760–1800; six-over-six after. Glazed area under 8% of wall area before 1770, under 12% after."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hans Herr House (1719 Museum)",
+      "location": "West Lampeter Township, Lancaster County, Pennsylvania",
+      "year": 1719,
+      "note": "The oldest building in Lancaster County and the canonical American Flurküchenhaus: squared sandstone with oversized quoins, three-room plan, central chimney, high steep roof, small casement openings."
+    },
+    {
+      "name": "Golden Plough Tavern",
+      "location": "York, Pennsylvania",
+      "year": 1741,
+      "note": "Half-timbered Fachwerk with brick nogging, built as a Palatine builder would have built at home — the framing tradition before stone displaced it."
+    },
+    {
+      "name": "Schifferstadt",
+      "location": "Frederick, Maryland",
+      "year": 1758,
+      "note": "Built by Elias Bruner of the Palatinate. Retains the central wishbone chimney, liegender Stuhl truss, vaulted cellar, five-plate jamb stove and stone kitchen sink — the most legible surviving section of the type."
+    },
+    {
+      "name": "Heinrich Zeller House (Fort Zeller)",
+      "location": "Millcreek Township, Lebanon County, Pennsylvania",
+      "year": 1745,
+      "note": "Limestone house banked over an everflowing spring that discharges through an arched cellar opening; narrow irregular windows."
+    }
+  ],
+  "sources": [
+    "Sally McMurry and Nancy Van Dolsen, eds., Architecture and Landscape of the Pennsylvania Germans, 1720–1920 (2011)",
+    "Robert C. Bucher, 'The Continental Log House', Pennsylvania Folklife (1962)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)",
+    "Bernard L. Herman and Gabrielle Lanier, Everyday Architecture of the Mid-Atlantic (1997)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stone",
+    "flurkuchenhaus",
+    "jamb-stove",
+    "bank-sited",
+    "continental"
+  ]
+}

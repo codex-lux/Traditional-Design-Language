@@ -1,0 +1,240 @@
+{
+  "id": "cold-room",
+  "name": "Cold Room",
+  "aka": [
+    "root cellar",
+    "cold cellar",
+    "root house",
+    "vegetable store",
+    "cold pantry",
+    "fruit cellar"
+  ],
+  "function_class": "storage",
+  "description": "An unheated, high-humidity store below or partly below grade for roots, apples, cabbages and anything else that keeps through a winter in the dark at just above freezing. It is a different room from the larder and the difference is numerical: a larder runs at 45 to 55 degrees F and moderate humidity; a cold room runs at 32 to 40 degrees F and 90 to 95 per cent relative humidity, which is a condition no other room in a house can tolerate and no refrigerator provides. The single most common error in building one now is insulating it from the ground, which is where the cold comes from.",
+  "history": {
+    "appears": 1600,
+    "declines": 1950,
+    "replaced_by": "the refrigerator and year-round distribution; surviving in Canada and the northern US as a code-familiar type",
+    "note": "Every northern farmstead had one, because the alternative to storing three hundred pounds of potatoes was not eating them. Its decline follows refrigeration and, more decisively, YEAR-ROUND DISTRIBUTION: the point of a root cellar is not preservation but SEASON-SHIFTING, and once a supermarket sells carrots in March the room has no argument. It survives in Canadian practice as a standard feature - the cold room under the front porch or entry slab, vented to the outside, which is exactly the right place for it because that slab is already outside the thermal envelope and unheated. The physics have not changed: apples respire and give off ethylene, so they are stored apart from potatoes, which sprout in response to it, and both want the humidity that would rot anything else - which is why a root cellar is a genuinely separate room and not a corner of the basement."
+  },
+  "dimensions": {
+    "area_sf": [
+      30,
+      90
+    ],
+    "width_ft": [
+      5,
+      8
+    ],
+    "length_ft": [
+      6,
+      12
+    ],
+    "proportion": [
+      1.1,
+      2.0
+    ],
+    "ceiling_min_ft": 6.67,
+    "critical_dimension": "THE BUILD-UP, INVERTED. A cold room is insulated on the walls and ceiling it shares with the HOUSE and uninsulated on the surfaces it shares with the GROUND and the outside air. That is the reverse of every other room and it is the whole design. The dimensional consequences: the room sits against or below grade on the north or east; its ceiling - which is the floor of a heated room above - carries R-20 or better plus an air seal; its door to the house is an insulated, weatherstripped, exterior-grade door; and it has a low intake vent and a high exhaust vent to the OUTSIDE, not to the house. Shelving is 12 to 16 in deep on the walls with a 30 in aisle, giving a 5 ft to 6 ft wide room, and the floor is gravel, brick on sand, or bare earth, because the room needs to draw moisture UP - a sealed concrete slab with a vapour barrier under it produces a cold DRY room, which stores nothing well."
+  },
+  "furniture": [
+    {
+      "item": "slatted shelving",
+      "footprint_in": [
+        60,
+        16
+      ],
+      "clearance_in": 0,
+      "note": "Slatted, not solid, and timber rather than metal - air must move around every crate. 16 in deep and spaced 14 to 16 in apart to take a bushel crate."
+    },
+    {
+      "item": "bushel crates and bins",
+      "footprint_in": [
+        20,
+        16
+      ],
+      "clearance_in": 0,
+      "note": "A bushel crate is about 20 by 16 by 12 and holds 50 lb of potatoes. Six crates is a winter's roots for a household of four and occupies about 12 sq ft of floor plus its shelving."
+    },
+    {
+      "item": "low intake vent",
+      "footprint_in": [
+        6,
+        6
+      ],
+      "clearance_in": 0,
+      "note": "A 4 to 6 in duct from outside terminating within 12 in of the floor, screened. Cold air falls in."
+    },
+    {
+      "item": "high exhaust vent",
+      "footprint_in": [
+        6,
+        6
+      ],
+      "clearance_in": 0,
+      "note": "Terminating at the ceiling and rising to outside. Warm moist air leaves. The two together are a passive thermosiphon and they are the entire mechanical system; both need dampers so the room can be shut down in a hard freeze."
+    },
+    {
+      "item": "thermometer and hygrometer",
+      "footprint_in": [
+        4,
+        2
+      ],
+      "clearance_in": 0,
+      "note": "Not a whimsy. A cold room is operated, not just built: the vents are opened and closed through the season, and without a thermometer the household will freeze the potatoes in January."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 0,
+    "sides_lit": 0,
+    "orientation": "North or below grade, and always outside the conditioned envelope. Under a porch slab, under an entry landing, or in the north-east corner of a basement with an exterior wall.",
+    "note": "NO DAYLIGHT AT ALL, and this is functional rather than incidental: light greens potatoes (solanine) and sprouts onions. Any window is blacked out or, better, absent, and the fixture is switched from outside and used briefly."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "cellar",
+        "why": "It is a compartment of the cellar or of the below-grade level, with its own door and its own envelope. A cold room reached only from outside is a root house, which is a different building.",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "The detached root house or root cellar dug into a bank, which is the older and in many ways better arrangement and belongs with the outbuildings."
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "larder",
+        "why": "Where both exist they share the cool zone and the north wall, but NOT the volume: 35 degrees and 90 per cent RH will spoil cheese and butter, and 50 degrees will sprout potatoes. Two rooms, one wall.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      },
+      {
+        "room": "kitchen-garden",
+        "why": "The produce comes in from the garden in October by the barrow-load, and a cold room reached only through the kitchen means that barrow-load goes through the kitchen. An exterior or bulkhead access is worth having.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "plant-room",
+        "why": "Absolutely not. A boiler, a water heater or an air handler on the other side of any wall of a cold room raises it above 40 degrees and the room stops working. In a modern basement these two rooms are the two things that end up in the leftover space, and they must not end up in the same leftover space.",
+        "relation": "shared-wall",
+        "strength": "hard"
+      },
+      {
+        "room": "laundry",
+        "why": "A dryer and a warm damp room next to a cold damp one. The cold room will condense on its cold surfaces.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "cellar",
+      "bulkhead",
+      "areaway",
+      "yard",
+      "service-corridor"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The low-intake / high-exhaust pair described above, both to OUTSIDE, both dampered. This is the room and everything else is shelving.",
+    "heat": "None, and actively excluded: no heating pipe, no duct, no flue, and the ceiling above insulated and air-sealed as a floor over unconditioned space - because that is what it is.",
+    "electrical": "One damp-rated fixture switched from outside. Nothing else: no freezer, no wine cooler, no second refrigerator, all of which are heat sources.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "pennsylvania-bank-house",
+      "name_in_style": "the cellar kitchen and cold store",
+      "present": true,
+      "trim_grade": "none",
+      "note": "The type is the argument. A bank house's bermed lower floor sits at 50 to 55 degrees year round with no machinery whatever, and the Pennsylvania German house used it for the kitchen, the dairy and the store because it is the best-performing room in the building. This is passive design that predates the word by two centuries."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "name_in_style": "root cellar",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Under the kitchen or dug into the bank beside the house, with a bulkhead entry. Almost universal in the northern farm belt into the 1940s."
+    },
+    {
+      "style": "appalachian-log-house",
+      "name_in_style": "root house",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Detached, dug into a slope, roofed with earth. The simplest and one of the most effective."
+    },
+    {
+      "style": "new-england-colonial",
+      "name_in_style": "cellar",
+      "present": true,
+      "trim_grade": "none",
+      "note": "The whole cellar served, with the coldest north-east corner used for roots and the warmer corner near the chimney base for anything that must not freeze - the cellar was a graded thermal environment and was used as one."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "Slab or shallow crawl, no cellar, refrigerator in the kitchen."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "cold room",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Standard in Canadian practice under the entry slab and worth importing. It is the cheapest room in a house - it is a compartment of a foundation you are already pouring - and it is the only way to store a garden's output."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "A cold room is unconditioned space within the building footprint: its boundary with conditioned space must be insulated and air-sealed as an envelope surface.",
+      "ref": "IECC R402.2, R402.4",
+      "conflict": "Same conflict as the larder and it bites harder here, because the cold room is usually inside the foundation and the energy model treats the whole basement as conditioned. Declare it unconditioned, insulate its ceiling and its interior walls, and leave the exterior wall and the floor bare."
+    },
+    {
+      "requirement": "Ventilation openings through the foundation must be rodent-screened; where the room is under a porch or entry slab, drainage and damp-proofing of that slab must be resolved.",
+      "ref": "IRC R408, R406",
+      "conflict": "A cold room under a porch slab is a good idea that becomes a water problem if the slab is not drained away from it. Detail the slab as a roof."
+    },
+    {
+      "requirement": "Where a fuel-burning appliance shares the basement, combustion air and CO alarm requirements apply and the cold room's vents can affect the pressure regime.",
+      "ref": "IRC G2407, R315"
+    }
+  ],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "saltbox",
+    "i-house",
+    "four-over-four",
+    "cape-cod-massing",
+    "telescope-house",
+    "hall-and-parlor",
+    "garrison-block",
+    "gambrel-block",
+    "raised-cottage"
+  ],
+  "slots": [
+    "storage_strategy",
+    "service_zone_strategy",
+    "grade_relationship",
+    "foundation_expression",
+    "services_strategy",
+    "room_adjacency_overrides"
+  ],
+  "faults": [
+    "plant-room-that-was-never-drawn",
+    "walkout-basement-on-a-principal-elevation",
+    "exposed-concrete-skirt"
+  ],
+  "sources": [
+    "Mike and Nancy Bubel, Root Cellaring (2nd ed., 1991), for storage temperatures, humidities and ethylene separation",
+    "Canadian building practice: the cold room under the entry slab, National Building Code of Canada usage",
+    "IECC R402; IRC R406, R408",
+    "Robert Ensminger, The Pennsylvania Barn (1992), and the bank-house literature for bermed thermal performance"
+  ],
+  "confidence": "high"
+}

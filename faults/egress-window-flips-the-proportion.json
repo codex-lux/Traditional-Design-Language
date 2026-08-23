@@ -1,0 +1,194 @@
+{
+  "id": "egress-window-flips-the-proportion",
+  "name": "The Egress Window That Grew Sideways",
+  "aka": [
+    "the 5.7 square feet",
+    "the bedroom window that got wider"
+  ],
+  "slots": [
+    "window_proportion",
+    "window_type",
+    "window_sill"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "One or two windows on an elevation are noticeably wider and squatter than the rest, and they are always in bedrooms or above a basement. Their heads are on the datum and their sills are low, or their heads are low and their sills are lower, and the elevation's rhythm breaks at exactly the openings that serve sleeping rooms.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R310 requires every sleeping room to have an emergency escape opening with a net clear opening of 5.7 sq ft (5.0 sq ft at grade-floor level), a minimum clear height of 24 in, a minimum clear width of 20 in, and a sill not more than 44 in above the floor. In a double-hung window the net clear opening is only the lower sash's travel, so a unit needs roughly twice the nominal glass area to comply, and the cheapest way to reach 5.7 sq ft under a fixed head datum is to make the window wider. The specifier reaches for width because height is constrained above by the datum and below by the 44 in sill limit and by IRC R312.2, which requires an opening control device where the sill is under 24 in and the drop outside exceeds 72 in.",
+    "cost_saved": "Nothing directly; a wider unit costs more. What it saves is a redesign of the wall or a change of window type, and it removes the risk of a plan-check comment, which in production building is worth more than the money."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_proportion.ratio",
+      "statement": "13/6, that is 2.1667:1. The code sets an area and a pair of minima; it does not set a shape, and the shape is what gets sacrificed."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R310.2.1 and R312.2",
+      "statement": "Net clear opening 5.7 sq ft, minimum clear height 24 in, minimum clear width 20 in, sill not more than 44 in above the floor; opening control devices where the sill is under 24 in and the exterior drop exceeds 72 in."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_head.count",
+      "statement": "One head datum per storey, which is the constraint that forces the growth downward and sideways rather than upward."
+    }
+  ],
+  "correct_practice": "Solve the area with height, not with width, by changing the window type. A casement is the key move: because the whole leaf swings clear, a casement's net clear opening is close to its glass area, so a 24 in wide by 48 in high casement gives about 5.9 sq ft net and satisfies R310 in a tall narrow opening that a double-hung of the same shape could never manage. Where a double-hung is required by the style, the arithmetic is: net clear opening equals the width less the frame, times the lower sash's clear height, so the unit must be about 36 in wide by 60 in of glass at minimum, which at a 30 in sill puts the head at 90 in and asks the storey to be tall enough. Hold the 30 in sill wherever possible, since it is set by the body and by furniture; the code's 44 in maximum is a ceiling, not a target, and dropping the sill below 24 in triggers R312.2. Where the storey genuinely cannot carry a compliant tall window, use a casement, or put two narrow windows in the room and let one of them be the escape opening.",
+  "fixes": {
+    "right": "Casement or awning-out sash at the egress opening, in a tall narrow proportion, matched in sightlines and grid to the double-hung sash elsewhere so the elevation reads consistently.",
+    "cheap": "Keep the double-hung and take the height from the sill rather than the width, dropping the sill from 30 in to 24 in — the last height available before R312.2 engages — which adds 6 in of clear opening at no material cost and lets the window stay narrow. On a 32 in wide unit that is the difference between compliant and not. Fit an opening control device, roughly 30 USD, if the sill has to go lower still.",
+    "dishonest": "Widening the window and then dividing it with a grid so it looks like two narrow windows. The opening's outline is what the elevation reads, and a wide squat rectangle with lines in it is still a wide squat rectangle. Worse, it fails at the pier as well, since the wide unit has eaten the wall between bays."
+  },
+  "detection": "Find the widest windows on the elevation and check what rooms they serve. If the outliers are bedrooms and basements, the code is the driver. Compute the ratio for the outliers against the ratio for the rest: a scatter of 2.0 with two units at 1.3 is the signature. On a basement or walk-out elevation, look for a window that is wide, low and has a well in front of it. In a photograph, a fast proxy is that the offending windows will also be the ones whose sills sit lower than their neighbours' on the same storey.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Habitable half-storeys lit by frieze-band windows are horizontal by design, and where a bedroom sits in one the code conflict is real and the style's shape wins for the frieze window itself.",
+      "bounds": "The frieze window cannot serve as the escape opening — it is under a third of the frieze depth and cannot reach 5.7 sq ft or a 44 in sill — so the room needs a compliant opening elsewhere, in the gable end or a rear dormer. The exception licenses the frieze window's shape, not the room's compliance.",
+      "bounds_test": {
+        "expression": "net_clear_opening_sqft",
+        "threshold": 5.7,
+        "direction": "at-least",
+        "units": "sqft",
+        "measurable_from": "plan",
+        "note": "THE BOUND THAT MATTERS. The frieze window cannot serve as the escape opening — under a third of the frieze depth, it can reach neither 5.7 sq ft nor a 44 in sill — so the room needs a compliant opening elsewhere, in the gable end or a rear dormer. The exception licenses the frieze window's SHAPE, never the room's compliance."
+      },
+      "applies_when": {
+        "slots": [
+          "special_window",
+          "frieze"
+        ],
+        "note": "Confined to the frieze band of a habitable half-storey. The room's own escape opening is a separate question and is not licensed."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "Horizontal banding of bedroom windows is the idiom, and a band of casements comfortably satisfies R310 while reading horizontally.",
+      "bounds": "Casements under a continuous head with a continuous sill; the band is the composition and at least one leaf must reach 5.7 sq ft clear.",
+      "bounds_test": {
+        "expression": "largest_single_leaf_net_clear_opening_sqft",
+        "threshold": 5.7,
+        "direction": "at-least",
+        "units": "sqft",
+        "measurable_from": "plan",
+        "note": "Casements under a continuous head with a continuous sill, and at least ONE leaf in each sleeping room must reach 5.7 sq ft clear on its own. A band of four narrow leaves that individually fail is not this exception."
+      },
+      "applies_when": {
+        "construction": [
+          "casement"
+        ],
+        "note": "Depends on the sash being casement, not on the style label. A band of double-hung units does not get this licence."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Casement ribbons satisfy the code easily because casements open fully, and the horizontal band is the intended reading.",
+      "bounds": "One leaf in each sleeping room must meet the clear-opening minima on its own.",
+      "bounds_test": {
+        "expression": "largest_single_leaf_net_clear_opening_sqft",
+        "threshold": 5.7,
+        "direction": "at-least",
+        "units": "sqft",
+        "measurable_from": "plan",
+        "note": "One leaf in each sleeping room must meet the clear-opening minima on its own."
+      },
+      "applies_when": {
+        "construction": [
+          "casement"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "window-squarer-than-the-style-permits",
+      "difference": "That is the general condition with a stock-size and planning cause. This one names the specific code mechanism, which produces the fault in one or two openings rather than across the whole elevation and needs a different fix."
+    },
+    {
+      "fault": "broken-head-datum",
+      "difference": "The egress window frequently breaks the datum as well, by dropping its head to gain clear height; the two faults reinforce each other and the fix for this one should not create that one."
+    }
+  ],
+  "sources": [
+    "IRC R310.2.1 emergency escape and rescue openings",
+    "IRC R312.2 window fall protection",
+    "proportions/systems/opening-proportion.json",
+    "Window manufacturer net clear opening tables, casement versus double-hung"
+  ],
+  "confidence": "high",
+  "tags": [
+    "proportion",
+    "code-driven",
+    "egress",
+    "mechanism"
+  ],
+  "test": {
+    "expression": "egress_window_opening_height_in / egress_window_opening_width_in",
+    "threshold": 1.8,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The code sets an area and two minima; it does not set a shape, and the shape is what gets sacrificed. Find the widest windows on the elevation and check what rooms they serve: if the outliers are bedrooms and basements while the rest of the elevation sits near 2.0, the code is the driver."
+  },
+  "secondary_tests": [
+    {
+      "expression": "net_clear_opening_sqft",
+      "threshold": 5.7,
+      "direction": "at-least",
+      "units": "sqft",
+      "measurable_from": "plan",
+      "note": "IRC R310.2.1: 5.7 sq ft, or 5.0 at grade-floor level. In a double-hung the net clear opening is only the lower sash's travel, so the unit needs roughly twice the nominal glass area; in a casement the whole leaf swings clear, so a 24 x 48 in leaf gives about 5.9 sq ft and complies in a tall narrow opening a double-hung could never manage. This is the whole argument for changing the window type."
+    },
+    {
+      "expression": "sill_height_above_floor_in",
+      "threshold": 24.0,
+      "direction": "between",
+      "upper": 44.0,
+      "units": "in",
+      "measurable_from": "section",
+      "note": "IRC R310 caps the sill at 44 in and IRC R312.2 engages below 24 in where the exterior drop exceeds 72 in, requiring an opening control device to ASTM F2090. 24 to 44 in is the code corridor; 30 in is the correct value, set by the body and by furniture. The 44 in maximum is a ceiling, not a target."
+    },
+    {
+      "expression": "net_clear_opening_height_in",
+      "threshold": 24.0,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "plan",
+      "note": "IRC R310.2.1 minimum clear height. Paired with a minimum clear width of 20 in, and the two minima together are why a compliant opening cannot simply be made short and wide — the arithmetic bites from both directions and the specifier reaches for width because the head datum blocks growth upward."
+    }
+  ],
+  "severity_in_use": "fatal",
+  "severity_by_style": [
+    {
+      "style": "italianate-american",
+      "severity": "fatal",
+      "why": "The style's principal storeys run at 2.5:1 and better, so a code-widened bedroom window is a larger departure here than in any other idiom."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The bay rhythm is arithmetic and a single widened opening breaks the pier as well as the proportion."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "A band of casements comfortably satisfies R310 while reading horizontally, which is the style's own intent."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Casement ribbons satisfy the code easily because casements open fully, and the horizontal band is the intended reading."
+    }
+  ],
+  "co_occurs_with": [
+    "window-squarer-than-the-style-permits",
+    "broken-head-datum",
+    "pier-narrower-than-the-opening"
+  ]
+}

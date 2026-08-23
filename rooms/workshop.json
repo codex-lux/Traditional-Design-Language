@@ -1,0 +1,129 @@
+{
+  "id": "workshop",
+  "name": "Workshop",
+  "aka": [
+    "shop",
+    "bench room",
+    "hobby room"
+  ],
+  "function_class": "work",
+  "privacy_rank": 4,
+  "confidence": "medium",
+  "description": "A room for making things, which in a traditional house was not a room at all but a corner of a barn, a cellar or a shed. It reappears in the contemporary programme as a real requirement and has no inherited position, so it has to be placed on first principles: dirty, noisy, wants a wide door and a hard floor, and must not share a wall with a bedroom.",
+  "history": {
+    "appears": 1850,
+    "note": "Domestic making moved out of the house with industrialization and came back as a hobby. The room has no traditional name because the thing it replaced — the barn, the woodshed, the summer kitchen — was outside."
+  },
+  "dimensions": {
+    "area_sf": [
+      100,
+      400
+    ],
+    "width_ft": [
+      10,
+      20
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "Clear length for material. Sheet goods are 8 ft and lumber comes in 12 and 16, so a 10 ft room cannot rip a sheet without going outside."
+  },
+  "furniture": [
+    {
+      "item": "bench",
+      "footprint_in": [
+        30,
+        96
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "table saw with outfeed",
+      "footprint_in": [
+        36,
+        96
+      ],
+      "clearance_in": 96,
+      "essential": false,
+      "note": "Needs 8 ft in front and behind, which is what actually sizes the room."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "North for even light on a bench",
+    "glazing_fraction": [
+      0.1,
+      0.25
+    ]
+  },
+  "adjacency": {
+    "must_adjoin": [],
+    "should_adjoin": [
+      {
+        "room": "garage",
+        "why": "Shares the wide door, the hard floor and the dust tolerance.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "terrace",
+        "why": "Working outside in good weather doubles the room.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "bedroom",
+        "why": "Noise, and the times of day do not overlap in a good way.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "living-room",
+        "why": "Dust migration and the door that gets left open.",
+        "relation": "acoustically-separated",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "garage",
+      "mudroom",
+      "exterior",
+      "cellar"
+    ],
+    "never_a_through_room": true
+  },
+  "servicing": {
+    "plumbing": "light",
+    "ventilation": "Dust collection and a make-up air path; a sealed shop with a dust collector will depressurize a house and backdraft a flue.",
+    "heat": "Independent, because the room is used intermittently",
+    "electrical": "240 V circuit and far more outlets than seems reasonable",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "craftsman",
+      "note": "The one style with an ideological claim on this room. Stickley's whole argument assumes a household that makes things, and putting the shop where it can be seen is consistent rather than eccentric."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "note": "The connected farmstead already has the right position for it — a link between house and barn."
+    }
+  ],
+  "code": [],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "ranch-l",
+    "gable-front-and-wing",
+    "courtyard-u"
+  ],
+  "slots": [
+    "services_strategy",
+    "outbuilding_types",
+    "storage_strategy",
+    "construction_type"
+  ],
+  "sources": [
+    "Hubka, Big House, Little House, Back House, Barn"
+  ]
+}

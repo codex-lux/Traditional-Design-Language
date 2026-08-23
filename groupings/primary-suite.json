@@ -1,0 +1,129 @@
+{
+  "id": "primary-suite",
+  "name": "Primary Suite",
+  "aka": [
+    "master suite",
+    "principal bedchamber and closet"
+  ],
+  "scale": "cluster",
+  "confidence": "high",
+  "description": "A bedroom with its own bathroom and dressing, treated as a private apartment within the house. It is a twentieth-century invention with an eighteenth-century ancestor — the bedchamber with its closet and dressing room — and its contemporary failure mode is scale rather than arrangement: the suite grows until it unbalances the plan and the house has one good bedroom and three poor ones.",
+  "rooms": [
+    {
+      "room": "primary-bedroom",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "primary-bathroom",
+      "role": "secondary",
+      "count": "1"
+    },
+    {
+      "room": "walk-in-closet",
+      "role": "servant",
+      "count": "1-2"
+    },
+    {
+      "room": "dressing-room",
+      "role": "optional",
+      "count": "0-1"
+    },
+    {
+      "room": "sitting-room",
+      "role": "optional",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "The bathroom is not visible from the bedroom door, and the toilet is not visible from the bed. Both are cheap to achieve at plan stage and impossible afterwards.",
+      "kind": "adjacency",
+      "severity": "hard"
+    },
+    {
+      "statement": "The suite does not exceed about 28 percent of the sleeping floor. Beyond that the secondary bedrooms fall below usable size and the house becomes lopsided.",
+      "kind": "dimension",
+      "severity": "strong",
+      "test": "suite_area_sf / sleeping_floor_area_sf at-most 0.28"
+    },
+    {
+      "statement": "Closet and bathroom buffer the bedroom from the corridor, not the reverse. A bedroom that shares a wall with the landing is not private.",
+      "kind": "acoustic",
+      "severity": "strong"
+    },
+    {
+      "statement": "Bed wall carries no door and no window; it is the one wall the room is organised around and it needs to be at least 12 ft for a king with tables.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "bed_wall_clear_ft at-least 12"
+    },
+    {
+      "statement": "Not above the garage, and not sharing a wall with it.",
+      "kind": "acoustic",
+      "severity": "hard"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "four-over-four",
+      "fit": "common",
+      "position": "one upper quadrant, usually taking a second for the bath and closet"
+    },
+    {
+      "massing": "ranch-linear",
+      "fit": "canonical",
+      "position": "one end, buffered from the bedroom wing by the living rooms"
+    },
+    {
+      "massing": "ranch-l",
+      "fit": "canonical",
+      "position": "the end of the private leg"
+    },
+    {
+      "massing": "cape-cod-massing",
+      "fit": "possible",
+      "note": "Fits on the ground floor at the gable end; the half storey above cannot carry it."
+    },
+    {
+      "massing": "i-house",
+      "fit": "forbidden",
+      "note": "One room deep leaves nowhere for the bath without breaking the section."
+    }
+  ],
+  "expansion_logic": "Add a sitting room, or a private stair to a study. Do not grow the bedroom itself past about 350 sf — a bedroom bigger than that stops being a room and becomes a hall with a bed in it.",
+  "privacy_span": [
+    4,
+    5
+  ],
+  "typical_area_sf": [
+    400,
+    900
+  ],
+  "servicing_strategy": "Bathroom stacked over or beside another wet room. An isolated primary bath on the far side of the plan is the single most expensive plumbing decision most clients make without knowing it.",
+  "circulation_parti": [
+    "side-hall",
+    "center-hall",
+    "open-plan"
+  ],
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Does not exist. The period equivalent is a bedchamber with a closet and a dressing room, no plumbing, and no privacy expectation of the modern kind. A Georgian house with a primary suite is a modern plan in period dress, which is legitimate but should be named."
+    },
+    {
+      "style": "ranch-style",
+      "note": "Where the type is perfected: single storey, one end, buffered by the living rooms."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "note": "Routinely oversized. Ask what the secondary bedrooms lost."
+    }
+  ],
+  "sources": [
+    "Kerr, The Gentleman's House",
+    "Wright, Building the Dream",
+    "IRC R310"
+  ]
+}

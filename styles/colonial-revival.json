@@ -1,0 +1,227 @@
+{
+  "id": "colonial-revival",
+  "name": "Colonial Revival",
+  "aka": [
+    "Georgian Colonial Revival",
+    "Neo-Colonial",
+    "American Colonial Revival"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "revival",
+  "period": {
+    "origin": 1876,
+    "floruit_start": 1880,
+    "floruit_end": 1955,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Newport and Boston",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A",
+      "6A",
+      "2A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "georgian-colonial-american",
+      "type": "revives",
+      "weight": 1.0,
+      "note": "The claimed ancestor. Deliberately resurrected after a sixty-year gap, and known at first only through anecdote, ruin, and bad engraving."
+    },
+    {
+      "target": "new-england-colonial",
+      "type": "references",
+      "weight": 0.7,
+      "note": "Quoted for the seventeenth-century phase - overhangs, pendants, clustered chimneys - by architects who had never framed one."
+    },
+    {
+      "target": "federal-style",
+      "type": "references",
+      "weight": 0.7,
+      "note": "Source of the fanlight, the elliptical entry, and the attenuated Adamesque colonnette that the revival uses far more freely than the Federal period did."
+    },
+    {
+      "target": "shingle-style",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The actual line of practice. The same Newport and Boston offices, the same clients, the same draughtsmen; the plan loosens and the wall tightens, and the result is called Colonial."
+    },
+    {
+      "target": "queen-anne-free-classic",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Classical trim grafted onto Victorian massing is the immediate precursor; Colonial Revival is what happens when the massing finally submits to the trim."
+    },
+    {
+      "target": "beaux-arts-french",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Ecole training in composition, in the parti, and above all in the habit of measuring and redrawing precedent."
+    },
+    {
+      "target": "queen-anne-american",
+      "type": "reacts_against",
+      "weight": 0.7,
+      "note": "Explicitly framed by its promoters as a corrective to Victorian excess: order, whiteness, and ancestry against spindlework and polychromy."
+    }
+  ],
+  "description": {
+    "short": "The first and longest-running American revival, in which Beaux-Arts-trained offices and millwork catalogs recomposed a half-remembered Georgian and Federal vocabulary into houses larger, looser, and more emphatic than anything the colonies ever built.",
+    "long": "Colonial Revival is not Colonial, and the distance between the two is the whole point of the style. It begins in the 1880s as free invention: architects who had grown up with Queen Anne massing take a Georgian door surround, a modillioned cornice, and a Palladian window, and hang them on a cubic or rambling body that no eighteenth-century builder would recognize. Sash grows, ceilings rise, entrances swell to two or three times their historical size, and the elements are assembled by feel. After about 1915 the style changes character. Measured drawings begin to circulate in quantity - the White Pine Series of Architectural Monographs runs from 1915, the Georgian Period portfolios were already in the office, and by the 1930s Colonial Williamsburg supplies a whole vetted catalog of profiles - and the revival becomes correct. Early Colonial Revival is a free interpretation at exaggerated scale; late Colonial Revival is an accurate copy at exaggerated scale. For anyone specifying parts, that break around 1915 is the single most useful fact in the branch.\n\nThe conditions that produced it were only partly architectural. The 1876 Centennial Exhibition in Philadelphia put a fabricated 'New England Kitchen' in front of ten million visitors and made the colonial past a consumable image. The following summer McKim, Mead, Bigelow and White toured the old towns of the New England coast sketching doorways, and the profession acquired a subject. Simultaneously architecture was professionalizing: the AIA, the first university programs, the Ecole-trained partner as a status good, and a drawing culture in which precedent circulated as photograph and measured plate rather than as a carpenter's memory. Underneath ran two economic engines - the millwork catalog, which made a correct Ionic pilaster a shipping-crate item, and the streetcar suburb, which needed a house type that read as established on a lot cleared eighteen months earlier. Underneath that ran anxiety. Between 1880 and 1920 immigration remade American cities, and a style that advertised descent from Anglo-Dutch settlers was doing legible social work for the people who bought it. The Colonial Revival house is, among other things, a claim about who belongs.\n\nWhat the buyer was purchasing was continuity, and the purchase was sincere. A family three generations off the farm and one generation into salaried work could buy, for the price of a mortgage, a house that asserted an ancestry it did not have. This is why the style is so durable and why it survives every modernist attack: it is not a taste, it is a form of respectability. It also explains the style's peculiar tolerance for inaccuracy. Nobody minded that the entrance was too big, because the entrance was the argument. The parts that carry the claim - door surround, cornice, shutter, fanlight, small-paned sash - are elaborated far past their historical importance, while the parts that carry no claim - rear elevations, service wings, later additions - are left plain and are usually the most honestly built parts of the house.\n\nStanding in front of a good one, the effect is of a house that is calmer than its neighbors and slightly too large for its own gestures. The wall is broad and quiet, painted white or clapboarded in a single tone, and the eye is pulled straight to the door, which is doing all the work: pilasters, an entablature, a pediment, and glass around three sides of the leaf. The windows are generous and regular and the second storey sits down firmly rather than floating. Inside, the plan is modern - a real entry hall, a stair that turns rather than winding around a chimney, radiators instead of a hearth in every room - and the trim is thinner and crisper than any hand-planed original, because it came off a shaper in Grand Rapids. The house feels less like a survival than like a very good memory of one, which is exactly what it is."
+  },
+  "defining_characteristics": [
+    "Symmetrical or near-symmetrical primary facade on an odd bay count, with the entrance centered and given the greatest architectural emphasis on the building",
+    "An entry assembly of pilasters or engaged columns with an entablature, pediment, or portico, plus fanlight and/or sidelights - larger and more elaborate than any colonial precedent",
+    "Double-hung sash in a regular repeating rhythm, multi-light in at least the upper unit, with vertical alignment maintained between storeys",
+    "Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake",
+    "Machine-milled classical trim of catalog origin rather than site-shaped profiles, applied to a balloon- or platform-framed wall",
+    "Storey heights, plan depth, and overall bulk substantially exceeding the eighteenth-century models being quoted"
+  ],
+  "diagnostic_tells": [
+    "The entrance is the largest well-made element on the facade. On a genuine Georgian house it is among the smallest.",
+    "Sash runs 6/6, 8/8, or 6/1 with muntins 7/8 in. or wider in flat, uniform glass; eighteenth-century sash runs 9/9 or 12/12 with muntins nearer 5/8 in. and visibly irregular glass.",
+    "Cornice returns are short decorative stubs applied to the gable end rather than the full eaves carried around a framed roof.",
+    "Shutters are roughly half the width they would need to be to close, and are screwed flat to the siding without pintles or holdbacks.",
+    "Pre-1915 examples show oversized openings in undersized walls and freely invented detail; post-1915 examples reverse both, as measured drawings and Williamsburg profiles reach the office.",
+    "Anything with an attached garage, a sunroom wing, or a picture window is Colonial Revival by definition - the colonies had none of these."
+  ],
+  "distinguished_from": [
+    {
+      "node": "georgian-colonial-american",
+      "difference": "The original is smaller in every dimension, has thinner glass in more and narrower lights, keeps its entry modest and its cornice shallow, and was framed and trimmed by hand on site. The revival is a machine-trimmed frame house wearing an amplified version of the original's face."
+    },
+    {
+      "node": "queen-anne-free-classic",
+      "difference": "Free Classic keeps irregular Victorian massing, corner towers, and varied wall textures and merely swaps spindlework for classical columns. Colonial Revival disciplines the massing itself into a symmetrical box or a hipped block."
+    },
+    {
+      "node": "neoclassical-revival",
+      "difference": "Neoclassical Revival puts a colossal portico of two-storey columns across the centre or the whole facade. Colonial Revival keeps its portico to one storey, or omits it entirely for a door surround."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "A nominal classical order taken from a millwork catalog rather than derived from a module. The facade is set out by bay count and by the stock dimensions of purchasable trim; proportion is checked by eye against published plates rather than computed.",
+    "typical_ratios": [
+      "Five bays wide by two storeys is the reference case; seven bays on large examples, three on the side-hall type",
+      "Storey heights 9'0\"-10'0\" first floor and 8'6\"-9'0\" second - roughly a foot more per floor than eighteenth-century practice",
+      "Window openings 3'0\" x 5'6\" to 3'4\" x 6'0\", about 15-20 percent greater in area than the Georgian originals they quote",
+      "Total cornice depth 12-18 in., near 1/20 of the wall height, against 8-12 in. on genuine colonial work",
+      "Wall area to opening area roughly 4:1 before 1915, tightening toward 5:1 or 6:1 afterwards"
+    ],
+    "bay_rhythm": "Odd bay count with the centre bay widened for the entrance. Bays spaced 9'0\"-11'0\" on centre, noticeably wider than the 7'0\"-8'0\" rhythm set by hand-hewn eighteenth-century framing, which is why revival facades read as slack where originals read as taut.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The default. Two rooms deep, centre passage, five bays, side-gable roof."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common",
+      "note": "The urban and narrow-lot version; three bays with the entry to one side."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "common",
+      "note": "Characteristic of the free early phase, 1890-1915, when a hipped cube carried colonial trim."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "common",
+      "note": "Overlaps heavily with dutch-colonial-revival; see that node."
+    },
+    {
+      "massing": "garrison-block",
+      "affinity": "possible",
+      "note": "Post-1935 builder variant; see garrison-revival."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "possible",
+      "note": "Reserved for large architect-designed examples on generous sites."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The entry surround must be dimensioned for a door leaf of 3'0\" x 6'8\" to 3'0\" x 7'0\". Flanking pilasters not wider than 8 in.; a broken or swan's-neck pediment not wider than 6'0\" overall; sidelights not wider than 12 in. each. A surround set out for an 8'0\" leaf reads as commercial and voids the style."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Shutters, where used, must each equal half the sash width and the full sash height, be hung on offset pintles with functioning holdbacks, and be capable of closing over the opening. Panels narrower than half the opening, or fixed flat to the wall, are forbidden."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Second-storey window jambs must align with first-storey jambs within 2 in. of centreline, and head heights must be constant across each storey. Vertical misalignment is the fastest disqualifier in the whole style."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "A cornice return is permitted only where the eave carries a full classical cornice of at least 10 in. projection continuing around the corner. A return applied to a bare fascia is forbidden."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "No garage door on the symmetrical primary facade. Place the garage on a subordinate wing whose face is set back at least 8'0\" from the main block and whose ridge is at least 2'0\" below the main ridge."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "H. A. C. Taylor House",
+      "location": "Newport, Rhode Island",
+      "year": 1885,
+      "note": "McKim, Mead & White. The canonical first fully realised Colonial Revival house; symmetrical cubic block, one-storey Ionic entry portico, flanking Palladian windows. Demolished 1952."
+    },
+    {
+      "name": "Hill-Stead",
+      "location": "Farmington, Connecticut",
+      "year": 1901,
+      "note": "Theodate Pope Riddle with McKim, Mead & White. Free phase at its most confident: a colossal portico and a rambling plan under an ostensibly colonial skin."
+    },
+    {
+      "name": "Governor's Palace (reconstruction)",
+      "location": "Williamsburg, Virginia",
+      "year": 1934,
+      "note": "Perry, Shaw & Hepburn. Not a revival house but the instrument of the accuracy phase - it supplied the measured profiles that disciplined the style after 1930."
+    },
+    {
+      "name": "Dr. Glenn R. Frye House",
+      "location": "Hickory, North Carolina",
+      "year": 1937,
+      "note": "Two-storey stone Colonial Revival with frame wing; a competent late-phase example of the type as built for professionals rather than magnates. NRHP 2009."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "William B. Rhoads, The Colonial Revival (1977)",
+    "Richard Guy Wilson, The Colonial Revival House (2004)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)",
+    "The White Pine Series of Architectural Monographs (1915-1940)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "eclectic",
+    "suburban",
+    "catalog-trim",
+    "national-identity"
+  ]
+}

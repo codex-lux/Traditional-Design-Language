@@ -1,0 +1,169 @@
+{
+  "id": "front-door-into-the-living-room",
+  "name": "The Door With No Room Behind It",
+  "aka": [
+    "no vestibule",
+    "the sofa in the entry",
+    "direct-to-living entry"
+  ],
+  "slots": [
+    "circulation_parti",
+    "public_private_gradient",
+    "room_adjacency_overrides"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "sequence",
+  "symptom": "The front door opens directly into the principal living room. There is no lobby, no passage, no vestibule and no closet; the door swings against the end of a sofa, cold air falls straight onto the seating, and a delivery driver at the door is standing in the room where the household is sitting. The house has one threshold where its type had three.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A vestibule is 35 to 50 sq ft of floor that appears in the square-foot total and in no listing photograph, plus a second door assembly. On small plans it is the first thing cut, and on large ones it disappears because the entry hall has been merged into the open plan. The energy code makes no demand for it in dwellings, and the marketing plan actively prefers the sightline from the door across the room.",
+    "cost_saved": "$3,500-$7,000 for an enclosed vestibule with an inner door, plus 40 sq ft of plan; on a small house that is 3 per cent of the floor area."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / room_adjacency_overrides",
+      "statement": "Every principal room opens directly off the passage and off nothing else. A principal room that is itself the entry is a through-route by definition."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / public_private_gradient / zones",
+      "statement": "Passage: public, entered by anyone. Front rooms: formal, entered by invitation. Deleting the passage collapses the first two zones into one and removes the ability to receive somebody without admitting them."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a threshold is a place, not a plane",
+      "statement": "Every traditional dwelling type in a temperate or cold climate has an air-lock of some kind - porch, lobby, vestibule, zaguan, piazza, entry hall - because a door that opens straight into a heated room admits weather, noise and strangers on the same swing."
+    }
+  ],
+  "correct_practice": "Give the door somewhere to open into. In Anglo-American formal types that is the passage, 8 to 14 ft wide, with the principal rooms off it. In small and vernacular types it is a vestibule of about 5 by 7 ft with an inner door, or a boxed entry lobby against the stack, or a porch deep enough to stand in out of the rain - 6 ft minimum - which is the vernacular's own air lock and the reason the porch is not decoration. Whatever the device, it needs three things: a door or a defined edge between it and the principal room, a place to put coats within about 8 ft of the door, and a wall to stand a visitor against. The one arrangement to avoid in every type is a front door whose swing overlaps seating or a circulation route through a room in use.",
+  "fixes": {
+    "right": "Build the vestibule - 5 ft by 7 ft with an inner door, a coat cupboard and a floor finish that takes wet - or restore the passage.",
+    "cheap": "Make the threshold with joinery instead of walls. A 42 in high panelled screen or a pair of built-in bookcase pedestals set 6 ft in from the door, with a 36 in gap, defines an entry zone within the room for $1,500-$3,000 and no plan change; a full-height cased opening does it better. Deepen the porch to 6 ft if it is shallower - that is the cheapest threshold available and it also fixes the door's weathering. Change the flooring inside the door as a last resort, and understand that this marks the zone without making it.",
+    "dishonest": "A console table and a rug inside the door. It photographs as an entry and performs none of the functions: there is still no wall, no door, no coat storage and no air lock, and the first winter proves it."
+  },
+  "detection": "In a plan, check whether the front door's swing arc overlaps any furniture zone of a principal room, and whether the walking route from the door to any other room crosses that room's centre. In a photograph, look for the coat problem: a house with no vestibule usually has hooks on a wall, a coat rack, or coats over a stair newel visible in the entry shot. From the street, an entry door with no porch, no projecting bay and no sidelight-and-transom assembly on an elevation whose windows are all obviously room windows means there is no entry space behind it.",
+  "test": {
+    "expression": "entry_space_floor_area_sqft",
+    "threshold": 30.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "plan",
+    "note": "Floor area of enclosed or defined entry space between the front door and any principal room. 30 sq ft is a working minimum; 5 by 7 ft is the traditional vestibule. Units are square feet - the schema has no sq ft token, so 'ft' is used and the expression names the quantity."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "greek-revival-american",
+    "italianate-american",
+    "italianate-townhouse",
+    "second-empire",
+    "queen-anne-american",
+    "tudor-revival",
+    "french-eclectic",
+    "dutch-colonial-revival",
+    "cape-cod-revival",
+    "modern-farmhouse-traditional",
+    "new-urbanist-traditional",
+    "minimal-traditional",
+    "folk-victorian"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman front door opens into the living room by design, and the type builds its threshold outside instead of inside: a porch of habitable depth under the main roof, then the door, then an inglenook or a built-in seat and bookcase pedestals immediately inside that make an entry zone within the room without a wall.",
+      "bounds": "Requires the deep porch - habitable depth, framed under the primary roof - AND an interior fixed element defining the entry: an inglenook, a stair screen, or a pair of bookcase pedestals. A Craftsman-trimmed box with a 4 ft stoop and a bare wall inside the door has neither threshold and is the fault.",
+      "bounds_test": {
+        "expression": "porch_depth_ft",
+        "threshold": 7.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "plan"
+      },
+      "applies_when": {
+        "slots": [
+          "porch_type",
+          "built_ins"
+        ]
+      }
+    },
+    {
+      "style": "california-bungalow",
+      "why": "Same arrangement in a milder climate, where the porch does even more of the work.",
+      "bounds": "Porch not less than 6 ft deep and a fixed interior element at the entry."
+    },
+    {
+      "style": "shotgun-house",
+      "why": "The front room is the parlour and the front door opens into it; there is no hall anywhere in the type. The threshold is the full-width porch, 5 to 8 ft deep and raised 18-36 in, which is the house's only social space.",
+      "bounds": "The porch is not optional: full width, at least 5 ft deep, raised. A shotgun without a porch is incomplete rather than merely plain, and then this fault is present.",
+      "bounds_test": {
+        "expression": "porch_depth_ft",
+        "threshold": 5.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "There is no principal front door at all - two or four equal French casement doors, one to each front room, and no way to tell which is 'the' entrance. Entering a room directly is the type's diagram.",
+      "bounds": "Requires the galerie at 6-10 ft or the abat-vent at 30-48 in, and paired equal openings. One door into one room under a 4 ft stoop is not this."
+    },
+    {
+      "style": "ranch-style",
+      "why": "A small entry area opening into the living room is authentic to the post-war type.",
+      "bounds": "There must still be a defined entry - a closet wall, a screen or a change of level - and the door swing must clear the seating."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "passage-that-is-a-corridor",
+      "difference": "That fault has a passage and it is too narrow. This one has no entry space at all, which is a different failure and a different fix."
+    },
+    {
+      "fault": "ceremonial-front-door",
+      "difference": "That fault is about which door the household actually uses. This one is about what is behind the front door whether or not anybody uses it."
+    }
+  ],
+  "co_occurs_with": [
+    "passage-that-is-a-corridor",
+    "porch-as-a-stage-set"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The passage is the style's central social invention; a front door into a room is the plan the passage was invented to replace."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "Direct entry to the living room, with the threshold made by porch and built-ins, is the type's own arrangement."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "Small post-war houses did this routinely and the type carries it."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json room_adjacency_overrides, public_private_gradient",
+    "styles/craftsman.json, styles/shotgun-house.json, styles/creole-cottage-vernacular.json constraints on porch and openings",
+    "ASHRAE Handbook - Fundamentals, infiltration through entrance doors, for the air-lock argument",
+    "HABS measured plans, First Period lobby entrance and eighteenth-century passage plans"
+  ],
+  "confidence": "high",
+  "tags": [
+    "plan",
+    "entry-sequence",
+    "threshold",
+    "gradient",
+    "endemic"
+  ]
+}

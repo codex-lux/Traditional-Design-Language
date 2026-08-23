@@ -1,0 +1,201 @@
+{
+  "id": "low-e-and-the-colour-of-the-glass",
+  "name": "The Colour Of The Glass",
+  "aka": [
+    "the green pane",
+    "mismatched replacement glass",
+    "low-E cast"
+  ],
+  "slots": [
+    "glazing_assembly",
+    "window_type"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "The glass is not colourless. On an elevation of otherwise matched windows, one or two units read distinctly greener, bluer or greyer than the rest, usually because they were replaced from a different production run or a different coating generation. Across a whole facade the effect is subtler: the windows read as slightly dark and slightly cold, and the building's openings look less like voids and more like panels.",
+  "cause": {
+    "driver": "code",
+    "explanation": "Solar heat gain and U-factor requirements are met with sputtered low-emissivity coatings, and every coating has an optical signature: single-silver coatings run warmer and higher in transmittance, double- and triple-silver coatings cut more solar gain and shift the transmitted and reflected colour toward green or blue. Coating generations change every few years, and manufacturers do not guarantee a match with a run from five years earlier. Float glass itself is not neutral either — standard soda-lime glass has an iron content that gives a green edge, which is why low-iron glass exists as a premium.",
+    "cost_saved": "Nothing at first fit. The mismatch is created later, at replacement, and low-iron or matched-coating glass costs 15 to 40 per cent more than standard."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "a window is read as a void, and a void has no colour",
+      "statement": "Historic glass transmits about 90 per cent of visible light and reflects very little; a modern coated insulated unit typically transmits 50 to 70 per cent and reflects noticeably more. The opening stops reading as absence and starts reading as a surface, which is why a re-glazed historic building can look subtly wrong even when every dimension is correct."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "consistency across an elevation matters more than the absolute value",
+      "statement": "A whole facade in one coating reads as a facade. Two coatings on one facade reads as damage."
+    }
+  ],
+  "correct_practice": "Specify visible transmittance and coating generation, not just U-factor and SHGC, and specify them once for the whole building including future replacements. Aim for the highest visible transmittance the climate zone and the orientation permit — in cold and mixed zones a high-transmittance low-E on a south elevation is both correct thermally and correct visually. Keep one coating across an elevation without exception; where a unit must be replaced years later, replace the whole elevation's glass or accept the mismatch knowingly. Where the glass is a principal element — an entrance, a Venetian window, a conservatory — consider low-iron glass, which removes the green edge. Record the coating name and generation in the building's own documents, because the next replacement is a maintenance event twenty years away and the information will not otherwise survive.",
+  "fixes": {
+    "right": "One specified coating and one substrate across the whole building, documented for replacement, with visible transmittance chosen as a design value.",
+    "cheap": "When a single unit fails, replace the glass in the whole elevation rather than the one pane, using whatever current coating is available. Two panes of glass are much cheaper than the visual damage of one mismatched pane, and the elevation returns to consistency. Where budget forbids that, move the mismatched unit to a rear or flank elevation and put the matching one at the front.",
+    "dishonest": "Applied window film to bring the odd pane into line. Films have their own colour, their own reflectance and a service life shorter than the glass, and the match drifts as the film ages."
+  },
+  "detection": "Photograph the whole elevation in flat overcast light at a shallow angle so reflection is minimised, and compare the panes' hue. A mismatched unit is obvious in a single frame and almost invisible in person on a bright day, which is why the fault survives site inspections. Look at the exposed glass edge where visible: standard float shows a green edge, low-iron shows nearly clear. Compare the reflection colour at a grazing angle: single-silver coatings reflect warm, double- and triple-silver reflect cool and slightly blue.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "andalusian-spanish-revival",
+      "why": "The style wants small openings and deep reveals, and a low glazing ratio with darker glass is entirely consistent with an idiom whose constraint caps south and west glazing at 18 per cent of wall area.",
+      "bounds": "A low transmittance is licensed on south and west; the consistency rule still applies absolutely, and a mismatched pane is as bad here as anywhere.",
+      "bounds_test": {
+        "expression": "glazing_area_sqft / wall_area_sqft",
+        "threshold": 0.18,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "The style's own cap on south and west unless shaded by an arcade or a 4 ft overhang. A low transmittance is licensed; the consistency rule is not relaxed at all, and a mismatched pane is as bad here as anywhere."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "adobe",
+          "thick-stucco"
+        ],
+        "regions": [
+          "southern-california",
+          "mediterranean"
+        ]
+      }
+    },
+    {
+      "style": "mediterranean-revival",
+      "why": "Same logic: deep reveals put the glass in shadow, where transmittance matters less and reflection is suppressed.",
+      "bounds": "Reveal not less than 6 in. Where the reveal is absent, the glass colour returns as a problem.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 6.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Where the reveal is absent the glass colour returns as a problem, because the pane is being read in direct light in the wall plane."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "thick-stucco"
+        ],
+        "note": "Native to IECC zones 1 to 3 by the style's own constraint; above zone 4 the mass-wall reveal fails and the exception with it."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Coloured glass is deliberate and structural to the style — margin lights in coloured panes around a clear centre are its transmitted signature.",
+      "bounds": "Colour must be deliberate, in the margin lights, and the main light must be clear. Colour arriving accidentally from a coating is not this.",
+      "bounds_test": {
+        "expression": "coloured_light_width_in / centre_light_width_in",
+        "threshold": 0.3,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Colour must be DELIBERATE, in the margin lights, with the main light clear. Colour arriving accidentally from a coating is not this exception."
+      }
+    },
+    {
+      "style": "regency",
+      "why": "Occasional coloured glass in margin lights is period-correct.",
+      "bounds": "Margin lights only, with very thin bars.",
+      "bounds_test": {
+        "expression": "glazing_bar_width_in",
+        "threshold": 0.71,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Margin lights only, with very thin bars."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "tempered-glass-at-the-entry",
+      "difference": "Colour versus geometric distortion. Both are optical properties of modern glass but they are visible under different conditions: colour in flat light, distortion in reflection."
+    },
+    {
+      "fault": "insulated-unit-defeats-the-divided-lite",
+      "difference": "Optics versus dimensions."
+    }
+  ],
+  "sources": [
+    "Vitro and Guardian architectural glass performance data, visible transmittance by coating",
+    "NPS Preservation Brief 9",
+    "IECC residential SHGC and U-factor requirements by climate zone"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "glazing",
+    "optics",
+    "low-e",
+    "consistency"
+  ],
+  "test": {
+    "expression": "distinct_glass_hues_on_one_elevation",
+    "threshold": 1,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "CONSISTENCY IS THE PRIMARY RULE and the one a photograph can settle. Shoot the whole elevation in flat overcast light at a shallow angle so reflection is minimised, and compare hue pane by pane. A mismatched unit is obvious in a single frame and almost invisible in person on a bright day, which is why the fault survives site inspections."
+  },
+  "secondary_tests": [
+    {
+      "expression": "visible_transmittance",
+      "threshold": 0.6,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "site-visit",
+      "note": "Historic glass transmits about 0.90; a modern coated insulated unit typically 0.50 to 0.70. Below 0.60 the opening stops reading as a void and starts reading as a surface. Read from the NFRC label or the manufacturer's data, not from the glass."
+    },
+    {
+      "expression": "glass_edge_green_tint_visible",
+      "threshold": 0,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "site-visit",
+      "note": "Standard soda-lime float has an iron content that shows as a green edge; low-iron shows nearly clear. Where the glass is a principal element — an entrance, a Venetian window, a conservatory — low-iron removes the green from the whole pane, not just the edge."
+    },
+    {
+      "expression": "reflected_colour_temperature_kelvin",
+      "threshold": 4500,
+      "direction": "between",
+      "upper": 7000,
+      "units": "kelvin",
+      "measurable_from": "site-visit",
+      "note": "Single-silver coatings reflect warm and double- and triple-silver reflect cool and slightly blue. The band is indicative rather than a specification; what matters is that ONE value holds across the building, which is why the elevation-consistency count is the primary test and this is not."
+    }
+  ],
+  "severity_in_use": "minor",
+  "severity_trajectory": "Not present at handover and created at the first glass replacement, typically year eight to twenty when a seal fails. Manufacturers do not guarantee a coating match with a run five years earlier, so the fault is generated by ordinary maintenance rather than by the original build — which is why the correct intervention is a documented specification carried forward rather than anything done on site.",
+  "severity_by_style": [
+    {
+      "style": "andalusian-spanish-revival",
+      "severity": "minor",
+      "why": "The style caps south and west glazing at 18 per cent of wall area and puts what remains in deep shadow, so absolute transmittance matters much less here than anywhere else."
+    },
+    {
+      "style": "mediterranean-revival",
+      "severity": "minor",
+      "why": "Deep reveals put the glass in shadow, where reflection is suppressed and hue is hard to read."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The facade is composed of voids in a wall, and a coating that turns the voids into tinted panels changes the solid-to-void reading the whole front depends on."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "not-applicable",
+      "why": "Coloured glass is deliberate and structural to the style; the consistency rule still applies but the presence of colour is not the fault."
+    }
+  ],
+  "co_occurs_with": [
+    "insulated-unit-defeats-the-divided-lite",
+    "tempered-glass-at-the-entry"
+  ]
+}

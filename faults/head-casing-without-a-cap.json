@@ -1,0 +1,249 @@
+{
+  "id": "head-casing-without-a-cap",
+  "name": "The Head Board With No Crown",
+  "aka": [
+    "flat trim head",
+    "the 1x4 over the window",
+    "no drip cap"
+  ],
+  "slots": [
+    "window_head_wood",
+    "window_surround_wood"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "The head casing is a flat board, usually the same width and the same thickness as the jamb casings, sometimes with a thin aluminium drip cap tucked behind the siding above it. There is no crown, no bed mould, no projection and no shadow. The window looks like a rectangle drawn on the wall in a slightly different colour, and in flat light the head disappears entirely.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Exterior trim is bought as flat stock in one or two widths and cut on site by the siding crew. A crowned head requires a second profile, a mitre, returns at both ends, and a flashing detail behind it that the siding installer would rather not own. The manufactured drip cap that comes in the window's own flashing kit satisfies the water requirement, so the crown loses its last functional argument and is deleted as pure ornament.",
+    "cost_saved": "About 20 to 45 USD per opening in material and 20 minutes of labour. Across 20 openings, 800 to 1,800 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / window_head_wood / flat-trim-board-no-crown",
+      "statement": "A head casing with no cap moulding sheds no water and casts no shadow. The commonest modern economy."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_surround.height",
+      "statement": "exterior head assembly = opening_width / 5.5 * 2.6, which is 17 in over a 36 in opening: cap, cornice and any frieze taken together."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the head is the one part of an opening surround that must project",
+      "statement": "Jamb casings can be flat because the wall protects them. The head is horizontal, takes the water, and is the member the whole surround is composed toward. A surround whose head does not project is a surround with no top."
+    }
+  ],
+  "correct_practice": "The exterior head assembly over a 36 in opening runs about 17 in tall in total — head casing, frieze if present, and cap — and projects 2 to 3 1/2 in from the wall face so that it throws a shadow across the head casing below it. Minimum composition: head casing of the same width as the jamb casings or slightly deeper, a bed or crown mould above it, and a sloped cap with a drip kerf or a projecting nose. Slope the top of the cap at about 1 in 6. Return the cap at both ends so it dies into the wall properly, rather than running it flush and leaving end grain. Where a full entablature is wanted, the classical division is architrave, frieze and cornice at roughly 1 : 0.75 : 1.25 of the architrave.",
+  "fixes": {
+    "right": "Head casing plus bed mould plus sloped cap with returns and a drip, flashed over.",
+    "cheap": "Keep the flat board and add one thing: a sloped cap of 5/4 stock projecting 2 in with a saw kerf underneath as a drip, returned at both ends. This is one extra piece, roughly 12 USD and 10 minutes an opening, and it produces the entire shadow the head is missing. It is the single highest return per dollar in the whole openings group.",
+    "dishonest": "A moulded PVC or urethane head 'crosshead' unit glued over the flat board. These are typically 1 in deep against the 2 1/2 to 3 1/2 in needed, so they read as a raised graphic rather than as a projecting member, and they carry the same flat sheen as the trim behind them so there is no material contrast to help."
+  },
+  "detection": "Look for the shadow under the head, in any photograph taken in daylight from below. A projecting cap produces a hard dark band across the top of the window, roughly as deep as the cap projects; a flat head produces nothing. Second test: sight the head casing against the jamb casing width. If they are identical and the head has no member above it, the fault is present. Third: look at the ends of the head casing. If it stops flush with the outside of the jamb casing with a square cut, no cap was ever intended; a real head runs past the jambs by 1 to 2 in and returns.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "The style's own constraint prohibits projecting hoods, crowns, pedimented heads and moulded sills, and limits casing to 3 in and 1 in of projection. Openings are meant to look punched rather than framed.",
+      "bounds": "The refusal must be total and consistent: no corner boards, shingles run over corners, shallow eaves cut tight. A Shingle Style house with a classical entry porch and trimless windows is doing it correctly; a builder house with cheap trim is not entitled to this exception.",
+      "bounds_test": {
+        "expression": "window_casing_projection_in",
+        "threshold": 1.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Casing not exceeding 3 in wide and not projecting more than 1 in from the shingle plane; projecting hoods, crowns, pedimented heads and moulded sills prohibited. The refusal must be total: a house that takes this licence at the windows and applies a classical entry has not understood it."
+      },
+      "applies_when": {
+        "construction": [
+          "shingle-cladding"
+        ],
+        "note": "Depends on the trimless envelope being built throughout: no corner boards, shingles over corners, shallow eaves cut tight to the wall."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Heads die into a continuous lintel band, which is itself the cap; an individual head crown would interrupt the band.",
+      "bounds": "The lintel band must exist, be continuous, and return around every corner.",
+      "bounds_test": {
+        "expression": "continuous_head_and_sill_bands_returning_at_every_corner",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The lintel band must exist, be continuous and return around every corner."
+      }
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom uses flat, broad trim in a single dark value against a light wall, and its shadow comes from the width and the colour contrast rather than from projection.",
+      "bounds": "The trim must be genuinely broad — 5 to 7 in, not 3 1/2 — and must be a strict second value against the wall, with no third colour. Where the trim is the same value as the wall the fault is present, because neither shadow nor contrast is doing the work.",
+      "bounds_test": {
+        "expression": "trim_width_in",
+        "threshold": 5.0,
+        "direction": "at-least",
+        "upper": 7.0,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "THE LINE, STATED. The idiom's licence is on profile, not on width. Below 5 in the trim is neither wide enough to carry contrast nor deep enough to carry shadow, and neither mechanism is doing the work. 5 to 7 in with a strict second value against the wall."
+      },
+      "applies_when": {
+        "date_range": [
+          2010,
+          2030
+        ],
+        "note": "A contemporary idiom making no claim to historic joinery; the licence is not transferable to a revival of an earlier style."
+      }
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "why": "No applied wood casing at all: jambs are returned or splayed in stucco and the shadow is made by the reveal.",
+      "bounds": "Reveal not less than 8 in. This exception licenses no trim, never thin trim.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "This exception licenses NO trim, never thin trim."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "adobe",
+          "thick-stucco"
+        ]
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "The type caps its trim budget deliberately: 4 to 5 in window casings, plain fascia, no continuous entablature. The plainness is the type.",
+      "bounds": "Plain but not flat: the type still carries a sloped drip cap over the head, because the type is a working building in weather. The economy is in the profile count, not in the shedding of water.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 4.0,
+        "direction": "between",
+        "upper": 5.0,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "4 to 5 in flat WITH a drip cap over. Below 4 in the type stops reading as a nineteenth-century building; above 5 in it claims a rank it does not have."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "casing-at-a-third-of-palladio",
+      "difference": "That fault is about the width of the casing band. This is about the absence of a projecting cap above it. A 6 in wide flat head board is correct in width and still this fault."
+    },
+    {
+      "fault": "sill-without-wash-or-drip",
+      "difference": "Same family of omission at the other end of the opening; both are usually present together."
+    },
+    {
+      "fault": "shallow-relief-on-a-bold-order",
+      "difference": "The same profile-depth mechanism at a different rank of element. That fault is ornament of the right motif at the wrong depth; this is a head with the right width and no member above it."
+    },
+    {
+      "fault": "mitred-craftsman-casing",
+      "difference": "That fault is about how a flat head meets its jambs — mitred like a picture frame instead of a head board running past and returning. It is frequently what a head looks like once the cap has been deleted, which is why they travel together."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json",
+    "proportions/systems/opening-proportion.json",
+    "NPS Preservation Brief 9",
+    "styles/shingle-style.json constraints"
+  ],
+  "confidence": "high",
+  "tags": [
+    "profile-depth",
+    "head",
+    "shadow",
+    "endemic",
+    "cheap-fix"
+  ],
+  "test": {
+    "expression": "head_cap_projection_from_wall_face_in",
+    "threshold": 2.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Read from the shadow. A projecting cap throws a hard dark band across the top of the window in any daylight from above, roughly as deep as it projects; a flat head throws none. 2 in is the floor and 2 to 3 1/2 in is the working range. Measure the shadow band, not the trim."
+  },
+  "secondary_tests": [
+    {
+      "expression": "head_assembly_height_in / casing_width_in",
+      "threshold": 2.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The whole assembly above the opening — head casing, frieze if present, and cap — runs about 2.6 times the casing width, which is 17 in over a 36 in opening. Below 2.0 the head has no composition, only a board."
+    },
+    {
+      "expression": "head_casing_overrun_past_jamb_casing_in",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "A real head runs past the jamb casings by 1 to 2 in and returns. A head stopping flush with the outside of the jamb casing with a square cut means no cap was ever intended, and this is legible in a photograph at close range when the shadow test is ambiguous in flat light."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "The style's constraint prohibits projecting hoods, crowns, pedimented heads and moulded sills outright; openings are meant to look punched rather than framed."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Heads die into a continuous lintel band, which is itself the cap."
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "severity": "not-applicable",
+      "why": "No applied wood casing at all; the shadow is made by the reveal."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit names it the commonest modern economy, and a head that sheds no water and casts no shadow removes the element the whole surround is composed toward."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "minor",
+      "why": "The idiom's shadow comes from trim width and a strict two-value contrast rather than from projection."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "serious",
+      "why": "The type is plain but not flat: the economy is in the profile count, not in the shedding of water, and it still carries a sloped drip cap."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A projecting head is the fault. Casing over 3 in or projecting over 1 in breaks the punched-opening reading the whole envelope depends on."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "An individual head crown is the fault, because it interrupts the continuous lintel band."
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "statement": "Applied trim of any kind is the fault; the jamb and head are returned or splayed in stucco and the reveal does the work."
+    }
+  ],
+  "co_occurs_with": [
+    "sill-without-wash-or-drip",
+    "casing-at-a-third-of-palladio",
+    "flat-grille-no-shadow-line",
+    "shallow-relief-on-a-bold-order",
+    "mitred-craftsman-casing"
+  ]
+}

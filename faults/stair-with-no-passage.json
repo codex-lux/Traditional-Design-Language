@@ -1,0 +1,154 @@
+{
+  "id": "stair-with-no-passage",
+  "name": "The Stair That Is An Object In A Room",
+  "aka": [
+    "the foyer stair",
+    "the stair with no window",
+    "the balcony overlooking nothing"
+  ],
+  "slots": [
+    "stair_type",
+    "stair_position",
+    "circulation_parti",
+    "daylight_strategy"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A stair standing free in a double-height entrance volume, curving or turning in mid-air, with no wall on either side and no window of its own. It arrives at an upper landing that is a balcony overlooking the entry rather than a passage leading anywhere, so the first-floor circulation is a gallery around a void. Below, the space it occupies is a room that is not a room: too tall to furnish, too open to close, and lit from a two-storey window that looks at the street. Every dimension of the stair is code-compliant and the stair has no relationship to anything.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The double-height entry is a marketing feature with a measurable effect on perceived value and a low cost per cubic foot — it is unheated volume rather than finished area, and it lets a two-storey window be shown on the front elevation. Once the volume exists the stair must be in it, because putting the stair in a passage would require the passage, which is finished square footage that does not sell. The upper gallery is what is left over when a corridor has one side removed to keep the void open. And the stair loses its window because a window on the stair wall is on a side elevation, which is the elevation nobody photographs and the one the setback puts closest to the neighbour.",
+    "cost_saved": "A 10 ft wide passage with a stair against one wall and a landing window costs about 180 to 260 square feet of finished area over two floors against the open volume's near-zero finished area — 30,000 to 70,000 USD of construction in most markets. This is the largest single sum attached to any fault in the interior group, which is why it is worth stating precisely rather than deploring."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / stair_type / landing_position",
+      "statement": "The stair rises in the passage against one side wall and turns at a landing lit by a window on the rear or side elevation. Three separate claims, and the fault breaks all three: it is not in a passage, it is not against a wall, and it has no window."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / stair_type / stair_width_in, range [36, 48]",
+      "statement": "36 to 48 in in a passage of 10 ft minimum. The proportion of stair to passage is part of the type; a stair with no passage has no such proportion."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a stair is a route, and a route has sides",
+      "statement": "Climbing is an act with a direction, and the sense of direction comes from the wall on one hand and the balustrade on the other. A stair with balustrade on both sides gives the body no reference and is why free-standing stairs are experienced as more precarious than their dimensions predict — the same treads between two walls feel entirely different."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the stair window is the reason the landing exists",
+      "statement": "A landing is a place to change direction, and in every period plan it is put where a window can light it, because the stair is the deepest interior space in a house and the only one that can be daylit from a half-storey level. Turning the stair for a window is the oldest reason to turn a stair, and a stair that turns without one has kept the geometry and thrown away the argument."
+    }
+  ],
+  "correct_practice": "Put the stair in a passage, against a wall, with a window at its landing. The passage runs 8 to 10 ft wide with the stair on one side, which leaves 4 to 5 ft of clear route beside it — enough for two people to pass and for furniture to get upstairs — and the stair rises in two or three runs, turning at a landing that is lit by its own window on a side or rear elevation. That window does more work than any other in the house: it lights the deepest point of the plan, it marks the landing on the outside, and it gives the turn a reason. Upstairs, the landing opens into a passage with rooms on both sides, not onto a gallery around a void. Three checks worth running on any plan. FIRST, does the stair have a wall on one hand for its whole length? SECOND, is there a window within 6 ft of the landing? THIRD, does the upper landing lead to a passage with doors on both sides, or does it look back down at the entry? Where a double-height space is genuinely wanted, put it somewhere the house needs height — over a stair hall in a large house, over a garden room — and give the stair its own volume beside it. Where an open stair in a living volume is the actual programme, which is a legitimate modern arrangement, the stair should be designed as a piece of furniture in that room, with the string, soffit and balustrade detailed to be seen from underneath, rather than as a period stair floating without its passage.",
+  "fixes": {
+    "right": "Stair in a passage against a wall, landing window on a side or rear elevation, upper landing giving onto a double-loaded passage.",
+    "cheap": "Wall one side and window the landing. Where the double-height volume is fixed, building a solid wall along one side of the stair for its full length — plastered, with the balustrade only on the open side — restores the sense of a route for about 3,000 to 6,000 USD, and it also gives the upper gallery a back. Adding a window at the landing, even a small one on the side elevation, is 1,500 to 3,000 USD and is the single move that most changes how the stair is experienced, because it turns the climb toward light. Neither requires the plan to change.",
+    "dishonest": "A chandelier in the void. It puts a bright object where the window should be and makes the volume photograph well, while leaving the stair itself in the same flat downlight it had before; the light is on the axis of the space rather than at the turn, so it does not draw anyone up. Also dishonest: a Palladian or arched two-storey window on the front elevation to light the stair, which lights the void rather than the flight, is visible from the street as a lit stairwell at night, and puts a formal window on the elevation with no relationship to the storey lines behind it."
+  },
+  "detection": "From a plan: trace the stair's outline and ask how many of its long sides touch a wall. Two is a closed stair, one is correct, zero is the fault. Then measure the distance from the landing to the nearest window: correct is under 6 ft, the fault is typically 15 to 30 ft or infinite. Then look at the upper level: count the doors opening off the upper landing — a passage has three to six, a gallery has one or two and a long run of balustrade. From a photograph: a two-storey window on the front elevation whose head is above the second-floor line and whose sill is below it, with no floor behind it, is the exterior signature and is visible from the street. Inside, look for the balustrade on BOTH sides of the flight, which is the fastest single indicator.",
+  "test": {
+    "expression": "distance_landing_to_nearest_window_ft",
+    "threshold": 6.0,
+    "direction": "at-most",
+    "units": "ft",
+    "measurable_from": "plan",
+    "note": "The stair landing should be within 6 ft of a window on a side or rear elevation. Run alongside the categorical test — number of the flight's long sides in contact with a wall, which should be exactly one for a principal stair — and the upper-landing door count, which should be three or more."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-villa",
+      "why": "The free-standing stair in a top-lit hall, rising against no wall under a lantern or a skylight, is a genuine nineteenth-century villa arrangement and the light comes from above rather than from the side.",
+      "bounds": "There must be a real top light — a lantern, a cupola or a skylight directly over the stair well — carrying daylight the full height. The exception is about the SOURCE of the light, not its absence: a free stair in an unlit two-storey volume is not this.",
+      "bounds_test": {
+        "expression": "toplight_area_sf",
+        "threshold": 12,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "plan",
+        "note": "Glazed area directly over the stair well, in square feet — a unit the schema's enum does not carry, so 'ratio' stands in. About 12 sf is the smallest lantern that reads at the ground floor of a two-storey hall."
+      }
+    },
+    {
+      "style": "octagon-house",
+      "why": "The central stair rising through the plan under a cupola is the type's organising device and it is free-standing by definition.",
+      "bounds": "Requires the cupola and the central position. The type's whole logic is that the stair is the core and the rooms are around it."
+    },
+    {
+      "style": "second-empire",
+      "why": "A grand free-standing stair in a hall of ceremony is normal in the larger houses, where the hall is a ROOM with a purpose rather than a leftover volume.",
+      "bounds": "The hall must be a proper room in its own right — proportioned, trimmed to the highest grade in the house, with a fireplace or a defined use — and the stair must still turn at a landing with a window or a top light. A double-height entry that is only a circulation void is not a hall of ceremony however tall it is."
+    },
+    {
+      "style": "shingle-style",
+      "why": "The living hall with an open stair, an inglenook and a fireplace is the style's signature plan and the stair is deliberately part of the living space rather than in a passage.",
+      "bounds": "The living hall is a room that is used — fireplace, seating, sometimes a window seat on the landing — and the stair usually has a wall on one side and a broad low landing with its own window seat and light. The Shingle Style stair is IN a room; it is not in a void, and the distinction is the presence of things to do there."
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "An open stair in a living volume can be an honest modern arrangement where it is designed as such.",
+      "bounds": "It must be detailed to be seen from below — a finished soffit, a resolved string, a balustrade that reads as a single designed object — and it should still turn toward light. What is not licensed is a period-detailed stair with brackets and turned balusters floating in a void, which claims a plan it does not have."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "stair-at-the-code-minimum",
+      "difference": "Position against dimension. A stair can be beautifully proportioned and stand in the wrong place, which is the more expensive error because it cannot be fixed later."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "Both are about what the entrance sequence is doing. That fault is on the elevation, this one is on the plan immediately behind it, and a house with a two-storey entry void very often has both."
+    }
+  ],
+  "co_occurs_with": [
+    "stair-at-the-code-minimum",
+    "recessed-can-in-a-plaster-ceiling"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, stair_type landing_position and stair_width_in",
+    "elements/slots.json, plan-logic group note: two houses can share every trim profile and still be different species if their plan logic differs",
+    "HABS plans of eighteenth and nineteenth century passage stairs",
+    "Vincent Scully, The Shingle Style and the Stick Style (1955), on the living hall"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stair",
+    "plan-logic",
+    "daylight",
+    "circulation",
+    "expensive"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The centre-passage plan with the stair against one side wall IS the type. A stair in a void has discarded the plan-logic that defines the style, and no amount of correct trim recovers it."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "fatal",
+      "why": "The single-house plan is one room deep with the stair in a defined position relative to the piazza; a two-storey entry void is incompatible with the section."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "The living hall with an open stair IS the plan, provided the hall is a room that is used rather than a circulation void."
+    },
+    {
+      "style": "italianate-villa",
+      "severity": "minor",
+      "why": "The top-lit free-standing stair is a genuine villa arrangement, provided the top light is real."
+    },
+    {
+      "style": "contemporary-traditional",
+      "severity": "minor",
+      "why": "An open stair in a living volume can be an honest modern arrangement if it is detailed as one."
+    }
+  ]
+}

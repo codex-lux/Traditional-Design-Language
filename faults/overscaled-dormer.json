@@ -1,0 +1,204 @@
+{
+  "id": "overscaled-dormer",
+  "name": "The Dormer That Ate the Roof",
+  "aka": [
+    "the bedroom dormer",
+    "shed-sized gable dormer"
+  ],
+  "slots": [
+    "dormer",
+    "roof_form"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Dormers carry the same order as the house at reduced scale; at full scale they compete with it."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "fatal",
+      "why": "There should be no front dormers at all, so an oversized one is doubly wrong."
+    },
+    {
+      "style": "second-empire",
+      "severity": "not-applicable",
+      "why": "The mansard exists in order to be dormered, at 0.55-0.75 of the bay width."
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "severity": "not-applicable",
+      "why": "A shed dormer at 50-75 per cent of the roof length is the type's definition."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "minor",
+      "why": "The broad roof is meant to absorb large dormers into one plane."
+    }
+  ],
+  "severity_in_use": "minor",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "Dormers whose faces take up more than about a third of the visible roof plane; each dormer is wider than the window below it, its cheeks stand a foot or more outboard of the sash, and its ridge comes within a foot or two of the main ridge. The roof stops reading as a roof and starts reading as a wall with triangles left over.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A dormer is priced roughly per unit rather than per square foot - $3,500-7,000 each in flashing, framing, roofing and window regardless of its size - so three big dormers cost less than five small ones. At the same time IRC R305.1.1 requires 7 ft 0 in of ceiling over 50 per cent of the required floor area, which pushes the dormer both wider and taller, and egress (IRC R310) sets a minimum openable area of 5.7 sf, which sets a floor under the window size that a correctly scaled dormer sash may not clear.",
+    "cost_saved": "$7,000-14,000 on a house that would otherwise take five dormers instead of three."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation -> dormer.height = module * 0.62 * 0.55",
+      "statement": "40.9 in of dormer window height at a 10 ft storey - the dormer follows the ATTIC storey ratio of 0.62 rather than the storey below it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / dormer",
+      "statement": "Sash pattern 6/6 or 6/4, one storey-step smaller than the second-floor sash; dormers carry the same order as the house at reduced scale."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R305.1.1, R310.2.1",
+      "statement": "7 ft 0 in of ceiling over at least 50 per cent of the required floor area in a sloped-ceiling room, and a minimum net clear openable area of 5.7 sq ft for emergency escape. The second sets a floor under the sash size that a correctly scaled dormer window may not clear, which is why the egress rule and the proportion rule collide here and nowhere else."
+    }
+  ],
+  "correct_practice": "A dormer is a small building on a large roof and is subordinate in every dimension at once. Its window is one storey-step smaller than the sash below - the attic ratio is 0.62, so a dormer sash of roughly 41 in against a second-floor sash of about 56 in at a 10 ft storey. Its face width is the window width plus two cheeks plus two casings and should still be narrower than the bay it sits in. Its ridge sits well below the main ridge: leave at least a quarter of the roof's eave-to-ridge height above it. And the sum of all dormer face widths should stay well under half the roof's length - 0.30 to 0.40 is a good working figure. Where egress forces a larger sash, take the extra in height rather than width, and use a casement rather than a double-hung, which meets 5.7 sf in a narrower opening.",
+  "fixes": {
+    "right": "More dormers, each smaller, aligned on the bays; egress solved with casements rather than with width.",
+    "cheap": "Hold the same framed opening and narrow the FACE: set the window to the outside of the cheek framing, delete the corner boards, and trim with a flat 1x4. Three inches a side comes off the face for nothing, which on a 40 in dormer is a 15 per cent reduction in apparent width.",
+    "dishonest": "Keeping the dormer's size and adding a pediment and pilasters to make it 'read smaller'. Ornament increases apparent size; it does not reduce it."
+  },
+  "test": {
+    "expression": "dormer_window_width_in / window_width_directly_below_in",
+    "threshold": 1.0,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Correct is 0.75-1.0 and it must never exceed 1.0. A dormer is a small building on a large roof and its window is one storey-step smaller than the sash below."
+  },
+  "secondary_tests": [
+    {
+      "expression": "sum_of_dormer_face_widths_in / building_width_in",
+      "threshold": 0.4,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "0.30-0.40 is the working band. Over 0.5 is the fault, over 0.65 has become a storey."
+    },
+    {
+      "expression": "(main_ridge_height_in - dormer_ridge_height_in) / roof_eave_to_ridge_height_in",
+      "threshold": 0.25,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Leave at least a quarter of the roof's height above the dormer ridge. Under 0.15 the dormer has reached the ridge."
+    },
+    {
+      "expression": "dormer_sash_height_in / second_floor_sash_height_in",
+      "threshold": 0.55,
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "upper": 0.8,
+      "note": "storey-graduation puts the attic at 0.62 of the floor below: about 41 in of dormer sash against a 56 in second-floor sash at a 10 ft storey."
+    }
+  ],
+  "detection": "In a straight-on photograph, three measurements in order. (1) Sum of dormer face widths divided by building width: over 0.5 is the fault, over 0.65 has become a storey. (2) Dormer window width divided by the width of the window directly below it: correct is 0.75-1.0 and it must never exceed 1.0. (3) Vertical gap between the dormer ridge and the main ridge as a fraction of eave-to-ridge height: under 0.15 is the fault.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "second-empire",
+      "why": "The mansard exists in order to be dormered, and a large dormer is correct: dormer width 0.55-0.75 of the bay width, dormer height 0.7-0.85 of the mansard's lower slope, and dormer count equal to bay count.",
+      "bounds": "The dormers sit in a near-vertical mansard slope, not in a pitched roof, and they must not break the curb cornice above them.",
+      "bounds_test": {
+        "expression": "dormer_width_in / bay_width_in",
+        "threshold": 0.55,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 0.75,
+        "note": "Set in the mansard's near-vertical slope, not in a pitched roof, and not breaking the curb cornice above."
+      }
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "why": "A single shed dormer running 50-75 per cent of the roof length is the type's definition, not an overscaled dormer.",
+      "bounds": "One dormer, not several; set back 18-36 in from the wall plane; and it must stop short of both rakes so the gambrel profile survives at each end.",
+      "bounds_test": {
+        "expression": "shed_dormer_length_in / roof_length_in",
+        "threshold": 0.5,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 0.75,
+        "note": "One dormer, not several; set back 18-36 in from the wall plane; stopping short of both rakes by at least one rafter bay."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Large dormers absorbed into one broad sweeping roof plane are correct, because the roof is meant to gather an irregular volume into a single shape.",
+      "bounds": "The largest single roof plane must remain not less than 40 per cent of the total roof area, which is what keeps the roof dominant.",
+      "bounds_test": {
+        "expression": "largest_single_roof_plane_area / total_roof_area",
+        "threshold": 0.4,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "What keeps the roof dominant while it absorbs the dormers."
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "Wall dormers of full bay width are a legitimate Germanic and Mid-Atlantic pattern.",
+      "bounds": "They must rise from the wall plane in the wall's material, not sit on the roof.",
+      "bounds_test": {
+        "expression": "wall_dormer_face_offset_from_wall_plane_in",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "They must rise FROM the wall plane in the wall's material, not sit on the roof."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "second-empire",
+      "statement": "A small dormer is the fault. Dormer width must be 0.55-0.75 of the bay and height 0.7-0.85 of the mansard's lower slope, and the count must equal the bay count."
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "statement": "A row of small dormers is the fault; the type wants one long shed dormer running 50-75 per cent of the roof."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "dormer-wall",
+      "difference": "That fault is about the number and cumulative width of dormers turning a roof into a storey. This one is about any single dormer being too big for the roof it sits on."
+    },
+    {
+      "fault": "fat-cheek-dormer",
+      "difference": "There the window is right and the wall around it is thick. Here the whole assembly is too large."
+    }
+  ],
+  "co_occurs_with": [
+    "fat-cheek-dormer",
+    "dormer-wall",
+    "dormer-off-the-bay"
+  ],
+  "sources": [
+    "IRC R305.1.1 (ceiling height in sloped-ceiling rooms), R310 (emergency escape openings)",
+    "proportions/modules/storey-graduation.json",
+    "kits/georgian-colonial-american.kit.json dormer",
+    "project style nodes: second-empire, dutch-colonial-revival, shingle-style"
+  ],
+  "confidence": "high",
+  "tags": [
+    "dormer",
+    "scale",
+    "roof"
+  ]
+}

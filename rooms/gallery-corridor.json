@@ -1,0 +1,241 @@
+{
+  "id": "gallery-corridor",
+  "name": "Gallery",
+  "aka": [
+    "long gallery",
+    "picture gallery",
+    "corridor",
+    "passage (upper)",
+    "loggia (when open)"
+  ],
+  "function_class": "circulation",
+  "description": "A long room whose length is its subject. In its full form - the Elizabethan long gallery - it is 80 to 160 ft long, 15 to 22 ft wide, glazed almost continuously down one long side and hung with pictures down the other, and it was built for walking in when the weather was bad and for showing what you owned. Its degenerate descendant is the bedroom corridor, which is the same room at 42 in wide with the pictures and the windows removed. The distinction between a gallery and a corridor is not length; it is whether the room has a use of its own besides getting somewhere.",
+  "history": {
+    "appears": 1520,
+    "declines": 1700,
+    "replaced_by": "the top-lit corridor and, in the country house, the saloon - the gallery's social function moved into a single tall room and its exercise function moved outdoors when the landscape park arrived",
+    "note": "The long gallery is an English peculiarity of about 1520 to 1660 and it is the only room in the tradition invented for EXERCISE. Contemporary accounts are explicit: it is where the household walked when it rained, and its length is therefore a functional dimension - a hundred feet is forty paces, and a gallery you can turn round in twelve is not one. Hardwick Hall's gallery of 1597 is 162 ft. The second use, picture-hanging, is what killed it: as collections grew and the top-lit picture room was invented in the eighteenth century, a room glazed continuously down one wall turned out to be the worst possible place to hang paintings, because every canvas on the opposite wall carries a reflection of a window. The gallery's daylight strategy and its display function were in direct conflict from the start and nobody noticed for a hundred and fifty years."
+  },
+  "dimensions": {
+    "area_sf": [
+      150,
+      3000
+    ],
+    "width_ft": [
+      4,
+      22
+    ],
+    "length_ft": [
+      24,
+      165
+    ],
+    "proportion": [
+      3.0,
+      12.0
+    ],
+    "ceiling_min_ft": 9,
+    "critical_dimension": "WIDTH, and there are three thresholds rather than one. 36 in is the code corridor and one person. 42 in is two people passing without either turning. 48 in is the working minimum for a principal corridor, because a 48 in corridor still passes two people when one of them is carrying a laundry basket or a child. And 12 FT is the threshold at which the room stops being a corridor: below 12 ft, furniture down one side leaves a route rather than a room, and the space is a corridor with chairs in it. Alberti's rule from the harmonic pack says the same thing from the other direction - in a house, 1:3 is a corridor unless it is at least 18 ft wide and lit from one long side, in which case it is a gallery. There is nothing useful between 5 and 12 ft: that band buys area and returns nothing."
+  },
+  "furniture": [
+    {
+      "item": "settee or day bed against the inner wall",
+      "footprint_in": [
+        72,
+        26
+      ],
+      "clearance_in": 42,
+      "essential": false,
+      "note": "26 + 42 = 68 in of the width gone before the route starts, which is why a furnished gallery needs 12 ft"
+    },
+    {
+      "item": "console or side table between windows",
+      "footprint_in": [
+        42,
+        16
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "pictures on the inner wall",
+      "footprint_in": [
+        36,
+        4
+      ],
+      "clearance_in": 96,
+      "note": "a viewer stands back 1.5 times the picture's height; a 4 ft canvas wants 6 ft of standing room, which the route can supply only if the route is on the window side"
+    },
+    {
+      "item": "clear walking route",
+      "footprint_in": [
+        42,
+        240
+      ],
+      "clearance_in": null,
+      "note": "the gallery's own use - walking - needs the route unobstructed for its whole length, so the furniture goes to one side and stays there. Footprint given per 20 ft of run."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "South or the courtyard face in the English examples, which is what makes it usable in winter. A north gallery is a cold corridor with a view.",
+    "glazing_fraction": [
+      0.3,
+      0.7
+    ],
+    "note": "THE GALLERY IS THE PERFECT SINGLE-SIDED ROOM, and it is worth stating why, because it inverts the intuition. Daylight depth is governed by the distance FROM the window wall, not by the room's length: a room 160 ft long and 18 ft deep, glazed down one 160 ft side, is fully daylit at every point, because 18 ft is inside the 2.25 x head-height reach at any decent ceiling. That is the whole trick of the type and it is why galleries could be built at absurd lengths without going dark, while a 25 ft square room with the same wall of glass has a dead back corner. The lesson transfers directly: when a plan needs a lot of daylit floor, make it LONG AND THIN ALONG THE GLASS rather than deep and square behind it. The modern double-loaded corridor is the same room with the glass taken away and is the darkest space in most houses that have one. One caveat on the widest examples: a gallery over about 18 ft deep needs either a 12 ft ceiling or projecting bays that glaze the return walls, and Hardwick's 22 ft gallery has both."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "stair-hall",
+        "why": "a gallery or corridor has to be entered at a point, and on an upper floor that point is the stair head; a corridor reached only through a room is not circulation",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "bedchamber",
+        "why": "the upper gallery's ordinary job in a house of any date after 1650 is to serve the chambers so that none of them is a through room",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "shotgun-house and creole-cottage-vernacular, where there is no corridor and chambers are entered through each other by design",
+          "cape-cod-colonial, where the half-storey chambers open off a landing too small to be a corridor"
+        ]
+      },
+      {
+        "room": "great-chamber",
+        "why": "in the Elizabethan and Jacobean plan the gallery is reached from the great chamber and continues the state sequence upward and outward",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "a gallery is a display and exercise room and a kitchen door onto it delivers steam, smell and traffic into the whole length; on the upper floor the equivalent error is the laundry, whose noise carries the corridor's full length",
+        "relation": "acoustically-separated",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "stair-hall",
+      "entrance-hall",
+      "great-chamber",
+      "landing"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "An upper corridor is the return-air path for the bedrooms in almost every forced-air house built since 1950, which is why bedroom doors are undercut and why a corridor with a closed door at each end has a pressure problem nobody drew.",
+    "heat": "One source per 30 ft; a long unheated corridor between heated rooms is a cold bridge in occupation terms and it is where condensation shows first.",
+    "electrical": "Fixtures at 8 to 12 ft centres rather than one in the middle. A gallery hung with pictures needs the light on the pictures and not on the floor, which means wall-washing from a track or from brackets above the frames - and note that this is the room where the historic and the modern answer genuinely differ, because there was no way to light a gallery at night before 1880 and the type is a daylight room.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "elizabethan",
+      "name_in_style": "long gallery",
+      "trim_grade": "highest",
+      "note": "The canonical case: top floor, full length of the range, continuous mullioned and transomed glazing on the outer wall, panelled and chimneypieced on the inner. Hardwick Hall's is 162 ft by 22 ft. This is the only period in which the gallery is the most important room in the house."
+    },
+    {
+      "style": "jacobean",
+      "name_in_style": "long gallery",
+      "trim_grade": "highest",
+      "note": "As Elizabethan but with the plaster ceiling doing more work and the glazing beginning to be gathered into bays rather than run continuously."
+    },
+    {
+      "style": "english-palladian",
+      "name_in_style": "gallery",
+      "trim_grade": "highest",
+      "note": "Shortened, regularised and moved down to the piano nobile as one room of an enfilade rather than a range of its own. Palladio's own 1:3 proportion is now the governing rule and the room is 60 to 80 ft rather than 160."
+    },
+    {
+      "style": "beaux-arts-american",
+      "name_in_style": "picture gallery",
+      "trim_grade": "highest",
+      "note": "Top-lit, and therefore the resolution of the conflict the long gallery never solved: a laylight or lantern puts light on the pictures from above with no reflection on any wall. The room is now square or 3:2 and the length has gone."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "upstairs hall",
+      "trim_grade": "middle",
+      "note": "4 to 6 ft wide, serving four bedrooms, with a window at one end if the plan is generous. The revival keeps the word and none of the room."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "bedroom hall",
+      "trim_grade": "plain",
+      "note": "36 to 42 in, internal, unlit, serving three bedrooms and a bath. It is the most-used and least-considered space in the type, and the single cheapest improvement to any ranch plan is to give this corridor an end window."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent, and the absence is the type. Every room is a through room; there is no corridor anywhere in the building."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "name_in_style": "gallery",
+      "trim_grade": "plain",
+      "note": "Present but OUTSIDE: the front gallery is the corridor, and rooms are entered from it directly through French doors. This is a genuinely different solution to the same problem and it is better ventilated than any interior corridor."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "name_in_style": "corredor",
+      "trim_grade": "middle",
+      "note": "An arcaded gallery on the courtyard face, roofed and open, serving the rooms directly. Same move as the Creole gallery arriving by an entirely different route."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Hallways serving habitable space not less than 36 in wide.",
+      "ref": "IRC R311.6",
+      "conflict": "36 in passes one adult. Two people cannot pass and a mattress cannot turn a corner. 42 in is the honest minimum and 48 in is what a principal corridor wants; the 6 to 12 in costs about $300 of floor per 20 ft of corridor and is the best value in the plan."
+    },
+    {
+      "requirement": "Emergency escape openings required in basements and sleeping rooms, not in corridors.",
+      "ref": "IRC R310",
+      "conflict": "Because the corridor is not required to have a window, it almost never gets one. There is no code reason for a dark corridor and no design reason either."
+    }
+  ],
+  "massing_fit": [
+    "h-plan-manor",
+    "townhouse-row",
+    "four-over-four",
+    "five-part-palladian",
+    "courtyard-u",
+    "courtyard-full",
+    "linear-ell-farmhouse",
+    "ranch-linear",
+    "ranch-l",
+    "gallery-house",
+    "foursquare",
+    "mansard-block"
+  ],
+  "slots": [
+    "circulation_parti",
+    "daylight_strategy",
+    "public_private_gradient",
+    "room_adjacency_overrides",
+    "ceiling_height_rule",
+    "window_grouping_rule"
+  ],
+  "faults": [
+    "passage-that-is-a-corridor",
+    "room-deeper-than-its-daylight",
+    "one-trim-grade-for-every-room",
+    "every-door-the-same-door",
+    "blank-wall-to-the-street"
+  ],
+  "sources": [
+    "Mark Girouard, Life in the English Country House (1978), chapters on the long gallery",
+    "proportions/systems/room-harmonic.json, Alberti 1:3 rule and its note on gallery versus corridor",
+    "Historic England listing descriptions for Hardwick Hall (1590-97) and Montacute House (1598-1601)",
+    "International Residential Code R311.6"
+  ],
+  "confidence": "high"
+}

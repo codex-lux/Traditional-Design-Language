@@ -1,0 +1,164 @@
+{
+  "id": "direct-vent-box-in-a-period-surround",
+  "name": "The Glass Rectangle Behind The Chimneypiece",
+  "aka": [
+    "the linear gas fire in a Georgian mantel",
+    "the sealed fire",
+    "the fire with no throat"
+  ],
+  "slots": [
+    "fireplace_surround",
+    "chimney"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "A period chimneypiece — pilasters, frieze, moulded shelf — framing a sealed glass panel behind which a ceramic log set sits on a bed of crushed glass or river stones, lit by a row of ports along the front. The opening is 40 to 60 in wide and 16 to 24 in high, an aspect of 2.2 to 3.0 to 1, where the period firebox is 1.3 to 1.6. There is no throat, no smoke chamber, no soot and no depth: the box is 14 to 18 in deep and its interior is a reflective metal liner. Outside, the flue is a 4 or 6 in concentric pipe leaving through the wall, so the house has a fireplace and no chimney.",
+  "cause": {
+    "driver": "code",
+    "explanation": "Several codes and standards push the same way. Energy codes penalise the open masonry fireplace, which is a net heat loss over a season; the IRC requires tight-fitting dampers and outside combustion air; many jurisdictions restrict or prohibit new wood-burning appliances on air-quality grounds; and a direct-vent sealed appliance is the compliant answer in all three directions, because it draws combustion air from outside and returns exhaust through the same concentric pipe with no room air involved. It is also cheaper by an order of magnitude than a masonry stack, needs no foundation, and can go on any exterior wall. The linear proportion follows from the burner: a long shallow burner behind a glass panel maximises visible flame for a given gas input.",
+    "cost_saved": "A direct-vent unit with a surround runs 4,000 to 9,000 USD installed; a code-compliant masonry fireplace and chimney with a footing runs 18,000 to 45,000 USD. This is the largest cost ratio in the interior group and the argument for the appliance is a good one."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fireplace_surround / firebox_width_in [36,60] and firebox_height_in [30,40]",
+      "statement": "1.3 to 1.6 wide to tall. A linear direct-vent unit at 2.2 to 3.0 cannot be framed by a surround derived from the period proportion without the surround's own members being distorted."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chimney",
+      "statement": "The stack is a mass of masonry rising from a hearth. A concentric vent through a side wall is not a chimney and the elevation cannot pretend it is — which is where this fault meets the vestigial-chase fault on the roof."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a chimneypiece is the frame of an aperture, and the aperture has changed species",
+      "statement": "Every dimension of a classical chimneypiece — the width of the surround band, the height of the frieze, the projection of the shelf, the clearance rules that set them — was derived from a deep opening containing a real fire that radiated heat and threw sparks. A sealed shallow glass panel radiates through one plane, throws nothing, and needs no clearance. The frame is answering a question the object no longer asks."
+    }
+  ],
+  "correct_practice": "Choose the appliance first and let it choose its frame, and do not put a period chimneypiece on an object that is not a fire. Three honest routes. FIRST, AND BEST WHERE THE STYLE MATTERS: use a direct-vent unit whose opening is within the period band — several manufacturers make units at 36 to 42 in wide by 26 to 30 in high, aspect 1.3 to 1.6 — and give it a real chimney breast, a real hearth of 18 to 24 in, and a period surround. The unit is then invisible as an anachronism except at close range, and the room retains its mass and its organisation. SECOND: use a linear unit and give it a linear frame — a plain stone or plaster band, a broad continuous field of brick or tile in the Craftsman manner, or a simple lintel — sized to the appliance's own proportion. This is honest and often better. THIRD: build a real fireplace where the budget and the code allow, accepting that it is a luxury and not a heating device. What must not happen is the linear unit inside the classical frame, because the frame's members then have to stretch horizontally and compress vertically and every relationship in the chimneypiece fails at once. And whichever route is chosen, DO NOT SIMULATE THE CHIMNEY: a vent through a wall with a false chase and a shroud on the roof is a separate and worse fault, and a house with a direct-vent fire and no chimney at all is more honest than one with a hollow stack.",
+  "fixes": {
+    "right": "A direct-vent unit within the period aspect band, in a real breast with a real hearth and a surround derived from its actual opening.",
+    "cheap": "Reduce the visible opening. Where a linear unit is already installed, a non-combustible slip framing the glass down to a period aspect — a stone or steel plate covering the outer 6 to 10 in at each end, within the manufacturer's clearances — brings a 3.0 aspect to about 1.7 for a few hundred dollars, and the surround then has something proportional to frame. Check it against the listing first; the clearance and access requirements are not negotiable. Second free move: add the hearth. A projecting hearth of 18 to 20 in restores the fireplace's relationship to the room even where the appliance is sealed and needs none.",
+    "dishonest": "A log set with a flickering LED and a soot-effect back panel behind the glass. It answers a question about realism that nobody asked and draws attention to the glass, which is the one element that gives the object away. The reason a direct-vent fire looks like an appliance is the sealed plane and the aspect ratio, not the quality of the log moulding. Also dishonest: a decorative damper handle or a false throat above the box, which claims a flue the appliance does not have."
+  },
+  "detection": "Measure the opening's aspect ratio in a photograph: period is 1.3 to 1.6 wide to tall; a linear direct-vent unit is 2.2 to 3.0 and the difference is unmistakable. Second, look for the GLASS: a sealed unit has a continuous reflective plane at the opening, which shows a specular highlight and a reflection of the room in any photograph taken with a flash or with a window behind the camera; a real firebox is a matte black void that reflects nothing. Third, look for the port line: a row of evenly spaced flame ports along a straight burner tube, visible as a regular repeat, which no fire of solid fuel produces. Fourth, from the exterior, look for the vent: a 6 to 12 in round or square metal cap on a wall, usually 12 to 36 in above the fireplace, often on a side elevation. Fifth, the hearth: sealed units require no hearth extension, so its absence in a house with an apparently period chimneypiece is strong evidence.",
+  "test": {
+    "expression": "firebox_opening_width_in / firebox_opening_height_in",
+    "threshold": 1.25,
+    "upper": 1.7,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The period band. A linear direct-vent unit runs 2.2 to 3.0. This is the single measurement that decides whether a given appliance can wear a classical surround, and it is available from any square-on photograph of the fireplace. Craftsman and Shingle Style fireplaces run wider — up to 2.0 — with a heavy lintel, which is a separate band."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "georgian-revival",
+    "colonial-revival",
+    "federal-style",
+    "adam-style",
+    "greek-revival-american",
+    "new-classical",
+    "neoclassical-revival",
+    "italianate-american",
+    "second-empire",
+    "queen-anne-american",
+    "tudor-revival",
+    "english-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "beaux-arts-american",
+    "french-eclectic"
+  ],
+  "exceptions": [
+    {
+      "style": "mid-century-traditional",
+      "why": "The wide low fire opening, sometimes a raised horizontal slot in a masonry wall with no surround at all, is the period's own form, and a linear proportion is correct.",
+      "bounds": "No applied period surround. The opening is a cut in a wall of one material, usually with a raised hearth and no shelf, and the honesty is the point.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "Where a stripped classical language is used deliberately, a linear appliance in a plain stone band of consistent width is coherent — the frame is not claiming a period derivation and does not fail its proportions.",
+      "bounds": "The frame must be genuinely plain: one material, a constant band width, no pilasters, no frieze, no moulded shelf. The moment a moulded classical member appears, the aspect test returns."
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman fire opening is legitimately wide and low — often 42 to 54 in by 26 to 30 in, an aspect of 1.6 to 2.0 — under a heavy lintel and a broad brick field, so a modest linear unit sits within the family's own band.",
+      "bounds": "Up to about 2.0, with a real lintel and a continuous field of one material, and with the raised brick or tile hearth the family requires. Above 2.0 the unit is a modern appliance whatever the field around it is made of."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom's fireplace is a contemporary appliance by intention, usually in a plain plaster or shiplap field with a rough timber mantel, and carries no claim to a pre-industrial firebox.",
+      "bounds": "The mantel must be a plain beam rather than a classical shelf, and the hearth rule still applies for the room's sake even where the appliance does not require it. The idiom's own failure is adding a moulded classical surround, which is family drift."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "surround-that-is-not-the-firebox",
+      "difference": "The kind of appliance against its dimensions. A direct-vent unit can be perfectly fitted to its surround and still be the wrong species behind a classical frame."
+    },
+    {
+      "fault": "vestigial-chimney-chase",
+      "difference": "The roof consequence. A direct-vent fire needs no stack, so a house with one and a chimney on the roof has a hollow chase — the two faults are the interior and exterior halves of one substitution."
+    },
+    {
+      "fault": "chimney-breast-shallower-than-its-firebox",
+      "difference": "That fault is about the mass; this is about the fire. A direct-vent unit in a properly built 20 in breast is only this fault, and it is a much better house than one with both."
+    }
+  ],
+  "co_occurs_with": [
+    "vestigial-chimney-chase",
+    "chimney-breast-shallower-than-its-firebox",
+    "surround-that-is-not-the-firebox"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, fireplace_surround firebox parameters",
+    "ANSI Z21.88 / CSA 2.33 vented gas fireplace heaters, direct-vent listing requirements",
+    "IRC R1004 factory-built fireplaces and R1001 masonry fireplaces",
+    "IECC residential provisions on fireplace dampers and combustion air"
+  ],
+  "confidence": "high",
+  "tags": [
+    "fireplace",
+    "anachronism",
+    "direct-vent",
+    "aspect-ratio",
+    "code-driven"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The hearth is the organising fact of the plan and the chimneypiece the most elaborated object in the room. A sealed linear panel behind a classical frame breaks the proportion of every member of that frame at once."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The Revival's chimneypieces are already partly decorative and its fireplaces frequently gas-converted, so the substitution is less absolute — but the aspect ratio still governs."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "The family's fire opening is legitimately wide and low, so a modest linear unit sits within its own band under a heavy lintel."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "minor",
+      "why": "The idiom's fireplace is a contemporary appliance by intention and claims no pre-industrial firebox."
+    },
+    {
+      "style": "mid-century-traditional",
+      "severity": "not-applicable",
+      "why": "The wide low fire opening is the period's own form."
+    }
+  ],
+  "severity_trajectory": "Inverts over the long term. A sealed gas appliance has a service life of 15 to 25 years and a parts availability window shorter than that, after which the unit is replaced by whatever fits the existing enclosure and vent — so the chimneypiece is re-fitted around a new appliance every two decades, and each round of substitution is a chance to get the aspect ratio worse. A masonry fireplace has no such cycle. The argument for building the breast and the hearth properly is therefore partly an argument about the next four appliances rather than about this one."
+}

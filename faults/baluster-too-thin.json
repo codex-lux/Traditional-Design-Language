@@ -1,0 +1,165 @@
+{
+  "id": "baluster-too-thin",
+  "name": "The Baluster That Is A Pencil",
+  "aka": [
+    "the 1 1/4 square",
+    "the wire baluster",
+    "the picket rail"
+  ],
+  "slots": [
+    "porch_rail",
+    "balustrade"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "A porch balustrade whose balusters are 1 1/4 or 1 1/2 in square in plain stock, or 1 1/4 in turned with almost no belly, or 1/2 in steel rod. They are the same section top to bottom, cast no meaningful shadow, and from thirty feet the rail reads as a horizontal band with a faint grey texture rather than as a course of members. The turned version is worse than the square one: a 1 1/4 in blank cannot be turned to a profile with real relief, because the deepest cove would leave 5/8 in of material, so the turning is reduced to a few shallow rings.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Balusters are sold by the piece and priced by the blank. A 1 1/4 in square is the standard deck-baluster stock and is what every big-box and every deck supplier carries; a 2 1/2 or 3 in turned baluster is a millwork item on a lead time. Where the rail is a code guard rather than an architectural element — which is how it is scoped on almost every job — nobody specifies the section at all, and the installer takes what the yard sells. The 1 1/4 in square also happens to be the section for which the maximum 4 in sphere spacing works out to the fewest pieces, so it compounds with the spacing fault.",
+    "cost_saved": "A 1 1/4 in square treated baluster runs 2-4 USD; a 2 1/2 in turned baluster in a durable species or PVC runs 9-22 USD. On a 40 ft porch with 90 balusters, 600-1,600 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / balustrade / rule",
+      "statement": "A balustrade is 30 to 33 in high with turned or square balusters at 4 to 6 in centres. At 4 in centres the baluster must be substantial or the course cannot read."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / pedestal die and cap — the balustrade as the pedestal course",
+      "statement": "The baluster is a miniature of the column: base, belly, neck and cap, diminishing upward or downward according to the tradition. A member with no belly is not a baluster, it is a picket."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a repeating small member registers by its shadow, not by its outline",
+      "statement": "A 1 1/4 in square in raking light casts a shadow about 1 1/4 in wide on the deck and nothing on itself, because its faces are flat and its arris is sharp. A 2 1/2 in turned baluster casts a shadow on ITSELF along the belly, which is what gives a balustrade its characteristic soft dark-light-dark banding at distance. The turning is a shadow-generating device."
+    }
+  ],
+  "correct_practice": "A residential porch baluster is 2 to 3 in at its widest and not less than 1 3/4 in at its narrowest, whether turned or square. The turned baluster is a small column: a square block at the bottom (the plinth), a swelling belly in the lower third, a neck, and a square block at the top under the rail, with the whole composition proportioned so the belly is at about a third of the height — the same rule as the column's entasis, and for the same reason. Square balusters may be plainer but must keep the section: 2 in square is the working minimum for a period reading and Craftsman work runs 2 1/2 to 3. Where the balustrade is a roof-deck or forecourt balustrade rather than a porch rail, the balusters are larger still — 4 to 6 in at the belly in stone or cast work — because they are read against the sky at a distance. The one dimension that must never be reduced is the belly: it is where the shadow comes from.",
+  "fixes": {
+    "right": "Turned or square balusters of 2 to 3 in at their widest, in a durable species or a solid cellular PVC, at 4 to 5 in centres.",
+    "cheap": "Square, and thicker. A plain 2x2 (1 1/2 in) is the deck default; a plain 2 in square in the same material costs about 1.50 USD more per piece and reads correctly on Greek Revival, Craftsman, farmhouse vernacular and most Colonial Revival porches, none of which need a turning. Choosing SQUARE AND THICK over TURNED AND THIN is the right trade at every price point below about 12 USD a baluster, because a thin turning is a distorted object and a thick square is simply a plainer one. Second free move: chamfer the arrises of a square baluster, which softens the flat face enough to generate a highlight and costs one router pass.",
+    "dishonest": "A thin turned baluster on the assumption that turning compensates for section. It does the opposite: the turning removes material from the already-inadequate section, so the neck of a 1 1/4 in turned baluster is about 5/8 in and the member looks fragile as well as thin. Also dishonest: black-painted balusters to make the rail 'read stronger', which converts the balustrade into a graphic band and is the same evasion as painting a flat muntin."
+  },
+  "detection": "Measure baluster width against the deck board it stands on — a deck board face is 5 1/2 in — or against the rail cap. A baluster narrower than a quarter of a deck board's face is 1 1/4 in stock. Second check, which needs no reference: look at the SHADOW. In any raking light, a correctly sectioned turned baluster shows a bright highlight down its belly and a dark side, so the balustrade reads as alternating light and dark verticals; a thin baluster shows one flat tone. In a photograph, sample the tonal range across a single baluster: a real one contains both a highlight and a near-black, a thin flat one contains one mid-tone. Third check on turned balusters: measure the widest point against the narrowest. A period turning gives 1.6 to 2.2; a thin one gives 1.15 to 1.3 because there is no material to remove.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "baluster_max_width_in",
+    "threshold": 2.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Two inches at the widest point is the working minimum for a porch balustrade to read as a course rather than as a picket fence. Roof-deck and forecourt balustrades take 4 in or more. A useful secondary ratio for turned balusters is max_width / min_width, which should be 1.6 to 2.2 — below 1.4 there was not enough material in the blank to turn a profile."
+  },
+  "severity_by_style": [
+    {
+      "style": "folk-victorian",
+      "severity": "serious",
+      "why": "The turned baluster is the idiom and a thin one is a bad copy of it. Note that Folk Victorian balusters ARE slender by design — see the exception — but slender means 1 3/4 to 2 1/4 in with a real belly, not 1 1/4 in with rings."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "The roof balustrade is a silhouette element and needs section to exist against the sky."
+    },
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "The Craftsman baluster is deliberately heavy — 2 1/2 to 3 in square — and thinness contradicts the idiom directly."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "The kit's ordinary answer is no rail at all on a three- or four-riser stoop."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "severity": "minor",
+      "why": "Slender gallery balusters are correct there."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "folk-victorian",
+      "why": "Catalogue spindlework is thin by design and its thinness is the point: the whole porch is a light lattice of slender turned members, and a heavy baluster under a 4 in turned post would invert the assembly.",
+      "bounds": "Slender means 1 3/4 to 2 1/4 in at the belly with a real turned profile — a genuine swelling, a neck and square blocks. It does not mean 1 1/4 in stock with three rings on it. The test is the belly-to-neck ratio, which must still exceed about 1.5, not the absolute width.",
+      "bounds_test": {
+        "expression": "baluster_max_width_in / baluster_min_width_in",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ],
+        "construction": [
+          "wood-frame"
+        ]
+      }
+    },
+    {
+      "style": "queen-anne-spindled",
+      "why": "Same: the spindled idiom is built out of the thinnest members the lathe could produce, and that thinness is what distinguishes it from the Free Classic subtype.",
+      "bounds": "As above. The whole assembly must be light and turned: thin posts, thin balusters, spindle frieze.",
+      "applies_when": {
+        "date_range": [
+          1875,
+          1905
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Gallery balusters of 1 1/2 to 2 in match the slender colonnettes above them, and the gallery is meant to read as a light screen.",
+      "bounds": "The colonnettes must themselves be slender. A thin baluster under a stout column is the fault.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ]
+      }
+    },
+    {
+      "style": "regency",
+      "why": "Regency ironwork balustrades use members of 1/2 to 3/4 in in wrought or cast iron, and their delicacy is exactly the point — iron's strength permits a section wood cannot.",
+      "bounds": "The member must genuinely be iron, and the pattern must be an iron pattern — scrolls, anthemia, lyres — not a wood profile executed in metal. Steel rod balusters in a wood rail are not Regency ironwork."
+    }
+  ],
+  "co_occurs_with": [
+    "baluster-spacing-as-fence",
+    "guard-height-against-the-period-rail",
+    "rail-without-a-bottom-rail",
+    "four-by-four-under-a-roof"
+  ],
+  "confused_with": [
+    {
+      "fault": "baluster-spacing-as-fence",
+      "difference": "Section versus interval. The solid-to-void test in that fault catches both together and is the better single measurement; this entry exists because the fix is different — spacing is free to correct at layout, section costs money."
+    },
+    {
+      "fault": "flat-grille-no-shadow-line",
+      "difference": "Different member, same mechanism: a member with the right outline and insufficient section, which reads at four feet and dissolves at forty. The balustrade version is more forgiving because the members are closer together."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, balustrade and porch_rail",
+    "proportions/orders/vignola-tuscan.json — the pedestal course and the baluster as a small column",
+    "Nineteenth-century millwork catalogues — published baluster blank sizes",
+    "HABS measured balustrade details, porch and roof-deck"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rail",
+    "balustrade",
+    "profile-depth",
+    "stock-size",
+    "endemic"
+  ]
+}

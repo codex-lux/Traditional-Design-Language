@@ -1,0 +1,196 @@
+{
+  "id": "elizabethan",
+  "name": "Elizabethan",
+  "aka": [
+    "Prodigy house style",
+    "Elizabethan Renaissance",
+    "Smythson style"
+  ],
+  "rank": "style",
+  "member_of": "tudor-jacobean",
+  "status": "historical",
+  "period": {
+    "origin": 1558,
+    "floruit_start": 1570,
+    "floruit_end": 1603,
+    "decline_end": 1620,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1830,
+        "end": 1900,
+        "revival_node": "jacobethan-revival",
+        "note": "The Victorian 'Jacobethan', which fused Elizabethan and Jacobean sources indiscriminately and supplied the model for a generation of country houses and grammar schools."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Wales"
+    ],
+    "hearth": "The Midlands and the North, above all Derbyshire and Nottinghamshire, where Robert Smythson and the Smythson office worked for Bess of Hardwick and her circle",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "tudor",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Continuous practice: the same masons, the same mullion-and-transom window, the same absence of a real classical system. What changes is composition, not craft."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "The orders reach England as printed plates — Serlio's Book IV in its Flemish and Dutch editions, John Shute's First and Chief Groundes of Architecture of 1563 — and are used as applied frontispieces. No Elizabethan mason had seen an Italian building, and it shows in every entablature they cut."
+    },
+    {
+      "target": "flemish-vernacular",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "Real transmission by hand and by press: Protestant refugee craftsmen from the Low Countries settling in East Anglia and the ports from the 1560s, and Vredeman de Vries's Antwerp engravings, which are the direct source of English strapwork."
+    }
+  ],
+  "description": {
+    "short": "The first English style to compose an entire house as a symmetrical object rather than a set of accreted ranges, spending its new wealth on glass, height and silhouette rather than on defence or ornament.",
+    "long": "Elizabethan architecture is what a newly secure, newly rich and intensely competitive gentry built when the monarch travelled. The prodigy houses — Longleat, Wollaton, Hardwick, Burghley — were designed in significant part to receive a royal progress, an event which could ruin the host and make his family. Their extravagance is therefore not decadence but investment, and their strangeness is the strangeness of a building type with no precedent: a very large private house, undefended, in open country, meant to be seen from a distance and approached frontally.\n\nThe technical enabler is glass. English glassmaking capacity expanded sharply in the second half of the century, and the Elizabethans spent the windfall immediately and conspicuously. Hardwick Hall, built 1590-97 to Robert Smythson's design for Bess of Hardwick, has so much of it that the contemporary jingle 'Hardwick Hall, more glass than wall' is a plain description rather than a joke. The consequence is a wall that reads as a grid of mullions and transoms with stone piers between — structurally a masonry building, visually something much closer to a frame. This is the moment when English domestic architecture acquires its taste for the great window, which never afterwards leaves it.\n\nCompositionally the change is decisive. The courtyard collapses into a compact block, often only one room deep so that every room is lit from both sides; the hall is turned through ninety degrees to lie on the entrance axis, which finally kills the screens passage as an organising device; the long gallery migrates to the top floor and runs the length of the house; and the silhouette becomes the primary subject, crowded with turrets, banqueting houses, chimneys disguised as classical piers and strapwork cresting. The orders appear on a central frontispiece, superimposed Doric-Ionic-Corinthian in the standard sequence, entirely as a piece of applied heraldry — Wollaton and Burghley cut them beautifully and use them structurally not at all. What the Elizabethans were reacting against was the medieval plan itself: its inwardness, its irregularity, its refusal to present a face. They wanted a house that could be drawn.\n\nInside, the experience is of light and cold in equal measure, and of a relentless upward pull. At Hardwick the stone stair rises through the whole house in a series of turns, gaining light at every landing, and delivers you at the top into the High Great Chamber, which is the largest and grandest room in the building and is on the second floor — an arrangement that makes no sense until you understand that ascent was the ceremony. The great windows flood these rooms and, in a Derbyshire winter, empty them of heat as fast as the fires fill them. Elizabethan houses were uncomfortable in a way their builders knew about and accepted, which is a useful reminder that comfort has never been the only thing architecture optimises for."
+  },
+  "defining_characteristics": [
+    "The house composed as a single symmetrical block, frontally and from a distance, with the courtyard abandoned or reduced to a forecourt",
+    "Glazed area approaching or exceeding solid wall on principal elevations, in grids of stone mullions and transoms",
+    "A central frontispiece of superimposed classical orders — usually Doric over Ionic over Corinthian — applied as ornament around the entrance and carrying no load",
+    "The hall turned onto the entrance axis, ending the medieval screens-passage sequence",
+    "A long gallery on the top floor running the full length of a range",
+    "Strapwork ornament (interlaced flat bands derived from Antwerp engraving) on parapets, gables, chimneypieces and plaster ceilings",
+    "An animated skyline of turrets, banqueting rooms, obelisks, balustraded parapets and chimneys treated as classical piers"
+  ],
+  "diagnostic_tells": [
+    "More window than wall on a principal elevation, with the glazing in a regular mullion-and-transom grid — the single quickest Elizabethan identification",
+    "Strapwork cresting standing free above the parapet line, often incorporating the owner's initials or device in cut stone",
+    "Superimposed orders stacked on the entrance bay of a facade that is otherwise entirely unclassical, with the entablatures stopping abruptly at the edges of the frontispiece",
+    "Rooftop banqueting turrets and a leaded roof walk — the house is meant to be occupied on top as well as inside",
+    "Windows without hood moulds: by the 1580s the label mould is dropped and the mullion grid runs flush, which distinguishes Elizabethan from Tudor at fifty feet"
+  ],
+  "distinguished_from": [
+    {
+      "node": "tudor",
+      "difference": "Tudor composes a gatehouse and hides a medieval plan; Elizabethan composes the whole building. Tudor keeps the hood mould and the four-centred arch and uses far less glass; Elizabethan drops the hood mould, flattens or squares the openings, and glazes to the limit of what the wall can carry."
+    },
+    {
+      "node": "jacobean",
+      "difference": "A matter of degree and detail rather than of kind. Jacobean adds the Netherlandish shaped and scrolled gable, uses a columned porch rather than a flat frontispiece, is far more often brick with stone dressings, and lays on plasterwork and joinery with a heaviness the Elizabethans avoided. Elizabethan silhouettes are spiky; Jacobean silhouettes are curved."
+    },
+    {
+      "node": "english-baroque",
+      "difference": "A century apart and philosophically opposed. Baroque uses the orders structurally and at colossal scale to model mass and shadow; Elizabethan uses them as flat applied heraldry on a wall of glass. If the wall is being sculpted, it is Baroque; if it is being dissolved, it is Elizabethan."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Symmetry about a central axis, with the mullion-and-transom grid as the working module and a rough, self-taught use of the orders on the frontispiece only. Devised by mason-architects such as Robert Smythson working from plans and from engraved plates, not from any theory of proportion.",
+    "typical_ratios": [
+      "Mullion light 400-550 mm wide; transom divisions producing panels of roughly 1:1.2 to 1:1.5",
+      "Glazed to solid ratio on a principal elevation 45-60 percent, and higher at Hardwick",
+      "Storey heights increasing upward at Hardwick (roughly 1 : 1.1 : 1.3) to mark the ascent to the state rooms — the exact inverse of the Georgian rule",
+      "Long gallery 5-8 m wide by 30-50 m long, proportion 1:6 to 1:8",
+      "Frontispiece order height 1/4 to 1/3 of the elevation height, in three superimposed storeys"
+    ],
+    "bay_rhythm": "Regular and grid-like, established by the window mullions rather than by structural bays; projecting towers or bay windows at the ends and centre punctuate the rhythm without breaking its module. Elevations read as a woven field with accents, not as a colonnade.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "h-plan-manor",
+      "affinity": "canonical",
+      "note": "The E-plan and H-plan are the standard Elizabethan gentry forms, with the porch as the middle stroke."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "common",
+      "note": "Retained at the very largest houses such as Burghley, though increasingly as a forecourt rather than an enclosed life."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "The compact symmetrical block of Hardwick and Wollaton anticipates the double-pile plan by fifty years, but with a central hall or great chamber rather than a stair passage."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible",
+      "note": "Wollaton's raised central prospect room over the hall is a tower-and-block composition, and Smythson's smaller lodges make the type explicit."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Principal elevations must be at least 40 percent glazed, in a mullion-and-transom grid of 400-550 mm lights. A solid-walled elevation with punched openings is not Elizabethan whatever its ornament.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Classical orders occur only on the entrance frontispiece and only as superimposed applied storeys; they may not run across a whole elevation, carry a roof, or form a portico.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Facade symmetry about the entrance axis is absolute on the principal front, including chimney and turret placement. Side elevations may relax.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch is low or concealed behind a balustraded or strapwork parapet; a dominant visible roof slope belongs to Tudor or to the vernacular, not here.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Skyline incident — turrets, banqueting rooms, cresting, chimney piers — must be symmetrically disposed and structurally reachable. Decorative turrets with no interior are a Victorian habit.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hardwick Hall",
+      "location": "Derbyshire, England",
+      "year": 1597,
+      "note": "Built 1590-97 by Robert Smythson for Elizabeth Talbot, Countess of Shrewsbury. Storey heights increase upward, the parapet carries her initials in cut stone, and the glazing ratio has never been exceeded in a house of its date."
+    },
+    {
+      "name": "Longleat House",
+      "location": "Wiltshire, England",
+      "year": 1580,
+      "note": "Rebuilt 1568-80 for Sir John Thynne with Robert Smythson among the masons. The first fully symmetrical, outward-facing English country house elevation, with superimposed orders as flat pilaster strips."
+    },
+    {
+      "name": "Wollaton Hall",
+      "location": "Nottingham, England",
+      "year": 1588,
+      "note": "Built 1580-88 by Robert Smythson for Sir Francis Willoughby on coal money. A compact block with corner towers and a raised clerestoried prospect room over the hall — the most theatrical English house of its century."
+    },
+    {
+      "name": "Montacute House",
+      "location": "Somerset, England",
+      "year": 1601,
+      "note": "Built 1598-1601 for Sir Edward Phelips in Ham Hill stone. E-plan, top-floor long gallery of 52 m, and a facade whose glazing and statuary niches show the style at its most disciplined."
+    }
+  ],
+  "sources": [
+    "Mark Girouard, Robert Smythson and the Elizabethan Country House (1983)",
+    "Mark Girouard, Life in the English Country House (1978)",
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "Malcolm Airs, The Tudor and Jacobean Country House: A Building History (1995)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "prodigy-house",
+    "glass",
+    "strapwork",
+    "symmetry"
+  ]
+}

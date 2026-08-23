@@ -1,0 +1,85 @@
+{
+  "id": "music-room",
+  "name": "Music Room",
+  "aka": ["saloon (when it doubles)", "ballroom (when larger)", "parlour with the piano in it", "practice room"],
+  "function_class": "living",
+  "description": "A room whose dimensions are set by an instrument and by the behaviour of sound in a box. It is the only domestic room where acoustics are the primary design constraint rather than an afterthought, and the constraint runs the opposite way to intuition: the problem with a small music room is not that it is quiet but that it is unbearably loud, because the instrument's sound power is fixed and the room's volume is what turns that power into a sound pressure level.",
+  "history": {
+    "appears": 1700,
+    "declines": 1930,
+    "replaced_by": "the gramophone, the radio and then recorded music generally - the room existed because music had to be MADE in the house if it was to be heard there, and that ceased to be true within one generation",
+    "note": "THE ROOM DIES FOR A REASON THAT HAS NOTHING TO DO WITH ARCHITECTURE. Until about 1900, music in a private house was live music: somebody played and somebody listened, and the piano was the most widely purchased piece of domestic equipment in the nineteenth-century middle-class world. American piano production peaks in 1909 at around 364,000 instruments a year and then falls away sharply - the player piano, the gramophone and, from the 1920s, radio broadcast all deliver music without a performer, and by the mid 1930s production is a small fraction of the peak. The music room goes with it. WHAT SURVIVES IS THE INSTRUMENT WITHOUT THE ROOM: a grand piano in the corner of a living room, where it is too loud, badly placed and used as furniture. That is a worse outcome than either having a music room or not having a piano, and it is extremely common."
+  },
+  "dimensions": {
+    "area_sf": [250, 700],
+    "width_ft": [15, 24],
+    "length_ft": [18, 32],
+    "proportion": [1.2, 1.7],
+    "ceiling_min_ft": 10,
+    "critical_dimension": "VOLUME, AND THE FLOOR IS ABOUT 2,500 CUBIC FEET FOR A GRAND PIANO. A concert instrument produces peaks near 100 dB at a metre; in a small hard room that energy has nowhere to go and the level at the listener stays close to the level at the instrument, which is why a grand in a 12 x 14 x 8 room (1,344 cf) is physically uncomfortable and why the player cannot fix it by playing softer - the dynamic range is compressed at both ends. A 16 x 22 x 11 room is 3,872 cf and works. THE TARGET REVERBERATION TIME IS 0.6 TO 0.9 SECONDS, which by Sabine (RT60 = 0.049 V / Sa) in that room, with S about 1,540 sf, needs an average absorption coefficient near 0.14 - a wood floor with a rug, curtains at the windows, a plaster ceiling and some upholstery. Below 0.4 s the room sounds dead and the instrument thin; above 1.2 s the notes smear. SECOND DIMENSION: AVOID EQUAL OR SIMPLY RELATED DIMENSIONS. A room 16 x 16 x 8, or any room where two dimensions are equal or in a 1:2 ratio, piles its low-frequency room modes on top of one another and produces a strong boom at one or two notes. Ratios near 1 : 1.4 : 1.9 are the classic well-behaved set; a safe domestic version is ceiling = 1.25 x width and length = 1.6 x width. THIRD: 36 IN CLEAR ALL ROUND THE INSTRUMENT for tuning, moving and the lid."
+  },
+  "furniture": [
+    {"item": "grand piano, 6 ft", "footprint_in": [58, 72], "clearance_in": 36, "note": "58 in wide at the keyboard end; add the bench at 24 in and the player at 24 in and the piano's real footprint is 58 x 120. PLACEMENT RULE: the straight side goes to the wall and the curved side into the room, with the lid opening toward the listeners - a grand radiates upward from the soundboard and the lid is a reflector, so a piano whose lid opens at a wall is aimed the wrong way."},
+    {"item": "upright piano", "footprint_in": [58, 25], "clearance_in": 36, "essential": false, "note": "against an INTERIOR wall, never an exterior one: temperature and humidity swings at an outside wall put a piano out of tune faster than playing it does"},
+    {"item": "music stands and chairs for a small group", "footprint_in": [24, 24], "clearance_in": 30, "essential": false, "note": "a string quartet needs a 9 ft circle; four players and twelve listeners is the type's real design case"},
+    {"item": "seating for twelve to twenty", "footprint_in": [22, 22], "clearance_in": 24, "note": "movable and light, set out for the occasion - which is why a music room is sparsely furnished when not in use"},
+    {"item": "rug, sized to sit UNDER the piano", "footprint_in": [108, 144], "clearance_in": 0, "note": "the single most effective acoustic control in the room, and it must be under the instrument rather than beside it, because the first reflection is off the floor"},
+    {"item": "lined curtains", "footprint_in": [96, 8], "clearance_in": 0, "note": "acoustic equipment. A bare glass wall opposite a hard wall produces a flutter echo, audible as a metallic ring on staccato notes."}
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "North or east, and the reason is the instrument rather than the eye: direct sunlight on a piano case dries and cracks the finish and the soundboard, and a south or west window with the instrument in front of it will take it out of regulation over a few seasons. Keep the piano out of the sun path and put the listeners in it if anyone must be.",
+    "glazing_fraction": [0.12, 0.25],
+    "note": "Windows are acoustically the hardest and most reflective surface in the room, so a music room glazed on two adjacent walls needs lined curtains on both or it will ring. The best historic arrangement puts one glazed wall opposite an absorbing one - curtains against bookcases or panelling - which breaks the parallel-surface problem without deadening the room."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {"room": "drawing-room", "why": "the music room's audience is the drawing room's company, and after dinner the party moves into it; in most houses the two are connected by a wide opening so the pair works as one for a large audience", "relation": "direct-door", "strength": "strong",
+       "exceptions": ["the modern practice room, whose whole requirement is the opposite - isolation from everything - and which is better catalogued as a study with an instrument in it"]}
+    ],
+    "should_adjoin": [
+      {"room": "entrance-hall", "why": "musical evenings brought guests who were not dinner guests, and they arrive directly", "relation": "direct-door", "strength": "preferred"},
+      {"room": "loggia", "why": "the music room opening to a terrace doubles the audience in summer and gives the room somewhere to overflow to between pieces", "relation": "direct-door", "strength": "preferred"}
+    ],
+    "must_not_adjoin": [
+      {"room": "bedchamber", "why": "THE ONE THAT IS ALWAYS UNDERESTIMATED. A piano is 85 to 100 dB at source; a standard single-stud partition gives 33 to 38 STC, so 50 to 60 dB arrives next door, which is conversation level and completely prevents sleep. Practice happens in the evening and the early morning. The fix is distance and a plan barrier - a corridor, a closet run, a stair - because reaching 55 STC in a partition costs more than moving the room does.", "relation": "acoustically-separated", "strength": "hard"},
+      {"room": "study", "why": "the two rooms in the house needing the most acoustic isolation cannot be neighbours", "relation": "acoustically-separated", "strength": "hard"},
+      {"room": "kitchen", "why": "cooking humidity swings are as bad for an instrument as sun; a piano in an open plan beside a kitchen goes out of tune measurably faster", "relation": "acoustically-separated", "strength": "preferred"}
+    ],
+    "entered_from": ["drawing-room", "entrance-hall", "gallery-corridor", "living-room"],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Stable humidity is the requirement and it is a real one: a piano wants 40 to 50 per cent RH held steady, and the damage from cycling between 25 per cent in January and 65 per cent in July is cumulative and irreversible in the soundboard. A room with a large glazed area, an open fire and no humidity control does exactly that cycling every year.",
+    "heat": "Even, and NOT a floor register or a radiator under the instrument - a direct heat source below a piano is the fastest way to crack a soundboard. This is a mechanical coordination item and it belongs on the drawings.",
+    "electrical": "Light on the music desk without light in the player's eyes, which puts the fixture behind and above the player - and a floor outlet at the piano's tail, because the alternative is a cable across the room.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {"style": "english-palladian", "name_in_style": "saloon", "trim_grade": "highest", "note": "The double-cube saloon - 30 x 60 x 30 at Wilton being the archetype - is a music room among other things, and its dimensions are Palladio's double square. Note that a double square is precisely the proportion the modal argument warns against; the reason those rooms nonetheless sound well is that they are enormous, heavily modelled with a full order, and hung with textiles."},
+    {"style": "adam-style", "trim_grade": "highest", "note": "Music rooms with organ cases built into the architecture and the ceiling decorated with musical trophies - a room designed as one composition down to the instrument's case."},
+    {"style": "italianate-villa", "trim_grade": "highest", "note": "The nineteenth-century American villa's music room, tall and richly draped, and the drapery is doing acoustic work whether or not anyone said so."},
+    {"style": "queen-anne-american", "trim_grade": "highest", "note": "Often an alcove or bay off the parlor for the piano rather than a separate room - which works acoustically, because an alcove increases the volume the sound expands into without increasing the room's footprint."},
+    {"style": "craftsman-bungalow", "present": false, "note": "Absent as a room; the upright goes against an interior wall of the living room, which is where the type puts it and where it belongs."},
+    {"style": "colonial-revival", "trim_grade": "high", "note": "Where present, usually a second parlor with the grand in it at about 16 x 22 - a genuinely good music-room dimension, arrived at by inheriting the double-parlour plan rather than by acoustic reasoning."},
+    {"style": "shotgun-house", "present": false, "note": "Absent as a room, though the instrument is not: a shotgun's front room commonly holds an upright, and its 12 to 14 ft width with a 10 to 12 ft ceiling gives it a better volume than most modern rooms of the same footprint."},
+    {"style": "contemporary-traditional", "present": false, "note": "Effectively absent. Where a client owns a grand piano the honest advice is that it needs 2,500 cf and a room it does not share with a television, and that it is worth a room."}
+  ],
+  "code": [
+    {"requirement": "No residential code addresses room acoustics, modal distribution or reverberation time.", "conflict": "The whole substance of this room is unregulated, which is why it is designed by accident. Sabine's formula and the 1 : 1.4 : 1.9 dimensional guidance are the operative standards and neither appears in a building code."},
+    {"requirement": "Floor live load 40 psf.", "ref": "IRC Table R301.5", "conflict": "A 6 ft grand weighs about 700 lb on three legs - roughly 230 lb per point on castors of about 4 sq in. That is a point load of over 8,000 psf under each castor, which will dent any softwood floor and mark hardwood. Castor cups are not an accessory."}
+  ],
+  "massing_fit": ["four-over-four", "five-part-palladian", "h-plan-manor", "villa-tower", "mansard-block", "side-hall-double-pile", "temple-front-with-wings", "massed-picturesque", "townhouse-row", "octagon"],
+  "slots": ["room_adjacency_overrides", "ceiling_height_rule", "trim_family", "public_private_gradient", "crown", "wainscot", "floor_material", "light_fixture_family", "special_window"],
+  "faults": ["the-room-nobody-enters", "recessed-can-in-a-plaster-ceiling", "one-trim-grade-for-every-room", "room-deeper-than-its-daylight", "duct-soffit-through-the-formal-room"],
+  "sources": [
+    "Wallace Clement Sabine, Collected Papers on Acoustics (1922)",
+    "L. W. Sepmeyer, 'Computed Frequency and Angular Distribution of the Normal Modes of Vibration in Rectangular Rooms', JASA 37 (1965), for preferred dimensional ratios",
+    "Craig H. Roell, The Piano in America, 1890-1940 (1989), for production figures and the room's decline",
+    "Piano Technicians Guild guidance on placement, humidity and heat sources"
+  ],
+  "confidence": "medium"
+}

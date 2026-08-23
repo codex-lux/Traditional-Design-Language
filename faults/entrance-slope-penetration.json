@@ -1,0 +1,202 @@
+{
+  "id": "entrance-slope-penetration",
+  "name": "Vents on the Front Slope",
+  "aka": [
+    "the pipe organ roof",
+    "front-slope array"
+  ],
+  "slots": [
+    "roof_penetration_rules",
+    "chimney"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The entrance elevation and the roof above it are one composition."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The gable faces the road; anything on it is on the pediment."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "not-applicable",
+      "why": "The roof is invisible from the street behind the bracketed cornice."
+    },
+    {
+      "style": "second-empire",
+      "severity": "not-applicable",
+      "why": "The flat deck above the mansard hides everything."
+    },
+    {
+      "style": "pueblo-revival",
+      "severity": "not-applicable",
+      "why": "The parapet hides everything below its line."
+    }
+  ],
+  "severity_in_use": "minor",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "Plumbing vent stacks, a mushroom attic fan, a bath fan cap, a satellite dish and a solar array on the roof slope facing the street above the entrance - usually in black ABS or mill-finish aluminium against a grey roof, at four or five different heights and no two aligned with anything.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The plumber sets the vent where the stack is, which is over the bathroom, which is wherever the plan put it; running that vent horizontally through the attic to bring it out on the rear slope takes an hour and two fittings and is nobody's line item. The fan goes where the framer left the hole. Solar goes on the slope with the best insolation, which in the northern hemisphere is the south slope regardless of which way the front door faces - and the array designer has never seen the elevation.",
+    "cost_saved": "$80-250 per penetration relocated. On the solar question, moving an array from a south front slope to an east or west rear slope costs 10-20 per cent of annual yield, which is a real number and has to be argued with rather than dismissed."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_penetration_rules",
+      "statement": "Nothing penetrates the entrance slope of the roof except a chimney or a dormer set in the bay rhythm; every modern penetration goes on the rear slope, below the ridge line and out of the approach cone."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_penetration_rules / vent_max_height_above_roof",
+      "statement": "12 in, painted to match the roof. An authored rule, not a historical one - the historical rule is simply that only chimneys and dormers existed."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC P3102, P3103.1",
+      "statement": "Vent stacks and vent headers may be combined so that several fixtures share one stack, and vent terminals must extend a set distance above the roof. The combining permission is the one that goes unused, because the plumber prices the shortest run and nobody has drawn the roof."
+    }
+  ],
+  "correct_practice": "The entrance elevation and the roof above it are one composition and nothing uncomposed appears on either. Only a chimney or a dormer set in the bay rhythm penetrates the entrance slope. Every modern penetration - plumbing vent, mechanical flue, fan, radon stack, array - goes on the rear slope, below the ridge line and out of the approach cone. Where a vent must be forward, combine stacks (the plumbing code permits vent headers so that several fixtures share one stack), keep the terminal within 12 in of the roof surface, and paint it the colour of the roof: a painted 12 in vent disappears at sixty feet and an unpainted 24 in one does not. For solar: rear or side slope, an outbuilding, or a ground mount; and where a front slope is genuinely the only viable one, run the array edge to edge over the whole plane so it reads as a roof material rather than as a patch, with frameless black-on-black modules and black rails.",
+  "fixes": {
+    "right": "Rear-slope everything, with the vents combined into as few stacks as the plumbing code allows.",
+    "cheap": "A single sentence on the roof plan: 'all roof penetrations on rear slopes; combine vents where permitted; paint all vents and flashings to match the roof.' It costs nothing, it is enforceable at rough-in, and it is impossible after. This is the highest-yield sentence on a residential roof plan.",
+    "dishonest": "A decorative cupola or a false dormer built to conceal a vent. It swaps a small ugly object for a large wrong one, and a cupola has proportions of its own that a vent shroud will not satisfy."
+  },
+  "test": {
+    "expression": "count_of_non_chimney_non_dormer_objects_on_the_entrance_roof_slope",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Correct is chimneys and dormers only. For a model: small bright rectangles or cylinders casting their own shadows within the roof plane at irregular spacing are penetrations; a regular line at the ridge is a ridge vent and is a different fault."
+  },
+  "secondary_tests": [
+    {
+      "expression": "vent_terminal_height_above_roof_surface_in",
+      "threshold": 12,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Where a vent must be forward, keep it low and paint it the colour of the roof. A painted 12 in vent disappears at sixty feet; an unpainted 24 in one does not."
+    },
+    {
+      "expression": "solar_array_area_sqft / roof_plane_area_sqft",
+      "threshold": 0.9,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The conditional test for arrays. If a front slope is genuinely the only viable one, run the array edge to edge over the whole plane so it reads as a roof material rather than as a patch - a partial array is worse than a full one."
+    }
+  ],
+  "detection": "Photograph the street elevation and count objects standing on the entrance slope. Correct is chimneys and dormers only. Any pipe, cap, dish, fan or panel is the fault. For a model: small bright rectangles or cylinders casting their own shadows within the roof plane at irregular spacing are penetrations; a regular line at the ridge is a ridge vent and is a different fault.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "region:high-snow-country",
+      "why": "Snow guards, snow rails and heat cable on the entrance slope are functional and are a legitimate visible element with a long history in slate and metal roofing country.",
+      "bounds": "They must run in courses parallel to the eave, in one material, at a regular spacing - a composed element. Scattered pad-style guards are not this.",
+      "bounds_test": {
+        "expression": "snow_guard_course_alignment_deviation_from_eave_parallel_deg",
+        "threshold": 2,
+        "direction": "at-most",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "note": "They must run in courses parallel to the eave, in one material, at a regular spacing - a composed element. Scattered pad-style guards are not this."
+      },
+      "applies_when": {
+        "regions": [
+          "New England",
+          "Upper Midwest",
+          "Rocky Mountain West",
+          "Alpine"
+        ],
+        "construction": [
+          "slate-roof",
+          "standing-seam-metal",
+          "clay-tile-roof"
+        ],
+        "note": "Snow retention is a genuine functional requirement on smooth steep roofs above a certain ground snow load; it is not licensed on an asphalt roof in a mild climate."
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Where the roof is genuinely invisible from the public way behind a bracketed cornice - the style's own test is 'if you can read the roof shape from the sidewalk, reconsider the identification' - the rule relaxes because there is no visible roof plane to compose.",
+      "bounds": "Test it from the sidewalk at the property line, not from the drawing. Anything visible from a public vantage is still governed.",
+      "bounds_test": {
+        "expression": "visible_roof_plane_area_from_the_property_line_sqft",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "sqft",
+        "measurable_from": "site-visit",
+        "note": "Test it from the sidewalk at the property line, not from the drawing. Anything visible from a public vantage is still governed."
+      }
+    },
+    {
+      "style": "second-empire",
+      "why": "The flat deck above the mansard is invisible from grade and is the correct location for everything mechanical.",
+      "bounds": "Nothing may appear in the mansard slope itself, which is fully visible and is the composed surface.",
+      "bounds_test": {
+        "expression": "count_of_penetrations_in_the_mansard_slope",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Nothing may appear in the mansard slope itself, which is fully visible and is the composed surface."
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "The flat roof behind a parapet hides everything, and canales are the only intended penetration of the parapet.",
+      "bounds": "Equipment must sit below the parapet line as seen from the street.",
+      "bounds_test": {
+        "expression": "equipment_height_above_parapet_line_in",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Equipment must sit below the parapet line as seen from the street."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "ridge-vent-on-a-slate-roof",
+      "difference": "That is a continuous line at the ridge that is part of the roofing assembly. This is discrete objects standing on the slope."
+    },
+    {
+      "fault": "soffit-vent-through-cornice",
+      "difference": "Same code requirement, opposite end of the air path, and they should be solved together."
+    }
+  ],
+  "co_occurs_with": [
+    "ridge-vent-on-a-slate-roof",
+    "soffit-vent-through-cornice"
+  ],
+  "deprecated_inheritance": {
+    "statement": "The historical rule is simply that only chimneys and dormers existed: nothing else ever penetrated a roof before about 1900, so the prohibition costs a period house nothing.",
+    "why_not_to_inherit": "Inherited as an absolute, it forbids rooftop solar outright, and a design language that cannot accommodate an array on a south-facing slope will simply be ignored on any house that needs one - which is the fastest way for a traditional rule set to make itself irrelevant.",
+    "modern_substitute": "Rank the answers rather than banning the element: rear or side slope, outbuilding or ground mount first; and where a front slope is the only viable orientation, a full-plane, frameless, black-on-black array with black rails run edge to edge, which reads as a roof material. The rule to keep is that nothing UNCOMPOSED appears on the entrance slope, not that nothing modern does."
+  },
+  "sources": [
+    "kits/georgian-colonial-american.kit.json roof_penetration_rules",
+    "IRC P3103 (vent terminals) and P3102 (vent stacks and headers)",
+    "IRC R806.2",
+    "NREL and manufacturer guidance on array orientation losses"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "roof",
+    "penetration",
+    "solar",
+    "composition"
+  ]
+}

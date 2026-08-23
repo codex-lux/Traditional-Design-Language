@@ -1,0 +1,181 @@
+{
+  "id": "open-plan-in-a-room-based-style",
+  "name": "The Open Plan In A Style Made Of Rooms",
+  "aka": [
+    "the removed partitions",
+    "great-room colonial",
+    "the plan with no doors"
+  ],
+  "slots": [
+    "circulation_parti",
+    "room_adjacency_overrides",
+    "public_private_gradient"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A house wearing the trim of a style organised around discrete rooms - Georgian, Federal, Greek Revival, Italianate - whose ground floor is one continuous volume of 900 to 1,400 sq ft containing a kitchen, a dining table, a sofa and a stair, with the period cornice running unbroken past all of them. Doors survive only on the powder room. Every room the style names has become a zone.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Production framing prices by the square foot of floor and is indifferent to how the area is divided, so every partition, every door and every additional corner is a line item that the open plan deletes. A 2,400 sq ft house loses roughly 180 linear feet of partition, twelve door assemblies and the labour to trim them. The open plan is not primarily a taste; it is the cheapest possible arrangement of a given floor area, and it has been sold as a taste for seventy years. Sightline marketing does the rest: an open plan photographs as larger than it is, and a plan with rooms photographs as smaller.",
+    "cost_saved": "$9,000-$18,000 on a 2,400 sq ft house in partitions, doors, casing and paint, plus one or two fewer HVAC zones."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / circulation_parti / open-plan = forbidden",
+      "statement": "No eighteenth-century existence at all."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / room_adjacency_overrides",
+      "statement": "Every principal room opens directly off the passage and off nothing else; no principal room is a through-route to another; doors across the passage align on a common axis."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / conflict with cost",
+      "statement": "Where the open plan is non-negotiable, keep the DEPTH rule if nothing else: run the open space along the light rather than into it, so that no point is more than about sixteen feet from a window wall. A long shallow open plan is a legitimate vernacular descendant; a deep square one is not."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a style's trim cannot outrank its plan",
+      "statement": "Ornament describes a room's rank and a room's use. Run one cornice past a kitchen, a stair and a sofa and it has stopped describing anything, which is why correct mouldings in an open plan look applied in a way the same mouldings in a room do not."
+    }
+  ],
+  "correct_practice": "Establish whether the style's parti is cellular or open before anything else, because it is the decision no ornament recovers. Georgian, Federal, Greek Revival, Italianate and the townhouse types are cellular: rooms are entered from a passage, they are proportioned individually - 1.0 to 1.5 in vernacular work, Palladio's seven shapes in formal work - and their ceiling heights, cornices and floor finishes state their rank. Craftsman, Prairie and Shingle Style are not cellular in the same way and their openness is a designed, hierarchical openness rather than a deleted partition. Where a modern programme genuinely requires connection, the historical devices are available and are better than absence: a wide cased opening with a full architrave and a beam expressed above it; a pair of pocket doors, which is the nineteenth century's own answer and lets one room become two on demand; a screen of columns marking a change of rank; or a change of ceiling height between zones. The rule that survives all of them: no point in the connected volume should be more than about 16 ft from a window wall, and the connection should run along the light rather than into it.",
+  "fixes": {
+    "right": "Restore the cellular plan: rooms off a passage, doors that shut, and each room proportioned and trimmed to its rank.",
+    "cheap": "Keep the openings and give them jambs. Framing a 10 ft opening as a cased opening with a 5 1/2 in architrave, a 12 in returned head and a dropped beam above adds $600-$1,200 per opening and converts a missing wall into a designed one; adding a 12 in wall return at each end of the opening - which costs framing only - restores the corner every room needs to be a room. Then take the ceiling of the connecting zone down 8-12 in from the rooms it joins, which reads as hierarchy for the price of some furring.",
+    "dishonest": "Marking out the vanished rooms with ceiling beams, a coffer grid or a change of flooring while the volume stays continuous. It draws attention to the rooms that are not there, and the beams cross a space where no beam could span, which anyone who reads structure will see."
+  },
+  "detection": "Count doors that can be closed on the ground floor of the main block, excluding the front door, the rear door and the powder room. Fewer than three on a house of over 2,000 sq ft indicates an open parti. Second, in a photograph, follow the crown moulding: if one continuous cornice passes a range hood, a stair opening and a fireplace, it has stopped describing rooms. Third, on a plan, find the point furthest from any exterior wall and measure it - anything over about 16 ft is a dark core, and open plans generate one almost automatically.",
+  "test": {
+    "expression": "closable_ground_floor_room_doors",
+    "threshold": 3.0,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "plan",
+    "note": "Excludes entry doors, closets and the powder room. A cellular parti in a house over 2,000 sq ft will show five to eight; a builder open plan shows nought to two."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "georgian-revival",
+    "colonial-revival",
+    "federal-style",
+    "adam-style",
+    "greek-revival-american",
+    "italianate-american",
+    "italianate-townhouse",
+    "second-empire",
+    "queen-anne-american",
+    "english-georgian-townhouse",
+    "french-eclectic",
+    "tudor-revival",
+    "dutch-colonial-revival",
+    "cape-cod-revival",
+    "charleston-single-house"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman plan deliberately opens around a hearth, and the openness is authored: living and dining connect through a wide cased opening with a beam, a plate rail carries across both, and the built-in seating, bookcases and buffet fix the arrangement against rearrangement. This is not a deleted partition, it is a joined pair of rooms with the joint designed.",
+      "bounds": "The licence covers ONE joint - typically living to dining - not the whole floor. The kitchen stays a separate room with a door, the hearth remains the organising element with the plan turning on it, and the opening is defined by a structural beam, a colonnade or a pair of built-in bookcase pedestals. A kitchen island facing a sofa is not this.",
+      "bounds_test": {
+        "expression": "openly_connected_principal_rooms",
+        "threshold": 2.0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "plan"
+      },
+      "applies_when": {
+        "slots": [
+          "hearth_position",
+          "built_ins"
+        ],
+        "note": "The exception depends on the built-ins actually being there; without them the plan has no fixed order at all."
+      }
+    },
+    {
+      "style": "california-bungalow",
+      "why": "Same logic as Craftsman, and the climate pushes further - living, dining and sleeping porch can read as one flowing sequence.",
+      "bounds": "The hearth and the built-ins must still be present and the kitchen still separate."
+    },
+    {
+      "style": "prairie-school",
+      "why": "The plan pinwheels about a central masonry chimney and space flows between zones by design, with ceiling height rather than partition doing the separating.",
+      "bounds": "Requires the massive central chimney and the deliberate ceiling-height modulation between compressed circulation and released living volume. A flat 9 ft ceiling over an open rectangle is not a Prairie plan; it is an open plan with wide eaves."
+    },
+    {
+      "style": "shingle-style",
+      "why": "The living hall - a large hall with the stair, the fireplace and seating in one volume, rooms opening from it - is the type's own invention and predates the modern open plan by a century.",
+      "bounds": "The living hall is one room with a hearth and a stair in it, and the dining room and kitchen remain separate rooms opening off it. The hall must be a destination, not a route."
+    },
+    {
+      "style": "ranch-style",
+      "why": "Post-war open planning between living, dining and kitchen is authentic to the type.",
+      "bounds": "The type's own limits still apply: bedrooms in a separate wing behind a door, and the open zone shallow enough to light from one side."
+    },
+    {
+      "style": "mid-century-traditional",
+      "why": "The same post-war logic, applied to a traditional envelope.",
+      "bounds": "Openness between living and dining only; the sleeping wing remains cellular."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "the-room-nobody-enters",
+      "difference": "Opposite responses to the same pressure. This fault deletes the formal rooms; that one keeps them and never uses them. A house almost never has both."
+    },
+    {
+      "fault": "room-deeper-than-its-daylight",
+      "difference": "That is a measurable depth failure that can happen in a cellular plan too. This is a failure of the plan type. They travel together because open plans are deep."
+    }
+  ],
+  "co_occurs_with": [
+    "room-deeper-than-its-daylight",
+    "duct-soffit-through-the-formal-room"
+  ],
+  "alternative_to": [
+    "the-room-nobody-enters"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Explicitly forbidden in the kit; the passage-and-rooms parti is what the style IS."
+    },
+    {
+      "style": "italianate-townhouse",
+      "severity": "fatal",
+      "why": "The double parlour with pocket doors is the type's central room arrangement, and the pocket doors are the point."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "Authored openness around a hearth is the style's own idea."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Twentieth-century revival plans were already loosening; the fatal line is the kitchen joining the formal rooms."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json circulation_parti (open-plan forbidden), room_adjacency_overrides",
+    "proportions/systems/room-vernacular.json, conflicts with cost and with structural",
+    "styles/craftsman.json (interior organised on a hearth; built-ins fixing the plan), styles/prairie-school.json",
+    "Gustav Stickley, The Craftsman, plans of 1903-1916, for the authored open joint between living and dining"
+  ],
+  "confidence": "high",
+  "tags": [
+    "plan",
+    "parti",
+    "open-plan",
+    "fatal",
+    "endemic",
+    "cost-driven"
+  ]
+}

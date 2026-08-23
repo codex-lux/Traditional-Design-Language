@@ -1,0 +1,299 @@
+{
+  "id": "parlor",
+  "name": "Parlor",
+  "aka": [
+    "parlour",
+    "front room",
+    "front parlor",
+    "sitting room (loosely)",
+    "the good room"
+  ],
+  "function_class": "public",
+  "description": "The room at the front of the house where people who are not family are received. It has the best furniture, the best floor, the best trim and the smallest amount of daily use, and for two hundred and fifty years it was the room in which a household presented itself to the world. It is also the room in which the household's most significant events physically took place - courtship, betrothal, the signing of papers, the reception of the minister, and the laying out of the dead - and it is the last of those that explains what happened to it.",
+  "history": {
+    "appears": 1600,
+    "declines": 1910,
+    "replaced": "the high end of the medieval hall, from which it separated as a private eating and sleeping room for the family",
+    "replaced_by": "living-room",
+    "note": "THE PARLOR DID NOT SHRINK BECAUSE HOUSES GOT SMALLER. It died because its functions left the house one at a time and there was nothing left for the room to do. Follow them out. Sleeping goes first - the seventeenth-century parlour contains the best bed, and by 1750 the bed has gone upstairs. Courtship goes next, to the automobile and the commercial entertainment of the 1910s. Formal calling with cards, which is what the room's whole afternoon function was, collapses in the same decade. AND THE FUNERAL MOVES OUT. Until about 1900 an American died at home and was laid out in the parlor for two or three days, and the room's dimensions, its double doors, its position at the front and its route to the street were all shaped by the need to get a coffin in, around, and out. The undertaker's establishment that took that over was called a FUNERAL PARLOR, and the name is the whole argument: the trade took the room's name with the room's function, between roughly 1890 and 1920. Edward Bok's Ladies' Home Journal campaigned through the 1890s and 1900s to abolish the parlor as a wasteful and morbid room and to replace it with a 'living room' - a room named for the fact that it was used by the living. By 1920 the word was gone from builders' catalogues. The room survives as a plan element for another eighty years as the 'front room' or 'formal living room', unused, and dies properly in the 1990s when open planning finally removes it."
+  },
+  "dimensions": {
+    "area_sf": [
+      180,
+      400
+    ],
+    "width_ft": [
+      13,
+      18
+    ],
+    "length_ft": [
+      15,
+      24
+    ],
+    "proportion": [
+      1.1,
+      1.45
+    ],
+    "ceiling_min_ft": 9,
+    "critical_dimension": "THE COFFIN, WHICH IS THE DIMENSION NOBODY WRITES DOWN AND WHICH SHAPED THE ROOM. A coffin is 24 to 28 in wide and 76 to 80 in long; on trestles it stands 30 in high in the middle of the room's long wall or in the bay, and mourners must pass on three sides, which needs 30 in each side and 36 in at the foot: 28 + 60 = 88 in across and 80 + 66 = 146 in along, so the coffin and its circulation alone occupy 7 ft 4 in by 12 ft 2 in in the middle of the floor. Add the room's own furniture round the walls and the parlor cannot be under about 13 x 16. THE SECOND DIMENSION IS THE ROUTE OUT: a coffin cannot be turned in a corridor narrower than about 42 in and cannot be tilted, which is why the parlor is at the FRONT with a direct door to the hall and a straight run to the street door, and why so many nineteenth-century houses have a window or a pair of doors in the parlor big enough to pass a coffin through. The 'coffin corner' niche on the stair landing of some Victorian houses is folklore rather than fact, but the plan logic it purports to explain is entirely real."
+  },
+  "furniture": [
+    {
+      "item": "sofa (horsehair, 19th c) or settee",
+      "footprint_in": [
+        72,
+        30
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "six to eight side chairs, set against the walls",
+      "footprint_in": [
+        20,
+        20
+      ],
+      "clearance_in": 0,
+      "note": "THE PERIPHERAL ARRANGEMENT is the thing modern furniture planning gets wrong about this room. Before about 1840 parlor furniture stood against the wall and was drawn into the centre only when used; the room's default state was an empty floor. That is why parlors look bigger in period images than their dimensions suggest, and why filling one with a fixed centre-facing seating group is an anachronism as well as a mistake."
+    },
+    {
+      "item": "centre table with a lamp",
+      "footprint_in": [
+        42,
+        42
+      ],
+      "clearance_in": 36,
+      "note": "arrives with the argand and then the kerosene lamp after about 1830, and it is what pulls the furniture off the walls into a circle - the centre table is the single object that changed the shape of nineteenth-century domestic life"
+    },
+    {
+      "item": "pier glass or overmantel mirror",
+      "footprint_in": [
+        36,
+        6
+      ],
+      "clearance_in": null
+    },
+    {
+      "item": "piano or parlor organ",
+      "footprint_in": [
+        58,
+        26
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "the reed organ is a parlor object of 1850-1910 and needs a wall clear of the fire and the window"
+    },
+    {
+      "item": "whatnot / etagere in the corner",
+      "footprint_in": [
+        24,
+        16
+      ],
+      "clearance_in": 0,
+      "essential": false
+    },
+    {
+      "item": "coffin on trestles, in the middle of the floor",
+      "footprint_in": [
+        28,
+        80
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "not essential after about 1920 and the governing case before it. See critical_dimension."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "West or south-west. The parlor is an afternoon and evening room - calling hours were early afternoon, and the room's use was social rather than task-based - so it wants the low afternoon sun, and it is the one principal room where a west aspect is a virtue rather than a heat problem, because it was not occupied in the middle of a summer day.",
+    "glazing_fraction": [
+      0.12,
+      0.25
+    ],
+    "note": "The parlor is at the front, which means it is behind the porch in any type that has one, and it therefore pays the porch tax: 2.25 drops to about 1.8 and a 9 ft storey's daylit depth falls from 15 ft 9 in to 12 ft 7 in. A 16 ft deep parlor behind an 8 ft porch has a dark back third, which the period fixed with a second window on the gable end - and a two-sided parlor is the historic norm precisely for this reason, not for compositional balance."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "the parlor is the destination of the reception sequence and must be entered from the hall, never through another room; a parlor reached through the living room is not a parlor",
+        "relation": "direct-door",
+        "strength": "hard",
+        "exceptions": [
+          "creole-cottage-vernacular, where every front room including the best one is entered directly from the gallery and there is no hall to be received in - the gallery does the receiving",
+          "shotgun-house, where the front room IS the parlor and the street door opens into it",
+          "cape-cod-colonial central-chimney plans, where the parlor is entered from the tiny front lobby beside the stack"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "the two formal rooms flank the hall or communicate directly, so that a company can move from one to the other as a body - the double doors between front and back parlour, or between parlour and dining room, are for exactly this and are why they are double",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "entry-porch",
+        "why": "the parlor and the porch are the two halves of one reception system: the caller is held on the porch or admitted to the parlor",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      },
+      {
+        "room": "best-parlor",
+        "why": "in a two-parlour house the front parlour is the formal one and the back parlour the family's, connected by a wide opening and separable by doors",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "smell, noise and steam - and, in the historic case, the presence of servants. The parlor is the room the household's work is hidden from, and a door between them defeats it entirely.",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "bedchamber",
+        "why": "a chamber door onto the parlor puts a rank-4 room onto a rank-2 one; it was normal in the seventeenth century when the parlour held the best bed and became a solecism the moment the bed went upstairs",
+        "relation": "not-visible-from",
+        "strength": "preferred",
+        "exceptions": [
+          "hall-and-parlor plans before about 1750, where the parlour IS the best bedchamber and the bed is a display object",
+          "creole-cottage-vernacular and shotgun-house, whose rooms are functionally interchangeable by design"
+        ]
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "centre-passage",
+      "vestibule",
+      "piazza",
+      "hall"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Historically the least ventilated room in the house because it was the least used, which is why period accounts consistently describe parlors as smelling shut-up and cold. That smell is the room's decline in one sensory fact.",
+    "heat": "Its own fireplace, and in the vernacular case a fire lit only when the room was used - which is the practical reason the room stayed shut. Fuel and the labour of laying a fire were the real cost, not the floor area.",
+    "electrical": "Lamps rather than a ceiling fixture. A centre pendant in a parlor is a post-1890 arrangement; before that the room was lit from the centre table and the mantel, and reproducing it with a single overhead source produces a room that looks correct and feels wrong.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "parlour, best room",
+      "trim_grade": "highest",
+      "note": "The most fully trimmed room in the house: full panelled chimney breast, dado with moulded cap and base, cornice, and the door architraves at the highest grade in the building. If any room in a Georgian house has raised panelling, it is this one."
+    },
+    {
+      "style": "federal-style",
+      "trim_grade": "highest",
+      "note": "Lighter and flatter - composition ornament, a delicate mantel with an oval or urn, and often the room made oval or given a shallow bow. Federal is where the parlor becomes an exercise in refinement rather than in mass."
+    },
+    {
+      "style": "greek-revival-american",
+      "name_in_style": "double parlor",
+      "trim_grade": "highest",
+      "note": "The type's signature: two parlors of equal size divided by a wide opening with sliding or folding doors under a heavy entablature, so the pair can be one room for a party and two for an evening. The doors are the plan's whole flexibility and they are the ancestor of the open plan."
+    },
+    {
+      "style": "italianate-townhouse",
+      "name_in_style": "front and back parlour",
+      "trim_grade": "highest",
+      "note": "As Greek Revival but taller, with 11 to 13 ft ceilings, an arched opening on consoles between the two, and full-height windows to a rear balcony. On a party-wall lot these two rooms are the entire formal plan."
+    },
+    {
+      "style": "folk-victorian",
+      "trim_grade": "high",
+      "note": "The parlor of a small house, 12 x 14, with catalogue trim, a store-bought mantel and a parlor organ. This is where the room's social ambition most exceeds the house's means, and it is the version the Ladies' Home Journal was arguing against."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "ABSENT BY DOCTRINE, and its absence is the type's central argument. The Craftsman house has a living room, entered directly from the porch, with the fireplace and the built-in bookcases in it, and the whole point is that there is no room kept for show. The bungalow is the parlor's obituary in built form."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "living room",
+      "trim_grade": "middle",
+      "note": "Present in plan and dead in function: the front living room of a 1955 ranch, with the picture window and the good furniture, is the parlor under another name, and the family is in the family room. The room was reinvented and re-abandoned inside twenty years."
+    },
+    {
+      "style": "shotgun-house",
+      "name_in_style": "front room",
+      "trim_grade": "middle",
+      "note": "The first room of the file, entered from the street, used as a parlor by day and frequently slept in at night. The type has no room that is not multi-purpose and the parlor function is a mode rather than a place."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "present": false,
+      "note": "Absent, and the absence is now near-universal in speculative planning. The 'formal living room' disappeared from American builders' plans between about 1995 and 2010; the front of the house is now a study, a dining room or a two-storey entry."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable room minimum 70 sq ft and 7 ft in any dimension; glazing area not less than 8 per cent of floor area, ventilation 4 per cent, unless mechanically provided.",
+      "ref": "IRC R303.1, R304",
+      "conflict": "The 8 per cent glazing minimum is half what this room historically had and a third of what makes it pleasant. A 16 x 18 parlor needs 23 sq ft of glass by code and wants 45 to 60."
+    },
+    {
+      "requirement": "Where a fireplace is retained, hearth extension 16 in in front and 8 in each side for an opening under 6 sq ft, and 20 in / 12 in above that.",
+      "ref": "IRC R1001.10",
+      "conflict": "The hearth extension eats furniture floor in front of the fire, which is exactly where the seating group wants to be. Draw it before placing the sofa."
+    }
+  ],
+  "massing_fit": [
+    "hall-and-parlor",
+    "center-passage-single-pile",
+    "i-house",
+    "four-over-four",
+    "side-hall-double-pile",
+    "townhouse-row",
+    "gable-front",
+    "gable-front-and-wing",
+    "cross-gable-victorian",
+    "foursquare",
+    "pyramidal-cottage",
+    "double-pen",
+    "charleston-single",
+    "creole-cottage",
+    "shotgun",
+    "mansard-block"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "trim_family",
+    "chair_rail",
+    "wainscot",
+    "crown",
+    "fireplace_surround",
+    "casing",
+    "floor_material",
+    "light_fixture_family"
+  ],
+  "faults": [
+    "the-room-nobody-enters",
+    "beadboard-in-the-parlour",
+    "one-trim-grade-for-every-room",
+    "mixed-trim-families-in-one-room",
+    "front-door-into-the-living-room",
+    "hearth-on-an-interior-wall",
+    "mantel-at-the-wrong-height",
+    "surround-that-is-not-the-firebox",
+    "duct-soffit-through-the-formal-room",
+    "recessed-can-in-a-plaster-ceiling",
+    "open-plan-in-a-room-based-style"
+  ],
+  "sources": [
+    "Katherine C. Grier, Culture and Comfort: Parlor Making and Middle-Class Identity, 1850-1930 (1988)",
+    "Gary Laderman, The Sacred Remains: American Attitudes Toward Death, 1799-1883 (1996), and Rest in Peace (2003), on the removal of the funeral from the home",
+    "Edward Bok, editorials in the Ladies' Home Journal, 1890s-1900s, on abolishing the parlor",
+    "Clifford Edward Clark, The American Family Home, 1800-1960 (1986)",
+    "proportions/systems/room-vernacular.json, public_private_gradient rule on the parlor against the hall"
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,150 @@
+{
+  "id": "arch-that-carries-nothing",
+  "name": "The arch with no load on it",
+  "aka": [
+    "the decorative jack arch",
+    "soldier course over a steel angle",
+    "the flat-faced voussoir"
+  ],
+  "slots": [
+    "construction_type",
+    "primary_cladding",
+    "window_head_masonry"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "A jack arch, segmental arch or keyed flat arch over an opening in a single-wythe veneer, where the actual span is carried by a galvanised steel angle visible as a dark line under the brick. The voussoirs are parallel-sided rather than tapered, there are no skewbacks, the joints radiate from nothing, and the 'keystone' is a cast block wider than the wall is thick.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "A single wythe cannot span an opening, so a steel lintel is structurally required (IRC R703.8.3). Once the steel is there, the brick above it is cladding and can be laid in any pattern, so the mason lays the pattern the drawing shows using uncut stretchers stood on end. Cutting true tapered voussoirs with a skewback is a gauged-brick operation the modern trade does not carry, and rubbed-and-gauged work is priced per opening by specialists.",
+    "cost_saved": "A gauged flat arch with cut voussoirs and rubbed faces runs $600-$1,800 per opening; a soldier course on a steel angle is $80-$150."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "an arch is a geometry of compression; its form is the diagram of the thrust it carries",
+      "statement": "Voussoirs taper because the joints must be radial to the thrust line. Parallel-sided 'voussoirs' declare that no thrust exists."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / construction_type / masonry-veneer-over-frame (forbidden)",
+      "statement": "The veneer makes the bond, the reveal and the water table all fictions; the arch is the fourth."
+    }
+  ],
+  "correct_practice": "Either build an arch or do not draw one. A real gauged flat (jack) arch over a 3 ft opening in a 13.5 in wall has a skewback rising about 1/2 in per foot of span from the springing, voussoirs tapering so the joints radiate to a centre one span-length below the soffit, a rise of 1/8 to 1/4 in of camber at mid-span so it does not read as sagging, and it is at least 3-5 courses deep (8-14 in). A segmental arch takes a rise of 1/8 to 1/6 of the span. Where steel must carry the load, the honest answer is a plain lintel expressed as a lintel — a stone or cast-stone flat lintel, or a wood lintel on a frame wall — not a masonry arch pretending it is doing something.",
+  "fixes": {
+    "right": "Gauged or cut voussoirs with a real skewback and radial joints, over a genuinely arched opening; or a properly proportioned stone lintel, 1/12 to 1/8 of its span deep, with real bearing at each end.",
+    "cheap": "Use a segmental relieving arch of ordinary uncut brick with WEDGE-SHAPED JOINTS rather than wedge-shaped bricks. This is exactly what vernacular brickwork did for three centuries: the taper is taken in the mortar, the joint is thinner at the intrados and thicker at the extrados, and the geometry is correct even though the units are not cut. It costs perhaps $120-$250 an opening in mason time and no material at all, and it is more honest than any cast unit.",
+    "dishonest": "A cast-stone keystone in the centre of a soldier course. The keystone is the last stone placed and the one that locks the ring; putting one in a flat non-arch is the purest possible statement that the builder does not know what the element does. It is also the most-fitted single item in production masonry."
+  },
+  "detection": "Three checks in a photograph. (1) Joint direction: extend the mortar joints of the head. In a real arch they converge to a point below the opening; in the fake they are parallel and vertical. (2) Skewback: at the ends of a jack arch, look for the sloped joint against the wall — the skewback rises visibly, roughly 1/2 in per foot of span. A jack arch whose end joints are vertical is not an arch. (3) The steel: look for a 1/8 in dark or rust-stained horizontal line at the underside of the head, sometimes with a paint-flaked edge; also look at the RETURN — a real arch turns into the reveal and a veneer arch cannot, because there is no reveal.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival eliminates the arch on principle and uses a flat lintel; a flat stone or wood lintel over an opening is not a failed arch, it is the correct member.",
+      "bounds": "The lintel must read as a lintel: a single member, 1/12-1/8 of span in depth, with visible bearing at each end. A soldier course of brick is not a lintel.",
+      "bounds_test": {
+        "expression": "lintel_depth_in / clear_span_in",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.083,
+        "note": "One twelfth to one eighth of span, as a single member with visible bearing at each end. A soldier course of brick is not a lintel and fails this on unit count before it fails on depth."
+      },
+      "applies_when": {
+        "slots": [
+          "window_head_masonry",
+          "window_head_wood"
+        ],
+        "note": "The arch is eliminated on principle and replaced by an expressed flat lintel."
+      }
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "Where steel is acknowledged — an exposed painted steel lintel with a visible profile — no deception occurs and the detail can be handsome.",
+      "bounds": "The steel must be visible and finished as a designed member, not concealed behind brick that pretends to arch.",
+      "bounds_test": {
+        "expression": "steel_lintel_visible_face_depth_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 3,
+        "note": "The steel must be visible and finished as a designed member. Concealed steel behind brick that pretends to arch is the fault; a painted exposed angle or plate with a legible profile is not."
+      }
+    },
+    {
+      "style": "richardsonian-romanesque",
+      "why": "Massive rock-faced voussoirs with exaggerated depth are the style's whole subject and may be far heavier than structurally necessary.",
+      "bounds": "Exaggeration of a real arch is licence; a rock-faced veneer arch on a stud wall is not, and the tell is the same — the return into the reveal.",
+      "bounds_test": {
+        "expression": "arch_returns_into_reveal",
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Exaggerating a real arch is licence. The tell is unchanged: a rock-faced veneer arch on a stud wall cannot return into a reveal that does not exist."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "flemish-bond-in-a-single-wythe",
+      "difference": "Both are mass gestures on a skin, but the bond fault is about the field of the wall and this one about the opening. The arch fault is more legible to a non-specialist because the geometry is checkable."
+    }
+  ],
+  "sources": [
+    "Brick Industry Association, Technical Notes 31A: Structural Steel Lintels; Technical Notes 31C: Brick Masonry Arches",
+    "International Residential Code R703.8.3 (lintels for anchored veneer)",
+    "HABS documentation of gauged flat arches in Chesapeake and Philadelphia brickwork",
+    "kits/georgian-colonial-american.kit.json, construction_type"
+  ],
+  "confidence": "high",
+  "tags": [
+    "material-honesty",
+    "veneer",
+    "arch",
+    "structure"
+  ],
+  "test": {
+    "expression": "voussoir_width_at_extrados_in / voussoir_width_at_intrados_in",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.15,
+    "note": "Joints must radiate. A jack arch whose joints converge one span below the soffit and which is 12 in deep over a 36 in span tapers 48/36 = 1.33; 1.15 is the safe floor for shallower arches. Parallel-sided units give exactly 1.00 and declare that no thrust exists. Measurable directly by extending the mortar joints in a photograph and testing whether they converge."
+  },
+  "secondary_tests": [
+    {
+      "expression": "skewback_rise_per_ft_of_span_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.5,
+      "note": "The sloped joint against the wall at each end of a jack arch. Vertical end joints mean there is no skewback and therefore no arch."
+    },
+    {
+      "expression": "arch_depth_in / clear_span_in",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.2,
+      "note": "Three to five courses (8-14 in) over a 36 in opening. A single soldier course at 8 in over a 48 in span gives 0.17 and is a cladding pattern, not an arch."
+    },
+    {
+      "expression": "arch_returns_into_reveal",
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "A real arch turns into the jamb because the wall has depth to turn into. A veneer arch cannot, which is why this fault and veneer-reveal-collapse are diagnosed by the same photograph."
+    }
+  ],
+  "co_occurs_with": [
+    "flemish-bond-in-a-single-wythe",
+    "veneer-reveal-collapse"
+  ]
+}

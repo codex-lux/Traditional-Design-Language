@@ -1,0 +1,201 @@
+{
+  "id": "scottish-baronial",
+  "name": "Scottish Baronial",
+  "aka": [
+    "Scots Baronial",
+    "Baronial Revival",
+    "Scottish castellated style"
+  ],
+  "rank": "style",
+  "member_of": "british-picturesque",
+  "status": "revival",
+  "period": {
+    "origin": 1817,
+    "floruit_start": 1830,
+    "floruit_end": 1900,
+    "decline_end": 1930,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1935,
+        "revival_node": null,
+        "note": "A late municipal and hotel phase — railway hotels, distilleries and civic buildings across Scotland — after the country-house market had moved on."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Scotland",
+      "Northern England",
+      "Ireland",
+      "Canada"
+    ],
+    "hearth": "The Borders and Aberdeenshire, spreading from Abbotsford and from the Aberdeen granite trade",
+    "climate_zones": [
+      "5A",
+      "5C",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "regency",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The actual practice. William Atkinson at Abbotsford, William Burn and David Bryce after him were classically trained men running Regency and early Victorian offices; the plans, the construction, the sash windows behind the mullions and the servant-wing planning are all of their own century. Baronial is a costume worn by a Regency house."
+    },
+    {
+      "target": "french-renaissance-chateau",
+      "type": "references",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Quoted twice over. The corbelled bartizan with a conical roof reached Scotland from France during the Auld Alliance and the sixteenth-century royal works, and the nineteenth-century revival then quoted the result while also going back to the Loire directly — Bryce's Fettes College of 1863-69 is explicitly a Loire chateau crossed with a Scots tower house."
+    },
+    {
+      "target": "gothic-revival-british",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Contemporaneous, same clients, same builders, overlapping detail. Baronial is what the Gothic Revival becomes north of the Tweed when it takes its motifs from Scottish tower houses instead of English parish churches."
+    }
+  ],
+  "description": {
+    "short": "The nineteenth-century revival of the Scottish tower house — crow-stepped gables, corbelled bartizans with conical roofs and harled or granite walls — composed picturesquely and built with entirely Victorian technology.",
+    "long": "The vocabulary is genuinely old and the buildings are not, and keeping those two facts apart is the whole discipline of this node. Between roughly 1540 and 1680 Scotland built several thousand tower houses and fortified lairds' houses whose upper works were remarkably inventive: corbel courses stepping the wall outward at the head, angle turrets carried on those corbels and roofed with little conical caps, crow-stepped gables to give a mason a foothold and a wind-resistant edge, harled rubble walls to shed driven rain, and small openings placed for defence and for warmth. Craigievar, completed in 1626, is the finished form. That tradition faded after 1700 and was over as a living practice long before the revival.\n\nWhat brought it back was literature and monarchy. Walter Scott rebuilt Abbotsford between 1817 and 1824 with William Atkinson as his architect, assembling salvaged fragments and antiquarian details around what is in plan a comfortable Regency house, and the Waverley novels then made the Scottish past a saleable commodity across Europe. Victoria and Albert completed the transformation by building Balmoral in 1853-56 to William Smith of Aberdeen's designs, and thereafter every Scottish landowner, brewer, shipping magnate and jute manufacturer who wanted to look established built baronial. William Burn and his partner David Bryce industrialised it: Bryce alone produced well over a hundred houses in which a rigorous Victorian service plan — separate approach for the family, a servants' wing with a bell system, a business room next to the front door — is wrapped in turrets and crow-steps.\n\nWhat it reacted against was the Georgian classical box, which in Scotland had been unusually good and unusually pervasive; the Baronial argument was that a Scottish house should look Scottish, and it was made at exactly the moment Scotland was losing the last of its institutional distinctiveness. Highland clearance and Highland romance are the same decades, which is uncomfortable and true, and the style's association with sporting estates comes directly from it.\n\nStanding in front of a good baronial house is a study in how vertical incident works against mass. The wall is plain and hard — squared rubble or Aberdeen granite ashlar, sometimes harled — with small windows and no ornament for two storeys, and then everything happens at once at the top: corbel courses, turrets, crow-steps, chimney stacks, dormers breaking the wall head with carved pediments. The eye is pulled up and around a corner, and the composition never resolves into a single frontal view, which is the picturesque intent. Indoors the illusion drops immediately. The rooms are large, square, well-lit, plastered and comfortable, laid out with a Victorian sense of circulation, and the only genuinely medieval thing about them is the draught."
+  },
+  "defining_characteristics": [
+    "Crow-stepped (corbie-stepped) gables as the standard gable treatment, with the steps of squared stone and no barge board",
+    "Corbelled angle turrets (bartizans) carried out from the wall head on projecting corbel courses and capped with conical or ogee roofs",
+    "Walls of squared rubble, granite ashlar or harled rubble, plain and unornamented through the lower storeys",
+    "A dominant tower or stair tower, usually placed asymmetrically at a reentrant angle, rising above the general roofline with a caphouse",
+    "Ornament and incident concentrated entirely at the wall head: corbel tables, crenellated parapets with rounds, carved dormer pediments breaking the eaves",
+    "Steeply pitched slate roofs with tall corbelled chimney stacks",
+    "Picturesque asymmetrical massing composed to be read obliquely and in the round, over a rationally planned Victorian interior"
+  ],
+  "diagnostic_tells": [
+    "Crow-steps and a conical-roofed corbelled turret on the same building — the combination is diagnostic of Scotland and of nowhere else",
+    "A corbel course stepping the wall outward at the head, so the top of the building is wider than its base",
+    "Dormers rising through the eaves with carved and dated stone pediments, frequently initialled for the owner",
+    "Two plain storeys of unornamented wall below a wall head that is entirely ornament — a vertical distribution the English Gothic Revival never uses",
+    "Against the sixteenth-century originals: revival buildings have large plate-glass or two-pane sashes, regular floor levels, generous stairs and a service wing; a genuine tower house has tiny openings, a turnpike stair and no corridor anywhere"
+  ],
+  "distinguished_from": [
+    {
+      "node": "gothic-revival-british",
+      "difference": "Different quoted source. Gothic Revival takes pointed arches, tracery, buttresses and bargeboards from English parish churches and manor houses; Baronial takes crow-steps, corbelling, bartizans and harling from Scottish tower houses, and almost never uses a pointed window. Where a house has both, it was designed after 1860 by someone working from photographs."
+    },
+    {
+      "node": "french-renaissance-chateau",
+      "difference": "The chateau uses the conical-roofed turret at much larger scale on a symmetrical or courtyard plan, with elaborate dormers, carved stone panels and steep pavilion roofs. Baronial is smaller-boned, harder-surfaced, deliberately austere below the wall head, and asymmetrical by intent."
+    },
+    {
+      "node": "chateauesque",
+      "difference": "The American Hunt-Vanderbilt manner is Loire chateau at palace scale in fine limestone with lavish carving; Baronial is granite or harl, plain-walled, and Scottish in its motifs. Chateauesque is about wealth; Baronial is about ancestry, real or claimed."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "None classical. Composition is picturesque — balance of masses read obliquely, with a dominant vertical accent — laid over a plan generated by Victorian circulation and service requirements. The tower's height against the main block is the only ratio that must be controlled.",
+    "typical_ratios": [
+      "Tower height above the main ridge not less than one full storey (3.0-4.5 m)",
+      "Bartizan diameter 1.2-2.0 m, corbelled out 450-750 mm from the wall face, with a conical roof of 55-65 degrees",
+      "Crow-step tread 300-450 mm, rise 200-300 mm, cut in squared stone",
+      "Main roof pitch 45-55 degrees in slate",
+      "Window proportion 1.6:1 to 2:1 height to width, noticeably smaller in relation to wall area than any contemporary classical house — glazed area 10-16 percent of elevation",
+      "Wall thickness expressed at reveals of 300-450 mm"
+    ],
+    "bay_rhythm": "Deliberately irregular. Openings are grouped by internal function and by the demands of the composition; the only regularity is within a single flat range of wall, and even there it is often broken by a dormer or turret placed for silhouette.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The style's native massing — an agglomeration of blocks, towers and turrets composed for the oblique view."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "canonical",
+      "note": "The tower at the reentrant angle holding the stair, exactly the Italianate campanile diagram in a different costume."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "The Z-plan and L-plan tower house, with a tower at diagonally opposite corners, is the historical Scottish version of this figure and the one the revival most often quotes."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "Where a service court is enclosed behind the show front, as at Balmoral."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Bartizans and turrets must be corbelled out on a visible course of projecting stones. A turret sitting on a bracket, a cantilevered slab, or nothing at all is the commonest and most immediately visible failure of the style.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Ornament is confined to the wall head — corbel table, parapet, dormer heads, chimney caps. The lower two storeys must remain plain walling. Distributing ornament evenly up the elevation destroys the composition.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Pointed arches, tracery and English bargeboards are forbidden; openings are square-headed or, rarely, semicircular. Gables are crow-stepped or plainly coped, never boarded.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Glazed area not to exceed roughly 16 percent of elevation, and the dominant tower must rise at least one full storey above the main ridge.",
+      "severity": "soft"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Harl or dense squared rubble in lime mortar, detailed for driven rain: deep reveals, weathered copes, and no exposed horizontal ledges. Cement harl on a rubble wall fails in this climate faster than anywhere else in Britain.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Abbotsford House",
+      "location": "Melrose, Scottish Borders, Scotland",
+      "year": 1824,
+      "note": "Built 1817-24 by William Atkinson for Sir Walter Scott, incorporating salvaged fragments and antiquarian details. The founding building of the style and the clearest case of a Regency plan in baronial dress."
+    },
+    {
+      "name": "Balmoral Castle",
+      "location": "Aberdeenshire, Scotland",
+      "year": 1856,
+      "note": "Built 1853-56 by William Smith of Aberdeen with Prince Albert closely involved. Granite ashlar, a dominant clock tower with bartizans, and the royal endorsement that turned a regional revival into a national style."
+    },
+    {
+      "name": "Fettes College",
+      "location": "Edinburgh, Scotland",
+      "year": 1869,
+      "note": "Built 1863-69 by David Bryce. Explicitly a Loire chateau crossed with the Scots tower house, and the fullest demonstration of Bryce's ability to hold a vast picturesque silhouette over a rational plan."
+    },
+    {
+      "name": "The Glen",
+      "location": "Innerleithen, Peeblesshire, Scotland",
+      "year": 1858,
+      "note": "Built 1855-58 by David Bryce for the Tennant family on chemical-industry money. A textbook Bryce composition of towers, turrets, crow-steps and corbelled dormers on a hillside site."
+    }
+  ],
+  "sources": [
+    "Charles McKean, The Scottish Chateau: The Country House of Renaissance Scotland (2001)",
+    "Nikolaus Pevsner, John Gifford et al., The Buildings of Scotland (series)",
+    "Mark Girouard, The Victorian Country House (1971, rev. 1979)",
+    "Miles Glendinning, Ranald MacInnes and Aonghus MacKechnie, A History of Scottish Architecture (1996)",
+    "David Walker, 'David Bryce' in Seven Victorian Architects (ed. Jane Fawcett, 1976)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "revival",
+    "picturesque",
+    "crow-step",
+    "granite",
+    "scotland"
+  ]
+}

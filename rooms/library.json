@@ -1,0 +1,269 @@
+{
+  "id": "library",
+  "name": "Library",
+  "aka": [
+    "book room",
+    "the library",
+    "study (when small)",
+    "smoking room (in its Victorian male form)"
+  ],
+  "function_class": "living",
+  "description": "A room lined with books, used for reading, writing and quiet talk, and in the English country house from about 1770 also used as the family's informal sitting room - which is the interesting fact about it, because the library is the only room in the formal plan that successfully became comfortable. It is defined by its walls rather than its floor: the books are on the perimeter, and everything about the room's daylight, its structure and its furnishing follows from that.",
+  "history": {
+    "appears": 1600,
+    "declines": 1960,
+    "replaced_by": "the study and then the home office, and latterly by nothing at all - the built-in bookcase survives as a styling element in rooms that hold no books",
+    "note": "TWO THINGS ARE WORTH KNOWING AND NEITHER IS THE OBVIOUS ONE. First, the library is the room where the eighteenth-century English country house learned to be comfortable. It starts as a scholar's closet, becomes a formal room of state in the Palladian plan, and then between about 1770 and 1820 turns into the room the family actually sat in - Repton and the picturesque writers describe the process explicitly, and it happens because the library was the only formal room whose furniture was allowed to be moved about and whose use was individual rather than ceremonial. The modern living room is descended from the library at least as much as from the parlour. Second, the library dies not because people stopped reading but because BOOKS STOPPED BEING FURNITURE. A private library of two thousand volumes was, until about 1900, a substantial capital asset, a mark of standing and a working tool with no substitute; the public library, the paperback, and eventually the screen removed all three properties in sequence. What is left is the bookcase as a signifier, which is why so many contemporary 'libraries' are 11 x 12 rooms with 30 linear feet of shelving in them - about 250 books, which is a bookshelf and not a library."
+  },
+  "dimensions": {
+    "area_sf": [
+      180,
+      600
+    ],
+    "width_ft": [
+      13,
+      22
+    ],
+    "length_ft": [
+      15,
+      30
+    ],
+    "proportion": [
+      1.1,
+      1.6
+    ],
+    "ceiling_min_ft": 9,
+    "critical_dimension": "LINEAR FEET OF SHELF, WHICH IS A WALL DIMENSION AND NOT A FLOOR ONE, AND THE ARITHMETIC IS WORTH DOING. A shelf holds 8 to 10 volumes per linear foot of octavo. A wall 12 ft long and 8 ft high carries 7 shelves at 12 ft = 84 linear ft = about 750 volumes. THREE such walls in a 14 x 20 room is 2,250 volumes, which is a real library, and it consumes 12 in of depth off every wall it occupies - so a 14 x 20 room lined on three sides has a clear floor of 12 x 19. Draw the shelves first. THE SECOND AND LESS OBVIOUS NUMBER IS STRUCTURAL. Books weigh 20 to 25 lb per linear foot of filled shelf. That 12 ft wall of 84 linear feet carries 1,700 to 2,100 lb, standing on about 12 sq ft of floor: 140 TO 175 POUNDS PER SQUARE FOOT, against a residential floor designed for 40 psf live load. ASCE 7 gives 60 psf for library reading rooms and 150 psf for stack rooms, and a wall of books is a stack room. IT WILL NOT COLLAPSE - the load is at the wall where the joists are stiffest - but it will DEFLECT and creak, and a bookcase wall run across the middle of a joist span, or on an upper floor, needs the framing designed for it. This is the single most commonly missed structural consequence of an interior fit-out and it is why real libraries are on the ground floor over a bearing wall."
+  },
+  "furniture": [
+    {
+      "item": "bookcases, wall-hung or built-in",
+      "footprint_in": [
+        144,
+        12
+      ],
+      "clearance_in": 36,
+      "note": "12 in nominal depth for octavo, 14 to 16 for folio and art books, shelf spans not over 32 in in 3/4 in material or they sag - which is why period shelving has a vertical every 30 in and modern flat-pack does not"
+    },
+    {
+      "item": "library table or partners' desk",
+      "footprint_in": [
+        72,
+        40
+      ],
+      "clearance_in": 42,
+      "note": "the table is in the MIDDLE of a library and against a wall in a study, and that difference is what distinguishes the two rooms"
+    },
+    {
+      "item": "two easy chairs and a reading lamp",
+      "footprint_in": [
+        34,
+        36
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "sofa",
+      "footprint_in": [
+        78,
+        34
+      ],
+      "clearance_in": 30,
+      "essential": false
+    },
+    {
+      "item": "library steps or ladder",
+      "footprint_in": [
+        24,
+        24
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "needed above about 78 in of shelf height, which is the reach limit; shelves above 84 in without a ladder are decoration"
+    },
+    {
+      "item": "globe, atlas stand, map table",
+      "footprint_in": [
+        30,
+        30
+      ],
+      "clearance_in": 30,
+      "essential": false
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "NORTH, AND FOR TWO REASONS THAT POINT THE SAME WAY. Direct sun bleaches bindings and cloth measurably within a few years and degrades paper; and reading needs light on the page without glare or a moving bar of sunlight across it. A north or north-east library is the historic preference and the correct one. Where the room must face south or west, the books go on the wall the sun cannot reach and the window gets a blind that is actually used.",
+    "glazing_fraction": [
+      0.1,
+      0.2
+    ],
+    "note": "THE LIBRARY IS THE ONE ROOM WHERE DAYLIGHT AND THE ROOM'S CONTENTS ARE IN CONFLICT, because every wall given to a window is a wall taken from the books and every wall given to the books is a wall that cannot be glazed. That is why libraries are lit from one side only and why they are among the few rooms where a single-sided arrangement is a positive choice: 2.25 x a 7 ft head is 15 ft 9 in, so a library up to about 16 ft deep from its window wall is fully lit with three solid walls of shelving, and that dimension is why the type clusters at 14 to 16 ft wide. Go deeper and either the far end goes dark or a second window wall costs 750 books. The elegant historic answer is the BAY OR ORIEL: one deep window in a projection lights the room and takes almost no wall from the shelving."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "the library receives visitors on business - it is where the estate, the parish and the household's affairs were transacted - so it needs a direct approach from the hall and does not want to be reached through a sitting room",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "drawing-room",
+        "why": "in the country-house sequence library, drawing room and dining room form the enfilade along the garden front, and the library is where the party disperses to after dinner",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "study",
+        "why": "where both exist, the study is the private working room off the library and the library is the sociable one - the pair is a real arrangement and not a redundancy",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "loggia",
+        "why": "the library was the room that opened to the garden in the picturesque plan, and full-height windows to a terrace are the type at its best",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "steam and cooking aerosols are genuinely bad for bindings and paper, and a library sharing a wall or an air path with a kitchen will show it within a decade",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "family-room",
+        "why": "the library's use is concentration and the family room's is noise; a shared wall between them fails both",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "bathroom",
+        "why": "A LIBRARY MUST NOT BE UNDER OR BESIDE A WET ROOM. Water is the only thing that destroys a book collection irrecoverably, and a bathroom overhead is the commonest source. This is a hard rule and it is almost never stated.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "centre-passage",
+      "gallery-corridor",
+      "drawing-room",
+      "stair-hall"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "STABLE RATHER THAN PLENTIFUL. Books want 45 to 55 per cent relative humidity and a steady temperature; swings do more damage than any single value, and mould begins above about 65 per cent RH. A library on an exterior wall with no insulation behind the shelving is a cold surface with still air in front of it, which is exactly the condition for mould on the back of the bottom shelf - and it is the commonest failure in real book rooms. Hold the shelving 1 in off the wall or insulate behind it.",
+    "heat": "Even and moderate. A fireplace in a library is historic and correct, but the shelving must be clear of the chimney breast by the code's clearance and by common sense - and a direct radiant source on a book spine will dry and crack leather within a season.",
+    "electrical": "Two systems. Shelf lighting - a concealed strip at each shelf front, or picture lights on the case tops - and reading light at the chair, which must be BEHIND AND OVER THE SHOULDER at about 48 in above the floor. A ceiling downlight in a library lights the tops of the shelves and the reader's lap and nothing useful.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "trim_grade": "highest",
+      "note": "The room's canonical form: bookcases in a full architectural order with a pedimented or entablatured top, breaking forward at the centre, with a chimneypiece and a bay to the garden, and the furniture arranged for sitting rather than for study. This is the room where the country house became habitable."
+    },
+    {
+      "style": "regency",
+      "trim_grade": "highest",
+      "note": "The library as the family's principal living room, with French windows to the lawn, movable furniture and the books in low cases with brass grilles. Repton's plans are explicit that the library has replaced the drawing room in daily use."
+    },
+    {
+      "style": "gothic-revival-american",
+      "trim_grade": "highest",
+      "note": "Dark oak or chestnut, a beamed or panelled ceiling, an inglenook, and the shelving carried into pointed-arch bays. The type's best room and the one where the style's tectonic seriousness pays off."
+    },
+    {
+      "style": "richardsonian-romanesque",
+      "trim_grade": "highest",
+      "note": "Heavy, low, deeply recessed, with the fireplace in a stone inglenook and the shelving built into the wall thickness - which is the correct move and the one thing solid masonry gives that framing cannot: shelves that cost the room no floor."
+    },
+    {
+      "style": "craftsman",
+      "trim_grade": "high",
+      "note": "Not a separate room but built-in bookcases with leaded glass doors flanking the living room fireplace, plus a plate rail. The Craftsman position is that books belong in the room the family uses, which is a genuine architectural argument and not a compromise."
+    },
+    {
+      "style": "colonial-revival",
+      "trim_grade": "high",
+      "note": "A 14 x 18 panelled room off the hall with fluted pilasters, a broken-pedimented overmantel and shelving to the cornice - usually correctly detailed and usually too small to hold a library."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "present": false,
+      "note": "Generally absent; where a plan is labelled 'library' or 'flex room' at the front it is a 11 x 12 space that will hold about 300 volumes. Worth naming honestly as a study."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent."
+    },
+    {
+      "style": "ranch-style",
+      "present": false,
+      "note": "Absent as a room; books go on a low case in the living room, which is consistent with the type and is not a failure of it."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Residential floor live load 40 psf; ASCE 7 gives 60 psf for library reading rooms and 150 psf for stack rooms.",
+      "ref": "IRC Table R301.5 / ASCE 7-22 Table 4.3-1",
+      "conflict": "THE CENTRAL TECHNICAL POINT OF THIS ROOM. A filled bookcase wall imposes 140 to 175 psf over its footprint, three to four times the residential design load. It rarely fails and it routinely deflects and creaks. Put the shelving over a bearing wall, or run it perpendicular to the joists near their supports, or size the joists for it - and never put a full-height book wall in the middle of an upper-floor span."
+    },
+    {
+      "requirement": "Habitable room glazing 8 per cent of floor area.",
+      "ref": "IRC R303.1",
+      "conflict": "Awkward here rather than elsewhere: a 300 sq ft library needs 24 sq ft of glass and every square foot of window wall costs about 60 volumes. A single bay or a tall window on one wall satisfies both; four scattered windows satisfy the code and destroy the room."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "five-part-palladian",
+    "h-plan-manor",
+    "side-hall-double-pile",
+    "massed-picturesque",
+    "villa-tower",
+    "mansard-block",
+    "townhouse-row",
+    "foursquare",
+    "cross-gable-victorian",
+    "octagon"
+  ],
+  "slots": [
+    "built_ins",
+    "room_adjacency_overrides",
+    "trim_family",
+    "fireplace_surround",
+    "daylight_strategy",
+    "orientation_rule",
+    "public_private_gradient",
+    "special_window",
+    "light_fixture_family"
+  ],
+  "faults": [
+    "built-in-that-is-furniture",
+    "one-trim-grade-for-every-room",
+    "room-deeper-than-its-daylight",
+    "recessed-can-in-a-plaster-ceiling",
+    "mantel-at-the-wrong-height",
+    "closet-on-the-exterior-wall",
+    "dark-trim-inversion"
+  ],
+  "sources": [
+    "Mark Girouard, Life in the English Country House (1978), on the library becoming the family sitting room",
+    "Humphry Repton, Fragments on the Theory and Practice of Landscape Gardening (1816), on the modern living-room use of the library",
+    "ASCE 7-22 Table 4.3-1, minimum uniformly distributed live loads",
+    "Northeast Document Conservation Center, preservation leaflets on temperature, relative humidity and light for book collections"
+  ],
+  "confidence": "high"
+}

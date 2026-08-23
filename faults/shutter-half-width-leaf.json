@@ -1,0 +1,176 @@
+{
+  "id": "shutter-half-width-leaf",
+  "name": "The Half-Width Shutter",
+  "aka": [
+    "decorative shutter",
+    "the 12-inch shutter",
+    "shutters that could not close"
+  ],
+  "slots": [
+    "shutter"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A pair of shutters flanks a window, but if they swung shut they would leave a strip of glass showing down the middle. Each leaf is between a quarter and two fifths of the window width instead of half. On a 36 in opening the leaf measures 12 in or 14 1/2 in where it needs 17 1/2 in.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Vinyl and composite shutters are moulded, not cut, so they exist only in the widths the extrusion dies produce. The dominant North American lines offer 12 in and 14 1/2 in and nothing between; heights step in 3 to 4 in increments from 25 in to 80 in. A correctly sized leaf for a common 32 to 36 in sash falls between 15 1/2 and 17 1/2 in, which is outside the stock range in both directions, so the specifier picks the nearest catalogue number and the window loses its shutters without anyone deciding to remove them. Nobody involved believed the shutter would ever close, so its width stopped being a dimension and became a trim colour.",
+    "cost_saved": "A stock pair runs roughly 45 to 90 USD; a correctly sized custom pair in wood or fibreglass runs 250 to 600 USD before hardware. Across a 14-window elevation that is a 3,000 to 7,000 USD line item, which is why it is the first thing value-engineered."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / shutter.width",
+      "statement": "leaf_width = (opening_width - 1.0) / 2, which is 17 1/2 in at a 36 in opening: half the opening less the meeting clearance, so the closed pair actually covers the glass."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / shutter / half-width-decorative-shutter",
+      "statement": "Named in the style node as the single commonest tell of a fake traditional facade."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "colonial-revival / shutter",
+      "statement": "Shutters, where used, must each equal half the sash width and the full sash height and be capable of closing over the opening."
+    }
+  ],
+  "correct_practice": "Two dimensions, both derived from the opening and neither from a catalogue. Leaf width = (opening width - 1 in) / 2, so the closed pair meets on the centreline with a working clearance. Leaf height = the full height of the sash opening, measured to the same points the shutter would seat against, not to the outside of the casing. Ratio of leaf width to opening width must be 0.50 and is typically built at 0.33 to 0.40. Check the sum: two leaves plus 1 in must equal the opening width to within 1/2 in.",
+  "fixes": {
+    "right": "Custom leaves at half the opening width and the full sash height, in wood, fibreglass or extruded aluminium, hung on offset pintles so they stand off the wall and actually swing.",
+    "cheap": "Delete the shutters. On a facade where correct shutters cannot be afforded, no shutters is not a compromise but a legitimate historical condition — a large share of surviving eighteenth- and nineteenth-century houses never had them, and a bare punched opening with a proper sill and head casing reads better than a window with two undersized flaps. This costs less than the wrong answer.",
+    "dishonest": "Buying the next size up. Going from 12 in to 14 1/2 in on a 36 in window moves the ratio from 0.33 to 0.40 and changes nothing that anyone perceives, because the eye reads the gap that would remain, not the leaf. Equally dishonest: widening the casing so the shutters look proportionally closer to correct, which fixes the photograph and worsens the building."
+  },
+  "detection": "Measure two horizontal spans in the same photograph: the glass opening between the jambs, and one shutter leaf at the same height. The leaf must be at or just above half the opening. Below 0.45 the fault is present; at 0.30 to 0.40 it is the standard builder condition. A faster read: mentally fold the two leaves inward — if they do not touch, the fault is present. In elevation photographs the tell is that the shutter is narrower than the window is deep in reveal terms, and that a run of windows of different widths all carry identically sized shutters.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "minimal-traditional",
+      "why": "The style's own constraint permits a purely emblematic pair of shutters as one of the three items of ornament the type is allowed, and its shutters were built undersized from new in the 1935-1950 period. The undersizing is part of the historical record of the type rather than a modern failure.",
+      "bounds": "Not less than 45 per cent of the opening width even here, and only on the single-punched openings of a symmetrical front; never on ganged or bay windows. If the house is a revival of the type rather than an original, build them correctly — nothing is gained by reproducing a Depression-era economy.",
+      "bounds_test": {
+        "expression": "shutter_leaf_width_in / window_opening_width_in",
+        "threshold": 0.45,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The style's own floor. Below 0.45 the licence lapses and the fault returns at full severity."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1950
+        ],
+        "note": "The licence is for surviving original fabric of the period. New work in the idiom should build the leaf correctly; nothing is gained by reproducing a Depression-era economy."
+      }
+    },
+    {
+      "style": "folk-victorian",
+      "why": "The type ornaments only where the underlying folk building already had an element, and catalogue shutters were among the things a mill actually shipped, at whatever width the mill made.",
+      "bounds": "Panelled or louvred leaves on hinges; the leaf may fall short of half but must exceed 45 per cent, and hardware must be present.",
+      "bounds_test": {
+        "expression": "shutter_leaf_width_in / window_opening_width_in",
+        "threshold": 0.45,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Same floor, and hardware must be present, which is the condition the mill-catalogue argument depends on."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "shutter-without-hardware",
+      "difference": "That fault is about attachment and reads at ten feet; this one is about dimension and reads at a hundred. A correctly sized shutter screwed flat to the wall is the other fault; a half-width shutter on real pintles is this one. Most builder facades have both."
+    },
+    {
+      "fault": "shutter-panel-scale",
+      "difference": "That fault concerns the internal divisions of the leaf being drawn for a wider leaf than the one moulded. A leaf can be correctly sized and still have wrong panel proportions."
+    }
+  ],
+  "sources": [
+    "Mid-America and Builders Edge vinyl shutter size charts, stock widths 12 in and 14 1/2 in",
+    "NPS Preservation Brief 3, exterior shutters and blinds as environmental controls",
+    "Measured Anglo-American sash and blind dimensions, 1740-1860",
+    "proportions/modules/sash-light.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "shutter",
+    "canonical",
+    "stock-size",
+    "ratio-test"
+  ],
+  "test": {
+    "expression": "shutter_leaf_width_in / window_opening_width_in",
+    "threshold": 0.48,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The canonical value is 0.50 — half the opening less a 1 in meeting clearance. 0.48 is the tolerance floor. Stock vinyl leaves give 0.33 (12 in on a 36 in opening) and 0.40 (14 1/2 in). Measure at the glass jambs, not at the outside of the casing, which is the commonest measurement error and flatters the leaf."
+  },
+  "secondary_tests": [
+    {
+      "expression": "shutter_leaf_height_in / sash_opening_height_in",
+      "threshold": 0.95,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Stock leaf heights step in 3 to 4 in increments from 25 to 80 in, so the height fails independently of the width. A leaf short of its sash shows a strip of casing at top or bottom."
+    },
+    {
+      "expression": "(2 * shutter_leaf_width_in + 1.0) / window_opening_width_in",
+      "threshold": 0.98,
+      "direction": "at-least",
+      "upper": 1.06,
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The closure test stated directly: the pair plus its clearance must reconstruct the opening. Direction is at-least because a leaf slightly over half is harmless and a leaf under half is not."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "colonial-revival",
+      "severity": "fatal",
+      "why": "The style's own constraint makes closable shutters a condition of the style, and half-width leaves are one of its named diagnostic tells. Nothing else on the elevation recovers it."
+    },
+    {
+      "style": "monterey-revival",
+      "severity": "fatal",
+      "why": "The style node states the case directly: half-width shutters are more conspicuous here than on most styles, because the double-hung sash and its shutters are the only Anglo elements carrying the hybrid and they are being read closely."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "The type used emblematic shutters from new as one of three permitted items of ornament; the undersizing is in the historical record of the type."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "minor",
+      "why": "Catalogue shutters at whatever width the mill made are consistent with a type whose whole ornament budget came from a catalogue."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Shutters are forbidden outright by the style's constraint, so there is no leaf to size."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "The trimless envelope has no shutters to measure."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "not-applicable",
+      "why": "Ornament is essentially absent by definition: no shutters."
+    }
+  ],
+  "severity_in_use": "minor",
+  "co_occurs_with": [
+    "shutter-without-hardware",
+    "shutter-panel-scale",
+    "shutter-on-an-unshutterable-opening"
+  ]
+}

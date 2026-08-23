@@ -1,0 +1,37 @@
+{
+  "id": "continental-baroque-neoclassical",
+  "name": "Continental Baroque & Neoclassical",
+  "rank": "family",
+  "member_of": "classical-mediterranean",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1600,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "France",
+      "Italy",
+      "Continental Europe"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The French-led sequence from Baroque grandeur through Neoclassical restraint to the Beaux-Arts system that trained a generation of American architects.",
+    "long": "France took the Italian classical inheritance and made it a state apparatus: an academy, a curriculum, a hierarchy of building types, and a method of composition taught by competition. The Baroque phase pursued theatrical spatial effect; the Neoclassical reaction pursued archaeological correctness and structural honesty; the Beaux-Arts synthesis systematized both into a teachable design process built on parti, poché, and axial hierarchy.\n\nFor American residential architecture this family matters chiefly through the Ecole des Beaux-Arts, where Richardson, Hunt, and hundreds of others trained. The eclectic revivals of 1880–1940 are not naive antiquarianism; they are the product of a rigorous compositional education applied to borrowed vocabularies."
+  },
+  "defining_characteristics": [
+    "Composition taught as a formal discipline: parti, axis, hierarchy, poché",
+    "State and academy as patrons and standard-setters",
+    "Archaeological correctness as a competing value against expressive effect",
+    "Building types codified and ranked"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

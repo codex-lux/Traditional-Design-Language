@@ -1,0 +1,186 @@
+{
+  "id": "creole-cottage-vernacular",
+  "name": "Creole Cottage",
+  "aka": [
+    "maison créole",
+    "New Orleans Creole cottage",
+    "Gulf Coast cottage"
+  ],
+  "rank": "variant",
+  "member_of": "french-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1720,
+    "floruit_start": 1760,
+    "floruit_end": 1860,
+    "decline_end": 1890,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1925,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "Revived in New Orleans through the Vieux Carré Commission (established 1936) and the restoration work of Richard Koch and Samuel Wilson Jr., more as preservation practice than as new suburban production."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "New Orleans (Vieux Carré, Faubourg Marigny, Tremé)",
+      "Mississippi Gulf Coast",
+      "Mobile, Alabama",
+      "Bayou Teche and the Acadian parishes",
+      "Natchitoches, Louisiana"
+    ],
+    "hearth": "New Orleans and the river parishes above it, on French plan habits reworked through a century of Caribbean practice",
+    "climate_zones": [
+      "2A",
+      "3A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "norman-vernacular",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The steep double-pitched roof on Norman trusses and the colombage wall are the direct structural inheritance; everything about the plan's climatic behaviour is a New World development."
+    }
+  ],
+  "description": {
+    "short": "A one-storey four-room house with no hallway, two or four equal front doors, and a roof that either extends over a shallow gallery or projects as a bracketed abat-vent, built at the front lot line from the Gulf Coast to the bayous.",
+    "long": "The Creole cottage is the densest piece of climatic reasoning in American vernacular building, and its most radical decision is a negative one: there is no hall, and there is no front door. There are two front doors, or four, and they are the same size and the same importance, one per front room. Circulation happens by walking from room to room through paired French casement doors, or by stepping outside onto the gallery and re-entering somewhere else. In a climate where a corridor is a dead space with a single opening and no breeze path, this is not primitivism. It is the correct answer, arrived at by people who had been living in the Caribbean for a century before they got to Louisiana.\n\nThe plan is a square of four rooms, two wide and two deep, roughly thirty-six by thirty-six feet, with the two front rooms formal and the two rear rooms private. Behind them, at the back wall, two small enclosed rooms — the cabinets — project at the corners with an open recessed loggia between them; one cabinet usually contains the stair to the garret. Chimneys are internal, on the party wall between the paired rooms, so the masonry heats two rooms and stays inside the envelope. Ceilings run eleven to thirteen feet, which puts the hot air well above anyone's head and lets the full-height doors work as a chimney for the room.\n\nThe front is where the type divides. The rural and early urban cottage carries a posted gallery six to ten feet deep, roof continuous over it at a flattened pitch. The dense urban cottage, built to the front lot line on Bourbon or Dauphine or Royal, cannot have posts on the banquette, so it uses the abat-vent: the roof plane, or a separate shed, projecting thirty to forty-eight inches over the sidewalk on wrought-iron rods or timber brackets, with nothing touching the ground. That detail is unique to the Gulf Creole tradition and is the single fastest way to identify the type from a passing car.\n\nWalls are colombage — heavy cypress posts with soft brick nogging (briquette-entre-poteaux) or mud-and-moss bousillage — stuccoed on masonry-fronted work and weatherboarded elsewhere, because the local brick was too soft to be left in the weather. The roof is steep, forty to fifty degrees, hipped or side-gabled, and where a gallery exists the pitch breaks at the wall plane.\n\nInside, on a July afternoon with the blinds closed and the doors open, it is a genuinely comfortable building without a machine in it: high ceilings, deep shade, cross-draught through every room, twelve-inch cypress floorboards two feet off the ground, and light coming in low and green off the shutters. The type persisted into the 1860s almost unchanged for the good reason that nothing better was available."
+  },
+  "defining_characteristics": [
+    "Four-room square plan, two rooms wide and two deep, with no interior corridor and no principal front door",
+    "Two (or four) equal full-height French casement doors on the front elevation, one serving each front room",
+    "Rear loggia recessed between two projecting corner cabinets, one usually containing the stair",
+    "Either a posted galerie 6–10 ft deep with a pitch break at the wall plane, or an abat-vent projecting 30–48 in on iron rods or brackets with no posts",
+    "Steep side-gable or hipped roof at 40–50 degrees over the body of the house",
+    "Colombage frame with briquette-entre-poteaux or bousillage infill, stuccoed or weatherboarded",
+    "Internal chimneys on the partition between paired rooms; ceilings 11–13 ft; floor raised 12–36 in on low brick piers"
+  ],
+  "diagnostic_tells": [
+    "Two front doors of identical size with no window between them, and no way to tell which is 'the' entrance",
+    "An abat-vent — a roof overhang with brackets or rods and no posts — over the sidewalk",
+    "Rear elevation showing a recessed open bay with a small square room at each end",
+    "Exterior louvred blinds on doors rather than on windows, because the openings are doors",
+    "Floor plate visible above grade on low brick piers, with no basement and no water table"
+  ],
+  "distinguished_from": [
+    {
+      "node": "shotgun-house",
+      "difference": "Both are one-storey New Orleans types with no corridor, but the shotgun is one room wide with the gable to the street and rooms in single file; the Creole cottage is two rooms wide and two deep with the eave to the street. The shotgun is also later — post-1810 — and Afro-Caribbean in its transmission."
+    },
+    {
+      "node": "raised-creole-plantation",
+      "difference": "Same plan logic, radically different section. The raised house sits its principal floor eight to twelve feet up on a full masonry service storey and is reached by an exterior stair to the galerie; the cottage sits at or near grade on low piers."
+    },
+    {
+      "node": "greek-revival-southern-plantation",
+      "difference": "After about 1830 many Creole cottages acquire Greek Revival door surrounds, wider frieze boards and square box columns. The plan test is decisive: a Greek Revival cottage has a central hall and one front door; a Creole cottage has neither."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Four equal cells sized by cross-ventilation and by the cypress beam, with the gallery or abat-vent depth set by the summer sun angle at the latitude of New Orleans.",
+    "typical_ratios": [
+      "Overall body 32–40 ft wide × 30–38 ft deep; each room 15–19 ft square",
+      "Ceiling 11–13 ft on the principal floor",
+      "Roof 40–50 degrees on the body; gallery slope 20–30 degrees",
+      "Galerie depth 6–10 ft; abat-vent projection 30–48 in",
+      "French door opening 5 ft 6 in – 6 ft 6 in wide overall × 8–10 ft high",
+      "Floor 12–36 in above grade on brick piers"
+    ],
+    "bay_rhythm": "Four bays: door–window–window–door, or door–door–door–door. Even-numbered and centreless by design; there is no privileged bay.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "creole-cottage",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "common",
+      "note": "The rural version with a posted galerie across the front."
+    },
+    {
+      "massing": "raised-cottage",
+      "affinity": "possible",
+      "note": "Where flooding forces the whole cottage up onto a low masonry storey."
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "atypical",
+      "note": "Superficially similar in room count only; the entry logic is entirely different."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "severity": "hard",
+      "statement": "No interior corridor. Each of the two front rooms has its own exterior door on the front elevation, and every habitable room has openings on two walls."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Ceiling height not less than 11 ft on the principal floor; openings are full-height French casement doors reaching to within 12–18 in of the ceiling. An 8 ft ceiling defeats the stack ventilation the whole type depends on."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Front shelter is either a posted galerie not less than 6 ft deep with a roof pitch break at the wall plane, or an abat-vent projecting 30–48 in on brackets or rods with no posts to grade. A 4 ft posted stoop is neither and belongs to no phase of the type."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Finished floor 12–36 in above grade on brick piers; chimneys internal on the partition between paired rooms, never on the exterior gable wall."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Exterior louvred blinds on every opening, leaf width equal to half the clear opening so that a closed pair exactly covers it, hung on strap hinges with holdbacks."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Lafitte's Blacksmith Shop",
+      "location": "941 Bourbon Street, New Orleans, Louisiana",
+      "year": 1772,
+      "note": "Briquette-entre-poteaux with a steep hipped roof; among the oldest surviving structures in New Orleans and the clearest surviving statement of the urban cottage before the Spanish-period fires."
+    },
+    {
+      "name": "Fontenette-Bienvenu House",
+      "location": "201 North Main Street, St. Martinville, Louisiana",
+      "year": 1817,
+      "note": "A one-and-a-half-storey Creole cottage of colombage construction with Federal detailing — the type absorbing Anglo trim while keeping its plan. Listed on the National Register 1997, delisted 2024."
+    },
+    {
+      "name": "Kent Plantation House",
+      "location": "Alexandria, Rapides Parish, Louisiana",
+      "year": 1800,
+      "note": "Bousillage Creole house, the oldest standing structure in Rapides Parish; a raised cottage version of the same four-room, no-corridor plan with its outbuildings intact."
+    }
+  ],
+  "sources": [
+    "Jay D. Edwards, 'The Origins of Creole Architecture', Winterthur Portfolio 29 (1994)",
+    "Jay D. Edwards and Nicolas Kariouk Pecquet du Bellay de Verton, A Creole Lexicon: Architecture, Landscape, People (2004)",
+    "Jessie Poesch and Barbara SoRelle Bacot, eds., Louisiana Buildings, 1720–1940 (1997)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "no-corridor",
+    "abat-vent",
+    "cabinet-loggia",
+    "briquette-entre-poteaux",
+    "hot-humid"
+  ]
+}

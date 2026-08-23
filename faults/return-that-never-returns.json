@@ -1,0 +1,206 @@
+{
+  "id": "return-that-never-returns",
+  "name": "The Return That Doesn't",
+  "aka": [
+    "the butt-ended cornice",
+    "trim into J-channel"
+  ],
+  "slots": [
+    "cornice_return",
+    "rake_condition"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Recoverable for about $50 a house, which is what makes it worth naming."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "serious",
+      "why": "The type's own answer is a 6-12 in plain return, so the fix is very small."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Where this fault lives, usually alongside vinyl trim."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Nothing to return."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "Structural junction, not a moulded one."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "The fascia band is continuous and never terminates."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "not-applicable",
+      "why": "Diagnostic tell of the style."
+    }
+  ],
+  "frequency": "common",
+  "category": "omission",
+  "symptom": "The eave fascia and crown simply stop at the corner board, and the rake trim runs down and dies into the same corner board. Nothing turns the corner. Seen head-on the gable looks acceptable; seen from any oblique angle the trim has no thickness at all and the corner shows a raw butt joint, often finished with a J-channel or a coil-stock end cap.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Aluminium and vinyl trim cannot be mitred and returned; the system's own answer to the end of a run is a channel and an end cap. Compounding it, the corner board is installed by the siding crew before the eave trim goes on, so the corner board's face becomes the natural stopping point for everything that arrives at it - the sequence produces the detail.",
+    "cost_saved": "$40-80 a corner."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "every moulding returns upon itself",
+      "statement": "A run of moulding either continues, mitres, or returns to the wall. A crown stopped with its profile showing as a sawn end is unfinished work, and the rule is old enough that it predates every style in this corpus."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "cape-cod-colonial",
+      "statement": "Rake trim of 4-6 in with a plain 6-12 in return at the corner - the minimum honest answer, and a Cape's version of a cornice return."
+    }
+  ],
+  "correct_practice": "Every moulding must return upon itself. On a gable end with an entablature that means the full cornice returns 12-24 in. On a plainer house it means at minimum a short mitred return - the 6 to 12 in plain return that a Cape carries in place of a modillion cornice - which closes the profile back to the wall so no sawn section is ever in view. There is no house so plain that this rule does not apply to it, because the alternative is not simplicity, it is an unfinished edge.",
+  "fixes": {
+    "right": "A full cornice return, 12-24 in, in the eave's own members.",
+    "cheap": "A 6 in mitred return in the same stock at each end of the eave: four short pieces per gable, half an hour of work, under $50 a house. This is the smallest amount of money in this entire corpus that changes how a building reads.",
+    "dishonest": "Capping the moulding end with a flat plate or a folded piece of coil stock. It closes the hole and produces a bright rectangle that is visible from below precisely because it is the one surface facing down and out."
+  },
+  "test": {
+    "expression": "count_of_horizontal_moulding_members_returning_onto_the_gable_wall",
+    "threshold": 1,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Viewed 30-45 degrees off axis. The correct condition shows a short horizontal piece of moulding standing out from the gable wall with its own shadow; the fault shows the rake and eave meeting in a thin line with no horizontal element at all."
+  },
+  "secondary_tests": [
+    {
+      "expression": "return_length_along_gable_wall_in",
+      "threshold": 6,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The minimum honest answer is the plain 6-12 in mitred return a Cape carries in place of a modillion cornice. There is no house so plain that this does not apply, because the alternative is an unfinished edge."
+    },
+    {
+      "expression": "eave_shadow_continuation_past_building_corner_in",
+      "threshold": 4,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Follow the eave's shadow along the wall in a photograph. If it stops dead at the corner of the building, nothing returned."
+    }
+  ],
+  "detection": "View the gable from 30 to 45 degrees off axis. The correct condition shows a short horizontal piece of moulding standing out from the gable wall with its own shadow under it. The fault shows the rake and the eave meeting in a thin line with no horizontal element between them. In a photograph, follow the eave's shadow along the wall: if the shadow stops dead at the corner of the building, nothing returned.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "No corner boards, no trim, no cornice - there is nothing to return, and adding a return would break the continuous shingle field that defines the style.",
+      "bounds": "The shingle field must run over every corner and storey line.",
+      "bounds_test": {
+        "expression": "count_of_corner_boards_on_the_building",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The shingle field must run over every corner and storey line."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The rake and eave meet in exposed structure, and a moulded return would be foreign.",
+      "bounds": "The junction must be resolved structurally - a purlin end, a bracket, a barge - not simply left as two boards meeting.",
+      "bounds_test": {
+        "expression": "rake_overhang_in",
+        "threshold": 24,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The junction must be resolved structurally - a purlin end, a bracket, a barge - not left as two boards meeting."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The fascia band is continuous and unbroken around the whole building by definition, so it never terminates and never returns.",
+      "bounds": "It must actually be continuous; a fascia that stops at a corner is still the fault.",
+      "bounds_test": {
+        "expression": "count_of_breaks_in_the_fascia_band",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "It must actually be continuous; a fascia that stops at a corner is still the fault."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "The rake meeting the wall in a straight line without a return is a diagnostic tell.",
+      "bounds": "Consistently across the building, with no cornice elsewhere.",
+      "bounds_test": {
+        "expression": "count_of_moulded_cornice_members_anywhere_on_the_building",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Consistently across the building, with no cornice elsewhere."
+      }
+    },
+    {
+      "style": "mission-revival",
+      "why": "A plastered or parapeted edge has no members.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 24,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "A plastered or parapeted edge, or an exposed-tail eave; either way, no members to return."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "prairie-school",
+      "statement": "A fascia that terminates at all is the fault; the band must run unbroken around the whole building."
+    },
+    {
+      "style": "tudor-revival",
+      "statement": "A return is the fault."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "pork-chop-return",
+      "difference": "There is a block there, doing the job badly. Here there is nothing at all."
+    }
+  ],
+  "co_occurs_with": [
+    "flush-rake",
+    "pork-chop-return",
+    "gutter-as-cornice",
+    "bed-mould-omitted"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json cornice_return, rake_condition",
+    "project style node cape-cod-colonial",
+    "Asher Benjamin, The American Builder's Companion (1806)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "cornice-return",
+    "omission",
+    "cheap-to-fix"
+  ]
+}

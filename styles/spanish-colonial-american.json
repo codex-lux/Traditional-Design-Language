@@ -1,0 +1,221 @@
+{
+  "id": "spanish-colonial-american",
+  "name": "Spanish Colonial American",
+  "aka": [
+    "Hispanic Colonial",
+    "Spanish Borderlands"
+  ],
+  "rank": "style",
+  "member_of": "american-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1565,
+    "floruit_start": 1600,
+    "floruit_end": 1821,
+    "decline_end": 1860,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1920,
+        "revival_node": "mission-revival",
+        "note": "The California mission quadrangle rediscovered by railroad publicity and the Landmarks Club."
+      },
+      {
+        "start": 1915,
+        "end": 1942,
+        "revival_node": "spanish-colonial-revival",
+        "note": "Triggered by Bertram Goodhue's Panama-California Exposition at San Diego, which imported a Mexican Churrigueresque vocabulary the borderlands themselves never possessed."
+      },
+      {
+        "start": 1905,
+        "end": 1940,
+        "revival_node": "pueblo-revival",
+        "note": "The New Mexico branch, largely invented in Santa Fe between 1912 and 1930."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "New Mexico",
+      "Texas",
+      "Arizona",
+      "California",
+      "Florida"
+    ],
+    "hearth": "two independent hearths — St. Augustine, Florida (1565) and the upper Rio Grande, New Mexico (1598–1610) — with a later and separate Californian foundation from 1769",
+    "climate_zones": [
+      "2A",
+      "2B",
+      "3B",
+      "3C",
+      "4B",
+      "5B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "mexican-colonial",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The borderlands were governed, supplied and staffed from New Spain, not from Spain. Master masons, tile, ironwork and pattern all came up the Camino Real from Mexico City, Zacatecas and Puebla."
+    },
+    {
+      "target": "andalusian-courtyard-vernacular",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The plan diagram — closed street wall, inward courtyard, ornament reserved for the doorway — is Andalusian and arrives via Mexico."
+    },
+    {
+      "target": "moorish-andalusian",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Attenuated but real: Mudéjar carpentry (the artesonado ceiling), the tile tradition, the reja and the blind wall are Islamic inheritances carried inside Spanish practice for eight centuries before they crossed the Atlantic."
+    }
+  ],
+  "description": {
+    "short": "Massive earth and rubble construction, small openings, deep shade and an inward turn to a courtyard, built at the far edge of a supply line so long that the architecture arrived stripped to its diagram.",
+    "long": "Spanish colonial architecture in what is now the United States is the product of extreme remoteness. Santa Fe in 1610 was six months from Mexico City by ox-cart, and the cart brought a bell, a chalice, some ironwork and a friar with a sketch. It did not bring stone-cutters, lime kilns, glass, or the Baroque. So what got built was the plan diagram of a Spanish building executed in whatever the ground provided, by labour that was overwhelmingly indigenous and already possessed sophisticated earth-building practice of its own. That combination — a Mediterranean spatial idea, a local material, and an indigenous workforce with its own tradition — produced something genuinely new rather than a degraded copy, and mistaking it for a degraded copy is the standard error.\n\nThe constant across all five provinces is the wall. It is load-bearing, it is between eighteen inches and five feet thick, and it is made of what is there: sun-dried adobe in New Mexico and Texas, coquina shellstone in St. Augustine, rubble and adobe in California and Arizona. That thickness does three jobs at once — it carries the roof, it stores the day's heat and releases it at night in climates with a thirty-degree diurnal swing, and it makes the building defensible. It also has consequences the builder cannot escape. Openings must be small, because every opening is a hole in a gravity structure with no tensile capacity, and glass had to be carried a thousand miles. Windows therefore occupy well under fifteen percent of the wall, sit deep in splayed reveals, and are often simply barred rather than glazed. The room can be no wider than the available beam, so plans are strings of rooms one span deep, joined end to end and folded around a court rather than stacked into a block.\n\nThe court is the second constant, and it is a social instrument as much as a climatic one. The street elevation is a wall with a door in it; the good rooms, the loggia, the fountain, the trees and the family face inward. An Anglo house presents itself to the road and hides its yard; the Spanish house does the opposite. Where the plan does not fully close, it produces the portal or corredor — a covered walk on posts, six to twelve feet deep, functioning as the corridor of a building that has no corridors, so that one crosses the open air to move from room to room.\n\nOrnament is concentrated to the point of drama. The domestic building is unornamented — mud plaster, whitewash, a carved corbel over a post, an iron grille. Everything the province could afford in the way of carving, colour and figural sculpture went onto one surface: the portada of the church door. That extreme rationing is why the borderlands read as austere and why the twentieth-century revivals, which distributed Mexican ornament evenly across a stucco house, look nothing like the thing they claim to revive. To stand in a New Mexican sala, or under the arcade of a California mission at four in the afternoon, is to feel the buildings doing their work: three feet of earth between you and a hundred degrees, the light knocked down to a warm reflected glow, and every surface radiating the temperature of yesterday."
+  },
+  "defining_characteristics": [
+    "Load-bearing mass walls of adobe, rammed earth, rubble stone or coquina, 18 in to 5 ft thick, plastered in mud or lime",
+    "Small openings, well under 15% of wall area, set in deep splayed reveals and often barred rather than glazed",
+    "Inward orientation: the principal rooms and the loggia face a placita or patio, and the exterior street wall is substantially closed",
+    "Rooms one structural span deep (12–18 ft), strung in linear files and folded around the court rather than composed into a block",
+    "A portal or corredor — a posted or arcaded covered walk 8–14 ft deep — serving as the building's circulation",
+    "Roof either flat on round beams behind a parapet (New Mexico, Texas, Arizona) or low-pitched under half-round clay tile (California, later Texas); never steeply pitched",
+    "Ornament rationed to a single point — the church portada, the doorway, the campanario — with all other surfaces plain"
+  ],
+  "diagnostic_tells": [
+    "Wall depth visible at every reveal: the window is a tunnel, not a hole",
+    "No gable roof anywhere in the compound",
+    "The building presents a nearly blind wall to the public side and opens entirely on the court side",
+    "Ornament appears once, at the entrance, and nowhere else",
+    "Wall surfaces undulate — hand-applied plaster over irregular adobe gives no straight arris and no true plane"
+  ],
+  "distinguished_from": [
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "The single most instructive misidentification in the Southwest. The revival is stucco over wood frame or block: walls four to eight inches thick, sharp arrises, machine-true planes, large windows, ornament distributed over the facade in a Churrigueresque or Andalusian vocabulary the borderlands never had, and often a two-storey plan the material could never have carried. The colonial original is a gravity structure; the revival is a costume over a frame."
+    },
+    {
+      "node": "mexican-colonial",
+      "difference": "The parent had cities, guilds, quarries, lime, and money. Mexican colonial buildings are cut-stone, vaulted, domed and richly carved. The borderlands version is the same plan diagram in earth, with the vaulting replaced by beams and the carving reduced to one door."
+    },
+    {
+      "node": "french-colonial-american",
+      "difference": "Both are Latin colonial and both shade their walls, but the French tradition frames in timber, opens the wall almost completely, raises the floor and faces outward to a gallery; the Spanish builds mass walls, minimizes openings, sits on the ground and faces inward to a court."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The clear span of the available roof beam sets room width absolutely; wall thickness is set by the height it must carry; the court is what is left over.",
+    "typical_ratios": [
+      "Room clear width 12–18 ft (beam span), length 1.5–2.5 times the width",
+      "Wall thickness 1:6 to 1:10 of wall height; adobe not less than 1:10",
+      "Glazed or open area 6–15% of wall area",
+      "Portal depth 8–14 ft, posts at 6–9 ft on centre",
+      "Placita 30–60 ft across for a house, 150–300 ft for a mission quadrangle",
+      "Tile roof pitch 3:12–5:12; flat roof drainage 1/4 in per ft to canales"
+    ],
+    "bay_rhythm": "Set by the post or pier spacing of the portal, not by the wall openings, which are placed by interior need and frequently do not align with the posts.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-u",
+      "affinity": "canonical",
+      "note": "The three-sided placita house, the commonest domestic form."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The closed quadrangle of the mission, presidio and larger hacienda."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "The additive room-file before it closes into a court."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The one-room jacal or adobe cell of first settlement."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "Where the portal fronts a linear block rather than enclosing a court."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Mass wall height shall not exceed ten times its thickness for adobe, or eight times for unreinforced rubble, without buttressing. This is the rule that keeps the plan single-storey and the openings small."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Room clear span limited to the beam length: 12–18 ft for vigas or hand-hewn timbers. Any room wider than 18 ft requires an intermediate support and reads as a later intervention."
+    },
+    {
+      "kind": "climatic",
+      "severity": "hard",
+      "statement": "Total window and door area not more than 15% of exterior wall area, with reveals showing the full wall depth. Punched openings in a thin plane are the revival's tell, not the original's."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch either flat (1/4 in per ft to canales, behind a parapet 12–24 in high) or 3:12–5:12 under half-round clay tile. Pitches above 6:12 are foreign to the tradition."
+    },
+    {
+      "kind": "cultural",
+      "severity": "soft",
+      "statement": "Carved, moulded or coloured ornament is permitted at exactly one location per building — the principal doorway or the campanario. Distributed ornament converts the building into a revival."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Palacio de los Gobernadores (Palace of the Governors)",
+      "location": "Santa Fe, New Mexico",
+      "year": 1610,
+      "note": "Founded with the villa in 1610 though the surviving fabric largely postdates the 1680 Pueblo Revolt and the 1731 rebuilding. Caution: the famous portal is a 1909–13 reconstruction by Jesse Nussbaum, not colonial fabric."
+    },
+    {
+      "name": "Mission San Esteban del Rey",
+      "location": "Acoma Pueblo, New Mexico",
+      "year": 1641,
+      "note": "Adobe walls up to nine feet thick on a mesa top, timbers carried on foot from Mount Taylor thirty miles away — the clearest statement of what remoteness did to the architecture."
+    },
+    {
+      "name": "González-Alvarez House ('The Oldest House')",
+      "location": "St. Augustine, Florida",
+      "year": 1723,
+      "note": "Coquina shellstone ground storey with a later frame upper floor; the surviving example of the Florida branch, which used shellstone where the Southwest used adobe."
+    },
+    {
+      "name": "Mission San Xavier del Bac",
+      "location": "Tucson, Arizona",
+      "year": 1797,
+      "note": "Fired brick, lime-plastered, vaulted and domed — the one borderlands building where a full Mexican Baroque portada was actually achieved, and therefore the exception that proves the rationing rule."
+    }
+  ],
+  "sources": [
+    "Bainbridge Bunting, Early Architecture in New Mexico (1976)",
+    "George Kubler, The Religious Architecture of New Mexico (1940)",
+    "Rexford Newcomb, Spanish-Colonial Architecture in the United States (1937)",
+    "Chris Wilson, The Myth of Santa Fe: Creating a Modern Regional Tradition (1997)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "adobe",
+    "mass-wall",
+    "courtyard",
+    "hot-dry",
+    "borderlands"
+  ]
+}

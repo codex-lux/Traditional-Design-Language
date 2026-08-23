@@ -1,0 +1,196 @@
+{
+  "id": "pediment-at-roof-pitch",
+  "name": "The Pediment At Roof Pitch",
+  "aka": [
+    "the 10:12 pediment",
+    "the gable calling itself a pediment",
+    "tympanum too tall"
+  ],
+  "slots": [
+    "pediment",
+    "entablature",
+    "roof_pitch",
+    "gable_treatment"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A pedimented portico, gable or dormer whose slope is the same as the main roof — commonly 8:12, 10:12 or 12:12 — so the tympanum is nearly as tall as it is wide at the half-span and the pediment reads as a gable end with a cornice on it. At 12:12 the rise is half the span, two and a half times the classical maximum. The opposite failure is rarer but occurs on nominally Greek work: a 2:12 or 3:12 pediment that will not shed snow and reads as a flat line with a kink in it.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The pediment is framed by the roof crew as part of the roof, so it takes the roof's pitch, which was set by the truss order weeks earlier and by whatever the main roof needed. Giving the pediment its own pitch means either a separate low-pitch structure behind the classical one — a real cost — or a genuinely low-pitch portico roof, which then needs a different roofing material from the main roof and a different flashing detail. The pediment's pitch is therefore never an independent decision on a production house; it is inherited.",
+    "cost_saved": "1,200-4,000 USD on a portico where a separate low-slope structure with membrane or metal roofing behind the pediment would otherwise be needed. On a gable-front pediment, nothing is saved and the fault is free to commit and free to avoid."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / pediment.height = span / 5.0, range 20-140 in",
+      "statement": "Pediment rise over the span of the pavilion or portico it crowns. Take 1:5 as the domestic default, 1:4.5 in snow country, and go to 1:6 or shallower only where the pediment is a decorative frontispiece with a real roof behind it."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / notes",
+      "statement": "Palladio and the Anglo-Palladian tradition give the pediment a rise of one quarter to one fifth of its span; Vitruvius's one-ninth is a Greek figure and reads flat to a northern eye and worse under snow."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "gibbs-doric / pediment construction, Plate XXXVIII",
+      "statement": "Gibbs gives a geometric rather than an arithmetic pediment: the rise is the sagitta of a circle whose radius equals the full span of the cornice, i.e. 0.067 of the span — a fixed pitch of about 15 degrees. This is why Georgian pediments are shallower than they look and why raising one to a roof pitch destroys it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pediment / rise_over_span = span / 5.0, palladian_band 1:4.5 to 1:5.5",
+      "statement": "A pediment's rise is one fifth of its span."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the pediment is a horizontal composition, not a vertical one",
+      "statement": "A pediment's job is to terminate a horizontal entablature. Once the rise passes about a quarter of the span the tympanum becomes the dominant shape and the entablature below it becomes a plinth, which reverses the whole hierarchy."
+    }
+  ],
+  "correct_practice": "The rise is a fifth of the span, with a working band of 1:4.5 to 1:5.5 — that is 4.8:12 to 5.9:12 in builder's pitch, so roughly 5:12, and 1:4.5 (5.3:12) in snow country. In degrees, 20 to 24. Gibbs's Georgian doorway pediment is shallower still at about 15 degrees (0.067 of the span, a 1.6:12 pitch), which is why an eighteenth-century door pediment looks so much flatter than a modern one and why the geometric construction is worth knowing: describe a circle on the full extent of the cornice, then a second circle of the same radius from the bottom of the first, and take the segment. The Greek 1:9 (0.111, about 12.5 degrees) is authentic for a temple front and is a roof that will not shed snow; surviving American Greek Revival temple fronts are correspondingly steeper than their models, which is a documented and correct adaptation. The horizontal cornice must be complete and unbroken across the base of the pediment: a pediment whose horizontal cornice is missing or interrupted has no base and no proportion to measure.",
+  "fixes": {
+    "right": "Give the pediment its own pitch at 1:5 and roof the space behind it separately — a low-slope membrane or standing-seam roof behind a pedimented frontispiece is an entirely historical arrangement and is what the pack means by 'a decorative frontispiece with a real roof behind it'.",
+    "cheap": "Widen the pediment rather than lowering it. Rise is fixed by the roof; span is not. A pediment on a 12 ft portico at a 6:12 pitch has a rise of 3 ft and a ratio of 1:4 — outside the band. Widen the same portico to 16 ft and the ratio becomes 1:5.3, which is correct, and the extra 4 ft of width costs less than restructuring the roof. This is why period porticos are wide and shallow and modern ones are narrow and steep. Second free move on a gable-front house: extend the raking cornice to the FULL width of the elevation including its corner returns, which increases the span measured across the cornice by 2 to 3 ft at no cost.",
+    "dishonest": "Cutting the pediment's apex off and calling it a broken-bed or open-apex pediment. The open apex is a real form with its own rules and it does not change the pitch of the raking cornices; a truncated 10:12 pediment is a 10:12 pediment with a hole in it."
+  },
+  "detection": "One measurement from a straight-on photograph. Measure the horizontal span across the top of the horizontal cornice, and the vertical rise from the top of that cornice to the apex of the raking cornice. Divide rise by span. Correct is 0.18 to 0.25; 0.25 to 0.30 is steep but occurs; over 0.33 the pediment is a gable. Under 0.11 it is Greek and needs the rest of the Greek vocabulary to justify it. Second and quicker check: the pediment's slope should visibly DIFFER from the main roof's slope in the same photograph. If a line along the pediment's rake is parallel to a line along the main roof's rake, the pitch was inherited and the ratio will almost always fail. Third check, for the scale version of the fault: compare the pediment's own entablature depth with the main building cornice's depth. A door pediment whose cornice is deeper than the eave cornice above it has inverted the hierarchy of the front, which is a scale fault of the same family and is diagnosable in the same image.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "pediment_rise / pediment_span",
+    "threshold": 0.18,
+    "upper": 0.25,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "1:5.5 to 1:4, measured on the cornice: span across the top of the horizontal cornice, rise from that line to the apex of the raking cornice. Snow country takes the steep end. Gibbs's doorway pediment at 0.067 and the Greek temple front at 0.111 are separate cases handled in exceptions, and both require the rest of their vocabulary present."
+  },
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The temple front is the building and its pediment pitch is its most visible single proportion."
+    },
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "The pediment crowns the giant order and is read as pure geometry."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The pediment is one incident on a composed front rather than the whole composition."
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "severity": "minor",
+      "why": "The gambrel's steep lower slope sets a different expectation and pediments are rare."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The Craftsman gable is a gable, carries exposed structure, and never claims to be a pediment."
+    },
+    {
+      "style": "carpenter-gothic",
+      "severity": "not-applicable",
+      "why": "The steep gable is the point and there is no classical apparatus to violate."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "The authentic Greek temple pediment is 1:9 of the span — about 12.5 degrees — and American Greek Revival at its most archaeological reproduces it. Vitruvius's figure is genuine and the flatness is the point.",
+      "bounds": "Only with the rest of the vocabulary: a full deep entablature at 0.28 of the column, a complete unbroken horizontal cornice, no dentils or modillions on the raking cornice, and a roof material that will work at that slope. In snow country the surviving American examples steepen to 1:5.5-1:6, which is documented adaptation rather than error.",
+      "bounds_test": {
+        "expression": "pediment_rise / pediment_span",
+        "threshold": 0.11,
+        "upper": 0.19,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1820,
+          1870
+        ]
+      }
+    },
+    {
+      "style": "georgian-colonial-american",
+      "why": "Gibbs's DOORWAY pediment is drawn by a geometric construction giving a rise of 0.067 of the span — about 15 degrees, half the pitch of a portico pediment — and Georgian door pediments really are that shallow. Applying the 1:5 rule to a doorhead makes it too tall.",
+      "bounds": "Applies to pediments over openings only — doors, windows, niches — never to a portico, gable or dormer pediment. And the span is measured over the FULL extent of the cornice including its returns, which is wider than the opening.",
+      "bounds_test": {
+        "expression": "pediment_rise / pediment_span",
+        "threshold": 0.06,
+        "upper": 0.14,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "slots": [
+          "door_surround",
+          "window_surround_wood"
+        ],
+        "date_range": [
+          1700,
+          1800
+        ]
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "The idiom's whole method is deliberate distortion of familiar forms, and steep exaggerated gables are its signature.",
+      "bounds": "There must be no classical entablature under the gable. Storybook exaggeration works on cottage forms, not on the orders."
+    },
+    {
+      "style": "dutch-colonial-american",
+      "why": "The Dutch gable end is a gable with a raking parapet or a moulded rake, not a pediment, and its pitch is the roof's. It should not be measured by this rule at all.",
+      "bounds": "Applies only where there is no horizontal cornice across the base of the gable. The moment the cornice runs across, a pediment has been claimed."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "greek-classical",
+      "statement": "Here the fault is a pediment that is too STEEP: anything above about 1:6 departs from the antique models. The Greek pediment's flatness is a positive proportion, not an absence of one."
+    }
+  ],
+  "co_occurs_with": [
+    "raking-cornice-that-does-not-match",
+    "porch-pitch-unrelated-to-the-roof",
+    "entablature-off-the-quarter"
+  ],
+  "confused_with": [
+    {
+      "fault": "raking-cornice-that-does-not-match",
+      "difference": "That is about the profile of the sloping cornice differing from the horizontal one. This is about the angle. A pediment can be at a perfect 1:5 and still have a raking cornice made of the wrong members."
+    },
+    {
+      "fault": "stamped-pediment-return",
+      "difference": "That is a moulded plastic triangle applied to a gable that has no cornice at all. This fault assumes a real pediment with real members and measures its geometry."
+    },
+    {
+      "fault": "truss-flattened-pitch",
+      "difference": "That is about the main roof's pitch being dictated by truss economics. This is the pediment inheriting whatever that pitch turned out to be — the same driver, one element downstream."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json, pediment.height = span / 5.0 with the judgment note and the snow-country adjustment",
+    "proportions/overlays/gibbs-doric.json — the circular construction, Plate XXXVIII, giving 0.067 of the span",
+    "kits/georgian-colonial-american.kit.json, pediment",
+    "Vitruvius III.5.12 on the one-ninth Greek pediment",
+    "Palladio, I quattro libri, Book II, on pediment rise of a quarter to a fifth"
+  ],
+  "confidence": "high",
+  "tags": [
+    "pediment",
+    "proportion",
+    "pitch",
+    "endemic",
+    "trade-sequence"
+  ]
+}

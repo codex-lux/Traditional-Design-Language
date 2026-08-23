@@ -1,0 +1,197 @@
+{
+  "id": "california-mission-colonial",
+  "name": "California Mission Colonial",
+  "aka": [
+    "Alta California mission architecture",
+    "Franciscan mission style"
+  ],
+  "rank": "variant",
+  "member_of": "spanish-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1769,
+    "floruit_start": 1780,
+    "floruit_end": 1834,
+    "decline_end": 1850,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1920,
+        "revival_node": "mission-revival",
+        "note": "Driven by railroad tourism, Charles Fletcher Lummis's Landmarks Club and the Ramona myth; the revival abstracted the shaped parapet gable and the arcade and discarded the quadrangle."
+      },
+      {
+        "start": 1915,
+        "end": 1942,
+        "revival_node": "spanish-colonial-revival",
+        "note": "The richer successor, launched by Goodhue's Panama-California Exposition, drawing on Mexican and Andalusian sources the missions themselves never had."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "coastal California from San Diego to Sonoma",
+      "the Camino Real corridor",
+      "Baja California frontier"
+    ],
+    "hearth": "the twenty-one Franciscan missions founded between San Diego (1769) and Sonoma (1823), plus their associated presidios and pueblos",
+    "climate_zones": [
+      "3B",
+      "3C",
+      "4B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "spanish-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "mexican-colonial",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Founded and supplied from Mexico. The Franciscans came from the College of San Fernando in Mexico City; the master masons, the tile, the bells and the plans came up from New Spain, and San Luis Rey's plan was drawn from a Mexican model."
+    }
+  ],
+  "description": {
+    "short": "The Franciscan mission quadrangle of Alta California: adobe walls under low half-round clay tile, arcaded corredors on square piers, and all the province's ornament spent on one church front.",
+    "long": "The California missions were not built as architecture. They were built as self-sufficient agricultural and manufacturing complexes with a church attached, by an indigenous labour force under a coercive system, at a rate of roughly one every two years for sixty-five years, under the direction of friars who were not architects and who had access to almost no skilled masons. Understanding that production system explains everything about how they look.\n\nThe organizing figure is the quadrangle: a closed square, one hundred and fifty to three hundred feet on a side, formed by ranges of single-loaded rooms one span deep — workshops, granaries, weaving rooms, the friars' quarters, the monjerío — with the church occupying one corner and its facade turned outward to the approach. The court is the only public space and the only safe one. The rooms face into it through an arcaded corredor ten to fourteen feet deep, and that corredor is the circulation system of the entire complex: there are no internal corridors anywhere, and one crosses the open air to move from any room to any other.\n\nThe arcade itself is the type's most legible element and the most consistently misread. These are square masonry piers, not columns — usually two and a half to four feet wide, carrying semicircular arches whose clear opening runs one and a half to two and a half times the pier width. There is no order, no base, no capital, and often no impost moulding. That squatness is not naivety; it is what unreinforced adobe and rubble can do. Above sits a low roof, three to five in twelve, of half-round clay tile — thatch until fires and the arrival of tile-makers around 1790 — with an eave of twelve to twenty inches and no gutter.\n\nOrnament was rationed to the point of severity. Domestic and workshop ranges are entirely plain: whitewashed lime plaster over adobe, undulating, with no mouldings. Everything the mission could afford in the way of carving and colour went onto one surface — the church portada — and to the campanario, a pierced bell wall or a detached tower. Santa Barbara's church, built 1815–20 by the master mason José Antonio Ramírez, went further than any of the others: engaged Ionic columns and a neoclassical temple front flanked by twin campaniles, worked in local sandstone with famously crude mortar joints, a Vitruvian composition executed by people with no Vitruvian training. The tension in that facade — high classical ambition, frankly rough execution — is the most honest thing about the whole tradition.\n\nTo walk a mission corredor at four in the afternoon is to understand why the twentieth century could not stop imitating it: a hundred and fifty feet of deep shade, a warm rough wall on one side, an open sunlit court on the other, and the arch rhythm slow enough to walk in time with."
+  },
+  "defining_characteristics": [
+    "A closed or three-sided quadrangle 150–300 ft on a side, formed by ranges of single-loaded rooms one span deep, with the church at one corner",
+    "Arcaded corredor 10–14 ft deep on square masonry piers carrying semicircular arches, serving as all circulation",
+    "Adobe or rubble walls, 24–36 in in the ranges and 3–5 ft at the church, lime-plastered and whitewashed",
+    "Low-pitched roof, 3:12 to 5:12, of half-round clay tile (teja) after c. 1790, with a 12–20 in eave and no gutter",
+    "Campanario — a pierced bell wall — or a detached or engaged bell tower at the church",
+    "Ornament confined to the church portada and the campanario; all other surfaces plain whitewashed plaster",
+    "Buttresses or thickened piers wherever wall height exceeds roughly eight times wall thickness"
+  ],
+  "diagnostic_tells": [
+    "Square piers, not columns, under semicircular arches, with no capitals and often no imposts",
+    "The arcade faces the court and stops at the corners; the outer face of the quadrangle is largely blind",
+    "Tile roof with a shallow pitch and a very short eave — the roof reads as a lid, not as a shelter",
+    "Whitewashed plaster that visibly undulates over the adobe beneath it",
+    "One decorated surface in the entire complex, and it is the church door"
+  ],
+  "distinguished_from": [
+    {
+      "node": "mission-revival",
+      "difference": "The 1890s revival takes the shaped or curvilinear parapet gable — a feature of only a few mission facades — and makes it the signature, applies quatrefoil windows, builds arcades of thin piers on wood frame or brick with stucco, and abandons the quadrangle entirely. It also builds two and three storeys, which the adobe original could not."
+    },
+    {
+      "node": "new-mexico-adobe",
+      "difference": "Both build in adobe. New Mexico roofs flat on vigas behind a parapet with canales and uses no arch, no arcade and no tile; California pitches a tile roof at 3:12–5:12 and organizes everything around an arcaded court."
+    },
+    {
+      "node": "monterey-colonial",
+      "difference": "Monterey is the secular, Anglo-inflected California adobe of the 1830s and 40s: two storeys, a cantilevered wooden balcony, a shingle hip roof and double-hung sash. Mission work is single-storey, ecclesiastical or institutional, tile-roofed and arcaded."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The arcade bay — pier width to arch opening — sets the rhythm of the whole complex; wall thickness is set by height, and room depth by the available roof timber.",
+    "typical_ratios": [
+      "Pier width 2 ft 6 in – 4 ft; arch clear opening 1.5 to 2.5 times the pier width",
+      "Arch springing 7–9 ft above the corredor floor; corredor depth 10–14 ft",
+      "Range room depth 15–20 ft, single-loaded",
+      "Wall thickness 24–36 in in the ranges, 36–60 in at the church; height not more than 8× thickness without buttressing",
+      "Roof pitch 3:12–5:12; eave projection 12–20 in",
+      "Quadrangle 150–300 ft square; church nave 25–35 ft clear, 100–180 ft long"
+    ],
+    "bay_rhythm": "A long, slow, uninterrupted arcade of identical bays, typically ten to twenty of them, with no accent, no centre and no termination other than the corner of the court.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The closed mission quadrangle."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Missions whose fourth range was never completed, or asistencias."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "The single arcaded range of an outlying rancho or asistencia."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The individual room of a range, which is the repeated unit of the whole thing."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Arcade geometry: square masonry piers 2 ft 6 in – 4 ft wide carrying semicircular arches whose clear opening is 1.5 to 2.5 times the pier width. Slender piers or columns with capitals convert the arcade into a revival and are structurally impossible in adobe."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 3:12 to 5:12 under half-round clay tile, with an eave projection of 12–20 in and no gutter. Pitches above 6:12 are foreign to the tradition."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Adobe or rubble wall not less than 24 in in the ranges; where wall height exceeds eight times thickness, external buttresses are required at not more than 15 ft on centre."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Corredor depth not less than 10 ft. Below that it stops functioning as circulation and shade and becomes a covered walk."
+    },
+    {
+      "kind": "cultural",
+      "severity": "soft",
+      "statement": "Carved or moulded ornament permitted only at the church portada and the campanario. Distributing ornament across the ranges converts the complex into Spanish Colonial Revival."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Mission San Luis Rey de Francia",
+      "location": "Oceanside, California",
+      "year": 1798,
+      "note": "Founded 1798; the surviving cruciform church of 1811–15 and the largest of the mission quadrangles, sometimes called the King of the Missions."
+    },
+    {
+      "name": "Mission Santa Barbara church",
+      "location": "Santa Barbara, California",
+      "year": 1820,
+      "note": "Built 1815–20 by master mason José Antonio Ramírez after the 1812 earthquake destroyed the adobe predecessor. Twin campaniles flanking a temple front with engaged Ionic columns, in rough-hewn stone with crude joints; second tower 1831–33, both rebuilt after the 1925 earthquake, facade reconstructed 1950–53."
+    },
+    {
+      "name": "Serra Chapel, Mission San Juan Capistrano",
+      "location": "San Juan Capistrano, California",
+      "year": 1782,
+      "note": "The oldest standing building in California and the only surviving church in which Junípero Serra is known to have said Mass; the adjoining Great Stone Church of 1806 collapsed in the 1812 earthquake and stands as a ruin."
+    },
+    {
+      "name": "Mission San Gabriel Arcángel",
+      "location": "San Gabriel, California",
+      "year": 1805,
+      "note": "Church completed 1805 with buttressed side walls and a detached campanario of six bells — the pierced bell wall in its clearest form."
+    }
+  ],
+  "sources": [
+    "Rexford Newcomb, The Old Mission Churches and Historic Houses of California (1925)",
+    "Kurt Baer, Architecture of the California Missions (1958)",
+    "Harold Kirker, California's Architectural Frontier: Style and Tradition in the Nineteenth Century (1960)",
+    "David Gebhard and Robert Winter, An Architectural Guidebook to Los Angeles (rev. eds.)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "mission",
+    "quadrangle",
+    "arcade",
+    "clay-tile",
+    "adobe"
+  ]
+}

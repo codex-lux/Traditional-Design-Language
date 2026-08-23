@@ -1,0 +1,232 @@
+{
+  "id": "chambers-tuscan",
+  "name": "Chambers's Tuscan Order (overlay on Vignola)",
+  "aka": [
+    "Tuscan of the Treatise",
+    "Tuscan after Sir William Chambers, 1759",
+    "The late Georgian professional Tuscan"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "William Chambers, A Treatise on Civil Architecture, London 1759, 'Of the Tuscan Order' and 'Of Pedestals'; expanded 1791 as A Treatise on the Decorative Part of Civil Architecture",
+    "author": "Sir William Chambers",
+    "year": 1759,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011135288",
+    "note": "Figures read from the Getty scan of the 1759 first edition, pages 38, 42, 32-35 and 82-84. Chambers is the most careful comparative study ever made of the orders: he tabulates Vitruvius, Palladio, Scamozzi, Serlio, Vignola, De l'Orme, Perrault and the antique side by side and then argues for his own figures. Where he gives a reason, the reason is recorded in the member note, because the argument is worth as much as the dimension. Chambers is the authority behind late Georgian, Adam-period and Regency professional practice in Britain."
+  },
+  "overlay_of": "vignola-tuscan",
+  "module": {
+    "name": "The semidiameter of the column at the bottom of the shaft, divided into THIRTY minutes",
+    "parts": 30,
+    "default_size_in": 6.0,
+    "note": "CHAMBERS KEEPS VIGNOLA'S MODULE AND CHANGES ITS SUBDIVISION. His definition is one clause: 'the Module, or semi-diameter of the Column, taken at the bottom of the Shaft, and divided into thirty Minutes.' Same module as Vignola - the semidiameter - but THIRTY minutes for every one of the five orders, where Vignola uses 12 for the Tuscan and Doric and 18 for the Ionic, Corinthian and Composite. Consequences: (1) module figures transfer from vignola-tuscan UNCHANGED, because the module is the same object; (2) part figures do NOT - multiply any inherited Tuscan part-value by 2.5 (12ths of a semidiameter to 30ths); (3) one Chambers minute is 1/60 of a diameter in EVERY order, which is the whole point. Vignola's split module means a Tuscan part and an Ionic part are different lengths and a draughtsman moving between orders must re-scale; Chambers's uniform thirtieth means one scale rule serves all five. This is the reform that made the Treatise the working book of the British profession, and it is why Chambers's plates can be read against each other and Vignola's cannot.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 14,
+    "shaft_height_modules": 12,
+    "diminution": 0.8333333333,
+    "entasis_begins_at": 0,
+    "fluting": {
+      "count": null,
+      "profile": "unfluted",
+      "fillet": false
+    }
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 4.2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal, with its plinth",
+          "height_parts": 28,
+          "profile": "plinth",
+          "note": "CHAMBERS'S PEDESTAL IS LOWER THAN VIGNOLA'S AND HE SAYS WHY. Vignola's Tuscan pedestal is one third of the column - 4 2/3 modules. Chambers records the third as the received maximum ('one third of the Column', and pedestals 'exceeding one third' he treats as an abuse) but draws his own at 'three tenths of the Height of the respective Columns', which for a 14-module Tuscan is 4.2 modules. His argument is that the pedestal is not a member of the order at all but a contrivance to raise it, so it should be as low as the purpose allows. Of the base, he adds a rule Vignola does not state: the mouldings must project LESS than the cornice above 'that so the whole Base may be covered and sheltered by it' - Scamozzi observes it, and 'Palladio hath neglected it in the greatest part of his'. That is a weathering argument, and it is right.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_dye",
+          "name": "Dye",
+          "height_parts": 84,
+          "profile": "flat",
+          "note": "Chambers's division: 'the whole Height be divided into nine parts, one of them may be given to the Height of the Cornice, two to the Base, and the remaining six to the Dye.' For a lower pedestal he gives an eight-part division - cornice 1, base 2, dye 5 - 'as Palladio and Perrault' use. Vignola's Tuscan pedestal divides quite differently (base fascia and fillet 6 of 56 parts, die 44, cap 6), giving a much larger die share; Chambers's 2 : 6 : 1 is the late Georgian pedestal.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cornice",
+          "name": "Cornice or cap of the pedestal",
+          "height_parts": 14,
+          "profile": "corona",
+          "note": "One ninth of the pedestal. Its projection must exceed the base's, for the weathering reason above.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The module is the semidiameter in THIRTY minutes, in this and in all four of the other orders. One minute is 1/60 of a diameter throughout.",
+      "expression": "module.parts == 30",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is fourteen modules, or seven diameters, and the entablature three and a half - Vignola's figures exactly. Chambers changes the reckoning, not the skeleton.",
+      "expression": "column.height_modules == 14",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal is three tenths of the column, against Vignola's one third.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules * 3 / 10",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal divides in nine: two to the base, six to the dye, one to the cornice.",
+      "expression": "assemblies.pedestal.members.ped_dye.height_parts == assemblies.pedestal.height_modules * module.parts * 6 / 9",
+      "tolerance": 0.01
+    },
+    {
+      "statement": "The diminution begins at the foot of the shaft: there is no cylindrical lower third. This is Chambers's clearest break with Vignola.",
+      "expression": "column.entasis_begins_at == 0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The diminution is one sixth of the inferior diameter, which Vitruvius esteemed the most perfect and which Chambers employs in all five orders.",
+      "expression": "column.diminution == 5 / 6",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "chambers-eustyle",
+        "clear_diameters": 2.3333333333,
+        "note": "CHAMBERS'S PREFERRED INTERVAL, AND HE ARGUES FOR IT. He sets aside 'the Pycnostyle and Systyle dispositions, on account of their want of space, and the Araeostyle for its deficiency in point of strength', keeps the Diastyle and the Eustyle for general use in every order but the Doric, and revises the Eustyle from Vignola's two diameters and a quarter to TWO DIAMETERS AND ONE THIRD - a figure which, he says, 'answers perfectly the intention of Vitruvius, preserves the character of each Order, and maintains in all of them an equal degree of real solidity'. The last clause is the reasoning that matters: he wants the ratio of solid to void to be constant across the orders, which Vitruvius's fixed intervals do not deliver."
+      },
+      {
+        "name": "chambers-diastyle",
+        "clear_diameters": 3.0,
+        "note": "The wider of the two he keeps. For the Tuscan, whose architrave may be timber, this is the working interval."
+      },
+      {
+        "name": "chambers-tuscan-arcade",
+        "clear_diameters": 4.5,
+        "note": "Chambers's Tuscan arcade pier is 'four Modules and a half' - wider than his Corinthian pier at four - because the coarse order demands more solid. The rule is his, not Vignola's: pier width is graded against the order's character, not held constant."
+      }
+    ],
+    "default": "chambers-diastyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "column",
+      "dimension": "height",
+      "expression": "14.5",
+      "units": "modules",
+      "range": [
+        14,
+        15
+      ],
+      "judgment": true,
+      "note": "JUDGMENT SLOT, AND A CHAMBERS SIGNATURE. He parameterises the order by building type instead of fixing it: 'I have given to the Height of the Tuscan Column seven Diameters, or fourteen Modules; a proportion which is very proper for rural or military works' - but in 'Town buildings, intended for civil purposes, or in interior decorations, the Height of the Column may be fourteen and a half, or even fifteen Modules, as Scamozzi makes it.' Vignola gives one number for all uses. Chambers gives a band and a criterion for choosing within it, which is what a professional practice actually needs.",
+      "authority_note": "Chambers, Treatise 1759, p. 42."
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 4",
+      "units": "in",
+      "range": [
+        0.2333,
+        0.25
+      ],
+      "note": "Three and a half modules on a fourteen-module column - Vignola's quarter, retained. But Chambers attaches a rider that Vignola does not: when the column is heightened to 14 1/2 or 15 modules for a town building, the ENTABLATURE IS NOT HEIGHTENED WITH IT. It 'will be sufficiently bold, though its Height be a little less than one quarter of the Height of the Column', which at 15 modules is 3.5/15 = 0.233. The whole increase goes on the shaft. The range is the ratio of entablature to column across his permitted column heights.",
+      "authority_note": "Chambers, Treatise 1759, p. 42."
+    },
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height / 7 * (5 / 6)",
+      "units": "in",
+      "note": "The upper diameter, and the reasoning behind where the curve starts. Chambers reports that in the antiques the diminution begins 'sometimes from the foot of the Shaft, and at others from one quarter, or one third of its height; the lower part being perfectly Cylindrical', and then chooses: the first 'was most in use amongst the Antients, and being the most natural and graceful ought to have the preference'. Vignola makes the lower third cylindrical. Chambers curves the shaft from the foot, using Blondel's instrument after the first conchoid of Nicomedes, which performs 'both the swelling and the diminution' in one stroke and gives 'such a graceful form to the Column, that it is universally allowed to be the most perfect practice hitherto discovered'. The fraction is the same as Vignola's; the curve is not.",
+      "authority_note": "Chambers, Treatise 1759, pp. 32-34."
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "width",
+      "expression": "5 / 6",
+      "units": "ratio",
+      "note": "PILASTERS ARE DIMINISHED. Chambers is blunt about the common practice of running them parallel: 'To assert that Pilasters are not susceptible of diminution shews very little acquaintance either with books of Architecture' or with the antique, where 'there are several instances thereof'. The ratio is the top width to the bottom width, the same 5/6 as the column. Vignola leaves the question open and most Georgian joinery ran pilasters parallel because it is easier to mitre.",
+      "authority_note": "Chambers, Treatise 1759, pp. 72-75."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "0.3 / 1.55",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.19,
+        0.33
+      ],
+      "note": "JUDGMENT SLOT. The pedestal cap as the dado datum: pedestal 0.3, column 1.0, entablature 0.25, so the cap lands at 0.194 of the whole - about 21 in at a 9 ft ceiling, against 0.21 and 23 in under Vignola. Chambers's lower pedestal makes the classical dado lower, and the gap to the modern 32-36 in chair rail correspondingly wider. Where a room must satisfy both, take the classical height for the dado CAP and run a separate rail at furniture height, rather than moving the dado.",
+      "authority_note": "Chambers, Treatise 1759, pp. 83-84."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 7 * 3",
+      "units": "in",
+      "note": "Clear span, diastyle. Chambers rejects the araeostyle outright 'for its deficiency in point of strength', so three diameters is the widest bay he permits - even in the Tuscan, and even with a timber architrave. Palladio would go wider in this order; Vignola draws 2 1/3.",
+      "authority_note": "Chambers, Treatise 1759, p. 89."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 5 * (3 / 8)",
+      "units": "in",
+      "note": "The room as an order. Chambers's Tuscan cornice takes about three eighths of the entablature, and the entablature is a fifth of wall-plus-cornice: 8.1 in at a 9 ft ceiling. Carried here rather than inherited because the arithmetic runs in thirtieths and not in twelfths, and a reader working from the Vignola pack will otherwise mix scales.",
+      "authority_note": "Chambers, Treatise 1759, p. 38."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "Diminution from the foot of the shaft cannot be turned on a standard taper jig and it is not what any stock column supplier makes. Every catalogue shaft - and Vignola's own rule - is cylindrical for the lower third and tapered above. A Chambers shaft is a continuous conchoid curve from the base to the neck, which means a CNC profile or a hand-run template.",
+      "resolution": "For a CNC or a turned shaft this now costs almost nothing extra - supply the curve as a spline and it is one setup. For a stock order, accept Vignola's cylindrical third and record that the shaft is Vignolesque even where the rest of the order is Chambers's. Do NOT approximate the conchoid with a straight taper from the foot: a straight-tapered shaft reads as a cone and is the one form both authorities reject.",
+      "severity": "minor"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "A uniform thirtieth means one minute is 1/60 of a diameter in every order. At the 6 in default module (a 12 in column) a minute is 1/5 in, so the smallest members Chambers draws - fillets of one minute - are 1/5 in, and three coats of paint take 1/32 in off each face.",
+      "resolution": "Set 1/2 in as the floor for a fillet in painted joinery, which at this module means no member below 2 1/2 minutes. Chambers's uniform module makes this easy to police: one rule serves all five orders, which is exactly what it was designed for.",
+      "severity": "minor"
+    },
+    {
+      "with": "egress-code",
+      "statement": "Chambers's pedestal at three tenths of the column is, for a 12 in Tuscan column, 4.2 modules = 25 in. Used as the plinth of a porch or as the base of a balustrade it falls well short of the 36 in residential guard and the 42 in required over a 30 in drop.",
+      "resolution": "Take the guard separately and keep the pedestal at its proportional height. Chambers himself treats the pedestal as a contrivance rather than a member of the order, so raising it is less objectionable than raising a baluster - but raise it in the DIE only, keeping base and cornice at 2 and 1 of nine, and the proportion survives.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "english-classical",
+    "adam-style",
+    "regency",
+    "georgian-revival",
+    "colonial-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "William Chambers, A Treatise on Civil Architecture, London 1759 (archive.org/details/gri_33125011135288) - pp. 30-35 (diminution and general principles), 38 and 42 (Tuscan), 82-85 (pedestals), 88-91 (intercolumniations), 95 (arcade piers)",
+    "William Chambers, A Treatise on the Decorative Part of Civil Architecture, 3rd ed. London 1791 (archive.org/details/treatiseondecora00cham) - the expanded text; consulted, but its front matter defeats full-text extraction and no figure in this pack rests on it",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-tuscan.json",
+    "Robert Chitham, The Classical Orders of Architecture, 2nd ed. 2005 - comparative tables"
+  ],
+  "confidence": "high",
+  "notes": "WHAT CHAMBERS CHANGES AND WHAT HE DOES NOT. He does not change the skeleton: fourteen modules of column, three and a half of entablature, one of base, one of capital, twelve of shaft - all Vignola's. He changes four things, and each for a stated reason. (1) THE MODULE'S SUBDIVISION: thirty minutes for every order, so that one scale serves all five and the orders can be compared plate against plate. Vignola's 12-and-18 split is the single greatest obstacle to reading his orders comparatively, and Chambers removes it. (2) THE DIMINUTION'S ORIGIN: from the foot of the shaft, by Blondel's conchoid instrument, not from a cylindrical lower third - because that is what the ancients did and it is 'the most natural and graceful'. The fraction, one sixth, is unchanged. (3) THE PEDESTAL: three tenths of the column rather than a third, divided nine parts as base 2, dye 6, cornice 1, with the base's projection kept under the cornice's so the base is sheltered. (4) THE INTERCOLUMNIATION: eustyle revised to 2 1/3 diameters and the pycnostyle, systyle and araeostyle rejected on grounds of space and strength.\n\nAND ONE THING HE PARAMETERISES. The column height is a band, not a number: 14 modules for rural or military work, 14 1/2 or 15 for town buildings and interiors, with the whole increase taken on the shaft and the entablature left alone. This is the habit that makes Chambers a professional's book rather than a treatise - he gives the range and the criterion, and leaves the choice where it belongs.\n\nWHAT IS NOT ASSERTED HERE. Chambers's individual Tuscan mouldings. His plate dimensions them in minutes, but the plate numerals are engraved and the OCR of every scan reached renders them as noise. Rather than transcribe guesses, this overlay restates only the members it can quote from his text, and everything else inherits from vignola-tuscan - remembering that inherited PART values must be multiplied by 2.5."
+}

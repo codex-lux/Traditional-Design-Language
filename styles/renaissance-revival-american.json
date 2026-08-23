@@ -1,0 +1,207 @@
+{
+  "id": "renaissance-revival-american",
+  "name": "Renaissance Revival (American)",
+  "aka": [
+    "Italian Palazzo Mode",
+    "Astylar Renaissance",
+    "Anglo-Italianate"
+  ],
+  "rank": "style",
+  "member_of": "romantic-revivals",
+  "status": "historical",
+  "period": {
+    "origin": 1845,
+    "floruit_start": 1846,
+    "floruit_end": 1880,
+    "decline_end": 1890,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1930,
+        "revival_node": "italian-renaissance-revival",
+        "note": "The academic Beaux-Arts generation returns to the palazzo with measured drawings and archaeological discipline; that is a separate and better-informed node."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Midwest cities"
+    ],
+    "hearth": "Philadelphia and New York",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "The Florentine and Roman palazzo is the quoted model, arriving through Charles Barry's London clubs rather than through Italy. American architects worked from engravings."
+    },
+    {
+      "target": "italianate-american",
+      "type": "hybridizes_with",
+      "weight": 0.55,
+      "inherits_kit": true,
+      "note": "Genuine blending, and the boundary is porous. The two share masons, brownstone, plan types, and clients; the difference is whether the cornice is academic or bracketed and whether the facade obeys a symmetry rule."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "descends_from",
+      "weight": 0.45,
+      "inherits_kit": true,
+      "note": "Actual transmission: the same masonry trades, the same ashlar and brownstone technique, the same disciplined regard for a correct profile."
+    },
+    {
+      "target": "federal-style",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The urban row and the raised parlour floor come forward unchanged from the Federal city house; only the dress is new."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.25,
+      "inherits_kit": false
+    }
+  ],
+  "description": {
+    "short": "The disciplined, symmetrical, astylar palazzo mode adopted for American libraries, clubs, banks, and merchant houses from the mid-1840s, in which correctness of profile replaced picturesque effect.",
+    "long": "Renaissance Revival is the one branch of the American romantic revivals that is not romantic. Where Gothic Revival and Italianate were sold as instruments of feeling, the palazzo mode was sold as evidence of judgement: it is symmetrical, astylar, flat-walled, and governed by rules that can be checked. John Notman's Athenaeum of Philadelphia, designed in 1845 and finished in 1847, is the canonical American beginning, and Trench and Snook's A. T. Stewart store at 280 Broadway in 1846 established the commercial version that would clothe American downtowns for forty years. The style's institutional character was not accidental. A library, a club, or a dry-goods palace wanted to say that it was solvent and permanent, and the fifteenth-century Florentine banking house was the most exact available symbol of exactly that.\n\nThe technological conditions here run the other way from the rest of this branch. Balloon framing and the scroll saw made picturesque wooden complexity cheap; the palazzo mode instead depended on the industrialisation of masonry. Steam-powered stone saws and planers made brownstone, a soft and easily worked Triassic sandstone quarried in the Connecticut Valley and northern New Jersey, dramatically cheaper to dress; the railroad delivered it to New York and Philadelphia by the bargeload; and cast iron let Daniel Badger and James Bogardus reproduce an entire palazzo elevation in bolted sections, arriving on site as a kit. That last fact deserves emphasis, because the cast-iron commercial front of the 1850s is the most literal kit-of-parts building system the nineteenth century produced: a catalogue of columns, arches, spandrels, and cornices, orderable by number, assembled in weeks. It worked, and it worked because the underlying grammar was rule-governed rather than pictorial.\n\nWhat the style rejected was the Greek Revival's insistence on the temple as the only respectable form for a public building, and, more quietly, the picturesque claim that irregularity was morally superior. A palazzo has no portico, no pediment, and no columns; it has a wall, and the wall is organised by the diminishing rhythm of its openings and terminated by a single powerful cornice. This is a harder discipline than it looks, because with no orders to fall back on, the whole composition rests on the storey heights, the window surrounds, and the cornice depth. Nineteenth-century American practitioners got it right surprisingly often, because the rules were few and printable.\n\nIn front of one, the experience is of weight and address. The wall is flat and stays flat, so the eye finds the openings; the ground storey is rusticated and dark and the piano nobile above it is taller, brighter, and given the pedimented heads, so the building tells you where its important room is before you enter; the cornice is deep enough to throw the top of the wall into shade and stop the building cleanly against the sky. Inside a brownstone of this kind the sequence is stoop, low vestibule, then a tall bright double parlour with fourteen-foot ceilings and eleven-foot windows to the floor. The compression and release is the whole design, and it survives in every well-made New York rowhouse to this day."
+  },
+  "defining_characteristics": [
+    "Strict bilateral symmetry of the principal elevation, with a centred or clearly weighted entrance",
+    "Astylar composition: no columns, no portico, no pediment on the facade as a whole",
+    "Storey heights diminishing upward, with a rusticated or channelled ground storey and a taller piano nobile",
+    "Window heads differentiated by storey, typically pedimented or entablatured below and square-headed above",
+    "A single dominant crowning cornice, modillioned or dentilled, terminating the wall against the sky",
+    "Flat, uninterrupted wall plane articulated by string courses and quoins rather than by projection",
+    "Ashlar, brownstone, pressed brick, or cast iron; a wooden Renaissance Revival is a contradiction"
+  ],
+  "diagnostic_tells": [
+    "If the cornice is carried on modillions or dentils rather than on sawn scroll brackets, it is Renaissance Revival and not Italianate",
+    "Alternating triangular and segmental window pediments in a row is a Renaissance signature and appears in no other American style of the period",
+    "The ground floor is treated differently from the floors above (rustication, larger openings, darker stone); Italianate treats all floors alike",
+    "Facade symmetry is exact. If any part of the composition is picturesquely off-balance, it is Italianate",
+    "Quoins run the full height of the corner in an unbroken alternating rhythm; partial or decorative quoining indicates a later eclectic hand"
+  ],
+  "distinguished_from": [
+    {
+      "node": "italianate-american",
+      "difference": "The two overlap so heavily that many buildings are legitimately both. Decide on three tests: is the facade exactly symmetrical, is the cornice academic rather than bracketed, and do the storey heights diminish on a rule? Three yeses is Renaissance Revival."
+    },
+    {
+      "node": "second-empire",
+      "difference": "Second Empire takes the same palazzo body and puts a mansard roof on it, which converts a terminated wall into a crowned mass. If the roof is a visible storey, it is Second Empire."
+    },
+    {
+      "node": "beaux-arts-american",
+      "difference": "Beaux-Arts (1885-1920) is columned, sculptural, and archaeologically trained; mid-century Renaissance Revival is astylar, flat, and worked from engravings rather than from measured drawings."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Genuinely proportional, and the only style in this branch that is. The governing dimension is the storey height of the piano nobile; the ground storey, the upper storeys, and the cornice are all derived from it. The system is transmissible in a single table, which is why cast-iron founders could sell it by catalogue.",
+    "typical_ratios": [
+      "Piano nobile height 1.15 to 1.35 times the storey above it",
+      "Crowning cornice depth 1/12 to 1/16 of total facade height",
+      "Window height to width 2:1 to 2.6:1 at the piano nobile, reducing to 1.6:1 at the attic storey",
+      "Rusticated base 0.8 to 1.0 times the piano nobile height",
+      "Pier to opening ratio on the facade between 1:1 and 1.5:1, wall always winning"
+    ],
+    "bay_rhythm": "Strictly regular. Three, five, or seven bays at equal spacing, with the centre bay optionally widened by not more than 15 percent.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The brownstone row is the style's native residential form."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The freestanding palazzo block, square in plan and symmetrical on all faces."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "forbidden",
+      "note": "Picturesque irregularity destroys the only compositional rule the style has."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The principal elevation shall be bilaterally symmetrical about the entrance axis. No projecting bay, tower, or wing may break the symmetry of the street front."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Floor-to-floor heights shall diminish monotonically upward, with each storey between 78 and 88 percent of the one below and the piano nobile at least 1.15 times the storey above it."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The crowning cornice shall project between 1/12 and 1/16 of the total facade height and shall run unbroken across the full width of the facade, including across party walls in a row."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Window head treatment shall change at each storey and shall be uniform within a storey. Where alternating pediments are used, the alternation shall begin and end with the same type so the row reads as closed."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Quoins, where used, shall run the full height of the corner from water table to cornice in an unbroken alternating rhythm with long faces of 18 to 30 in. Partial-height or purely decorative quoining is prohibited."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Athenaeum of Philadelphia",
+      "location": "Philadelphia, Pennsylvania",
+      "year": 1847,
+      "note": "John Notman, designed 1845, completed 1847. A National Historic Landmark cited as one of the nation's first palazzo-facade buildings, and one of the first brownstone buildings in Philadelphia."
+    },
+    {
+      "name": "A. T. Stewart Store (Marble Palace, later the Sun Building), 280 Broadway",
+      "location": "New York, New York",
+      "year": 1846,
+      "note": "Joseph Trench and John B. Snook. The commercial palazzo that set the pattern for American downtowns; extant and a New York City landmark."
+    },
+    {
+      "name": "Boston Athenaeum, 10 1/2 Beacon Street",
+      "location": "Boston, Massachusetts",
+      "year": 1849,
+      "note": "Edward Clarke Cabot; cornerstone 1847, opened 1849. Palladian-Renaissance sandstone front, enlarged 1913-14 by Bigelow and Wadsworth."
+    }
+  ],
+  "sources": [
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "William H. Pierson Jr., American Buildings and Their Architects: Technology and the Picturesque (1978)",
+    "Constance Greiff, John Notman, Architect (1979)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "academic",
+    "palazzo",
+    "masonry",
+    "urban",
+    "cast-iron"
+  ]
+}

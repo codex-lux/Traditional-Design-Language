@@ -1,0 +1,230 @@
+{
+  "id": "charleston-georgian",
+  "name": "Charleston Georgian",
+  "aka": [
+    "Lowcountry Georgian",
+    "Charleston Colonial"
+  ],
+  "rank": "variant",
+  "member_of": "georgian-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1720,
+    "floruit_start": 1740,
+    "floruit_end": 1790,
+    "decline_end": 1800,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 1945,
+        "revival_node": "colonial-revival",
+        "note": "Charleston's own preservation movement, the first in the United States (1920 Society for the Preservation of Old Dwellings), produced a revival unusually faithful to local rather than New England precedent."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "South Carolina Lowcountry",
+      "Georgia coast"
+    ],
+    "hearth": "Charleston, South Carolina",
+    "climate_zones": [
+      "2A",
+      "3A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "georgian-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Shares the Georgian proportional and ornamental system; departs from it in orientation, section, and the treatment of the threshold."
+    },
+    {
+      "target": "english-georgian",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Direct, and unusually direct for a colonial city: Charleston merchants imported British craftsmen, joinery, and pattern books (Gibbs, Langley, Swan) through a port that traded with London more consistently than with Boston."
+    },
+    {
+      "target": "english-palladian",
+      "type": "references",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "The Palladian entry, the temple-form portico on the piazza, and the Venetian window are quoted from books rather than inherited from practice."
+    }
+  ],
+  "description": {
+    "short": "The Georgian system as rebuilt for a subtropical port city, where the house turns its narrow end to the street and gives its long southern flank to a stacked open piazza.",
+    "long": "Charleston in the middle of the eighteenth century was the wealthiest city in British North America and the hottest, and its architecture is what happens when a great deal of money and a great deal of humidity are applied to the same problem at once. The Georgian vocabulary arrived intact — correct entablatures, Flemish-bond brick, Venetian windows, joinery executed by London-trained craftsmen from Gibbs and Swan — and then the plan and the section were quietly rebuilt underneath it.\n\nThe rebuilding was climatic. A Georgian house in Boston is a compact double-pile block designed to conserve heat; the same house in Charleston would be uninhabitable for five months a year. So the Charleston version thins its section, raises its ceilings, sets its principal floor above a high service basement to escape ground damp and the mosquito line, and hangs one or two storeys of open piazza along the flank that faces the prevailing southwest breeze. The street elevation, deprived of its usual job, sometimes gives up entirely: a door in the garden wall opens onto the piazza rather than into the house, so that the visitor crosses from public to private through an outdoor room before ever reaching a threshold.\n\nWhat this produces phenomenologically is unlike anything else in colonial America. You do not confront a facade; you are admitted sideways into a shaded, moving, half-outdoor space, and the house reveals itself in stages. The formality is entirely intact — the drawing room at the top of the stair is as correct as anything in London — but the sequence leading to it has been reorganized around air and shade rather than around symmetry and axis. Georgian architecture is usually described as a system of frontal composition. Charleston demonstrates that the system is more portable than that, and survives being turned ninety degrees.\n\nFor a design system this variant is the strongest available argument that style and climate response are separable layers rather than a single package. Everything in the kit of parts above the plan — cornice, sash, panel, order — transfers from Boston to Charleston unchanged. Everything at the level of section, orientation, and threshold has to be re-derived from latitude. A taxonomy that stops at 'Georgian' cannot express that, and a builder working from it will produce a house that looks correct and performs badly."
+  },
+  "defining_characteristics": [
+    "Principal floor raised above a high, often arcaded service basement",
+    "Ceiling heights of 12 to 14 feet on the principal floor, markedly taller than Northern Georgian practice",
+    "One or two storeys of open piazza on the south or west flank, structurally integral rather than applied",
+    "Flemish-bond brick or stucco over brick, with a full classical entablature and modillion cornice",
+    "Interior joinery of London quality — full-height raised panelling, carved overmantels, correct orders — executed by immigrant craftsmen",
+    "Detached kitchen and service buildings in the rear yard, connected by a covered way",
+    "Fenestration and plan organized around cross-ventilation, with aligned openings front to back"
+  ],
+  "diagnostic_tells": [
+    "A false door in the street wall or garden wall that opens onto a piazza, not into a room",
+    "Ceiling heights visibly greater than any Northern colonial house of equivalent status",
+    "Superimposed classical orders on the piazza — Tuscan or Doric below, Ionic above",
+    "Stuccoed and scored brick imitating ashlar on the principal elevation of the grandest houses",
+    "A raised basement of arcaded brick, with the entry stair rising a full storey"
+  ],
+  "distinguished_from": [
+    {
+      "node": "charleston-single-house",
+      "difference": "The single house is a plan type — one room wide, end to the street — that persists in Charleston through the Federal and Greek Revival periods and beyond. Charleston Georgian is a style expression that may or may not be housed in a single-house plan; the grandest Georgian examples are double houses, four rooms to a floor, facing the street conventionally."
+    },
+    {
+      "node": "tidewater-georgian",
+      "difference": "Tidewater Georgian is a plantation architecture of freestanding five-part compositions on open land, with paired end chimneys and a formal land-and-river front. Charleston Georgian is urban, built on narrow deep town lots with party-wall constraints, and organizes itself around the piazza rather than around a symmetrical land approach."
+    },
+    {
+      "node": "new-england-georgian",
+      "difference": "New England Georgian is clapboarded, compact, low-ceilinged, and centred on heat retention with a tight double-pile plan. Charleston Georgian is brick or stucco, tall, thin in section, and centred on heat rejection."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Standard Georgian classical derivation from the order, with storey heights stretched vertically beyond English or Northern precedent for stack ventilation.",
+    "typical_ratios": [
+      "Principal-floor ceiling 12'-14'; second floor 10'-12'; basement 8'-9'",
+      "Sash proportion approximately 2:1 height to width, taller than Northern Georgian at the same width",
+      "Piazza depth 10'-14', at least equal to the depth of an interior room",
+      "Room proportions commonly 3:4 and 2:3 in plan"
+    ],
+    "bay_rhythm": "Three to five bays on the show elevation; piazza bays set by the order, typically 9'-12' on centre.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "charleston-single",
+      "affinity": "canonical",
+      "note": "The dominant urban expression."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The 'double house' of the wealthiest merchants — Miles Brewton, Colonel William Rhett."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "common"
+    },
+    {
+      "massing": "raised-cottage",
+      "affinity": "possible"
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common"
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "atypical",
+      "note": "Charleston resisted continuous row building; even attached houses keep a side yard for air."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "The piazza must face within 45 degrees of southwest to catch the prevailing summer breeze and shade the long wall. A piazza on the north flank is decoration and defeats the type.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Principal-floor ceiling height not less than 11'-6'. Below that the vertical proportion of the sash and the stack effect both fail, and the interior reads as a Northern house with Southern trim.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Piazza columns must carry a correct entablature and use superimposed orders where two storeys occur — heavier order below, lighter above. Identical columns on both levels read as a modern deck.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Piazza depth minimum 10 feet, roof structurally continuous with or clearly subordinate to the main roof, never a shed applied to a finished wall.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Openings must align front to back through the plan to permit cross draft; a blocked enfilade of openings removes the reason the section is shaped this way.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Miles Brewton House",
+      "location": "27 King Street, Charleston, South Carolina",
+      "year": 1769,
+      "note": "Ezra Waite, joiner. Double house with a two-storey pedimented portico, superimposed Doric and Ionic; generally considered the finest surviving Georgian town house in America."
+    },
+    {
+      "name": "Drayton Hall",
+      "location": "Ashley River, Charleston County, South Carolina",
+      "year": 1742,
+      "note": "Palladian double portico, never modernized with plumbing or electricity; the most archaeologically intact Georgian house in the Lowcountry."
+    },
+    {
+      "name": "Colonel John Stuart House",
+      "location": "104-106 Tradd Street, Charleston, South Carolina",
+      "year": 1772,
+      "note": "Notable surviving interior joinery."
+    },
+    {
+      "name": "Heyward-Washington House",
+      "location": "87 Church Street, Charleston, South Carolina",
+      "year": 1772,
+      "note": "Double house on a single-house lot; Washington lodged here in 1791."
+    }
+  ],
+  "sources": [
+    "McAlester, A Field Guide to American Houses",
+    "Poston, The Buildings of Charleston: A Guide to the City's Architecture",
+    "Herman, Town House: Architecture and Material Life in the Early American City",
+    "Waterman, The Dwellings of Colonial America",
+    "Severens, Charleston: Antebellum Architecture and Civic Destiny"
+  ],
+  "confidence": "high",
+  "tags": [
+    "georgian",
+    "urban",
+    "subtropical",
+    "piazza",
+    "lowcountry"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "storey-graduation",
+      "role": "primary",
+      "note": "PROMOTED to primary, and this is the one variant where the vertical module is the style. A 12–14 ft principal storey is not a Northern house stretched; it is a stack-ventilation device, and the pack's graduation must be re-anchored on it before any trim rule is run. Note the consequence the trim pack makes explicit: at a 13 ft ceiling the nineteen-part division finally lands where it was designed to, and the derived chair rail (32 3/4 in) is correct without judgment override — Charleston is the American room the classical derivation actually fits.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "primary",
+      "authority": "gibbs-doric",
+      "note": "PROMOTED alongside the Ionic, because the piazza demands superimposed orders — Tuscan or Doric below carrying Ionic above — and the pair must be dimensioned from one authority or the two tiers will not agree. Two identical tiers read as a modern deck.",
+      "precedence": 2
+    },
+    {
+      "pack": "brick-course",
+      "role": "primary",
+      "authority": "brick-course",
+      "note": "PROMOTED. Flemish bond over an arcaded raised basement; the basement arcade is a whole-course composition and the entry stair rises a full storey on it.",
+      "precedence": 3
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "Retained but marginal. The piazza is framed in timber against a masonry body, so the bay governs the piazza and nothing else; the pack's own bay of 16 ft is too long for a piazza, whose bays run 9–12 ft on centre, set by the order rather than by the frame.",
+      "precedence": 9
+    }
+  ]
+}

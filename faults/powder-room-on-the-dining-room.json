@@ -1,0 +1,113 @@
+{
+  "id": "powder-room-on-the-dining-room",
+  "name": "The Door You Can See From The Table",
+  "aka": [
+    "the WC on the dining room",
+    "the powder room in the sightline",
+    "the loo off the kitchen"
+  ],
+  "slots": [
+    "public_private_gradient",
+    "room_adjacency_overrides",
+    "service_zone_strategy"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "sequence",
+  "symptom": "A powder-room door opening directly into the dining room, the kitchen, or a hall in direct view of the dining table, with no lobby, no turn and no second door. Seated guests watch it open and close through dinner, and there is nowhere to queue that is not the room in use. In the commonest version it also shares a partition with the dining wall, so the extract fan and the cistern are audible from the table.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The powder room is the last room placed and the smallest, 18 to 25 sq ft, and it needs a wall with a drain in it. The plan gives it the leftover space beside the stair or under the landing, which is nearly always adjacent to the dining room, because that is where the residual space is. A lobby in front of it would cost 20 to 30 sq ft and a second door, and would double the room's footprint - which is why almost nobody builds one, and why the model residential code, which requires no screening at all, is the only authority anyone consults.",
+    "cost_saved": "$3,000-$6,000 for a lobby and a second door, plus 25 sq ft of plan."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / public_private_gradient",
+      "statement": "The service circulation never crosses the formal one except at the passage. A service room whose door is a visible event in a formal room is that crossing, made permanent."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / storage_strategy / closet-breaking-the-passage-axis = forbidden",
+      "statement": "A coat closet or a powder room placed on the rear axis kills the through-view and no amount of correct trim recovers it. The kit names the powder room specifically, because it is the object that most often lands there."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R306 and R303.3 - toilet facilities and their ventilation",
+      "statement": "The residential code requires a water closet, a lavatory and either an openable window of 3 sq ft or 50 cfm of intermittent mechanical extract, and it requires nothing whatever about where the door opens. Commercial food-service codes require screening or a vestibule between a toilet room and a food-preparation area; the residential code does not, and the fault is the same fault. This is a house being code-minimum and wrong."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a service door is an event and events belong out of the sightline",
+      "statement": "Any door that is used privately and frequently should be outside the seated sightline of a room used socially. That is a rule about attention, and it is checkable with a plan and a straightedge."
+    }
+  ],
+  "correct_practice": "Put the powder room off the circulation and out of the sightline: reached from the passage, from a rear lobby or from a turn beside the stair, with its door facing along the circulation rather than across it, and never within the cone of view from a seated position at the dining table. If the plan cannot supply a lobby, supply a turn - even 3 ft of screen wall in front of the door removes it from the room. Two further rules that cost nothing: the powder room does not share a partition with the head of the dining table or with a bedroom, because a 50 cfm fan and a filling cistern carry 40 to 50 dBA through a single stud wall; and the powder room never sits on the passage's rear axis, which is the kit's hard rule and the commonest way a modern plan destroys a through view. Where the house is small, the honest solution is the historic one - put it under the stair, entered from the side, with the door in the flank of the stair enclosure where nobody sees it from anywhere.",
+  "fixes": {
+    "right": "Reach it through a small lobby off the passage, with a turn, and hang the door to open along the circulation rather than across a formal room.",
+    "cheap": "Turn the door. Rehanging a powder-room door on the other jamb, or rotating it to the adjacent wall, moves it out of the sightline for the price of a header change at framing and nothing at all at design stage; adding a 36 in return of wall in front of it costs $300-$600 and is the difference between a door in the dining room and a door in a recess. Also specify the fan for 1.0 sone or less and put the switch on a timer, which removes the acoustic half of the fault for about $80.",
+    "dishonest": "A jib door or a door papered to match the wall. Concealing the door does not stop it opening, and a guest is now watching a section of wall swing away from the table, which is more conspicuous than a plain door in a recess."
+  },
+  "detection": "On a plan, draw sightlines from each seat at the dining table; any WC door within them is the fault. The quick version: if the powder-room door and the dining table are in the same room, or in two rooms joined by an opening with no turn, it fails. On a listing photograph of the dining room, look for a single narrow door - 24 to 28 in leaf, narrower than every other door in the shot - which is nearly always the powder room. Also check the passage's rear axis: a narrow door on the centreline at the end of the hall is this fault and the blocked-passage fault at once.",
+  "test": {
+    "expression": "wc_doors_within_the_dining_table_sightline",
+    "threshold": 0.0,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "plan",
+    "note": "Count toilet-room doors visible from any seated position at the principal dining table. Zero is the standard. A second test with the same driver: wc_doors_on_the_passage_rear_axis, also zero."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-townhouse",
+      "why": "On a 16-25 ft lot the only place for a ground-floor WC is beside the stair off the hall, and the hall is in view of the rear parlour when the pocket doors are open. The type's compensation is that the pocket doors close.",
+      "bounds": "Requires the closable doors between hall and parlour, or between the two parlours. The WC door must still be in the hall and not in the parlour itself.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "A bathroom added to a single-file plan has no circulation to open off; historically it was added at the rear and entered from the last room or from the rear porch.",
+      "bounds": "Rear position only, and it must not sit on the enfilade axis, which would block the type's ventilation path as well as its sightline."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "A small post-war house with one bathroom off a tiny hall is authentic and there is no formal room to be seen from.",
+      "bounds": "Holds only where there is genuinely no separate dining room."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "centre-passage-blocked-at-one-end",
+      "difference": "The powder room on the rear axis causes both faults at once; they are separable, because a powder room can be in the sightline of the table without being on the axis, and on the axis without being seen from the table."
+    },
+    {
+      "fault": "service-route-through-the-formal-plan",
+      "difference": "That is a route crossing a formal room. This is a door facing into one. Same gradient, different geometry."
+    }
+  ],
+  "co_occurs_with": [
+    "centre-passage-blocked-at-one-end",
+    "service-route-through-the-formal-plan"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json public_private_gradient; storage_strategy closet-breaking-the-passage-axis forbidden",
+    "International Residential Code R306 (toilet facilities), R303.3 (bathroom ventilation), M1507 (local exhaust rates)",
+    "International Plumbing Code 405.3 and food-service practice, for the screening requirement that residential codes omit",
+    "HABS measured plans showing the historic position of the closet or necessary under and beside the stair"
+  ],
+  "confidence": "high",
+  "tags": [
+    "gradient",
+    "adjacency",
+    "powder-room",
+    "code-minimum",
+    "endemic"
+  ]
+}

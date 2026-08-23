@@ -1,0 +1,36 @@
+{
+  "id": "early-republic",
+  "name": "Early Republic",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1780,
+    "floruit_end": 1860,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Federal, Jeffersonian, and Greek Revival — the one period when American architecture was explicitly and self-consciously ideological.",
+    "long": "For roughly seventy years after independence, Americans chose architectural styles as political arguments. Federal continued English Adamesque practice while the country was still culturally British. Jefferson deliberately bypassed England to quote Rome and Palladio directly, because a republic should look to a republic. Greek Revival, arriving with Greek independence and Jacksonian democracy, made the temple front a national form and put it on farmhouses, banks, and courthouses alike.\n\nThe mechanism was the American pattern book, and the mechanism has a name: Asher Benjamin published *The American Builder's Companion* in 1806 as a Federal manual and *The Architect, or Practical House Carpenter* in 1830 as a Grecian one. Same author, same audience, same carpenters — new plates. Style change here is a change in the reference material distributed to the trade, which is worth sitting with if you are building the next reference material."
+  },
+  "defining_characteristics": [
+    "Style chosen as explicit political and civic argument",
+    "Pattern books as the operative mechanism of stylistic change",
+    "A decisive shift from Federal attenuation to Greek Revival mass and weight",
+    "The temple front applied across every building type without embarrassment",
+    "Classical correctness pursued from published plates rather than from travel"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

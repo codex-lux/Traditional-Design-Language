@@ -1,0 +1,242 @@
+{
+  "id": "dressing-room",
+  "name": "Dressing Room",
+  "aka": [
+    "closet (17th c. sense)",
+    "cabinet",
+    "boudoir",
+    "powdering room",
+    "toilette"
+  ],
+  "function_class": "sleeping",
+  "description": "A small habitable room adjoining a bedchamber, with a window, a fireplace and a chair, in which one dressed, wrote letters and received intimates. It is the historical answer to the storage problem and it is a better answer than the walk-in closet at exactly the same square footage, because it is a room rather than a cupboard - it has daylight, it has somewhere to sit, and it can be used for something else in a decade when the client's clothes have changed. It is also, and this is the fact that explains a great deal of otherwise baffling old plans, the room the first indoor bathrooms went into.",
+  "history": {
+    "appears": 1660,
+    "declines": 1930,
+    "replaced_by": "walk-in closet, en-suite bathroom",
+    "note": "The seventeenth-century sense of CLOSET is this room: a small private cabinet off the chamber, at the innermost end of the apartment sequence, where the owner kept books, curiosities and correspondence and admitted almost nobody. By the eighteenth century the sequence in an English or Anglo-American house of any size is antechamber - bedchamber - dressing room - closet, running from most public to most private, and a gentleman was shaved and dressed in the dressing room in the presence of callers: the French levee, imported and diluted. The room's decline has three causes and they are all technological. First, the WC and the fitted bath were put into it from the 1870s, because it was the only small room adjoining a bedchamber and it usually had a fireplace flue to borrow a vent from - which is why so many nineteenth-century houses have a bathroom in an odd position between two bedrooms, and why the American en-suite predates the American hall bathroom. Second, central heating removed the fireplace that made it habitable in winter. Third, the servant who dressed you disappeared, and dressing became a two-minute private act rather than a thirty-minute social one. What survives of it is the walk-in closet with the daylight taken out."
+  },
+  "dimensions": {
+    "area_sf": [
+      60,
+      140
+    ],
+    "width_ft": [
+      7,
+      11
+    ],
+    "length_ft": [
+      8,
+      14
+    ],
+    "proportion": [
+      1.0,
+      1.5
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "SEVEN FEET SIX between hanging faces, which is 24 + 42 + 24 - the same double-loaded arithmetic as a walk-in but with the 42 in dressing aisle rather than the 36 in walking one, because you actually dress in this room. The second number is the one that makes it a room and not a closet: a chair or a stool, 24 by 24 with 18 in in front of it, has to fit clear of both aisles, which means the room must be at least 3 ft longer than its fittings require."
+  },
+  "furniture": [
+    {
+      "item": "dressing table or chest",
+      "footprint_in": [
+        48,
+        20
+      ],
+      "clearance_in": 36,
+      "note": "Historically the room's principal object and the reason it faced a window - you dress by daylight or you dress badly. A dressing table with its back to the window is the modern error."
+    },
+    {
+      "item": "chair or stool",
+      "footprint_in": [
+        24,
+        24
+      ],
+      "clearance_in": 18,
+      "note": "The presence of somewhere to sit is the whole difference between this room and a closet. You put shoes on sitting down."
+    },
+    {
+      "item": "hanging, double-loaded",
+      "footprint_in": [
+        96,
+        84
+      ],
+      "clearance_in": 42
+    },
+    {
+      "item": "cheval or full-length glass",
+      "footprint_in": [
+        26,
+        20
+      ],
+      "clearance_in": 60,
+      "note": "Needs 5 ft of standing-back distance to show the whole figure, which a closet aisle never gives and a room does."
+    },
+    {
+      "item": "small fireplace",
+      "footprint_in": [
+        42,
+        18
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "A dressing-room chimneypiece is the smallest in the house - a 24 to 30 in opening - and it is what made the room usable in a house heated only by fires. Where a modern version wants the feeling without the flue, the answer is a window and a radiator under it, not a direct-vent box in a period surround."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.8,
+    "sides_lit": 1,
+    "orientation": "North or east. North light is colourless and shows a garment's true colour, which is why every tailor's fitting room faces north; east gives you morning light at the hour the room is used. West is the worst, because it fades the contents and is dark when you need it.",
+    "glazing_fraction": [
+      0.08,
+      0.14
+    ],
+    "note": "One window is enough and it should be to the SIDE of the dressing position, not behind it and not in front of it - light from behind puts your own shadow on the mirror and light in front makes the mirror a silhouette. This is the same rule as the study desk and it is broken as often."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "bedchamber",
+        "why": "A dressing room is by definition entered from the chamber it serves. Entered from a passage it is a small bedroom.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "primary-bathroom",
+        "why": "The historical sequence chamber - dressing room - bath is the right one and it is right for a reason: the dressing room is the acoustic and thermal lock between the sleeping room and the wet room.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "bedchamber",
+        "why": "In the largest plans a dressing room lies BETWEEN two chambers and serves both, which is the single most efficient storage move in a traditional plan and is documented in the biggest eighteenth-century houses. It is also the most defensible way to get modern closet volume into a Georgian plan without a closet.",
+        "relation": "direct-door",
+        "strength": "preferred",
+        "exceptions": [
+          "Only where the two chambers belong to one household unit; a shared dressing room between a guest chamber and a family chamber is a circulation fault."
+        ]
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "centre-passage",
+        "why": "A dressing room with a second door to the passage becomes a through route between the chamber and the landing and stops being private, which is the whole point of the room.",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "The eighteenth-century apartment sequence permitted a servant's door to a back stair - but that is a service door in a house with servants, not a family route."
+        ]
+      }
+    ],
+    "entered_from": [
+      "bedchamber",
+      "primary-bedroom",
+      "bedroom"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 5,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Wants a real window that opens, and where it adjoins a bathroom it needs a transfer path so it is not pressurised by the bath's exhaust.",
+    "heat": "A radiator under the window, or a small fireplace where the flue exists. This room is used undressed, at six in the morning, in February, and it should be the WARMEST room on the bedroom floor rather than the coldest - which it will be if it is treated as a closet and given no emitter.",
+    "electrical": "Sconces flanking the mirror at eye height, which light a face, rather than a downlight overhead, which puts every feature in shadow. This is the one lighting rule in a house that people notice immediately and cannot explain.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "dressing room",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Canonical. Paired dressing rooms flanking a state or principal bedchamber, each with its own closet beyond, the whole forming an apartment. Trim one grade below the chamber, which is itself one grade below the saloon - the graduation is the point."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "dressing room",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Documented in the largest houses only, and the kit lists dressing-room-between-chambers as a permitted storage strategy. In an ordinary five-bay Georgian there is no room for it and the chimney-flanking closet is the answer instead."
+    },
+    {
+      "style": "french-neoclassical",
+      "name_in_style": "cabinet de toilette / boudoir",
+      "present": true,
+      "trim_grade": "highest",
+      "note": "The French developed this room further than anyone: the appartement de commodite is a sequence of small, warm, elaborately finished private rooms, and the boudoir is a sitting room at the same rank. Trim is at its most refined here, not its plainest, because the room is seen only by people who matter."
+    },
+    {
+      "style": "federal-style",
+      "name_in_style": "dressing room",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Often the room a bathroom was inserted into between 1880 and 1910, which is why Federal houses so often have a bath in a position no architect would have chosen."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent. The bungalow's whole argument is against the apartment sequence and against rooms whose purpose is ceremony."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "Absent."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "dressing room",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Worth reviving explicitly, and the argument to a client is dimensional rather than historical: a 10 by 12 dressing room with a window and a chair is the same 120 sq ft as the walk-in they asked for, costs the same, and is a room they will still want when their clothes have changed."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "If it has a closet and could be used for sleeping, a plans examiner may treat it as a bedroom and require emergency escape and rescue.",
+      "ref": "IRC R310",
+      "conflict": "The classification hinges on intent and on the presence of a closet, which is why a glazed dressing room is often drawn without an egress-compliant window and is then, strictly, a room you may not sleep in. Give it an egress window: it costs nothing at design stage, it makes the room legal for any future use, and a dressing room wants a proper window anyway."
+    },
+    {
+      "requirement": "Habitable room minimums: 7 ft in any horizontal dimension, 70 sq ft, 7 ft ceiling.",
+      "ref": "IRC R304, R305",
+      "conflict": "The 70 sq ft floor is the line between a dressing room and a large closet, and it is worth landing deliberately on one side of it or the other rather than at 68 sq ft by accident."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "five-part-palladian",
+    "h-plan-manor",
+    "side-hall-double-pile",
+    "garrison-block",
+    "foursquare",
+    "massed-picturesque",
+    "mansard-block",
+    "villa-tower",
+    "temple-front-with-wings"
+  ],
+  "slots": [
+    "storage_strategy",
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "daylight_strategy",
+    "built_ins",
+    "fireplace_surround",
+    "trim_family"
+  ],
+  "faults": [
+    "closet-depth-taken-from-the-room",
+    "closet-on-the-exterior-wall",
+    "the-room-nobody-enters",
+    "one-trim-grade-for-every-room",
+    "direct-vent-box-in-a-period-surround"
+  ],
+  "sources": [
+    "Mark Girouard, Life in the English Country House (1978), for the apartment sequence and the social use of the dressing room",
+    "kits/georgian-colonial-american.kit.json storage_strategy - dressing-room-between-chambers, permitted",
+    "HABS measured plans showing bathrooms inserted into dressing rooms, 1880-1910",
+    "IRC R304, R305, R310"
+  ],
+  "confidence": "high"
+}

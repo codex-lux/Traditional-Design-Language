@@ -1,0 +1,216 @@
+{
+  "id": "dark-trim-inversion",
+  "name": "Dark trim on a light body",
+  "aka": [
+    "the outlined house",
+    "inverted period colour"
+  ],
+  "slots": [
+    "color_strategy"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "anachronism",
+  "symptom": "A house whose body is light and whose trim — casings, corner boards, cornice, water table — is markedly darker than the wall. Every moulding reads as a black line drawn round a shape. In raking light the actual relief and the painted outline do not coincide, and the mouldings look flatter than they are.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Contemporary colour consulting and the paint manufacturers' own 'exterior palettes' promote a body-trim-accent scheme with high contrast, because contrast photographs well and is legible in a small thumbnail. Dark trim also hides dirt and the failure of the caulk lines that modern trim assemblies depend on, so it lowers apparent maintenance. Neither reason has anything to do with how a moulding works.",
+    "cost_saved": "Nothing directly; the same two gallons. The saving is in maintenance perception — dark trim conceals dirt and joint movement, worth perhaps one repaint cycle in owner satisfaction."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / color_strategy / dark-trim-on-light-body (forbidden)",
+      "statement": "The modern default and an inversion of the period logic. Dark trim reads the mouldings as graphic outline rather than as relief, which is precisely what a classical profile is not doing."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / color_strategy / body-light-trim-same-or-lighter (canonical)",
+      "statement": "Trim was normally the same colour as the body or lighter, not darker."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a moulding is a light-modulating device and paint either helps it or replaces it",
+      "statement": "A profile works by producing a graded sequence of lit, half-lit and shaded surfaces. Painting it a single dark value collapses that sequence into one tone and substitutes a silhouette. The lighter the trim relative to the wall, the more of the modulation survives, which is why white lead on a coloured body was a status claim about mouldings as much as about pigment."
+    }
+  ],
+  "correct_practice": "Trim is the same value as the body or lighter, never darker. In 18th-century Anglo-American practice trim was frequently the body colour or a lighter tint of it; white lead trim on a coloured body becomes common on good houses after about 1740 and is itself a statement, because white lead was expensive. The exceptions are movable objects: shutters and the door are legitimately darker than the wall, because they are not part of it — black-green, Prussian blue or Spanish brown. Sash is the interesting middle case (see the black-window fault). The controlling test is a value test, not a hue test: measure the lightness of trim and body and require trim ≥ body. Two colours of the same lightness are fine; a darker trim is not.",
+  "fixes": {
+    "right": "Trim in white lead's modern equivalent or a light tint of the body colour, body in a period pigment range, shutters and door darker, sash decided separately.",
+    "cheap": "Free at the next repaint, and effectively free at first paint. If the client wants contrast, get it between the BODY and the SHUTTERS rather than between the body and the trim — a light body, lighter trim and near-black shutters gives a stronger and more period-correct facade than a light body with dark trim, at identical cost.",
+    "dishonest": "Painting only the sash and the door dark and keeping the rest light, then adding a dark 'accent' colour to the cornice or the corner boards to tie it together. The accent-colour habit is what produces the inversion in the first place; the cornice is part of the wall, not part of the door."
+  },
+  "detection": "Convert the photograph to greyscale. This one test resolves the fault completely and is trivially automatable: sample the mean lightness of the body field and of the trim members. Trim lighter than or equal to body is correct; trim darker is the fault, and the magnitude of the difference is the severity. Second test, on a moulded member: in colour, look at whether the moulding shows internal tonal variation — a lit fillet, a shaded cove — or whether it reads as one flat dark band. Flat means the paint has replaced the profile. Third: check whether the shutters, if present, are darker than the trim; if trim and shutters are the same dark colour, the scheme has confused a fixed element with a movable one.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-american",
+      "why": "Later 19th-century polychrome practice deliberately picks out trim, brackets and sash in darker and contrasting colours, and Italianate is where this begins in earnest. The mouldings are manufactured rather than carved and are designed to be read graphically.",
+      "bounds": "The scheme must be a genuine three- to five-colour polychrome with a mid-tone body, not a white body with black trim. Period polychrome runs to olives, umbers, ochres and Indian reds, and the trim is usually a DIFFERENT HUE at a similar value, with the darkest colour reserved for sash and small members.",
+      "bounds_test": {
+        "expression": "body_lightness",
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.25,
+        "upper": 0.65,
+        "note": "Period polychrome runs to olives, umbers, ochres and Indian reds — a mid-tone body, never white. Trim is usually a different HUE at a similar value, with the darkest colour reserved for sash and small members. A white body with black trim is not this scheme."
+      },
+      "applies_when": {
+        "date_range": [
+          1850,
+          1890
+        ],
+        "slots": [
+          "color_strategy"
+        ]
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Full polychrome is definitional and the darkest colours are used on the smallest members.",
+      "bounds": "Value hierarchy runs from mid-tone body through darker trim to darkest sash, and the body is never white. A white-bodied Queen Anne with black trim is not the historical scheme.",
+      "bounds_test": {
+        "expression": "body_lightness",
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.25,
+        "upper": 0.65,
+        "note": "Value hierarchy runs body, then trim, then sash, each darker than the last, and the body is never white."
+      },
+      "applies_when": {
+        "date_range": [
+          1875,
+          1905
+        ],
+        "slots": [
+          "color_strategy"
+        ]
+      }
+    },
+    {
+      "style": "stick-style",
+      "why": "The applied sticks are meant to read as a graphic frame and are legitimately picked out darker.",
+      "bounds": "The sticks must be real projecting members; darkening a flat pattern is the half-timbering fault in paint.",
+      "bounds_test": {
+        "expression": "stick_projection_past_siding_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.75,
+        "note": "The sticks must be real projecting members. Darkening a flat pattern is the half-timbering fault in paint."
+      },
+      "applies_when": {
+        "slots": [
+          "secondary_cladding"
+        ]
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Dark timbering against light render is the type's defining contrast.",
+      "bounds": "The timbering must be a real projecting member. Blackening flat boards is the same failure by another route — see the half-timbering fault.",
+      "bounds_test": {
+        "expression": "timber_projection_past_render_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.75,
+        "note": "Dark timbering against light render is definitional, and the timbering must be a real projecting member. Blackening flat boards is the same failure by another route."
+      },
+      "applies_when": {
+        "slots": [
+          "secondary_cladding",
+          "material_change_rule"
+        ]
+      }
+    },
+    {
+      "style": "cape-dutch",
+      "why": "Green or dark-painted shutters and joinery against uniform white is the style's own diagnostic tell — 'the only colour on the building'.",
+      "bounds": "Joinery means doors, shutters and sash. The wall, the gable mouldings and the plaster stay white; a Cape Dutch house with dark cornice mouldings is wrong.",
+      "bounds_test": {
+        "expression": "painted_dark_elements_that_are_joinery / painted_dark_elements",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Joinery means doors, shutters and sash. A Cape Dutch house with dark cornice or gable mouldings is wrong, because those are wall."
+      },
+      "applies_when": {
+        "slots": [
+          "color_strategy"
+        ],
+        "regions": [
+          "Western Cape"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "white-trim-on-everything",
+      "difference": "The opposite excess. That fault is white trim used as a universal default regardless of style; this one is dark trim used as a universal default. Both are style-blind, and a corpus that only warns about one of them produces the other."
+    },
+    {
+      "fault": "the-black-window-package",
+      "difference": "Sash is a separate decision from trim and has a genuinely different history. Do not merge them."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, color_strategy variants and parameters",
+    "NPS Preservation Brief 10: Exterior Paint Problems on Historic Woodwork",
+    "Roger W. Moss, Paint in America: The Colors of Historic Buildings",
+    "Frank S. Welsh, paint stratigraphy reports on 18th-century Anglo-American exteriors"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "colour",
+    "anachronism",
+    "profile-depth",
+    "paint"
+  ],
+  "test": {
+    "expression": "trim_lightness / body_lightness",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "Convert the photograph to greyscale and sample the mean lightness of the body field and of the trim members. Trim lighter than or equal to the body is correct; trim darker is the fault, and the size of the shortfall is the severity. This is the most trivially automatable test in the corpus and it resolves the fault completely — it is a value test, not a hue test, so two colours of the same lightness pass."
+  },
+  "secondary_tests": [
+    {
+      "expression": "internal_tonal_range_across_a_moulded_member / internal_tonal_range_across_the_flat_wall",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.5,
+      "note": "Whether the paint has replaced the profile. A moulding painted a light value shows internal variation — a lit fillet, a shaded cove — so its tonal range exceeds the flat wall's; painted a single dark value it collapses to one tone and the range approaches the wall's. This is what 'graphic outline rather than relief' means numerically."
+    },
+    {
+      "expression": "shutter_lightness / trim_lightness",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.85,
+      "note": "The hierarchy the scheme is supposed to have. Shutters and the door are the only elements legitimately darker than the wall, because they are movable objects rather than part of it. If trim and shutters are the same dark value, the scheme has confused a fixed element with a movable one, which is usually how the inversion started."
+    }
+  ],
+  "co_occurs_with": [
+    "white-trim-on-everything",
+    "the-black-window-package"
+  ],
+  "inverted_by": [
+    {
+      "style": "cape-dutch",
+      "statement": "Light joinery is the fault. Green or dark-painted shutters, doors and sash against uniform white is the style's own diagnostic tell and the only colour on the building — but the wall, the gable mouldings and the plaster stay white, so the inversion applies to joinery and not to trim."
+    },
+    {
+      "style": "queen-anne-american",
+      "statement": "A white body is the fault before dark trim is. The historical scheme runs a mid-tone body through darker trim to darkest sash, so a white-bodied Queen Anne with black trim fails at the body, and correcting the trim alone will not recover it."
+    }
+  ]
+}

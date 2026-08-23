@@ -1,0 +1,170 @@
+{
+  "id": "exterior-step-at-interior-rise",
+  "name": "The Front Steps Built Like A Basement Stair",
+  "aka": [
+    "7 3/4 and 10",
+    "the steep stoop",
+    "interior rise outdoors"
+  ],
+  "slots": [
+    "steps_and_stoop",
+    "entry_sequence",
+    "grade_relationship"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "Front steps at the maximum riser and the minimum tread the code allows — 7 3/4 in up, 10 in deep — so the flight is as steep as a basement stair and about half as deep as a period stoop. On four risers the flight projects 40 in instead of 60, the nosings are close enough together that a person descending cannot see the treads, and there is no place on the flight to stand and turn. Where the steps are precast concrete units the proportion is fixed by the mould and the whole assembly reads as a utility item set against the house.",
+  "cause": {
+    "driver": "code",
+    "explanation": "The IRC gives a maximum riser of 7 3/4 in and a minimum tread of 10 in, and every stair detail, every precast unit and every framing crew works to those numbers because working to the maximum riser minimises the number of risers, the projection into the setback and the amount of concrete or framing. On a production site the front steps are usually built by the concrete or the deck crew from a standard detail, after the grade is final, and the height they have to climb is whatever the foundation and the final grade left them. Nobody sets the riser from the storey height or from the brick module.",
+    "cost_saved": "A 60 in projection instead of 40 costs about 20 sq ft more of stoop and steps — 600-1,800 USD in masonry, less in wood. Where the setback is tight it may cost nothing at all and simply be a habit."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / steps_and_stoop / rule",
+      "statement": "The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with treads of 12 to 14 in. Deeper treads and lower risers than an interior stair, which is correct and is the opposite of what stock exterior step details do."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course / steps_and_stoop.riser_height = part * 2.5, giving 6 7/8 in",
+      "statement": "Two and a half brick courses, which is a good riser and NOT a whole number of courses — the honest problem in coursed step construction. The mason has to fudge it, and period masons did."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R311.7.5.1 and R311.7.5.2 — maximum riser 7 3/4 in, minimum tread 10 in",
+      "statement": "A maximum and a minimum, not a specification. The code permits 6 in risers and 14 in treads without qualification, and the exterior flight is precisely where the generous end of the range belongs."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an exterior step is walked in weather, in the dark, carrying things, by people of every age",
+      "statement": "Interior stair proportion optimises for the space a stair occupies inside a house, which is expensive. An exterior stoop occupies land, which at the front of a house is not being used for anything else. The trade-off that justifies a steep interior stair does not exist outdoors, which is why every tradition builds exterior steps shallower than interior ones."
+    }
+  ],
+  "correct_practice": "Risers of 6 to 7 in and treads of 12 to 14 in, three to five risers from grade. The classical relationship inverts the interior rule: outdoors, tread INCREASES as riser decreases, and a 6 1/2 in riser with a 13 in tread is the target. In masonry the riser comes off the brick module — the pack gives 2 1/2 courses at 6 7/8 in and flags honestly that this is not a whole number of courses, which is why period step masonry shows a slightly thicker or thinner joint on the step courses. The flight is wider than the entrance composition by about 18 in each side: on the pack's default 9 ft bay that is a stoop 10 ft 2 in wide against a 7 ft 2 in entrance composition. And the platform at the top is 36 to 60 in deep, which is a place to stand rather than a landing. The whole assembly is masonry, laid solid, never a wood-framed deck — a wood platform at the front door is a different building type's threshold.",
+  "fixes": {
+    "right": "Six-and-a-half inch risers, 13 in treads, masonry throughout, a platform 42 to 60 in deep, and the flight 18 in wider than the entrance composition on each side.",
+    "cheap": "Add one riser. Going from four risers at 7 3/4 in to five at 6 1/4 in over the same 31 in of rise costs one more step of material and about 13 in of projection, and it is the single change that most alters how the approach feels. It also usually improves the tread automatically, because the extra riser gives the flight room. Second free move: make the BOTTOM tread deeper than the others — 18 to 24 in — which is period-correct, costs one course of brick, and marks the beginning of the flight as a threshold rather than a step.",
+    "dishonest": "Precast concrete step units set against the house, painted or with a brick-patterned face. They are a fixed 7 to 7 1/2 in riser at a 10 to 11 in tread by mould, they do not bond to the house, and the joint between the unit and the wall opens within a season and channels water into the foundation. They are the commonest thing at a front door in production housing and they are a utility product."
+  },
+  "detection": "Two measurements from a photograph taken from the walk. Count the risers and measure the flight's total horizontal projection against a known reference — a standard door is 36 in wide, a brick course is 2 2/3 in high with the joint. Divide projection by riser count to get the tread. Under 11 in the flight is at interior proportion; 12 to 14 is correct. Then divide the total rise by the riser count: over 7 1/4 in is steep, 6 to 7 is correct. Second, faster check with no measurement: photograph the flight straight on from the front and look at whether the nosings overlap. On a 13 in tread with a 6 1/2 in riser the treads are visible as separate horizontal bands from a standing eye height at 15 ft; on a 10 in tread at 7 3/4 in they merge into a single sloping plane, which is exactly the visual condition that makes a steep flight feel unsafe descending.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "tread_depth_in / riser_height_in",
+    "threshold": 1.75,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "A 13 in tread on a 6 1/2 in riser gives 2.0; the code minimum combination of 10 in on 7 3/4 in gives 1.29. The threshold of 1.75 admits 12 on 7 (1.71 rounds in) through the whole period band and excludes every code-minimum flight. Riser and tread are both recoverable from a photograph by counting risers and measuring the total rise and run."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The stoop is the second of the kit's three thresholds and its proportion is derived from the brick module."
+    },
+    {
+      "style": "italianate-townhouse",
+      "severity": "fatal",
+      "why": "The high stoop is the type's entire relationship to the street, and its generosity is the point."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The stylobate reading requires broad low steps; a steep flight makes the temple front stand on a ladder."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "The Craftsman entry rises through a low broad flight to a deep porch, and the porch does most of the work."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The ranch sits close to grade and the flight is usually one or two risers."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-townhouse",
+      "why": "The urban high stoop climbs 8 to 14 risers to a raised parlour floor and is genuinely steeper than a country stoop, because it must fit within a narrow lot's front area. Period brownstone stoops run 7 to 7 1/2 in risers on 11 to 12 in treads.",
+      "bounds": "The tread must still be 11 in or more and the flight must have an intermediate landing where it exceeds about 10 risers. Steepness is licensed by the urban section, not by the code maximum, and the treads are still deeper than an interior stair's.",
+      "bounds_test": {
+        "expression": "tread_depth_in",
+        "threshold": 11.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "regions": [
+          "urban-rowhouse"
+        ],
+        "slots": [
+          "steps_and_stoop",
+          "street_relationship"
+        ]
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The Charleston piazza steps rise steeply from the street to a raised first floor within a very narrow side yard, and the constraint is real.",
+      "bounds": "As above: 11 in treads minimum and a proper landing at the piazza door.",
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ]
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "The raised plantation house climbs 8 to 12 risers to the gallery and the flight is often steep and always narrow, because the raised floor is a flood response rather than a compositional choice.",
+      "bounds": "Treads of 11 in or more, and a landing where the flight exceeds ten risers.",
+      "applies_when": {
+        "regions": [
+          "lower-mississippi",
+          "gulf-coast"
+        ]
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "The bank house is entered at two levels from a slope and its exterior steps follow the ground, which is the type's whole logic.",
+      "bounds": "The steps must genuinely follow a real slope. A steep flight against a flat site is not a bank house."
+    }
+  ],
+  "co_occurs_with": [
+    "stoop-without-a-landing",
+    "house-without-a-base",
+    "entrance-slope-penetration"
+  ],
+  "confused_with": [
+    {
+      "fault": "stoop-without-a-landing",
+      "difference": "That is the platform at the top — its depth in the direction of travel and whether the door can open over it. This is the flight below it. A flight can be perfectly proportioned and land on a 12 in ledge."
+    },
+    {
+      "fault": "house-without-a-base",
+      "difference": "That is a house with almost no rise from grade at all, so there is no stoop to proportion. This is the opposite condition, where a rise exists and has been climbed badly."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, steps_and_stoop (3-5 risers of 6-7 in, treads 12-14 in, platform 36-60 in deep, masonry)",
+    "proportions/modules/brick-course.json — riser at 2.5 courses, 6 7/8 in",
+    "proportions/systems/facade-classical.json, steps_and_stoop.width = module * 0.8 + part * 4",
+    "IRC R311.7.5.1 and R311.7.5.2 — riser and tread limits",
+    "HABS measured entrance details, Chesapeake and Mid-Atlantic stone and brick stoops"
+  ],
+  "confidence": "high",
+  "tags": [
+    "steps",
+    "stoop",
+    "code-minimum",
+    "proportion",
+    "endemic"
+  ]
+}

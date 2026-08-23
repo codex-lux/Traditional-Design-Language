@@ -1,0 +1,37 @@
+{
+  "id": "spanish-classical",
+  "name": "Spanish Classical",
+  "rank": "family",
+  "member_of": "iberian-mediterranean",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1490,
+    "floruit_end": 1800,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Spain",
+      "Mexico",
+      "Spanish Americas"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Plateresque and Churrigueresque — Spanish Renaissance and Baroque, in which classical structure carries an ornament of unmatched density.",
+    "long": "Spanish classicism concentrates rather than distributes. A plain wall of great expanse is punctuated by a single entry or retable of overwhelming elaboration — the strategy is one of contrast, not of even articulation, and it is the opposite of the French or English classical habit.\n\nCarried to the Americas, this strategy suited a labour economy in which skilled carving was available for a single focal point and nothing else. The result — vast plain adobe or stone walls with one intensely worked doorway — became the defining move of Spanish Colonial Revival four centuries later."
+  },
+  "defining_characteristics": [
+    "Ornament concentrated at a single focal point against large plain surfaces",
+    "Classical structure carrying non-classical densities of decoration",
+    "The retable façade as the organizing device",
+    "Adaptation to labour economies where skilled carving is scarce"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

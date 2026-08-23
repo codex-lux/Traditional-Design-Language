@@ -1,0 +1,168 @@
+{
+  "id": "shutter-on-an-unshutterable-opening",
+  "name": "Shutters On A Window That Never Had Them",
+  "aka": [
+    "shutters on a bay",
+    "shutters on an arch",
+    "shutters on a triple gang"
+  ],
+  "slots": [
+    "shutter",
+    "window_grouping_rule",
+    "special_window"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "Shutter leaves appear beside a bay window, a two- or three-unit ganged opening, a half-round or arch-headed window, a bow, or a window that sits within 6 in of an inside corner or a downpipe. In every case the leaf has nowhere to swing to and, in the arched case, is rectangular against a curved head so that a crescent of masonry or siding shows above it.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Shutters are specified per elevation as a decorative rate — so many pairs at so much a pair — rather than per window as a piece of construction. The estimator counts window units on a schedule, not shuttterable openings, and the installer hangs a pair wherever there is wall to screw into. The arch case has a second driver: arch-top stock shutters exist in the catalogue, which makes the wrong answer purchasable.",
+    "cost_saved": "Nothing. This fault frequently costs money — it adds pairs to the order. It is a specification failure rather than an economy.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "neo-eclectic / shutter",
+      "statement": "Decorative shutters are forbidden on ganged, arched, bay and non-rectangular windows."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "minimal-traditional / shutter",
+      "statement": "Shutters must be omitted entirely from ganged, bay and non-rectangular windows."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "dutch-colonial-revival / shutter",
+      "statement": "Shutters are not permitted on dormer windows."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a shutter is a door for a window, and a door needs a jamb to hinge on and a void to swing into",
+      "statement": "Where a second window begins at the jamb of the first there is no pintle location; where the head is curved there is no rectangle to cover; where the wall returns within a leaf-width there is nowhere to open to."
+    }
+  ],
+  "correct_practice": "Shutters occur only on single, rectangular, flat- or square-headed openings that have at least a leaf-width of unobstructed wall on the hinge side. A ganged pair or triple carries at most one leaf at each outer jamb — the historic answer where a wide opening was blinded — and never leaves between the units. A bay carries shutters only on its individual flat facets and only where those facets have jamb room, which on a 30-degree bay they usually do not. An arch-headed window takes a shutter only where the shutter head is scribed to the arch, which is a joiner's job and correct on Italianate and Second Empire fabric. Dormer windows do not take shutters; the cheek walls leave no room.",
+  "fixes": {
+    "right": "Delete every pair that has nowhere to swing. On ganged openings, one leaf at each outer jamb, hinged, half the width of the outer unit. On arched heads, an arch-scribed leaf or nothing.",
+    "cheap": "Delete them. This is one of the rare faults whose cheap fix and right fix are the same and both save money. Spend the recovered budget on the sill and head casing of the same windows, where it will show more.",
+    "dishonest": "The stock arch-top shutter. It is moulded to a single generic radius and will not match the radius of the window it flanks, so it produces two mismatched curves side by side, which is worse than the square leaf it replaced."
+  },
+  "detection": "Count the leaves and count the shutterable jambs. On a photograph, mark every vertical edge of glass on the elevation; a leaf that sits between two units of glass with no wall between them is the fault. For arched windows, follow the shutter's top edge — if it is horizontal and the window head is curved, the fault is present and visible from the street. For bays, look for a leaf on a facet narrower than two leaf widths.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-american",
+      "why": "Segmental- and round-headed windows on Italianate fabric genuinely carried blinds with arch-scribed heads, made to the individual opening; this is documented and correct.",
+      "bounds": "The blind head must follow the actual arch of the window it serves, not a catalogue radius, and the blind must be hinged.",
+      "bounds_test": {
+        "expression": "shutter_head_radius_in / window_head_radius_in",
+        "threshold": 0.95,
+        "direction": "at-least",
+        "upper": 1.05,
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The blind head must follow the actual arch of its own window, not a catalogue radius."
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The openings on the front of a Creole cottage are full-height French casement doors, and louvred blinds hung on doors rather than on windows is the type's own diagnostic.",
+      "bounds": "The blinds are on doors, are full height, and cover the whole leaf; this licenses blinds on door openings, not on ganged windows.",
+      "applies_when": {
+        "slots": [
+          "secondary_door",
+          "entry_door"
+        ],
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ],
+        "note": "The licence is for blinds hung on full-height French casement DOORS, which is where the type's openings are. It does not transfer to windows."
+      },
+      "bounds_test": {
+        "expression": "blind_leaf_height_in / door_leaf_height_in",
+        "threshold": 0.95,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Full-height blinds covering the whole door leaf. The licence is for blinds on DOOR openings and does not transfer to windows, so a leaf shorter than its door is claiming an exception it is not performing."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "Piazza openings and tall parlour sash on the flank carry full-height operable blinds as a heat strategy, including on openings taller than any northern precedent.",
+      "bounds": "Single rectangular openings only; the licence is about height, not about ganging or curvature.",
+      "bounds_test": {
+        "expression": "shutter_leaf_height_in / sash_opening_height_in",
+        "threshold": 0.95,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The licence is about height, not about ganging or curvature: full-height blinds on single rectangular openings."
+      },
+      "applies_when": {
+        "regions": [
+          "south-carolina-lowcountry"
+        ],
+        "note": "Depends on the piazza section and the tall parlour sash, not on the style label."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "shutter-half-width-leaf",
+      "difference": "Sizing versus placement. A correctly proportioned pair on a bay window is still this fault."
+    }
+  ],
+  "sources": [
+    "NPS Preservation Brief 3",
+    "Measured Italianate blind heads, Hudson Valley and Ohio Valley survey documentation",
+    "Contemporary shutter manufacturer installation literature"
+  ],
+  "confidence": "high",
+  "tags": [
+    "shutter",
+    "placement",
+    "composition"
+  ],
+  "test": {
+    "expression": "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall / total_shutter_leaves",
+    "threshold": 1.0,
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Every leaf must have somewhere to swing. Count leaves; count how many have a full leaf-width of uninterrupted wall on the hinge side and a rectangular flat-headed opening to cover. A leaf sitting between two units of glass, on a bay facet narrower than two leaf widths, or square against a curved head, fails."
+  },
+  "secondary_tests": [
+    {
+      "expression": "shutter_head_radius_in / window_head_radius_in",
+      "threshold": 0.95,
+      "direction": "at-least",
+      "upper": 1.05,
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Only evaluated where the head is curved. A stock arch-top leaf is moulded to one generic radius and produces two mismatched curves side by side, which is worse than the square leaf it replaced."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "neo-eclectic",
+      "severity": "fatal",
+      "why": "Shutters on ganged and arched windows is one of the style node's named diagnostic tells and its constraint forbids them outright."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "minor",
+      "why": "Arch-scribed blinds on segmental and round-headed windows are documented on the fabric, so the presence of a shutter on a curved head is not itself the fault here — only a square leaf under a curved head is."
+    }
+  ],
+  "co_occurs_with": [
+    "shutter-half-width-leaf",
+    "palladian-window-related-to-nothing",
+    "pier-narrower-than-the-opening"
+  ]
+}

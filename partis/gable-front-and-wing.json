@@ -1,0 +1,321 @@
+{
+  "id": "gable-front-and-wing",
+  "name": "Gable Front and Wing",
+  "aka": [
+    "upright and wing",
+    "the L-cottage plan"
+  ],
+  "description": "A gable-front block with a lower side-gabled wing and the porch tucked into the inside corner. Arguably the most-built American house form of the nineteenth century, and the most adaptable — it will wear any style laid over it and absorb almost any addition.",
+  "massing": "gable-front-and-wing",
+  "alternate_massings": [
+    "cross-gable-victorian",
+    "gable-front"
+  ],
+  "styles": [
+    "greek-revival-american",
+    "gothic-revival-american",
+    "italianate-american",
+    "folk-victorian",
+    "american-farmhouse-vernacular",
+    "carpenter-gothic",
+    "modern-farmhouse-traditional"
+  ],
+  "groupings": [
+    "hall-and-parlor-pair",
+    "kitchen-work-core",
+    "stair-and-landing-core",
+    "secondary-bedroom-cluster",
+    "entry-sequence"
+  ],
+  "circulation_parti": "side-hall",
+  "storeys": 2,
+  "area_range_sf": [
+    1200,
+    2600
+  ],
+  "bedroom_range": [
+    3,
+    4
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Corner Porch",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "hall",
+        "exterior"
+      ],
+      "note": "In the reentrant angle, which is a naturally sheltered entry. Moving it to the gable front produces two front doors and no hierarchy."
+    },
+    {
+      "id": "hall",
+      "type": "entrance-hall",
+      "level": 0,
+      "name": "Entry Hall",
+      "exterior_walls": [
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "porch",
+        "parlor",
+        "stair",
+        "exterior"
+      ]
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Stair",
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "hall",
+        "dining"
+      ]
+    },
+    {
+      "id": "parlor",
+      "type": "parlor",
+      "level": 0,
+      "name": "Parlor",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "hall",
+        "dining"
+      ]
+    },
+    {
+      "id": "dining",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Dining Room",
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N",
+        "W"
+      ],
+      "doors": [
+        "parlor",
+        "stair",
+        "kitchen"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N",
+        "E"
+      ],
+      "doors": [
+        "dining",
+        "pantry",
+        "mud"
+      ],
+      "fixtures": [
+        "sink",
+        "dishwasher"
+      ]
+    },
+    {
+      "id": "pantry",
+      "type": "pantry",
+      "level": 0,
+      "name": "Pantry",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "mud",
+      "type": "mudroom",
+      "level": 0,
+      "name": "Rear Entry",
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "kitchen",
+        "powder",
+        "exterior"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "required": false,
+      "doors": [
+        "mud"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "upperhall",
+      "type": "gallery-corridor",
+      "level": 1,
+      "name": "Upper Hall",
+      "doors": [
+        "landing",
+        "primary",
+        "hallbath"
+      ]
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Principal Bedroom",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "stacks_over": "parlor"
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "stacks_over": "powder"
+    },
+    {
+      "id": "chamber",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Bedroom",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperhall"
+      ]
+    },
+    {
+      "id": "chambercl",
+      "type": "closet",
+      "level": 1,
+      "name": "Closet",
+      "repeats_with_bedrooms": true,
+      "doors": [
+        "chamber"
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "stair",
+      "b": "landing",
+      "relation": "below"
+    },
+    {
+      "a": "landing",
+      "b": "stair",
+      "relation": "above"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "adding-a-link",
+      "widening"
+    ],
+    "bay_module_ft": 10,
+    "max_bay_count": 4,
+    "note": "The wing lengthens and further ells accrete behind. The danger is unlimited growth without hierarchy: one gable must dominate."
+  },
+  "trades_away": "Symmetry, and with it any claim to formality. In exchange it takes additions gracefully, works on a narrow lot, and gives a sheltered entry for free.",
+  "exemplars": [
+    "the upright-and-wing farmhouses of upstate New York and Michigan, 1840-1890"
+  ],
+  "sources": [
+    "McAlester, A Field Guide to American Houses",
+    "Noble, Wood, Brick and Stone"
+  ],
+  "confidence": "high"
+}

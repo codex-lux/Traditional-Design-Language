@@ -1,0 +1,165 @@
+{
+  "id": "one-wide-door-where-two-would-do",
+  "name": "The Sixteen-Foot Door",
+  "aka": [
+    "the double garage door",
+    "one opening for two cars"
+  ],
+  "slots": [
+    "garage_strategy"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "Two cars are served by one 16 ft or 18 ft door instead of two 8 or 9 ft doors. The opening is wider than anything else on the house by a factor of four, it has no proportional relative anywhere in the building, and the pier between the two cars — the element that would have given the wall a rhythm — has been deleted along with the mullion.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "One door is one operator, one track set, one header, one install and one service call, against two of everything. The single 16 ft door is also what the framing package assumes and what the garage door supplier stocks deepest. There is a use argument as well: a single wide opening is more forgiving to park through, and the intervening pier is a thing to hit.",
+    "cost_saved": "Roughly 800 to 1,600 USD against two singles with two operators, plus a slightly simpler header. Against that, the 16 ft header is a larger member than either 9 ft header, so part of the saving is returned."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / garage_strategy / single-wide-door",
+      "statement": "A 16 ft opening has no proportional relative anywhere in a Georgian house. Two 9 ft doors do, because 9 ft is close to the 0.8-of-a-bay entrance cap. The kit states this as an argument from consistency and not from evidence."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / garage_strategy / max_door_width",
+      "statement": "9 ft, flagged in the kit as invented with low confidence."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / door_surround.width",
+      "statement": "module * 0.8 = 7 ft 2 in at a 9 ft bay: the widest single opening the classical elevation permits is the entrance, and it is capped at 0.8 of a bay."
+    }
+  ],
+  "correct_practice": "Maximum single door width 9 ft, which keeps the largest opening on the building within reach of the entrance's own 0.8-of-a-bay allowance and gives the garage face a pier to be composed around. Two doors for two cars, separated by a pier of not less than the doors' own head height divided by four, and preferably by a full pier at the wall's own rhythm. Three cars split into a two-and-one arrangement in separate planes or separate volumes, never a run of three in one wall. Door head aligned with the first-floor window head datum of the volume it sits in, which for a 7 ft door in a 9 ft-plate volume means the head is low and the wall above it is generous.",
+  "fixes": {
+    "right": "Two 9 ft doors with a real pier between them, heads on the window head datum.",
+    "cheap": "Keep the single opening and divide it visually with a substantial applied mullion — a 12 to 16 in board with a cap, running full height and reading as a structural pier — then use two door leaves within the one opening if the operator permits, or a single door whose panel layout is symmetrical about the mullion. This is a few hundred dollars and it restores the count if not the construction. Where even that is refused, at minimum reduce the door height to 7 ft rather than 8, which cuts the opening's area by an eighth and drops the head back onto the datum.",
+    "dishonest": "A single 16 ft door with a moulded vertical divider in its own panel pattern, so it looks like two doors. It fails the moment the door opens, and it fails in a photograph because the divider rides up with the panels and has no relationship to the wall above."
+  },
+  "detection": "Measure the garage opening width against the front door width in a frontal photograph. A 16 ft door against a 3 ft entrance is a ratio of 5.3; two 9 ft doors give 3.0 each. Then look for the pier: two doors with less than about 20 in between them is a nominal division rather than a real one. Third, count operators visible from inside or count the door panels' break lines from outside.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "The wide single door under a long low roof is period-correct to the type, whose horizontality absorbs a wide opening in a way a vertical facade cannot.",
+      "bounds": "The roof must be genuinely long and low with a deep eave, and the door head must sit well below the eave. A wide door in a two-storey gable end is not this.",
+      "bounds_test": {
+        "expression": "roof_eave_height_above_grade_ft",
+        "threshold": 10.0,
+        "direction": "at-most",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "note": "The roof must be genuinely long and low with a deep eave and the door head well below it. A wide door in a two-storey gable end is not this exception."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "mid-century-traditional",
+      "why": "Same horizontality argument, and the period genuinely built wide single doors.",
+      "bounds": "Requires the low continuous roof and the era-appropriate flush or panelled door face, not a carriage-house pastiche.",
+      "bounds_test": {
+        "expression": "roof_eave_continuity_over_house_and_garage",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Requires the low continuous roof and the era-appropriate flush or panelled door face, not a carriage-house pastiche."
+      },
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "garage-doors-dominate-the-frontage",
+      "difference": "That fault is about total garage width as a fraction of the elevation, which can be exceeded by two correct doors on a narrow house. This one is about the grain of a single opening."
+    },
+    {
+      "fault": "garage-head-above-the-window-head",
+      "difference": "Width versus height. An 18 ft door at 7 ft high on the datum is this fault only; a 9 ft door at 8 ft high off the datum is the other."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json garage_strategy",
+    "Clopay and industry standard residential garage door sizes: 8 and 9 ft singles, 16 ft doubles, 7 and 8 ft heights",
+    "proportions/systems/facade-classical.json"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "garage",
+    "scale",
+    "grain",
+    "modern-slot"
+  ],
+  "test": {
+    "expression": "garage_door_opening_width_ft",
+    "threshold": 9.0,
+    "direction": "at-most",
+    "units": "ft",
+    "measurable_from": "photograph",
+    "note": "The kit's stated maximum, flagged there as invented with low confidence: 9 ft is close to the 0.8-of-a-bay entrance cap and therefore has a proportional relative on the building, which a 16 ft opening does not. Industry standard singles are 8 and 9 ft; standard doubles are 16 and 18 ft."
+  },
+  "secondary_tests": [
+    {
+      "expression": "garage_door_opening_width_in / front_door_leaf_width_in",
+      "threshold": 3.2,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The scale-free version. A 16 ft door against a 3 ft entrance scores 5.3; two 9 ft doors score 3.0 each. This is the ratio that decides whether the largest opening on the building has a relative anywhere on it."
+    },
+    {
+      "expression": "pier_between_garage_doors_in",
+      "threshold": 20.0,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Two doors with less than about 20 in between them is a nominal division rather than a real one. The pier should be at least the door head height divided by four, and preferably a full pier at the wall's own rhythm."
+    },
+    {
+      "expression": "visible_door_leaf_count_matching_car_count",
+      "threshold": 1.0,
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "One door per car. Three cars split into a two-and-one arrangement in separate planes or volumes, never a run of three in one wall."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "A 16 ft opening has no proportional relative anywhere in a Georgian house; the kit states this as an argument from consistency and not from evidence, which is worth carrying forward honestly."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The wide single door under a long low roof is period-correct to a type whose horizontality absorbs a wide opening."
+    },
+    {
+      "style": "mid-century-traditional",
+      "severity": "minor",
+      "why": "The period genuinely built wide single doors under continuous roofs."
+    }
+  ],
+  "co_occurs_with": [
+    "garage-doors-dominate-the-frontage",
+    "garage-head-above-the-window-head",
+    "garage-door-dressed-as-a-house-door"
+  ]
+}

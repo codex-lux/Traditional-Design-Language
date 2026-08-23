@@ -1,0 +1,213 @@
+{
+  "id": "stucco-with-no-arris",
+  "name": "The rounded stucco edge",
+  "aka": [
+    "bullnose EIFS",
+    "the caulked corner bead",
+    "synthetic stucco arris"
+  ],
+  "slots": [
+    "primary_cladding",
+    "reveal_masonry",
+    "corner_board"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "profile-depth",
+  "symptom": "A stucco or EIFS wall whose every edge — corners, reveals, the returns into openings, the top of a parapet — is a soft radius of 3/8 to 3/4 in produced by a plastic bullnose bead, on a building whose style wants a crisp cut edge. The wall looks like it was moulded rather than built, and no edge on it produces a hard line of shadow.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Corner beads are a stock accessory sold in square, bullnose and 3/4 in radius profiles; bullnose is the default on the shelf because it resists chipping and it hides out-of-plumb framing, which a square bead ruthlessly exposes. In EIFS the substrate is foam, so a square arris is structurally fragile and the manufacturer's own guidance pushes toward a radius. The plasterer chooses the bead; nobody specifies it.",
+    "cost_saved": "Effectively nothing on the bead itself — square and bullnose beads cost within pennies of each other. What is saved is the framing tolerance: a square arris on stucco requires the corner to be straight and plumb to about 1/8 in in 8 ft, which is framing labour, roughly $0.60-$1.20 per lineal foot of corner."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "an arris is a light-behaviour decision, not a taste one",
+      "statement": "A square arris divides a lit face from a shaded face across a single line; a radius creates a graded transition 3/8 to 3/4 in wide that reads as a highlight rather than an edge, and softens the whole elevation's contrast at every corner simultaneously."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "pueblo-revival, cape-dutch, andalusian-courtyard-vernacular",
+      "statement": "These traditions require the opposite: rounded, soft arrises from hand-applied lime render over earth or rubble. Getting the arris backwards is the fault in EITHER direction."
+    }
+  ],
+  "correct_practice": "Decide the arris from the tradition, then buy the bead to match. Hard-edged traditions — Italian Renaissance and its revivals, Beaux-Arts, Regency, Greek Revival stucco, Georgian stucco-on-brick, and anything with a scored ashlar or a run cornice — want a square arris of not more than about 1/16 in radius, with the render straight-edged and the corner true. Soft traditions — Pueblo Revival, New Mexico adobe, Spanish Colonial, Mexican hacienda, Cape Dutch, Andalusian and Mediterranean vernacular — want a hand-modelled arris of 1/2 to 2 in radius, formed by the plasterer's hand rather than by a bead, and irregular from corner to corner. The failure is applying either answer to the wrong tradition, and applying a MACHINE version of the soft answer — a uniform 3/4 in radius, identical at every corner — is a third failure: real hand-rounded render varies visibly along its own length.",
+  "fixes": {
+    "right": "Specify the bead: square-nose galvanised or PVC corner bead with the render brought straight to it for the hard traditions; no bead at all, wire lath carried round the corner and the render hand-floated, for the soft ones. Say it in the specification, because the plasterer will otherwise buy what the yard stocks.",
+    "cheap": "Free, if caught before the lath goes on — it is a line in the spec and a different box off the same shelf. After the fact, the cheapest correction on a hard-edged building is to add real members at the edges where the arris matters most: a quoin strip, a plain pilaster, or a run band at the corners, which reintroduces a hard line without re-rendering the wall.",
+    "dishonest": "Painting the corners a darker shade to sharpen them. A graded radius painted with a hard line puts the colour edge and the geometric edge in different places, which the eye resolves as a mistake rather than as an edge. Also dishonest, in the soft traditions: a uniform machined radius achieved by a bullnose bead, which produces the shape of hand work with none of its variation and reads at fifty feet as extruded."
+  },
+  "detection": "Zoom on any external corner in a photograph. A square arris shows a single-pixel-scale transition from lit to shaded value; a bullnose shows a bright band 3/8 to 3/4 in wide running the whole height of the corner, which at 40 ft reads as a white pinstripe on every corner of the house — that pinstripe is the most reliable signature of synthetic stucco in an image. Second test, for the soft traditions: measure the radius at three heights on the same corner. Genuinely hand-modelled render varies by a factor of two or more along a single corner; bead-formed render does not vary at all. Third: look at the window reveal returns. A bullnose at the reveal produces a rounded jamb with a visible bead line, and the sill will usually be caulked to it.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "pueblo-revival",
+      "why": "Rounded corners and arrises are a defining characteristic and a crisp arris is the fault there.",
+      "bounds": "The radius must be substantial — 1 to 3 in — and hand-varied. A 3/8 in machine bullnose is not soft enough to read as adobe and is too soft to read as masonry; it lands in the gap and reads as neither.",
+      "bounds_test": {
+        "expression": "arris_radius_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "upper": 3.0,
+        "note": "A 3/8 in machine bullnose fails at the bottom of this range and is the specific failure mode worth naming: it is neither answer."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "rammed-earth"
+        ],
+        "slots": [
+          "primary_cladding"
+        ]
+      }
+    },
+    {
+      "style": "cape-dutch",
+      "why": "Whitewash over a wall whose corners are visibly rounded and soft is the style's own diagnostic tell for plastered earth brick as against stone.",
+      "bounds": "Softness must extend to the whole surface — a slightly undulating wall plane, not a flat wall with rounded edges. A dead-flat EIFS wall with rounded corners is a different building.",
+      "bounds_test": {
+        "expression": "wall_plane_deviation_over_8ft_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "note": "Softness must extend to the whole surface — a slightly undulating wall plane, not a flat wall with rounded edges. A dead-flat EIFS wall with rounded corners is a different building."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "solid-masonry-two-wythe"
+        ],
+        "regions": [
+          "Western Cape"
+        ]
+      }
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "Annually limewashed lime render over 500-700 mm of tapia or rubble accumulates a soft arris by repeated coats; sharpness would be false.",
+      "bounds": "The softening is cumulative and greatest at the base and at reachable heights. Uniform softness at parapet level, where nobody's brush reaches, is a machine tell.",
+      "bounds_test": {
+        "expression": "arris_radius_at_base_in / arris_radius_at_parapet_in",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "The softening is cumulative and reachable-height biased. A ratio near 1.0 means the radius was formed by a bead rather than accumulated by a brush."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "adobe",
+          "rammed-earth"
+        ],
+        "regions": [
+          "Andalusia"
+        ]
+      }
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "Same lime-render logic.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "arris_radius_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "upper": 2.0,
+        "note": "Hand-floated lime render over mass wall."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "Deliberate irregularity, including rolled and undulating render, is the style's subject.",
+      "bounds": "Irregularity must be irregular. Uniform whimsy is a catalogue.",
+      "bounds_test": {
+        "expression": "coefficient_of_variation_of_arris_radius_along_one_corner",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.3,
+        "note": "Irregularity must be irregular. Uniform whimsy is a catalogue."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "architrave-that-is-not-there",
+      "difference": "Both are shadow failures, but this one removes the edge and that one removes the member. On a stucco wall you can have a correct 6 in surround and still lose it to a bullnose bead on every edge."
+    }
+  ],
+  "sources": [
+    "NPS Preservation Brief 22: The Preservation and Repair of Historic Stucco",
+    "styles/pueblo-revival.json, styles/cape-dutch.json, styles/andalusian-courtyard-vernacular.json diagnostic tells",
+    "EIMA (EIFS Industry Members Association) guide details for terminations and corners",
+    "ASTM C1063 (installation of lathing and furring for portland cement plaster), corner bead types"
+  ],
+  "confidence": "high",
+  "tags": [
+    "profile-depth",
+    "stucco",
+    "arris",
+    "material-honesty"
+  ],
+  "test": {
+    "expression": "arris_radius_in",
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 0.0625,
+    "note": "For the hard-edged traditions. A square arris divides lit from shaded across a single line; a bullnose bead grades the transition over 3/8-3/4 in and reads at 40 ft as a white pinstripe running the full height of every corner. That pinstripe is the most reliable signature of synthetic stucco in a photograph, and its measurable width IS the radius."
+  },
+  "secondary_tests": [
+    {
+      "expression": "coefficient_of_variation_of_arris_radius_along_one_corner",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.3,
+      "note": "Applies to the SOFT traditions and is the test that catches machine whimsy. Genuinely hand-modelled render varies by a factor of two or more along a single corner; bead-formed render does not vary at all. A uniform 3/4 in radius has the shape of hand work and none of its variation, and reads at fifty feet as extruded."
+    },
+    {
+      "expression": "bright_edge_band_width_in",
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.0625,
+      "note": "The photograph-available form of the primary test where the corner cannot be measured directly: the width of the specular band at the corner, against a known dimension elsewhere in the image."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "pueblo-revival",
+      "statement": "A crisp arris is the fault. Rounded corners and arrises are a defining characteristic, and the required radius is 1-3 in, hand-varied — a 3/8 in machine bullnose is too soft to read as masonry and not soft enough to read as adobe, and lands in the gap where it reads as neither."
+    },
+    {
+      "style": "cape-dutch",
+      "statement": "A crisp arris is the fault. Whitewash over a wall whose corners are visibly rounded and soft is the style's own diagnostic tell for plastered earth brick as against stone, and the softness must extend to the whole wall plane, not only its edges."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "statement": "A crisp arris is the fault. Annually renewed limewash over 500-700 mm of tapia accumulates a soft arris, greatest at the base and at reachable heights — so uniform softness at parapet level is itself a machine tell."
+    },
+    {
+      "style": "mexican-hacienda",
+      "statement": "A crisp arris is the fault, on the same lime-render logic."
+    },
+    {
+      "style": "new-mexico-adobe",
+      "statement": "A crisp arris is the fault. Mud plaster meets every edge with a hand-formed radius and carries continuously into the ground plane with no termination."
+    }
+  ],
+  "co_occurs_with": [
+    "parapet-as-stage-flat",
+    "architrave-that-is-not-there"
+  ]
+}

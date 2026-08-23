@@ -1,0 +1,153 @@
+{
+  "id": "setback-out-of-step-with-the-street",
+  "name": "The House Out Of Line",
+  "aka": [
+    "the broken street wall",
+    "setback drift",
+    "the house standing back"
+  ],
+  "slots": [
+    "setback_rule",
+    "street_relationship",
+    "landscape_idiom"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "A house set 15 to 40 ft behind or in front of the line its neighbours hold, on a street where every other front wall sits within a few feet of a common datum. The house itself may be entirely correct. From the pavement the street's edge has a gap or a bulge in it, the rhythm of front doors breaks, and the out-of-line house reads either as withdrawn and defensive or as pushing forward, neither of which anyone intended.",
+  "cause": {
+    "driver": "code",
+    "explanation": "Modern zoning sets a MINIMUM front setback and no maximum, so any position behind the minimum complies and the position that complies best is whichever suits the lot's drainage, its trees, its septic field or its buildable rectangle. Once the minimum replaced the build-to line - which is what the older ordinances and the older platting conventions actually enforced - there was nothing left holding the street wall together. The second driver is the garage: a side-entry or a turned garage needs 25 to 30 ft of manoeuvring apron, and the cheapest place to find it is by pushing the whole house back.",
+    "cost_saved": "Usually nothing; sometimes negative. A deeper setback lengthens the drive at $8-$15 per sq ft, the water and sewer laterals at $60-$120 per ft, and the electrical run. What it buys is a buildable rectangle without a redesign.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / setback_rule (binding: open)",
+      "statement": "LEFT OPEN DELIBERATELY. The style genuinely does not fix a setback: the same grammar is built on the street line in Annapolis and at the end of a half-mile approach at Westover. The variation is a settlement-pattern variable and not a style variable - which is precisely why the rule that governs it is the NEIGHBOURS' line and not the style's."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "italianate-townhouse",
+      "statement": "The main cornice shall be continuous across every house in a row, aligning across party walls within 2 in. A row whose cornice line steps house to house has failed the type regardless of the quality of any individual facade. The same argument applies in plan to a street of detached houses: the shared datum outranks the individual building."
+    },
+    {
+      "kind": "code",
+      "ref": "zoning setback averaging provisions - typically the mean of the adjacent lots, or of the nearest three to five, plus or minus 5 ft",
+      "statement": "A great many older ordinances contain an established-setback or contextual-setback clause requiring a new building to align with its neighbours rather than merely to clear the minimum. Where it exists it is the correct rule; where it has been dropped, the fault becomes endemic within one development cycle."
+    }
+  ],
+  "correct_practice": "The setback is set by the street, not by the house and not by the ordinance minimum. Measure the front wall position of the nearest four to six houses on the same side and hold the new front wall within about 5 ft of their median - and where they are a genuine street wall, within 2 ft. Where the block has no established line, establish one and hold it for the whole frontage. Two things may legitimately break the line and they break it forward, not back: a projecting entrance pavilion or portico of 3 to 6 ft, and a one-storey element - a porch, a bay, a garden wall - which can come forward much further because it is subordinate. What breaks the street is the main block standing back, because the gap it leaves has no edge and reads as a missing tooth. On a corner lot hold both frontages, which is the harder case and the one most often failed. And where a deep setback is genuinely the settlement pattern - a farmstead, a country house, a large-lot rural road - then commit to it fully: 100 ft is a different building type from 30 ft, and 55 ft on a street of 30s is neither.",
+  "fixes": {
+    "right": "Move the house to the established line and solve the garage manoeuvring another way - a turned bay, a rear lane, a shorter apron with a wider drive.",
+    "cheap": "Bring the frontage forward even where the house cannot move. A one-storey element on the established line - a porch, a garden wall returning to the side property line, a pair of gate piers, a hedge on the line - re-establishes the street edge at the correct datum for $2,000-$8,000 and leaves the main block where it is. This is what a forecourt wall does and it is the cheapest urban repair available.",
+    "dishonest": "Screening the gap with trees. A row of evergreens across the front of a recessed house neither holds the street line nor lets the house be seen; it turns an alignment problem into a visibility problem, and in fifteen years the house is invisible and the street edge is a hedge of uncertain ownership."
+  },
+  "detection": "From an aerial image or a straight-on street photograph, sight along the front walls: the fault is visible immediately as a break in the line. Numerically, take the front-wall setback of the subject house and of the nearest four to six houses on the same side of the street and compare with their median. From a photograph taken along the pavement, look at the front doors: on a street holding its line the door surrounds fall into a regular perspective sequence, and one house out of line breaks it conspicuously even when the house itself is unremarkable.",
+  "test": {
+    "expression": "abs(front_setback - median_setback_of_nearest_five) ",
+    "threshold": 5.0,
+    "direction": "at-most",
+    "units": "ft",
+    "measurable_from": "site-visit",
+    "note": "Measured from the same reference on each lot - normally the property line to the main block's front wall, excluding porches and bays. Within 5 ft of the median for a suburban street; within 2 ft where there is a genuine street wall. An aerial photograph with a scale bar gives this to within about 2 ft."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The type turns its narrow end to the street and its long flank runs back into the lot, so what holds the street is the garden wall and the gate rather than the house front. A street of single houses has a strong street edge and almost no consistent house setback at all.",
+      "bounds": "The garden wall or fence must be on the street line and continuous, with the gate on it. Delete the wall and the street has nothing.",
+      "applies_when": {
+        "slots": [
+          "fence_wall",
+          "street_relationship"
+        ]
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "A farmstead sits where the land, the drive and the barn group put it, and its relationship is to the working yard rather than to a street. Setback consistency is a settlement variable and this settlement pattern does not have one.",
+      "bounds": "Requires a genuine rural or agricultural setting and the associated outbuildings. A farmhouse-styled house on a suburban street is bound by the street's line like anything else."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "Built to the street line with no setback at all; the rule is inverted and any setback breaks the street wall.",
+      "bounds": "Zero setback held continuously along the frontage.",
+      "applies_when": {
+        "construction": [
+          "zero-lot-line",
+          "street-wall"
+        ]
+      }
+    },
+    {
+      "style": "english-georgian-country-house",
+      "why": "The country house stands at the end of an approach and its relationship is to the park, not to a road.",
+      "bounds": "Requires the approach - a drive of some length, arriving on the entrance axis - and a landholding that makes it plausible."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "statement": "Here the fault is any setback at all. The building stands on the street line and the street is defined by continuous wall; a house pulled back 10 ft to make a front garden voids the type and the urbanism together."
+    },
+    {
+      "style": "italianate-townhouse",
+      "statement": "The fault is a house that does not touch its neighbours. The party wall, the continuous cornice and the flat street wall are the type, and a detached Italianate on a row street breaks more than the setback."
+    },
+    {
+      "style": "mexican-hacienda",
+      "statement": "The precinct wall stands on the road and the house stands deep inside it; the fault would be a casa grande visible from the road with no wall in front of it."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "garage-forward-of-the-facade",
+      "difference": "That is a relationship between two parts of one house. This is a relationship between one house and its neighbours, and a house can be internally correct and still break the street."
+    },
+    {
+      "fault": "door-reached-only-from-the-driveway",
+      "difference": "Both are site faults readable from an aerial. That one is about the route; this is about the position."
+    }
+  ],
+  "co_occurs_with": [
+    "garage-doors-dominate-the-frontage",
+    "lawn-to-the-front-door"
+  ],
+  "severity_by_style": [
+    {
+      "style": "new-urbanist-traditional",
+      "severity": "fatal",
+      "why": "A build-to line is the whole premise of the code the type is built under; a house behind it defeats the block."
+    },
+    {
+      "style": "italianate-townhouse",
+      "severity": "fatal",
+      "why": "The value of the type is the flatness and continuity of the street wall."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "minor",
+      "why": "Rural settlement has no line to hold."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json setback_rule, and its note that this is a settlement variable rather than a style variable",
+    "styles/italianate-townhouse.json cornice-continuity constraint, applied by analogy in plan",
+    "Established-setback and setback-averaging provisions in US municipal zoning ordinances; SmartCode build-to line and frontage standards",
+    "Historic plat and deed-restriction practice, which fixed a build-to line rather than a minimum, in nineteenth-century American subdivisions"
+  ],
+  "confidence": "high",
+  "tags": [
+    "site",
+    "setback",
+    "street",
+    "urbanism",
+    "aerial-testable",
+    "cost-negative"
+  ]
+}

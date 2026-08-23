@@ -1,0 +1,172 @@
+{
+  "id": "four-by-four-under-a-roof",
+  "name": "The 4x4 Under A Roof",
+  "aka": [
+    "the deck post porch",
+    "3 1/2 inches carrying a gable"
+  ],
+  "slots": [
+    "porch_support",
+    "column",
+    "porch_type"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "A covered porch carried on nominal 4x4 posts — 3 1/2 in square, usually pressure-treated, sometimes with a chamfer, sometimes with a small cap and base block. The posts are what a deck gets, and the porch above them is a roof with shingles, a ceiling and a gable. At 3 1/2 in square under an 8 ft height the post is 27 times its own width tall, and at 10 ft, 34. From the street the porch roof appears to float, and in an oblique view the posts nearly disappear against the background.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The porch is framed by the deck crew from the deck package. A 4x4 is the default post in every deck detail, every hardware catalogue and every span table, it takes a standard post base and post cap, and it is what the lumber yard delivers when someone orders posts. A 6x6 is a different bracket, a different base, a different price and a special order. Where the porch is a covered deck rather than a designed porch, nobody in the chain ever considers it as a visual member.",
+    "cost_saved": "A treated 4x4 runs 15-25 USD; a 6x6, 45-80 USD; a built-up and wrapped 8 in post with a cap and base, 180-400 USD. On a six-post porch, 900-2,200 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / column.height_modules = 14, i.e. 7 diameters",
+      "statement": "Seven diameters is the stoutest column in the classical corpus. A 3 1/2 in post at 8 ft is 27 diameters."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "craftsman / porch_support",
+      "statement": "The Craftsman post is a battered square pier, 10 to 14 in at its base tapering to 8 to 10 in at its neck, standing on a masonry pier of 24 to 36 in. Even the vernacular tradition that most clearly uses square posts uses them at three to four times the section of a 4x4."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_support / dimensional-lumber-post = forbidden",
+      "statement": "A 6x6 with a cap. No order, no diminution, no entasis. Named as forbidden even at 6x6, which is nearly twice the section under discussion here."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R507.4 and Table R507.4 — deck post sizing",
+      "statement": "A 4x4 is code-adequate for most residential porch loads to 8 ft, which is exactly why it appears. Code sizes for collapse, not for legibility, and this is the clearest case in the threshold group of a code minimum being read as a design dimension."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a support must be believed at the distance the building is seen from",
+      "statement": "At 60 ft a 3 1/2 in post subtends about 0.28 degrees — roughly the width of a pencil line held at arm's length. A roof appearing to rest on pencil lines does not read as supported, whatever the span table says."
+    }
+  ],
+  "correct_practice": "A porch post carrying a roof is not a deck post and should be sized visually, then checked structurally rather than the reverse. Working minimums by height: 6x6 (5 1/2 in) to 8 ft, 8x8 (7 1/4 in) to 10 ft, and a built-up or boxed post of 10 to 12 in above that. Expressed as a ratio, keep the post's least dimension at not less than 1/16 of its height and preferably 1/12, which brackets the classical 7 to 11 diameters once a square post's visual weight is allowed for. Where the idiom is Craftsman the post is a battered pier: 10 to 14 in at the base, tapering to 8 to 10 in at the neck, standing on a masonry pier 24 to 36 in tall — and the pier is not optional, because the Craftsman post's proportion depends on being the upper part of a two-part support. Where the idiom is classical the post becomes a column and the order's diameter rule applies.",
+  "fixes": {
+    "right": "6x6 minimum under any roof, 8x8 above 9 ft, or a boxed post of the correct visual dimension over a structural core.",
+    "cheap": "Box the existing 4x4. A 4x4 wrapped in four pieces of 1x8 with a simple cap and base costs 45-70 USD a post in material and an hour of labour, and produces a 9 in square post — visually correct at 9 ft. This is the single highest-value cheap fix in the threshold group, and it is exactly what nineteenth-century builders did: many surviving 'solid' porch posts are boxed. Second free move: CHAMFER the post, which costs one pass with a router and removes the machine-sawn deck-lumber reading that is half the problem.",
+    "dishonest": "Sleeving the 4x4 in a hollow PVC or fibreglass round column of 6 or 8 in diameter and calling it a column. The diameter is now nearly right and the column is 16 to 20 diameters tall, so it fails the column rule instead of the post rule, and it introduces the split-shaft seam. Boxing to a square post is honest; sleeving to a round column claims an order the assembly cannot support."
+  },
+  "detection": "One measurement from any photograph: post width against a known reference. A 4x4 is 3 1/2 in — narrower than a single deck board's face (5 1/2 in), narrower than a standard brick's length (about 8 in), and about a tenth of a door's width. If the post is visibly narrower than the deck boards it stands on, it is a 4x4. Then divide the post's height by its width: over 20 is the fault, over 30 is severe. Second check that catches the sleeved version: a round column standing on a square deck-post base, or with a visible vertical seam, is a 4x4 in a costume. Third check: look at the post cap. A galvanised or black steel post cap visible at the top of the post is deck hardware and is a certain tell, because no porch post detail exposes it.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "post_height / post_least_dimension",
+    "threshold": 16.0,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Sixteen is a permissive threshold chosen so that a 6x6 at 7 ft (15.3) passes and a 4x4 at 8 ft (27) fails clearly. Preferred is 12 or below. A square post reads lighter than a round column of the same dimension because its shaded face is flat, which is why the ratio here is tighter than the classical 7-11 diameters would suggest."
+  },
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The heavy battered post on a masonry pier is the style's single most recognisable member. A 4x4 replaces it with its opposite."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "Even the vernacular square-pier version of Greek Revival uses broad boxed piers 10 to 16 in wide."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "serious",
+      "why": "The vernacular porch used 4x4 and even 3x3 posts in genuinely poor work, but the characteristic post is a boxed or chamfered 5 to 8 in member."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The style's endemic failure. Its porches are almost always on 4x4 or 6x6 posts at 10 ft."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "minor",
+      "why": "The turned post at 4 to 5 in barrel is thin by design — see the exception — and a plain 4x4 is a poorer relative of it rather than a contradiction."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "severity": "minor",
+      "why": "Slender gallery supports are correct there."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "folk-victorian",
+      "why": "The catalogue turned post is 4 to 5 in at its barrel and is meant to be thin: the Folk Victorian porch is a light lattice of thin members, and the spindle frieze and paired brackets above carry the visual load that a heavier post would otherwise carry.",
+      "bounds": "The post must be genuinely TURNED — beads, coves, a barrel, square blocks top and bottom — and must be accompanied by a sawn spindle frieze and brackets not less than 18 in on the leg. A plain square 4x4 with no ornament is not this exception; it is the fault with the ornament deleted.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ],
+        "construction": [
+          "wood-frame"
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Gallery colonnettes of 4 to 6 in carrying a light single-storey gallery roof are correct, documented and structurally honest in dense cypress and southern pine.",
+      "bounds": "Single-storey gallery, light low-pitch roof, no room above, and the colonnette turned or chamfered rather than left as sawn dimensional lumber.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "The shotgun's stoop-porch is carried on slender turned or square posts of 4 to 5 in and the lightness is part of the type's economy and its street presence.",
+      "bounds": "Applies to the small stoop-porch only, roughly 4 to 6 ft deep, with a shed or hipped roof. A full-depth gallery takes the general rule."
+    },
+    {
+      "style": "construction:steel",
+      "why": "A steel post of 3 to 4 in genuinely carries the load and a mid-century idiom exists for expressing it as a thin member — the wrought-iron and steel-pipe porch supports of 1945-1965 are an honest expression of the material.",
+      "bounds": "The post must be visibly metal — round or square tube, welded scrollwork, a bolted base plate — and must not carry any classical capital or base. A steel post wrapped in wood is a wood post visually and takes the wood rule."
+    }
+  ],
+  "co_occurs_with": [
+    "ganged-post",
+    "porch-hung-on-the-wall",
+    "porch-ceiling-of-exposed-joists",
+    "porch-too-shallow-to-inhabit"
+  ],
+  "alternative_to": [
+    "ganged-post"
+  ],
+  "confused_with": [
+    {
+      "fault": "pencil-column",
+      "difference": "That is a round classical column too slender for its height. This is a square dimensional-lumber post too small for anything. The fix is different: a thin column needs a bigger column, a thin post can simply be boxed."
+    },
+    {
+      "fault": "ganged-post",
+      "difference": "That is two or three small members nailed side by side to make one support, which is a related evasion — it gets the section without the stock — and produces a post with a seam down its face."
+    }
+  ],
+  "sources": [
+    "IRC R507.4 and Table R507.4, deck post sizing",
+    "kits/georgian-colonial-american.kit.json, porch_support (dimensional-lumber-post forbidden)",
+    "proportions/orders/vignola-tuscan.json, 7-diameter column",
+    "Gustav Stickley, The Craftsman, published porch details with battered posts on masonry piers",
+    "Simpson Strong-Tie deck post cap and base catalogue — the hardware that makes the 4x4 the default"
+  ],
+  "confidence": "high",
+  "tags": [
+    "porch",
+    "post",
+    "scale",
+    "stock-size",
+    "code-minimum",
+    "endemic"
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "id": "condenser-on-the-entrance-elevation",
+  "name": "The Machine In The Approach",
+  "aka": [
+    "the front-yard condenser",
+    "the meter wall",
+    "equipment in the cone of vision"
+  ],
+  "slots": [
+    "services_strategy",
+    "street_relationship",
+    "landscape_idiom"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "One or two condensing units, a mini-split, a gas meter, an electrical panel, a tankless heater and a bank of PVC vent terminations, all on the elevation the house is composed about and all within the twenty feet a visitor walks. The equipment sits on a pad at the base of the wall, forward of the front plane, unscreened, at a scale and colour that belongs to no part of the building, and it is running.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The condenser location is set on site by the HVAC subcontractor after the slab is poured, by the shortest lineset to the air handler and the shortest run to the panel. The utility meter position is set by the utility to its own access rules and is very often specified on the street side. Neither party sees an elevation, both decisions are made after the architecture is finished, and the one drawing that could have coordinated them - a site plan showing equipment - is not in most residential sets at all.",
+    "cost_saved": "$400-$1,200 per unit in extra lineset, refrigerant, a longer condensate run and a bigger disconnect, plus a day of trenching for the utility. Moving a gas meter after installation costs $500-$2,500 and needs the utility's agreement."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / exterior-condenser-on-the-entrance-elevation = forbidden",
+      "statement": "A condensing unit inside the approach cone, at the base of the wall the composition is about. It belongs behind the front plane and screened."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / condenser_position",
+      "statement": "Behind the front plane of the main block, screened by a wall or hedge."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / outbuilding_types / arrangement",
+      "statement": "Outbuildings that are visible from the approach are composed symmetrically about the axis; outbuildings in the service yard are not composed at all. The service yard is the answer the tradition already has, and a plant that has no service yard to go to ends up on the front."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC M1403 and manufacturer listings - clearances of 12-24 in at the coil faces and 60 in above",
+      "statement": "The clearances are what make the unit impossible to hide badly. A screen tighter than the listed clearance degrades capacity and voids the warranty, which is why so many attempts at screening are removed."
+    }
+  ],
+  "correct_practice": "Give the mechanical plant a place in the plan before it is placed on site. Every traditional type here already has one: the service yard, the rear ell, the basement, the dependency, the courtyard's service side. The rules that follow are simple and hold everywhere. No mechanical equipment forward of the front plane of the main block. Nothing within the approach cone - the wedge between the public way and the front door, which is the twenty to forty feet the visitor is actually looking down. Where a unit must be on a flank, it stands behind a masonry or timber screen 6 to 12 in taller than the unit, set at or beyond the manufacturer's listed clearance - typically 24 in to the coil faces and 60 in of clear sky above - with the screen returned so the unit is not visible from the approach at 5 ft 6 in eye height. Gas meters, panels and vent terminations follow the same rule and are the harder negotiation, because the utility has its own access standard: ask for the flank location in writing at the service application, which is the only moment it is free.",
+  "fixes": {
+    "right": "Relocate the plant to a service yard behind the front plane and screen it with a wall, a hedge or a purpose-built enclosure at the listed clearances.",
+    "cheap": "Screen with a wall that is doing another job. A 5 ft masonry or board garden wall returning from the flank of the house to the property line hides the equipment, makes a service yard, gives the entrance a forecourt and improves the frontage arithmetic against the garage - four jobs for $2,000-$6,000. Where the wall is impossible, a lattice-panel screen at 24 in clearance with a hedge in front costs a few hundred and needs annual maintenance. Painting the unit and its pad the colour of the wall behind it is worth doing and worth nothing on its own.",
+    "dishonest": "A row of shrubs planted at the unit. In year one the shrubs are half its height and hide nothing; in year four they are tight against the coil, the unit is losing capacity, and the first service call removes them. Planting against a condenser is a maintenance problem sold as a design solution."
+  },
+  "detection": "This is one of the few plan-and-services faults that is fully evaluable from a single street photograph. Count discrete pieces of equipment visible on the entrance elevation and in the approach: condensers, mini-split heads, meters, panels, disconnects, tankless flues, PVC vent pairs, satellite dishes. Zero is correct, and one is already visible. Second, check the plane: is the equipment forward of, level with, or behind the front wall of the main block. Third, listen - a builder-grade condenser runs 70 to 76 dBA at 3 ft and is audible on the front step, which is a good proxy for how close it is.",
+  "test": {
+    "expression": "equipment_units_visible_on_the_entrance_elevation",
+    "threshold": 0.0,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Counts condensers, mini-split heads, meters, panels, disconnects, tankless and high-efficiency PVC vent terminations, and dishes, on the entrance elevation or within the approach cone. Zero is the standard; the endemic value is two to five."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shotgun-house",
+      "why": "On a 25 to 30 ft lot with a house 3 to 6 ft from its neighbour, there is genuinely no flank to put a unit on and no rear access; a unit beside the front porch pier is what the type's density produces.",
+      "bounds": "It must still sit behind the porch line and below the porch deck level or behind lattice skirting, so it is out of the approach even where it is on the front of the lot.",
+      "applies_when": {
+        "construction": [
+          "narrow-lot-detached"
+        ],
+        "note": "Same licence for narrow-lot Creole cottages and urban infill on lots under 30 ft."
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "A party-wall row has no flank at all, and the historic answer - the areaway - is the correct modern one: equipment in the areaway below sidewalk level, behind the iron fence.",
+      "bounds": "Below the parlour-floor level and behind the areaway railing. Equipment on the stoop or bracketed to the front facade is the fault in its worst form.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Flat-roof types put plant on the roof behind the parapet, which is the correct answer and removes the ground-level problem entirely.",
+      "bounds": "The parapet must actually conceal it - 18-30 in above the deck and the unit set back far enough that no part is visible from 5 ft 6 in eye height at the property line. A condenser visible over a parapet is worse than one on the ground."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "entrance-slope-penetration",
+      "difference": "That is vents and penetrations on the ROOF slope facing the street. This is equipment at the base of the wall. Same driver, same trade, two different elevations, and they very often occur together."
+    },
+    {
+      "fault": "plant-room-that-was-never-drawn",
+      "difference": "That is the indoor half of the same failure. A house with no plant room pushes its equipment outside, which is how the units arrive on the front elevation."
+    }
+  ],
+  "co_occurs_with": [
+    "entrance-slope-penetration",
+    "plant-room-that-was-never-drawn",
+    "door-reached-only-from-the-driveway"
+  ],
+  "severity_trajectory": "Self-perpetuating and worsening. The pad, the lineset penetration and the electrical disconnect are permanent, so every replacement at year twelve to fifteen goes back in the same place, and each additional zone adds a second unit beside the first. A fault that could have been avoided for nothing at the service application becomes a $1,500 relocation at the first replacement and is therefore never relocated.",
+  "sources": [
+    "kits/georgian-colonial-american.kit.json services_strategy (forbidden variant and condenser_position), outbuilding_types arrangement",
+    "International Residential Code M1403 and M1305 (equipment access and working space); manufacturer listed clearances for residential condensing units",
+    "AHRI sound-rating data for residential condensing units (typical 70-76 dBA at 3 ft for single-stage units)",
+    "NPS Preservation Brief 24, Heating, Ventilating and Cooling Historic Buildings, on siting mechanical equipment"
+  ],
+  "confidence": "high",
+  "tags": [
+    "services",
+    "site",
+    "approach",
+    "photograph-testable",
+    "endemic",
+    "trade-sequence"
+  ]
+}

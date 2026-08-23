@@ -1,0 +1,144 @@
+{
+  "id": "column-foot-on-the-deck-board",
+  "name": "The Column With Its Feet In The Water",
+  "aka": [
+    "no plinth",
+    "the column on decking",
+    "base rot"
+  ],
+  "slots": [
+    "column",
+    "porch_support",
+    "steps_and_stoop"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A column standing directly on the porch decking, with the deck boards running under it and a bead of caulk at the joint. There is no plinth, no separate stone or masonry block, and no gap between the base moulding and the deck. Within a few years the paint at the foot blisters and lifts in a ring 2 to 4 in above the deck, the torus goes soft, and the column is either sistered, wrapped in aluminium coil, or set on a rusting steel shim. A second version has the plinth present but wrong: a 4 in cube of PVC under a 10 in column, or a plinth the same height as the base moulding above it.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The deck is laid first and continuously, because laying it continuously is faster than blocking out and flashing sixteen column locations, and because the deck crew and the trim crew are different trades on different days. The column then arrives and is stood on the finished deck. Water runs along the deck boards to the column, capillary action pulls it into the end grain of the base, and the caulk bead seals the joint so the water cannot get back out. The plinth is dropped because it is an extra part, an extra order line and an extra height calculation.",
+    "cost_saved": "40-90 USD a column in the plinth block itself, plus about an hour a column in flashing and blocking. On a six-column porch, 500-900 USD. Against this, replacing a rotted column base runs 600-1,500 USD a column and usually takes the porch roof down."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / assemblies.base — plinth 6 parts of 12, i.e. one quarter diameter",
+      "statement": "The plinth is a member of the order with a stated height, not an optional accessory. In Vignola's Tuscan and Doric the plinth is half the base, which is a quarter of a diameter — 3 in on a 12 in column."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / column — 'its plinth height is set by the order and not by the lumber yard'",
+      "statement": "The plinth belongs to the order."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / pedestal = column_height / 3",
+      "statement": "Where a pedestal occurs it is one third of the column and it has its own plinth, base, die and cap. A 4 in block is neither a plinth nor a pedestal."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "no wood member may terminate on a horizontal wetted surface",
+      "statement": "End grain in contact with a surface that stays wet will wick and rot regardless of species, coating or preservative. Every traditional column stands on stone, brick or a raised and flashed block for this reason, and the plinth is as much a piece of building science as a piece of the order."
+    }
+  ],
+  "correct_practice": "The column stands on a plinth that is a separate, denser, water-shedding block: stone, cast stone, brick, or at minimum a solid PVC or fibreglass plinth. Its top is 1 to 2 in above the deck surface, its top surface is either sloped or drained, and there is a positive gap or a vented shim between the base moulding and the plinth so the assembly can dry from below. Height comes from the order: in Vignola's Tuscan and Doric the plinth is 6 parts of a 12-part module, i.e. a quarter of a diameter — 3 in on a 12 in shaft — and the whole base is one module, half a diameter. Where the porch reads as a stylobate, the correct answer is better still: the deck stops at the column and the column stands on the masonry that carries it, which is what every period porch of any pretension does.",
+  "fixes": {
+    "right": "A stone or cast-stone plinth set on the beam or the pier below, the deck boards cut to it with a 3/8 in gap and no caulk, the base moulding standing 1 in clear of the deck, and the column's hollow shaft vented top and bottom so it can dry.",
+    "cheap": "Two moves at almost no cost. First, do not caulk the joint: a column foot that can drain and dry survives far longer than one that is sealed, and omitting the caulk saves money. Second, stand the column on a 1 1/2 in solid PVC or composite pad the same footprint as the plinth, painted to match — about 25 USD a column — and slope the deck 1/8 in per foot away from it. That converts a five-year failure into a thirty-year one for the price of a lunch. Third free move: give the column an aluminium or copper base flashing turned up 1 in inside the shaft, which the column vendor supplies.",
+    "dishonest": "A PVC or polyurethane plinth block of 4 to 6 in square under a 10 in column, sold as a 'column base'. It solves the rot and destroys the proportion: the plinth must be wider than the base moulding above it and its height must come from the order. Equally dishonest: wrapping the rotted foot in aluminium coil stock, which hides the failure and accelerates it."
+  },
+  "detection": "Look at the bottom 6 in of any column in a photograph. Three things to check. (1) Is there a distinct block, of a different material or at least a different plane, between the deck and the base moulding? If the base moulding sits straight on the deck boards, the plinth is absent. (2) Is there a shadow line under the base? A correct assembly has a visible dark gap or a step; a sealed one has a continuous caulk bead reading as a light line. (3) Paint condition: a ring of blistered or peeling paint 2 to 4 in up the shaft, present on some columns and not others, is diagnostic — the ones that fail first are the ones nearest the downspout or at the low end of the deck slope. In a plan or a section, check whether the deck boards run under the column; they should not.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "plinth_height_in / lower_shaft_diameter_in",
+    "threshold": 0.2,
+    "upper": 0.35,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Vignola's Tuscan and Doric plinth is 6 of 12 parts of a module — a quarter of a diameter, so 0.25. The band allows for the Attic base's taller plinth. A value of 0, meaning no plinth at all, is the endemic case."
+  },
+  "severity_trajectory": "Minor at handover and fatal by year eight to twelve. On a south or west elevation with the deck sloped toward the house, base rot is visible in three to five years; where the porch is shaded and slow-drying, faster. The severity of this fault is almost entirely a function of age, which is why it survives inspection at closing and is the single commonest reason a twenty-year-old porch has its columns replaced.",
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The Greek Revival column stands on a stylobate, not on a floor. Benjamin's Grecian Doric is baseless and the shaft meets stone directly; a baseless Greek Doric standing on deck boards is both a rot detail and a contradiction of the order."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The Craftsman post stands on a masonry pier that continues to the ground, which is the correct answer to this problem arrived at from a different direction."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Endemic and cheap to have avoided."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The tapered Craftsman post sits on a masonry or stucco pier that runs to the ground, and the post's foot is 24 to 36 in above the deck. There is no plinth because the pier IS the plinth, and it is a far better answer.",
+      "bounds": "The pier must be real masonry or a masonry-faced structure continuous to a footing, not a hollow box on the deck. A stucco-clad plywood box standing on decking is this fault with a costume on.",
+      "applies_when": {
+        "slots": [
+          "porch_support"
+        ],
+        "construction": [
+          "masonry-pier",
+          "wood-frame"
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Gallery colonnettes commonly stand directly on a brick or wood gallery floor with no plinth, and the tradition accepts it because the gallery is raised, ventilated below, and the climate dries fast between rains.",
+      "bounds": "Only where the gallery floor is genuinely raised and open underneath so the assembly dries from both sides, and only where the colonnette is a replaceable member the tradition expects to replace.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ],
+        "construction": [
+          "raised-floor"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style columns frequently stand on a low stone or shingled podium with no separate plinth, the podium doing the plinth's work.",
+      "bounds": "The podium must be masonry or masonry-faced and must project past the column base."
+    }
+  ],
+  "co_occurs_with": [
+    "column-without-entasis",
+    "porch-hung-on-the-wall",
+    "exterior-step-at-interior-rise"
+  ],
+  "confused_with": [
+    {
+      "fault": "house-without-a-base",
+      "difference": "That is the whole building sitting on the ground with no water table or exposed foundation. This is one member of the porch sitting on a wet horizontal surface. They have the same underlying idea at two different scales and frequently occur together."
+    }
+  ],
+  "sources": [
+    "proportions/orders/vignola-tuscan.json, vignola-doric.json — base and plinth heights in parts",
+    "kits/georgian-colonial-american.kit.json, column",
+    "NPS Preservation Brief 45, Preserving Historic Wooden Porches",
+    "Forest Products Laboratory, Wood Handbook, chapter on moisture and decay — end-grain wicking rates",
+    "Column manufacturer installation instructions (HB&G, Chadsworth): vented plinths and base flashing are specified and routinely omitted"
+  ],
+  "confidence": "high",
+  "tags": [
+    "column",
+    "plinth",
+    "rot",
+    "trade-sequence",
+    "maintenance",
+    "endemic"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "tudor-jacobean",
+  "name": "Tudor & Jacobean",
+  "rank": "family",
+  "member_of": "british-isles",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1485,
+    "floruit_end": 1625,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "England"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The transitional century in which English building acquired Renaissance ornament without surrendering its medieval plan and silhouette.",
+    "long": "Between the end of the Wars of the Roses and the arrival of Inigo Jones, English architecture took on classical motifs — pilasters, strapwork, shaped gables — while keeping medieval massing, medieval framing, and the medieval hall. The result is a hybrid that later purists disliked and that later revivalists loved precisely because of its irregularity.\n\nThe transmission channel is worth noting: the ornament arrived largely through Netherlandish engravings and immigrant craftsmen, not from Italy directly. It is a second-hand Renaissance, which explains its cheerful indifference to proportional correctness."
+  },
+  "defining_characteristics": [
+    "Renaissance ornament applied to medieval massing and plan",
+    "Tall multi-flued chimney stacks and large mullioned, transomed windows",
+    "Strapwork and shaped gables transmitted via the Low Countries",
+    "The H- and E-plan great house with hall at the centre"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

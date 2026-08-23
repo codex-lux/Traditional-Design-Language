@@ -1,0 +1,214 @@
+{
+  "id": "mid-atlantic-georgian",
+  "name": "Mid-Atlantic Georgian",
+  "aka": [
+    "Delaware Valley Georgian",
+    "Philadelphia Georgian",
+    "Maryland Georgian"
+  ],
+  "rank": "variant",
+  "member_of": "georgian-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1715,
+    "floruit_start": 1730,
+    "floruit_end": 1790,
+    "decline_end": 1800,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1955,
+        "revival_node": "georgian-revival",
+        "note": "The Philadelphia and Annapolis houses became the schoolbook models for the American Georgian Revival, particularly through the White Pine Series monographs and the 1930s Annapolis surveys."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "southeastern Pennsylvania",
+      "Delaware",
+      "New Jersey",
+      "Maryland Western Shore",
+      "Hudson Valley gentry seats"
+    ],
+    "hearth": "Philadelphia and its Schuylkill and Germantown country seats, with a second concentration at Annapolis",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "georgian-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "english-palladian",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Philadelphia's country seats are the most literally Palladian buildings in the colonies — pedimented central pavilion, Venetian window over the door, symmetrical flanking dependencies — because their owners had the books and, in several cases, had been to England."
+    }
+  ],
+  "description": {
+    "short": "The masonry Georgian of the Delaware Valley and the Chesapeake head: schist, limestone or brick with a moulded belt course, a pent eave on earlier work, and a shallow pedimented pavilion on the best.",
+    "long": "The Mid-Atlantic is the only American region where the Georgian house is normally built of stone, and that fact organizes everything else about it. Philadelphia sits on Wissahickon schist, a mica-flecked grey stone that quarries in beds and takes a dressed face; the Chester and Lancaster valleys sit on limestone; Delaware and the Maryland shore build in brick. Colonial masons in this region were unusually good — many were Scots, Irish or German — and the Quaker commercial economy could pay them. The result is a Georgian that expresses its wall rather than its trim.\n\nTwo horizontal devices are the region's signature. The first is the belt course: a moulded projecting band of brick or stone at the second-floor line, running the full facade, standing out an inch and a half to two and a half inches. It does something practical, throwing water off the wall face at the floor joint, and it does something compositional, dividing the elevation into two clearly proportioned registers. The second is the pent roof — a shallow shed thirty to forty-two inches deep, unsupported by posts, running across the facade or the gable at the second-floor line — which is a Delaware Valley speciality of the period before about 1770 and appears nowhere else in Georgian America in this form. Where a pent roof survives, the house is almost certainly pre-Revolutionary and almost certainly within eighty miles of Philadelphia.\n\nWindow heads are masonry and say so. Philadelphia uses a flat gauged arch of rubbed brick with a projecting keystone; stone houses use a dressed lintel, sometimes with a moulded cap. Chimneys are at or within the gable ends, often paired and joined above the roof. Roof pitch runs eight to ten in twelve, between the Northern and the Chesapeake norms. Ceilings are ten to eleven feet — a full foot above New England, a foot below the low country. Plans are double-pile from early on, thirty-four to forty feet deep, which is the region's other structural advantage: a stone wall carries a deeper house than a frame one does without complaint.\n\nAt the top of the range the Mid-Atlantic produced the most literally Palladian houses in British North America. Mount Pleasant, built 1762–65 on the Schuylkill for the privateer John Macpherson, has a pedimented centre pavilion, a Venetian window over the doorway, rubble walls stuccoed and scored to imitate ashlar with real brick quoins, and two symmetrical dependencies flanking the forecourt. Cliveden at Germantown has a pedimented and pilastered centre with urns on the roof. And at Annapolis, William Buckland's Hammond-Harwood House of 1774 lifts its door surround, rusticated blocks and all, directly out of Gibbs's A Book of Architecture of 1728 and executes it in southern pine painted to read as stone — pattern-book transmission caught in the act, in a building that still stands.\n\nWhat one notices standing in front of one is the weight. Two feet of schist with a belt course and a keystoned arch is a serious wall, and the classical apparatus laid on it is thin by comparison: a doorway, a cornice, and nothing else. The house is convincing because the material is doing most of the talking."
+  },
+  "defining_characteristics": [
+    "Load-bearing masonry: Wissahickon schist or local limestone laid coursed ashlar on the front and rubble elsewhere, or brick in Flemish bond over a moulded water table",
+    "A projecting moulded belt course at the second-floor line, standing 1.5–2.5 in proud and running the full facade",
+    "Pent roof on work before c. 1770 — an unsupported shed 30–42 in deep at the second-floor line, across the facade or the gable",
+    "Chimneys at or within the gable ends, frequently paired and joined above the roof",
+    "Masonry window heads: flat gauged brick arch with projecting keystone, or a dressed stone lintel; not a wood architrave",
+    "Roof pitch 8:12 to 10:12, side-gable or hipped, with a modillion or dentil cornice",
+    "Double-pile centre-passage plan 34–40 ft deep with ceilings of 10–11 ft; on the best houses a pedimented centre pavilion and a Venetian window over the door"
+  ],
+  "diagnostic_tells": [
+    "A pent roof — a floating shed band across the facade with nothing holding it up — is regionally unique and effectively conclusive",
+    "A belt course at the second-floor line, present in some form on nearly all good work",
+    "Keystoned flat brick arches over the openings, with rubbed and gauged voussoirs",
+    "Coursed ashlar on the entrance elevation and rubble on the sides, on stone houses",
+    "A Venetian (Palladian) window over the doorway on the most ambitious examples — rare in New England, rare in Virginia, common here"
+  ],
+  "distinguished_from": [
+    {
+      "node": "new-england-georgian",
+      "difference": "Cladding, chimney and head all differ: masonry with a belt course versus wood clapboard or rusticated board; gable-end chimneys versus interior chimneys inboard of the ridge; keystoned gauged brick arches or stone lintels versus flat wood architraves. Roof pitch is a step shallower (8:12–10:12 against 9:12–11:12), and ceilings a foot higher (10–11 ft against 8 ft 6 in – 9 ft 6 in)."
+    },
+    {
+      "node": "tidewater-georgian",
+      "difference": "Both are masonry with gable-end chimneys, but the Chesapeake house stays single-pile far longer (18–22 ft deep against 34–40 ft), pushes its dependencies out as detached buildings rather than attaching a service ell, uses segmental gauged arches and glazed-header Flemish bond, and runs a shallower roof at 7:12–9:12, often hipped. The pent roof and the belt course are Delaware Valley, not Chesapeake."
+    },
+    {
+      "node": "german-pennsylvania-colonial",
+      "difference": "Same stone, same counties, same steepish roof, and the two converge after 1780. The test is plan and alignment: Georgian gives a centre passage, aligned windows floor to floor, a symmetrical rear elevation and a classical doorway; the German house gives an asymmetric three-room plan, unaligned windows and a plain door with a hood."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "A pattern-book order (Gibbs, Swan, Langley) governs the doorway, cornice and pavilion; the masonry coursing and the belt course govern the horizontal registers.",
+    "typical_ratios": [
+      "Facade 44–56 ft, five bays; depth 34–40 ft double-pile",
+      "Belt course at the second-floor line, projecting 1.5–2.5 in, 2–3 brick courses or a 6–9 in stone band deep",
+      "Window opening height:width 1.9:1 to 2.1:1; second-floor 82–88% of first-floor height",
+      "Ceilings 10–11 ft first floor, 9–10 ft second",
+      "Flat gauged arch rise 4–6 in over the opening, keystone 6–9 in wide",
+      "Roof rise:run 8:12 to 10:12; centre pavilion projection 12–24 in",
+      "Passage 11–14 ft wide"
+    ],
+    "bay_rhythm": "Five bays, with the centre bay taken by the doorway and, on Palladian examples, by a projecting pedimented pavilion one bay wide breaking forward 12–24 in with a Venetian window above.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The double-pile masonry Georgian block; the region's default."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "Main block with hyphens and dependencies, as at Mount Pleasant and Whitehall."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "common",
+      "note": "The more modest farmhouse version."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible",
+      "note": "The Philadelphia and Annapolis town house on a narrow lot."
+    },
+    {
+      "massing": "telescope-house",
+      "affinity": "possible",
+      "note": "Maryland Eastern Shore growth pattern, stepping down from the main block."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "The wall is load-bearing masonry — 18–24 in of coursed stone or 13–18 in of brick — with openings expressing the full reveal depth. Frame construction with masonry veneer is a different building and shows it at every jamb.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "A belt course at the second-floor line, projecting 1.5–2.5 in and 6–9 in deep, running the full width of the facade. This is the region's non-negotiable horizontal, and its absence pushes the elevation toward the Chesapeake.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch 8:12 to 10:12, with chimneys at or within the gable end walls. Interior chimneys set inboard of the ridge belong to New England.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Window heads are masonry: flat gauged brick arches with a 4–6 in rise and a 6–9 in keystone, or dressed stone lintels. A wood architrave head on a stone or brick wall is incorrect.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Pent roof only on work before c. 1770: 30–42 in projection at the second-floor line, 25–35 degree pitch, unposted, returning 12–24 in at the corners. Sash 9/6 to c. 1765, 6/6 after; shutter leaf width equals half the clear opening.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Stenton",
+      "location": "Germantown, Philadelphia, Pennsylvania",
+      "year": 1730,
+      "note": "James Logan's brick country seat, built 1723–30; the earliest fully Georgian house in the region and among the plainest — a wall with almost no trim on it."
+    },
+    {
+      "name": "Mount Pleasant",
+      "location": "Fairmount Park, Philadelphia, Pennsylvania",
+      "year": 1765,
+      "note": "Built 1762–65 for John Macpherson. Rubble stuccoed and scored to imitate ashlar with brick quoins, a pedimented centre pavilion, a Venetian window over the door and two flanking dependencies."
+    },
+    {
+      "name": "Cliveden",
+      "location": "Germantown, Philadelphia, Pennsylvania",
+      "year": 1767,
+      "note": "Built 1763–67 for Benjamin Chew in Wissahickon schist, with a pedimented and pilastered centre and urns on the roof ridge; the site of the Battle of Germantown in 1777."
+    },
+    {
+      "name": "Hammond-Harwood House",
+      "location": "19 Maryland Avenue, Annapolis, Maryland",
+      "year": 1774,
+      "note": "William Buckland's last work. The rusticated Gibbs door surround and the oeil-de-boeuf windows in the pediment are taken directly from Gibbs's A Book of Architecture (1728), executed in southern pine to read as stone."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Fiske Kimball, Domestic Architecture of the American Colonies and of the Early Republic (1922)",
+    "Helen Park, A List of Architectural Books Available in America before the Revolution (1973)",
+    "George B. Tatum, Penn's Great Town: 250 Years of Philadelphia Architecture (1961)",
+    "Bernard L. Herman and Gabrielle Lanier, Everyday Architecture of the Mid-Atlantic (1997)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "masonry",
+    "belt-course",
+    "pent-roof",
+    "palladian-pavilion",
+    "keystone"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "brick-course",
+      "role": "primary",
+      "authority": "brick-course",
+      "note": "PROMOTED to primary. The regional signature — the belt course at the second-floor line — is a brick-module decision before it is a compositional one: two courses proud, landing on the second-floor STRUCTURE at storey + 0.6 part, which the pack computes directly. On the schist and limestone houses substitute the stone bed depth (6–9 in) for the brick course and the same rules hold.",
+      "precedence": 1
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Carries more here than in the other variants because this is the one region that regularly breaks the front forward: a pedimented centre pavilion projecting 12–24 in with a Venetian window over the door. The pack's special_window.width cap (0.72 of the bay) is what decides whether that window will fit the bay at all.",
+      "precedence": 2
+    }
+  ]
+}

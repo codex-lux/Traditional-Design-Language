@@ -1,0 +1,36 @@
+{
+  "id": "american-folk-vernacular",
+  "name": "American Folk Vernacular",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1700,
+    "floruit_end": 1930,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Log, shotgun, farmhouse, and the other unstyled house types that most Americans actually lived in.",
+    "long": "Most American houses were never designed and never carried a style name. They were built from types — a log pen, a double pen, a shotgun, a gable-front-and-wing farmhouse — that encode generations of accumulated judgment about span, heating, ventilation, and how a family grows.\n\nTreating this family as residual would be a mistake. These types are the substrate the styled architecture sits on, they are the direct ancestors of the current market's most popular idiom, and their expansion logic — how a house grows without breaking — is the property that formal styles most conspicuously lack and that a generative design system most needs."
+  },
+  "defining_characteristics": [
+    "Type rather than style as the unit of design",
+    "Structural and climatic logic governing form directly",
+    "Ornament minimal, applied late, and bought rather than made",
+    "Expansion and accretion as designed-in properties",
+    "Transmission entirely by craft memory and imitation"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

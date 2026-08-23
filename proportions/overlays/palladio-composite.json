@@ -1,0 +1,261 @@
+{
+  "id": "palladio-composite",
+  "name": "Palladio's Composite Order (overlay on Vignola)",
+  "aka": [
+    "Composite of the Quattro Libri",
+    "Composite after Ware's Palladio, 1738",
+    "The Latin or Roman order",
+    "Composite, ten diameters, pycnostyle"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVIII and XIX",
+    "author": "Andrea Palladio",
+    "year": 1570,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011569684",
+    "note": "Figures read from Isaac Ware's English edition of 1738, leaves 34-36, 81 and 88 of the Getty scan, cross-checked against the c82.net transcription. Palladio's Composite chapter is the shortest of the five and leans on cross-reference ('the same as the Corinthian, but...'), so this pack asserts less than the other four and says where."
+  },
+  "overlay_of": "vignola-composite",
+  "module": {
+    "name": "The WHOLE diameter of the column at the bottom of the shaft, divided into sixty minutes",
+    "parts": 60,
+    "default_size_in": 12.0,
+    "note": "Palladio's module in every order but the Doric is the WHOLE diameter in 60 minutes. Vignola's Composite module is the SEMIdiameter in 18 parts. A module figure here is HALF the Vignola figure for the same physical dimension; a part here is 1/60 D against Vignola's 1/36 D. Multiply any inherited vignola-composite part-value by 10/6 before adding it to anything in this pack. In this order the column heights DO agree - ten diameters both - so the module conversion is the only arithmetic trap, and it is a total one: 10 Palladian modules and 20 Vignolesque modules are the same column.",
+    "diameters": 1.0
+  },
+  "column": {
+    "height_modules": 10,
+    "diminution": 0.8461538462,
+    "entasis_begins_at": 0.3333333333,
+    "fluting": {
+      "count": 24,
+      "profile": "twenty-four semicircular flutes separated by fillets, or the shaft left plain and rusticated in the lower order of a front",
+      "fillet": true
+    }
+  },
+  "assemblies": {
+    "entablature": {
+      "height_modules": 2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "architrave",
+          "name": "Architrave",
+          "height_parts": 40,
+          "profile": "fascia",
+          "note": "Ware ch. XVIII gives the Composite entablature as 'one fifth of the height of the column', as in the Ionic and Corinthian. The 4 : 3 : 5 division of the twelve parts is stated for the Ionic and repeated for the Corinthian; for the Composite Palladio refers back rather than restating, so the division here is carried across from the two orders he does state and is marked medium rather than quoted. The TOTAL - a fifth, 2 modules, 2 diameters - is firm.",
+          "confidence": "medium"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "height_parts": 30,
+          "profile": "flat",
+          "note": "Three of twelve = 0.5 D against Vignola's 1 1/2 modules = 0.75 D.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cornice",
+          "name": "Cornice",
+          "height_parts": 50,
+          "profile": "corona",
+          "note": "Five of twelve = 0.833 D against Vignola's 2 modules = 1.0 D. Vignola's Composite cornice carries dentils and no modillions; Palladio's Composite cornice follows his Corinthian, which carries both. The subdivision is not stated in the Composite chapter and is not invented here.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "pedestal": {
+      "height_modules": 3.3333333333,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal with its zocco",
+          "height_parts": 50,
+          "profile": "plinth",
+          "note": "Ware ch. XIX, verbatim: in the Composite 'the pedestal is a third part of the height of the column'. A third of 10 modules is 3 1/3 modules = 3 1/3 diameters. Vignola's Composite pedestal is 7 modules of 18 = 3 1/2 diameters, i.e. 0.35 of his column. The two are within five per cent - this is the ONE order in which Palladio and Vignola almost agree on the pedestal - but they arrive there differently: Palladio by a stated third, Vignola by drawing. The internal division (base 2, dye 5, cornice 1 of eight) is Chambers's report of Palladio's practice, not Palladio's words, and is marked medium.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_dye",
+          "name": "Dye",
+          "height_parts": 125,
+          "profile": "flat",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cornice",
+          "name": "Cornice or cimacia of the pedestal",
+          "height_parts": 25,
+          "profile": "corona",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The Composite column is ten modules, that is ten diameters - the same absolute height as Vignola's twenty semidiameter modules. Palladio makes it his tallest and his richest, and places it above all the others.",
+      "expression": "column.height_modules == 10",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The entablature is a fifth of the column, not a quarter.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 5",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal is a third of the column.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules / 3",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The module is the whole diameter in sixty minutes.",
+      "expression": "module.parts == 60",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal divides in eight: two to the base, five to the dye, one to the cornice.",
+      "expression": "assemblies.pedestal.members.ped_dye.height_parts == assemblies.pedestal.height_modules * module.parts * 5 / 8",
+      "tolerance": 0.01
+    },
+    {
+      "statement": "The whole order with pedestal is 15 1/3 diameters, against Vignola's 15 1/2. In the Composite the two systems land within a sixth of a diameter of each other - the only order where they do.",
+      "expression": "assemblies.pedestal.height_modules + column.height_modules + assemblies.entablature.height_modules == 15.3333333333",
+      "tolerance": 0.01
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "palladio-composite-pycnostyle",
+        "clear_diameters": 1.5,
+        "note": "PALLADIO'S OWN COMPOSITE SPACING, and the reason the column is ten diameters. Book I ch. XIII, verbatim: 'if of one diameter and a half, the height of the columns must be ten.' The Composite is the closest-spaced and therefore the most slender of his orders: the whole series runs araeostyle-Tuscan-7, diastyle-Doric-8, eustyle-Ionic-9, systyle-Corinthian-9.5, pycnostyle-Composite-10. Vignola has no such series; his orders are 7-8-9-10-10 by arithmetic progression and his intercolumniations are drawn separately for each."
+      },
+      {
+        "name": "palladio-composite-arcade",
+        "clear_diameters": 3.5,
+        "note": "The arched Composite on pedestals of a third of the column. Read from the plate; medium confidence."
+      }
+    ],
+    "default": "palladio-composite-pycnostyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 5",
+      "units": "in",
+      "note": "A fifth, not a quarter. On a 24 in Composite column, 48 in of entablature against Vignola's 60. Combined with a pedestal that is nearly the same, this makes a Palladian Composite storey read as a taller column carrying a lighter load - which is precisely Palladio's argument for the order.",
+      "authority_note": "Ware 1738, Book I ch. XVIII."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 10 * 1.5",
+      "units": "in",
+      "note": "Clear span, pycnostyle. One and a half diameters is the tightest spacing in the Palladian system and it is what the Composite is FOR: a dense, rich, close-set colonnade. Spacing a Composite at three diameters is not a Composite under Palladio's rule; it is a Doric wearing acanthus.",
+      "authority_note": "Ware 1738, Book I ch. XIII."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "3.3333333333 / 15.3333333333",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.2,
+        0.33
+      ],
+      "note": "JUDGMENT SLOT. The pedestal cap lands at 0.217 of the whole order - about 24 in at a 9 ft ceiling. This is the ONE Palladian order whose pedestal datum agrees closely with Vignola's (0.21), and it is therefore the order to reach for when a room must satisfy both the classical dado and a client who expects a chair rail at furniture height. It still falls 8 to 12 in short of the modern 32 to 36 in expectation.",
+      "authority_note": "Ware 1738, Book I ch. XIX."
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "count",
+      "expression": "2",
+      "units": "count",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, and the point of this order. Palladio's Composite is not Vignola's. Vignola treats it as a fifth order to be tabulated like the rest - same 20 modules, same quarter entablature, same 18-part module as his Corinthian, differing only in the capital. Palladio treats it as a CONCEPTION: 'composed of the Ionick and the Corinthian', with the Ionic volute, ovolo and fusarole set over the two ranks of Corinthian acanthus, a base 'composed of the Attick and of the Ionick', and the pycnostyle spacing that makes it the richest and closest of the five. The two ranks of acanthus plus the Ionic volute are the count here. A designer choosing between the two Composites is choosing between a variant and an argument.",
+      "authority_note": "Ware 1738, Book I ch. XVIII; and Book IV, where Palladio records antique bases 'composed of the Attick, and of the Ionick, having two bastones of Attick, and the two cavettoes of the Ionick'."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "height",
+      "expression": "0.75",
+      "units": "ratio",
+      "note": "SUPERIMPOSITION. The Composite is Palladio's uppermost order and each order is a fourth less than the one below. Where a front carries Doric, Ionic and Composite, this rule and not the elevation grid sets the storey heights.",
+      "authority_note": "Ware 1738, Book I ch. XII and Book II passim."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 6 * (5 / 12)",
+      "units": "in",
+      "judgment": true,
+      "range": [
+        0.055,
+        0.085
+      ],
+      "note": "JUDGMENT SLOT. The interior cornice on the Palladian reading - entablature a sixth of wall-plus-cornice, crown five twelfths of that: 7.5 in at 9 ft. The Composite is the order most likely to be used in a room that wants MORE cornice than this, and the upper end of the range is where a Composite saloon should sit.",
+      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVIII; the analogy is not Palladio's."
+    },
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height / 10 * (7 / 8)",
+      "units": "in",
+      "note": "Upper diameter for a tall column. A Composite is normally the uppermost of a superimposed set and therefore short, but where it stands alone at 20 to 30 ft Palladio's table gives 8 parts below to 7 above - 0.875 - and not Vignola's fixed 0.833. On a 30 ft column that is a 2 in difference at the neck.",
+      "authority_note": "Ware 1738, Book I ch. XIII."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "material-availability",
+      "statement": "Palladio's Composite base is 'composed of the Attick and of the Ionick' - two Attic tori with two Ionic scotias between them - and no catalogue makes it. Every stock Composite base sold is Vignola's Attic base with the Corinthian projecture. The Composite capital compounds it: Ionic volute, ovolo and fusarole over two ranks of acanthus, which is a different mould from any stock 'Composite' capital, most of which are Scamozzi-derived.",
+      "resolution": "Either commission the base and capital together from one maker with Palladio's plate in hand, or use the Attic base, which Palladio himself offers as the alternative in the same sentence ('the Attick may serve for the base of this column, as in the Corinthian'), and record that the composed base was not used. Do not mix a stock Composite capital with a Palladian base; the capital is what people read.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Pycnostyle spacing at one and a half diameters clear means, on a 24 in column, columns at 5 ft 6 in on centre. A 40 ft colonnade takes eight columns instead of the five a diastyle bay would take - and each is a Composite capital, the most expensive object in the classical repertoire after the Corinthian.",
+      "resolution": "Price the colonnade by column count before committing to the order. If the count is unaffordable, do not widen the bay and keep the capital: under Palladio's rule that combination is incoherent. Drop to the Corinthian at systyle, or to engaged Composite pilasters between wider-spaced columns.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "A ten-diameter column at 24 in diameter is 20 ft tall and carries an entablature only 4 ft deep. In timber or GFRC that entablature has little depth to act as a beam, and the close pycnostyle bay is what makes it work. Widening the bay without deepening the entablature - the standard value-engineering move - puts the architrave into deflection immediately.",
+      "resolution": "Treat the shallow entablature as cladding and carry the load on a concealed beam sized for the real span. If the bay must widen, deepen the entablature toward Vignola's quarter and accept that the order has become Vignolesque; say so rather than letting the drawing claim otherwise.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "One minute is 1/60 of a diameter. On a 24 in Composite column that is 0.4 in, which is generous - but the composed Attic-and-Ionic base puts two scotias and four fillets into 30 minutes, i.e. into 12 in of height, and the smallest of those fillets is under 1/2 in.",
+      "resolution": "This order does not scale down. Set 18 in as the minimum column diameter for a full Palladian Composite in any cast material; below it, use the plain Attic base Palladio offers as the alternative and keep the capital.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "palladian",
+    "english-palladian",
+    "italian-renaissance",
+    "italian-renaissance-revival",
+    "renaissance-classical",
+    "renaissance-revival-american",
+    "english-baroque",
+    "neoclassical-revival",
+    "georgian-revival",
+    "colonial-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "Andrea Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVIII, XIX",
+    "Andrea Palladio, The Four Books of Architecture, tr. and ed. Isaac Ware, London 1738 (archive.org/details/gri_33125011569684) - Book I, leaves 34-36, 81, 88, and Book IV leaves 397, 413, 428 for the composed bases of the antique",
+    "c82.net/architecture/book1 - independent transcription of Ware's Book I",
+    "William Chambers, A Treatise on Civil Architecture, London 1759, p. 83 - for Palladio's eight-part pedestal division",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-composite.json"
+  ],
+  "confidence": "medium",
+  "notes": "WHY THIS PACK ASSERTS LESS THAN THE OTHER FOUR. Palladio's Composite chapter is his shortest and it works by cross-reference: the capital is 'the same as the Corinthian' in its measures but takes the Ionic volute, ovolo and fusarole; the base 'may be Attick, as in the Corinthian, and also may be formed composed of the Attick and Ionick'; the entablature is a fifth 'as in the Ionick'. What can be quoted is quoted - column ten diameters, entablature a fifth, pedestal a third, pycnostyle spacing. What is only cross-referenced is marked medium (the 4:3:5 division) or left out entirely (the cornice mouldings, the capital, the composed base's internal division).\n\nTHE COMPOSED BASE IS THE THING TO LOOK FOR. Palladio does not dimension it in Book I, but he records it repeatedly in Book IV among the antiquities: 'the bases of the columns are composed of the Attick, and of the Ionick', and at one temple explicitly 'having two bastones of Attick, and the two cavettoes of the Ionick'. That is a base with TWO scotias, which no Vignolesque Composite has. It is not encoded here because the proportions are not stated, but a designer who wants Palladio's Composite rather than Vignola's fifth order should draw it from those Book IV plates.\n\nHOW THE TWO COMPOSITES DIFFER IN KIND. Vignola's Composite is his Corinthian with a different capital: same twenty modules, same quarter entablature, same eighteen-part module, same pedestal. Palladio's is the top of a graded series in which the intercolumniation, the column height and the richness move together - one and a half diameters clear, ten diameters high, two ranks of acanthus under an Ionic volute, a base composed of two orders. Vignola tabulates a fifth order; Palladio argues for one. That is the difference this overlay exists to record."
+}

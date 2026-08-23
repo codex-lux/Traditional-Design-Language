@@ -1,0 +1,208 @@
+{
+  "id": "andalusian-spanish-revival",
+  "name": "Andalusian Spanish Revival",
+  "aka": [
+    "Andalusian Farmhouse style",
+    "Spanish Eclectic, Andalusian mode"
+  ],
+  "rank": "variant",
+  "member_of": "spanish-colonial-revival",
+  "status": "revival",
+  "period": {
+    "origin": 1919,
+    "floruit_start": 1922,
+    "floruit_end": 1940,
+    "decline_end": 1942,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1990,
+        "end": 2026,
+        "revival_node": "new-classical",
+        "note": "Sustained revival in Santa Barbara, Montecito, and coastal Southern California, supported by design review boards that still require it."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Southern California",
+      "Santa Barbara",
+      "Arizona",
+      "Florida"
+    ],
+    "hearth": "Santa Barbara and Montecito, California",
+    "climate_zones": [
+      "2B",
+      "3B",
+      "3C",
+      "2A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "spanish-colonial-revival",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "andalusian-courtyard-vernacular",
+      "type": "references",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "The claimed ancestor, and unusually well studied for a revival: Californian architects travelled to southern Spain and published measured photographs of ordinary farm buildings rather than monuments."
+    },
+    {
+      "target": "moorish-andalusian",
+      "type": "references",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "Tilework, courtyard water features, and geometric surface ornament quoted at second hand."
+    },
+    {
+      "target": "mexican-hacienda",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Californian architects had the hacienda in front of them and Andalusia only in books and on summer trips; the built result blends both."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The actual professional lineage. George Washington Smith, Reginald Johnson, and Wallace Neff composed in a Beaux-Arts manner and dressed the result in whitewashed lime."
+    }
+  ],
+  "description": {
+    "short": "The rural, whitewashed, deliberately plain branch of Spanish Colonial Revival, taken from Andalusian farmhouses rather than from Spanish churches, and centred on Santa Barbara in the 1920s.",
+    "long": "Spanish Colonial Revival at large had a taste for magnificence — carved Churrigueresque portals, twisted columns, ornamental ironwork, the whole retable façade brought down to domestic scale. The Andalusian branch is the reaction against that within the same style, and it is one of the more disciplined acts of restraint in American revival architecture. Its practitioners had noticed that the buildings they actually admired in southern Spain were not the cathedrals but the farms: white lime-washed masses, almost no ornament, tile roofs of a single low pitch, a few small deep-set windows, and a wooden gate opening into a courtyard where all the pleasure of the place was kept.\n\nGeorge Washington Smith is the central figure, and his conversion is instructive. He trained as an architect, went to Paris to become a painter, and came back to build in Montecito a house of such plainness that clients began asking for one like it. What he had understood is that the Andalusian effect depends on subtraction: the power of a whitewashed wall comes from its being uninterrupted, and every additional window, vent, or decorative bracket spends some of it. The 1925 Santa Barbara earthquake, which levelled much of the downtown and prompted the city to rebuild under an architectural review board committed to this idiom, gave the manner a whole city to work on.\n\nStanding before one of these houses, the first thing you register is mass and the second is shadow. There is very little to look at — a plane of lime plaster, a low red-brown roof line, a dark rectangle of opening set back six or eight inches into the wall, a black iron grille. The building withholds. Then a door in a wall opens and the withheld thing is behind it: a court, a fountain or a runnel, tile, shade, a wall of jasmine, and rooms arranged around the court in a single-room-deep range so that every one of them is lit and ventilated from two sides. The sequence is the architecture. The elevation is merely the wall that makes the sequence possible.\n\nOf everything in this taxonomy, this variant has the strongest technical claim on the American Sun Belt today. Its climate logic is exact and it is a logic almost nothing in current production housing uses: thermal mass, minimized and shaded glazing, deep reveals, courtyard microclimate, single-pile ranges for cross ventilation. The idiom is usually sold on romance. It should be sold on physics."
+  },
+  "defining_characteristics": [
+    "Uninterrupted planes of white or cream lime-washed stucco with softened, hand-troweled arrises",
+    "Ornament almost wholly absent from the wall, concentrated at a single door, gate, or window grille",
+    "Low-pitched clay barrel-tile roof, 3:12 to 5:12, with minimal or no eave overhang and no gutter expressed",
+    "Openings small relative to wall area, deeply recessed, and irregularly placed according to interior need rather than facade rhythm",
+    "A courtyard or walled garden carrying the principal outdoor life of the house, entered through a controlled gate",
+    "Single-pile ranges of rooms wrapping the court, lit and ventilated from two sides",
+    "Wrought iron used sparingly and structurally — grilles, gate hardware, a balcony rail — never as applied decoration"
+  ],
+  "diagnostic_tells": [
+    "Window reveals deep enough to throw a hard shadow at midday — 8 to 14 inches, expressing wall mass",
+    "Asymmetrical, apparently accidental fenestration on a formally composed plan",
+    "No visible gutters, no fascia board, tile running directly to a plastered edge",
+    "A single ornamental event on an otherwise silent elevation",
+    "Wall planes meeting at slightly rounded, imperfect corners rather than crisp arrises"
+  ],
+  "distinguished_from": [
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "The parent style permits and often features elaborate carved Churrigueresque entries, twisted columns, applied ornament, and a symmetrical show facade. The Andalusian branch systematically refuses all of it and takes its precedent from farm buildings rather than from churches and civic monuments."
+    },
+    {
+      "node": "mission-revival",
+      "difference": "Mission Revival is earlier (c. 1890–1920), thinner in wall, and defined by the curvilinear parapet, the arcaded corridor, and a quatrefoil or espadaña quotation from the California mission churches. Andalusian Revival has no curvilinear parapet, expresses far greater wall mass, and refers to Spain directly rather than to California's own Spanish past."
+    },
+    {
+      "node": "mediterranean-revival",
+      "difference": "Mediterranean Revival is larger, more symmetrical, more Italianate in its classical detail, and typically has a formal frontal composition with a centred entry. Andalusian Revival is smaller-scaled, asymmetrical, and organizes itself around a court rather than around a facade."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "No classical module. Governed by wall mass, opening-to-wall ratio, and the proportion of the courtyard to the height of the ranges enclosing it.",
+    "typical_ratios": [
+      "Glazing 8%-18% of wall area on sun-exposed elevations",
+      "Reveal depth 8\"-14\", not less than one-third the apparent wall thickness",
+      "Courtyard width at least 1.5x the height of the tallest enclosing range, so winter sun reaches the floor at 34 degrees latitude",
+      "Roof pitch 3:12 to 5:12, constant across the composition"
+    ],
+    "bay_rhythm": "Irregular and interior-driven; openings are placed by the room behind them, and the elevation is composed by the balance of solid to void rather than by a repeating bay.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-u",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "common"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "The accretive farm cluster reads correctly if the ridge heights step."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "forbidden",
+      "note": "A symmetrical double-pile block with a centred entry contradicts the type at the level of plan."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Window reveal depth not less than 8 inches. A flush window in a stucco wall destroys the expression of mass on which the entire idiom depends, and is the single most common failure in contemporary versions.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Not more than one elaborated ornamental event per elevation — a carved surround, a tiled stair, an iron balcony. Two or more and the composition becomes the parent style, not this variant.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Glazing on south and west elevations not to exceed 18% of wall area unless shaded by an arcade or deep overhang of not less than 4 feet.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Roof pitch 3:12 to 5:12 with barrel or two-piece mission tile; eave overhang 0 to 12 inches, terminating in a plastered edge or a shaped rafter tail. Composition shingle and a fascia-and-gutter edge void the type.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "The courtyard must be reachable only through a controlled gate or zaguan, and must be enclosed on at least three sides. A patio open to the street is a different building.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Casa del Herrero",
+      "location": "Montecito, California",
+      "year": 1925,
+      "note": "George Washington Smith, with gardens by Ralph Stevens and Lockwood de Forest; among the most intact Andalusian-mode houses in the United States, and a National Historic Landmark."
+    },
+    {
+      "name": "Santa Barbara County Courthouse",
+      "location": "Santa Barbara, California",
+      "year": 1929,
+      "note": "William Mooser III. Civic rather than domestic, and more elaborate than the domestic mode, but the building that fixed the city's post-earthquake idiom."
+    },
+    {
+      "name": "Jackling House",
+      "location": "Woodside, California",
+      "year": 1926,
+      "note": "George Washington Smith. Demolished in 2011; documented photographically and worth citing as evidence rather than as a visitable building."
+    }
+  ],
+  "sources": [
+    "McAlester, A Field Guide to American Houses",
+    "Gebhard, George Washington Smith, 1876-1930: The Spanish Colonial Revival in California",
+    "Byne and Stapley, Spanish Architecture of the Sixteenth Century and Provincial Houses in Spain",
+    "Baer, The Architecture of Wallace Neff",
+    "Gellner, Storybook Style and Casa California (Winter)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "spanish",
+    "courtyard",
+    "hot-dry",
+    "santa-barbara",
+    "restraint"
+  ]
+}

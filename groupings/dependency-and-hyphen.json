@@ -1,0 +1,145 @@
+{
+  "id": "dependency-and-hyphen",
+  "name": "Dependency and Hyphen",
+  "aka": [
+    "flanking wing",
+    "five-part wing",
+    "subordinate wing"
+  ],
+  "scale": "wing",
+  "confidence": "high",
+  "description": "A subordinate volume joined to the main block by a lower, shallower link. It is the traditional answer to any function that is too large, too dirty or too noisy for the house proper, and it is the best available answer to the garage — the one modern function no style has a rule for.",
+  "rooms": [
+    {
+      "room": "back-hall",
+      "role": "connector",
+      "count": "1",
+      "note": "The hyphen itself, in use."
+    },
+    {
+      "room": "kitchen",
+      "role": "primary",
+      "count": "0-1"
+    },
+    {
+      "room": "garage",
+      "role": "primary",
+      "count": "0-1"
+    },
+    {
+      "room": "library",
+      "role": "primary",
+      "count": "0-1"
+    },
+    {
+      "room": "workshop",
+      "role": "optional",
+      "count": "0-1"
+    },
+    {
+      "room": "mudroom",
+      "role": "secondary",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "The dependency ridge sits demonstrably below the main ridge — 60 to 80 percent. A token difference reads as a mistake rather than as hierarchy.",
+      "kind": "hierarchy",
+      "severity": "hard",
+      "test": "dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8"
+    },
+    {
+      "statement": "The hyphen is lower and shallower than both elements it joins. A hyphen at full depth is a corridor between two houses.",
+      "kind": "hierarchy",
+      "severity": "hard"
+    },
+    {
+      "statement": "Hyphen length 12 to 20 ft. Shorter and the two volumes collide; longer and the connection stops being used.",
+      "kind": "dimension",
+      "severity": "strong",
+      "test": "hyphen_length_ft between 12 and 20"
+    },
+    {
+      "statement": "Where dependencies are paired they are symmetrical about the main block's axis; where there is one, it does not sit on the entrance elevation.",
+      "kind": "hierarchy",
+      "severity": "hard"
+    },
+    {
+      "statement": "The dependency repeats the main block's window proportion and cornice at reduced scale. It is subordinate, not different.",
+      "kind": "hierarchy",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "five-part-palladian",
+      "fit": "canonical",
+      "position": "both flanks"
+    },
+    {
+      "massing": "four-over-four",
+      "fit": "canonical",
+      "position": "one flank or the rear"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "fit": "canonical",
+      "position": "any link in the chain"
+    },
+    {
+      "massing": "telescope-house",
+      "fit": "canonical"
+    },
+    {
+      "massing": "ranch-l",
+      "fit": "common",
+      "note": "The L is a dependency without the hyphen; adding even a 12 ft link transforms how it reads."
+    },
+    {
+      "massing": "foursquare",
+      "fit": "atypical",
+      "note": "The cube resists subordination — its whole dignity is that it is one volume."
+    }
+  ],
+  "expansion_logic": "This IS the expansion mechanism. Every subsequent need becomes another lower, narrower section, and the ridge line steps down monotonically. It is the most robust growth rule in the entire catalogue.",
+  "privacy_span": [
+    2,
+    4
+  ],
+  "typical_area_sf": [
+    300,
+    1200
+  ],
+  "servicing_strategy": "Its own stack and its own entry, so it can operate without crossing the main block.",
+  "circulation_parti": [
+    "additive",
+    "center-hall",
+    "cross-passage"
+  ],
+  "style_variation": [
+    {
+      "style": "tidewater-georgian",
+      "note": "The canonical five-part composition: main block, hyphens, dependencies, all symmetrical."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "note": "Accretive rather than symmetrical, and none the worse for it — the connected farmstead is the same rule applied without a plan."
+    },
+    {
+      "style": "ranch-style",
+      "note": "The best available answer to the garage. Hyphen the garage off the house by 12 to 20 ft, drop its ridge, and the street elevation recovers."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "note": "The idiom already uses subordinate volumes; it usually fails to drop the ridge enough, so the wings read as equal partners."
+    }
+  ],
+  "faults": [
+    "wing-pitch-drift"
+  ],
+  "sources": [
+    "Waterman, The Dwellings of Colonial America",
+    "Hubka, Big House, Little House, Back House, Barn"
+  ]
+}

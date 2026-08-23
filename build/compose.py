@@ -1,0 +1,393 @@
+#!/usr/bin/env python3
+"""The composer. Template-seeded, validator-scored, and it returns several plans rather than one.
+
+  read a brief -> pick partis native to the style -> instantiate at the target size
+  -> repair against the validator until it stops improving -> emit N contrasting candidates
+
+Objective: fewest fatal findings first, then style fidelity. Where the brief underdetermines
+something the composer decides it and SAYS SO in the decision log rather than presenting the
+choice as a fact. Judgment slots are surfaced, never silently resolved — a plan that violates
+nothing can still be dead, and the human is the one who can tell.
+
+  python3 build/compose.py briefs/<id>.json [--json] [--candidates 4]
+"""
+from __future__ import annotations
+import json, os, glob, copy, math, argparse, importlib.util, sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def _mod(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+
+PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
+C = PC.load_corpus()
+PARTIS = {}
+for f in glob.glob(f"{ROOT}/partis/*.json"):
+    p = json.load(open(f)); PARTIS[p["id"]] = p
+
+SEV_W = {"fatal": 100, "serious": 8, "minor": 1, "advisory": 0.5, "info": 0}
+
+# ---------------------------------------------------------------- selection
+def pick_partis(brief, limit=6):
+    style = brief["style"]
+    chain = PC.style_chain(style, C)
+    st = C["styles"].get(style, {})
+    aff = {m["massing"]: m["affinity"] for m in st.get("massing_affinities", [])}
+    beds = brief.get("bedrooms", 3)
+    area = brief["target_area_sf"]
+    out = []
+    for p in PARTIS.values():
+        if brief.get("massing") and p["massing"] != brief["massing"] and brief["massing"] not in p.get("alternate_massings", []):
+            continue
+        br = p.get("bedroom_range") or [1, 9]
+        ar = p.get("area_range_sf") or [0, 99999]
+        fit, why = 0.0, []
+        if style in p["styles"]: fit += 3.0; why.append(f"native to {style}")
+        elif set(p["styles"]) & chain: fit += 1.6; why.append("native to an ancestor or relative of the style")
+        else: why.append("NOT native to this style — the composer is borrowing a diagram")
+        a = aff.get(p["massing"])
+        if a == "canonical": fit += 2.0; why.append(f"{p['massing']} is a canonical massing for the style")
+        elif a == "common": fit += 1.2; why.append(f"{p['massing']} is a common massing for the style")
+        elif a == "forbidden": fit -= 4.0; why.append(f"the style marks {p['massing']} FORBIDDEN")
+        elif a: fit += 0.3
+        else: why.append(f"the style records no affinity for {p['massing']}")
+        if br[0] <= beds <= br[1]: fit += 1.0
+        else: fit -= 1.0 * min(2, abs(beds - (br[0] if beds < br[0] else br[1]))); why.append(f"{beds} bedrooms is outside the diagram's usual {br[0]}-{br[1]}")
+        if ar[0] * 0.8 <= area <= ar[1] * 1.2: fit += 1.0
+        else: fit -= 1.5; why.append(f"{area:.0f} sf is outside the diagram's range of {ar[0]:.0f}-{ar[1]:.0f}")
+        gset = set(p.get("groupings", []))
+        out.append({"parti": p["id"], "fit": round(fit, 2), "why": why, "groupings": sorted(gset)})
+    out.sort(key=lambda x: -x["fit"])
+    return out[:limit]
+
+# ---------------------------------------------------------------- instantiation
+def room_default_dims(room_type):
+    rt = C["rooms"].get(room_type)
+    if not rt: return 10.0, 12.0
+    lo, hi = rt["dimensions"]["area_sf"]
+    a = (lo + hi) / 2.0
+    pr = rt["dimensions"].get("proportion") or [1.2, 1.4]
+    ratio = (pr[0] + pr[1]) / 2.0
+    w = math.sqrt(a / ratio)
+    return round(w, 1), round(w * ratio, 1)
+
+def ceilings_for(style):
+    """Ceiling heights from the style's own kit, falling back to a sensible default."""
+    kit = (C["kits"].get(style) or {}).get("slots", {})
+    rec = kit.get("ceiling_height_rule") or {}
+    g = u = None
+    for k, v in (rec.get("parameters") or {}).items():
+        val = v.get("range") or ([v["value"]] if isinstance(v.get("value"), (int, float)) else None)
+        if not val: continue
+        m = sum(val) / len(val)
+        if m > 20: m = m / 12.0
+        if "first" in k or "ground" in k or "principal" in k: g = g or m
+        elif "second" in k or "upper" in k or "chamber" in k: u = u or m
+    return (g or 9.0, u or (g or 9.0) - 1.0)
+
+def instantiate(parti_id, brief):
+    p = PARTIS[parti_id]
+    beds = brief.get("bedrooms", 3)
+    must = set(brief.get("must_have") or [])
+    never = set(brief.get("must_not_have") or [])
+    log = []
+    rooms = []
+    n_extra = max(0, beds - 1)                      # principal chamber is one of them
+    for r in p["rooms"]:
+        if r["type"] in never:
+            log.append(f"Dropped {r.get('name') or r['id']}: the brief excludes {r['type']}."); continue
+        if r.get("repeats_with_bedrooms"):
+            for i in range(n_extra):
+                q = copy.deepcopy(r); q["id"] = f"{r['id']}{i+1}"
+                q["name"] = f"{r.get('name') or r['id']} {i+2}"
+                q["doors"] = [(f"{d}{i+1}" if any(x["id"] == d and x.get("repeats_with_bedrooms") for x in p["rooms"]) else d)
+                              for d in (r.get("doors") or [])]
+                rooms.append(q)
+            continue
+        rooms.append(copy.deepcopy(r))
+    if brief.get("context", {}).get("garage_bays") and not any(r["type"] == "garage" for r in rooms):
+        log.append("The brief asks for a garage and the diagram has none; it is not being invented here — pick a parti that carries one.")
+    for m in must:
+        if not any(r["type"] == m for r in rooms):
+            log.append(f"JUDGMENT: the brief requires a {m.replace('-', ' ')} and this diagram has no place for one. Not added — the position matters more than the presence.")
+
+    # --- size everything, then scale to the target
+    dims = {}
+    for r in rooms:
+        w, l = room_default_dims(r["type"])
+        if r.get("area_weight"): w, l = w * 1.1, l * 1.1
+        dims[r["id"]] = [w, l]
+    target = brief["target_area_sf"]
+    tol = brief.get("area_tolerance", 0.12)
+
+    # Scale, then clamp each room to its own catalogue band, then rescale what is still free.
+    # A global factor alone cannot reach a small house, because the catalogue midpoints are
+    # generous; and an unclamped factor produces rooms below their own stated floor.
+    def band(rid, rtype):
+        rt = C["rooms"].get(rtype, {})
+        lo, hi = (rt.get("dimensions", {}).get("area_sf") or [40, 900])
+        return lo, hi
+    frozen = set()
+    for _ in range(4):
+        total = sum(w * l for w, l in dims.values())
+        free = sum(dims[r][0] * dims[r][1] for r in dims if r not in frozen)
+        fixed = total - free
+        if free <= 0: break
+        k = max(0.4, min(1.8, (target - fixed) / free)) ** 0.5
+        for r in list(dims):
+            if r in frozen: continue
+            w, l = dims[r][0] * k, dims[r][1] * k
+            rtype = next(x["type"] for x in rooms if x["id"] == r)
+            lo, hi = band(r, rtype)
+            a = w * l
+            if a < lo: f = math.sqrt(lo / a); w, l = w * f, l * f; frozen.add(r)
+            elif a > hi: f = math.sqrt(hi / a); w, l = w * f, l * f; frozen.add(r)
+            dims[r] = [round(w, 1), round(l, 1)]
+        if abs(sum(w * l for w, l in dims.values()) - target) / target <= tol: break
+
+    # If it is still too big, drop optional rooms from the back — the diagram says which may go.
+    dropped = []
+    def area_now(): return sum(dims[r["id"]][0] * dims[r["id"]][1] for r in rooms if r["id"] in dims)
+    # A room that satisfies a HARD adjacency is not optional however the parti marked it.
+    # Dropping the butler's pantry to save area severs the kitchen from the dining room.
+    load_bearing = set()
+    present_types = {r["type"] for r in rooms}
+    for t in present_types:
+        for rule in (C["rooms"].get(t, {}).get("adjacency", {}).get("must_adjoin") or []):
+            if rule.get("strength", "strong") == "hard": load_bearing.add(rule["room"])
+    optional = [r for r in reversed(rooms)
+                if r.get("required") is False and r["type"] not in must and r["type"] not in load_bearing]
+    for r in optional:
+        if (area_now() - target) / target <= tol: break
+        dims.pop(r["id"], None); dropped.append(r.get("name") or r["id"])
+    if dropped:
+        rooms = [r for r in rooms if r["id"] in dims]
+        log.append(f"Dropped optional rooms to reach the area target: {', '.join(dropped)}. "
+                   f"The diagram marks these as droppable; if any matters, say so in the brief and it will be kept.")
+    final = area_now()
+    log.append(f"Sized from the room catalogue and clamped each room to its own band; {final:.0f} sf against a {target:.0f} sf target"
+               + (f", {abs(final-target)/target*100:.0f}% out — this diagram does not comfortably reach that size." if abs(final-target)/target > tol else "."))
+
+    gc, uc = ceilings_for(brief["style"])
+    log.append(f"Ceiling heights {gc:.1f} ft ground and {uc:.1f} ft above, taken from the style's own kit.")
+
+    levels = {}
+    for r in rooms:
+        lv = r["level"]
+        levels.setdefault(lv, [])
+        w, l = dims[r["id"]]
+        ch = gc if lv == 0 else uc
+        wh = round(ch - 1.2, 1)
+        rec = {"id": r["id"], "type": r["type"], "name": r.get("name"),
+               "width_ft": min(w, l), "length_ft": max(w, l), "ceiling_ft": round(ch, 1)}
+        ext = r.get("exterior_walls") or []
+        lit = r.get("lit_from") or ext
+        if ext: rec["exterior_walls"] = ext
+        if lit:
+            rec["window_head_ft"] = wh
+            rec["windows"] = [{"wall": wall, "width_ft": 3.2, "height_ft": round(wh - 2.4, 1),
+                               "count": 2, "operable": True,
+                               "egress": C["rooms"].get(r["type"], {}).get("function_class") == "sleeping"}
+                              for wall in lit]
+        if r.get("fixtures"): rec["fixtures"] = r["fixtures"]
+        if r.get("stacks_over"): rec["stacks_over"] = r["stacks_over"]
+        doors = [{"to": d} for d in (r.get("doors") or [])]
+        if doors: rec["doors"] = doors
+        levels[lv].append(rec)
+
+    plan = {"id": f"{parti_id}-{brief.get('id','brief')}", "name": f"{p['name']} for {brief.get('name') or brief['style']}",
+            "style": brief["style"], "massing": brief.get("massing") or p["massing"],
+            "groupings": p.get("groupings", []),
+            "context": brief.get("context", {}),
+            "levels": [{"id": {0: "ground", 1: "upper", -1: "cellar"}.get(lv, f"level{lv}"),
+                        "index": lv, "floor_to_ceiling_ft": round(gc if lv == 0 else uc, 1),
+                        "rooms": levels[lv]} for lv in sorted(levels)],
+            "adjacencies": [a for a in p.get("adjacencies", [])
+                            if any(a["a"] == x["id"] for x in rooms) and any(a["b"] == x["id"] for x in rooms)],
+            "note": f"Composed from the {p['name']} parti. {p['trades_away']}"}
+    symmetrise_doors(plan)
+    plan["declared"] = canonical_choices(brief["style"])
+    return plan, log, p
+
+def symmetrise_doors(plan):
+    """A parti declares each door once; a plan needs it on both rooms."""
+    idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+    for r in list(idx.values()):
+        for d in list(r.get("doors") or []):
+            t = d["to"]
+            if t == "exterior" or t not in idx: continue
+            o = idx[t]
+            if not any(x["to"] == r["id"] for x in (o.get("doors") or [])):
+                o.setdefault("doors", []).append({"to": r["id"]})
+    for r in idx.values():
+        r["doors"] = [d for d in (r.get("doors") or []) if d["to"] == "exterior" or d["to"] in idx]
+        if not r["doors"]: r.pop("doors")
+
+def canonical_choices(style):
+    kit = (C["kits"].get(style) or {}).get("slots", {})
+    out = {}
+    for sid, rec in kit.items():
+        if rec.get("binding") != "specified": continue
+        can = [v["id"] for v in rec.get("variants", []) if v.get("status") == "canonical"]
+        if len(can) == 1: out[sid] = can[0]
+    return out
+
+# ---------------------------------------------------------------- repair
+def _summarise(lines):
+    widened = [l for l in lines if l.startswith("Widened")]
+    other = [l for l in lines if not l.startswith("Widened")]
+    if len(widened) > 4:
+        names = sorted({l.split("Widened ")[1].split(" from")[0].split(" to the")[0] for l in widened})
+        other.insert(0, f"Widened {len(widened)} rooms to take their furniture or reach their room type's floor: "
+                        + ", ".join(names[:12]) + ("…" if len(names) > 12 else "") + ".")
+    else: other = widened + other
+    return other
+
+def score(res):
+    s = sum(SEV_W.get(f["severity"], 0) for f in res["findings"])
+    return s
+
+def repair(plan, rounds=6):
+    """Hill-climb: read the findings and apply the move each one implies."""
+    log, best = [], PC.check(plan, C)
+    for _ in range(rounds):
+        idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+        moved = False
+        for f in best["findings"]:
+            rid = f.get("room")
+            if rid not in idx: continue
+            r = idx[rid]
+            if f["layer"] == "furniture" and "needs" in f["statement"]:
+                try: need = float(f["statement"].split("needs ")[1].split(" ft")[0])
+                except Exception: continue
+                if need > r.get("width_ft", 0) and need < r.get("width_ft", 0) * 1.8:
+                    log.append(f"Widened {r.get('name') or rid} from {r['width_ft']} to {need:.1f} ft so it takes its furniture.")
+                    r["width_ft"] = round(need + 0.2, 1); moved = True
+            elif f["layer"] == "daylight" and "window head" in f["statement"]:
+                ch = r.get("ceiling_ft") or 9
+                if r.get("window_head_ft", 0) < ch - 0.7:
+                    r["window_head_ft"] = round(ch - 0.6, 1)
+                    log.append(f"Raised the window head in {r.get('name') or rid} to {r['window_head_ft']} ft to reach the back of the room.")
+                    moved = True
+                elif r.get("length_ft", 0) > r.get("width_ft", 0) * 1.15:
+                    r["length_ft"] = round(r["length_ft"] * 0.92, 1)
+                    log.append(f"Shortened {r.get('name') or rid} to {r['length_ft']} ft; the room was deeper than its light could reach.")
+                    moved = True
+            elif f["layer"] == "room" and "short dimension" in f["statement"]:
+                rt = C["rooms"].get(r["type"], {})
+                lo = (rt.get("dimensions", {}).get("width_ft") or [r.get("width_ft", 10)])[0]
+                if r.get("width_ft", 0) < lo:
+                    r["width_ft"] = lo
+                    log.append(f"Widened {r.get('name') or rid} to the {lo} ft floor for its room type."); moved = True
+        if not moved: break
+        cand = PC.check(plan, C)
+        if score(cand) < score(best): best = cand
+        else: best = cand; break
+    return best, log
+
+def reclaim(plan, target, tol, res):
+    """Repair widens rooms to clear findings and overshoots the area. Give the area back from
+    rooms that are not complaining, shortening length rather than width — width is what the
+    furniture and daylight checks care about."""
+    idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+    flagged = {f.get("room") for f in res["findings"] if f["severity"] in ("fatal", "serious")}
+    def area():
+        return sum(r.get("width_ft", 0) * r.get("length_ft", 0) for r in idx.values()
+                   if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+    log = []
+    for _ in range(4):
+        over = area() - target
+        if over / target <= tol: break
+        free = [r for rid, r in idx.items() if rid not in flagged
+                and r.get("length_ft", 0) > r.get("width_ft", 0) * 1.05]
+        if not free: break
+        pool = sum(r["width_ft"] * r["length_ft"] for r in free)
+        if pool <= 0: break
+        f = max(0.85, 1 - min(over, pool * 0.25) / pool)
+        for r in free:
+            lo = (C["rooms"].get(r["type"], {}).get("dimensions", {}).get("area_sf") or [40])[0]
+            newl = max(r["width_ft"] * 1.02, round(r["length_ft"] * f, 1))
+            if r["width_ft"] * newl >= lo: r["length_ft"] = newl
+        log.append(f"Shortened {len(free)} rooms that were not complaining, to give back {over:.0f} sf the repair pass had taken.")
+        res = PC.check(plan, C)
+    return res, log
+
+# ---------------------------------------------------------------- footprint
+def footprint(plan, parti):
+    lv0 = next((l for l in plan["levels"] if l.get("index") == 0), plan["levels"][0])
+    a0 = sum(r.get("width_ft", 0) * r.get("length_ft", 0) for r in lv0["rooms"]
+             if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+    bm = (parti.get("scaling") or {}).get("bay_module_ft") or 10
+    mx = (parti.get("scaling") or {}).get("max_bay_count") or 5
+    bays = max(3, min(mx, round(math.sqrt(a0 * 1.6) / bm)))
+    width = round(bays * bm, 1)
+    depth = round(a0 / width, 1) if width else 0
+    notes = []
+    if depth > 38: notes.append(f"Footprint {width} x {depth} ft — deeper than about 38 ft, which needs a double-pile section and will leave interior rooms unlit.")
+    if bays >= mx and a0 / (bays * bm) > 34: notes.append(f"At {bays} bays this diagram is at the width it grows to; further area wants a dependency, not more room.")
+    return {"level_0_area_sf": round(a0), "bays": bays, "bay_module_ft": bm,
+            "footprint_ft": [width, depth], "notes": notes}
+
+# ---------------------------------------------------------------- compose
+def compose(brief, candidates=4):
+    picks = pick_partis(brief, limit=max(candidates + 2, 6))
+    out = []
+    for pick in picks:
+        plan, log, parti = instantiate(pick["parti"], brief)
+        res, rlog = repair(plan)
+        res, clog = reclaim(plan, brief["target_area_sf"], brief.get("area_tolerance", 0.12), res)
+        rlog += clog
+        area = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
+                   for lv in plan["levels"] for r in lv["rooms"]
+                   if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+        tol = brief.get("area_tolerance", 0.12)
+        miss = abs(area - brief["target_area_sf"]) / brief["target_area_sf"]
+        counts = res["counts"]
+        total = score(res) + (60 if miss > tol else 0) - pick["fit"] * 6
+        fp = footprint(plan, parti)
+        out.append({
+            "parti": pick["parti"], "parti_name": parti["name"],
+            "score": round(total, 1), "style_fit": pick["fit"],
+            "counts": counts, "area_sf": round(area), "area_miss_pct": round(miss * 100, 1),
+            "footprint": fp,
+            "trades_away": parti["trades_away"],
+            "why_this_diagram": pick["why"],
+            "decisions": log + _summarise(rlog),
+            "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
+                      for f in res["findings"] if f["severity"] in ("fatal", "serious")][:8],
+            "plan": plan})
+    out.sort(key=lambda c: (c["counts"].get("fatal", 0), c["score"]))
+    return {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
+            "target_area_sf": brief["target_area_sf"], "bedrooms": brief.get("bedrooms", 3),
+            "candidates": out[:candidates],
+            "how_to_read_this": [
+              "Candidates are ordered by fatal findings first, then by score. Score is 100 per fatal, 8 per serious, 1 per minor, less a bonus for style fidelity.",
+              "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
+              "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",
+              "A plan with no fatal findings is not therefore good. The corpus can tell you what is wrong and cannot tell you what is alive."]}
+
+# ---------------------------------------------------------------- cli
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("brief"); ap.add_argument("--json", action="store_true"); ap.add_argument("--candidates", type=int)
+    a = ap.parse_args()
+    brief = json.load(open(a.brief))
+    import jsonschema
+    jsonschema.validate(brief, json.load(open(f"{ROOT}/schema/brief.schema.json")))
+    res = compose(brief, a.candidates or brief.get("candidates", 4))
+    if a.json: print(json.dumps(res, indent=1, ensure_ascii=False)); return
+    print(f"\n  {brief.get('name') or brief['id']}   {brief['style']}   {brief['target_area_sf']:.0f} sf   {brief.get('bedrooms',3)} bed")
+    for i, c in enumerate(res["candidates"], 1):
+        cc = c["counts"]
+        print(f"\n  {i}. {c['parti_name']}   score {c['score']}   "
+              f"fatal {cc.get('fatal',0)}  serious {cc.get('serious',0)}  minor {cc.get('minor',0)}")
+        print(f"     {c['area_sf']} sf ({c['area_miss_pct']}% off target) · footprint {c['footprint']['footprint_ft'][0]} x {c['footprint']['footprint_ft'][1]} ft in {c['footprint']['bays']} bays")
+        print(f"     why: {'; '.join(c['why_this_diagram'][:2])}")
+        print(f"     trades away: {c['trades_away'][:170]}")
+        for n in c["footprint"]["notes"]: print(f"     ! {n}")
+        for w in c["worst"][:4]: print(f"     [{w['severity']}] {w['statement'][:120]}")
+    print("\n  " + "\n  ".join(res["how_to_read_this"]) + "\n")
+
+if __name__ == "__main__":
+    main()

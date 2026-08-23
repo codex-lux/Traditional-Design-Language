@@ -1,0 +1,160 @@
+{
+  "id": "stoop-without-a-landing",
+  "name": "The Door That Opens Over The Top Step",
+  "aka": [
+    "the 12-inch platform",
+    "no landing",
+    "the ledge at the door"
+  ],
+  "slots": [
+    "steps_and_stoop",
+    "entry_sequence",
+    "entry_door"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "A front door reached by a flight of steps that ends at the threshold, with a platform 12 to 30 in deep or none at all. Two people cannot stand at the door. Someone arriving must stand on a step, or on the top nosing, while the door is opened, and if the door swings outward — which storm doors always do — they must retreat down a step to let it pass. In the worst and very common version the top tread IS the landing, so a person stands on a 10 in surface with a 7 3/4 in drop behind their heels while a door opens toward them.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The platform is the most expensive square footage in the whole approach: it is solid masonry or framed deck, it needs a footing, and every inch of it projects into the front setback. It is also the element most easily lost between trades — the steps are built by one crew from a standard detail, the door is set by another, and the platform belongs to neither. On a house where the final grade came in higher than planned, the platform is the dimension that absorbs the error, because shortening it is the only way to keep the flight's projection inside the setback.",
+    "cost_saved": "About 900-2,500 USD for a 5 ft by 8 ft masonry platform against a minimal one, plus whatever the setback is worth."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / steps_and_stoop / platform_depth_in = 36-60, platform_width_in = 122.4",
+      "statement": "The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / steps_and_stoop.width = module * 0.8 + part * 4",
+      "statement": "Ten feet two on the default: the entrance composition plus a foot and a half of platform each side. The stoop is the elevation's bottom-most incident and it must be wider than the doorway it serves or the doorway will look as though it is standing on a box."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R311.3 and R311.3.1 — landings at doors",
+      "statement": "There shall be a floor or landing on each side of each exterior door, not less than 36 in measured in the direction of travel, and not lower than 1 1/2 in below the threshold. The code's 36 in is a minimum for egress, not a dimension for an entrance, and a very large number of front stoops do not meet even it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entry_sequence / thresholds",
+      "statement": "The raised stoop platform, under the pediment of the door surround, is the second of the three thresholds. A platform too small to stand on is a threshold that cannot be occupied, which removes it from the sequence."
+    }
+  ],
+  "correct_practice": "The platform is a place, not a landing. Depth 36 to 60 in, with 48 in as the working target: enough for two people to stand while a door opens, enough to set a parcel down, enough to turn. Width comes from the elevation — the entrance composition plus about 18 in each side, which on the pack's default 9 ft bay gives 10 ft 2 in against a 7 ft 2 in entrance composition. It must be at least as wide as the door surround including its casings, pilasters and any portico, or the doorway looks as though it is standing on a box. The threshold sits not more than 1 1/2 in above the platform. And the platform is solid masonry, laid on a footing, not a wood-framed deck at the front door: the material change from the walk to the platform is one of the ways the threshold is announced.",
+  "fixes": {
+    "right": "A 48 in deep masonry platform on a footing, the full width of the entrance composition plus 18 in each side, with the threshold 1 in above it.",
+    "cheap": "Trade width for depth. A stoop is nearly always built wider than it is deep because width is cheap in the elevation drawing; a 10 ft by 2 ft stoop and a 6 ft by 3 ft 4 in stoop are almost the same area and the same money, and only one of them works. If the entrance composition is narrow, this trade is free. Second free move where nothing can change: hang the storm door on the OTHER hinge side, or delete it, so the outward swing does not sweep the only place a person can stand.",
+    "dishonest": "A wood-framed deck platform in front of a masonry stoop, to gain depth cheaply. It puts a wood surface at the one place on the house that gets the most traffic and the most water, it will be a different height and material from the masonry below it, and it converts the entrance into a deck landing, which is a different building type's threshold entirely."
+  },
+  "detection": "Measure platform depth against the door width — a standard door leaf is 36 in and its width is the most reliable scale reference on any elevation photograph. Platform depth under one door width is the fault; over 1.3 door widths is correct. Second check needing no measurement: look at where the storm door's closer arm and its swing arc fall. If the arc sweeps the entire platform and overhangs the top step, the platform is under 36 in. Third check: compare the platform's width to the door surround's outer edges including casings, pilasters and any portico. If the surround is wider than the platform, the entrance is standing on a box. Fourth, visible in almost every listing photograph: is there anything ON the stoop — a mat, a plant, a chair? A stoop with no room for a doormat is under 30 in deep.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "platform_depth_in / door_leaf_width_in",
+    "threshold": 1.0,
+    "upper": 1.8,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Normalised to the door leaf, which is 36 in on almost every American house and is the most reliable scale reference in a photograph. One door width is 36 in, which is the IRC minimum; 1.3 to 1.7 door widths is 48 to 60 in, which is the period platform. A separate width test applies: platform width must exceed the outer extent of the door surround."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The raised platform under the door surround is one of the three named thresholds in the kit's entry sequence. A platform that cannot be stood on deletes a threshold."
+    },
+    {
+      "style": "italianate-townhouse",
+      "severity": "fatal",
+      "why": "The stoop platform is the social device of the type — a semi-public room at the top of the steps."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The porch is the platform and is 7 ft or more deep."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "not-applicable",
+      "why": "The veranda supplies the platform."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "serious",
+      "why": "The ranch has neither porch nor stoop to fall back on, so the small platform is the entire threshold."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "shotgun-house",
+      "why": "The shotgun's stoop is genuinely shallow — often two or three steps to a 3 to 4 ft platform — because the type is built on a narrow deep lot with the front wall almost at the sidewalk, and the threshold ritual happens on the steps and in the street rather than on a platform.",
+      "bounds": "The platform must still take a chair, which is 30 in, and the steps must be broad enough to sit on — 4 ft or more wide. The shotgun stoop is a seat, and a stoop nobody can sit on has lost the type's social logic.",
+      "bounds_test": {
+        "expression": "platform_depth_in",
+        "threshold": 30.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The street door of a Charleston single house opens onto the piazza, not into the house, so the platform outside it is a small landing and the real threshold is the piazza beyond.",
+      "bounds": "There must be a real piazza behind the door, 8 ft or more deep. A small landing with no piazza behind it is the fault.",
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ]
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "Where the lot is very narrow the stoop's platform may be as little as 36 in deep and is compensated by generous width and by the flight itself being a place.",
+      "bounds": "36 in is the floor and the flight must be at least 4 ft wide with treads of 11 in or more, so the steps do the platform's work.",
+      "applies_when": {
+        "regions": [
+          "urban-rowhouse"
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "exterior-step-at-interior-rise",
+    "thresholds-uncrossed",
+    "decorative-pair-at-the-entry",
+    "entrance-slope-penetration"
+  ],
+  "confused_with": [
+    {
+      "fault": "exterior-step-at-interior-rise",
+      "difference": "The flight versus the platform at its top. They usually fail together because both are set by the same standard detail, but the fixes are independent."
+    },
+    {
+      "fault": "porch-too-shallow-to-inhabit",
+      "difference": "That is a covered porch too shallow to furnish. This is an uncovered platform too shallow to stand on. Where a house has a deep porch this fault cannot occur, which is one of the strongest arguments for the porch."
+    },
+    {
+      "fault": "thresholds-uncrossed",
+      "difference": "That fault counts the thresholds in the whole approach. This one is about the second of them being physically too small to be a threshold. This fault is a mechanism of that one."
+    }
+  ],
+  "sources": [
+    "IRC R311.3, R311.3.1 — landings at doors, 36 in in the direction of travel",
+    "kits/georgian-colonial-american.kit.json, steps_and_stoop (platform 36-60 in deep) and entry_sequence",
+    "proportions/systems/facade-classical.json, steps_and_stoop.width",
+    "HABS measured entrance details"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stoop",
+    "landing",
+    "entry",
+    "code-minimum",
+    "endemic"
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "id": "italian-villa-vernacular",
+  "name": "Italian Villa Vernacular",
+  "aka": [
+    "casa padronale",
+    "villa rustica",
+    "Italian country villa",
+    "fattoria house",
+    "the Italian villa manner"
+  ],
+  "rank": "style",
+  "member_of": "mediterranean-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1400,
+    "floruit_start": 1450,
+    "floruit_end": 1850,
+    "decline_end": 1900,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1802,
+        "end": 1860,
+        "revival_node": null,
+        "note": "The British Italianate villa: John Nash's Cronkhill (1802), Charles Barry's clubs and country houses, and J. C. Loudon's Encyclopaedia (1833) which put the type into the hands of every builder in the English-speaking world."
+      },
+      {
+        "start": 1840,
+        "end": 1885,
+        "revival_node": "italianate-villa",
+        "note": "The American Italian Villa and Italianate, transmitted by A. J. Downing's Cottage Residences (1842) and The Architecture of Country Houses (1850); the bracketed eave and the campanile become national domestic property."
+      },
+      {
+        "start": 1890,
+        "end": 1935,
+        "revival_node": "mediterranean-revival",
+        "note": "The second, better-informed American revival, this time with Beaux-Arts training and real trips to Italy behind it."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Tuscany",
+      "Lombardy",
+      "Veneto",
+      "Lazio and the Roman Campagna",
+      "Italy"
+    ],
+    "hearth": "The Florentine and Sienese hill country",
+    "climate_zones": [
+      "3A",
+      "3B",
+      "3C",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "tuscan-vernacular",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The villa is genetically a farm. The casa padronale is the owner's wing of a working fattoria, and the earliest villas are literally converted fortified farms - Cafaggiolo, Careggi, La Petraia all keep their towers. The tile roof, the rendered mass wall, the deep reveal and the loggia all come from the farm unchanged."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "note": "The regularising influence: the arcaded loggia with real proportional arches, the string course, the graded opening, the aspiration to a compact block with a legible front. The villa takes the discipline without ever fully accepting the order system.",
+      "inherits_kit": true
+    }
+  ],
+  "description": {
+    "short": "The Italian country house in its informal, non-treatise form: a compact rendered block with a low bracketed tile roof, an arcaded loggia and a belvedere or dovecote tower, balanced rather than symmetrical.",
+    "long": "This is the most influential Italian building type that no architect designed. It sits between the peasant farmhouse and the architect's villa, and it is what most Italian country houses actually are: a landowner's house on a working estate, regularised into a compact block, with a loggia to sit in, round-headed openings, a shallow hipped tile roof carried out on brackets, and very often a tower left over from a fortified predecessor or built as a dovecote and then enjoyed as a view. Nobody wrote a treatise about it. It reached the rest of the world through pictures - through the backgrounds of Italian landscape painting, through Claude and the Grand Tour, and then, decisively, through nineteenth-century pattern books. When Nash built Cronkhill in Shropshire in 1802 with a round tower and a bracketed eave, he was not quoting Palladio; he was quoting a painting of a Roman Campagna farm.\n\nThe conditions that produced it are the same agricultural economy that produced the casa colonica, seen from the other end of the contract. A fattoria - the estate headquarters administering a dozen or more poderi - needed an office, storage for the landlord's half of the harvest, a wine cellar, and rooms for a family who came out from the city in summer and at vintage. That is a farm building with better rooms in it, and its architecture is farm architecture with the arithmetic tidied: the openings brought into alignment, the block squared up, the loggia given proper arches, and the whole thing rendered and limewashed. The tower is the honest oddity. Sometimes it is genuinely defensive in origin, from the era of the casa-torre; sometimes it is a colombaia; and by the seventeenth century it is sometimes simply a belvedere, because standing above your own land in the evening is a pleasure people will pay for.\n\nIt is not reacting against anything - it predates the reaction - but it became useful in the nineteenth century precisely as a reaction. British and American architects wanted a classical vocabulary that could be composed asymmetrically, because the picturesque movement had made symmetry look stupid on a hillside, and because plans were getting more functionally specific and refusing to be forced into a rectangle. The Italian villa was the only classical thing available with an asymmetrical tower already in it. That single feature - the tower at the inner angle, off the axis, giving vertical accent without requiring a symmetrical answer on the other side - is why the type conquered the English-speaking world between 1840 and 1885 and why the American Italianate exists at all.\n\nStanding in the loggia of one in September, the pleasures are specific and repeatable. The eave overhangs a metre on paired brackets, so the wall is in shadow and the terracotta of the underside of the tile glows orange with reflected light off the paving. The arcade frames the landscape into three or four equal pictures, and moving one step sideways swaps one picture for another. The wall is rendered and limewashed, warm ochre or a pale grey-pink, and it is not flat - the render follows the rubble under it, so the surface takes raking light in a way no modern flat render does. There is a stone bench built into the loggia wall because that is where people sit. And the tower, when you climb it, gives you the whole podere system laid out below: the vineyard rows, the cypress line up the drive, the dispersed farmhouses each on its own hill. The building is an instrument for looking at the property."
+  },
+  "defining_characteristics": [
+    "Compact, near-cubic principal block of two to three storeys under a single shallow hipped or low-gabled tile roof",
+    "Wide overhanging eave, 600-1200 mm, carried on paired or single brackets (modiglioni) with an exposed and often decorated soffit",
+    "A tower - belvedere, colombaia or a survival of a fortified predecessor - taller than the block and set off the main axis",
+    "An arcaded loggia of three to five semicircular arches, on the ground or upper floor, oriented for shade and view",
+    "Round-headed or square-headed openings with plain rendered or stone surrounds, graded in size by storey, and external shutters throughout",
+    "Rendered and limewashed mass masonry walls in warm earth colours, with no applied order and rarely a column outside the loggia",
+    "A balanced but not strictly symmetrical front, in which the tower and the loggia deliberately unbalance the composition",
+    "Deep integration with terraced ground - retaining walls, a raised terrace, an axial cypress approach - so the house and its platform read as one construction"
+  ],
+  "diagnostic_tells": [
+    "A low hipped roof with a wide bracketed eave over a plain rendered wall - the two together are near-conclusive",
+    "A square tower placed at the inner angle of an L or beside the entrance rather than on the centre line",
+    "Semicircular arches with the arch rise exactly half the span, springing from a simple impost band with no capital",
+    "Openings that align in columns but are graded in height by storey, with the top storey noticeably squarer and smaller",
+    "Chimneys with a tile cap on small piers - a little roof over the flue - which is a Tuscan detail with no northern equivalent"
+  ],
+  "distinguished_from": [
+    {
+      "node": "tuscan-vernacular",
+      "difference": "The farm is additive and its openings are placed by the plan; the villa is a compact block whose openings align and grade. The farm's tower is a dovecote at the corner of an accreted mass; the villa's tower is a composed element. The villa has a loggia designed for sitting in; the farm has a portico for working under."
+    },
+    {
+      "node": "italianate-villa",
+      "difference": "The American Italianate is a timber-framed, machine-milled reproduction: sawn scroll brackets, deep cornice returns, arched window hoods in wood or cast iron, and a cupola rather than a real tower. Its walls are thin, its windows are twice as large in proportion, and its bracket spacing is set by the mill rather than by the rafter."
+    },
+    {
+      "node": "palladian",
+      "difference": "Palladio starts from harmonic room ratios and applies a temple portico; the villa vernacular has no portico, no pediment, no module and no order except in the loggia arcade. Where a Palladian villa is strictly symmetrical about a portico, this type is balanced about a tower that is off-axis on purpose."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "A regularised farm building. Proportion is set by the storey height and the opening, not by a module, and there is usually no column in the composition except in the loggia arcade. The tower's height and position are judged against the mass of the block by eye, which is why the type reads as composed but never as calculated.",
+    "typical_ratios": [
+      "Principal block plan 1:1 to 1:1.3; eave height 0.8 to 1.0 of the plan's shorter dimension",
+      "Tower height 1.3 to 1.8 times the block's eave height; tower plan 3.5-5 m square, 0.2 to 0.3 of the block's frontage",
+      "Roof pitch 14-23 degrees (3:12 to 5:12), hipped, in coppi and embrici",
+      "Eave overhang 600-1200 mm on brackets at 600-900 mm centres, bracket depth 0.5 to 0.75 of the overhang",
+      "Loggia arcade of three to five equal semicircular arches; clear span 2.0-3.0 m; pier width 0.35-0.5 of the clear span; impost height 0.55-0.65 of the total arch height",
+      "Window proportions 1:1.8 to 1:2.2 at the piano nobile, 1:1.3 to 1:1.5 at the top storey; aperture area 12-20 percent of wall",
+      "Storey heights diminishing upward roughly 10:9:7.5",
+      "Wall thickness 450-600 mm with reveals of 300-450 mm"
+    ],
+    "bay_rhythm": "Three to five bays, nominally even and tolerant of a single deviation where the plan demands it. The loggia occupies a run of two to four bays at one end or across the centre, and the tower deliberately breaks the rhythm at an angle or beside the entrance rather than on the axis.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "villa-tower",
+      "affinity": "canonical",
+      "note": "The type the massing catalog's Towered Villa is named after, arriving in the catalog by way of the nineteenth-century Italianate but originating here."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The compact double-pile block about a central hall or sala passante running through from front to back for cross-ventilation."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The fattoria closes a working court behind or beside the padronale block, with the family's rooms on the view side and the estate functions on the court."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "Where the loggia wraps two or three sides, the block becomes a core inside a shaded perimeter - the same logic as the tropical gallery house, arrived at from the same climate problem."
+    },
+    {
+      "massing": "raised-cottage",
+      "affinity": "possible",
+      "note": "On steep ground the living floor sits over a full masonry undercroft of cellar and cantina reached from the downhill side, with an external stair on the uphill."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch between 3:12 and 5:12, hipped, with an eave overhang of 600-1200 mm on brackets. A steep roof, a narrow eave, or an eave without brackets each individually break the type.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "The tower must be off the centre line and must exceed the block's eave height by at least 30 percent. A tower centred on the facade converts the composition into a symmetrical villa; a tower below 1.2 times the eave height reads as a stair bulkhead.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "All arches semicircular: rise = half span within 3 percent. Segmental and elliptical arches belong to the working farm; pointed and Tudor arches are outside the tradition entirely.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "No pediment and no applied order on the exterior. Columns occur only in the loggia arcade, and there they are unfluted Tuscan or Doric carrying an impost, not an entablature.",
+      "severity": "soft"
+    },
+    {
+      "kind": "climatic",
+      "statement": "The loggia must face between south-east and south-west in the northern hemisphere and must be at least 2.4 m deep so that the summer sun is excluded from the wall behind it while winter sun reaches the back wall.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Villa Medicea di Cafaggiolo",
+      "location": "Barberino di Mugello, Florence, Italy",
+      "year": 1452,
+      "note": "Reconstructed by Michelozzo for Cosimo de' Medici in 1452 from an existing fortified farm, retaining a crenellated entrance tower, battlemented wings and a moat. The moment the working farm block with a tower becomes a house worth being seen in."
+    },
+    {
+      "name": "Villa Medicea La Petraia",
+      "location": "Castello, Florence, Italy",
+      "year": 1588,
+      "note": "A Brunelleschi-family palace of 1364, bought by Cosimo I in 1544 and transformed from 1588, traditionally under Buontalenti. The medieval tower is kept and made the centre of the composition - the clearest surviving demonstration of how the villa tower came to exist."
+    },
+    {
+      "name": "Villa Medicea di Careggi",
+      "location": "Careggi, Florence, Italy",
+      "year": 1457,
+      "note": "Medici property from 1417; Michelozzo's remodelling for Cosimo de' Medici is conventionally dated to the 1450s. A fortified farm block cautiously opened up with loggias onto a garden - the villa emerging from the castello without discarding it."
+    }
+  ],
+  "sources": [
+    "James S. Ackerman, The Villa: Form and Ideology of Country Houses (1990)",
+    "Georgina Masson, Italian Villas and Palaces (1959)",
+    "Edith Wharton, Italian Villas and Their Gardens (1904)",
+    "John Claudius Loudon, An Encyclopaedia of Cottage, Farm, and Villa Architecture (1833)",
+    "Emilio Sereni, Storia del paesaggio agrario italiano (1961)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "vernacular",
+    "italian",
+    "villa",
+    "tower",
+    "loggia",
+    "bracketed-eave"
+  ]
+}

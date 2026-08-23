@@ -1,0 +1,206 @@
+{
+  "id": "french-renaissance-chateau",
+  "name": "French Renaissance Chateau",
+  "aka": [
+    "Style Francois Ier",
+    "Loire Valley chateau",
+    "Premiere Renaissance francaise",
+    "Style Henri II"
+  ],
+  "rank": "style",
+  "member_of": "continental-baroque-neoclassical",
+  "status": "historical",
+  "period": {
+    "origin": 1495,
+    "floruit_start": 1515,
+    "floruit_end": 1600,
+    "decline_end": 1630,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1830,
+        "end": 1900,
+        "revival_node": null,
+        "note": "The French domestic revival under Louis-Philippe and the Second Empire, and the restoration campaigns of Viollet-le-Duc and Felix Duban at Blois from the 1840s."
+      },
+      {
+        "start": 1880,
+        "end": 1915,
+        "revival_node": "chateauesque",
+        "note": "Richard Morris Hunt and his successors in America; the Loire chateau at Newport and Asheville, with steel and elevators inside."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Loire Valley",
+      "Ile-de-France",
+      "Burgundy",
+      "France"
+    ],
+    "hearth": "The Loire between Amboise and Blois",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-manoir",
+      "type": "hybridizes_with",
+      "weight": 0.6,
+      "note": "The substrate is the late-Gothic French manor and fortified house: steep roofs, corner towers, dormers on the roof plane, high chimneys, the corps de logis and cour d'honneur diagram. None of this is Italian and none of it goes away.",
+      "inherits_kit": true
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Imported bodily by Italian craftsmen brought back from the Italian Wars from 1495 - Fra Giocondo, Domenico da Cortona, later Serlio (in France from 1541) and Primaticcio. The ornament, the pilaster order and the classical mouldings arrive as a vocabulary before the proportional system arrives as a method."
+    }
+  ],
+  "description": {
+    "short": "Italian classical ornament grafted onto the steep-roofed, tower-punctuated, vertically bayed French manor, producing a half-century of unresolved and extraordinarily productive collision.",
+    "long": "The French Renaissance chateau is what happens when a building culture with a fully formed structural habit imports a foreign decorative system it admires but has no intention of obeying. Charles VIII returned from the Italian campaign of 1494-95 with craftsmen and a taste; his successors kept importing. But the French roof is steep because it snows and rains, the French house has habitable attics because land and heating are expensive, the French wall is organised in vertical strips because the timber floor structure and the window stacking make it so, and none of these facts is negotiable by taste. So the Italian pilaster order arrives and is laid across a wall that is fundamentally vertical, and the two systems argue on every facade for eighty years.\n\nThe economic and political conditions are specific and short-lived. The Hundred Years' War ends in 1453 and the internal wars of the fifteenth century subside; the French crown consolidates, the great nobility's private fortifications become militarily pointless against artillery, and an enormous amount of aristocratic capital is suddenly available for building houses rather than defences. What gets built is transitional in the most literal sense: Azay-le-Rideau has a moat and machicolations that could not stop a chicken, and corner turrets that contain nothing but a small room with a good view. The defensive vocabulary is retained as heraldry. Meanwhile the printing of Serlio's books in France from 1537 and du Cerceau's surveys from 1576 begin the process by which the French will eventually digest the Italian system properly - which they do, but not until the next century.\n\nWhat it was reacting against was its own immediate past: the Flamboyant Gothic of the late fifteenth century, with its melting tracery, ogee curves and structural exhibitionism. The classical vocabulary arrived as a claim to modernity and to a specifically royal, Italianate sophistication. But the reaction was partial by design. Francois I did not want a Roman palazzo; he wanted a hunting lodge in the forest that announced he had been to Italy. Chambord is the extreme case: a strictly symmetrical Greek-cross donjon derived from Italian centralised planning, wrapped in medieval corner towers, and topped with a roofscape of eleven kinds of tower and three kinds of chimney arranged with no symmetry whatsoever - a Renaissance plan under a Gothic sky.\n\nThe experience is dominated by the roof. Standing in the court at Blois or on the terrace at Chambord, you are looking at a building whose upper half is as tall as its lower half and far busier - a forest of dormers, finials, chimney stacks and lucarnes carved with the same delicate candelabra ornament as the walls below, all in soft white tufa that weathers to grey and picks up rain in every moulding. The wall below is bright, thin, and pierced by more window than you expect from the period, because the cross-mullioned croisee gets very large very fast once you stop worrying about arrows. Inside, the plan is still medieval - a sequence of rooms without a corridor, each opening into the next, all of it heated by fireplaces the size of a small room and all of it very cold."
+  },
+  "defining_characteristics": [
+    "Steep roofs of 55 to 70 degrees, occupying a height comparable to the wall below, in slate or in flat clay tile",
+    "The vertical travee - window over window over dormer, stacked in an unbroken strip from plinth to roofline - as the real organising unit of the wall",
+    "Dormers (lucarnes) rising from the wall plane, carried up as stone frontispieces with their own pilasters and pediments, aligned exactly on the travee axes",
+    "Corner towers, turrets and machicolation retained as heraldic rather than defensive elements",
+    "Italian classical ornament - pilasters, candelabra pilaster panels, shell niches, medallions - applied as surface to a wall it does not proportion",
+    "Tall, prominent, individually articulated chimney stacks treated as a designed element of the silhouette",
+    "The croisee window: a large opening quartered by a stone mullion and transom, in light-coloured limestone or tufa against a plainer wall"
+  ],
+  "diagnostic_tells": [
+    "The roof is as tall as the wall - if the roof is subordinate, it is a later French classical building, not a Renaissance chateau",
+    "Dormers with full stone surrounds, pilasters and pediments sitting on the wall plane rather than set back on the roof slope",
+    "Classical pilasters running past a string course or dying into a moulding rather than carrying an entablature - the ornament does not know what it is holding up",
+    "Cylindrical corner turrets with conical roofs on a building that is otherwise symmetrical and undefended",
+    "Chimney stacks tall enough to compete with the towers, panelled and moulded on all four faces"
+  ],
+  "distinguished_from": [
+    {
+      "node": "french-baroque",
+      "difference": "The seventeenth century subordinates the roof, suppresses the towers, and finally makes the classical order govern the wall rather than decorate it. If the orders are proportional and the roof is a mansard rather than a steep pavilion roof with turrets, it is Baroque."
+    },
+    {
+      "node": "italian-renaissance",
+      "difference": "The Italian palazzo is a flat block with a horizontal cornice and an invisible roof; the French chateau is a vertical composition with an enormous visible roof and towers. They share ornament and share almost nothing else."
+    },
+    {
+      "node": "chateauesque",
+      "difference": "The American revival compresses the type onto a single dense block, uses machine-cut Indiana limestone with uniform joints, and hangs the whole silhouette on a steel frame with plate glass in the croisees. The revival is always tighter and busier per square metre than the original."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Two systems in unresolved superposition. The French structural system is the travee: a vertical strip of wall containing the stacked openings of every storey plus its dormer, set out at the spacing of the floor framing. Over this the Italian system of superimposed orders and horizontal entablatures is laid. The travee usually wins, and the orders become a grid pinned to a wall that remains fundamentally vertical.",
+    "typical_ratios": [
+      "Travee spacing 4.0 to 6.0 m on centre, uniform along a range",
+      "Roof height 0.8 to 1.2 times the wall height below the eave; pitch 55 to 70 degrees (roughly 17:12 to 33:12)",
+      "Croisee window opening approximately 1:2 (w:h), quartered by mullion and transom into four lights of roughly 2:3 each",
+      "Storey heights near-equal rather than diminishing - typically within 10 percent of each other",
+      "Corner pavilion or tower projecting 1/4 to 1/3 of its own width from the range face",
+      "Dormer width 0.6 to 0.9 of the travee width, with the dormer's own height (to its finial) 0.5 to 0.8 of the storey below",
+      "Chimney stack height above the ridge 1/4 to 1/2 of the roof's own height"
+    ],
+    "bay_rhythm": "Uniform vertical travees along each range, counted rather than composed, and terminated by corner pavilions or towers that are wider, taller and more ornamented. There is no central accent on the earlier examples; the centre emerges only late, with the staircase frontispiece at Blois and the entrance pavilion at Ecouen.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-u",
+      "affinity": "canonical",
+      "note": "The cour d'honneur - three ranges around a court opening toward the approach - is the standing French diagram from the fifteenth century onward."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "common",
+      "note": "The fully enclosed court survives from the fortified predecessor, as at Chambord's outer enceinte and Ecouen."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "A central range with projecting end wings, generally with the wings expressed as pavilions with their own roofs - the same diagram the English are using simultaneously."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "possible",
+      "note": "Ancy-le-Franc approaches a regular block-and-pavilion hierarchy under Serlio's hand, but it is Italian discipline imposed rather than French habit."
+    },
+    {
+      "massing": "mansard-block",
+      "affinity": "atypical",
+      "note": "The brisee roof is Francois Mansart's device of the 1630s and later; it postdates this style and its presence indicates a seventeenth-century building or a revival."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch must be between 55 and 70 degrees, and roof height must be at least 0.7 of the wall height. A roof below 45 degrees is a later French classical building.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Dormers must align on the travee axes below and match their count; a dormer floating between two windows is a hard error.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Where corner towers or turrets are used they must be cylindrical or polygonal with their own conical or pyramidal roof carried down independently of the main roof; a turret sharing the main eave line reads as a bay window, not a tower.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Applied pilaster orders must not be given a full projecting entablature that interrupts a travee. In this style the horizontal system yields to the vertical one; where it does not, the building has crossed into seventeenth-century classicism.",
+      "severity": "soft"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Steep slate or flat-tile roofs with the attic occupied require adequate eaves drainage and a habitable dormer at each travee. The type is native to cool, wet, snow-bearing climates (IECC 4A-6A) and reads as costume anywhere warmer.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Chateau de Chambord",
+      "location": "Chambord, Loir-et-Cher, France",
+      "year": 1519,
+      "note": "Begun 6 September 1519 for Francois I, substantially complete 1547. Symmetrical Greek-cross donjon with a double-helix stair, wrapped in corner towers and topped by an asymmetrical roofscape of eleven tower types and three chimney types."
+    },
+    {
+      "name": "Chateau d'Azay-le-Rideau",
+      "location": "Azay-le-Rideau, Indre-et-Loire, France",
+      "year": 1518,
+      "note": "Built 1518-1527 for Gilles Berthelot. The clearest demonstration of decorative fortification - moat, machicolated cornice and corner turrets with no defensive function - and of the stone-framed dormer running the travee up through the roof."
+    },
+    {
+      "name": "Chateau de Blois, Francois I wing",
+      "location": "Blois, Loir-et-Cher, France",
+      "year": 1515,
+      "note": "1515-1524. The open octagonal spiral staircase on the courtyard front, with the loggia facade behind it, is the single most concentrated statement of the Franco-Italian collision."
+    },
+    {
+      "name": "Chateau d'Ancy-le-Franc",
+      "location": "Ancy-le-Franc, Yonne, France",
+      "year": 1544,
+      "note": "Begun 1544, attributed to Sebastiano Serlio, continued after his death in 1554. Four ranges of equal height around a square court with corner pavilions - the moment Italian regularity briefly overrides French verticality."
+    }
+  ],
+  "sources": [
+    "Anthony Blunt, Art and Architecture in France 1500-1700, Pelican History of Art",
+    "Jean-Marie Perouse de Montclos, Histoire de l'architecture francaise: de la Renaissance a la Revolution (1989)",
+    "Jacques Androuet du Cerceau, Les plus excellents bastiments de France (1576-1579)",
+    "Sebastiano Serlio, Tutte l'opere d'architettura et prospettiva (1537-1575)",
+    "James S. Ackerman, The Villa: Form and Ideology of Country Houses (1990)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "french",
+    "renaissance",
+    "chateau",
+    "steep-roof",
+    "transitional"
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "id": "egyptian-revival",
+  "name": "Egyptian Revival",
+  "aka": [
+    "Egyptianate",
+    "Nilotic Style"
+  ],
+  "rank": "style",
+  "member_of": "romantic-revivals",
+  "status": "historical",
+  "period": {
+    "origin": 1808,
+    "floruit_start": 1835,
+    "floruit_end": 1855,
+    "decline_end": 1875,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1922,
+        "end": 1935,
+        "revival_node": null,
+        "note": "The Tutankhamun discovery of November 1922 produced a second and entirely different Egyptomania, absorbed into Art Deco and into cinema architecture rather than into a traditional building grammar."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Upper South",
+      "Tennessee",
+      "Louisiana"
+    ],
+    "hearth": "Philadelphia and New Haven",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "greek-revival-american",
+      "type": "descends_from",
+      "weight": 0.85,
+      "inherits_kit": true,
+      "note": "The same architects (Strickland, Haviland, Austin, Lafever), the same masons, the same archaeological method, the same trabeated discipline. Egyptian Revival is Greek Revival practice pointed at a different corpus of plates."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.2,
+      "inherits_kit": false,
+      "note": "Only through the Roman appetite for Egyptian spolia and the obelisk, which reached the nineteenth century as an inherited funerary sign."
+    },
+    {
+      "target": "gothic-revival-american",
+      "type": "reacts_against",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "In the cemetery-gate debate of the 1840s the Egyptian mode was argued for and against precisely as the pagan alternative to the Christian pointed arch; the two competed for the same commissions."
+    }
+  ],
+  "description": {
+    "short": "A narrow, short-lived, and almost entirely institutional American style of battered walls, cavetto cornices, and lotus columns, adopted for prisons, cemeteries, medical colleges, and a handful of churches because it read as permanent, solemn, and pre-Christian.",
+    "long": "Egyptian Revival is the smallest node in this branch and the one that best exposes how nineteenth-century Americans actually chose styles: by association, deliberately and almost semiotically. Napoleon's savants published the Description de l'Egypte between 1809 and 1829 and Dominique-Vivant Denon's Voyage dans la Basse et la Haute Egypte appeared in 1802, and within a generation American architects had a picture book of a civilisation whose buildings were understood to be the oldest and most durable on earth. That association, permanence beyond memory, made the mode almost irresistible for two building types: the cemetery, where the client wants to promise that the dead will not be disturbed, and the prison, where the client wants to promise that the living will not escape. It was used for both, and almost never for a house.\n\nThe style is trabeated, frontal, and massive. Walls batter inward as they rise; every terminating edge is turned with a torus roll and crowned by a cavetto cornice; columns are bundled reeds or papyrus stalks with lotus or palm capitals, squat and closely spaced; openings are small and rectangular; the winged sun disk sits over the door. Because the sources were engravings of temples rather than of dwellings, there was no domestic vocabulary to borrow, and the mode never developed one. This is a structural fact about revivalism worth recording in a taxonomy: a revival can only supply the building types its source corpus documented.\n\nIts technological position is the mirror image of the rest of this branch. Egyptian Revival is a masonry style in an era that was learning to build cheaply in light wood, and it is precisely that mismatch which confined it. You cannot batter a balloon-framed wall convincingly, you cannot saw a torus moulding from a plank, and a cavetto cornice is a mason's or a plasterer's problem, not a millwright's. Where Gothic and Italianate detail rode the scroll saw and the railroad into every county in America, Egyptian detail stayed where there were stonecutters and institutional budgets. The Egyptian Building in Richmond gets its effect from stuccoed brick and cast iron; the Grove Street gate in New Haven from Portland sandstone. Both are the work of trades that were already being priced out of ordinary building.\n\nStanding in front of one is genuinely unlike standing in front of any other American building of the period. Because the walls lean back, the building appears to be receding from you and settling into the ground at the same time, and because the cornice curves outward rather than stepping outward, the top of the wall reads as a lip rather than as a crown. There is no entasis to sympathise with, no bracket rhythm to follow, no order to measure yourself against. The effect is deliberately inhuman in scale reference, and everyone who commissioned one understood that. It is the only American traditional style whose purpose is to make the viewer feel small and temporary."
+  },
+  "defining_characteristics": [
+    "Battered (inward-sloping) exterior walls, typically 1:12 to 1:20 from vertical",
+    "Cavetto (hollow curved) cornice with a torus roll moulding at every terminating edge",
+    "Columns of bundled-reed or papyrus form with lotus or palm capitals, squat in proportion and never fluted",
+    "Trabeated openings throughout: post and lintel, no arches of any kind",
+    "Battered pylon forms flanking the principal entrance",
+    "Winged sun disk, vulture, or uraeus ornament placed in the cavetto over the entry",
+    "Massive, unbroken, minimally fenestrated wall surface"
+  ],
+  "diagnostic_tells": [
+    "Walls that lean inward as they rise: no other nineteenth-century American style batters its walls",
+    "The cornice curves outward in a concave sweep rather than stepping out in mouldings; this alone identifies the style at a hundred yards",
+    "Columns are wider at the base than a Greek Doric and shorter, typically four to five diameters, and stand in antis between battered piers rather than in a projecting portico",
+    "The building will almost certainly be a cemetery gate, a prison, a medical or scientific institution, a synagogue, or a church; a domestic Egyptian Revival is vanishingly rare",
+    "Obelisks used as gateposts, terminals, or fence standards"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-american",
+      "difference": "Shared architects and shared archaeology, opposite geometry. Greek Revival walls are plumb, its columns are slender and fluted with entasis, and it terminates in a horizontal entablature and a pediment; Egyptian Revival batters its walls, squats its columns, and terminates in a cavetto with no pediment ever."
+    },
+    {
+      "node": "richardsonian-romanesque",
+      "difference": "Both use heavy masonry and small openings, but Richardsonian is arcuated, rock-faced, and asymmetrical, and Egyptian Revival is trabeated, smooth-faced or stuccoed, and rigidly frontal."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Trabeated and archaeological. Proportions are copied from published plates of Dendera, Edfu, and Philae rather than derived from a module; the governing decisions are the wall batter and the column diameter, and the rest follows the source engraving.",
+    "typical_ratios": [
+      "Wall batter 1:12 to 1:20 (roughly 3 to 5 degrees from vertical)",
+      "Column height 4 to 5.5 shaft diameters, the squattest proportion in any Western revival",
+      "Cavetto cornice height 0.8 to 1.2 times the torus roll diameter times six",
+      "Intercolumniation 1.5 to 2.5 diameters, notably tight",
+      "Window area not exceeding 20 percent of any elevation"
+    ],
+    "bay_rhythm": "Frontal and centralised: a heavy pylon or portico at the centre, flanked by near-blank battered wall. The rhythm is A-B-A, never a repeating march of equal bays.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "common",
+      "note": "In the Egyptian variant the centre is distyle in antis between battered piers rather than a pedimented portico."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "The rare domestic or institutional block, battered on all four faces."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "atypical"
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "atypical"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "forbidden",
+      "note": "Picturesque irregularity is incompatible with a frontal, symmetrical, mass-dominated style."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "All principal exterior walls shall batter inward between 1:12 and 1:20 from base to cornice. A plumb-walled building with Egyptian ornament is not Egyptian Revival."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Every terminating horizontal edge shall be composed as torus roll below cavetto cornice, in that order and without intervening classical mouldings. Dentils, modillions, and egg-and-dart are forbidden anywhere on the building."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "No arches. All openings shall be spanned by lintels. A single round or pointed arch voids the identification."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Column shaft height shall be between 4 and 5.5 base diameters, with intercolumniation between 1.5 and 2.5 diameters. Shafts shall be reed-bundle or palm form and shall never carry classical fluting or entasis."
+    },
+    {
+      "kind": "cultural",
+      "severity": "advisory",
+      "statement": "The winged sun disk shall appear once per elevation, in the cavetto directly over the principal entry. Repeating it along a frieze is a twentieth-century cinema convention, not a nineteenth-century one."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Egyptian Building, Medical College of Virginia",
+      "location": "Richmond, Virginia",
+      "year": 1845,
+      "note": "Thomas S. Stewart. Battered walls, distyle in antis porticoes with palm capitals, flanking obelisks joined by a cast-iron fence with hermai. The finest surviving American example and still in university use."
+    },
+    {
+      "name": "Grove Street Cemetery Gateway",
+      "location": "New Haven, Connecticut",
+      "year": 1848,
+      "note": "Henry Austin, 1845-48. Red sandstone, two battered pylons with torus framing and cavetto cornice, about 48 ft wide by 25 ft high."
+    },
+    {
+      "name": "Downtown Presbyterian Church",
+      "location": "Nashville, Tennessee",
+      "year": 1851,
+      "note": "William Strickland, designed 1848, sanctuary completed 1851. Lotus columns, winged sun disk, and a fully Egyptianised interior; the rare ecclesiastical case."
+    }
+  ],
+  "sources": [
+    "Richard G. Carrott, The Egyptian Revival: Its Sources, Monuments and Meaning, 1808-1858 (1978)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)",
+    "James Stevens Curl, The Egyptian Revival (2005)",
+    "Society of Architectural Historians, SAH Archipedia entries for the Egyptian Building and Grove Street Cemetery Gate"
+  ],
+  "confidence": "high",
+  "tags": [
+    "archaeological-revival",
+    "institutional",
+    "masonry",
+    "funerary",
+    "rare"
+  ]
+}

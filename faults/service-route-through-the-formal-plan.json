@@ -1,0 +1,138 @@
+{
+  "id": "service-route-through-the-formal-plan",
+  "name": "The Crossing",
+  "aka": [
+    "groceries through the dining room",
+    "the laundry in the spine",
+    "service across the formal axis"
+  ],
+  "slots": [
+    "service_zone_strategy",
+    "public_private_gradient",
+    "room_adjacency_overrides",
+    "circulation_parti"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "sequence",
+  "symptom": "The route from the car to the refrigerator crosses the entrance hall or the dining room. The laundry doors open into the principal passage, so a folded pile, an open machine and a basket are part of the entry sequence, and the machines are audible in the formal rooms. Bins, boots, sports kit and deliveries all arrive through the same door as guests, because there is only one route and everything uses it.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The modern plan has one circulation system where the traditional plan had two. The second one - the back stair, the service passage, the back door to the yard - was staffed, and when the staff went the circulation went with it, but the traffic did not: a household still moves groceries, laundry, refuse, fuel and children's kit through the house every day. Meanwhile the laundry has migrated from the basement to the main floor because nobody wants to carry baskets downstairs, and the only main-floor wall with plumbing near the stack is on the passage. Every one of those decisions is individually sensible.",
+    "cost_saved": "A second circulation route costs 60-120 sq ft of pure circulation - $12,000-$36,000 - and delivers nothing that appears on a listing."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / service_zone_strategy",
+      "statement": "Service is removed from the main block - detached, hyphenated or in the basement - and it has its own circulation which does not cross the formal plan except at the passage."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / public_private_gradient",
+      "statement": "Service and dependency: separate circulation entirely. The kit is explicit that this is the one thing the modern kit cannot inherit, because there is no longer a service class to circulate - which means the rear stair and the back passage have to be re-justified on other grounds or dropped, not simply deleted while the traffic remains."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / stair_position / service_stair",
+      "statement": "A second, narrower, enclosed stair serving the service end where the house has one."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "two kinds of traffic need two routes or one route wide enough for both",
+      "statement": "Formal circulation is intermittent and ceremonial; service circulation is continuous, dirty, noisy and encumbered. Put them on the same 42 in corridor and the ceremonial one loses, every day, permanently."
+    }
+  ],
+  "correct_practice": "Re-justify the second circulation rather than deleting it, because the traffic it carried is still there. In a modern plan the service route runs garage or rear door, to mudroom, to pantry, to kitchen, without touching the entrance hall, the dining room or the principal stair, and it wants 4 to 5 ft of clear width because it is used with both hands full. Give it its own door to the outside, its own floor finish, its own coat and boot storage of 12 to 20 sq ft, and where the house is two storeys and the budget permits, its own stair - the back stair is now justified by laundry, luggage and children rather than by servants, which is a better justification than none. The laundry belongs on that route and not on the formal one: off the mudroom, off the service passage, or in a dedicated room with a door, never with its doors opening into the principal passage, and never sharing a partition with a formal room or a bedroom head - a washer on spin transmits 55 to 65 dBA and structure-borne vibration through a single-stud partition. Where the plan genuinely has one circulation, then formalise it honestly: widen it to 5 ft, give it a hard floor, and stop pretending it is a formal hall.",
+  "fixes": {
+    "right": "Build the second route: garage to mudroom to pantry to kitchen, 4 to 5 ft wide, with the laundry off it and its own back stair where there are two storeys.",
+    "cheap": "Move the door, not the room. A pantry with a second door onto the mudroom - one 30 in opening in an existing partition, $600-$1,200 - creates the whole service route out of rooms that were already there and takes the grocery traffic out of the hall permanently. For the laundry, the cheap move is a solid-core door with a full perimeter seal and resilient channel on one side of the shared partition, $400-$900, which removes the acoustic half of the fault even where the door still faces the passage.",
+    "dishonest": "A pocket door on the laundry. It closes nothing acoustically - a pocket door has no seal and a hollow stud pocket transmits sound better than a wall - and it keeps the laundry on the formal route while looking as though it has been dealt with."
+  },
+  "detection": "Trace three routes on the plan and see how many cross a formal room: car to refrigerator, laundry basket to bedroom, refuse to bin store. Any crossing of the entrance hall or the dining room is the fault, and two or three crossings is endemic. On site, look for wear: the service route in an occupied house is legible in the floor finish, the scuffed corner and the position of the boot pile, and if that wear runs through the hall the plan has one circulation. In a listing photograph of the entrance hall, a pair of louvred or bifold doors in the hall wall is almost always a laundry or a mechanical closet on the formal route.",
+  "test": {
+    "expression": "service_routes_crossing_a_formal_room",
+    "threshold": 0.0,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "plan",
+    "note": "Count of the three canonical service routes - car to kitchen, laundry to chambers, refuse to store - that pass through the entrance hall, the principal passage or the dining room. Zero is the standard. A second test: laundry_doors_opening_into_the_principal_passage, also zero."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shotgun-house",
+      "why": "Every route in a single-file plan passes through every room; there is one circulation and it is the rooms themselves. The type is honest about it and compensates with the porch, which takes the dirty half of the traffic outdoors.",
+      "bounds": "Requires the porch at 5 ft or more and rear growth for the service rooms. A shotgun with a bathroom or a laundry inserted mid-file has broken its own logic as well as this rule."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "No interior corridor, and the service traffic runs outside on the galerie and through the rear loggia between the cabinets - an exterior service route, which is better than an interior one in that climate.",
+      "bounds": "Requires the loggia and the galerie actually to be there and usable. A hall-less plan with no exterior circulation has no route at all."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The piazza is the service route as well as the social one; the detached kitchen house at the rear of the lot is reached across the garden, so the service traffic never enters the main block's passage.",
+      "bounds": "Requires the piazza at 8 ft minimum and the rear dependency or its modern equivalent."
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "The corredores carry all circulation, service and formal alike, and the production buildings have their own court.",
+      "bounds": "Requires the corredor at 2.5 m or more and a separate service court; a single court doing both is the fault at complex scale."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "A small post-war house has one circulation by design and does not pretend to a formal plan.",
+      "bounds": "Holds where there is no separate dining room and no entrance hall to cross."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "ceremonial-front-door",
+      "difference": "That fault is which door the household uses. This one is where the traffic goes once it is inside, and a house can have a well-used front door and still route the groceries through the dining room."
+    },
+    {
+      "fault": "powder-room-on-the-dining-room",
+      "difference": "A door facing a formal room against a route crossing one. Same gradient, and the same plan usually produces both."
+    }
+  ],
+  "co_occurs_with": [
+    "ceremonial-front-door",
+    "powder-room-on-the-dining-room",
+    "primary-suite-off-the-formal-hall"
+  ],
+  "severity_by_style": [
+    {
+      "style": "tidewater-georgian",
+      "severity": "fatal",
+      "why": "The separate service circulation and the detached dependency are the plan's organising fact; a plan with one route is a different building type wearing the trim."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The kit is explicit that this is the inheritance the modern house cannot take directly, so the fault is a real design problem rather than a simple error."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "One circulation is authentic, and the type's own mudroom-to-kitchen sequence usually solves it anyway."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json service_zone_strategy, public_private_gradient, stair_position service_stair",
+    "proportions/systems/room-vernacular.json service_zone_strategy derived rule (the 11 ft service room and the lean-to)",
+    "Dell Upton, 'White and Black Landscapes in Eighteenth-Century Virginia' (1984), on the two circulation systems of the plantation house",
+    "manufacturer sound data for residential washing machines on spin (55-65 dBA at 1 m)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "gradient",
+    "service",
+    "circulation",
+    "laundry",
+    "adjacency",
+    "endemic"
+  ]
+}

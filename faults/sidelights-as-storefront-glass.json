@@ -1,0 +1,186 @@
+{
+  "id": "sidelights-as-storefront-glass",
+  "name": "Sidelights That Are Storefront Glass",
+  "aka": [
+    "the clear sidelight",
+    "full-height single-pane flankers"
+  ],
+  "slots": [
+    "transom_sidelight",
+    "entry_door",
+    "door_surround"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "The panels flanking the front door are single sheets of clear glass running from the floor or from a low panel to the head, wider than about 14 in, undivided, and set in a frame no deeper than the door's own. The entrance reads as a glazed shopfront with a door in the middle rather than as a door with lights beside it, and from the street the hall furniture is the most visible thing on the elevation.",
+  "cause": {
+    "driver": "code",
+    "explanation": "Two code drivers combine with a marketing one. Glazing within a 24 in arc of a door edge and less than 60 in above the floor must be safety glazing under IRC R308.4.2, and any single pane over 9 sq ft with its bottom edge under 18 in must be safety glazing under R308.4.3, so the sidelight is tempered regardless. Once tempered, a divided sidelight becomes several tempered pieces, each priced separately, and a single sheet is much cheaper. Separately, daylight in the entry hall is a selling point, and undivided glass delivers more of it per dollar than anything else on the elevation.",
+    "cost_saved": "A divided or leaded tempered sidelight runs 400 to 1,200 USD a side against 150 to 350 USD for a single tempered sheet in a stock frame."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / transom_sidelight.width",
+      "statement": "sidelight width = module / 3, that is 12 in on a 36 in module."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / transom_sidelight.count",
+      "statement": "The transom and sidelights take the SAME light module as the windows, because they came out of the same box of glass — four lights across a 36 in transom on a 9 in module."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "colonial-revival / transom_sidelight",
+      "statement": "Sidelights not wider than the pack's stated maximum; the entry assembly must be dimensioned for a 3'0\" leaf."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / door_surround.width",
+      "statement": "The whole entrance composition, over its outermost projection, is capped at module * 0.8, 7 ft 2 in at a 9 ft bay. Door plus two wide sidelights plus pilasters exceeds this immediately."
+    }
+  ],
+  "correct_practice": "Sidelight width = module / 3, about 12 in, and never more than about one third of the door leaf width. The sidelight is divided into lights on the same module as the windows of the house, so a house with 9 in lights has a sidelight three lights tall in a single column, not one sheet. The sidelight has a panel below it — historically a raised panel to about 24 to 30 in, which also removes the R308.4.3 large-pane trigger — and it sits inside the same architrave as the door, not beside it. The whole composition of door, sidelights and surround must fit within 0.8 of the bay, which is the arithmetic that keeps sidelights narrow: at a 9 ft bay, 7 ft 2 in total minus a 36 in door minus two 6 in pilasters leaves 12 in a side.",
+  "fixes": {
+    "right": "Narrow, divided, panelled-below sidelights within the door's own architrave, on the house's own light module.",
+    "cheap": "Add the bottom panel and add two horizontal muntins. Raising a raised or flat panel to 24 in cuts the glass area below the R308.4.3 threshold, narrows the apparent proportion of the light, and hides the hall floor; two applied bars divide the remaining glass into a vertical column of lights. Both are cheap and both are done to the frame the builder already bought.",
+    "dishonest": "Obscure or reeded glass in a full-height undivided sidelight. It solves the privacy problem and leaves the proportion exactly as wrong, and it adds a texture that belongs to a 1970s bathroom."
+  },
+  "detection": "Measure sidelight width against door leaf width in a frontal photograph. Above 0.4 the fault is present; the target is about 0.33 of the module, which on a 36 in door is 0.33 of the leaf. Then check for divisions: an undivided sheet taller than about 40 in beside a door is a modern condition in every idiom. Third, look for the bottom panel — a sidelight running to the threshold with glass all the way down is the storefront reading. Fourth, sum the whole entrance assembly's width and compare with the bay: over 0.8 of the bay the entrance is crowding its neighbours.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "The Greek Revival entrance takes generously proportioned sidelights and a rectangular transom inside a pilastered surround, and they are the style's characteristic entrance.",
+      "bounds": "Sidelights are still divided and still sit on a panelled base; the licence is on width and on the assembly's prominence, not on undivided glass. Elliptical fanlights are forbidden in this style.",
+      "bounds_test": {
+        "expression": "sidelight_base_panel_height_in",
+        "threshold": 24,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Sidelights are still divided and still sit on a panelled base; the licence is on width and prominence, not on undivided glass. Elliptical fanlights remain forbidden."
+      }
+    },
+    {
+      "style": "federal-style",
+      "why": "Sidelights arrive with the fanlight from about 1785 and are integral to the Federal entrance.",
+      "bounds": "Delicately divided, often with leaded tracery matching the fanlight, set flush in the wall rather than in a projecting frontispiece.",
+      "bounds_test": {
+        "expression": "sidelight_light_count",
+        "threshold": 3,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Delicately divided, often with leaded tracery matching the fanlight, set flush in the wall rather than in a projecting frontispiece."
+      },
+      "applies_when": {
+        "date_range": [
+          1785,
+          1830
+        ],
+        "note": "Sidelights and fanlight arrive together from about 1785; before that date the exception does not exist."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Rectilinear art glass in the entry screen is the idiom, and its divisions are came rather than muntin.",
+      "bounds": "Art glass with a designed rectilinear geometry, no curves; the entry is deliberately suppressed and should not be visible from the street at all.",
+      "bounds_test": {
+        "expression": "curved_elements_in_the_glazing_pattern",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Art glass with a designed rectilinear geometry, no curves."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "fanlight-before-its-date",
+      "difference": "That is a date fault on the transom. This is a scale and division fault on the flanking lights, and the two are usually specified together as one catalogue assembly."
+    },
+    {
+      "fault": "tempered-glass-at-the-entry",
+      "difference": "That fault is about the optical behaviour of the tempered glass itself. This one is about the size and division of the opening it fills."
+    }
+  ],
+  "sources": [
+    "IRC R308.4.2 and R308.4.3, safety glazing hazardous locations",
+    "proportions/systems/opening-proportion.json",
+    "proportions/systems/facade-classical.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry",
+    "sidelight",
+    "code-driven",
+    "scale"
+  ],
+  "test": {
+    "expression": "sidelight_width_in / door_leaf_width_in",
+    "threshold": 0.4,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The pack gives sidelight width = module/3, which on a 36 in module is 12 in, or 0.33 of the leaf. 0.40 is the tolerance ceiling. Above it the entrance reads as a glazed shopfront with a door in the middle."
+  },
+  "secondary_tests": [
+    {
+      "expression": "entrance_composition_width_in / bay_width_in",
+      "threshold": 0.8,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The arithmetic that keeps sidelights narrow: at a 9 ft bay the whole composition is capped at 7 ft 2 in, and a 36 in door with two 6 in pilasters leaves 12 in a side. Door plus two wide sidelights plus pilasters exceeds the cap immediately."
+    },
+    {
+      "expression": "sidelight_base_panel_height_in",
+      "threshold": 24,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The sidelight has a raised or flat panel below it to 24 to 30 in. It also removes the IRC R308.4.3 large-pane trigger, so the correct detail and the code-cheap detail coincide here — which is rare and worth using in the argument."
+    },
+    {
+      "expression": "sidelight_light_count",
+      "threshold": 3,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The sidelight is divided on the same light module as the windows of the house, because they came out of the same box of glass. A house with 9 in lights has a sidelight three lights tall in a single column, not one sheet."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "The style takes generously proportioned sidelights inside a pilastered surround as its characteristic entrance; only the undivided glass and the missing base panel remain at issue."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "Sidelights arrive with the fanlight and are integral, but they are delicately divided with leaded tracery matching the fanlight — an undivided sheet destroys the pairing."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "The entry is deliberately suppressed and should not be visible from the street at all."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Sidelights on a pre-1780 Georgian are an anachronism before they are a scale error; at storefront width they are both."
+    }
+  ],
+  "co_occurs_with": [
+    "tempered-glass-at-the-entry",
+    "fanlight-before-its-date",
+    "door-too-wide-for-its-surround",
+    "entry-not-the-most-elaborated-element"
+  ]
+}

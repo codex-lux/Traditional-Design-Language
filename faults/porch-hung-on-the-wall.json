@@ -1,0 +1,155 @@
+{
+  "id": "porch-hung-on-the-wall",
+  "name": "The Porch Applied To The Wall",
+  "aka": [
+    "the ledgered porch",
+    "the shed stuck on",
+    "the porch that is not under the roof"
+  ],
+  "slots": [
+    "porch_type",
+    "porch_support",
+    "roof_form",
+    "wing_strategy"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A porch roof attached to the house wall with a ledger board, its own shallow shed or hip slope running out from a flashing line partway up the elevation, and the main roof continuing above it unchanged. The porch reads as an object bolted to the front of the building. Two tells make it certain: a horizontal flashing line and a change of siding or a J-channel where the porch roof meets the wall, and a porch roof whose ridge or high point is BELOW the main eave, so the two roofs never meet.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Bringing the main roof down over the porch means the porch is in the roof truss package and in the structural design, and the trusses become a special profile with a longer bottom chord or a separate porch girder. Truss manufacturers price standard profiles cheaply and non-standard ones expensively, and the porch is often added or resized after the truss order. A ledgered shed roof, by contrast, is framed on site by the deck crew after the house is dried in, needs no engineering, and can be built at any point up to the day before closing. The porch therefore leaves the roof package and becomes an appendage.",
+    "cost_saved": "3,000-9,000 USD on a typical front porch: a modified truss profile, a porch girder, deeper footings and the additional roof area. Also several weeks of schedule flexibility, which on a production site is worth as much again."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_type / engaged-under-roof",
+      "statement": "A porch cut into the main volume is a Creole and Gulf Coast device — which is to say that the relationship between porch and main roof is a style-level decision with named alternatives, not an accident of framing."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "craftsman / porch_type = engaged-under-roof or full-width under an extended main slope",
+      "statement": "The Craftsman porch is under the main roof or under a gable that is a member of the main roof's family. The continuity of the roof over the porch is what makes the porch read as part of the house."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a porch is either a room of the house or a structure in front of it, and the roof decides which",
+      "statement": "There are exactly three correct relationships: the main roof extends over the porch (engaged); the porch has its own roof which meets the main roof at a valley or a ridge and is of the same pitch family (attached); or the porch is a freestanding structure connected by a link. A ledgered shed at an unrelated pitch is none of these."
+    }
+  ],
+  "correct_practice": "Choose one of the three relationships and build it. ENGAGED: the main roof slope continues unbroken over the porch, so the porch is a covered part of the main volume and the eave line is the same all the way across. This is the Creole gallery, the Craftsman bungalow, the Dutch Colonial with its swept eave, and the Greek Revival Southern plantation. INTEGRAL: the porch roof is a distinct roof of the same pitch as the main roof, meeting it at a ridge or valley, with its own eave detail matching the main one and its fascia in the same plane where they meet. ATTACHED WITH A BREAK: the porch is frankly a separate light structure — a gallery, a piazza, a Victorian veranda — with its own lower pitch, its own detailing, and a deliberate expressed junction rather than a flashed one. In every case the porch roof's pitch must belong to the same family as the main roof's, and the junction must be a designed condition rather than a strip of step flashing.",
+  "fixes": {
+    "right": "Extend the main roof over the porch, or design the porch roof as a member of the same roof family meeting the main roof at a proper valley.",
+    "cheap": "Raise the ledger. The single free move that most improves a ledgered porch is to attach it AT THE MAIN EAVE rather than partway up the wall: the porch roof then springs from the same line as the main roof and reads as a continuation of it, even at a different pitch, and the horizontal flashing line disappears into the eave. This costs nothing at framing and is impossible afterwards. Second cheap move: carry the main cornice across the porch — run the same frieze, bed mould and crown along the porch's eave — so the two roofs at least share a horizontal datum.",
+    "dishonest": "Adding a decorative gable or a pediment over the porch's centre to make it look like part of the house. It adds a fourth roof at a fifth pitch and makes the incoherence louder. Equally dishonest: painting the flashing to match the siding, which is what most of these porches show and which announces the joint by drawing a line across it."
+  },
+  "detection": "Look at the elevation for the porch roof's junction with the wall. Three readings. (a) There is no junction — the main roof runs over the porch and the eave is continuous: engaged, correct. (b) The porch roof meets the main roof at a valley or a ridge and their fascias are in the same plane: integral, correct. (c) There is a horizontal line partway up the wall with flashing, a change of siding, or a J-channel above the porch roof, and the main eave continues above it: the fault. Second check: compare pitches. Take the angle of the porch roof and the angle of the main roof from the photograph; if they differ by more than a few degrees and are not in a documented relationship, the porch was framed independently. Third: does the porch roof's fascia line up with anything — a belt course, a window head, a floor line? A ledgered porch's height is set by the interior second-floor framing and usually lands between things.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "porch_roof_pitch / main_roof_pitch",
+    "threshold": 0.55,
+    "upper": 1.05,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "A porch roof may legitimately be shallower than the main roof — a gallery or veranda at about two thirds the main pitch is a documented and correct arrangement, and the Dutch Colonial swept eave is shallower still. It may almost never be steeper. Below about 0.55 the porch roof has left the roof's family entirely. Combine with the categorical junction test, which is the more reliable of the two: the presence of a horizontal flashed junction on the wall above the porch roof."
+  },
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The engaged porch under the main roof is the type's defining move; a ledgered shed porch on a Craftsman is a bungalow with the bungalow removed."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "severity": "fatal",
+      "why": "The Creole gallery is cut into the main roof and the unbroken slope from ridge to gallery eave is the type."
+    },
+    {
+      "style": "greek-revival-southern-plantation",
+      "severity": "fatal",
+      "why": "The colonnade stands under the main roof and the pediment is the main roof's gable."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "The Georgian threshold is a stoop or a one-bay portico, both of which are frankly separate small structures against the wall and always were. The fault barely applies."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "minor",
+      "why": "The Victorian veranda is a frankly attached light structure with its own lower roof and its own detailing, which is the third correct relationship."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "queen-anne-american",
+      "why": "The Victorian veranda is deliberately a separate light structure with its own shallow roof, its own turned or chamfered supports and its own ornamental frieze, wrapping the house independently of the main roof. Its separateness is legible and intended.",
+      "bounds": "The separateness must be DESIGNED: the veranda roof has its own eave and fascia, its own brackets, and meets the wall at a member — a frieze board, a moulded band — rather than at a strip of flashing. A ledgered shed with vinyl J-channel above it is not a veranda.",
+      "applies_when": {
+        "date_range": [
+          1875,
+          1910
+        ]
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Same: the Italianate porch is an applied light structure with a low bracketed roof and its own cornice, deliberately distinct from the main roof.",
+      "bounds": "Its cornice must be a real one, with brackets matching the main cornice's brackets at a reduced scale, and it must land at a datum — a belt course or the second-floor line."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The piazza is a separate structure on the flank with its own roof, added or rebuilt independently of the house across its life.",
+      "bounds": "Flank only, full depth of the house, with its own columns at both storeys and its own entablature.",
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ]
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The bracketed entrance hood is by definition carried off the wall and has no relationship to the roof at all.",
+      "bounds": "A hood only — projecting 3 to 4 ft, carried on consoles, with no columns standing on the stoop."
+    }
+  ],
+  "co_occurs_with": [
+    "porch-pitch-unrelated-to-the-roof",
+    "porch-too-shallow-to-inhabit",
+    "four-by-four-under-a-roof",
+    "column-foot-on-the-deck-board"
+  ],
+  "confused_with": [
+    {
+      "fault": "porch-pitch-unrelated-to-the-roof",
+      "difference": "That is purely the angle. This is the structural and compositional relationship, of which the pitch is one symptom. A porch can be at a perfectly related pitch and still be ledgered onto the wall halfway up, and it will still read as applied."
+    },
+    {
+      "fault": "wing-pitch-drift",
+      "difference": "Same family at a different element: a wing's roof pitch drifting from the main roof's. Read together as the roof-family discipline."
+    },
+    {
+      "fault": "material-change-with-no-plane-change",
+      "difference": "The flashed junction above a ledgered porch is a specific instance of that fault's general problem — a change announced in material rather than in plane."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, porch_type (engaged-under-roof identified as a Creole and Gulf Coast device)",
+    "elements/slots.json, porch_type examples",
+    "HABS documentation of Creole cottages and raised Creole plantation houses — the gallery cut into the main roof",
+    "Truss manufacturer standard profile pricing and the cost of porch-bearing modifications"
+  ],
+  "confidence": "high",
+  "tags": [
+    "porch",
+    "roof",
+    "composition",
+    "trade-sequence",
+    "endemic"
+  ]
+}

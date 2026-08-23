@@ -1,0 +1,162 @@
+{
+  "id": "porch-as-a-stage-set",
+  "name": "The Porch Nobody Can Sit On",
+  "aka": [
+    "the four-foot porch",
+    "the porch facing the arterial",
+    "the decorative verandah"
+  ],
+  "slots": [
+    "street_relationship",
+    "setback_rule",
+    "landscape_idiom"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "A full-width porch 4 to 5 ft deep, with columns, a rail and a ceiling, containing two chairs pushed against the wall that nobody has moved since they were placed. It faces a road carrying traffic at 40 mph twenty-five feet away, or it faces a neighbour's blank flank eight feet away, and it is level with the pavement so anyone walking past is at eye height with anyone sitting on it. The house has bought every part of a porch except the one that makes a porch work.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Porch depth is priced as roofed floor area at nearly the cost of interior floor - foundation, framing, roof, columns, rail, ceiling - so it is the first dimension cut, and it is cut on the drawing where a foot looks like very little. Design guidelines and pattern books frequently require 'a porch' with no depth specified, so 4 ft satisfies the requirement. Meanwhile the lot and the road are given: on an arterial or a collector, the porch faces traffic because the house faces the street and the street is loud, and nobody's brief includes acoustic or elevation privacy.",
+    "cost_saved": "$3,500-$9,000 to go from a 5 ft to an 8 ft porch across a 30 ft front, at $90-$140 per sq ft of roofed porch."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "shotgun-house",
+      "statement": "Full-width front porch of at least 5 ft depth, 6-8 preferred, raised 18-36 in above grade. The porch is the house's only social space and its only public face; a shotgun without one is incomplete rather than merely plain."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "creole-cottage-vernacular",
+      "statement": "Front shelter is either a posted galerie not less than 6 ft deep with a roof pitch break at the wall plane, or an abat-vent projecting 30-48 in on brackets or rods with no posts to grade. A 4 ft posted stoop is neither and belongs to no phase of the type."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "craftsman",
+      "statement": "A porch of habitable depth framed under the primary roof. 'Habitable' is the operative word and it is a dimension."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a porch is a room and is dimensioned by furniture",
+      "statement": "A rocking chair is 30 to 34 in deep and needs 30 in of passage behind it, so a single row of seating against the wall requires 5 ft 6 in clear inside the rail. Two chairs facing across a small table need 9 to 10 ft. Below 5 ft 6 in a porch cannot be occupied, and everything else about it is decoration."
+    }
+  ],
+  "correct_practice": "Dimension the porch from what happens on it and from what it faces. Depth: 8 ft is the working figure for a porch that will be used, 6 ft is the floor for anything called a porch, 5 ft 6 in is the absolute minimum for one row of seating with a passage behind it, and anything under that is a stoop and should be detailed as one rather than as a small verandah. Then handle the exposure, which is the half of the problem nobody costs. Raise the deck 24 to 36 in above the walk, which is the traditional figure and which puts a seated occupant's eye above a standing passer-by's and gives the porch its privacy for free. Set the porch back from the traffic, or put a low wall, a hedge or a fence at 36 to 42 in on the property line, which drops the perceived noise and gives the porch an outer edge. And where the street is genuinely hostile - an arterial, a 45 mph collector - turn the porch: a side or reentrant-corner porch facing a garden is a documented arrangement and is a better building than a full-width porch facing four lanes.",
+  "fixes": {
+    "right": "Build the porch 8 ft deep, raised 24-36 in, with a defined outer edge at the property line where it faces a road.",
+    "cheap": "Deepen part of it rather than all of it. A porch that is 5 ft along most of its length and opens to 9 ft for an 8 ft stretch at one end costs a third of the full deepening and gives the house one usable outdoor room instead of a strip; the deep bay reads as a designed event rather than as a compromise. Second cheap move, which costs almost nothing: raise the deck. Going from 12 in to 30 in above the walk adds three risers and buys the whole privacy problem back.",
+    "dishonest": "Furnishing it for the photographs. Two chairs and a table wedged into 4 ft, with the chairs unable to be pulled back from the table, is the standard listing image and it makes the fault permanent: the buyer sees a used porch and buys a decorative one."
+  },
+  "detection": "Measure the porch depth against the column diameter or the door width, both of which are known quantities in a photograph - a 36 in door laid three times across the porch depth is 9 ft. Then look at the furniture: chairs pushed flat against the house wall, or chairs that could not be pulled out without hitting the rail, mean the depth is under 6 ft. Third, look at the deck height relative to the walk: a porch level with the ground in front of a public footway is unusable whatever its depth. Fourth, look at what it faces and how far away that is.",
+  "test": {
+    "expression": "porch_clear_depth_ft",
+    "threshold": 6.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "photograph",
+    "note": "Clear depth inside the rail and inside the columns, not the framed dimension. 8 ft for a porch intended to be used, 6 ft as the floor. Measurable in a photograph against a door leaf, which is 32 or 36 in in nearly every case. Pair with deck_height_above_walk_in, which should be 24-36."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The abat-vent is a deliberate alternative to a porch: a roof overhang of 30 to 48 in on iron rods or brackets, with no posts to grade, shading the openings and the pavement. It is not a shallow porch, it is a different device, and it is correct at a dimension where a posted porch would be a fault.",
+      "bounds": "It must have no posts to grade and must project 30-48 in. A 4 ft porch with posts and a rail is neither an abat-vent nor a galerie and belongs to no phase of the type.",
+      "bounds_test": {
+        "expression": "abat_vent_projection_in",
+        "threshold": 30.0,
+        "direction": "between",
+        "upper": 48.0,
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "The pent roof is a band across the facade at the second-floor line with no posts beneath it - a weather device, not an outdoor room, projecting 30 to 42 in.",
+      "bounds": "Unposted, at the second-floor line, returning 12-24 in at the corners. Adding posts to a pent roof converts it into a bad porch."
+    },
+    {
+      "style": "german-pennsylvania-colonial",
+      "why": "Same pent-roof logic, and many examples have no porch at all, which is correct.",
+      "bounds": "No porch is better than a shallow one here; the type's front is a wall with a door in it."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The stoop is the outdoor social space and is 4 to 6 ft deep at the top landing, raised 4 to 7 ft above the sidewalk. Its privacy comes entirely from height.",
+      "bounds": "Requires the 6 to 10 riser stoop; a stoop at grade has neither the height nor the depth.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "No porch, no projections - the type forbids them, and adding a shallow one is a worse fault than having none.",
+      "bounds": "Absolute: gable ends blind or with one small window, no porch, no dormers on the front slope."
+    },
+    {
+      "style": "new-england-colonial",
+      "why": "First Period houses have no porch; the door is in the wall.",
+      "bounds": "A small hood or pediment over the door is permissible; a posted porch is not."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "porch-without-the-height-to-pay-for-it",
+      "difference": "The opposite error. That is a deep porch on a house too short to afford its shade; this is a porch too shallow to use at all. A house almost never has both, and they arise from the same failure to dimension the porch and the section together."
+    },
+    {
+      "fault": "front-door-into-the-living-room",
+      "difference": "Where the porch is the type's threshold - Craftsman, shotgun, Creole - a shallow porch causes that fault as well, because the house then has no air lock anywhere."
+    }
+  ],
+  "co_occurs_with": [
+    "front-door-into-the-living-room",
+    "lawn-to-the-front-door"
+  ],
+  "alternative_to": [
+    "porch-without-the-height-to-pay-for-it"
+  ],
+  "severity_by_style": [
+    {
+      "style": "shotgun-house",
+      "severity": "fatal",
+      "why": "The porch is the house's only social space and its only public face, and the type's constraint states a hard minimum."
+    },
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "A porch of habitable depth under the primary roof is a defining characteristic; a 4 ft shed porch fails two constraints at once."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The deep porch is the type's principal claim, and a shallow one exposes the claim."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "not-applicable",
+      "why": "The type has no porch to get wrong."
+    }
+  ],
+  "sources": [
+    "styles/shotgun-house.json, styles/creole-cottage-vernacular.json, styles/craftsman.json, styles/raised-creole-plantation.json porch and gallery depth constraints",
+    "proportions/systems/room-vernacular.json daylight_strategy note on the porch's cost in room depth",
+    "Anthropometric data for seating: occupied chair depth 30-34 in, minimum circulation 30 in (Human Dimension and Interior Space, Panero and Zelnik)",
+    "Federal Highway Administration traffic noise data for arterial roadways, for the exposure half of the problem"
+  ],
+  "confidence": "high",
+  "tags": [
+    "porch",
+    "site",
+    "street",
+    "scale",
+    "photograph-testable",
+    "endemic"
+  ]
+}

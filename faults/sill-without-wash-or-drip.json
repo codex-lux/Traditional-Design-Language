@@ -1,0 +1,222 @@
+{
+  "id": "sill-without-wash-or-drip",
+  "name": "The Sill That Does Not Shed",
+  "aka": [
+    "the flat sill",
+    "no wash no drip no projection",
+    "the sill flush with the wall"
+  ],
+  "slots": [
+    "window_sill"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "The window sill is level on top, flush or nearly flush with the wall face, and has no groove underneath. Water sits on it, runs back to the frame, and streaks down the wall below in two dark tails from the sill ends. On brick veneer the sill is frequently a rowlock course laid level with no projection; on frame it is a flat board or, increasingly, nothing at all, with the siding butting the window frame under a J-channel.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The modern window unit arrives with an integral nailing flange and a sloped sill of its own, so the wall's sill has no water job left to do and is deleted as redundant. That reasoning is correct about the water and wrong about the wall: the frame sheds water off the unit and onto the wall below it, which is exactly what the projecting sill existed to prevent. On masonry, a projecting sill needs a separate piece with an end dam, which is a second trade and a source of leak claims, so the mason lays a level rowlock and the flashing does the work invisibly.",
+    "cost_saved": "20 to 60 USD an opening on frame; 60 to 150 USD on masonry for a proper stone or cast sill with end dams over a flat rowlock. On a 20-window house, 1,000 to 3,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_sill.projection",
+      "statement": "projection = module * 0.25, that is 2 1/4 in past the cladding, sloped about 1 in 6 with a drip."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / window_sill / slope",
+      "statement": "1 in 6, roughly 10 degrees."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course / window_sill.brick_sill_depth_in",
+      "statement": "one course, 2 3/4 in, as a sill of brick; a rowlock sill is one course deep and must project and slope."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "every horizontal on a wall is a water decision before it is a shadow decision",
+      "statement": "Projection, wash and drip are one detail with three names: throw the water clear, run it off, and break its path back to the wall by surface tension."
+    }
+  ],
+  "correct_practice": "Three dimensions on every sill. Projection past the finished cladding face 2 to 2 1/2 in, which at a 9 in module is module x 0.25. Wash on the top surface 1 in 6, about 10 degrees, enough to move water and not so much that snow slides into the frame. Drip on the underside: a kerf 3/8 in wide and 3/8 in deep, set back 1/2 in from the outer edge, or a projecting nose with a sharp arris. On masonry, a stone or cast sill with end dams turned up into the jambs, or a rowlock course laid on a slope with a proper sub-sill flashing. Sill height above the finished floor is fixed at about 30 in by the body and by furniture and does not move to suit the elevation.",
+  "fixes": {
+    "right": "Stone, cast stone or a 2 in sloped timber sill with a kerf, projecting 2 in and returned into the jambs.",
+    "cheap": "On frame, a single piece of 5/4 stock ripped to a 10 degree bevel with a table-saw kerf underneath, projecting 2 in beyond the casing and running 1 1/2 in past it at each end. About 15 USD and 15 minutes per window, and it removes both the water fault and most of the shadow fault at the same time. On masonry, tilt the rowlock: laying the course on a slope costs nothing and is the difference between a sill and a shelf.",
+    "dishonest": "Sealant. A bead of caulk along the top of a flat sill is the standard field repair, it is what fails in three to seven years, and it is what turns a maintenance problem into a rot problem by holding water against the joint rather than letting it out."
+  },
+  "detection": "Look under the sill for a shadow line. A sill projecting 2 in throws a continuous dark band on the wall beneath it in daylight from above; a flush sill throws none. Second: look for the streaks. Two vertical dark tails running down the wall from the sill ends, or a general dirt wash below the window, means the sill is not throwing water clear — this is often the most visible thing on an otherwise clean elevation and it appears within two winters. Third, in a rectified elevation photograph: compare the sill's outer edge to the wall face; they should not be the same line.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "The style prohibits moulded sills along with all other projecting trim; a shingle wall runs to the opening and the water is handled by the shingle lap and by generous overhangs.",
+      "bounds": "Requires the whole trimless language and requires real roof overhangs to keep water off the wall. Not available to a house with 8 in eaves.",
+      "bounds_test": {
+        "expression": "roof_overhang_in",
+        "threshold": 12,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The style handles the water with the shingle lap and generous overhangs. This licence is not available to a house with 8 in eaves, which is the condition under which the trimless envelope becomes a leak."
+      },
+      "applies_when": {
+        "construction": [
+          "shingle-cladding"
+        ],
+        "note": "Depends on the trimless envelope AND on real roof overhangs. In a driving-rain climate with shallow eaves this licence should not be taken at all."
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Mud-plastered adobe has no projecting sill; the reveal is returned in stucco and the wash is formed in the plaster itself, sloped and radiused.",
+      "bounds": "The stucco sill must still be sloped — the wash is not optional, only the projecting member is — and the reveal must be not less than 10 in.",
+      "bounds_test": {
+        "expression": "stucco_sill_wash_slope_deg",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "deg",
+        "measurable_from": "site-visit",
+        "note": "The wash is not optional; only the projecting member is. Reveal not less than 10 in."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "mass-wall"
+        ],
+        "regions": [
+          "southwest-united-states"
+        ],
+        "note": "An arid-climate detail. The same trimless stucco sill in a wet climate is a failure waiting to happen."
+      }
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "why": "Same logic: openings excavated from mass, jambs and sills returned in stucco or faced in tile, with no applied projecting member.",
+      "bounds": "Reveal not less than 8 in and the stucco sill sloped. A tiled sill must slope and must have a bullnose or overhanging edge at its outer face.",
+      "bounds_test": {
+        "expression": "stucco_or_tile_sill_wash_slope_deg",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "deg",
+        "measurable_from": "site-visit",
+        "note": "A tiled sill must slope and must have a bullnose or overhanging edge at its outer face. Reveal not less than 8 in."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "adobe",
+          "thick-stucco"
+        ],
+        "regions": [
+          "southern-california",
+          "mediterranean"
+        ]
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Sills die into a continuous sill course, which is itself the projecting member and carries the wash.",
+      "bounds": "The course must be continuous and must return around every corner.",
+      "bounds_test": {
+        "expression": "continuous_head_and_sill_bands_returning_at_every_corner",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The course must be continuous and must return around every corner."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "head-casing-without-a-cap",
+      "difference": "The same omission at the head instead of the sill. The head fault is primarily a shadow problem with a water consequence; the sill fault is primarily a water problem with a shadow consequence."
+    }
+  ],
+  "sources": [
+    "proportions/modules/sash-light.json",
+    "proportions/modules/brick-course.json",
+    "NPS Preservation Brief 9",
+    "Brick Industry Association Technical Note 7, water penetration resistance"
+  ],
+  "confidence": "high",
+  "tags": [
+    "sill",
+    "water",
+    "omission",
+    "profile-depth",
+    "cheap-fix"
+  ],
+  "test": {
+    "expression": "sill_projection_beyond_cladding_face_in",
+    "threshold": 2.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Read from the shadow band beneath the sill, which a 2 in projection throws continuously in daylight from above and a flush sill does not throw at all. The rule is module x 0.25, that is 2 1/4 in at a 9 in module. In a rectified elevation photograph, the sill's outer edge and the wall face should not be the same line."
+  },
+  "secondary_tests": [
+    {
+      "expression": "sill_wash_slope_deg",
+      "threshold": 8,
+      "direction": "at-least",
+      "units": "deg",
+      "measurable_from": "site-visit",
+      "note": "1 in 6, roughly 10 degrees: enough to move water and not so much that snow slides into the frame. HONEST LIMIT: a 10 degree wash on a 2 in sill is not measurable from a street photograph. Site visit, or a section."
+    },
+    {
+      "expression": "sill_drip_kerf_depth_in",
+      "threshold": 0.375,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "site-visit",
+      "note": "A kerf 3/8 in wide and 3/8 in deep set back 1/2 in from the outer edge, or a projecting nose with a sharp arris. Invisible from the street and the single most consequential of the three dimensions, which is exactly why it is the one deleted."
+    },
+    {
+      "expression": "vertical_dirt_streaks_below_sill_ends",
+      "threshold": 0,
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "THE PROXY THAT DOES WORK FROM A PHOTOGRAPH. Two dark tails running down the wall from the sill ends, or a general dirt wash below the window, means the sill is not throwing water clear. It appears within two winters and is often the most visible thing on an otherwise clean elevation."
+    }
+  ],
+  "severity_in_use": "serious",
+  "severity_trajectory": "Minor on the day of handover and serious by year three, when the streaking appears. In a frame wall with no drip and a sealant-dependent joint the trajectory continues: water held against the sill-to-frame joint rots the sill and then the sheathing, so by year ten to fifteen this is a fatal-in-use condition that began as a missing saw kerf.",
+  "severity_by_style": [
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "The constraint prohibits moulded sills along with all other projecting trim; the shingle lap and generous overhangs handle the water."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Sills die into a continuous sill course, which is itself the projecting member and carries the wash."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The sill projection is a derived dimension in the kit and the shadow it casts is part of the opening's composition."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A moulded projecting sill is the fault; the wall runs to the opening and the trim is refused."
+    },
+    {
+      "style": "pueblo-revival",
+      "statement": "An applied projecting member is the fault. The sill is formed in the plaster itself, sloped and radiused — but the WASH is not optional, only the projecting member is."
+    }
+  ],
+  "co_occurs_with": [
+    "head-casing-without-a-cap",
+    "casing-at-a-third-of-palladio",
+    "surround-that-lies-about-the-wall"
+  ]
+}

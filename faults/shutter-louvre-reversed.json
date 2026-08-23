@@ -1,0 +1,145 @@
+{
+  "id": "shutter-louvre-reversed",
+  "name": "The Louvre Pointing The Wrong Way",
+  "aka": [
+    "upside-down blind",
+    "the moulded louvre"
+  ],
+  "slots": [
+    "shutter"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "On a louvred blind fixed open against the wall, the louvres slope down and outward toward the viewer. On the historically correct leaf in the same open position they slope up and outward, because the slope is set to shed water when the blind is closed and the leaf has been rotated 180 degrees about its hinge to open. Every moulded vinyl louvre in production runs the wrong way, because the mould was drawn from a photograph of a closed blind.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "A wooden blind has real louvres tenoned into stiles at a fixed pitch, and its geometry follows automatically from being a real object that swings. A moulded leaf has a louvre relief drawn once, and the drawing was made to look right in a catalogue photograph, which shows the blind flat and frontal as if closed. The mould has been copied between manufacturers for forty years. The fault is not that anyone chose it; it is that no one ever had the object in their hands.",
+    "cost_saved": "None. The correct relief costs the same to mould. This is the rare fault with no economic driver at all, which makes it the cheapest one on any elevation to put right.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "a louvre is a rain and sun device with a determinate orientation",
+      "statement": "Louvres slope downward toward the weather side when closed, at about 30 to 45 degrees, so rain runs out and high summer sun is cut while low winter sun and view pass upward. Rotating the leaf to the open position inverts what the street sees."
+    }
+  ],
+  "correct_practice": "Louvre pitch 30 to 45 degrees from horizontal, spaced so that the leaf is opaque to a sightline at 45 degrees down. When the blind is closed, the outer edge of each louvre is the low edge. When the blind is hooked open flat against the wall, the outer edge of each louvre is therefore the high edge, and the visible slope from the street runs up and out. Louvre count follows leaf height at 1 3/4 to 2 1/4 in pitch; a 60 in leaf carries 28 to 34 louvres, not the 12 to 16 a moulded panel usually shows. Louvred blinds are a warm-climate device that arrives in Anglo-American building in the mid eighteenth century and spreads north through the nineteenth; the earlier and northern answer is a panelled leaf.",
+  "fixes": {
+    "right": "Wooden or fibreglass louvred blinds with real louvres, on pintles, so that the geometry is a consequence of the object rather than a decision.",
+    "cheap": "Use panelled leaves instead of louvred. A moulded raised-panel leaf has no orientation to get wrong, is correct for northern and earlier work anyway, and costs the same. This single substitution removes the fault from an entire elevation at no cost.",
+    "dishonest": "Installing the moulded louvred leaf upside down so the relief reads correctly. The panel and rail arrangement then reads upside down instead, and on any leaf with a cathedral or arched top it is immediately obvious."
+  },
+  "detection": "Zoom one leaf in any elevation photograph and follow a single louvre from its inner to its outer end. If the outer end is lower, the fault is present. Confirm by counting louvres against leaf height: fewer than one louvre per 2 1/2 in of leaf is a moulded relief rather than a built blind. Also compare the shadow: real louvres throw a hard shadow line under each blade and the leaf reads as a striped object with depth; a moulded relief reads as a single grey field with faint texture.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-southern-plantation",
+      "why": "Full-height gallery blinds are sometimes fixed permanently in the closed position as a shade screen and never open; in that case the visible slope is correctly down and out.",
+      "bounds": "Only where the blind is genuinely fixed closed over an opening it shades, which means it covers glass and there is no wall behind it. A blind lying against wall cladding cannot be closed.",
+      "bounds_test": {
+        "expression": "blind_leaves_spanning_an_opening / total_blind_leaves",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The bound stated numerically: a blind lying against wall cladding is not closed and cannot claim this exception. Every leaf claiming it must cover glass with no wall behind it."
+      },
+      "applies_when": {
+        "regions": [
+          "deep-south",
+          "gulf-coast"
+        ],
+        "note": "Depends on the gallery and the shade strategy, not the style label; the same licence holds on any warm-climate gallery where blinds are fixed closed."
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "Gallery blinds standing between piers as a screen are read in the closed position, and their louvres correctly slope down and out.",
+      "bounds": "Same bound: the leaf must be spanning an opening, not lying on a wall.",
+      "bounds_test": {
+        "expression": "blind_leaves_spanning_an_opening / total_blind_leaves",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Same bound."
+      },
+      "applies_when": {
+        "regions": [
+          "lower-mississippi",
+          "gulf-coast"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "shutter-panel-scale",
+      "difference": "That fault is about the size of panels within a leaf; this is about the direction of louvres. A leaf can be right in one and wrong in the other."
+    }
+  ],
+  "sources": [
+    "Measured louvred blinds, Charleston and Savannah survey documentation",
+    "NPS Preservation Brief 3",
+    "Nineteenth-century blind manufacturers' pattern sheets"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "shutter",
+    "louvre",
+    "orientation",
+    "zero-cost-fix"
+  ],
+  "test": {
+    "expression": "louvre_outer_edge_height_in - louvre_inner_edge_height_in",
+    "threshold": 0.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Sign convention for a leaf hooked OPEN against the wall, which is how every fixed shutter is seen. The louvre sheds water outward when closed, so rotating the leaf 180 degrees about its hinge puts the outer edge HIGH. A positive difference is correct; the moulded vinyl relief gives a negative one. Evaluate on a single blade at mid-leaf."
+  },
+  "secondary_tests": [
+    {
+      "expression": "louvre_count / shutter_leaf_height_in",
+      "threshold": 0.4,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "One louvre per 2 1/2 in of leaf or closer. A 60 in leaf carries 28 to 34 blades; a moulded relief usually shows 12 to 16, which is the faster tell and is legible at greater distance than the blade direction."
+    },
+    {
+      "expression": "louvre_pitch_from_horizontal_deg",
+      "threshold": 30,
+      "direction": "at-least",
+      "upper": 45,
+      "units": "deg",
+      "measurable_from": "site-visit",
+      "note": "30 to 45 degrees, set so the leaf is opaque to a sightline at 45 degrees down. Not reliably measurable from a street photograph; included because it is the dimension a joiner works to."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "greek-revival-southern-plantation",
+      "severity": "not-applicable",
+      "why": "Gallery blinds fixed permanently closed as a shade screen are read in the closed position, where the down-and-out slope is correct."
+    },
+    {
+      "style": "raised-creole-plantation",
+      "severity": "not-applicable",
+      "why": "Same: a blind spanning an opening between piers is read closed."
+    },
+    {
+      "style": "new-england-colonial",
+      "severity": "minor",
+      "why": "Panelled leaves are the earlier and northern answer, so a louvred blind here is already a date question before its direction is examined."
+    }
+  ],
+  "co_occurs_with": [
+    "shutter-without-hardware",
+    "shutter-panel-scale"
+  ]
+}

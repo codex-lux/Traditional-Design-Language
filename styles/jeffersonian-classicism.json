@@ -1,0 +1,225 @@
+{
+  "id": "jeffersonian-classicism",
+  "name": "Jeffersonian Classicism",
+  "aka": [
+    "Roman Revival",
+    "Jeffersonian Roman",
+    "Virginia Classicism"
+  ],
+  "rank": "style",
+  "member_of": "early-republic",
+  "status": "historical",
+  "period": {
+    "origin": 1769,
+    "floruit_start": 1785,
+    "floruit_end": 1826,
+    "decline_end": 1845,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1893,
+        "end": 1940,
+        "revival_node": "neoclassical-revival",
+        "note": "The City Beautiful and the American campus recover the Jeffersonian temple-and-lawn diagram wholesale; McKim, Mead & White's restoration of the Rotunda after the 1895 fire is the hinge."
+      },
+      {
+        "start": 1900,
+        "end": 1945,
+        "revival_node": "georgian-revival",
+        "note": "'Jeffersonian' red brick with white trim and a tetrastyle portico becomes the default American institutional dress, usually with the ideological argument removed."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Chesapeake",
+      "Virginia Piedmont",
+      "Upland South"
+    ],
+    "hearth": "Albemarle County, Virginia",
+    "climate_zones": [
+      "4A",
+      "3A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 1,
+      "inherits_kit": false,
+      "note": "The whole ideological point. Jefferson quotes the Maison Carree at Nimes for the Virginia Capitol and the Pantheon for the Rotunda, across seventeen centuries and an ocean, with no line of transmission whatever. A republic quoting a republic rather than a monarchy."
+    },
+    {
+      "target": "palladian",
+      "type": "references",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Palladio via the Leoni and Giacomo Leoni-derived English editions was Jefferson's 'bible', but he treated Palladio as a reliable transcriber of Roman antiquity rather than as a Venetian master to be imitated. The reference goes through Palladio to Rome, not to the Veneto."
+    },
+    {
+      "target": "tidewater-georgian",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The actual transmission: Virginia brickmasons, carpenters and joiners trained in the Tidewater Georgian trade built every Jeffersonian building. Monticello's Flemish bond, sash detail and interior joinery are Virginia Georgian craft executed to unfamiliar drawings."
+    },
+    {
+      "target": "french-neoclassical",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Direct transmission, not quotation: Jefferson lived in Paris 1784-89, admired the Hotel de Salm to the point of remodelling Monticello around it, and collaborated with Charles-Louis Clerisseau, who drafted the Virginia Capitol model."
+    },
+    {
+      "target": "english-georgian",
+      "type": "reacts_against",
+      "weight": 0.8,
+      "inherits_kit": false,
+      "note": "Explicitly and in writing. Jefferson called Williamsburg's buildings 'rude, mis-shapen piles' and set out to make the architecture of the new state unmistakably not English."
+    },
+    {
+      "target": "adam-style",
+      "type": "reacts_against",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "The Adamesque thinning that produced Federal is exactly what Jefferson refused: he wanted correct antique orders at correct antique weight, taken from measured plates, not fashionable attenuation."
+    }
+  ],
+  "description": {
+    "short": "Thomas Jefferson's Roman republicanism built in Virginia brick: correct antique orders taken directly from measured plates of Rome and from Palladio as their transcriber, deliberately bypassing the English intermediary that every other American builder was still working through.",
+    "long": "Jeffersonian Classicism is a small body of work by one amateur and his circle that changed what American public architecture was for. Formally it consists of a red brick body with white-painted wood or stuccoed trim, a portico of correct Roman orders scaled by module from published plates, a low pitched roof usually concealed behind a balustrade or a Chinese railing, and a plan built out of octagons, cubes and their halves. Its buildings look at first like well-made Georgian houses that have been rearranged by somebody with an unusual amount of geometry. Look longer and the Georgian conventions are all missing: no projecting frontispiece, no steep dormered roof, no fashionable Adam thinning of the orders, no visible service wing. Jefferson buried the dependencies in terraced L-shaped wings so that Monticello would read as a single-storey villa, which is both a compositional trick and an act of concealment about who did the work.\n\nThe conditions are unusually explicit, because the man wrote them down. The Revolution had produced a state that needed buildings and had no architectural language it could use without embarrassment: Georgian was the architecture of the Crown, and there was nothing else. Jefferson, in Paris as minister from 1784, solved the problem by going around England altogether. For the Virginia Capitol he chose the Maison Carree at Nimes, a first-century Roman temple, and had Charles-Louis Clerisseau draft the model; he substituted a Scamozzian Ionic for the original Corinthian because Virginia workmen could cut it. That decision - a modern legislature housed in a Roman temple, the first anywhere in the world - established the temple form as the American public building type and did so on an argument, not a fashion. The mechanism of transmission was books and one man's obsession: Palladio's Quattro Libri in English editions, Fréart de Chambray, Gibbs, Robert Morris, and later the measured antiquities of Desgodetz. The mechanism of execution was ordinary Virginia craft. Monticello was built and rebuilt for forty years by a rotating labour force that included enslaved brickmakers, carpenters and joiners - John Hemmings among them - working Georgian trade methods to non-Georgian drawings. Any honest account of this style has to hold both facts at once: it is the architecture of stated liberty, and it was built by people who did not have any.\n\nWhat it reacts against is England, specifically and consciously. Jefferson's private verdict on Williamsburg - 'rude, mis-shapen piles' - is the founding statement of the style, and his choice of Rome over London is not aesthetic preference but constitutional argument: a republic should quote a republic. This is what separates the node from federal-style, which was busy importing Robert Adam's London fashion at the same moment and building beautifully with it. Federal is up-to-date; Jeffersonian is deliberately ancient. Federal thins the orders for elegance; Jefferson insisted on correct entasis and correct entablature depth because correctness was the point. It is also why the style barely propagates as domestic architecture: an argument does not scale into a builder's trade the way a plate of mouldings does. Its real inheritance runs through public buildings and campuses for the next century and a half.\n\nStanding at Monticello's west front you understand the geometry before you understand the ornament. The dome sits on a low octagon and the whole house presents as one storey, which at the actual size of the building is a lie the eye accepts gratefully; the mezzanine windows are tucked under the entablature so that the second floor is invisible from outside. Inside, the rooms are octagons and half-octagons, and the light comes through triple-sash windows and skylights that make the plan feel larger and stranger than its footprint. At Poplar Forest the argument is purer still: an octagonal house around a twenty-foot cube of a dining room lit only from a skylight, so that at midday there is a column of light standing in the middle of the house. At the University of Virginia the diagram becomes urbanism - ten pavilions, each demonstrating a different correct order as a teaching specimen, joined by a colonnade and terminated by a half-scale Pantheon holding a library instead of an altar. It is the most complete piece of architectural reasoning produced in America, and it is made of the same brick as every tobacco warehouse in the county."
+  },
+  "defining_characteristics": [
+    "Orders taken from measured plates of Roman antiquity (or from Palladio as their transcriber) at correct antique proportion, never attenuated for fashion",
+    "Red brick laid in Flemish bond with white-painted wood or stuccoed trim; material palette essentially fixed",
+    "Temple-derived portico used as the governing gesture on public buildings and as a full-height entrance feature on houses",
+    "Plan geometry built from octagons, cubes, and their halves rather than from the rectangular Georgian room grid",
+    "Low roof pitch concealed behind balustrade, railing or parapet so the building reads as a single classical volume",
+    "Service and secondary storeys suppressed - dependencies terraced or sunk, mezzanines hidden behind the entablature - so the mass reads simpler than it is",
+    "Ideological intent: the classical form is chosen as a political argument about the form of government, and the choice bypasses English precedent on purpose"
+  ],
+  "diagnostic_tells": [
+    "A house that appears to be one storey but is demonstrably two, with small square mezzanine windows tucked directly under the cornice",
+    "Octagonal or semi-octagonal room projections in plan, visible as canted bays on the elevation",
+    "Portico entablature of correct Roman depth (roughly a fifth of column height) where a Federal house of the same date would have a thin cornice and no portico at all",
+    "Chinese-lattice roof railing or a balustrade concealing a nearly flat roof",
+    "Dependencies running out sideways at or below grade rather than as visible flanking wings above ground"
+  ],
+  "distinguished_from": [
+    {
+      "node": "federal-style",
+      "difference": "Contemporaneous and opposite in method. Federal takes Adam's London fashion and thins the orders; Jefferson takes Rome directly and keeps them at antique weight. Federal's signature is the elliptical fanlight in a flat wall; Jefferson's is a correct portico and an octagon in plan. If the classicism looks archaeologically argued rather than fashionably light, it is Jeffersonian."
+    },
+    {
+      "node": "greek-revival-american",
+      "difference": "Both use full porticoes, but Jeffersonian orders are Roman (Tuscan, Doric with a base, Ionic, Corinthian, arches and domes permitted) while Greek Revival orders are Greek (baseless Doric, no arches, no domes). A dome or a round-headed arch rules out Greek Revival immediately."
+    },
+    {
+      "node": "neoclassical-revival",
+      "difference": "The twentieth-century revival copies the temple front and the red brick but at institutional scale, with steel behind the brick, plate glass, and no interest in the geometry of the plan. Jeffersonian buildings are small, hand-built, and the octagons are real."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Classical orders with the module set as the lower column diameter, taken from published measured plates rather than from local practice; overall dimensioning by simple whole-number ratios and by the octagon, which Jefferson used as a room-generating figure rather than as a curiosity.",
+    "typical_ratios": [
+      "Roman Doric 8 diameters, Ionic 9, Corinthian 10, with entablature 1/4 to 1/5 of column height",
+      "Intercolumniation 2.25-2.5 lower diameters (Palladian eustyle)",
+      "Cubic and near-cubic rooms: Poplar Forest's dining room is 20 x 20 x 20 feet",
+      "Octagonal rooms generated on a square, canted corners at 1/3 of the side",
+      "Roof pitch 3:12 or lower, concealed; parapet or railing at least 3 feet high"
+    ],
+    "bay_rhythm": "Even bay rhythm derived from the portico's intercolumniation and carried across the whole elevation; the portico sets the module and the walls obey it, rather than the portico being fitted to a pre-existing wall.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "But with the flanking dependencies terraced into the slope rather than raised as visible pavilions - Jefferson's characteristic inversion of the Palladian scheme."
+    },
+    {
+      "massing": "octagon",
+      "affinity": "canonical",
+      "note": "Poplar Forest is the first octagonal house in America; the figure recurs as room shape throughout the style."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The underlying Virginia Georgian plan, geometrically disturbed."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "possible",
+      "note": "Bremo and the pavilions at the University; the wings are colonnades rather than domestic ells."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Orders must be executed at correct antique proportion: Roman Doric at 8 lower diameters, Ionic at 9, Corinthian at 10, with entablature depth 1/4 to 1/5 of column height. Attenuated columns above 10 diameters convert the building to Federal.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Round-headed arches, domes and semicircular (Diocletian) windows are permitted and characteristic; the Greek baseless Doric column and the frieze-band attic window are forbidden. Roman and Greek vocabularies must not be mixed on one building.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch must not exceed 4:12 and must be concealed behind a balustrade, Chinese railing or parapet at least 3 feet high. Dormers on a principal elevation are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Service dependencies must be terraced, sunk below the principal floor level, or run out as low L-wings whose roofs form usable terraces, so that the main block reads as a single volume. A visible two-storey service wing breaks the parti.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Material palette is fixed: red brick in Flemish bond with white-painted trim and, where used, stuccoed or sanded-paint columns imitating stone. Painted brick, stone facing, or contrasting trim colours fall outside the style.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Virginia State Capitol",
+      "location": "Richmond, Virginia",
+      "year": 1788,
+      "note": "Cornerstone 1785; occupied by the General Assembly 1788, finished later. Modelled on the Maison Carree at Nimes with Jefferson substituting Scamozzian Ionic for Corinthian. The first modern legislative building anywhere to take the form of a classical temple."
+    },
+    {
+      "name": "Monticello",
+      "location": "Charlottesville, Virginia",
+      "year": 1809,
+      "note": "Begun 1768, rebuilt from 1794 after Jefferson's return from France, substantially complete 1809. Octagonal dome, suppressed second storey, terraced L-shaped dependencies."
+    },
+    {
+      "name": "Poplar Forest",
+      "location": "Forest, Virginia",
+      "year": 1823,
+      "note": "Begun 1806. Octagonal plan around a 20-foot cubic dining room lit by a skylight; probably the first octagonal house built in the United States."
+    },
+    {
+      "name": "The Rotunda and Academical Village, University of Virginia",
+      "location": "Charlottesville, Virginia",
+      "year": 1826,
+      "note": "Begun 1817. Ten pavilions each demonstrating a different correct order, joined by colonnades and terminated by a half-scale Pantheon housing the library rather than an altar."
+    }
+  ],
+  "sources": [
+    "William H. Pierson Jr., American Buildings and Their Architects: The Colonial and Neoclassical Styles (1970)",
+    "Fiske Kimball, Thomas Jefferson, Architect (1916)",
+    "Andrea Palladio, I Quattro Libri dell'Architettura (1570), in the English editions Jefferson owned",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "Richard Guy Wilson, Thomas Jefferson's Academical Village (2009)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "early-republic",
+    "classical",
+    "roman",
+    "ideological",
+    "octagon"
+  ]
+}

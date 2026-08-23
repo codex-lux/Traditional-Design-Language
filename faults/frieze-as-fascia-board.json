@@ -1,0 +1,219 @@
+{
+  "id": "frieze-as-fascia-board",
+  "name": "The frieze too shallow to read",
+  "aka": [
+    "the 1x6 frieze",
+    "the missing band",
+    "windows in the cornice"
+  ],
+  "slots": [
+    "frieze"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "Between the top-storey window heads and the bed of the cornice there is a 1x4 or 1x6 board, 3 1/2 to 5 1/2 in deep, or nothing at all — the cornice sits straight on the siding. In the worse variant the frieze has been kept but the window heads have been shoved up into it, so the window casings collide with the cornice's bed mould and are scribed or mitred round it.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The frieze is the last band drawn and the first squeezed. Its depth is whatever is left after the ceiling height, the header, the window head trim and the cornice have all been fixed, and since each of those is set by someone else the residue is often two or three inches. It is then bought as a piece of stock trim in the same width as the corner boards. In a truss roof there is also nothing at the top of the wall to bear on, so the frieze becomes trim applied to sheathing.",
+    "cost_saved": "About $4-$9 per lineal foot between a 1x6 and a built-up 10 in frieze with a bed mould. On 200 lf, $800-$1,800 — trivial, which is what makes this fault so annoying."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "gibbs-ionic / frieze = storey_height / 4 * (6/18) = 10 in at a 10 ft storey",
+      "statement": "Gibbs makes architrave and frieze equal and the cornice four thirds of either."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / frieze.height = part * 1 = 9 in; elevation member frieze = 1.0 part",
+      "statement": "Nine inches. This band is the elevation's shock absorber: it is the one horizontal that nothing else has to line up with, so every accumulated error in the storey heights is taken up here. Draw it last."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical invariant: cornice.height = frieze.height * 2",
+      "statement": "The cornice is twice the frieze. A 5 in frieze therefore implies a 10 in cornice, which is already the fascia fault."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / frieze",
+      "statement": "Where a window head assembly collides with it, the frieze is dropped and the architrave runs straight into the cornice."
+    }
+  ],
+  "correct_practice": "The frieze is a plain uninterrupted band of 9-10 in at a 10 ft storey, equal in height to the architrave of the same order, running between the top-storey window heads and the bed of the cornice, and it is exactly half the cornice's height. When it will not fit — and it very often will not, because a 17 in window head assembly does not go under a 9 in frieze — the period answer is counter-intuitive and worth learning: DROP THE FRIEZE ENTIRELY and let the window architrave run straight up into the cornice's bed mould. That is a real and documented solution, and it is far better than the two usual alternatives, which are to shrink the head assembly or to shrink the frieze. Both of those damage a member that is doing work; omitting the frieze damages the member that is doing the least. Where the frieze survives, it is also the elevation's tolerance: accumulated error in the storey heights is taken up here, because it is the only horizontal nothing has to align with.",
+  "fixes": {
+    "right": "A 9-10 in frieze board with a bed mould below the cornice and a shadow line or a bead at its lower edge, run round the volume, with the top-storey window heads set to clear it.",
+    "cheap": "Two free moves. First, decide the frieze depth BEFORE the window head height, and if they conflict, drop the frieze rather than shrinking it. Second, where the frieze must stay and cannot be deepened, add a 1 1/4 in bed mould at its top and a bead or a 1/2 in shadow gap at its bottom: about $2/lf, and it converts a flat band into a bounded member, which is most of what depth was buying.",
+    "dishonest": "Letting the top-storey windows break into the frieze and calling them frieze-band windows. Frieze-band windows are a genuine and specific Greek Revival device — small horizontal lights set INTO a deep frieze, of a proportion and a spacing designed for it, lighting a half-storey. Ordinary double-hung windows whose heads happen to poke into a shallow frieze are not that; they are a collision. The difference is checkable: a frieze-band window is wider than it is tall and sits wholly within the frieze, and the frieze around it is deeper than usual, not shallower."
+  },
+  "detection": "Measure the band between the top-storey window head trim and the bed of the cornice. It should be 9-10 in — call it 1.5 to 2 clapboard courses at a 6 in exposure, or about four brick courses. Under 6 in is the fault, and zero is the other version of it. Second test, the ratio: cornice height divided by frieze height should be 2.0. If the frieze is deeper than half the cornice the composition is top-light; if it is under a third, the frieze has been squeezed. Third, look for the collision: window head casings that are scribed, mitred or die into the cornice's bed mould rather than clearing it, which is visible as an interrupted moulding line running across the top of the elevation.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival makes the frieze the dominant band — a broad plain frieze board frequently 18-30 in deep, with small horizontal frieze-band windows set into it lighting a half-storey. This is the style's most decisive single tell.",
+      "bounds": "Deeper, not shallower, and plain. The frieze-band windows sit wholly within the band and are wider than tall. The exception runs in the opposite direction from the fault, which is why a Greek Revival house with a 6 in frieze fails twice over.",
+      "bounds_test": {
+        "expression": "frieze_height_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 18,
+        "upper": 30,
+        "note": "Deeper, not shallower, and plain. The frieze-band windows sit wholly within the band and are wider than tall. The exception runs in the opposite direction from the fault."
+      },
+      "applies_when": {
+        "slots": [
+          "frieze",
+          "special_window",
+          "entablature"
+        ]
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "A bracketed eave frequently has no frieze at all — the brackets land on the wall and the frieze between them is the wall surface, sometimes with panels or paired brackets and a recessed panel field.",
+      "bounds": "The brackets must be real and deep, and the field between them must be treated: panelled, or at least given a bed mould. Nothing between the brackets and no bed mould is still the fault.",
+      "bounds_test": {
+        "expression": "bracket_projection_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 12,
+        "note": "The brackets must be real and deep, and the field between them must be treated — panelled, or at least given a bed mould. Nothing between the brackets and no bed mould is still the fault."
+      },
+      "applies_when": {
+        "slots": [
+          "modillion_dentil",
+          "eave_condition"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Trim suppression again: the shingles run up to a tight eave and there is no frieze, because there is no cornice for a frieze to be under.",
+      "bounds": "Requires the tight-cut eave. A frieze omitted under a full boxed cornice is not this.",
+      "bounds_test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 6,
+        "upper": 12,
+        "note": "Requires the tight-cut eave. A frieze omitted under a full boxed cornice is not this."
+      },
+      "applies_when": {
+        "slots": [
+          "eave_condition",
+          "cornice"
+        ]
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman wall meets its eave at a frieze board that is deliberately plain and often quite deep — 8-12 in — but with no mouldings, running behind the rafter tails.",
+      "bounds": "Depth without moulding is the licence; the board must still be a real member with a shadow at each edge.",
+      "bounds_test": {
+        "expression": "frieze_height_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 8,
+        "upper": 12,
+        "note": "Depth without moulding is the licence; the board must still be a real member with a shadow at each edge, running behind the rafter tails."
+      },
+      "applies_when": {
+        "slots": [
+          "frieze",
+          "eave_condition"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "cornice-that-is-a-fascia",
+      "difference": "They usually appear together and the invariant links them (cornice = 2 x frieze), but the fixes are separate. Fix the cornice first: a correct cornice on a shallow frieze looks unbalanced, and a correct frieze under a fascia looks absurd."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json, elevation member frieze and the cornice-is-twice-the-frieze invariant",
+    "proportions/overlays/gibbs-ionic.json",
+    "kits/georgian-colonial-american.kit.json, frieze (the collision rule)",
+    "styles/greek-revival-american.json, diagnostic_tells (frieze-band windows)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "proportion",
+    "frieze",
+    "entablature",
+    "profile-depth"
+  ],
+  "test": {
+    "expression": "frieze_height_in / principal_storey_height_in",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 0.075,
+    "note": "Nine to ten inches at a 10 ft storey: gibbs-ionic makes the frieze equal to the architrave at storey/4 x 6/18 = 10 in, facade-classical gives one part = 9 in, storey-graduation gives module/12 = 10 in. Three modules, one answer. Under 0.05 — a 1x6 board — is the fault, and zero is its other form. In a photograph, measure the band between the top-storey window head trim and the bed of the cornice: about 1.5-2 clapboard courses at a 6 in exposure, or four brick courses."
+  },
+  "secondary_tests": [
+    {
+      "expression": "cornice_height_in / frieze_height_in",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 2.0,
+      "note": "The facade-classical invariant. A frieze deeper than half the cornice makes the composition top-light; under a third means the frieze has been squeezed. Use with cornice-sized-off-the-attic's version of the same ratio to work out which member moved."
+    },
+    {
+      "expression": "window_head_casings_colliding_with_the_cornice_bed_mould",
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 0,
+      "note": "The collision. A 17 in window head assembly does not fit under a 9 in frieze, and the period answer is counter-intuitive: DROP the frieze entirely and run the architrave straight into the cornice's bed mould. Scribed or mitred head casings dying into the bed mould mean the frieze was kept and the head squeezed, which damages the member doing more work."
+    },
+    {
+      "expression": "frieze_band_window_width_in / frieze_band_window_height_in",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.2,
+      "note": "Separates a genuine Greek Revival frieze-band window from a collision. A frieze-band window is wider than it is tall and sits WHOLLY within a frieze that is deeper than usual; an ordinary double-hung whose head pokes into a shallow frieze is not that, and this ratio settles it."
+    }
+  ],
+  "co_occurs_with": [
+    "cornice-that-is-a-fascia",
+    "cornice-sized-off-the-attic"
+  ],
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "Small horizontal windows set into a deep frieze board directly under the eave is the style's own most decisive tell — the node says it settles the identification instantly. A 6 in frieze deletes the identification."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "No cornice for a frieze to sit under."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "minor",
+      "why": "A bracketed eave frequently has no frieze at all; the field between the brackets is the wall."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "greek-revival-american",
+      "statement": "The fault runs the other way and this is the directional record worth keeping: Greek Revival makes the frieze the DOMINANT band at 18-30 in deep and plain, with frieze-band windows set into it. A Greek Revival house with a 6 in frieze fails twice — once against the universal 9-10 in minimum and again against the style's own demand that this be the largest band on the wall. The style flattens the profile and enlarges the dimension, which is the same inversion its cornice shows."
+    },
+    {
+      "style": "shingle-style",
+      "statement": "A frieze is the fault. The shingles run up to a tight-cut eave with no band, because there is no cornice for a frieze to be under."
+    }
+  ]
+}

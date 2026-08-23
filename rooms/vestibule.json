@@ -1,0 +1,224 @@
+{
+  "id": "vestibule",
+  "name": "Vestibule",
+  "aka": [
+    "draught lobby",
+    "storm entry",
+    "air lock",
+    "porch (British interior sense)",
+    "entry lobby"
+  ],
+  "function_class": "threshold",
+  "description": "A small enclosed volume between the outer door and the inner one. It is a valve. Everything it does follows from having two doors that are never open at the same time: it stops the weather, it stops the view, it gives the arriving person somewhere to stand while a decision is made about them, and it gives the house a place to put wet things that is not a room. It is the most under-drawn room in domestic architecture because it is the only room whose value is entirely negative - it exists to prevent things.",
+  "history": {
+    "appears": 1770,
+    "declines": 1940,
+    "replaced": "the medieval screens passage, which did the same job with a timber screen instead of a second door",
+    "replaced_by": "the insulated door and the forced-air furnace, which made the thermal case go away, and the open plan, which had no place to put it",
+    "note": "The vestibule enters Anglo-American planning with the Neoclassical revival and the Adam interior, where the sequence street - vestibule - hall - stair is a deliberate compression before a release. It becomes near-universal in the urban row house of 1830 to 1910, for a reason that has nothing to do with architecture: on a party-wall lot the front door is three feet from the sidewalk and the parlour is behind it, so without a vestibule every caller sees the whole room from the street. The vestibule is the row house's substitute for a front garden. When the detached suburban lot restores the setback, the vestibule loses that job and survives only on the thermal argument, which central heating then wins."
+  },
+  "dimensions": {
+    "area_sf": [
+      25,
+      70
+    ],
+    "width_ft": [
+      4.5,
+      7
+    ],
+    "length_ft": [
+      5.5,
+      10
+    ],
+    "proportion": [
+      1.0,
+      1.8
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "THE LENGTH IN THE DIRECTION OF TRAVEL, and it is set by two door swings that must not overlap a standing body. An inward-swinging 3 ft outer door sweeps 36 in. A person clear of that swing, holding something, needs another 24 in. The inner door leaf takes its own 36 in if it also swings in. 36 + 24 + 36 = 96 in = 8 ft, which is why a properly working vestibule is 8 ft deep and almost every drawn one is 5. The escape is to swing the outer door out (which the code prefers anyway for wind and egress) and the inner door in, which brings the honest minimum to 5 ft 6 in. Both doors swinging the same way, in line, is the classic failure: the leaf of one lands where the body using the other has to stand."
+  },
+  "furniture": [
+    {
+      "item": "boot tray",
+      "footprint_in": [
+        30,
+        18
+      ],
+      "clearance_in": 0,
+      "note": "against the wall, out of both swings"
+    },
+    {
+      "item": "umbrella stand",
+      "footprint_in": [
+        12,
+        12
+      ],
+      "clearance_in": 0,
+      "essential": false
+    },
+    {
+      "item": "hook rail for two wet coats",
+      "footprint_in": [
+        30,
+        10
+      ],
+      "clearance_in": 24,
+      "note": "a hung coat projects 8 to 10 in from the wall and a person taking one off needs 24 in in front of it; this is 34 in of wall depth consumed by something drawn as a line"
+    },
+    {
+      "item": "bench, if the vestibule is asked to do the mudroom's job",
+      "footprint_in": [
+        42,
+        18
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "18 in of bench plus 36 in to bend and remove a boot is 54 in, which will not fit in a 5 ft vestibule and is why the two rooms separated"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.6,
+    "sides_lit": 1,
+    "orientation": "Takes whatever the front door faces; it has no choice and does not need one.",
+    "glazing_fraction": [
+      0.1,
+      0.35
+    ],
+    "note": "A vestibule is lit borrowed and second hand - through the glazed outer door, its sidelights and its transom, and then through the glazed inner door into the hall beyond. That is why a vestibule is the one place a fully glazed inner door is correct even in a style that panels every other door: the inner leaf is the only route daylight has into the hall once the outer door shuts. The multiplier of 1.6 is the second-rank borrowed-light figure and it is the reason a vestibule must be small. Make it 10 ft deep and it becomes a dark box, which is the argument against solving the mudroom problem by enlarging the vestibule."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "a vestibule with nothing behind it is a porch with a roof; its second door has to open onto the room that does the receiving",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "entry-porch",
+        "why": "the porch keeps the weather off the outer door, which is what lets the outer door be glazed and lightly built",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "an outer door opening within one door of a laid table puts cold air and street noise into the meal, and puts arriving strangers in the diners' sightline",
+        "relation": "not-visible-from",
+        "strength": "strong"
+      },
+      {
+        "room": "powder-room",
+        "why": "a WC door opening into the arrival volume is visible and audible to everyone entering and leaving; put it off the hall one turn away, never off the vestibule",
+        "relation": "not-visible-from",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "exterior",
+      "entry-porch",
+      "street"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 1,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The point of the room is to NOT ventilate: it caps each door-opening event's air exchange at its own volume - about 300 cubic feet - instead of the hall's several thousand. Do not put a supply register in it; a heated vestibule is a contradiction.",
+    "heat": "None or a single low-output element to keep the floor above freezing. If the vestibule is warm, the temperature difference that drives the exchange has simply moved outboard by one door.",
+    "electrical": "One fixture, switched three-way from inside the hall and from the porch.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "italianate-townhouse",
+      "trim_grade": "highest",
+      "note": "The most fully developed version. Encaustic tile floor, marble or slate dado, an inner door of etched glass in a heavy frame, and often a second outer pair of storm doors - three thicknesses of door between the street and the parlour on a lot with no setback at all."
+    },
+    {
+      "style": "adam-style",
+      "trim_grade": "highest",
+      "note": "Compressed and often groin-vaulted or apsidal, deliberately low and plain, so that the hall or stair beyond reads as a release. The vestibule is where Adam does the compression half of a compression-release sequence, and it is meant to feel slightly too small."
+    },
+    {
+      "style": "federal-style",
+      "trim_grade": "high",
+      "note": "An elliptical or segmental arch on the inner opening, often with an engaged column each side, carrying the fanlight motif inward from the door."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent by doctrine. The Craftsman entry sequence is porch to living room with at most a coat alcove, because interposing a lobby contradicts the type's whole claim that the house is one continuous informal volume. A Craftsman bungalow with a vestibule has been remodelled."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "present": false,
+      "note": "Absent, and its absence is structural. The four front openings are full-height casement doors from the gallery straight into the rooms; there is no lobby, no hall and no filter, and the ventilation strategy depends on there being none."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent. The front room IS the vestibule, the parlour and often the bedroom, in that order through the day."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "name_in_style": "porch (in period usage) or entry",
+      "trim_grade": "plain",
+      "note": "The central-chimney lobby entry is the vernacular ancestor and works differently: a 5 x 6 ft lobby is trapped between the front door and the face of the chimney stack, with a winder stair in it and a door left and right into hall and parlour. It is a vestibule, a stair and a distribution point in 30 sq ft, and it is the tightest good piece of planning in the Anglo-American catalogue."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "trim_grade": "middle",
+      "note": "Usually absent at the front and displaced to the garage side, where it reappears as the mudroom. The house has two entries of unequal rank and only one of them has a lobby - which is an accurate description of how the house is used and a poor description of how it is drawn."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "The required egress door must be side-hinged, not less than 32 in clear width and 78 in clear height.",
+      "ref": "IRC R311.2",
+      "conflict": "Both vestibule doors are usually on the egress path; a 32 in clear leaf needs a 36 in door. Two 30 in doors in line will pass neither the code nor a sofa."
+    },
+    {
+      "requirement": "Landing on each side of a door, 36 in minimum in the direction of travel.",
+      "ref": "IRC R311.3",
+      "conflict": "Two doors in a 6 ft vestibule give each 36 in of landing and leave nothing for a person. The code is satisfied and the room does not work."
+    }
+  ],
+  "massing_fit": [
+    "townhouse-row",
+    "four-over-four",
+    "side-hall-double-pile",
+    "center-passage-single-pile",
+    "mansard-block",
+    "cross-gable-victorian",
+    "villa-tower",
+    "foursquare",
+    "garrison-block",
+    "i-house"
+  ],
+  "slots": [
+    "entry_sequence",
+    "entry_door",
+    "transom_sidelight",
+    "interior_door",
+    "circulation_parti",
+    "floor_material"
+  ],
+  "faults": [
+    "thresholds-uncrossed",
+    "front-door-into-the-living-room",
+    "ceremonial-front-door",
+    "six-eight-door-in-a-tall-room",
+    "every-door-the-same-door",
+    "sidelights-as-storefront-glass"
+  ],
+  "sources": [
+    "elements/slots.json, entry_sequence: 'phenomenologically the most consequential slot in the kit'",
+    "International Residential Code R311.2, R311.3",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay (1979), on the central-chimney porch and lobby entry"
+  ],
+  "confidence": "high"
+}

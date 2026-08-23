@@ -1,0 +1,203 @@
+{
+  "id": "linen-press",
+  "name": "Linen Press",
+  "aka": [
+    "linen closet",
+    "airing cupboard",
+    "napery press",
+    "hot press",
+    "linen cupboard"
+  ],
+  "function_class": "storage",
+  "description": "The store for household textiles - sheets, towels, table linen, blankets. It is the one closet in the house that never needs to steal floor area from a room, because the dimension it wants is fourteen inches and fourteen inches fits inside a thickened partition, a stair landing wall, or the depth of a chimney breast. Almost every linen closet built since 1950 is 24 in deep because it was drawn with the same template as a clothes closet, and the back ten inches of every shelf in it has been unreachable since the day it was finished.",
+  "history": {
+    "appears": 1650,
+    "declines": null,
+    "note": "Household linen was, after the beds themselves, the most valuable movable property in a seventeenth- and eighteenth-century house, and it was stored in a PRESS - a large panelled case with sliding trays, which in the best houses was a named piece of furniture with a maker. It was inventoried by the piece. A gentry household counted its sheets. The press became a fitted cupboard in the nineteenth century, and in Britain it merged with the AIRING CUPBOARD when the hot-water cylinder arrived in the 1880s: the cylinder was put in the linen cupboard because a cylinder gives off heat all day and damp linen wants to be dried, and the two functions stayed married for a century. The unvented pressurised cylinder and then the tankless heater dissolved that marriage from about 1990, and the British airing cupboard is now a room with a heat-pump cylinder in it that must not be covered with towels. In America the linen closet never had the cylinder and never left the passage."
+  },
+  "dimensions": {
+    "area_sf": [
+      3,
+      6
+    ],
+    "width_ft": [
+      1.17,
+      1.5
+    ],
+    "length_ft": [
+      2.5,
+      4
+    ],
+    "proportion": [
+      1.7,
+      3.5
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "FOURTEEN INCHES OF SHELF DEPTH, and it is set by the folded sheet. A queen flat sheet folded in the ordinary way is about 12 by 16 in and 4 in thick; a bath towel folded in thirds is 12 by 18. Fourteen inches takes both with the folded edge out. At 12 in the towel overhangs and the stack falls forward; at 24 in you get a second row behind the first that nobody will ever use, and the closet is now full at half capacity. SHELF SPACING is the second number: 12 in between shelves takes a stack of four sheet sets or six towels, which is the right amount to lift at once; 16 in wastes air; 9 in is too tight to get a hand in above the stack. Five shelves at 12 in from 24 in above the floor to 84 gives the whole thing, and it fits in a 14 in deep by 36 in wide recess."
+  },
+  "furniture": [
+    {
+      "item": "shelf, 14 in deep",
+      "footprint_in": [
+        36,
+        14
+      ],
+      "clearance_in": 0,
+      "note": "Slatted or ventilated in a damp climate; solid, painted, with a nosed front edge in period work. A 36 in shelf in 3/4 in solid stock will deflect visibly under linen and wants a cleat at the back and at both ends, which is how they were always done."
+    },
+    {
+      "item": "the linen a four-bedroom household actually holds",
+      "footprint_in": [
+        144,
+        14
+      ],
+      "clearance_in": 0,
+      "note": "Twelve linear feet of 14 in shelf - which is a 30 in wide closet with five shelves. Three sheet sets per bed, four towels per person, table linen, two spare blankets, a spare pillow. Households that own more than this own it because the closet was big, not because they needed it."
+    },
+    {
+      "item": "hot water cylinder, where the room is an airing cupboard",
+      "footprint_in": [
+        24,
+        24
+      ],
+      "clearance_in": 24,
+      "essential": false,
+      "note": "A 210 litre unvented cylinder is 580 mm (23 in) diameter and 1,700 mm (67 in) tall, with a discharge pipe to a tundish and a safe termination, and it needs 24 in of service access to its immersion and its expansion vessel. It cannot share the volume with linen unless the linen is on the OTHER side of a partition, because a heat-pump cylinder needs airflow across its coil."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 0,
+    "sides_lit": 0,
+    "orientation": "Irrelevant, but keep it off a cold exterior wall: a linen closet in an uninsulated exterior wall pocket is where mildew starts.",
+    "note": "No window. One fixture, and in a 14 in deep closet a surface fixture on the ceiling clears the storage space comfortably, which the 24 in version does not."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "bathroom",
+        "why": "Towels are the highest-turnover item in the closet and they are used ten feet away. A linen closet on the ground floor of a house whose bathrooms are upstairs is a linen closet that stores Christmas decorations.",
+        "relation": "same-floor",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "bedroom",
+        "why": "On the bedroom landing, reachable from the passage without entering a room. This is the one closet that belongs to the passage rather than to a room, and it is the correct thing to put in the residual width of an upstairs landing.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "laundry",
+        "why": "Where the laundry is on the bedroom floor the linen press should be beside it and the sheets never travel. Where the laundry is in the basement they travel twice a week for the life of the house.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "plant-room",
+        "why": "Warm is good, hot is not, and a flue or a boiler wall dries and yellows linen. The airing cupboard was warmed by a cylinder at 60 degrees C, not by a combustion appliance.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "passage",
+      "stair-hall",
+      "bathroom",
+      "laundry",
+      "bedroom"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Wants gentle air movement, which is why the slatted shelf and the louvred door are both traditional and both right. A sealed linen cupboard on an exterior wall in a cold climate will mildew within two winters.",
+    "heat": "Mildly warm is ideal - the airing cupboard's whole logic. A single small radiator or the back of a flue is enough; a supply register is not needed and will dry linen out.",
+    "electrical": "One fixture, door-switched.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "linen press",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "A freestanding press in the chamber or the passage, not a fitted cupboard - and the press is a piece of furniture 48 in wide, 22 deep and 84 tall with panelled doors above and drawers below. Where a fitted version is wanted, the residual 14 in beside a chimney breast or under the upper flight of a stair is the period-honest place, with a panelled door in the room's trim family."
+    },
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "napery press / still room",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Linen was a departmental responsibility with its own room in a large house, kept by the housekeeper with the china and the preserves, and it was locked."
+    },
+    {
+      "style": "arts-and-crafts-british",
+      "name_in_style": "airing cupboard",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Where the cupboard and the cylinder come together, and it is genuine Arts and Crafts joinery - slatted shelves, a panelled door, a brass turn. The best surviving examples are Voysey's."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "built-in linen cabinet",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Not a closet at all but a piece of built-in casework in the hall - drawers below, glazed or panelled doors above, integral with the trim. Craftsman answers storage questions with joinery rather than plan, which is why bungalows have so little closet and never feel short of it."
+    },
+    {
+      "style": "minimal-traditional",
+      "name_in_style": "hall linen closet",
+      "present": true,
+      "trim_grade": "none",
+      "note": "The 24 in deep hall closet with four particleboard shelves, half of it unreachable. The type at its most thoughtless."
+    },
+    {
+      "style": "appalachian-log-house",
+      "present": false,
+      "note": "Blanket chest at the foot of the bed. There was no linen surplus to store."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Where the cupboard contains a fuel-burning appliance or an unvented hot-water storage vessel, appliance access and working clearance apply and combustible storage is restricted.",
+      "ref": "IRC M1305.1, G2406; UK Building Regulations Part G3 for unvented cylinders",
+      "conflict": "The traditional airing cupboard - linen stacked against a warm cylinder - is exactly what modern unvented and heat-pump cylinders prohibit, because they need free airflow and service access. The room survived; its reason for existing did not. If a client wants an airing cupboard, give them a warm cupboard with a small radiator and put the cylinder in the plant room."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "garrison-block",
+    "i-house",
+    "cape-cod-massing",
+    "townhouse-row",
+    "ranch-linear",
+    "gambrel-block",
+    "massed-picturesque",
+    "h-plan-manor"
+  ],
+  "slots": [
+    "storage_strategy",
+    "built_ins",
+    "room_adjacency_overrides",
+    "interior_door",
+    "casing"
+  ],
+  "faults": [
+    "closet-depth-taken-from-the-room",
+    "built-in-that-is-furniture",
+    "hollow-core-blank-in-a-panelled-house"
+  ],
+  "sources": [
+    "English and American probate inventories, 1680-1800, for the value and the counting of household linen",
+    "kits/georgian-colonial-american.kit.json built_ins and storage_strategy",
+    "UK Building Regulations Approved Document G3 for unvented hot-water storage",
+    "Manufacturer data for unvented and heat-pump cylinders (dimensions and airflow requirements)"
+  ],
+  "confidence": "high"
+}

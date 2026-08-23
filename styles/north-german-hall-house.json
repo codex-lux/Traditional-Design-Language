@@ -1,0 +1,192 @@
+{
+  "id": "north-german-hall-house",
+  "name": "North German Hall House",
+  "aka": [
+    "Niederdeutsches Hallenhaus",
+    "Fachhallenhaus",
+    "Low German house",
+    "Low Saxon house",
+    "hallehuis"
+  ],
+  "rank": "style",
+  "member_of": "germanic-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": 1200,
+    "floruit_start": 1400,
+    "floruit_end": 1850,
+    "decline_end": 1920,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 1935,
+        "revival_node": null,
+        "note": "Heimatschutz and Niedersachsenstil: the great gable and the Grootdor quoted on villas, schools and railway stations across northern Germany, with the hall itself replaced by a corridor."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Germany",
+      "Netherlands",
+      "Denmark"
+    ],
+    "hearth": "Lower Saxony, Westphalia and the Luneburg Heath",
+    "climate_zones": [
+      "5A",
+      "4A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "german-fachwerk",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The hall house is built in Fachwerk and shares its jointing, its bay module and its infill practice entirely. The two are separable because one is a framing system and the other is a plan and section; they meet in almost every surviving example."
+    },
+    {
+      "target": "flemish-vernacular",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "The Brabant and Drenthe hallehuis is the same building type across a modern border — the earliest dated frame of the type, at Best in North Brabant, is of 1262 — and the Low German and Low Countries farm traditions are one continuum rather than two."
+    }
+  ],
+  "description": {
+    "short": "A single vast three-aisled timber hall entered through a wagon door in the gable, in which people, cattle, harvest and hearth occupy one undivided smoke-filled volume.",
+    "long": "The Low German hall house is the most extreme integration of dwelling and farm in European building, and understanding it requires giving up the assumption that a house contains rooms. What it contains is a hall. Two rows of posts run the length of the building and divide it into three aisles: a wide central floor, the Diele, and two lower side aisles, the Kubbungen. The Diele is a threshing floor. The side aisles are cattle stalls and horse stalls, the animals standing with their heads turned inward so that they are fed, watered, milked and watched from the central floor. At the far end of the hall, at the point where the Diele stops, is the Flett — an open hearth on a raised clay pad with no chimney at all — and around and behind the Flett are the beds, built into the wall as cupboards, and the room where the family sat. There is no door and no partition between the farmer's bed and the cows. There was never meant to be.\n\nThat arrangement is not poverty; it is a heating and processing strategy of considerable sophistication. A dozen cattle produce several kilowatts of heat continuously through a north German winter, and the hall captures all of it. The open hearth is unchimneyed on purpose: smoke rises freely into the roof space, where it dries the grain stored on the loft over the Diele, cures the hams and sausages hung in the rafters, and impregnates the entire frame with creosote, which is why five-hundred-year-old hall-house frames are still sound and why the interiors are black. The great door in the gable, the Grootdor, is sized to admit a fully loaded harvest wagon so that the crop can be brought inside, driven the length of the hall, and threshed on the floor without ever being rained on. Everything the farm does happens under one roof between October and April.\n\nThe building is set out on bays — Fach — of about two and a half metres, fixed by the beams spanning between the aisle posts, and the house is a whole number of them. It grows by adding bays at the far end from the Grootdor, so a prosperous farm becomes very long: forty and even fifty metres by the eighteenth century, thirteen to fifteen wide, under a single reed-thatch roof at forty-five to fifty degrees whose eaves come down to about head height over the byre aisles. Only one elevation is ever composed — the gable containing the Grootdor, which carries the carved and inscribed lintel, the owner's and his wife's names, the date, a Bible verse, and often crossed horse-head finials at the ridge. The long flanks, forty metres of thatch and framed panel, are given nothing.\n\nStanding inside is unlike standing in any other European domestic building. It is dark, and very tall, and the roof structure disappears into smoke above you. The floor underfoot is beaten clay. The air is warm and thick and smells of cattle, hay and woodsmoke. The bright rectangle of the open Grootdor at one end and the fire at the other define the axis of the entire building, and the family's life happens at the fire end, in the open, with the animals visible and audible thirty metres away down the hall. In the nineteenth century chimneys were inserted, partitions built, and the byre pushed out into separate buildings, and within two generations the type was gone — the reform improved the air and destroyed the architecture."
+  },
+  "defining_characteristics": [
+    "Three-aisled timber hall: two rows of posts defining a central working floor (Diele) between lower side aisles (Kubbungen)",
+    "Livestock stalled in the side aisles facing inward, unseparated from the living end of the same volume",
+    "Entry through a great wagon door (Grootdor) in the gable end, on the building's long axis",
+    "Open hearth (Flett) with no chimney; smoke rises into the roof to cure meat, dry grain and preserve the frame",
+    "House length a whole number of structural bays (Fach) of roughly 2.5 m, growing by addition at the hearth end",
+    "Reed thatch at 45-50 degrees, eaves carried down to about 1.5-2 m above grade over the byre aisles",
+    "One composed elevation only — the entrance gable, with a carved and inscribed lintel over the Grootdor"
+  ],
+  "diagnostic_tells": [
+    "An enormous door filling the lower half of a thatched gable, wide enough for a hay wagon",
+    "Crossed horse-head (Pferdekopfe) finials at the gable apex",
+    "A thatch eave you can touch, carried far below the internal ceiling height",
+    "A carved and dated lintel beam running the full width above the Grootdor, with the owners' names in Low German",
+    "Blackened, tar-hard timbers throughout the interior with no soot line — the whole frame was smoked, not just the hearth wall"
+  ],
+  "distinguished_from": [
+    {
+      "node": "german-fachwerk",
+      "difference": "Fachwerk describes how the wall is made. This node describes what the building is. A Hessian Fachwerk town house and a Luneburg hall house are the same carpentry serving completely different sections."
+    },
+    {
+      "node": "massing:linear-ell-farmhouse",
+      "difference": "The New England connected farmstead links distinct buildings in a descending chain, each with its own roof and function. The hall house does not link anything: house, byre and barn are a single undivided volume under one ridge."
+    },
+    {
+      "node": "flemish-vernacular",
+      "difference": "The Flemish langgevelhoeve is also a merged range, but is entered from the long side, is one aisle wide rather than three, and separates the dwelling from the byre with a real cross-wall."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Structural and agricultural. The bay (Fach) of about 2.5 m is set by the span of the transverse beams over the aisle posts; the width of the Diele is set by what a threshing team and a wagon need, about 4.5-6 m; the total width of 13-15 m is the Diele plus two byre aisles. Length is a variable and reads directly as the wealth of the farm.",
+    "typical_ratios": [
+      "Bay (Fach) 2.2-2.8 m on centre",
+      "Diele width 4.5-6 m; total width 13-15 m; length 20-50 m",
+      "Aisle post height 3.5-4.5 m; eave height over the Kubbungen 1.5-2.0 m",
+      "Thatch pitch 45-50 degrees"
+    ],
+    "bay_rhythm": "Absolutely regular internally — the post bays march the whole length of the building. Externally the rhythm is invisible on the flanks and irrelevant on the gable, where the Grootdor takes the whole centre.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "canonical",
+      "note": "The limiting case of the connected farmstead: not a chain of linked buildings but a single merged volume. Included here to mark that the catalog skeleton covers both ends of that spectrum."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The interior is genuinely one cell, however large — this is the single-cell logic scaled to a farm."
+    },
+    {
+      "massing": "gable-front",
+      "affinity": "common",
+      "note": "The gable is the entrance and the only designed face."
+    },
+    {
+      "massing": "double-pen",
+      "affinity": "forbidden",
+      "note": "Two equal rooms side by side under one roof is the antithesis of a three-aisled hall; the type cannot be produced this way."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Bay (Fach) spacing 2.2-2.8 m on centre, fixed by the transverse beams over the aisle posts. Overall length must be a whole number of bays; growth is by adding a bay at the hearth end, never by stretching a bay.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The Diele must run unbroken from the Grootdor to the Flett. No cross wall, no stair and no partition may interrupt it; the type dies the moment one does.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Reed thatch at 45-50 degrees, carried over the byre aisles to an eave 1.5-2.0 m above grade. The low eave is structural, thermal and functional — it protects the framed wall, buries the byre in the roof, and cannot be raised without producing a different building.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "No masonry chimney in the original type. Introducing one, or a smoke hood, converts the building to the 19th-century reformed plan and requires the byre to be separated out.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Carving, lettering and finials belong exclusively to the entrance gable. Ornamenting the long flanks is not a stylistic error but a misreading of the type.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hall house at Best",
+      "location": "North Brabant, Netherlands",
+      "year": 1262,
+      "note": "Frame dendro-dated to 1262; the earliest dated example of the type anywhere, still in use as a stable with the living end rebuilt c. 1640-1680."
+    },
+    {
+      "name": "Dat ole Huus",
+      "location": "Wilsede, Luneburg Heath, Germany",
+      "year": 1540,
+      "note": "Museum-preserved Heath farmhouse, c. 1540; one of the least-altered surviving hall interiors with the Flett intact."
+    },
+    {
+      "name": "Hof der Heidmark",
+      "location": "Bad Fallingbostel, Germany",
+      "year": 1642,
+      "note": "Dated hall house, now the core of an open-air museum farmstead."
+    },
+    {
+      "name": "Museumsdorf Hosseringen",
+      "location": "Suderburg, Lower Saxony, Germany",
+      "year": null,
+      "note": "Landwirtschaftsmuseum Luneburger Heide; relocated hall houses and farm buildings of the 17th-19th centuries with the bay structure legible."
+    }
+  ],
+  "sources": [
+    "Schepers, Haus und Hof westfalischer Bauern",
+    "Bedal, Historische Hausforschung: Eine Einfuhrung",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World",
+    "Rudofsky, Architecture Without Architects"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "hall-house",
+    "byre-dwelling",
+    "thatch",
+    "timber-frame",
+    "germanic"
+  ]
+}

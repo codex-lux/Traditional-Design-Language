@@ -1,0 +1,165 @@
+{
+  "id": "fence-from-the-wrong-century",
+  "name": "The Fence From The Wrong Century",
+  "aka": [
+    "the six-foot dog-ear",
+    "vinyl picket",
+    "the ranch rail in a forecourt"
+  ],
+  "slots": [
+    "fence_wall",
+    "landscape_idiom",
+    "street_relationship"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "A boundary that belongs to another period or another kind of place: a 6 ft dog-eared stockade fence running past the front corner of a 1780s-styled house; a two-rail split rail, which is a field fence, enclosing a suburban forecourt; a vinyl picket with 1 in gaps and a moulded gothic point; a chain link; or a wrought-iron pattern of 1890 scrollwork in front of a Georgian door. The fence is often the largest single object in the foreground of every photograph of the house.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Fencing is bought from a fencing contractor's catalogue, in stock panel sizes, months after the house is finished and usually by the owner rather than the builder, with no reference to any drawing. The catalogue's defaults are set by the market: 6 ft privacy, 4 ft picket, 3-rail ranch, in pressure-treated pine or vinyl, in 8 ft panels. Height is then fixed by a zoning table - typically 6 ft to the rear and sides and 3 to 4 ft in the front yard - which nobody reads as a design rule, and the panel proportions follow from the panel, not from the house.",
+    "cost_saved": "A stock vinyl or panel fence runs $18-$35 per linear ft installed; a painted wood picket built to a period section runs $45-$90, and a brick wall with piers and a moulded coping $180-$450."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fence_wall / picket_height_in = 42-54 and picket_spacing",
+      "statement": "Painted wood picket at 42 to 54 in, with picket width to picket gap roughly 1:1; or a brick wall with piers at 60 to 96 in with a moulded or bevelled brick or stone coping; post-and-rail for field boundaries only."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fence_wall / gate_position",
+      "statement": "On the entrance axis, always."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fence_wall note",
+      "statement": "The forecourt enclosure is the first of the three thresholds in the entry sequence and it is the one most often omitted in modern work, which is why so many otherwise correct houses feel as though they are standing in a field."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a boundary states what kind of place it encloses",
+      "statement": "Post-and-rail says field, picket says garden, brick wall with a coping says forecourt, stockade says back yard, chain link says utility. Putting the wrong one on the front of a house makes a claim about the ground that the house then has to argue with."
+    }
+  ],
+  "correct_practice": "Choose the boundary by what it encloses and detail it by period. For an Anglo-American domestic forecourt: painted wood picket, 42 to 54 in overall, with pickets 1 1/8 to 1 5/8 in thick, 2 1/2 to 3 1/2 in wide, spaced roughly their own width apart so the fence is about half open, on rails housed into square posts of 4 to 5 in with a moulded or chamfered cap, and a gate on the entrance axis at the same height as the fence. Or a brick wall 60 to 96 in with piers at 8 to 12 ft and a moulded or bevelled brick or stone coping, which is the higher-status version of the same idea. Post-and-rail is a field boundary and belongs at the road frontage of a farm or a paddock, not around a garden. The ha-ha is the period landscape's own device for a boundary that does not interrupt a view and is the one item on the list a modern site can still use unchanged. Three date checks worth making: the sawn gothic or spear-point picket top is a nineteenth-century catalogue item and is wrong before about 1840; cast-iron fencing in scrollwork patterns is a post-1840 industrial product and cannot appear on a colonial house; and welded wire, chain link and vinyl are twentieth-century materials with no period equivalent at all.",
+  "fixes": {
+    "right": "Build the enclosure the type calls for - painted picket at 42-54 in with the gate on the axis, or a brick wall with piers and a coping.",
+    "cheap": "Fix the height and the rhythm before the material. A stock fence cut down to 42-48 in, with its posts capped and the whole thing painted rather than stained, reads correctly at forty feet even in pressure-treated pine; the two things the eye actually reads are the height against the house's base and the ratio of solid to gap, and both are free to change. Where a 6 ft privacy fence is genuinely wanted for a rear yard, keep it entirely behind the front plane of the house and let a 42 in fence or a hedge carry the frontage.",
+    "dishonest": "Vinyl picket. It has the right silhouette and none of the properties: no shadow at the arris because the sections are rounded and hollow, a uniform gloss that never weathers, panel-to-panel joints in the rails, and a whiteness that is the same at forty feet as at four - which is exactly why it reads wrong in a photograph before anyone can say why."
+  },
+  "detection": "Measure the fence height against the first-floor sill or the door, both known dimensions. A front-boundary fence above about 48 in is either the wrong type or is standing where a rear fence should be. Check the picket-to-gap ratio: roughly 1:1 is a period picket, 3:1 or solid is a privacy fence with pointed tops. Look at the rails - a period fence has two or three rails housed into posts and the pickets nailed to the rails, and a stock panel has the pickets fixed to rails that die into the posts in a butt joint with a galvanised bracket. Look for the gate: no gate on the entrance axis means the fence is a property boundary rather than a forecourt.",
+  "test": {
+    "expression": "front_boundary_fence_height_in",
+    "threshold": 42.0,
+    "direction": "between",
+    "upper": 54.0,
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "For a domestic forecourt fence, against a house whose type has one. Masonry forecourt walls run 60-96 in and are tested separately. Pair with picket_width / gap_width, which should be 0.8-1.2; a stock privacy fence gives 3.0 or more."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "There is no fence at all; the boundary is the building, and the only opening in it is the zaguan door. A garden fence in front of a courtyard house is the anachronism.",
+      "bounds": "Requires the building on the street line with a controlled entry. Where a garden wall does occur it is a full masonry wall, 2 to 3 m and blind, not a fence.",
+      "applies_when": {
+        "construction": [
+          "zero-lot-line",
+          "street-wall"
+        ]
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The street boundary is a garden wall or a screen carrying the FALSE DOOR - a door in a wall that looks like the front door of the house and opens onto the piazza. It is the single most extraordinary boundary detail in American building and it breaks every ordinary fence rule.",
+      "bounds": "The false door must genuinely open onto a piazza of 8 ft or more, and the true entrance must be at least one bay back along it. A decorative door applied to a garden wall with nothing behind it is a stage set."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "Post-and-rail and later wire fencing are the correct boundary for a working farm and for its road frontage.",
+      "bounds": "Requires a genuine agricultural setting. Post-and-rail around a quarter-acre suburban lot is the fault: it says field where there is no field."
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "The boundary is the casco wall, blank for a hundred metres with one or two monumental gates.",
+      "bounds": "Full-height masonry with a genuine gateway; a decorative low wall does not read as a precinct."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The boundary is a cast-iron areaway railing on a low stone kerb wall, 30-42 in, which is a nineteenth-century industrial product and correct to the date.",
+      "bounds": "Cast or wrought iron only, on a masonry kerb, and only from about 1840 onward. This is exactly the item that is an anachronism on a colonial house.",
+      "applies_when": {
+        "date_range": [
+          1840,
+          1900
+        ],
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "gothic-revival-american",
+      "why": "Sawn and pierced picket profiles - gothic points, trefoils, scrolled tops - are correct here and are part of the same jigsaw vocabulary as the bargeboard.",
+      "bounds": "From about 1840, and the profile must belong to the same family as the house's own sawn ornament.",
+      "applies_when": {
+        "date_range": [
+          1840,
+          1890
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "lawn-to-the-front-door",
+      "difference": "That fault is the absence of any enclosure. This is the presence of the wrong one, and it is the lesser fault - a wrong fence at least makes a forecourt."
+    },
+    {
+      "fault": "quoin-by-catalogue",
+      "difference": "Same driver in a different trade: an element bought from a catalogue at its default dimensions rather than drawn for the building."
+    }
+  ],
+  "co_occurs_with": [
+    "lawn-to-the-front-door",
+    "buried-base"
+  ],
+  "severity_by_style": [
+    {
+      "style": "charleston-single-house",
+      "severity": "fatal",
+      "why": "The garden wall with its false door is the type's threshold sequence; substituting a stock fence deletes the entry sequence entirely."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The forecourt enclosure is the first of three thresholds and its detail is dated to within a few decades."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Post-war types have no forecourt tradition and the boundary is genuinely open to interpretation."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json fence_wall: variants, picket_height_in, picket_spacing, brick_wall_height_in, wall_coping, gate_position, and the ha-ha",
+    "styles/charleston-single-house.json false street door in the screen wall",
+    "HABS and Historic New England documentation of surviving eighteenth and nineteenth-century wood fencing sections and profiles",
+    "Nineteenth-century millwork and iron-founders' catalogues for the dating of sawn picket profiles and cast-iron fence patterns",
+    "Municipal zoning fence-height tables (typically 36-48 in in front yards, 72 in to sides and rear)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "site",
+    "fence",
+    "boundary",
+    "anachronism",
+    "catalog-default",
+    "photograph-testable",
+    "endemic"
+  ]
+}

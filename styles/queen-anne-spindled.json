@@ -1,0 +1,194 @@
+{
+  "id": "queen-anne-spindled",
+  "name": "Queen Anne, Spindlework",
+  "aka": [
+    "Spindlework Queen Anne",
+    "Eastlake Queen Anne",
+    "Gingerbread Queen Anne",
+    "San Francisco Victorian"
+  ],
+  "rank": "variant",
+  "member_of": "queen-anne-american",
+  "status": "historical",
+  "period": {
+    "origin": 1878,
+    "floruit_start": 1880,
+    "floruit_end": 1900,
+    "decline_end": 1908,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States nationwide",
+      "San Francisco Bay Area",
+      "Pacific Northwest",
+      "Midwest",
+      "Gulf Coast",
+      "Northeast"
+    ],
+    "hearth": "The millwork centres of the Great Lakes and their railroad distribution",
+    "climate_zones": [
+      "3A",
+      "3C",
+      "4A",
+      "4C",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "queen-anne-american",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "By McAlester's count roughly half of all American Queen Anne houses fall in this subtype, making it the parent's default expression rather than a specialisation."
+    },
+    {
+      "target": "stick-style",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The porch as an open frame of posts and braces carries forward, but every member has been put on a lathe."
+    },
+    {
+      "target": "italianate-american",
+      "type": "descends_from",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "The sawn porch bracket and the chamfered post arrive from the earlier catalogue and never entirely leave."
+    }
+  ],
+  "description": {
+    "short": "The lathe-turned expression of the American Queen Anne, in which porches carry turned posts, spindle friezes, and pierced valances, and gables are filled with cut-shingle patterning, all of it purchased ready-made.",
+    "long": "The spindlework subtype is what most Americans mean when they say Victorian. It is the Queen Anne composition, one dominant mass, wrapping porch, textured wall, executed with the products of the wood-turning lathe: turned posts with a swell, turned balusters, and above all the spindle frieze, a run of small turned members hung in a band beneath the porch head like a fringe. Above the porch the gables are filled with cut shingles in fish-scale, diamond, or sawtooth courses, and there is often a sunburst or a panel of pierced boards at the apex.\n\nThe subtype exists because of a specific machine and a specific supply chain. The powered turning lathe with a copying attachment could reproduce a profiled baluster in seconds and identically; the shingle mill could cut a decorative butt as easily as a plain one; and the millwork catalogue sold both by the linear foot with a part number. The Eastlake label often attached to these houses is a historical accident and an injustice, since Charles Locke Eastlake, whose Hints on Household Taste appeared in 1868 and in American editions from 1872, was arguing for rectilinear, honestly jointed, structurally legible furniture and was appalled to find his name on the most lathe-happy houses ever built. The American reception of Eastlake is a compact case study in what happens when a design argument travels faster than its reasoning.\n\nIt is also, in this taxonomy, the branch where a kit-of-parts system will find the largest and best-documented parts catalogue in American history, and the place where the rules of combination matter most. The spindlework Queen Anne is the easiest style in the country to do badly, because the parts are cheap, plentiful, and mutually compatible in the trivial sense that they all bolt to a porch. What separates the Carson Mansion from a thousand forgettable contemporaries is not the quantity of the ornament but the fact that its masses are hierarchically ordered underneath it. Ornament cannot rescue a composition, and this subtype is the historical proof.\n\nUp close the effect is of a building edged in lace. The spindle frieze is the most successful device: it is dense enough to read as a continuous band from the street, open enough to let light through, and it puts a fine-grained texture at exactly the height where a person standing on the sidewalk is looking. The turned posts are slender and their shadows are thin, so the porch feels light and airy despite being deep. In San Francisco, where the type is compressed onto a twenty-five foot lot and painted in three to five colours, the whole street becomes a single decorated surface, which is a genuinely urban achievement that the freestanding Midwestern examples never quite reach."
+  },
+  "defining_characteristics": [
+    "Turned porch posts with a pronounced swell, in place of classical columns or square piers",
+    "A spindle frieze or pierced valance suspended beneath the porch head, running the full length of the porch",
+    "Turned balusters and, frequently, a second turned spindle band at the porch rail",
+    "Cut-shingle patterning filling at least one principal gable, in fish-scale, diamond, or sawtooth coursing",
+    "Sawn brackets or knee braces at the head of every porch post",
+    "The parent style's dominant mass, wrapping porch, and multi-texture wall preserved beneath the ornament",
+    "Absence of classical detail: no column with entasis, no dentil or modillion cornice, no Palladian window"
+  ],
+  "diagnostic_tells": [
+    "The spindle frieze is the single tell. No other American subtype hangs a band of turned members beneath the porch head",
+    "Every ornamental member is round in section because it came off a lathe; Stick Style members are all flat and rectangular",
+    "Cut-shingle gable over clapboarded wall, with the change at the second-floor line",
+    "Where you find a classical column or a Palladian window on an otherwise Queen Anne house, you are in the free classic subtype instead",
+    "Colour: this is the subtype that the multi-colour paint schemes of the 1880s and the 1970s revival were built for, because the ornament needs a value contrast to read"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-free-classic",
+      "difference": "The same massing with the opposite porch. Free classic substitutes Tuscan or Ionic columns, dentilled cornices, and Palladian windows for the lathe-turned vocabulary; the two subtypes are chronologically sequential, spindlework peaking in the 1880s and free classic after about 1890."
+    },
+    {
+      "node": "stick-style",
+      "difference": "Both are wooden and porch-obsessed, but Stick Style ornament is flat, rectilinear, and pretends to be structure, while spindlework is round, turned, and makes no structural claim whatever."
+    },
+    {
+      "node": "folk-victorian",
+      "difference": "Identical ornament catalogue, entirely different building underneath. If the massing is a plain folk type with no dominant mass and no wall projection, the house is Folk Victorian no matter how elaborate the porch."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the parent's mass hierarchy, with a second finer rhythm supplied by the turned members of the porch. The turning profile is a catalogue constant, so the designer's real control is over post spacing and frieze depth.",
+    "typical_ratios": [
+      "Porch post 5 to 8 in diameter at the swell, spaced 6 to 9 ft on centre",
+      "Spindle frieze depth 10 to 18 in, spindles 1.5 to 2.5 in diameter at 3 to 5 in on centre",
+      "Bracket or knee brace 12 to 24 in on the diagonal at every post head",
+      "Cut-shingle gable field not less than 60 percent of the gable area",
+      "Porch depth 7 to 10 ft; porch head height 8 to 9 ft above deck"
+    ],
+    "bay_rhythm": "Two rhythms at once: an irregular window rhythm set by rooms, and a regular fine-grained spindle rhythm across the porch that does most of the perceptual work at street level.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "common"
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "common",
+      "note": "Round tower with a conical cap and a spindled porch running under it."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The San Francisco and Sacramento rows, where the whole subtype is compressed onto a narrow frontage."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "possible"
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "The porch shall carry turned posts and a spindle frieze or pierced valance running its full length, with spindles 1.5 to 2.5 in in diameter at 3 to 5 in on centre and a frieze depth of 10 to 18 in. A porch without a frieze does not satisfy this subtype."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Classical elements are prohibited: no column with entasis or classical capital, no dentil or modillion cornice, no Palladian or Venetian window. Any of these places the building in the free classic subtype."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Not fewer than one principal gable shall be filled with patterned cut shingles over not less than 60 percent of its field, with the texture change from the wall below occurring at a belt course or storey line."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "One turned profile shall be used for all posts on a building and one for all balusters. Mixing catalogue profiles within a single porch is prohibited."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "A sawn bracket or knee brace of 12 to 24 in on the diagonal shall occur at the head of every porch post, on both faces at corners."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Carson Mansion",
+      "location": "Eureka, California",
+      "year": 1886,
+      "note": "Samuel and Joseph Cather Newsom, 1884-86. Redwood, and the maximum case of the subtype; ornamentally extreme but hierarchically ordered underneath, which is why it works."
+    },
+    {
+      "name": "Haas-Lilienthal House",
+      "location": "San Francisco, California",
+      "year": 1886,
+      "note": "Peter R. Schmidt. Redwood, on a narrow deep lot, with a circular corner tower and full spindlework porch; the best-preserved public example of the urban West Coast version."
+    },
+    {
+      "name": "Rosson House",
+      "location": "Phoenix, Arizona",
+      "year": 1895,
+      "note": "A. P. Petit, 1894-95. Brick and wood with an octagonal turret; documented as Stick-Eastlake Queen Anne, and a good example of the subtype at the arid frontier of its distribution."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Charles Locke Eastlake, Hints on Household Taste in Furniture, Upholstery and Other Details (American ed. 1872)",
+    "Elizabeth Pomada and Michael Larsen, Painted Ladies: San Francisco's Resplendent Victorians (1978)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "spindlework",
+    "lathe",
+    "catalog-ornament",
+    "eastlake-misnomer",
+    "most-common-subtype"
+  ]
+}

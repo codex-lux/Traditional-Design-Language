@@ -1,0 +1,299 @@
+{
+  "id": "palladio-tuscan",
+  "name": "Palladio's Tuscan Order (overlay on Vignola)",
+  "aka": [
+    "Tuscan of the Quattro Libri",
+    "Tuscan after Ware's Palladio, 1738",
+    "Vitruvian Tuscan"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII-XIV and XIX",
+    "author": "Andrea Palladio",
+    "year": 1570,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011569684",
+    "note": "Figures read from Isaac Ware's English edition of 1738 (The Four Books of Architecture, London), which is the text Burlington, Kent, Campbell, Gibbs and colonial Virginia actually worked from; page references below are to the Getty scan of Ware. Cross-checked against the c82.net transcription of Ware, Book I. Where Ware and the modern transcription disagree the disagreement is recorded in the member note rather than resolved silently."
+  },
+  "overlay_of": "vignola-tuscan",
+  "module": {
+    "name": "The WHOLE diameter of the column at the bottom of the shaft, divided into sixty minutes",
+    "parts": 60,
+    "default_size_in": 12.0,
+    "note": "READ THIS BEFORE ANY OTHER NUMBER IN THIS PACK. Vignola's module is the SEMIdiameter, divided into 12 parts for the Tuscan; Palladio's module is the WHOLE diameter, divided into 60 minutes. Ware 1738, Book I ch. XV, states the rule in one sentence: 'the module in this order [the Doric], only, is but half the diameter of the column divided into thirty minutes, and in all the other orders it is the whole diameter divided into sixty minutes.' Consequences: (1) every module figure in this pack is HALF the corresponding Vignola figure for the same physical dimension - Palladio's 7-module Tuscan column and Vignola's 14-module Tuscan column are the same 7 diameters; (2) one Palladian minute is 1/60 D against Vignola's Tuscan part of 1/24 D, so Palladio's granularity is two and a half times finer and uniform across four of his five orders; (3) any member NOT restated here inherits from vignola-tuscan and its part-values must be MULTIPLIED BY 2.5 (12 parts of a semidiameter -> 60 minutes of a diameter) before they can be added to anything in this pack. A reader who carries Vignola's module across will double every dimension in the order. The default of 12 in is a 12 in column: one minute is then exactly 1/5 in.",
+    "diameters": 1.0
+  },
+  "column": {
+    "height_modules": 7,
+    "shaft_height_modules": 6,
+    "diminution": 0.75,
+    "entasis_begins_at": 0.3333333333,
+    "fluting": {
+      "count": null,
+      "profile": "unfluted; Palladio's Tuscan shaft is plain, and he says the order is 'a plain rude order' fit for villas and works of use",
+      "fillet": false
+    }
+  },
+  "assemblies": {
+    "base": {
+      "height_modules": 0.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth or zocco",
+          "height_parts": 15,
+          "projection_parts": 10,
+          "profile": "plinth",
+          "note": "Ware 1738 Book I ch. XIV: the base is half a diameter high, 'divided into two equal parts, one to be given to the plinth'. Projection of the whole base a sixth part of the diameter, i.e. 10 minutes each side. Vignola gives plinth 6 of 12 parts, which is the same half; the difference here is not the proportion but the module.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_torus",
+          "name": "Torus or bastone",
+          "height_parts": 11.25,
+          "projection_parts": 10,
+          "profile": "torus",
+          "note": "The upper half of the base is divided into four; three of those four are the torus. Vignola's Tuscan torus is 4 of 12 parts = 1/3 of the base; Palladio's is 3/8 of the base. In absolute terms Palladio's torus is 11.25/60 D against Vignola's 10/60 D - a fatter torus by an eighth.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_cimbia",
+          "name": "Cimbia (fillet or cincture at the foot of the shaft)",
+          "height_parts": 3.75,
+          "profile": "fillet",
+          "note": "The fourth part of the upper half. Palladio treats it as belonging to the base; Vignola's Tuscan base ends in an apophyge of 2 of 12 parts drawn with the shaft. This is a genuine substitution: a square-edged cincture where Vignola runs a congé.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "shaft": {
+      "height_modules": 6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "shaft_body",
+          "name": "Shaft",
+          "height_parts": 360,
+          "profile": "flat",
+          "note": "Plain. Diminished at the top by A QUARTER of the lower thickness, not by a sixth: Ware 1738 ch. XIV, the columns 'are diminished at top a fourth part of their thickness'. This is the single most visible divergence in the order - Vignola diminishes every order alike to 5/6, Palladio's Tuscan goes to 3/4, which is the Vitruvian Tuscan and reads as markedly more tapered. The lower third stays perpendicular (ch. XIII), as in Vignola. The astragal and cincture at the head of the shaft are drawn with the capital in Palladio's plate and are not separately dimensioned in his text; they are therefore not given members here rather than invented.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "capital": {
+      "height_modules": 0.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "cap_collarino",
+          "name": "Collarino (necking)",
+          "height_parts": 8.5714285714,
+          "profile": "flat",
+          "note": "Ware ch. XIV: the capital is half a diameter, divided into three; the lowest third 'is divided into seven parts; of one the fillet under the ovolo is made, and the remaining six are for the collarino'. Six sevenths of 10 minutes.",
+          "confidence": "high"
+        },
+        {
+          "id": "cap_fillet",
+          "name": "Fillet under the ovolo",
+          "height_parts": 1.4285714286,
+          "profile": "fillet",
+          "note": "One seventh of the lower third. Palladio adds that the astragal at the head of the shaft is DOUBLE this fillet; that astragal belongs to the shaft and is drawn but not dimensioned as a separate member here.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_ovolo",
+          "name": "Ovolo",
+          "height_parts": 10,
+          "profile": "ovolo",
+          "note": "One third of the capital. Vignola gives 3 of 12 parts = a quarter of the capital, with a separate fillet above; Palladio's ovolo is the fuller member.",
+          "confidence": "high"
+        },
+        {
+          "id": "cap_abaco",
+          "name": "Abaco (abacus)",
+          "height_parts": 10,
+          "profile": "abacus",
+          "note": "One third of the capital, projecting as much as the shaft below is thick. Vignola splits his abacus into abacus 3 and cimacio-fillet 1 of 12; Palladio's Tuscan abacus is a plain square block with no cimacio - a member DROPPED against Vignola.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "pedestal": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_die",
+          "name": "Pedestal, plain, without base or cornice",
+          "height_parts": 60,
+          "profile": "plinth",
+          "note": "Ware 1738 Book I ch. XIV, verbatim: 'The pedestals placed under the columns of this order are to be made plain, and one module in height.' One module here is ONE DIAMETER. Vignola's Tuscan pedestal is 4 2/3 modules = 2 1/3 diameters with a moulded base and a cyma-and-fascia cap. Palladio's is 1 diameter and has neither base nor cornice: it is a plain block, less than half Vignola's height, and the entire moulded apparatus of the pedestal is DROPPED. Anyone laying out a Palladian Tuscan arcade from the Vignola pack will get a pedestal more than twice too tall.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "Palladio's Tuscan column is seven modules, and in this order a module is a whole diameter: seven diameters, the same absolute slenderness as Vignola's fourteen semidiameter modules.",
+      "expression": "column.height_modules == 7",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The module is the whole diameter in sixty minutes, not the semidiameter in twelve parts.",
+      "expression": "module.parts == 60",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Base, shaft and capital make the column.",
+      "expression": "assemblies.base.height_modules + assemblies.shaft.height_modules + assemblies.capital.height_modules == column.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The Tuscan shaft diminishes to three quarters, not to five sixths. Palladio holds the Vitruvian Tuscan diminution and does not carry Vignola's uniform 5/6 across the orders.",
+      "expression": "column.diminution == 3 / 4",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal is one seventh of the column, against Vignola's one third.",
+      "expression": "assemblies.pedestal.height_modules / column.height_modules == 1 / 7",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Base and capital are each half a diameter, so together they are one seventh of the column.",
+      "expression": "assemblies.base.height_modules == assemblies.capital.height_modules",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "palladio-tuscan-araeostyle",
+        "clear_diameters": 4.0,
+        "note": "PALLADIO'S OWN TUSCAN SPACING, and the reason his Tuscan column is 7 diameters. Book I ch. XIII sets a single rule that binds spacing to slenderness: 'if the spaces exceed three diameters, the thickness of the columns ought to be a seventh part of their height' - that is, the wide-spaced order is the stout one. In the Tuscan chapter he says the intercolumniations 'may be very wide, because the architraves are made of wood'. Palladio gives no number above three diameters; 4.0 is Vitruvius's araeostyle and is carried here as the conventional reading, NOT as Palladio's figure. Vignola by contrast draws his Tuscan at 2 1/3 D clear and calls it eustyle."
+      },
+      {
+        "name": "palladio-tuscan-arcade",
+        "clear_diameters": 4.0,
+        "note": "Palladio's Tuscan arcade in Book I is drawn with the plain 1-diameter pedestal under the columns and a timber-architraved trabeation over. The plate carries the pier and opening figures as drawn annotations; they are not stated in the text and are not legible in the scans consulted, so no dimension is asserted here."
+      }
+    ],
+    "default": "palladio-tuscan-araeostyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 4",
+      "units": "in",
+      "judgment": true,
+      "range": [
+        0.2,
+        0.25
+      ],
+      "note": "JUDGMENT SLOT. Palladio's Tuscan chapter dimensions the column, base, capital and pedestal, but describes the entablature only as a timber construction - 'the architrave is made of wood, equal in height as in width, and not to exceed in width the shaft of the column at top' - and leaves the stone entablature to the plate, whose numerals are not legible in any scan reached. Vignola's quarter (3 1/2 semidiameter modules = 1 3/4 D) is retained as the starting point and is very close to what Palladio draws, but this pack does not assert a Palladian figure. The range is the ratio of entablature to column and is honest; the point within it is not.",
+      "authority_note": "Ware 1738, Book I ch. XIV. Palladio's other four orders are dimensioned at a fifth of the column, so a Tuscan entablature nearer 1/5 than 1/4 is defensible in Palladian company."
+    },
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height / 7 * 0.75",
+      "units": "in",
+      "note": "The upper diameter. Palladio's Tuscan alone diminishes a quarter; the lower diameter is column_height/7 and the upper is three quarters of it. Vignola would give 5/6. On a 10 ft column this is a difference of 1 3/4 in on the upper diameter, which is visible from the ground.",
+      "authority_note": "Ware 1738, Book I ch. XIV."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 7 * 4",
+      "units": "in",
+      "note": "Clear span between Tuscan columns. Palladio's rule runs the other way from most: the spacing chooses the order, not the order the spacing. Wide spacing (over three diameters) requires the seven-diameter column. This is the rule that makes a Palladian Tuscan loggia read as it does and it is not in Vignola.",
+      "authority_note": "Ware 1738, Book I ch. XIII."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "height",
+      "expression": "0.75",
+      "units": "ratio",
+      "note": "SUPERIMPOSITION. Palladio's rule for a second order over a first is that the upper columns are 'one fourth part less than those of the first' (Ware, Book II, repeatedly; at one villa he uses a fifth less). Vignola states no such rule. This is the number that governs storey graduation in every Anglo-Palladian front and it belongs to the order, not to the elevation.",
+      "authority_note": "Ware 1738, Book II, descriptions of the villa and palace fronts."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "1 / 9.75",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.1,
+        0.33
+      ],
+      "note": "JUDGMENT SLOT, and a warning. The standing derivation of a chair rail is the cap of the pedestal brought to room scale. With Vignola's Tuscan that lands at 4 2/3 : 14 : 3 1/2, about 0.21 of the whole - already low. With Palladio's 1-diameter Tuscan pedestal it lands at 1 : 7 : 1.75, about 0.10, which at a 9 ft ceiling is 11 in off the floor. That is a skirting, not a chair rail. The honest conclusion is that Palladio's Tuscan pedestal is not a chair-rail datum at all and the room must take its dado from another order or from use. Do not run this rule blind.",
+      "authority_note": "Ware 1738, Book I ch. XIV; no classical source dimensions an interior chair rail."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "1 / 14",
+      "units": "ratio",
+      "range": [
+        0.0625,
+        0.0833
+      ],
+      "judgment": true,
+      "note": "Of ceiling height. Unchanged from the Vignola spine and repeated here only because the Tuscan plinth analogy is the one place a Palladian room and a Vignolesque room agree.",
+      "authority_note": "Not classical. The plinth analogy is the standing derivation in Anglo-American practice."
+    },
+    {
+      "target_slot": "steps_and_stoop",
+      "dimension": "height",
+      "expression": "column_height / 7",
+      "units": "in",
+      "note": "The plain 1-diameter Tuscan pedestal is in practice the podium or stylobate of a Palladian loggia rather than a moulded pedestal, and it sets the height of the steps up to the loggia floor. Reading it as a Vignolesque pedestal - moulded base, die, cornice - is the commonest way a Palladian Tuscan porch goes wrong.",
+      "authority_note": "Ware 1738, Book I ch. XIV; Book II villa plates."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "material-availability",
+      "statement": "A quarter diminution is not a stock column. Every catalogue column - wood, fibreglass, cast stone, GFRC - is turned to Vignola's 5/6 because that is what the American Vignola taught and what the moulds were cut for. Specifying Palladio's Tuscan means custom turning or custom moulds, at a premium of roughly two to four times the catalogue price per column, and it means the caps and bases of the same catalogue will not fit the top of the shaft.",
+      "resolution": "Decide early whether the building is Palladian in fact or in gesture. If the columns must be catalogue, use the Vignola pack and say so - a 5/6 Tuscan is not wrong, it is Vignola's. If the diminution matters (a Burlingtonian or Jeffersonian front where the taper is the point), price custom shafts at design development, not at bid, and buy caps and bases from the same maker.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "Palladio's Tuscan is an araeostyle order: it is stout precisely because it is spaced over three diameters clear, and the spacing is only possible because the architrave is timber. Executed in stone or cast stone at four diameters clear, the architrave cracks; executed in wood at that span with a modern eave and snow load it deflects visibly and takes the whole entablature with it.",
+      "resolution": "Keep the timber architrave that the order assumes, but carry the load on a steel or LVL beam hidden within its depth, bearing on the columns and not on the architrave itself. Detail the wood as a case around the beam with a slip joint at each column so that deflection does not open the mitres. If the architrave must be stone, come back to three diameters clear or less.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "One Palladian minute is 1/60 of a diameter. At the default 12 in column that is 1/5 in, and the smallest member in this order - the cimbia at 3.75 minutes - is 3/4 in, which is fine. But at an 8 in column a minute is 0.133 in and the fillet under the ovolo (1.43 minutes) is 3/16 in, which three coats of paint will halve.",
+      "resolution": "Set 8 in as the floor for this order in painted wood. Below it, consolidate the fillet under the ovolo into the collarino and record the consolidation on the shop drawing rather than drawing a member the shop will lose.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "palladian",
+    "english-palladian",
+    "italian-renaissance",
+    "renaissance-classical",
+    "jeffersonian-classicism",
+    "english-georgian-country-house",
+    "georgian-colonial-american",
+    "tidewater-georgian",
+    "new-england-georgian",
+    "colonial-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "Andrea Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XIV, XIX",
+    "Andrea Palladio, The Four Books of Architecture, tr. and ed. Isaac Ware, London 1738 (archive.org/details/gri_33125011569684) - Book I, leaves 34-37 and 88 of the Getty scan",
+    "c82.net/architecture/book1 - transcription of Ware's Book I, used as an independent check on the Getty OCR",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-tuscan.json - the spine this pack overlays",
+    "Robert Chitham, The Classical Orders of Architecture, 2nd ed. 2005 - comparative tables"
+  ],
+  "confidence": "medium",
+  "notes": "WHAT THIS OVERLAY ASSERTS. The module (whole diameter in 60 minutes), the column at 7 modules, the quarter diminution, the half-diameter base and capital with their internal divisions, and the plain 1-module pedestal are all stated in Ware's text and are high confidence. They are enough to lay out the column and the pedestal completely.\n\nWHAT IT DOES NOT ASSERT. Palladio's Tuscan entablature. His chapter describes the Vitruvian timber trabeation - architrave as wide as it is deep, joists projecting a quarter of the column's length - and puts the stone entablature only on the plate, where the numerals are drawn annotations. No scan reached carries them legibly, and the modern transcription consulted confirms that the text states no entablature total and no ratio to the column. Rather than guess, this pack leaves the entablature to a judgment rule with an honest range. Note what that means for inheritance: if you fall through to vignola-tuscan you will get 3 1/2 modules OF A SEMIDIAMETER, which is 1 3/4 diameters - correct in absolute terms, but you must halve it before adding it to anything in this pack.\n\nWHY PALLADIO'S TUSCAN IS NOT VIGNOLA'S. Three things. The module, which changes every number's meaning. The diminution, a quarter against a sixth, which is the difference between a Vitruvian and a Renaissance column. And the pedestal, one diameter plain against two and a third moulded, which changes the whole podium of a loggia. The column height itself - seven diameters - is identical in both, which is worth saying plainly: Palladio is not more slender than Vignola in the Tuscan. Where he is lighter is in the entablature of his other orders (a fifth, not a quarter) and in the Corinthian column (9 1/2 diameters, not 10).\n\nTHE ORDER IN CONTEXT. Palladio publishes the orders inside complete buildings, so his Tuscan carries the araeostyle spacing of a working villa loggia rather than an abstract colonnade, and his rule in Book I ch. XIII runs from the spacing to the order: over three diameters clear, the column is a seventh of its height. Vignola has no such rule."
+}

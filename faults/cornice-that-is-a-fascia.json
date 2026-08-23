@@ -1,0 +1,263 @@
+{
+  "id": "cornice-that-is-a-fascia",
+  "name": "The cornice that is only a fascia",
+  "aka": [
+    "the 2x8 and a crown",
+    "the gutter-height cornice",
+    "flattened eaves"
+  ],
+  "slots": [
+    "cornice"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "The top of the wall is a sub-fascia, a 1x6 or 1x8 fascia board and a 3 1/2 in crown moulding, giving a total height of about 8 in and a projection of 4-6 in. It is the same assembly at the eave, at the rake and over the porch. There is no corona, no bed mould, no dentil or modillion band, and the whole termination reads as a trim detail rather than as the end of the wall.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "A boxed cornice with a real corona is a framed assembly: lookouts cantilevered from the wall, a soffit, a fascia carrying the corona, and separate bed and crown mouldings. Modern eave framing terminates in a sub-fascia at the rafter tail, which is set by the truss manufacturer's standard 12 or 16 in overhang and by the gutter's fixing surface. Everything after that is trim applied to a surface whose depth was already fixed by the truss order — placed months earlier, by the framer, on a price.",
+    "cost_saved": "A framed boxed cornice with a corona, bed mould and modillions runs $45-$110 per lineal foot; a sub-fascia, fascia and crown runs $14-$26. On 200 lf, $6,000-$17,000."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / elevation member cornice: height_parts 2.0 = 18 in, projection_parts 0.86 = 7 3/4 in",
+      "statement": "Eighteen inches high and about 7 3/4 in of projection — a boxed modillion or dentil cornice at domestic scale. Twice the frieze, and that 2:1 is the ratio that keeps the top of the wall from reading as a gutter."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical invariant: cornice.projection > water_table.projection * 2",
+      "statement": "The three horizontals diminish in projection going up until the cornice, which reverses and dominates: water table 0.35, belt 0.25, cornice 0.86 parts. The cornice must out-project every other horizontal by a clear factor of two or it will not read as the end of the wall."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "gibbs-ionic / cornice = storey_height / 4 * (7/18) = 11 2/3 in; storey-graduation / cornice = module / 8 = 15 in; brick-course / cornice = part * 5 = 13 3/4 in",
+      "statement": "Three modules give 11.7, 15 and 13.75 in for the cornice member alone. None of them gives 8."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / cornice",
+      "statement": "It may be simplified by dropping the modillions but never by cutting down the corona."
+    }
+  ],
+  "correct_practice": "Size the cornice from the storey and give it a corona. At a 10 ft storey the cornice member is 11 3/4 to 15 in high depending on which module governs — the order on a frame house, the brick gauge on a masonry one, where a corbelled cornice must be a whole number of courses (five at 2 3/4 in gives 13 3/4 in). The whole crowning assembly including the frieze is about 27 in on a 9 ft bay, and it projects 6-12 in at domestic scale. Note the distinction that catches most people: a DOMESTIC BOXED cornice projects roughly 0.4 to 0.5 of its own height (18 in high, 7 3/4 in out), while a FULL ENTABLATURE-derived cornice — where an order is actually applied, on a portico or a pilastered front — projects about its own height. Applying the second rule to the first condition gives a grotesquely heavy eave; applying the first to the second gives a portico with a flat top. The invariant that holds in both cases is comparative: the cornice out-projects the water table by at least two to one. If the water table stands 3 in proud, the cornice must stand at least 6 1/4 in proud, and there is no style in which this is negotiable.",
+  "fixes": {
+    "right": "Frame the cornice: lookouts, soffit, fascia, corona with a real 2 1/2-4 in drip projection past the frieze, bed mould below and cyma above, sized from the principal storey and detailed to be the deepest shadow on the building.",
+    "cheap": "Buy projection with a bed mould and a wider fascia rather than with framing. Adding a 3 1/2 in bed mould under the existing fascia and packing the fascia out with a 5/4 board gains 2 1/2-3 in of projection and about 5 in of height for around $9/lf — roughly $1,800 on a house — and takes the assembly from 8 in to 13 in, which crosses the threshold at which it stops reading as a gutter. Priority order when money is short: projection first, height second, member count last. A three-member cornice at full projection beats a seven-member one at half.",
+    "dishonest": "A larger crown moulding. Crown is the cheapest way to add apparent height and it adds almost no projection, because a crown springs at 38-52 degrees and a 5 1/4 in crown projects only about 3 1/4 in. A cornice made of a big crown and nothing else has a steeply raked underside where a corona's flat soffit ought to be, and it therefore casts a soft graded shadow rather than the hard horizontal band a corona throws. The presence or absence of that hard band is the single most reliable read on a cornice at 100 ft."
+  },
+  "detection": "Measure the cornice's shadow against the water table's. In an image with sun on the facade, the cornice must throw a shadow at least twice as deep as the water table's; if the deepest shadow on the elevation is at the base rather than at the top, the hierarchy has inverted and the cornice has failed. Second, express the cornice's total height as a fraction of the wall height from water table to cornice: the Georgian figure is 1/12 to 1/14, so on a 22 ft wall the cornice is 19-22 in. Under 1/20 is the fault. Third, look for the corona's flat soffit: a correct cornice shows a horizontal band of shadow of constant depth under the projecting member; a crown-only cornice shows a graded tone with no hard edge.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival deliberately flattens the cornice: broad, flat, unmoulded members, ornament by profile and mass rather than by relief. The eave is often a plain deep fascia with a simple bed mould and a very shallow crown, and the entablature is carried as a continuous band round the building.",
+      "bounds": "Flattening is of the PROFILE, not of the DIMENSION — and the Greek entablature is one quarter to one fifth of the column height, so the assembly gets DEEPER, not shallower: 20-30 in of frieze and cornice together on a two-storey house. Greek Revival simplifies mouldings and enlarges members. A shallow assembly with a small crown is not Greek Revival, it is nothing.",
+      "bounds_test": {
+        "expression": "frieze_plus_cornice_height_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 20,
+        "note": "The entablature is one quarter to one fifth of column height, so the assembly gets DEEPER, not shallower. Flattening is of the profile only."
+      },
+      "applies_when": {
+        "slots": [
+          "entablature",
+          "frieze",
+          "cornice"
+        ]
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Italianate wants the opposite extreme — an 18 to 36 in eave overhang carried on paired sawn brackets, far deeper than a Federal or Georgian cornice would tolerate.",
+      "bounds": "Requires the brackets, which are the structural argument for the depth, and requires the low suppressed roof that goes with it. An Italianate cornice on a Federal house is as wrong as a Federal one on an Italianate.",
+      "bounds_test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 18,
+        "upper": 36,
+        "note": "Requires the brackets, which are the structural argument for the depth, and the low suppressed roof that goes with it. An Italianate cornice on a Federal house is as wrong as a Federal one on an Italianate."
+      },
+      "applies_when": {
+        "slots": [
+          "modillion_dentil",
+          "eave_condition",
+          "roof_pitch"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Eaves are shallow, 6 to 12 in, and cut tight to the wall — the style deliberately refuses a cornice because a cornice would interrupt the continuous skin.",
+      "bounds": "The eave must be cut tight with no fascia expression at all — a clipped, almost bladelike edge, with the shingles running up to it. A stock fascia-and-crown assembly at 8 in is not a Shingle Style eave; it is a failed classical one. This is a licence to have NO cornice, not to have a small one.",
+      "bounds_test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 6,
+        "upper": 12,
+        "note": "Cut tight with no fascia expression at all. This is a licence to have no cornice, not to have a small one."
+      },
+      "applies_when": {
+        "slots": [
+          "eave_condition",
+          "primary_cladding"
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "No eave, fascia, gutter or cornice of any kind; the wall runs up into a parapet.",
+      "bounds": "Requires the parapet and the canales. Absence with a pitched roof behind it is a different building.",
+      "bounds_test": {
+        "expression": "eave_projection_in",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Requires the parapet and the canales. Absence with a pitched roof behind it is parapet-as-stage-flat."
+      },
+      "applies_when": {
+        "slots": [
+          "parapet",
+          "roof_form"
+        ]
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman eave is 24-36 in of overhang with exposed rafter tails and no cornice mouldings at all; the depth is in the overhang and the structural members.",
+      "bounds": "Projection must be there — 24 in minimum — and the rafter tails must be real, continuous with the rafters and shaped. A 12 in overhang with applied false tails is the fault wearing Craftsman clothes.",
+      "bounds_test": {
+        "expression": "eave_projection_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 24,
+        "note": "The depth is in the overhang and the structural members, and the rafter tails must be real, continuous with the rafters and shaped. A 12 in overhang with applied false tails is the fault wearing Craftsman clothes."
+      },
+      "applies_when": {
+        "slots": [
+          "eave_condition",
+          "rake_condition"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "frieze-as-fascia-board",
+      "difference": "The frieze is the band below the cornice's bed and is a different member. A building can have a full 18 in cornice sitting directly on the wall with no frieze at all, which is a separate fault with a separate fix."
+    },
+    {
+      "fault": "k-style-gutter-on-a-classical-cornice",
+      "difference": "A gutter ruins a correct cornice; this fault is a cornice that was never correct. Diagnose the cornice with the gutter mentally removed."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json, elevation member cornice and its invariants",
+    "proportions/overlays/gibbs-ionic.json via kits/georgian-colonial-american.kit.json, cornice",
+    "proportions/modules/storey-graduation.json, cornice.height authority note",
+    "proportions/modules/brick-course.json, cornice.height = part * 5"
+  ],
+  "confidence": "high",
+  "tags": [
+    "profile-depth",
+    "cornice",
+    "proportion",
+    "eave"
+  ],
+  "test": {
+    "expression": "cornice_projection_in / water_table_projection_in",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 2.0,
+    "note": "The facade-classical invariant, and the only cornice test that needs no absolute scale and holds across every style: water table 0.35 parts, belt 0.25, cornice 0.86 — the three horizontals diminish going up until the cornice, which reverses and dominates. If the deepest shadow on the elevation is at the base rather than at the top, the hierarchy has inverted and the cornice has failed. Evaluate from any sunlit photograph by comparing the two shadow depths directly."
+  },
+  "secondary_tests": [
+    {
+      "expression": "cornice_projection_in / cornice_height_in",
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.35,
+      "upper": 0.55,
+      "note": "THE DOMESTIC BOXED CASE. 18 in high and 7 3/4 in out gives 0.43. This is the distinction most people get wrong, and getting it wrong in either direction is a separate disaster."
+    },
+    {
+      "expression": "cornice_projection_in / cornice_height_in",
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.85,
+      "upper": 1.2,
+      "note": "THE FULL ENTABLATURE-DERIVED CASE — where an order is actually applied, on a portico or a pilastered front. A full cornice projects about its own height. Applying this rule to a domestic boxed eave gives a grotesquely heavy overhang; applying the domestic rule to a portico gives a flat-topped order. Choose the test by whether an order is present, not by preference."
+    },
+    {
+      "expression": "cornice_height_in / wall_height_water_table_to_cornice_in",
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.0714,
+      "upper": 0.0833,
+      "note": "One twelfth to one fourteenth of the wall height — so a 22 ft wall takes a 19-22 in crowning assembly. Under 1/20 is the fault."
+    },
+    {
+      "expression": "cornice_soffit_shadow_edge_is_hard",
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "The corona test. A correct cornice throws a horizontal band of shadow of constant depth from a flat soffit; a crown-only cornice springs at 38-52 degrees and throws a graded tone with no hard edge. Presence or absence of that hard band is the single most reliable read on a cornice at 100 ft, and it is what a big crown moulding cannot buy."
+    }
+  ],
+  "co_occurs_with": [
+    "frieze-as-fascia-board",
+    "k-style-gutter-on-a-classical-cornice",
+    "cornice-sized-off-the-attic"
+  ],
+  "severity_by_style": [
+    {
+      "style": "italianate-american",
+      "severity": "fatal",
+      "why": "An 18-36 in bracketed eave is the style's principal gesture; at 8 in there is no style left."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The entablature is one quarter to one fifth of column height and is carried as a continuous band round the building — the largest single element on the elevation."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Eaves are 6-12 in and cut tight by intention; there is no cornice to be too small."
+    },
+    {
+      "style": "pueblo-revival",
+      "severity": "not-applicable",
+      "why": "No eave, fascia, gutter or cornice of any kind."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A cornice is the fault. The eave is 6-12 in and cut tight to the wall, almost bladelike, with the shingles running up to it — a licence to have NO cornice, not to have a small one. A stock fascia-and-crown assembly at 8 in is not a Shingle Style eave; it is a failed classical one."
+    },
+    {
+      "style": "pueblo-revival",
+      "statement": "Any eave, fascia or cornice is the fault. The wall runs up into a parapet and drains through canales."
+    },
+    {
+      "style": "greek-revival-american",
+      "statement": "Partially inverted, and this is the finding worth carrying: Greek Revival flattens the PROFILE and ENLARGES the DIMENSION. Members become broad, flat and unmoulded while the assembly gets deeper — 20-30 in of frieze and cornice together on a two-storey house. A shallow assembly with a small crown is not Greek Revival simplification; it is nothing."
+    }
+  ]
+}

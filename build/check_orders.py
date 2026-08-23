@@ -1,0 +1,387 @@
+#!/usr/bin/env python3
+"""Validate proportion packs.
+
+For every pack in proportions/**/*.json this script:
+  1. parses the JSON;
+  2. validates it against schema/proportion-pack.schema.json;
+  3. asserts that each assembly's member heights sum to height_modules * module.parts
+     (unless the assembly sets sums_check: false, which must then be explained in a
+     member note -- an unexplained false is itself an error);
+  4. evaluates every `invariant` expression against the pack;
+  5. checks referential integrity of derived_rules.target_slot against elements/slots.json
+     and of applies_to against styles/*.json;
+  6. checks that derived_rule expressions only use variables the engine binds, and parse;
+  7. resolves every `overlay_of` against the rest of the corpus: the target must exist,
+     must be the same `kind`, must not be the pack itself, and where the overlay
+     subdivides its module differently from its base (Chambers and Benjamin both use
+     thirty minutes against Vignola's twelve or eighteen) module.note must say so,
+     because otherwise every height_parts figure reads against the wrong module.
+     An overlay legitimately omits assemblies, invariants and most of `column`;
+     nothing in this step demands completeness of an overlay.
+
+Exit status is non-zero if any check fails. Warnings do not fail the build.
+
+Run:  python3 build/check_orders.py [--verbose]
+"""
+import ast
+import glob
+import json
+import math
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCHEMA_PATH = os.path.join(ROOT, "schema", "proportion-pack.schema.json")
+PACK_GLOB = os.path.join(ROOT, "proportions", "**", "*.json")
+
+# Variables the rules engine promises to bind when it evaluates a derived_rule.
+# The first six are what an order pack needs. The last four are bound in addition for
+# the module and system packs, which proportion rooms, walls and whole elevations:
+# check_modules.py already sweeps wall_thickness and span, and the room systems need
+# the plan dimensions. See build/check_systems.py, which uses the same set.
+RULE_VARS = {"module", "part", "ceiling_height", "opening_width", "opening_height", "storey_height",
+             "column_height", "wall_thickness", "span", "room_length", "room_width"}
+# Helper functions a derived_rule expression may call.
+RULE_FUNCS = {"floor", "ceil", "round", "min", "max", "abs", "sqrt"}
+
+FLOAT_TOL = 1e-6
+
+errors = []
+warnings = []
+checked = 0
+# id -> pack, for every pack that declares overlay_of; resolved after all are loaded.
+overlays = {}
+# id -> pack, every pack in the corpus.
+by_id = {}
+
+
+def err(pack_id, msg):
+    errors.append(f"{pack_id}: {msg}")
+
+
+def warn(pack_id, msg):
+    warnings.append(f"{pack_id}: {msg}")
+
+
+# ---------------------------------------------------------------- expressions
+
+class SafeEval(ast.NodeVisitor):
+    """Evaluate a restricted arithmetic/comparison expression over a namespace
+    addressed by dotted paths (e.g. assemblies.cornice.height_modules)."""
+
+    ALLOWED_BINOPS = (ast.Add, ast.Sub, ast.Mult, ast.Div, ast.Pow, ast.Mod)
+    ALLOWED_CMP = (ast.Eq, ast.NotEq, ast.Lt, ast.LtE, ast.Gt, ast.GtE)
+    FUNCS = {"floor": math.floor, "ceil": math.ceil, "round": round,
+             "min": min, "max": max, "abs": abs, "sqrt": math.sqrt}
+
+    def __init__(self, root, tolerance):
+        self.root = root
+        self.tol = tolerance
+
+    # -- resolution of dotted names -------------------------------------------
+    def resolve(self, node):
+        parts = []
+        cur = node
+        while isinstance(cur, ast.Attribute):
+            parts.append(cur.attr)
+            cur = cur.value
+        if not isinstance(cur, ast.Name):
+            raise ValueError("unsupported attribute base")
+        parts.append(cur.id)
+        parts.reverse()
+        obj = self.root
+        for p in parts:
+            if isinstance(obj, dict) and p in obj:
+                obj = obj[p]
+            elif isinstance(obj, list):
+                # allow addressing a list of dicts by their "id"
+                match = [x for x in obj if isinstance(x, dict) and x.get("id") == p]
+                if len(match) != 1:
+                    raise KeyError(".".join(parts))
+                obj = match[0]
+            else:
+                raise KeyError(".".join(parts))
+        if obj is None:
+            raise KeyError(".".join(parts) + " is null")
+        return obj
+
+    # -- visitors --------------------------------------------------------------
+    def visit_Expression(self, node):
+        return self.visit(node.body)
+
+    def visit_Constant(self, node):
+        if isinstance(node.value, bool) or isinstance(node.value, (int, float)):
+            return node.value
+        raise ValueError("only numeric constants allowed")
+
+    def visit_Name(self, node):
+        return self.resolve(node)
+
+    def visit_Call(self, node):
+        if not isinstance(node.func, ast.Name) or node.func.id not in self.FUNCS:
+            raise ValueError("only floor/ceil/round/min/max/abs/sqrt may be called")
+        if node.keywords:
+            raise ValueError("keyword arguments not allowed")
+        return self.FUNCS[node.func.id](*[self.visit(a) for a in node.args])
+
+    def visit_BoolOp(self, node):
+        vals = [self.visit(v) for v in node.values]
+        if isinstance(node.op, ast.And):
+            return all(bool(v) for v in vals)
+        if isinstance(node.op, ast.Or):
+            return any(bool(v) for v in vals)
+        raise ValueError("unsupported boolean op")
+
+    def visit_Attribute(self, node):
+        return self.resolve(node)
+
+    def visit_UnaryOp(self, node):
+        v = self.visit(node.operand)
+        if isinstance(node.op, ast.USub):
+            return -v
+        if isinstance(node.op, ast.UAdd):
+            return +v
+        if isinstance(node.op, ast.Not):
+            return not bool(v)
+        raise ValueError("unsupported unary op")
+
+    def visit_BinOp(self, node):
+        if not isinstance(node.op, self.ALLOWED_BINOPS):
+            raise ValueError("unsupported binary op")
+        a, b = self.visit(node.left), self.visit(node.right)
+        if isinstance(node.op, ast.Add):
+            return a + b
+        if isinstance(node.op, ast.Sub):
+            return a - b
+        if isinstance(node.op, ast.Mult):
+            return a * b
+        if isinstance(node.op, ast.Div):
+            return a / b
+        if isinstance(node.op, ast.Pow):
+            return a ** b
+        return a % b
+
+    def visit_Compare(self, node):
+        left = self.visit(node.left)
+        ok = True
+        for op, comp in zip(node.ops, node.comparators):
+            right = self.visit(comp)
+            if not isinstance(op, self.ALLOWED_CMP):
+                raise ValueError("unsupported comparison")
+            if isinstance(op, ast.Eq):
+                ok = ok and math.isclose(left, right, rel_tol=0, abs_tol=self.tol)
+            elif isinstance(op, ast.NotEq):
+                ok = ok and not math.isclose(left, right, rel_tol=0, abs_tol=self.tol)
+            elif isinstance(op, ast.Lt):
+                ok = ok and left < right + self.tol
+            elif isinstance(op, ast.LtE):
+                ok = ok and left <= right + self.tol
+            elif isinstance(op, ast.Gt):
+                ok = ok and left > right - self.tol
+            elif isinstance(op, ast.GtE):
+                ok = ok and left >= right - self.tol
+            left = right
+        return ok
+
+    def generic_visit(self, node):
+        raise ValueError(f"unsupported syntax: {type(node).__name__}")
+
+
+def eval_expr(expr, root, tolerance):
+    tree = ast.parse(expr, mode="eval")
+    return SafeEval(root, tolerance).visit(tree)
+
+
+def rule_expr_vars(expr):
+    """Free variable names used by a derived_rule expression."""
+    tree = ast.parse(expr, mode="eval")
+    return {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
+
+
+# ---------------------------------------------------------------- main checks
+
+def check_pack(path, schema, slot_ids, style_ids, verbose=False):
+    global checked
+    base = os.path.basename(path)[:-5]
+    try:
+        pack = json.load(open(path, encoding="utf-8"))
+    except Exception as e:
+        errors.append(f"{base}: UNPARSEABLE JSON: {e}")
+        return
+    pid = pack.get("id", base)
+
+    # 1. schema
+    try:
+        import jsonschema
+        jsonschema.validate(pack, schema)
+    except ImportError:
+        warn(pid, "jsonschema not installed; schema validation skipped")
+    except Exception as e:
+        err(pid, f"SCHEMA {'/'.join(str(p) for p in getattr(e, 'absolute_path', []))}: {e.message}")
+        return
+
+    if pid != base:
+        err(pid, f"id '{pid}' does not match filename '{base}'")
+    if pid in by_id:
+        err(pid, "duplicate pack id")
+    by_id[pid] = pack
+
+    parts = pack["module"]["parts"]
+
+    # 2. assembly sums
+    for name, asm in pack.get("assemblies", {}).items():
+        expected = asm["height_modules"] * parts
+        total = sum(m["height_parts"] for m in asm["members"])
+        sums_check = asm.get("sums_check", True)
+        if sums_check:
+            if not math.isclose(total, expected, rel_tol=0, abs_tol=FLOAT_TOL):
+                err(pid, f"assembly '{name}' members sum to {total} parts, "
+                         f"expected {expected} ({asm['height_modules']} modules x {parts} parts)")
+            elif verbose:
+                print(f"    ok  {pid}.{name}: {total} parts")
+        else:
+            explained = any("sums_check" in (m.get("note") or "").lower() for m in asm["members"])
+            if not explained:
+                err(pid, f"assembly '{name}' sets sums_check false with no member note explaining why")
+            else:
+                warn(pid, f"assembly '{name}' sums_check disabled (members sum {total}, "
+                          f"stated {expected}) - explained in a member note")
+        # duplicate member ids
+        ids = [m["id"] for m in asm["members"]]
+        dupes = {i for i in ids if ids.count(i) > 1}
+        if dupes:
+            err(pid, f"assembly '{name}' has duplicate member ids: {sorted(dupes)}")
+
+    # 3. invariants
+    for inv in pack.get("invariants", []):
+        tol = inv.get("tolerance", 0.02)
+        try:
+            result = eval_expr(inv["expression"], pack, tol)
+        except Exception as e:
+            err(pid, f"invariant '{inv['expression']}' could not be evaluated: {e}")
+            continue
+        if result is not True:
+            err(pid, f"invariant FAILS: {inv['statement']}  [{inv['expression']}]")
+        elif verbose:
+            print(f"    ok  {pid} invariant: {inv['expression']}")
+
+    # 4. derived_rules
+    for r in pack.get("derived_rules", []):
+        if slot_ids and r["target_slot"] not in slot_ids:
+            err(pid, f"derived_rule target_slot '{r['target_slot']}' is not a slot id in elements/slots.json")
+        try:
+            used = rule_expr_vars(r["expression"])
+        except SyntaxError as e:
+            err(pid, f"derived_rule expression does not parse: {r['expression']} ({e})")
+            continue
+        unknown = used - RULE_VARS - RULE_FUNCS
+        if unknown:
+            err(pid, f"derived_rule '{r['target_slot']}' uses unbound variable(s) {sorted(unknown)} "
+                     f"in '{r['expression']}'")
+        rng = r.get("range")
+        if rng and rng[0] > rng[1]:
+            err(pid, f"derived_rule '{r['target_slot']}' has an inverted range {rng}")
+
+    n_judgment = sum(1 for r in pack.get("derived_rules", []) if r.get("judgment"))
+    if pack.get("derived_rules") and n_judgment == 0:
+        warn(pid, "no derived_rule is marked judgment: true - a pack that claims to know everything is suspect")
+
+    # 5. applies_to referential integrity
+    for s in pack.get("applies_to", []):
+        if style_ids and s not in style_ids:
+            err(pid, f"applies_to '{s}' is not a style node id in styles/")
+
+    # 6. overlay target -- resolved in a second pass by check_overlays()
+    if pack.get("overlay_of"):
+        overlays[pid] = pack
+
+    checked += 1
+
+
+# ---------------------------------------------------------------- overlays
+
+def check_overlays(by_id):
+    """Resolve every overlay_of against the loaded corpus.
+
+    An overlay carries ONLY its deltas: it legitimately omits assemblies,
+    invariants, intercolumniation and most of `column`, all of which it
+    inherits from its base. Nothing here may therefore demand completeness.
+    What it does check is that the pointer is real and that the two packs are
+    the same kind of thing, so a typo in overlay_of cannot silently produce an
+    overlay that inherits from nothing.
+    """
+    for pid, pack in sorted(overlays.items()):
+        target = pack["overlay_of"]
+        if target == pid:
+            err(pid, "overlay_of points at itself")
+            continue
+        base = by_id.get(target)
+        if base is None:
+            err(pid, f"overlay_of '{target}' does not name any pack under proportions/")
+            continue
+        if base.get("overlay_of"):
+            warn(pid, f"overlay_of '{target}' is itself an overlay - inheritance is chained, "
+                      f"which no consumer of these packs currently resolves")
+        if base.get("kind") != pack.get("kind"):
+            err(pid, f"overlay kind '{pack.get('kind')}' does not match base "
+                     f"'{target}' kind '{base.get('kind')}'")
+        # A different module subdivision is legitimate -- Benjamin uses Chambers's
+        # 30 minutes where Vignola uses 12 or 18 -- but every height_parts figure
+        # in the overlay then means something different from the base's, so it
+        # has to be stated rather than left for a reader to discover.
+        bp, op = base.get("module", {}).get("parts"), pack.get("module", {}).get("parts")
+        if bp and op and bp != op:
+            note = (pack.get("module", {}).get("note") or "").lower()
+            if not any(tok in note for tok in ("part", "minute", "subdivid")):
+                err(pid, f"module.parts {op} differs from base '{target}' ({bp}) and "
+                         f"module.note does not explain it - every height_parts in this "
+                         f"pack would be read against the wrong module")
+            else:
+                warn(pid, f"module.parts {op} differs from base '{target}' ({bp}) - "
+                          f"explained in module.note")
+        # An overlay that restates nothing is pointless; one that restates
+        # everything is not an overlay.
+        if not any(k in pack for k in ("assemblies", "column", "derived_rules", "conflicts")):
+            warn(pid, f"overlay of '{target}' carries no assemblies, column, derived_rules "
+                      f"or conflicts - it states no delta")
+
+
+def main():
+    verbose = "--verbose" in sys.argv or "-v" in sys.argv
+
+    schema = json.load(open(SCHEMA_PATH, encoding="utf-8"))
+
+    slot_ids = set()
+    slots_path = os.path.join(ROOT, "elements", "slots.json")
+    if os.path.exists(slots_path):
+        for g in json.load(open(slots_path, encoding="utf-8"))["groups"]:
+            for s in g["slots"]:
+                slot_ids.add(s["id"])
+
+    style_ids = set()
+    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+        style_ids.add(os.path.basename(f)[:-5])
+
+    packs = sorted(glob.glob(PACK_GLOB, recursive=True))
+    if not packs:
+        print("no proportion packs found under proportions/", file=sys.stderr)
+        return 1
+
+    for p in packs:
+        if verbose:
+            print(f"  {os.path.relpath(p, ROOT)}")
+        check_pack(p, schema, slot_ids, style_ids, verbose)
+
+    check_overlays(by_id)
+
+    for w in warnings:
+        print(f"WARN  {w}")
+    for e in errors:
+        print(f"ERROR {e}")
+
+    print(f"\n{checked} pack(s) checked, {len(errors)} error(s), {len(warnings)} warning(s)")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

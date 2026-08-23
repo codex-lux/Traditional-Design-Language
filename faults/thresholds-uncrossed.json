@@ -1,0 +1,176 @@
+{
+  "id": "thresholds-uncrossed",
+  "name": "One Threshold Where There Should Be Three",
+  "aka": [
+    "the collapsed approach",
+    "car to hall",
+    "no sequence"
+  ],
+  "slots": [
+    "entry_sequence",
+    "steps_and_stoop",
+    "porch_type",
+    "street_relationship",
+    "fence_wall"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "sequence",
+  "symptom": "Between the public street and the interior of the house there is exactly one moment of transition: the front door. There is no gate, no break in a fence or hedge line, no change of paving, no raised platform, no covered pause, no vestibule. A person crosses from the pavement to the hall in one continuous movement with nothing marking the change of status. The house does not appear unwelcoming and nothing is visibly wrong on the elevation; the failure is entirely in what does not happen on the way in, which is why it is the most consequential decision in the kit and the one most often unmade.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Every threshold is a line item and none of them appears on the elevation drawing that sells the house. The gate and fence are landscape scope, usually deleted or deferred to the buyer. The change of paving is a second material and a second subcontractor. The raised platform is masonry and setback. The covered pause is a porch. The vestibule is 30 sq ft of conditioned floor area that appraises as circulation, which is the least valuable square footage in the house, and it is therefore removed in the first plan review. Each deletion is individually defensible and each is invisible on its own; the sequence disappears through five separate small decisions and nobody ever decides to remove it.",
+    "cost_saved": "Gate and fence 2,000-8,000 USD; paving change 400-1,500 USD; raised stoop 900-2,500 USD; porch 8,000-25,000 USD; vestibule 4,000-9,000 USD in construction plus about 30 sq ft of plan. The full sequence is expensive, which is why the corpus's cheap tier matters more here than anywhere else.",
+    "cost_negative": false
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entry_sequence / threshold_count = 3, thresholds set",
+      "statement": "Three thresholds are crossed between the street and the hall — the gate on axis, the raised platform under the door surround, and the door — and at the moment the door opens the rear door on the same axis is visible through the passage."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entry_sequence / through_view_required = true",
+      "statement": "Front and rear doors aligned on the passage axis, both real, both operable. The moment a coat closet or a powder room is put on the rear axis, the sequence collapses and no amount of correct trim recovers it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entry_sequence / approach_geometry",
+      "statement": "Frontal and axial; the house is met square-on, never obliquely."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the threshold count is what makes arrival legible, and it is independent of style",
+      "statement": "Every tradition that has been thought about — Georgian, Craftsman, Charleston, Japanese, Islamic courtyard, the Italian palazzo — stages arrival in three to five steps. The number is not a stylistic preference; it is how a building tells a person that they have changed from a member of the public to a guest. A house with one threshold makes that change instantaneous and therefore unmarked."
+    }
+  ],
+  "correct_practice": "Three thresholds minimum between the street and the interior, and each must be a real physical event that the body performs, not a graphic gesture. The canonical Georgian set is: (1) the gate or the break in the fence or hedge line, on the entrance axis; (2) the raised stoop platform, under the pediment of the door surround; (3) the door itself, into the passage. The Craftsman set is different and equally complete: the low wall or piers at the walk, the rise of three or four steps to the deep porch, and the door — with the porch itself doing the work the Georgian gives to the platform and the surround. Charleston's is: the street door in the garden wall, the length of the piazza, and the true house door on the flank. In every case the approach is FRONTAL and AXIAL — the house is met square on, so the entrance is seen before it is reached — and in the Georgian case a fourth condition applies: the rear door is on the same axis and visible through the passage at the moment of entry, which is both the phenomenological argument of the plan and, in the Chesapeake, a ventilation device.",
+  "fixes": {
+    "right": "Build all three: a gate or a defined break in a low wall or hedge on the entrance axis; a raised platform of 48 in depth under a worked door surround or a deep porch; and the door. Keep the rear door on the axis and operable.",
+    "cheap": "Three thresholds can be built for almost nothing if they are built out of things already being bought. (1) The gate becomes a CHANGE OF PAVING at the property line — the walk changes from concrete to brick, or narrows from 5 ft to 3 ft 6 in, at the point a gate would have been. Cost: 200-500 USD, and the narrowing is free. (2) The raised platform is already being built as a stoop; make it 48 in deep instead of 24 and it becomes a place. Cost: about 700 USD. (3) The door is already there. Add a fourth for free by making the walk turn once — a straight run from the kerb to the door is one movement, a walk that changes direction once at the property line makes the arrival two. The whole sequence, done this way, costs under 1,500 USD and is the highest-value money on the house.",
+    "dishonest": "A pair of decorative piers with no fence or wall between them, standing at the end of the driveway. A gate marks a boundary; piers with nothing between them mark nothing, and they read as a gesture at a threshold rather than a threshold. Equally dishonest: a change of paving pattern within a continuous concrete walk — a brick border or a stamped inset — which is a graphic and not an event."
+  },
+  "detection": "This is a plan and site reading and is the one fault in the group that a street photograph alone cannot fully settle, but it gets most of the way. Walk or trace the route from the public pavement to the front door and count the discrete events: a gate or a break in a boundary; a change of paving material or width; a change of direction; a change of level; a change from open to covered; a door. Three or more is a sequence, and the events must be distributed rather than stacked at the door. Two things are visible from any front photograph and are the fastest proxies. (1) Is there ANY boundary marking at the street — a fence, a wall, a hedge, a change of paving, a pair of trees? On the endemic case there is nothing at all and the lawn runs to the kerb. (2) Does the walk run straight from the kerb or the drive to the door in one uninterrupted line? A single straight run is one movement. In a plan, the third check is the rear axis: is the rear door on the passage axis and operable, or is there a closet, a powder room or a wall on it?",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "distinct_thresholds_between_street_and_hall",
+    "threshold": 3,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "site-visit",
+    "note": "Count discrete transitions: boundary crossing (gate, wall break, hedge gap, paving change at the property line), change of direction in the walk, change of level, change from open to covered, and the door. Each must be a physical event the body performs. Partially evaluable from a front photograph — the boundary marking and the walk geometry are visible — but the covered pause and the rear axis need plan or site."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit calls this the most consequential slot in the whole style and notes it costs nothing to get right, which is why it is so often lost."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "fatal",
+      "why": "The street door into the piazza is the type's defining device and the whole plan is organised around the sequence."
+    },
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The Craftsman plan's argument is the graded transition from public to private, and the porch is its instrument."
+    },
+    {
+      "style": "new-urbanist-traditional",
+      "severity": "fatal",
+      "why": "The style exists to rebuild the street's social contract and the threshold sequence is its main technical means."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "serious",
+      "why": "The shotgun has only a stoop and the sidewalk, and its sequence is genuinely short — but the stoop is a real occupied threshold and the street is a real boundary."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The post-war ranch consciously abandoned the front sequence in favour of the rear patio and the car. That is a coherent position, not an oversight, and it should be assessed as one."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "The ranch deliberately reversed the house: the public face went to the rear garden and the patio, the front became a facade seen from a car, and the arrival sequence moved to the carport and the family entrance. Judging a ranch by the frontal threshold count applies a discipline the type explicitly rejected.",
+      "bounds": "The rejection must be complete and coherent: a real rear terrace, a real family entrance with its own sequence, and a front that does not pretend otherwise. A ranch with a Colonial door surround and a portico has claimed the front sequence and owes it.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "The shotgun's threshold sequence is short by design — sidewalk, stoop, door — because the type belongs to a dense street where the sidewalk is itself a social space and the stoop projects into it. Two strong thresholds do the work of three.",
+      "bounds": "The stoop must be genuinely occupied — broad enough to sit on, 4 ft or more wide — and the house must be close to the street, within about 10 ft. A suburban shotgun set back 40 ft on a lawn has lost the street that made two thresholds sufficient.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ],
+        "slots": [
+          "street_relationship"
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The Creole cottage sits at or near the banquette with its gallery as the single mediating space between street and room; the gallery is deep and public and does the work of two thresholds by itself.",
+      "bounds": "The gallery must be 7 ft or deeper and must run the full front. A shallow gallery reduces the sequence to one.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ]
+      }
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "The sequence is inverted rather than absent: a plain street wall, a single zaguán door, and then the courtyard, which is the second and principal threshold and is inside the building footprint.",
+      "bounds": "The courtyard must be real, open to the sky, and passed through before any room is entered. A house with a plain street front and no courtyard has one threshold."
+    }
+  ],
+  "co_occurs_with": [
+    "stoop-without-a-landing",
+    "door-reached-only-from-the-driveway",
+    "porch-too-shallow-to-inhabit",
+    "entry-not-the-most-elaborated-element"
+  ],
+  "confused_with": [
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That is about the entrance losing the competition for visual attention on the elevation — it is a composition fault, judged from a photograph. This is about the approach having no stages — a sequence fault, judged from the site. A house can have a magnificent, unmistakable entrance reached in one step from the kerb, and it fails this and passes that."
+    },
+    {
+      "fault": "door-reached-only-from-the-driveway",
+      "difference": "That is the extreme case of this fault, where the pedestrian route has been deleted entirely rather than merely flattened. This one covers the far commoner condition of a route that exists and has no stages."
+    },
+    {
+      "fault": "stoop-without-a-landing",
+      "difference": "That is one threshold being physically too small. This counts them."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, entry_sequence (threshold_count 3, the named thresholds, through_view_required, approach_geometry)",
+    "elements/slots.json, entry_sequence note",
+    "HABS documentation of Charleston single houses — the street door into the piazza",
+    "Chesapeake central-passage plans and the aligned front and rear doors as ventilation"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry-sequence",
+    "threshold",
+    "phenomenology",
+    "plan",
+    "fatal",
+    "endemic"
+  ]
+}

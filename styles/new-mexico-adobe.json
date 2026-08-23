@@ -1,0 +1,201 @@
+{
+  "id": "new-mexico-adobe",
+  "name": "New Mexico Adobe",
+  "aka": [
+    "Spanish-Pueblo",
+    "Rio Grande adobe",
+    "New Mexico Spanish Colonial"
+  ],
+  "rank": "variant",
+  "member_of": "spanish-colonial-american",
+  "status": "living",
+  "period": {
+    "origin": 1598,
+    "floruit_start": 1610,
+    "floruit_end": 1850,
+    "decline_end": 1912,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1905,
+        "end": 1940,
+        "revival_node": "pueblo-revival",
+        "note": "Codified in Santa Fe between 1912 and 1930 by Sylvanus Morley, Carlos Vierra and the Museum of New Mexico, and made mandatory by ordinance in 1957. Chris Wilson's The Myth of Santa Fe is the essential corrective: much of what is now taken as ancient is a twentieth-century construction."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "upper Rio Grande valley, New Mexico",
+      "Taos and the Sangre de Cristo foothills",
+      "Santa Fe and Chimayó",
+      "southern Colorado (San Luis Valley)",
+      "El Paso del Norte"
+    ],
+    "hearth": "the upper Rio Grande — Puebloan coursed-earth building at Taos, Acoma and the Rio Grande pueblos predates Spanish arrival by six centuries and is the substrate on which the Spanish tradition was laid, largely by Puebloan hands",
+    "climate_zones": [
+      "4B",
+      "5B",
+      "6B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "spanish-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "mexican-colonial",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Everything Spanish in New Mexico came up the Camino Real from New Spain: the moulded adobe brick, the wooden form, the door and window frame, the corner fireplace, the plan diagram of the placita house."
+    }
+  ],
+  "description": {
+    "short": "Flat-roofed mud building on the upper Rio Grande, in which Spanish plan diagrams and moulded adobe brick were laid over a Puebloan earth-building tradition six centuries older, largely by Puebloan builders.",
+    "long": "It should be said plainly at the outset, because the popular account routinely omits it: the earth-wall building tradition of northern New Mexico is Puebloan first. When Oñate's colonists arrived in 1598 they found multi-storey, terraced, flat-roofed communal buildings at Taos, Acoma, Pecos and the Rio Grande pueblos, built of hand-puddled coursed earth on stone footings, roofed on peeled round beams with brush and packed earth above, plastered and re-plastered by women as a maintained annual practice. Taos Pueblo had already been standing for two hundred years. The Spanish contribution was real but specific: the moulded adobe brick and the wooden form that makes it, which turns an incremental hand-built wall into a modular one; the fired-earth-free lime whitewash; the door and shuttered window with a frame; the corner fireplace; the horno oven; and the plan diagrams of the placita house and the mission church. Almost all of that was executed by Puebloan labour, often coerced, and the resulting architecture belongs to both traditions in a way that neither an 'indigenous' nor a 'Spanish' label captures.\n\nThe physics are unforgiving and they set every dimension. Adobe has compressive strength and no tensile strength, so walls are thick — twenty-four to thirty-six inches — battered slightly, and kept low, rarely more than ten times their thickness in height. Openings are structurally expensive and were also glazing-expensive at the end of a thousand-mile supply line, so they stay small, under ten or twelve percent of wall area, deeply splayed inward to spread the light. The roof is flat because there is no framing timber long enough or plentiful enough to build a truss and because there is very little rain: peeled ponderosa vigas at two to two-and-a-half feet on centre, split cedar latillas laid herringbone or straight above them, brush, then eight to fourteen inches of earth graded a quarter-inch to the foot toward wooden canales that spit water clear of the wall. Room width is therefore locked to viga length — twelve to sixteen feet — and rooms cannot be aggregated into a block, only strung into files and folded around a placita.\n\nThe climate this serves has a diurnal swing of thirty to forty degrees and two hundred and eighty days of sun at seven thousand feet. Three feet of earth is a nearly ideal thermal battery for that regime: the wall absorbs all day and releases all night, and the interior temperature swings a few degrees while the outside swings forty. No twentieth-century assembly does this better, and several do it much worse.\n\nStanding inside a real one — not a Pueblo Revival house, a real one — the first thing is the light. It comes through a small deep opening and hits a mud-plastered wall that has no flat plane and no sharp corner anywhere, so it diffuses into a warm, grainy glow with no glare. The second thing is the quiet: three feet of earth is an acoustic wall. The third is the corner fireplace, small, high, shallow, burning ocote upright, throwing heat into a room that is already holding yesterday's."
+  },
+  "defining_characteristics": [
+    "Load-bearing adobe walls 24–36 in thick, laid in moulded sun-dried brick on a stone footing, slightly battered and finished in mud plaster",
+    "Flat roof on peeled round vigas at 24–30 in on centre, with latillas, brush and 8–14 in of earth above, drained by projecting wooden canales",
+    "Parapet 12–24 in above the roof surface on all sides, with no gable or eave anywhere",
+    "Room width limited to the viga span, 12–16 ft, with rooms strung in linear files and folded around a placita",
+    "Corner fireplace (fogón) — a Spanish-Puebloan hybrid — rather than a wall-centred hearth",
+    "Small openings, under 12% of wall area, deeply splayed inward",
+    "Portal on peeled posts with carved corbels (zapatas) carrying a beam, 8–12 ft deep, serving as the building's circulation"
+  ],
+  "diagnostic_tells": [
+    "Canales projecting through the parapet — a flat roof that visibly drains through the wall",
+    "No straight lines: mud plaster over adobe produces rounded arrises, undulating planes and no true corner",
+    "Room depth constant throughout the building, because it is the length of a beam",
+    "Corner fireplace with a small arched opening, set diagonally across the corner of the room",
+    "Portal posts with carved zapatas of a specific New Mexican profile, doing real structural work"
+  ],
+  "distinguished_from": [
+    {
+      "node": "pueblo-revival",
+      "difference": "The most consequential misidentification in the Southwest. Pueblo Revival is cement or synthetic stucco over wood frame or concrete block: walls six to twelve inches thick with sharp machine-true arrises, large windows, protruding 'vigas' that carry nothing and often stop at the wall face, two-storey plans the material could never support, and parapets with hard clean coping. Test any window reveal — a foot and a half of visible wall depth or four inches — and it is settled. Note also that the celebrated portal on the Palace of the Governors is itself a 1909–13 reconstruction."
+    },
+    {
+      "node": "california-mission-colonial",
+      "difference": "California builds in adobe too but roofs in half-round clay tile at 3:12–5:12, uses semicircular arcades on square piers, and works at a mission-quadrangle scale. New Mexico has no tile, no arcade, no arch and no pitched roof: it has vigas, canales, parapets and posts."
+    },
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "The 1915–42 revival, drawn from Andalusia and Mexican Churrigueresque by way of Bertram Goodhue and San Diego, brings tile roofs, wrought iron, ornate cast plaster and towers — a vocabulary the Rio Grande never possessed at any date."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The viga sets the room and the wall thickness sets the height; nothing else is negotiable, and the composition is whatever those two constraints permit.",
+    "typical_ratios": [
+      "Room clear width 12–16 ft (viga span), length 1.5–2.5 times the width",
+      "Wall thickness 24–36 in; wall height not more than 10× thickness, i.e. 8–11 ft",
+      "Ceiling 7 ft 6 in – 9 ft 0 in to the underside of the vigas",
+      "Window opening 2 ft – 3 ft wide × 3 ft – 4 ft high; glazed area 6–12% of wall area",
+      "Parapet 12–24 in above roof; roof fall 1/4 in per ft to canales",
+      "Portal depth 8–12 ft, posts at 6–9 ft on centre",
+      "Placita 30–60 ft across for a house"
+    ],
+    "bay_rhythm": "Set by the portal posts. Wall openings are placed by the rooms behind them and routinely do not align with the posts — the two systems are independent and the tradition never reconciles them.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-u",
+      "affinity": "canonical",
+      "note": "The three-sided placita house, the standard rural and villa form."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "canonical",
+      "note": "The room-file growing along its own length before it turns a corner."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "common",
+      "note": "The closed placita of a defended hacienda such as the Martinez house at Taos."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The one-room adobe of first settlement."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "Where the portal fronts a linear block that never encloses a court."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Adobe wall thickness 24–36 in, with wall height not exceeding ten times thickness. Openings not exceeding 12% of wall area, with reveals expressing the full wall depth."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Room clear span limited to 16 ft — the practical viga length. Any wider room requires an intermediate bearing and is not of the tradition."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "No pitched roof, no gable, no eave. The roof is flat behind a parapet of 12–24 in, drained at 1/4 in per ft through not fewer than one canale per roof plane, projecting 12–18 in beyond the wall face."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Finish in mud plaster or lime wash only. Cement stucco on historic adobe traps moisture at the interface and destroys the wall from within; it is a preservation failure as well as a stylistic one."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Vigas project 12–24 in beyond the wall face and must actually carry the roof. Non-structural applied viga ends are the single clearest marker of Pueblo Revival."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Palacio de los Gobernadores (Palace of the Governors)",
+      "location": "Santa Fe, New Mexico",
+      "year": 1610,
+      "note": "Founded with the villa in 1610, with substantial construction c. 1618–25 and a rebuilding in 1731 after the Pueblo Revolt. The famous portal is a 1909–13 reconstruction by Jesse Nussbaum and is not colonial fabric."
+    },
+    {
+      "name": "Taos Pueblo",
+      "location": "Taos, New Mexico",
+      "year": 1400,
+      "note": "The Puebloan substrate, in continuous occupation for more than six centuries. Included here not as a Spanish colonial building but because the New Mexican adobe tradition is unintelligible without it."
+    },
+    {
+      "name": "Mission San Esteban del Rey",
+      "location": "Acoma Pueblo, New Mexico",
+      "year": 1641,
+      "note": "Built 1629–41 with adobe walls up to nine feet thick and roof timbers carried on foot some thirty miles from Mount Taylor; built by Acoma labour to a Franciscan plan."
+    },
+    {
+      "name": "Hacienda de los Martínez",
+      "location": "Taos, New Mexico",
+      "year": 1804,
+      "note": "A fully enclosed two-placita adobe hacienda with no exterior windows on the ground floor — the defended domestic type at full development."
+    }
+  ],
+  "sources": [
+    "Bainbridge Bunting, Early Architecture in New Mexico (1976)",
+    "George Kubler, The Religious Architecture of New Mexico (1940)",
+    "Chris Wilson, The Myth of Santa Fe: Creating a Modern Regional Tradition (1997)",
+    "Peter Nabokov and Robert Easton, Native American Architecture (1989)",
+    "Boyd C. Pratt and Chris Wilson, The Architecture and Cultural Landscape of North Central New Mexico (1991)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "adobe",
+    "viga",
+    "canale",
+    "flat-roof",
+    "puebloan-substrate",
+    "hot-dry"
+  ]
+}

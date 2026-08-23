@@ -1,0 +1,194 @@
+{
+  "id": "norman-vernacular",
+  "name": "Norman Vernacular",
+  "aka": [
+    "colombage normand",
+    "Pays d'Auge half-timbering",
+    "maison normande"
+  ],
+  "rank": "style",
+  "member_of": "french-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1300,
+    "floruit_start": 1400,
+    "floruit_end": 1800,
+    "decline_end": 1900,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 1939,
+        "revival_node": null,
+        "note": "Style balneaire normand — the resort villas of Deauville, Trouville and Cabourg, which invent the picturesque Norman cottage as a leisure product and are the immediate source of what America copied."
+      },
+      {
+        "start": 1915,
+        "end": 1940,
+        "revival_node": "french-normandy-revival",
+        "note": "American French Normandy Revival: the round stair tower, colombage panels and steep hipped or conical roof, transmitted by soldiers, photographs and architects returning from the First World War."
+      },
+      {
+        "start": 1920,
+        "end": 1940,
+        "revival_node": "french-eclectic",
+        "note": "The looser American French Eclectic mode draws its half-timbered subtype from here."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "France",
+      "Normandy"
+    ],
+    "hearth": "Pays d'Auge and the Bocage, Calvados",
+    "climate_zones": [
+      "4A",
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-medieval-timber-frame",
+      "type": "hybridizes_with",
+      "weight": 0.15,
+      "inherits_kit": false,
+      "note": "Not descent in either direction but a genuine exchange zone: Norman and southern English carpentry traded techniques, timber and craftsmen across the Channel continuously from the 12th to the 16th century, and close studding appears on both shores. Kit inheritance is deliberately left off this edge because the two dialects diverge in infill, roof and section."
+    }
+  ],
+  "description": {
+    "short": "The close-studded oak frame, clay-and-straw infill and steep thatched or tiled roof of the Norman bocage, produced by an apple-and-dairy economy on wet clay ground with no good building stone and a great deal of oak.",
+    "long": "Norman vernacular is what a landscape of hedged fields, cider apples and dairy cattle builds when it has oak and clay and nothing else. The Pays d'Auge sits on heavy impermeable clay: it will not drain, it grows grass superbly, it makes bad foundations and excellent daub. The consequence is a building culture with three fixed rules. Timber does the structure. Clay and straw fill the gaps. And nothing made of either touches the ground — every frame stands on a stone soubassement of forty centimetres or more, because a sill beam set into Auge clay rots inside a decade. Where stone appears at all in this architecture it appears there, at the bottom, doing the one job the frame cannot do.\n\nThe framing is close-studded: vertical oak posts set at half a metre to eighty centimetres, far tighter than they need to be structurally, producing the dense vertical striping that reads as Normandy from a kilometre away. The tightness is partly a wealth display — close studding wastes oak, and wasting oak was the point — and partly a practical response to the panel infill, which is torchis, clay mixed with chopped straw and pressed onto riven hazel or chestnut laths. A torchis panel is stable at about half a metre wide and cracks if it is much wider. From the seventeenth century brick nogging arrives and the panels are filled with small bricks in herringbone or in a chequer of red and vitrified black, which is later, harder, and a completely different thing to look at. Roofs are thatch of wheat straw or reed at fifty to sixty degrees, later flat clay tile, and the weather elevation — the west and south-west face that takes the Atlantic rain — is very often hung entirely in slate or split chestnut shingle over the frame, a technique called essentage that shows how seriously the tradition took driving rain.\n\nThe farmstead is dispersed rather than merged, and this is the sharpest contrast with the German and Flemish types across the same latitude. A Norman farm is a loose scatter of separate single-purpose buildings inside a walled or hedged enclosure planted with apple trees: the logis, the pressoir with its circular horse-driven apple mill, the charreterie, the etable, the boulangerie, and often a freestanding colombier whose right to exist was a legal privilege of the seigneurie. Nothing is attached to anything. The reason is partly fire, partly the mildness of a maritime winter that does not require the German solution of bringing everything indoors, and partly the specific rhythms of cider-making and dairying, which want separate cool buildings rather than one warm one.\n\nThe interior is low, dark and heavily beamed. Ceilings are the underside of the floor above, joists exposed at close centres; the fireplace is a wide open hearth in a gable wall with a bread oven bulging out behind it; the floor is beaten earth or later terracotta tomettes. Windows are small and few, because a torchis panel wall does not want holes in it, so the light comes in hard shafts and the corners of the room stay dark all day. What you notice standing in one is the smell of oak and old smoke and, in autumn, apples, and the fact that everything you can see — every beam, every peg, every panel — was made within a few miles of where you are standing."
+  },
+  "defining_characteristics": [
+    "Close-studded oak frame with posts at roughly 0.5-0.8 m centres, exposed inside and out",
+    "Panels of torchis (clay and chopped straw over riven laths), or from the 17th century brick nogging laid in herringbone or chequer",
+    "Frame standing on a stone soubassement of at least 400 mm; no structural timber in contact with the ground",
+    "Steep roof — 50-60 degrees for thatch, 45 and up for flat clay tile — with a substantial overhang",
+    "The rain-bearing elevation frequently hung in slate or split shingle (essentage) over the frame",
+    "Dispersed farmstead of separate single-purpose buildings within a hedged or walled enclosure, not merged under one roof",
+    "Single-pile ranges, one room deep, lit and ventilated from both faces"
+  ],
+  "diagnostic_tells": [
+    "Vertical studs far closer together than structure requires, with almost no visible bracing on the front face",
+    "A stone base course carrying the whole frame clear of the ground, always visible, never hidden by planting in an authentic example",
+    "Panels that are white or ochre earth on early work, red-and-black brick chequer on later work — the two rarely mixed on one elevation",
+    "A separate pressoir or colombier standing free in the same enclosure",
+    "Slate or shingle hanging on one elevation only, and always the westerly one"
+  ],
+  "distinguished_from": [
+    {
+      "node": "german-fachwerk",
+      "difference": "German framing is panel-based with heavy expressive bracing, carved and lettered sill beams, and a jettied multi-storey urban street front. Norman framing is close-studded, almost unbraced on the face, undecorated, rural, and rarely above two storeys."
+    },
+    {
+      "node": "french-manoir",
+      "difference": "The manoir is the same craft with money: the same carpenters and masons, but a great hall, croisee windows, a projecting stair turret, a moat or walled cour and an ensemble of ancillary buildings of architectural pretension. A vernacular farm has none of those and does not aspire to them."
+    },
+    {
+      "node": "french-normandy-revival",
+      "difference": "The American revival keeps the round stair tower and the half-timber panel and discards the frame, the dispersion, the essentage and the roof pitch. Its half-timbering is nailed to sheathing; the diagnostic is panels not framed on four sides."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Structural and material. Stud spacing of 0.5-0.8 m is fixed by the width at which a torchis panel is stable; range depth of 5-6 m is fixed by the span of an oak floor joist and the pitch of the roof over it. There is no compositional module at all — the elevation is the frame, and the openings are omitted studs.",
+    "typical_ratios": [
+      "Stud spacing 0.5-0.8 m; panel proportion roughly 1:2 to 1:4 (tall and narrow)",
+      "Range depth 5-6 m clear; storey height 2.1-2.5 m",
+      "Roof pitch 50-60 degrees (thatch), 45-55 (flat tile)",
+      "Soubassement 0.4-0.8 m above grade"
+    ],
+    "bay_rhythm": "Dense, uniform vertical striping with no accentuated bay. Windows and doors are made by leaving out one, two or three studs and framing the gap, so openings always sit on the stud grid.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-single-cell",
+      "affinity": "canonical",
+      "note": "The one-room-deep, one-or-two-room-long logis is the unit from which everything else in the enclosure is a variation."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "Where buildings do connect they connect end to end at the gable, producing a stepped chain rather than a merged volume."
+    },
+    {
+      "massing": "telescope-house",
+      "affinity": "possible",
+      "note": "Successive additions at the gable end, each lower and narrower — the same growth grammar as the Chesapeake type, arrived at independently."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "atypical",
+      "note": "Reached only at the top of the vernacular range, where a rich farm begins to behave like a small manoir."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "The bottom sill must rest on a stone or brick soubassement of at least 400 mm above finished grade, with a drip or oversail. Clay ground plus an oak sill at grade is a ten-year building.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Stud spacing 0.5-0.8 m; torchis panels must not exceed about 0.6 m clear width. Openings are formed by omitting whole studs and framing the resulting gap — an opening cannot be cut through a stud.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Roof pitch not less than 50 degrees for thatch or 45 for flat tile; overhang at least 350 mm at eave and 250 mm at verge. The rain-bearing westerly elevation should be slate- or shingle-hung, or given a wider overhang.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Single-pile only: clear range depth not to exceed 6 m. Depth is added by a second detached building in the enclosure, not by thickening the range.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Torchis panels and brick nogging belong to different centuries and must not be mixed on one elevation. Where a building has both, the brick marks a later rebuilt wall and should read as such.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Manoir de Coupesarte",
+      "location": "Mezidon Vallee d'Auge, Calvados, France",
+      "year": null,
+      "note": "15th-16th century; moated timber-framed manor with overhanging turrets, and the best-known demonstration of Auge close studding at any scale. Classe monument historique."
+    },
+    {
+      "name": "Aitre Saint-Maclou",
+      "location": "Rouen, France",
+      "year": 1533,
+      "note": "Built 1526-1533 as a plague ossuary; a timber-framed courtyard with carved galleries, showing the urban end of the same carpentry."
+    },
+    {
+      "name": "Manoir de Bellou",
+      "location": "Livarot-Pays-d'Auge, Calvados, France",
+      "year": null,
+      "note": "16th century; a colombage manor and its farm ensemble, largely unaltered."
+    },
+    {
+      "name": "Beuvron-en-Auge",
+      "location": "Calvados, France",
+      "year": null,
+      "note": "A village of 16th-18th century colombage houses retained substantially intact; useful as an ensemble rather than a single object."
+    }
+  ],
+  "sources": [
+    "Lescroart, Manoirs du Pays d'Auge",
+    "Doyon & Hubrecht, L'Architecture rurale et bourgeoise en France",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World",
+    "Trochet, Maisons paysannes en France et leur environnement"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "timber-frame",
+    "thatch",
+    "dispersed-farmstead",
+    "normandy",
+    "maritime"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "id": "eat-in-kitchen-area",
+  "name": "Eat-In Kitchen Area",
+  "aka": [
+    "kitchen table area",
+    "island seating",
+    "dinette area"
+  ],
+  "function_class": "dining",
+  "privacy_rank": 3,
+  "confidence": "high",
+  "description": "Not a room but a claim on part of one: the table or the island seating inside the kitchen envelope. It is where most households now eat most meals, and because it has no walls it is the eating place most often drawn without the clearances that make eating possible.",
+  "history": {
+    "appears": 1940,
+    "note": "The servantless kitchen of the 1940s absorbed the breakfast room, and the island absorbed the table in the 1990s. Each step traded enclosure for supervision — you can watch a child from the sink — and each step also removed a door somebody could close. It is worth naming that trade to a client rather than assuming they have made it."
+  },
+  "dimensions": {
+    "area_sf": [
+      60,
+      140
+    ],
+    "width_ft": [
+      8,
+      13
+    ],
+    "length_ft": [
+      8,
+      14
+    ],
+    "proportion": [
+      1.0,
+      1.4
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "Clearance behind a seated stool, which is 36 in to a wall and 44 in where anyone has to walk past. An island with 30 in behind it seats people who must stand up every time someone crosses the kitchen, and that is the single commonest failure in contemporary kitchen planning."
+  },
+  "furniture": [
+    {
+      "item": "island counter with seating",
+      "footprint_in": [
+        40,
+        96
+      ],
+      "clearance_in": 44,
+      "note": "15 in of knee depth per stool, 24 in of width per stool."
+    },
+    {
+      "item": "table, seats 4",
+      "footprint_in": [
+        36,
+        48
+      ],
+      "clearance_in": 36,
+      "essential": false
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "East where it takes breakfast; it inherits whatever the kitchen has.",
+    "glazing_fraction": [
+      0.1,
+      0.25
+    ]
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "It is inside the kitchen by definition; the question is only whether it is in the work triangle, which it must not be.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "family-room",
+        "why": "The pair is the whole contemporary informal plan, and the sight line between them is what the client is actually buying.",
+        "relation": "visible-from",
+        "strength": "strong"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "laundry",
+        "why": "Noise and lint at the table.",
+        "relation": "acoustically-separated",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "kitchen",
+      "family-room",
+      "great-room"
+    ],
+    "never_a_through_room": false
+  },
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Shares the kitchen's, and needs the hood to actually work — an open eating area with an underpowered hood puts cooking aerosol on everyone at the table.",
+    "heat": "Perimeter",
+    "electrical": "Pendant at the seating centre, on a dimmer separate from the task lighting",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "ranch-style",
+      "note": "Where the type originates: the kitchen with a table in it, replacing both breakfast room and dining room for daily use."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "note": "Almost always an island with stools rather than a table, which is a different social arrangement — everyone in a row facing the cook, nobody facing each other. Worth saying out loud to a client who thinks they are buying a family table."
+    },
+    {
+      "style": "craftsman",
+      "present": false,
+      "note": "The bungalow keeps the built-in nook as a separate alcove; an open island is out of period."
+    }
+  ],
+  "code": [],
+  "massing_fit": [
+    "ranch-linear",
+    "ranch-l",
+    "foursquare",
+    "gable-front-and-wing",
+    "split-level"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "daylight_strategy",
+    "services_strategy",
+    "built_ins"
+  ],
+  "sources": [
+    "Cromley, The Food Axis",
+    "Panero and Zelnik, Human Dimension and Interior Space"
+  ]
+}

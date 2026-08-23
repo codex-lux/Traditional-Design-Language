@@ -1,0 +1,127 @@
+{
+  "id": "stair-at-the-code-minimum",
+  "name": "The Stair Built To The Minimum",
+  "aka": [
+    "7 3/4 and 10",
+    "the service stair in the front hall",
+    "the legal stair"
+  ],
+  "slots": [
+    "stair_type",
+    "stair_position",
+    "ceiling_height_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A principal stair with a 7 3/4 in riser and a 10 in tread, which is the steepest and shallowest stair the code permits. It is legal, and it is the pitch of a back stair. Climbing it, the foot does not fully land on the tread and the descent feels precarious enough that people reach for the rail; on the way down the nosing is the only thing under the ball of the foot. In a house where the passage was tight, the same stair also has 8 in of headroom to spare and a run 26 in shorter than it should be, which is the whole reason it exists.",
+  "cause": {
+    "driver": "code",
+    "explanation": "The stair is dimensioned by a floor plan, and floor plans are drawn from the outside in. The stair is the one element whose length is set by the storey height rather than by the designer, so when the plan is tight the stair is where the tightness is absorbed — and the only lever available is the riser-tread pair. The code states a maximum riser and a minimum tread, so the plan takes both, because the code number is the only number in the process that anyone can cite. There is a second driver in the framing: risers are set by dividing the total rise by a whole number, and going from 16 risers to 17 in a 10 ft storey requires the framer to recut the stringers, which is why the count is fixed first and the tread negotiated afterward.",
+    "cost_saved": "The floor area. At a 10 ft storey, a code-minimum stair runs 12 ft 6 in and a good one runs 14 ft 8 in — 26 in of length, or about 8 square feet on two floors, worth 2,500 to 5,000 USD of built area in most markets, and often the difference between a plan that works and one that does not."
+  },
+  "rule_violated": [
+    {
+      "kind": "code",
+      "ref": "IRC R311.7.5.1 and R311.7.5.2",
+      "statement": "Riser 7 3/4 in maximum, tread 10 in minimum, and the greatest riser within a flight shall not exceed the smallest by more than 3/8 in. These are LIMITS, not targets, and a principal stair built at both of them simultaneously has taken the worst permitted case in two dimensions at once."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / stair_type / code_conflict",
+      "statement": "Period band riser 7 1/2-8 1/2 in, tread 9-10 1/2 in, against IRC 7 3/4 max and 10 min. The kit records this as blocking: a period-correct principal stair is not buildable as drawn, and taking the shallow end of the period band is legal and inside the historical range but adds a riser per storey and lengthens the run by about 10 in."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "Blondel's rule: two risers plus one tread equals a pace",
+      "statement": "2R + T should fall between 24 and 25 in, and R x T between 72 and 75. A code-minimum stair gives 2(7.75) + 10 = 25.5 and a product of 77.5, both outside the band on the steep side. A 7 in riser with an 11 in tread gives 25 and 77; a 6 1/2 in riser with a 12 1/2 in tread gives 25 1/2 and 81, which is a grand stair."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the stair is graded like the doors",
+      "statement": "A house has a principal stair and a service stair and they are not the same object. The code minimum is a perfectly good SERVICE stair and always was; using it in the front hall is a rank error before it is a proportional one."
+    }
+  ],
+  "correct_practice": "Set the principal stair at a 7 to 7 1/4 in riser and an 11 to 11 1/2 in tread, which satisfies the IRC comfortably, satisfies Blondel at 2R + T of 25 to 26, and gives a stair that can be walked down carrying something. The best eighteenth-century principal stairs are shallower still — 6 1/2 to 7 in of riser against 11 1/2 to 13 in of tread — and that is the target where the plan can hold it. Take the count first: a 10 ft storey with a 12 in floor assembly gives 121 in of total rise, which is 17 risers at 7 1/8 in, not 16 at 7 9/16. Then the run is 16 treads at 11 in, or 14 ft 8 in, against the 12 ft 6 in the minimum stair takes. THAT 26 INCHES IS THE WHOLE ARGUMENT, and the honest answers to it are: accept the length and shorten a room; turn the stair earlier at a winder-free landing rather than reducing the passage below 10 ft; or admit that the plan wanted a service stair in that position and put the principal stair somewhere it fits. Where a tread of less than 11 in is used, the code requires a nosing of 3/4 to 1 1/4 in, which recovers some of the foot's landing without adding to the run — that projection is not decoration and should never be omitted. And grade: a secondary or basement stair at 7 3/4 and 10 is correct, and building it that way is what buys the principal stair its length.",
+  "fixes": {
+    "right": "Riser 7 to 7 1/4 in, tread 11 to 11 1/2 in on the principal stair, computed from the actual total rise including floor assemblies, with a landing rather than winders where the run does not fit.",
+    "cheap": "Add one riser. Going from 16 risers to 17 in a 10 ft storey drops the riser from 7 9/16 to 7 1/8 in and costs nothing but a recut stringer at framing — the run grows by one tread, 11 in, which is usually absorbable. If the run genuinely cannot grow, keep the 10 in tread and specify a full 1 1/4 in nosing, which gives the foot 11 1/4 in of effective landing for free and is the single highest-value inch in the whole stair. Both of these are free at framing and impossible afterwards.",
+    "dishonest": "Winders at the turn to shorten the run. A winder converts the length problem into a tread-depth problem at the inside of the turn, which is where people fall, and the code's walk-line rules make it a poor bargain in any case. Also dishonest: an open-riser stair on the theory that the visual lightness compensates — riser openness has nothing to do with the pitch, and an open-riser stair at 7 3/4 and 10 is exactly as steep and rather more alarming."
+  },
+  "detection": "From a photograph taken along the flight, measure the pitch angle: a code-minimum stair runs at 37.8 degrees, a good principal stair at 32 to 33 degrees, and a grand one at 27 to 30. The angle is directly measurable from any side-on image of a stair and is the fastest test. Second, count the treads and measure the total rise: total_rise / riser_count gives the riser and the run divided by treads gives the tread, both from a plan or an elevation. Third, from inside the flight, look at the NOSING: a stair with a 10 in tread must have a 3/4 to 1 1/4 in nosing by code, and the absence of one means either the tread is 11 in or more, which is good news, or the stair is non-compliant. Fourth, from a photograph of the stair in the hall, check whether the flight is the same pitch as the basement stair in the same house — if it is, the house has one stair specification and no principal stair.",
+  "test": {
+    "expression": "2 * riser_height_in + tread_depth_in",
+    "threshold": 24.0,
+    "upper": 25.5,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "section",
+    "note": "Blondel's pace rule. The code minimum gives 25.5 and sits at the very edge; a 7 by 11 stair gives 25. Evaluable from a photograph via the pitch angle, which should be 30 to 34 degrees for a principal stair: arctan(riser/tread), where 7.75/10 gives 37.8 degrees and 7/11 gives 32.5."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "cape-cod-colonial",
+      "why": "The winding boxed stair beside the chimney is genuinely steep — often 8 1/2 in of riser on a 8 in tread with winders — because it is a ladder to a half storey rather than a principal stair, and the plan has no room for anything else.",
+      "bounds": "Only in the genuine one-and-a-half storey type where the stair serves a chamber under the roof, and only where it is enclosed and secondary in character. It is also not buildable new under the IRC, so this exception describes surviving fabric rather than licensing a design.",
+      "applies_when": {
+        "date_range": [
+          1650,
+          1850
+        ],
+        "note": "Existing historic fabric. New construction takes the code."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Where a stair exists at all it is a service stair to an attic or a rear addition, and steepness is correct for its rank.",
+      "bounds": "Secondary position, enclosed, and not in the principal file of rooms."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The reverse exception, and the one worth knowing: with principal ceilings of 12 to 14 ft the total rise per storey is 13 to 15 ft, so a code-minimum stair would be enormous and the type instead uses two or three short flights with generous landings.",
+      "bounds": "The pitch is still shallow — the exception is about the ARRANGEMENT rather than the riser-tread pair, and the treads in these houses are generous. It licenses multiple flights and landings, not steepness.",
+      "applies_when": {
+        "regions": [
+          "South Carolina and Georgia low country"
+        ]
+      }
+    },
+    {
+      "style": "log-vernacular-american",
+      "why": "A boxed or ladder stair to a loft is the type's own arrangement and a shallow stair would be an imposition.",
+      "bounds": "Loft access only. A log house with a full second storey takes a normal stair."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "stair-with-no-passage",
+      "difference": "Dimension against position. A stair can be perfectly proportioned and land in the wrong place, or be well placed and too steep. Diagnose the plan first, because a stair in the wrong position usually cannot be given the length it needs."
+    },
+    {
+      "fault": "handrail-you-cannot-grip",
+      "difference": "Both are code-adjacent faults on the same object, but that one is about a section and this about a pitch, and they are decided by different trades."
+    }
+  ],
+  "co_occurs_with": [
+    "stair-with-no-passage",
+    "handrail-you-cannot-grip",
+    "newel-too-thin"
+  ],
+  "sources": [
+    "IRC R311.7.5.1 riser height, R311.7.5.2 tread depth and nosing",
+    "kits/georgian-colonial-american.kit.json, stair_type code_conflict, marked blocking",
+    "Francois Blondel, Cours d'architecture (1675-1683), the pace rule",
+    "proportions/modules/storey-graduation.json, risers per storey"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stair",
+    "code",
+    "proportion",
+    "blondel",
+    "plan-cost"
+  ]
+}

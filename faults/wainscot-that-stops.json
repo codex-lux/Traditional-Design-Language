@@ -1,0 +1,169 @@
+{
+  "id": "wainscot-that-stops",
+  "name": "The stone wainscot that stops mid-wall",
+  "aka": [
+    "the stone skirt",
+    "manufactured stone to nowhere",
+    "the culture-stone band"
+  ],
+  "slots": [
+    "material_change_rule",
+    "water_table",
+    "secondary_cladding",
+    "foundation_expression"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A band of stone or manufactured stone running along the base of the front wall, typically 30-48 in high, capped with a sloped cast stone, and stopping in mid-air: at the front corner, at the edge of the garage projection, or partway along a wall where the sightline from the street ends. It sits on nothing, supports nothing, and ends without meeting an inside corner or a jamb.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Manufactured stone veneer is priced by the square foot and sold as an upgrade package with a stated coverage. The sales tool specifies an area, not an extent — '120 sf of stone accent' — so the installer covers the area where it will be seen and stops. The cap is a stock cast unit sold in one size, which fixes the height at whatever the cap course lands on.",
+    "cost_saved": "Manufactured stone runs $18-$30/sf installed, and carrying the same band round all four elevations adds 250-400 sf, roughly $5,000-$12,000. But the correct cheap answer is to DELETE the band and lower the grade, which returns the entire $8,000-ish accent package and buys a better base for $1,500. This fault costs money rather than saving it.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / material_change_rule",
+      "statement": "Material may change only where the building changes volume or where a projecting horizontal course runs the full way round; never on the entrance elevation alone."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a base is a base of something",
+      "statement": "A plinth, wainscot or dado is by definition the bottom term of a wall's vertical series and must run under the whole of that wall. A base that stops has declared that the wall it was under is somewhere else."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / foundation_expression.height = part * 2 = 18 in; water_table.height = part * 3 = 27 in",
+      "statement": "The expressed base is 18-27 in to the water table, not 36-48 in."
+    }
+  ],
+  "correct_practice": "If a wall has a base of a different material, that base runs the full length of the wall, turns every corner, and terminates only at an inside corner, a jamb, or the ground. Its height is set by the elevation's own series — 18-30 in of foundation to a water table at 24-36 in above finished grade is the Anglo-American figure — not by a stock cap or a coverage allowance. In Craftsman and Shingle Style work, where a genuine masonry ground storey is intended, the stone runs the FULL height of that storey to the porch-roof or first-floor plate line, which is a legible datum; a stone band ending at 40 in is neither a base nor a storey.",
+  "fixes": {
+    "right": "Choose one of the two legible conditions and build it all the way round: a plinth of 18-30 in capped by a real water table, or a full masonry ground storey to the plate. Turn every corner; stop only at inside corners.",
+    "cheap": "Delete the stone and lower the grade. Removing an $8,000 stone accent and spending $600 on regrading so 20-24 in of a plain parged or brick foundation shows, capped by a $900 projecting water table run the whole way round, produces a better base and returns money. Where the client insists on stone, confine it to a single element that can honestly be all-stone — the chimney, the porch piers, the entry surround — and run it top to bottom.",
+    "dishonest": "Mitering the stone round the front corner and stopping it 18 in down the return, which is what the trade offers when the fault is pointed out. It converts a stopping band into a stopping band with a corner, and the cut edge is now in the shadow where it is more, not less, visible. Also dishonest: raking the stone's top edge into a 'natural' irregular line so it has no termination to criticise — an irregular edge does not resolve the question of what the band is."
+  },
+  "detection": "Follow the top edge of the stone across the elevation and off the end of it. Real base: the line is level, continuous, and turns the corner. Fault: the line runs into a vertical trim board, a downspout, or the garage return and vanishes. Measure the band height against the first-floor window sill: a base that stops between the sill and the head of the ground-floor windows is unambiguously the fault, because no wall series has a term there. Also check whether the stone crosses a window jamb — a base that dies into the side of a window opening rather than passing under it is diagnostic.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "A stone or clinker-brick base carried up around the ground storey and the porch is definitional, and it may legitimately be taller on the porch than on the wall behind, because the porch pier is a different member.",
+      "bounds": "The base must terminate at a real line — porch deck, porch-roof line, or first-floor plate — and must run round the whole of whatever volume it belongs to. A pier base is allowed to be taller than a wall base; neither is allowed to stop in mid-wall.",
+      "bounds_test": {
+        "expression": "base_height_in / ground_storey_height_in",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Terminates at a real line — porch deck, porch-roof line or first-floor plate — and runs round the whole volume it belongs to. A pier base may be taller than a wall base; neither may stop in mid-wall."
+      },
+      "applies_when": {
+        "slots": [
+          "porch_type",
+          "foundation_expression"
+        ],
+        "note": "The base belongs to a volume — the porch or the ground storey — and must be complete on that volume."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "A rock-faced stone ground storey with shingles above is a Richardson-derived signature and the stone may rise irregularly, following the site.",
+      "bounds": "It rises to a storey line, not to an arbitrary height, and it wraps the whole ground storey. Following the site means the BOTTOM of the stone varies with grade; the top does not.",
+      "bounds_test": {
+        "expression": "stone_top_edge_deviation_from_horizontal_deg",
+        "direction": "at-most",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "note": "Following the site means the BOTTOM of the stone varies with grade. The top does not: it rises to a storey line, level, and wraps the whole ground storey."
+      },
+      "applies_when": {
+        "slots": [
+          "primary_cladding"
+        ],
+        "note": "Rock-faced stone ground storey with shingles above — the Richardson-derived signature."
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "Stone on the exposed lower storey and lighter material above is genuine, and the stone's extent is set by where the ground is.",
+      "bounds": "Determined by the section and the earth line. If the stone is on the street elevation and absent on the buried sides, the logic is inverted.",
+      "bounds_test": {
+        "expression": "stone_height_uphill_in / stone_height_downhill_in",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Determined by the section and the earth line. Stone on the street elevation and absent on the buried sides inverts the logic and fails at under 1.0."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "water-table-as-trim-board",
+      "difference": "A water table is a cap on a base, not the base itself. This fault is about the extent of the base; that one is about whether its cap does any work."
+    },
+    {
+      "fault": "brick-front-vinyl-return",
+      "difference": "Same disease, different axis. This one stops horizontally; that one stops at a corner. A great many production houses have both."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, material_change_rule and foundation_expression",
+    "proportions/systems/facade-classical.json, elevation assembly",
+    "NPS Preservation Brief 16: Substitute Materials on Historic Building Exteriors",
+    "styles/craftsman.json, styles/shingle-style.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "material-change",
+    "base",
+    "production-housing",
+    "composition"
+  ],
+  "test": {
+    "expression": "base_material_run_length / wall_length",
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "Follow the top edge of the stone across the elevation and off the end of it. A base runs under the whole of the wall it is the base of and terminates only at an inside corner, a jamb or the ground. Anything under 1.0 is the fault, and the value is a direct measure of how much of the wall was in the sightline."
+  },
+  "secondary_tests": [
+    {
+      "expression": "base_height_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 18,
+      "upper": 30,
+      "note": "The plinth condition. A band that stops between the first-floor sill and the head of the ground-floor windows — typically 36-48 in, set by a stock cast cap — is unambiguously the fault, because no wall series has a term there."
+    },
+    {
+      "expression": "base_height_in / ground_storey_height_in",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "The other legible condition: a full masonry ground storey to the plate or porch-roof line, as Craftsman and Shingle Style intend. Either this test or the one above must pass. A value near 0.35 passes neither and is the fault's signature."
+    },
+    {
+      "expression": "base_terminations_at_inside_corners_or_jambs / base_terminations",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "Where the band does stop, it must stop at something. A stone edge dying into the side of a window opening, or mitred round a front corner and stopping 18 in down the return, fails this."
+    }
+  ],
+  "co_occurs_with": [
+    "brick-front-vinyl-return",
+    "material-change-with-no-plane-change",
+    "house-without-a-base"
+  ]
+}

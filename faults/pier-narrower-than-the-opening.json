@@ -1,0 +1,227 @@
+{
+  "id": "pier-narrower-than-the-opening",
+  "name": "The Pier Eaten By The Window",
+  "aka": [
+    "ganging that kills the wall",
+    "no wall left between the glass"
+  ],
+  "slots": [
+    "window_grouping_rule",
+    "window_proportion"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "The wall between adjacent windows is narrower than the windows themselves, sometimes reduced to a mullion of 4 to 6 in where two units are ganged in a single rough opening. The facade stops reading as a wall with holes in it and starts reading as glass with interruptions. On a masonry front the effect is worse, because a pier narrower than the opening it flanks looks structurally implausible whether or not it is.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Two windows in one rough opening with a shared jamb is one header, one flashing operation, one air-seal detail and two units, against two of everything. Interior programme drives it too: an open-plan great room wants glass and the plan gives it as a run. And the mullion kit is a catalogue item, which makes ganging a specification rather than a decision.",
+    "cost_saved": "Roughly 200 to 500 USD per ganged pair in framing, flashing and labour, plus the header. On a house with four gangs, 1,000 to 2,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / window_grouping_rule.width",
+      "statement": "pier_width = module - opening_width, which is 72 in at a 9 ft bay with a 3 ft window."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_grouping_rule.width",
+      "statement": "pier_alt = opening_width * 1.4, that is 50 in at a 36 in window; the measured pier-to-opening band is 0.6 to 1.0 and above."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / window_proportion.ratio",
+      "statement": "solid_to_void across the front = (module - opening_width)/module = 0.667. Two thirds wall."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / window_grouping_rule / ribbon-windows",
+      "statement": "Continuous horizontal glazing has no pier, and the pier is what the facade rhythm is made of."
+    }
+  ],
+  "correct_practice": "The pier is the element, not the leftover. On a classical front the solid-to-void ratio across the principal storey is about two thirds solid, which at a 9 ft bay and a 36 in window gives a 72 in pier — twice the opening. The measured lower bound across surviving Anglo-American fronts is a pier equal to about 1.4 times the opening; below a pier equal to the opening the facade has changed character. Where two windows must be adjacent, gang them properly: a single opening with a real mullion of not less than the pier's minimum, under one continuous head, read as one wide opening rather than as two windows with a gap. Where the plan needs more glass than the elevation can carry, take it on the side and rear elevations, or take it in height rather than width.",
+  "fixes": {
+    "right": "Set the bay from the pier. Choose the pier width first at 1.4 times the opening or better, then see how many windows the wall will take, then plan the rooms to that. This is the order the period used and it is the reason period plans have the window positions they do.",
+    "cheap": "Narrow the windows and keep them separate. Two 30 in windows with a 50 in pier occupy the same wall as two 36 in windows with a 38 in pier, cost the same or less, and restore the rhythm. Take the lost glass area back in height.",
+    "dishonest": "Trimming the mullion out as a pilaster or a wide casing so the gap between the two units reads wider. This adds a vertical element that is neither wall nor window, and on a masonry front it produces a strip of trim standing where a pier should be, which is worse than the honest thin mullion."
+  },
+  "detection": "Measure, in one frontal photograph, the glass width of a window and the wall width to the next window's glass. Pier divided by opening below 1.0 is the fault; below 0.5 it is severe; a shared mullion of a few inches is the extreme case. Also compute the solid-to-void ratio along the principal storey: total wall width minus total opening width, over total wall width. Below 0.5 on a traditional idiom the facade has become a curtain wall with punched infill. For a model, the fastest version is to sum the horizontal extent of glass across the elevation and compare with the elevation's width.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "Horizontally banded windows are a defining characteristic and the band is read as one opening, so the pier rule applies between bands and not within them.",
+      "bounds": "The band must sit under one continuous head with a single sill, and the flanking piers — the wall either side of the whole band — still obey the ratio. Ganging that reaches a corner and leaves no return pier is not licensed.",
+      "bounds_test": {
+        "expression": "flanking_pier_width_in / band_unit_opening_width_in",
+        "threshold": 1.0,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The wall either side of the whole band still obeys the ratio. Ganging that reaches a corner and leaves no return pier is not licensed."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Casement ribbons with continuous lintel and sill courses are the entire structural rhetoric of the style; the corner is deliberately dissolved.",
+      "bounds": "The bands must return around every corner without interruption. A ribbon on the front and punched openings on the side is not Prairie, it is this fault with a flat roof.",
+      "bounds_test": {
+        "expression": "continuous_head_and_sill_bands_returning_at_every_corner",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "A ribbon on the front and punched openings on the side is not Prairie, it is this fault with a flat roof."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Bands of multiple sash under a single head with almost no casing are a defining characteristic, and the shingle wall reads as a continuous membrane rather than as piers.",
+      "bounds": "Casing not exceeding 3 in, no projecting head, no corner boards. The style earns the ganging by giving up all the trim that would otherwise have to negotiate it.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The style earns the ganging by giving up the trim: casing 3 in maximum, no corner boards, shingles run over corners, no projecting heads."
+      },
+      "applies_when": {
+        "construction": [
+          "shingle-cladding"
+        ],
+        "note": "Depends on the trimless envelope actually being built, including shingles run over corners with no corner board."
+      }
+    },
+    {
+      "style": "richardsonian-romanesque",
+      "why": "Windows grouped in bands of three or five under a single relieving arch or lintel is a defining characteristic, and the resulting group is read against very large expanses of solid wall elsewhere.",
+      "bounds": "Requires the load-bearing masonry of not less than 16 in and reveals of 12 to 24 in; the group must sit under a genuine arch or lintel, and the overall opening ratio on the elevation stays low.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 12,
+        "direction": "between",
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Requires load-bearing masonry of not less than 16 in nominal and reveals of 12 to 24 in, with the group under a genuine arch or lintel. Thin stone veneer over frame voids it entirely."
+      },
+      "applies_when": {
+        "construction": [
+          "load-bearing-masonry"
+        ],
+        "note": "The style is entirely a wall style; thin stone veneer over a frame wall is prohibited by its own constraint and voids the exception."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Windows grouped in threes and fours under a single continuous head is the style's own diagnostic against Colonial and Georgian revivals.",
+      "bounds": "The group is read as a bay of a picturesque composition and the wall elsewhere is generously solid; a Tudor Revival front with more glass than wall fails its own rules.",
+      "bounds_test": {
+        "expression": "(elevation_width_in - total_opening_width_in) / elevation_width_in",
+        "threshold": 0.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The group is read as a bay of a picturesque composition and the wall elsewhere is generously solid. A Tudor Revival front with more glass than wall fails its own rules."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "window-squarer-than-the-style-permits",
+      "difference": "That fault lives in one opening. This one lives between openings and can coexist with perfect individual proportions."
+    },
+    {
+      "fault": "storeys-out-of-vertical-alignment",
+      "difference": "That is about vertical correspondence between floors; this is about horizontal spacing within one."
+    },
+    {
+      "fault": "even-bay-front",
+      "difference": "That fault is about the COUNT of bays and the absence of a centre; this is about the WIDTH of the wall between them. A five-bay front can still have piers eaten by ganging, and a correctly pierced front can still have four bays."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json",
+    "proportions/modules/sash-light.json",
+    "Measured Anglo-American fronts 1700-1860"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rhythm",
+    "pier",
+    "solid-void",
+    "ganging"
+  ],
+  "test": {
+    "expression": "pier_width_in / adjacent_opening_width_in",
+    "threshold": 1.0,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The measured lower bound across surviving Anglo-American fronts. The classical target at a 9 ft bay with a 36 in window is 2.0 and the sash-light pack's alternative is 1.4. Below 1.0 the facade has changed character; below 0.5 it is a curtain wall with punched infill; a shared mullion of a few inches is the extreme case. Measure glass edge to glass edge."
+  },
+  "secondary_tests": [
+    {
+      "expression": "(elevation_width_in - total_opening_width_in) / elevation_width_in",
+      "threshold": 0.5,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Solid-to-void across the principal storey. The classical value is 0.667 — two thirds wall. Below 0.5 the wall has stopped being the thing the openings are cut from. This is the version a model can compute by summing the horizontal extent of glass across the elevation."
+    },
+    {
+      "expression": "corner_return_pier_width_in / adjacent_opening_width_in",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The pier at the end of a run, which the ganged exceptions do not licence. Craftsman and Shingle bands are read as one opening with flanking piers, and those flanking piers still obey the ratio; a band that reaches a corner with no return pier is not banding."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit names ribbon glazing as having no pier, and the pier is what the facade rhythm is made of."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "Horizontal banding is a defining characteristic and the band is read as one opening; the rule applies between bands, not within them."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Casement ribbons with continuous courses are the entire structural rhetoric and the corner is deliberately dissolved."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "minor",
+      "why": "The shingle membrane reads as a continuous surface rather than as piers, and the style gives up all its trim to earn that."
+    },
+    {
+      "style": "richardsonian-romanesque",
+      "severity": "minor",
+      "why": "Grouping in bands of three or five under a single relieving arch is a defining characteristic, read against very large expanses of solid wall elsewhere."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "prairie-school",
+      "statement": "A pier interrupting the ribbon is the fault. The band must run and the courses must return around every corner; solid wall between casements breaks the horizontality the style exists to assert."
+    },
+    {
+      "style": "craftsman",
+      "statement": "Within a band, a pier is the fault: the band sits under one continuous head with a single sill and the units are mullioned, not separated."
+    }
+  ],
+  "co_occurs_with": [
+    "storeys-out-of-vertical-alignment",
+    "window-squarer-than-the-style-permits",
+    "even-bay-front"
+  ]
+}

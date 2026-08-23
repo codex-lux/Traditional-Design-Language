@@ -1,0 +1,153 @@
+{
+  "id": "fat-cheek-dormer",
+  "name": "The Fat Cheek",
+  "aka": [
+    "2x6 dormer",
+    "the window in a box"
+  ],
+  "slots": [
+    "dormer"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "The dormer's side walls are visibly thicker than the sash they flank. Eight to eleven inches of framing, sheathing, cladding, corner board and casing on each side of a window whose sash is an inch and three eighths thick, so the window sits at the bottom of a deep box and the dormer reads as a shed with a hole in it rather than as a window with a roof over it.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The cheek is framed 2x6 because 2x6 is the wall stud the house is ordered in, and the energy code (IECC R402) wants R-20 in a wall assembly, which argues for the deeper stud everywhere without distinguishing a 30 in cheek from a 40 ft wall. Then sheathing (0.5 in), housewrap, lap siding (0.5 in) and a 5/4 corner board (1 in) each side put the finished cheek at 7.5-8.5 in before any window casing is added. Nobody chose eight inches; it is the sum of a single stud order and a single trim detail.",
+    "cost_saved": "Nothing directly. It saves the thought of detailing the cheek differently and the cost of a second stud size on the delivery."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / dormer / cheek_width",
+      "statement": "4-8 in, a practical band from surviving work."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the cheek must not out-measure the casing",
+      "statement": "The dormer's face is read as window plus frame. When the frame is wider than the casing that trims it, the eye reads the wall, not the window."
+    }
+  ],
+  "correct_practice": "Historic dormer cheeks finish at 4-8 in and often less, because they were framed light and clad in the same shingle or clapboard as the roof and wall with no corner board and no casing. The rule worth holding: the finished cheek width should not exceed the width of the window casing beside it, and should never exceed the casing plus the meeting stile. Practically that means framing the cheek in 2x4 and taking the insulation in the roof plane above, cladding it in a flat panel or a shingle with no corner board, and where a corner board is unavoidable making it the same width as the window casing so that the two read as one member rather than as two competing ones.",
+  "fixes": {
+    "right": "2x4 cheeks, insulation in the roof plane, shingle or flat panel cladding, no corner board.",
+    "cheap": "Change nothing in the framing. Set the window to the OUTSIDE face of the cheek framing rather than the inside, and use a flat 1x4 corner instead of a 5/4 corner board with a return. That recovers two to three inches a side for nothing, which on a 40 in dormer face is a 12 per cent reduction in the wall around the glass.",
+    "dishonest": "Widening the window to rebalance the face. That solves the ratio by producing an overscaled dormer instead, and trades a detail fault for a massing fault."
+  },
+  "test": {
+    "expression": "visible_cheek_width_in / sash_width_in",
+    "threshold": 0.25,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Measured square to the dormer face, from the outside edge of the dormer to the outside edge of the window casing. Historic work runs 0.12-0.25; a 2x6 catalogue dormer with corner boards runs 0.35-0.50."
+  },
+  "secondary_tests": [
+    {
+      "expression": "finished_cheek_width_in",
+      "threshold": 8,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The kit band is 4-8 in. 2x6 framing plus sheathing plus lap siding plus a 5/4 corner board reaches 7.5-8.5 in before any casing."
+    },
+    {
+      "expression": "finished_cheek_width_in / window_casing_width_in",
+      "threshold": 1.0,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The rule worth holding: the cheek may not out-measure the casing beside it. When the frame is wider than the trim, the eye reads wall rather than window."
+    }
+  ],
+  "detection": "Photograph the dormer square to its face. Measure the visible cheek - from the outside edge of the dormer to the outside edge of the window casing - and divide by the sash width. Historic work runs 0.12-0.25; a 2x6 catalogue dormer with corner boards runs 0.35-0.50. Second cue, usable at any distance: if the dormer's face is visibly wider than its own roof is at the eave, the cheeks have swallowed the overhang.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "A thick, blurred, shingled cheek is the point; the dormer is meant to read as mass carved out of a continuous surface, and the corners are sometimes rounded to emphasise it.",
+      "bounds": "The thickness must be expressed as continuous shingled mass with no corner board and no casing. A thick cheek with a corner board is not this.",
+      "bounds_test": {
+        "expression": "count_of_corner_boards_on_the_dormer",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The thickness must be expressed as continuous shingled mass with no corner board and no casing. A thick cheek with a corner board is not this."
+      }
+    },
+    {
+      "style": "french-normandy-revival",
+      "why": "A masonry or plastered cheek is thick by nature, and the dormer reads as a stone lucarne.",
+      "bounds": "It must be, or convincingly be, masonry: a stone or stucco jamb with a visible sill and cill weathering, not framed and clad.",
+      "bounds_test": {
+        "expression": "cheek_material_is_masonry_or_plaster",
+        "threshold": 1,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "It must be, or convincingly be, masonry: a stone or stucco jamb with a visible weathered sill, not framed and clad."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "Deliberately heavy, rolled and irregular cheeks belong to the idiom.",
+      "bounds": "The heaviness must be sculpted, not merely thick.",
+      "bounds_test": {
+        "expression": "cheek_face_curvature_radius_in",
+        "threshold": 24,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The heaviness must be sculpted, not merely thick."
+      }
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "why": "The shed dormer's face is set back 18-36 in from the wall plane and its ends are cheeks of a different order - they are the ends of a long wall, not the sides of a window.",
+      "bounds": "Only for the long shed dormer, and only at its ends.",
+      "bounds_test": {
+        "expression": "shed_dormer_setback_from_wall_plane_in",
+        "threshold": 18,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 36,
+        "note": "Only for the long shed dormer, and only at its ends - those are the ends of a wall, not the sides of a window."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A thin cheek with a corner board is the fault. The dormer must read as mass carved out of a continuous shingled surface, sometimes with the corners rounded."
+    },
+    {
+      "style": "french-normandy-revival",
+      "statement": "A thin framed cheek is the fault; the lucarne is a masonry jamb with a weathered sill."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "overscaled-dormer",
+      "difference": "There the whole dormer is too big. Here the window may be correct and the wall around it is too thick, and the fixes are opposite - one narrows the assembly, the other narrows the wall."
+    }
+  ],
+  "co_occurs_with": [
+    "overscaled-dormer"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json dormer cheek_width",
+    "IECC R402.1 (wall insulation) as the driver of 2x6 framing",
+    "HABS measured drawings of colonial dormers"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "dormer",
+    "proportion",
+    "profile-depth"
+  ]
+}

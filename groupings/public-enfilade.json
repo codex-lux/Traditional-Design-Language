@@ -1,0 +1,121 @@
+{
+  "id": "public-enfilade",
+  "name": "Public Enfilade",
+  "aka": [
+    "the reception sequence",
+    "withdrawing sequence"
+  ],
+  "scale": "sequence",
+  "confidence": "high",
+  "description": "Formal rooms in a line with their doors aligned, so that a view runs the length of the house and a party can move through it in order. It is a device for making a modest house feel large and for choreographing an evening: receive, dine, withdraw.",
+  "rooms": [
+    {
+      "room": "entrance-hall",
+      "role": "connector",
+      "count": "1"
+    },
+    {
+      "room": "drawing-room",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "dining-room",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "library",
+      "role": "optional",
+      "count": "0-1"
+    },
+    {
+      "room": "music-room",
+      "role": "optional",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "Doors align on one axis so the view runs through. A single offset door breaks the enfilade and it cannot be recovered with finishes.",
+      "kind": "sequence",
+      "severity": "hard",
+      "test": "door_centreline_offset_in at-most 3"
+    },
+    {
+      "statement": "Rooms diminish or grow in one direction, never alternate. Hierarchy has to be legible as you move.",
+      "kind": "hierarchy",
+      "severity": "strong"
+    },
+    {
+      "statement": "Each room in the sequence is also reachable from the hall or passage, so the enfilade is a choice and not the only route. An enfilade that is the sole circulation makes every room a corridor.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Openings are wide — 5 to 8 ft with pocket or double doors — or the sequence reads as a row of doorways rather than a run of space.",
+      "kind": "dimension",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "four-over-four",
+      "fit": "canonical",
+      "position": "one side of the passage, both rooms"
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "fit": "canonical",
+      "position": "the full depth beside the hall — the townhouse case, and the reason a narrow row house feels generous"
+    },
+    {
+      "massing": "townhouse-row",
+      "fit": "canonical"
+    },
+    {
+      "massing": "five-part-palladian",
+      "fit": "common"
+    },
+    {
+      "massing": "ranch-linear",
+      "fit": "possible",
+      "note": "The open plan is the enfilade with the walls removed, which gains the view and loses the ability to close any of it."
+    }
+  ],
+  "expansion_logic": "Add a room at either end. The sequence tolerates lengthening and not interruption.",
+  "privacy_span": [
+    2,
+    3
+  ],
+  "typical_area_sf": [
+    600,
+    1600
+  ],
+  "servicing_strategy": "Fireplaces on the party wall or gable in the townhouse case, which stacks the flues and keeps the window wall free.",
+  "circulation_parti": [
+    "enfilade",
+    "side-hall",
+    "center-hall"
+  ],
+  "style_variation": [
+    {
+      "style": "federal-style",
+      "note": "Where American practice takes it furthest, often with an oval or apsidal room in the run."
+    },
+    {
+      "style": "italianate-townhouse",
+      "note": "Double parlours with sliding doors — the enfilade reduced to two rooms and a very large opening, and it works."
+    },
+    {
+      "style": "craftsman",
+      "present": false,
+      "note": "Explicitly rejected. The bungalow's open plan is an argument against ceremony, not a cheaper version of it."
+    }
+  ],
+  "sources": [
+    "Kerr, The Gentleman's House",
+    "Herman, Town House",
+    "Waterman, The Dwellings of Colonial America"
+  ]
+}

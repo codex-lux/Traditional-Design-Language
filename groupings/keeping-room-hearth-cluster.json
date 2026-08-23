@@ -1,0 +1,118 @@
+{
+  "id": "keeping-room-hearth-cluster",
+  "name": "Keeping Room and Hearth Cluster",
+  "scale": "cluster",
+  "confidence": "high",
+  "description": "The warm end of a pre-central-heating house: the cooking hearth and the room the household actually lived in, with the cold service rooms ranged beyond it. The arrangement is entirely thermal, and understanding that is what stops it being reproduced as decoration.",
+  "rooms": [
+    {
+      "room": "keeping-room",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "kitchen",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "pantry",
+      "role": "servant",
+      "count": "1"
+    },
+    {
+      "room": "larder",
+      "role": "servant",
+      "count": "0-1"
+    },
+    {
+      "room": "cold-room",
+      "role": "servant",
+      "count": "0-1"
+    },
+    {
+      "room": "back-hall",
+      "role": "connector",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "The hearth is the organising fact. Rooms are ranked by distance from it, and the cold stores sit at the end furthest from the stack — usually the north.",
+      "kind": "servicing",
+      "severity": "hard"
+    },
+    {
+      "statement": "The keeping room is within about 12 ft of the fire, which is the radiant reach of an open hearth. Beyond that the room is not warm and the household will not use it.",
+      "kind": "dimension",
+      "severity": "strong",
+      "test": "hearth_to_far_wall_ft at-most 14"
+    },
+    {
+      "statement": "Cold stores face north and take no direct sun. A south-facing larder is a warm cupboard.",
+      "kind": "daylight",
+      "severity": "hard"
+    },
+    {
+      "statement": "Where a central stack serves the cluster, the flues gather in one mass and the plan is organised around it rather than around a corridor.",
+      "kind": "servicing",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "saltbox",
+      "fit": "canonical",
+      "position": "the rear lean-to, kitchen at the centre with buttery and dairy at the cold ends"
+    },
+    {
+      "massing": "cape-cod-massing",
+      "fit": "canonical",
+      "position": "the rear rooms flanking the central stack"
+    },
+    {
+      "massing": "hall-and-parlor",
+      "fit": "common",
+      "position": "the hall end"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "fit": "common",
+      "position": "the little house"
+    }
+  ],
+  "expansion_logic": "Add a lean-to behind, which is how the saltbox happened, and then an ell off the kitchen end.",
+  "privacy_span": [
+    3,
+    4
+  ],
+  "typical_area_sf": [
+    350,
+    800
+  ],
+  "servicing_strategy": "One central masonry mass doing structure, heat and cooking at once — the most efficient arrangement available before mechanical systems, and the reason the type dies when the furnace arrives.",
+  "circulation_parti": [
+    "central-chimney-lobby",
+    "hall-and-parlor",
+    "additive"
+  ],
+  "style_variation": [
+    {
+      "style": "new-england-colonial",
+      "note": "The canonical case: central stack, keeping room behind it, cold rooms at the ends of the lean-to."
+    },
+    {
+      "style": "saltbox-colonial",
+      "note": "The lean-to formalised, and the cluster is its whole content."
+    },
+    {
+      "style": "colonial-revival",
+      "note": "Revived as a decorative idea — a 'keeping room' off the kitchen with a fireplace nobody cooks on. Legitimate, but it is a room named after a thermal logic it no longer has, and worth saying so."
+    }
+  ],
+  "sources": [
+    "Cummings, The Framed Houses of Massachusetts Bay",
+    "Cromley, The Food Axis",
+    "Hubka, Big House, Little House, Back House, Barn"
+  ]
+}

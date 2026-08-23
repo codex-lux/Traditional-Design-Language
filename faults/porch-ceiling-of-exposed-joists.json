@@ -1,0 +1,160 @@
+{
+  "id": "porch-ceiling-of-exposed-joists",
+  "name": "The Porch Ceiling That Is The Underside Of The Roof",
+  "aka": [
+    "the exposed joist porch",
+    "vinyl soffit overhead",
+    "no ceiling"
+  ],
+  "slots": [
+    "porch_ceiling",
+    "porch_type",
+    "entablature"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "Standing on the porch and looking up, you see rafters, joist hangers, the underside of roof sheathing, and often the nail points coming through it. Or you see a field of white vented vinyl soffit panels with visible seams every 12 ft and J-channel at every edge. Either way the porch's fifth surface — the one a person actually looks at while waiting at the door — is unfinished or is the cheapest exterior product in the catalogue. Wasps nest in the bays; the light on the porch is grey and shadowless.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The porch ceiling is invisible from the street, invisible on an elevation drawing, and invisible in a listing photograph taken from the kerb. It is therefore the first surface deleted in value engineering and the last one anyone specifies. Where it survives, it survives as vinyl soffit, because vinyl soffit is what the siding crew already has on the truck, is fastened with the same J-channel and takes ten minutes a bay. A tongue-and-groove beadboard ceiling is a separate material, a separate trade and a separate finishing operation, and it must be primed on all six sides before installation to last.",
+    "cost_saved": "Vinyl soffit runs 2-4 USD a square foot installed; painted beadboard or V-groove 9-18 USD; a stained or finished tongue-and-groove ceiling 14-28 USD. On a 200 sq ft porch, 1,400-4,800 USD. Leaving it open saves the lot."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_ceiling — binding open, determined_by order, entablature, porch_support",
+      "statement": "The portico soffit is whatever the bound order's entablature requires; it is not an independent variable. Which is to say: the porch ceiling is a member of the order, not a leftover surface."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-corinthian / cornice — panelled soffits between modillions",
+      "statement": "Even the cornice's soffit is panelled between its brackets. A tradition that panels the 6 in soffit of a cornice does not leave a 96 in porch ceiling as bare sheathing."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the porch ceiling is the most closely and longest looked-at surface on the exterior of a house",
+      "statement": "It is seen at 8 ft, from directly beneath, by anyone waiting at the door, and it is the surface that reflects light onto every face that arrives. Its finish and its colour do more work per square foot than anything on the elevation."
+    }
+  ],
+  "correct_practice": "The porch ceiling is a finished surface and a member of the composition. In the classical case it is the soffit of the entablature and follows the order: flat, panelled or coffered, with the panels set out from the columns so a whole panel lands at each end, and with the cornice's bed mould running as a moulding where the ceiling meets the frieze. In the vernacular and Victorian case it is tongue-and-groove beadboard, 3 to 4 in beads, run PERPENDICULAR to the house wall on a porch of ordinary depth and painted — and painted, traditionally across the South and increasingly everywhere, a pale blue-green, which reads as sky, throws a cool light down, and is documented from the early nineteenth century onward. In the Craftsman case it is wide V-groove boards or a beamed ceiling with the beams expressing the structure above. The one universal rule is that the ceiling has a datum: it meets the frieze or the beam at a moulding, not at a caulk joint.",
+  "fixes": {
+    "right": "Tongue-and-groove beadboard or a panelled soffit, primed all faces, run perpendicular to the wall, meeting the frieze at a moulding and the beam at a moulding.",
+    "cheap": "Painted 4 x 8 ft MDO or exterior-grade plywood with 1x2 battens over the joints at 16 in centres, painted out as one surface — about 3.50-5 USD a square foot, cheaper than beadboard and barely more than vinyl. The battens supply the linear rhythm that makes a beadboard ceiling read, and at 8 ft nobody can tell. Second free move, which costs one gallon of paint: whatever the ceiling is made of, paint it a pale blue rather than white. The colour is period, it reflects a noticeably softer light onto the faces of people at the door, and it is the cheapest single improvement available anywhere in the threshold group.",
+    "dishonest": "Vented vinyl soffit installed with the vents as the 'design'. It is a product for a 16 in eave overhang, its panel width and seam spacing are scaled to that, and at 8 ft wide it reads as an industrial ceiling — which is what it is. Equally dishonest: spraying the exposed framing white and calling it exposed-structure Craftsman, when the framing is 2x8s at 16 in with joist hangers and plywood above."
+  },
+  "detection": "This one requires standing on the porch or a photograph taken from it, which is the point — it is invisible from the street and therefore never assessed. Look up. Three readings. (a) A finished ceiling meeting the frieze at a moulding: correct. (b) Vinyl or aluminium soffit panels with J-channel at the perimeter and vent slots: the endemic case. (c) Rafters, hangers and sheathing: the omission. In a listing photograph taken from the front walk, the porch ceiling is often visible as a band at the top of the frame — check the edge condition where it meets the wall, since J-channel reads as a dark continuous groove of constant width and a moulding reads as a shadow of varying depth. Fourth check available even from the street: on a deep porch, look at the light on the wall behind. A finished pale ceiling bounces light and the porch reads as bright; an unfinished one absorbs it and the porch reads as a black hole, which is also the fastest way to tell that the entrance has lost its emphasis.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "finished_ceiling_present",
+    "threshold": 1,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Binary and evaluable from any photograph taken under the porch: 1 where the ceiling is a finished, deliberate surface meeting its edges at a moulding; 0 where it is exposed framing, sheathing, or exterior soffit product with J-channel. Where a numeric refinement is wanted, use board width — traditional beadboard is 3 to 4 in and vinyl soffit panels are 12 in with visible 5 in flutes."
+  },
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "A Craftsman porch ceiling is a designed surface — beamed, or wide V-groove — and the porch is the room the style cares most about."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "serious",
+      "why": "The veranda ceiling is beadboard and often the haint-blue one; it is part of the porch's identity as a room."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The portico soffit is the entablature's soffit and belongs to the order."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "serious",
+      "why": "The stoop-porch ceiling is beadboard and blue, and the type's whole street presence depends on the porch reading as a room."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "The small hood over a minimal traditional entry has a soffit of a few square feet and little is at stake."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "A genuinely exposed structural ceiling is correct where the structure is worth exposing: real beams and rafters of full dimension, planed, with the boarding above them visible as a finished surface and no hangers, hurricane ties or sheathing edges showing.",
+      "bounds": "Every member must be a finished member — planed, chamfered or stopped, with visible joinery — and the deck above must be finished boarding, not plywood. Exposed 2x framing with joist hangers and OSB is not this exception under any circumstances.",
+      "applies_when": {
+        "slots": [
+          "porch_ceiling"
+        ],
+        "construction": [
+          "timber-frame",
+          "heavy-timber"
+        ]
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "The corridor ceiling of exposed vigas and latillas — round beams with small poles or boards laid across them — is the correct and defining treatment, and it is genuinely an exposed structure.",
+      "bounds": "Vigas must be round or squared solid timbers projecting through the wall, with real latillas or boards above. Sawn 2x rafters with plywood are not vigas."
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Same viga-and-latilla tradition.",
+      "bounds": "As above.",
+      "applies_when": {
+        "regions": [
+          "new-mexico",
+          "southwest"
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The Creole gallery ceiling is frequently the exposed underside of the roof boarding, planed and beaded on its lower edge, with exposed rafters — an honest and documented treatment in a climate where the gallery is an open-air room.",
+      "bounds": "The roof boarding must be real boards, beaded or at least planed, and the rafters must be finished. Plywood sheathing seen from below is not this.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "porch-too-shallow-to-inhabit",
+    "four-by-four-under-a-roof",
+    "porch-hung-on-the-wall",
+    "cornice-with-no-architrave-or-frieze"
+  ],
+  "confused_with": [
+    {
+      "fault": "soffit-vent-through-cornice",
+      "difference": "That is the eave soffit of the main roof, punctured by continuous vents through a classical cornice. This is the porch's own ceiling. They share a material — vinyl soffit — and a driver."
+    },
+    {
+      "fault": "bed-mould-omitted",
+      "difference": "That is the boxed eave with no members in it. This is the porch ceiling with no surface. Both are the same value-engineering pass through the trim scope."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, porch_ceiling (binding open, determined_by order/entablature/porch_support, confidence low)",
+    "proportions/orders/vignola-corinthian.json — panelled modillion soffits",
+    "NPS Preservation Brief 45 on historic porch ceilings",
+    "Old-House Journal technical archive on beadboard porch ceilings and haint blue",
+    "Vinyl soffit manufacturer literature — panel widths and intended eave applications"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "porch",
+    "ceiling",
+    "omission",
+    "cost",
+    "endemic",
+    "invisible-from-street"
+  ]
+}

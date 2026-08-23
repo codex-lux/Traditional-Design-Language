@@ -1,0 +1,159 @@
+{
+  "id": "guard-height-against-the-period-rail",
+  "name": "Thirty-Six Inches Against Thirty-Two",
+  "aka": [
+    "the code guard on a period porch",
+    "the stretched baluster",
+    "the 42-inch rail"
+  ],
+  "slots": [
+    "porch_rail",
+    "balustrade",
+    "steps_and_stoop"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A porch rail at 36 in — or on a house that has been through a commercial-minded plan review, 42 in — where the period rail is 30 to 33 in. The four extra inches go into the baluster, which is stretched from a turned profile of about 26 in between rails to one of 30 in, so its urn, ball and vase elements elongate and the turning reads as a distorted photocopy. The rail crosses the porch columns higher than it should: instead of meeting the shaft at about a third of its height, it lands nearer the middle, and the columns look shorter. On a house with a roof-deck balustrade the same four inches turn a delicate skyline element into a fence.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R312.1.1 requires a guard wherever a walking surface is more than 30 in above the grade below, measured within 36 in horizontally, and R312.1.2 sets the guard at 36 in minimum for residential work. There is no historic-work exemption in the model code and few jurisdictions grant one. The 36 in is a real, well-founded life-safety number derived from adult centre-of-gravity height. The period 30-33 in is an equally real dimension derived from the classical pedestal, which is one third of the column and lands where a hand naturally rests. The two cannot both be satisfied by a single rail, and the trade's default resolution — stretch the baluster — is the worst of the available answers.",
+    "cost_saved": "Nothing. Stretching a baluster costs the same as not stretching it. The fault is free to commit and nearly free to fix, which makes it the clearest case in the corpus where the argument is entirely about knowledge rather than budget.",
+    "cost_negative": false
+  },
+  "rule_violated": [
+    {
+      "kind": "code",
+      "ref": "IRC R312.1.1 and R312.1.2 — guards required above 30 in, minimum 36 in high",
+      "statement": "A guard is required where the walking surface is more than 30 in above the grade below within 36 in horizontally, and residential guards shall be not less than 36 in high. This is a genuine authority and a genuine safety requirement, and the corpus treats it as such."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_rail / period_height_in = 30-33, code_conflict resolution",
+      "statement": "The height conflict is resolved by raising the whole assembly — a taller plinth under the balusters and a taller newel — rather than by lengthening the baluster, which changes its turned proportion. On a stoop of four or fewer risers no guard is required and the correct answer is no rail."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / balustrade / height_in = 30-33",
+      "statement": "A balustrade is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and terminates in a pedestal at each end rather than in a post."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / pedestal = column_height / 3; derived_rules chair_rail.height = ceiling_height / 3",
+      "statement": "The pedestal is one third of the column, and the balustrade IS the pedestal course. That is where 30-33 in comes from: it is a proportion of the order, not a handrail dimension, and it is the same derivation that puts an interior chair rail at a third of the ceiling."
+    }
+  ],
+  "correct_practice": "Both numbers are real and the resolution is to change what the four inches are made of, not to stretch the baluster. There are four correct answers and the choice is a design decision. (1) NO RAIL. A porch or stoop whose walking surface is 30 in or less above the grade within 36 in horizontally requires no guard at all, and a three- or four-riser stoop is the period norm. Lowering the porch deck by 3 in, or regrading so the measured drop is under 30 in, removes the requirement entirely — this is the answer nobody considers and it is usually available. (2) RAISE THE WHOLE ASSEMBLY. Put the balustrade on a plinth: a 6 in solid plinth or shoe below the bottom rail lifts a 30 in balustrade to 36 in with the baluster untouched, and a plinth under a balustrade is a correct classical member. (3) A HEAVIER TOP RAIL. Three inches of the four can go into a deeper moulded cap — a 4 in deep cap rail on a 32 in balustrade reads as period and measures 36. (4) A SECONDARY GUARD. Where the balustrade is genuinely decorative — a roof deck with no occupiable access, a forecourt wall below the 30 in trigger — keep it at period height and put the code guard elsewhere or nowhere. What must never happen is the baluster growing: a turned baluster's profile is a fixed composition of urn, ball, vase and fillets, and lengthening it stretches only the plain barrel or, worse, all of it proportionally.",
+  "fixes": {
+    "right": "Raise the assembly on a plinth or a deeper cap and keep the baluster at its period length of 24 to 27 in between rails.",
+    "cheap": "Check the 30 in trigger before doing anything. On a very large number of porches the deck is 24 to 32 in above grade and a 3 in change in the deck height or the grade removes the guard requirement altogether, which is free at the design stage and saves the entire cost of the rail. Where a guard is genuinely required, the free move is to put the extra height in the CAP: specify a 3 1/2 to 4 in moulded cap rail instead of a 2 in flat one — the same money, and it takes a 32 in balustrade to 36 while improving the profile.",
+    "dishonest": "Stretching the baluster. It is the default and it is visible from the street: a stretched turning has a barrel too long for its urn and reads as a rail from a catalogue rather than from a house. Second dishonest answer: a 36 in rail with a decorative 30 in 'period' rail applied below it, which is two rails and reads as scaffolding."
+  },
+  "detection": "Measure rail height against a known reference in a photograph — a standard door is 80 in, a riser is 7 in, a clapboard exposure is typically 4 to 6 in. A rail at 36 in is 45 per cent of a door's height; at 32 in it is 40 per cent. Second and better check, which needs no absolute dimension: look at where the rail crosses the COLUMN. A period balustrade meets the column at about a third of the shaft's height above the deck; a code rail on a 9 ft column meets it at about 0.35 to 0.4, and on an 8 ft porch column at nearly half. If the rail cuts the column at or above its midpoint, it is too high for its context whatever it measures. Third check, which identifies the stretched baluster specifically: measure the length of the plain barrel between the turned elements against the total baluster length. On a period turning the plain barrel is roughly a third; on a stretched one it approaches half and the turning looks starved.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "rail_top_height_in / column_height_in",
+    "threshold": 0.28,
+    "upper": 0.38,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The classical derivation is that the balustrade is the pedestal course at one third of the column. This ratio test is more useful than an absolute height because it captures what actually goes wrong: a 36 in rail on a 10 ft column is at 0.30 and reads correctly, while the same rail on a 7 ft porch column is at 0.43 and reads as a fence. Where absolute numbers are wanted: period 30-33 in, IRC residential minimum 36 in, IBC 42 in."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The balustrade is the pedestal course and its height is a proportion of the order; but the kit's own answer is that 'none' is the ordinary case and a stoop of three or four risers needs no rail at all."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "The Federal roof-deck balustrade is a skyline element read against the sky, where four inches of extra height is four inches of extra solid against a delicate silhouette."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "Greek Revival porches often have no rail, and where they do the members are square and can absorb a height change without distortion."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "The Craftsman rail is a heavy square-baluster or solid-panel assembly with no turned profile to distort, and it sits between substantial piers. Raising it to 36 in costs little."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "serious",
+      "why": "Turned balusters are the whole point and a stretched turning is immediately visible."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman rail is genuinely tall — often 34 to 38 in — because it is conceived as a low wall or a solid panel between piers rather than as a balustrade, and it frequently IS a solid shingled or stuccoed parapet at 36 in or more.",
+      "bounds": "The rail must be a solid or square-baluster assembly with no turned members, and must sit between piers rather than between columns. Height licence does not extend to turned balusters in any style.",
+      "bounds_test": {
+        "expression": "rail_top_height_in",
+        "threshold": 30.0,
+        "upper": 40.0,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style porch parapets are often solid shingled walls at 32 to 40 in, capped with a simple moulded rail, and are read as part of the wall surface rather than as an open balustrade.",
+      "bounds": "Solid, shingled, capped. Not an open rail."
+    },
+    {
+      "style": "prairie-school",
+      "why": "The Prairie terrace parapet is a solid masonry or stuccoed wall with a broad coping, height set by the horizontal composition rather than by a balustrade rule.",
+      "bounds": "Solid, with a coping projecting past both faces."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The upper piazza guard on a two-storey piazza is genuinely a fall hazard at 10 ft and period Charleston examples run taller than 33 in.",
+      "bounds": "Only on the UPPER tier. The ground-floor piazza rail takes the period height, and the two tiers may legitimately differ.",
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "baluster-too-thin",
+    "baluster-spacing-as-fence",
+    "rail-without-a-bottom-rail"
+  ],
+  "confused_with": [
+    {
+      "fault": "baluster-too-thin",
+      "difference": "That is the baluster's section. This is the rail's height. The stretched baluster produced by this fault is also usually a thin one, because a thin blank is what a longer turning is cut from."
+    },
+    {
+      "fault": "baluster-spacing-as-fence",
+      "difference": "Height versus interval. Both are code-driven and both have honest resolutions, but the spacing conflict is resolvable exactly and the height conflict is not — which is what makes this one the harder and more valuable entry."
+    }
+  ],
+  "sources": [
+    "IRC R312.1.1, R312.1.2, R312.1.3 — guard trigger height, guard height, opening limitations",
+    "IBC 1015 — the 42 in commercial guard, occasionally imposed on residential work by local amendment",
+    "kits/georgian-colonial-american.kit.json, porch_rail and balustrade code_conflict blocks",
+    "proportions/orders/vignola-tuscan.json — pedestal at one third the column, and the chair-rail derivation from it",
+    "HABS measured porch and roof balustrade details, 30-33 in to the top of the rail"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rail",
+    "balustrade",
+    "code",
+    "proportion",
+    "conflict",
+    "endemic"
+  ]
+}

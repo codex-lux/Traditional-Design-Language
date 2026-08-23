@@ -1,0 +1,200 @@
+{
+  "id": "richardsonian-romanesque",
+  "name": "Richardsonian Romanesque",
+  "aka": [
+    "Richardsonian",
+    "Romanesque Revival (American, Richardson's manner)"
+  ],
+  "rank": "style",
+  "member_of": "victorian",
+  "status": "historical",
+  "period": {
+    "origin": 1872,
+    "floruit_start": 1880,
+    "floruit_end": 1895,
+    "decline_end": 1905,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Chicago and the Midwest",
+      "Great Lakes",
+      "Rocky Mountain cities",
+      "Ontario"
+    ],
+    "hearth": "Boston and Chicago",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "6B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "norman-romanesque-english",
+      "type": "references",
+      "weight": 0.55,
+      "inherits_kit": false,
+      "note": "The round arch, the squat column, and the massive wall are quoted; Richardson's own sources were closer to Auvergne, Provence, and Salamanca than to England, and none of them transmitted building practice to him."
+    },
+    {
+      "target": "beaux-arts-french",
+      "type": "descends_from",
+      "weight": 0.55,
+      "inherits_kit": true,
+      "note": "Real transmission. Richardson was the second American to study at the Ecole des Beaux-Arts, and the plan discipline, the parti, and the compositional hierarchy of his buildings are Beaux-Arts training applied to Romanesque forms."
+    },
+    {
+      "target": "second-empire",
+      "type": "reacts_against",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "Against thin, brittle, applied eclecticism and the mansarded pile, in favour of mass, weight, continuity, and material presence."
+    },
+    {
+      "target": "gothic-revival-american",
+      "type": "reacts_against",
+      "weight": 0.25,
+      "inherits_kit": false,
+      "note": "Specifically against High Victorian polychromy and linear ornament; Richardson replaced pattern with mass."
+    }
+  ],
+  "description": {
+    "short": "H. H. Richardson's personal manner and its national imitation: rock-faced ashlar, deep round arches springing from squat columns or from the ground, and a wall so heavy and continuous that the building reads as a single geological mass.",
+    "long": "This is the only American style named for a person, and the attribution is honest, because the style is one man's solution and everything after Trinity Church in Boston, won in competition in 1872 and finished in 1877, is imitation of varying quality. Henry Hobson Richardson trained at the Ecole des Beaux-Arts in Paris in the 1860s, and what he brought back was not a vocabulary but a method: establish the parti, subordinate everything to a single dominant idea, and make the building one thing. He then took a vocabulary, southern French and Spanish Romanesque, that nobody in America had a claim on, and used it to make masses instead of pictures. His imitators took the vocabulary and mostly missed the method, which is why there are ten thousand rock-faced arches in America and perhaps forty buildings that work.\n\nThe style stands at an unusual angle to the technological rupture that organises this branch. Everything else here rides cheap light framing and cheap machine ornament; Richardsonian Romanesque insists on load-bearing masonry at exactly the moment American construction was abandoning it. Its own enabling technologies are different ones: mechanised quarrying and the pneumatic and steam stone saw, which made large rock-faced blocks of granite, sandstone, and brownstone economically shippable, and the transcontinental railroad that moved them. There is also a labour story. The style depends on the presence of skilled stonecutters, many of them recent Scottish, Irish, Italian, and German immigrants, in American cities in the 1880s, and it dies in the 1890s partly because steel frame construction made the load-bearing masonry wall obsolete for tall buildings and partly because those crews and their wage rates could not be sustained.\n\nWhat it rejected was the entire Victorian assumption that a building should be interesting all over. Richardson's walls are large, quiet, and mostly blank; his openings are few, deep, and grouped; his ornament is concentrated in narrow bands of carved foliage at a capital or a string course and is otherwise absent. The effect is a hierarchy of attention that no other Victorian style attempts. He is also the only architect of the period whose buildings improve as you approach: from across the street you read one mass and one arch, from the sidewalk you read the coursing and the tooling of the stone, and at the door you find the carving, which is worked at exactly the scale of a hand.\n\nIn front of one, the dominant sensation is compression and weight. The entrance arch springs from near the ground or from columns so short and thick that they read as pressed down by the wall above; the voussoirs are large enough to count; the wall recedes into a deep reveal so that entering is genuinely a passage through thickness rather than through a plane. Inside a Richardson house the surprise is warmth: heavy oak, inglenooks, low broad openings, and rooms that are dark at the perimeter and bright at the windows, which are always fewer and larger than you expect. It is the only Victorian style that feels like shelter rather than display."
+  },
+  "defining_characteristics": [
+    "Load-bearing masonry construction, in rock-faced squared ashlar of granite, sandstone, or brownstone",
+    "Deep semicircular arches at the principal entrance, springing from short heavy columns or directly from a plinth or the ground",
+    "Massive continuous wall surface with a low proportion of opening, and windows deeply recessed in the wall thickness",
+    "Broad simple roof forms, low hipped or with a few large gables, subordinate to the wall mass",
+    "Towers that are round, squat, and conically capped, engaged with the mass rather than attached to it",
+    "Ornament confined to narrow bands of carved Byzantine or Romanesque foliage at capitals, string courses, and the entrance arch",
+    "Polychromy by stone selection and coursing, never by paint or applied pattern"
+  ],
+  "diagnostic_tells": [
+    "The arch springs from the ground or from a column no more than three diameters tall; a tall slender column under a round arch indicates a later commercial imitation",
+    "Rock-faced stone with quarry tooling left visible, laid in broken-range or random coursing, with the face projecting 2 to 4 in beyond the joint",
+    "Window openings grouped in bands of three or five under a single relieving arch or lintel, rather than distributed one per bay",
+    "The tower, if any, is round and squat with a conical cap and is engaged into the corner of the mass; a slender detached tower is a different style",
+    "Compared with Queen Anne: no texture change, no applied ornament, no porch. The wall is one material top to bottom"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-american",
+      "difference": "Contemporary and often on the same street, but opposite in every value: mass versus articulation, one material versus many textures, few large openings versus many small ones, load-bearing stone versus balloon frame."
+    },
+    {
+      "node": "shingle-style",
+      "difference": "Shares Richardson himself and shares the doctrine of continuous unbroken surface, which is precisely why the two are linked in the graph. The difference is material and weight: shingle is a taut light skin over a wooden volume, ashlar is the mass itself."
+    },
+    {
+      "node": "norman-romanesque-english",
+      "difference": "The quoted source. English Norman work is genuinely twelfth-century, thin-jointed, with cushion capitals and chevron ornament and a real structural logic of pier and vault; the Richardsonian arch is a nineteenth-century masonry veneer of feeling with a steel or timber floor system behind it in all but the largest examples."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by mass and by the arch. The entrance arch is the module of feeling for the whole building: its span sets the wall's apparent thickness, the coursing scale, and the depth of every reveal. Beaux-Arts parti discipline organises the plan beneath it.",
+    "typical_ratios": [
+      "Wall opening area 20 to 35 percent of any elevation; the wall must win",
+      "Entrance arch span 8 to 16 ft, with voussoir depth 1/8 to 1/6 of the span",
+      "Column height 2 to 3.5 shaft diameters where columns are used at all",
+      "Ashlar course height 8 to 14 in, face projection 2 to 4 in beyond the joint plane",
+      "Window reveal depth 12 to 24 in",
+      "Tower diameter 12 to 20 ft, height to eave 1.2 to 1.8 times diameter"
+    ],
+    "bay_rhythm": "Grouped and hierarchical rather than repetitive: a large arched opening, a band of three or five smaller openings, and long stretches of blank wall. The rhythm is A - BBB - A, not A-A-A-A.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "Picturesque in outline but massive in substance, which is the style's particular achievement."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "common",
+      "note": "Round, squat, engaged, conically capped."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The rock-faced brownstone row of Boston, Chicago, and Denver."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible"
+    },
+    {
+      "massing": "mansard-block",
+      "affinity": "forbidden",
+      "note": "A mansard converts mass into crown and destroys the continuity the style depends on."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Exterior walls shall be load-bearing masonry of not less than 16 in nominal thickness at the ground storey, with window reveals of 12 to 24 in. Thin stone veneer over a frame wall is prohibited; the style is entirely an argument about wall thickness."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Principal arches shall be semicircular. Pointed, segmental, and elliptical arches are forbidden at the entrance. Where columns support an arch, shaft height shall not exceed 3.5 base diameters."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Openings shall occupy not more than 35 percent of the area of any elevation, and shall be grouped rather than evenly distributed."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "One wall material shall run from water table to eave on every elevation. Texture, colour, and coursing may vary within the material; a change of material at a storey line is prohibited."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Carved ornament shall be confined to capitals, the entrance arch, and not more than two continuous bands per elevation, and shall total not more than 8 percent of the elevation area."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Trinity Church",
+      "location": "Boston, Massachusetts",
+      "year": 1877,
+      "note": "H. H. Richardson, competition won 1872, dedicated 1877. The building that established the manner and made Richardson the most imitated architect in America."
+    },
+    {
+      "name": "John J. Glessner House",
+      "location": "Chicago, Illinois",
+      "year": 1887,
+      "note": "H. H. Richardson, designed 1885, completed 1887. Granite street walls turned almost blank to the corner with the rooms opening to a private south courtyard; the definitive domestic statement of the style."
+    },
+    {
+      "name": "Allegheny County Courthouse and Jail",
+      "location": "Pittsburgh, Pennsylvania",
+      "year": 1888,
+      "note": "H. H. Richardson, 1884-88, completed after his death in 1886. Richardson himself considered it his best work."
+    }
+  ],
+  "sources": [
+    "Jeffrey Karl Ochsner, H. H. Richardson: Complete Architectural Works (1982)",
+    "Henry-Russell Hitchcock, The Architecture of H. H. Richardson and His Times (1936; rev. 1961)",
+    "James F. O'Gorman, Three American Architects: Richardson, Sullivan and Wright, 1865-1915 (1991)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "masonry",
+    "mass",
+    "richardson",
+    "beaux-arts-plan",
+    "urban",
+    "one-man-style"
+  ]
+}

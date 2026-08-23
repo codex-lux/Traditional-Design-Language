@@ -1,0 +1,128 @@
+{
+  "id": "kitchen-work-core",
+  "name": "Kitchen Work Core",
+  "aka": [
+    "work triangle",
+    "kitchen core"
+  ],
+  "scale": "core",
+  "confidence": "high",
+  "description": "Sink, cooking and cold storage, plus the storage and counter that serve them. The arrangement is old — a hearth, a water source and a larder — but the measured version dates from 1940s time-and-motion studies, and the numbers those produced are still the best available.",
+  "rooms": [
+    {
+      "room": "kitchen",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "pantry",
+      "role": "servant",
+      "count": "0-2"
+    },
+    {
+      "room": "butlers-pantry",
+      "role": "connector",
+      "count": "0-1"
+    },
+    {
+      "room": "eat-in-kitchen-area",
+      "role": "optional",
+      "count": "0-1"
+    },
+    {
+      "room": "scullery",
+      "role": "optional",
+      "count": "0-1",
+      "note": "Returning under the name 'back kitchen' or 'prep kitchen', for the same reason it existed the first time."
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "Sum of the three legs between sink, cooking surface and refrigerator between 13 and 26 ft, with no single leg under 4 ft or over 9.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "triangle_perimeter_ft between 13 and 26"
+    },
+    {
+      "statement": "No major traffic route crosses the triangle. An island opening on both ends with a door beyond it puts the household through the cook's workspace.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Landing counter of at least 15 in beside the refrigerator on the handle side, 24 in beside the cooking surface, and 18 in on both sides of the sink. These are the clearances that decide whether the kitchen works, and they are the first thing lost to an island.",
+      "kind": "dimension",
+      "severity": "hard"
+    },
+    {
+      "statement": "Aisle 42 in for one cook, 48 in where two work or where the aisle is also a route.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "aisle_clear_in at-least 42"
+    },
+    {
+      "statement": "Cooking surface on an exterior wall or with a straight duct run to one. A downdraft or a recirculating hood on an island is a ventilation decision disguised as a layout one.",
+      "kind": "servicing",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "foursquare",
+      "fit": "canonical",
+      "position": "one rear quadrant"
+    },
+    {
+      "massing": "ranch-linear",
+      "fit": "canonical"
+    },
+    {
+      "massing": "bungalow-linear",
+      "fit": "common",
+      "position": "rear, behind the dining room"
+    },
+    {
+      "massing": "four-over-four",
+      "fit": "common",
+      "position": "rear ell rather than in the block"
+    },
+    {
+      "massing": "shotgun",
+      "fit": "possible",
+      "position": "the last room, which is why the shotgun kitchen is always the back room"
+    }
+  ],
+  "expansion_logic": "Add a back kitchen or scullery rather than enlarging the main room. A kitchen much over 300 sf has a triangle too big to work and needs splitting, not stretching.",
+  "privacy_span": [
+    2,
+    3
+  ],
+  "typical_area_sf": [
+    150,
+    400
+  ],
+  "servicing_strategy": "One wet wall shared with the laundry or a bathroom above where possible; gas, a dedicated 240 V circuit, and a duct run drawn before the cabinets.",
+  "circulation_parti": [
+    "open-plan",
+    "enfilade",
+    "additive"
+  ],
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "note": "Historically a separate building or a rear lean-to with an open hearth. Any contemporary kitchen in a Georgian house is an interpolation; do it in the service wing where the style already knows how to subordinate it."
+    },
+    {
+      "style": "craftsman",
+      "note": "Built-in cabinetry is definitional and the pantry is a real room, not a cupboard."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "note": "The prep kitchen is the scullery returning, and it is the best idea the idiom has had."
+    }
+  ],
+  "sources": [
+    "Cromley, The Food Axis",
+    "University of Illinois Small Homes Council kitchen studies, 1949-1954",
+    "NKBA planning guidelines"
+  ]
+}

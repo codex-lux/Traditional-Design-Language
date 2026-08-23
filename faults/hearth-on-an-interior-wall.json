@@ -1,0 +1,173 @@
+{
+  "id": "hearth-on-an-interior-wall",
+  "name": "The Fireplace In The Middle Of The Plan",
+  "aka": [
+    "the floating firebox",
+    "the TV wall hearth",
+    "the flue with nowhere to go"
+  ],
+  "slots": [
+    "hearth_position",
+    "services_strategy",
+    "room_adjacency_overrides"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "alignment",
+  "symptom": "A direct-vent firebox set into a stud wall in the middle of the ground floor - usually the wall a television is on, usually facing an island - in a house whose style puts its hearths at the gable ends or in one central masonry stack. Above it, a framed chase pushes through a second-floor bedroom or a closet, or the vent turns and leaves through a sidewall cap. The plan has a fireplace and no chimney position.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "A sealed-combustion direct-vent gas appliance can be installed almost anywhere: it needs 1 in of clearance to combustibles, a 4/6 5/8 in coaxial vent, and a run of up to 40 ft equivalent with several elbows. Nothing about it resists placement, so it goes where the furniture layout wants it, which in a modern plan is an interior wall facing the seating. The masonry constraint that put hearths on gable ends or on one central stack - a flue is a heavy vertical that must run from firebox to sky and can only be corbelled a little - was doing all the work, and the appliance removed it.",
+    "cost_saved": "$14,000-$35,000 against a real masonry fireplace and stack; $600-$1,500 against putting the same direct-vent unit on an exterior wall where the vent is short and the chase is outside the plan."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / hearth_position",
+      "statement": "Hearths are paired and symmetrical about the passage axis, never a single central stack, and their position on the gable-to-ridge axis is a climate decision that each region settles differently."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / room_adjacency_overrides",
+      "statement": "The chimney breast is on the outside wall of the room, opposite or beside the passage door. This is a rule about where a room's focus sits relative to its entrance, and it is what makes an eighteenth-century room arrangeable."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / stacks-in-the-chimney-mass",
+      "statement": "The gable-end stack is already a vertical mass running the full height of the house with no windows in it; plumbing stacks, flues and duct risers go beside it. It is the only place in the plan where a vertical service run costs nothing - and an interior hearth spends that place on a fireplace instead."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R1003.6 and R1003.10 - corbelling and change of direction limits for masonry chimneys",
+      "statement": "A masonry flue may be offset but only within stated limits. Anything requiring more offset than that is not a chimney; it is a vent in a decorative box, and the style's chimney rules do not apply to it."
+    }
+  ],
+  "correct_practice": "Decide the hearth position from the plan type before the furniture layout, because it is the fossil of the heating strategy and it fixes both the room's focus and the house's one free vertical chase. A single central stack of 7 ft square or more is First Period and Cape and it dictates the circulation. Paired stacks flanking the ridge, inboard 5 to 12 ft from the gable ends, is New England Georgian, and they are inboard because a stack inside the envelope stores heat. Paired gable-end stacks, often fully exterior, are Chesapeake and Low Country, and they are outboard because a stack outside the envelope sheds it. A corner hearth is Dutch and French colonial. Craftsman and Prairie put the hearth at the plan's centre of gravity deliberately, with the plan turning on it. In every case the chimney breast is on a wall the room can be arranged against - a gable end, an interior partition backing a second hearth, or a genuinely massive central mass - and never on a thin stud wall in the middle of an open plan, which gives the room a focus with no thickness behind it and forfeits the only vertical route the plumber and the mechanical contractor had.",
+  "fixes": {
+    "right": "Move the hearth to the position the type specifies, build the chimney breast with real thickness - 16 in minimum for a masonry-look breast, more for a stack - and keep the vertical chase beside it for services.",
+    "cheap": "Move the firebox to the nearest exterior gable wall and take the chase outside the plan. The unit, the surround and the mantel are unchanged; the vent gets shorter, the framed chase becomes an expressed exterior mass that the elevation actually wants, and the interior wall is returned to the room. This is usually cheaper than the interior installation because it deletes the second-floor chase and the fire-blocking that goes with it.",
+    "dishonest": "Keeping the interior firebox and adding a false chimney at the gable end to satisfy the elevation. Two chimneys, one of which is a box with nothing under it, is a worse building than one honest stack in the wrong place, and the fault becomes permanent because the elevation now looks right."
+  },
+  "detection": "On a plan, draw a vertical line from each firebox to the roof and see what it passes through. A line that goes through a bedroom, a closet, a bathroom or nothing at all is the fault. From the street, the tell is a chimney chase 16 to 24 in wide emerging from the middle of a roof slope with no gable-end mass and no ridge relation, or no chimney at all with a sidewall vent cap 18 in above a rear terrace. Inside, look at the wall thickness at the firebox: a breast that is flush with the wall or projects less than about 8 in has no mass behind it.",
+  "test": {
+    "expression": "chimney_breast_projection_or_wall_thickness_in",
+    "threshold": 16.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "plan",
+    "note": "Total depth of masonry or framed mass behind the firebox measured perpendicular to the wall. A gable-end stack gives 20-40 in, a party-wall breast 16-24 in, a direct-vent box in a 2x4 wall gives 4 1/2 in. The second test, which needs only a plan: does a vertical extrusion from the firebox reach the sky without passing through a habitable room."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "greek-revival-american",
+    "cape-cod-colonial",
+    "cape-cod-revival",
+    "saltbox-colonial",
+    "new-england-colonial",
+    "garrison-colonial",
+    "american-farmhouse-vernacular",
+    "tudor-revival",
+    "french-eclectic",
+    "dutch-colonial-revival",
+    "modern-farmhouse-traditional",
+    "italianate-american",
+    "queen-anne-american"
+  ],
+  "exceptions": [
+    {
+      "style": "prairie-school",
+      "why": "The plan pinwheels about a massive central masonry chimney which is the tallest and heaviest element of the composition. An interior hearth is not merely permitted, it is the organising fact of the plan.",
+      "bounds": "The chimney mass must exceed the width of any other vertical element by at least 50 per cent, must be genuine masonry, and must terminate above the highest roof plane. A stud chase in the middle of an open plan is the opposite of this.",
+      "bounds_test": {
+        "expression": "chimney_breast_projection_or_wall_thickness_in",
+        "threshold": 36.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "plan"
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The interior is organised on a hearth and the hearth's position is an interior consequence rather than a facade rule; a clinker-brick or river-boulder chimney rising through the middle of a bungalow is canonical.",
+      "bounds": "It must be expressed in heavy masonry continuous with the porch base and the foundation, and the plan must actually turn on it. A gas box on a plasterboard wall is not this."
+    },
+    {
+      "style": "new-england-colonial",
+      "why": "One enormous central stack in the middle of the plan is the type, and it is 7 ft square or more at the base with fireplaces on four faces.",
+      "bounds": "Not less than 7 ft by 7 ft at the base, and the plan's circulation must wrap it. A central stack of 30 in serving one firebox is a chase."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "Same central-stack diagram at one and a half storeys.",
+      "bounds": "Central or deliberately off-centre for a half or three-quarter Cape, and always a real stack on the ridge."
+    },
+    {
+      "style": "saltbox-colonial",
+      "why": "One central stack breaking the ridge forward of its midpoint, at 35-45 per cent of the plan depth.",
+      "bounds": "Requires the asymmetrical roof; a forward-of-centre stack on a symmetrical roof is just an offset stack."
+    },
+    {
+      "style": "hudson-valley-dutch",
+      "why": "Corner and jambless hearths are Dutch and French colonial practice and stand where an Anglo plan would never put them.",
+      "bounds": "Requires the type's own flue arrangement - the jambless hood is a hearth with no masonry breast at all, and it is a documented form rather than an excuse for a thin wall."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Internal chimneys on the partition between paired rooms, never on the exterior gable wall - the exact inverse of the Anglo rule.",
+      "bounds": "The stack must sit on the partition serving two rooms back to back, and it is a real masonry mass."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chimney-off-the-hearth",
+      "difference": "That fault is the stack in the wrong place on the ROOF relative to a correctly placed hearth. This one is the hearth in the wrong place in the PLAN, which then makes any stack position wrong."
+    },
+    {
+      "fault": "vestigial-chimney-chase",
+      "difference": "That is about the stack's dimensions and finish above the roof. This is about which wall the fire is in."
+    }
+  ],
+  "co_occurs_with": [
+    "chimney-off-the-hearth",
+    "stack-with-nowhere-to-land",
+    "vestigial-chimney-chase"
+  ],
+  "severity_by_style": [
+    {
+      "style": "new-england-georgian",
+      "severity": "serious",
+      "why": "Paired stacks flanking the ridge are the region's diagnostic; an interior stud-wall hearth destroys the pairing and the symmetry at once."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "A central masonry hearth is the plan's organising element."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Free-standing and interior hearths are authentic to the post-war type."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json hearth_position, room_adjacency_overrides, services_strategy",
+    "International Residential Code R1003.6, R1003.10 (masonry chimney corbelling and offsets); IRC G2427 / NFPA 211 for direct-vent terminations",
+    "styles/new-england-colonial.json (central stack 7 ft square minimum), styles/prairie-school.json, styles/craftsman.json, styles/creole-cottage-vernacular.json",
+    "Manufacturer installation instructions for direct-vent gas fireplaces (typical 40 ft equivalent vent length, 1 in clearance)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "hearth",
+    "plan",
+    "services",
+    "chimney",
+    "endemic"
+  ]
+}

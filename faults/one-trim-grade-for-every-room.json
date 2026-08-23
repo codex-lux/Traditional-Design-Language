@@ -1,0 +1,123 @@
+{
+  "id": "one-trim-grade-for-every-room",
+  "name": "The Same Cornice In Eleven Rooms",
+  "aka": [
+    "ungraded trim",
+    "the flat hierarchy",
+    "democratic millwork"
+  ],
+  "slots": [
+    "trim_family",
+    "crown",
+    "casing",
+    "interior_door",
+    "baseboard"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "Every room in the house has the same crown, the same casing, the same base and the same door. The laundry has the cornice of the dining room; the principal bedroom has the cornice of the laundry. Because the budget had to cover eleven rooms, the cornice is a 3 5/8 in stock crown everywhere rather than a five-member entablature in three rooms and nothing in the other eight. The house reads as uniformly furnished and unranked, which is precisely the reading a period house avoids.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Trim is estimated and purchased by the lineal foot across the whole job. A single spec for the whole house is one number in the estimate, one order, one crew instruction and no field decisions; a graded spec needs a room-by-room schedule, a drawing that says which room is which, and a foreman willing to run different trim in adjacent rooms without assuming it is a mistake. It is also actively resisted by the trade, because a carpenter who runs a lesser cornice in a bedroom expects to be called back for it. And appraisal and listing practice reward uniformity: 'crown moulding throughout' is a bullet point and 'crown moulding in the three principal rooms' is not.",
+    "cost_saved": "Nothing at the total, which is the point. The same money buys either a thin cornice in eleven rooms or a full entablature in three, and the second is the period arrangement. What is saved is coordination — perhaps four hours of drawing and one site conversation."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / trim_family.count",
+      "statement": "Marked judgment in the pack because the count varies by room within a house — the best cornice in the parlor, a lesser one in the dining room and none at all in the chambers — and a single count applied throughout is itself named as the error."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / conflicts[cost]",
+      "statement": "Take the whole entablature out of the secondary rooms rather than thinning it everywhere: a house with three fully trimmed rooms and eight plainly trimmed ones is a period house, and a house with eleven half-trimmed rooms is a modern one."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / trim_family / grading_within_the_house",
+      "statement": "The best cornice in the parlour, a lesser one in the chamber, none in the garret."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / interior_door / graduation",
+      "statement": "Principal rooms six-panel, chambers six or four, service two-panel or batten. The grading runs through the doors as well as the mouldings."
+    }
+  ],
+  "correct_practice": "Grade by MEMBER COUNT, never by member size, and never by family. The base sets the scale of the house and must be the same height in every finished room; the cornice sets the rank of the room and must not be. A workable three-tier schedule for an ordinary house: PRINCIPAL rooms — entrance passage, parlour or living room, dining room — full entablature at three nineteenths of the ceiling (17 in at a 9 ft ceiling, 21 in at 11 ft), five cornice members, six-panel doors, a full architrave with backband and plinth blocks, and a dado if the ceiling will carry one. SECONDARY rooms — principal bedroom, library, stair hall above — cornice alone at 1.2 nineteenths (6 3/4 in at 9 ft), three members, six-panel doors, casing with backband, no dado. TERTIARY rooms — bedrooms, baths, laundry, back passage — no cornice at all, the same base, plain casing, four-panel or two-panel doors. The tertiary rooms having NO cornice is the part that gets refused and it is the part that makes the scheme work: absence is what makes presence legible, and a house where every room has some cornice has no principal room.",
+  "fixes": {
+    "right": "A room-by-room millwork schedule on the drawings with three tiers, priced as one order with three assemblies drawn from the same six knives.",
+    "cheap": "Spend the existing crown budget in three rooms instead of eleven. Take the lineal footage of stock crown already priced for the whole house, delete it from the eight secondary rooms, and buy a genuine built-up cornice — bed, corona, cyma, fillet on a nailer — for the three principal ones with the same money. This is close to cost-neutral, requires no new profiles beyond a corona and a fillet, and is the single highest-value move available in an interior budget. The doors grade for free: order six-panel for the principal rooms and two-panel for the service rooms out of the same catalogue at the same price.",
+    "dishonest": "Grading by SIZE rather than by count — the same five-member cornice run at 7 in in the parlour and 4 in in the bedroom. It reads as a mistake rather than as a hierarchy, because the eye compares the two across an open door and sees a shrunken copy rather than a simpler one. Also dishonest: grading by paint colour or by adding a picture rail in the lesser rooms to compensate for the missing cornice, which puts a horizontal where the composition wanted an ending."
+  },
+  "detection": "Stand in an open doorway between two rooms of different rank and photograph both cornices in one frame. In a graded house the two differ in the NUMBER of members and often one is absent; in an ungraded house they are identical. Second test, from a plan and a photograph together: count the rooms that have a cornice as a fraction of the finished rooms. Period practice puts it at 0.2 to 0.4; production practice puts it at 1.0 or 0.0. Third: check the doors. If the laundry door and the dining room door have the same panel count, the house was scheduled as one line item.",
+  "test": {
+    "expression": "rooms_with_full_cornice / finished_rooms",
+    "threshold": 0.15,
+    "upper": 0.45,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "plan",
+    "note": "Counts rooms carrying the house's best cornice. A value of 1.0 is the ungraded house; 0.0 is the untrimmed one; the period band is roughly a fifth to two fifths of the finished rooms. Not evaluable from a single photograph — it needs a walkthrough or a plan with a millwork schedule."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman family grades far less, and deliberately. The head casing assembly and the picture rail run at the same height and section through the public rooms as an unbroken datum, and the argument of the interior is continuity rather than rank — the bungalow's whole social claim is that it has no state rooms.",
+      "bounds": "The grading that survives is by MATERIAL and by ROOM TYPE, not by member: stain-grade fir or oak in the living, dining and hall, paint-grade pine in the bedrooms and service rooms, and the plate rail only in the dining room. The picture rail may be omitted in bedrooms. What is not graded is the casing section, and reducing it below 3 1/2 in anywhere destroys the head overhang.",
+      "applies_when": {
+        "slots": [
+          "casing",
+          "trim_family"
+        ],
+        "note": "The exception covers the casing and the datum. The built-ins and the fireplace surround still carry the whole rank of the house."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "A one-room-wide house with rooms in file has no principal room in the Georgian sense and its trim is honestly uniform; the front room is distinguished by its opening to the street, not by its cornice.",
+      "bounds": "Uniform AND thin. The exception licenses the absence of grading, not the presence of a stock crown in every room."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom is built around open plan, where the principal rooms are one continuous volume and cannot be graded against one another because there is no wall between them.",
+      "bounds": "The open volume takes one grade, and the rooms that are still enclosed — bedrooms, baths, laundry, mudroom — take a lesser one. Open plan removes the grading BETWEEN the public rooms; it does not remove the distinction between public and private, and a house whose laundry has the great room's cornice has misread the licence."
+    },
+    {
+      "style": "folk-victorian",
+      "why": "The type's interior is honestly thin throughout — the ornament went on the porch and the gable, and the rooms behind are plain with a simple base and a plain casing. Grading a Folk Victorian interior upward is a worse error than not grading it.",
+      "bounds": "Thin everywhere, including the parlour. The one legitimate accent is the parlour mantel and the front door casing. A Folk Victorian interior with a five-member cornice anywhere is a different and larger fault."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "mixed-trim-families-in-one-room",
+      "difference": "Opposite errors about variation. That fault is variation within a room across families, which is forbidden; this is the absence of variation between rooms within a family, which is required."
+    },
+    {
+      "fault": "every-door-the-same-door",
+      "difference": "The same disease read at the doors and mostly from outside. Consolidating the door schedule and consolidating the trim schedule are the same purchasing decision, and a house with one is nearly always a house with both."
+    }
+  ],
+  "co_occurs_with": [
+    "every-door-the-same-door",
+    "crown-that-projects-half-its-height",
+    "the-miniature-order"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, trim_family.count note and conflicts[cost]",
+    "kits/georgian-colonial-american.kit.json, trim_family and interior_door graduation",
+    "HABS documentation of graded interior finish, e.g. the Chesapeake and New England house reports",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay (1979), on room hierarchy"
+  ],
+  "confidence": "high",
+  "tags": [
+    "trim",
+    "hierarchy",
+    "grading",
+    "cost-neutral"
+  ]
+}

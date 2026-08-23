@@ -1,0 +1,383 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/kit.schema.json",
+  "title": "Kit of Parts",
+  "version": "0.2.1",
+  "description": "The slot directory for one style. Version 0.2.0 is a direct response to authoring the Georgian kit end to end, which found four structural flaws in 0.1.0: prohibitions could only be written as prose, parameters had no types or units or provenance, a child could only replace a whole slot when it wanted to change one field, and nothing recorded a conflict between a period dimension and a code requirement. All four are now data.",
+  "type": "object",
+  "required": [
+    "style",
+    "ontology_version",
+    "slots"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "style": {
+      "type": "string"
+    },
+    "style_name": {
+      "type": "string"
+    },
+    "ontology_version": {
+      "type": "string"
+    },
+    "kit_version": {
+      "type": "string",
+      "default": "0.2.1"
+    },
+    "slots": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "binding": {
+            "enum": [
+              "specified",
+              "extends",
+              "open",
+              "forbidden"
+            ],
+            "default": "open",
+            "description": "specified: this style fixes the slot and stops the cascade. extends: MERGE into the inherited value rather than replacing it — parameters merge by key, variants apply their add/remove/reorder. This is the fix for the commonest authoring case, where a child wants to change one number in a slot whose other fields remain true. open: unspecified, cascades. forbidden: prohibited outright, stops the cascade."
+          },
+          "variants": {
+            "type": "array",
+            "description": "Records, not bare strings. Most of what a style says about a slot is which options it REFUSES, and in 0.1.0 those refusals could only be written as prose no engine would read. The Georgian kit had two slot-level prohibitions and about twenty-five variant-level ones.",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "status"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "canonical",
+                    "permitted",
+                    "atypical",
+                    "forbidden"
+                  ],
+                  "description": "canonical: the default a generator should reach for. permitted: correct but not first choice. atypical: defensible only with a reason. forbidden: wrong, and the note should say why."
+                },
+                "op": {
+                  "enum": [
+                    "add",
+                    "remove",
+                    "replace"
+                  ],
+                  "description": "Only on an `extends` binding: how this record acts on the inherited list."
+                },
+                "applies_when": {
+                  "$ref": "#/$defs/applies_when"
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "parameters": {
+            "type": "object",
+            "description": "A map of TYPED records. In 0.1.0 this was free-form, and a range, an enumerated set and a ratio were all indistinguishable arrays of numbers with their units surviving only in the key name.",
+            "additionalProperties": {
+              "$ref": "#/$defs/parameter"
+            }
+          },
+          "rule": {
+            "type": "string",
+            "description": "One sentence stating the constraint that governs the slot."
+          },
+          "determined_by": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Slot ids that decide this slot, where it is not an independent variable. A portico soffit is whatever the bound order's entablature requires; specifying it separately either restates the order or contradicts it."
+          },
+          "code_conflict": {
+            "type": "array",
+            "description": "Where the period dimension and the building code disagree. First-class data for a kit that is meant to be buildable, and in 0.1.0 it had to be repeated as prose in three separate balustrade slots.",
+            "items": {
+              "type": "object",
+              "required": [
+                "period_value",
+                "code_requirement",
+                "resolution"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "period_value": {
+                  "type": "string"
+                },
+                "code_requirement": {
+                  "type": "string"
+                },
+                "code_ref": {
+                  "type": "string"
+                },
+                "resolution": {
+                  "type": "string"
+                },
+                "severity": {
+                  "enum": [
+                    "blocking",
+                    "material",
+                    "minor"
+                  ]
+                }
+              }
+            }
+          },
+          "packs": {
+            "type": "array",
+            "description": "Proportion packs that speak to this slot, in precedence order, nearest first. PRECEDENCE OF PRECEDENCES: a slot-level packs block outranks the style node's proportion_packs.precedence, which outranks pack order of binding. Where two rulings survive at equal rank the resolver must report the disagreement rather than choose.",
+            "items": {
+              "type": "object",
+              "required": [
+                "pack"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "pack": {
+                  "type": "string"
+                },
+                "expression": {
+                  "type": "string"
+                },
+                "precedence": {
+                  "type": "integer"
+                },
+                "in_calibration": {
+                  "type": "boolean",
+                  "description": "False where the bound context falls outside the rule's calibrated range. A rule outside calibration still evaluates and should not be trusted."
+                },
+                "note": {
+                  "type": "string"
+                },
+                "calibrated_range": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Added in 0.2.1. `in_calibration` is a boolean authored at one context, and calibration is a range: whether trim-classical governs the chair rail depends on the ceiling, with the crossover at 142.5 in. Evaluable like everything else.",
+                  "properties": {
+                    "binding": {
+                      "type": "string",
+                      "description": "which bound variable the range applies to, e.g. ceiling_height"
+                    },
+                    "range": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "judgment": {
+            "type": "boolean",
+            "default": false,
+            "description": "The sources do not determine this and a designer must decide. Marking it honestly is worth more than a number nobody can defend."
+          },
+          "invented": {
+            "type": "boolean",
+            "default": false,
+            "description": "Authored rather than retrieved — there is no historical precedent at all. The garage is the standing example: no traditional style has an answer, because none had to."
+          },
+          "status": {
+            "enum": [
+              "empty",
+              "stub",
+              "drafted",
+              "reviewed"
+            ],
+            "default": "empty"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "asset ids illustrating this slot, correct and incorrect"
+          },
+          "note": {
+            "type": "string"
+          },
+          "rule_append": {
+            "type": "string",
+            "description": "Only on an `extends` binding: a clause appended to the inherited rule sentence. Added in 0.2.1 — `extends` fixed three of four restatement cases and failed on the fourth because `rule` is one string with no merge operator, so a child adding a clause had to restate the whole sentence or leave the resolved rule silent about its own change."
+          },
+          "edit_provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Added in 0.2.1. `judgment` and `invented` describe the slot; on an `extends` binding they are inherited and say nothing about whether the CHILD's delta is itself invention or retrieval.",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "measured",
+                  "derived",
+                  "editorial",
+                  "invented",
+                  "code"
+                ]
+              },
+              "source": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "applies_when": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Conditionality. A style spanning a century does not have one value per slot: the Georgian sash runs 12/12 to 9/6 to 6/6, the fanlight does not exist before about 1780, and butt hinges arrive around 1775. In 0.1.0 these had to be buried in nested objects no engine could act on.",
+      "properties": {
+        "date_range": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "construction": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "climate_zones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Exactly one of value, range, set or expr.",
+      "properties": {
+        "value": {
+          "type": [
+            "number",
+            "string",
+            "boolean"
+          ]
+        },
+        "range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "set": {
+          "type": "array"
+        },
+        "expr": {
+          "type": "string",
+          "description": "Evaluable by the proportion engine in the bound context."
+        },
+        "computed_at": {
+          "type": "object",
+          "description": "The value the expression yields in a stated reference context, so the file is readable by a person and not only by an engine."
+        },
+        "unit": {
+          "enum": [
+            "in",
+            "ft",
+            "mm",
+            "deg",
+            "rise_in_12",
+            "ratio",
+            "count",
+            "courses",
+            "percent",
+            "none"
+          ],
+          "description": "Required on anything dimensional. Units surviving only in key names was the single most fragile thing about 0.1.0."
+        },
+        "kind": {
+          "enum": [
+            "measured",
+            "derived",
+            "editorial",
+            "invented",
+            "code"
+          ],
+          "description": "measured: from surviving fabric or a documented standard. derived: computed from a proportion pack. editorial: our considered convention. invented: no precedent exists. code: imposed from outside. A brick course, a stair riser band and a garage setback were indistinguishable in 0.1.0 and are three completely different kinds of claim."
+        },
+        "source": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "applies_when": {
+          "$ref": "#/$defs/applies_when"
+        },
+        "diagnostic": {
+          "type": "boolean",
+          "default": false,
+          "description": "This parameter is designed to fail informatively rather than to prescribe."
+        },
+        "note": {
+          "type": "string"
+        },
+        "pack": {
+          "type": "string",
+          "description": "Which proportion pack the expression evaluates against. Required whenever `expr` is present — an expression with no pack cannot be checked or recomputed."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "id": "chair-rail-that-misses-the-sill",
+  "name": "The Rail That Misses The Sill",
+  "aka": [
+    "the rail an inch and a half off",
+    "two horizontals where there should be one",
+    "the dado that does not agree with the window"
+  ],
+  "slots": [
+    "chair_rail",
+    "wainscot",
+    "window_sill"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "alignment",
+  "symptom": "The chair rail runs round the room at one height and the window stools sit at another, one to four inches away. On the window wall the rail approaches the opening and either dies into the apron below the stool, runs behind it, or steps up or down to meet it. From across the room the wall carries two nearly-parallel horizontals a few inches apart, and the eye reads the near-miss before it reads either line.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The windows are set by the framing crew from a rough-opening dimension that came off an elevation; the chair rail is set months later by a trim carpenter from a tape measure and a habit. Neither party has a drawing that shows both. The sill height itself is set by the window schedule, by an egress calculation in bedrooms, or by a kitchen counter, and it moves from room to room; the rail is a single number applied to the whole floor. The two are dimensioned by different trades from different documents and there is no step in the ordinary process at which they are compared.",
+    "cost_saved": "None. The rail costs the same at any height. What is saved is a dimension check — perhaps twenty minutes with a story pole per floor.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chair_rail / height",
+      "statement": "30 to 32 in above the finished floor, on the same datum as the window sill, and the kit states plainly that this is not a coincidence."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / chair_rail.height [JUDGMENT]",
+      "statement": "THE RESOLUTION: THE WINDOW SILL WINS. Sills sit at a near-constant 28-32 in above the floor on every storey of every period because they are set by the human body at a window, and a chair rail that misses the sill by an inch and a half is visible from across the room and unforgivable."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation / chair_rail = (module - part * 1.25) / 3.5 = 30 3/4 in",
+      "statement": "The independent derivation from the storey rather than from the room, which lands in the measured band and agrees with the sill."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a near miss is worse than a large difference",
+      "statement": "Two horizontals 30 in apart are two members. Two horizontals 2 in apart are one member built twice. The eye tolerates difference and does not tolerate approximation, which is why an alignment fault of 2 in is more damaging than a proportion fault of 6."
+    }
+  ],
+  "correct_practice": "Set the rail from the window stool and let the classical derivation follow. Sills sit at 28 to 32 in in nearly every period and region because they are set by a standing person at a window, and the chair rail's whole job is to make that one horizontal do two things. The order of operations, which is what actually needs writing down: (1) fix the sill height for the room; (2) set the top of the chair rail to the top of the stool, so the stool's projecting nosing appears to be the rail's own corona turning into the opening; (3) compute the classical derivation, ceiling x 4/19, and see how far it is away; (4) RE-DERIVE the base and the cornice from the pedestal you actually used, so the room is internally consistent even though it has departed from Vignola. Step four is the one that is always skipped. The size of the correction is worth knowing because it tells you how much trouble you are in: the ratio of the sill height to ceiling x 4/19 is 1.53 at an 8 ft ceiling, 1.36 at 9 ft, 1.22 at 10 ft, 1.11 at 11 ft, and 1.00 at 11 ft 10 1/2 in — which is why the derivation and the body agree exactly at a 142.5 in ceiling and nowhere below it. Applying the full correction to the base at a 9 ft ceiling gives 11 5/8 in, which is heavy; applying the square root of it gives 10 in, which is right, and that half-correction is the defensible judgment, because the base is set by the floor and the foot as much as by the pedestal above it. Where the sills in one room genuinely differ — a kitchen window over a counter, a bedroom sill dropped for egress — the rail follows the PRINCIPAL windows and the odd opening is detailed to absorb the difference with a deeper apron, not by moving the rail.",
+  "fixes": {
+    "right": "One story pole per floor carrying floor line, base top, chair rail top, sill, door head, cornice bed and ceiling; the windows and the trim both set from it.",
+    "cheap": "Move the rail, not the windows. Where a rail is already run and misses by 1 to 4 in, taking it down and re-running it at the stool line costs the labour and a small amount of new stock — 3 to 6 USD a lineal foot, perhaps 500 USD in a dining room — and it is much the cheapest of the two corrections. Where even that is refused, thicken the apron under the stool and run the rail INTO the apron so the two members read as one assembly with a deliberate step, which does not fix the alignment but converts a near-miss into an articulated joint.",
+    "dishonest": "Ramping the rail up or down as it approaches the window so it meets the stool locally and runs at the wrong height everywhere else. A ramped chair rail is a stair detail and has no business on a flat wall; it announces that the two heights were discovered late. Also dishonest: deleting the rail on the window wall only, which leaves the dado stopping in mid-air at two inside corners and is a worse omission than the original misalignment."
+  },
+  "detection": "Photograph the window wall square-on. Correct: one continuous horizontal, the rail's top and the stool's top on the same line, the stool projecting slightly further into the room than the rail. Fault: two lines within a few inches, or the rail visibly dying into the apron. In an image, compare the rail height and the stool height against the same reference — a door leaf, a base height, an outlet at 15 in — and flag any difference between 1 and 6 in. Differences under 1 in are correct; differences over about 8 in mean the room has a low dado and a high sill and is a different composition rather than a near miss. Second test: look at the outside corner of the window's apron; if the chair rail's profile is visible passing BEHIND the apron, the two members were never reconciled.",
+  "test": {
+    "expression": "abs(chair_rail_top_in - window_stool_top_in)",
+    "threshold": 1.0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Readable from any square-on photograph of a window wall with a chair rail. The failure band is 1 to 8 in; above 8 in the room is making a different and possibly legitimate composition. The rail's TOP is the reference, not its centre, because the stool's top is what the rail must agree with."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman plate rail sits at 54 to 66 in and has no relationship to the window sill at all — it is a working shelf set by what goes on it and by the sideboard below. Where the family uses a low wainscot cap at about 0.36 of the ceiling instead, that too is set by the boards and not by the window.",
+      "bounds": "The plate rail is licensed to ignore the sill and must then CROSS the window wall above the sill without touching it, or stop cleanly at the window casing. What is not licensed is a plate rail landing 2 in from a sill. The family also forbids having both a plate rail and a wainscot cap in one room.",
+      "bounds_test": {
+        "expression": "abs(plate_rail_height_in - window_stool_top_in)",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The Craftsman licence is to be far away, not to be close."
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The family abandons the dado entirely — its wall section runs a tall plain base straight into a 14-part wall field — so there is no chair rail to align and the sill sits alone on the wall.",
+      "bounds": "No rail at all, and the base carrying the bottom of the wall at 10 1/4 in or more. The exception is the absence of the member, not a licence to place it freely."
+    },
+    {
+      "style": "victorian",
+      "why": "In rooms with a high dado — 36 to 42 in, which is genuine later nineteenth-century practice, particularly in halls and dining rooms with embossed dado papers — the cap deliberately runs above the sill and the window is detailed to sit within the upper field.",
+      "bounds": "The dado must be genuinely high and clearly above the sill by 6 in or more, and the window apron must be resolved into the dado rather than crossing it. A cap at 34 in against a 31 in sill is the fault, not the high-dado tradition.",
+      "applies_when": {
+        "date_range": [
+          1860,
+          1901
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Tall rooms with sills sometimes set high for privacy against a close-set street, and a rail at the conventional 30 to 32 in that ignores them.",
+      "bounds": "Only where the sills are genuinely high — 36 in or more — so the two members are far apart and read as separate. The type more often has no rail at all.",
+      "applies_when": {
+        "regions": [
+          "Gulf South"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chair-rail-at-the-pedestal-cap",
+      "difference": "That fault is the rail set correctly by an authority that is out of its calibrated range; this is the rail set by nothing in particular and landing near the sill without meeting it. The first is a reasoning error, the second a coordination one."
+    },
+    {
+      "fault": "chair-rail-at-thirty-six-inches",
+      "difference": "That fault has a definite wrong height; this one has no height at all, only a near miss. A 36 in rail against a 31 in sill is both faults at once."
+    },
+    {
+      "fault": "transom-bar-at-the-wrong-height",
+      "difference": "The same class of error at the head of the opening rather than the sill: a horizontal that nearly agrees with another horizontal."
+    }
+  ],
+  "co_occurs_with": [
+    "chair-rail-at-thirty-six-inches",
+    "raised-panel-with-no-field"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, chair_rail.height derived rule, marked JUDGMENT",
+    "proportions/systems/storey-graduation.json, chair_rail expression",
+    "kits/georgian-colonial-american.kit.json, chair_rail packs and the recorded pack conflict",
+    "HABS measured drawings, interior elevations showing dado and stool coincidence"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chair-rail",
+    "alignment",
+    "datum",
+    "sill"
+  ]
+}

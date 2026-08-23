@@ -1,0 +1,148 @@
+{
+  "id": "mixed-trim-families-in-one-room",
+  "name": "Two Typefaces In One Room",
+  "aka": [
+    "the colonial casing on a craftsman base",
+    "family drift",
+    "the mixed millwork package"
+  ],
+  "slots": [
+    "trim_family",
+    "casing",
+    "baseboard",
+    "crown",
+    "chair_rail"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "In one room, the door casing is a moulded colonial profile with an ogee and a bead, the baseboard is a plain flat 1x8 with a square bevelled cap, and the crown is a sprung cyma. Three members from three different families are within four feet of each other. The commonest pairing is a 2 1/4 or 3 1/2 in colonial casing above a flat Craftsman-proportioned base; the second commonest is a flat Craftsman casing under a classical sprung crown. Nothing is individually ugly and the room does not resolve.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Trim is bought as line items, not as a family. The casing comes from the door supplier as part of a pre-hung package, the base comes from the lumberyard's own stock list, the crown is added late by whoever is running the finish carpentry, and each is chosen on price and availability within its own category. No one document in the job says the profiles must descend from one another, because there is no such document in a normal residential contract — a millwork schedule that names a family is an architect's deliverable and most houses do not have one. The three items also arrive at three different times, which means no one ever sees them together until they are nailed up.",
+    "cost_saved": "Nothing directly, and often it costs more: buying casing, base and crown from three suppliers on three orders forfeits the volume price and adds two deliveries. The saving is in decision time and in the risk of a special order arriving wrong.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / trim_family",
+      "statement": "trim-classical:wall_section_federal, wall_section_greek and trim-craftsman are all recorded as FORBIDDEN against the Georgian section, with the note that mixing families is the interior equivalent of mixing typefaces. The kit forbids the two adjacent classical families as firmly as it forbids the Craftsman one, which is the part people find surprising."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / trim_family",
+      "statement": "One profile family governs every internal moulding in the house, and it is graded room by room by omitting members, never by changing family."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a moulding family is a set of members that share a derivation",
+      "statement": "A cyma reversa base cap and a square bevelled base cap are not two flavours of the same thing. One is a curve struck from a centre and turned by a plane; the other is a saw cut. They belong to different systems of making and the eye reads the difference before it reads either shape."
+    }
+  ],
+  "correct_practice": "Pick one family for the whole house and write it into a millwork schedule before any door is ordered. There are three classical families in the pack and one Craftsman family, and each is internally consistent: Georgian, base 9 in in three members with a cyma reversa cap, casing 6 in in seven members with a bold applied backband; Federal, base 6 1/8 in, casing 4 1/2 in in seven members with the interest reeded into the face rather than proud of it; Greek Revival, base 10 1/4 in in two members, casing 6 7/8 in in four with one broad flat fascia; Craftsman, base a plain 1x8 at 7 1/4 in, casing a plain 1x4 at 3 1/2 in with a 1x6 head sitting across it. The families differ in the RANKING of their members as much as in their profiles, which is why substituting one member breaks more than it looks like it should: a Greek Revival base is half again the Federal base in the same room, and a Federal casing under a Greek Revival base reads as an accident even to someone who cannot name either. Reduce the count of distinct profiles rather than the count of families — a well-run house is trimmed with six or seven knives, and the same cyma reversa can be base cap, surbase and architrave cap if you let it be one size.",
+  "fixes": {
+    "right": "A millwork schedule naming the family, the member list and the profile numbers, issued before the door package is ordered, with the base and casing from one supplier on one run.",
+    "cheap": "Choose the family by the base you already have, because the base is the largest and least changeable member, and bring the casing to it. If the base is a flat 1x8, the family is Craftsman or Greek Revival and the casing wants to be flat and wide; if the base has a cyma cap, the family is classical and the casing wants a backband. This costs the price difference on one item, usually under 400 USD a house, and it repairs the whole room. Where the casing is already up, adding a backband to it and a bevelled cap to the base moves both toward the Greek Revival family, which is the most forgiving destination and the one both mistakes are closest to.",
+    "dishonest": "Painting everything one colour in a flat white so the profiles disappear. It works in a photograph taken with a flash and fails in every raking light, because the mismatch is in the shadow line rather than in the colour. Also dishonest: adding a fourth element — a picture rail, a plate rail, panel moulding — on the theory that more trim will unify what is there. It adds a fourth family."
+  },
+  "detection": "Photograph the inside corner where base, casing and floor meet, because that is where three families collide in six inches. Then run three tests. First, EDGE TEST: is every member's outer edge a curve or a square? A room mixing curved and square outer edges in the same sightline is mixed unless it is deliberately Greek Revival, which uses a flat fascia with a small curved backband and is the one legitimate hybrid. Second, RANK TEST: measure base height against casing width. Classical families run base 1.4 to 1.7 times the casing width; Craftsman runs 2.07 (7 1/4 over 3 1/2). A ratio near 2 with a moulded casing, or a ratio near 1.5 with a flat one, is the fault. Third, JOINT TEST: does the base die into the casing with a square butt, or is it scribed and mitred around it? The butt belongs to Craftsman, the plinth block to classical, and a scribed mitre belongs to neither and means the two members were never designed to meet.",
+  "test": {
+    "expression": "baseboard_height / casing_width",
+    "threshold": 1.4,
+    "upper": 1.75,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The classical band. The Craftsman family sits at 2.07 and is correct there; the test is that the ratio must match the family the profiles claim, not that it must fall in one band. A moulded casing with a ratio above 1.9, or a flat square-edged casing with a ratio below 1.7, is family drift."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "queen-anne-free-classic",
+      "why": "The sub-style is explicitly a graft of classical detail onto a Queen Anne frame, and the interior legitimately carries a Colonial Revival mantel and a classical stair in a room whose casings are heavier and later than either. The mixing is the style's content.",
+      "bounds": "The graft must be by ROOM or by ELEMENT, not by member. A classical mantel in a room of Queen Anne trim is the style; a classical crown over a Queen Anne casing on the same wall is the fault. Nothing licenses two families within one assembly.",
+      "bounds_test": {
+        "expression": "families_present_in_one_assembly",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style interiors are deliberately plain and eclectic and the house often carries a Colonial Revival parlour against a rough-plastered hall with almost no trim at all. The style's whole method is the absorption of collected fragments into one loose skin.",
+      "bounds": "The eclecticism is between rooms and is mediated by a change in the whole room's character, not by a change of member. And the default is LESS trim, not a different trim: a Shingle Style room with two families in it and a full complement of both has misread the licence."
+    },
+    {
+      "style": "victorian",
+      "why": "Later nineteenth-century millwork catalogues sold members individually and Victorian builders bought them that way, so a genuine 1885 house often has a bullseye-block casing, a plain base and a stock crown that share no derivation. This is documented practice, not modern carelessness.",
+      "bounds": "It holds only for the machine-catalogue period after about 1870, only where the members are genuinely period profiles, and only where they share a SCALE — the Victorian catalogue mixes ornament freely and keeps the members large. A 2 1/4 in casing under a 9 in base is not this exception.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1901
+        ],
+        "note": "The catalogue era. Before 1870 the joiner ran the whole house from one set of planes and the mixing is not available."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "trim-from-no-family",
+      "difference": "That fault is one profile belonging to nothing; this one is two or more profiles each belonging to something, but not to each other. A house can have both, and most builder-grade houses do."
+    },
+    {
+      "fault": "one-trim-grade-for-every-room",
+      "difference": "Opposite errors about variation. This fault is variation WITHIN a room across families; that one is the absence of variation BETWEEN rooms within a family. The period rule permits and requires the second and forbids the first."
+    }
+  ],
+  "co_occurs_with": [
+    "trim-from-no-family",
+    "base-thinner-than-its-casing",
+    "crown-that-projects-half-its-height"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, the three wall sections and their invariants",
+    "proportions/systems/trim-craftsman.json, module note",
+    "kits/georgian-colonial-american.kit.json, trim_family forbidden variants",
+    "elements/slots.json, trim_family: 'a single coherent profile family per style'"
+  ],
+  "confidence": "high",
+  "tags": [
+    "trim",
+    "family",
+    "composition",
+    "millwork-schedule"
+  ],
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The family IS the style here — flat stock, butted heads, square edges, no order. A single moulded classical member in a Craftsman room does not weaken the reading, it ends it, because the family has no ornament to fall back on."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "Same reasoning, and the banding is even more systematic: one curved profile breaks a set of horizontals that carries the whole interior."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "Federal and Georgian are close enough that a mixed pair reads as a slightly wrong room rather than as two rooms, but the pack's own invariants — Federal casing narrower, Federal base slightest — are exactly what a mix destroys."
+    },
+    {
+      "style": "victorian",
+      "severity": "minor",
+      "why": "The catalogue era bought members individually and mixed them freely, so a genuine 1885 house often has no single family. The mix must still share a scale."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "minor",
+      "why": "The interior is honestly thin and eclectic, and the ornament is on the porch. There is little family present to violate."
+    }
+  ]
+}

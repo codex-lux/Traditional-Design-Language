@@ -1,0 +1,216 @@
+{
+  "id": "new-classical",
+  "name": "New Classical",
+  "aka": [
+    "New Classicism",
+    "Contemporary Classicism",
+    "Traditional Architecture (professional usage)",
+    "Neo-Palladian revival"
+  ],
+  "rank": "style",
+  "member_of": "contemporary-traditional",
+  "status": "living",
+  "period": {
+    "origin": 1968,
+    "floruit_start": 1980,
+    "floruit_end": 2026,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "United Kingdom",
+      "Canada",
+      "Europe"
+    ],
+    "hearth": "New York (Classical America and the Institute of Classical Architecture) and South Bend, Indiana (the University of Notre Dame School of Architecture)",
+    "climate_zones": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "palladian",
+      "type": "descends_from",
+      "weight": 0.55,
+      "inherits_kit": true,
+      "note": "The one genuinely unbroken line, and unbroken precisely because it is textual. The Quattro Libri and its successors were never lost; a practitioner in 1985 could open the same book a practitioner in 1735 opened and derive the same building. Descent by treatise is the only kind that survives a century of institutional hostility."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The pedagogy rather than the buildings: the atelier method, the analytique, the esquisse, and the discipline of drawing the orders from measurement. Classical America, founded 1968 by survivors and students of that training, is the institutional bridge across the modernist interval."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "The American domestic dialect: the practical means by which classical detail survived in ordinary residential work through the twentieth century, in millwork catalogs and in the offices of a handful of persistent firms."
+    },
+    {
+      "target": "english-georgian",
+      "type": "revives",
+      "weight": 0.45,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap, and the reference standard for domestic proportion in the movement's British wing."
+    },
+    {
+      "target": "georgian-colonial-american",
+      "type": "revives",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "The American reference standard, measured and re-measured; the movement's teaching examples are disproportionately Tidewater and Charleston houses."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "references",
+      "weight": 0.25,
+      "inherits_kit": false,
+      "note": "Quoted for its severity and for its usefulness in civic work, but not descended from — the American Greek Revival's carpenter-classical means are not the means this movement uses."
+    }
+  ],
+  "description": {
+    "short": "The reconstitution of classical architecture as a live, taught, and practised discipline from the late 1960s onward, in which the orders are used as a working proportional system rather than quoted as motifs, and in which the pattern book and the code have returned as the medium of transmission.",
+    "long": "New Classical is a living tradition, not a revival style, and the distinction is load-bearing. A revival copies the appearance of a past architecture; this movement reconstituted the method — measured drawing, the derivation of every dimension from a chosen module, the correct construction of profiles, the hierarchy of orders — and then designed new buildings with it, including building types (concert halls, university science buildings, apartment towers) that no historical classicism ever addressed. Its practitioners will tell you, correctly, that the orders were the first parametric system with inheritance in the history of design: select Tuscan or Corinthian and several hundred subordinate dimensions follow automatically from the column diameter, cascading through entablature, pedestal, intercolumniation, and door surround. Anyone attempting to encode traditional design as software is re-implementing, with better tools, what Vitruvius, Serlio, and Gibbs each attempted with the tools of their centuries, and this node is where that observation stops being a metaphor.\n\nThe institutional history is short and specific. Classical America was founded in 1968, at the low-water mark, to keep the knowledge alive; the Institute of Classical Architecture followed in 1991, and the two merged in 2002 into what is now the ICAA, which teaches the orders in evening courses to practising architects who were never taught them in school. Thomas Gordon Smith became chairman at the University of Notre Dame in 1989 and rebuilt its curriculum around classical and traditional design, producing the only accredited American programme committed to it and, over three decades, a professional cohort. The Richard H. Driehaus Prize, first awarded in 2003, supplied the counterweight to the Pritzker. In Britain, Leon Krier's work for the Duchy of Cornwall at Poundbury from 1993 made the argument at town scale. Underneath the institutions runs a practical condition that is easy to miss: profiled work became affordable again. CNC stone milling, cast stone, computer-controlled millwork, and precision fibre-reinforced concrete made a correct cornice with a six-inch projection a purchasable item rather than a bespoke one, which is the material precondition for everything above.\n\nWhat the movement reacts against is not modernism as a style — several of its practitioners admire it — but the twentieth-century assumption that architectural knowledge is generated by individual invention rather than accumulated and transmitted. Its answer is the same answer the eighteenth century gave: write it down and make it portable. The handbooks are the evidence. Robert Chitham's Classical Orders of Architecture, Robert Adam's Classical Architecture, and, at the domestic and builder end, Cusato and Hull's Get Your House Right — which is a pattern book in every meaningful sense, organized as a catalog of correct and incorrect versions of the same element. That last book's method, the paired right-and-wrong plate, is the most directly encodable thing in the entire contemporary traditional world, and it is the immediate ancestor of a rule-based constraint system.\n\nWhat it is like in front of a good one is a matter of shadow and depth, which is precisely what the twentieth century's cost engineering removed. The window is set back four to eight inches from the wall face, so the opening has a dark edge and the wall reads as having thickness. The cornice projects far enough to throw a hard shadow line across the top of the facade at midday, which is what gives a building a top. The door surround stands five or six inches proud, and the mouldings within it are cut to profiles whose curvature has been argued about for two thousand years and which, at forty feet, resolve into a legible sequence of light and dark. Solid dominates void. The centre bay is wider or taller or more articulated than its neighbours, so the eye knows where to enter. None of this depends on ornament or expense in any simple sense: it depends on the willingness to spend the building's money on depth rather than on area, which is the one decision that separates this node from every other node in the contemporary group."
+  },
+  "defining_characteristics": [
+    "Every facade dimension derived from a single declared module — the column diameter of a chosen order, or an equivalent governing unit",
+    "Real profile depth: cornices, architraves, sills, and surrounds with projections measured in inches, not fractions of an inch",
+    "Wall thickness expressed through window and door reveals rather than assumed; openings recessed from the wall face",
+    "Bilateral symmetry about a hierarchically emphasized centre, with the entry as the largest and most articulated element",
+    "One order per elevation, correctly proportioned in all its parts, with superimposed orders in canonical sequence",
+    "Solid dominant over void on the principal elevation, and storey heights diminishing upward",
+    "Materials used structurally or in a manner that convincingly expresses structure: load-bearing or thick-veneer masonry, real stone or cast stone, solid timber joinery"
+  ],
+  "diagnostic_tells": [
+    "Window reveal depth of four inches or more in masonry — a shadow at the edge of every opening",
+    "A cornice that casts a hard continuous shadow line across the whole facade",
+    "Correct entablature subdivision, with architrave, frieze, and cornice in canonical proportion rather than as three arbitrary bands",
+    "A brick wall with a genuine water table, belt course, and moulded cap, all returning around every corner",
+    "No vinyl, no hollow extruded trim, no half-width shutters, no applied veneer with a short return — the absence of the neo-eclectic tells is itself diagnostic"
+  ],
+  "distinguished_from": [
+    {
+      "node": "colonial-revival",
+      "difference": "Colonial Revival interprets freely for picturesque effect and tolerates approximate profiles and eclectic mixing; New Classical is proportionally disciplined and archaeologically informed, and treats a wrong entasis or a compressed entablature as an error rather than a liberty."
+    },
+    {
+      "node": "neo-eclectic",
+      "difference": "Quotation versus system. Both may show a pediment, a keystone, and a Palladian window; in one they are catalog items sized for visibility, in the other they are consequences of a module. Measure the projection of the cornice: under two inches, it is quotation."
+    },
+    {
+      "node": "new-urbanist-traditional",
+      "difference": "A discipline of the building versus a discipline of the street. New Classical will produce a correct building on a bad street; New Urbanist Traditional will produce a good street out of plain buildings. In practice they collaborate, with the classical work taking the civic and terminating positions."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The classical module. A chosen order fixes the column diameter, and column height, entablature depth, intercolumniation, pedestal, storey height, and opening proportions are all derived from it. The system is parametric with inheritance and with declared defaults per order — which is to say it is already a kit-of-parts specification, and the best available model for one.",
+    "typical_ratios": [
+      "Column height 7 diameters (Tuscan) to 10 diameters (Corinthian)",
+      "Entablature depth 1/4 to 1/5 of column height",
+      "Window opening 1:1.9 to 1:2.1, diminishing in height with each storey above the principal floor",
+      "Principal storey 1.2 to 1.4 times the storey above it",
+      "Solid to void on the principal elevation 60:40 to 70:30",
+      "Cornice projection not less than 1/24 of the wall height it terminates, minimum 8 in",
+      "Masonry reveal 4 to 8 in; wood reveal not less than 2 in"
+    ],
+    "bay_rhythm": "Odd-numbered bays — three, five, seven, nine — with the centre bay emphasized by width, by an order, or by a frontispiece; end bays may be paired or terminated by quoins or pilasters.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "Centre block with hyphens and dependencies; the movement's signature parti for large houses and the one that solves the garage by turning it into a dependency."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "common",
+      "note": "The workhorse skeleton for houses of moderate size, and the one on which the proportional discipline is most easily verified."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "common"
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The urban condition, where the movement has produced its most convincing large work."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible"
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "All facade dimensions shall be derived from one declared module. The module and the chosen order must be recorded with the design; elements not derivable from it are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Window and door openings shall be recessed not less than 4 in from the wall face in masonry, and not less than 2 in in wood construction. Flush-mounted windows are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Principal cornice projection not less than 1/24 of the wall height it terminates, and in no case less than 8 in.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "One order per elevation. Where orders are superimposed they must ascend in canonical sequence (Tuscan or Doric below, Ionic, then Corinthian or Composite above) and diminish in diameter upward.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Hollow extruded trim, veneer with returns under 24 in, shutters narrower than the sash they flank, and snap-in muntins without exterior profile are forbidden throughout.",
+      "severity": "hard"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Schermerhorn Symphony Center",
+      "location": "Nashville, Tennessee",
+      "year": 2006,
+      "note": "David M. Schwarz Architects. A new building type designed entirely within the classical system, with a full Doric peristyle and correct entablature at civic scale."
+    },
+    {
+      "name": "15 Central Park West",
+      "location": "New York, New York",
+      "year": 2008,
+      "note": "Robert A. M. Stern Architects. Limestone-clad, base-shaft-cap, with real reveals and cornices at high-rise scale — proof that the system survives the change of building type and the change of structural material."
+    },
+    {
+      "name": "Poundbury",
+      "location": "Dorset, England",
+      "year": 1993,
+      "note": "Leon Krier's masterplan for the Duchy of Cornwall, under construction from 1993. The movement's argument made at town scale, and its most-tested and most-criticized case."
+    }
+  ],
+  "sources": [
+    "Leon Krier, The Architecture of Community (2009)",
+    "Robert Chitham, The Classical Orders of Architecture, 2nd ed. (2005)",
+    "Robert Adam, Classical Architecture: A Complete Handbook (1990)",
+    "Marianne Cusato and Brent Hull, Get Your House Right: Architectural Elements to Use and Avoid (2007)",
+    "Andrea Palladio, I Quattro Libri dell'Architettura (1570), still the movement's working reference"
+  ],
+  "confidence": "high",
+  "tags": [
+    "living-tradition",
+    "parametric-orders",
+    "pattern-book-return",
+    "profile-depth",
+    "icaa"
+  ]
+}

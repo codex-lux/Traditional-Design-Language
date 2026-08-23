@@ -1,0 +1,221 @@
+{
+  "id": "top-heavy-second-storey",
+  "name": "The Upside-Down Front",
+  "aka": [
+    "the vaulted primary suite",
+    "inverted graduation"
+  ],
+  "slots": [
+    "height_proportion",
+    "composition_parti"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Read pre-verbally as instability, before any stylistic judgement is made."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Where the vaulted primary suite actually happens."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The type's tall upper volumes and shaded deep porches make this the commonest place to find it."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "not-applicable",
+      "why": "The piano nobile is upstairs by definition."
+    },
+    {
+      "style": "palladian",
+      "severity": "not-applicable",
+      "why": "As above, over a rusticated basement."
+    }
+  ],
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "The second storey is taller than the first, or its windows are taller than the first floor's. Usually the first floor took an 8 ft ceiling to control cost while the second took 9 ft or a vaulted volume, or the upper windows were upsized for a primary suite while the lower ones shrank behind a deep porch. The front reads as though the building is falling toward you.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "A vaulted or 9 ft primary bedroom is a sales feature and it lands upstairs, where the roof volume is already paid for. Meanwhile a deep porch makes the first-floor rooms dark, so the builder specifies smaller first-floor units on the reasoning that they are shaded anyway. Neither decision is made on an elevation and the two compound.",
+    "cost_saved": "Nothing in construction - it usually costs slightly more. What it buys is a marketing feature that appraises, which is a stronger argument in the room than any of the ones on the drawing.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation -> height_proportion.ratio = 0.85",
+      "statement": "The graduation runs downward. There is no traditional system in which it runs upward except where the ground storey is explicitly a base."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the eye reads the heavier element as the support",
+      "statement": "An inverted graduation is read pre-verbally as instability, before any stylistic judgement is made, which is why it is legible to people who cannot name a single moulding."
+    }
+  ],
+  "correct_practice": "The graduation runs downward in every classical and colonial tradition: 0.85 storey to storey, 0.82-0.88 window to window, compounding upward. The single legitimate inversion is the piano nobile, and it announces itself unmistakably - a rusticated, arcaded or masonry ground storey, a belt course at the principal floor, an exterior stair, smaller and simpler ground-floor openings - so that the ground floor is read as a base rather than as a squashed principal storey. Absent that apparatus, an inverted front is simply upside down.",
+  "fixes": {
+    "right": "Take the volume in the roof rather than in the wall: a vaulted ceiling under a 10:12 roof gives more height than a 9 ft plate and costs nothing in elevation, because the plate stays where the composition needs it.",
+    "cheap": "Hold the storey heights and correct the WINDOWS. Restoring the first-floor sash to full height and shortening the second-floor sash by one light row inverts the reading back, even where the actual floor-to-floor heights are equal or slightly inverted - the eye judges the graduation from the glass, which is the largest and darkest element on the elevation.",
+    "dishonest": "Adding a water table and a belt course to a house with an 8 ft first storey and a 9 ft second in the hope of claiming a piano nobile. The base apparatus only works when the ground storey is genuinely subordinate in its openings as well as its height."
+  },
+  "test": {
+    "expression": "second_floor_sash_height_in / first_floor_sash_height_in",
+    "threshold": 0.95,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Above 0.95 is the fault; above 1.05 is severe. The eye judges the graduation from the glass, which is the largest and darkest element on the elevation, which is why the window ratio works even where the floor-to-floor heights are hidden."
+  },
+  "secondary_tests": [
+    {
+      "expression": "count_of_expressed_base_features_on_the_ground_storey",
+      "threshold": 1,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The apparatus that licenses an inversion: rustication, an arcade, a water table, a belt course at the principal floor, a raised basement with an exterior stair. Absent all of it, the front is simply upside down."
+    },
+    {
+      "expression": "ground_storey_opening_area_sqft / principal_storey_opening_area_sqft",
+      "threshold": 0.9,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A real piano nobile has smaller and simpler openings below, not merely a lower ceiling. This is the test that separates a piano nobile from a squashed first storey."
+    }
+  ],
+  "detection": "Measure the two sash heights in a straight-on photograph. Upper divided by lower above 0.95 is the fault; above 1.05 is severe. Then check whether the ground floor is expressed as a base - rustication, an arcade, a water table, a raised basement with an exterior stair - because that apparatus is what licenses an inversion. If it is absent, the fault stands.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The principal floor is the second at 12-13 ft over a ground floor of 10-11 ft.",
+      "bounds": "The ground storey reads as a base and the floor above the principal storey diminishes again.",
+      "bounds_test": {
+        "expression": "storey_above_principal_floor_ceiling_ft",
+        "threshold": 10,
+        "direction": "between",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "upper": 11,
+        "note": "The ground storey reads as a base and the floor above the principal storey diminishes again."
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "The principal floor is raised over a service or flood storey.",
+      "bounds": "The base must be expressed as piers or an arcade with smaller openings.",
+      "bounds_test": {
+        "expression": "count_of_expressed_base_features",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The base must be piers or an arcade with smaller openings."
+      }
+    },
+    {
+      "style": "italian-renaissance-revival",
+      "why": "The piano nobile over a rusticated ground storey is the type's whole compositional argument.",
+      "bounds": "Rustication or a heavily channelled ground storey with smaller square-headed openings, a belt course, and a third storey diminishing again.",
+      "bounds_test": {
+        "expression": "ground_storey_opening_area_sqft / principal_storey_opening_area_sqft",
+        "threshold": 0.75,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Rustication or heavy channelling on the ground storey with smaller square-headed openings, a belt course, and a third storey diminishing again."
+      }
+    },
+    {
+      "style": "italian-renaissance",
+      "why": "Same.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "ground_storey_opening_area_sqft / principal_storey_opening_area_sqft",
+        "threshold": 0.75,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "palladian",
+      "why": "The principal storey over a rusticated basement, reached by an exterior stair, is canonical.",
+      "bounds": "The exterior stair and the rusticated base are not optional; they are what makes the inversion legible.",
+      "bounds_test": {
+        "expression": "count_of_exterior_stairs_to_the_principal_storey",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The exterior stair and the rusticated base are not optional; they are what makes the inversion legible."
+      }
+    },
+    {
+      "style": "beaux-arts-american",
+      "why": "Same apparatus at larger scale.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "count_of_exterior_stairs_to_the_principal_storey",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "As above, at larger scale."
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "The bank storey is a service level cut into the slope and the principal floor above it is taller.",
+      "bounds": "The lower level must be genuinely below grade on the uphill side.",
+      "bounds_test": {
+        "expression": "lower_level_exposure_above_grade_on_the_uphill_side_in",
+        "threshold": 12,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "site-visit",
+        "note": "The lower level must be genuinely below grade on the uphill side; a walkout on all four sides is not a bank house."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "charleston-single-house",
+      "statement": "A taller ground floor is the fault; the principal floor is the second."
+    },
+    {
+      "style": "italian-renaissance-revival",
+      "statement": "As above - the piano nobile over a rusticated ground storey is the whole compositional argument."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "ungraduated-storeys",
+      "difference": "Equal storeys are inert. An inverted pair is actively wrong, and the fixes are the same but the urgency is not."
+    }
+  ],
+  "co_occurs_with": [
+    "ungraduated-storeys"
+  ],
+  "sources": [
+    "proportions/modules/storey-graduation.json",
+    "project style nodes: charleston-single-house, italian-renaissance-revival, pennsylvania-bank-house",
+    "Andrea Palladio, I quattro libri (1570), Book II on villa sections"
+  ],
+  "confidence": "high",
+  "tags": [
+    "height",
+    "proportion",
+    "inversion"
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "id": "gutter-as-cornice",
+  "name": "The Gutter Is the Cornice",
+  "aka": [
+    "fascia-and-gutter eave",
+    "the K-style entablature"
+  ],
+  "slots": [
+    "eave_condition",
+    "cornice",
+    "rainwater"
+  ],
+  "severity": "fatal",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The wall must terminate in an entablature; without one there is no order and no house."
+    },
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "As above."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The deep continuous entablature IS the style; there is nothing left of it without one."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "fatal",
+      "why": "The bracketed cornice is the only thing hiding the roof, and the style's identity."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The revival tolerates a thinner cornice, but not the absence of one."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Trim suppression is the defining rule; a cornice would itself be the fault."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The shadow comes from 24-36 in of projection, not from a moulding."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "The clean soffit is the fastest separation from Craftsman."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "not-applicable",
+      "why": "A 0-12 in eave with no cornice is the type's own honest record of an FHA cost ceiling."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "severity": "not-applicable",
+      "why": "A wooden cornice is foreign to a stucco wall of expressed mass."
+    }
+  ],
+  "severity_trajectory": "Stable, and that is the argument that has to be answered. A fascia-and-gutter eave is durable and cheap to maintain; a built-in wood gutter behind a corona is minor on day one and fatal in year twelve if it is unlined. The answer is therefore a half-round or concealed gutter behind a real cornice, not a wooden trough - which is a case where the maintenance objection is legitimate and the detail, not the cornice, is what should give way.",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "The wall stops, a 1x6 fascia caps the rafter ends, and a 5 in K-style aluminium gutter is hung on the fascia. That assembly is the eave. There is no frieze, no bed mould, no corona, no crown and no shadow, and the gutter's own stamped ogee is the only moulded profile anywhere on the building - a profile which is, incidentally, upside down relative to a classical cyma.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The eave is built by the framer (sub-fascia and fascia), wrapped by the siding crew (aluminium coil stock), and finished by the gutter sub, in that order. No trade in that sequence owns a moulding. The classical cornice belongs to a fourth trade - the finish carpenter - who is scheduled for the interior after the building is dried in and is never on site at the eave at all. The result is not a decision to omit the cornice; it is that no one was ever standing there who could have built one.",
+    "cost_saved": "A built-up boxed cornice with frieze, bed mould, corona and crown runs $22-45 per lineal foot installed against $6-10 for fascia-and-gutter. On 150 lf of eave that is $2,400-5,200."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / eave_condition / fascia-and-gutter-eave = forbidden",
+      "statement": "An eave whose depth is set by the gutter rather than by the order."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "gibbs-ionic -> eave_condition.cornice_height_in = storey_height / 4 * (7/18)",
+      "statement": "11.67 in of cornice at a 10 ft storey; the full entablature at column_height / 5 is 18 in."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical -> cornice.projection = module / 14",
+      "statement": "7.7 in of projection past the wall face at a 9 ft bay - enough to throw a shadow across the frieze."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical invariant",
+      "statement": "The cornice is twice the frieze; the three horizontals diminish in projection going up until the cornice, which reverses and dominates."
+    }
+  ],
+  "correct_practice": "On a classical or colonial house the eave is an entablature, not a trim board. Frieze board about one part deep (9 in at a 9 ft bay, 10 in at a 10 ft storey), bed mould at the top of the frieze, corona projecting 7-8 in past the wall face, crown above. Total cornice height around 11-12 in at a 10 ft storey and the whole entablature around 18 in. The gutter goes behind the crown as a built-in wood trough lined with metal, or below and behind the corona on plain round rod hangers, or on the rear elevation only - anywhere except in the position where it becomes the profile.",
+  "fixes": {
+    "right": "Build the entablature: frieze, bed mould, corona, crown, derived from the order the house is bound to, with a built-in or concealed gutter.",
+    "cheap": "Keep the aluminium gutter but add a 1x8 frieze board under the soffit and a bed mould at the soffit-to-frieze junction. That recovers two of the four shadow lines for under $4 per lineal foot. Then change the gutter from K-style to half-round on round rod hangers, painted the trim colour: it costs within 15 per cent of K-style and it stops the gutter reading as a moulding, because a half-round has no profile to mistake for one.",
+    "dishonest": "A 'crown-profile' or 'cornice-style' aluminium gutter sold as an ogee, and brake-formed fascia wrap with a stamped bead. Both add a highlight without adding depth. At forty feet the eye reads a cornice from its shadow, not from its outline, and neither of these casts one."
+  },
+  "test": {
+    "expression": "count_of_plane_changes_between_wall_face_and_roof_surface",
+    "threshold": 3,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "A classical eave shows at least three - frieze face, bed mould, corona underside, crown. A fascia-and-gutter eave shows one. This is the form a model can count off a photographed eave without knowing any dimensions."
+  },
+  "secondary_tests": [
+    {
+      "expression": "cornice_projection_past_wall_face_in",
+      "threshold": 7.0,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "facade-classical gives module/14, which is 7.7 in at a 9 ft bay. Below about 5 in the corona cannot throw a shadow across the frieze, which is the only thing the projection is for."
+    },
+    {
+      "expression": "entablature_height_in / storey_height_in",
+      "threshold": 0.15,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Gibbs makes the entablature one fifth of the column: 18 in at a 10 ft storey. A fascia-and-gutter eave reads at 0.05-0.07."
+    },
+    {
+      "expression": "eave_shadow_band_depth_in",
+      "threshold": 4.0,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Measured at midday against a bright sky. The single most direct evidence, because it measures the thing the cornice exists to produce rather than the members that produce it."
+    }
+  ],
+  "detection": "Photograph the eave against a bright sky around midday. A real cornice throws a dark band 4-8 in deep across the frieze and the wall below it; a fascia-and-gutter eave throws none, and the roof edge reads as a single thin line. Count changes of plane between the wall face and the roof surface: a classical eave shows at least three, a fascia-and-gutter eave shows one. Third check: if the gutter is the deepest projecting element on the elevation, the building has no cornice.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "Eaves are 6-12 in, cut tight, and the cornice is deliberately suppressed; a moulded cornice would itself be the fault. Trim suppression is the style's defining rule.",
+      "bounds": "The suppression has to be total - no corner boards, no water table, no belt course, no frieze, shingles running over every corner and storey line. Selective suppression at the eave only is just a missing cornice.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 6,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 12,
+        "note": "And the suppression must be total: no corner board, water table, belt course or frieze anywhere on the building."
+      },
+      "applies_when": {
+        "construction": [
+          "wood-shingle-cladding"
+        ],
+        "slots": [
+          "primary_cladding",
+          "corner_board"
+        ],
+        "note": "The licence holds only where the cladding really is a continuous shingle field running over the corners. Shingle-clad gables on a clapboard house do not carry it."
+      }
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "A 0-12 in eave with no cornice is the type's own honest expression of an FHA cost ceiling, and the type is a legitimate node in its own right.",
+      "bounds": "Only where the rest of the building keeps faith with it: 2 1/4 in casing, a door in the plane of the wall, no applied surround. A no-cornice eave under a pedimented door surround and full-height shutters is not minimal-traditional, it is a Colonial Revival with the cornice deleted.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The licence holds only where the whole trim vocabulary keeps faith: 2 1/4 in casing, a door in the plane of the wall, no applied surround."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The eave is a fascia and a soffit; the shadow comes from 24-36 in of projection, not from a moulding, and adding a classical cornice would be the error.",
+      "bounds": "The projection has to be real. Below about 18 in the Craftsman eave has no argument and is simply a bare eave.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 24,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 36,
+        "note": "Below about 18 in the Craftsman eave has no argument and is simply a bare eave."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The soffit is clean by definition - no rafter tails, no brackets, no mouldings - and the eave is a floating plane 30-48 in deep.",
+      "bounds": "As above; the depth is what licenses the plainness.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 30,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 48,
+        "note": "Uniform on all sides; the depth is what licenses the plainness."
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "0-12 in of overhang with a plastered edge or a closed soffit is the correct detail, and a wooden cornice would be foreign to a stucco wall of expressed mass.",
+      "bounds": "The edge must be plastered or tile-capped, not a fascia board; and there should be no gutter on the principal elevation at all - the tradition sheds water free of the wall or through canales.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 12,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "With a plastered or tile-capped edge, and no gutter on the principal elevation at all."
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "The parapet and canale replace the eave entirely.",
+      "bounds": "No fascia, no gutter, no soffit anywhere on the composed elevations.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "No fascia, no gutter, no soffit on any composed elevation."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A moulded cornice is the fault. The eave is 6-12 in and cut tight, and any frieze, corner board or belt course breaks the continuous shingle field the style depends on."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "Mouldings at the eave are the fault. The soffit must be clean - no rafter tails, no brackets, no bed mould - and the fascia band continuous around the whole building."
+    },
+    {
+      "style": "pueblo-revival",
+      "statement": "Any fascia, gutter or soffit on a composed elevation is the fault; the parapet and canale replace the eave entirely."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "bed-mould-omitted",
+      "difference": "There a boxed eave of the right depth exists and the mouldings inside it were left out. Here there is no boxed eave at all - only a fascia and a gutter."
+    },
+    {
+      "fault": "soffit-vent-through-cornice",
+      "difference": "That fault presumes a cornice exists and has been perforated. This one is the absence of the cornice."
+    }
+  ],
+  "co_occurs_with": [
+    "bed-mould-omitted",
+    "return-that-never-returns",
+    "stamped-pediment-return",
+    "flush-rake",
+    "soffit-vent-through-cornice"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json eave_condition",
+    "proportions/overlays/gibbs-ionic.json",
+    "proportions/systems/facade-classical.json",
+    "James Gibbs, A Book of Architecture (1728), plates of the orders",
+    "Asher Benjamin, The American Builder's Companion (1806)",
+    "Old-House Journal technical archive on built-in and concealed gutters"
+  ],
+  "confidence": "high",
+  "tags": [
+    "eave",
+    "cornice",
+    "profile-depth",
+    "endemic",
+    "highest-leverage"
+  ]
+}

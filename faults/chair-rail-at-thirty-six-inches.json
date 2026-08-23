@@ -1,0 +1,146 @@
+{
+  "id": "chair-rail-at-thirty-six-inches",
+  "name": "The Carpenter's Thirty-Six",
+  "aka": [
+    "the rail at counter height",
+    "three feet because it is three feet",
+    "the wainscot that fights the window"
+  ],
+  "slots": [
+    "chair_rail",
+    "wainscot",
+    "baseboard"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A chair rail or wainscot cap at 36 in — occasionally 32 or 42 — set to a round number rather than to anything in the room. It crosses the window wall four to eight inches above the stools, so every window sits in a shallow well of wall above the cap with the apron buried behind it. The dado below is a third of the wall, which is taller than the classical pedestal wants and reads bottom-heavy, and the cap is at exactly the height of a kitchen counter, which is what it looks like.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Thirty-six inches is three feet and it is the number a trim carpenter reaches for when no drawing says otherwise: it is a tape mark, it is the height of the counters and the vanities in the same house, it is the height of a guard rail, and it is what the panel-mould kit sold at the box store is packaged for. It is reinforced by wainscot panelling sold in 32 or 36 in sheets and by beadboard sold in 32 and 48 in lengths, so the cheapest material dictates the height. Nobody chooses 36 in; it is what happens when a member with no drawing meets a stock sheet.",
+    "cost_saved": "Marginal and real: 4x8 sheets of beadboard or MDF wainscot cut into three 32 in strips waste nothing, and cutting them to 30 in leaves an offcut. Perhaps 200 to 400 USD on a room, which is why the number persists."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chair_rail / height, range [30, 32]",
+      "statement": "30 to 32 in above the finished floor, on the same datum as the window sill."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / chair_rail.height and its resolution",
+      "statement": "The window sill wins. Sills sit at a near-constant 28 to 32 in on every storey of every period, and the rail is set from them."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation / chair_rail = (module - part * 1.25) / 3.5",
+      "statement": "30 3/4 in at a 10 ft storey. Two independent derivations and the measured evidence all land between 30 and 32 1/2 in; 36 in is outside all three."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a round number is not a dimension",
+      "statement": "36 in appears in a house because it is three feet, and three feet is a unit of measurement rather than a property of a room. Every member set to a round number is a member nobody decided."
+    }
+  ],
+  "correct_practice": "Thirty to thirty-two inches, taken from the window stool. The top of the cap and the top of the stool are one line, and the stool projects into the room slightly further than the cap so the two read as one member turning into the opening. The four inches between 32 and 36 matter more than they sound: at 36 in the dado is a third of a 9 ft wall and reads as a base rather than a pedestal; at 31 in it is 29 per cent and reads as a pedestal; and at 36 in the cap sits above the stool, which forces the apron to be either buried or omitted and puts a horizontal across the window wall that the windows must interrupt. Where a taller dado is genuinely wanted — and there is a real later nineteenth-century tradition of one, at 36 to 42 in with an embossed dado paper — commit to it properly: take it to 40 in or above so that it is unmistakably a high dado, resolve the window aprons into it, and accept that the room is now Victorian rather than Georgian. What does not work is 36 in, which is too high to agree with the sill and too low to declare itself.",
+  "fixes": {
+    "right": "Cap at the stool line, 30 to 32 in, with the panelling below set out from the room's centres and the base cap re-proportioned to suit.",
+    "cheap": "Move the number, not the material. Cutting the wainscot panelling to 30 in instead of 32 or 36 costs one offcut per sheet — under 200 USD in a dining room — and it puts the cap on the sill. If the panelling is already up, move only the CAP: run a wider cap that reaches down to the panel top from 31 in, or add a flat band above the panelling to bring the visible top line to the stool. The eye reads the top edge, not the panel joint.",
+    "dishonest": "Raising the window stools to 36 in to meet the rail. It aligns two members and breaks the window proportion, the view from a seated position, the head height above, and in a bedroom possibly the egress opening — trading a trim fault for a fenestration one. Also dishonest: running the rail at 36 in and calling it a plate rail, which it is not: a plate rail is 54 to 66 in, carries a projecting shelf of 3 1/2 in with a stop strip, and belongs in a Craftsman dining room."
+  },
+  "detection": "Compare the cap height with the window stool height in a photograph of the window wall. Fault: the cap runs 4 to 8 in above the stool and crosses the window casing, so each window appears to sit in a shallow recess of upper wall. Second, compare with a light switch at 44 to 48 in and a door handle at 34 to 38 in: a chair rail at or above the door handle line is 36 in or more and is the fault. Third, measure cap height against ceiling height: 0.33 or more in a 9 ft room means the dado has taken a third of the wall. Fourth, the give-away detail is the APRON — at 30 in the apron hangs below the stool and above the rail with a clear 3 to 5 in of it visible; at 36 in the apron is missing, because there is nowhere for it to go.",
+  "test": {
+    "expression": "chair_rail_top_in",
+    "threshold": 28,
+    "upper": 34,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Same band as the derivation fault and the same reason: this member is set by the body. Approached from above rather than below. The high-dado tradition is a separate composition at 40 in or more, not an extension of this band."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "victorian",
+      "why": "The high dado of 36 to 42 in with an embossed or papered field is genuine later nineteenth-century practice, particularly in entrance halls, stair halls and dining rooms where it also served as a wear surface.",
+      "bounds": "Must be 40 in or above so that it is unambiguously a high dado, must be treated as a distinct field with its own material or paper, and the window aprons must be resolved into it rather than crossing it. The band from 33 to 39 in is licensed by nothing: it is above the sill and below the high-dado tradition.",
+      "bounds_test": {
+        "expression": "chair_rail_top_in",
+        "threshold": 40,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1860,
+          1901
+        ],
+        "slots": [
+          "wainscot",
+          "chair_rail"
+        ]
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Same high-dado tradition, often with a plate shelf or a small moulded shelf at the cap, and often in halls at 42 to 54 in.",
+      "bounds": "Above 40 in, and where the cap carries a shelf it becomes a different member with its own logic. Between the sill and 40 in there is no licence."
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman wainscot cap at 0.36 of the ceiling gives 37 in at an 8 ft 6 in ceiling and 39 in at 9 ft — genuinely in this band and derived from the family's own rule, because it is a board-and-batten wainscot cap rather than a pedestal cap and does not answer to the sill.",
+      "bounds": "Board-and-batten or plain vertical boards with a flat bevelled cap projecting about an inch — not panels, not a rail-and-stile frame, and never both a wainscot cap and a plate rail in one room. The cap must clear the window stools by enough to read as separate, or the windows must sit above it entirely.",
+      "bounds_test": {
+        "expression": "wainscot_cap_height_in / ceiling_height_in",
+        "threshold": 0.33,
+        "upper": 0.39,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Beaded or board wainscot at a variety of heights with a plain cap is normal, and the informality is the point.",
+      "bounds": "The cap must be plain and the boards genuine; and where a window sits on the wall, the cap should either meet the stool or clear it by 6 in. The near-miss is a fault in every style."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chair-rail-at-the-pedestal-cap",
+      "difference": "The opposite pole. That rail is too low because it was derived from an out-of-range rule; this one is too high because it was derived from nothing. They never appear together and the corpus carries both because the correct answer sits between them and comes from neither."
+    },
+    {
+      "fault": "chair-rail-that-misses-the-sill",
+      "difference": "This fault has a specific wrong number; that one is the general case of a rail set without reference to the window. A 36 in rail in a room with 31 in sills is both."
+    },
+    {
+      "fault": "beadboard-in-the-parlour",
+      "difference": "Height against material. The 36 in beadboard wainscot in a formal room is usually both faults at once, because the same stock sheet drives both decisions."
+    }
+  ],
+  "alternative_to": [
+    "chair-rail-at-the-pedestal-cap"
+  ],
+  "co_occurs_with": [
+    "chair-rail-that-misses-the-sill",
+    "beadboard-in-the-parlour",
+    "raised-panel-with-no-field"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, chair_rail height range and pack precedence",
+    "proportions/systems/trim-classical.json, chair_rail.height resolution",
+    "proportions/systems/storey-graduation.json",
+    "Old-House Journal technical archive on dado heights and the high Victorian dado"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chair-rail",
+    "proportion",
+    "round-number",
+    "stock-sheet"
+  ]
+}

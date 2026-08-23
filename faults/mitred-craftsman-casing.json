@@ -1,0 +1,118 @@
+{
+  "id": "mitred-craftsman-casing",
+  "name": "The Mitred Craftsman Casing",
+  "aka": [
+    "the picture-frame bungalow",
+    "the missing head overhang",
+    "flat stock with a mitre"
+  ],
+  "slots": [
+    "casing",
+    "trim_family",
+    "window_surround_wood"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "Craftsman-looking flat trim — plain square-edged boards, no moulding — mitred at 45 degrees at the two upper corners like a picture frame, so the head and the legs form a continuous unbroken band and the upper corners are a clean diagonal seam. The assembly is the right material, the right flatness and the right width, and it is wrong at the only two points where the family declares itself.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "A mitre is the default finish-carpentry joint and a mitre saw is the default tool; cutting two 45s and closing them is faster than cutting a head to length, setting it on the legs, and getting a 3/4 in overhang equal at both ends. The butted assembly also demands three pieces of stock in two widths where the mitre needs one, and it demands that the legs be cut to a height that is not the door head height. And it exposes end grain at both ends of the head, which reads to a carpenter as an unfinished cut — so the instinct is to hide it, which is exactly backwards.",
+    "cost_saved": "Almost nothing, and often negative: the mitred version uses one width of stock instead of two, saving perhaps 40 USD a house, and costs more labour per opening because a mitre in flat stock must be glued, pinned and sanded to close. The butted head is faster once the cut list exists.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / casing.projection = part * 3 = 3/4 in",
+      "statement": "How far the head casing runs past the legs, each side. Named in the pack as THE DEFINING DETAIL OF THE FAMILY and the one to get right if nothing else is."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / casing.height = module * 1.571 = 5 1/2 in",
+      "statement": "The head is always one size up from the leg — a 1x6 on a 1x4 — never the same and never two sizes up. A mitre forces head and leg to the same width and destroys the step."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a mitre denies that an assembly has parts",
+      "statement": "A mitre says the frame is one continuous member bent round a corner; a butt says the head is carried on the legs. The Craftsman argument is that construction should be visible, so the joint that conceals the parts is the joint the family cannot use. The exposed end grain is the statement, not the flaw."
+    }
+  ],
+  "correct_practice": "Legs run from floor (or plinth) to the head, cut square at the top. The head board sits ACROSS them, one stock size up — a 1x6 at 5 1/2 in over a 1x4 leg at 3 1/2 in — and runs past the outer edge of each leg by 3/4 in. On top of the head sits a bed strip 1/2 in high and 1 in proud, and on that a cap 1 1/2 in high and 1 1/2 in proud, its top edge bevelled to shed dust, projecting past the ENDS of the head board as well as its face. The result is a small stepped silhouette at each upper corner — leg, head, cap, three planes stepping outward and upward — that reads instantly across a room and that no mitred assembly can produce at any width. The modal overhang is 3/4 in from a documented range of 3/8 to 1 in: below 3/8 in it reads as a bad cut, above 1 in the head starts to look like a shelf, which is a later and different detail. The total head assembly is 7 1/2 in, sitting on an 80 in door, putting its top at 87 1/2 in — and that line, not the ceiling, is the room's governing datum.",
+  "fixes": {
+    "right": "Butted assembly in three members, 1x4 legs, 1x6 head, bed strip and bevelled cap, with the overhang set from a story pole so it is identical at every opening in the house.",
+    "cheap": "Keep the existing flat casing and add a head. If the legs are already mitred, cut the head band off, run the legs up square, and lay a 1x6 across with 3/4 in of overhang and a bevelled 5/4 cap. This is one board and two cuts per opening, roughly 14 USD an opening in material, and it converts a picture frame into a Craftsman assembly. Even the minimum version — a bevelled cap laid on top of the existing mitred head, projecting 3/4 in each side — recovers most of the silhouette for the price of a 1x2.",
+    "dishonest": "Routing a fake seam or a V-groove across the mitre to suggest a butt joint, or filling the mitre and calling it a butt. The tell is not the seam, it is the OVERHANG and the step; a joint line with no projection past the legs is still a picture frame. Also dishonest: butting the head but making it the same width as the legs so there is no overhang, which is a joint decision made without the proportional decision that gives it meaning."
+  },
+  "detection": "Look at the two upper corners of any cased opening. Correct: the head board's ends stop 3/4 in outboard of each leg, showing end grain, with a cap oversailing again above; the silhouette steps out twice. Fault: a diagonal line runs from the inner corner of the opening to the outer corner of the trim and the outer edge of the frame is one continuous vertical-to-horizontal line with no step. This is measurable in any photograph that shows a whole opening: compute (head_length - opening_outer_width) / 2 and compare with the leg width. Second test: measure head height against leg width. Craftsman runs 5 1/2 over 3 1/2, a ratio of 1.57; a mitred frame runs 1.00 by construction. A ratio of exactly 1.00 with flat square-edged stock is diagnostic on its own, even in a photograph too small to resolve the corner.",
+  "test": {
+    "expression": "head_casing_overhang_per_side_in",
+    "threshold": 0.375,
+    "upper": 1.0,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Measured from the outer edge of the leg casing to the end of the head board, each side. Modal value 3/4 in. Zero means mitred. This is the single most diagnostic dimension in the Craftsman trim family and it is directly measurable from an ordinary interior photograph."
+  },
+  "applies_to": [
+    "craftsman",
+    "craftsman-bungalow",
+    "california-bungalow",
+    "american-arts-and-crafts",
+    "arts-and-crafts-american",
+    "british-arts-and-crafts",
+    "prairie-school",
+    "swiss-chalet"
+  ],
+  "exceptions": [
+    {
+      "style": "prairie-school",
+      "why": "Prairie interiors often run continuous banded trim — a horizontal band at the head height carried unbroken across the whole wall past several openings — in which case there is no head casing to overhang because the head IS the band and it does not stop at the opening.",
+      "bounds": "The band must genuinely run past the opening and continue to the room's corner or to the next opening. A band that stops 3/4 in short of the casing is the fault; a band that stops flush with it is the fault; a band that runs the full wall is the exception. Mitres are still forbidden at the wall corners, where the band should die into the corner or return on itself.",
+      "bounds_test": {
+        "expression": "head_band_run_past_opening_in",
+        "threshold": 12,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style interiors take flat plain trim from the same Colonial Revival and vernacular sources and mitre it freely; the family's rule about butted heads is not theirs to keep.",
+      "bounds": "Only where the trim is genuinely minimal — 2 to 3 1/2 in flat, no head assembly at all. A Shingle Style opening with a 5 1/2 in head band mitred to 5 1/2 in legs is claiming the Craftsman assembly and failing it."
+    },
+    {
+      "style": "storybook-style",
+      "why": "Deliberately irregular hand-worked trim with rolled and rounded edges, where every joint is intentionally imprecise and the mitre-versus-butt distinction is dissolved on purpose.",
+      "bounds": "The irregularity must be present in the stock as well as the joint — undulating edges, uneven widths, a visibly worked surface. Machine-straight flat boards with a tight mitre is not this."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "head-casing-without-a-cap",
+      "difference": "The exterior relative. That fault is the absence of a projecting cap over an exterior head; this is the absence of the overhang and the butt in an interior Craftsman assembly. Both are the same argument about the head being a separate carried member."
+    },
+    {
+      "fault": "trim-from-no-family",
+      "difference": "A mitred Craftsman casing is made of the right stock in the wrong assembly; catalogue trim is the wrong stock in any assembly."
+    }
+  ],
+  "co_occurs_with": [
+    "sprung-crown-in-a-bungalow",
+    "built-in-that-is-furniture"
+  ],
+  "sources": [
+    "proportions/systems/trim-craftsman.json, door_trim_head assembly and casing.projection",
+    "Universal Millwork Catalog (1927)",
+    "Gustav Stickley, The Craftsman, interior plates 1904-1916",
+    "Radford's Portfolio of Details of Building Construction"
+  ],
+  "confidence": "high",
+  "tags": [
+    "craftsman",
+    "casing",
+    "assembly",
+    "defining-detail"
+  ]
+}

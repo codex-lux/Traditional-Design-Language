@@ -1,0 +1,122 @@
+{
+  "id": "mantel-at-the-wrong-height",
+  "name": "The Shelf That Fights The Surbase",
+  "aka": [
+    "the television mantel",
+    "the shelf at 60 inches",
+    "the mantel two inches off the chair rail"
+  ],
+  "slots": [
+    "fireplace_surround",
+    "chair_rail",
+    "ceiling_height_rule"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "A mantel shelf at a height that agrees with nothing in the room. Two forms. LOW: the shelf lands within an inch or two of the chair rail or the wainscot cap, so two horizontals nearly meet on the same wall and the eye reads the near miss. HIGH: the shelf is pushed to 56 to 66 in to clear a television, so the fireplace's proportions are stretched, the frieze above the opening becomes a tall blank panel, and the shelf is above the eye level of anyone seated in front of it.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Stock mantels are made in two or three shelf heights that have nothing to do with any particular room, and the height is fixed by the object rather than chosen. The high version has a specific and recent driver: a wall-mounted television above a fireplace wants its centre at 55 to 65 in, and the mantel shelf must clear the screen and its bracket, so the shelf rises and drags the whole surround with it. The low version comes from the opposite direction — a firebox set low in the wall by the mechanical layout, with a stock mantel whose proportions are then measured up from it.",
+    "cost_saved": "Nothing. A mantel costs the same at any height, and raising it usually costs a little more in surround material."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / fireplace_surround.height = ceiling_height * 0.4 [JUDGMENT]",
+      "statement": "43 1/4 in at a 9 ft ceiling, 45 1/2 in at 9 ft 6 in. Marked judgment because the measured range is wide and the shelf height is set as much by the firebox and the overmantel as by the wall. What the ratio is good for is THE CHECK: the shelf should sit well above the chair rail and well below the midpoint of the wall, and a mantel that lands within two inches of the surbase makes the two members fight."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fireplace_surround / measured_shelf_band_in, range [42, 56]",
+      "statement": "The measured Georgian band. Federal 40 to 50, Greek Revival 44 to 54. All three sit above a 30 to 32 in chair rail by at least 8 in and below the midpoint of a 9 ft wall."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / fireplace_surround.height = ceiling_height * 0.5",
+      "statement": "51 in at an 8 ft 6 in ceiling — noticeably higher than the classical mantel at 0.40, because a Craftsman fireplace is a broad low mass with a deep shelf over it rather than a framed opening with a surround. The shelf should line up with the wainscot cap or the top of the flanking built-ins, and where it cannot, it should be clearly above them rather than nearly level."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the mantel is the last of the room's horizontals and must be the one that clears",
+      "statement": "A room's horizontals are base, chair rail, sill, mantel shelf, door head, picture rail, cornice. Each must either coincide with another or clear it by enough to read as separate. The mantel is the only one that is free to move, which makes it the member that should be adjusted when two of them collide."
+    }
+  ],
+  "correct_practice": "Set the shelf at 0.40 of the ceiling as a starting point — 43 in at 9 ft, 45 1/2 at 9 ft 6 in, 48 at 10 ft — then check it against the room's other horizontals and move it if it collides. Two rules govern the check. FIRST, CLEAR THE SURBASE BY AT LEAST 8 IN: a shelf within 2 in of the chair rail makes the two members fight, and the shelf is the one that moves. SECOND, STAY BELOW THE MIDPOINT of the wall, which at a 9 ft ceiling is 54 in — a shelf above that has stopped being a shelf on a wall and has become a band across it. In the Craftsman family the target is higher, 0.50 of the ceiling, and the shelf should line up with the wainscot cap or the tops of the flanking built-ins, or be clearly above them. Where there is an overmantel or a chimney glass, the shelf DROPS — to 40 to 44 in — because the composition above takes over the wall and the shelf becomes the base of a larger object rather than the top of a smaller one. On the television question, which is now the commonest driver: the honest answers are to put the screen somewhere else, to recess it into a panelled overmantel with its own frame so that it is a designed element rather than an obstruction, or to accept a low mantel with the screen above it and no pretence of a classical composition. What does not work is raising the shelf to 60 in and keeping the classical surround, because every proportion in that surround was derived from a shelf at 42 to 48.",
+  "fixes": {
+    "right": "Shelf at 0.40 of the ceiling, checked against the chair rail and the wall midpoint, with an overmantel where the wall above needs resolving.",
+    "cheap": "Move the shelf, not the room. On a stock mantel the shelf is usually a separate applied member and can be re-fixed 4 to 8 in higher or lower for the cost of an afternoon, with the frieze above or the leg length below adjusted to suit. Where the collision is with the chair rail, the free alternative is to stop the chair rail at the chimney breast and return it into the surround's outer edge, which is period practice and removes the competing horizontal entirely.",
+    "dishonest": "A false chimney breast panel above the mantel to 'balance' a shelf that is too high, which adds a second blank field above an already tall one. Also dishonest: raising the chair rail to meet a low mantel, which fixes one alignment by breaking the sill alignment, and the sill is the more important of the two."
+  },
+  "detection": "Measure shelf height against ceiling height in a photograph: correct is 0.38 to 0.45 in classical work and 0.46 to 0.53 in Craftsman. Second, measure shelf height against chair rail height in the same image: the gap must be 8 in or more, and the failure band is 0 to 6 in, which produces the visible near-miss. Third, compare the shelf with the tops of any flanking built-ins or bookcases — they must coincide or clear each other by 6 in, never nearly meet. Fourth, the television tell: a mantel shelf above 55 in in a room of 9 ft or less, with a blank panel or a screen above, is almost always this fault and is visible in any listing photograph.",
+  "test": {
+    "expression": "mantel_shelf_height_in / ceiling_height_in",
+    "threshold": 0.38,
+    "upper": 0.46,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Classical band, derived value 0.40. The Craftsman family runs 0.46 to 0.53 and is a separate band, not an extension of this one. Run the clearance test alongside: (mantel_shelf_height_in - chair_rail_top_in) must be 8 in or more, and the 0 to 6 in range is the near-miss failure."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The family's own rule puts the shelf at 0.50 of the ceiling — 51 in at 8 ft 6 in — because the fireplace is a broad low mass with a deep shelf rather than a framed opening, and the shelf is a working surface aligned with the built-ins.",
+      "bounds": "It must align with the wainscot cap or the tops of the flanking built-ins, or clear them by 6 in or more. The higher band is licensed; a shelf that nearly meets the built-in tops is the same fault in a different family.",
+      "bounds_test": {
+        "expression": "mantel_shelf_height_in / ceiling_height_in",
+        "threshold": 0.46,
+        "upper": 0.54,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "A heavy timber bressummer or a stone lintel over a wide low opening sits at 48 to 60 in and is a structural member rather than a shelf, so its height follows the opening's span.",
+      "bounds": "It must read as a lintel — heavy section, spanning the opening, with the masonry or plaster continuing above it — and not as an applied shelf. A stock mantel raised to 58 in is not a bressummer."
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The measured band runs 44 to 54 in, higher than Georgian, and a heavy pilastered surround with a broad plain frieze legitimately pushes the shelf toward the top of that band.",
+      "bounds": "Up to 54 in and only where the surround is genuinely of the family — broad flat pilasters or antae, a plain deep frieze, a heavy shelf with a square edge. Above 54 in nothing in the family supports it."
+    },
+    {
+      "style": "second-empire",
+      "why": "Tall parlour ceilings of 11 to 13 ft with marble mantels at 48 to 54 in and a large pier glass above, so the shelf is low in RATIO terms — 0.35 or less — and correct.",
+      "bounds": "Requires the overmantel glass, which is what makes the low shelf read as the base of a taller composition. The ratio test is inverted here, and the tell is that a shelf below 0.38 of the ceiling is only correct where something occupies the wall above it."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chair-rail-that-misses-the-sill",
+      "difference": "The same class of near-miss error on a different pair of members. The mantel is free to move and the sill is not, which is why the mantel is always the one to adjust."
+    },
+    {
+      "fault": "surround-that-is-not-the-firebox",
+      "difference": "The shelf's height against the frame's fit. Independent, and a well-fitted surround at the wrong height is common."
+    }
+  ],
+  "co_occurs_with": [
+    "surround-that-is-not-the-firebox",
+    "direct-vent-box-in-a-period-surround",
+    "built-in-that-is-furniture"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, fireplace_surround.height derived rule, marked judgment",
+    "proportions/systems/trim-craftsman.json, fireplace_surround.height",
+    "kits/georgian-colonial-american.kit.json, measured_shelf_band_in",
+    "HABS measured drawings of chimneypieces, Georgian through Greek Revival"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "fireplace",
+    "mantel",
+    "alignment",
+    "television"
+  ]
+}

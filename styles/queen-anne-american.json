@@ -1,0 +1,223 @@
+{
+  "id": "queen-anne-american",
+  "name": "Queen Anne (American)",
+  "aka": [
+    "American Queen Anne",
+    "Victorian Queen Anne",
+    "Eastlake (loosely and wrongly)"
+  ],
+  "rank": "style",
+  "member_of": "victorian",
+  "status": "historical",
+  "period": {
+    "origin": 1874,
+    "floruit_start": 1880,
+    "floruit_end": 1900,
+    "decline_end": 1915,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1975,
+        "end": 2005,
+        "revival_node": "neo-eclectic",
+        "note": "The Neo-Victorian speculative house of the late twentieth century borrows the turret and the wraparound porch while abandoning the dominant-mass and multi-texture rules that make the style cohere."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "United States nationwide",
+      "San Francisco Bay Area",
+      "Pacific Northwest",
+      "Midwest",
+      "Northeast",
+      "Ontario",
+      "British Columbia"
+    ],
+    "hearth": "Newport and Boston, then nationally by rail",
+    "climate_zones": [
+      "3A",
+      "3C",
+      "4A",
+      "4C",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "queen-anne-british",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The real parent. Richard Norman Shaw's Old English and free-classic manner, published in The Building News and seen by Americans at the British pavilions of the 1876 Centennial Exhibition in Philadelphia."
+    },
+    {
+      "target": "stick-style",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "American practice inheritance: the same architects, carpenters, balloon frame, and millwork supply, and the half-timbered gable panel arrives via the Stick Style's applied board grid."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "references",
+      "weight": 0.35,
+      "inherits_kit": false,
+      "note": "From the mid-1880s classical columns, Palladian windows, and dentilled cornices enter the style and produce the free classic variant. The mature Colonial Revival node descends from this one, so the substantive inheritance is recorded as the descends_from edge to georgian-colonial-american below."
+    },
+    {
+      "target": "second-empire",
+      "type": "reacts_against",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "Against the mansarded symmetrical pile and its French pretension, in favour of an English, domestic, textured, deliberately informal house."
+    },
+    {
+      "target": "georgian-colonial-american",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Real transmission of the classical trim: measured drawings and photographs of surviving Georgian colonial work, published from the late 1870s, put correct column, cornice, and sash profiles back into builders' hands."
+    }
+  ],
+  "description": {
+    "short": "The dominant American house style of the 1880s and 1890s: an irregular, multi-textured, tower-bearing composition around one dominant mass, wrapped in porches and covered in machine-made ornament shipped by rail.",
+    "long": "The name is almost entirely wrong, and correcting it is the first thing a taxonomy owes this node. The American Queen Anne has no relationship to the reign of Queen Anne (1702-1714), nothing to do with English Baroque, and nothing to do with Wren, Vanbrugh, or Hawksmoor. The label was attached in 1860s and 1870s England by Richard Norman Shaw, W. Eden Nesfield, and their circle to a manner assembled from late-medieval and Jacobean English domestic building, tile-hung Sussex and Kent farmhouses, and freely handled classical trim, and the label stuck because it sounded respectable. Americans imported the label with the manner, largely through Shaw's published perspectives and the half-timbered British buildings at the 1876 Centennial Exhibition, and then developed it into something Shaw would barely have recognised. Treating this node as descended from English Baroque, which the name invites, is a category error that a machine-readable graph is well placed to prevent.\n\nWhat America did with it was industrialise it completely. Shaw's houses were brick and tile, built by craftsmen, individually composed. The American version was balloon-framed pine and its entire ornamental vocabulary came out of a catalogue: turned porch posts, spindle friezes, cut shingles in fish-scale, diamond, and sawtooth patterns, sunburst gable panels, and coloured glass, all of it produced by steam-powered lathes and shingle mills in Michigan, Wisconsin, and the Pacific Northwest and distributed by rail to every town with a siding. The nationwide railroad network, essentially complete after 1869, is the reason a Queen Anne house in Eureka, California and one in Cape May, New Jersey share parts. This is the moment the American house becomes a national product, and it is also the moment placelessness becomes possible, which is a cost the style's enthusiasts rarely price.\n\nUnder all the ornament there is a genuine compositional discipline, and it is what separates a good Queen Anne from a bad one. The rule is that one mass must dominate: a great gable, a corner tower, or a broad hip, with everything else clearly subordinate to it. The second rule is that the wall must change texture, usually clapboard below and cut shingle above, with the change occurring at a horizontal band. The third is that the porch is a wrapping, connective element, not a portico. Where those three hold, the style produces houses of real spatial richness. Where they fail, and they fail constantly in the cheap examples and in nearly every modern imitation, the result is a lumpy accumulation of unrelated projections, which is the standing indictment of the whole Victorian century.\n\nStanding in front of a good one is a matter of being kept in motion. The wraparound porch pulls you around the corner, the tower rotates the composition, and the wall changes material as your eye rises, so that the house appears to be built of successive layers, heavy at the ground and increasingly light and decorative toward the sky. Inside, the great innovation is the living hall: a large room containing the fireplace and the stair, opening through wide cased openings into parlour and dining room, so that the ground floor reads as a continuous flowing space rather than as a corridor with rooms off it. That plan, more than any amount of spindlework, is the American Queen Anne's real gift to everything that came after it, including the open plan of the twentieth century."
+  },
+  "defining_characteristics": [
+    "One dominant mass, whether gable, tower, or hip, with all other volumes clearly subordinate to it",
+    "At least two distinct wall textures on a principal elevation, changing at a horizontal band or storey line",
+    "Steeply pitched irregular roof, 9:12 or greater, with a complex non-rectangular ridge and at least one front-facing gable",
+    "A porch that wraps at least one corner, one storey high and of substantial depth",
+    "Projecting bays, oriels, or a tower breaking the wall plane on every principal elevation",
+    "Asymmetrical plan generating an asymmetrical elevation, with the living hall as the organising interior space",
+    "Machine-produced ornament: turned, sawn, or moulded, and concentrated at porch, gable, and cornice"
+  ],
+  "diagnostic_tells": [
+    "Round or polygonal corner tower with a conical or bell roof: the single fastest identification, though many Queen Annes have none",
+    "Cut shingles in fish-scale or diamond patterning filling a gable above clapboarded walls",
+    "Wraparound porch turning a corner, often widening into a round porch pavilion at the corner itself",
+    "Compared with Stick Style: curves are present. Turned posts, spindles, round towers, and arched porch openings all say Queen Anne",
+    "Compared with Shingle Style: the wall is articulated and layered rather than continuous, and the trim is visible and busy rather than suppressed",
+    "Windows frequently have a single large pane surrounded by a border of small coloured panes, a Shaw device transmitted intact"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-baroque",
+      "difference": "No relationship whatsoever, despite the name. Queen Anne Anne Stuart reigned 1702-1714 and her period produced English Baroque and early Palladianism; this style was named in the 1860s by architects who wanted a friendly English label for a picturesque manner drawn from Tudor, Jacobean, and vernacular sources. The graph must not carry an edge from this node to English Baroque."
+    },
+    {
+      "node": "queen-anne-british",
+      "difference": "The genuine parent, and materially different: Shaw's English work is brick, tile-hung, and craft-built, with real Jacobean and vernacular precedent close at hand. The American descendant is balloon-framed wood with catalogue ornament, and it is far more exuberant and far less disciplined."
+    },
+    {
+      "node": "stick-style",
+      "difference": "Stick Style is rectilinear, panelised, and balanced among comparable masses; Queen Anne is curvilinear, textured, and requires a dominant mass. The presence of a single turned spindle settles it."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Not proportional. Governed by mass hierarchy and by textural layering: one dominant volume, subordinate volumes attached to it, and a wall that grows lighter and more decorative as it rises. The composition is checked in silhouette and in texture, never in module.",
+    "typical_ratios": [
+      "Dominant mass at least 1.5 times the height or plan area of any subordinate mass",
+      "Roof pitch 9:12 to 14:12; tower roof steeper than the main roof",
+      "Porch depth 7 to 10 ft, wrapping not less than one full corner",
+      "Texture change at 60 to 75 percent of wall height, at a belt course or at the second-floor line",
+      "Bay or oriel projection 18 to 42 in from the wall plane",
+      "Tower diameter 8 to 14 ft where round"
+    ],
+    "bay_rhythm": "None regular. Openings are placed by room, and adjacent windows commonly differ in width, height, and head level. Whatever coherence exists comes from texture bands and from porch rhythm.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "common",
+      "note": "Round or polygonal in the Queen Anne case, not the square Italianate campanile."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The San Francisco and Philadelphia rows, where the whole style is compressed into a 25 ft frontage."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "possible",
+      "note": "The modest builder's Queen Anne; the boundary with Folk Victorian sits here."
+    },
+    {
+      "massing": "pyramidal-cottage",
+      "affinity": "possible"
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "One mass shall dominate the composition, exceeding every other mass by at least 50 percent in either height above eave or plan area. A composition of equal masses is not Queen Anne; it is Stick Style or an incoherent accumulation."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Not fewer than two distinct wall textures shall appear on each principal elevation, and each texture change shall occur at a horizontal belt course, water table, or storey line. A texture change at a vertical joint or mid-panel is prohibited."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "A porch not less than 7 ft deep shall wrap at least one external corner of the building, continuing not less than 8 ft along the returning elevation."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Every principal elevation shall carry at least one projection of not less than 18 in: a bay, oriel, tower, or projecting gable. A flat unbroken principal elevation fails the style."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Principal roof pitch shall be 9:12 or greater and the ridge shall be non-rectangular in plan. A simple rectangular hip or gable with applied ornament is Folk Victorian, not Queen Anne."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Carson Mansion",
+      "location": "Eureka, California",
+      "year": 1886,
+      "note": "Samuel and Joseph Cather Newsom, 1884-86, for the lumber baron William Carson. Redwood, and the most elaborate surviving American Queen Anne; correctly read as Queen Anne with Eastlake, Italianate, and Stick elements."
+    },
+    {
+      "name": "Haas-Lilienthal House",
+      "location": "San Francisco, California",
+      "year": 1886,
+      "note": "Peter R. Schmidt. Redwood, on the local narrow deep-lot row-house plan; the best-preserved San Francisco Queen Anne open to the public."
+    },
+    {
+      "name": "William Watts Sherman House",
+      "location": "Newport, Rhode Island",
+      "year": 1876,
+      "note": "H. H. Richardson, 1874-76, with later interiors by Stanford White. The American beginning of the Shaw manner; simultaneously the first American Queen Anne and the prototype of the Shingle Style, which is exactly why the graph needs multiple parents here."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Vincent Scully, The Shingle Style and the Stick Style (1955; rev. ed. 1971)",
+    "Mark Girouard, Sweetness and Light: The Queen Anne Movement 1860-1900 (1977)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "misnamed",
+    "catalog-ornament",
+    "railroad",
+    "dominant-mass",
+    "living-hall",
+    "most-popular"
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "id": "churrigueresque",
+  "name": "Churrigueresque",
+  "aka": [
+    "churrigueresco",
+    "Spanish Late Baroque",
+    "estipite Baroque",
+    "ultrabarroco"
+  ],
+  "rank": "style",
+  "member_of": "spanish-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1690,
+    "floruit_start": 1700,
+    "floruit_end": 1780,
+    "decline_end": 1800,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1915,
+        "end": 1935,
+        "revival_node": "spanish-colonial-revival",
+        "note": "Bertram Goodhue's California Building at the Panama-California Exposition, San Diego, 1915, is the single act that reintroduces the estipite portada to American practice and launches Spanish Colonial Revival nationally."
+      },
+      {
+        "start": 1920,
+        "end": 1940,
+        "revival_node": "mission-revival",
+        "note": "A thinner secondary transmission — the ornamented portada against plain stucco, without the estipite."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Spain",
+      "Mexico",
+      "Spanish Americas"
+    ],
+    "hearth": "Madrid, Salamanca and Andalusia; the fullest development in New Spain",
+    "climate_zones": [
+      "3B",
+      "4B",
+      "3C",
+      "2A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "spanish-plateresque",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "The compositional habit is inherited whole: a bounded panel of extreme ornamental density against a plain wall, composed in stacked registers as a retablo. Churrigueresque is Plateresque's method carried to its limit with a new vocabulary."
+    },
+    {
+      "target": "italian-baroque",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "Borrominian and Berninian devices — the broken and doubled cornice, the concave-convex plan, the solomonic shaft, the theatrical light source — reach Spain through prints and through Naples and Sicily, which were Spanish possessions with continuous exchange of craftsmen."
+    },
+    {
+      "target": "mudejar",
+      "type": "hybridizes_with",
+      "weight": 0.15,
+      "inherits_kit": true,
+      "note": "In New Spain especially, the substrate remains Mudejar: brick and tile construction, artesonado ceilings, and a plasterwork trade whose modelling technique is unbroken from Andalusia."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.15,
+      "inherits_kit": false,
+      "note": "The orders are present and systematically dismantled. The estipite is a column that has stopped being a column; the entablature is broken at every vertical. The classical apparatus is quoted precisely in order to be seen collapsing."
+    }
+  ],
+  "description": {
+    "short": "The last and most extreme phase of Spanish Baroque, in which an ornamental portada built around the estipite pilaster is compressed against a plain wall until the classical orders visibly dissolve.",
+    "long": "Churrigueresque takes its name from the Churriguera family of Salamanca, which is unfair to them: Jose Benito de Churriguera's actual work is comparatively restrained, and the extreme phase belongs to Pedro de Ribera in Madrid, Narciso Tome at Toledo, the Arevalo workshop in Granada, and above all to Jeronimo de Balbas and Lorenzo Rodriguez in Mexico City. What the name reliably identifies is a specific device and a specific attitude. The device is the estipite: a pilaster whose shaft is not a shaft at all but a stack — an inverted truncated pyramid, then a cube, then a baluster, then a capital — so that the member gets narrower as it goes down and appears to be balancing rather than supporting. Once the estipite appears, it becomes the module of the whole composition; everything is set out from its width and from the count of blocks in its stack.\n\nThe attitude is harder to state and more important. Churrigueresque is not simply Baroque exuberance. It is a deliberate demonstration that the classical apparatus, having been received into Spain a century and a half late and never really believed in, can be taken apart in public. Cornices are broken, doubled, returned, and broken again at every vertical member. Entablatures never run. Niches are set into other niches. The ornament is not applied to a frame; it consumes the frame, and the moment at which a viewer stops being able to say where the architecture ends and the sculpture begins is the intended effect. Behind this sits the Spanish retablo tradition and, behind that, the Counter-Reformation conviction that a church interior should overwhelm rather than persuade.\n\nIn New Spain the style goes further than in Spain, for reasons that are economic and technical. Mexican silver paid for it; a large, skilled indigenous and mestizo carving workforce executed it, working in soft volcanic tezontle, in chiluca limestone, and in moulded and gilded plaster and wood; and the seismic realities of the Valley of Mexico encouraged a light, low-rise, heavily buttressed church with all its budget spent on two flat surfaces — the west front and the retablo behind the altar. The result — the Sagrario Metropolitano, Santa Prisca at Taxco, the Ocotlan sanctuary — is the most concentrated ornamental architecture produced anywhere in the eighteenth century, and it is Mexican work, not a provincial copy of a Spanish original.\n\nWhat ends it is an administrative decision. The Real Academia de Bellas Artes de San Fernando, founded in 1752, campaigned against the style as barbarous, and from 1777 a royal order required Academy approval for church designs in Spain and its empire. Neoclassicism arrived by decree. Standing in front of a Churrigueresque portada today, the thing that surprises is how small the ornamented area actually is: a strip perhaps eight metres wide on a facade of forty, and the rest bare tezontle or bare stone. The density is entirely a function of the emptiness around it, and photographs, which crop to the portada, systematically misrepresent the buildings."
+  },
+  "defining_characteristics": [
+    "The estipite pilaster — inverted-obelisk shaft assembled from a truncated pyramid, cube, baluster and capital — as the governing member and module",
+    "Ornamental portada composed as a compressed retablo in stacked registers, bounded and framed against an otherwise plain wall",
+    "Cornices and entablatures broken, doubled and returned at every vertical; no straight uninterrupted horizontal crosses the composition",
+    "Extreme relief depth and undercutting, so that the composition reads as shadow at distance and as programme close up",
+    "Ornament concentrated at the west front, the transept portal, the sacristy and the retablo; nave and flank walls left plain",
+    "Sculpture, architecture and framing continuous — no legible boundary between the figures and the members that carry them",
+    "In New Spain, plain tezontle or ashlar field walls setting off dressed chiluca or moulded plaster ornament"
+  ],
+  "diagnostic_tells": [
+    "A pilaster that is narrower at the bottom than at the top and is visibly a stack of dissimilar blocks",
+    "A cornice that returns on itself three or four times across a single portada",
+    "Deep red-brown volcanic stone field with pale limestone ornament, in Mexican examples",
+    "Niche-pilasters — a niche with a figure cut into the body of the pilaster itself",
+    "A facade in which the ornamented strip occupies less than a quarter of the wall area"
+  ],
+  "distinguished_from": [
+    {
+      "node": "spanish-plateresque",
+      "difference": "Plateresque keeps crisp frames, legible registers and recognisable classical members. Churrigueresque dissolves all three, and is defined by a member — the estipite — that Plateresque never uses."
+    },
+    {
+      "node": "italian-baroque",
+      "difference": "Italian Baroque manipulates whole building masses, plans and vaults in curves and controls light spatially. Churrigueresque leaves the mass and plan almost untouched and does everything on two flat surfaces."
+    },
+    {
+      "node": "mexican-colonial",
+      "difference": "Churrigueresque is one ornamental phase within Mexican colonial building, roughly 1730-1790. Mexican Colonial as a node covers the plans, walls, patios, atrios and construction culture across three centuries, most of which is plain."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The estipite. Once present, its width sets the bay of the portada and the count of blocks in its shaft sets the register heights. There is no classical module: the entablature that would regulate the composition has been deliberately broken, so the only continuous dimension in the design is the estipite itself. The plain wall around the portada is dimensioned by structure and by seismic buttressing, not by composition.",
+    "typical_ratios": [
+      "Portada width 15-30 percent of facade width; height two to four registers",
+      "Estipite slenderness roughly 1:8 to 1:11 overall, with the pyramidal base block 0.25-0.35 of shaft height",
+      "Relief depth 100-250 mm; niche recesses 300-600 mm",
+      "Ornamented area under 25 percent of the elevation"
+    ],
+    "bay_rhythm": "Three to five vertical divisions within the portada set by the estipites, with the central bay widest and holding the door and the principal niche. The rhythm exists only inside the frame; outside it there is none.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The convento, colegio and seminario are enclosed arcaded courts; the ornament appears at the church front and the portería."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three-sided courts in smaller foundations and in the sacristy ranges."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "possible",
+      "note": "The larger palace commissions reach a two-wing plan around a principal patio."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "Urban palaces in Madrid and Mexico City sit in continuous blocks with the whole budget at the portada."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "statement": "The estipite is definitional. A facade of this ornamental density using a normal column or a solomonic (barley-sugar) shaft is Salomonico Baroque, an earlier and different phase, not Churrigueresque.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "The ornamented portada must be a bounded field against plain wall occupying no more than about a quarter of the elevation. Extending the ornament across the whole facade destroys the contrast the style is built on.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "No straight uninterrupted entablature or cornice may cross the portada. Every horizontal is broken and returned at each vertical member.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The portada is applied dressed stone or moulded plaster on brick, carried on the wall behind, rarely more than 600 mm deep. In seismic regions the field wall must be buttressed and the church kept low; ornament is not permitted to drive the structure.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Ornament belongs to the west front, the transept portal, the sacristy and the retablo. Nave walls, flanks and cloister ranges stay plain; a uniformly ornamented building is a revival misreading.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hospicio de San Fernando, portada (now Museo de Historia de Madrid)",
+      "location": "Madrid, Spain",
+      "year": 1726,
+      "note": "1722-1726, Pedro de Ribera; the Madrid strain, ornament exploding out of an otherwise plain brick institutional block."
+    },
+    {
+      "name": "El Transparente, Toledo Cathedral",
+      "location": "Toledo, Spain",
+      "year": 1732,
+      "note": "1729-1732, Narciso Tome; sculpture, architecture and a cut roof-light fused into one object."
+    },
+    {
+      "name": "Sacristy of the Cartuja",
+      "location": "Granada, Spain",
+      "year": 1747,
+      "note": "1732-1747, Luis de Arevalo and Luis Cabello; the most extreme surviving interior of the style anywhere."
+    },
+    {
+      "name": "Sagrario Metropolitano",
+      "location": "Mexico City, Mexico",
+      "year": 1768,
+      "note": "1749-1768, Lorenzo Rodriguez; the canonical estipite portada, chiluca limestone against tezontle, and the direct source for Goodhue in 1915."
+    }
+  ],
+  "sources": [
+    "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800",
+    "Bonet Correa, Andalucia barroca",
+    "Toussaint, Arte colonial en Mexico",
+    "Bevan, History of Spanish Architecture"
+  ],
+  "confidence": "high",
+  "tags": [
+    "baroque",
+    "estipite",
+    "ornament",
+    "retablo",
+    "new-spain"
+  ]
+}

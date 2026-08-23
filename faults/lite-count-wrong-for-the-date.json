@@ -1,0 +1,171 @@
+{
+  "id": "lite-count-wrong-for-the-date",
+  "name": "A Light Count The Glasshouse Could Not Have Supplied",
+  "aka": [
+    "12-over-12 on a 1900 house",
+    "1-over-1 on a Georgian"
+  ],
+  "slots": [
+    "window_lite_pattern"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "anachronism",
+  "symptom": "The number of lights per sash does not match the size of glass the claimed period could make. Either the sash is over-divided — a 12/12 grid on a house whose other details are 1890 — or under-divided, most often a single light per sash on an elevation whose proportions, entry and cornice are eighteenth century. The single-light case is the more damaging: it turns a Georgian or Federal front into a rental property in one move.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Light count on a modern order form is a style name — 'colonial', 'prairie', 'farmhouse' — attached to a grid pattern, not a consequence of a pane size. The historic count was the opposite: glass was sold in fixed sizes by the glasshouse, the sash was laid out to consume whole panes economically, and the count fell out of the arithmetic. When the pane got bigger the count fell, which is why the count dates the building. Removing the grid entirely has a second driver: a builder replacing windows on an older house buys the cheapest unit, and the cheapest unit has no grid.",
+    "cost_saved": "Grid options price per opening: deleting the grid saves 40 to 120 USD a window; adding four extra bars costs about the same. The fault runs in both directions and the economy only explains one of them."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_lite_pattern.count",
+      "statement": "lights_across = ceil((opening_width - 5.5 + 0.875) / (light_module + 0.875)); at a 36 in opening on a 9 in light this returns 4 across, giving a 12-light sash at three courses high. The count is derived from the pane the glasshouse sold, not chosen."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / window_lite_pattern / 1-over-1",
+      "statement": "Post-1870 glass. The single fastest way to make a Georgian facade read as a rental."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / window_lite_pattern / 6-over-1",
+      "statement": "Late Victorian and Colonial Revival."
+    }
+  ],
+  "correct_practice": "Fix the date first, then read the count off the glass size. Before about 1750, crown glass in small panes: 12/12, 16/12 and 9/9 on a 36 in opening, individual lights around 7 x 9 to 8 x 10 in. 1750 to 1800: 12/12 and 9/9, lights toward 8 x 10 and 10 x 12. Federal, 1790 to 1830: cylinder glass gives larger panes, so 6/6 with lights around 10 x 14 to 12 x 16. Greek Revival: 6/6 with larger glass still. After about 1850, plate and larger cylinder: 2/2 and then 4/4. After about 1870, 1/1 is the honest vernacular answer and appears on farmhouses that would have had 6/6 in 1845. From 1880, the Queen Anne inversion: one large light bordered by small coloured margin lights. From 1900, the Colonial Revival's own 6/1 and 8/1. Match the count and the individual light size together — a 12/12 sash whose individual lights are 12 x 16 in is not a Georgian window, it is a modern window with too many bars.",
+  "fixes": {
+    "right": "Set the count from the date and check the resulting individual light dimension against period glass sizes; the light should be between 7 x 9 and 12 x 16 in depending on date, and never larger in an eighteenth-century sash.",
+    "cheap": "Where a grid must be deleted for budget, delete it from the lower sash only and keep it in the upper. This is not a compromise but a documented arrangement — the fixed-upper-sash Georgian of 1700 to 1750, the Craftsman 4/1, the Colonial Revival 6/1 — and it halves the grid cost while keeping the diagnostic in the position where it is read.",
+    "dishonest": "Adding bars until the sash looks 'more colonial'. Past the count the glass size supports, the individual lights become wider than they are tall, which no period sash ever shows, and the window starts to read as a screen."
+  },
+  "detection": "Measure one individual light in a photograph, height and width, using the known sash width as a scale. Lights larger than about 12 x 16 in with more than six per sash is the over-divided case; lights smaller than 7 x 9 in almost never occurred. Then compare against every other date evidence on the elevation: cornice depth, entry type, storey graduation, cladding. A 12/12 sash beside a 1900 porch is the fault. A 1/1 sash under an eighteenth-century modillion cornice is the fault in the other direction. Individual lights that are wider than tall are always wrong.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "The type explicitly runs 2/2 sash after about 1870 where the same house form of 1845 would have 6/6, because cheap large glass arrived and the farmer bought it. Mixed counts across a farmhouse are the record of its additions.",
+      "bounds": "The counts must be consistent by phase — the 1845 block keeps 6/6, the 1878 wing has 2/2 — and the phases must be legible in the massing. A random mix within one wall is not this.",
+      "bounds_test": {
+        "expression": "distinct_lite_patterns_within_one_wall_plane",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The counts must be consistent BY PHASE: the 1845 block keeps 6/6 and the 1878 wing has 2/2, and the phases must be legible in the massing. Two counts inside one unbroken wall plane is not a record of additions, it is a purchasing accident."
+      },
+      "applies_when": {
+        "date_range": [
+          1840,
+          1910
+        ],
+        "note": "The licence is the record of a building that grew. It depends on there being phases, not on the style label."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "The Shaw margin light — a single large pane bordered by small coloured panes — deliberately breaks every rule of equal division, and it is the style's own transmitted device.",
+      "bounds": "Margin lights around a large centre light, normally in the upper sash only and normally at the principal rooms and the stair. The pattern must be a border, not a grid.",
+      "bounds_test": {
+        "expression": "margin_light_width_in / centre_light_width_in",
+        "threshold": 0.3,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The pattern must be a BORDER and not a grid: small coloured lights framing one large clear centre. Where the border lights approach a third of the centre light the arrangement has become a grid and the exception lapses."
+      }
+    },
+    {
+      "style": "regency",
+      "why": "Margin lights, 3-over-6 and other unequal arrangements with very thin bars are standard Regency glazing.",
+      "bounds": "Thin bars, floor-length principal-storey windows, balcony. The unequal pattern is licensed by the bar and the section, not by taste.",
+      "bounds_test": {
+        "expression": "glazing_bar_width_in",
+        "threshold": 0.71,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The unequal pattern is licensed by the bar and the section, not by taste. 12 to 18 mm; a heavy bar in a margin-light arrangement is a revival composite."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "muntin-wider-than-its-date",
+      "difference": "Count versus section. The section is the more reliable evidence: light counts were revived in the twentieth century and muntin sections mostly were not."
+    },
+    {
+      "fault": "equal-lite-grid-where-the-period-graduated",
+      "difference": "That fault is about the arrangement being uniform when the period made it unequal, at any count."
+    }
+  ],
+  "sources": [
+    "Period glasshouse price lists, crown and cylinder pane sizes",
+    "NPS Preservation Brief 9",
+    "proportions/modules/sash-light.json",
+    "styles/american-farmhouse-vernacular.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "lites",
+    "date",
+    "glass-size"
+  ],
+  "test": {
+    "expression": "individual_light_width_in",
+    "threshold": 6.0,
+    "direction": "between",
+    "upper": 12.0,
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The pane the glasshouse sold, which is what the count is derived from. Outside 6 to 12 in the sash is either over-divided for its glass or under-divided. Date bands: before 1750, 7 x 9 to 8 x 10 in; 1750-1800, 8 x 10 to 10 x 12; Federal 1790-1830, 10 x 14 to 12 x 16. Measure one light, using the known sash or door width as scale."
+  },
+  "secondary_tests": [
+    {
+      "expression": "individual_light_height_in / individual_light_width_in",
+      "threshold": 1.05,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Lights wider than tall are always wrong; no period sash produced them. This is the fastest single check that a grid has been over-divided, because adding bars past the count the glass supports is what flattens the light."
+    },
+    {
+      "expression": "individual_light_area_sqin",
+      "threshold": 63,
+      "direction": "between",
+      "upper": 192,
+      "units": "sqft",
+      "measurable_from": "photograph",
+      "note": "The same bound as area, from 7 x 9 = 63 sq in to 12 x 16 = 192 sq in. Units are recorded as sqft because the schema has no square-inch token; divide by 144 for the true value. A 12/12 sash whose lights are 12 x 16 is not a Georgian window, it is a modern window with too many bars."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit names 1/1 sash as the single fastest way to make a Georgian facade read as a rental."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "The style's constraint fixes 6/6 or 6/9 with glass no smaller than 10 x 14 in, so the count and the pane size are specified together."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "minor",
+      "why": "The type genuinely carries mixed counts as the record of its phases, and 2/2 after about 1870 is correct where 6/6 was correct in 1845."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "not-applicable",
+      "why": "The idiom makes no date claim through its glazing."
+    }
+  ],
+  "co_occurs_with": [
+    "muntin-wider-than-its-date",
+    "equal-lite-grid-where-the-period-graduated"
+  ]
+}

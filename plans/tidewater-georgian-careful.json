@@ -1,0 +1,862 @@
+{
+  "id": "tidewater-georgian-careful",
+  "name": "Tidewater Georgian, five bays, carefully planned",
+  "style": "tidewater-georgian",
+  "massing": "four-over-four",
+  "groupings": [
+    "centre-passage-core",
+    "georgian-service-core",
+    "entry-sequence",
+    "public-enfilade"
+  ],
+  "context": {
+    "climate_zone": "3A",
+    "lot_width_ft": 140,
+    "entrance_faces": "S",
+    "jurisdiction": "IRC model text, advisory only",
+    "date_of_representation": 1765,
+    "budget_tier": "custom"
+  },
+  "note": "The same corpus applied deliberately, to see whether the validator stays quiet on a plan that respects it. Ceilings are Tidewater height; the passage runs through; service is a dependency.",
+  "levels": [
+    {
+      "id": "ground",
+      "index": 0,
+      "floor_to_ceiling_ft": 11,
+      "rooms": [
+        {
+          "id": "porch",
+          "type": "entry-porch",
+          "name": "Entrance Portico",
+          "width_ft": 6,
+          "length_ft": 12,
+          "exterior_walls": [
+            "S",
+            "E",
+            "W"
+          ],
+          "doors": [
+            {
+              "to": "passage",
+              "width_ft": 3.5
+            },
+            {
+              "to": "exterior"
+            }
+          ]
+        },
+        {
+          "id": "passage",
+          "type": "centre-passage",
+          "name": "Centre Passage",
+          "width_ft": 12,
+          "length_ft": 34,
+          "ceiling_ft": 11,
+          "window_head_ft": 9.5,
+          "exterior_walls": [
+            "S",
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 1,
+              "operable": true
+            },
+            {
+              "wall": "N",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 1,
+              "operable": true
+            }
+          ],
+          "doors": [
+            {
+              "to": "porch",
+              "width_ft": 3.5
+            },
+            {
+              "to": "exterior",
+              "width_ft": 3.5
+            },
+            {
+              "to": "drawing",
+              "width_ft": 3.5
+            },
+            {
+              "to": "dining",
+              "width_ft": 3.5
+            },
+            {
+              "to": "library",
+              "width_ft": 3
+            },
+            {
+              "to": "stair",
+              "width_ft": 6,
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "id": "stair",
+          "type": "stair-hall",
+          "name": "Stair Hall",
+          "width_ft": 9,
+          "length_ft": 14,
+          "ceiling_ft": 11,
+          "window_head_ft": 9.5,
+          "exterior_walls": [
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 4,
+              "height_ft": 9,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "passage",
+              "width_ft": 6,
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "id": "drawing",
+          "type": "drawing-room",
+          "name": "Drawing Room",
+          "width_ft": 18,
+          "length_ft": 22,
+          "ceiling_ft": 11,
+          "window_head_ft": 9.5,
+          "exterior_walls": [
+            "S",
+            "W"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 2
+            },
+            {
+              "wall": "W",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 2
+            }
+          ],
+          "doors": [
+            {
+              "to": "passage",
+              "width_ft": 3.5
+            },
+            {
+              "to": "dining",
+              "width_ft": 5,
+              "type": "double"
+            }
+          ]
+        },
+        {
+          "id": "dining",
+          "type": "dining-room",
+          "name": "Dining Room",
+          "width_ft": 16,
+          "length_ft": 20,
+          "ceiling_ft": 11,
+          "window_head_ft": 9.5,
+          "exterior_walls": [
+            "N",
+            "W"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 2
+            },
+            {
+              "wall": "W",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "passage",
+              "width_ft": 3.5
+            },
+            {
+              "to": "drawing",
+              "width_ft": 5,
+              "type": "double"
+            },
+            {
+              "to": "butlers",
+              "width_ft": 2.8
+            }
+          ]
+        },
+        {
+          "id": "library",
+          "type": "library",
+          "name": "Library",
+          "width_ft": 15,
+          "length_ft": 18,
+          "ceiling_ft": 11,
+          "window_head_ft": 9.5,
+          "exterior_walls": [
+            "S",
+            "E"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 2
+            },
+            {
+              "wall": "E",
+              "width_ft": 3.5,
+              "height_ft": 7,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "passage",
+              "width_ft": 3
+            }
+          ]
+        },
+        {
+          "id": "butlers",
+          "type": "butlers-pantry",
+          "name": "Butler's Pantry",
+          "width_ft": 7,
+          "length_ft": 12,
+          "ceiling_ft": 10,
+          "fixtures": [
+            "sink"
+          ],
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 2.5,
+              "height_ft": 5,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "dining",
+              "width_ft": 2.8
+            },
+            {
+              "to": "backhall",
+              "width_ft": 2.8
+            },
+            {
+              "to": "kitchen",
+              "width_ft": 2.8,
+              "note": "offset from the dining door, per the room rule"
+            }
+          ]
+        },
+        {
+          "id": "backhall",
+          "type": "back-hall",
+          "name": "Back Hall (Hyphen)",
+          "width_ft": 7,
+          "length_ft": 16,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "N",
+            "S"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 2.5,
+              "height_ft": 5,
+              "count": 2
+            }
+          ],
+          "doors": [
+            {
+              "to": "butlers",
+              "width_ft": 2.8
+            },
+            {
+              "to": "kitchen",
+              "width_ft": 3
+            },
+            {
+              "to": "powder",
+              "width_ft": 2.5
+            },
+            {
+              "to": "cellarstair",
+              "width_ft": 2.8
+            },
+            {
+              "to": "exterior",
+              "width_ft": 3
+            }
+          ]
+        },
+        {
+          "id": "powder",
+          "type": "powder-room",
+          "name": "Powder Room",
+          "width_ft": 5,
+          "length_ft": 7,
+          "ceiling_ft": 10,
+          "fixtures": [
+            "wc",
+            "lavatory"
+          ],
+          "stacks_over": "cellarstair",
+          "doors": [
+            {
+              "to": "backhall",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "cellarstair",
+          "type": "back-hall",
+          "name": "Cellar Stair",
+          "width_ft": 4,
+          "length_ft": 10,
+          "ceiling_ft": 10,
+          "doors": [
+            {
+              "to": "backhall",
+              "width_ft": 2.8
+            },
+            {
+              "to": "kitchen",
+              "width_ft": 2.8
+            }
+          ]
+        },
+        {
+          "id": "kitchen",
+          "type": "kitchen",
+          "name": "Kitchen (Dependency)",
+          "width_ft": 16,
+          "length_ft": 20,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "N",
+            "S",
+            "W"
+          ],
+          "fixtures": [
+            "sink",
+            "dishwasher"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3,
+              "height_ft": 6,
+              "count": 2
+            },
+            {
+              "wall": "N",
+              "width_ft": 3,
+              "height_ft": 6,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "backhall",
+              "width_ft": 3
+            },
+            {
+              "to": "pantry",
+              "width_ft": 2.8
+            },
+            {
+              "to": "breakfast",
+              "width_ft": 5,
+              "type": "cased-opening"
+            },
+            {
+              "to": "exterior",
+              "width_ft": 3
+            },
+            {
+              "to": "butlers",
+              "width_ft": 2.8
+            },
+            {
+              "to": "cellarstair",
+              "width_ft": 2.8
+            }
+          ]
+        },
+        {
+          "id": "pantry",
+          "type": "pantry",
+          "name": "Pantry",
+          "width_ft": 6,
+          "length_ft": 9,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 2,
+              "height_ft": 4,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "kitchen",
+              "width_ft": 2.8
+            }
+          ]
+        },
+        {
+          "id": "breakfast",
+          "type": "breakfast-room",
+          "name": "Breakfast Room",
+          "width_ft": 12,
+          "length_ft": 14,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "E",
+            "S"
+          ],
+          "windows": [
+            {
+              "wall": "E",
+              "width_ft": 3,
+              "height_ft": 6,
+              "count": 2
+            },
+            {
+              "wall": "S",
+              "width_ft": 3,
+              "height_ft": 6,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "kitchen",
+              "width_ft": 5,
+              "type": "cased-opening"
+            },
+            {
+              "to": "terrace",
+              "width_ft": 3
+            }
+          ]
+        },
+        {
+          "id": "terrace",
+          "type": "terrace",
+          "name": "Terrace",
+          "width_ft": 14,
+          "length_ft": 22,
+          "exterior_walls": [
+            "E",
+            "S",
+            "N"
+          ],
+          "doors": [
+            {
+              "to": "breakfast",
+              "width_ft": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upper",
+      "index": 1,
+      "floor_to_ceiling_ft": 10,
+      "rooms": [
+        {
+          "id": "landing",
+          "type": "landing",
+          "name": "Stair Landing",
+          "width_ft": 9,
+          "length_ft": 12,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 4,
+              "height_ft": 8,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperpassage",
+              "width_ft": 6,
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "id": "upperpassage",
+          "type": "centre-passage",
+          "name": "Upper Passage",
+          "width_ft": 12,
+          "length_ft": 30,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "S"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3.5,
+              "height_ft": 6.5,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "landing",
+              "width_ft": 6,
+              "type": "open"
+            },
+            {
+              "to": "primary",
+              "width_ft": 3
+            },
+            {
+              "to": "chamber2",
+              "width_ft": 3
+            },
+            {
+              "to": "chamber3",
+              "width_ft": 3
+            },
+            {
+              "to": "hallbath",
+              "width_ft": 2.6
+            },
+            {
+              "to": "linen",
+              "width_ft": 2.2
+            }
+          ]
+        },
+        {
+          "id": "primary",
+          "type": "primary-bedroom",
+          "name": "Principal Chamber",
+          "width_ft": 17,
+          "length_ft": 20,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "S",
+            "W"
+          ],
+          "stacks_over": "drawing",
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3.5,
+              "height_ft": 6.5,
+              "count": 2,
+              "egress": true
+            },
+            {
+              "wall": "W",
+              "width_ft": 3.5,
+              "height_ft": 6.5,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperpassage",
+              "width_ft": 3
+            },
+            {
+              "to": "dressing",
+              "width_ft": 2.6
+            },
+            {
+              "to": "primarybath",
+              "width_ft": 2.6
+            }
+          ]
+        },
+        {
+          "id": "dressing",
+          "type": "walk-in-closet",
+          "name": "Dressing Room",
+          "width_ft": 8,
+          "length_ft": 12,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "W"
+          ],
+          "windows": [
+            {
+              "wall": "W",
+              "width_ft": 2.5,
+              "height_ft": 5,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "primary",
+              "width_ft": 2.6
+            },
+            {
+              "to": "primarybath",
+              "width_ft": 2.6
+            }
+          ]
+        },
+        {
+          "id": "primarybath",
+          "type": "primary-bathroom",
+          "name": "Principal Bath",
+          "width_ft": 10,
+          "length_ft": 14,
+          "ceiling_ft": 10,
+          "fixtures": [
+            "wc",
+            "lavatory",
+            "tub",
+            "shower"
+          ],
+          "exterior_walls": [
+            "N"
+          ],
+          "window_head_ft": 8.5,
+          "stacks_over": "butlers",
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 2.5,
+              "height_ft": 5,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "dressing",
+              "width_ft": 2.6
+            },
+            {
+              "to": "primary",
+              "width_ft": 2.6
+            }
+          ]
+        },
+        {
+          "id": "chamber2",
+          "type": "bedroom",
+          "name": "Chamber 2",
+          "width_ft": 14,
+          "length_ft": 16,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "N",
+            "W"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 3.5,
+              "height_ft": 6.5,
+              "count": 2,
+              "egress": true
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperpassage",
+              "width_ft": 3
+            },
+            {
+              "to": "cl2",
+              "width_ft": 2.2
+            }
+          ]
+        },
+        {
+          "id": "cl2",
+          "type": "closet",
+          "name": "Closet",
+          "width_ft": 3,
+          "length_ft": 7,
+          "ceiling_ft": 10,
+          "doors": [
+            {
+              "to": "chamber2",
+              "width_ft": 2.2
+            }
+          ]
+        },
+        {
+          "id": "chamber3",
+          "type": "bedroom",
+          "name": "Chamber 3",
+          "width_ft": 13,
+          "length_ft": 16,
+          "ceiling_ft": 10,
+          "window_head_ft": 8.5,
+          "exterior_walls": [
+            "S",
+            "E"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3.5,
+              "height_ft": 6.5,
+              "count": 2,
+              "egress": true
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperpassage",
+              "width_ft": 3
+            },
+            {
+              "to": "cl3",
+              "width_ft": 2.2
+            }
+          ]
+        },
+        {
+          "id": "cl3",
+          "type": "closet",
+          "name": "Closet",
+          "width_ft": 3,
+          "length_ft": 7,
+          "ceiling_ft": 10,
+          "doors": [
+            {
+              "to": "chamber3",
+              "width_ft": 2.2
+            }
+          ]
+        },
+        {
+          "id": "hallbath",
+          "type": "bathroom",
+          "name": "Chamber Bath",
+          "width_ft": 8,
+          "length_ft": 11,
+          "ceiling_ft": 10,
+          "fixtures": [
+            "wc",
+            "lavatory",
+            "tub"
+          ],
+          "exterior_walls": [
+            "N"
+          ],
+          "window_head_ft": 8.5,
+          "stacks_over": "powder",
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 2.5,
+              "height_ft": 5,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperpassage",
+              "width_ft": 2.6
+            }
+          ]
+        },
+        {
+          "id": "linen",
+          "type": "linen-press",
+          "name": "Linen Press",
+          "width_ft": 3,
+          "length_ft": 5,
+          "ceiling_ft": 10,
+          "doors": [
+            {
+              "to": "upperpassage",
+              "width_ft": 2.2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "stair",
+      "b": "landing",
+      "relation": "below"
+    },
+    {
+      "a": "landing",
+      "b": "stair",
+      "relation": "above"
+    },
+    {
+      "a": "hallbath",
+      "b": "primarybath",
+      "relation": "shared-wall"
+    },
+    {
+      "a": "primarybath",
+      "b": "hallbath",
+      "relation": "shared-wall"
+    }
+  ],
+  "declared": {
+    "roof_form": "side-gable",
+    "primary_cladding": "brick-flemish-bond",
+    "construction_type": "solid-masonry-two-wythe"
+  }
+}

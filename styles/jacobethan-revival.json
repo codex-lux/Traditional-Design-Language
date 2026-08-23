@@ -1,0 +1,215 @@
+{
+  "id": "jacobethan-revival",
+  "name": "Jacobethan Revival",
+  "aka": [
+    "Jacobean Revival",
+    "Elizabethan Revival",
+    "Tudorbethan",
+    "Collegiate Tudor"
+  ],
+  "rank": "variant",
+  "member_of": "tudor-revival",
+  "status": "revival",
+  "period": {
+    "origin": 1890,
+    "floruit_start": 1895,
+    "floruit_end": 1935,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "the Northeast and Great Lakes industrial cities",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "5B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "tudor-revival",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The formal, masonry, symmetrical wing of the same import. Same offices and the same masonry-veneer technology; the difference is that this variant abandons half-timbering and the picturesque."
+    },
+    {
+      "target": "elizabethan",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The prodigy houses - Hardwick, Longleat, Montacute - supply the mullioned and transomed window wall, the E- and H-plan, and the flat-arched entrance."
+    },
+    {
+      "target": "jacobean",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The shaped and curvilinear parapeted gable, strapwork, and the heavy classical porch grafted onto a Gothic body."
+    },
+    {
+      "target": "english-gothic",
+      "type": "references",
+      "weight": 0.5,
+      "note": "Perpendicular tracery, label mouldings and the four-centred arch, which the sixteenth-century originals had themselves inherited."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "The academic apparatus - measured drawing, axial planning, a drafting room that could detail cut stone - that this variant depends on far more than picturesque Tudor Revival does."
+    },
+    {
+      "target": "jacobean",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The formal, symmetrical, masonry wing of the English revival, quoting Elizabethan and Jacobean prodigy houses: parapeted and curvilinear gables, mullioned and transomed window walls, strapwork, and an E- or H-plan.",
+    "long": "Jacobethan Revival is what American architects built when they wanted England without the cottage. The name, coined by John Betjeman for the historical hybrid it imitates, is exactly right: the source is the sixty-year band from about 1560 to 1620 when English building was structurally Gothic and ornamentally Renaissance, and neither system had won. The revival takes that ambiguity as its programme. A Jacobethan Revival building is masonry - limestone, or brick with stone dressings - with a broadly symmetrical E- or H-plan, gables that terminate in shaped curvilinear parapets or in straight parapets with copings, windows composed as continuous walls of glass in stone mullions and transoms, four-centred or flat-arched openings with label mouldings, and ornament in the strapwork register: interlaced flat bands, obelisks, and heraldic panels.\n\nIt arrives in America in the 1890s and takes hold most strongly in two places. The first is the estate market of the industrial Midwest and Northeast, where a generation of manufacturers wanted a house with an English name that did not look like a farmhouse. The second, and more consequential, is the campus. From roughly 1900, American universities adopted the Elizabethan-Jacobean and Perpendicular registers as their default - Princeton, Yale, Chicago, Duke, Washington University, hundreds of high schools - producing what is usually called Collegiate Gothic and which shares almost all of its detail with domestic Jacobethan Revival. The two markets shared masons, stone suppliers, and detail books.\n\nThe claim is scholarship married to institutional weight. Where picturesque Tudor Revival argues for the charm of the vernacular, Jacobethan argues for the authority of the great house - the entrance is on axis, the plan is legible, the ornament is heraldic rather than rustic, and the whole composition presumes a long gravel approach. It was bought by people who wanted to be seen as founders rather than as settlers, which is why it went so easily onto campuses that had themselves been founded by such people.\n\nStanding before one, the surprise is the glass. A prodigy-house window wall is an enormous grid - eight, twelve, twenty lights across, divided by stone mullions two to four inches wide - and it produces a facade that is more transparent than any other historicist style attempts. The stone between the windows is reduced to piers; the gables above rise into shaped parapets against the sky; and on a grey afternoon the whole front reads as a dark lattice. The interiors are correspondingly bright and long, with linenfold panelling, a screens passage where the plan allows one, and plaster ceilings in strapwork patterns. It is a colder and more formal thing than Tudor Revival, and considerably more expensive."
+  },
+  "defining_characteristics": [
+    "Masonry construction - ashlar, or brick with stone dressings - with no half-timbering",
+    "Broadly symmetrical plan, most often E-shaped or H-shaped, with a centred entrance on axis",
+    "Parapeted gables, either straight with copings and finials or shaped in curvilinear Flemish-derived profiles",
+    "Mullioned and transomed windows composed as continuous glazed walls, with stone or cast-stone mullions",
+    "Four-centred (Tudor) arches and flat-headed openings with label mouldings or drip stones over them",
+    "Strapwork, heraldic panels, obelisk finials, and clustered chimney stacks as the ornamental register"
+  ],
+  "diagnostic_tells": [
+    "Parapeted gable - the wall carries up past the roof plane and is capped with coping stones. Tudor Revival gables end at the rake with a barge or a bargeboard.",
+    "Windows are mullioned bands rather than punched openings; the glass area on a principal elevation may exceed the stone.",
+    "No half-timbering anywhere. Its presence moves the building back to picturesque Tudor Revival.",
+    "The plan is symmetrical and the front door is on the centre line, which almost never happens in Tudor Revival.",
+    "Compared with a genuine Elizabethan prodigy house: the revival's mullions are cast stone rather than carved, its glass is plate rather than leaded quarries in wrought iron saddle bars, and it has corridors, which Hardwick does not."
+  ],
+  "distinguished_from": [
+    {
+      "node": "tudor-revival",
+      "difference": "The parent style is picturesque, asymmetrical, gabled with rakes rather than parapets, and depends on applied half-timbering and a massive chimney. Jacobethan Revival is symmetrical, all-masonry, parapeted, and depends on mullioned window walls and strapwork."
+    },
+    {
+      "node": "elizabethan",
+      "difference": "The original is a load-bearing stone building of 2-4 ft walls, with a hall-and-screens plan, no corridors, leaded quarry glazing in iron frames, and a long-gallery circulation. The revival is masonry-veneered or thin-walled ashlar with corridor planning, plate glass in cast-stone mullions, and central heating."
+    },
+    {
+      "node": "chateauesque",
+      "difference": "Chateauesque is French, has enormous steep hipped roofs with through-cornice dormers and turrets, and uses late Gothic crocketed ornament. Jacobethan is English, has parapeted gables and a lower roof largely hidden behind them, and uses flat strapwork."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The mullion grid. Proportion is set by the window bay - a repeating unit of light width plus mullion - which regulates the elevation horizontally, and by the gable parapet profile, which regulates it vertically. There is no classical order except at the entrance porch, where one is deliberately introduced as a quotation.",
+    "typical_ratios": [
+      "Window light 18-24 in. wide, mullions 4-6 in., transoms at 1/2 and 3/4 of opening height",
+      "Glazed area on the principal elevation 35-55 percent - far higher than any other revival in this branch",
+      "Gable parapet rising 12-24 in. above the roof plane, with coping 6-9 in. thick",
+      "Shaped gable profile composed of 2-4 ogee or quadrant curves terminating in a semicircular or triangular cap",
+      "Chimney stacks clustered in groups of 2-4 shafts, each 18-24 in. square, rising 4-8 ft above the ridge"
+    ],
+    "bay_rhythm": "Regular and grid-driven. Window bays repeat at a constant module across each range, and the projecting wings of the E or H repeat the same module, so that the whole elevation reads as one system - the opposite of Tudor Revival's deliberate irregularity.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "h-plan-manor",
+      "affinity": "canonical",
+      "note": "The prodigy-house parti - a centre range with projecting end wings, front and rear."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The E-plan with a recessed entrance court between projecting wings."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "possible",
+      "note": "Late or eclectic examples that drift back toward the parent style."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "possible",
+      "note": "Collegiate and institutional examples with a fully enclosed quadrangle."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "atypical",
+      "note": "A compact double-pile block cannot carry the plan-form that defines the variant."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "All gables on principal elevations must be parapeted: the wall carries a minimum 12 in. past the roof plane and is capped with coping not less than 6 in. thick. Raking eaves and bargeboards are forbidden in this variant."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Applied half-timbering is forbidden. The variant is defined by its absence; a single timbered panel returns the building to tudor-revival."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Principal windows must be mullioned and transomed in stone or cast stone, mullions 4-6 in. wide, lights 18-24 in. wide, with a minimum of three lights per opening on principal rooms. Single punched windows with wood casings void the variant."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Entrance on the centre line of the composition, within an ornamented porch or frontispiece not exceeding 1.5 bay widths, with a four-centred or flat arch under a label moulding."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Chimney stacks clustered in groups of two to four shafts, minimum 18 in. square each, rising not less than 4'0\" above the adjacent ridge. Single plain stacks are permitted only on service ranges."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Salisbury House",
+      "location": "Des Moines, Iowa",
+      "year": 1928,
+      "note": "Built 1923-28 for Carl Weeks, modelled on the King's House at Salisbury, England. Tudor, Gothic and Carolean elements; incorporates salvaged English fabric."
+    },
+    {
+      "name": "Cranbrook House",
+      "location": "Bloomfield Hills, Michigan",
+      "year": 1908,
+      "note": "Albert Kahn for George Booth. English Arts and Crafts inflected, and the beginning of the Cranbrook campus programme in the same register."
+    },
+    {
+      "name": "Stan Hywet Hall",
+      "location": "Akron, Ohio",
+      "year": 1915,
+      "note": "Charles Sumner Schneider. Straddles this variant and picturesque Tudor Revival - its Haddon Hall long gallery and mullioned window walls belong here, its timbered ranges to the parent style."
+    },
+    {
+      "name": "Agecroft Hall",
+      "location": "Richmond, Virginia",
+      "year": 1928,
+      "note": "A genuine late-medieval and Tudor Lancashire house dismantled, shipped and reassembled with new work; the limit case for the variant's ambitions."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)",
+    "Mark Girouard, Robert Smythson and the Elizabethan Country House (1983)",
+    "Ralph Adams Cram, American Church Building of Today (1929), for the shared collegiate detail culture"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "revival",
+    "variant",
+    "masonry",
+    "collegiate",
+    "prodigy-house",
+    "anglophile"
+  ]
+}

@@ -1,0 +1,447 @@
+{
+  "id": "trim-craftsman",
+  "name": "The Craftsman Trim Family",
+  "aka": [
+    "flat stock trim",
+    "bungalow millwork",
+    "butted and square-edged",
+    "the carpenter's trim"
+  ],
+  "kind": "trim-system",
+  "authority": {
+    "source": "Surviving bungalow and Arts and Crafts interiors of 1900-1930, read against the mail-order and regional millwork catalogues of the period - the Universal Design Book series, the Universal Millwork Catalog of 1927, Radford's and the Sears and Aladdin house catalogues - which are the best evidence anywhere for what was actually run and sold",
+    "author": "compiled",
+    "year": null,
+    "strength": "documented",
+    "url": "https://www.mitchellspublications.com/rep/arch/universal/mc1927/",
+    "note": "Documented, and unusually well documented, because this family arrived at the same moment as the national millwork catalogue and the mail-order house. Where Georgian trim has to be recovered from surviving fabric, Craftsman trim can be read off a price list: the profiles are named, the sizes are given in nominal stock, and the same six or eight items appear from Portland to Baltimore. THE ORGANISING FACT, which the pack states plainly and which distinguishes it from every other trim pack here: this system is not derived from the orders. It has no pedestal, no column and no entablature, and its proportions come from the lumber yard and the joiner's bench. The base is a one-by-eight because a one-by-eight is a board; the head casing is a one-by-six because it is the next board up. That is the whole derivation and it should not be dressed up as anything else."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One nominal one-by-four of dressed flat stock - 3 1/2 in wide and 3/4 in thick - which is the casing leg and the unit every other member of the family is sized against",
+    "parts": 14,
+    "default_size_in": 3.5,
+    "note": "FOURTEEN PARTS, AND THE PART IS THE QUARTER INCH - 3.5 / 14 = 0.25 exactly. That is the right unit because it is the unit the mill actually dresses to and the unit the catalogue actually prices in: every member of this family is a whole number of quarter inches, and if a dimension here comes out at 5/16 or 7/16 it has been derived from the wrong system. Note how different this is from the classical packs, where the module is a ceiling height and the part is a nineteenth of it. Here the module is a BOARD. The room does not generate the trim; the lumber yard does, and the room accommodates it. THE STOCK SERIES that the whole family is built from: 1x2 (1 1/2), 1x3 (2 1/2), 1x4 (3 1/2), 1x6 (5 1/2), 1x8 (7 1/4), 1x10 (9 1/4), 1x12 (11 1/4), all at 3/4 in dressed thickness, with 5/4 stock (1 1/16 in dressed) for anything that must be proud. THE RANGE for the casing leg: 3 1/2 in in an ordinary bungalow, 4 1/2 in in a better one or on the entry, 5 1/2 in on a stain-grade opening between principal rooms. Below 3 1/2 in the family stops working, because the head casing has nowhere to overhang to."
+  },
+  "assemblies": {
+    "door_trim_head": {
+      "height_modules": 2.1428571429,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "crf_head_board",
+          "name": "Head casing, flat 1x6",
+          "height_parts": 22.0,
+          "projection_parts": 3.0,
+          "profile": "flat",
+          "note": "5 1/2 in high, 3/4 in thick, square-edged on all four edges. It sits ON TOP of the leg casings rather than being mitred to them - the legs run up, the head sits across, and the joint is a plain butt with the end grain of the head showing at each side. That butt is not a shortcut; it is the whole idea. A mitred Craftsman casing is a contradiction, and it is the commonest single error in reproduction work.",
+          "confidence": "high"
+        },
+        {
+          "id": "crf_head_bed",
+          "name": "Fillet or bed strip under the cap",
+          "height_parts": 2.0,
+          "projection_parts": 4.0,
+          "profile": "fillet",
+          "note": "1/2 in high, 1 in proud. A plain square strip, not a moulding. In cheaper work it is omitted and the cap sits directly on the head board.",
+          "confidence": "medium"
+        },
+        {
+          "id": "crf_head_cap",
+          "name": "Cap board, 1x2 laid flat with a slight bevel on its top edge",
+          "height_parts": 6.0,
+          "projection_parts": 6.0,
+          "profile": "bevel",
+          "note": "1 1/2 in high and 1 1/2 in proud of the head board. The top edge is bevelled or slightly rounded to shed dust, which is the only concession to profile anywhere in the assembly and is a carpenter's reason rather than a designer's. The cap projects past the ENDS of the head board as well as its face, by the same 3/4 in.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "base_craftsman": {
+      "height_modules": 2.4285714286,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "crf_base_shoe",
+          "name": "Shoe mould, square-edged",
+          "height_parts": 2.0,
+          "projection_parts": 2.0,
+          "profile": "fillet",
+          "note": "1/2 by 1/2 in, square in section rather than the quarter round of classical work. Frequently omitted altogether where the floor is level, and its omission is period-correct: a Craftsman base is meant to meet the floor.",
+          "confidence": "medium"
+        },
+        {
+          "id": "crf_base_board",
+          "name": "Base board, flat 1x8",
+          "height_parts": 29.0,
+          "projection_parts": 3.0,
+          "profile": "flat",
+          "note": "7 1/4 in of plain board, 3/4 in thick. In stain-grade work this is vertical-grain fir or quartersawn white oak and the grain is the ornament; in paint-grade it is clear pine. There is no plinth, no sub-base and no applied moulding on its face. On a 9 ft ceiling a 1x10 base (9 1/4 in) is used instead and is entirely correct.",
+          "confidence": "high"
+        },
+        {
+          "id": "crf_base_cap",
+          "name": "Base cap, square strip with a bevelled or bullnosed top",
+          "height_parts": 3.0,
+          "projection_parts": 4.0,
+          "profile": "bevel",
+          "note": "3/4 in high, 1 in proud of the base board. A square cap, bevelled on top. This is the exact same member as the head casing cap, run in the same stock, and the repetition is deliberate: a Craftsman interior uses four or five sections everywhere rather than a different profile for every job.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "plate_rail": {
+      "height_modules": 0.8571428571,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "crf_pr_frieze_rail",
+          "name": "Frieze rail under the shelf",
+          "height_parts": 4.0,
+          "projection_parts": 3.0,
+          "profile": "flat",
+          "note": "1 in of flat board on the wall face, carrying the shelf above.",
+          "confidence": "medium"
+        },
+        {
+          "id": "crf_pr_bracket_cove",
+          "name": "Cove or bracket under the shelf",
+          "height_parts": 3.0,
+          "projection_parts": 5.0,
+          "profile": "cavetto",
+          "note": "3/4 in. In better work this is replaced by a series of square wooden brackets at 16-24 in on centres, which is the more characteristic detail and which announces that the shelf is CARRIED rather than stuck on. The exposed-joinery habit again: a Craftsman interior would rather show you a bracket than hide one.",
+          "confidence": "medium"
+        },
+        {
+          "id": "crf_pr_shelf",
+          "name": "Shelf board, 1x4 laid flat",
+          "height_parts": 3.0,
+          "projection_parts": 14.0,
+          "profile": "flat",
+          "note": "3/4 in thick and projecting a full 3 1/2 in - the depth of the module, which is what makes it a plate rail rather than a chair rail. This is a working shelf and it was used.",
+          "confidence": "high"
+        },
+        {
+          "id": "crf_pr_stop",
+          "name": "Plate stop at the back of the shelf",
+          "height_parts": 2.0,
+          "projection_parts": 12.0,
+          "profile": "fillet",
+          "note": "A 1/2 in square strip set back about 1/2 in from the shelf's outer edge, so a plate leans against the wall and cannot slide off. The most purely functional member in any trim family in this system, and a fair summary of the whole Craftsman argument about ornament.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The part is the quarter inch, which is the unit the mill dresses to and the catalogue prices in.",
+      "expression": "module.default_size_in / module.parts == 0.25",
+      "tolerance": 0.0001
+    },
+    {
+      "statement": "The module is the dressed width of a nominal one-by-four: three and a half inches.",
+      "expression": "module.default_size_in == 3.5",
+      "tolerance": 0.0001
+    },
+    {
+      "statement": "The head casing is a nominal one-by-six - twenty-two quarter inches, or 5 1/2 in - one size up the stock series from the leg.",
+      "expression": "assemblies.door_trim_head.members.crf_head_board.height_parts == 22",
+      "tolerance": 0.0001
+    },
+    {
+      "statement": "The base board is a nominal one-by-eight - twenty-nine quarter inches, or 7 1/4 in - two sizes up from the leg. Leg, head, base: 1x4, 1x6, 1x8. The whole family is three consecutive boards.",
+      "expression": "assemblies.base_craftsman.members.crf_base_board.height_parts == 29",
+      "tolerance": 0.0001
+    },
+    {
+      "statement": "The head casing is wider than the casing leg it sits on, which is what allows it to overhang and is the family's signature.",
+      "expression": "assemblies.door_trim_head.members.crf_head_board.height_parts * module.default_size_in / module.parts > module.default_size_in",
+      "tolerance": 0.0001
+    },
+    {
+      "statement": "The base cap and the head casing cap are the same member: three quarter inches high in both assemblies. The family reuses sections rather than inventing them.",
+      "expression": "assemblies.base_craftsman.members.crf_base_cap.height_parts == 3",
+      "tolerance": 0.0001
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        3.0,
+        6.5
+      ],
+      "authority_note": "Period millwork catalogues and surviving bungalows: 3 1/2 in legs are the standard, 4 1/4 to 4 1/2 in on entry and mull casings, 5 1/2 in on principal stain-grade openings.",
+      "note": "CASING LEG WIDTH. Three and a half inches of flat 3/4 in board with square edges and no profile of any kind. Note that this is NOT derived from the opening - it does not follow Palladio's one sixth of the void, it does not change when the door gets wider, and it is the same on a 30 in door and a 60 in cased opening. That indifference to the opening is the single clearest structural difference between this family and the classical one, and it is why Craftsman trim looks correct in rooms of wildly different sizes and why classical trim does not."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "height",
+      "expression": "module * 1.571",
+      "units": "in",
+      "range": [
+        4.0,
+        9.0
+      ],
+      "authority_note": "The next board up the stock series: 1x6 dressed to 5 1/2 in against a 1x4 leg dressed to 3 1/2 in.",
+      "note": "HEAD CASING HEIGHT. Five and a half inches. The head is always one size up from the leg, never the same and never two sizes up, and this is a lumber decision rather than a proportional one - the ratio happens to be 1.57, which is close enough to the golden section to have generated a great deal of nonsense in the literature and is in fact just what a 1x6 is next to a 1x4."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "projection",
+      "expression": "part * 3",
+      "units": "in",
+      "range": [
+        0.25,
+        1.75
+      ],
+      "authority_note": "Measured overhangs run 3/8 to 1 in per side; 3/4 in is the commonest and is what most catalogue details show.",
+      "note": "HOW FAR THE HEAD CASING RUNS PAST THE LEGS, EACH SIDE. Three quarters of an inch. THIS IS THE DEFINING DETAIL OF THE FAMILY and the one to get right if nothing else is. The head casing is longer than the opening is wide; it sits on top of the legs; and it projects past them at each end, where the cap projects past it again. The result is a small stepped silhouette at each upper corner that reads instantly from across a room and that a mitred casing cannot produce at any width. Below about 3/8 in the overhang reads as a mistake in cutting; above about 1 in the head starts to look like a shelf, which is a different and later detail. Three quarters is right and it is what to draw."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "module * 2.071",
+      "units": "in",
+      "range": [
+        5.0,
+        12.0
+      ],
+      "authority_note": "1x8 dressed to 7 1/4 in is the bungalow standard; 1x10 at 9 1/4 in on 9 ft ceilings and in better houses; 1x6 at 5 1/2 in in secondary rooms and in the smallest bungalows.",
+      "note": "BASE HEIGHT. Seven and a quarter inches - a plain board and nothing else. Compare the classical families in the same room: Georgian 9 in in three members, Federal 6 1/8 in in three, Greek Revival 10 1/4 in in two. The Craftsman base is closest to the Greek Revival one in both height and plainness, which is not a coincidence and is worth knowing: the two families are the only ones in this system that will sit happily in a low room, and they will sit happily beside each other, which is why so many 1910 bungalows in older neighbourhoods read as continuous with the Greek Revival houses around them."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "projection",
+      "expression": "part * 3",
+      "units": "in",
+      "range": [
+        0.5,
+        1.25
+      ],
+      "note": "BASE THICKNESS. Three quarters of an inch, dressed 4/4. It must be thicker than nothing and thinner than the casing is not a rule here, because in this family the base DIES INTO the casing leg with a plain butt joint and the two are usually the same 3/4 in stock. That equality is why the Craftsman family does not need a plinth block: the base runs into the casing, the joint is square, and there is nothing to mitre. Where the base is a 1x8 and the casing a 1x4 of the same thickness, the detail is exact and needs no thought at all - which is precisely the kind of economy the whole system is after."
+    },
+    {
+      "target_slot": "trim_family",
+      "dimension": "height",
+      "expression": "ceiling_height * 0.8",
+      "units": "in",
+      "range": [
+        66.0,
+        120.0
+      ],
+      "authority_note": "Measured picture rails in bungalow interiors sit at or just above the head casing of the doors, which on an 8 ft 6 in ceiling with a 6 ft 8 in door and a 7 1/2 in head assembly lands at about 80-84 in.",
+      "note": "THE PICTURE RAIL, AND THE GOVERNING DATUM OF THE WHOLE INTERIOR. Eighty-two inches on an 8 ft 6 in ceiling. This is the rule that makes a Craftsman room a system rather than a collection of boards, and it is not optional. The picture rail runs unbroken around the room, at the same height as the top of the door head assembly, and every other horizontal in the room is set from it: the tops of the built-in bookcases, the head of the fireplace surround, the top of the panelled wainscot where there is one, the transom bar over the wide openings between rooms. Above it the wall becomes a frieze, usually papered, stencilled or simply painted a different colour, and the ceiling colour is often brought down onto it. THE FAILURE MODE: a picture rail installed at a height that does not match the door heads. The datum is the door head, not a fraction of the ceiling, and where the two disagree the DOOR WINS - which is the same logic as the sill winning over the chair rail in the classical family, and for the same reason: the human dimension is fixed and the room is not."
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "height",
+      "expression": "ceiling_height * 0.36",
+      "units": "in",
+      "range": [
+        26.0,
+        56.0
+      ],
+      "note": "WAINSCOT CAP HEIGHT where there is a low wainscot. Thirty-seven inches on an 8 ft 6 in ceiling. The Craftsman wainscot is boards and battens or plain vertical boards with a flat cap - not panels, not raised fields, and not a rail-and-stile frame, all three of which belong to the classical families. Its cap is a flat board projecting about an inch, with the same bevelled top edge as the base cap and the head casing cap. Note that this is a DIFFERENT and LOWER member than the plate rail below, and a room should have one or the other and never both."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height * 0.58",
+      "units": "in",
+      "range": [
+        44.0,
+        88.0
+      ],
+      "judgment": true,
+      "note": "PLATE RAIL HEIGHT. Fifty-nine inches on an 8 ft 6 in ceiling. Marked judgment because the measured range is genuinely wide - 54 to 66 in - and because the height is set by what goes on the shelf and by the height of the sideboard or built-in below it, neither of which the ceiling knows anything about. The plate rail belongs in a dining room and almost nowhere else; putting one in a living room is the commonest anachronism in modern Craftsman work. Where the room has a plate rail, the wall above it is the frieze and the picture rail is usually omitted, because two shelves on one wall is one too many."
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "count",
+      "expression": "max(2, round(span / (module * 4.6)))",
+      "units": "count",
+      "range": [
+        2.0,
+        26.0
+      ],
+      "note": "BATTENS ALONG A WALL, at about 16 in on centres - nine on a twelve-foot wall. The batten spacing normally coincides with the stud spacing beneath, because the battens are nailed to studs and because the boards behind them are nailed at the same lines. That is the exposed-joinery logic applied to a wall: the spacing you see is the spacing that is there. Set out from the centre of the wall or from the centre of the chimney breast and take the difference in the end bays, exactly as with a classical dado."
+    },
+    {
+      "target_slot": "interior_door",
+      "dimension": "height",
+      "expression": "80.0",
+      "units": "in",
+      "range": [
+        78.0,
+        96.0
+      ],
+      "authority_note": "The 6 ft 8 in door is the stock height in every millwork catalogue of the period and is what the overwhelming majority of surviving bungalows have.",
+      "note": "SIX FEET EIGHT, AND IT IS A CONSTANT RATHER THAN A RATIO. This is the deepest difference between this family and the classical one. In a classical room the door height follows the ceiling, because the door is a member of an order; in a Craftsman room the door is a stock manufactured object of fixed height and the ROOM is arranged around it - the picture rail comes down to meet the head casing, and the frieze above absorbs whatever ceiling height is left over. That is why a Craftsman interior tolerates an 8 ft ceiling and an 9 ft 6 in ceiling equally well and why a classical interior does not. It is also why raising a bungalow's ceiling without raising its doors produces a room that looks wrong in a way the owner cannot locate: the datum has floated free of the thing that generated it."
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "height",
+      "expression": "module * 2.143",
+      "units": "in",
+      "range": [
+        5.0,
+        14.0
+      ],
+      "note": "TOTAL HEIGHT OF THE HEAD ASSEMBLY - head board, bed strip and cap together. Seven and a half inches, sitting on top of an 80 in door, so the top of the assembly is at 87 1/2 in. That number is the room's datum and everything else is set from it. Where the ceiling is 8 ft, the frieze above the datum is only 8 1/2 in and the room reads as one zone; where it is 9 ft 6 in, the frieze is 26 1/2 in and reads as a proper band. Both are period; the second is better."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "0.0",
+      "units": "in",
+      "range": [
+        0.0,
+        6.0
+      ],
+      "judgment": true,
+      "note": "NO CROWN. Zero is the correct default and it is not a saving, it is a position: the wall in this family meets the ceiling directly, or meets it through a picture rail set some distance below, and the transition is made by colour rather than by moulding. Marked judgment because there is a real minority practice - a plain square-edged 1x3 or 1x4 laid flat against the ceiling, sometimes with the frieze paper running up to it - which appears in better bungalows and in Prairie School interiors and is perfectly correct. What is never correct is a sprung classical crown, and it is the single most common thing done to bungalow interiors in renovation. If a room needs the wall-ceiling joint articulated, use a flat board, not a cyma."
+    },
+    {
+      "target_slot": "built_ins",
+      "dimension": "width",
+      "expression": "module * 12",
+      "units": "in",
+      "range": [
+        24.0,
+        96.0
+      ],
+      "note": "FORTY-TWO INCHES for a built-in bookcase, a colonnade pedestal, an inglenook seat or a sideboard bay. The built-in is not furniture in this family, it is trim: it is made of the same boards, finished at the same time by the same carpenter, and its top lines up with the wainscot cap or the picture rail. That alignment is what makes a Craftsman room read as one construction, and it is the reason a freestanding bookcase in such a room always looks like a visitor."
+    },
+    {
+      "target_slot": "fireplace_surround",
+      "dimension": "height",
+      "expression": "ceiling_height * 0.5",
+      "units": "in",
+      "range": [
+        38.0,
+        76.0
+      ],
+      "note": "MANTEL SHELF AT FIFTY-ONE INCHES on an 8 ft 6 in ceiling - noticeably higher than the classical mantel at 0.40 of the ceiling, because a Craftsman fireplace is a broad low mass of brick or tile with a deep shelf over it rather than a framed opening with a surround. The shelf should line up with the wainscot cap or the top of the flanking built-ins if there are any, and where it cannot, it should be clearly above them rather than nearly level."
+    },
+    {
+      "target_slot": "stair_type",
+      "dimension": "width",
+      "expression": "module * 1.571",
+      "units": "in",
+      "range": [
+        4.0,
+        9.0
+      ],
+      "note": "NEWEL POST, five and a half inches square - a 6x6 dressed, or four boards mitred round a core, capped with a flat square cap projecting 3/4 in with a bevelled top edge. The same cap detail as the head casing and the base, for the third time. A turned newel in a Craftsman stair is as wrong as a mitred casing and for the same reason: the family's whole vocabulary is the square board and the visible joint."
+    },
+    {
+      "target_slot": "newel_balustrade",
+      "dimension": "width",
+      "expression": "module * 0.429",
+      "units": "in",
+      "range": [
+        1.0,
+        3.0
+      ],
+      "note": "BALUSTERS, one and a half inches square, set at about 3 1/2 in on centres - the module again - which gives a clear space of 2 in and satisfies the modern 4 in sphere rule comfortably. Square section, no taper, no turning. Where the stair has a solid panelled balustrade instead, which is equally period and often better, it is boards and battens to the same spacing as the wainscot."
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "height",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        2.5,
+        7.0
+      ],
+      "note": "APRON DEPTH BELOW THE STOOL - three and a half inches, the same board as the casing leg, running to the outer edges of the casings and cut square at both ends. The stool projects past the face of the casing by 3/4 in, the same overhang as everywhere else in the family. In much Craftsman work the apron is omitted entirely and the stool returns to the wall, which is cleaner and equally correct. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "trim_family",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        2.0,
+        5.0
+      ],
+      "note": "MEMBERS IN THE HEAD ASSEMBLY: head board, bed strip, cap. Three, and in the plainest work two. Compare the classical cornices - Georgian 5, Federal 6, Greek Revival 4 - and note that the comparison is not really about count. A Craftsman assembly of three FLAT boards and a classical cornice of five CURVED sections are doing different things: one is stacking material and showing you that it is stacked, the other is modelling a single continuous shadow. Counting members across the two systems is a category error, and the reason to state the number here at all is to fix the shape of the silhouette."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "material-availability",
+      "statement": "This family is nearly all stain-grade flat stock, and flat stock is where cheap material shows. The period specification is vertical-grain Douglas fir or quartersawn white oak, both of which were ordinary commodity lumber in 1915 and are neither ordinary nor cheap now. Finger-jointed stock is fatal here in a way it is not in a classical family: there is no profile to break up the surface, the members are large flat planes, and the joints telegraph through a stain finish immediately and through paint within a season. MDF is worse - it cannot be stained at all, and the whole family's argument is that you can see the wood.",
+      "resolution": "Decide paint or stain FIRST, because the answer changes everything downstream. IF STAIN: there is no substitute and no economy available on the visible members - specify solid vertical-grain fir or quartersawn oak for casings, base, picture rail and built-ins, and take the cost out of the number of rooms that get it rather than out of the material. A bungalow with stained trim in the living and dining rooms and painted trim in the bedrooms is exactly what was built, and it is documented in the catalogues, which priced the two grades separately. IF PAINT: finger-jointed stock is acceptable on the small members and on the base, and should still be refused for the head casings and any wide flat face over about 4 in, because that is where the joints will show. In both cases specify the grain direction on the drawing for the visible members - vertical grain is not the default and will not be supplied unless it is asked for by name.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The eight-foot ceiling collides with this family too, but differently and less badly than with the classical one. At 96 in, an 80 in door with a 7 1/2 in head assembly puts the datum at 87 1/2 in, leaving 8 1/2 in of frieze above it - a band too narrow to read as a frieze and too wide to ignore, and the picture rail ends up looking like a crown that has slipped.",
+      "resolution": "At 8 ft, omit the picture rail and let the head casing be the room's only datum, running the same 7 1/2 in head assembly across the tops of the openings and stopping there. This is documented practice in the smallest bungalows and it is the honest answer. At 8 ft 6 in the frieze is 15 in and the picture rail works. At 9 ft it is 21 in and works well. The threshold is therefore about 8 ft 4 in, and it is worth arguing for 8 ft 6 in specifically on that basis - three inches of stud buys the room its governing datum. Where the ceiling is fixed at 8 ft and a datum is wanted anyway, put the picture rail hard against the ceiling in the later Victorian manner and accept that the room is reading as 1895 rather than 1915.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Every joint in this family is a square butt and every edge is a hard arris, which means there is nothing anywhere to hide a discrepancy. A mitre closes over a wall that is 1/8 in out; a butted head casing on a leg that is 1/16 in proud shows a line for its whole length. A square-edged casing against an out-of-plumb jamb shows a tapering shadow. A flat 7 1/4 in base against a bowed wall shows daylight at the middle. Classical trim was drawn by people who expected bad walls; this trim was drawn by people who expected good carpentry.",
+      "resolution": "Buy the flatness, not the caulk. Specify a level 5 finish with a stated straightedge tolerance, and require the jambs to be set plumb and in plane with the wall face before trim is ordered - which in practice means jamb extensions cut to the measured wall thickness rather than to nominal. Then use the one tolerance device the family does have: the head casing's overhang. Because the head is longer than the opening and sits on top of the legs, its ENDS are free, and small errors in the leg positions disappear into the overhang instead of opening a mitre. That is a large part of why the detail exists, and it is worth understanding before deciding to substitute a mitre for cost reasons. Finally, on stain-grade work, insist on a dry-fit and approval of one opening before the rest are cut, because there is no filler that will match a stained fir joint and every remedy is worse than the fault.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "A 36 in leaf for 32 in clear plus 3 1/2 in casings each side is 43 in of wall before the head assembly's 3/4 in overhangs, which is modest by comparison with the classical family's 50 in - so the conflict is milder here. Where it bites is the built-in: inglenooks, bookcase colonnades and window seats narrow circulation, and a 42 in built-in projecting into a 36 in path is a straightforward violation.",
+      "resolution": "The trim itself is rarely the problem and should not be reduced - a Craftsman casing at 3 1/2 in is already narrow, and taking it to 2 1/2 in destroys the head overhang, which needs the leg width beneath it. Solve the built-ins instead, in plan: keep the 36 in clear path on the side of the room away from the fireplace and the seats, use the colonnade piers as the pinch point and set them at 36 in clear minimum rather than at whatever the plan gave, and note that a bungalow's typical wide cased opening between living and dining rooms is a genuine asset here and should be kept wide. The one trim concession worth making is at the door head: an 84 in door in this family is unremarkable, since the head assembly sits on top of it and the datum simply rises.",
+      "severity": "minor"
+    },
+    {
+      "with": "structural",
+      "statement": "The family's whole claim is exposed joinery - that what you see is how it is made. Applied to a building framed with roof trusses, engineered joists and a service cavity, the claim becomes false at every point: the boxed 'beam' across the living room is a hollow soffit around a duct, the 'post' at the colonnade is drywall over a stud pack, and the exposed rafter tails outside are false tails screwed to a sub-fascia. The trim is telling the truth about a construction that no longer exists.",
+      "resolution": "Choose which lies you are willing to tell and be consistent about it, because the failure is always in the inconsistency rather than in any single element. The defensible position, and the one most good work takes, is that INTERIOR joinery is honest and STRUCTURE is not claimed: the trim, the built-ins, the stair and the doors are genuinely made of the boards they appear to be made of, jointed as they appear to be jointed, and no element pretends to carry load. Boxed beams are then acceptable if they are detailed as boxed beams - visible seams, a real reveal at the wall, no attempt at a mortise - and unacceptable if they are given false pegs and false tenons, which is decoration pretending to be structure and is the exact thing the movement was founded to object to. Outside, false rafter tails are a harder case; the honest alternative is a simple boxed eave, which is period-correct on plenty of bungalows and costs less.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "craftsman",
+    "craftsman-bungalow",
+    "california-bungalow",
+    "american-arts-and-crafts",
+    "arts-and-crafts-american",
+    "arts-and-crafts-british",
+    "british-arts-and-crafts",
+    "prairie-school",
+    "shingle-style",
+    "stick-style",
+    "swiss-chalet",
+    "tudor-revival",
+    "storybook-style",
+    "mission-revival",
+    "pueblo-revival",
+    "minimal-traditional",
+    "mid-century-traditional",
+    "ranch-style",
+    "modern-farmhouse-traditional",
+    "contemporary-traditional",
+    "american-farmhouse-vernacular",
+    "folk-victorian",
+    "shotgun-house",
+    "queen-anne-free-classic"
+  ],
+  "sources": [
+    "Universal Millwork Catalog, 1927 (Dover reprint; mitchellspublications.com/rep/arch/universal/mc1927) - over 500 designs for doors, windows, stairways, cabinets and woodwork, with stock sizes",
+    "Builders Woodwork Universal Design Book No. 25, Noelke-Lyon Mfg Co., archive.org/details/builderswoodworkuniversaldesignbooknumber25",
+    "Radford's Details of Building Construction (1911) and Radford's Architectural Details of the Twenties",
+    "Sears Roebuck Modern Homes and Aladdin Readi-Cut catalogues, 1908-1940, for the trim schedules supplied with kit houses - the best surviving evidence of what an ordinary bungalow interior actually contained",
+    "Gustav Stickley, The Craftsman magazine (1901-1916), for the argument that carpentry rather than the orders should govern",
+    "Brent Hull, Hull Historical Molding Catalog, for the Craftsman profiles as run today",
+    "JLC, 'Installing Craftsman-Style Trim' and 'A Look at Traditional Trim Designs', for casing leg widths of 3 1/2 to 5 1/2 in and the head-casing overhang",
+    "thecraftsmanblog.com, 'All About Picture Rail', for picture rail heights by ceiling height and the alignment with door head casings",
+    "tdl pack trim-classical, against which this pack is the deliberate contrast, and storey-graduation for the ceiling-height bands"
+  ],
+  "confidence": "medium",
+  "notes": "THE LOGIC IS CARPENTRY, NOT THE ORDERS, AND THE PACK SAYS SO PLAINLY. There is no pedestal, no column and no entablature here. The module is a board - a nominal one-by-four, dressed to 3 1/2 in - and the family is built from three consecutive boards out of the same stock series: 1x4 for the casing leg, 1x6 for the head, 1x8 for the base. The part is the quarter inch, because that is what a mill dresses to and what a catalogue prices in. Nothing in the system is derived from the room, and the room does not need to be a particular size for the trim to work, which is exactly why this family survives an 8 ft ceiling and a 9 ft 6 in ceiling equally well while the classical family survives neither below eleven feet.\n\nTHE FOUR THINGS THAT MAKE IT ITSELF. First, FLAT STOCK: every visible member is a plain board with square edges, and the only profiles anywhere are a bevel on a cap and an occasional cove under a shelf. Second, BUTTED NOT MITRED: the legs run up, the head sits across, and the end grain shows. A mitred Craftsman casing is a contradiction and it is the commonest error in reproduction. Third, THE HEAD EXTENDS PAST THE LEGS by about 3/4 in each side, with the cap extending past the head again - a small stepped silhouette at each upper corner that no mitred assembly can produce and that reads from across a room. Fourth, THE PICTURE RAIL IS THE GOVERNING DATUM: it runs unbroken around the room at the height of the door head assembly, and the built-ins, the fireplace shelf, the wainscot cap and the transom bars all come to it. Above it is a frieze; below it is the room. Get that one line right and a Craftsman interior composes itself.\n\nWHAT COULD NOT BE SOURCED. The catalogues give stock sizes and profiles in abundance but almost never give installed HEIGHTS - picture rail height, wainscot cap height and plate rail height are recovered from surviving interiors and from later restoration literature, not from period specification, and the plate rail figure in particular has a genuinely wide measured spread and is marked judgment. The claim that the head-casing overhang is 3/4 in is a modal figure from a range of 3/8 to 1 in. Nothing here is derived from a proportional theory because there was none; anyone who presents Craftsman trim as a secretly classical system with the ornament removed has the history exactly backwards, and the 1.571 ratio between the head casing and the leg is a one-by-six next to a one-by-four and nothing more."
+}

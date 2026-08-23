@@ -1,0 +1,164 @@
+{
+  "id": "cornice-gutter-without-a-liner",
+  "name": "The built-in gutter with nowhere to fail",
+  "aka": [
+    "the Yankee gutter",
+    "the concealed cornice trough",
+    "the rotting corona"
+  ],
+  "slots": [
+    "rainwater",
+    "cornice"
+  ],
+  "severity": "serious",
+  "frequency": "occasional",
+  "category": "assembly",
+  "symptom": "A built-in gutter formed in the cornice itself — the period-correct and visually perfect answer — executed without a proper liner, without an overflow, and without access. It looks flawless for a decade. Then a paint line appears along the frieze, the soffit stains, and the corona is found to be gone. From the street it is invisible until the failure is structural.",
+  "cause": {
+    "driver": "maintenance",
+    "explanation": "The built-in gutter is specified by architects who know it is right and installed by carpenters and roofers whose warranty logic does not accommodate it. It is lined with the cheapest compatible membrane, usually a self-adhered bituminous sheet or a peel-and-stick ice barrier, because that material is already on the site for the eave. Those membranes are not designed for standing water or for the 60-100 degree F thermal cycling of a sun-facing trough, and they have no soldered seams. There is then no overflow, so a blocked outlet raises water above the liner's upstand and into the cornice framing, and no access, so nobody sees it.",
+    "cost_saved": "A soldered 20 oz copper or lead-coated copper liner with expansion joints, a proper 1 in per 10 ft fall, and a scupper overflow costs $60-$130 per lineal foot. A peel-and-stick liner costs $8-$14. On 120 lf of built-in gutter, $6,000-$14,000 — and the failure it produces costs $30,000-$120,000 to repair because it takes the cornice with it."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / rainwater / built-in-cornice-gutter (atypical)",
+      "statement": "A lead- or copper-lined trough in the cornice itself. Period-correct on the grandest houses and the commonest source of catastrophic hidden rot; specify only with a proper liner and an accessible overflow."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a concealed water containment must be designed to fail visibly",
+      "statement": "Every drainage element eventually blocks. The design question is not whether it blocks but where the water goes when it does, and a concealed trough whose overflow path runs into the building's own structure has answered that question badly."
+    }
+  ],
+  "correct_practice": "If a built-in gutter is used, it is a sheet-metal exercise, not a roofing one. Line it in soldered 20 oz copper, lead-coated copper, terne-coated stainless or lead, with the seams soldered rather than lapped, expansion joints at 20-30 ft, and the liner carried up the back a minimum of 4 in above the design water line and out over the fascia to form the drip. Fall the trough 1/16 to 1/8 in per foot to outlets, and — the part that is nearly always omitted — provide a SCUPPER OVERFLOW through the front of the trough, set 1 in above the outlet's invert and 2 in below the top of the back upstand, so that a blocked outlet discharges visibly over the front of the cornice rather than invisibly into the wall. The overflow is the whole safety case and it costs almost nothing. Provide access: a removable soffit panel or a hatch, and put a note in the owner's manual with a two-year inspection interval. Where none of that can be guaranteed, use a hung half-round behind the corona instead; it gives 90 per cent of the appearance with none of the risk.",
+  "fixes": {
+    "right": "Soldered metal liner with expansion joints, a 4 in upstand, a designed scupper overflow, and access for inspection.",
+    "cheap": "Add the overflow, whatever else is done. A 2 x 4 in scupper through the front of the trough with a small projecting lip, set at the right height, converts a hidden catastrophic failure into a visible nuisance — water pouring off the cornice in a storm is ugly and it tells the owner something is wrong. It costs under $200 an outlet and it is the highest-leverage detail in this entire fault. Second cheap move: abandon the built-in gutter and hang a half-round behind the corona, which keeps the silhouette.",
+    "dishonest": "A peel-and-stick membrane liner, or a sprayed elastomeric coating over an old failing metal liner. Both are sold as gutter liners and neither survives standing water and thermal cycling for more than 8-15 years; the coating is worse than the membrane because it bonds to the failing metal and makes the eventual repair a demolition. Also dishonest: gutter guards over a built-in trough, which reduce the frequency of blockage without changing what happens when it blocks, and which remove the visual cue that the trough is full of debris."
+  },
+  "detection": "From the ground, look for the absence of a gutter and the presence of a wide flat-topped cornice — a built-in gutter reads as a cornice with a slightly heavier, flatter top member and no hung gutter anywhere. Then look for the overflow: a small rectangular opening through the cornice face, ideally with a projecting lip, at intervals along the run. If there is no visible overflow, the fault is present regardless of the liner quality, because no liner is a substitute for an overflow. Failure evidence is visible in photographs long before it is visible to an owner: a horizontal paint-failure line along the frieze immediately below the cornice, staining or algae streaking on the frieze under a specific length of eave rather than uniformly, and a slight sag or wave in the cornice's bottom edge when sighted along its length.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "The built-in gutter is genuinely characteristic here — a deep entablature carried round the building is exactly the section that accommodates a trough, and many surviving examples have one.",
+      "bounds": "Authenticity of the type does not relax the liner or the overflow. If anything it raises the stakes, because the entablature is the most expensive fabric on the building.",
+      "bounds_test": {
+        "expression": "overflow_scuppers / gutter_outlets",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Authenticity of the type does not relax the liner or the overflow. If anything it raises the stakes, because the entablature is the most expensive fabric on the building. The test is entirely unchanged."
+      },
+      "applies_when": {
+        "slots": [
+          "entablature",
+          "cornice",
+          "rainwater"
+        ]
+      }
+    },
+    {
+      "style": "greek-revival-southern-plantation",
+      "why": "As above, at larger scale.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "overflow_scuppers / gutter_outlets",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "As above, at larger scale and with a larger repair bill."
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "Urban blocks with parapets and internal drainage use concealed gutters as a matter of course.",
+      "bounds": "Internal drainage in an urban party-wall building must have an overflow to the street face by code as well as by sense; the residential version usually has neither.",
+      "bounds_test": {
+        "expression": "overflow_scuppers / gutter_outlets",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Internal drainage in an urban party-wall building must have an overflow to the street face by code as well as by sense; the residential version usually has neither."
+      },
+      "applies_when": {
+        "slots": [
+          "parapet",
+          "rainwater"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "k-style-gutter-on-a-classical-cornice",
+      "difference": "Opposite failures of the same slot. The K-style gutter is visually wrong and technically robust; the built-in gutter is visually perfect and technically fragile. This is a genuine trade-off, and it is why the hung half-round behind the corona exists as a third answer."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, rainwater / built-in-cornice-gutter",
+    "NPS Preservation Brief 4: Roofing for Historic Buildings",
+    "NPS Preservation Brief 47: Maintaining the Exterior of Small and Medium Size Historic Buildings",
+    "SMACNA Architectural Sheet Metal Manual, built-in (pole) gutter details and expansion joint spacing"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "rainwater",
+    "cornice",
+    "assembly",
+    "maintenance"
+  ],
+  "test": {
+    "expression": "overflow_scuppers / gutter_outlets",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "The whole safety case in one ratio, and the highest-leverage detail in the slot. A scupper through the FRONT of the trough, set 1 in above the outlet invert and 2 in below the top of the back upstand, converts a hidden catastrophic failure into a visible nuisance: water pouring off the cornice in a storm is ugly and it tells the owner something is wrong. Visible from the ground as a small rectangular opening through the cornice face, ideally with a projecting lip. No visible overflow means the fault is present regardless of liner quality."
+  },
+  "secondary_tests": [
+    {
+      "expression": "liner_upstand_above_design_water_line_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "section",
+      "threshold": 4,
+      "note": "The liner is carried up the back a minimum of 4 in above the design water line and out over the fascia to form the drip, in soldered 20 oz copper, lead-coated copper, terne-coated stainless or lead, with expansion joints at 20-30 ft. A lapped peel-and-stick membrane fails this on seam type before it fails on height."
+    },
+    {
+      "expression": "trough_fall_in_per_ft",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "section",
+      "threshold": 0.0625,
+      "note": "1/16 to 1/8 in per foot to outlets. A dead-level trough holds standing water, which is the specific condition self-adhered bituminous membranes are not designed for."
+    },
+    {
+      "expression": "frieze_paint_failure_line_present",
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 0,
+      "note": "The failure signature, visible in photographs long before it is visible to an owner: a horizontal paint-failure line along the frieze immediately below the cornice, algae or staining under a specific LENGTH of eave rather than uniformly, and a slight sag or wave in the cornice's bottom edge when sighted along it."
+    }
+  ],
+  "severity_trajectory": "Minor on day one, serious by year eight, fatal by year twelve. This is the archetype of the maintenance-driven family: the detail is invisible and flawless at handover, the membrane liner fails silently under standing water and 60-100 degF thermal cycling somewhere between year eight and year fifteen, and by the time a paint line appears on the frieze the corona is already gone. The severity curve is what justifies spending $200 on a scupper against a $30,000-$120,000 cornice rebuild.",
+  "severity_in_use": "fatal",
+  "alternative_to": [
+    "k-style-gutter-on-a-classical-cornice"
+  ],
+  "co_occurs_with": [
+    "cornice-that-is-a-fascia"
+  ],
+  "deprecated_inheritance": {
+    "statement": "The built-in cornice gutter is genuinely period-correct on the grandest 18th and 19th century houses, and on Greek Revival work the deep entablature is exactly the section that accommodates one.",
+    "why_not_to_inherit": "The period version was lined in soldered lead or copper by a trade that maintained it, in a building with an owner who expected to. Inherited into a modern house it arrives with a peel-and-stick liner installed by a roofer, no overflow, no access, no inspection interval, and a warranty structure that does not contemplate it. The authentic detail and the modern delivery system are incompatible, and the incompatibility is invisible for a decade.",
+    "modern_substitute": "A half-round hung below and behind the corona on concealed brackets. It gives about 90 per cent of the appearance — the corona's shadow line stays unbroken, which is what the built-in gutter was really buying — with none of the concealed-water risk. Where the built-in gutter is genuinely required, the non-negotiable modern additions are a soldered metal liner, a designed scupper overflow, and an access hatch with a two-year inspection noted in the owner's manual."
+  }
+}

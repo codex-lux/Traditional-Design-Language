@@ -1,0 +1,198 @@
+{
+  "id": "stick-style",
+  "name": "Stick Style",
+  "aka": [
+    "Stick-Eastlake (loosely)",
+    "American Stick",
+    "Carpenter Brackets"
+  ],
+  "rank": "style",
+  "member_of": "victorian",
+  "status": "historical",
+  "period": {
+    "origin": 1860,
+    "floruit_start": 1865,
+    "floruit_end": 1885,
+    "decline_end": 1895,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Coastal New England",
+      "Mid-Atlantic",
+      "Midwest",
+      "Northern California",
+      "Ontario"
+    ],
+    "hearth": "Newport, Rhode Island",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "gothic-revival-american",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Direct. Downing's board-and-batten argument, that a wooden house should announce that it is wooden, is the exact premise the Stick Style takes to its conclusion; the vertical batten becomes an expressed structural grid."
+    },
+    {
+      "target": "swiss-chalet",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "Real transmission by print: Downing and Calvert Vaux published Swiss chalet designs, and the deep bracketed eave, exposed rafter, and applied gable truss come from that source."
+    },
+    {
+      "target": "english-medieval-timber-frame",
+      "type": "references",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "Claimed rather than descended. The stickwork alludes to half-timbering but is thin applied board over sheathing and expresses no structural member; Scully's account of the style turns on precisely this."
+    },
+    {
+      "target": "italianate-american",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "The bracket and the porch post vocabulary are shared; many transitional houses are honestly both."
+    }
+  ],
+  "description": {
+    "short": "A short-lived wooden style of the 1860s and 1870s in which flat boards applied over the clapboard in horizontal, vertical, and diagonal bands claim to express the frame beneath, producing the most linear and least massive architecture America has built.",
+    "long": "The Stick Style is a specific idea carried out with unusual rigour: that a wooden building should be drawn on its own surface. Horizontal boards mark the floor lines, vertical boards mark the corners and the intervals between windows, diagonal boards fill the gable panels, and the whole elevation becomes a diagram of a frame. The diagram is a fiction. Behind the sticks is a balloon frame of two-by-four studs at sixteen inches, nailed and sheathed, which the applied boards neither reveal nor correspond to. Vincent Scully named and defined the style in 1955 and built his argument on exactly that tension, and the tension is the reason the style matters here: it is the first American attempt to make an industrial framing system legible as architecture, and it fails in an instructive way.\n\nThe enabling conditions are the same rupture that produced this whole branch, but the Stick Style responds to them more honestly than its neighbours. Balloon framing had by 1860 made the American house a nailed cage of light sawn members; machine-cut nails made the cage economic; the planing mill turned out flat surfaced board in any dimension by the thousand feet; and the railroad delivered it. Gothic Revival used that board to imitate stone tracery and Italianate used it to imitate palazzo brackets. The Stick Style used it to talk about the frame. That it talked about an imaginary frame rather than the real one is a genuine intellectual failure, but the ambition is the correct one, and it is the ambition the Craftsman movement would take up thirty years later with actual structural expression.\n\nWhat it was reacting against was the mass-imitating tendency of everything around it, the wooden building pretending to be masonry. Its own aesthetic argument is that a wooden building should be light, linear, skeletal, and shadowed, and it commits to this so completely that Stick Style houses have almost no wall in the perceptual sense; they are a scaffold with infill. The style is also, unmistakably, a rich person's experiment: Richard Morris Hunt's Griswold House at Newport of 1864, Frank Furness's Physick House at Cape May of 1879. It never went mass-market, and one reason is that the stickwork has to be complete to make sense. A partial application does not read as a frame, it reads as trim, which is precisely what happened when builders tried it cheaply.\n\nIn front of one there is nothing to rest on. Every surface is subdivided by boards into panels, the eaves overhang far and are held on exposed brackets and rafter ends so the roof edge is a fringe of shadow, the porch is a lattice of posts and diagonal braces, and the whole building vibrates with line. In raking light it is extraordinary and slightly nervous; in flat noon light it can look like a house wearing a net. Inside the excitement stops abruptly: the plan is a conventional picturesque one with a hall, parlours, and a stair, and the exterior linear obsession barely enters the rooms."
+  },
+  "defining_characteristics": [
+    "Applied flat boards on the wall surface forming horizontal, vertical, and diagonal bands over clapboard or shingle infill",
+    "A gable truss or king-post ornament in every principal gable, applied rather than structural",
+    "Deep overhanging eaves on exposed brackets, purlins, or rafter tails",
+    "Steep gabled roofs with prominent cross gables and a vigorous irregular silhouette",
+    "Porches and verandas built as visible frames of posts, diagonal braces, and open rails rather than as trabeated classical structures",
+    "Wall surface subdivided into panels by the stickwork, with texture changing only at a stick band",
+    "Entirely rectilinear ornament: no turned spindles, no scrolled brackets, no curved members anywhere in the stickwork"
+  ],
+  "diagnostic_tells": [
+    "Straight lines only. If the applied woodwork curves, turns, or scrolls, the building has moved to Queen Anne or Eastlake",
+    "The stickwork is continuous and encircles the building; trim that stops at the front corner is Folk Victorian",
+    "Diagonals in the gable panels, forming a truss that carries nothing, is the single most reliable tell",
+    "Compared with Queen Anne, there is no dominant mass and no round tower; the Stick Style composition is a set of gables of comparable weight",
+    "The wall reads as flat panels, not as texture. Cut shingle patterning is a Queen Anne trait, not a Stick one"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-american",
+      "difference": "The nearest and most-confused neighbour. Stick Style is linear, rectilinear, panelised, and has no dominant mass; Queen Anne is volumetric, curvilinear, textured, and requires one mass to dominate. A spindled porch or a round tower rules out Stick Style entirely."
+    },
+    {
+      "node": "gothic-revival-american",
+      "difference": "Descended from it and keeps its steep pitches and its wooden honesty argument, but replaces sawn pierced ornament with flat structural-looking board, and abandons pointed openings."
+    },
+    {
+      "node": "shingle-style",
+      "difference": "Exact opposites built by the same architects a decade apart, which is why Scully treated them as one book. Stick Style articulates the wall into panels of line; Shingle Style dissolves it into one continuous unbroken surface."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the stick grid. The applied board layout establishes a rectangular field over the entire elevation, and openings, panels, and infill are sized within that grid. It is the closest thing in this branch to a modular system, though the module is decorative rather than structural.",
+    "typical_ratios": [
+      "Stick boards 1x4 to 1x6 nominal, standing 3/4 to 1 in proud of the wall plane",
+      "Panel field 3 to 6 ft square between stick bands",
+      "Eave overhang 18 to 36 in on exposed brackets or rafter tails at 24 to 48 in on centre",
+      "Roof pitch 9:12 to 14:12",
+      "Porch post 5x5 to 8x8 with diagonal braces at 45 degrees, brace length 0.3 to 0.5 of post height"
+    ],
+    "bay_rhythm": "The stick grid supplies a regular rhythm across an irregular plan, as the Italianate bracket does, but it operates over the whole wall rather than only at the eave.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "common"
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "common"
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible",
+      "note": "Square and gabled, never round; a round tower moves the building to Queen Anne."
+    },
+    {
+      "massing": "mansard-block",
+      "affinity": "atypical",
+      "note": "Some transitional 1870s houses carry both, but the mansard suppresses the gable trusses the style depends on."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Stickwork shall be continuous: a horizontal band at every floor line and at the eave, vertical members at every corner and at each side of every opening group, and a diagonal or truss member in every gable field. Stickwork applied to the principal elevation only is prohibited."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "All stickwork members shall be flat sawn boards 1x4 to 1x6 nominal, standing 3/4 to 1 in proud of the wall plane. No stickwork member may be turned, scrolled, chamfered on a curve, or otherwise non-rectilinear."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Wall cladding shall change texture only at a stickwork band, and not more than two textures may occur on any one elevation. A texture change in the middle of a panel field is prohibited."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Eave overhang shall be 18 to 36 in and shall be carried on visible brackets, purlin ends, or rafter tails at 24 to 48 in on centre. A boxed eave with no visible support contradicts the style's entire premise."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "No single mass shall exceed any other by more than 30 percent in height or plan area. Stick Style composition is a balance of comparable gables; a dominant mass produces a Queen Anne house."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "John N. A. Griswold House (Newport Art Museum)",
+      "location": "Newport, Rhode Island",
+      "year": 1864,
+      "note": "Richard Morris Hunt; sources give the design and construction variously as 1862-64. Generally cited as the first fully developed American Stick Style building."
+    },
+    {
+      "name": "Emlen Physick Estate",
+      "location": "Cape May, New Jersey",
+      "year": 1879,
+      "note": "Frank Furness. Oversized inverted corbelled chimneys, huge brackets, and a complete stickwork grid; the style at its most idiosyncratic. The Frank Furness attribution is traditional and not documented."
+    },
+    {
+      "name": "Mark Twain House",
+      "location": "Hartford, Connecticut",
+      "year": 1874,
+      "note": "Edward Tuckerman Potter. Classified variously as Stick Style and as High Victorian Gothic; included with that caveat because its brick polychromy and applied timber banding show the boundary between the two."
+    }
+  ],
+  "sources": [
+    "Vincent Scully, The Shingle Style and the Stick Style (1955; rev. ed. 1971)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)",
+    "Leland Roth, A Concise History of American Architecture (1979)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "linear",
+    "wood-frame",
+    "structural-expression",
+    "scully",
+    "short-lived"
+  ]
+}

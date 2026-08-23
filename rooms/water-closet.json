@@ -1,0 +1,216 @@
+{
+  "id": "water-closet",
+  "name": "Water Closet",
+  "aka": [
+    "WC",
+    "the closet",
+    "separate lavatory",
+    "toilet compartment",
+    "the little room"
+  ],
+  "function_class": "sanitary",
+  "description": "A room containing a water closet and nothing else, or a WC and a small basin. Standard in British and continental practice, abandoned in America in favour of putting everything in one room, and worth arguing for again on an efficiency argument that has nothing to do with tradition: SEPARATING THE WC FROM THE BATH LETS ONE BATHROOM SERVE TWO PEOPLE AT ONCE, which in floor-area terms is worth more than a second full bathroom and costs about a fifth as much.",
+  "history": {
+    "appears": 1780,
+    "declines": 1930,
+    "replaced": "the privy, the close stool, the chamber pot",
+    "replaced_by": "the combined three-fixture bathroom in American practice; survives as the separate WC in British and European practice",
+    "note": "Alexander Cummings patented the S-trap in 1775 and Joseph Bramah the practical valve closet in 1778, but THE WATER CLOSET DID NOT PUT THE PRIVY INDOORS - THE SEWER DID. A WC needs a piped water supply to flush and a receiving system to flush into, and where it was fitted over an existing cesspool it made matters catastrophically worse, because a cesspool designed to receive solid waste now received several hundred gallons a day and overflowed into the ground the well drew from. That is the mechanism of mid-century urban typhoid, it is what Chadwick's 1842 Sanitary Report was about, and it is why the London sewer works after the Great Stink of 1858 are the real hinge in this room's history. American municipal sewerage follows city by city between 1860 and 1900. THE ROOM ITSELF then goes two ways: in Britain the WC stays a separate small room, usually with its own external wall and its own window, because the byelaw tradition required a ventilated lobby between a WC and a habitable room and because the household economics of one bathroom for six people made separation obviously right. In America the fixtures were gathered into a single room from the 1900s and the separate WC survives only as a compartment inside a large bathroom. Neither habit is better; the American one is worse when there is one bathroom and better when there are four."
+  },
+  "dimensions": {
+    "area_sf": [
+      12,
+      24
+    ],
+    "width_ft": [
+      2.67,
+      3.5
+    ],
+    "length_ft": [
+      4.5,
+      6.5
+    ],
+    "proportion": [
+      1.4,
+      2.4
+    ],
+    "ceiling_min_ft": 6.67,
+    "critical_dimension": "THIRTY INCHES CLEAR WIDTH AND THE DOOR SWINGING OUT. 15 in from the closet centreline to each side is 30 in, and 21 in clear in front is the code, 24 the working figure. That gives a 30 by 48 in clear box, which is legal and which no door can swing into: a 24 in leaf needs 24 in of radius and there is 21 in of floor. The room is therefore either 36 in wide with an out-swinging or sliding door - which is the British answer and why so many WC doors open into a lobby - or 42 in wide with an in-swinging one. Where a basin is added, it goes in FRONT of the closet on the end wall, not beside it, and it must be a 14 to 16 in projection basin or the 21 in clear in front is gone."
+  },
+  "furniture": [
+    {
+      "item": "water closet",
+      "footprint_in": [
+        20,
+        28
+      ],
+      "clearance_in": 24
+    },
+    {
+      "item": "corner or projection basin",
+      "footprint_in": [
+        16,
+        14
+      ],
+      "clearance_in": 21,
+      "essential": false,
+      "note": "A 14 in projection basin is a real fixture, not a toy, and it is what makes a 3 by 5 room work. A 21 in vanity in a WC is a fixture that has eaten the room."
+    },
+    {
+      "item": "door",
+      "footprint_in": [
+        26,
+        26
+      ],
+      "clearance_in": 0,
+      "note": "Out-swinging into a lobby, or sliding. This is the whole design of the room."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.5,
+    "sides_lit": 1,
+    "orientation": "Any, and a small high window is worth more than a fan for the same reason as the powder room: it works without anyone deciding.",
+    "glazing_fraction": [
+      0.03,
+      0.09
+    ],
+    "note": "The British byelaw tradition put the WC on an external wall with an opening window precisely so that it ventilated passively and so that it had a ventilated lobby between it and any habitable room - which is why English houses have WCs in odd projecting corners. It is a good habit. The room is small, often under a stair, and its head is low, hence the low multiplier. Where it is wholly interior, a borrowed light or a glazed transom over the door is the period device and it works."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "bathroom",
+        "why": "The compartmented arrangement: the WC in its own room off, or adjoining, the bathing room, sharing one wet wall. That is the whole efficiency case and it collapses if the two are on opposite sides of the plan.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "primary-bathroom",
+        "why": "Inside a large bathroom the WC belongs in a compartment with a door, and it is the first thing cut and the thing most missed.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "back-hall",
+        "why": "A separate WC on the service or family circulation - beside the mudroom, off the back stair - is the most useful sanitary fixture in a working household and the cheapest.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "Direct opening from a WC into a room where food is eaten is prohibited by long-standing British practice for a good reason and is merely unpleasant everywhere else. A ventilated lobby between the two was the byelaw requirement and it is still the right detail.",
+        "relation": "direct-door",
+        "strength": "hard"
+      },
+      {
+        "room": "kitchen",
+        "why": "Same rule and the same lobby. A WC door opening directly into a food-preparation room is one of the few interior adjacency rules that has been written into law in more than one jurisdiction.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "passage",
+      "back-hall",
+      "bathroom",
+      "primary-bathroom",
+      "landing",
+      "mudroom"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "An opening window or 50 cfm. A WC compartment inside a bathroom needs its OWN extract - a fan on the far side of a closed door ventilates the door.",
+    "heat": "Minimal, but not none: a 3 by 5 room on an outside corner with a window is a freezing room, and one small emitter is the difference.",
+    "electrical": "GFCI where a basin is present; a fan interlocked to the light with a run-on timer, which is the one place that interlock is right because the room is used briefly and left immediately.",
+    "stack_proximity_ft": 12
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-townhouse",
+      "name_in_style": "WC",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Inserted, usually on a half-landing at the rear where a back addition let a stack run down an external wall - which is why so many London terraces have a WC on the return of the stair. The half-landing WC is a real and elegant solution to a plan with no spare depth."
+    },
+    {
+      "style": "british-vernacular",
+      "name_in_style": "the closet / the lav",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Frequently outside the house entirely well into the twentieth century - the outside WC in a back yard is the direct descendant of the privy and existed in British housing stock into the 1970s."
+    },
+    {
+      "style": "colonial-revival",
+      "present": false,
+      "note": "American practice combined the fixtures. Where a compartment is wanted, it is inside the bathroom rather than a room of its own."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "WC compartment",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Worth reviving as a separate room in any house with more than three bedrooms and fewer than three bathrooms, on the arithmetic in the description. The argument to a client is that a 15 sq ft WC beside the family bathroom serves more people per morning than a fourth full bath at 45 sq ft."
+    },
+    {
+      "style": "french-vernacular",
+      "name_in_style": "les toilettes",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Separate from the salle de bains as a matter of course, and the French plan assumes it - which is why a French apartment with one bathroom functions for a family and an American one does not."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "30 in clear width, 21 in clear in front.",
+      "ref": "IRC P2705.1.5"
+    },
+    {
+      "requirement": "Ceiling may be 6 ft 8 in.",
+      "ref": "IRC R305.1 exception",
+      "conflict": "Which is what lets the WC go under a stair - the classic position and a good one, provided the closet centreline sits where there is 6 ft 8 in over it and not where the stair is at 5 ft."
+    },
+    {
+      "requirement": "A room containing a WC must be separated from a food preparation room by a ventilated lobby or an intervening door in many jurisdictions.",
+      "ref": "UK Building Regulations Approved Document G / historical byelaws; not an IRC requirement",
+      "conflict": "American codes do not require the lobby and American plans routinely open a powder room straight into a kitchen or a breakfast room. The absence of the rule is not evidence that it is wrong."
+    }
+  ],
+  "massing_fit": [
+    "townhouse-row",
+    "side-hall-double-pile",
+    "four-over-four",
+    "charleston-single",
+    "foursquare",
+    "garrison-block",
+    "linear-ell-farmhouse",
+    "ranch-linear",
+    "cape-cod-massing",
+    "massed-picturesque",
+    "telescope-house"
+  ],
+  "slots": [
+    "services_strategy",
+    "room_adjacency_overrides",
+    "stair_position",
+    "public_private_gradient"
+  ],
+  "faults": [
+    "stack-with-nowhere-to-land",
+    "powder-room-on-the-dining-room",
+    "service-route-through-the-formal-plan"
+  ],
+  "sources": [
+    "Edwin Chadwick, Report on the Sanitary Condition of the Labouring Population of Great Britain (1842)",
+    "Stephen Halliday, The Great Stink of London (1999), for the sewer works and the epidemiology",
+    "IRC P2705.1.5, R305.1",
+    "UK Building Regulations Approved Document G"
+  ],
+  "confidence": "high"
+}

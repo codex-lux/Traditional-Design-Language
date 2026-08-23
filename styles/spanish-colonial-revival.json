@@ -1,0 +1,235 @@
+{
+  "id": "spanish-colonial-revival",
+  "name": "Spanish Colonial Revival",
+  "aka": [
+    "Spanish Eclectic",
+    "Spanish Revival",
+    "Spanish Colonial Revival Style"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "revival",
+  "period": {
+    "origin": 1912,
+    "floruit_start": 1915,
+    "floruit_end": 1942,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "San Diego and Santa Barbara, California",
+    "climate_zones": [
+      "3B",
+      "3C",
+      "2B",
+      "2A",
+      "1A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "spanish-colonial-american",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The nominal claimed ancestor, though the revival takes far more from Spain and Mexico than from anything built in Spanish North America."
+    },
+    {
+      "target": "churrigueresque",
+      "type": "references",
+      "weight": 0.9,
+      "note": "The decisive ornamental reference. Goodhue's 1915 exposition buildings put Mexican and Spanish Baroque relief on the entrance and everything follows from that."
+    },
+    {
+      "target": "andalusian-courtyard-vernacular",
+      "type": "references",
+      "weight": 0.9,
+      "note": "The domestic core: whitewashed courtyard house, patio, reja, tiled stair. See andalusian-spanish-revival."
+    },
+    {
+      "target": "mexican-colonial",
+      "type": "references",
+      "weight": 0.8,
+      "note": "Church facades, portales, and the specific colour and tile culture that Goodhue and Sylvester Baxter documented in Mexico from 1901."
+    },
+    {
+      "target": "moorish-andalusian",
+      "type": "references",
+      "weight": 0.5,
+      "note": "Horseshoe and cusped arches, azulejo panels, pierced plaster grilles as an ornamental register."
+    },
+    {
+      "target": "mudejar",
+      "type": "references",
+      "weight": 0.5,
+      "note": "Brick and tile geometry, artesonado ceilings, and the Spanish tradition of Islamic craft under Christian patronage."
+    },
+    {
+      "target": "mission-revival",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The real line of practice. Same builders, same stucco-over-frame technology, same clay tile suppliers, same regionalist argument - enriched and then displaced."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "The exposition-planning apparatus and academic drafting culture, though Goodhue himself never attended the Ecole and came out of Gothicist office practice with Cram."
+    },
+    {
+      "target": "spanish-colonial-american",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The style launched by Bertram Goodhue's 1915 Panama-California Exposition in San Diego, which replaced Mission Revival's austerity with the full Spanish and Latin American repertoire: elaborately carved entrances against blank walls, wrought iron, decorative tile, low-pitched red tile roofs, and freely asymmetrical massing.",
+    "long": "Spanish Colonial Revival is Mission Revival's successor and its refutation. Where Mission Revival had argued that California's proper architecture was plain, symmetrical and Franciscan, Spanish Colonial Revival argued that it was rich, irregular, and drawn from four centuries of building across Spain, Mexico and the Spanish Americas. The change happened at a single site. For the 1915 Panama-California Exposition in San Diego, Bertram Grosvenor Goodhue - working against the Olmsted brothers' preference for a low Mission scheme - designed a Churrigueresque set piece at the California Quadrangle, with a facade of Mexican Baroque relief exploding out of an otherwise plain wall. It was decisive within two years. The style then found its domestic language in Santa Barbara, especially in the work of George Washington Smith, and after the 1925 earthquake destroyed much of that city's commercial core it became municipal policy there.\n\nThe formal system is precise despite its apparent looseness. Walls are stucco, off-white to warm ochre, with visible mass at reveals. Roofs are low-pitched, 3:12 to 5:12, in red barrel tile with minimal or no overhang, and - this is the key departure from Mission Revival - they are broken into multiple planes at multiple heights, with gables, sheds and hips meeting at varied levels to describe a building that appears to have grown. Ornament is concentrated absolutely: the entrance receives a carved or cast surround, sometimes with twisted columns and a broken pediment, and the twenty feet of wall either side of it receives nothing at all. Wrought iron does the secondary work - window grilles, balconettes, gates, stair rails - and glazed tile the tertiary, on stair risers, fountain basins, and window reveals. Windows are casements or multi-light double-hung, deeply recessed, and often arched at principal openings only.\n\nWhat made it sell was the same thing that made Mediterranean Revival sell in Florida: it converted a hot, dry, recently-settled place into somewhere with a past. The Southern California land boom of the 1920s needed exactly that, and the style could scale from a Montecito estate to a four-unit bungalow court without losing its identity, because its identity lived in three or four moves rather than in a proportional system. That scalability is why it became, and remains, the default vocabulary of the American Southwest, and why every production builder from Phoenix to Orlando still sells a degraded version of it.\n\nThe experience turns on the relation between blankness and incident. You walk along a long, hot, pale wall that offers nothing - no base, no cornice, no rhythm - and then arrive at a door around which somebody has spent an entire ornament budget: carved stone or cast plaster, a heavy panelled leaf, a tiled reveal, an iron lantern. Inside, the rooms are dim, tall, white, and cool, with a beamed ceiling and a tiled floor, and they open onto a patio where a fountain is running. It is a style of extreme contrasts, and its failures are all failures of contrast - stucco boxes with a little ornament spread evenly everywhere, which is precisely what the tract-house version does."
+  },
+  "defining_characteristics": [
+    "Stucco wall of expressed mass, off-white to warm earth tones, with openings recessed at least 6 in. into it",
+    "Low-pitched roof, 3:12 to 5:12, in red clay barrel or mission tile, with minimal or no eave overhang",
+    "Roof broken into multiple planes at multiple heights - gables, hips and sheds - describing an accreted, asymmetrical mass",
+    "Ornament concentrated at the principal entrance (carved, cast or moulded surround, often Churrigueresque) against otherwise blank wall",
+    "Wrought iron as the primary secondary material: window grilles, balconettes, gates, rails, lanterns",
+    "Asymmetrical massing organised around at least one outdoor room - patio, courtyard, or walled garden",
+    "Deeply recessed windows, arched at principal openings, with decorative tile at reveals, stairs, or fountains"
+  ],
+  "diagnostic_tells": [
+    "Ornament is concentrated in one place and absent everywhere else. Evenly distributed ornament means a later imitation.",
+    "Roof planes meet at different heights and the ridges do not align. Mission Revival keeps a single roof line and a symmetrical front; Mediterranean Revival keeps a uniform hip.",
+    "No curvilinear shaped parapet. If there is one, the building is Mission Revival, or a hybrid.",
+    "Eave overhang under 12 in. with a closed soffit or a plastered edge, versus Mission Revival's 24-42 in. of exposed rafter tail.",
+    "Wrought iron somewhere - even one balconette or window grille. Mission Revival almost never uses it.",
+    "Against the historical original: actual Spanish colonial building in North America used 2-4 ft adobe walls, tiny unglazed openings, dirt or brick floors and almost no worked ornament outside of church facades. The revival puts church-scale ornament on a house."
+  ],
+  "distinguished_from": [
+    {
+      "node": "mission-revival",
+      "difference": "The critical pair. Mission Revival (c. 1890-1920) is austere, symmetrical, ornamented almost nowhere, defined by a curvilinear parapet and a heavy pier arcade, with wide overhanging eaves on exposed rafters, and quotes only the California missions. Spanish Colonial Revival (c. 1915-1940) is asymmetrical, multi-planed in roof, concentrates elaborate ornament at the entrance, uses iron and tile freely, has minimal overhang, and draws on Spain, Mexico and Latin America generally. Mission Revival precedes it and is largely displaced by it after 1915."
+    },
+    {
+      "node": "mediterranean-revival",
+      "difference": "Mediterranean Revival is more formal and more Italian: near-axial planning, a uniform low hipped roof at one level, arcaded loggias as the organising element, and Renaissance rather than Baroque ornament. Spanish Colonial Revival is picturesque, varies its roof heights, and takes its ornamental cues from the Spanish Baroque."
+    },
+    {
+      "node": "spanish-colonial-american",
+      "difference": "The original, built 1600-1840, is load-bearing adobe or rubble with walls 2-4 ft thick, minimal openings, hand-formed tile, and ornament confined to churches. The revival is stucco over wood frame, generously glazed, and applies ecclesiastical ornament to domestic buildings."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Mass and incident. No module and no order; proportion is controlled by wall thickness at reveals, by the height differences between adjoining roof planes, and by the size of the single ornamented entrance relative to the blank wall around it.",
+    "typical_ratios": [
+      "Roof pitch 3:12 to 5:12; eave overhang 0-12 in.; adjacent roof planes differing in height by not less than 2'0\"",
+      "Wall reveal at openings 6-12 in., splayed or returned in stucco without applied casing",
+      "Entrance surround 5-8 ft wide overall for a 3'0\" x 7'0\" leaf, with at least 12 ft of unornamented wall each side",
+      "Window proportion 1:1.8 to 1:2.6, arched openings springing at 2/3 of total height",
+      "Solid to void ratio 5:1 to 8:1 on street elevations; the blank wall is the point"
+    ],
+    "bay_rhythm": "Deliberately irregular. Openings are placed by internal need and grouped in twos and threes, with long blank runs between; vertical alignment between storeys is neither expected nor desirable. Any regular repeating bay rhythm pushes the building toward Mediterranean Revival.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-u",
+      "affinity": "canonical",
+      "note": "The defining domestic skeleton: an L or U of ranges around a patio, one side open to a garden or wall."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "common",
+      "note": "Larger estate examples where volumes step and turn to describe apparent accretion."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "common",
+      "note": "Bungalow courts, apartment courts, and hotels; the fully enclosed patio type."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "Where a portal or covered walk runs the length of a range; strong in the Monterey and hacienda variants."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "atypical",
+      "note": "A symmetrical double-pile block fights the style's asymmetry; if built this way the result usually reads as Mediterranean Revival."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 3:12 to 5:12 in clay barrel or mission tile, with eave overhang not exceeding 12 in. and no exposed dimensional rafter tails. Adjacent roof planes on the primary elevation must differ in eave or ridge height by not less than 2'0\"."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Wall thickness must be expressed at every opening with a minimum 6 in. reveal from stucco face to frame, jambs returned or splayed in stucco with no applied wood casing. Flush windows in a thin stucco skin void the style."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Ornament must be concentrated. Not more than two elevations may carry worked ornament, and the principal entrance surround must be the single most elaborate element on the building, with a minimum 12'0\" run of unornamented wall on each side of it."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Wrought iron is required somewhere on the primary elevation - grille, balconette, gate, or lantern bracket - in members not less than 1/2 in. square. Cast aluminium substitutes are forbidden."
+    },
+    {
+      "kind": "climatic",
+      "severity": "soft",
+      "statement": "Native to IECC zones 1-3B. Flat parapet-drained roofs, deep unflashed reveals and low-slope tile all fail under freeze-thaw; north of zone 4 the assemblies must be genuinely redetailed rather than imitated."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "California Quadrangle, Panama-California Exposition",
+      "location": "Balboa Park, San Diego, California",
+      "year": 1915,
+      "note": "Bertram Grosvenor Goodhue. The founding event of the style: Churrigueresque relief on an otherwise plain wall, over an arcaded quadrangle."
+    },
+    {
+      "name": "Casa del Herrero",
+      "location": "1387 East Valley Road, Montecito, California",
+      "year": 1925,
+      "note": "George Washington Smith, with later library by Lutah Maria Riggs. Widely held to be the finest surviving example in the United States; Andalusian in register."
+    },
+    {
+      "name": "Santa Barbara County Courthouse",
+      "location": "Santa Barbara, California",
+      "year": 1929,
+      "note": "William Mooser III. The civic monument of the style, built under the post-1925 earthquake design ordinance."
+    },
+    {
+      "name": "Adamson House",
+      "location": "Malibu, California",
+      "year": 1929,
+      "note": "Stiles O. Clements. Notable for the most complete surviving programme of Malibu Potteries decorative tile in situ."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "David Gebhard, George Washington Smith 1876-1930: The Spanish Colonial Revival in California (1964)",
+    "Rexford Newcomb, The Spanish House for America (1927)",
+    "City of Los Angeles, SurveyLA Citywide Historic Context Statement: Mediterranean and Indigenous Revival Architecture, 1893-1948",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "southwest",
+    "california",
+    "exposition-launched",
+    "stucco",
+    "courtyard"
+  ]
+}

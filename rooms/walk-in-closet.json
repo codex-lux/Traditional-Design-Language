@@ -1,0 +1,243 @@
+{
+  "id": "walk-in-closet",
+  "name": "Walk-In Closet",
+  "aka": [
+    "dressing closet",
+    "wardrobe room",
+    "his-and-hers"
+  ],
+  "function_class": "storage",
+  "description": "A closet you stand inside. It is the default aspiration of every client brief since about 1985 and it is, per square foot, the least efficient storage in the house - a fact worth stating early because it changes the argument. A 5 by 7 walk-in is 35 sq ft and holds about eleven linear feet of rod. The same 35 sq ft spent as a 2 ft deep reach-in along a wall is seventeen and a half feet of wall and seventeen and a half feet of rod, and double-hung it is thirty-five. The walk-in costs roughly half its capacity to buy the aisle. That is not an argument against it - the aisle is what you are buying, because a room you can stand in and see everything at once is a better way to dress than a row of doors - but it is an argument for calling it what it is, which is a small dressing room, and for designing it as one.",
+  "history": {
+    "appears": 1955,
+    "declines": null,
+    "replaced": "dressing room, clothes press",
+    "note": "The walk-in is post-war and American, and it grew out of the ranch house rather than out of any older room. Its ancestor is not the closet at all but the DRESSING ROOM, which the English country house had from the seventeenth century and which is a habitable room with a fireplace, a window and a chair. The walk-in is that room with the window and the fire taken out, which is why it is so often unpleasant to be in. It reached its present scale between 1985 and 2005 along with the primary suite, and the two grew together: the closet is the reason the suite is the size it is, not the bedroom."
+  },
+  "dimensions": {
+    "area_sf": [
+      30,
+      120
+    ],
+    "width_ft": [
+      5,
+      8
+    ],
+    "length_ft": [
+      6,
+      14
+    ],
+    "proportion": [
+      1.1,
+      2.2
+    ],
+    "ceiling_min_ft": 7.5,
+    "critical_dimension": "THE AISLE, and there are exactly three numbers. Thirty inches is the absolute minimum and it is a corridor you sidle down. Thirty-six is comfortable and lets you open a drawer. FORTY-TWO is what you need to DRESS in - a person putting on a coat sweeps a 42 in circle with their elbows, and a person bending to a bottom drawer occupies 40 in front to back. Everything else follows: single-loaded, 24 (hanging) + 36 (aisle) = 60 in, a 5 ft 0 in clear width. Double-loaded, 24 + 36 + 24 = 84 in, a 7 ft 0 in clear width, and at 42 in aisle it is 7 ft 6 in. There is no useful walk-in between 5 ft and 7 ft wide: at 6 ft you have hanging on one side and a 3 ft aisle you cannot use for anything, which is the commonest walk-in built and the worst."
+  },
+  "furniture": [
+    {
+      "item": "hanging, single-loaded wall",
+      "footprint_in": [
+        96,
+        24
+      ],
+      "clearance_in": 36,
+      "note": "24 in deep, rod at 12 in off the wall."
+    },
+    {
+      "item": "hanging, double-loaded pair of walls",
+      "footprint_in": [
+        96,
+        84
+      ],
+      "clearance_in": 36,
+      "note": "The 84 in is 24 + 36 + 24. Anything narrower and the two facing doors of a drawer bank collide."
+    },
+    {
+      "item": "island or bench",
+      "footprint_in": [
+        48,
+        24
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "Wants 36 in on all four sides, so an island needs a room 8 ft wide minimum with hanging on one side only, or 10 ft with hanging both sides. The island in a 7 ft closet is the commonest fault in this room and it makes both aisles unusable."
+    },
+    {
+      "item": "drawer bank / built-in chest",
+      "footprint_in": [
+        36,
+        22
+      ],
+      "clearance_in": 40,
+      "note": "A drawer extends 20-22 in and a person stands 18 in behind it, so a drawer bank needs 40 in clear in front and cannot face another drawer bank across a 36 in aisle."
+    },
+    {
+      "item": "full-length mirror",
+      "footprint_in": [
+        24,
+        3
+      ],
+      "clearance_in": 60,
+      "note": "You need to stand 5 ft back from a mirror to see yourself below the knee, which no 36 in aisle provides. Put the mirror on the END wall looking down the length of the room, or on the back of the door - and if it is on the door, the door swings out."
+    },
+    {
+      "item": "shoes",
+      "footprint_in": [
+        36,
+        12
+      ],
+      "clearance_in": 0,
+      "note": "12 in deep shelving at 7 in spacing; a pair per foot of shelf. Shoes stored at 24 in depth waste half the shelf and are the reason walk-ins run out of room while looking half empty."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.8,
+    "sides_lit": 1,
+    "orientation": "North or east if it is glazed at all, because south and west sun fades textiles - the reason historic presses and wardrobes are solid-fronted.",
+    "glazing_fraction": [
+      0.02,
+      0.06
+    ],
+    "note": "A walk-in with a window is a dressing room and is a far better room, and this is the argument to make to a client who has asked for a bigger closet: the same money buys a smaller closet with a window in it and they will use it every day. But a window costs a bay. In a symmetrical style, a walk-in gets its daylight from a borrowed light or a transom over its door, never from the front elevation. On a rear or flank wall, where the composition tolerates it, glaze it and call the room by its right name."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "Entered from the bedroom, never from the passage and never from the bathroom alone. A closet reached only through a wet room is a closet whose contents are in a 60 per cent RH environment twice a day.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "primary-bathroom",
+        "why": "The bedroom-closet-bathroom sequence is the whole logic of the suite, and the closet is properly in the middle: it is the sound lock between the bathroom and the sleeping room, and it is the room whose door can be shut at 6 am.",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "Where the closet is glazed and treated as a dressing room, it may sit on the daylit face and the bathroom behind it."
+        ],
+        "via": [
+          "primary-bedroom"
+        ]
+      },
+      {
+        "room": "laundry",
+        "why": "The strongest and least fashionable adjacency in the modern house. Clothing travels closet-to-laundry-to-closet and nowhere else, and a laundry on the bedroom floor within thirty feet of the closets removes the single largest daily haul in a household. The reason it is rarely done is the dryer vent - see laundry.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "bedroom",
+        "why": "The closet door must not be in the head wall of the bed, and its light must not spill onto the pillow. Two people on different schedules is the actual programme of a primary suite and the closet is the room that solves it or ruins it.",
+        "relation": "not-visible-from",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "primary-bedroom",
+      "bedroom",
+      "dressing-room"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 5,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "A walk-in is a dead-air volume with a solid door full of textiles, and if it adjoins a bathroom it takes that room's moisture every day. Give it a return-air path - a transfer grille or a 1 in door undercut - or it will smell. Never put a bathroom exhaust terminal in a closet, and never make the closet the make-up air path for the bathroom fan.",
+    "heat": "One supply register, low, and it must be inside the insulated envelope. The walk-in is very often the room that gets built into the knee-wall zone of a story-and-a-half or into a bonus space over a garage, and both are outside the envelope until somebody draws them inside.",
+    "electrical": "Fixtures at the front of each hanging run, on a switch at the door, and a receptacle if there is an island. Motion switching is the one automation worth having in a house because both your hands are full.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "colonial-revival",
+      "name_in_style": "walk-in closet",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Permitted and endemic, and it is the room that most often destroys the elevation - it wants to be 7 ft by 10 ft on the second floor and the only place that shape fits is against the front wall. Take it out of the plan's DEPTH, at the back, against the spine."
+    },
+    {
+      "style": "cape-cod-revival",
+      "name_in_style": "closet under the slope",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "The best use of a knee-wall zone in the whole catalogue. A hanging rod at 66 in needs 6 ft of head, which arrives about 3 ft inboard of a 3 ft knee wall on a 10:12 roof - so a walk-in works comfortably in a zone where a bedroom does not, and it uses the volume that the type otherwise wastes. If a story-and-a-half house has a walk-in anywhere else, it has been drawn from a two-storey precedent."
+    },
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "dressing room",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Present, but as a proper room with a chimneypiece, a window and a chair, in which a gentleman was shaved and received callers. If the brief wants a walk-in in a house of this kind, build the dressing room instead: it is the same footprint and a far better room."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Does not exist and cannot be inserted without wrecking the type. A bungalow's bedrooms are 10 by 12 and its storage is a 3 ft reach-in and a built-in chest of drawers in the hall - which is where the Craftsman answer actually is, in joinery rather than in plan."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "Absent by definition. The type is the FHA minimum house and its whole storage budget is one 3 ft closet per bedroom."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "primary closet",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Where the room is largest and least resolved. The convention of two separate closets off one bathroom is defensible on the schedule argument and is usually drawn as two 5 ft single-loaded rooms, which is right, rather than one 10 ft double-loaded room split by a partition, which is not."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Not habitable space; no minimum ceiling height, no light, no ventilation, no egress.",
+      "ref": "IRC R303, R305, R310",
+      "conflict": "A 100 sq ft walk-in with a window and a door is dimensionally a bedroom, is being counted as closet area for the appraisal, and would be an illegal bedroom because it has no egress. The distinction the code draws is the presence of a closet - a room with a closet is a bedroom - which produces the absurdity that a closet cannot contain a closet. Where the room is genuinely dressing-room sized, give it an egress-compliant window and stop worrying about it."
+    },
+    {
+      "requirement": "Luminaire type and clearance from storage space.",
+      "ref": "NEC 410.16 / IRC E4003.12",
+      "conflict": "Applies to the hanging zone even in a room large enough to walk in, and the 12 in clearance is measured from the storage space, not from the wall - a recessed LED over a 24 in shelf is compliant, a surface fixture 6 in in front of the rod is not."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "garrison-block",
+    "cape-cod-massing",
+    "gambrel-block",
+    "massed-picturesque",
+    "ranch-linear",
+    "ranch-l",
+    "h-plan-manor",
+    "split-level"
+  ],
+  "slots": [
+    "storage_strategy",
+    "room_adjacency_overrides",
+    "depth_and_pile",
+    "daylight_strategy",
+    "built_ins",
+    "interior_door"
+  ],
+  "faults": [
+    "closet-depth-taken-from-the-room",
+    "closet-on-the-exterior-wall",
+    "the-room-nobody-enters",
+    "room-deeper-than-its-daylight",
+    "primary-suite-off-the-formal-hall"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json storage_strategy - walk-in-closet-off-the-chamber, marked atypical and AUTHORED",
+    "NKBA and AIA planning clearances for aisle widths; the 42 in dressing dimension is from anthropometric reach data (Panero and Zelnik, Human Dimension and Interior Space, 1979)",
+    "IRC R305.1.1 for the sloped-ceiling arithmetic that makes a knee-wall closet work where a knee-wall bedroom does not",
+    "faults/closet-depth-taken-from-the-room.json"
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "classical-mediterranean",
+  "name": "Classical Mediterranean",
+  "rank": "tradition",
+  "member_of": null,
+  "status": "living",
+  "period": {
+    "origin": -700,
+    "floruit_start": -600,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Greece",
+      "Italy",
+      "France",
+      "Mediterranean basin"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The trunk of column, entablature, and proportional order that runs from archaic Greece through Rome and the Renaissance into every classical revival since.",
+    "long": "This is the longest continuous design tradition in Western building, and the only one that has ever been written down as a system. Its distinguishing property is not a set of shapes but a set of relations: a module is chosen — classically the diameter of the column at its base — and every other dimension in the building is derived from it. The result is that a Doric temple and a Georgian farmhouse can share a grammar while sharing almost no dimensions.\n\nThe tradition survives three near-deaths and three resurrections. Rome absorbs and industrializes the Greek orders, adding the arch and the vault that Greek trabeated construction could not produce. The Latin West largely loses the system for a millennium, keeping fragments as spolia and half-remembered proportion. Fifteenth-century Florence recovers it by measuring ruins and reading Vitruvius, and Palladio converts the recovered system into a design method transmissible by book — the decisive act, because a book crosses oceans and a guild does not.\n\nWhat makes the classical stream matter for a kit of parts is precisely that it was always already a kit of parts. The orders are a parametric system with inheritance: choose Tuscan or Corinthian and a hundred subordinate dimensions follow. Any attempt to encode traditional design as software is, whether it admits it or not, re-implementing something Vitruvius, Serlio, and Gibbs each attempted with the tools of their century."
+  },
+  "defining_characteristics": [
+    "Proportional derivation from a governing module rather than from absolute dimensions",
+    "The orders as a graduated system of character, from robust Tuscan to delicate Corinthian",
+    "Trabeated expression — the visible logic of support and load, retained even where it is no longer structural",
+    "Bilateral symmetry as the default state of a composition",
+    "Transmission by treatise and pattern book, making the system portable across geography and craft tradition"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "id": "pitch-below-material-shed-limit",
+  "name": "The Roof That Cannot Shed",
+  "aka": [
+    "membrane-dependent slate",
+    "code-minimum pitch"
+  ],
+  "slots": [
+    "roof_pitch",
+    "roof_material"
+  ],
+  "severity": "serious",
+  "severity_in_use": "serious",
+  "severity_trajectory": "Serious from year one and worsening: the roof is watertight because of a self-adhered membrane with a 25-30 year service life under a material with a 100 year one, so the assembly's life is set by its cheapest component and the failure arrives without warning at the underlayment rather than at the visible surface.",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "A roof laid in a lapped, gravity-shedding material at a slope that material was never used at: slate or wood shingle at 4:12 or 5:12, flat clay tile at 3:12, wood shake at 4:12. It passes inspection and it does not leak, because a self-adhered membrane under it is doing the waterproofing. A hundred-year material has been made dependent on a thirty-year one, and it reads wrong before it fails.",
+  "cause": {
+    "driver": "code",
+    "explanation": "The code minimums are the floor for a waterproofed assembly, not the slope the material was invented for, and everyone treats them as the target. IRC R905 will pass asphalt shingles at 2:12 with doubled underlayment, wood shingles at 3:12, wood shakes and slate at 4:12, clay and concrete tile at 2.5:12, and standing-seam metal panels at a quarter in 12. A lapped material sheds by gravity and overlap alone; the slopes at which these materials were historically used with no membrane at all are far steeper. So the specification is written to the code number, the roof is flattened to the truss economy, and the mismatch is buried under peel-and-stick.",
+    "cost_saved": "Flattening a slate roof from 9:12 to 5:12 over a 2,000 sf footprint removes about 600 sf of roof area and the steep-slope labour premium on the rest: $8,000-20,000. On asphalt the saving is smaller but the same logic drives it."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "a lapped material sheds by overlap, not by membrane",
+      "statement": "The slope at which a lapped roof material was historically laid is the slope at which it sheds without help. Below that, the visible material becomes cladding over a hidden membrane, and the roof's appearance makes a claim its construction does not."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "kits/georgian-colonial-american.kit.json roof_material / shingle_exposure_max_fraction",
+      "statement": "Wood shingle laid at not more than one third of its length to the weather (NPS Preservation Brief 19) - a rule that only produces a watertight roof at a steep slope."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R905.2.2, R905.6.1.1, R905.7.1.1, R905.8.1.1, R905.3.1.1, R905.10.2",
+      "statement": "Minimum slopes by covering: asphalt shingle 2:12 with doubled underlayment, wood shingle 3:12, wood shake 4:12, slate 4:12, clay and concrete tile 2.5:12, standing-seam metal panels 1/4:12. These are the floors for a waterproofed assembly and are consistently read as targets."
+    }
+  ],
+  "correct_practice": "Choose the material first and give it the slope its own overlap logic needs, not the slope the code will pass. Wood shingle at 18-24 in long and 5-7 in exposure wants 6:12 and steeper. Slate with a 3 in head lap wants 8:12 and steeper; 4:12 is the absolute floor and requires enlarged head lap and full underlayment. Flat clay tile wants 40 degrees and up. Wood shake wants 6:12. Where the slope must be low, change the material to one that seams rather than laps: standing-seam metal, or barrel tile, whose pan is a channel and which genuinely works at 3:12-5:12. The test to apply to any proposed combination: if the membrane were removed, would the roof still be a roof?",
+  "fixes": {
+    "right": "Set the pitch from the material and the material from the style, in that order, before the structure is engineered.",
+    "cheap": "Keep the low slope and change the material rather than the geometry. Standing-seam metal on a 4:12 roof is correct, period-plausible on anything after about 1830, and costs less than slate. A plain solid-colour composition shingle that claims nothing is better than a slate-imitating one on a slope no slate roof ever had.",
+    "dishonest": "Reducing the exposure of a lapped material to buy lap at a low slope, then leaving the coursing visibly tighter than the material's normal scale. It makes the assembly work and makes the roof look like a different, smaller-scaled material - the geometry tells on itself."
+  },
+  "test": {
+    "expression": "roof_slope_angle_deg",
+    "threshold": 26.6,
+    "direction": "at-least",
+    "units": "deg",
+    "measurable_from": "photograph",
+    "note": "6:12, the floor for a lapped wood-shingle roof laid at not more than one third of its length to the weather. Apply the material's own historic minimum, not the code's: wood shingle 26.6 deg, wood shake 26.6, slate 33.7, flat clay tile 40."
+  },
+  "secondary_tests": [
+    {
+      "expression": "roof_slope_angle_deg",
+      "threshold": 33.7,
+      "direction": "at-least",
+      "units": "deg",
+      "measurable_from": "photograph",
+      "note": "For slate or flat tile. A 3 in head lap sheds by gravity only above about 8:12; 4:12 is the code floor and requires enlarged lap and full membrane."
+    },
+    {
+      "expression": "course_exposure_in / material_normal_exposure_in",
+      "threshold": 0.9,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The self-reporting tell. A lapped roof laid below its natural slope has had its exposure tightened to buy head lap, so the coursing reads visibly finer than the material's normal scale - slate at 5 in instead of 7.5, wood shingle at 4 in instead of 6."
+    }
+  ],
+  "detection": "Read the pitch off the gable and the material off the course lines in the same photograph. Slate or wood-shingle coursing on a roof measuring under 6:12 is the tell; a tile roof whose ridge and hip lines are close to horizontal in perspective is another. Then look at the course spacing: on a low-slope lapped roof the exposure has been tightened to buy head lap, so the courses are visibly finer than that material's normal scale - slate at a 5 in exposure instead of 7.5, wood shingle at 4 in instead of 6. Finally, look for a wide metal drip and a visible membrane edge at the eave and in the valleys.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Barrel and mission tile at 3:12-5:12 is correct and historic, because each pan tile is a trough carrying water rather than a lapped plate resisting it.",
+      "bounds": "Only pan-and-cover or S-profile tile, not flat or interlocking tile, and not below 2.5:12.",
+      "bounds_test": {
+        "expression": "roof_slope_angle_deg",
+        "threshold": 14.0,
+        "direction": "between",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "upper": 22.6,
+        "note": "2.5:12 to 5:12, and only with a pan-and-cover or S-profile tile."
+      },
+      "applies_when": {
+        "construction": [
+          "clay-tile-barrel",
+          "clay-tile-mission"
+        ],
+        "note": "The pan tile is a trough, not a lapped plate. Flat and interlocking tile do not carry the licence."
+      }
+    },
+    {
+      "style": "mission-revival",
+      "why": "Same tile logic, at 3:12-5:12 with 24-42 in of eave.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "roof_slope_angle_deg",
+        "threshold": 14.0,
+        "direction": "between",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "upper": 22.6,
+        "note": "3:12 to 5:12 with 24-42 in of eave."
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Standing-seam metal at 4:12-6:12 is both period-correct after about 1830 and technically correct, because a soldered or mechanically seamed metal roof is not a lapped material at all.",
+      "bounds": "Seamed, not lapped: a metal shingle or a lapped, nonsoldered panel still needs 3:12.",
+      "bounds_test": {
+        "expression": "roof_slope_angle_deg",
+        "threshold": 18.4,
+        "direction": "between",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "upper": 26.6,
+        "note": "4:12 to 6:12 in seamed - not lapped - metal. A metal shingle or a lapped nonsoldered panel still needs 3:12."
+      },
+      "applies_when": {
+        "construction": [
+          "standing-seam-metal",
+          "soldered-flat-seam-metal"
+        ],
+        "date_range": [
+          1830,
+          1900
+        ],
+        "note": "Rolled sheet metal roofing is a nineteenth-century product; the exception is both technical and chronological."
+      }
+    },
+    {
+      "style": "construction:porch-and-verandah-roof",
+      "why": "A porch, piazza or lean-to roof legitimately runs flatter than the main roof - often 2:12 to 4:12 - because it must pass under a second-floor sill. This is a traditional sub-assembly, not a compromise.",
+      "bounds": "It must be a different kind of roof and read as one: standing seam or built-up, with its own eave detail. A flat porch roof shingled to match the main roof announces that the main roof's pitch was arbitrary too.",
+      "bounds_test": {
+        "expression": "roof_slope_angle_deg",
+        "threshold": 9.5,
+        "direction": "between",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "upper": 18.4,
+        "note": "2:12 to 4:12, in a seamed or built-up material, and detailed as a different kind of roof from the main one."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "truss-flattened-pitch",
+      "difference": "That fault is stylistic; this one is physical. A 4:12 Georgian in asphalt violates the style and not the material. A 4:12 slate roof violates both."
+    },
+    {
+      "fault": "faux-slate-architectural-shingle",
+      "difference": "There the material is imitating slate. Here the material is slate, laid at a slope no slate roof was ever laid at."
+    }
+  ],
+  "co_occurs_with": [
+    "truss-flattened-pitch"
+  ],
+  "alternative_to": [
+    "faux-slate-architectural-shingle"
+  ],
+  "sources": [
+    "IRC R905.2, R905.3, R905.6, R905.7, R905.8, R905.10 (minimum slopes by covering)",
+    "NPS Preservation Brief 19: The Repair and Replacement of Historic Wooden Shingle Roofs",
+    "NPS Preservation Brief 29: The Repair, Replacement and Maintenance of Historic Slate Roofs",
+    "NPS Preservation Brief 4: Roofing for Historic Buildings",
+    "NRCA Roofing Manual: Steep-slope Roof Systems"
+  ],
+  "confidence": "high",
+  "tags": [
+    "roof",
+    "pitch",
+    "material",
+    "mechanism"
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "id": "privy",
+  "name": "Privy",
+  "aka": [
+    "necessary house",
+    "outhouse",
+    "earth closet",
+    "jakes",
+    "little house",
+    "backhouse",
+    "office"
+  ],
+  "function_class": "sanitary",
+  "description": "A small detached or attached structure over a vault or a pit, containing one, two or three seats at different heights. It is in this catalogue not because anyone is going to build one but because it explains the whole of the sanitary sequence that followed it, and because two of its rules - the distance to the well and the position relative to the house - are still in force today under different names and for reasons that were not understood when they were arrived at.",
+  "history": {
+    "appears": 1600,
+    "declines": 1940,
+    "replaced_by": "water-closet, bathroom",
+    "note": "THE RULE THE PRIVY TAUGHT. Standard practice placed the necessary house 50 to 100 ft from the dwelling and, critically, DOWNHILL AND DOWNGRADIENT OF THE WELL. That separation was arrived at empirically over two centuries, entirely without a germ theory, by people who had noticed that households with a privy uphill of the well got sick. It is now written into every state onsite-wastewater code as a 50 to 100 ft setback between a leach field and a potable well, and it is the same number for the same reason with an explanation attached. THE TRANSITION IT EXPLAINS. The privy did not lose to the water closet; it lost to the SEWER, and the order of events matters. Where a WC was installed over an existing cesspool - common in the 1840s-60s - the result was worse than the privy had been, because the volume of water overwhelmed a vault designed to be dug out periodically, and the contents entered the groundwater the household drank. Chadwick's 1842 report, the London Great Stink of 1858 and the sewer works that followed, and American municipal sewerage between 1860 and 1900, are what actually moved the fixture indoors. THE OTHER THING IT EXPLAINS is where the first indoor closets went: into whatever small room adjoined a chamber, which was the dressing room, which is why old houses have bathrooms in positions no designer would choose. And two further period facts worth carrying: the multi-seat privy with a low child's seat is real, and the room was not private in the modern sense; and in the connected New England farmstead the privy is very often IN the back house or the woodshed, so that in February you could reach the woodpile and the privy without going outdoors - which is a large part of why that type exists."
+  },
+  "dimensions": {
+    "area_sf": [
+      16,
+      40
+    ],
+    "width_ft": [
+      4,
+      6
+    ],
+    "length_ft": [
+      4,
+      7
+    ],
+    "proportion": [
+      1.0,
+      1.5
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "THE SETBACK, NOT THE ROOM. 50 to 100 ft from the well and downgradient of it; 25 to 60 ft from the house, close enough to reach at night and far enough for the smell. The building itself is a 4 by 4 or 4 by 6 box because a seat is 30 in deep and a person needs 30 in in front of it. The one internal dimension worth recording is the SEAT HEIGHT AND HOLE: seat at 16 to 18 in, hole 9 to 11 in, and a second seat at 12 in for a child - the low seat is the commonest thing missing from reconstructions and it is in most surviving examples."
+  },
+  "furniture": [
+    {
+      "item": "seat bench",
+      "footprint_in": [
+        48,
+        30
+      ],
+      "clearance_in": 30,
+      "note": "Seat 16-18 in high, riser boarded, hinged or lift-out lid. Two or three holes side by side is normal, not a curiosity."
+    },
+    {
+      "item": "vault or pit",
+      "footprint_in": [
+        48,
+        48
+      ],
+      "clearance_in": 0,
+      "note": "3 to 6 ft deep, brick-lined in town where it was emptied by a nightman, unlined in the country where the building was moved when it filled. The moveable privy is the reason so many farmyards have a suspiciously fertile patch."
+    },
+    {
+      "item": "ash or earth box",
+      "footprint_in": [
+        18,
+        14
+      ],
+      "clearance_in": 18,
+      "essential": false,
+      "note": "Henry Moule's earth closet, patented 1860, dropped sifted dry earth after each use and genuinely worked - it composted rather than stank, and it was a serious rival to the water closet for twenty years. It lost because it required someone to empty it, and the WC required only a sewer."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.5,
+    "sides_lit": 1,
+    "orientation": "Door away from the house and from the road; the vent to the prevailing wind. A crescent, a diamond or a star cut in the door is a ventilator and a daylight opening, not a decoration, and it is above head height for the obvious reason.",
+    "glazing_fraction": [
+      0.01,
+      0.05
+    ],
+    "note": "Ventilation is the whole design: a gap at the eaves, a cut in the door, and in the better examples a vent pipe from the vault carried above the roof - which is the direct ancestor of the plumbing vent stack and does exactly the same job for exactly the same reason. The room sits in the shade of the yard and its head is low, hence the multiplier."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "woodshed",
+        "why": "In the connected farmstead the privy is in or beside the back house or woodshed, reached under cover. It is one of the few genuinely brilliant pieces of northern vernacular planning and the reason the type is connected at all.",
+        "relation": "direct-door",
+        "strength": "preferred",
+        "exceptions": [
+          "Southern and mid-Atlantic practice, where the necessary house is detached in the yard and connection was neither wanted nor needed."
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "kitchen-garden",
+        "why": "Downhill of the well and, in practice, uphill of nothing that matters. Period siting put it at the far end of the working yard, on the service side, screened by a fence or a hedge.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "cellar",
+        "why": "A privy vault upgradient of a cellar, a springhouse or a well is the mechanism of every domestic typhoid outbreak in the record. This is the single hardest siting rule in the whole catalogue and it survives in modern code as the well setback.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      },
+      {
+        "room": "kitchen",
+        "why": "Distance and downwind. Never on the approach to the house and never visible from the principal elevation.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "yard",
+      "garden",
+      "covered-way",
+      "woodshed",
+      "breezeway"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Cross-vented at the eaves and through the door cut, with a vault vent where the work is good. The vault vent above the roof is the ancestor of the modern vent stack.",
+    "heat": "None, and it is the point of the connected farmstead that this was mitigated by getting there under cover rather than by heating it.",
+    "electrical": "None.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "new-england-colonial",
+      "name_in_style": "necessary / backhouse",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Frequently attached, in the ell or the woodshed, reached under cover. Boarded and clapboarded to match the house, because it is part of the house."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "necessary house",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "In the best Chesapeake work it is an architectural dependency - brick, with a moulded cornice and sometimes a hipped roof, sited on axis with a garden walk. Mount Airy, Gunston Hall and Monticello all have designed necessaries. The style put architecture on its outbuildings and it is one of its most attractive habits."
+    },
+    {
+      "style": "appalachian-log-house",
+      "name_in_style": "outhouse",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Board-and-batten or logs, moved when the pit filled. In use into living memory."
+    },
+    {
+      "style": "charleston-single-house",
+      "name_in_style": "necessary",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "At the rear of the long narrow lot, beyond the kitchen building, on the service yard - part of the dependency row that made the type work."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "By 1935 the house has a bathroom and the privy is a rural survival, not a type."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "name_in_style": "privy",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Survives longest here, into the 1940s and past rural electrification, because indoor plumbing needed a pressure system and a septic field, not just a wire."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Minimum horizontal separation between an onsite wastewater disposal field and a private potable well: commonly 50 ft to a septic tank and 100 ft to a leach field, with greater distances in fractured or karst ground.",
+      "ref": "US EPA Onsite Wastewater Treatment Systems Manual; state onsite codes",
+      "conflict": "THE SAME NUMBER THE PRIVY WAS SITED BY, arrived at empirically two centuries before the mechanism was known. Where a modern traditional house is on a well and a septic field, this is the first line drawn on the site plan and everything else - the drive, the dependency, the kitchen garden - arranges itself around it."
+    },
+    {
+      "requirement": "Where a privy is retained or rebuilt as a historic structure it is normally not a permitted sanitary facility and the dwelling must have compliant plumbing.",
+      "ref": "IRC P2601, local health codes"
+    }
+  ],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "telescope-house",
+    "hall-and-parlor",
+    "center-passage-single-pile",
+    "i-house",
+    "cape-cod-massing",
+    "charleston-single",
+    "dogtrot",
+    "five-part-palladian",
+    "double-pen",
+    "saltbox"
+  ],
+  "slots": [
+    "outbuilding_types",
+    "service_zone_strategy",
+    "orientation_rule",
+    "landscape_idiom",
+    "grade_relationship"
+  ],
+  "faults": [
+    "dependency-that-is-not-subordinate",
+    "service-route-through-the-formal-plan"
+  ],
+  "sources": [
+    "Edwin Chadwick, Report on the Sanitary Condition of the Labouring Population (1842)",
+    "Henry Moule, The Advantages of the Dry Earth System (1868)",
+    "Thomas Hubka, Big House, Little House, Back House, Barn (1984), for the connected farmstead and the privy in the back house",
+    "US EPA Onsite Wastewater Treatment Systems Manual (2002) for well and field separation",
+    "HABS records of Chesapeake necessary houses"
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,135 @@
+{
+  "id": "secondary-bedroom-cluster",
+  "name": "Secondary Bedroom Cluster",
+  "aka": [
+    "children's wing",
+    "chamber floor"
+  ],
+  "scale": "cluster",
+  "confidence": "high",
+  "description": "The bedrooms that are not the principal one, plus the bathroom they share and the linen storage that serves them. Usually treated as residue left over after the primary suite, which is why so many houses have one good bedroom and three that cannot take a double bed and a desk.",
+  "rooms": [
+    {
+      "room": "bedroom",
+      "role": "primary",
+      "count": "2-4"
+    },
+    {
+      "room": "bathroom",
+      "role": "secondary",
+      "count": "1-2"
+    },
+    {
+      "room": "linen-press",
+      "role": "servant",
+      "count": "1"
+    },
+    {
+      "room": "closet",
+      "role": "servant",
+      "count": "n"
+    },
+    {
+      "room": "gallery-corridor",
+      "role": "connector",
+      "count": "0-1"
+    },
+    {
+      "room": "nursery",
+      "role": "optional",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "Every bedroom takes a double bed, two tables and a chest with clearances: 10 ft in the short dimension is the floor, and 11 is workable. Below 10 ft the room takes a single bed and the client will not discover it until they move in.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "bedroom_short_dimension_ft at-least 10"
+    },
+    {
+      "statement": "No bedroom is entered through another. This is the oldest rule in domestic planning and it is still broken in bonus rooms and third bedrooms.",
+      "kind": "circulation",
+      "severity": "hard",
+      "exceptions": [
+        "shotgun-house",
+        "creole-cottage-vernacular"
+      ]
+    },
+    {
+      "statement": "The shared bathroom is reached from the corridor, not through a bedroom. A jack-and-jill bath serves two rooms and privatises a fixture the other bedrooms need.",
+      "kind": "circulation",
+      "severity": "strong"
+    },
+    {
+      "statement": "Bathroom and linen store buffer bedrooms from each other where the wall is shared head to head.",
+      "kind": "acoustic",
+      "severity": "preferred"
+    },
+    {
+      "statement": "Every sleeping room has an emergency escape opening, and a fixed or high transom window does not count.",
+      "kind": "servicing",
+      "severity": "hard"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "four-over-four",
+      "fit": "canonical",
+      "position": "the two or three upper quadrants left by the primary suite"
+    },
+    {
+      "massing": "cape-cod-massing",
+      "fit": "canonical",
+      "position": "the half storey, with dormers"
+    },
+    {
+      "massing": "ranch-l",
+      "fit": "canonical",
+      "position": "the private leg"
+    },
+    {
+      "massing": "foursquare",
+      "fit": "canonical"
+    },
+    {
+      "massing": "i-house",
+      "fit": "common",
+      "position": "the whole upper floor, one room deep"
+    }
+  ],
+  "expansion_logic": "Add a room at the end of the corridor, or finish the attic. Adding within the cluster by subdividing produces rooms below the 10 ft floor and should be resisted.",
+  "privacy_span": [
+    3,
+    5
+  ],
+  "typical_area_sf": [
+    500,
+    1100
+  ],
+  "servicing_strategy": "Bathrooms stacked with the wet rooms below; the linen press hides the stack where it has to rise.",
+  "circulation_parti": [
+    "center-hall",
+    "side-hall",
+    "gallery"
+  ],
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "Chambers",
+      "note": "No corridor: chambers open off the passage directly, and the smaller ones are entered through the larger, which the period accepted and we do not."
+    },
+    {
+      "style": "craftsman",
+      "note": "Two bedrooms and one bath is the canonical bungalow arrangement, and the sleeping porch is the third bedroom."
+    },
+    {
+      "style": "ranch-style",
+      "note": "The bedroom wing is the type's real innovation: all sleeping rooms on one leg, buffered from the living rooms by the service core."
+    }
+  ],
+  "sources": [
+    "IRC R310, R304",
+    "Wright, Building the Dream"
+  ]
+}

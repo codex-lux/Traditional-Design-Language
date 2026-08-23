@@ -1,0 +1,197 @@
+{
+  "id": "shotgun-house",
+  "name": "Shotgun House",
+  "aka": [
+    "shotgun cottage",
+    "linear cottage",
+    "railroad house",
+    "camelback (two-storey rear variant)"
+  ],
+  "rank": "style",
+  "member_of": "american-folk-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": 1810,
+    "floruit_start": 1850,
+    "floruit_end": 1930,
+    "decline_end": 1950,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1995,
+        "end": 2026,
+        "revival_node": "new-urbanist-traditional",
+        "note": "The shotgun returns as a small-lot infill and cottage-court type in New Urbanist and post-Katrina rebuilding practice, where its 14-foot width and front-porch social logic solve exactly the problems that produced it."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Gulf South",
+      "Lower Mississippi Valley",
+      "Deep South",
+      "Upland South",
+      "Texas",
+      "Midwest industrial cities",
+      "Southern California"
+    ],
+    "hearth": "New Orleans, Louisiana",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "3B",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "creole-cottage-vernacular",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The New Orleans building trade that produced the shotgun was the Creole trade: the same carpenters, the same cypress, the same hall-less planning logic in which rooms open directly into one another and circulation happens outdoors. ACKNOWLEDGED GAP: the West African (Yoruba) and Haitian ti kay ancestry described at length in this node has no target node in the taxonomy, so the graph currently understates it. The resolved cascade is Franco-Norman only and should be read with that caveat until an African/Caribbean trunk exists."
+    },
+    {
+      "target": "french-colonial-american",
+      "type": "hybridizes_with",
+      "weight": 0.35,
+      "inherits_kit": false,
+      "note": "French colonial framing practice (briquette-entre-poteaux, cypress sills, full-width galleries) supplied the construction system into which the African-Caribbean plan was built."
+    },
+    {
+      "target": "raised-creole-plantation",
+      "type": "references",
+      "weight": 0.2,
+      "inherits_kit": false,
+      "note": "Later shotguns borrow raised-floor and gallery details from the region's higher-status buildings, and after 1880 borrow Italianate and Eastlake millwork brackets wholesale, without descending from either."
+    }
+  ],
+  "description": {
+    "short": "A house one room wide and three to five rooms deep, gable and porch to the street, its doors aligned on a single axis - a New Orleans type with documented West African and Haitian plan antecedents, not an Anglo economization of a narrow lot.",
+    "long": "The shotgun is a plan before it is anything else: a single file of rooms, each twelve to fourteen feet square, opening directly into the next with no hallway, the whole strung front to back on a narrow deep lot with the gable end and a porch turned to the street. Three rooms is the minimum, five is common, and the rooms are typically parlour, bedroom, bedroom, kitchen in sequence, so that reaching the last room means passing through every private space in the house. The doors align on one axis, which is the ventilation strategy - open the front and back doors on a July night and the whole house becomes a single duct - and which also produced, at some point in the later nineteenth century, the folk etymology that gives the type its name. The camelback variant adds a second storey only over the rear rooms, preserving the one-storey street reading and, not incidentally, the property tax assessment that went with it.\n\nThe origins are the substance of this node, because the popular explanation is wrong and the scholarship correcting it is solid. The folk account says the shotgun is simply the cheapest way to fit a house on a narrow lot taxed by frontage. That is true as far as it goes and explains nothing distinctive: narrow lots exist everywhere and produced side-hall townhouses in Philadelphia, back-to-backs in Manchester and railroad flats in New York, none of which look like this. John Michael Vlach's work of the mid-1970s - his 1975 dissertation and the two-part 1976 Pioneer America article 'The Shotgun House: An African Architectural Legacy' - traced the plan to the Yoruba two-room house of West Africa, roughly twelve by twenty feet with the entrance in the gable end, carried to Saint-Domingue in the slave trade, where it fused with Arawak and French Caribbean building to produce the Haitian ti kay. The transmission event is documented: between 1809 and 1810 roughly ten thousand refugees from the Haitian Revolution - white planters, free people of colour, and enslaved people in nearly equal thirds - arrived in New Orleans by way of Cuba, doubling the city's population. Jay Edwards has since identified some 140 linear cottages in New Orleans built before 1840. The name may itself be African: Vlach proposed the Fon word to-gun, 'place of assembly', reaching English through Louisiana Creole, which would make the shotgun-through-the-doors story a later folk rationalisation of a word nobody recognised. Not every claim in this chain is equally secure - the etymology is the weakest link and Edwards has argued for a more complex Creole synthesis than a single African line - but the central point survives all of the criticism: the shotgun is a Black architectural tradition that arrived in North America through the Caribbean, and calling it a poor man's cottage erases the only interesting thing about it.\n\nThe conditions that made it a mass type are industrial and post-emancipation. From the 1860s the shotgun became the standard rental and owner-built house for Black urban communities across the South and, with the Great Migration, into Louisville, Memphis, Houston, and industrial towns as far as Los Angeles; thousands were built in New Orleans in the 1880s and 1890s alone. Mill-sawn cypress and pine, machine-cut nails and catalogue millwork made it fast and cheap to build; a builder could produce a row of them on a single subdivided lot. It absorbed whatever ornament the era offered - Italianate brackets, Eastlake spindlework, Queen Anne gable shingles - all of it concentrated on the street gable and the porch, because that eight feet of frontage was the entire public face of the household. Its subsequent history is a story of policy: shotgun neighbourhoods were redlined, cleared for urban renewal and interstate construction, and after 2005 flooded and demolished in enormous numbers, so the surviving stock is a fraction of what was built.\n\nStanding on the porch of one, the first thing you notice is that the porch is the room the house does not otherwise have. It is five to eight feet deep, full width, raised two or three feet above the banquette, and it faces a street of identical porches four feet away across a narrow yard - a social machine of extraordinary efficiency, and the reason former residents describe the type in terms of neighbours rather than rooms. Inside, the axis is the whole experience: standing at the front door you see straight through four doorways and out the back, a hundred and twenty feet of aligned openings, and the ceilings are ten to twelve feet so the volume feels far larger than the fourteen-foot width. There is no privacy in the modern sense and there was never meant to be; the plan assumes that circulation happens on the porch and in the yard, exactly as it does in the West African compound and the Caribbean village the plan came from."
+  },
+  "defining_characteristics": [
+    "One room wide, three to five rooms deep, with no hallway - rooms open directly into one another in an enfilade",
+    "Front and rear doors and all intervening doors aligned on a single longitudinal axis",
+    "Gable end turned to the street, with a full-width porch under or attached to the front gable",
+    "House width of 12-16 feet overall, set by the room, not by the lot",
+    "Ceiling heights of 10-12 feet, disproportionate to the plan width, for stack ventilation in a subtropical climate",
+    "Ornament concentrated entirely on the street gable and porch, whatever the current millwork catalogue offered",
+    "Growth by adding rooms to the rear, or by the camelback: a second storey over the rear rooms only"
+  ],
+  "diagnostic_tells": [
+    "Sight line straight through the house from the front door to the back door - no other American type does this",
+    "Front facade of one or two openings only, a door and a window, under a gable",
+    "Porch full width and at least 5 feet deep, raised on brick or cypress piers with an open crawl beneath",
+    "Camelback profile: a house that is one storey from the street and two from the alley",
+    "Rows of identical units at 3-6 foot spacings on subdivided lots, sharing a rhythm but not party walls"
+  ],
+  "distinguished_from": [
+    {
+      "node": "creole-cottage-vernacular",
+      "difference": "The Creole cottage faces the street broadside with four openings, no centred door, and a hall-less four-room plan two rooms deep. The shotgun turns ninety degrees and goes to one room wide. They share carpenters, cypress, ceiling heights and the refusal of interior corridors."
+    },
+    {
+      "node": "massing:gable-front",
+      "difference": "A massing, not a style, and much broader. A Greek Revival or Folk Victorian gable-front house is two or three bays wide with a side hall; the shotgun is one room wide with no hall at all. Width and the absence of a passage are the test."
+    },
+    {
+      "node": "american-farmhouse-vernacular",
+      "difference": "Different ancestry and different climate logic. The farmhouse is Anglo-descended, two rooms deep or more, has a central or side passage, and grows by ell. The shotgun is Afro-Caribbean in plan, single-file, and grows only backward."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the room and by airflow. Width is one room, depth is a repeated module, and ceiling height is set by stack ventilation rather than by any proportional canon; the street gable is proportioned by the porch.",
+    "typical_ratios": [
+      "Overall width 12-16 feet; individual rooms 11-14 feet square",
+      "Total depth 40-70 feet across 3-5 rooms",
+      "Ceiling height 10-12 feet, giving a room whose height nearly equals its width",
+      "Porch depth 5-8 feet, full width; floor raised 18-36 inches above grade on piers",
+      "Roof pitch 6:12 to 10:12 front-gabled; camelback rear section 1.5-2 storeys",
+      "Lot frontage 25-32 feet with 4-8 feet of side yard, from the New Orleans standard 30 x 120 foot lot"
+    ],
+    "bay_rhythm": "Street facade of two openings (door and window) or three on a double shotgun; the side elevation carries one window per room at even spacing, which is the plan module made visible.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "shotgun",
+      "affinity": "canonical",
+      "note": "The type and the massing are the same object."
+    },
+    {
+      "massing": "gable-front",
+      "affinity": "possible",
+      "note": "Wider gable-front cottages of two rooms' width are a related but distinct type and should not be labelled shotgun."
+    },
+    {
+      "massing": "creole-cottage",
+      "affinity": "atypical",
+      "note": "Shares the region and the builders but not the plan; the four-opening broadside face is the opposite move."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "All door openings must align on a single longitudinal axis within 3 inches, front door to rear door. Offsetting an interior door breaks the ventilation path that is the type's entire environmental strategy.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Overall width 12-16 feet, one room wide throughout, with no interior hallway. A hall added down one side converts the building to a side-hall cottage and is a different type.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Ceiling height minimum 10 feet (11-12 typical), with a transom over every interior door and operable windows on both side walls of every room. The section is the cooling system.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Full-width front porch of at least 5 feet depth (6-8 preferred), raised 18-36 inches above grade. The porch is the house's only social space and its only public face; a shotgun without one is incomplete rather than merely plain.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Growth is to the rear only. A camelback second storey must begin at least two rooms back from the front wall so the street elevation remains single-storey; a full second storey over the front rooms destroys the type.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Elvis Presley Birthplace",
+      "location": "306 Elvis Presley Drive, Tupelo, Mississippi",
+      "year": 1934,
+      "note": "Built by Vernon Presley; a two-room wood-frame shotgun with a hipped roof and a front porch on thin wooden posts. The irreducible minimum version of the type, and precisely dated."
+    },
+    {
+      "name": "Shotgun House (Santa Monica Conservancy Preservation Resource Center)",
+      "location": "2712 Second Street (original site), Ocean Park, Santa Monica, California",
+      "year": 1897,
+      "note": "Three rooms in line, board-and-batten, front porch, with Queen Anne shingling on the street gable - evidence of the type's migration to the Pacific Coast as worker and resort housing. Relocated 2014, opened as a preservation centre 2016."
+    },
+    {
+      "name": "Faubourg Marigny and Bywater shotgun rows",
+      "location": "New Orleans, Louisiana",
+      "year": 1890,
+      "note": "The densest surviving concentration of the type, mostly 1880s-1890s, single and double shotguns and camelbacks with Italianate and Eastlake millwork on the street gables. Cited as a district because the individually documented early examples largely did not survive."
+    }
+  ],
+  "sources": [
+    "John Michael Vlach, 'The Shotgun House: An African Architectural Legacy', Pioneer America 8 (1976), parts 1 and 2",
+    "John Michael Vlach, Sources of the Shotgun House: African and Caribbean Antecedents for Afro-American Architecture (PhD dissertation, Indiana University, 1975)",
+    "Jay D. Edwards, 'Shotgun: The Most Contested House in America', Buildings & Landscapes 16 (2009)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "64 Parishes (Louisiana Endowment for the Humanities), 'Shotgun House'"
+  ],
+  "confidence": "high",
+  "tags": [
+    "folk",
+    "vernacular",
+    "african-diaspora",
+    "caribbean",
+    "urban",
+    "climate-driven",
+    "acknowledged-gap"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "id": "handrail-you-cannot-grip",
+  "name": "The Rail The Hand Cannot Close On",
+  "aka": [
+    "the 2x6 on brackets",
+    "the flat-top rail",
+    "the Type II rail with no recess"
+  ],
+  "slots": [
+    "newel_balustrade",
+    "stair_type"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "A handrail whose section the hand cannot close around: a flat 2x6 laid on edge or on the flat, a wide square-edged plank, a broad shelf-like cap sitting on a solid balustrade, or a metal channel. There is no undercut on either side, so the fingers rest on top of the rail rather than wrapping under it, and in a fall the hand slides. In the classical version of the same failure the rail is a period-looking moulded profile that has been made 4 in wide instead of 2 3/4 and its finger groove has been flattened out.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "A wide flat rail is cheap, it is available in any lumber yard, it looks contemporary, it is easy to fasten, and it turns a corner with a simple mitre where a moulded rail needs a fitting. It is also the natural cap for a solid or panelled balustrade, which is itself a cost saving over balusters, so one decision produces the other. The code's own structure contributes: it defines a Type II rail with a large perimeter as acceptable PROVIDED it has a finger recess, and the recess is the part that gets omitted because it is a shaper operation rather than a purchase.",
+    "cost_saved": "A 2x6 rail runs 4 to 7 USD a lineal foot; a run moulded handrail in poplar or oak 14 to 30 USD, and the fittings — volutes, easings, goosenecks — are 90 to 400 USD each. On a 30 ft balustrade with three fittings, 800 to 2,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "code",
+      "ref": "IRC R311.7.8.3",
+      "statement": "Type I: circular section 1 1/4 to 2 in in diameter, or a non-circular section with a perimeter of 4 to 6 1/4 in and a largest cross-section dimension of not more than 2 1/4 in. Type II: perimeter greater than 6 1/4 in, WITH a graspable finger recess on both sides beginning within 3/4 in below the widest portion, at least 5/16 in deep, and with the width above the recess between 1 1/4 and 2 3/4 in. A flat 2x6 has a perimeter of 14 in and no recess, and complies with neither."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R311.7.8.4",
+      "statement": "The rail must be continuous for the full length of the flight and, where mounted on a wall, must have at least 1 1/2 in of clearance behind it. A rail interrupted at every newel, or one with 1 in of knuckle clearance, fails a requirement that exists for the same reason as the grip rule."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / newel_balustrade / handrail",
+      "statement": "Moulded, ramped and eased into the newel rather than butted to it — and its 30 to 32 in period height against the IRC's 34 in minimum, resolved by lengthening the newel and re-cutting the ramp rather than by stretching the balusters."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the moulded handrail already satisfies the modern rule",
+      "statement": "The classic mushroom or ogee handrail section is 2 1/2 to 3 in wide with a rounded top and a hollow undercut on both sides — which is precisely the Type II finger recess the code describes. The eighteenth century arrived at that shape by holding it, and the code arrived at the same shape by measuring people falling. A correctly profiled period handrail is a compliant handrail, and this is one of the cleanest cases in the corpus of a code and a tradition agreeing on a section."
+    }
+  ],
+  "correct_practice": "Use a profile the hand closes on. Two compliant families. TYPE I: a turned or moulded rail of 1 1/2 to 2 in across with a perimeter of 4 to 6 1/4 in, which covers a simple round rail, a Craftsman rail of 1 3/4 by 2 1/4 in with eased edges, and most of the plainer nineteenth-century sections. TYPE II: the classic moulded handrail, 2 1/2 to 3 in wide and 2 1/4 to 2 3/4 in deep, with a rounded or ogee crown and a hollow undercut of at least 5/16 in on both sides, the width above the recess between 1 1/4 and 2 3/4 in — which is the standard Georgian, Federal and Victorian section and needs no modification to comply. Height 34 to 38 in above the tread nosing, against the period band of 30 to 32; take the code minimum of 34, which is only 2 in above the period figure and within the tolerance of the ramp anyway, and absorb the difference by LENGTHENING THE NEWEL AND RE-CUTTING THE RAMP rather than by stretching the balusters, which is where the two inches show. The rail is ramped and eased into the newel, not butted to it — the ramp-and-ease is what separates a joiner's stair from a carpenter's and it is the most expensive eighteen inches in the house. Where a solid or panelled balustrade is used, the cap must still carry a graspable rail on top or a separate rail on brackets, not merely a wide flat shelf.",
+  "fixes": {
+    "right": "Run moulded handrail with proper fittings — volute or turnout at the bottom, easings at the pitch changes, gooseneck at the landing — ramped into the newels at 34 in.",
+    "cheap": "Rout the recess. A flat rail already installed can be given a 3/8 in cove on both sides with a router and a bearing-guided bit, in place, in about an hour for a 30 ft balustrade, which converts a non-compliant Type II into a compliant one and gives the fingers something to close under. Material cost: nothing. If the rail is being ordered new, a plain 1 3/4 by 2 1/4 in eased-edge section costs about the same as a 2x6 and complies as Type I with no operation at all.",
+    "dishonest": "A thin round rail bolted to the top of the wide flat one, so the assembly has a graspable member and a shelf under it. It complies on paper and produces a rail whose grip surface is 2 in above the guard, which changes the effective guard height and looks like an afterthought. Also dishonest: a continuous rail whose 'finger recess' is a 1/8 in decorative groove — the code's 5/16 in minimum is there because a groove shallower than that gives the fingertips no purchase, and the number is not arbitrary."
+  },
+  "detection": "From a photograph taken along the rail, look at its SECTION at the end, where it terminates at a newel or a wall and its profile is visible end-on. Compliant Type II shows a mushroom or ogee crown with a visible hollow beneath on both sides; the fault shows a flat or eased rectangle. Second, look at the hands in any photograph of people using the stair: on a compliant rail the fingers disappear under the profile, on a flat rail they lie on top. Third, measure the widest cross-section dimension: above 2 1/4 in the rail must be Type II and must show a recess, and the recess is visible as a dark line running the whole length of the rail on both sides — its absence on a wide rail is diagnostic. Fourth, check the terminations: a rail that butts square into a newel post with a rosette has no ramp, which is a joinery tell rather than a code one but travels with this fault.",
+  "test": {
+    "expression": "handrail_perimeter_in",
+    "threshold": 4.0,
+    "upper": 6.25,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Type I band, in inches of perimeter. Sections outside it are permitted only as Type II, which additionally requires a finger recess at least 5/16 in deep on both sides beginning within 3/4 in of the widest point. A flat 2x6 gives a perimeter of 14 in with no recess and fails both. The classic moulded handrail gives 7 to 9 in of perimeter WITH the recess and passes as Type II."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman handrail is a plain rectangular section with square or lightly eased edges, in keeping with a family whose whole vocabulary is the flat board, and a moulded classical rail would be as wrong here as a turned newel.",
+      "bounds": "It must still comply, and it can: a section of 1 3/4 by 2 1/4 in with a 1/8 in eased edge gives a perimeter of exactly 8 in, which is Type II and therefore needs the recess — so the correct Craftsman rail is 1 3/4 by 2 in or smaller, giving a perimeter of 7 1/2, or takes a shallow cove on both faces. The flatness of the family is licensed; the width is not.",
+      "bounds_test": {
+        "expression": "handrail_max_cross_section_in",
+        "threshold": 2.25,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Solid panelled or shingled balustrades with a broad flat cap are a genuine feature, particularly on porches and open stairs, and the cap is a place to set things down as much as a rail.",
+      "bounds": "The broad cap is licensed AS A CAP and does not discharge the handrail requirement: a separate graspable rail must be provided, mounted on brackets on the wall side or on the face of the balustrade. This is exactly how the surviving examples were retrofitted and it is not a compromise."
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Solid adobe or plastered parapet balustrades with no rail at all are definitional, and the mass of the wall is the guard.",
+      "bounds": "Interior stairs still need a compliant graspable rail; the exception covers the absence of a balustrade, not the absence of a handrail. In practice a slim rail on brackets against the plaster is the answer and is visually almost invisible."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Wrought iron rails of small round or square section, often 3/4 to 1 in, are the idiom.",
+      "bounds": "Below 1 1/4 in the section fails the Type I minimum, so the iron rail must be made up to 1 1/4 in at the grip or a separate graspable member added. The idiom's own answer, a rolled or twisted top rail of larger section over a lighter grille, complies and is period."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "newel-too-thin",
+      "difference": "The rail against the post it lands on. Both are usually bought from the same stair-parts catalogue, but the rail failure is a code failure and the newel failure is a proportional one."
+    },
+    {
+      "fault": "crown-that-projects-half-its-height",
+      "difference": "Both are profile-depth faults where a member has the right outline and the wrong section, but this one is measured by the hand rather than by the eye, which is why it has a code behind it and the crown does not."
+    }
+  ],
+  "co_occurs_with": [
+    "newel-too-thin",
+    "stair-at-the-code-minimum"
+  ],
+  "sources": [
+    "IRC R311.7.8.1 handrail height, R311.7.8.3 grip size Types I and II, R311.7.8.4 continuity and clearance",
+    "kits/georgian-colonial-american.kit.json, newel_balustrade code_conflict and handrail note",
+    "ANSI A117.1 handrail requirements",
+    "HABS measured drawings, moulded handrail sections"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stair",
+    "handrail",
+    "code",
+    "profile-depth",
+    "grip"
+  ]
+}

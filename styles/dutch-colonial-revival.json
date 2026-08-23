@@ -1,0 +1,199 @@
+{
+  "id": "dutch-colonial-revival",
+  "name": "Dutch Colonial Revival",
+  "aka": [
+    "Dutch Colonial",
+    "Gambrel Colonial",
+    "Barn House (colloquial)"
+  ],
+  "rank": "variant",
+  "member_of": "colonial-revival",
+  "status": "revival",
+  "period": {
+    "origin": 1885,
+    "floruit_start": 1890,
+    "floruit_end": 1940,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "the Hudson Valley, northern New Jersey, and the New York suburbs",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "colonial-revival",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "A roof-defined variant. Everything below the eave is standard Colonial Revival; the gambrel and the sweeping eave are the whole difference."
+    },
+    {
+      "target": "dutch-colonial-american",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The claimed ancestor, and a genuinely misread one: the revival takes the gambrel from Hudson Valley and New Jersey barns and houses and makes it a full second storey, which the originals never did."
+    },
+    {
+      "target": "hudson-valley-dutch",
+      "type": "references",
+      "weight": 0.7,
+      "note": "Source of the flared, kicked eave - the 'Dutch kick' - and of the deep stone-walled ground floor in the better examples."
+    },
+    {
+      "target": "shingle-style",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The 1880s Newport and Long Island offices used the gambrel as a Shingle Style move before it was called Dutch anything; that is the actual line of transmission."
+    },
+    {
+      "target": "dutch-colonial-american",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The gambrel-roofed variant of Colonial Revival, in which a Hudson Valley barn profile is stretched to enclose a full second storey and becomes, between 1910 and 1930, the most economically efficient two-storey house in the American suburb.",
+    "long": "Dutch Colonial Revival is a roof with a house under it. Its necessary condition is the gambrel: a two-slope roof, steep below and shallow above, running either side-to-side or front-to-back, with the lower slope pierced by a long shed dormer or a row of gabled ones, and very often flaring outward at the eave in the characteristic Dutch kick. Below that roof it is an ordinary Colonial Revival house - symmetrical or near-symmetrical, clapboard or shingle over frame, double-hung sash, a classical entry, shutters - and it inherits its entire kit from the parent style.\n\nWhat made it ubiquitous was arithmetic. A gambrel encloses roughly 15 to 20 percent more usable floor area within the same roof volume than a simple gable of comparable ridge height, which meant a builder could sell a two-storey house while framing and heating a storey and a half. Between 1910 and 1930 that made it the default in the mail-order catalogs - Sears, Aladdin, Bennett - and in the streetcar suburbs of every Northeastern city. The style also carried a small, specific social advantage: for buyers in New York, New Jersey and the Hudson Valley, Dutch descent was old, prestigious, and comfortably distinct from the New England Yankee claim being made by everybody else.\n\nThe historical misreading is worth naming precisely, because it governs the proportions. Actual Dutch colonial building in the Hudson Valley and New Jersey was mostly one-and-a-half storeys of stone or brick, with a low, broadly spreading gambrel or a steep straight gable, a deeply overhanging flared eave often carried on an extended rafter over a porch, and an interior of two or three rooms without a centre passage. The revival raises the wall, shrinks the overhang, adds a centre-passage plan and a full second floor, and puts a 24-foot shed dormer in a roof whose original virtue was its unbroken sweep. The result is efficient and likeable and is not Dutch.\n\nStanding in front of one, the roof dominates completely - it is usually more than half of what you see - and it gives the house a low, settled, sheltering look that a straight gable never does. The flare at the eave, where it is present, is the detail that separates the good examples from the merely serviceable: it softens the whole silhouette and throws a curved shadow onto the wall. Inside, the second floor is the interesting condition, because the walls kick in at about five feet and the ceiling follows the upper slope, producing rooms with sloped shoulders that children have always liked and adults have always found slightly cramped."
+  },
+  "defining_characteristics": [
+    "Gambrel roof - two pitches per side, steep below and shallow above - as the primary and defining massing element",
+    "The lower slope pierced by a long shed dormer or a row of dormers, providing full-height second-floor accommodation",
+    "Flared or kicked eave at the base of the lower slope in the better examples, projecting well beyond the wall face",
+    "Colonial Revival wall and openings below the eave: clapboard or shingle, double-hung multi-light sash, aligned bays, shutters",
+    "Classical entry with pilastered surround, transom or fanlight, frequently under a small pedimented or hooded porch",
+    "Chimney at a gable end or breaking through the gambrel slope"
+  ],
+  "diagnostic_tells": [
+    "A gambrel with a full-length shed dormer is Dutch Colonial Revival essentially by definition; almost nothing else in American housing produces that profile.",
+    "Look for the eave kick: a 12-24 in. flare below the lower slope. Its presence marks an architect or a good builder; its absence marks a catalog house.",
+    "The lower slope is steep - 20:12 to 24:12 - and the upper is shallow - 6:12 to 9:12. If both slopes are near-equal the roof is a mansard and the building is Second Empire.",
+    "Compared with genuine Dutch colonial buildings: the originals are one-and-a-half storeys of stone with an unbroken roof sweep and no centre passage; the revival is two full storeys of frame with a 20 ft dormer in it."
+  ],
+  "distinguished_from": [
+    {
+      "node": "dutch-colonial-american",
+      "difference": "The original is a low masonry building of one and a half storeys with a broad unbroken gambrel or steep gable, a deeply projecting flared eave frequently sheltering a porch, and a two- or three-room plan without a centre hall. The revival doubles the storey count, cuts a shed dormer into the defining roof, and imposes a symmetrical centre-passage plan."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "This is the parent style with a gambrel roof. If the roof is a simple gable or hip, it is Colonial Revival unqualified."
+    },
+    {
+      "node": "second-empire",
+      "difference": "A mansard has four slopes with a flat deck on top and dormers set within the steep lower slope; the gambrel has two slopes per side and comes to a ridge. Second Empire is also masonry, bracketed, and Victorian in its detail."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Roof geometry. The gambrel is set out from the second-floor plate: the lower slope must be steep enough to give 7'0\" headroom at 3'0\" in from the wall, and the break point is placed to keep the upper slope shallow enough to look like a barn rather than a house.",
+    "typical_ratios": [
+      "Lower slope 20:12 to 24:12; upper slope 6:12 to 9:12",
+      "Break point at 55-65 percent of the total roof height above the eave",
+      "Eave kick projecting 12-24 in. beyond the wall with the flare beginning 18-30 in. up the slope",
+      "Shed dormer face set back 18-36 in. from the wall plane and running 50-75 percent of the roof length",
+      "Wall height to eave 9-12 ft (one storey plus knee wall); roof height eave to ridge 12-16 ft"
+    ],
+    "bay_rhythm": "Even, three or five bays at 9'0\"-11'0\" on centre, with the entrance centred in the classic case and set to one side on the narrow-lot version. Dormer windows should align with the openings below.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gambrel-block",
+      "affinity": "canonical",
+      "note": "The variant is this massing. Everything else is a deviation."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The plan beneath is a standard centre-passage double pile; only the roof differs."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common",
+      "note": "Narrow-lot suburban version with the entrance to one side and a front-facing gambrel."
+    },
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "atypical",
+      "note": "A gambrel over a Cape footprint occurs but loses the variant's floor-area logic."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Gambrel lower slope 20:12 to 24:12, upper slope 6:12 to 9:12, with the break at 55-65 percent of roof height. Slopes closer than 8:12 apart produce a mansard and void the variant."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "The lower slope must genuinely enclose habitable second-floor area: minimum 7'0\" clear headroom at a point 3'0\" horizontally in from the exterior wall plane. A gambrel over an attic is decoration."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "A full-length shed dormer face must be set back not less than 18 in. from the wall plane below and its ridge must sit not less than 24 in. below the main ridge. A dormer flush with the wall converts the roof to a clipped gable."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Where an eave kick is used it must project 12-24 in. past the wall, flare continuously across the full elevation, and return at the gable ends. A kick on the front only is forbidden."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Shutters, where used, follow the parent style's rule: half the sash width each, full sash height, on offset pintles with holdbacks. Shutters are not permitted on dormer windows."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "William E. Curtis House",
+      "location": "808 East Curtis Street, Seminole Heights, Tampa, Florida",
+      "year": 1906,
+      "note": "Gambrel-roofed Dutch Colonial Revival, NRHP 1987; evidence of how far outside the Hudson Valley the variant travelled."
+    },
+    {
+      "name": "57 Stone Street",
+      "location": "New York, New York",
+      "year": 1903,
+      "note": "C. P. H. Gilbert. Urban Dutch Revival with a stepped gable, quoting the Netherlands rather than the Hudson Valley - the style's other branch."
+    },
+    {
+      "name": "West End Collegiate Church and School",
+      "location": "West End Avenue at 77th Street, New York, New York",
+      "year": 1892,
+      "note": "Robert W. Gibson, after the Vleeshal at Haarlem. The institutional case that gave the Dutch reference its New York prestige. Cornerstone 1891, dedicated 20 November 1892."
+    },
+    {
+      "name": "Wallabout Market",
+      "location": "Brooklyn, New York",
+      "year": 1896,
+      "note": "William Tubby, 1894-96. A whole market district in Dutch Revival stepped-gable brick; demolished, but the largest commitment ever made to the idiom."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "William B. Rhoads, The Colonial Revival (1977)",
+    "Rosalie Fellows Bailey, Pre-Revolutionary Dutch Houses and Families in Northern New Jersey and Southern New York (1936)",
+    "John Milnes Baker, American House Styles: A Concise Guide (1994)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "revival",
+    "variant",
+    "gambrel",
+    "catalog-house",
+    "suburban"
+  ]
+}

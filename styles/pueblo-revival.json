@@ -1,0 +1,231 @@
+{
+  "id": "pueblo-revival",
+  "name": "Pueblo Revival",
+  "aka": [
+    "Santa Fe Style",
+    "Spanish-Pueblo Revival",
+    "Pueblo Style",
+    "Adobe Revival (loosely)"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "living",
+  "period": {
+    "origin": 1908,
+    "floruit_start": 1915,
+    "floruit_end": 1950,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1970,
+        "end": 2026,
+        "revival_node": null,
+        "note": "Continuous production as a regional and regulatory default in northern New Mexico; Santa Fe's historic-district ordinance has effectively mandated the style since 1957."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "Santa Fe, New Mexico",
+    "climate_zones": [
+      "5B",
+      "4B",
+      "3B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "new-mexico-adobe",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The principal claimed ancestor - New Mexican Spanish and Hispano adobe building, itself already a fusion of Iberian technique with Puebloan wall construction. The revival also references Ancestral and historic Puebloan building directly; the taxonomy has no separate node for it."
+    },
+    {
+      "target": "california-mission-colonial",
+      "type": "references",
+      "weight": 0.5,
+      "note": "The mission-church register - buttressed facades, twin towers, deep entry - transmitted through the Franciscan churches of New Mexico, San Esteban del Rey at Acoma above all."
+    },
+    {
+      "target": "spanish-colonial-revival",
+      "type": "hybridizes_with",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Real transmission. Same decade, same exposition circuit, same professional argument that a Southwestern state needed a Hispanic-derived identity. Retyped: Pueblo Revival originates c.1905-08 at the University of New Mexico, before Spanish Colonial Revival, and the two co-emerge on the same exposition circuit rather than one descending from the other."
+    },
+    {
+      "target": "arts-and-crafts-american",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The Anglo artist colonies at Santa Fe and Taos, and the Craftsman ethic of visible structure and handled surface, supplied both the clientele and the aesthetic justification."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The Rapp brothers were a conventional commercial practice; the exposition pavilion, the reinforced-concrete frame and the drafting method all come from mainstream professional culture."
+    },
+    {
+      "target": "mission-revival",
+      "type": "references",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "The direct Southwestern predecessor in the market and in the professional imagination, though Pueblo Revival takes its forms from Puebloan and New Mexican adobe rather than from the California missions."
+    },
+    {
+      "target": "new-mexico-adobe",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The Santa Fe style: flat-roofed, parapeted, earth-coloured buildings with battered walls, projecting vigas, and stepped massing, invented between 1908 and 1917 by Anglo architects and boosters assembling a marketable regional identity from Puebloan and Hispano New Mexican building.",
+    "long": "Pueblo Revival is unusually well documented as an act of invention, because the people who invented it wrote down what they were doing. New Mexico achieved statehood in 1912; Santa Fe's economy was failing; and a committee of the city's Anglo civic leadership, working with the Museum of New Mexico and the archaeologist Edgar Lee Hewett, resolved to give the town a coherent architectural character that could be sold to tourists. The instrument was the New Mexico Building at the 1915 Panama-California Exposition in San Diego, designed by Rapp & Rapp of Trinidad, Colorado, and modelled on the Franciscan mission church of San Esteban del Rey at Acoma. The same firm then built the permanent version in Santa Fe as the Museum of Fine Arts in 1917, drawing additionally on the mission churches at Laguna, Cochiti, San Felipe, Santa Ana and Pecos. That building fixed the style. From 1957 Santa Fe's historic ordinance made it, in effect, mandatory downtown.\n\nThe vocabulary is consistent. Walls are flat-planed, thick, rounded at the corners and arrises, battered outward at the base, and finished in earth-toned stucco over adobe, concrete block, or wood frame. Roofs are flat and drained through canales - projecting spouts - behind parapets whose tops are irregular and gently undulating rather than level. Peeled log roof beams, vigas, project through the wall face; latillas or corbels appear at porch structures. Massing is stepped and terraced, blocks of differing heights set back from one another to recall the multi-storey Puebloan roomblock. Openings are small relative to wall, deeply recessed, and often carry a heavy timber lintel. Portales - post-and-corbel covered porches - run along principal facades.\n\nThe appropriation question is not incidental to the style; it is its history. Pueblo Revival takes its imagery from living Native communities - Taos, Acoma, Zuni and the Rio Grande pueblos - who were not consulted, did not profit, and were simultaneously subject to federal assimilation policy that suppressed the culture the style was marketing. It also flattens the Hispano contribution, since New Mexican adobe by 1900 had a substantial Territorial-period vocabulary of milled wood, pediments and porches which the revival stripped out as insufficiently picturesque. Chris Wilson's The Myth of Santa Fe (1997) is the standard critical account and traces in detail how the style was designed, legislated, and sold. It is also true that Pueblo Revival is climatically intelligent, has produced buildings of real quality, and is now a genuine regional tradition with New Mexican practitioners of every background. Both facts are load-bearing and neither cancels the other.\n\nTo stand before a good one is to lose the sense of a building as an assembly of parts. There are no eaves, no fascias, no gutters, no corner boards, no visible joints - the whole thing is one continuous rounded surface the colour of the ground it stands on, and the only interruptions are the vigas, which read as a row of dark punctuation, and the shadowed slot of a window. In the high New Mexican light the wall goes almost white at noon and burnt orange at five o'clock. The interiors are low, thick, and quiet, with beamed ceilings and small deep windows, and they hold their temperature the way the earth does, which is the reason the form existed before anyone thought to revive it."
+  },
+  "defining_characteristics": [
+    "Flat roof drained through projecting canales behind an irregular, gently undulating parapet",
+    "Thick earth-toned stucco walls with rounded corners and arrises and a visible batter at the base",
+    "Projecting peeled log vigas penetrating the wall face below the parapet",
+    "Stepped, terraced massing of blocks at differing heights, set back from one another",
+    "Small, deeply recessed openings with heavy timber lintels; low solid-to-void ratio favouring wall",
+    "Portal - a post-and-corbel covered porch with peeled log posts and carved corbels - on at least one principal elevation",
+    "No eave, fascia, gutter, corner board, or applied trim anywhere on the exterior"
+  ],
+  "diagnostic_tells": [
+    "Flat roof plus vigas plus rounded corners. Any one of the three alone is inconclusive; all three together are decisive.",
+    "The parapet top is not level. A dead-straight parapet indicates a Territorial or commercial building rather than Pueblo Revival.",
+    "Vigas are round peeled logs 8-12 in. in diameter projecting 12-24 in. Square sawn timbers projecting from a wall are Territorial or Spanish Colonial Revival, not Pueblo Revival.",
+    "No brick coping. A brick dentil course capping the parapet marks the Territorial Revival variant, which is a distinct and equally common New Mexican type.",
+    "Against the genuine article: real adobe walls are 18-36 in. thick with proportionate reveals and visible settlement; the revival often achieves the look in 2 in. of stucco over frame, and the reveal depth is the tell."
+  ],
+  "distinguished_from": [
+    {
+      "node": "new-mexico-adobe",
+      "difference": "The original is load-bearing adobe brick, mud-plastered and replastered annually, with walls 18-36 in. thick, a plan generated by adding rooms in single-file, and after 1850 a large admixture of milled Territorial woodwork. The revival is usually frame or block with stucco, is composed as a picturesque whole in one campaign, and deliberately omits the Territorial layer as inauthentic."
+    },
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "Spanish Colonial Revival has pitched red tile roofs, carved or cast entrance ornament, wrought iron and decorative tile. Pueblo Revival has flat roofs, no tile, no worked ornament, and substitutes timber and earth for iron and glaze."
+    },
+    {
+      "node": "mission-revival",
+      "difference": "Mission Revival has a pitched tile roof and a curvilinear shaped parapet on smooth machine-flat stucco. Pueblo Revival has a flat roof, an irregular parapet, rounded wall surfaces, and vigas."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The adobe course and the viga span. Wall thickness and the practical clear span of a peeled log - 14 to 18 ft - set room sizes; the absence of any framing module means proportion is judged as sculptural mass rather than as composition.",
+    "typical_ratios": [
+      "Wall base batter 1 in 24 to 1 in 40 over the lower 3-6 ft",
+      "Apparent wall thickness at reveals 12-24 in.; genuine adobe 18-36 in.",
+      "Vigas 8-12 in. diameter at 24-36 in. on centre, projecting 12-24 in. past the wall face",
+      "Parapet height above roof deck 18-30 in., varying by at least 4 in. along its run",
+      "Openings 1:1.2 to 1:1.6, solid-to-void ratio 8:1 or greater on principal elevations",
+      "Portal posts 8-10 in. square or round at 7-9 ft on centre, with corbels 30-42 in. long"
+    ],
+    "bay_rhythm": "Additive and irregular. Openings are placed by internal need, do not align between storeys, and are separated by broad blank wall. The only regular rhythm on the building is the viga row and the portal posts.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The stepped, terraced accumulation of flat-roofed blocks at differing heights is the whole formal idea."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The placita house - ranges around an enclosed court - is the historically correct New Mexican domestic plan and the strongest residential option."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "possible",
+      "note": "Larger institutional and hacienda examples with a fully enclosed placita."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "common",
+      "note": "Where a continuous portal fronts a linear range; the standard Santa Fe street condition."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "forbidden",
+      "note": "A symmetrical double-pile block with a centred entrance is fundamentally alien to the type."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Roof must be flat or near-flat, maximum 1/4 in. per foot to internal or canale drainage, concealed behind a parapet 18-30 in. above the roof deck whose top line varies by at least 4 in. over its length. Any pitched roof visible from a principal elevation voids the style."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Vigas, where expressed, must be round peeled logs 8-12 in. in diameter projecting 12-24 in. beyond the wall face at 24-36 in. on centre, and must occur only where a roof or ceiling structure could plausibly bear on that wall. Vigas on a gable end, on a parapet above a roof, or on an elevation with no floor behind it are forbidden."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Wall thickness must be expressed with a minimum 10 in. reveal at all openings, jambs and heads returned in stucco, corners and parapet arrises radiused not less than 3 in. No eave, fascia, gutter, downspout, corner bead line, or applied trim may appear on the exterior."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Solid-to-void ratio not less than 6:1 on principal elevations, with no single opening wider than 6'0\". Large glass areas belong on courtyard-facing elevations only."
+    },
+    {
+      "kind": "cultural",
+      "severity": "advisory",
+      "statement": "This style quotes the built forms of living Puebloan communities. Where a project is sited in or adjacent to Native land, or is intended to represent Native culture, the design should be developed with the relevant community rather than from the published Santa Fe vocabulary."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "New Mexico Building, Panama-California Exposition",
+      "location": "Balboa Park, San Diego, California",
+      "year": 1915,
+      "note": "Rapp & Rapp, modelled on the mission church of San Esteban del Rey at Acoma Pueblo. The founding building of the style; survives as the Balboa Park Club."
+    },
+    {
+      "name": "New Mexico Museum of Art (Museum of Fine Arts)",
+      "location": "Santa Fe, New Mexico",
+      "year": 1917,
+      "note": "Rapp, Rapp & Hendrickson, 1915-17. The permanent version of the exposition building, drawing additionally on Laguna, Cochiti, San Felipe, Santa Ana and Pecos. It fixed Santa Fe Style for the century."
+    },
+    {
+      "name": "La Fonda on the Plaza",
+      "location": "Santa Fe, New Mexico",
+      "year": 1922,
+      "note": "Rapp & Rapp; substantially remodelled and enlarged by John Gaw Meem from 1929. The commercial and touristic centre of the style."
+    },
+    {
+      "name": "Zimmerman Library, University of New Mexico",
+      "location": "Albuquerque, New Mexico",
+      "year": 1938,
+      "note": "John Gaw Meem, 1936-38. Pueblo Revival at institutional scale and at its highest level of design control."
+    }
+  ],
+  "sources": [
+    "Chris Wilson, The Myth of Santa Fe: Creating a Modern Regional Tradition (1997)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Bainbridge Bunting, John Gaw Meem: Southwestern Architect (1983)",
+    "Marc Treib, Sanctuaries of Spanish New Mexico (1993)",
+    "City of Los Angeles, SurveyLA Citywide Historic Context Statement: Mediterranean and Indigenous Revival Architecture, 1893-1948"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "southwest",
+    "new-mexico",
+    "invented-tradition",
+    "regulated-style",
+    "appropriation"
+  ]
+}

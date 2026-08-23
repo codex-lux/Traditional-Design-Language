@@ -1,0 +1,123 @@
+{
+  "id": "newel-too-thin",
+  "name": "The Newel That Cannot Be Leaned On",
+  "aka": [
+    "the 3 1/4 newel",
+    "the stock post",
+    "two balusters to a tread"
+  ],
+  "slots": [
+    "newel_balustrade",
+    "stair_type"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "A newel post 3 to 3 1/2 in square at the foot of the stair, made of finger-jointed pine or a hollow box, wobbling perceptibly when the handrail is used. Beside it the balusters are 1 1/4 in square at two per tread, so the balustrade reads as a thin picket fence with a slightly thicker picket at the end. The newel and the balusters differ by a factor of 2.6 where they should differ by 3.5 to 4.5, and the post does not look like it is holding anything up.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Newels and balusters are sold as a matched stair-parts system in a small number of sizes, and 3 1/4 or 3 1/2 in is the largest post most catalogues stock in paint grade because it turns from a 4x4 blank. Anything larger is either a glued-up box or a 6x6, which is a special order and a different price band. The wobble has a separate driver in the framing: a newel is only as stiff as its connection to the structure, and the stock system fastens it with a hanger bolt into a doubled joist or, worse, into the tread and riser assembly only, so the post's stiffness is governed by a 1/2 in threaded rod. Baluster count is set by the same catalogue, which prices per piece and quotes two per tread as standard.",
+    "cost_saved": "A 3 1/4 in stock newel runs 60 to 140 USD and a turned or built-up 5 1/2 to 6 in newel 300 to 900 USD. Going from two balusters per tread to three adds 40 to 60 pieces on a typical flight, 400 to 1,800 USD. Total 800 to 3,000 USD on one stair."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / stair_type.width = module * 1.571 = 5 1/2 in",
+      "statement": "Newel post 5 1/2 in square — a 6x6 dressed, or four boards mitred round a core, capped with a flat square cap projecting 3/4 in with a bevelled top edge."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / newel_balustrade.width = module * 0.429 = 1 1/2 in",
+      "statement": "Balusters 1 1/2 in square at about 3 1/2 in on centres, giving a clear space of 2 in and satisfying the 4 in sphere rule comfortably. Newel to baluster is 5.5 to 1.5, a ratio of 3.67."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / newel_balustrade / balusters_per_tread_best = 3, _ordinary = 2",
+      "statement": "Three balusters to a tread in the best work and two in ordinary work, commonly twisted, fluted and plain in rotation where there are three."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R312.1.3",
+      "statement": "A 4 in sphere must not pass through any opening in the guard. On an 11 in tread with two balusters per tread at 5 1/2 in on centres, a 1 1/4 in baluster leaves 4 1/4 in of clear space and FAILS. Three per tread, or a fatter baluster, is required — so the code and the best period practice agree, which is unusual and worth exploiting."
+    }
+  ],
+  "correct_practice": "The newel is a post and must look and behave like one: 5 to 6 in square at the base in a Craftsman or Greek Revival stair, or a turned column newel of 5 to 8 in at the plinth in Georgian and Federal work, standing on the floor and bolted or housed into the framing rather than into the stair. The ratio that governs is newel to baluster at 3.5 to 4.5 to 1 — the newel must be unmistakably a different order of member, and 2.6 to 1 reads as a slightly bigger baluster. Balusters: three per tread in the best work, two in ordinary work, 1 1/4 to 1 3/4 in square or turned. Take the code and the tradition together, because they point the same way: on an 11 in tread, two 1 1/4 in balusters give 4 1/4 in of clear space and fail the 4 in sphere rule, while three give 2 1/2 in and pass with room to spare — so the deeper, better tread FORCES the better baluster count, and specifying an 11 in tread quietly buys the three-per-tread balustrade. Where three per tread is used in Georgian work, the classic rotation is twisted, fluted and plain repeating down the flight. And fix the newel properly: a hanger bolt into a stair assembly gives a post that moves 1/4 in at the cap under normal hand load, which is what everyone actually notices; the post should be continuous to the floor framing or bolted to a doubled member, and on a period stair it is a structural element of the string.",
+  "fixes": {
+    "right": "Newel 5 1/2 to 6 in square or a turned column of equivalent mass, housed into the framing, with three balusters per tread at 1 1/2 in.",
+    "cheap": "Box the newel you have. Cladding an existing 3 1/4 in post in 3/4 in stock on four faces gives a 4 3/4 in post, and adding a 1 1/4 in cap that projects 3/4 in with a bevelled edge brings the visual mass to about 6 1/4 in at the top, for perhaps 90 USD in material. Do the stiffening at the same time — one lag through the box into the framing costs nothing while the post is open. This single move fixes the ratio, the wobble and the silhouette together and is the best value on the whole stair.",
+    "dishonest": "A large decorative cap on a thin post, which increases the apparent size at the top and leaves the shaft looking pinched — the newel then reads as a lamp rather than as a post. Also dishonest: adding a second thin newel beside the first at the turn, which multiplies the member rather than sizing it."
+  },
+  "detection": "Measure newel width against baluster width in a photograph. Correct: 3.5 to 4.5. Fault: 2.2 to 2.8. Both members are almost always visible in the same frame at the foot of a stair, which makes this one of the easiest interior ratios to take from an image. Second, count balusters per tread: three in the best work, two in ordinary, and note the code consequence — measure the clear space between balusters, which must be under 4 in. Third, look at the newel's FOOT: a correct newel meets the floor or is housed into the string with a visible plinth; a stock one dies onto the first tread or the skirt with a small trim collar, and that collar is the tell. Fourth, in a video or in person, push the newel cap sideways: more than about 1/8 in of movement means the post is bolted to the stair rather than to the building.",
+  "test": {
+    "expression": "newel_width_in / baluster_width_in",
+    "threshold": 3.5,
+    "upper": 4.75,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Craftsman gives 5.5 / 1.5 = 3.67. A Georgian turned column newel against a 1 1/4 in baluster gives 4.4. Stock stair parts give 3.25 / 1.25 = 2.6. Run the absolute check alongside: a newel below 4 1/2 in across is too small in any family."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "federal-style",
+      "why": "Federal balustrades are deliberately attenuated — slender turned balusters of 1 1/8 to 1 1/4 in and a lighter newel, sometimes a slim column or a scrolled volute over a cluster of balusters rather than a post at all. Adamesque delicacy governs the stair as it governs the trim.",
+      "bounds": "Where the newel is replaced by a VOLUTE — the handrail curling over a cluster of five or six balusters set in a circle on a curtail step — there is no newel to measure and the ratio does not apply. Where a post is used it is still 4 1/2 in or more. Attenuation of the balusters is licensed; a small post is not.",
+      "bounds_test": {
+        "expression": "newel_width_in",
+        "threshold": 4.5,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Unless a volute replaces the newel entirely, in which case the test is inapplicable."
+      }
+    },
+    {
+      "style": "adam-style",
+      "why": "Same reasoning: extreme slenderness in the balusters, sometimes with wrought iron at 5/8 to 3/4 in, is the style's signature.",
+      "bounds": "Iron balusters may be very slim indeed, but the code's 4 in sphere still governs the spacing and the newel or volute must still terminate the rail with authority."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Heavy square newels and plain square balusters with wide spacing are normal, and some stairs use a solid panelled balustrade with no balusters at all.",
+      "bounds": "Where there are no balusters the ratio is inapplicable. Where there are, the newel runs 6 in or more, so the style errs on the generous side of this rule rather than the thin side."
+    },
+    {
+      "style": "craftsman",
+      "why": "Where the stair has a solid panelled or board-and-batten balustrade instead of balusters, which is equally period and often better, there is nothing to measure the newel against.",
+      "bounds": "The boards and battens run to the same spacing as the wainscot, and the newel is still 5 1/2 in square with a projecting cap. And a turned newel in a Craftsman stair is as wrong as a mitred casing and for the same reason: the family's vocabulary is the square board and the visible joint."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "handrail-you-cannot-grip",
+      "difference": "The post against the rail. A stair can have a good newel and an ungraspable rail; the two are chosen from different pages of the same catalogue."
+    },
+    {
+      "fault": "open-string-without-a-bracket",
+      "difference": "The balustrade against the string beneath it. Both are usually symptoms of a stair bought as a parts kit rather than built, but they can occur independently."
+    }
+  ],
+  "co_occurs_with": [
+    "handrail-you-cannot-grip",
+    "open-string-without-a-bracket",
+    "stair-at-the-code-minimum"
+  ],
+  "sources": [
+    "proportions/systems/trim-craftsman.json, stair_type.width and newel_balustrade.width derived rules",
+    "kits/georgian-colonial-american.kit.json, newel_balustrade parameters and code_conflict",
+    "IRC R312.1.3 guard opening limitations",
+    "HABS measured drawings of eighteenth-century stair balustrades"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stair",
+    "newel",
+    "baluster",
+    "scale",
+    "code-alignment"
+  ],
+  "severity_trajectory": "Worsens with use, which is unusual for a proportional fault. A newel fixed with a hanger bolt into the stair assembly rather than into the framing works loose under normal hand load: the movement is 1/16 in at handover, 1/4 in at year five, and by year ten the post rocks visibly and the handrail joint has opened. The proportion is minor and constant; the connection is the part that degrades, and both are fixed by the same operation while the post is off."
+}

@@ -1,0 +1,176 @@
+{
+  "id": "chimney-off-the-hearth",
+  "name": "The Chimney That Contradicts the Plan",
+  "aka": [
+    "the floating stack",
+    "elbowed flue"
+  ],
+  "slots": [
+    "chimney",
+    "hearth_position"
+  ],
+  "severity": "serious",
+  "severity_in_use": "serious",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "The stack emerges from the roof in a place unrelated to any fireplace: on the ridge over a stair, at a gable end where there is no fireplace on that wall, or offset four feet from the hearth below because the flue was cranked around a truss and a bedroom closet. Nothing on the elevation explains where it came from.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The chimney is drawn on the elevation by the designer and located in plan by mechanical and framing coordination, which happens weeks later and in a different drawing. A gas fireplace's vent can be offset and elbowed almost anywhere within reason, so nothing physically resists moving it, and the roof penetration ends up wherever the trusses allowed. Nobody made a decision that could be argued with.",
+    "cost_saved": "Nothing in materials. It saves the redesign of a second-floor plan and a week of coordination, which is exactly why it happens on schedule-driven projects."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chimney",
+      "statement": "Position (central, gable-end, exterior-end, paired) is a plan-logic decision, not decoration. It is the fossil of the heating strategy - New England sets stacks inboard of the ridge to keep stored heat inside, the Chesapeake and Low Country put them at the gable ends and often fully exterior to keep the heat out."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "draw the flue in section before locating the stack in elevation",
+      "statement": "A masonry flue may be corbelled and may be offset, but only within limits (IRC R1003.6 and R1003.10). Anything that requires more offset than that is not a chimney; it is a vent in a decorative box."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R1003.6, R1003.10",
+      "statement": "Corbelling is limited to one inch projection per course and no more than half the wall thickness, and a change in direction is limited to 30 degrees from vertical. These two numbers are what make chimney position a plan decision rather than an elevation one."
+    }
+  ],
+  "correct_practice": "Chimney position is the fossil of the plan and the fastest regional discriminator in colonial building. A single central stack is First Period and Cape. Paired interior stacks flanking the ridge are New England Georgian, and they are inboard because a stack inside the envelope stores heat. Paired gable-end stacks, often fully exterior, are Chesapeake and Low Country Georgian, and they are outboard because a stack outside the envelope sheds it. In a Charleston single house the chimneys go on the rear wall or the blind flank, never symmetrically on the street gable. Every one of those is a climate and heating decision, and putting the stack elsewhere makes a false statement about the plan. Practically: draw the flue in section from firebox to cap before the stack is placed in elevation, and hold the offset within what masonry allows.",
+  "fixes": {
+    "right": "Locate the hearths first, draw the flues in section, and let the stack positions on the roof be the consequence.",
+    "cheap": "Where the flue has already been elbowed, move the ROOF PENETRATION back over the hearth and take the offset in the attic where nothing sees it. Attic offsets in a framed chase are cheap; roof positions are permanent.",
+    "dishonest": "Adding a second, false stack at the opposite gable end to make the pair symmetrical. Two chimneys, one of which is a box, is a worse building than one honest chimney in the wrong place."
+  },
+  "test": {
+    "expression": "horizontal_offset_between_firebox_centreline_and_stack_centreline_in",
+    "threshold": 30,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "section",
+    "note": "Honestly NOT a photograph test - it needs a section or a plan, because the fault is a relation between something on the roof and something inside. A masonry flue may be corbelled and offset, but within limits; anything needing more is not a chimney but a vent in a decorative box."
+  },
+  "secondary_tests": [
+    {
+      "expression": "flue_offset_from_vertical_deg",
+      "threshold": 30,
+      "direction": "at-most",
+      "units": "deg",
+      "measurable_from": "section",
+      "note": "The code limit on a change in direction. Draw the flue in section from firebox to cap BEFORE the stack is placed in elevation."
+    },
+    {
+      "expression": "count_of_stacks_with_a_visible_consequence_at_the_wall / visible_stack_count",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The photograph-available half. An exterior gable-end stack should be visible as a tapering mass on the gable; an interior stack should sit on or beside the ridge. A stack emerging from the middle of a slope with neither is a vent chase, and the position says so before the width does."
+    }
+  ],
+  "detection": "From the street, locate the stack on the roof and look for its consequences at the wall. An exterior gable-end stack should be visible as a mass on the gable, tapering, with weatherings. An interior stack should sit on or beside the ridge, and there should be a fireplace on the corresponding interior wall. A stack emerging from the middle of a roof slope with no gable-end mass and no ridge relation - especially one only 16-20 in wide - is a vent chase, and the position is telling you so before the width does.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "saltbox-colonial",
+      "why": "One central stack breaking the ridge FORWARD of its midpoint, at 35-45 per cent of the plan depth, looks like an error and is the type's signature - it is where the ridge is, and the ridge is forward because the lean-to is behind.",
+      "bounds": "The stack must be genuinely central in the front block and the roof must be genuinely asymmetrical. A forward-of-centre stack on a symmetrical roof is just an offset stack.",
+      "bounds_test": {
+        "expression": "stack_position_from_front_wall_in / total_plan_depth_in",
+        "threshold": 0.35,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 0.45,
+        "note": "The stack must be genuinely central in the front block and the roof genuinely asymmetrical. A forward-of-centre stack on a symmetrical roof is just an offset stack."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The chimney is central by definition and the plan pinwheels about it, so it appears in the middle of the roof with no gable-end expression whatever.",
+      "bounds": "It must be massive - the visually heaviest element in the composition - and the plan must actually turn around it.",
+      "bounds_test": {
+        "expression": "chimney_visible_face_width_in",
+        "threshold": 30,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "It must be the visually heaviest element in the composition, and the plan must actually turn around it."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "roman-brick"
+        ],
+        "note": "The central chimney is load-bearing masonry, not a chase."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The hearth organises the plan; the stack may be on a gable end, on the front elevation beside the porch, or both, and its position is an interior consequence rather than a facade rule.",
+      "bounds": "It must be expressed in the heavy masonry of the base - clinker brick, river rock, arroyo stone - continuous with the porch base and the foundation.",
+      "bounds_test": {
+        "expression": "chimney_masonry_continuity_with_base_percent",
+        "threshold": 100,
+        "direction": "equals",
+        "units": "percent",
+        "measurable_from": "photograph",
+        "note": "Expressed in the heavy masonry of the base - clinker brick, boulder, arroyo stone - continuous with the porch base and the foundation."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "Chimneys on the rear wall or the blind flank rather than symmetrically on the street gable is the type's own rule.",
+      "bounds": "Rear or blind flank, and consistent across the whole house.",
+      "bounds_test": {
+        "expression": "count_of_stacks_on_the_street_gable",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Rear wall or blind flank, consistently across the whole house."
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "An exterior end chimney offset from the centre of the gable is correct where the fireplace serves one room of an unequal pair.",
+      "bounds": "The offset must correspond to a real room division that is legible in the openings below.",
+      "bounds_test": {
+        "expression": "stack_offset_from_gable_centreline_in / room_division_offset_in",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "The offset must correspond to a real room division legible in the openings below."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "vestigial-chimney-chase",
+      "difference": "That is about the stack's dimensions. This is about its position. A correctly sized masonry stack can still be in the wrong place, and often is."
+    }
+  ],
+  "co_occurs_with": [
+    "vestigial-chimney-chase"
+  ],
+  "deprecated_inheritance": {
+    "statement": "The Chesapeake and Low Country practice of putting paired chimneys at the gable ends, often fully exterior, is authentic and is a deliberate climate strategy: an exterior stack sheds its stored heat outdoors, which is what you want in a Virginia summer.",
+    "why_not_to_inherit": "Inherited literally into a modern insulated envelope, an exterior masonry stack is a large uninsulated thermal bridge and a cold flue that will not establish draught in winter without pre-warming. The same detail that made a house tolerable in August makes it smoke in January once the rest of the envelope is tight.",
+    "modern_substitute": "Keep the exterior expression and bring the flue inside the insulated envelope with the exterior masonry read as mass rather than as the chimney itself; or keep the true exterior stack and serve it with a sealed, direct-vent or top-sealing-damper appliance that does not depend on a warm flue."
+  },
+  "sources": [
+    "IRC R1003.6 (corbelling), R1003.10 (changes in direction)",
+    "kits/georgian-colonial-american.kit.json chimney",
+    "project style nodes: saltbox-colonial, charleston-single-house, prairie-school, new-england-georgian, tidewater-georgian"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chimney",
+    "plan-logic",
+    "alignment",
+    "regional"
+  ]
+}

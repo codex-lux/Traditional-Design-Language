@@ -1,0 +1,242 @@
+{
+  "id": "powder-room",
+  "name": "Powder Room",
+  "aka": [
+    "cloakroom",
+    "half bath",
+    "guest WC",
+    "lavatory (British sense)",
+    "downstairs loo"
+  ],
+  "function_class": "sanitary",
+  "description": "A two-fixture room - water closet and basin - on the public floor, for guests. It is the only sanitary room in the house that a visitor uses and the only one whose position is a question of manners rather than of servicing, which is why it produces a named fault of its own. Everything about designing one is about the DOOR: where it is, what it faces, whether it can be seen from a table, and whether the room behind it can be entered without the room in front of it going quiet.",
+  "history": {
+    "appears": 1900,
+    "declines": null,
+    "note": "The name is American and Prohibition-era in flavour - the room where a lady withdrew to powder - but the institution is older and English: the CLOAKROOM beside the entrance hall, where outdoor clothes were left and where a WC and a basin were put once there was a sewer to put them on. That origin explains the room's correct position: it belongs in the entry sequence, near where coats are shed, not deep in the plan near the dining room, and the modern practice of pairing it with a coat closet is a return to what it always was. It became standard in American middle-class housing in the 1920s and universal after 1950. Its one genuinely modern requirement is the one nobody designs for: it is now the accessible WC in a house with a main-floor bedroom, and the difference between a powder room that can be adapted and one that cannot is a 32 in clear door and 60 in of clear floor - two dimensions that cost nothing at design stage and are impossible to buy later."
+  },
+  "dimensions": {
+    "area_sf": [
+      16,
+      32
+    ],
+    "width_ft": [
+      3,
+      4.5
+    ],
+    "length_ft": [
+      5,
+      7
+    ],
+    "proportion": [
+      1.3,
+      2.2
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "THIRTY-SIX BY SIXTY-SIX CLEAR, and the derivation is worth following because the code minimum is a trap. The WC needs 30 in of clear width and 21 in clear in front; a small basin needs 24 in of width and 21 in in front. Stacked along one wall that is 30 + 24 = 54 in of fixture wall by 21 + 21 in of depth, and you can draw a legal powder room at 30 by 60 in - two and a half by five feet. Now put a door on it. A 30 in door leaf swinging in needs 30 in of radius, and there is not 30 in of anything to give it. THE DOOR IS WHY THE ROOM IS 36 IN WIDE MINIMUM AND WHY IT SHOULD BE 42: at 42 in wide with the fixtures on the long wall, a 30 in door swings in clear of both. Under 40 in wide the door swings OUT or pockets, and an out-swinging door into a passage is a hazard and into a dining room is a disaster."
+  },
+  "furniture": [
+    {
+      "item": "water closet",
+      "footprint_in": [
+        20,
+        28
+      ],
+      "clearance_in": 24,
+      "note": "A round-front bowl is 27-28 in deep against an elongated 30-31, and in a powder room the 3 in is worth having. 30 in clear width is not negotiable."
+    },
+    {
+      "item": "small basin, wall-hung or console",
+      "footprint_in": [
+        24,
+        18
+      ],
+      "clearance_in": 24,
+      "note": "A wall-hung basin or a console gives the room its floor back and makes a 3 ft 6 in room feel possible; a 30 in vanity in a powder room is 6 in of storage and 6 in of lost floor."
+    },
+    {
+      "item": "door swing",
+      "footprint_in": [
+        30,
+        30
+      ],
+      "clearance_in": 0,
+      "note": "See critical_dimension. This is the object that decides the room."
+    },
+    {
+      "item": "a mirror, a light and a towel",
+      "footprint_in": [
+        24,
+        4
+      ],
+      "clearance_in": 0,
+      "note": "The three things a guest actually uses, and the reason this is the one room in the house where the fittings are worth spending on: it is the only room a visitor is alone in."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.6,
+    "sides_lit": 1,
+    "orientation": "Any. A small obscured or high window in a powder room is worth more than the fan, because it ventilates passively, all the time, without anyone deciding to switch it on.",
+    "glazing_fraction": [
+      0.03,
+      0.1
+    ],
+    "note": "Frequently a wholly interior room - which is legal with mechanical extract but is the reason powder rooms are the worst-smelling rooms in most houses. If it must be interior, the fan runs on a timer or a humidistat and it is ducted properly, and a borrowed light over the door improves it enormously at no cost. The room is behind the entry sequence and often under a stair, so the effective head is low and the daylight multiplier is low with it."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "It belongs in the entry sequence, near the coats, where a guest can find it without asking and reach it without penetrating the family part of the house. This is the cloakroom's original position and it is still the right one.",
+        "relation": "same-floor",
+        "strength": "strong",
+        "exceptions": [
+          "Where the plan's real entry is a mudroom off the garage, the powder room follows the entry that is actually used - see mudroom."
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "mudroom",
+        "why": "Boots, dogs, children and hands. In a house whose family entry is the mudroom, a second powder or a WC there is worth more than the formal one.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "closet",
+        "why": "Coat closet and powder room are the same institution split in two, and putting them together in a short cross-passage off the hall is the tidiest solution in the catalogue: one small vestibule takes both doors and neither is visible from a public room.",
+        "relation": "same-floor",
+        "strength": "strong"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "THE NAMED FAULT. A powder-room door visible from a seated diner ruins both rooms: the guest will not go, and the table hears everything. The rule is testable and it is geometric - draw sight lines from each seat at the laid table; if the door falls inside any of them, move it. And it is not only sight: the room must not share a wall with the dining room either, because a WC discharge and a basin are audible through a single partition at conversational volume.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      },
+      {
+        "room": "centre-passage",
+        "why": "A powder room on the REAR AXIS of a centre passage is the commonest way a modern plan destroys the through-view from the front door to the garden. It goes to one side, in a recess, behind a jog - never on the axis.",
+        "relation": "not-visible-from",
+        "strength": "hard",
+        "exceptions": [
+          "Side-hall and picturesque plans, which have no axis to protect."
+        ]
+      },
+      {
+        "room": "living-room",
+        "why": "Same rule as the dining room but one degree softer: not in the direct sight line of the seating group, and not sharing the wall the sofa backs onto.",
+        "relation": "not-visible-from",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "back-hall",
+      "passage",
+      "mudroom",
+      "vestibule"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "50 cfm intermittent minimum, and this is the one room where it should be on a timer or a humidistat rather than the light switch - a guest turns the light off on the way out and the fan with it, which is the exact moment the room needs it.",
+    "heat": "One small emitter. The room is used for two minutes at a time and it is usually on an outside corner under a stair, which makes it the coldest room on the public floor.",
+    "electrical": "GFCI, and the light on its own switch. Sconces at the mirror rather than a downlight, for the same reason as the dressing room: a downlight over a mirror lights the top of a head.",
+    "stack_proximity_ft": 6
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-townhouse",
+      "name_in_style": "cloakroom",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Under the stair, off the entrance passage, with the coats. The original arrangement and still the best."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "powder room",
+      "present": true,
+      "trim_grade": "high",
+      "note": "The room where a Colonial Revival house is allowed to be extravagant - a small room takes an expensive wallpaper, a good basin and a proper mirror for very little money, and it is the room guests see. This is not a fault; it is the one place in a formal plan where a jewel-box treatment is period-appropriate and cheap."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Absent. Wholly authored where a modern plan needs one, and the two hard rules are the ones in must_not_adjoin: not on the rear passage axis, not visible from the dining room."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "One bathroom, off the hall. A bungalow with a powder room off the living room has been enlarged."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "half bath",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Usually off the family entry beside the laundry, which is functionally correct and where the type puts it by instinct."
+    },
+    {
+      "style": "new-urbanist-traditional",
+      "name_in_style": "powder room",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "On a narrow lot the powder room, the coat closet and the stair all want the same 4 ft of plan against the party-wall side, and resolving that in a short cross-passage rather than stacking them along the main passage is what makes a 20 ft wide plan work."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Water closet 30 in clear width, 21 in clear in front; lavatory clearances as for a bathroom.",
+      "ref": "IRC P2705.1.5",
+      "conflict": "A code-minimum powder room cannot have an in-swinging door. Draw the door first."
+    },
+    {
+      "requirement": "Mechanical exhaust of 50 cfm intermittent where there is no operable window of at least 1.5 sq ft.",
+      "ref": "IRC R303.3, M1505.4.4"
+    },
+    {
+      "requirement": "Where a dwelling is designed for ageing in place or must meet visitability provisions, the powder room is the accessible WC: 32 in clear door width, 60 in turning circle or a T-turn, blocking in the walls for future grab bars.",
+      "ref": "ANSI A117.1 Type C / ICC visitability",
+      "conflict": "Blocking is $40 of plywood at framing and impossible to add later without opening the wall. Put it in every powder room and every ground-floor bathroom regardless of the brief."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "townhouse-row",
+    "massed-picturesque",
+    "garrison-block",
+    "ranch-linear",
+    "ranch-l",
+    "split-level",
+    "mansard-block",
+    "linear-ell-farmhouse",
+    "cape-cod-massing"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "services_strategy",
+    "entry_sequence",
+    "circulation_parti"
+  ],
+  "faults": [
+    "powder-room-on-the-dining-room",
+    "centre-passage-blocked-at-one-end",
+    "stack-with-nowhere-to-land",
+    "service-route-through-the-formal-plan"
+  ],
+  "sources": [
+    "faults/powder-room-on-the-dining-room.json",
+    "IRC P2705.1.5, R303.3, M1505.4.4",
+    "ANSI A117.1 and the ICC visitability provisions",
+    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981), for the cloakroom in the entrance sequence"
+  ],
+  "confidence": "high"
+}

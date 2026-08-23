@@ -1,0 +1,220 @@
+{
+  "id": "tidewater-georgian",
+  "name": "Tidewater Georgian",
+  "aka": [
+    "Virginia Georgian",
+    "Chesapeake Georgian",
+    "Plantation Georgian"
+  ],
+  "rank": "variant",
+  "member_of": "georgian-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1700,
+    "floruit_start": 1720,
+    "floruit_end": 1780,
+    "decline_end": 1800,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1955,
+        "revival_node": "georgian-revival",
+        "note": "The Colonial Williamsburg reconstruction from 1926 made Tidewater Georgian the semi-official national image of 'colonial' and standardized a set of details — some of them conjectural — across thousands of later houses."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Tidewater Virginia",
+      "Northern Neck and the Rappahannock",
+      "Maryland Eastern Shore",
+      "Albemarle Sound, North Carolina"
+    ],
+    "hearth": "the James, York, Rappahannock and Potomac river plantations, where the tobacco economy put wealth on navigable water and every great house had its own landing",
+    "climate_zones": [
+      "3A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "georgian-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "english-palladian",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The five-part composition of block, hyphen and dependency arrives through Campbell's Vitruvius Britannicus and Gibbs, and is realized here more completely than anywhere else in the colonies."
+    }
+  ],
+  "description": {
+    "short": "Brick laid in glazed-header Flemish bond, tall gable-end chimneys, a low hipped or gabled roof, and a plan one room deep with its service buildings pushed out into the yard as separate structures.",
+    "long": "Tidewater Georgian is a hot-climate architecture wearing English clothes, and every place it deviates from its English model is a place where the climate or the labour system won. Start with the plan. Virginia keeps the single-pile house — one room deep, eighteen to twenty-two feet — for two generations after New England and Philadelphia have gone double-pile, because a single-pile house with opposed windows ventilates and a double-pile one does not. The centre passage, ten to fourteen feet wide, runs straight through with a door at each end, both of them aligned, and in July both stand open: it is a breezeway with a stair in it, and Virginians used it as a room, dining and sitting there in summer. Ceilings go to ten, eleven and twelve feet, well above the Northern norm, because hot air has to go somewhere.\n\nThen the dependencies. In New England the kitchen is attached at the back in an ell; in Virginia it is a separate brick building thirty or fifty feet away, along with the laundry, the dairy, the office and the quarters for the enslaved people who worked in them. This is partly fire, partly heat, and mostly the organization of a labour system on a plantation that was a village. At the top of the range it becomes a formal composition: main block, curved or straight hyphens, and symmetrical flanking dependencies — the five-part Palladian arrangement, of which Virginia and Maryland have more surviving examples than any other region.\n\nThe brickwork is the region's real achievement. Flemish bond on the entrance elevation, with headers dipped in a glaze that fires to a blue-grey sheen, laid in a chequer visible at two hundred yards; a moulded or bevelled water table two to three feet above grade; rubbed and gauged arches over the openings — segmental on early work, flat with a slight camber later — and moulded brick belt courses and ogee water tables where the mason was good. Westover's segmental heads and ogee water table are the standard by which the rest is judged.\n\nChimneys are at the gable ends, and they are tall. Whether interior-end, rising within the gable wall, or fully exterior with a stepped weathering, they clear the roof by six to ten feet and often stand in pairs joined by an arched curtain, as at Stratford Hall, where two clusters of stacks rise from the end blocks joined with arches and rails. Roof pitch drops to seven to nine in twelve, and the hipped roof is at least as common as the gable. Both are climate responses: a lower roof over a taller room, hipped to shed the wind.\n\nStanding in the passage at Westover or Carter's Grove with both doors open, the building explains itself in about four seconds. The river is at one end of the axis and the approach at the other; the air moves; the room is twelve feet high and the walls are two feet of brick; and the working buildings — which is to say the buildings where the enslaved labour that produced all of it was performed — are visible outside through the far door. It is the most articulate and the most uncomfortable architecture in colonial America."
+  },
+  "defining_characteristics": [
+    "Brick laid in Flemish bond on the entrance elevation, commonly with glazed headers, over a moulded or bevelled water table 24–36 in above grade",
+    "Chimneys at the gable ends — interior-end or fully exterior — rising 6–10 ft clear of the roof, often paired and joined by an arched curtain",
+    "Low roof pitch, 7:12 to 9:12, hipped as often as gabled, with a modillion cornice and dormers",
+    "Gauged and rubbed brick window heads: segmental arches on early work, flat cambered arches later; not keystoned and not wood",
+    "Single-pile centre-passage plan 18–22 ft deep, retained long after other regions went double-pile; passage 10–14 ft with opposed aligned doors at both ends",
+    "Service functions in detached dependencies — kitchen, laundry, dairy, office, quarters — rather than in an attached ell, formalized at the top of the range into a five-part composition",
+    "Ceilings 10–12 ft on the principal floor"
+  ],
+  "diagnostic_tells": [
+    "Tall gable-end chimneys standing well clear of the roof, frequently paired and linked — visible from a mile away and conclusive against New England",
+    "Glazed-header Flemish bond producing a visible chequer across the front wall",
+    "Front and rear doors aligned on the passage axis, so the house can be seen straight through from the approach",
+    "A separate brick kitchen thirty to eighty feet from the house instead of a service ell",
+    "Segmental (curved) brick arches over the openings on pre-1750 work"
+  ],
+  "distinguished_from": [
+    {
+      "node": "new-england-georgian",
+      "difference": "The five discriminators, all measurable: cladding (glazed-header Flemish bond brick versus clapboard or rusticated board); chimney position (gable-end and often exterior versus interior, inboard of the ridge); roof pitch (7:12–9:12, often hipped, versus 9:12–11:12 gable); window head (segmental or cambered gauged brick arch versus flat wood architrave); and plan depth (single-pile 18–22 ft with detached dependencies versus double-pile 32–38 ft with an attached ell). Ceilings run 10–12 ft here against 8 ft 6 in – 9 ft 6 in in New England."
+    },
+    {
+      "node": "mid-atlantic-georgian",
+      "difference": "Both masonry, both gable-end chimneys. The Delaware Valley house is double-pile 34–40 ft deep, carries a belt course and often a pent roof, uses keystoned flat arches, and attaches its service wing. The Chesapeake house stays single-pile, has no pent roof, uses segmental arches and glazed headers, and detaches its dependencies entirely."
+    },
+    {
+      "node": "greek-revival-southern-plantation",
+      "difference": "The nineteenth-century Southern plantation house adds a giant order of full-height columns and a pediment, uses six-over-six sash and heavy plain trim, and generally goes double-pile. Georgian Tidewater has no colossal portico except in a handful of late Palladian cases, and concentrates its ornament in brickwork and interior joinery."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "A pattern-book order for the doorway and cornice, and the brick module — a 2 1/4 in brick with a 1/2 in bed joint, four courses to eleven inches — for everything horizontal.",
+    "typical_ratios": [
+      "Facade 48–72 ft, five or seven bays; depth 18–22 ft single-pile, 32–36 ft double-pile",
+      "Passage 10–14 ft wide, roughly one-fifth to one-quarter of the facade",
+      "Ceilings 10–12 ft first floor, 9–11 ft second",
+      "Window opening height:width 2.0:1 to 2.2:1 — taller and narrower than the Northern norm",
+      "Water table 24–36 in above grade; belt course, where used, at the second-floor line",
+      "Roof rise:run 7:12 to 9:12; chimney 6–10 ft above the ridge",
+      "Five-part composition: hyphens 12–20 ft long, dependencies 60–75% of the main block's height"
+    ],
+    "bay_rhythm": "Five or seven bays, unaccented, the centre marked only by the doorway; on the largest houses a pedimented pavilion or a two-storey portico breaking forward 24–48 in.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "canonical",
+      "note": "The defining Chesapeake plan and the reason the type ventilates."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "Main block, hyphens, dependencies — Virginia and Maryland hold the densest surviving group in America."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The double-pile block on the largest houses such as Westover and Carter's Grove."
+    },
+    {
+      "massing": "telescope-house",
+      "affinity": "common",
+      "note": "Stepped-down service ranges, particularly on the Maryland Eastern Shore."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "possible",
+      "note": "Rare survival of Jacobean planning, as at Stratford Hall."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Chimneys at the gable ends, interior-end or exterior, rising not less than 6 ft above the ridge. Interior chimneys set inboard of the ridge are a New England device and are wrong here on both stylistic and climatic grounds.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch 7:12 to 9:12. Above 10:12 the elevation reads Northern; below 6:12 it reads Federal or Greek Revival.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Centre passage 10–14 ft wide with exterior doors at both ends, aligned on axis and both operable. This is a ventilation device, not a hallway; narrowing it below 9 ft defeats it.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Flemish bond on the entrance elevation, glazed headers optional but regionally characteristic; English or common bond elsewhere; moulded or bevelled water table 24–36 in above grade; segmental gauged arches with a 3–5 in rise before c. 1750, flat cambered arches after.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Kitchen and service functions in detached dependencies not less than 25 ft from the main block, not in an attached ell. Where formalized, hyphens 12–20 ft long and dependencies at 60–75% of the main block height.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Westover",
+      "location": "Charles City County, Virginia",
+      "year": 1750,
+      "note": "Built by William Byrd III shortly after the 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Segmental window heads, ogee brick water table, steep hipped roof, tall paired chimneys; the Portland stone doorways were added c. 1767."
+    },
+    {
+      "name": "Stratford Hall",
+      "location": "Westmoreland County, Virginia",
+      "year": 1738,
+      "note": "Built c. 1725–38. H-plan of two three-bay hip-roofed end blocks about a central great hall, raised on a high basement, with two clusters of chimney stacks joined by arches and rails; floor levels distinguished by brick of different colours and sizes in Flemish bond."
+    },
+    {
+      "name": "Carter's Grove",
+      "location": "James City County, Virginia",
+      "year": 1755,
+      "note": "Built 1750–55 for Carter Burwell; among the finest surviving colonial Virginia interior joinery, and a legible five-part composition before its twentieth-century alteration."
+    },
+    {
+      "name": "Gunston Hall",
+      "location": "Mason Neck, Fairfax County, Virginia",
+      "year": 1759,
+      "note": "Built 1755–59 for George Mason; the interiors are William Buckland's first American work, and the Palladian and Chinese Chippendale rooms are directly traceable to imported pattern books."
+    }
+  ],
+  "sources": [
+    "Thomas Tileston Waterman, The Mansions of Virginia, 1706–1776 (1946)",
+    "Dell Upton, 'Vernacular Domestic Architecture in Eighteenth-Century Virginia', Winterthur Portfolio 17 (1982)",
+    "Cary Carson et al., 'Impermanent Architecture in the Southern American Colonies', Winterthur Portfolio 16 (1981)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Fiske Kimball, Domestic Architecture of the American Colonies and of the Early Republic (1922)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "brick",
+    "flemish-bond",
+    "glazed-headers",
+    "end-chimneys",
+    "single-pile",
+    "detached-dependencies"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "brick-course",
+      "role": "primary",
+      "authority": "brick-course",
+      "note": "PROMOTED to primary and effectively governing. A Tidewater house is set out on the mason's gauge rod: water table at ten courses, segmental arches with a rise of opening/8 before c. 1750 and flat cambered arches with a camber of opening/96 after, sills one course, quoins and chimney plans in whole bricks. The Flemish bond with glazed headers is the visible expression of the same module. Where a dimension in this kit disagrees with the coursing, the coursing wins.",
+      "precedence": 1
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Re-anchored at a taller principal storey. The Chesapeake principal floor is 10–12 ft against New England's 8 ft 6 in – 9 ft 6 in, so every dimension the pack derives from the storey — window head at 0.78, sill at 30 in, cornice at module/8 — moves up with it while the sill stays put. That divergence is the whole reason a Virginia window looks taller than a Massachusetts one of the same width.",
+      "precedence": 2
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "DEMOTED. The canonical Tidewater house is brick and single-pile at 18–22 ft, which is one bay deep and therefore says nothing the brick module does not already say. Retained only for the frame houses of the middling planters, where it governs.",
+      "precedence": 9
+    }
+  ]
+}

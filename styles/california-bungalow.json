@@ -1,0 +1,189 @@
+{
+  "id": "california-bungalow",
+  "name": "California Bungalow",
+  "aka": [
+    "Southern California bungalow",
+    "airplane bungalow (subtype)",
+    "bungalow court house"
+  ],
+  "rank": "variant",
+  "member_of": "craftsman",
+  "status": "historical",
+  "period": {
+    "origin": 1903,
+    "floruit_start": 1905,
+    "floruit_end": 1930,
+    "decline_end": 1935,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "Pasadena and Los Angeles, California, spreading through the Central Valley and the Southwest",
+    "climate_zones": [
+      "3B",
+      "3C",
+      "2B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "craftsman",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "The Southern Californian expression, and the one in which the style was invented before it was exported. The regional differences are all climatic: no snow load permits a lower pitch, no freeze permits single-wall construction, and a dry warm year permits rooms that are outdoors."
+    },
+    {
+      "target": "mission-revival",
+      "type": "hybridizes_with",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "Shares the Californian stucco trade, the low-pitched tile or composition roof, and the pergola. Produces the common Los Angeles hybrid of a Craftsman body with stucco walls and a shaped parapet or tiled porch roof."
+    },
+    {
+      "target": "spanish-colonial-revival",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "From 1915 onward the same builders and the same plaster crews shift toward the Spanish idiom; late California bungalows carry arched openings, red tile accents, and wrought iron while keeping the bungalow plan intact. This hybrid is what supplants the node rather than a separate style displacing it."
+    },
+    {
+      "target": "swiss-chalet",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "The gable-end truss displayed as a face, the projecting purlin, and the deep bracketed rake are more pronounced here than in the national type, because Californian builders learned them from the chalet pattern books that circulated on the West Coast in the 1880s and 1890s."
+    }
+  ],
+  "description": {
+    "short": "The Southern Californian bungalow in which the Craftsman grammar was first assembled, distinguished from the national type by lower pitches, deeper shading eaves, stucco and boulder masonry, and a set of genuinely outdoor rooms — sleeping porch, pergola, court — that only its climate permits.",
+    "long": "The California bungalow is the parent form pretending to be a child. The Craftsman style was assembled here, in Pasadena and Los Angeles between roughly 1903 and 1909, out of the chalet books, the British reform journals, the Japanese timber work at the expositions, and the local availability of redwood, arroyo boulders, and over-fired clinker brick from the Los Angeles yards. It then travelled east through Stickley's magazine and the plan-book trade and returned to the rest of the country in a form adapted for frost, snow load, and a heating bill. This node holds what was left behind in the adaptation, and almost all of it is climatic.\n\nThe climate does four things. It removes the snow load, which allows the roof to drop to three or four in twelve and to spread wide and flat, so that the Californian bungalow reads as a shelter placed on the ground rather than as a house with a lid. It makes shade rather than warmth the design problem, so eaves grow to three and four feet, porches deepen past eight, and pergolas, trellises, and vine-covered lattice extend the roof plane beyond the building. It removes the need for a continuous thermal envelope, which permits single-wall board-and-batten construction in the Central Valley and unheated rooms everywhere: the sleeping porch, screened and open on two or three sides, is a genuine room of the plan and not an afterthought. And it makes the year-round outdoor room possible, which produces the bungalow court — a row of small detached bungalows facing a shared landscaped walk rather than the street, of which Arthur and Alfred Heineman's Bowen Court in Pasadena, twenty-three units built 1910-1912, is the largest surviving example, and which remains one of the best pieces of low-rise dense housing ever built in America.\n\nWhat produced it economically was the Southern California land boom that ran from about 1904 to 1913: the Pacific Electric interurban network opening subdivisions at a rate no other American city matched, a fifty-by-one-hundred-and-fifty-foot lot as the standard unit, and a house that could be built for fifteen hundred to three thousand dollars. Health migration supplied a large share of the buyers, and the sleeping porch is partly a tuberculosis prescription made architectural. The bungalow was marketed as a way of life more explicitly than any American house before it — informal, servantless, sunlit, out of doors — and the marketing was accurate, which is why the type survived the style.\n\nThe experience is of a building whose most important space is not enclosed. You arrive under a pergola or through a low masonry gate, cross a porch deep enough to be dim at midday, and the transition from outside to inside takes twenty feet and three changes of light. The masonry is deliberately rough — river boulders with mortar raked back, clinker brick warped and glazed by overfiring — set against woodwork that is machined flat and finished smooth, and the collision of the two textures is the whole aesthetic argument in one wall. The wood is redwood or Douglas fir, stained rather than painted, and in the surviving unmodernized examples it is very dark. Outside at the eave, the rafter tails are cut to a profile and the ends are sanded, which is the Japanese lesson: the end of a piece of wood is a face."
+  },
+  "defining_characteristics": [
+    "Very low roof pitch, 3:12 to 5:12, with eaves and rakes of 30 to 48 in shading the wall for most of the day",
+    "Porch of 8 ft or more depth, framed under the primary roof, with the roof plane frequently extended further by pergola, trellis, or beam extension",
+    "At least one genuinely outdoor or unheated room integral to the plan — sleeping porch, screened porch, or open court",
+    "Rustic local masonry — arroyo boulder, clinker brick, or cobble — at foundation, porch base, chimney, and site walls",
+    "Stucco, redwood shingle, or wide board-and-batten wall surfaces rather than the eastern type's clapboard",
+    "Exposed and shaped structural members: rafter tails cut to a profile, purlins projecting through the gable, beam ends sanded and finished",
+    "Single storey or single storey with one raised sleeping room; no full second floor"
+  ],
+  "diagnostic_tells": [
+    "Roof pitch visibly below 5:12 with an overhang deep enough to stand under",
+    "Arroyo boulder or clinker brick used raw against smooth machined woodwork on the same porch",
+    "A pergola, trellis, or extended open beam structure continuing the roof plane past the enclosed wall",
+    "Sleeping porch on the upper level, screened rather than glazed, often with its own small hipped roof",
+    "In the airplane subtype, a single room raised above the main roof with windows on all four sides and no dormer relationship to the roof below"
+  ],
+  "distinguished_from": [
+    {
+      "node": "craftsman-bungalow",
+      "difference": "The national plan-book type has steeper pitch (4:12-6:12), shallower eaves, clapboard or shingle rather than stucco, and no unheated rooms. It is a Californian design rebuilt for winter."
+    },
+    {
+      "node": "mission-revival",
+      "difference": "Mission Revival organizes the elevation around a shaped parapet, arcade, and red tile roof, and has no exposed timber. Where both appear, look at the gable: an exposed truss with projecting purlins is bungalow, a curvilinear parapet is Mission."
+    },
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "Spanish Colonial Revival turns the wall into a smooth plastic mass with deeply recessed openings and no eave; the bungalow keeps the wall thin and the eave deep. If the roof stops at the wall, it is Spanish; if the roof flies past it, it is bungalow."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The Craftsman datums with a shade override. Roof plane and eave depth are set first, by the sun angle and by the depth of shadow wanted on the wall, and the enclosed volume is then fitted beneath. This inverts the usual sequence — the roof is designed before the plan — and is why the type tolerates such wide dimensional variation without losing coherence.",
+    "typical_ratios": [
+      "Roof pitch 3:12 to 5:12",
+      "Eave and rake overhang 30 to 48 in",
+      "Porch depth 8 to 12 ft clear",
+      "Ceiling 8 ft 6 in to 9 ft 6 in — taller than the eastern type, for stack ventilation",
+      "Body width 24 to 30 ft; depth 36 to 50 ft",
+      "Masonry porch base 24 to 36 in wide, carrying a tapered post no more than half its width"
+    ],
+    "bay_rhythm": "Grouped openings of two to four sash between exposed posts, with the porch reading as one very wide bay occupying the whole street elevation.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "bungalow-linear",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "airplane-bungalow",
+      "affinity": "canonical",
+      "note": "Invented in and largely confined to California and the Central Valley; the raised room is a sleeping porch catching the evening breeze."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "possible"
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "The bungalow court reads as a courtyard-U at site scale, with the units detached rather than continuous."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "This assembly — 3:12 to 5:12 pitch, unlined deep eaves, single-wall or minimally insulated walls, unheated rooms — is native to IECC zones 2B, 3B and 3C only. In zones 5 and above the pitch must rise to 4:12-6:12, the eave shorten to 24-36 in, and the outdoor rooms be glazed, at which point the node becomes craftsman-bungalow.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Eave and rake overhang not less than 30 in; porch depth not less than 8 ft clear.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Masonry at porch base, chimney, and foundation must be a locally rough material laid with raked joints; smooth-faced manufactured veneer with returns of less than 24 in is forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Rafter tails, purlin ends, and beam ends must be cut to a declared profile and finished on the end grain; square sawn-off ends are permitted only on secondary structures.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "At least one unheated or open room — sleeping porch, screened porch, pergola-covered terrace of not less than 80 sq ft — must be present in the plan.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Bowen Court",
+      "location": "539 E. Villa Street, Pasadena, California",
+      "year": 1910,
+      "note": "Arthur and Alfred Heineman, 1910-1912. Twenty-three bungalows in an L about a shared garden walk; one of the largest bungalow courts in Southern California."
+    },
+    {
+      "name": "Bungalow Heaven Landmark District",
+      "location": "Pasadena, California",
+      "year": 1900,
+      "note": "More than 800 bungalows, c. 1900-1930, designated 1989 — the Californian type at street scale rather than at exhibition scale."
+    },
+    {
+      "name": "Gamble House",
+      "location": "Pasadena, California",
+      "year": 1908,
+      "note": "Greene and Greene. Included as the type's apotheosis and its explicit outlier: a bungalow grammar executed at ten times the normal budget, with the sleeping porches, terraces, and boulder masonry of the modest type at full scale."
+    }
+  ],
+  "sources": [
+    "Robert Winter, The California Bungalow (1980)",
+    "Clay Lancaster, The American Bungalow, 1880-1930 (1985)",
+    "Edward R. Bosley, Greene and Greene (2000)",
+    "Stefanos Polyzoides, Roger Sherwood and James Tice, Courtyard Housing in Los Angeles (1982)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "climatic-variant",
+    "outdoor-room",
+    "bungalow-court",
+    "california"
+  ]
+}

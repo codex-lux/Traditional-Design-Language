@@ -1,0 +1,437 @@
+{
+  "id": "facade-classical",
+  "name": "The Composed Classical Elevation",
+  "aka": [
+    "the symmetrical front",
+    "bay rhythm and solid-to-void",
+    "the Georgian elevation",
+    "regulated facade"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "Palladio, I quattro libri dell'architettura (1570), Book I chapters XXI-XXVI on the disposition and dimensions of openings; read against measured Anglo-American and English fronts of 1700-1860 and against the surviving pattern-book elevations of Gibbs, Swan, Benjamin and Lafever",
+    "author": "compiled",
+    "year": 1570,
+    "strength": "documented",
+    "url": "https://www.c82.net/architecture/book1",
+    "note": "Marked documented rather than canonical because no single treatise composes a domestic FRONT. Palladio gives the openings and their ornaments, Serlio gives the superimposition, the London Building Act gives the rating, and the pattern books give the elevations - but the rules that hold a five-bay front together were carried in the drawing convention rather than written down. What is documented here is the arithmetic that the surviving elevations actually obey; what is inferred is stated as such."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One bay: the centre-to-centre spacing of the vertical rank of openings on the principal elevation, which is also the width of wall each opening is entitled to",
+    "parts": 12,
+    "default_size_in": 108.0,
+    "note": "Nine feet, and the part is nine inches. The bay is the right module for a facade because it is the only dimension on the elevation that both the plan and the section have to agree about: it is set from inside by the room the window lights and the pier the floor frame lands on, and from outside by the rhythm the street reads. Twelve parts because the bay divides without remainder into the two numbers that matter - four parts of opening and eight parts of pier - which is a solid-to-void of exactly 2 : 1 across the width. A bay that will not divide into whole parts is a bay whose openings were sized before its rhythm was, and it will show. THE RANGE: 7 ft 6 in to 9 ft in an ordinary town house; 9 to 11 ft in a country house or a principal front; 11 to 14 ft where the bay carries a pilaster or an engaged order and the opening has grown to suit. Below about 7 ft the pier is too narrow to carry an arch in brick or a post in frame, and the front becomes an arcade of windows."
+  },
+  "assemblies": {
+    "elevation": {
+      "height_modules": 2.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "foundation",
+          "name": "Exposed foundation, grade to the bed of the water table",
+          "height_parts": 3.0,
+          "projection_parts": 0.0,
+          "profile": "plinth",
+          "note": "Twenty-seven inches. The elevation begins below the first floor. A house sitting on grade has lost the bottom term of the series and reads as though it is settling; this is the cheapest correction available on an otherwise correct front, and it is almost always the first thing missing on a modern imitation.",
+          "confidence": "high"
+        },
+        {
+          "id": "water_table",
+          "name": "Water table",
+          "height_parts": 0.75,
+          "projection_parts": 0.35,
+          "profile": "bevel",
+          "note": "A 6 3/4 in band with a weathered top. In brick it is a moulded or chamfered course and the wall above steps back by half a brick; in frame it is a board with a bevelled cap. Either way it is a real change of wall thickness, not a stuck-on trim, and that is why it is allowed to be the strongest horizontal below the cornice.",
+          "confidence": "high"
+        },
+        {
+          "id": "storey_one",
+          "name": "Principal storey, water table to the bed of the belt course",
+          "height_parts": 12.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "One whole bay-module high - nine feet - which is what makes the bay square in the principal storey. This is not a coincidence in the surviving fabric: a bay of about the storey height is the proportion an unmoulded brick or clapboard wall reads best at, and once the bay departs far from square the openings within it start to look either stranded or crowded.",
+          "confidence": "medium"
+        },
+        {
+          "id": "belt",
+          "name": "Belt course at the second-floor structure",
+          "height_parts": 1.0,
+          "projection_parts": 0.25,
+          "profile": "fascia",
+          "note": "Nine inches. Placement is owned by the storey-graduation pack; what this pack fixes is the band's own depth and projection, and the rule that it must be shallower and less projecting than the water table below it and far less than the cornice above. Three horizontals of decreasing weight going up is the whole discipline of the front.",
+          "confidence": "medium"
+        },
+        {
+          "id": "storey_two",
+          "name": "Second storey, belt course to the bed of the frieze",
+          "height_parts": 10.25,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "Ten and a quarter parts against the twelve below - a ratio of 0.854, which sits in the middle of the measured band the storey-graduation pack records. The graduation is only legible through the windows; the wall itself gives nothing away.",
+          "confidence": "medium"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze band between the upper window heads and the cornice bed",
+          "height_parts": 1.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "Nine inches. This band is the elevation's shock absorber: it is the one horizontal that nothing else has to line up with, so every accumulated error in the storey heights is taken up here. Draw it last.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cornice",
+          "name": "Eaves cornice",
+          "height_parts": 2.0,
+          "projection_parts": 0.86,
+          "profile": "corona",
+          "note": "Eighteen inches high and about 7 3/4 in of projection, which is a boxed modillion or dentil cornice at domestic scale. Twice the frieze, and that 2 : 1 is the ratio that keeps the top of the wall from reading as a gutter. The member breakdown belongs to the order pack in use; this pack only fixes the envelope the cornice has to fit into.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is nine inches: the default bay is nine feet in twelve parts.",
+      "expression": "module.default_size_in / module.parts == 9.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The elevation from grade to the top of the cornice is two and a half bays high. A five-bay front is therefore a double square: five wide by two and a half high, exactly 2 : 1. This is the single most useful check on a composed front and it is why five bays is the standard number rather than an accident of plan.",
+      "expression": "assemblies.elevation.height_modules == 2.5",
+      "tolerance": 0.001,
+      "note": "Run it the other way and it dates the type: a three-bay front at the same storey heights is 3 : 2.5, which is nearly square and reads as a town house; a seven-bay front is 7 : 2.5, which is 2.8 : 1 and needs a centre pavilion or a pair of end pavilions to stop it running away sideways. The bay count is a proportion decision before it is a plan decision."
+    },
+    {
+      "statement": "The principal storey is exactly one bay high, so the bay of the principal storey is a square.",
+      "expression": "assemblies.elevation.members.storey_one.height_parts == module.parts",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The second storey stands to the first as 10.25 to 12, that is 0.854 - inside the 0.78 to 0.92 band the storey-graduation pack records for measured Anglo-American work.",
+      "expression": "assemblies.elevation.members.storey_two.height_parts / assemblies.elevation.members.storey_one.height_parts == 0.8541666667",
+      "tolerance": 0.002
+    },
+    {
+      "statement": "The cornice is twice the frieze.",
+      "expression": "assemblies.elevation.members.cornice.height_parts == assemblies.elevation.members.frieze.height_parts * 2",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The three horizontals diminish in projection going up until the cornice, which reverses and dominates: water table 0.35, belt 0.25, cornice 0.86 parts.",
+      "expression": "assemblies.elevation.members.cornice.projection_parts > assemblies.elevation.members.water_table.projection_parts * 2",
+      "tolerance": 0.001
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "count",
+      "expression": "max(3, floor((span / module - 1) / 2) * 2 + 1)",
+      "units": "count",
+      "range": [
+        3.0,
+        11.0
+      ],
+      "authority_note": "The odd-bay convention is universal in surviving Anglo-American symmetrical fronts of any pretension; the arithmetic here simply forces the nearest odd number and floors it at three.",
+      "note": "BAY COUNT, AND WHY IT IS ODD. This is the first decision on a composed front and it is not negotiable in the way the others are. An odd count puts a bay on the axis, and the axis is where the door goes. An even count puts a PIER on the axis, which means the entrance must either sit off centre - which is a different and perfectly respectable type, the side-hall house - or be pushed into the wall between two windows, where it has no room for a surround and no wall to be seen against. WHY FIVE READS DIFFERENTLY FROM FOUR: at five bays the eye reads 2 + 1 + 2 and the centre is a bay, so the front has a subject. At four it reads 2 + 2 and the centre is a joint, so the front has a seam. A four-bay symmetrical front is a real and common thing - it is what you get when two two-bay units are built as a pair - but it is not a composed front, it is two fronts touching, and every attempt to centre a door on it fails. If the plan gives four bays, either accept the side-hall parti and put the door in bay one or bay four, or take the fourth bay out and widen the remaining three."
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "width",
+      "expression": "module - opening_width",
+      "units": "in",
+      "range": [
+        42.0,
+        96.0
+      ],
+      "authority_note": "Measured piers between openings on Anglo-American fronts run 1.2 to 2.0 times the opening width; the sash-light pack records the same band from the window side.",
+      "note": "PIER WIDTH. The wall left over when the opening is taken out of the bay. Six feet on the default. This is the number that decides whether a front reads as a wall with holes in it or as a frame with glass in it, and the classical answer is emphatically the first. Below about 1.0 times the opening the pier stops being able to carry an arch in brick, and below about 0.8 it stops reading as wall at all. In frame construction the same limit arrives for a different reason: the pier has to hold a post, a pair of studs and the lath or the sheathing nailing, and 30 in is about the floor."
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "ratio",
+      "expression": "(module - opening_width) / module",
+      "units": "ratio",
+      "range": [
+        0.55,
+        0.8
+      ],
+      "authority_note": "Derived from the bay arithmetic; the band is the one that measured fronts occupy, not a figure any treatise states.",
+      "note": "SOLID TO VOID ACROSS THE WIDTH. Two thirds solid on the default, and the useful band is 0.6 to 0.75. Note that this is the ratio in WIDTH, which is what the eye reads along a street front at an angle; the area ratio below is the one the energy code reads. They are different numbers and confusing them is the commonest way to lose an argument with a consultant. At 0.55 the front is Italianate or later and wants a heavier cornice to hold it down; at 0.80 it is a barn, a warehouse or a first-period house, and the openings need to be smaller as well as fewer or they will look like accidents."
+    },
+    {
+      "target_slot": "daylight_strategy",
+      "dimension": "ratio",
+      "expression": "opening_width * 0.55 / module",
+      "units": "ratio",
+      "range": [
+        0.11,
+        0.26
+      ],
+      "authority_note": "Window opening area over gross wall area, taking the opening height at 0.55 of the storey after the storey-graduation pack. Historic glazing ratios of 10-22 per cent of floor area (sash-light) land in the same territory once wall area is substituted for floor area.",
+      "note": "WINDOW AREA TO WALL AREA ON THE COMPOSED FRONT. Eighteen per cent on the default. This is the number that has to survive contact with the energy code, and the good news is that a correctly composed classical front is already frugal: the pier is doing most of the work. The bad news is that the ratio is not uniform across the building, and it must not be made uniform. A composed elevation spends its glass on the front and the two flanks and starves the rear, exactly as a period house did, so a whole-building average is a fair figure and a per-elevation prescriptive limit is not. Argue for the total-UA or performance path before you argue about window sizes."
+    },
+    {
+      "target_slot": "entry_door",
+      "dimension": "width",
+      "expression": "module * 1.15",
+      "units": "in",
+      "range": [
+        96.0,
+        168.0
+      ],
+      "authority_note": "Measured centre bays on five-bay Anglo-American fronts run from equal to the flanking bays up to about 1.35 times; the treatises are silent and the pattern books show both.",
+      "judgment": true,
+      "note": "THE CENTRE BAY, WIDENED. Ten feet four inches against nine feet. Marked judgment because the sources genuinely permit both answers and the choice is a real one. AN EQUAL CENTRE BAY gives an even rhythm and a door that is emphasised only by its surround - this is the plainer Georgian and the whole Federal manner, and it is the safer choice. A WIDENED CENTRE BAY gives the entrance a bay of its own and lets the surround, the sidelights and the transom occupy it without crowding the flanking windows - this is Gibbs, Palladian and Beaux-Arts practice, and it is what a pediment, a frontispiece or an engaged order requires. What you must not do is widen the centre bay and then not use the width: an over-wide bay with an ordinary door in it looks like a mistake in setting out. Decide from the ENTRANCE, not from the plan: measure the door plus its surround plus sidelights, add a pier of at least half the flanking pier on each side, and if the total exceeds the standard bay, widen it and take the difference out of nowhere else."
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "width",
+      "expression": "module * 0.8",
+      "units": "in",
+      "range": [
+        54.0,
+        132.0
+      ],
+      "authority_note": "The residual wall each side of the entrance composition should not fall below about half the ordinary pier; below that the flanking windows begin to read as part of the doorway.",
+      "note": "MAXIMUM WIDTH OF THE WHOLE ENTRANCE COMPOSITION - door, sidelights, casings and any engaged order - measured over its outermost projection. Seven feet two on the default. The doorway is allowed to be the largest single incident on the front, and it is allowed to break the belt course, the water table and even the cornice if it becomes a full frontispiece. It is not allowed to touch the flanking windows. This one clearance is what separates a frontispiece from a rash."
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "height",
+      "expression": "part * 1.0",
+      "units": "in",
+      "range": [
+        4.0,
+        16.0
+      ],
+      "authority_note": "Measured belt courses run one to three brick courses (about 3 to 9 in) in masonry and a 6 to 10 in board in frame.",
+      "note": "DEPTH OF THE BELT BAND ITSELF. Nine inches - one whole part, as the elevation assembly gives it. The storey-graduation pack owns the HEIGHT AT WHICH the belt sits - on the joist zone, at the second-floor structure - and the brick-course pack owns the rounding, because in masonry the belt lands on a course line or it lands nowhere. What this pack owns is how deep the band is allowed to be, and the answer is: less deep than the water table and much less than the cornice. A belt course as deep as the cornice divides the building into two buildings, one stacked on the other, which is exactly the effect a stringcourse on a Venetian palazzo is after and exactly the wrong effect on a domestic front where the ground floor is meant to be the principal one."
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "projection",
+      "expression": "part * 0.25",
+      "units": "in",
+      "range": [
+        1.0,
+        5.0
+      ],
+      "note": "Two and a quarter inches - one course of brick set out, or a 5/4 board. Shallow, because the belt has to shed water and because the whole point of the middle horizontal is that it is subordinate. In masonry the projection is limited by what will not spall in a freeze; a projecting course with no drip and no flashing is the commonest source of water in the wall below a belt, and the detail is worth more attention than the proportion."
+    },
+    {
+      "target_slot": "water_table",
+      "dimension": "height",
+      "expression": "part * 3",
+      "units": "in",
+      "range": [
+        16.0,
+        44.0
+      ],
+      "authority_note": "First floor above finished grade runs 18-30 in in ordinary Anglo-American work; the water table sits at or just below the first-floor structure.",
+      "note": "TOP OF THE WATER TABLE ABOVE FINISHED GRADE. Twenty-seven inches. This is the bottom term of the elevation's series and it is the one most often omitted, because it is below the eye when you are standing at the door and invisible on a computer elevation drawn from three feet up. Omit it and the front has no base; the wall runs into the ground and the building appears to be sinking. On a sloping site the water table is the line that must stay level, and the exposed foundation below it is what takes the fall - never the reverse."
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "projection",
+      "expression": "module / 14",
+      "units": "in",
+      "range": [
+        5.0,
+        20.0
+      ],
+      "authority_note": "Domestic boxed cornices project 6-12 in; a full entablature-derived cornice projects about its own height, which the order packs dimension exactly.",
+      "note": "Seven and three quarter inches on the default. The cornice must out-project every other horizontal on the front by a clear factor of two or it will not read as the end of the wall. It must also be sized from the PRINCIPAL storey, not from the shortened storey it actually crowns - see the storey-graduation pack, which is right about this and it is worth repeating: a cornice scaled to the top floor always looks mean."
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "width",
+      "expression": "module / 6",
+      "units": "in",
+      "range": [
+        9.0,
+        30.0
+      ],
+      "authority_note": "Quoins on English and Anglo-American brick fronts run 12-24 in on the long face; corner boards on frame work run 5-10 in.",
+      "note": "WIDTH OF THE CORNER, whether quoin, corner board or pilaster strip. Eighteen inches on the default - a quarter of the pier. The corner is the one place the front is allowed to thicken, and the rule is that it must be at least as wide as the narrowest pier reads and never as wide as the pier itself, or the end bay will appear to have lost half its wall. In frame work the corner board must be wider than the casing of the adjacent window and it must be run past it, not butted to it: a corner board narrower than the window casing beside it is the fastest way to make a good front look thin. Masonry quoins only: the slot conflates the quoin with the corner board, and this figure applies to the first. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one.",
+      "calibrated_for": {
+        "note": "Calibrated for a masonry quoin. A framed corner board is a different assembly at 6-10 in measured, and this rule is roughly 2x wrong for it — see the corner_treatment split noted in docs/open-questions.md."
+      }
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "width",
+      "expression": "module / 8",
+      "units": "in",
+      "range": [
+        7.0,
+        24.0
+      ],
+      "authority_note": "Where an order is applied to a domestic front it is normally a pilaster of one third to one half the diameter its free-standing equivalent would have.",
+      "note": "PILASTER WIDTH where an order is applied to a bay or a pavilion. Thirteen and a half inches on the default, which at Vignola's Ionic makes a module of about 6 3/4 in and a column height of just over 10 ft - a plausible one-storey order. Run this rule the other way when the order is fixed: choose the order, take its column height from the storey, and let the BAY follow the intercolumniation rather than forcing the order into a bay that was set by the plan. Every unhappy classical front in the world is one where the bay was decided first."
+    },
+    {
+      "target_slot": "pediment",
+      "dimension": "height",
+      "expression": "span / 5.0",
+      "units": "in",
+      "range": [
+        20.0,
+        140.0
+      ],
+      "authority_note": "Palladio and the Anglo-Palladian tradition give the pediment a rise of one quarter to one fifth of its span; Vitruvius's one-ninth is a Greek figure and reads flat to a northern eye and worse under snow.",
+      "judgment": true,
+      "note": "PEDIMENT RISE over the span of the pavilion or portico it crowns. Marked judgment because the range is wide, the sources disagree by a factor of two, and the answer is partly climatic: a 1:9 Greek pediment on a New England house is a roof that will not shed snow, and the surviving American temple fronts are correspondingly steeper than their models. Take 1:5 as the domestic default, 1:4.5 in snow country, and go to 1:6 or shallower only where the pediment is a decorative frontispiece with a real roof behind it."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "ratio",
+      "expression": "2.5 / max(3, floor((span / module - 1) / 2) * 2 + 1)",
+      "units": "ratio",
+      "range": [
+        0.2,
+        0.9
+      ],
+      "authority_note": "Follows from the elevation assembly (2.5 bays high) and the bay count rule; it is arithmetic, not a separate observation.",
+      "note": "OVERALL PROPORTION OF THE FRONT, height of the composed elevation over its width. A five-bay front comes out at 0.5 - a double square lying down. A three-bay front comes out at 0.83, nearly square, which is the town house and needs its verticality reinforced by taller openings and a stronger cornice. A seven-bay front comes out at 0.36, which is too long to hold together without a centre pavilion or end pavilions. This single ratio tells you before you draw anything whether the front you are proposing needs breaking up, and it is the number to compute first."
+    },
+    {
+      "target_slot": "frieze",
+      "dimension": "height",
+      "expression": "part * 1",
+      "units": "in",
+      "range": [
+        5.0,
+        18.0
+      ],
+      "note": "Nine inches of frieze between the top-storey window heads and the bed of the cornice. This band exists to give the cornice somewhere to sit and the upper windows somewhere to stop. Below about 6 in the head casing and the cornice bed collide and the joint has to be faked; above about 18 in the top of the wall reads as a blank attic and the building has grown a storey it does not have."
+    },
+    {
+      "target_slot": "foundation_expression",
+      "dimension": "height",
+      "expression": "part * 2",
+      "units": "in",
+      "range": [
+        8.0,
+        44.0
+      ],
+      "note": "Eighteen inches of exposed foundation below the water table. In brick or stone this is a different and rougher material than the wall above, and the change of material at the water table is the point. In frame work it is a parged or rubble base, and where the budget will not carry stone the honest substitution is a taller water table and a lower foundation, not a fake stone veneer stopping at grade."
+    },
+    {
+      "target_slot": "special_window",
+      "dimension": "width",
+      "expression": "module * 0.72",
+      "units": "in",
+      "range": [
+        40.0,
+        120.0
+      ],
+      "authority_note": "The Venetian or Palladian window divides 1 : 2 : 1, so its total width is four times a side light; fitting it into a bay without crowding the piers caps it at about three quarters of the bay.",
+      "note": "MAXIMUM WIDTH OF A VENETIAN OR PALLADIAN WINDOW in the centre bay - six feet six on the default, giving side lights of about 19 in and a centre light of about 39 in. Two rules travel with it and both are broken constantly. First, the side lights must be the SAME light module as the ordinary windows of the elevation, which is the sash-light pack's business, not a free choice. Second, a Venetian window is a single event: one per elevation, on the axis, and preferably over the entrance. Three of them in a row is a Victorian shop front, not a Palladian house."
+    },
+    {
+      "target_slot": "steps_and_stoop",
+      "dimension": "width",
+      "expression": "module * 0.8 + part * 4",
+      "units": "in",
+      "range": [
+        60.0,
+        200.0
+      ],
+      "note": "Ten feet two on the default: the entrance composition plus a foot and a half of platform each side. The stoop is the elevation's bottom-most incident and it must be wider than the doorway it serves or the doorway will look as though it is standing on a box. Where the entrance has a portico the stoop follows the portico, not the door."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "energy-code",
+      "statement": "The prescriptive fenestration limits collide with a composed front from two directions at once. For residential work the common prescriptive trigger is glazing at about 15 per cent of conditioned floor area; for commercial work IECC 2021 C402.4.1 caps vertical fenestration at 30 per cent of gross above-grade wall area, with an increase toward 40 per cent only where daylight-responsive controls or high-performance mechanical systems are provided. A five-bay front at the default proportions runs about 18 per cent of ITS OWN wall area - comfortably inside the commercial cap - but the composed building spends its glass unevenly on purpose, and a per-elevation test punishes exactly the elevation that is doing the architectural work.",
+      "resolution": "Take the performance or total-UA path, not the prescriptive tables, and make the argument at the level of the whole envelope. A traditional building brings real assets to that calculation: a compact form with a low surface-to-volume ratio, mass walls with useful diurnal lag in most climates, deep reveals that shade summer sun, and three elevations that are genuinely frugal. Trade the rear and flank glazing down - which is what a period house did anyway, because glass was expensive and servants did not get windows - and buy the front. If the numbers still will not close, buy performance in the glass rather than area in the wall: a thin-profile insulating unit in a true divided lite sash costs money but costs no proportion. What you must not do is take the reduction evenly off every elevation, because a front at 12 per cent void is not a thriftier version of the same building, it is a different and worse one.",
+      "severity": "material"
+    },
+    {
+      "with": "egress-code",
+      "statement": "IRC R310 requires an emergency escape opening in every sleeping room with 5.7 sq ft net clear and a sill no higher than 44 in. On a composed front every window in a storey must be identical - Palladio states it directly, 'the windows above these ought to be all equal in the same order or story' - so the egress requirement is not a requirement on one window, it is a requirement on ALL the windows of that storey, front and back.",
+      "resolution": "Solve it once, at the storey, and apply the solution across the rank. Size the second-storey opening to clear egress and then use that opening in every bay of that storey whether the room behind it is a bedroom or a stair landing. This is more glass than the code demands and it is exactly what a period builder would have done, because he was ordering sash by the dozen from one pattern. The alternative - one oversized unit in each bedroom and the historic size everywhere else - destroys the rank, and the rank is the front. Where the storey cannot carry the height, put the bedrooms on the principal floor, or sprinkle the house and use the alternate.",
+      "severity": "blocking"
+    },
+    {
+      "with": "zoning",
+      "statement": "Bay count is a plan consequence as much as an elevation decision, and lot width decides plan. A 50 ft lot with 10 ft side yards leaves 30 ft of frontage, which is three bays at 9 ft or four at 7 ft 6 in - and four is the count that does not compose. The zoning envelope is quietly deciding whether the building can be symmetrical at all.",
+      "resolution": "Test the bay arithmetic against the buildable width at the earliest possible moment, before the plan is drawn, because it constrains the parti and not merely the elevation. Where the width gives an even count, do not force symmetry: take the side-hall or single-house parti, which is a fully developed traditional type with its own rules and its own dignity, and put the entrance in the end bay where it belongs. Charleston built a whole city on exactly this decision. Forcing a centred door onto a four-bay front produces a building that is symmetrical in intention and asymmetrical in fact, which is the worst of both.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The composed front is expensive in a way that does not appear on any single line item: it requires that every window on a storey be the same size, which forecloses the standard value-engineering move of buying the cheapest unit that satisfies each room individually. It also requires a water table, a belt and a cornice - three horizontal assemblies that exist for no functional reason a cost consultant will accept.",
+      "resolution": "Defend the three horizontals and concede almost anything else. They are cheap in absolute terms - a few hundred lineal feet of trim - and they are what makes the elevation read; the ornament above them is optional and the ornament below them is not. On the windows, note that equal units are a manufacturing saving, not a cost: one size, one order, one shop drawing, fewer errors. The real cost is in the rooms that get a window they did not need, and the honest answer there is that the front of a house is a public object and the rooms behind it are not the only client.",
+      "severity": "minor"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The whole system depends on vertical alignment - the second-storey opening centred exactly on the one below - and on a common head datum across the rank. Framing tolerance is plus or minus half an inch per opening and it accumulates along a rank; a 1/2 in drift in the fifth bay is invisible on the shop drawing and unmistakable in a raking photograph, because the eye reads the LINE of five heads, not any one of them.",
+      "resolution": "Dimension the openings from a single string line and a single datum, not cumulatively bay to bay, and put that instruction on the drawing in words. Set the head datum from the finished floor of the storey, not from the subfloor or the plate, because the finish floor is where the interior trim will be set from and the two must agree. On masonry, coordinate with the brick-course pack: the head and sill must land on course lines, and the courses are the ruler the mason is already using.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "english-palladian",
+    "english-baroque",
+    "palladian",
+    "english-classical",
+    "adam-style",
+    "regency",
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "jeffersonian-classicism",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-southern-plantation",
+    "italian-renaissance",
+    "italian-renaissance-revival",
+    "renaissance-revival-american",
+    "french-neoclassical",
+    "beaux-arts-french",
+    "beaux-arts-american",
+    "neoclassical-revival",
+    "colonial-revival",
+    "georgian-revival",
+    "cape-cod-colonial",
+    "cape-cod-revival",
+    "new-england-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "dutch-colonial-american",
+    "italianate-townhouse",
+    "second-empire",
+    "new-classical",
+    "new-urbanist-traditional",
+    "minimal-traditional"
+  ],
+  "sources": [
+    "Andrea Palladio, I quattro libri dell'architettura (1570), Book I chs. XXI-XXVI; transcription of the Ware translation at c82.net/architecture/book1 - the source for the equality of windows within a storey, the diminution of upper windows by one sixth, and the architrave of one sixth to one fifth of the void",
+    "Sebastiano Serlio, Tutte l'opere d'architettura et prospetiva, on the superimposition of orders and the diminution of storeys",
+    "James Gibbs, A Book of Architecture (1728), for the widened centre bay and the frontispiece",
+    "Abraham Swan, The British Architect (1745) and Asher Benjamin, The American Builder's Companion (1806), for the elevations that carry the convention in drawing rather than in text",
+    "London Building Act rating of houses by floor area and storey count, as the mechanism that standardised the graduated Georgian terrace front",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013), for bay counts and elevation types by style",
+    "International Energy Conservation Code 2021, C402.4.1 and C402.4.1.4, for the vertical fenestration area limits",
+    "International Residential Code R310, for the emergency escape opening requirement",
+    "tdl packs storey-graduation (storey heights, belt placement, sill datum), sash-light (light pattern, pier band, glazing ratio) and brick-course (coursing and rounding), which this pack builds on and does not repeat"
+  ],
+  "confidence": "medium",
+  "notes": "THREE THINGS THIS PACK IS FOR. The first is the bay count, and it is the only decision here that is nearly binary: odd bays compose about a centre, even bays do not, and no amount of trim rescues a four-bay front with a door pushed into the middle of it. The second is the ranking of the horizontals - water table, belt, cornice - in increasing weight going up, with the belt deliberately the weakest of the three. Get that order wrong, most commonly by making the belt as heavy as the cornice, and the building splits into two buildings. The third is the double square: five bays wide by two and a half bays high, which is the proportion a five-bay front with a nine-foot bay and graduated storeys arrives at on its own. It is worth computing that ratio before drawing anything, because it says immediately whether the front will hold together or will need a pavilion.\n\nWHAT IS DOCUMENTED AND WHAT IS NOT. The opening rules are Palladio's own and are quoted: windows equal within a storey, upper windows one sixth less in height, architrave one sixth to one fifth of the void. The storey graduation is documented from measurement and is owned by another pack. The bay arithmetic, the solid-to-void bands and the ranking of the horizontals are RECONSTRUCTED from surviving elevations - they are what the buildings do, not what anyone wrote - and they are given as bands rather than points for that reason. The two rules genuinely undetermined by the sources, the widened centre bay and the pediment rise, are marked judgment.\n\nTHE NEGATIVE CASE. A composed classical front asserts that the building has one public face, one axis, and one entrance, and that its interior is arranged to suit. That assertion is true of a house, a church, a courthouse and a bank, and false of a building that is entered from several sides or whose plan is genuinely irregular. Where it is false, the honest move is not to apply the composition anyway but to go to the picturesque system, which is a different discipline with its own and equally strict rules - see facade-picturesque. Symmetry imposed on an asymmetrical plan produces the blank bay, the false window and the door that opens into a corridor, and all three are visible from the street."
+}

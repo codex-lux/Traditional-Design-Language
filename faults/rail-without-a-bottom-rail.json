@@ -1,0 +1,161 @@
+{
+  "id": "rail-without-a-bottom-rail",
+  "name": "The Rail That Is Not An Assembly",
+  "aka": [
+    "balusters in the deck",
+    "no shoe rail",
+    "the flat 2x4 cap"
+  ],
+  "slots": [
+    "porch_rail",
+    "balustrade"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "Two related omissions that almost always occur together. First, there is no bottom rail: the balusters are fastened directly to the deck, to the deck's rim joist, or to a horizontal 2x4 laid flat on the deck, so the balustrade has no base and its bottom ends sit in the water that runs across the deck. Second, the top rail is a 2x4 or 2x6 laid flat, square-edged, with the balusters screwed to its underside — a plank, not a moulded cap. The result has two of a balustrade's five members and reads as a fence panel dropped between the columns.",
+  "cause": {
+    "driver": "code",
+    "explanation": "The 2x4-flat rail is the standard deck detail in every code commentary and every prescriptive deck guide, because it is the arrangement in which a guard's load path is easiest to demonstrate: the top rail resists a 200 lb concentrated load, the balusters resist 50 lb per square foot, and both are simplest to detail with flat members and through-screws. A moulded cap on a sub-rail with a shoe rail below is a five-member assembly that requires either an engineered connection or a heavier post, and it does not appear in any prescriptive table. The code did not require the plank; it made the plank the path of least resistance.",
+    "cost_saved": "A 2x4-flat top rail with balusters screwed under it runs 14-22 USD a linear foot installed; a moulded cap on a sub-rail with a shoe rail and a plinth runs 45-90 USD. On a 40 ft porch, 1,200-2,700 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_rail / rail_profile",
+      "statement": "Moulded handrail with a fillet and cyma, on a moulded shoe. Two members, both moulded, and the shoe is named."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_rail / rule",
+      "statement": "The balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / balustrade / pedestal_at_each_end = true",
+      "statement": "A balustrade terminates in a pedestal at each end rather than in a post — the fifth member, and the one that turns a run into a composition."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "no wood member may terminate on a wetted horizontal surface",
+      "statement": "Balusters set directly on the deck stand in every drop of water that crosses it. The shoe rail exists to lift the baluster ends clear and to give them end grain that can be sealed and can dry. Its absence is the commonest single cause of porch-rail replacement."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R312.1.2 and the prescriptive deck guides (DCA 6)",
+      "statement": "The prescriptive detail shows a 2x4 top and bottom laid flat. It is a load-path detail, not an architectural one, and nothing prevents a moulded assembly of equal strength."
+    }
+  ],
+  "correct_practice": "A period balustrade is five members and each does a job. A MOULDED CAP RAIL, 3 to 4 in deep, with a rounded or moulded top so water runs off and a hand can grip it, and a groove or a rabbet on its underside taking the baluster tops. A SUB-RAIL where the cap is deep, providing the flat bearing. The BALUSTERS. A MOULDED SHOE RAIL below, 1 1/2 to 2 1/2 in deep, holding the baluster feet 1 1/2 to 2 in clear of the deck, with its top surface either sloped or narrow enough to shed. And a NEWEL OR PEDESTAL at each end, wider than the rail and capped, into which the rails are tenoned or housed — never a rail butted to a column, which is the other half of this fault and puts a fastener through the column's shaft. The cap must not be flat: a flat 2x4 cap holds standing water along its whole length, is the first member to fail on any porch, and cannot be gripped, which is a real accessibility as well as an aesthetic point.",
+  "fixes": {
+    "right": "Cap, sub-rail, balusters, shoe rail, newel or pedestal — five members, mitred and returned at each end, with the shoe holding the balusters clear of the deck.",
+    "cheap": "Two moves for about 9-14 USD a linear foot. First, add a SHOE: a 2x2 or a 5/4 x 2 with the balusters standing on it rather than on the deck, which lifts the feet clear, gives the balustrade a base line and doubles the assembly's life. Second, replace the flat 2x4 cap with a stock moulded handrail profile — a colonial or a bullnose handrail is 6-11 USD a foot at any lumber yard, sheds water, and provides the cyma the assembly is missing. These two moves take the rail from two members to four for less than a quarter of the cost of the right answer.",
+    "dishonest": "Adding a flat trim board under the balusters, applied to the face of the rim joist, to suggest a bottom rail. It does nothing about the baluster feet standing in water, it reads as a fascia rather than a shoe because it is in the wrong plane, and it traps water behind itself. Equally dishonest: capping the flat 2x4 with a thin decorative moulding on its top face, which produces a rail with a mitred trim strip on it that opens at every joint within two seasons."
+  },
+  "detection": "Look at the bottom of the balustrade in any photograph taken from the walk. Is there a horizontal member between the deck and the baluster feet? If the balusters run into the deck or into a flat 2x4 lying on the deck, the shoe is absent. Then look at the top rail's edge in an oblique view: a square-edged plank shows a hard flat top with an arris; a moulded cap shows a curved or stepped silhouette and casts a shadow on the balusters below. Third check, at the ends of each run: does the rail terminate in a newel or pedestal wider than itself, or is it butted into the side of a column? A rail butted to a column is diagnostic and is also a rot detail, since the fastener penetrates the column's shaft. Fourth check on an older porch: the paint. A flat cap rail fails first, so peeling and checking concentrated on one horizontal surface while the rest of the porch is sound is the signature.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "distinct_rail_members_visible",
+    "threshold": 4,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Count moulded cap, sub-rail, balusters, shoe rail and terminating newel or pedestal. Five is the full period assembly; four is a reasonable working minimum; two — a flat top and balusters into the deck — is the endemic case. Directly countable from a photograph taken from the front walk."
+  },
+  "severity_trajectory": "Serious on day one and worse every year. The flat cap holds water on its top surface and the baluster feet stand in it at the bottom, so the two omitted members are also the two that would have kept the assembly dry. A flat-capped rail with no shoe typically needs its cap replaced at eight to twelve years and its balusters at twelve to eighteen; a moulded cap on a shoe lasts thirty to fifty. This is a maintenance fault as much as a proportional one and the cost of the omission is recovered by the second replacement.",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The kit names both the moulded shoe and the pedestal termination."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "serious",
+      "why": "The turned baluster needs a shoe to stand on; without one the turning's plinth block is buried in the deck."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "A roof-deck balustrade with no plinth course has no base against the sky."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "The Craftsman rail is frankly a heavy square assembly and a broad flat cap of 2 in or more is correct there — see the exception."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The idiom's endemic rail is the deck rail, unchanged."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman rail cap is deliberately a broad flat plank — 2 in thick and 5 to 7 in wide, projecting past the balusters on both faces with a square arris — because the idiom's whole vocabulary is broad flat members. It is a cap, not a moulding, and that is correct.",
+      "bounds": "It must be BROAD and THICK: not less than 1 1/2 in deep and projecting at least 3/4 in past the balusters on each side, with a slight wash or a drip on the underside. A 2x4 laid flat with the balusters screwed to its underside is not a Craftsman cap; it is deck framing.",
+      "bounds_test": {
+        "expression": "cap_projection_past_baluster_face_in",
+        "threshold": 0.75,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The Prairie parapet coping is a broad flat slab projecting past both faces, and its flatness is the horizontal argument of the style.",
+      "bounds": "Must project past both faces and have a drip; must be a coping over a solid or slatted parapet, not a rail on balusters."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style porch parapets are frequently solid and shingled with a simple broad capping, and have no balusters, shoe or newel to omit.",
+      "bounds": "Solid parapet only. Where balusters appear, the assembly rule returns."
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival flattens: a broad plain cap with a square arris over square balusters is correct, and the profile is deliberately reduced.",
+      "bounds": "Flatness is licensed, absence is not. The cap must still project past the balusters and there must still be a shoe rail below and an anta or pedestal at each end.",
+      "applies_when": {
+        "date_range": [
+          1825,
+          1865
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "baluster-too-thin",
+    "baluster-spacing-as-fence",
+    "guard-height-against-the-period-rail",
+    "ganged-post"
+  ],
+  "confused_with": [
+    {
+      "fault": "baluster-too-thin",
+      "difference": "That is the section of one member. This is the absence of two others. A rail can have correctly sectioned balusters standing directly in the deck under a flat plank, and it will still read as a fence."
+    },
+    {
+      "fault": "column-foot-on-the-deck-board",
+      "difference": "Same rot mechanism at a different member: a wood element terminating on a wetted horizontal surface. Read together — a porch that gets one wrong almost always gets the other wrong, because both come from the deck being laid continuously before anything else arrives."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, porch_rail.rail_profile and balustrade.pedestal_at_each_end",
+    "IRC R312 and AWC DCA 6, Prescriptive Residential Wood Deck Construction Guide — the flat 2x4 guard detail",
+    "NPS Preservation Brief 45 on historic porch rails and their failure modes",
+    "HABS measured porch balustrade sections showing cap, sub-rail, shoe and pedestal"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rail",
+    "balustrade",
+    "assembly",
+    "omission",
+    "maintenance",
+    "endemic"
+  ]
+}

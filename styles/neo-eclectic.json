@@ -1,0 +1,215 @@
+{
+  "id": "neo-eclectic",
+  "name": "Neo-Eclectic",
+  "aka": [
+    "Neoeclectic",
+    "Neotraditional builder style",
+    "Millennium Mansion",
+    "McMansion (pejorative)",
+    "Garage Mahal (pejorative)"
+  ],
+  "rank": "style",
+  "member_of": "mid-century-traditional",
+  "status": "historical",
+  "period": {
+    "origin": 1963,
+    "floruit_start": 1970,
+    "floruit_end": 2000,
+    "decline_end": 2010,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "No design hearth; the style was generated inside production builders' plan departments and merchandising groups and distributed through model-home parks",
+    "climate_zones": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "ranch-style",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The real inheritance: the truss, the sheet-goods module, the attached street-facing garage, the eight-foot plate, and the production apparatus. Everything structural about a neo-eclectic house is a ranch grown to two storeys."
+    },
+    {
+      "target": "minimal-traditional",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "The deeper inheritance: the principle that the traditional look is a marketable surface applied to a cost-optimized shell, and the shallow eave that follows from it."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "references",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "The definitional edge of this node. Colonial motifs are quoted — pediment, keystone, fanlight, dentil, shutter, Palladian window — with no transmission of the proportional system that generated them. The quotation is selected from an elevation menu after the plan is fixed, which is exactly what makes it a reference and not a descent."
+    },
+    {
+      "target": "tudor-revival",
+      "type": "references",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "The 'Tudor' elevation package: applied half-timbering in the front gable only, stucco panels, and a stone-veneered entry, over the same plan that carries the Colonial package."
+    },
+    {
+      "target": "second-empire",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "The mansard roof of 1965-1980, used as a device for concealing a second storey or an apartment building's bulk. The most short-lived of the quoted grammars and the most obviously detached from its source."
+    },
+    {
+      "target": "french-eclectic",
+      "type": "references",
+      "weight": 0.25,
+      "inherits_kit": false,
+      "note": "The hipped 'French Country' package of the 1990s: steep hips, quoins, arched windows with keystones, and a stone-veneered entry mass."
+    }
+  ],
+  "description": {
+    "short": "The production-builder idiom of the late twentieth century, in which historical motifs were selected from an elevation menu and applied to a plan generated independently of them — the point at which the traditional grammar decoupled from its own logic.",
+    "long": "Neo-eclectic is the name for what American builders did between roughly 1965 and 2000, and the useful way to define it is procedural rather than visual. In every earlier style in this graph, the plan, the section, the structure, and the elevation were generated together, by one person or one tradition, out of one set of constraints. In the neo-eclectic house they were separated into different departments. The plan was generated first, from a marketable schedule of rooms and a target price per square foot, and optimized against the truss span, the setback envelope, and the mortgage. The elevation was then selected — genuinely selected, from a printed menu of three to six options labelled A through F, or Colonial, Traditional, French Country, Craftsman — and applied to the front of that plan. The other three elevations received vinyl. This is the decoupling, and every characteristic failure of the style follows from it mechanically rather than from anyone's bad taste.\n\nThe conditions that produced it were the consolidation of homebuilding and the disappearance of every institution that had previously transmitted proportional knowledge. Between 1960 and 1995 the industry shifted from tens of thousands of small builders to a smaller number of large regional and national ones — Ryan, Pulte, NVR, Toll — operating through merchandised model-home parks, whose economics reward visible difference between adjacent products. At the same time the transmission mechanisms died: no pattern book, no plan-book publisher, no trade magazine that taught proportion, no apprenticeship in the moulding profiles. What replaced them was the sales brochure and the appraisal comparable. Materials changed at the same moment and in the same direction: vinyl and aluminum cladding, injection-moulded polymer trim, thin brick and stone veneer on a wire-lath backing, fiberglass entry doors with moulded fanlight assemblies. Each is dimensionally shallow — a quarter-inch to three-quarters of an inch of relief where the original had three to six inches — and shallow trim cannot cast a shadow, which is the physical reason these buildings must resort to contrast and size for effect. Lot economics did the rest: rising land cost pushed the house to the front of the lot and the garage to the front of the house, and the two-car garage became a three-car garage in the 1990s.\n\nThe failure modes deserve naming precisely, and without contempt, because they are exactly the failures a rules-based generator exists to prevent, and naming them is the most useful thing this node can do. First, material return failure: brick or stone covers the front elevation and turns the corner by six to twelve inches before giving way to vinyl, which announces that the masonry is a face rather than a wall. Second, shutter failure: shutters half the width of the sash they nominally cover, screwed flat, applied to ganged, arched, or bay windows they could never have closed over. Third, head-height failure: window heads on one elevation at three or four different levels because each was set by the room behind it, so no horizontal datum organizes the wall. Fourth, gable proliferation: four to seven gables of similar width and identical pitch on one elevation, none dominant, so the eye cannot find a primary roof and the building has no top. Fifth, entry inflation: a two-storey entry element with a half-round or Palladian assembly, at one and a half to two times the scale the wall can carry, opening into a twenty-foot volume in a twelve-foot-wide space. Sixth, eave collapse: overhangs of six to twelve inches, leaving no shadow line, which forces every applied detail to grow in size and colour contrast to remain visible — this is why the ornament looks loud. Seventh, garage dominance: two or three doors occupying thirty-two to forty-eight feet of a fifty- to sixty-foot frontage, with the front door subordinate to them.\n\nWhat should be said in fairness is that these are large, well-equipped, structurally sound houses that people wanted, that solved real problems of storage, bathroom count, and family life, and that are far better built than their critics assume. The failure is not of ambition or of workmanship; it is a failure of transmission. Every one of the seven failures above was prevented in earlier practice by a tacit rule that no one had to write down because the builder had learned it from the last builder. When the chain broke, the rules did not survive, because they had never been externalized. That is the whole argument for writing them down."
+  },
+  "defining_characteristics": [
+    "Motif selection performed independently of, and after, plan generation — the elevation is chosen from a menu applied to a fixed floor plan",
+    "Two or more unrelated historical grammars quoted on a single building, or one grammar quoted at incorrect scale",
+    "Masonry or stone applied to the street elevation only, with vinyl or panel siding on the remaining three",
+    "Multiple gables of near-equal width and identical pitch, with no dominant roof form",
+    "An entry element inflated in height and width relative to the wall that carries it, frequently rising through two storeys",
+    "Trim of minimal profile depth in extruded polymer, vinyl, or aluminum, compensating with size and colour contrast for the absence of shadow",
+    "A street frontage in which the garage doors are the largest architectural element",
+    "Shallow eave and rake overhang, typically 6 to 12 in"
+  ],
+  "diagnostic_tells": [
+    "Brick front with a 6-to-12-inch return onto the side elevation, then vinyl",
+    "Shutters at roughly half the width of the window, present on windows that are ganged or arched",
+    "A half-round or 'Palladian' window filling a gable, unrelated in width to anything below it",
+    "Three or more different window shapes — rectangular, arched, half-round, octagonal — on one elevation",
+    "A garage projecting forward of the front door plane (the snout house), with the entry recessed behind it",
+    "Roof planes meeting at valleys with no consistent eave line, so the fascia steps up and down across the facade"
+  ],
+  "distinguished_from": [
+    {
+      "node": "colonial-revival",
+      "difference": "Colonial Revival composes to a proportional system: symmetrical bays, a governing head datum, correct entablature and door surround profiles with real projection, and masonry that wraps. Neo-eclectic quotes the same motifs without the system. The single fastest test is the corner: a Colonial Revival house is the same material on all four sides."
+    },
+    {
+      "node": "new-urbanist-traditional",
+      "difference": "The same buyer, the same builders, and often the same decade — but governed by a form-based code that forbids precisely the moves listed in this node's constraints. The difference between them is not taste but enforcement."
+    },
+    {
+      "node": "ranch-style",
+      "difference": "Its structural parent. The ranch is single-storey, horizontal, and unornamented; neo-eclectic is two-storey, vertical in its entry, and heavily ornamented. Ranches that received applied shutters and cupolas after 1965 are transitional and should be assigned by storey count and roof complexity."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "None operative, and it is more honest to record that than to invent one. The plan is generated from a marketable room schedule and a cost-per-square-foot target; the elevation is selected afterward. The only real modules are the 4-by-8 sheet, the 24-inch truss, the 16- or 18-foot garage door, the 8- or 9-foot plate, and the zoning setback envelope. Where classical proportion appears it appears as quotation at the wrong scale, because the element was sized to be seen from the street rather than derived from a module.",
+    "typical_ratios": [
+      "Eave and rake overhang 6 to 12 in",
+      "Entry element 1.5 to 2 times the height of the adjacent wall opening; two-storey foyer volume in a plan 12 to 14 ft wide",
+      "Garage doors 32 to 48 ft of a 50 to 60 ft frontage — 55 to 80 percent, against the 33 percent that a coherent frontage tolerates",
+      "Applied shutter width 45 to 55 percent of the sash it flanks — half of correct",
+      "Trim profile projection 1/4 to 3/4 in, against 3 to 6 in in the sources quoted",
+      "Four to seven gables per principal elevation, pitches identical at 8:12 or 10:12"
+    ],
+    "bay_rhythm": "Absent. Openings follow the plan behind them; apparent rhythm is coincidental and is usually broken by the garage bay at one end and the entry mass at the other.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common",
+      "note": "The two-storey multi-gabled mass is the style's default skeleton, arrived at by additive plan growth rather than by picturesque intent."
+    },
+    {
+      "massing": "ranch-l",
+      "affinity": "common",
+      "note": "The single-storey and split-entry versions of the 1965-1985 period."
+    },
+    {
+      "massing": "split-level",
+      "affinity": "common"
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "possible"
+    },
+    {
+      "massing": "mansard-block",
+      "affinity": "possible",
+      "note": "The 1965-1980 neo-mansard subtype, in both houses and small apartment buildings."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "Occasionally used as the base for a 'Colonial' elevation package, and the one skeleton on which the style tends to behave."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "statement": "A masonry veneer must be applied to all elevations of the mass it clads, or terminate at an inside corner or a change of plane of not less than 24 in. A return of less than 24 in onto a side elevation is forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Decorative shutters shall each be not less than 45 percent of the width of the window opening, shall be hinged at the jamb, and are forbidden on ganged, arched, bay, and non-rectangular windows.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "All window heads on a given storey of a given elevation shall align to one datum. Departures are permitted only where a change of roof plane or a change of wall plane of not less than 24 in separates them.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Maximum three gables per principal elevation. The dominant gable must exceed the next largest by not less than 25 percent in width, and secondary gables must be subordinate in ridge height.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Total garage door width not more than 33 percent of the street-facing facade; garage door plane set back not less than 4 ft behind the front door plane; three-car garages must be split or turned.",
+      "severity": "hard"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "The Woodlands",
+      "location": "Montgomery County, Texas",
+      "year": 1974,
+      "note": "Opened October 1974 and built out over three decades; a large, well-planned master community whose houses show the full sequence of elevation packages from neo-Colonial through neo-Mediterranean."
+    },
+    {
+      "name": "Weston (Indian Trace)",
+      "location": "Broward County, Florida",
+      "year": 1984,
+      "note": "Arvida; first homes completed 1984, incorporated as a city in 1996. A textbook late-century merchandised subdivision, and a useful control case because the planning is competent and the elevations still decouple from the plans."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013) — the Neoeclectic chapter",
+    "Dolores Hayden, Building Suburbia: Green Fields and Urban Growth, 1820-2000 (2003)",
+    "Andres Duany, Elizabeth Plater-Zyberk and Jeff Speck, Suburban Nation (2000)",
+    "Witold Rybczynski, Last Harvest: How a Cornfield Became New Daleville (2007)",
+    "Marianne Cusato and Brent Hull, Get Your House Right: Architectural Elements to Use and Avoid (2007)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "production-builder",
+    "elevation-package",
+    "failure-modes",
+    "decoupled-grammar",
+    "garage-problem"
+  ]
+}

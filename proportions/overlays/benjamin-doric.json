@@ -1,0 +1,396 @@
+{
+  "id": "benjamin-doric",
+  "name": "Grecian Doric Order (Asher Benjamin) - NOT an overlay",
+  "aka": [
+    "American Greek Doric",
+    "Benjamin's Doric, Example No. 3",
+    "Greek Revival Doric"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Asher Benjamin, The Practical House Carpenter (Boston, 1830), 'Doric Order, Example No. 3', Plate VI, with Plates IV (Grecian Doric from the Temple of Theseus, after Stuart and Revett), VII, VIII, XIV, XXIII, XXIV, XXXIV-XXXVII, XXXIX-XLVIII. Text collated from the 1843 printing issued as The Architect, or Practical House Carpenter",
+    "author": "Asher Benjamin",
+    "year": 1830,
+    "strength": "canonical",
+    "url": "https://archive.org/details/architectorprac00benj",
+    "note": "THIS PACK IS NOT AN OVERLAY AND overlay_of IS DELIBERATELY NULL. Benjamin's Doric of 1830 is not a modification of Vignola's Roman Doric; it is drawn from GREEK precedent by way of Stuart and Revett, and he says so in his preface: 'Since my last publication, the Roman school of architecture has been entirely changed for the Grecian. Very few things of the same nature differ more than the Greek and Roman creeds of the orders... I confess myself to be an admirer of Grecian architecture, yet I am not disposed to condemn the general proportions of the Roman orders, NONE OF WHICH, EXCEPT THE DORIC, DIFFER ESSENTIALLY FROM THOSE OF THE GRECIAN. The column of that order was generally made, by the Greeks, about five diameters in height; but the same order was generally made, by the Romans, from seven and a half to eight diameters in height.' Benjamin names the Doric as the one order where Greek and Roman are irreconcilable, so encoding his Doric as a delta on Vignola would be a fiction. It is encoded here as a standalone order-system, in the overlays directory because that is where the Benjamin packs live and because a user asking 'which authority am I building to?' needs to find it beside the others. Benjamin's Roman Doric of the American Builder's Companion (3rd ed. 1816) - column nine diameters, entablature 1 D 52 min, pedestal 2 D 30 min - IS a legitimate delta on Vignola and is recorded in the notes below, but it is not what built Greek Revival America and is not encoded as the pack's figures."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "semidiameter of the column at its base, divided into thirty minutes",
+    "parts": 30,
+    "default_size_in": 9.0,
+    "note": "Benjamin's scale throughout both books: the DIAMETER is divided into sixty minutes, so the semidiameter carries thirty. Default 9 in. gives an 18 in. column - the size of a Greek Revival house portico of ordinary ambition, at which one minute is three tenths of an inch. Note that the Greek Doric column is short and thick, so the absolute module is LARGER than in any other order at the same overall height; this is the order in which mouldings are most likely to be big enough to survive.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 14,
+    "shaft_height_modules": 13,
+    "diminution": 0.7833333333333333,
+    "entasis_begins_at": 0.0,
+    "fluting": {
+      "count": 20,
+      "profile": "twenty flutes without fillets, meeting in a sharp arris; segments of circles WHEN THE MATERIAL IS WOOD, elliptical when stone or iron",
+      "fillet": false
+    }
+  },
+  "assemblies": {
+    "capital": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "cap_necking",
+          "name": "Necking (hypotrachelion)",
+          "height_parts": 13,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "Capital total apportioned; Benjamin figures the capital in minutes on Plate VI fig. 2 and the numerals are not legible in any scan reached. What IS stated: 'A, on fig. 2, shows that the face of the architrave is in a vertical line with the upper fillet of the capital, which projects three and a half minutes from the neck of the column.'",
+          "confidence": "low"
+        },
+        {
+          "id": "cap_annulets",
+          "name": "Annulets under the echinus",
+          "height_parts": 2.5,
+          "projection_parts": 2,
+          "profile": "fillet",
+          "count": 2,
+          "note": "A MEMBER CHANGED FOR A REASON BENJAMIN SPELLS OUT, AND IT IS THE 'TOO SMALL TO CUT' ARGUMENT IN ITS PUREST FORM. 'In the capital the annulets have been changed for those of the Roman character, because it is supposed that the annulets of the Grecian Doric are too small and indistinct to comport with the other members of that massive composition. Not that the Grecian annulets are not, of themselves, beautiful; but, their number being constantly from three to five, and the space they occupy not generally exceeding two minutes, when three, the smallest number, are used, it requires nine lines for angles to separate them from each other and the adjoining members, which lines, or angles, if equally divided, could not occupy a larger space than one fourth of a minute each. It is therefore evident that, when the column, which they adorn, is not of large dimensions, they must, from the smallness of their size, and the small space which they occupy, appear confused and indistinct. In practice, I have sometimes retained the Grecian arrangement of the annulets, but reduced their number to two, and made them occupy a space of two and a half minutes.' TWO ANNULETS IN TWO AND A HALF MINUTES is the stated figure and it is encoded.",
+          "confidence": "high"
+        },
+        {
+          "id": "cap_echinus",
+          "name": "Echinus",
+          "height_parts": 8.5,
+          "projection_parts": 12,
+          "profile": "echinus",
+          "note": "Apportioned. The Greek Doric echinus is a conic-section curve, not a quarter-round: Benjamin's Plate II gives constructions for the Grecian echinus 'to any given height and projection' as a hyperbola or ellipse. His preface argues the whole case: the Roman mouldings 'are made up of parts of a circle, which do not produce that beautiful light and shade, so happily effected by the Grecian mouldings. These latter are composed of parts of ellipses, parabolas, hyperbolas and other conic sections, and consist, mostly, of large, bold parts, which are so strongly marked, that each member of the profile is plainly seen at a very considerable distance; AND CAN LIKEWISE BE EXECUTED WITH LESS EXPENSE THAN THE FORMER.' Cheaper AND bolder - the argument that won the American market for the Greek Revival.",
+          "confidence": "low"
+        },
+        {
+          "id": "cap_abacus",
+          "name": "Abacus",
+          "height_parts": 6,
+          "projection_parts": 15,
+          "profile": "abacus",
+          "note": "Apportioned. Plain square block, no mouldings - the Greek Doric abacus. The upper fillet of the capital, from which the architrave face is set out, projects 3 1/2 minutes from the neck.",
+          "confidence": "low"
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.5,
+      "sums_check": false,
+      "members": [
+        {
+          "id": "triglyph",
+          "name": "Triglyph",
+          "height_parts": 45,
+          "projection_parts": 3,
+          "profile": "triglyph",
+          "count": null,
+          "spacing_parts": 75,
+          "note": "SUMS_CHECK IS FALSE FOR THIS ASSEMBLY and honestly so: triglyph and metope are the full height of the frieze and stand side by side, so their heights cannot sum to it. Stated verbatim: 'The triglyphs in the frize are thirty minutes in front, and their distance from each other, reckoning from the centre of each, is seventy-five minutes.' Triglyph 30 minutes wide, pitch 75, so the metope is 45 wide; metopes are square, so the frieze is 45 minutes high. Those figures are identical to Vignola's Roman Doric (triglyph 1 module, metope square at 1 1/2 modules, 2 1/2 modules on centres) - the frieze is the one place where the Greek and Roman Doric agree, which is why triglyph spacing is the most stable number in the whole classical system.",
+          "confidence": "high"
+        },
+        {
+          "id": "metope",
+          "name": "Metope",
+          "height_parts": 45,
+          "projection_parts": 0,
+          "profile": "metope",
+          "count": null,
+          "spacing_parts": 75,
+          "note": "Square, 45 minutes on a side. Benjamin leaves them plain in Example No. 3.",
+          "confidence": "high"
+        },
+        {
+          "id": "frieze_plane_note",
+          "name": "Plane of the frieze relative to the architrave",
+          "height_parts": 0,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "A ZERO-HEIGHT MEMBER RECORDING A CONSTRUCTIONAL CHANGE, BECAUSE THE CHANGE IS THE WHOLE POINT OF THIS PACK. 'In imitation of the Roman and modern practice, the faces of the frize and architrave are both in the same plane. The face of the architrave, and those of the triglyphs, were likewise in the same plane in the best specimens of the Grecian Doric; but, in order to have these in the same plane, the frize must be recessed back the whole thickness of the triglyph - A PRACTICE WHICH WOULD BE INCONVENIENT FOR US, WHEN THE MATERIAL IS OF WOOD, BECAUSE A DIFFICULTY WILL THEN EXIST IN PREVENTING LEAKAGE BETWEEN THE FRIZE AND ARCHITRAVE; whereas, in the former practice, that difficulty was removed by the tenia covering and securing the joint between the frize and architrave.' A two-thousand-year-old Greek convention abandoned because a wooden entablature leaks at that joint. There is no more explicit statement in the literature of material determining form.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave, with taenia and regula",
+          "height_parts": 37,
+          "projection_parts": 4,
+          "profile": "fascia",
+          "note": "Entablature total stated verbatim - 'The entablature is two diameters in height' = 120 minutes = 4 modules - and the frieze at 45 minutes follows from the square metope. The 75 minutes remaining are divided between architrave and cornice on Plate VI and no reachable scan renders those numerals; the 37 : 38 split encoded here is APPORTIONED and both members carry confidence low. Do not use as a millwork dimension without a plate. Vignola's Roman Doric entablature is 4 modules on a 16-module column, i.e. one quarter; Benjamin's is 4 modules on a 14-module column, i.e. 2/7 - HEAVIER than Vignola relative to its column, which reverses the direction of every other change he makes.",
+          "confidence": "low"
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 45,
+          "projection_parts": 3,
+          "profile": "triglyph",
+          "confidence": "high",
+          "note": "Follows from the stated triglyph width of 30 and pitch of 75 with a square metope."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice, with mutules over the triglyphs only",
+          "height_parts": 38,
+          "projection_parts": 44,
+          "profile": "mutule",
+          "count": null,
+          "spacing_parts": 75,
+          "note": "MEMBERS DROPPED, AND BENJAMIN NAMES THEM. 'The mutules over the metopes have been left off in further imitation of the Romans; and, where simplicity only is desired, it is believed that object is obtained with one over each triglyph.' Greek Doric carries a mutule over every triglyph AND every metope; Benjamin halves the count. 'The size and form of the drops below the triglyphs have been made to assume the Roman character, because those in the Grecian examples are supposed to be too small and indistinct.' He also notes, from the pediment discussion, that 'the Grecians never employed either mutules, dentils or modillions in the cornices of the sloping sides of their pediments' and gives a separate raking cornice on Plate 34 fig. 1 for that reason - a detail almost universally got wrong in modern Greek Revival work. Height apportioned.",
+          "confidence": "low"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The column is seven diameters including its capital, and has NO BASE.",
+      "expression": "column.height_modules == 14",
+      "tolerance": 0.001,
+      "note": "'As practice seems to require that some determinate height should be given to the column, in compliance thereto, I give it seven diameters including its capital. This is a lighter proportion than the Greek, but heavier than the Roman.' The Greek Doric of the Theseion is about 5 1/2 diameters; Benjamin's own Roman Doric of 1816 is nine. Seven is a deliberate midpoint chosen for American practice, and it happens to coincide with Vignola's TUSCAN - which is why a Greek Revival Doric column and a Roman Tuscan column are so often confused on American houses. They are the same slenderness; everything above and below them differs."
+    },
+    {
+      "statement": "The entablature is two diameters - two sevenths of the column, heavier than any Roman rule.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules * 2 / 7",
+      "tolerance": 0.001,
+      "note": "THE ONE PLACE WHERE BENJAMIN MAKES SOMETHING BIGGER. Vignola's Doric entablature is a quarter of the column; Gibbs's is a quarter; Benjamin's own Roman Doric of 1816 is one part in 4.82. This Greek Doric entablature is 2/7 = one part in 3.5. Greek Revival buildings look heavy above and stubby below because they ARE, and it is a considered choice, not a vernacular drift."
+    },
+    {
+      "statement": "The shaft diminishes thirteen minutes - to 47/60 of its lower diameter.",
+      "expression": "column.diminution == 47 / 60",
+      "tolerance": 0.002,
+      "note": "'The shaft of the column diminishes thirteen minutes.' Vignola, Gibbs and Benjamin's own Roman orders all diminish to five sixths (0.833). This diminishes to 0.783 - half again as much taper. It is the second most reliable way to tell a Greek Revival column from a Roman one at a glance, after the absence of a base."
+    },
+    {
+      "statement": "There is no cylindrical lower third; the taper runs the whole height of the shaft.",
+      "expression": "column.entasis_begins_at == 0",
+      "tolerance": 0.001,
+      "note": "'the line of its sides may be straight, or, which is preferable, slightly curved, the convex side of the curve turning outward.' Vignola holds the lower third cylindrical and begins diminution at one third; Benjamin's own Roman method (Plate XXIII fig. 6) leaves the lower FOURTH undiminished. The Grecian Doric has neither - a continuous entasis from the base up, which is what makes the profile read as a single swelling line."
+    },
+    {
+      "statement": "The shaft carries twenty flutes without fillets.",
+      "expression": "column.fluting.count == 20",
+      "tolerance": 0.001,
+      "note": "Same count as Vignola's Roman Doric, and for once the two agree. What differs is the SECTION, and Benjamin's reason for it is the single best sentence in this pack: 'the sections of which, when made of wood, may be segments of circles, or nearly so, because, IF MADE OF A PART OF AN ELLIPSIS, AS IN THE GREEK ORIGINAL, THERE WILL NOT BE SUFFICIENT STRENGTH IN THE WOOD TO PREVENT THE EDGES BETWEEN THE FLUTES FROM FRACTURE; when the material is stone, or iron, they should invariably form a part of an ellipsis, as the effect produced thereby is more beautiful than that of the stiff, tasteless segment of a circle.' The correct profile and the buildable profile are different, he knows which is better, and he tells you to build the worse one in wood and the better one in stone."
+    },
+    {
+      "statement": "Triglyphs are thirty minutes wide at seventy-five minutes on centres, with square metopes.",
+      "expression": "assemblies.frieze.members.triglyph.spacing_parts == 75",
+      "tolerance": 0.001,
+      "note": "Identical to Vignola's Roman Doric. The Doric frieze is the most conserved element in the whole classical tradition."
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "monotriglyph",
+        "clear_diameters": 1.5,
+        "note": "One triglyph over each intercolumniation; columns 2 1/2 diameters on centres, i.e. two triglyph pitches. Benjamin: 'the intercolumniation of the Grecian Doric is rarely any other than the monotriglyph.' On a 7-diameter column that is the tight, insistent rhythm of a Greek Revival portico, and it is why a Greek Revival colonnade reads as a wall with slots in it while a Georgian one reads as a screen."
+      },
+      {
+        "name": "ditriglyph",
+        "clear_diameters": 2.75,
+        "note": "Two triglyphs over the opening, 3 3/4 diameters on centres. Available but uncharacteristic of the Greek Doric; Benjamin notes that for the Roman Doric the wider spacing succeeds better, and for the Grecian it does not."
+      }
+    ],
+    "default": "monotriglyph"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 7",
+      "units": "in",
+      "range": [
+        10,
+        30
+      ],
+      "authority_note": "SEVEN DIAMETERS, INCLUDING THE CAPITAL AND WITH NO BASE. A 10 ft Greek Doric column is 17 1/7 in. at the base - nearly half again the diameter of a Federal Ionic column of the same height, and this is why a Greek Revival porch reads as monumental at domestic scale while a Federal one reads as elegant. The absence of a base means the shaft meets the deck directly, so the deck must be detailed to drain and the column end must be sealed or it will wick.",
+      "judgment": false
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height * 2 / 7",
+      "units": "in",
+      "range": [
+        24,
+        90
+      ],
+      "authority_note": "TWO SEVENTHS, AND THIS IS THE ONE MEMBER BENJAMIN MAKES HEAVIER THAN THE ROMANS. A 10 ft column takes a 34 1/4 in. entablature. Vignola on the same column would give 30 in. and Benjamin's own 1816 Roman Doric would give 24 7/8 in. The Greek Revival entablature is a deep, plain, boldly projecting box, and it is the element that carries the style - so much so that thousands of American houses are Greek Revival by entablature alone, with no columns anywhere on them.",
+      "judgment": false,
+      "note": "That last observation is the practical one. If the budget carries one classical gesture, make it this entablature, run as a wide frieze board and a bold cornice at the eaves, and skip the order entirely. It is what the vernacular did and it works."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "0",
+      "units": "in",
+      "range": [
+        0,
+        0
+      ],
+      "authority_note": "THE CHAIR RAIL IS DELETED, AND BENJAMIN GIVES THREE REASONS - FASHION, COST AND HEAT LOSS. Practical House Carpenter, Plate XL: 'I have given these designs a place here, although the sur-base and dado seem at present to be quite out of fashion; nor, indeed, do I think it very desirable that they should be again received into favor. It is my opinion, that a room finished with a base only, presents a more chaste and pleasing appearance than when encumbered with a dado and sur-base. WHEN PLASTERING IS SUBSTITUTED FOR THE BOARDS OF THE DADO, IT IS LESS EXPENSIVE, AND A GREATER PREVENTIVE AGAINST THE COLD AIR.' A canonical author deleting a canonical member on grounds of cost and thermal performance, in 1830. Vignola's pedestal-at-one-third is not modified here; it is abolished.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Set to zero for a correct Greek Revival interior. If a chair rail is wanted anyway - and clients often want one - it is a Federal move on a Greek Revival house and should be acknowledged as such rather than defended as historical."
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "height",
+      "expression": "0",
+      "units": "in",
+      "range": [
+        0,
+        0
+      ],
+      "authority_note": "Same passage, same reasoning. The boarded dado is replaced by plaster to the floor. Note the second half of Benjamin's argument: the plaster is warmer than the boards. A boarded dado on a lath-and-plaster wall creates a ventilated cavity behind it; plaster carried to the baseboard does not. He is describing an air-sealing detail a hundred and fifty years before the term existed, and choosing performance over ornament.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The modern equivalent decision is exactly the same one: a boarded or panelled wainscot on an exterior wall is a thermal bypass unless it is detailed as part of the air barrier."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "7",
+      "units": "in",
+      "range": [
+        5.5,
+        9
+      ],
+      "authority_note": "AND THE COMPENSATION, WHICH IS THE HALF PEOPLE FORGET. 'As a very good fashion seems now to prevail, of not using either dados or sur-bases, IT IS NECESSARY TO MAKE THE BASE SOMEWHAT LARGER than it was when these were in fashion. It will be proper to make the plinth to these designs for base mouldings about seven inches wide; in small, low rooms, their size may be somewhat reduced.' The baseboard grows from Benjamin's 1816 five-to-six inches to seven because the chair rail died and the wall now has only one horizontal to hold it down. THE MEMBERS OF A TRIM SYSTEM ARE NOT INDEPENDENT: delete one and the others must be resized.",
+      "judgment": false,
+      "note": "Seven inches is the plinth alone; with a cap moulding the whole base runs eight to nine. That is the Greek Revival baseboard and it is noticeably taller than a Federal one in the same size of room."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 6",
+      "units": "in",
+      "range": [
+        4,
+        8
+      ],
+      "authority_note": "BENJAMIN REVISED THIS BETWEEN HIS BOOKS AND EXPLAINS THE REVISION. 1830, Plates XLV-XLVII: 'Doors and windows in the same room are necessarily of different heights and widths, the windows always being considerably larger than the doors; but it would be highly improper to make two widths of architraves. It therefore becomes necessary to make a compromise between them. I have in practice generally divided the width of the door into six equal parts, and given one to the width of the architrave: say, if the door is three feet wide, one sixth would be six inches, which would be rather too wide for the door; but as the windows in the same room would be from ten to twelve inches wider than the door, six inches would be rather too narrow for the window, if its size only was to be considered; I therefore should make the architrave one sixth of the width of the door.' In 1816 he gave one EIGHTH. The Greek Revival casing is a quarter wider than the Federal one and that is a large part of why Greek Revival rooms feel bolder.",
+      "judgment": false
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "count",
+      "expression": "1",
+      "units": "count",
+      "range": [
+        1,
+        1
+      ],
+      "authority_note": "ONE WIDTH OF ARCHITRAVE PER ROOM, sized from the door and used on the windows too. Benjamin states it in both books, fourteen years apart, and calls it 'a compromise'. It overrides the proportional rule wherever the two conflict, and it is the single most reliable way to make a room read as one system.",
+      "judgment": false,
+      "note": "The Greek Revival delivery mechanism for this is the BUTT-JOINTED TRIM SYSTEM: Plate XLVIII shows 'the manner of applying the plinth under the architrave to doors and windows, and also the application of the block at the upper angles of the door or window against which the architrave butts.' Plinth blocks at the floor, corner blocks at the head, and the casing runs square into both - no mitres anywhere. It is faster to install, it tolerates seasonal movement, and it is the reason Greek Revival trim survives in old houses where mitred Federal trim has opened up."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height * 5 / 96",
+      "units": "in",
+      "range": [
+        4,
+        12
+      ],
+      "authority_note": "BENJAMIN'S 1830 ROOM CORNICE IS SPECIFIED BY PROJECTION, NOT BY HEIGHT, AND HE EXPLAINS THE SWITCH: 'As stucco cornices occupy more space on the ceiling than on the vertical walls, I have thought it more proper to determine their projection than their height; AND MORE PARTICULARLY SO, AS, IN MANY SITUATIONS, A VERY SMALL HEIGHT ONLY CAN BE HAD. In such cases, the defect can in some degree be remedied by adding to the projection. As a general rule, give to the projection of the cornice five eighths of an inch for each foot in the height. If the room be ten feet in height, make the cornice project six and a quarter inches.' Five eighths of an inch per foot is ceiling_height * 5/96. A 10 ft room gets 6 1/4 in. of projection; an 8 ft room gets 5 in. THIS IS THE SINGLE MOST DIRECTLY APPLICABLE RULE IN ANY OF THESE NINE PACKS TO A CONTEMPORARY HOUSE WITH AN 8 OR 9 FOOT CEILING, because it is the only one written by someone who had already accepted that the height was not available.",
+      "judgment": false,
+      "note": "Benjamin gives no companion height rule in 1830; his 1816 figures - one fortieth of the room height plain, one thirtieth enriched - remain the best available and give 3 in. and 4 in. in a 10 ft room against 6 1/4 in. of projection. A cornice that projects half again its height, or twice it, is the Greek Revival profile."
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "storey_height / 25",
+      "units": "in",
+      "range": [
+        10,
+        34
+      ],
+      "authority_note": "THE EAVE CORNICE GETS BIGGER IN 1830. 'To proportion their height, divide the height of the building, on which A is to be used, into twenty-four equal parts, and make the height of the cornice on the wall equal to one of these parts. If B or D is to be used, divide the height of the building into twenty-five parts... If C is to be used, divide the height into thirty equal parts.' And for cornices with friezes: 'As a general proportion, give to the height of the cornice on the wall, without the frieze, from one twenty-fifth to one thirtieth of the height of the wall.' In 1816 the rule was one thirtieth. The Greek Revival cornice is a fifth larger than the Federal one on the same building, which is exactly what the eye reports. BIND storey_height TO THE FULL WALL HEIGHT.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, and Benjamin makes it one: 'In determining their height and proportion, judgment is to be used. If a house have a front of forty or fifty feet, it will be necessary to make the cornice somewhat larger than if the front only occupy a space of twenty or twenty-five feet.'"
+    },
+    {
+      "target_slot": "interior_door",
+      "dimension": "width",
+      "expression": "36",
+      "units": "in",
+      "range": [
+        30,
+        44
+      ],
+      "authority_note": "ABSOLUTE LIMITS FROM PRACTICE, 1830: 'The aperture of those of the smallest dimensions must be of a size sufficient to allow a man to pass easily through them: the smallest door cannot, therefore, be much less than two feet six inches wide, by six feet six inches high; nor should they be more than three feet eight inches in breadth, by eight feet in height, in private houses... A good proportion for small doors is three to seven, and for very large ones one to two; for rooms about sixteen by eighteen or twenty feet, and ten to twelve feet high, a good proportion for the doors will be three by seven feet.' Note the proportional rule underneath the absolutes: 3 : 7 for small doors, 1 : 2 for large - doors get RELATIVELY WIDER as they get bigger, which is the opposite of what a fixed ratio would give.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Folding doors between principal rooms: 'double the width of the other doors, and very often to exceed that width; their height ought in general to exceed that of the other doors, in the same room, by twelve or fifteen inches.' A 36 in. modern door at 80 in. high is 1 : 2.22 - slimmer than either of Benjamin's proportions, which is why standard doors look mean in a room with any ceiling height."
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "width",
+      "expression": "column_height * 54 / 420",
+      "units": "in",
+      "range": [
+        8,
+        26
+      ],
+      "authority_note": "A RULE BENJAMIN INVENTS AND NOBODY ELSE HAS. 'In the Roman and modern examples, a difficulty exists, where columns and undiminished pilasters were employed in supporting the same entablature, because there is given to the pilasters the same diameter as to the column, and the lower fascia of the architrave is situated in a vertical line with the neck of the column. It therefore happens that the neck of the pilaster projects beyond the face of the architrave; which defect they endeavor to avoid by diminishing the pilaster. But pilasters of the same diameter with the columns have the appearance of being larger than the columns, on account of their form being angular... I have, in this example, endeavored to avoid both defects, by making the diameter of the pilaster equal to that of the upper fillet of the capital, which, in this order, is fifty-four minutes; so that the lower fascia of the architrave is in a vertical line with the neck of the pilaster. What is here said with regard to the diameter of pilasters will apply to both the Tuscan and Ionic orders.' A PILASTER IS 54/60 OF A COLUMN DIAMETER, undiminished, and everything lines up. Expression is on a 420-minute (7-diameter) column.",
+      "judgment": false,
+      "note": "This solves the commonest detailing failure in Greek Revival work - the corner pilaster that is fatter than the columns it stands beside - and it solves it by shrinking the pilaster rather than by tapering it. Undiminished pilasters can be run as flat stock; diminished ones cannot."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "BENJAMIN'S OWN COST ARGUMENT, AND IT RUNS THE OTHER WAY FROM EVERY OTHER CONFLICT IN THIS SET. He believes the Greek orders are CHEAPER than the Roman: the mouldings 'consist, mostly, of large, bold parts, which are so strongly marked, that each member of the profile is plainly seen at a very considerable distance; and can likewise be executed with less expense than the former.' Fewer, larger members, each one a single pass rather than a stack of small ones. He makes the same point about the substitute capital on Plate XIV: 'The great number and delicacy of the parts of this capital render it expensive, and very difficult to be worked, even in wood; and it is almost impossible to work it in granite. The one on this plate, intended for a substitute, is composed of few and large parts, and is of such a construction as to be easily worked on either wood or granite.'",
+      "resolution": "This is the design move to steal. When a profile must be cheapened, do not shrink the existing members - REPLACE THEM WITH FEWER, LARGER ONES with stronger single curves. A Greek Doric cornice with four bold members reads better and costs less than a Roman one with nine small ones, at any scale, in any material. It is the only genuinely free lunch in the classical tradition and Benjamin found it in 1830.",
+      "severity": "minor"
+    },
+    {
+      "with": "cost",
+      "statement": "AND YET THE ORDER STILL EXCEEDS A PRODUCTION BUDGET. A 10 ft Greek Doric column is 17 in. in diameter, fluted with twenty flutes, staved and glued - Benjamin devotes Plate XXIV to gluing up column shafts because there is no solid stock for one - under a 34 in. entablature with a triglyph every 22 in. and a mutule over each. The production equivalent for the same porch is a 6 in. post and a 6 in. crown: about a twentieth of the material and a fiftieth of the labour.",
+      "resolution": "Drop the columns before dropping the entablature. The two-diameter Greek Revival entablature at the eaves, run as a wide plain frieze board with a bold projecting cornice, IS the style, and thousands of correct Greek Revival houses have no column anywhere on them. Where columns are unavoidable, take square panelled piers of the correct 17 in. WIDTH rather than round columns of the wrong diameter - a legitimate American vernacular form with abundant precedent. Never leave the entablature at full size over an undersized post.",
+      "severity": "blocking"
+    },
+    {
+      "with": "climate",
+      "statement": "THE GREEK DORIC COLUMN HAS NO BASE, so the end grain of a staved wooden shaft sits directly on the porch deck. Benjamin does not raise this because his columns stood on granite or on well-drained decks in a period when houses were not heated to 70 degrees; in practice the base of a wooden Greek Revival column is where every one of them fails.",
+      "resolution": "Set the shaft on a concealed plinth of stone, cast stone or PVC of the same diameter, flush with the shaft so the order still reads as baseless, with a positive drainage gap and a vented cavity inside the shaft. Benjamin's own Tuscan gives the precedent for a subplinth; here it must be invisible. Do not add a Roman base to solve the problem - it destroys the identity of the order and does not actually keep the water out.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Benjamin's annulet argument is a general law of small-scale classical work, stated with unusual precision: three annulets occupying two minutes need nine separating angles of a quarter-minute each, and 'when the column, which they adorn, is not of large dimensions, they must, from the smallness of their size, and the small space which they occupy, appear confused and indistinct.' At a 9 in. module a quarter-minute is 0.075 in. - well below the thickness of three coats of paint.",
+      "resolution": "Apply Benjamin's own remedy and generalise it: REDUCE THE COUNT AND INCREASE THE SIZE. He goes from three annulets in two minutes to two annulets in two and a half. The rule that falls out is that a repeated small member needs at least about 3/16 in. of clear separation after paint; below that, halve the count and give the survivors the space. This is the same operation as deleting a fillet, but it preserves the character of the member instead of removing it, and it is much the better move where the member is diagnostic of the order.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-southern-plantation",
+    "greek-revival-upland-vernacular",
+    "greek-classical",
+    "american-farmhouse-vernacular",
+    "folk-victorian",
+    "colonial-revival",
+    "neoclassical-revival",
+    "new-urbanist-traditional"
+  ],
+  "sources": [
+    "Asher Benjamin, The Practical House Carpenter (Boston, 1830), Preface pp. iii-v, 'Tuscan Order' Plate III, 'Grecian Doric Order' Plate IV, 'Doric Order, Example No. 3' Plate VI pp. 25-28, 'Raking Mouldings' Plate VII, 'Grecian Entablatures' Plates XIII-XIV, 'Columns' Plates XXIII-XXIV, 'Eave Cornices' Plates XXXIV-XXXV, 'Stucco Cornices' Plates XXXVI-XXXVII, 'Inside Doors' Plate XXXIX, 'Sur-base Mouldings' Plate XL, 'Base Mouldings' Plates XLI-XLIV, 'Architraves' Plates XLV-XLVIII; text collated from the 1843 printing, archive.org/details/architectorprac00benj",
+    "James Stuart and Nicholas Revett, The Antiquities of Athens (1762-1816) - Benjamin's source for the Temple of Theseus figures on his Plate IV, and for the Grecian Ionic of Priene",
+    "Asher Benjamin, The American Builder's Companion, 3rd edition (Boston, 1816), Plate 13 - the ROMAN Doric, recorded in the notes below but not encoded here; archive.org/details/americanbuilders00benj_0",
+    "Sir William Chambers, A Treatise on Civil Architecture - Benjamin's Doric Example No. 2, quoted at length in the 1830 book as the Roman comparison"
+  ],
+  "confidence": "medium",
+  "notes": "THIS PACK IS NOT AN OVERLAY. overlay_of IS NULL AND THAT IS DELIBERATE.\n\nBenjamin's Doric of 1830 is compiled from Greek precedent - chiefly the Temple of Theseus as measured by Stuart and Revett - and Benjamin himself identifies the Doric as the ONE order in which Greek and Roman cannot be reconciled: 'I am not disposed to condemn the general proportions of the Roman orders, none of which, EXCEPT THE DORIC, differ essentially from those of the Grecian.' Encoding it as a set of deltas on Vignola would misrepresent both authorities. It is a complete order-system in its own right and inherits nothing.\n\nWHAT BENJAMIN ACTUALLY PUBLISHES, AND WHERE. He gives THREE Doric examples in the 1830 book: No. 1, the Temple of Theseus exactly as measured by Stuart and Revett; No. 2, Chambers's Roman Doric, given so that 'those who differ from me in opinion have one of the most perfect of the Greek, and one of the best of the Roman examples, to make their selection from'; and No. 3, his own, 'compiled chiefly from the best Grecian specimens of the Doric order, with such alterations, as, it was thought, would render it more simple, less expensive, and better adapted to the materials of which it is usually composed in this country.' EXAMPLE NO. 3 IS WHAT IS ENCODED HERE, because it is the one he recommends and the one that built America.\n\nHIS ROMAN DORIC OF 1816 - which IS a legitimate delta on Vignola and is NOT encoded - runs: column nine diameters, entablature 1 diameter 52 minutes (1 : 4.82 against Vignola's 1 : 4), pedestal 2 diameters 30 minutes, subplinth one diameter, twenty flutes without fillets, triglyphs thirty minutes wide at seventy-five on centres, with a dentil cornice offered on Plate 21 as an alternative to the mutule one. Anyone wanting the Federal Doric should use those figures with the benjamin-tuscan overlay's trim rules.\n\nTHE FIVE THINGS THIS ORDER DOES THAT NO ROMAN ORDER DOES.\n1. NO BASE. The shaft stands directly on the deck.\n2. SEVEN DIAMETERS INCLUDING THE CAPITAL - 'lighter than the Greek, but heavier than the Roman', a deliberate American midpoint between the Theseion's five and a half and his own 1816 Roman nine.\n3. AN ENTABLATURE OF TWO DIAMETERS - two sevenths of the column, HEAVIER than any Roman rule. This is the only member Benjamin ever makes bigger, and it is the member that carries the style.\n4. DIMINUTION OF THIRTEEN MINUTES to 47/60, with no cylindrical lower portion at all - a continuous entasis where Vignola has a cylinder and a taper.\n5. CONIC-SECTION MOULDINGS - ellipses, parabolas and hyperbolas rather than arcs of circles - which Benjamin argues are simultaneously bolder AND cheaper.\n\nAND FOUR CHANGES HE MAKES TO THE GREEK ORIGINAL, EVERY ONE OF THEM FOR WOOD OR FOR SMALL SCALE, AND EVERY ONE ARGUED IN PRINT.\n1. FLUTES SEGMENTAL RATHER THAN ELLIPTICAL WHEN THE MATERIAL IS WOOD, because elliptical flutes leave arrises too weak to survive; elliptical in stone or iron, where he says they are 'more beautiful'.\n2. FRIEZE AND ARCHITRAVE COPLANAR rather than the frieze recessed the thickness of the triglyph, because a wooden entablature leaks at that joint and the taenia is what covers it.\n3. TWO ROMAN ANNULETS IN 2 1/2 MINUTES rather than three to five Greek ones in 2 minutes, with a full quantitative argument about the quarter-minute separating angles disappearing at house scale.\n4. MUTULES OVER THE TRIGLYPHS ONLY, not over the metopes - half the count deleted 'where simplicity only is desired'. Guttae given Roman size and form for the same reason.\n\nAND THE INTERIOR, WHICH IS WHERE THIS PACK EARNS ITS KEEP. The dado and surbase are ABOLISHED - 'quite out of fashion; nor, indeed, do I think it very desirable that they should be again received into favor... when plastering is substituted for the boards of the dado, it is less expensive, and a greater preventive against the cold air.' The baseboard grows from five-or-six inches to seven to compensate. The casing goes UP from one eighth of the door width to one sixth, still held to a single width per room. The room cornice is specified by PROJECTION - five eighths of an inch per foot of room height - rather than by height, explicitly because 'in many situations, a very small height only can be had'. And the trim is butt-jointed against plinth blocks and corner blocks instead of mitred.\n\nWHAT IS WEAK. The stated figures - column seven diameters, entablature two diameters, diminution thirteen minutes, twenty flutes, triglyph thirty at seventy-five on centres, annulets two in two and a half minutes, pilaster fifty-four minutes, capital fillet projecting three and a half - are all verbatim and carry high confidence. The DIVISION of the entablature between architrave and cornice, and every member inside the capital, are figured in minutes on Plates VI and VII and no scan reached renders those numerals legibly; the 37 : 38 architrave-to-cornice split and the whole capital are APPORTIONED and carry confidence low. Do not take them as millwork dimensions. Pack confidence is medium on that basis."
+}

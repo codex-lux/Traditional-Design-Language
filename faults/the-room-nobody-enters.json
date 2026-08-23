@@ -1,0 +1,121 @@
+{
+  "id": "the-room-nobody-enters",
+  "name": "The Room Nobody Enters",
+  "aka": [
+    "the vestigial parlour",
+    "the front room",
+    "the formal dining room used twice a year"
+  ],
+  "slots": [
+    "public_private_gradient",
+    "room_adjacency_overrides",
+    "circulation_parti"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A room at the front of the house, correctly proportioned and the best-trimmed room in the plan, that is on no route to anywhere and is used four times a year. Its furniture is arranged for a photograph. Meanwhile the household lives in a rear volume of twice the area with a lower ceiling, no cornice and a television. The house has spent its whole ornament budget and its best daylight on a room it does not use.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Resale, not design. The formal living room and formal dining room are line items on an appraisal and on a listing, they price at full square footage, and a plan that omits them is scored as a smaller house. So they are kept as area and abandoned as rooms - which is the opposite of the open-plan answer to the same pressure, and both answers are driven by the same sheet of paper. The second driver is that the modern household's actual centre is the kitchen, and no traditional plan ranks the kitchen highly enough to put it where the light and the ceremony are.",
+    "cost_saved": "None. It costs 250-400 sq ft of built area - $45,000-$120,000 - to satisfy a comparables sheet.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / public_private_gradient / gradient_axis",
+      "statement": "Rank falls front to back and rises then falls ground to attic. The gradient is a description of USE; where the household's centre of gravity is at the back, the gradient has inverted and the trim is describing a social arrangement that no longer exists."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / room_adjacency_overrides",
+      "statement": "The best room is at the front, on the side away from the service end. This rule assumes the best room is the most used room, and it stops working the moment that is untrue."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "ornament ranks rooms and must therefore follow use",
+      "statement": "A cornice, a chair rail and a chimneypiece are a statement about a room's importance. Put them in the room nobody uses and they become a claim about a household that does not exist, which is precisely why so many correctly detailed new houses feel like stage sets."
+    }
+  ],
+  "correct_practice": "Decide which room is actually the principal room of the household and put the plan's rank there - the position, the daylight, the ceiling height, the cornice and the chimneypiece. If that is a kitchen-and-family room, then the honest traditional answer is not to dress a formal parlour it will never use but to build a smaller house with fewer, better rooms and to give the used room the full apparatus: a proper chimneypiece, a cornice, a ceiling at 9 ft 6 in or more, and windows on two walls. Where a formal room is genuinely wanted, make it earn its place by putting it ON a route and giving it a second use - a library, a music room, a study with a door, the room the household actually retreats to - and by connecting it to the used part of the house with a pair of doors that can open. A room with two uses is occupied; a room with one ceremonial use is not.",
+  "fixes": {
+    "right": "Delete the formal living room and spend its area on the rooms in use: a taller ceiling, a bay, a second window wall and a real chimneypiece in the room the household sits in.",
+    "cheap": "Put the room on a route and give it a door pair. Moving the connection between the front room and the rear living space so that ordinary daily circulation passes through - or opening a pair of doors between them - converts a dead end into a room, and costs one opening. Second free move: give the front room the one thing the rear room cannot have, which is quiet with a door, and call it what it is.",
+    "dishonest": "Renaming it. A 'flex room', a 'sitting room' or a 'formal dining' label on the plan changes nothing about whether anyone walks through it, and the furniture will still be arranged against the walls for a photograph."
+  },
+  "detection": "On a plan, mark every room that lies on no route between two other occupied spaces; a dead-end room at the FRONT of the house with the best trim is this fault. In a listing photograph set, count the images of the formal rooms with visible daily life in them - none is the tell - and compare the ceiling height and cornice of the formal room with the family room, which on a house with this fault will be the wrong way round. On an elevation: two large well-composed windows at the front with plantation shutters permanently closed, against a rear wall of enormous glazing, tells the same story from outside.",
+  "test": {
+    "expression": "principal_room_daily_routes_through_it",
+    "threshold": 1.0,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "plan",
+    "note": "Count the daily circulation routes - entry to kitchen, stair to kitchen, garage to bedrooms - that pass through the room. Zero means the room is a dead end and will be abandoned. This is a proxy, but a good one: rooms on routes stay in use and rooms off them do not."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "georgian-colonial-american",
+      "why": "The formal front room entered by invitation and not otherwise used is the historical arrangement, not a modern failure - a room's rank was expressed by restricting access to it, and the best parlour of an eighteenth-century house was genuinely occupied a few times a year.",
+      "bounds": "The licence is historical rather than functional, and it holds only where the whole gradient is present: a service zone with its own circulation, a family room at the rear, and a household that actually receives formally. Inheriting the closed parlour without the rest of the social machine reproduces the cost and none of the meaning.",
+      "applies_when": {
+        "date_range": [
+          1700,
+          1830
+        ],
+        "note": "For new work this is the one place in the kit where the honest answer is to decline the inheritance."
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The front parlour of a double parlour was a reception room used on occasions, and the pocket doors exist so that it could be thrown into the rear parlour when it was not.",
+      "bounds": "Requires the pocket doors or an equivalent opening pair. Without them the front parlour is a dead end and the fault is present."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The drawing room on the principal floor is a formal room reached by the stair and used for entertaining; the household's daily life happens on the piazza and the ground floor.",
+      "bounds": "Requires the piazza actually functioning as the used room - 8 ft deep minimum, on the south or west flank. Where the piazza has been glazed in or omitted, the formal room upstairs is stranded."
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "The sala is a ceremonial room within a complex whose life happens in the corredores and the courts.",
+      "bounds": "Requires the corredores at 2.5 m or more, continuous along the ranges they serve."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "open-plan-in-a-room-based-style",
+      "difference": "Opposite responses to the same appraisal sheet. One deletes the formal rooms, the other keeps and abandons them. Naming them as alternatives is the point: a client choosing between them is choosing between two failures."
+    },
+    {
+      "fault": "primary-suite-off-the-formal-hall",
+      "difference": "That is a gradient violation by adjacency - the wrong rooms touching. This is a gradient violation by abandonment - the right rooms in the right place with nobody in them."
+    }
+  ],
+  "co_occurs_with": [
+    "ceremonial-front-door",
+    "centre-passage-blocked-at-one-end"
+  ],
+  "alternative_to": [
+    "open-plan-in-a-room-based-style"
+  ],
+  "severity_trajectory": "Gets worse rather than better with occupation. In year one the room is furnished for the photographs; by year five it holds the piano nobody plays and the exercise bicycle; by year ten it is storage with a cornice. The fault is at its least visible on the day the house is sold, which is exactly why it keeps being built.",
+  "sources": [
+    "kits/georgian-colonial-american.kit.json public_private_gradient and its note on what the modern kit cannot inherit",
+    "proportions/systems/room-vernacular.json, conflict with cost and its resolution ('argue on the rooms that will actually be used')",
+    "American Housing Survey and NAHB buyer-preference surveys on the persistence of the formal living room as an appraised feature",
+    "styles/italianate-townhouse.json double parlour with pocket doors"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "plan",
+    "gradient",
+    "use",
+    "resale",
+    "cost-negative",
+    "endemic"
+  ]
+}

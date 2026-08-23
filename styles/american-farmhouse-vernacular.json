@@ -1,0 +1,234 @@
+{
+  "id": "american-farmhouse-vernacular",
+  "name": "American Farmhouse Vernacular",
+  "aka": [
+    "National Folk",
+    "plain farmhouse",
+    "upright and wing",
+    "folk house"
+  ],
+  "rank": "style",
+  "member_of": "american-folk-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": 1790,
+    "floruit_start": 1830,
+    "floruit_end": 1920,
+    "decline_end": 1950,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1995,
+        "end": 2026,
+        "revival_node": "modern-farmhouse-traditional",
+        "note": "The contemporary 'modern farmhouse' is an imitation of this node specifically - board-and-batten, standing seam, simple gable, black windows - and it imitates the surfaces while inverting the proportions, the window sizes and the wing hierarchy that made the original coherent."
+      },
+      {
+        "start": 1935,
+        "end": 1960,
+        "revival_node": "minimal-traditional",
+        "note": "The Depression-era and FHA minimal house is this type stripped further, and is arguably a continuation rather than a revival."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "New England",
+      "Mid-Atlantic",
+      "Upstate New York",
+      "Great Lakes",
+      "Midwest",
+      "Great Plains",
+      "Upland South",
+      "Deep South",
+      "Pacific Northwest"
+    ],
+    "hearth": "no single hearth; the type is the residue of national settlement",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "4A",
+      "5A",
+      "6A",
+      "4C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "greek-revival-american",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The direct ancestor of the form. The gable-front and the gable-front-and-wing are Greek Revival inventions; the farmhouse is what remained after the frieze board thinned to a fascia and the pilasters shrank to corner boards. Its proportions are Grecian proportions with the money taken out."
+    },
+    {
+      "target": "log-vernacular-american",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "In the Upland South, the Midwest and the Plains the farmhouse frequently replaces or encases a log pen, and inherits the pen's plan logic (single-pile rooms, additive growth, gable-end chimneys) directly."
+    },
+    {
+      "target": "georgian-colonial-american",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The residual symmetry - three or five even bays, a centred door, vertically aligned openings - is Georgian discipline surviving two centuries of dilution, which is why even the plainest farmhouse still reads as ordered."
+    },
+    {
+      "target": "gothic-revival-american",
+      "type": "references",
+      "weight": 0.25,
+      "inherits_kit": false,
+      "note": "Downing's Cottage Residences (1842) and The Architecture of Country Houses (1850) put a pointed gable window and a bargeboard into the farmer's vocabulary as an available catalogue item. The farmhouse quotes Gothic Revival at the gable and nowhere else, and descends from none of it."
+    }
+  ],
+  "description": {
+    "short": "The un-styled American workhorse: a gable-front-and-wing or two-storey single-pile house with minimal trim and whatever ornament the local mill happened to stock, built in enormous numbers between 1830 and 1920 and now the substrate the 'modern farmhouse' market imitates.",
+    "long": "Calling this a residual category is the standard mistake, and it gets the causality backwards. The American farmhouse is not what is left over when style is subtracted; it is a coherent building culture with its own rules, and those rules are about growth, hierarchy and cost rather than about ornament. The two dominant configurations are the gable-front-and-wing - a taller gable-fronted block with a lower side-gabled wing and the porch tucked into the reentrant corner - and the I-house, two storeys tall, one room deep, three to five bays, with a rear kitchen ell. Both are additive: they assume the house will grow, they establish which mass is dominant before the first addition, and they place the entry in the sheltered inside corner where it will still make sense after the third ell has been built. That is a design system. It is simply one whose parameters are ridge height, wing setback and porch depth rather than order, entablature and portico.\n\nThe conditions that produced it are the industrialisation of building supply, and they are worth being precise about because they explain the trim. Between 1830 and 1870 the circular sawmill, the machine-cut nail, the balloon frame and the water-powered planing and moulding mill converted lumber from a craft product into a catalogue product. After 1870 the railroad delivered that catalogue anywhere: sash, doors, brackets, spindles, porch posts, bargeboards, all mill-run and shipped. A farmer building in 1885 was not choosing a style; he was choosing a plan he had known all his life and then choosing from a millwork list. What he bought is a fair index of what he could afford - one jigsawn gable ornament, or a run of turned porch posts, or nothing - and the ornament therefore sits in exactly the places that are visible from the road and cheap to install: the porch, the gable peak, the door. The Dibble House at Eldon, Iowa, which Grant Wood painted in 1930, is the perfect specimen precisely because it is a plain board-and-batten farmhouse with a single pointed Gothic window in the gable, probably ordered from a catalogue. That one window is the entire style content of the building, and Wood understood that it was the point.\n\nWhat it reacts against is nothing, and that is its most misunderstood quality. It is not a rejection of high style; it is high style's residue and its distribution network, arriving in the countryside a generation late and pared to what a two-man crew could raise. But it does encode an argument, and it is an economic one: never spend on what cannot be seen from the road, never build a room you do not need yet, never build a wing that competes with the main block. The failure mode of the twenty-first-century imitation is exactly the violation of that last rule - contemporary 'modern farmhouses' routinely put the wing at the same ridge height as the main block, wrap the porch on three sides, and glaze the walls at a ratio no heated farmhouse could have afforded, producing a building that quotes the surfaces of frugality at enormous cost.\n\nStanding in the dooryard of a real one you are struck first by how little there is. Clapboard or board-and-batten, white or unpainted, a plain fascia, a 6/6 or 2/2 sash with a four-inch casing, a stone or brick chimney, and a porch. The mass does the work: a two-storey block, a lower wing stepping down, a still lower ell behind it, and finally a summer kitchen and a shed - the whole economic history of a family legible in a descending ridge line. The porch is the social apparatus, six to eight feet deep, facing the drive rather than the road, and it is where the house actually lived. Inside, the rooms are small, the ceilings nine feet, the stair steep and boxed, the woodwork a plain four-inch casing with a bevel, and the kitchen is enormous because that is where everyone was. It is unglamorous, extremely legible, and it is the most-built American house of the nineteenth century - which is the argument for treating it as a first-class node rather than as a leftover."
+  },
+  "defining_characteristics": [
+    "Additive massing with an explicit hierarchy: a dominant block, a lower wing, and successively lower ells, with ridge heights stepping down monotonically",
+    "Entry in the sheltered reentrant corner of the L (gable-front-and-wing) or centred on the passage (I-house), and a porch that shelters it",
+    "Minimal trim: plain corner boards, plain fascia, 4-5 inch window casings; no continuous entablature, no pilasters, no columns",
+    "Ornament restricted to the porch, the gable peak and the door surround, drawn from whatever the mill or catalogue supplied",
+    "Single-pile or shallow room depth carried well into the twentieth century so rooms light and ventilate from two sides",
+    "Plan and elevation retain Georgian-derived alignment - openings stack vertically and bays are evenly spaced - without any classical apparatus",
+    "Designed to grow: the first-built block anticipates the ell, and the ell anticipates the shed"
+  ],
+  "diagnostic_tells": [
+    "Descending ridge line across three or four attached volumes - the family's economic history in silhouette",
+    "Porch in the inside corner of the L rather than across the gable front, and facing the farm drive rather than the public road",
+    "Exactly one piece of ornament on an otherwise plain building: a jigsawn gable bracket, a pointed window, a run of turned posts",
+    "2/2 sash after about 1870 (cheap large glass) where the same house form of 1845 would have 6/6",
+    "Corner boards 4-6 inches and a plain fascia where a Greek Revival house of the same massing has 10-12 inch pilasters and a 14-inch frieze - this is the single test that separates the two"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-upland-vernacular",
+      "difference": "Same massings, and the farmhouse descends directly from it. The Greek Revival stratum keeps the trim discipline - continuous deep frieze, wide pilastered corners, an entablature over the door. When those thin to a fascia, corner boards and a plain casing, the building has become a farmhouse."
+    },
+    {
+      "node": "folk-victorian",
+      "difference": "Folk Victorian is this same house with spindlework porch detailing and jigsawn trim applied in quantity. One catalogue ornament is a farmhouse; a full spindle frieze, turned posts with brackets and a decorated gable is Folk Victorian. The line is one of quantity, and it is genuinely fuzzy."
+    },
+    {
+      "node": "modern-farmhouse-traditional",
+      "difference": "The contemporary imitation equalises what the original made hierarchical: wing ridges level with the main block, wrap-around porches, wall-to-wall glazing, and 9-10 foot ceilings throughout. It also uses black window frames and large fixed lights that no mill of the period produced. The tell is that nothing steps down."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Massing hierarchy rather than ornament: the ratios that matter are ridge height between volumes, wing setback, porch depth and window-to-wall ratio. Classical proportion survives only as inherited habit in bay spacing and opening alignment.",
+    "typical_ratios": [
+      "Wing ridge 3-8 feet below the main ridge; each successive ell lower again",
+      "Wing front plane set back 2-8 feet behind the main block's front plane",
+      "Porch depth 6-8 feet, ceiling 8-9 feet, posts 4x4 to 6x6",
+      "Window-to-wall ratio 10-15 percent on principal elevations - low by modern standards and central to the look",
+      "Ceiling heights 8.5-9.5 feet ground, 8-9 upper",
+      "Roof pitch 6:12 to 10:12; main block 1.5-2 storeys, wing 1-1.5",
+      "Trim: corner boards 4-6 inches, fascia 6-8 inches, window casing 4-5 inches"
+    ],
+    "bay_rhythm": "Three to five even bays on the main block with vertically aligned openings; the wing carries its own independent two or three bay rhythm and is not required to align with the block, which is what keeps the composition additive rather than monumental.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "canonical",
+      "note": "Arguably the most-built American house form of the nineteenth century, and the type specimen for this node."
+    },
+    {
+      "massing": "i-house",
+      "affinity": "canonical",
+      "note": "The prosperity statement of the farming Midwest and Upland South: tall, thin, and visible across open land."
+    },
+    {
+      "massing": "gable-front",
+      "affinity": "common"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "In northern New England the additive logic goes all the way to the barn: big house, little house, back house, barn."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "The prosperous plain farmhouse, symmetrical and double-pile, with no style content whatever."
+    },
+    {
+      "massing": "pyramidal-cottage",
+      "affinity": "possible",
+      "note": "The Southern single-storey equivalent."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Wing and ell ridges must step down monotonically from the main block by at least 3 feet each, and each attached volume must be set back from the plane of the one before it. Equal ridge heights or a flush front plane produce a building with two fronts and no hierarchy - the defining failure of contemporary imitations.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Trim budget is capped and must read as a budget: corner boards 4-6 inches, fascia 6-8 inches, window casing 4-5 inches, with no continuous frieze and no pilasters. Applied ornament is limited to a single location - porch, gable peak, or door - not distributed across all three.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Entry belongs in the reentrant corner of an L-plan, sheltered by a porch at least 6 feet deep. Placing the door in the gable front of an L produces two competing front doors and no entry hierarchy.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Window-to-wall ratio on principal elevations should not exceed 18 percent; the historic range is 10-15 percent. The type's proportional character depends on wall dominating opening, and its thermal performance depends on the same thing.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Sash is 6/6 or 2/2 double-hung with muntins 7/8 to 1-1/8 inch; 2/2 only after about 1870, when cheap large glass reached rural suppliers. Single large fixed lights and undivided sash are out of period.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "American Gothic House (Dibble House)",
+      "location": "300 American Gothic Street, Eldon, Iowa",
+      "year": 1882,
+      "note": "Built 1881-82 by local carpenters Bussy and Herald; 504 square feet, board-and-batten, with two catalogue Gothic windows in the gable as the building's entire ornamental content. The specimen case for 'whatever the mill offered'. National Register 1974."
+    },
+    {
+      "name": "Jarrell Plantation farmhouse",
+      "location": "711 Jarrell Plantation Road, Juliette, Jones County, Georgia",
+      "year": 1847,
+      "note": "Plain-style Georgia piedmont farmhouse of heart pine, with a second 1895 house on the same site by the next generation - two dated points on the same vernacular line. Georgia state historic site; National Register 1973."
+    },
+    {
+      "name": "Seeley Farmhouse",
+      "location": "2 Freeman's Bridge Road, Glenville, Schenectady County, New York",
+      "year": 1850,
+      "note": "L-shaped, with a two-storey pedimented centre and one-and-a-half-storey flanking wings; the transitional case where the Greek Revival trim discipline is fading into plain farmhouse practice. National Register 1978."
+    },
+    {
+      "name": "Levi Coffin House",
+      "location": "113 U.S. 27, Fountain City, Wayne County, Indiana",
+      "year": 1839,
+      "note": "A brick I-house with a two-storey rear wing - the prosperous, disciplined end of the farmhouse spectrum, built by Quaker emigrants and reduced to trim-only classicism. National Historic Landmark."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013), 'Folk Houses' and 'National Folk'",
+    "Henry Glassie, Folk Housing in Middle Virginia (1975)",
+    "Fred Kniffen, 'Folk Housing: Key to Diffusion', Annals of the Association of American Geographers 55 (1965)",
+    "Thomas C. Hubka, Big House, Little House, Back House, Barn (1984)",
+    "Andrew Jackson Downing, The Architecture of Country Houses (1850)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "folk",
+    "vernacular",
+    "additive",
+    "millwork",
+    "substrate",
+    "modern-farmhouse-source"
+  ]
+}

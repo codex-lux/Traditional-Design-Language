@@ -1,0 +1,147 @@
+{
+  "id": "entry-steps-compressed-to-the-drive",
+  "name": "The Stoop Squeezed By The Driveway",
+  "aka": [
+    "the one-riser entrance",
+    "the entry at car level",
+    "the landing that is a slab"
+  ],
+  "slots": [
+    "grade_relationship",
+    "street_relationship",
+    "setback_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A front door reached by one riser, or none, from a slab landing that is continuous with the driveway apron. Where there are steps, they are 5 or 6 in high and 14 in deep because the run was too short for proper ones, so the flight reads as a ramp with edges. The threshold is at the level a car door opens at, the door has no platform to be opened from, and the whole approach has no vertical event in it.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The first-floor level is set by the garage. An attached garage's slab must meet the driveway at the property's grade, and the house floor sits one step above the garage slab - the code requires the change or a rated sill - so the entire building is anchored to the driveway's elevation. Every inch of first-floor height above that costs fill, stem wall, exterior steps and a steeper drive. Add an accessibility expectation for a level or near-level entrance and the floor drops to the ground, taking the base and the stoop with it.",
+    "cost_saved": "$4,000-$14,000 in fill, stem wall, exterior steps and drive regrading to lift the first floor 12 to 24 in."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / grade_relationship / water_table_above_grade_in = 24-36",
+      "statement": "The house sits on a plinth and the water table stands 24 to 36 in above finished grade, which means the entrance is reached in three to five risers."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / street_relationship / urban_condition",
+      "statement": "The front wall on the street line, entrance directly on the pavement with a stoop of 3-5 risers. Even the tightest urban condition in the kit keeps the risers."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R311.3 and R311.7 - landings at exterior doors, riser 7 3/4 in maximum, tread 10 in minimum, landing 36 in in the direction of travel",
+      "statement": "The code requires a landing 36 in deep at every exterior door and caps the riser at 7 3/4 in. It says nothing about the minimum, so a 4 in riser and a 14 in tread is compliant, awkward to walk and reads as an accident - the code protects against falling and not against a bad stair."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an entrance is marked by a rise",
+      "statement": "Going up is the oldest threshold device there is, and it does three things at once: it raises the floor above the wet, it puts the visitor below the householder at the door, and it announces arrival. Three risers is the smallest number that does all three."
+    }
+  ],
+  "correct_practice": "Set the first-floor level from the section, not from the driveway. Three to five risers to the front door is the traditional and the workable range, which follows from a first floor 18 to 30 in above finished grade with a water table at 24 to 36 in. Where there are steps, build them properly: risers equal within 3/8 in, 6 1/2 to 7 1/2 in high with 11 to 13 in treads, which is a gentler and more generous stair than the code minimum and is what every good stoop measures. Give the door a landing at least 5 ft by 5 ft rather than the 36 in the code asks for, because a landing is where somebody stands with an umbrella and a bag while the door opens outward past them. Where a level entrance is genuinely wanted - and it often should be - the correct answer is a graded approach on the long axis rather than a lowered building: a walk falling 1 in 20 over 40 ft gains 24 in of floor height without a ramp, a handrail or a visible accommodation, and it is the move that lets a house have both a base and a step-free entrance. Where a ramp is needed, integrate it as a terrace, a raised forecourt or a graded lawn walk rather than as a bolted-on incline.",
+  "fixes": {
+    "right": "Raise the first floor 24-30 in above finished grade, take the entrance in four risers off a 5 by 5 ft landing, and reach it by a graded walk rather than from the apron.",
+    "cheap": "Fall the ground, not the house. Taking the grade down 8 to 10 in over the first 8 to 10 ft in front of the entrance, and building a low retaining edge at the walk, buys two extra risers and a base for $1,000-$2,500 with no change to the structure - and because the eye measures the base against the ground immediately adjacent, a very local fall does most of the work. Second move that costs nothing: separate the landing from the apron. Even a change of material and a 4 in step between the driveway apron and the entry landing turns a continuous slab into a threshold.",
+    "dishonest": "Building up a wide flight of two shallow risers across the whole front of the house to make the entrance look grander. Wide shallow flights read as a plinth that is not there, they collect water at the door, and the riser height that results - usually 4 to 5 in - is exactly the dimension people trip on, because it is below the height at which a step is registered as a step."
+  },
+  "detection": "Count the risers at the front door in a photograph: three to five is correct, one or none is the fault. Then measure the riser height against the door: a 6 ft 8 in leaf divided into eleven gives 7 1/4 in, which is what a good riser looks like against a door in an image. Look at where the landing ends - if the paving runs continuously into the driveway apron with no change of level or material, the entrance is at car level. And check the threshold against the mulch: an entrance with fewer than two risers almost always also has a buried base and a water table at or below the ground.",
+  "test": {
+    "expression": "risers_from_finished_grade_to_the_entrance_threshold",
+    "threshold": 3.0,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "3 to 5 is the traditional range and follows from a first floor 18-30 in above grade. Countable in almost any front photograph. Where a step-free entrance is deliberate, the test is replaced by first_floor_height_above_finished_grade_in, which should still be at least 18, with the rise taken up in the approach walk instead of at the door."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "Hugging the ground is the type's whole formal argument and a one-riser or level entrance is authentic to it.",
+      "bounds": "The building must then also be low, horizontal and unstacked, and the entrance must still get a real landing and a sheltering overhang. A two-storey house with a ranch's entrance height is not an exception, it is the fault."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "8-12 in above grade is the documented post-war figure for slab-on-grade work and gives one or two risers.",
+      "bounds": "Authentic where the whole building is minimal. Adding a portico or a full cornice reintroduces the series that the low entrance is missing from."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The floor sits 12-36 in on low brick piers, which at the low end of the range gives two risers, and the galerie floor is the landing.",
+      "bounds": "The galerie must be there at 6-10 ft deep, or the abat-vent at 30-48 in. The porch is what makes a low entrance work in this type."
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "The wall meets the ground directly and entrances are commonly at or near grade, often through a portal.",
+      "bounds": "Requires the portal or a recessed entry giving shelter and shadow; a flush door at grade in a flat wall is not this."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "The street door opens off the pavement with no rise at all; the threshold is made by the zaguan, which is a room-length transition rather than a vertical one.",
+      "bounds": "Requires the zaguan with a heavy street door and a cancela at the court end. A flush door with nothing behind it is not a substitute.",
+      "applies_when": {
+        "construction": [
+          "zero-lot-line",
+          "street-wall"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "house-without-a-base",
+      "difference": "That is the same section failure read on the wall. This is it read at the door, and this one is the version the client actually feels, every day, arriving."
+    },
+    {
+      "fault": "entrance-slope-penetration",
+      "difference": "Unrelated despite the name - that is vents on the roof slope above the entrance."
+    },
+    {
+      "fault": "exterior-step-at-interior-rise",
+      "difference": "That fault is the DIMENSION of the risers - an interior stair's proportions used outdoors. This one is the NUMBER of them, and a stoop can have correct 6 1/2 in risers and still have only one of them because the driveway set the floor level."
+    }
+  ],
+  "co_occurs_with": [
+    "house-without-a-base",
+    "buried-base",
+    "door-reached-only-from-the-driveway"
+  ],
+  "severity_by_style": [
+    {
+      "style": "italianate-townhouse",
+      "severity": "fatal",
+      "why": "The high stoop of 6-10 risers to a parlour floor 4-7 ft above the sidewalk is the type; a ground-level entrance converts it into a different building."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The plinth and its three to five risers are the base of the whole storey series."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "not-applicable",
+      "why": "A low or level entrance is the type's argument."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json grade_relationship, street_relationship urban_condition (stoop of 3-5 risers)",
+    "International Residential Code R311.3 (exterior landings), R311.7.5 (riser and tread), R302.5 and R311.3.1 (garage to dwelling level change)",
+    "NPS Preservation Brief 32, Making Historic Properties Accessible, for graded approaches as an alternative to ramps",
+    "ADA Standards 405 (ramp slopes) and 403 (walking surfaces), for the 1:20 graded walk that requires no handrail"
+  ],
+  "confidence": "high",
+  "tags": [
+    "grade",
+    "entry-sequence",
+    "stoop",
+    "accessibility",
+    "photograph-testable",
+    "endemic"
+  ]
+}

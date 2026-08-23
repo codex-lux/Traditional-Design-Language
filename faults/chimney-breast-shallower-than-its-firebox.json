@@ -1,0 +1,125 @@
+{
+  "id": "chimney-breast-shallower-than-its-firebox",
+  "name": "The Chimney Breast That Is Not Deep Enough To Hold A Fire",
+  "aka": [
+    "the six-inch breast",
+    "the mantel on a flat wall",
+    "the fire that is somewhere else"
+  ],
+  "slots": [
+    "fireplace_surround",
+    "chimney",
+    "hearth_position",
+    "wainscot"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "assembly",
+  "symptom": "A chimney breast projecting 4 to 10 in into the room, carrying a mantel and a firebox 20 to 24 in deep. The arithmetic does not close, and it closes somewhere else: the firebox is in a bump-out on the outside of the house, or in a chase that eats a closet in the room behind, or the whole assembly is a metal box in a framed box and the 'breast' is a decorative pilaster of drywall. In the purest form there is no breast at all — a mantel is fixed to a flat wall with a linear gas unit set into it, and the wall behind the fire is 5 1/2 in of stud.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "A zero-clearance metal firebox is 20 to 26 in deep and needs a framed enclosure with a stated clearance, so the depth is real; but the enclosure is framed by a carpenter working from a mechanical drawing, and it goes wherever it costs least floor area. Pushing it outward gives a bump-out on the exterior, which the elevation then has to explain; pushing it inward gives a projecting breast, which the plan has to pay for in square feet. The default is to split the difference and hide the rest in a closet or an eave overhang. Meanwhile the mantel is a piece of trim applied to the front, and a trim item needs no depth behind it — so nothing in the process requires the visible mass and the actual mass to agree.",
+    "cost_saved": "A projecting breast of 18 to 24 in across a 6 ft width takes 9 to 12 square feet of floor area per storey, 3,000 to 8,000 USD over two floors in most markets. The exterior bump-out is cheaper but adds a roof, flashing and a corner condition, 2,000 to 6,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fireplace_surround / firebox_width_in [36,60], firebox_height_in [30,40]",
+      "statement": "A period firebox of that size is 18 to 24 in deep, and behind it is 8 in of masonry back. The chimney breast is therefore 26 to 32 in deep, of which the wall provides 9 to 13 in and the breast provides the rest — 16 to 22 in of projection into the room."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / built_ins / chimney-flanking-closet",
+      "statement": "Closets flanking the chimney breast where the stack allows. The whole built-in vocabulary of a period room depends on the breast having depth: the flanking closets, the panelled overmantel and the corner cupboard are all consequences of a mass in the wall."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / wainscot / full_height_panelling",
+      "statement": "The chimney wall of the best room only; the other three walls plastered above the dado. The panelled chimney breast is the most expensive object in the house and the plaster around it is what makes it read — which presupposes that there IS a breast to panel."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the chimney is the one element that must be true in section",
+      "statement": "Almost everything else in a house can be represented — a pilaster can be a board, a beam can be a soffit. The chimney cannot, because it contains a volume: a firebox, a throat, a smoke chamber and a flue, each with a dimension. A chimney breast that is shallower than its firebox has declared a volume it does not contain, and the volume has gone somewhere the plan did not intend."
+    }
+  ],
+  "correct_practice": "Draw the fireplace in SECTION before it is drawn in elevation, and let the section set the plan. A masonry fireplace of period proportion — 36 to 60 in wide, 30 to 40 in high — is 18 to 24 in deep with 8 in of masonry behind it, so the chimney mass is 26 to 32 in front to back. Where the stack is on an exterior wall, 9 to 13 in of that is in the wall and 16 to 22 in projects into the room, which is the classic chimney breast and is exactly the depth that makes flanking closets 18 to 30 in deep possible. Where the stack is interior, the whole 26 to 32 in projects and it usually serves two rooms back to back. THE CHECK IS ONE SUBTRACTION: breast projection plus wall thickness must be at least firebox depth plus back thickness, and if it is not, the difference is projecting somewhere you have not drawn. Then take the consequences, because they are the good part: the breast's depth is what gives the room its flanking closets, its panelled overmantel, its window seats in the returns and its asymmetry between the chimney wall and the other three. A room with a fireplace and no breast has none of those and has lost the reason the fireplace organises the room. Where a shallow modern unit is used deliberately — a direct-vent linear box at 14 to 18 in — build a breast anyway and use the extra depth for flanking joinery; the breast is worth having even when the fire does not require it.",
+  "fixes": {
+    "right": "Section drawn first, breast projecting 16 to 22 in with flanking closets or cupboards in the returns, exterior mass expressed on the elevation.",
+    "cheap": "Build the breast out of joinery. Where the firebox is already framed shallow, running full-height bookcases or panelled cupboards 14 to 18 in deep on both sides of the fireplace, returning to the wall, converts a flat wall into a chimney breast in appearance and function for 3,000 to 7,000 USD — and it produces the flanking storage that the period arrangement produced anyway. This is the rare case where the cheap fix delivers most of what the right fix delivers, because the breast's job in the room is spatial rather than structural.",
+    "dishonest": "A pair of drywall pilasters 6 in deep flanking the mantel, painted to match, which suggests a breast in elevation and reads as a flat wall from any oblique angle and in any photograph taken from a doorway. Also dishonest: pushing the whole firebox into an exterior bump-out with a shed roof and a soldier course and calling it a chimney — the mass then appears on the outside at first-floor level only, dies under the eave, and the stack above it has to be cranked, which produces the chimney-off-the-hearth fault on the roof."
+  },
+  "detection": "Photograph the fireplace wall from an oblique angle, from a doorway rather than square-on, which is the view that reveals depth. Correct: the breast projects visibly, its returns are 16 to 22 in deep, and the crown or cornice steps around it. Fault: the mantel stands on a flat plane and the cornice runs straight past. Second, the ARITHMETIC test from a plan: breast projection plus wall thickness against firebox depth plus 8 in; a negative result means the mass is somewhere off the drawing. Third, from the exterior: look for a bump-out at ground-floor level under the eave with no corresponding stack above, which is where the depth went. Fourth, the CORNICE test, which works in any interior photograph: a real breast makes the room's cornice break forward around it, and a cornice that runs unbroken past a fireplace means the fireplace has no mass.",
+  "test": {
+    "expression": "(chimney_breast_projection_in + wall_thickness_in) - (firebox_depth_in + 8)",
+    "threshold": 0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "plan",
+    "note": "The subtraction that must close. The 8 in is the masonry back behind the firebox; for a metal zero-clearance unit substitute the manufacturer's stated rear clearance plus the framing. A negative value means the firebox is projecting into a space the drawing has not accounted for. Partly evaluable from a photograph via the cornice test: a cornice that does not break forward around the fireplace indicates a breast of zero."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman fireplace is a broad low mass of brick or tile that reads as a wall rather than as a projecting breast, and it is often nearly flush with the wall plane with the mass expressed in width instead of depth.",
+      "bounds": "The FIREBOX still needs its depth and the mass still has to be somewhere — in this family it is normally in an exterior chimney of real masonry, which is expressed on the elevation as a genuine stack from grade to ridge. The licence is on the interior projection, not on the arithmetic. And the inglenook, where there is one, restores the depth by recessing the fire rather than by projecting the breast."
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "The corner kiva fireplace is a small plastered form built into the corner of the room, projecting into it as a rounded mass, and its shallow firebox of 12 to 16 in is genuine.",
+      "bounds": "The form must genuinely project into the room as a modelled adobe mass, and the flue rises within it. The shallowness of the fire is the exception; a flat wall with a kiva-shaped opening in it is not."
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "Shallow corner fireplaces of Spanish derivation with a small opening and a plastered hood are correct, and the mass is modest.",
+      "bounds": "The hood and the corner position do the work of the breast. A rectangular firebox on a flat wall with an applied wooden mantel is not covered."
+    },
+    {
+      "style": "mid-century-traditional",
+      "why": "The wall-hung or free-standing metal fireplace with a flue rising as a visible pipe is honest about having no masonry at all, and the absence of a breast is the point.",
+      "bounds": "The appliance must be visibly an appliance — metal, exposed flue, no applied mantel, no simulated masonry. The exception disappears the moment a period surround is applied, at which point it becomes a different fault.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "surround-that-is-not-the-firebox",
+      "difference": "The mass against the frame. This fault is about the wall having no depth; that one is about the frame not matching the fire. A shallow breast can carry a perfectly fitted surround."
+    },
+    {
+      "fault": "chimney-off-the-hearth",
+      "difference": "The roof consequence of this plan fault. Where the firebox has been pushed into a bump-out or a chase, the flue is usually cranked to reach a ridge position, and the stack emerges somewhere unrelated to the fire."
+    },
+    {
+      "fault": "vestigial-chimney-chase",
+      "difference": "That fault is a chimney with nothing in it; this is a fire with no chimney around it. They are the two halves of the same substitution and a house often has both, at different fireplaces."
+    }
+  ],
+  "co_occurs_with": [
+    "chimney-off-the-hearth",
+    "surround-that-is-not-the-firebox",
+    "direct-vent-box-in-a-period-surround"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, fireplace_surround, built_ins chimney-flanking-closet, wainscot full_height_panelling",
+    "IRC R1001 masonry fireplace dimensions and clearances",
+    "Count Rumford, Of Chimney Fireplaces (1796)",
+    "HABS measured plans showing chimney breasts and flanking closets"
+  ],
+  "confidence": "high",
+  "tags": [
+    "fireplace",
+    "chimney",
+    "plan",
+    "section",
+    "mass"
+  ]
+}

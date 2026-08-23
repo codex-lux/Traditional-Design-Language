@@ -1,0 +1,149 @@
+{
+  "id": "duct-soffit-through-the-formal-room",
+  "name": "The Soffit Across The Cornice",
+  "aka": [
+    "the dropped bulkhead",
+    "the duct that crossed the hall",
+    "the boxed beam that is a duct"
+  ],
+  "slots": [
+    "services_strategy",
+    "circulation_parti",
+    "room_adjacency_overrides"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A boxed soffit 10 to 14 in deep and 18 to 30 in wide running across the ceiling of a hall, a dining room or a stair, dying into a wall at each end and interrupting the cornice, which either stops at the soffit or climbs over it. Sometimes it is painted out; sometimes it has been given a moulding and called a beam, spanning a direction no beam could span.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The duct layout is done after the framing plan is fixed, by a contractor working from a load calculation and a register schedule, and the shortest route from plant to registers almost always runs perpendicular to the joists. A 14 by 8 in trunk with 1 in of wrap and a hanger needs about 11 in below the joist and cannot pass through any residential joist; even a 10 in round flex needs 12. Meanwhile the plant has usually been put wherever there was space, which is rarely at the centre of the distribution, so the trunk has to cross the plan - and the plan's one continuous cross route is the passage.",
+    "cost_saved": "None, and usually negative. A soffit costs $40-$80 per linear foot in framing, drywall, taping and paint. What it saves is a week of coordination and a redesign of the framing direction, which is why it happens on schedule-driven work.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / dropped-soffit-in-the-passage = forbidden",
+      "statement": "The passage is a room with a full cornice. A duct soffit running its length turns the style's central social invention into a corridor."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / ductwork-crossing-the-passage = forbidden",
+      "statement": "Any horizontal run that has to cross the centre passage forces either a dropped soffit or a raised floor, and both break the section."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / duct_direction_rule",
+      "statement": "Parallel to the joists, in the bay, never perpendicular. Follows from the timber-bay pack: the 16 ft bay gives a clear run in one direction only."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a cornice is a datum and a datum cannot be interrupted",
+      "statement": "The whole authority of a classical interior comes from one unbroken horizontal at the head of the wall. A soffit that crosses it is read as a later intervention even when it is original, because that is the only way it could have happened in a real old building."
+    }
+  ],
+  "correct_practice": "Fix the duct direction with the framing direction, before either is drawn. Run all horizontal distribution parallel to the joists within a bay, which the framing already permits, and let the framing direction be chosen for the ducts where nothing else decides it - that is a free decision at schematic stage and an impossible one later. Put the plant at the centre of gravity of the distribution rather than at the edge of the plan, so no trunk has to cross the house. Where a run must change direction, do it in a bay that is over a service space - a bathroom, a closet, a rear stair, a mudroom - never over a room with a cornice and never along the passage. Where a soffit is genuinely unavoidable, put it against a wall as a full-depth ceiling drop over the whole room's perimeter, or take the whole room's ceiling down: an evenly lowered ceiling reads as a decision, and a bulkhead across the middle reads as an accident. The cheapest structural answer in new work is to run the trunk in the floor system's open web - an open-web floor truss takes a 14 by 8 in trunk through the chase space with no drop at all, for about $2-$4 per square foot of floor over I-joists, which is less than the soffits it deletes.",
+  "fixes": {
+    "right": "Coordinate the duct route with the joist direction at schematic design, use open-web floor trusses where a crossing run is unavoidable, and centre the plant.",
+    "cheap": "Move the soffit, not the duct. A trunk that must cross the plan can nearly always be moved one or two bays into a route over a closet, a bathroom or the rear stair, which costs a few elbows and a couple of hours and removes it from the room entirely. Where it must stay, drop the whole ceiling of that room by the same dimension and run the cornice at the new height - a 9 ft room at 8 ft 2 in with an unbroken cornice is a better room than a 9 ft room with a bulkhead across it.",
+    "dishonest": "Casing the soffit as a beam. A beam spanning parallel to the ridge over a 26 ft room, dying into a stud wall at both ends, bearing nothing, and 30 in wide, is a lie that anyone who reads structure will catch, and it makes the ceiling busier rather than quieter. If the room needs beams, give it a real grid in the direction a beam would go, at the spacing a beam would have."
+  },
+  "detection": "Look for a boxed drop whose long axis is perpendicular to the room's joists, which you can read from the direction of the ridge and the floor boards. Check where the cornice goes at the soffit: interrupted, ramped over, or mitred into the box are all the fault. In a photograph, look at the width - a structural beam in a house is 6 to 12 in wide and a duct soffit is 18 to 30, and the width is the fastest tell. In a hall, any drop running the length of the hall is this fault by definition.",
+  "test": {
+    "expression": "duct_runs_crossing_the_principal_passage",
+    "threshold": 0.0,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "plan",
+    "note": "Count horizontal duct runs that cross the centre passage or any room carrying a full cornice. The kit sets max_horizontal_run_crossing_passage to zero and is right to. A second photograph-testable form: soffit_width_in / 12, which is at most 1.0 for anything that could be a beam."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "adam-style",
+    "greek-revival-american",
+    "italianate-american",
+    "italianate-townhouse",
+    "second-empire",
+    "neoclassical-revival",
+    "beaux-arts-american",
+    "english-georgian-townhouse",
+    "jeffersonian-classicism",
+    "palladian",
+    "renaissance-revival-american",
+    "queen-anne-american"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "A ceiling of expressed beams at a regular spacing is part of the idiom, and a service run concealed inside one of them is invisible because the grid explains it.",
+      "bounds": "The beams must form a grid in the direction beams would actually go, at 3 to 5 ft on centre and 6 to 10 in wide, with the plate rail carrying round below. One fat box in an otherwise flat ceiling is not this, whatever it is trimmed with.",
+      "bounds_test": {
+        "expression": "soffit_width_in",
+        "threshold": 12.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Heavy applied ceiling beams are conventional and hide runs well.",
+      "bounds": "Same rule: a grid at a plausible span direction and spacing, not a single crossing box."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Exposed viga or beam ceilings at a regular rhythm are canonical and conceal services readily.",
+      "bounds": "Round or squared members at 24-36 in on centre running the short span of the room."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "In a row house with 10-12 ft ceilings a 12 in soffit at the rear of the hall, above the door heads, is genuinely invisible and was the historical route for later services.",
+      "bounds": "Only where the ceiling is 10 ft or more and the soffit stays above the door head datum, so it reads as part of the wall rather than as an object in the ceiling.",
+      "bounds_test": {
+        "expression": "ceiling_height_ft",
+        "threshold": 10.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "section"
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "stack-with-nowhere-to-land",
+      "difference": "Horizontal against vertical. Same family, same trade sequence; one crosses the plan and the other cannot come down it."
+    },
+    {
+      "fault": "plant-room-that-was-never-drawn",
+      "difference": "That is where the equipment sits; this is how it reaches the rooms. A centred plant room removes most of the reason for a crossing trunk."
+    }
+  ],
+  "co_occurs_with": [
+    "plant-room-that-was-never-drawn",
+    "stack-with-nowhere-to-land"
+  ],
+  "severity_trajectory": "Worsens at every equipment change. Each replacement system is sized and routed by a new contractor working around the existing soffit, so the box gets wider rather than narrower, and by the third system the hall has a permanent bulkhead nobody can explain.",
+  "sources": [
+    "kits/georgian-colonial-american.kit.json services_strategy: dropped-soffit-in-the-passage and ductwork-crossing-the-passage forbidden, duct_direction_rule, max_horizontal_run_crossing_passage",
+    "proportions/modules/timber-bay.json for the clear run in one direction only",
+    "ACCA Manual D residential duct design, for trunk sizing and the depth of a typical supply trunk",
+    "International Residential Code R502.8 (notching and boring of joists) and engineered joist manufacturers' web-hole tables"
+  ],
+  "confidence": "high",
+  "tags": [
+    "services",
+    "ducts",
+    "interior",
+    "cost-negative",
+    "trade-sequence",
+    "endemic"
+  ]
+}

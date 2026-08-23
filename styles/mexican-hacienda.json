@@ -1,0 +1,217 @@
+{
+  "id": "mexican-hacienda",
+  "name": "Mexican Hacienda",
+  "aka": [
+    "hacienda",
+    "casco de hacienda",
+    "casa grande"
+  ],
+  "rank": "style",
+  "member_of": "colonial-iberian-americas",
+  "status": "historical",
+  "period": {
+    "origin": 1550,
+    "floruit_start": 1650,
+    "floruit_end": 1910,
+    "decline_end": 1917,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1915,
+        "end": 1942,
+        "revival_node": "spanish-colonial-revival",
+        "note": "The long low arcaded range around a courtyard, the tiled roof and the massive plastered wall are the hacienda's contribution to the American revival, distinct from the church-derived ornamental strain."
+      },
+      {
+        "start": 1918,
+        "end": 1940,
+        "revival_node": "mediterranean-revival",
+        "note": "The arcaded courtyard house at estate scale in Florida, Texas and California."
+      },
+      {
+        "start": 1925,
+        "end": 1955,
+        "revival_node": "monterey-revival",
+        "note": "Partial: the two-storey range with a continuous cantilevered upper balcony is the Californian offspring of the same arcade logic, crossed with Anglo framing."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Mexico",
+      "American Southwest",
+      "Central America"
+    ],
+    "hearth": "the Bajio, Hidalgo, Puebla and Yucatan",
+    "climate_zones": [
+      "3B",
+      "4B",
+      "2A",
+      "1A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "mexican-colonial",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Direct and unambiguous: the hacienda is colonial building practice applied to a rural productive estate. Same walls, same vigas, same patio, same carpentry, same trades."
+    },
+    {
+      "target": "andalusian-courtyard-vernacular",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "The Andalusian cortijo — a walled agricultural precinct with a casa, a chapel, granaries and workers' quarters around one or more working courts — is the direct organisational model, and many of the first encomenderos came from Andalusia and Extremadura where that model was standard."
+    },
+    {
+      "target": "french-neoclassical",
+      "type": "references",
+      "weight": 0.15,
+      "inherits_kit": false,
+      "note": "Under the Porfiriato (1876-1911) many casas grandes were re-dressed in French neoclassical and Second Empire detail — mansard pavilions, pedimented window surrounds, cast-iron cresting — applied over an entirely unchanged colonial plan. Quotation from a fashionable elsewhere, with no transmission of practice."
+    }
+  ],
+  "description": {
+    "short": "The walled rural estate of New Spain and independent Mexico: a working precinct of casa grande, chapel, granaries and workers' quarters organised by arcaded corredores around one or more courts, sized by an economy of silver, sugar, pulque or henequen.",
+    "long": "A hacienda is not a house; it is a settlement with an owner's house in it, and the misunderstanding of that fact is why most reproductions of the type fail. The unit is the casco, the walled core of the estate, and inside it are the casa grande, the chapel, the trojes or granaries, the tinacal or the sugar mill or the desfibradora depending on what the estate produced, the stables, the workshops, the store, and the housing of the resident workforce, which on a large estate might be several hundred people bound to it by debt peonage. Around the casco lie the fields and the water rights, and the whole thing is enclosed by a wall with one or two controlled gates. Read as architecture it is a village with a hierarchy; read as an institution it is a self-contained economic and juridical world with the owner as its magistrate, and the walls are not ornamental.\n\nThe organising architectural element is the corredor. An arcade of eight, twelve, twenty bays, three to four metres deep, runs around the courts and along the fronts of the ranges, and it does everything: it is the circulation, since the rooms are single-pile and have no corridors; it is the shade, since the rooms behind it face into it rather than into the sun; it is the working floor for sorting, drying and repairing; and it is the social space, since the entire life of the estate happens under it. Everything else follows from repetition of that bay. Because the corredor is repetitive, and because the ranges behind it are one room deep, a hacienda grows by getting longer and by adding courts, never by getting deeper or taller. That gives the type its characteristic proportions: enormously long, one or at most two storeys, low, and horizontal against a horizontal landscape.\n\nThe construction is local by necessity. Adobe seven hundred to a thousand millimetres thick at the base in the highlands, or rubble and lime, or cut limestone in the Yucatan where the stone is at the surface; a stone or fired-brick socle a metre and a half high against rain splash and rising damp, which on an unrendered wall reads as a visible base band; vigas of local timber setting a room depth of five to six metres; flat azotea roofs on the dry altiplano and clay tile at low pitch where it rains. The walls are lime-plastered and colour-washed, and the colour is regional — the ochres and deep reds of the Bajio, the almagre red and cream of Yucatan. The ornament budget goes almost entirely to two places: the entrance gate, which carries the owner's arms and the estate's name, and the chapel, which is often the only vaulted, the only carved, and the only twin-towered thing on the property. The casa grande is distinguished from everything else by its height and by having the better arcade order, not by being decorated.\n\nThe end of the type is a date. The Revolution and the Constitution of 1917 established the legal basis for agrarian reform, and between 1917 and the Cardenas expropriations of the 1930s the hacienda system was dismantled; thousands of cascos were burned, abandoned or handed to ejidos, and the henequen haciendas of Yucatan were left standing empty when the sisal market collapsed. That is why the surviving examples are so often ruins or hotels rather than working estates. To walk into an abandoned casco at midday is a peculiar experience: a hundred metres of arcade with nothing under it, a chapel with a bell still hanging, a machine house with a rusted German engine in it, a courtyard of dust and one enormous tree, and the whole thing built to a scale that assumed several hundred people would be moving through it and that has been silent for a century."
+  },
+  "defining_characteristics": [
+    "A walled precinct (casco) with one or two controlled gates, containing house, chapel, production buildings and workers' housing",
+    "Continuous arcaded corredores, three to four metres deep and running eight to twenty bays, as the circulation, shade and social space",
+    "Single-pile ranges around one or more courts; the complex grows in length and in courts, never in depth",
+    "Massive adobe, rubble or cut-stone walls 700-1000 mm at the base on a raised stone or brick socle",
+    "Room depth fixed by the span of local timber vigas, 5-6 m clear",
+    "Flat azotea roofs with parapets and canales on the dry highlands; low-pitched clay tile with deep overhangs where it rains",
+    "The chapel as the only ornamented and often the only vaulted structure; the casa grande distinguished by height and arcade order rather than by decoration",
+    "Production buildings — trojes, tinacal, mill, desfibradora — as full architectural members of the composition"
+  ],
+  "diagnostic_tells": [
+    "An arcade of more than eight identical bays running in a straight line",
+    "A tall stone or brick base band 1.2-1.8 m high under a plastered adobe wall, unrendered and clearly a different material",
+    "A twin-belfry chapel facade standing inside a walled compound rather than on a street or plaza",
+    "A monumental gateway with a carved name and coat of arms, in a wall that is otherwise entirely blank for a hundred metres",
+    "Colour-washed lime plaster in strong regional colours — almagre red, ochre, indigo — with white trim at the arcade"
+  ],
+  "distinguished_from": [
+    {
+      "node": "mexican-colonial",
+      "difference": "The hacienda is the rural agricultural branch. It is longer, lower, far more repetitive, spends nothing on the domestic portada, and includes production buildings and workers' housing as part of the architecture."
+    },
+    {
+      "node": "massing:courtyard-full",
+      "difference": "The catalog skeleton describes the enclosed court; the hacienda is usually several of them plus a walled field of ancillary buildings. A single-court hacienda is a small one."
+    },
+    {
+      "node": "cape-dutch",
+      "difference": "Both are whitewashed, thick-walled working farm precincts on colonial ground. The Cape homestead puts all its rhetoric into a central gable and a stoep and has no arcade; the hacienda has no gable at all and puts everything into an arcade."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The arcade bay and the viga span. The corredor bay of 3-4 m, repeated, sets the whole rhythm and length of the complex; the viga span of 5-6 m sets range depth absolutely; the walled rectangle of the casco, not any facade, is the compositional frame. Nothing is derived from an order, and no elevation is composed as a whole — the composition is a plan.",
+    "typical_ratios": [
+      "Corredor bay 3-4 m; corredor depth 2.5-4 m; arcade runs of 8-20 bays",
+      "Range depth 5-6 m clear; wall thickness 700-1000 mm at base, tapering",
+      "Stone socle 1.2-1.8 m high",
+      "Court dimension 20-60 m across; tile roof pitch 20-30 degrees with 800-1200 mm overhang"
+    ],
+    "bay_rhythm": "Relentlessly even. The uninterrupted repetition of the arcade bay over great length is the type's single most characteristic effect, and any attempt to accent, group or break it works against the building.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "One or more fully enclosed courts, with a blind or near-blind outer wall and a single gate."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "canonical",
+      "note": "The corredor is the building's real room; the ranges are a core inserted behind a gallery, exactly as the catalog describes."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three-sided service and production courts behind or beside the principal one."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "The smaller ranchos and the outlying estancias string house, store and stable in a linear chain with a continuous portal along the front."
+    },
+    {
+      "massing": "raised-cottage",
+      "affinity": "atypical",
+      "note": "Only where flooding or termites force a raised floor, which is rare in the highland heartland."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Adobe or rubble walls 700-1000 mm at the base, carried on a stone or fired-brick socle at least 1.2 m high. Rain splash and rising damp destroy an adobe wall from the bottom; the socle is not optional and must read as a different material.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Room depth must not exceed the viga span, about 6 m clear. Every range is single-pile and every room is entered from the corredor. Thickening a range to gain area destroys the ventilation and the circulation at once.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "The corredor must be at least 2.5 m deep and must be continuous along the ranges it serves; it is the circulation as well as the shade. A discontinuous arcade forces internal corridors the type does not have.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "The casco is a walled precinct with one or two controlled gates and must include, at minimum, the casa grande, the chapel and at least one production building. A freestanding casa grande without its working precinct is not a hacienda.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "The ornament budget goes to the gate and to the chapel. Carving, vaulting and twin belfries belong to the chapel; the casa grande asserts itself by height and by the order of its arcade.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hacienda de Santa Maria Regla",
+      "location": "Huasca de Ocampo, Hidalgo, Mexico",
+      "year": 1774,
+      "note": "c. 1762-1774; the silver-refining hacienda of Pedro Romero de Terreros, Conde de Regla, with courts of patio arches built for amalgamation work — the industrial hacienda at its largest."
+    },
+    {
+      "name": "Hacienda San Gabriel de Barrera",
+      "location": "Guanajuato, Mexico",
+      "year": null,
+      "note": "Late 17th to early 18th century; a mining hacienda with an intact casa grande, chapel and hacienda de beneficio."
+    },
+    {
+      "name": "Hacienda Yaxcopoil",
+      "location": "Yucatan, Mexico",
+      "year": null,
+      "note": "Founded in the 17th century; the surviving buildings are largely of the 19th-century henequen era, including the machine house. The clearest surviving example of the industrialised late hacienda."
+    },
+    {
+      "name": "Hacienda de Jaral de Berrio",
+      "location": "San Felipe, Guanajuato, Mexico",
+      "year": null,
+      "note": "18th century; one of the largest cascos in Mexico, with a fortified perimeter, a domed chapel and a Porfirian remodelling of the casa grande."
+    }
+  ],
+  "sources": [
+    "Rendon Garcini, Haciendas de Mexico",
+    "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800",
+    "Toussaint, Arte colonial en Mexico",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "hacienda",
+    "arcade",
+    "adobe",
+    "walled-precinct",
+    "agricultural",
+    "mexico"
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "id": "german-fachwerk",
+  "name": "German Fachwerk",
+  "aka": [
+    "Fachwerkbau",
+    "German half-timbering",
+    "Riegelbau"
+  ],
+  "rank": "style",
+  "member_of": "germanic-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1200,
+    "floruit_start": 1350,
+    "floruit_end": 1750,
+    "decline_end": 1900,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1875,
+        "end": 1914,
+        "revival_node": null,
+        "note": "Heimatstil and Altdeutsch revival; Fachwerk adopted as a national-romantic emblem and applied decoratively over masonry, which is where the false 'applied half-timbering' of the whole later revival world begins."
+      },
+      {
+        "start": 1900,
+        "end": 1940,
+        "revival_node": "tudor-revival",
+        "note": "Reaches Anglo-America mainly through the English Tudor Revival, by which point the frame is a nailed-on pattern with no structural meaning."
+      },
+      {
+        "start": 1945,
+        "end": 2026,
+        "revival_node": null,
+        "note": "Post-war reconstruction of bombed Fachwerk towns (Hildesheim, Frankfurt, Nuremberg) and a continuing living trade of Zimmerleute repairing and building new frames."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Germany",
+      "Alsace",
+      "Switzerland",
+      "Austria",
+      "Denmark",
+      "Poland"
+    ],
+    "hearth": "Hesse, Franconia, Lower Saxony and the Middle Rhine",
+    "climate_zones": [
+      "5A",
+      "6A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.2,
+      "inherits_kit": false,
+      "note": "From the mid-16th century the Weser and Franconian carpenters carve rosettes, Vitruvian scroll, diamond points and dentil bands into the sill beams and console brackets, and letter Latin inscriptions across them. The vocabulary is quoted from printed sheets; the frame behind it is unchanged medieval carpentry."
+    }
+  ],
+  "description": {
+    "short": "The exposed load-bearing timber frame of central Germany, in which the pattern of posts, rails and braces on the wall is not decoration but a legible diagram of how the building stands up.",
+    "long": "Fachwerk is a solution to an inversion that most people get backwards. In medieval central Germany timber was not cheap and infill was: a straight, sound oak of structural size took a century to grow and had to be felled, hauled, hewn and jointed by a skilled trade, whereas clay, straw, riven laths and later brick were locally free and could be handled by anyone. The rational building therefore uses as little timber as possible and puts it exactly where the loads are, filling the gaps with the cheap stuff. The result is a wall made of framed panels — Fächer, hence Fachwerk — and the panel size, roughly 0.9 to 1.3 metres, is simply the interval at which posts have to stand to carry the storey above. Everything a visitor reads as picturesque pattern is a load path.\n\nThe technical history is one decisive change. The early frame is Ständerbau: single posts running from the ground sill to the eave through every storey, which requires timbers of great length and makes floors an insertion into a fixed cage. From roughly 1400 the trade shifts to Stockwerkbau, storey-by-storey framing, in which each floor is a complete self-contained frame standing on the one below. That change is what produces the German street as we know it. Because the floor beams of the upper storey run out past the frame below and carry the next frame on their ends, each storey can jetty forward two to four hundred millimetres. Jettying stiffens the joint, gains floor area over a taxed ground footprint, and shelters the wall beneath from rain — and, over four storeys on a narrow medieval street, it closes the sky. Where the beam ends project they are carved into Knaggen, brackets, and the sill beam that runs across them becomes the building's inscription band, carrying the owner's name, the date, and a verse from Luther's Bible.\n\nRegional dialects are sharp enough to locate a building within fifty kilometres. Lower Saxon framing is close-studded, tall and vertical, with heavy carved sills and few braces on the face. Franconian framing signs itself with figures — the Wilder Mann, a man-shaped assembly of braces standing in a panel; the Andreaskreuz, the St Andrew's cross; the Mann and the Halber Mann. Alemannic framing in the south-west uses long, shallow, sweeping curved braces running through several panels. Middle German framing on the Rhine and in Hesse is squarer and more heavily painted, often in ox-blood red with white panels. None of these are ornamental choices in origin: they are different regional answers to how you triangulate a rectangular frame against wind, and they hardened into signatures.\n\nTo walk into a Fachwerk house is to be inside its structure with nothing intervening. The frame is exposed indoors as well as out; the beams are low, the ceiling is a grid of joists, and the floors are not level anywhere because a five-hundred-year-old oak frame has settled differentially at every joint. The rooms are small and warm and dark — small because a panel wall wants small openings, warm because the Stube was heated by a masonry stove fed from the passage so no smoke entered the room, and dark because the windows are a few paired casements in the middle of a wall of clay. What you feel is a building that is entirely legible: you can see, from a chair, exactly how every load in the room reaches the ground."
+  },
+  "defining_characteristics": [
+    "Load-bearing timber frame fully exposed on the exterior, with non-structural infill panels (Gefach) of wattle-and-daub or brick nogging",
+    "Storey-by-storey (Stockwerk) framing above about 1400, each storey a complete frame standing on the one below",
+    "Jettied upper storeys carried on projecting floor beam ends, with carved brackets (Knaggen) beneath",
+    "A carved and inscribed sill beam (Schwelle) at each jetty carrying name, date and text",
+    "Visible triangulating braces — Andreaskreuz, Wilder Mann, curved Alemannic braces — as the regional signature",
+    "The frame stands on a masonry or brick plinth (Sockel) clear of the ground; timber never touches the earth",
+    "Steep tile or slate roof, 45-60 degrees, with the frame's ridge and eave lines expressed"
+  ],
+  "diagnostic_tells": [
+    "Every infill panel framed on all four sides — if a timber runs across a panel without a joint at each end, the frame is fake",
+    "Floor beam ends visibly projecting at each storey line, with a carved sill beam running across them",
+    "Braces meeting posts at real joints (mortice-and-tenon with a visible peg), not butted",
+    "Panels of daub or brick, whitewashed or ochre, sitting proud of or flush with the timber — never behind it",
+    "A masonry plinth of at least 300 mm between grade and the bottom sill"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-medieval-timber-frame",
+      "difference": "English framing is oak on oak but uses wider panels, square panelling in the west and close studding in the east, has far less carved and lettered sill decoration, and almost never develops the four-storey jettied street front. English work also whitewashes or limewashes the timber as often as it leaves it dark."
+    },
+    {
+      "node": "north-german-hall-house",
+      "difference": "The Low German hall house is built in Fachwerk but is a plan type, not a framing system: three-aisled, gable-entered, house and byre in one undivided hall. Fachwerk is what it is made of; the hall house is what it is."
+    },
+    {
+      "node": "tudor-revival",
+      "difference": "Revival half-timbering is applied to a sheathed frame or a masonry wall and carries no load. The diagnostic is panels that are not framed on four sides, braces that do not reach a joint, and timbers of uniform machined section."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Structural, entirely. The panel (Gefach) is the module: post spacing of about 0.9-1.3 m, set by what a floor beam of available section will span onto the wall plate. Storey height is set by the length of a post plus the depth of the beam. The whole facade is a grid of these panels, and any decoration is fitted into the grid rather than imposed on it.",
+    "typical_ratios": [
+      "Panel width 0.9-1.3 m; panel height 0.8-1.6 m; panel proportion roughly 1:1 to 2:3",
+      "Timber section 120-200 mm square for posts, 180-280 mm deep for floor beams",
+      "Jetty projection 200-400 mm per storey",
+      "Roof pitch 45-60 degrees; storey heights diminishing upward by roughly 10-15 percent"
+    ],
+    "bay_rhythm": "A visible, countable grid. Openings are made by omitting a panel or a pair of panels, so window position is always a whole number of panels from a corner, and the fenestration can never float freely on the wall.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The German market square and the Fachwerk street are party-walled or near-touching rows; the type is urban before it is rural."
+    },
+    {
+      "massing": "gable-front",
+      "affinity": "canonical",
+      "note": "In the towns the narrow taxed lot turns the gable to the square, with the frame's jetties stepping out on the way up."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The rural Fachwerk cottage and the smallest artisan houses."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "The Franconian and Hessian courtyard farm strings house, barn and stable in framed ranges around a yard."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "possible",
+      "note": "Larger Weser and Westphalian houses reach a two-wing plan, though the frame limits range depth."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Every infill panel must be framed on all four sides by timber, and every brace must terminate in a joint at both ends. A timber that dies into a panel is ornament, not frame, and is prohibited.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The bottom sill must sit on a masonry or fired-brick plinth at least 300 mm above finished grade, with a drip. Timber in contact with earth is the single commonest cause of loss in surviving frames.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Jetty projection between 200 and 400 mm per storey, carried on the ends of the floor beams of the storey below. A jetty greater than about 400 mm requires a bracket (Knagge) at every beam end.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Roof pitch not less than 45 degrees for tile or slate. Eave overhang at least 400 mm to keep driving rain off the daub panels; the gable verge at least 250 mm.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Carving, colour and lettering belong on the sill beam, the corner posts, the brackets and the door frame. The infill panels stay plain. Ornamenting the panel rather than the timber inverts the whole logic of the wall.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Fachwerkmuseum im Standerbau, Wordgasse 3",
+      "location": "Quedlinburg, Germany",
+      "year": 1346,
+      "note": "Dendro-dated to the mid-14th century; among the oldest surviving half-timbered houses in Germany and a rare surviving Standerbau (through-post) frame."
+    },
+    {
+      "name": "Rathaus",
+      "location": "Alsfeld, Germany",
+      "year": 1516,
+      "note": "Built 1512-1516; the canonical late-Gothic Hessian jettied frame on a stone arcaded base."
+    },
+    {
+      "name": "Rathaus",
+      "location": "Michelstadt, Germany",
+      "year": 1484,
+      "note": "Odenwald; jettied frame carried on oak posts over an open market floor."
+    },
+    {
+      "name": "Knochenhaueramtshaus",
+      "location": "Hildesheim, Germany",
+      "year": 1529,
+      "note": "Butchers' guild house; destroyed by bombing in 1945 and reconstructed 1986-1989 to the original frame drawings. Cited with that caveat."
+    }
+  ],
+  "sources": [
+    "Gerner, Fachwerk: Entwicklung, Instandsetzung, Neubau",
+    "Stiewe, Fachwerkhauser in Deutschland: Konstruktion, Gestalt und Nutzung",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World",
+    "Rudofsky, Architecture Without Architects"
+  ],
+  "confidence": "high",
+  "tags": [
+    "timber-frame",
+    "exposed-structure",
+    "germanic",
+    "urban",
+    "rural"
+  ]
+}

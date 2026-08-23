@@ -1,0 +1,284 @@
+{
+  "id": "bungalow-open-linear",
+  "name": "Bungalow, Open and Linear",
+  "aka": [
+    "the California bungalow plan"
+  ],
+  "description": "Porch, living room, dining room and kitchen in a line, with bedrooms off a short hall to one side. The first mass-market American plan to abandon the formal parlor: the living and dining rooms flow together around a hearth and the front door opens straight into the life of the house. It deliberately does not carry an entry sequence: porch, then living room, one threshold, and the informality is an argument rather than an omission.",
+  "massing": "bungalow-linear",
+  "alternate_massings": [
+    "airplane-bungalow",
+    "ranch-linear"
+  ],
+  "styles": [
+    "craftsman",
+    "craftsman-bungalow",
+    "california-bungalow",
+    "arts-and-crafts-american"
+  ],
+  "groupings": [
+    "kitchen-work-core",
+    "secondary-bedroom-cluster",
+    "sleeping-porch-cluster"
+  ],
+  "circulation_parti": "open-plan",
+  "storeys": 1,
+  "area_range_sf": [
+    900,
+    1800
+  ],
+  "bedroom_range": [
+    2,
+    3
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Porch",
+      "exterior_walls": [
+        "S",
+        "E",
+        "W"
+      ],
+      "doors": [
+        "living",
+        "exterior"
+      ],
+      "note": "Under the primary roof, not applied to it, and 8 ft deep minimum or it is decoration."
+    },
+    {
+      "id": "living",
+      "type": "living-room",
+      "level": 0,
+      "name": "Living Room",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "porch",
+        "dining",
+        "hall",
+        "exterior"
+      ]
+    },
+    {
+      "id": "dining",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Dining Room",
+      "exterior_walls": [
+        "W",
+        "S"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "living",
+        "kitchen"
+      ],
+      "note": "Wide cased opening to the living room, not a door. Built-in sideboard and plate rail."
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N",
+        "W"
+      ],
+      "doors": [
+        "dining",
+        "pantry",
+        "mud"
+      ],
+      "fixtures": [
+        "sink",
+        "dishwasher"
+      ]
+    },
+    {
+      "id": "nook",
+      "type": "breakfast-room",
+      "level": 0,
+      "name": "Breakfast Nook",
+      "required": false,
+      "exterior_walls": [
+        "W"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "pantry",
+      "type": "pantry",
+      "level": 0,
+      "name": "Pantry",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "mud",
+      "type": "mudroom",
+      "level": 0,
+      "name": "Rear Porch",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen",
+        "exterior"
+      ]
+    },
+    {
+      "id": "hall",
+      "type": "gallery-corridor",
+      "level": 0,
+      "name": "Bedroom Hall",
+      "doors": [
+        "living",
+        "primary",
+        "hallbath",
+        "linen"
+      ]
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 0,
+      "name": "Principal Bedroom",
+      "exterior_walls": [
+        "E",
+        "N"
+      ],
+      "lit_from": [
+        "E",
+        "N"
+      ],
+      "doors": [
+        "hall",
+        "sleepingporch"
+      ]
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 0,
+      "name": "Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "hall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ]
+    },
+    {
+      "id": "linen",
+      "type": "linen-press",
+      "level": 0,
+      "name": "Linen",
+      "required": false,
+      "doors": [
+        "hall"
+      ]
+    },
+    {
+      "id": "sleepingporch",
+      "type": "sleeping-porch",
+      "level": 0,
+      "name": "Sleeping Porch",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "primary"
+      ]
+    },
+    {
+      "id": "chamber",
+      "type": "bedroom",
+      "level": 0,
+      "name": "Bedroom",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "hall"
+      ]
+    },
+    {
+      "id": "chambercl",
+      "type": "closet",
+      "level": 0,
+      "name": "Closet",
+      "repeats_with_bedrooms": true,
+      "doors": [
+        "chamber"
+      ]
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "deepening",
+      "adding-a-link"
+    ],
+    "bay_module_ft": 12,
+    "max_bay_count": 3,
+    "note": "Grows to the rear or by a shed dormer for upper rooms. Widening past three bays turns it into a ranch."
+  },
+  "trades_away": "Formality and acoustic separation. There is nowhere to receive a stranger and nowhere to shut a door on a piano. In exchange the plan is small, cheap, warm, and organised around the family rather than around the visitor.",
+  "exemplars": [
+    "Gamble House, Pasadena, 1908 (the type at its most elaborate)",
+    "the Los Angeles bungalow courts of 1910-1925"
+  ],
+  "sources": [
+    "Lancaster, The American Bungalow",
+    "Winter, The California Bungalow"
+  ],
+  "confidence": "high"
+}

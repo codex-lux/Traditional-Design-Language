@@ -1,0 +1,220 @@
+{
+  "id": "beaux-arts-french",
+  "name": "Beaux-Arts (French)",
+  "aka": [
+    "Style Beaux-Arts",
+    "Second Empire academic",
+    "Style Napoleon III",
+    "Belle Epoque academic classicism"
+  ],
+  "rank": "style",
+  "member_of": "continental-baroque-neoclassical",
+  "status": "historical",
+  "period": {
+    "origin": 1819,
+    "floruit_start": 1850,
+    "floruit_end": 1914,
+    "decline_end": 1935,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1885,
+        "end": 1930,
+        "revival_node": "beaux-arts-american",
+        "note": "Not a revival so much as a transplant: Richard Morris Hunt entered the Ecole in 1846 and roughly 500 Americans followed before 1914, taking the method home wholesale."
+      },
+      {
+        "start": 1980,
+        "end": 2026,
+        "revival_node": "new-classical",
+        "note": "The contemporary classical movement re-adopts Beaux-Arts composition and the poche-and-parti method explicitly, and several schools now teach the analytique again."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Paris",
+      "France",
+      "Europe",
+      "worldwide via Ecole-trained architects"
+    ],
+    "hearth": "The Ecole des Beaux-Arts, rue Bonaparte, Paris",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-neoclassical",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Institutionally continuous: the Ecole is the reorganised successor to the Academie royale's teaching, the Prix de Rome runs unbroken, and Durand's and Blondel's compositional method is what the atelier system transmits."
+    },
+    {
+      "target": "french-baroque",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The Grand Manner is deliberately reclaimed after 1850 - coupled columns, sculptural relief, the pavilion silhouette and the mansard all come back from Louis XIV, not from the Neoclassical generation that had suppressed them."
+    },
+    {
+      "target": "italian-baroque",
+      "type": "references",
+      "weight": 0.4,
+      "note": "The scenographic plan, the ceremonial stair and the axial urban set-piece are quoted from Rome; Garnier's grand escalier is a Baroque theatre stage where the audience is the performance."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.3,
+      "note": "The palazzo elevation - graded rustication, superimposed orders, heavy crowning cornice - remains the default clothing for commercial and institutional blocks."
+    }
+  ],
+  "description": {
+    "short": "Composition taught as a transmissible method - parti, marche and poche - producing large, richly sculptural, axially planned public buildings whose elevations are direct projections of their plans.",
+    "long": "The Beaux-Arts is less a set of forms than a way of getting from a programme to a building, and it is the only such method the classical tradition ever fully institutionalised. A student in the atelier system received a programme, was locked in a cubicle for twelve hours to produce an esquisse - the parti, the fundamental diagram - and then spent weeks developing it without being allowed to change the diagram. The plan came first, always, laid out on a dominant axis with cross-axes, with major and minor spaces ranked by size and ceiling height, and with circulation - the marche, the sequence of movement - designed as an experience rather than as leftover corridor. The wall was drawn as poche, a thickened black mass carved out for stairs, closets, flues and lightwells, which is why Beaux-Arts buildings absorb their servicing invisibly. The elevation was then a projection of that hierarchy, and only at the end was the order chosen, according to caractere - the doctrine that a bank, an opera house and a hospital should each look like what they are.\n\nThe conditions are industrial and metropolitan. Nineteenth-century Paris needed building types that had never existed at that scale: railway termini, department stores, opera houses, exhibition halls, ministries, apartment blocks of six to eight storeys. It also acquired, under Haussmann from 1853, a state powerful enough to cut boulevards through a medieval city and impose a uniform cornice line on both sides. Behind the stone, everything had changed: rolled iron, then steel, then reinforced concrete, plus lifts, central heating and electric light. The Beaux-Arts settlement was to accept the new structure completely and to let the masonry envelope do a different job - to give a building scale, hierarchy, entrance and civic address. The Grand Palais of 1897-1900 is entirely explicit about this: a Classical stone shell wrapped around a 240-metre iron-and-glass barrel vault, with no attempt at reconciliation and no dishonesty either.\n\nWhat it reacted against, quietly, was the thinness of its own Neoclassical parent. By 1850 the austere balustraded cube looked bloodless and, worse, insufficiently expressive for a Second Empire that wanted visible magnificence. So sculpture came back onto the wall - not scattered, but concentrated at the entrance, the centre and the skyline - and the mansard came back as an occupiable attic that also restored a silhouette. The result is often criticised as pastiche, and sometimes it is; but the compositional discipline underneath is real and independent of the dress, which is why the same method produced buildings as different as Garnier's Opera and Labrouste's iron-vaulted Bibliotheque Sainte-Genevieve.\n\nWhat it feels like is arrival, staged. You come at the Palais Garnier along an axis cut for the purpose; the building presents a base you climb, an arcaded loggia, a giant order, and a skyline of gilt figures against the sky. Inside, the auditorium is smaller than you expect, because two-thirds of the building is circulation: a stair hall thirty metres high in coloured marbles with balconies at every level, arranged so that everyone ascending is on display to everyone already up. The plan does exactly what it was drawn to do. This is architecture designed around the truth that in a public building, the most important room is usually the one you pass through."
+  },
+  "defining_characteristics": [
+    "A plan generated first, on a dominant axis with cross-axes, with spaces ranked by size, height and position in the sequence",
+    "Poche: the wall drawn and built as a thickened inhabited mass absorbing stairs, services, closets and lightwells",
+    "The elevation as a direct projection of the plan's hierarchy - every important room reads on the outside",
+    "Three-part vertical composition: rusticated base, principal shaft of one or two storeys under a giant or coupled order, and a crowning attic or mansard",
+    "Sculpture concentrated at entrance, centrepiece and skyline rather than distributed over the wall",
+    "Caractere: the order and the degree of enrichment chosen to express the building's function and civic standing",
+    "Modern structure (iron, steel, reinforced concrete) accepted internally and clothed in a masonry envelope that supplies scale and address"
+  ],
+  "diagnostic_tells": [
+    "Coupled columns, usually of a giant order, marking a projecting central pavilion on a symmetrical front",
+    "A skyline populated with sculpture, quadrigae, cartouches and gilt attic figures above the main cornice",
+    "Deeply rusticated ground storey with heavy vermiculated or channelled blocks and segmental-arched openings",
+    "A grand exterior or interior stair treated as the principal architectural event, larger than any single room it serves",
+    "Enormous scale of the individual member - a keystone the size of a person, garlands two metres across - calibrated to the width of a boulevard rather than a street"
+  ],
+  "distinguished_from": [
+    {
+      "node": "french-neoclassical",
+      "difference": "Neoclassicism is subtractive, plane-dominant and unaccented, with the roof hidden and ornament rationed. Beaux-Arts is additive, sculptural and strongly centred, with a visible mansard or attic and enrichment concentrated at the accents."
+    },
+    {
+      "node": "beaux-arts-american",
+      "difference": "The American branch works largely in limestone and terracotta on steel frames at greater height, favours the Roman Ionic and Corinthian over French Composite, and typically omits the mansard on commercial buildings. Its plans are Ecole plans; its budgets and its storey counts are not."
+    },
+    {
+      "node": "second-empire",
+      "difference": "Second Empire as usually named is a silhouette style - mansard roof plus pavilions - applied to houses and small civic buildings. Beaux-Arts is a compositional method applied to large programmes; a house with a mansard is Second Empire, an opera house planned about a stair is Beaux-Arts."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Composition by method: parti (the plan diagram), marche (the designed sequence of movement), poche (the thickened, inhabited wall), and caractere (expressive appropriateness of the order). Proportion is hierarchical rather than modular - a room's ceiling height, its position on the axis and its degree of enrichment all encode its rank in the programme.",
+    "typical_ratios": [
+      "Three-part vertical division base : shaft : attic approximately 1 : 2 : 0.5",
+      "Rusticated base one to two storeys, 0.25 to 0.35 of total wall height, with joints 25 to 50 mm",
+      "Giant order spanning two storeys; coupled columns set 0.5 to 1.0 diameters apart, pairs at 4 to 5 diameters on centre",
+      "Entablature 1/4 to 1/5 of column height; crowning cornice projection 1/14 to 1/18 of total facade height",
+      "Attic or mansard storey 0.5 to 0.7 of the principal storey height",
+      "Principal rooms in the plan set at whole-number multiples of the structural bay, with ceiling heights ranked 1 : 0.75 : 0.6 from major to minor",
+      "Grand stair: riser 140-155 mm, tread 340-400 mm, landing every 9 to 11 risers, clear width 1/3 to 1/2 the width of the hall containing it"
+    ],
+    "bay_rhythm": "Strongly hierarchical and closed at both ends: a dominant centre pavilion, subordinate end pavilions, and a plain connecting rhythm between - commonly 3-2-5-2-3 across a fifteen-bay front. Corners are always resolved with a pavilion, a quoined pier or a change of plane; a Beaux-Arts elevation never simply stops.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The Haussmannian immeuble: six to eight storeys, a uniform cornice line imposed across the whole boulevard, and the block rather than the building as the compositional subject."
+    },
+    {
+      "massing": "mansard-block",
+      "affinity": "canonical",
+      "note": "The mansard returns as a fully occupiable attic and as the device that gives an otherwise flat-topped block a silhouette."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Institutional and palatial programmes retain the cour d'honneur; the Ecole itself is planned this way."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The free-standing hotel particulier and the exported American mansion reduce to a double-pile block about a central hall and stair."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "forbidden",
+      "note": "Irregularity is the antithesis of the parti. Any Beaux-Arts building that appears irregular is resolving a difficult site with a symmetrical figure hidden inside it."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Every elevation must resolve into base, shaft and attic with distinct horizontal terminations. An undifferentiated wall of repeated identical storeys is not Beaux-Arts, whatever ornament is applied to it.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Sculpture and enrichment must be concentrated at compositional accents - entrance, centrepiece, corners, skyline - and the connecting bays must be comparatively plain. Even distribution of ornament destroys the hierarchy that carries the composition.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Wall thickness must be sufficient to accommodate poche: minimum 600 mm at the principal storeys where stairs, flues or closets are absorbed, and reveals of at least 200 mm at every window so that openings read as cut into mass.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Ornament scale must be calibrated to viewing distance: members read from across a boulevard (25-40 m) should be at least 1/40 of the facade height in their principal dimension. Domestic-scale enrichment on a civic facade reads as thin.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Caractere: the order and level of enrichment must match the programme. Corinthian and Composite with full sculpture for theatres, exhibition and ceremonial buildings; Doric or Tuscan with restrained enrichment for markets, barracks, warehouses and utilitarian programmes.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Palais Garnier (Opera de Paris)",
+      "location": "Place de l'Opera, Paris, France",
+      "year": 1861,
+      "note": "Charles Garnier, competition won 1861, built 1861-1875, inaugurated 5 January 1875. The canonical demonstration of marche: the grand escalier and its foyers occupy more of the building than the auditorium."
+    },
+    {
+      "name": "Grand Palais",
+      "location": "Avenue Winston-Churchill, Paris, France",
+      "year": 1897,
+      "note": "Henri Deglane, Albert Louvet, Albert Thomas and Charles Girault, 1897-1900, for the Exposition Universelle. A Classical stone envelope wrapped around a 240 m iron, steel and glass barrel vault."
+    },
+    {
+      "name": "Petit Palais",
+      "location": "Avenue Winston-Churchill, Paris, France",
+      "year": 1897,
+      "note": "Charles Girault, 1897-1900. A trapezoidal site resolved into a symmetrical parti about a semicircular garden court - the method solving a hard site in the open."
+    },
+    {
+      "name": "Gare d'Orsay (now Musee d'Orsay)",
+      "location": "Quai Anatole-France, Paris, France",
+      "year": 1898,
+      "note": "Victor Laloux, 1898-1900. An academic stone hotel-and-station front concealing a 32 m clear-span iron train shed; the clearest single statement of the Beaux-Arts settlement with industrial structure."
+    }
+  ],
+  "sources": [
+    "Julien Guadet, Elements et theorie de l'architecture (1901-1904)",
+    "Arthur Drexler (ed.), The Architecture of the Ecole des Beaux-Arts (1977)",
+    "David Van Zanten, Designing Paris: The Architecture of Duban, Labrouste, Duc, and Vaudoyer (1987)",
+    "Robin Middleton and David Watkin, Neoclassical and 19th Century Architecture (1980)",
+    "Jean-Nicolas-Louis Durand, Precis des lecons d'architecture (1802-1805)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "french",
+    "beaux-arts",
+    "academic",
+    "composition",
+    "civic",
+    "belle-epoque"
+  ]
+}

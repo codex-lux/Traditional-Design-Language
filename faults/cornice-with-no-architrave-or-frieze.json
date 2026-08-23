@@ -1,0 +1,172 @@
+{
+  "id": "cornice-with-no-architrave-or-frieze",
+  "name": "The One-Third Entablature",
+  "aka": [
+    "cornice-only",
+    "the 1x6 entablature",
+    "crown on a beam"
+  ],
+  "slots": [
+    "entablature",
+    "porch_support",
+    "column",
+    "order"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "Over a porch, a portico, a door or a window, a moulded cornice sits directly on the columns or on the head casing with nothing between. There is no architrave — no stepped bottom member expressing the beam — and no frieze — no plain vertical band. In the extreme and very common case the entire entablature is one 1x6 board with a crown moulding on top of it, roughly 7 in deep, doing duty for all three members. Where a frieze board does exist it is 3 1/2 to 5 1/2 in and the cornice above it is deeper than it is, which inverts the correct relationship.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The three-part entablature is three separate carpentry operations, each with its own stock, and only the third produces something a client points at. The architrave is the least visible member and is dropped first; the frieze is a plain board and is reduced to whatever width remains after the framing and the roof are set; the cornice survives because it is what the trim catalogue calls a cornice and it is what everyone pictures. On a door or window the same thing happens through a different route: a stock 'pediment crosshead' arrives as a single moulded unit with a shallow fascia and a crown, and it contains no architrave because a moulded unit cannot contain a stepped one.",
+    "cost_saved": "18-45 USD per linear foot on a porch entablature; 60-180 USD per opening on a door or window head. On a house with a portico and twelve dressed openings, roughly 1,500-3,500 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / invariants — 'the entablature is the sum of architrave, frieze and cornice'",
+      "statement": "Three members, and the invariant is stated as an identity in every order in the pack. Not two, and not one."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entablature / internal_ratio",
+      "statement": "Architrave = frieze, cornice = 4/3 of either (Gibbs invariant, engine-checked). It may be reduced by omitting enrichment but not by changing those ratios."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-ionic / invariants — the three members stand as 5 : 6 : 7",
+      "statement": "In Ware's diameters, 5/8, 6/8 and 7/8 of a diameter. The architrave is never less than about 5/18 of the entablature in any order the pack contains."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the entablature narrates the transfer of load and needs all three terms",
+      "statement": "The architrave is the beam spanning between columns; the frieze is the depth of the floor or roof structure it carries; the cornice is the eave that throws water clear. Drop the first two and the cornice is a moulding stuck to the top of a wall, which is exactly how it reads."
+    }
+  ],
+  "correct_practice": "Three members, always, in the order's ratio. Vignola's Ionic: 5:6:7 (architrave : frieze : cornice). Gibbs's Ionic, which is the American Georgian authority: architrave equals frieze and cornice is 4/3 of either, so 6:6:7 out of 18. Vignola's Doric: architrave 1, frieze 1 1/2, cornice 1 1/2 modules, with the cornice exactly as high as the frieze. The architrave is stepped — one fascia in the Tuscan, two in the Doric, three in the Ionic and above — and it is the member that must be present even when everything else is plain, because it is what says a beam is spanning. The frieze is flat and deep and may be entirely plain; on a Doric it carries triglyphs and metopes and on a Federal or Adamesque order it may be fluted or gouged. Over an opening the same three members apply at reduced scale: on a 3 ft opening at a 1:2 proportion the pack gives an entablature of opening_width/2, which is 18 in, divided in the order's own ratio.",
+  "fixes": {
+    "right": "Build all three: a stepped architrave of two or three fasciae with a moulded cymatium at its top, a plain frieze of the full depth, and a cornice with bed mould, corona and crown at a projection roughly equal to its height.",
+    "cheap": "Add the architrave and let the frieze be a plain board. The architrave is the cheapest of the three to fake convincingly: a 1x4 with a 1x3 lapped over it and a small backband, about 6-9 USD a foot, gives two fasciae and a shadow at the correct place. That single addition changes the reading more than any other 6 USD on the building, because the eye is looking for the step where the beam meets the columns. Where money is truly absent, deepen the frieze board to at least 3/4 of the cornice height — one wider board, at no extra labour.",
+    "dishonest": "A stock one-piece 'crosshead' or 'entablature' moulding — polyurethane or PVC — which reproduces the outline of the three members at 3/4 in of total projection. It has the silhouette and none of the plane changes, so at any distance it reads as a printed band. It is also usually deeper than the correct assembly and therefore wrong twice."
+  },
+  "detection": "Count the horizontal bands in the assembly from a straight-on photograph, from the bottom up. A correct entablature shows: one or more stepped fasciae with shadow lines between them (architrave), a plain unbroken band (frieze), then a projecting moulded group (cornice). If you count fewer than three distinct zones, members are missing. The single fastest check is at the BOTTOM edge: run a finger, or a line in the photograph, along the underside of the horizontal band. If the underside is a single flat plane meeting the column with no step, there is no architrave. Second measurement: cornice height divided by frieze height should be about 1.0 to 1.35 in the classical orders. Where it is 2 or more, the frieze has been eaten.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "distinct_entablature_members_visible",
+    "threshold": 3,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Count architrave, frieze and cornice as separately readable horizontal zones in the band above the columns. Three is the minimum in every order in the pack. A secondary ratio test, cornice_height / frieze_height, should land between 1.0 and 1.35; above 2.0 the frieze has been reduced to a fascia even where three zones are nominally present."
+  },
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The Greek Revival entablature is the building's defining band and its architrave and frieze are its bulk. A crown on a beam is not a reduced Greek Revival, it is not Greek Revival."
+    },
+    {
+      "style": "jeffersonian-classicism",
+      "severity": "fatal",
+      "why": "Archaeological correctness is the whole method."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The kit permits reduction by omitting enrichment but not by omitting members."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "There is no entablature; the beam is a beam and shows its end grain."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "minor",
+      "why": "The catalogue porch has a plate, a spindle frieze and a shallow cornice, and never claimed an architrave."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman porch beam IS the architrave, frieze and cornice collapsed into one honestly expressed timber, and the collapse is the idiom's whole argument against applied classicism. The beam shows its depth, its end grain and often its through-bolts.",
+      "bounds": "The beam must be visibly deep — not less than 1/12 of its clear span — and must be expressed as a beam, with visible ends projecting past the piers and no crown moulding applied to it. A shallow wrapped header with a crown on it is not this exception.",
+      "bounds_test": {
+        "expression": "visible_beam_depth / clear_span",
+        "threshold": 0.083,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "greek-revival-upland-vernacular",
+      "why": "Vernacular Greek Revival reduces the entablature to a broad plain frieze board and a shallow flat cornice, dropping the architrave entirely, and this is a documented and pervasive period practice in upland work of the 1830s and 1840s.",
+      "bounds": "The frieze board must be broad — 12 to 24 in on a one-storey order, which is the entire point — and the cornice must be flatter than the frieze is deep. The reduction is downward in enrichment and outward in the frieze, never a shallow band with a big crown on it.",
+      "bounds_test": {
+        "expression": "frieze_height / cornice_height",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1830,
+          1865
+        ],
+        "regions": [
+          "appalachian",
+          "upland-south",
+          "northeast"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Total trim suppression: a plain boarded band under the eave and nothing else.",
+      "bounds": "No moulded cornice either. The Shingle Style licence is to omit ALL three members, not to keep the showiest one."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "A plastered wall carries no entablature; where a beam occurs it is an exposed timber viga or a plastered band with no members at all.",
+      "bounds": "No applied wood mouldings anywhere on the elevation."
+    }
+  ],
+  "co_occurs_with": [
+    "entablature-off-the-quarter",
+    "decorative-pair-at-the-entry",
+    "column-without-answering-pilaster"
+  ],
+  "confused_with": [
+    {
+      "fault": "entablature-off-the-quarter",
+      "difference": "Depth versus membership. That fault measures the whole band against the column; this one counts what is in the band. Most bad porches fail both, but a deep single-member band fails only this one and a correctly membered but shallow band fails only that one."
+    },
+    {
+      "fault": "architrave-that-is-not-there",
+      "difference": "That fault is the flat trim board round a window or door opening in a frame wall — the missing architrave as a CASING. This one is the missing architrave as a member of an ENTABLATURE, carried by columns. Same word, two different jobs, and the corpus needs both."
+    },
+    {
+      "fault": "head-casing-without-a-cap",
+      "difference": "That is the head of an opening with no projecting cap. This fault is the full three-part entablature over an opening reduced to one member; it is the richer version of the same failure."
+    }
+  ],
+  "sources": [
+    "proportions/orders/vignola-tuscan.json, vignola-doric.json, vignola-ionic.json — entablature invariants and member ratios",
+    "kits/georgian-colonial-american.kit.json, entablature.internal_ratio",
+    "proportions/overlays/gibbs-ionic.json — architrave = frieze, cornice = 4/3",
+    "Fypon, Focal Point and Style Solutions catalogue crossheads and 'entablature' units — published projections of 3/4 to 1 1/2 in",
+    "Asher Benjamin, The American Builder's Companion, plates of the entablatures"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entablature",
+    "omission",
+    "architrave",
+    "frieze",
+    "endemic"
+  ]
+}

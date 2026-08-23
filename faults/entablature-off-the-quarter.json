@@ -1,0 +1,189 @@
+{
+  "id": "entablature-off-the-quarter",
+  "name": "The Quarter Rule Ignored",
+  "aka": [
+    "the shallow entablature",
+    "the 6-inch entablature on a 10-foot column"
+  ],
+  "slots": [
+    "entablature",
+    "column",
+    "order",
+    "porch_support"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A porch or portico with correct-looking columns carrying a horizontal band far too shallow for them. A 10 ft column carries 6 to 10 in of trim where it should carry 22 to 30 in. The band is usually a fascia and a crown, sometimes with a frieze board, and it is the same depth over a 20 ft giant order as over a 7 ft side-porch column, because it is the house's eave trim run round the porch. The whole porch looks as though the roof has been set down on the columns and not attached.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The porch entablature is built from the same package as the main eave: a 1x8 or 1x10 fascia and a 3 1/2 or 4 5/8 in crown, because that is what is on the truck and what the crew is set up to run. Making it deeper means a built-up assembly on a plywood or LVL backing with its own framing, which is a different scope. Deeper also means heavier, which means the beam has to carry it, and a 26 in entablature on a 24 ft porch is a real load and a real detail. Nothing in the ordering or framing process is indexed to the column diameter.",
+    "cost_saved": "35-90 USD per linear foot between a fascia-and-crown eave and a correctly proportioned three-part entablature on a backing. On a 40 ft run of porch that is 1,400-3,600 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / invariants — 'the entablature is one quarter the height of the column, base and capital included'",
+      "statement": "Vignola's first invariant, stated in Tavola VI and held across all five orders. It is the reason his book beat Serlio's and Palladio's in the builder's market: one number governs."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "gibbs-ionic / assemblies.entablature.height_modules = 3.6 against column 18",
+      "statement": "Gibbs gives the Ionic entablature one FIFTH of the column, not one quarter. At a 10 in diameter that is 18 in against Vignola's 22 1/2 in — a real published difference of 4 1/2 in and the reason the authority must be named."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "benjamin-ionic / entablature 3.5 modules against column 20 = 0.175",
+      "statement": "Asher Benjamin's Ionic entablature is 0.175 of the column — the shallowest any authority draws, and the floor of the entire admissible band."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entablature / rule",
+      "statement": "The entablature is one fifth of the column, divided so that architrave and frieze are equal and the cornice is four thirds of either; it may be reduced by omitting enrichment but not by changing those ratios."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the entablature is what the column is for",
+      "statement": "A column exists to carry an entablature. Reduce the entablature below about a sixth of the column and the column has nothing to do, so the order stops being a structural diagram and becomes a row of ornaments."
+    }
+  ],
+  "correct_practice": "Size the entablature from the column and from a named authority. The admissible band across the whole pack runs from 0.175 (Benjamin's Ionic) to 0.286 (Benjamin's Grecian Doric), with Vignola's universal quarter at 0.25 and Gibbs's Ionic fifth at 0.20 as the two figures American work actually uses. On a 9 ft (108 in) column that is 19 to 31 in of entablature; at Gibbs's Ionic, 21 1/2 in; at Vignola, 27 in. The internal division matters as much as the total: in Gibbs's Ionic, architrave and frieze are equal and the cornice is 4/3 of either, so an 18 in entablature is 6 + 6 + 7 in (engine-checked, and it sums to 19 rather than 18 because Gibbs's own figures do not close exactly — take the ratio, not the arithmetic). In Vignola's Ionic the three stand as 5:6:7. Enrichment may be dropped; the ratios may not.",
+  "fixes": {
+    "right": "Build the entablature to the ratio on its own backing: a plywood or LVL box carried on the beam, with a real architrave of two or three fasciae, a frieze of the full depth, and a cornice with bed mould, corona and crown at the correct projection.",
+    "cheap": "Deepen the FRIEZE and nothing else. The frieze is a flat board, it is the cheapest member in the entablature, and it is where the missing depth should go: a 1x12 or a 16 in built-up frieze board under the existing fascia-and-crown costs about 8-14 USD a foot and takes an 8 in band to 20 in. The architrave can then be faked as a 1x4 with a backband at the bottom of the frieze for another 4 USD a foot. This is not the right answer but it takes the entablature from 0.07 of the column to 0.19, which is inside the band, and at forty feet it is nearly indistinguishable from the right answer.",
+    "dishonest": "Making the crown moulding bigger. A 7 in crown on a 1x8 fascia is a deeper band but it is all cornice: the architrave and frieze are still missing, the proportions inside the entablature are now worse than before, and the assembly reads as a very large piece of moulding rather than as a beam. The depth has to come from the flat members."
+  },
+  "detection": "One ratio from a straight-on photograph of the porch: the height of the horizontal band from the top of the column's abacus to the top of the crown, divided by the column height from plinth top to abacus. Under 0.17 is outside every authority and is the endemic case; 0.17 to 0.29 is inside; over 0.30 is a different fault, usually a mansard or a parapet mistaken for an entablature. Second check, which is faster and needs no measurement: can you see three horizontal bands in the assembly — a stepped architrave at the bottom, a plain flat band in the middle, and a projecting moulded cornice at the top? If the assembly is two bands or one, the entablature has been reduced by omission and the ratio will fail as well.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "entablature_height / column_height",
+    "threshold": 0.175,
+    "upper": 0.29,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The band is the union of every authority in the pack: Benjamin's Ionic at 0.175 is the floor, his Grecian Doric at 0.286 the ceiling, Vignola's universal quarter at 0.25 and Gibbs's Ionic fifth at 0.20 in between. Column height excludes any pedestal and includes base and capital."
+  },
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "Benjamin's Grecian Doric entablature is 0.286 of the column — the deepest in the pack — and the deep entablature is the style's most recognisable single feature. A Greek Revival porch with a 10 in band is unrecognisable as Greek Revival."
+    },
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "The giant order's entablature is the building's crowning horizontal and is read from the street as the top of the composition."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The Gibbs fifth is already the shallow end; going below it collapses the portico's reading, but the front's composition survives on the wall and the door surround."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "There is no entablature. A Craftsman porch has a beam and a fascia and the beam is expressed as a beam."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "minor",
+      "why": "Trim suppression is the idiom; a shallow band above a stout Tuscan column is characteristic rather than deficient."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "The Shingle Style deliberately abbreviates the entablature to a plain fascia and a shingled or boarded frieze, because the whole idiom suppresses the classical apparatus even where it uses classical columns. The stout column and the thin band together are the gesture.",
+      "bounds": "Only in company: 4 to 6.5 diameter columns, no pedestal, no ornament, continuous shingling. And the band must still be a band — an unbroken horizontal of at least 8 in — rather than a bare rafter edge.",
+      "bounds_test": {
+        "expression": "column_height / lower_shaft_diameter",
+        "threshold": 4.0,
+        "upper": 6.5,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "federal-style",
+      "why": "Federal work attenuates everything, and a Federal portico entablature runs at the shallow end — Benjamin's 0.175 is a Federal-era figure and is drawn from Federal practice. Thinness is the style's argument.",
+      "bounds": "0.175 is the floor, not a starting point, and Federal shallowness is bought back with enrichment: a fluted or gouged frieze, a delicate dentil band, a strongly moulded architrave. A plain 0.175 band with nothing on it is not Federal, it is thin.",
+      "bounds_test": {
+        "expression": "entablature_height / column_height",
+        "threshold": 0.175,
+        "upper": 0.21,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1785,
+          1830
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The Creole gallery has no entablature at all — a plain plate or a boxed beam sits on the colonnettes and the roof runs over it. This is not a reduced entablature but the absence of the classical apparatus, which is correct.",
+      "bounds": "There must be no classical capital on the colonnette. Once a moulded capital appears, the order has been claimed.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ]
+      }
+    },
+    {
+      "style": "greek-revival-upland-vernacular",
+      "why": "Vernacular upland Greek Revival makes the entablature out of broad flat boards — a wide plain frieze and a shallow flat cornice — and its depth is often at or below the canonical figure because the material is a board rather than a built-up assembly.",
+      "bounds": "The FRIEZE must be broad — not less than 12 in on a one-storey order — even where the cornice is minimal. Vernacular Greek Revival is characterised by the deep plain frieze board, and a house that drops it has dropped the style's one remaining classical member.",
+      "bounds_test": {
+        "expression": "frieze_height_in",
+        "threshold": 12.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "cornice-with-no-architrave-or-frieze",
+    "pencil-column",
+    "intercolumniation-set-by-the-joist",
+    "porch-pitch-unrelated-to-the-roof"
+  ],
+  "confused_with": [
+    {
+      "fault": "cornice-with-no-architrave-or-frieze",
+      "difference": "That fault is about members being absent — the entablature reduced to a single moulding with no architrave and no frieze. This one is about the total DEPTH being wrong. An entablature can have all three members and still be a third of the depth it should be, and a very deep single fascia can fail the other test and pass this one."
+    },
+    {
+      "fault": "frieze-as-fascia-board",
+      "difference": "That is the frieze of the main wall, between the top-storey window heads and the eave, and it lives in the envelope group. This is the frieze inside a portico's entablature, sized off a column. Same word, different member, different rule."
+    },
+    {
+      "fault": "cornice-that-is-a-fascia",
+      "difference": "That is the main building cornice at the eave. This is the entablature of an order. They co-occur constantly because both are built from the same trim package."
+    }
+  ],
+  "sources": [
+    "proportions/orders/vignola-tuscan.json invariants — the quarter rule",
+    "proportions/overlays/gibbs-ionic.json — entablature 3.6 modules against column 18, i.e. one fifth",
+    "proportions/overlays/benjamin-ionic.json (0.175), benjamin-doric.json (0.286)",
+    "kits/georgian-colonial-american.kit.json, entablature",
+    "python3 build/proportion_engine.py show gibbs-ionic --module 5 --rules --ceiling 108"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entablature",
+    "proportion",
+    "quarter-rule",
+    "endemic",
+    "stock-size"
+  ]
+}

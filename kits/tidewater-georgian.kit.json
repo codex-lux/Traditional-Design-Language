@@ -1,0 +1,1320 @@
+{
+  "style": "tidewater-georgian",
+  "style_name": "Tidewater Georgian",
+  "ontology_version": "0.4.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Demoted from canonical. Both remain correct; the hipped roof with tall paired end chimneys is the type specimen here and the gabled one is the ordinary case."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Northern and Hudson Valley. Effectively absent in the Chesapeake."
+        }
+      ],
+      "note": "EXTENDS TEST 1 — PASSED, with a caveat about ordering. In 0.1.0 I had to restate the whole variants list to say 'the parent's second choice is my first'. Two op:replace records now do it. The caveat is that preference order is being carried by the canonical/permitted STATUS rather than by position, so the schema gives three levels of preference and no more; that is enough here and would not be enough for a style with five ranked roof forms. Nothing else about the slot is restated: the hip ridge ratio, the six forbidden forms and the rule all inherit.",
+      "status": "drafted"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "7:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "9:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "8:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_degrees": {
+          "range": [
+            30.3,
+            36.9
+          ],
+          "unit": "deg",
+          "kind": "derived"
+        }
+      },
+      "rule": "Rise:run between 7:12 and 9:12 — a full step shallower than the New England band, and the reason a Virginia house reads lower at the same width.",
+      "confidence": "high",
+      "note": "Specified rather than extends on purpose. The parent's four region-scoped pitch parameters would all merge through and sit alongside these, which is noise: a resolved Tidewater kit should not still be carrying pitch_new_england. This is a case where extends is available and wrong.",
+      "status": "drafted"
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "interior-paired-flanking-ridge",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A New England device and climatically wrong here: it keeps the stack's stored heat inside the envelope, which is the opposite of what a Chesapeake summer wants."
+        },
+        {
+          "id": "gable-end-exterior",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "paired-and-joined-by-arched-curtain",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The tall paired stacks joined above the roof by an arched brick curtain are visible from a mile away and are conclusive against New England."
+        }
+      ],
+      "parameters": {
+        "height_above_ridge_min": {
+          "value": 72,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Not less than 6 ft clear of the ridge, against the parent's 24 in floor."
+        },
+        "height_above_ridge_band": {
+          "range": [
+            72,
+            120
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "note": "EXTENDS TEST 2 — PASSED CLEANLY, and this is the case that most needed it. The parent states the invariant (paired, symmetrical, never a single central stack, plan dimensions in whole bricks) and that invariant is still true here; only the gable-to-ridge position changes. In 0.1.0 I restated the count, the pairing rule and the whole-brick stack plan in order to move the chimneys sideways, and every one of those restatements was a copy that would go stale. This file now says nothing it inherits.",
+      "status": "drafted"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "solid-masonry-two-wythe",
+          "status": "canonical",
+          "note": "13.5 in of brick with a real through-bond, which is what makes the Flemish bond and the 4-8 in reveal physically possible."
+        },
+        {
+          "id": "solid-masonry-three-wythe",
+          "status": "permitted"
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "permitted",
+          "note": "The middling planter's house, and the case in which the timber-bay pack governs. Weatherboarded, not brick."
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "forbidden",
+          "note": "Fatal here specifically. A single wythe cannot be laid in Flemish bond at all, and glazed-header Flemish bond is the one thing this variant is universally recognised by."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "forbidden",
+          "note": "1830s, and fifty years after the variant's floruit ends."
+        },
+        {
+          "id": "platform-frame",
+          "status": "atypical"
+        }
+      ],
+      "parameters": {
+        "wall_thickness": {
+          "expr": "13.5",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 13.5
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "brick_gauge": {
+          "expr": "module",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 11.0
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course",
+          "note": "Four courses to eleven inches."
+        },
+        "course_height": {
+          "expr": "part",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 2.75
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course",
+          "note": "A 2 1/4 in brick with a 1/2 in bed joint."
+        }
+      },
+      "rule": "The wall is two full wythes of brick with a through-bond; the frame variant is the exception and is weatherboarded, never veneered.",
+      "packs": [
+        {
+          "pack": "brick-course",
+          "expression": "13.5",
+          "precedence": 1,
+          "in_calibration": true
+        }
+      ],
+      "confidence": "high",
+      "note": "Specified rather than extends because the parent's list is genuinely a different distribution: braced timber frame is canonical there and merely permitted here, and solid masonry is the reverse. Three op:replace records would have said the same thing less clearly.",
+      "status": "drafted"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "brick-flemish-bond-glazed-headers",
+          "status": "canonical",
+          "note": "Over-fired header ends producing a visible chequer across the front wall. The single most recognisable Chesapeake surface."
+        },
+        {
+          "id": "brick-flemish-bond",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-common-bond",
+          "status": "permitted",
+          "note": "Rear and end elevations."
+        },
+        {
+          "id": "beaded-clapboard",
+          "status": "permitted",
+          "applies_when": {
+            "construction": [
+              "braced-timber-frame"
+            ]
+          },
+          "note": "The frame houses of the middling planters, at about 6 in to the weather."
+        },
+        {
+          "id": "clapboard",
+          "status": "atypical",
+          "applies_when": {
+            "construction": [
+              "braced-timber-frame"
+            ]
+          }
+        },
+        {
+          "id": "flush-board-rusticated",
+          "status": "forbidden",
+          "note": "A New England device."
+        },
+        {
+          "id": "stone-ashlar",
+          "status": "forbidden",
+          "note": "Mid-Atlantic. There is no building stone in the Tidewater."
+        },
+        {
+          "id": "stucco-on-brick",
+          "status": "forbidden",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1800
+            ]
+          },
+          "note": "Charleston stuccoes and scores brick to imitate ashlar; the Chesapeake shows the brick."
+        }
+      ],
+      "parameters": {
+        "bond_entrance_elevation": {
+          "value": "Flemish, glazed headers optional but regionally characteristic",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "bond_below_water_table": {
+          "value": "English bond",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "mortar": {
+          "value": "lime and oyster-shell, struck flush or slightly weathered",
+          "unit": "none",
+          "kind": "measured"
+        },
+        "course_height": {
+          "expr": "part",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 2.75
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        }
+      },
+      "rule": "The entrance elevation is laid in Flemish bond with glazed headers where the clay allows; the wall is two full wythes and the bond is a through-bond, not a pattern.",
+      "confidence": "high",
+      "status": "drafted"
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "rubbed-brick-corner",
+          "status": "canonical",
+          "op": "add",
+          "note": "Rubbed brick of a lighter colour, or nothing at all."
+        },
+        {
+          "id": "corner-boards",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A frame answer with nothing to attach to on a brick wall."
+        },
+        {
+          "id": "corner-pilasters",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A wooden order applied to a brick corner. The Chesapeake expresses the corner in the brick itself or not at all."
+        },
+        {
+          "id": "brick-quoins",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Quoins are a Mid-Atlantic and English habit; the Chesapeake front is normally unbroken at the corner."
+        }
+      ],
+      "note": "The parent's out-of-calibration warning on facade-classical's 18 in corner width is inherited along with the pack block, which is the right outcome: the pack is wrong for a corner board and irrelevant here, and neither fact needed restating. MIGRATED 0.3.0 from 'corner_treatment', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to corner_quoin.",
+      "status": "drafted",
+      "confidence": "low"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "rubbed-brick-corner",
+          "status": "canonical",
+          "op": "add",
+          "note": "Rubbed brick of a lighter colour, or nothing at all."
+        },
+        {
+          "id": "corner-boards",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A frame answer with nothing to attach to on a brick wall."
+        },
+        {
+          "id": "corner-pilasters",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A wooden order applied to a brick corner. The Chesapeake expresses the corner in the brick itself or not at all."
+        },
+        {
+          "id": "brick-quoins",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Quoins are a Mid-Atlantic and English habit; the Chesapeake front is normally unbroken at the corner."
+        }
+      ],
+      "note": "The parent's out-of-calibration warning on facade-classical's 18 in corner width is inherited along with the pack block, which is the right outcome: the pack is wrong for a corner board and irrelevant here, and neither fact needed restating. MIGRATED 0.3.0 from 'corner_treatment', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to corner_board.",
+      "status": "drafted",
+      "confidence": "low"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "specified",
+      "parameters": {
+        "wall_thickness": {
+          "value": 13.5,
+          "unit": "in",
+          "kind": "measured"
+        },
+        "reveal": {
+          "range": [
+            4,
+            8
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "step_at_floor": {
+          "value": 4.5,
+          "unit": "in",
+          "kind": "measured",
+          "note": "A half brick at each floor level."
+        },
+        "exterior_architrave": {
+          "value": "none",
+          "unit": "none",
+          "kind": "measured",
+          "note": "The wall's depth is the window's only surround, and the austerity that follows is a large part of why a Virginia front looks unlike a Massachusetts one at the same size."
+        }
+      },
+      "rule": "The opening is set 4 to 8 in back in a real reveal and has no exterior architrave.",
+      "determined_by": [
+        "construction_type"
+      ],
+      "confidence": "low",
+      "status": "drafted",
+      "note": "MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_masonry."
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "parameters": {
+        "wall_thickness": {
+          "value": 13.5,
+          "unit": "in",
+          "kind": "measured"
+        },
+        "reveal": {
+          "range": [
+            4,
+            8
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "step_at_floor": {
+          "value": 4.5,
+          "unit": "in",
+          "kind": "measured",
+          "note": "A half brick at each floor level."
+        },
+        "exterior_architrave": {
+          "value": "none",
+          "unit": "none",
+          "kind": "measured",
+          "note": "The wall's depth is the window's only surround, and the austerity that follows is a large part of why a Virginia front looks unlike a Massachusetts one at the same size."
+        }
+      },
+      "rule": "The opening is set 4 to 8 in back in a real reveal and has no exterior architrave.",
+      "determined_by": [
+        "construction_type"
+      ],
+      "confidence": "low",
+      "status": "drafted",
+      "note": "MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_frame."
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "segmental-gauged-arch",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1750
+            ]
+          },
+          "note": "Rubbed and gauged brick in fine putty joints, lighter in colour than the wall."
+        },
+        {
+          "id": "gauged-flat-arch",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1750,
+              1800
+            ]
+          },
+          "note": "Flat and cambered. The change of arch form around 1750 is a dating tell, not a taste choice."
+        },
+        {
+          "id": "keystoned-flat-arch",
+          "status": "forbidden",
+          "note": "The Mid-Atlantic signature. Putting one here is the commonest way to build a Philadelphia front in Virginia."
+        },
+        {
+          "id": "dressed-stone-lintel",
+          "status": "forbidden",
+          "note": "No building stone."
+        },
+        {
+          "id": "wood-architrave-with-crown",
+          "status": "atypical",
+          "applies_when": {
+            "construction": [
+              "braced-timber-frame"
+            ]
+          }
+        }
+      ],
+      "parameters": {
+        "segmental_rise": {
+          "expr": "opening_width / 8",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 4.5
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "flat_arch_camber": {
+          "expr": "opening_width / 96",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 0.375
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "arch_depth": {
+          "expr": "module",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 11.0
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "keystone": {
+          "value": "none",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Window heads are gauged and rubbed brick arches — segmental with a rise of one eighth of the opening before about 1750, flat and cambered after — and they never carry a keystone.",
+      "packs": [
+        {
+          "pack": "brick-course",
+          "expression": "round(opening_width * 2.05 / part) * part",
+          "precedence": 1,
+          "in_calibration": true
+        }
+      ],
+      "confidence": "low",
+      "note": "Specified rather than extends because the parent's five variants become two canonical, two forbidden and one atypical — at that point a merge is less legible than a restatement, and the parent's frame-versus-masonry applies_when scoping no longer applies since only one construction is canonical. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry.",
+      "status": "drafted"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "segmental-gauged-arch",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1750
+            ]
+          },
+          "note": "Rubbed and gauged brick in fine putty joints, lighter in colour than the wall."
+        },
+        {
+          "id": "gauged-flat-arch",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1750,
+              1800
+            ]
+          },
+          "note": "Flat and cambered. The change of arch form around 1750 is a dating tell, not a taste choice."
+        },
+        {
+          "id": "keystoned-flat-arch",
+          "status": "forbidden",
+          "note": "The Mid-Atlantic signature. Putting one here is the commonest way to build a Philadelphia front in Virginia."
+        },
+        {
+          "id": "dressed-stone-lintel",
+          "status": "forbidden",
+          "note": "No building stone."
+        },
+        {
+          "id": "wood-architrave-with-crown",
+          "status": "atypical",
+          "applies_when": {
+            "construction": [
+              "braced-timber-frame"
+            ]
+          }
+        }
+      ],
+      "parameters": {
+        "segmental_rise": {
+          "expr": "opening_width / 8",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 4.5
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "flat_arch_camber": {
+          "expr": "opening_width / 96",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 0.375
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "arch_depth": {
+          "expr": "module",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 11.0
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "keystone": {
+          "value": "none",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Window heads are gauged and rubbed brick arches — segmental with a rise of one eighth of the opening before about 1750, flat and cambered after — and they never carry a keystone.",
+      "packs": [
+        {
+          "pack": "brick-course",
+          "expression": "round(opening_width * 2.05 / part) * part",
+          "precedence": 1,
+          "in_calibration": true
+        }
+      ],
+      "confidence": "low",
+      "note": "Specified rather than extends because the parent's five variants become two canonical, two forbidden and one atypical — at that point a merge is less legible than a restatement, and the parent's frame-versus-masonry applies_when scoping no longer applies since only one construction is canonical. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_wood.",
+      "status": "drafted"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "brick-course-sill",
+          "status": "canonical",
+          "op": "add"
+        },
+        {
+          "id": "rubbed-brick-sill",
+          "status": "canonical",
+          "op": "add"
+        },
+        {
+          "id": "wood-sill-sloped",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "No wood sill and no exterior stool. Small change, large consequence: the parent's 2 1/4 in projecting sloped sill throws a shadow under every window and the brick sill does not, so the elevation is flatter and the openings read as holes cut in a mass."
+        }
+      ],
+      "parameters": {
+        "projection": {
+          "range": [
+            0,
+            1
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "note": "The diagnostic storey-agreement expression, the 30 in sill datum and the three-pack precedence all inherit.",
+      "status": "drafted"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "entry-portico",
+          "status": "atypical",
+          "op": "replace",
+          "note": "Ordinary in the parent and not ordinary here. A brick Tidewater house takes its entrance elaboration in the doorway itself; a timber portico that reads correctly on a clapboard New England front reads as an addition on a brick one."
+        },
+        {
+          "id": "two-tier-engaged-portico",
+          "status": "permitted",
+          "op": "replace",
+          "note": "The grandest houses only, structurally integral, superimposed orders. Drayton Hall is the type case."
+        },
+        {
+          "id": "recessed-loggia",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Cutting a loggia into the front of a five-bay brick block breaks the wall plane the composition depends on. Charleston puts its outdoor room on the flank instead, which is a different slot."
+        }
+      ],
+      "status": "drafted"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "brick-steps-with-stone-treads",
+          "status": "canonical",
+          "op": "replace"
+        }
+      ],
+      "parameters": {
+        "cheeks": {
+          "value": "solid brick cheeks with a moulded or bevelled brick coping",
+          "unit": "none",
+          "kind": "measured",
+          "note": "The piece that ties the stoop to the water table it sits against."
+        },
+        "riser_count_from_grade": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "extends",
+      "parameters": {
+        "rear_door_operable": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "note": "Non-negotiable rather than merely desirable, because the through-view is also the ventilation section."
+        }
+      },
+      "note": "A case the schema handles better than I expected. The child does not contradict the parent at all; it changes what the parent's rule is FOR — phenomenological in the parent, mechanical here. Adding one parameter and a note now carries that, where 0.1.0 forced a full restatement of a rule I agreed with.",
+      "status": "drafted"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "extends",
+      "parameters": {
+        "first_floor": {
+          "range": [
+            120,
+            144
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "A foot to eighteen inches taller than the parent's Northern-weighted band. Stack effect, not status."
+        },
+        "second_floor": {
+          "range": [
+            108,
+            132
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "note": "EXTENDS TEST 3 — PASSED CLEANLY. Only two numbers change. The rule ('snapped to a whole number of brick courses before anything else is set out'), the four regional parameters, the attic band and the three-pack precedence order all inherit untouched. In 0.1.0 this slot restated the rule and both pack derivations to change two ranges. AND THE RESOLVER CAUGHT ME OVERCLAIMING HERE, which is worth recording. I first wrote that at a 132 in ceiling trim-classical's nineteenth-part derivation comes back into calibration. It does not, quite: 132 x 4/19 is 27.8 in, still two inches under the measured 30-32 band. The derivation only reaches 30 in at a 142.5 in ceiling. So the pack's own stated calibration range of 11-13 ft is itself about a foot too generous at the bottom, and even a Tidewater room needs to be at the TOP of this variant's band before the pure derivation agrees with the tape measure. The in_calibration flag inherited from the parent is therefore still correctly false at 132 in, and the resolver's stale-calibration warning is what surfaced the error.",
+      "status": "drafted"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "side-hall",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "A side hall does not ventilate."
+        }
+      ],
+      "parameters": {
+        "doors_at_both_ends": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "note": "Both operable, aligned on axis. The passage is a ventilation device before it is a hallway."
+        },
+        "min_passage_width": {
+          "value": 9,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Narrowing below 9 ft defeats it. A hard floor the parent does not have."
+        }
+      },
+      "status": "drafted"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exterior-end",
+          "status": "canonical"
+        },
+        {
+          "id": "gable-end-paired",
+          "status": "canonical"
+        },
+        {
+          "id": "interior-paired-flanking-ridge",
+          "status": "forbidden",
+          "note": "New England."
+        },
+        {
+          "id": "central-stack",
+          "status": "forbidden",
+          "note": "First Period, and it is the arrangement the centre passage physically cannot coexist with."
+        },
+        {
+          "id": "corner",
+          "status": "forbidden",
+          "note": "Dutch and French colonial. A corner hearth has no chimney position on a gable-end stack."
+        }
+      ],
+      "parameters": {
+        "count": {
+          "value": 2,
+          "unit": "count",
+          "kind": "measured"
+        },
+        "fireplaces_per_stack": {
+          "range": [
+            2,
+            4
+          ],
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "rule": "Hearths are at the gable ends, on the outside walls of the end rooms, so the mass of the stack sits outside the heated volume in summer.",
+      "confidence": "high",
+      "note": "Kept separate from `chimney` because the ontology separates the roof expression from the plan fact. Here they are one decision that happens to agree, and the two slots therefore say the same thing twice — the one duplication in this file I could not remove, because `determined_by` runs one way and there is no way to say 'these two slots are the same decision'.",
+      "status": "drafted"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "detached-dependency",
+          "status": "canonical",
+          "op": "replace"
+        },
+        {
+          "id": "rear-ell",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "Fire and summer heat, and both reasons were real. The parent permits it; here it is wrong."
+        },
+        {
+          "id": "basement-service",
+          "status": "atypical",
+          "op": "replace"
+        }
+      ],
+      "parameters": {
+        "detached_typical_distance": {
+          "range": [
+            25,
+            80
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "note": "The parent's four regional strategy parameters inherit, including this variant's own — which is a small oddity worth naming: the parent already carries strategy_tidewater as a region-scoped parameter, so the same fact is now stated twice, once as an applies_when parameter on the parent and once as a variant status here. 0.2.0 gives two mechanisms for regional conditionality and no guidance on which to use.",
+      "status": "drafted"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical",
+          "op": "replace",
+          "note": "Retained here for decades after every other region went double-pile. Summer, not money."
+        },
+        {
+          "id": "double-pile",
+          "status": "permitted",
+          "op": "replace"
+        },
+        {
+          "id": "one-and-a-half-pile",
+          "status": "atypical",
+          "op": "replace"
+        }
+      ],
+      "parameters": {
+        "single_pile_depth": {
+          "range": [
+            18,
+            22
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "double_pile_depth": {
+          "range": [
+            32,
+            36
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "facade_width": {
+          "range": [
+            48,
+            72
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "extends",
+      "parameters": {
+        "opposed_openings_required": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "note": "Stronger than the parent's 'windows on two walls': in a single-pile plan the two walls are OPPOSITE, which is what makes the draft cross."
+        }
+      },
+      "status": "drafted"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "dependency-plant",
+          "status": "canonical",
+          "op": "replace",
+          "note": "The best answer where the composition is five-part: the plant goes wholly outside the main block, in the dependency the style already uses for the noisy and the dangerous."
+        },
+        {
+          "id": "stacks-in-the-chimney-mass",
+          "status": "permitted",
+          "op": "replace",
+          "note": "Demoted only because the exterior-end stack here is outside the envelope, so a chase beside it is an exterior chase and has to be detailed as one."
+        }
+      ],
+      "note": "Included to test extends on one of the invented slots. It works, and it exposes something: the parent's `invented: true` flag inherits, which is correct, but there is no way for this file to record that it is extending an invention rather than a retrieval — the provenance of the DELTA is not tracked separately from the provenance of the slot.",
+      "status": "drafted"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "extends",
+      "parameters": {
+        "preferred_passage_axis": {
+          "value": "within 45 degrees of the prevailing summer breeze where the approach permits",
+          "unit": "none",
+          "kind": "measured",
+          "note": "A SECOND criterion, subordinate to the approach. The parent's rule that orientation follows the approach and not the sun is still true and is not restated."
+        },
+        "two_show_fronts": {
+          "value": "land front and river front, both fully composed",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "note": "EXTENDS TEST 4 — PARTIAL, AND THIS IS THE ONE RESIDUAL FAILURE. The parameter half works exactly as asked: the secondary criterion is added and the parent's governing_factor is inherited without a copy. The prose half does not. `rule` is a single string with no merge operator, so a child that wants to ADD a clause to an inherited sentence must either replace the whole sentence or, as here, leave the rule inherited and let the delta live only in a parameter — which means the resolved rule sentence still reads 'the house is oriented to its approach and to symmetry' and never mentions the breeze. I chose the second because a stale copy is worse than an incomplete sentence, but neither is right. `rule` wants either an append operator or a companion `rule_addendum` field.",
+      "status": "drafted"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "raised-basement",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The Tidewater house sits low. Charleston raises the principal floor a full storey on an arcaded basement, which is one of the largest differences between the two Southern variants and would otherwise be invisible in the resolved kit."
+        }
+      ],
+      "status": "drafted"
+    }
+  }
+}

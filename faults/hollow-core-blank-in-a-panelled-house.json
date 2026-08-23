@@ -1,0 +1,158 @@
+{
+  "id": "hollow-core-blank-in-a-panelled-house",
+  "name": "The Blank That Is Pressed To Look Panelled",
+  "aka": [
+    "the moulded skin door",
+    "the hollow-core six-panel",
+    "the door with no cross grain"
+  ],
+  "slots": [
+    "interior_door",
+    "hardware",
+    "trim_family"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "Interior doors 1 3/8 in thick, weighing 20 to 30 lb, whose faces are two pressed hardboard or moulded-composite skins over a cardboard honeycomb or a light frame. The panel pattern is embossed into a continuous skin, so the 'panel' is a shallow dish of 1/8 to 1/4 in with a soft rolled sticking, the 'stiles' and 'rails' are flat regions of the same sheet, and there is no joint anywhere. The door sounds like a drum, the knob is soft under pressure, and in the flush version there is no pattern at all — a plain slab in a room with a chair rail, a cornice and a panelled dado.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The pre-hung hollow-core door is one of the most thoroughly optimised objects in residential construction: it ships light, it hangs in fifteen minutes on a factory-set jamb, it does not warp because it has almost no wood in it, and it costs about a sixth of a solid stile-and-rail equivalent. It is also driven by weight at the jamb — a 1 3/8 in hollow leaf needs two light hinges and a 4 1/2 in jamb of finger-jointed pine, while a 1 3/4 in solid leaf needs three heavier hinges, a stiffer jamb and more careful shimming, so the whole assembly changes. And the interior door is the single most repeated purchase in a house, so any per-unit saving is multiplied by twelve to twenty.",
+    "cost_saved": "A pre-hung hollow-core moulded six-panel runs 110 to 220 USD installed; a solid stile-and-rail door of the same pattern 550 to 1,300 USD; a paint-grade solid-core moulded door sits between at 250 to 400 USD. On sixteen openings, 6,000 to 17,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / interior_door / thickness_in, range [1.25, 1.75]",
+      "statement": "1 1/4 to 1 3/4 in for a period leaf — and the thin end is a genuine early batten door, not a hollow one. The modern 1 3/8 in hollow leaf hits the number and misses the mass entirely."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / interior_door / six-panel-raised-and-fielded",
+      "statement": "Raised and fielded panels: a fielded panel stands 1/2 to 3/4 in proud of its bevel and floats in a grooved frame. A dished skin cannot be raised, because it is one plane pressed in two directions."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / trim_family, one family per house",
+      "statement": "The door is a member of the trim family. A room whose casing, base and cornice are built up of members, closed by a leaf with no members at all, has changed family at the opening."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a door is the only part of the architecture that is touched",
+      "statement": "Every other element in an interior is looked at. The door is handled several times a day, and its mass, its swing, its sound and the resistance of its face are experienced directly. This is the one place in a house where the difference between a real object and a representation of one is felt rather than seen, which is why the fault outlives every argument about appearance."
+    }
+  ],
+  "correct_practice": "Solid stile-and-rail construction, 1 3/4 in thick on principal doors and 1 3/8 to 1 1/2 in on secondary ones, with independently framed stiles and rails, panels floating in a groove, and either applied or stuck sticking with a real quirk. Panel relief 1/2 to 3/4 in for a raised and fielded panel, 1/4 to 3/8 in for a flat one. The grading is what makes it affordable, and it is period practice, not a compromise: six-panel raised and fielded doors in the principal rooms; six or four panel, flat, in the chambers; two-panel or ledged batten doors in the service rooms and closets, which are cheaper than any hollow-core door and are correct. A house with four good doors and twelve honest plain ones is a period house; a house with sixteen pressed imitations of good doors is not. Where a solid leaf is impossible, prefer a FLAT solid-core or a plain flush leaf in a good veneer over a moulded pattern — a plain door is a plain door, and a pressed six-panel is a claim the object cannot support. And note the weight consequence: a solid 1 3/4 in leaf at 36 in wide runs 55 to 75 lb and wants three hinges and a jamb of 5/4 stock, so the change must be made at the door schedule and not at the site.",
+  "fixes": {
+    "right": "Solid stile-and-rail doors graded by room, with jambs and hinges sized for them, specified before the pre-hung package is ordered.",
+    "cheap": "Grade the purchase. Buy solid stile-and-rail leaves for the three or four doors on the principal route — the entrance passage, the parlour, the dining room — and honest flat solid-core or ledged batten doors everywhere else, for roughly the cost of sixteen moulded blanks. The difference is entirely in where the money lands, and the doors people touch are the ones that matter. Second cheap move: where the hollow leaves are already hung, add real hardware — a solid brass or cast iron mortise-profile lockset with a proper rose — because the mass of the knob is what the hand actually reads and it costs 60 to 120 USD a door.",
+    "dishonest": "A moulded hollow-core leaf in a deep 'authentic' pattern, sold with the panel depth increased to 3/8 in. Deeper embossing does not make a panel; the tell is not the depth but the CONTINUITY, because a pressed skin has no joint between stile and rail and no cross grain, and both survive any amount of paint. Also dishonest: a solid-core door with an applied moulding stuck on a flat face to imitate panels. That at least has mass, but the applied mould sits ON the face rather than framing a recessed field, so the 'panel' is proud of its stiles instead of set behind them, which is the reverse of every panelled door ever made."
+  },
+  "detection": "Three tests, all available from a photograph. FIRST, GRAIN DIRECTION: on a real stile-and-rail door the stiles show vertical grain and the rails horizontal, and the change of direction is visible even under paint in raking light; a pressed skin runs one continuous simulated grain across the whole face, and where a 'joint' should be there is only a moulded groove. SECOND, THE JOINT ITSELF: at each corner where a stile meets a rail there must be a visible line — a mortise-and-tenon shoulder or a cope — that continues THROUGH the sticking; on a pressed door the sticking is continuous and turns the corner as one moulded curve with no shoulder. THIRD, PANEL RELIEF: measure the shadow at the panel edge. A raised and fielded panel throws a hard band 1/2 to 3/4 in deep with a bright bevel above it; a dished skin throws a soft gradient of 1/8 in and no bevel at all. Fourth, from a video or in person: knock it. A hollow leaf has a resonance between 200 and 400 Hz that a solid one does not.",
+  "test": {
+    "expression": "panel_relief_depth_in",
+    "threshold": 0.375,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Depth from the face of the stile to the bottom of the panel groove, readable as the width of the shadow at the panel edge in raking light. Raised and fielded runs 1/2 to 3/4 in; flat panel 1/4 to 3/8; moulded skin 1/8 to 1/4 with no bevel. The categorical test — continuity of grain across the stile-rail joint — is more reliable and no ratio expresses it."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "mid-century-traditional",
+      "why": "The flush slab door is the genuine article for the period — a flat leaf in a good hardwood veneer with a slim edge band, hung on a minimal casing, is what these houses actually had and what they were designed around.",
+      "bounds": "Flush AND honest: a real veneer with a visible grain, a solid-core leaf of 1 3/8 in or more, and no pressed pattern anywhere. A hollow-core flush door with a printed grain is the fault in this style as much as in any other; the licence is for the flatness, not for the hollowness.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ]
+      },
+      "bounds_test": {
+        "expression": "leaf_weight_lb / leaf_area_sf",
+        "threshold": 2.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "site-visit",
+        "note": "A solid-core 1 3/8 in leaf runs about 3.5 lb per square foot; a hollow-core one about 1.3. Not photographable, which is why the veneer and edge-band tests matter."
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "Same reasoning: the flush leaf is period-correct and the type was built around it.",
+      "bounds": "Solid or semi-solid core with a real veneer. The type's own decline into hollow printed blanks is a fault in it too."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "The type is defined by reduction and its doors were genuinely light and plain — often a simple two-panel or flush leaf at 1 3/8 in.",
+      "bounds": "Plain and honest. A two-panel leaf with real stiles and rails at 1 3/8 in is thin, not hollow, and the distinction is the whole content of this exception."
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "Where a plain flush or single-panel leaf is chosen deliberately as part of a stripped classical language, the absence of panels is a position rather than an economy.",
+      "bounds": "The leaf must still have mass — 1 3/4 in solid — and the casing and base around it must be full-bodied, because the whole argument of a stripped classicism is that the reduction is in ORNAMENT and not in substance."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "bottom-rail-no-deeper-than-the-top",
+      "difference": "Construction against proportion. The pressed blank usually has both faults, but a solid door can have equal rails and a pressed one can have a deeper bottom rail, so they must be checked separately."
+    },
+    {
+      "fault": "six-panel-door-everywhere",
+      "difference": "That fault is the six-panel pattern applied without regard to style, mostly at the entrance; this is any pattern executed without construction, mostly inside."
+    },
+    {
+      "fault": "every-door-the-same-door",
+      "difference": "The purchasing decision that produces both. A consolidated door schedule is what makes sixteen identical hollow blanks the default; grading the schedule fixes the hierarchy and pays for the construction at the same time."
+    }
+  ],
+  "co_occurs_with": [
+    "bottom-rail-no-deeper-than-the-top",
+    "every-door-the-same-door",
+    "lever-on-a-period-door"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, interior_door variants, thickness and graduation",
+    "WDMA I.S.1-A industry standard for architectural stile and rail doors",
+    "Universal Millwork Catalog (1927)",
+    "NPS Preservation Brief 18: Rehabilitating Interiors in Historic Buildings"
+  ],
+  "confidence": "high",
+  "tags": [
+    "interior-door",
+    "material",
+    "construction",
+    "grain-direction"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The six-panel raised and fielded leaf is a canonical variant of the type and one of the objects a visitor actually touches. A pressed skin is the largest single piece of pretend joinery in the house."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The family's doors are broad-stiled with two or four flat panels, so the loss is of mass and cross-grain rather than of fielding — visible but less catastrophic."
+    },
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The family's whole claim is that construction is visible and honest. A door with no joints denies it at the point of contact."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "Thin plain doors are the type's own specification, and the distinction between thin and hollow is real but small here."
+    },
+    {
+      "style": "mid-century-traditional",
+      "severity": "minor",
+      "why": "The flush leaf is period-correct; only the hollowness and the printed veneer are at issue."
+    }
+  ]
+}

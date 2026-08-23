@@ -1,0 +1,219 @@
+{
+  "id": "southern-federal",
+  "name": "Southern Federal",
+  "aka": [
+    "Chesapeake Federal",
+    "Piedmont Federal",
+    "Adamesque South"
+  ],
+  "rank": "variant",
+  "member_of": "federal-style",
+  "status": "historical",
+  "period": {
+    "origin": 1785,
+    "floruit_start": 1790,
+    "floruit_end": 1830,
+    "decline_end": 1845,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1895,
+        "end": 1945,
+        "revival_node": "georgian-revival",
+        "note": "The Colonial Williamsburg restoration and the country-house architects of the 1920s make the Chesapeake Federal five-part plan the standard American 'important house' diagram."
+      },
+      {
+        "start": 1885,
+        "end": 1950,
+        "revival_node": "colonial-revival",
+        "note": "The two-tier portico and the fanlighted door migrate into the national suburban vocabulary, usually detached from the climate logic that produced them."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Chesapeake",
+      "Virginia Piedmont",
+      "Maryland",
+      "Carolina Piedmont",
+      "Upland South",
+      "Georgia Piedmont"
+    ],
+    "hearth": "Baltimore and the Virginia Piedmont",
+    "climate_zones": [
+      "3A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "federal-style",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "tidewater-georgian",
+      "type": "descends_from",
+      "weight": 0.85,
+      "inherits_kit": true,
+      "note": "Direct craft continuity: Chesapeake brickmasons working Flemish bond with glazed headers, the five-part plan with flanking dependencies, and the through-passage plan, all carried unbroken across the Revolution."
+    },
+    {
+      "target": "adam-style",
+      "type": "descends_from",
+      "weight": 0.55,
+      "inherits_kit": true,
+      "note": "Arriving as print, imported mantels, and Wellford composition ornament out of Philadelphia rather than as first-hand observation."
+    },
+    {
+      "target": "jeffersonian-classicism",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "In Virginia the two overlap in the same building trade and the same decade; Piedmont Federal houses routinely borrow Jefferson's octagonal room ends, terraced dependencies and low concealed roofs without adopting his archaeological argument."
+    }
+  ],
+  "description": {
+    "short": "The Federal vocabulary applied to a Southern plan discipline that had already solved for heat: brick or frame, one room deep where it can be, high-ceilinged, porched, and organised around a through-passage that works as a ventilation device.",
+    "long": "Southern Federal is the same Adamesque surface treatment as its New England sibling laid over an entirely different set of plan priorities. The Chesapeake and Piedmont had spent a century learning that a house in a humid subtropical summer wants to be thin in section, tall in the ceiling, shaded on its openings, and open at both ends of its central passage. Federal ornament did nothing to disturb that, so the variant looks like a Tidewater Georgian house that has been re-trimmed: flat wall plane, elliptical fanlight, thin muntins, slender colonnettes, and behind it the through-passage plan, the tall first floor, the gable-end chimneys often set outside the wall entirely, and the porch. Where New England's Federal is closed and vertical, the Southern version spreads. Five-part plans with hyphens and dependencies are far more common here than in the North, because the household to be housed was larger and more stratified, and because the labour to build the wings was owned rather than hired.\n\nThe conditions were agricultural, and they were built on slavery, which needs saying plainly rather than in the euphemism of 'plantation economy'. Tobacco money in Maryland and Virginia, and after Whitney's gin in 1793 the beginning of cotton money further south, capitalised a generation of building between 1790 and 1830. The five-part parti - main block, low hyphens, flanking dependencies - is not a compositional preference but a diagram of a social order: kitchen, laundry, quarters and offices kept out of the main block for heat, smell, fire and hierarchy, while remaining connected under cover. The masons and carpenters who executed it were very often enslaved, and Chesapeake brickwork of this period is among the finest in North America. Materially the region gave brick and heart pine rather than the clear white pine of the North, so Southern Federal detail is generally executed in brick with wood or marble trim, and the wood mouldings are heavier in the same dimensions because heart pine will not run as crisply as white pine.\n\nWhat it reacted against was Georgian heaviness, exactly as the North did, but also against the Tidewater's own steep-roofed, dormer-studded, tightly-massed colonial house. The Federal generation lowered the pitch, pulled the dormers off the principal roof, moved the chimneys out to the ends as exterior stacks that shed their heat outdoors, and raised the ceilings. It also, quietly, began raising the whole house on a basement so that the principal floor sat above the damp and caught more air. Where Jefferson was working in the same counties the two idioms interpenetrate, and there is no sharp line between a Piedmont Federal house with a canted bay and a minor Jeffersonian one.\n\nThe experience of one is of air and length. The passage runs straight through the house with a door at each end and a stair to one side, and in July, with both doors open, it is measurably the coolest place on the property - the same device the dogtrot uses in log a hundred miles west, executed in Flemish bond with a fanlight at either end. Ceilings are eleven or twelve feet, so the tall windows put daylight deep into rooms whose shutters are closed against the sun. From outside, the building sits low and long, its wings stepping down to either side, its brick a dark red-brown with lighter mortar joints thinner than a pencil, and the only concentrated ornament in the whole composition gathered around the door: a fan of leaded glass, sidelights, and a slim portico that would not keep the rain off anyone."
+  },
+  "defining_characteristics": [
+    "Federal ornamental vocabulary (elliptical fanlight, flat wall plane, attenuated colonnettes, applied composition ornament) over an inherited Chesapeake plan discipline",
+    "Central through-passage open at both ends, used as a cross-ventilation device as much as circulation",
+    "Tall principal-storey ceilings (10-13 feet) with windows extending close to the ceiling line",
+    "Gable-end chimneys, frequently exterior-end stacks standing proud of the wall to shed heat outside the envelope",
+    "Flemish-bond brick with thin joints as the prestige wall, frame with beaded weatherboard as the vernacular equivalent",
+    "Five-part composition with hyphens and flanking dependencies far more common than in Northern Federal",
+    "Porch or portico present as a working shading element rather than only as a doorway frame"
+  ],
+  "diagnostic_tells": [
+    "Exterior-end chimney stacks standing away from the gable wall - a Southern habit New England never adopted",
+    "One-room-deep main block with a through-passage, where a Northern Federal house of the same status would be double-pile",
+    "Ceiling heights visibly taller than Northern work at the same date, readable from outside in the window-to-storey proportion",
+    "Low flanking dependencies joined by hyphens, stepping down from the main block",
+    "Raised basement lifting the principal floor three to six feet above grade, with an exterior stair to the entrance"
+  ],
+  "distinguished_from": [
+    {
+      "node": "new-england-federal",
+      "difference": "Identical ornament, opposite plan logic. New England builds compact, three storeys, double-pile, closed, no porch. The South builds long and thin with a through-passage, taller ceilings, exterior-end chimneys, and a porch. The tell is section, not trim."
+    },
+    {
+      "node": "tidewater-georgian",
+      "difference": "Same brickwork, same five-part instinct, same passage. The Georgian version has a steeper roof with dormers on the principal slope, a projecting pedimented door frontispiece, heavy muntins, and a modillioned cornice with real projection. Federal flattens all four."
+    },
+    {
+      "node": "jeffersonian-classicism",
+      "difference": "They overlap in Virginia and share workmen. Jefferson insists on correct antique orders, concealed roofs, and octagonal geometry as an argument; Southern Federal takes the same devices as fashion, keeps its roof visible, and uses Adam-thin colonnettes no Roman authority would license."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Adamesque classical proportion imposed on a plan whose dimensions are set by ventilation and by the practical span of a single-pile room, so that the section is climatically governed while the elevation is stylistically governed.",
+    "typical_ratios": [
+      "Principal storey 10-13 feet floor to ceiling; upper storey 0.75-0.85 of it",
+      "Passage width 10-14 feet, roughly one third to one half of a flanking room's width",
+      "Single-pile room depth 16-20 feet, set by cross-ventilation rather than by framing limits",
+      "Window openings 1:2.2 to 1:2.5 width to height, taller than Northern Federal at the same width",
+      "Dependency ridge at least 4 feet below the main ridge; hyphen ridge below both",
+      "Roof pitch 6:12 to 9:12, generally without dormers on the principal slope"
+    ],
+    "bay_rhythm": "Five bays even on the main block, three on lesser houses; dependencies read as separate three-bay units and are never allowed to align their bay spacing with the main block, which would flatten the hierarchy.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The urban and highest-status version - Baltimore, Richmond, Alexandria."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "The Chesapeake signature, and a social diagram before it is a compositional one."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "common",
+      "note": "The regional workhorse: one room deep so that every room is cross-ventilated and lit from two sides."
+    },
+    {
+      "massing": "i-house",
+      "affinity": "common",
+      "note": "The Piedmont farmer's version, two storeys tall and one room deep with Federal trim at the door only."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "Baltimore, Alexandria, Richmond's Church Hill."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "A central passage must be open at both ends with operable doors, and no room may be more than 20 feet deep without a second exterior wall. Filling in behind the passage to make a double-pile plan removes the variant's climatic reason for existing and must be a deliberate, argued decision.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Principal-storey ceiling height 10-13 feet, with window heads within 12-18 inches of the ceiling. Ceilings under 9 feet convert the building to a Northern Federal proportion regardless of trim.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Flanking dependency ridges must sit at least 4 feet below the main ridge, and hyphens must be lower and shallower than both elements they join. Equal-height wings destroy the hierarchy that the parti exists to express.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Brick laid in Flemish bond with joints no wider than 3/8 inch; where a water table or belt course occurs it projects no more than 2 inches. Exterior-end chimney stacks must stand clear of the gable wall by at least 4 inches at the shoulder.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "A porch is permitted and encouraged as a shading device, but a Federal porch is one storey and carried on colonnettes no more than 8 inches in diameter. A full-height two-storey portico converts the building to Greek Revival or Neoclassical.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Homewood",
+      "location": "3400 North Charles Street, Baltimore, Maryland",
+      "year": 1808,
+      "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian plan with Adamesque detail throughout and the finest Federal joinery in Maryland."
+    },
+    {
+      "name": "Woodlawn",
+      "location": "9000 Richmond Highway, Fairfax County, Virginia",
+      "year": 1806,
+      "note": "Built 1800-06 for Lawrence and Nelly Custis Lewis, attributed to William Thornton; five-part brick composition with a pedimented five-bay central block, and among the most copied early Virginia designs."
+    },
+    {
+      "name": "Nathaniel Russell House",
+      "location": "51 Meeting Street, Charleston, South Carolina",
+      "year": 1808,
+      "note": "The Lowcountry high point of the Southern Federal interior: cantilevered free-flying stair, oval drawing room, full-height polygonal garden bay."
+    },
+    {
+      "name": "Levi Coffin House",
+      "location": "113 U.S. 27, Fountain City, Wayne County, Indiana",
+      "year": 1839,
+      "note": "Late, plain, and built by Carolina Quaker emigrants - a two-storey Flemish-bond brick I-house with Federal trim, showing the variant migrating northwest with its builders a decade after it had died on the seaboard."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "Dell Upton, Architecture in the United States (1998)",
+    "Henry Glassie, Folk Housing in Middle Virginia (1975)",
+    "Mills Lane, Architecture of the Old South (series, 1984-96)",
+    "Virginia Department of Historic Resources register files"
+  ],
+  "confidence": "high",
+  "tags": [
+    "early-republic",
+    "regional",
+    "chesapeake",
+    "climate-driven",
+    "five-part"
+  ]
+}

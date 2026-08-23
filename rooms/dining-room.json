@@ -1,0 +1,209 @@
+{
+  "id": "dining-room",
+  "name": "Dining Room",
+  "aka": [
+    "dining parlour",
+    "eating room",
+    "great parlour"
+  ],
+  "function_class": "dining",
+  "privacy_rank": 2,
+  "confidence": "high",
+  "description": "A room whose entire dimension is set by one object and the act of sitting round it. Everything else — the sideboard wall, the door position, the window that must not be behind the host's head — follows from a table and the ability to walk behind a pushed-back chair. It is the most rigidly dimensioned room in the house and the one most often drawn a foot too small.",
+  "history": {
+    "appears": 1720,
+    "declines": 1960,
+    "replaced": "the hall, where the household had eaten at a board set up and taken down",
+    "replaced_by": "eat-in-kitchen-area",
+    "note": "A dedicated eating room is a Georgian invention and a class marker: it requires enough furniture to leave a table standing permanently, and enough servants to carry food a distance from the kitchen. Robert Kerr in 1864 could still assume separate dining and drawing rooms as the minimum of gentility. The room survived the servants by a century, then lost to the open plan — but it has not died, because the one thing an open plan cannot supply is a room you can shut for three hours."
+  },
+  "dimensions": {
+    "area_sf": [
+      144,
+      400
+    ],
+    "width_ft": [
+      12,
+      18
+    ],
+    "length_ft": [
+      14,
+      26
+    ],
+    "proportion": [
+      1.15,
+      1.8
+    ],
+    "ceiling_min_ft": 8.5,
+    "critical_dimension": "The short dimension. A table for eight is 40 in wide; a chair pushed back needs 36 in; passing behind it needs another 18 in. That is 40 + 2(36) + 2(18) = 148 in, so 12 ft 4 in is the absolute floor and 13 ft is the working minimum. A 12 ft dining room is a fault dressed as a room, and it is the commonest dimensional error in production housing."
+  },
+  "furniture": [
+    {
+      "item": "dining table, seats 8",
+      "footprint_in": [
+        40,
+        96
+      ],
+      "clearance_in": 54,
+      "essential": true,
+      "note": "36 in chair pull plus 18 in passage. Seats 10 at 40 x 120."
+    },
+    {
+      "item": "dining chair",
+      "footprint_in": [
+        19,
+        21
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "sideboard",
+      "footprint_in": [
+        20,
+        66
+      ],
+      "clearance_in": 36,
+      "essential": true,
+      "note": "Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills."
+    },
+    {
+      "item": "china cupboard or corner cupboard",
+      "footprint_in": [
+        18,
+        42
+      ],
+      "clearance_in": 30,
+      "essential": false
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.0,
+    "sides_lit": 1,
+    "orientation": "East or south-east for a breakfast-doubling room; west where the room is used at night and the low sun is wanted on the table. Avoid a window directly behind the head of the table.",
+    "glazing_fraction": [
+      0.1,
+      0.18
+    ],
+    "note": "A dining room is used more by candle and lamp than by daylight, which is why it tolerates a deeper plan position than a parlor and why its lighting slot matters more than its glazing."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "butlers-pantry",
+        "why": "Food and china must arrive without crossing a public room. Where there is no pantry the kitchen takes its place and the door position becomes critical.",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "creole-cottage-vernacular",
+          "shotgun-house"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "Guests reach it without passing through another room, which is what makes it a formal room rather than a back room.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "drawing-room",
+        "why": "The withdrawing sequence: dine, then withdraw. Doors aligned where the two are used together.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "powder-room",
+        "why": "A lavatory door opening into or directly visible from a dining room is the single most avoidable plan error of the last forty years.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      },
+      {
+        "room": "laundry",
+        "why": "Noise and smell during the one meal the room exists for.",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "centre-passage",
+      "stair-hall",
+      "drawing-room",
+      "butlers-pantry",
+      "living-room"
+    ],
+    "never_a_through_room": false
+  },
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Cross ventilation preferred; a room of eight people at dinner is a real thermal load.",
+    "heat": "Historically a fireplace on the interior wall opposite the sideboard.",
+    "electrical": "One switched central outlet on a dimmer at the table centre, and the table centre is set by the room, not by the framing.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "Dining parlour",
+      "trim_grade": "highest",
+      "note": "Often the most elaborately trimmed room in the house, above the parlour, because it is where guests sit longest and looking at the cornice."
+    },
+    {
+      "style": "federal-style",
+      "trim_grade": "highest",
+      "note": "Frequently the oval or apsidal-ended room where Adamesque planning shows off."
+    },
+    {
+      "style": "craftsman",
+      "name_in_style": "Dining room",
+      "trim_grade": "high",
+      "note": "Plate rail, built-in sideboard and a beamed ceiling; the built-in replaces the freestanding sideboard, which changes the wall requirement entirely."
+    },
+    {
+      "style": "ranch-style",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Reduced to a dining ell off the living room, often with no door and no defensible wall for a sideboard."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "trim_grade": "middle",
+      "note": "Usually present as a formal room the household does not use, which is a programming failure rather than an architectural one — ask the client how many times a year before drawing it."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable room, minimum 7 ft in any horizontal dimension and 70 sf",
+      "ref": "IRC R304",
+      "conflict": "The code minimum is less than half the furniture minimum. A code-compliant dining room can be unusable, which is the clearest case in the house of a floor mistaken for a target."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "center-passage-single-pile",
+    "side-hall-double-pile",
+    "i-house",
+    "foursquare",
+    "five-part-palladian",
+    "charleston-single"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "ceiling_height_rule",
+    "trim_family",
+    "chair_rail",
+    "crown",
+    "light_fixture_family",
+    "window_grouping_rule"
+  ],
+  "sources": [
+    "Kerr, The Gentleman's House, 1864",
+    "Cromley, The Food Axis: Cooking, Eating and the Architecture of American Houses",
+    "IRC R304",
+    "Panero and Zelnik, Human Dimension and Interior Space"
+  ]
+}

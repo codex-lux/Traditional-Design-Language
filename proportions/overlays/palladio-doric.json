@@ -1,0 +1,392 @@
+{
+  "id": "palladio-doric",
+  "name": "Palladio's Doric Order (overlay on Vignola)",
+  "aka": [
+    "Doric of the Quattro Libri",
+    "Doric after Ware's Palladio, 1738",
+    "Doric with the Attic base"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XV and XIX",
+    "author": "Andrea Palladio",
+    "year": 1570,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011569684",
+    "note": "Figures read from Isaac Ware's English edition of 1738, leaves 34-36 and 47-48 of the Getty scan, cross-checked against the c82.net transcription of Ware's Book I. The two disagree on the height of the Doric cornice; the disagreement is recorded rather than resolved, and the entablature total is taken from Palladio's own stated ratio, which both readings support."
+  },
+  "overlay_of": "vignola-doric",
+  "module": {
+    "name": "Half the diameter of the column at the bottom of the shaft, divided into thirty minutes - Palladio's stated exception",
+    "parts": 30,
+    "default_size_in": 6.0,
+    "note": "THE DORIC IS PALLADIO'S ONLY EXCEPTION AND HE SAYS SO. Ware 1738, Book I ch. XV, verbatim: 'the module in this order, only, is but half the diameter of the column divided into thirty minutes, and in all the other orders it is the whole diameter divided into sixty minutes.' So the Doric is the ONE order where Palladio's module agrees with Vignola's in kind - both are the semidiameter - and it is the one order where a reader can compare module figures directly. What differs is the subdivision: 30 minutes against Vignola's 12 parts, so one Palladian minute is 1/60 D against Vignola's Doric part of 1/24 D, and every Vignola figure must be multiplied by 2.5 to be read in this pack. Palladio gives the reason as convenience: 'it is thus more commodious in the divisions of the said order' - the Doric is divided by triglyph and metope, and thirtieths take those divisions without fractions. Note that the other four Palladian packs use a module of the WHOLE diameter in 60 minutes; do not carry a figure from palladio-ionic into this pack without halving it.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 16,
+    "shaft_height_modules": 14,
+    "diminution": 0.8461538462,
+    "entasis_begins_at": 0.3333333333,
+    "fluting": {
+      "count": 20,
+      "profile": "twenty channels, or the shaft left plain; Palladio draws both and says 'the shaft of the column may be plain'",
+      "fillet": false
+    }
+  },
+  "assemblies": {
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth or zocco",
+          "height_parts": 10,
+          "projection_parts": 20,
+          "profile": "plinth",
+          "note": "THE ATTIC BASE, AND THIS IS THE HEADLINE SUBSTITUTION. Vignola's Doric base is a torus over a plinth with an astragal and apophyge above (4 + 5 + 1.5 + 1.5 of 12 parts). Palladio uses the Attic base: two tori with a cavetto between them. Ware ch. XV: the base is half a diameter, 'divided into three equal parts; one goes to the plinth or zocco, the other two are divided into four parts'. Chambers, writing in 1759, states the position exactly: the Attic base is used here by 'Palladio, and all the modern Architects except Vignola'. If you are building English or American Palladian, this base and not Vignola's is the one on the drawing.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_lower_torus",
+          "name": "Lower torus (bastone)",
+          "height_parts": 7.5,
+          "projection_parts": 20,
+          "profile": "torus",
+          "note": "Of the two thirds above the plinth divided into four, one part is the upper torus and 'the remaining three are again divided into two equal parts, one of which is for the lower torus, the other to the cavetto with its listellos' (Ware ch. XV). Three eighths of the upper two thirds = 7.5 minutes.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_lower_listel",
+          "name": "Lower listel (fillet under the cavetto)",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "note": "The cavetto-with-its-listellos group is 7.5 minutes. Palladio's text does not divide that group; the division used here - a sixth to each listel and the remainder to the cavetto - is the standard Vitruvian reading and is marked medium rather than asserted as Palladio's own.",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_cavetto",
+          "name": "Cavetto (scotia)",
+          "height_parts": 5,
+          "profile": "scotia",
+          "note": "The hollow between the tori. Palladio calls it the cavetto; the Attic base of the antique calls it the scotia. Vignola's Doric has no such member at all.",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_listel",
+          "name": "Upper listel (fillet over the cavetto)",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_torus",
+          "name": "Upper torus (bastone)",
+          "height_parts": 5,
+          "projection_parts": 16,
+          "profile": "torus",
+          "note": "One quarter of the upper two thirds. Smaller than the lower torus, which is what distinguishes an Attic base from a badly drawn one.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "shaft": {
+      "height_modules": 14,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "shaft_body",
+          "name": "Shaft",
+          "height_parts": 416.6666666667,
+          "profile": "flat",
+          "note": "Fourteen modules. Diminution by the general rule of Book I ch. XIII, not by Vignola's fixed 5/6: for a column up to 15 ft the lower diameter is divided into six parts and a half and five and a half of them are the upper diameter, i.e. 0.846. The lower third is left perpendicular and the swelling is struck above it with a bent rule.",
+          "confidence": "high"
+        },
+        {
+          "id": "shaft_astragal",
+          "name": "Astragal at the head of the shaft",
+          "height_parts": 3.3333333333,
+          "profile": "astragal",
+          "note": "Palladio: the astragal is as high as all three annulets of the capital together, i.e. one third of the middle third of the capital. It belongs to the shaft, as in Vignola.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "capital": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "cap_collarino",
+          "name": "Collarino (necking)",
+          "height_parts": 10,
+          "profile": "flat",
+          "note": "Ware ch. XV: the capital is half a diameter and 'is to be divided into three parts' - collarino, ovolo with annulets, abaco with cimacio. Vignola divides his Doric capital into necking 4, fillet 0.5, bead 1.5, echinus 2, abacus 2, cyma 1.5, fillet 0.5 of 12 parts; the thirds are the same skeleton but Palladio's members are fewer and larger.",
+          "confidence": "high"
+        },
+        {
+          "id": "cap_annulets",
+          "name": "Three annulets",
+          "height_parts": 3.3333333333,
+          "count": 3,
+          "profile": "fillet",
+          "note": "The middle third divided into three: one to the annulets, two to the ovolo. Vignola gives a single bead and fillet where Palladio gives three Greek annulets - a member SUBSTITUTED, and the surest way to tell the two Dorics apart at ten paces.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_ovolo",
+          "name": "Ovolo (echinus)",
+          "height_parts": 6.6666666667,
+          "profile": "echinus",
+          "note": "Two thirds of the middle third, projecting two thirds of its height.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_abaco",
+          "name": "Abaco (abacus)",
+          "height_parts": 6.6666666667,
+          "profile": "abacus",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_cimacio",
+          "name": "Cimacio over the abacus",
+          "height_parts": 3.3333333333,
+          "profile": "cyma-reversa",
+          "note": "The upper third is divided into abaco and cimacio; the reading of one third to the cimacio follows the transcription of Ware consulted and is marked medium.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_fascia_1",
+          "name": "First fascia",
+          "height_parts": 10.7142857143,
+          "profile": "fascia",
+          "note": "Ware ch. XV: the architrave is one module; the tenia is a sixth of it; the rest divides into seven, three to the first fascia and four to the second. Vignola gives two EQUAL fascias of 4 parts each with a regula and taenia of 2 each. Palladio's fascias are graded 3:4 and his tenia is a sixth - a real difference in the reading of the member, not a rounding.",
+          "confidence": "medium"
+        },
+        {
+          "id": "arch_fascia_2",
+          "name": "Second fascia",
+          "height_parts": 14.2857142857,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "arch_tenia",
+          "name": "Tenia",
+          "height_parts": 5,
+          "profile": "fillet",
+          "note": "One sixth of the architrave. Under it hang the guttae, six drops, each a sixth of the tenia in height; they overlap the frieze line and are therefore not given a member of their own here.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "architrave",
+          "name": "Architrave",
+          "height_parts": 30,
+          "profile": "fascia",
+          "note": "One module. Same absolute proportion as Vignola (who gives 12 of his 12-part modules).",
+          "confidence": "high"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "height_parts": 45,
+          "profile": "triglyph",
+          "note": "One module and a half. The triglyph is one module wide and the metope is square, so the frieze governs the bay: Palladio's Doric intercolumniation is fixed by the metope just as Vignola's is.",
+          "confidence": "high"
+        },
+        {
+          "id": "cornice",
+          "name": "Cornice",
+          "height_parts": 45,
+          "profile": "corona",
+          "note": "One module and a half, taken from Palladio's own statement that architrave, frieze and cornice together are a fourth part of the column: 16/4 = 4 modules, less architrave 1 and frieze 1.5, leaves 1.5. NOTE A DISAGREEMENT IN THE SOURCES: the c82.net transcription of Ware reads the Doric cornice as '1 1/6 modules', which would leave the entablature at 3 2/3 and break Palladio's own quarter. The Getty scan of Ware is not legible on this line. The quarter rule is stated in words in both readings, so the arithmetic is closed on the rule and the 1 1/6 reading is treated as a transcription error. The subdivision of the cornice into its individual mouldings is carried on Palladio's plate as drawn annotation only and is not legible in any scan reached; no members are invented for it.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The Doric module is the semidiameter in thirty minutes - Palladio's stated exception to his own rule.",
+      "expression": "module.parts == 30",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column with base and capital is sixteen modules, that is eight diameters. Palladio also allows seven and a half for a plain colonnade, and draws seventeen and a third where the columns stand on pedestals against piers.",
+      "expression": "column.height_modules == 16",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Architrave, frieze and cornice are a fourth part of the column. This is the ONE order in which Palladio agrees with Vignola's quarter; in the Ionic, Corinthian and Composite he gives a fifth.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 4",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Base, shaft and capital make the column.",
+      "expression": "assemblies.base.height_modules + assemblies.shaft.height_modules + assemblies.capital.height_modules == column.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The architrave assembly and the architrave member of the entablature agree.",
+      "expression": "assemblies.architrave.height_modules * module.parts == assemblies.entablature.members.architrave.height_parts",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The Attic base plinth is one third of the base, and the upper torus two thirds of the lower: the signature of a correctly drawn Attic base.",
+      "expression": "assemblies.base.members.base_upper_torus.height_parts / assemblies.base.members.base_lower_torus.height_parts == 2 / 3",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The shaft diminishes to 5.5 parts in 6.5, not to Vignola's 5 in 6. Palladio tabulates diminution by column height and this is the shortest case.",
+      "expression": "column.diminution == 5.5 / 6.5",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "palladio-doric-diastyle",
+        "clear_diameters": 3.0,
+        "note": "PALLADIO'S OWN DORIC SPACING, and the reason his Doric column is 7 1/2 or 8 diameters. Book I ch. XIII: 'if the spaces are three diameters, the columns ought to be seven and a half or eight diameters high.' The spacing chooses the order. Ware's Doric chapter puts it as 'something less than three diameters' once the triglyph is set out. Vignola draws his Doric ditriglyph at 2 3/4 D clear, so Palladio's bay is a quarter of a diameter wider and carries the same two triglyphs."
+      },
+      {
+        "name": "palladio-doric-monotriglyph",
+        "clear_diameters": 1.5,
+        "note": "One triglyph over the opening. Palladio uses it where the Doric stands against a pier."
+      },
+      {
+        "name": "palladio-doric-arcade",
+        "clear_diameters": 4.6666666667,
+        "note": "Palladio's arched Doric, in which the columns stand on pedestals against piers and measure seventeen modules and one third including base and capital - eight and two thirds diameters, taller than the free-standing order because the pier absorbs the extra. Ware ch. XV. The pier and opening figures are on the plate and are not stated in the text; the clear-diameter figure here is the drawn opening as reported by the standard transcription and is medium confidence."
+      }
+    ],
+    "default": "palladio-doric-diastyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height / 8 * (5.5 / 6.5)",
+      "units": "in",
+      "note": "The upper diameter for a column up to 15 ft. Palladio does NOT hold Vignola's single 5/6 for all columns: Book I ch. XIII tabulates diminution against height - up to 15 ft, 6 1/2 parts below to 5 1/2 above (0.846); 15 to 20 ft, 7 to 6 1/2 (0.929); 20 to 30 ft, 8 to 7 (0.875); taller columns 'in the same manner'. The taller the column the less it diminishes, because distance does the rest.",
+      "authority_note": "Ware 1738, Book I ch. XIII. The middle row is anomalous - 0.929 is LESS diminution than the row above it and the row below - and both transcriptions consulted read it the same way, so it is reported as the source has it rather than smoothed."
+    },
+    {
+      "target_slot": "column",
+      "dimension": "height",
+      "expression": "15",
+      "units": "modules",
+      "range": [
+        15,
+        17.3333333333
+      ],
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Palladio gives three Doric columns, not one: 7 1/2 diameters (15 modules) and 8 (16) for a plain colonnade, and 8 2/3 (17 1/3) where the column engages a pier in an arcade. Vignola gives 8 and nothing else. The choice is the designer's and depends on whether the column stands free or against masonry.",
+      "authority_note": "Ware 1738, Book I ch. XV."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "height",
+      "expression": "0.75",
+      "units": "ratio",
+      "note": "SUPERIMPOSITION. The second order is a fourth less than the first. Palladio's Doric is normally the lower of a superimposed pair - 'the Doric must always be placed under the Ionic' (Book I ch. XII) - so this rule is what sizes the Ionic above it, and it is the rule that produces the Anglo-Palladian two-storey loggia front.",
+      "authority_note": "Ware 1738, Book I ch. XII and Book II passim."
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "count",
+      "expression": "floor(column_height / 8 * 3 / (column_height / 8 * 1.25)) + 1",
+      "units": "count",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Triglyphs in the bay. The triglyph pitch is 1 1/4 diameters (one module wide plus a square metope of one module and a half - so 2 1/2 modules on centres), and Palladio's diastyle bay is 3 diameters clear, 4 on centres. The arithmetic does not close on a whole triglyph, and Palladio's own instruction is to adjust the metope, not the spacing. A rules engine cannot settle this; a draughtsman must.",
+      "authority_note": "Ware 1738, Book I ch. XV."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "0.2",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.2,
+        0.33
+      ],
+      "note": "JUDGMENT SLOT. Palladio gives the Doric no antique pedestal - 'no pedestal is to be seen in antient buildings to this order, although there are in the modern' - and where one is required he makes the DIE SQUARE, which means the pedestal height follows from the width of the base plinth rather than from a fraction of the column. Vignola's fixed third does not apply. Reading the pedestal cap as a chair rail therefore requires a decision about the die, and the engine cannot make it. 0.2 is the figure a square die produces at ordinary Doric proportions.",
+      "authority_note": "Ware 1738, Book I ch. XV and ch. XIX."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 5 * (3 / 8)",
+      "units": "in",
+      "note": "The room as an order: wall plus cornice is the whole, the entablature a fifth of it, and the cornice three eighths of that entablature - Palladio's Doric entablature divides 1 : 1 1/2 : 1 1/2, so the cornice is 3 of 8. At a 9 ft ceiling this gives 8.1 in. Vignola's Doric divides the same way, so the delta here is only in the module, not the ratio; the rule is carried because a Palladian room and a Vignolesque room reach it by different arithmetic and a reader needs to see that they agree.",
+      "authority_note": "Ware 1738, Book I ch. XV."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 8 * 3",
+      "units": "in",
+      "note": "Clear span, diastyle. Palladio's Doric loggia is wider-spaced than Vignola's ditriglyph by a quarter diameter per bay, which over a five-bay front is more than a diameter of accumulated difference.",
+      "authority_note": "Ware 1738, Book I ch. XIII."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "construction-tolerance",
+      "statement": "The Attic base is the delicate part of this order. Its two listels are 1.25 minutes each, that is 1/48 of a diameter: at a 12 in column, 1/4 in, and at an 8 in column, 1/6 in. Run in plaster or turned in wood those survive; cast in concrete or GFRC they will not draw cleanly from the mould, and in stone they chip on the first knock.",
+      "resolution": "In cast materials, take the two listels to a minimum of 3/8 in even if it costs a minute off the cavetto, and note the deviation. In stone, chamfer rather than square the lower listel. Do not delete them: a cavetto that runs straight into the tori is what makes a bad Attic base read as a bulge.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "Palladio's Doric bay is 3 diameters clear against Vignola's 2 3/4, and the architrave is one module - half a diameter - deep. At a 16 in column that is a stone architrave spanning 4 ft with 8 in of depth, which is at the edge of what a single stone lintel will do, and past the edge once a pediment loads its centre.",
+      "resolution": "Either carry the architrave on a concealed steel flitch bedded in the joint above, or accept Vignola's tighter ditriglyph. The one thing not to do is deepen the architrave: it is locked to the frieze and cornice by the quarter rule, and deepening it makes the whole entablature wrong.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "This order is dear in exactly the places Vignola's is cheap. The Attic base has six members where Vignola's has four; the three annulets of the capital are three separate turnings; the guttae are six conical drops per triglyph, and Palladio's diastyle bay puts more triglyphs on a front than Vignola's does.",
+      "resolution": "If the budget is fixed, spend it on the base and the capital and take the guttae as a cast repeat rather than carved. The base is at eye level and the guttae are twenty feet up.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "palladian",
+    "english-palladian",
+    "italian-renaissance",
+    "renaissance-classical",
+    "jeffersonian-classicism",
+    "english-georgian",
+    "english-georgian-country-house",
+    "georgian-colonial-american",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "georgian-revival",
+    "colonial-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "Andrea Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XV, XIX",
+    "Andrea Palladio, The Four Books of Architecture, tr. and ed. Isaac Ware, London 1738 (archive.org/details/gri_33125011569684) - Book I, leaves 34-36, 47-48, 88 of the Getty scan",
+    "c82.net/architecture/book1 - independent transcription of Ware's Book I",
+    "William Chambers, A Treatise on Civil Architecture, London 1759, p. 45 - for the statement that the Attic base in the Doric is used by 'Palladio, and all the modern Architects except Vignola'",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-doric.json"
+  ],
+  "confidence": "medium",
+  "notes": "THE THREE THINGS THAT MATTER. (1) The module: semidiameter in 30 minutes, Palladio's own stated exception, and the only one of his five orders whose module is of the same kind as Vignola's. (2) The Attic base, which Vignola alone among the moderns refuses; if a building is Palladian this base is on the drawing. (3) The diminution, tabulated by column height in Book I ch. XIII rather than fixed at 5/6 - a rule Vignola does not have at all.\n\nWHAT IS FIRM AND WHAT IS SOFT. The column at 16 modules, the base and capital at 1 module each, the architrave at 1, the frieze at 1 1/2, the entablature at a quarter of the column, and the Attic base's plinth-third and torus-quarter divisions are all stated in Ware's words: high confidence. The subdivision of the cavetto group, the internal division of the capital's upper third, and the whole subdivision of the cornice are drawn annotations on Palladio's plate that no consulted transcription reproduces. The cavetto group and capital divisions are given at medium confidence with the standard reading named as such; the cornice is given as a single 45-minute member with no invented mouldings.\n\nTHE CORNICE DISAGREEMENT. One modern transcription of Ware reads the Doric cornice as 1 1/6 modules. That cannot be right: with architrave 1 and frieze 1 1/2 it gives an entablature of 3 2/3 against a column of 16, which is 0.229 and not the fourth part Palladio states in words on the same page. This pack takes the stated ratio as governing and the 1 1/6 as a transcription slip, and says so rather than burying it.\n\nWHY THE COLUMN HEIGHT IS NOT A DIVERGENCE. Palladio's Doric at 8 diameters is Vignola's Doric at 8 diameters. The popular claim that Palladio is uniformly more slender than Vignola is false at the Doric and false at the Tuscan and Ionic; it is true only of the Corinthian (9 1/2 against 10). Where Palladio is lighter is in the entablature of the three upper orders."
+}

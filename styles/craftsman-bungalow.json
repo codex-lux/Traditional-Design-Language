@@ -1,0 +1,179 @@
+{
+  "id": "craftsman-bungalow",
+  "name": "Craftsman Bungalow",
+  "aka": [
+    "the American bungalow",
+    "plan-book bungalow",
+    "catalog bungalow"
+  ],
+  "rank": "variant",
+  "member_of": "craftsman",
+  "status": "historical",
+  "period": {
+    "origin": 1903,
+    "floruit_start": 1908,
+    "floruit_end": 1925,
+    "decline_end": 1930,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Streetcar suburbs nationwide; the type is defined by its distribution channel rather than by a place",
+    "climate_zones": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "craftsman",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Strictly this is a variant by scale and distribution rather than by region: the Craftsman grammar reduced to what fits a 40-to-50-foot lot, a 900-to-1,400 square foot programme, and a precut lumber package. It is the form in which the style was actually built, in the hundreds of thousands, across every American climate."
+    },
+    {
+      "target": "folk-victorian",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "The same local carpenters, the same lumberyards, and the same customers. Folk Victorian's habit of ordering a house as a stock plan plus a trim package is the commercial apparatus that the bungalow inherits and perfects."
+    }
+  ],
+  "description": {
+    "short": "The Craftsman grammar compressed into a one-to-one-and-a-half storey, nine-hundred-to-fourteen-hundred square foot house sold as a plan book design or a precut kit, and built across the United States in numbers that made it the first genuinely national American house type.",
+    "long": "The Craftsman bungalow is what happens when a style becomes a product. The word bungalow describes a type — a low, broad, mainly single-storey house with living space partly in the roof and a porch across the front — and the type is older and wider than the style; the Craftsman bungalow is the intersection, and the intersection is where nearly all the buildings are. The formula is tight: a rectangular body twenty-four to twenty-eight feet wide and thirty-two to forty-four feet deep on a narrow lot, ridge running front-to-back or side-to-side, a porch under the main roof across the whole front, one or two bedrooms off a short hall, a living room with a hearth and flanking built-ins, a dining room behind it with a built-in buffet, a compact kitchen, and a single bath. Between eight hundred and fourteen hundred square feet contains an entire middle-class domestic programme with no wasted circulation, which is a level of planning efficiency that American production housing has rarely matched since.\n\nWhat produced it was a distribution revolution, and the specifics are worth holding onto. From 1908 Sears, Roebuck sold Modern Homes as precut kits — every stud numbered, the nails counted, the plan shipped by boxcar to the nearest siding — a business it ran until 1940; Aladdin, out of Bay City, Michigan, had begun the same trade in 1906 and continued it into the 1980s. Beside them ran a shelf of plan books that sold drawings rather than lumber: Stickley's own Craftsman Homes (1909), Henry L. Wilson's The Bungalow Book, the Radford and Ye Planry series, Bungalow Magazine out of Seattle and Los Angeles. Local lumberyards issued their own catalogs and assembled millwork packages to match. The financial condition underneath all of it was the pre-FHA mortgage — short-term, high down payment — which meant that a house had to be cheap in absolute dollars rather than cheap per month, and the bungalow's whole economy is organized around that constraint. The streetcar line supplied the lots.\n\nThe significance of this node for anyone building a design system is difficult to overstate, and it is not sentimental. The Craftsman bungalow is the first fully specified traditional kit of parts in history: a grammar reduced to a bill of materials, an assembly sequence, and a small set of enforceable dimensional rules, shipped to unskilled builders, and executed at national scale with a quality of proportion that holds up a century later. It worked because the rules were absolute lengths rather than derived ratios — a thirty-inch overhang, a seven-foot porch, a thirty-inch pier base, a divided upper sash — which a carpenter could follow without understanding the theory. It is the strongest available evidence that traditional design logic can survive productization. The Levittown chapter of this branch is the counterexample; both are true, and the difference between them is precisely which rules were kept.\n\nOn the street, a block of them reads as a coherent whole made of small differences: the same body, the same porch depth, the same eave, but the ridge turned ninety degrees on alternate lots, the pier bases in brick here and river stone there, the gable shingled or stuccoed or half-timbered. The porch does real work — it is deep enough for two chairs and a swing and it faces the sidewalk at conversational distance. Inside, the rooms are small and the ceilings are eight and a half feet and the built-ins mean there is very little wall left to furnish, which reads today as either an unbearable constraint or a relief, depending on the occupant."
+  },
+  "defining_characteristics": [
+    "One to one and a half storeys, 800 to 1,400 sq ft, on a lot of 40 to 50 ft frontage",
+    "Low-pitched gable roof with 24 to 36 in overhangs on eave and rake, exposed rafter tails and knee braces",
+    "Full-width or near-full-width front porch framed under the primary roof, on battered piers with masonry bases",
+    "A compact plan with no formal hall: front door opens into the living room, which contains the hearth and flanking built-ins",
+    "Dormer, usually shed, providing habitable roof space in the one-and-a-half storey version",
+    "Divided upper sash over single-light lower sash throughout",
+    "Sourced from a published plan or a precut package rather than from an architect's commission"
+  ],
+  "diagnostic_tells": [
+    "Front door opens directly into the living room with no vestibule — the plan's fingerprint",
+    "Porch piers of clinker brick or fieldstone carrying tapered wood posts, with a solid porch balustrade of the same masonry",
+    "Shed dormer set well back from the eave line, with its own small overhang",
+    "Three- or four-over-one sash, and a wide flat casing 4 to 5 in deep around every opening",
+    "The whole street shares one massing with the ridge alternately parallel and perpendicular to the road"
+  ],
+  "distinguished_from": [
+    {
+      "node": "california-bungalow",
+      "difference": "The sibling variant. The Californian type is lower-pitched, deeper-eaved, more often stuccoed, and includes outdoor rooms — sleeping porch, pergola, court — that the national type has no climate for. A bungalow with a 3:12 roof and an unheated sleeping porch in Ohio is a Californian design built in the wrong place."
+    },
+    {
+      "node": "craftsman",
+      "difference": "The parent style covers architect-designed work at any scale, including the Greene and Greene houses. This node is specifically the mass-market type: small, published, and precut."
+    },
+    {
+      "node": "minimal-traditional",
+      "difference": "Both are small builder houses, and Minimal Traditional is what happened to this one after 1935: the same footprint with the eave cut to six inches, the porch deleted, the built-ins deleted, and the trim reduced to a clamshell profile."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Inherited from Craftsman — porch beam datum, aligned head datum, exposed framing rhythm — but bounded by two additional economic constraints that determine almost everything: the lot width, which caps the body at 24 to 28 ft, and the precut package, which standardizes every member length. The plan-book house is proportioned by catalog page, not by module, and it holds together because the catalog was internally consistent.",
+    "typical_ratios": [
+      "Body width 24 to 28 ft; depth 32 to 44 ft; depth-to-width roughly 1.4:1 to 1.6:1",
+      "Roof pitch 4:12 to 6:12",
+      "Eave and rake overhang 24 to 36 in",
+      "Porch depth 7 to 9 ft; porch width 70 to 100 percent of the facade",
+      "Ceiling 8 ft 6 in; window and door heads at 6 ft 8 in on a single datum",
+      "Porch pier base 24 to 30 in wide, tapering to 10 to 14 in at the beam"
+    ],
+    "bay_rhythm": "Two or three openings per elevation face, grouped in pairs or triples with wide plain wall between; the porch occupies the whole of the front and is itself the principal bay.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "bungalow-linear",
+      "affinity": "canonical",
+      "note": "The definitional skeleton; front-gabled and side-gabled subtypes are both this massing with the ridge rotated."
+    },
+    {
+      "massing": "airplane-bungalow",
+      "affinity": "common"
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "possible",
+      "note": "Occurs on corner lots and where a rear ell was added; usually a later accretion rather than an original design."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "The two-storey answer on the same lot; the plan-book trade sold both from the same catalog."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Front porch depth not less than 7 ft clear and width not less than 60 percent of the facade, framed under the primary roof.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Eave and rake overhang 24 to 36 in; roof pitch 4:12 to 6:12. Below 18 in of overhang the node degrades to minimal-traditional.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Conditioned floor area 800 to 1,600 sq ft on one to one and a half storeys. A full second storey disqualifies the node and moves it to the foursquare massing under the parent style.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Dormers must be set back not less than 24 in from the eave line and must not exceed 60 percent of the roof plane's width.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "The hearth and its flanking built-ins must occupy a full wall of the principal living room; if the plan has no hearth wall the node is a bungalow in massing only.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Bungalow Heaven Landmark District",
+      "location": "Pasadena, California",
+      "year": 1900,
+      "note": "More than 800 modest bungalows built c. 1900-1930 and designated a landmark district in 1989 — the type at neighbourhood scale, largely from published plans."
+    },
+    {
+      "name": "Sears Modern Homes",
+      "location": "United States, shipped nationally from Chicago",
+      "year": 1908,
+      "note": "The precut kit programme, 1908-1940, which sold roughly 70,000 houses; surviving examples are documented in most Midwestern and Eastern states. Listed here as a product line rather than a single building because that is what the node actually is."
+    },
+    {
+      "name": "Craftsman Farms (the Log House)",
+      "location": "Parsippany-Troy Hills, New Jersey",
+      "year": 1911,
+      "note": "Stickley's own house, whose published plans and derivatives seeded the plan-book trade this variant runs on."
+    }
+  ],
+  "sources": [
+    "Clay Lancaster, The American Bungalow, 1880-1930 (1985)",
+    "Gustav Stickley, Craftsman Homes (1909)",
+    "Katherine Cole Stevenson and H. Ward Jandl, Houses by Mail: A Guide to Houses from Sears, Roebuck and Company (1986)",
+    "Alan Gowans, The Comfortable House: North American Suburban Architecture 1890-1930 (1986)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "productized-tradition",
+    "precut-kit",
+    "plan-book",
+    "streetcar-suburb"
+  ]
+}

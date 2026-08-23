@@ -1,0 +1,135 @@
+{
+  "id": "primary-suite-off-the-formal-hall",
+  "name": "The Bedroom Door In The Front Hall",
+  "aka": [
+    "the main-floor primary off the entry",
+    "the private room on the public gradient"
+  ],
+  "slots": [
+    "public_private_gradient",
+    "room_adjacency_overrides",
+    "circulation_parti"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "sequence",
+  "symptom": "A visitor standing inside the front door can see, and is one step from, the door of the principal bedroom - often standing open, often with the bed visible. The most private room in the house is adjacent to the most public one, with nothing between them. In the same plan the guest bedrooms are upstairs behind two doors and a corridor.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The main-floor primary suite is a strong market requirement - ageing in place, single-level living - and it is a big room, 250 to 400 sq ft plus a bathroom and a closet, so it needs the ground floor's deepest bay. The entry hall is the only circulation on that floor, so the suite gets its door from the hall by default. There is no second circulation to hang it from because the plan has only one, and adding a private lobby costs 40 to 60 sq ft that nobody will pay for.",
+    "cost_saved": "$8,000-$18,000 for a private lobby or the extra circulation that would separate the two zones, plus the plan efficiency of putting the suite where the depth already is."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / public_private_gradient / zones",
+      "statement": "Passage: public, entered by anyone. Front rooms: formal, entered by invitation. Rear rooms: family. Second floor: private, chambers. The gradient exists so that a household can admit somebody to one zone without admitting them to the next, and a chamber door on the passage collapses four zones into two."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / public_private_gradient / gradient_axis",
+      "statement": "Front to back and ground to first, both at once. A ground-floor chamber at the front of the plan runs against both axes simultaneously."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "privacy is made by depth of access, not by a door",
+      "statement": "A room's privacy is measured by how many thresholds a stranger must cross to reach it. One threshold is a public room; three is a chamber. A door count is a real, checkable quantity and it is the only thing the gradient actually is."
+    }
+  ],
+  "correct_practice": "Count thresholds from the public way to each room and make the count match the room's rank. Two thresholds - the front door and the room door - is a formal reception room. Three - front door, secondary circulation, room door - is a family room or a study. Four is a chamber. A principal bedroom on the ground floor is entirely legitimate and often the right answer; what it needs is its own third threshold, which can be very small: a 5 by 7 ft private lobby off the hall serving the suite and nothing else, a short private passage behind a door, or a position at the far end of the plan reached through the family living space rather than off the entry hall. Where the suite must sit near the front, at minimum turn its door out of the sightline from the entrance - no bedroom door should be visible from the front doormat - and put the closet and bathroom between the bedroom and the hall so the wet and dressing rooms make the buffer instead of a corridor.",
+  "fixes": {
+    "right": "Give the suite a private lobby of 5 by 7 ft, or place it at the end of the plan reached through the family zone rather than off the entry hall.",
+    "cheap": "Turn the door and make the buffer out of the rooms you already have. Rotating the bedroom door 90 degrees so it faces along the hall rather than across it removes it from the entry sightline for the price of moving a header; putting the walk-in closet and the bathroom on the hall side of the suite gives a 6 to 8 ft acoustic and visual buffer that the plan was going to build anyway. Both cost nothing at framing.",
+    "dishonest": "A double door with decorative panels on the bedroom, treating it as a formal room. It makes the door more conspicuous from the entrance, it is harder to keep shut, and it announces the bedroom as an event in the entrance sequence, which is the opposite of what is wanted."
+  },
+  "detection": "Stand on the entry mat, in person or in a photograph taken from the front door, and count visible doors that lead to bedrooms or bathrooms. Any is the fault. On a plan, count thresholds from the property line to the bed: fewer than three and the gradient has collapsed. A second, quicker plan test: draw the sightline cone from the front door across 120 degrees and see which room doors fall inside it - the correct set is the formal rooms and the passage, and nothing else.",
+  "test": {
+    "expression": "thresholds_from_public_way_to_principal_bedroom",
+    "threshold": 3.0,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "plan",
+    "note": "Count doors or defined room-to-room transitions from the property line to the bedroom, excluding the property line itself. Front door plus bedroom door is 2 and is the fault; front door, private lobby door, bedroom door is 3. A complementary photograph test: bedroom doors visible from the entry mat, which must be zero."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The four-room square plan has no corridor and no gradient of the Anglo kind at all - every room is entered from outside or from its neighbour, and a chamber can front the street with its own French door. Privacy is made by the shutters and the galerie, not by the plan.",
+      "bounds": "Requires the type's whole apparatus: paired equal front openings, exterior louvred blinds on every opening, and the rear loggia between cabinets. A hall-less plan without them has no privacy device at all.",
+      "applies_when": {
+        "regions": [
+          "Lower Mississippi Valley",
+          "Gulf Coast"
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Rooms open directly into one another in an enfilade with no hall, so the bedrooms are literally on the through route. The type's privacy is temporal and social rather than spatial, and the sequence front-to-back is itself the gradient: the parlour is at the street and the chambers are deeper in.",
+      "bounds": "The gradient must still run front to back - a bedroom in the front room, ahead of the parlour, is a fault in this type too."
+    },
+    {
+      "style": "ranch-style",
+      "why": "Single-level living is the type, and a bedroom wing off a central hall is authentic.",
+      "bounds": "The wing must be a wing: a door or a defined neck between the living zone and the bedroom corridor, which the good examples all have and the bad ones do not."
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "No interior corridor; every room including the chambers opens onto the gallery.",
+      "bounds": "Requires the gallery at 8-14 ft and the exterior stair, so the gallery is a controlled outdoor room rather than a public walkway."
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "Rooms open off the corredor round a private court, so a chamber door on the circulation is normal - but the court is already inside a walled precinct with one or two controlled gates.",
+      "bounds": "The walled casco with controlled gates is the first threshold and must actually be present; without it the corredor is a public gallery."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "powder-room-on-the-dining-room",
+      "difference": "Both are adjacency faults on the same gradient. That one is about a service room facing a formal one; this is about a private room facing a public one."
+    },
+    {
+      "fault": "the-room-nobody-enters",
+      "difference": "That is a room in the right place that nobody uses. This is a room in the wrong place that everybody sees."
+    }
+  ],
+  "co_occurs_with": [
+    "service-route-through-the-formal-plan",
+    "stair-at-the-front-door"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The gradient is the style's actual social content; a chamber on the passage is the plan the passage was invented to abolish."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Ground-floor bedrooms off a central hall are the type."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "not-applicable",
+      "why": "Deliberately hall-less; the gradient is longitudinal."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json public_private_gradient, zones and gradient_axis",
+    "styles/creole-cottage-vernacular.json and styles/shotgun-house.json hall-less constraints",
+    "HABS measured plans of eighteenth-century chamber arrangements; Bernard Herman and Dell Upton on access and social depth in early American houses",
+    "Bill Hillier and Julienne Hanson, The Social Logic of Space (1984), for depth-of-access as a measurable property of a plan"
+  ],
+  "confidence": "high",
+  "tags": [
+    "gradient",
+    "privacy",
+    "adjacency",
+    "plan",
+    "common"
+  ]
+}

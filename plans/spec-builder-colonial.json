@@ -1,0 +1,622 @@
+{
+  "id": "spec-builder-colonial",
+  "name": "Spec Builder Colonial, 2,400 sf",
+  "style": "colonial-revival",
+  "massing": "four-over-four",
+  "groupings": [
+    "centre-passage-core",
+    "contemporary-service-core",
+    "primary-suite"
+  ],
+  "context": {
+    "climate_zone": "5A",
+    "lot_width_ft": 60,
+    "entrance_faces": "N",
+    "jurisdiction": "IRC model text, no local amendments applied",
+    "budget_tier": "value"
+  },
+  "note": "A deliberately ordinary production plan, written to see what the validator catches. Every decision in it is one I have seen built.",
+  "levels": [
+    {
+      "id": "ground",
+      "index": 0,
+      "floor_to_ceiling_ft": 9,
+      "rooms": [
+        {
+          "id": "porch",
+          "type": "entry-porch",
+          "name": "Front Stoop",
+          "width_ft": 4,
+          "length_ft": 6,
+          "exterior_walls": [
+            "N",
+            "E",
+            "W"
+          ],
+          "doors": [
+            {
+              "to": "foyer",
+              "width_ft": 3
+            },
+            {
+              "to": "exterior"
+            }
+          ]
+        },
+        {
+          "id": "foyer",
+          "type": "entrance-hall",
+          "name": "Foyer",
+          "width_ft": 7,
+          "length_ft": 12,
+          "ceiling_ft": 9,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 2,
+              "height_ft": 5,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "porch",
+              "width_ft": 3
+            },
+            {
+              "to": "dining",
+              "width_ft": 5,
+              "type": "cased-opening"
+            },
+            {
+              "to": "study",
+              "width_ft": 3
+            },
+            {
+              "to": "family",
+              "width_ft": 6,
+              "type": "open"
+            },
+            {
+              "to": "powder",
+              "width_ft": 2.5
+            },
+            {
+              "to": "stair",
+              "width_ft": 5,
+              "type": "cased-opening"
+            }
+          ]
+        },
+        {
+          "id": "dining",
+          "type": "dining-room",
+          "name": "Dining Room",
+          "width_ft": 11.5,
+          "length_ft": 13,
+          "ceiling_ft": 9,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "N",
+            "W"
+          ],
+          "windows": [
+            {
+              "wall": "W",
+              "width_ft": 3,
+              "height_ft": 5,
+              "count": 2
+            }
+          ],
+          "doors": [
+            {
+              "to": "foyer",
+              "width_ft": 5,
+              "type": "cased-opening"
+            },
+            {
+              "to": "powder",
+              "width_ft": 2.5
+            },
+            {
+              "to": "kitchen",
+              "width_ft": 3,
+              "type": "cased-opening"
+            }
+          ]
+        },
+        {
+          "id": "powder",
+          "type": "powder-room",
+          "name": "Powder Room",
+          "width_ft": 4,
+          "length_ft": 6,
+          "ceiling_ft": 9,
+          "fixtures": [
+            "wc",
+            "lavatory"
+          ],
+          "doors": [
+            {
+              "to": "dining",
+              "width_ft": 2.5
+            },
+            {
+              "to": "foyer",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "study",
+          "type": "study",
+          "name": "Study",
+          "width_ft": 10,
+          "length_ft": 11,
+          "ceiling_ft": 9,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "N",
+            "E"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 3,
+              "height_ft": 5,
+              "count": 2
+            }
+          ],
+          "doors": [
+            {
+              "to": "foyer",
+              "width_ft": 3
+            }
+          ]
+        },
+        {
+          "id": "family",
+          "type": "family-room",
+          "name": "Family Room",
+          "width_ft": 16,
+          "length_ft": 20,
+          "ceiling_ft": 9,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "S",
+            "E"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3,
+              "height_ft": 5,
+              "count": 3
+            }
+          ],
+          "doors": [
+            {
+              "to": "foyer",
+              "width_ft": 6,
+              "type": "open"
+            },
+            {
+              "to": "kitchen",
+              "width_ft": 10,
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "id": "kitchen",
+          "type": "kitchen",
+          "name": "Kitchen",
+          "width_ft": 12,
+          "length_ft": 16,
+          "ceiling_ft": 9,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "S"
+          ],
+          "fixtures": [
+            "sink",
+            "dishwasher"
+          ],
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3,
+              "height_ft": 4,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "family",
+              "width_ft": 10,
+              "type": "open"
+            },
+            {
+              "to": "dining",
+              "width_ft": 3,
+              "type": "cased-opening"
+            },
+            {
+              "to": "mud",
+              "width_ft": 3
+            }
+          ]
+        },
+        {
+          "id": "mud",
+          "type": "mudroom",
+          "name": "Mud Room",
+          "width_ft": 4,
+          "length_ft": 9,
+          "ceiling_ft": 9,
+          "doors": [
+            {
+              "to": "kitchen",
+              "width_ft": 3
+            },
+            {
+              "to": "garage",
+              "width_ft": 3
+            },
+            {
+              "to": "laundry",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "laundry",
+          "type": "laundry",
+          "name": "Laundry",
+          "width_ft": 6,
+          "length_ft": 7,
+          "ceiling_ft": 9,
+          "fixtures": [
+            "washer",
+            "sink"
+          ],
+          "doors": [
+            {
+              "to": "mud",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "garage",
+          "type": "garage",
+          "name": "Two-Car Garage",
+          "width_ft": 22,
+          "length_ft": 22,
+          "ceiling_ft": 9,
+          "exterior_walls": [
+            "N",
+            "E",
+            "S"
+          ],
+          "doors": [
+            {
+              "to": "mud",
+              "width_ft": 3
+            },
+            {
+              "to": "exterior",
+              "width_ft": 16,
+              "type": "garage"
+            }
+          ]
+        },
+        {
+          "id": "stair",
+          "type": "stair-hall",
+          "name": "Stair Hall",
+          "width_ft": 6,
+          "length_ft": 12,
+          "ceiling_ft": 9,
+          "window_head_ft": 6.8,
+          "exterior_walls": [],
+          "doors": [
+            {
+              "to": "foyer",
+              "width_ft": 5,
+              "type": "cased-opening"
+            },
+            {
+              "to": "family",
+              "width_ft": 3,
+              "type": "open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upper",
+      "index": 1,
+      "floor_to_ceiling_ft": 8,
+      "rooms": [
+        {
+          "id": "upperhall",
+          "type": "gallery-corridor",
+          "name": "Upper Hall",
+          "width_ft": 4,
+          "length_ft": 22,
+          "ceiling_ft": 8,
+          "doors": [
+            {
+              "to": "primary",
+              "width_ft": 3
+            },
+            {
+              "to": "bed2",
+              "width_ft": 2.7
+            },
+            {
+              "to": "bed3",
+              "width_ft": 2.7
+            },
+            {
+              "to": "hallbath",
+              "width_ft": 2.5
+            },
+            {
+              "to": "upperstair",
+              "width_ft": 4,
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "id": "primary",
+          "type": "primary-bedroom",
+          "name": "Primary Bedroom",
+          "width_ft": 14,
+          "length_ft": 18,
+          "ceiling_ft": 8,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "S",
+            "W"
+          ],
+          "stacks_over": "garage",
+          "windows": [
+            {
+              "wall": "S",
+              "width_ft": 3,
+              "height_ft": 5,
+              "count": 2,
+              "egress": true
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperhall",
+              "width_ft": 3
+            },
+            {
+              "to": "primarybath",
+              "width_ft": 2.7
+            },
+            {
+              "to": "wic",
+              "width_ft": 2.5
+            },
+            {
+              "to": "primarycl",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "primarybath",
+          "type": "primary-bathroom",
+          "name": "Primary Bath",
+          "width_ft": 9,
+          "length_ft": 13,
+          "ceiling_ft": 8,
+          "fixtures": [
+            "wc",
+            "lavatory",
+            "tub",
+            "shower"
+          ],
+          "exterior_walls": [
+            "W"
+          ],
+          "windows": [
+            {
+              "wall": "W",
+              "width_ft": 2,
+              "height_ft": 3,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "primary",
+              "width_ft": 2.7
+            }
+          ]
+        },
+        {
+          "id": "wic",
+          "type": "walk-in-closet",
+          "name": "Walk-In Closet",
+          "width_ft": 6,
+          "length_ft": 9,
+          "ceiling_ft": 8,
+          "doors": [
+            {
+              "to": "primary",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "bed2",
+          "type": "bedroom",
+          "name": "Bedroom 2",
+          "width_ft": 9.5,
+          "length_ft": 11,
+          "ceiling_ft": 8,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 3,
+              "height_ft": 4,
+              "count": 1,
+              "egress": true
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperhall",
+              "width_ft": 2.7
+            },
+            {
+              "to": "bed2cl",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "bed3",
+          "type": "bedroom",
+          "name": "Bedroom 3",
+          "width_ft": 9.5,
+          "length_ft": 11,
+          "ceiling_ft": 8,
+          "window_head_ft": 6.8,
+          "exterior_walls": [
+            "N"
+          ],
+          "windows": [
+            {
+              "wall": "N",
+              "width_ft": 3,
+              "height_ft": 4,
+              "count": 1
+            }
+          ],
+          "doors": [
+            {
+              "to": "upperhall",
+              "width_ft": 2.7
+            },
+            {
+              "to": "bed3cl",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "hallbath",
+          "type": "bathroom",
+          "name": "Hall Bath",
+          "width_ft": 5,
+          "length_ft": 9,
+          "ceiling_ft": 8,
+          "fixtures": [
+            "wc",
+            "lavatory",
+            "tub"
+          ],
+          "stacks_over": "laundry",
+          "doors": [
+            {
+              "to": "upperhall",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "upperstair",
+          "type": "landing",
+          "name": "Upper Landing",
+          "width_ft": 6,
+          "length_ft": 6,
+          "ceiling_ft": 8,
+          "doors": [
+            {
+              "to": "upperhall",
+              "width_ft": 4,
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "id": "bed2cl",
+          "type": "closet",
+          "name": "Bedroom 2 Closet",
+          "width_ft": 2,
+          "length_ft": 6,
+          "ceiling_ft": 8,
+          "doors": [
+            {
+              "to": "bed2",
+              "width_ft": 2.5
+            }
+          ]
+        },
+        {
+          "id": "bed3cl",
+          "type": "closet",
+          "name": "Bedroom 3 Closet",
+          "width_ft": 2,
+          "length_ft": 6,
+          "ceiling_ft": 8,
+          "doors": [
+            {
+              "to": "bed3",
+              "width_ft": 2.5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "primary",
+      "b": "garage",
+      "relation": "above"
+    },
+    {
+      "a": "powder",
+      "b": "dining",
+      "relation": "visible-from"
+    },
+    {
+      "a": "stair",
+      "b": "upperstair",
+      "relation": "below"
+    },
+    {
+      "a": "upperstair",
+      "b": "stair",
+      "relation": "above"
+    }
+  ],
+  "declared": {
+    "roof_form": "side-gable",
+    "shutter": "half-width-fixed",
+    "primary_cladding": "vinyl-lap"
+  },
+  "measurements": {
+    "shutter_leaf_width_in": 12,
+    "window_opening_width_in": 36
+  }
+}

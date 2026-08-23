@@ -1,0 +1,118 @@
+{
+  "id": "gallery-and-cabinet-range",
+  "name": "Gallery and Cabinet Range",
+  "aka": [
+    "Creole core",
+    "cabinet-loggia range"
+  ],
+  "scale": "core",
+  "confidence": "high",
+  "description": "The Franco-Caribbean answer to a hot wet climate: four square rooms opening directly onto a full-width front gallery, with small cabinets flanking a rear loggia. There are no corridors, because the gallery is the corridor. It is the clearest demonstration in the catalogue that Anglo adjacency rules are regional rather than universal.",
+  "rooms": [
+    {
+      "room": "loggia",
+      "role": "primary",
+      "count": "1-2",
+      "note": "Front gallery and rear loggia; the front is public and the rear is family."
+    },
+    {
+      "room": "parlor",
+      "role": "primary",
+      "count": "2"
+    },
+    {
+      "room": "bedchamber",
+      "role": "primary",
+      "count": "2"
+    },
+    {
+      "room": "closet",
+      "role": "servant",
+      "count": "2",
+      "note": "The cabinets: small rooms flanking the rear loggia, used for storage, stair or a spare bed."
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "No interior corridor. Every room opens to the gallery and to its neighbour, and adding a hall destroys the ventilation the plan exists for.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Four openings across the front, no centred door. The symmetry is even-numbered, which reads wrong to an Anglo eye and is exactly correct.",
+      "kind": "sequence",
+      "severity": "hard"
+    },
+    {
+      "statement": "The gallery is structural to the type, under the main roof or a continuous broken pitch, never applied to a finished wall.",
+      "kind": "adjacency",
+      "severity": "hard"
+    },
+    {
+      "statement": "Gallery depth not less than 8 ft, and the roof over it breaks pitch consistently all around where it breaks at all.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "gallery_depth_ft at-least 8"
+    },
+    {
+      "statement": "Openings align front to back so air crosses the full depth. A blocked enfilade of openings removes the reason the section is shaped this way.",
+      "kind": "daylight",
+      "severity": "hard"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "creole-cottage",
+      "fit": "canonical",
+      "position": "the whole type"
+    },
+    {
+      "massing": "raised-cottage",
+      "fit": "canonical",
+      "position": "the principal floor above the base"
+    },
+    {
+      "massing": "gallery-house",
+      "fit": "canonical"
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "fit": "forbidden",
+      "note": "The passage is precisely what this type does without."
+    }
+  ],
+  "expansion_logic": "The rear cabinet-loggia range fills in; the house grows backward and never forward past the gallery line.",
+  "privacy_span": [
+    1,
+    4
+  ],
+  "typical_area_sf": [
+    900,
+    2200
+  ],
+  "servicing_strategy": "Detached kitchen; the loggia carries the service route and the cabinets take the stair.",
+  "circulation_parti": [
+    "none-direct-entry",
+    "gallery",
+    "enfilade"
+  ],
+  "style_variation": [
+    {
+      "style": "creole-cottage-vernacular",
+      "note": "The type itself."
+    },
+    {
+      "style": "french-colonial-american",
+      "note": "The parent, with the same logic at larger scale."
+    },
+    {
+      "style": "raised-creole-plantation",
+      "note": "The same range lifted a full storey on masonry, with an exterior ceremonial stair."
+    }
+  ],
+  "sources": [
+    "Edwards, The Complex Origins of the American Domestic Piazza-Veranda-Gallery",
+    "Vlach, The Shotgun House: An African Architectural Legacy",
+    "Upton and Vlach, Common Places"
+  ]
+}

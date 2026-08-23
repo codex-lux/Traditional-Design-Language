@@ -1,0 +1,162 @@
+{
+  "id": "recessed-can-in-a-plaster-ceiling",
+  "name": "Eleven Holes In A Ceiling That Had None",
+  "aka": [
+    "the can grid",
+    "downlights in a period room",
+    "the ceiling as a lighting plane"
+  ],
+  "slots": [
+    "light_fixture_family",
+    "crown",
+    "ceiling_height_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A period-detailed room whose ceiling carries a grid of six to fourteen recessed downlights on a 3 to 4 ft module, usually set out from the room's centre lines and often colliding with the cornice at the perimeter. The ceiling, which in the period assembly is a single unbroken plane and one of the two largest surfaces in the room, has become a piece of equipment. The light falls straight down onto the floor and the tops of things; the walls, which carry the trim, the pictures and the dado, are lit only by bounce, so the room's own architecture is the least illuminated part of it.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The lighting layout is produced by an electrician from a reflected ceiling plan or from nothing, at rough-in, before the trim exists and often before the room's use is settled. A recessed can is the cheapest fixture to install because it needs no box, no blocking, no fixture selection and no coordination with a wall finish, and it is specified in a quantity per square foot rather than in relation to anything. Building codes and energy codes push the same way through the lighting-power allowance, which is easiest to satisfy with a uniform grid of efficient sources. And the client-facing argument is real: a room with a can grid is never dark, which is the failure mode people notice.",
+    "cost_saved": "A recessed LED downlight is 60 to 120 USD installed. Wall sconces are 200 to 500 USD each installed and require blocking, a coordinated height and a wall that has not been closed. On a room with ten cans against four sconces and a central fixture, the can grid saves 600 to 1,800 USD and, more importantly, saves the coordination."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / light_fixture_family, binding: open",
+      "statement": "Left open in the kit, and the reason is stated: what the historical style has is well known and thin — candle sconces on the panelling, a hanging candle lantern in the passage, a chandelier in the very best rooms — plus the fact that most eighteenth-century lighting was PORTABLE and therefore not architecture at all."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / crown and trim_family.height",
+      "statement": "The cornice occupies the top 6 3/4 to 21 in of the wall and projects onto the ceiling by its own height. A downlight within about 30 in of the wall throws a scallop of light onto the cornice from above and puts its own shadow across the corona, which is the one member of the room designed to be read in reflected light from below."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a period room is lit from the walls and from portable sources, and its surfaces were designed for that light",
+      "statement": "Candle and oil light is low, warm, near the wall and at or below eye level. Every moulding profile in a classical interior was cut to be read in raking light from that direction, which is why the members are undercut and why the shadows run downward. Overhead downlight lights the top of each member and leaves its undercut dark, which flattens exactly the profiles the room was built to show — the fixture does not merely look wrong, it deletes the trim."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the ceiling is a surface, not a soffit",
+      "statement": "In a plaster interior the ceiling is one continuous unbroken plane, and its unbrokenness is what makes the cornice read as an edge. Punching it turns a surface into a fixture panel, and the effect is worse the better the cornice is."
+    }
+  ],
+  "correct_practice": "Light the walls and the table, not the floor. The period arrangement is a hierarchy: a central pendant, chandelier or lantern as the room's declared light and its ceiling ornament, wall sconces at 60 to 66 in flanking the chimney breast and the pier between windows, and portable lamps doing most of the actual work. That arrangement is not merely correct, it is better light — the eye reads a room by its vertical surfaces, and a room whose walls are lit feels larger and brighter at a fraction of the installed wattage of a can grid. Where recessed fittings are genuinely needed, three rules keep them out of the architecture. FIRST, KEEP THEM OFF THE PERIMETER: no recessed fitting within 30 in of a wall in a room with a cornice, because that is where the scallop and the cornice shadow occur. SECOND, MINIMISE THE APERTURE: a 2 in or 3 in trimless or plaster-in fitting flush with the ceiling is nearly invisible at 9 ft, where a 6 in fitting with a white baffle is a legible object; the difference in cost is 60 to 150 USD a fitting and it is the best money in the room. THIRD, LIGHT THINGS RATHER THAN AREAS: three adjustable fittings aimed at the chimney breast, a picture and a sideboard beat a grid of ten aimed at the floor, and use a third the energy. In a Craftsman interior the equivalent moves are different and equally clear: the light belongs at the picture rail, in the ceiling-mounted lantern, in the built-in colonnade and in the wall sconce, and the frieze above the rail is a reflector.",
+  "fixes": {
+    "right": "A central fixture, wall sconces at 60 to 66 in on the piers and flanking the fireplace, and no recessed fittings in the principal rooms.",
+    "cheap": "Halve the count and move them off the wall. A room planned for ten cans works better with four, pulled in to 36 in from the walls and put on a dimmer, plus two sconces and a central fixture — and the saving on six fittings pays for the sconces. Where the ceiling is already holed, changing the trims from 6 in white baffles to 3 in flush aperture trims costs 40 to 90 USD a fitting and removes most of the visual noise without touching the plaster. And DIM THEM: a can grid at 30 per cent output with lamps and sconces carrying the room is a different room from the same grid at full.",
+    "dishonest": "Cove lighting hidden behind the cornice as a substitute, which uplights the ceiling and turns the room's most reflective surface into the brightest object in it — the inverse of every lighting arrangement the room was designed for. Also dishonest: a can grid plus a decorative central 'chandelier' that is not switched to carry the room, so the fixture is ornament and the cans are the light. If the chandelier is not doing work it is a hat."
+  },
+  "detection": "Count the ceiling apertures in a photograph and measure the nearest one's distance from the wall against the ceiling height. A period room has zero to one ceiling penetrations; four or more on a regular grid is the fault. Second, look at the CORNICE in the same image: if the corona's underside is dark while its top is lit, the room is lit from above and the profile is being deleted. Third, measure the aperture diameter against the ceiling height: a 6 in aperture at 108 in is 0.056, which reads as an object; a 3 in at the same height is 0.028 and does not. Fourth, look at the WALLS in the photograph — a room lit from the ceiling shows a bright floor, bright horizontal surfaces and dark upper walls, which is a signature visible in any interior photograph taken with the lights on and no flash.",
+  "test": {
+    "expression": "nearest_downlight_to_wall_in",
+    "threshold": 30,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "In a room with a cornice, a recessed fitting closer than about 30 in to the wall throws a scallop onto the wall and casts the cornice's own shadow across its corona. Run the count test alongside: ceiling penetrations in a principal room should be zero to one in period work, and a regular grid of four or more is the fault whatever the spacing from the wall."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "mid-century-traditional",
+      "why": "The recessed downlight is period-correct here and the flush ceiling plane with concealed sources is part of the idiom, along with the cove, the luminous panel and the surface-mounted disc.",
+      "bounds": "The ceiling has no cornice to damage, and the fittings should be arranged as a composition rather than as a grid — often a line, a cluster over a specific object, or a perimeter wash. Even here a uniform grid is a builder's default rather than a designer's.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1980
+        ]
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "Same period and the same construction: low flat ceilings, no cornice, and recessed and surface fittings are what these houses were built with.",
+      "bounds": "No cornice present. Where a ranch has been given a classical crown in a remodelling, the crown is the intruder and the cans are not."
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "A stripped classical interior may use small flush apertures deliberately, treating the ceiling as a plane with points in it, and this can be done well.",
+      "bounds": "Trimless or plaster-in fittings of 2 to 3 in, arranged to light objects and walls rather than in a grid, kept 30 in or more off the perimeter, and always in addition to a declared central fixture and wall light rather than instead of them.",
+      "bounds_test": {
+        "expression": "downlight_aperture_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom's open plan has volumes too large for wall light alone, and its ceilings are usually plain or boarded with no cornice to damage.",
+      "bounds": "Kept out of the enclosed period-detailed rooms, and the open volume should still carry pendants over the island and the table doing the visible work. A can grid PLUS a full complement of decorative pendants is a lighting scheme with no hierarchy."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Plain plaster ceilings without cornices in many rooms, and the style's informality tolerates discreet modern lighting.",
+      "bounds": "Only in rooms with no cornice, and small apertures. The living hall and the principal rooms take sconces and a central fixture."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "one-colour-temperature-for-the-house",
+      "difference": "Position against colour. A correctly placed sconce with a 4000 K lamp and a badly placed downlight with a 2700 K lamp are different faults, and both are common in the same house."
+    },
+    {
+      "fault": "soffit-vent-through-cornice",
+      "difference": "The exterior relative: a service penetration driven through a classical member because the member was drawn after the service. The mechanism is identical and so is the fix — coordinate at rough-in or lose the member."
+    },
+    {
+      "fault": "crown-that-projects-half-its-height",
+      "difference": "A downlight grid will flatten even a correct cornice, so a room can pass the projection test and still read as though it had no cornice. Diagnose the lighting before concluding the profile is wrong."
+    }
+  ],
+  "co_occurs_with": [
+    "one-colour-temperature-for-the-house",
+    "crown-that-projects-half-its-height",
+    "stair-with-no-passage"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, light_fixture_family, binding open with reasons",
+    "proportions/systems/trim-classical.json, crown projection and cornice reading",
+    "IECC residential lighting power allowances",
+    "NPS Preservation Brief 18: Rehabilitating Interiors in Historic Buildings"
+  ],
+  "confidence": "high",
+  "tags": [
+    "lighting",
+    "ceiling",
+    "composition",
+    "trade-sequence"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The cornice, the panelled dado and the moulded architrave were all cut to be read in low warm light from near the wall, and overhead downlight deletes exactly the undercuts that make them legible."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "Federal profiles are the flattest of the three classical families and therefore the most dependent on raking light; they lose more to overhead lighting than the Georgian ones do."
+    },
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "The frieze above the picture rail is a reflector and the room's light belongs at the rail and in the built-ins. A can grid removes the frieze's whole reason for existing."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "not-applicable",
+      "why": "Period-correct: low flat ceilings, no cornice, and recessed and surface fittings from the start."
+    },
+    {
+      "style": "mid-century-traditional",
+      "severity": "minor",
+      "why": "Recessed fittings are of the period; only the uniform grid is a builder's default rather than a designer's."
+    }
+  ]
+}

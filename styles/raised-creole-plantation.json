@@ -1,0 +1,192 @@
+{
+  "id": "raised-creole-plantation",
+  "name": "Raised Creole Plantation House",
+  "aka": [
+    "raised Creole cottage",
+    "maison de maître",
+    "Louisiana raised cottage"
+  ],
+  "rank": "variant",
+  "member_of": "french-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1750,
+    "floruit_start": 1770,
+    "floruit_end": 1830,
+    "decline_end": 1860,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1925,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "Revived through the 1930s HABS campaigns in Louisiana and the restoration practice of Richard Koch; the 'Louisiana raised cottage' becomes a recognized suburban idiom in the Gulf South."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "the Mississippi River parishes above and below New Orleans",
+      "Pointe Coupee and the False River",
+      "Bayou Lafourche and Bayou Teche",
+      "Natchitoches and the Cane River",
+      "Mississippi Gulf Coast"
+    ],
+    "hearth": "the sugar and indigo river parishes of lower Louisiana, where annual flooding made a masonry ground storey a condition of building at all",
+    "climate_zones": [
+      "2A",
+      "3A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "norman-vernacular",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The double-pitched roof carried on hand-hewn Norman trusses, and the hipped envelope with no gable to catch wind, are the structural inheritance."
+    }
+  ],
+  "description": {
+    "short": "The Creole plan lifted a full storey onto a brick service floor and wrapped in a gallery eight to fourteen feet deep, with an exterior stair and a broad hipped roof that breaks pitch at the gallery.",
+    "long": "The raised Creole house is what the four-room Creole plan becomes when the client is wealthy, the site floods, and the household includes both a family and a large enslaved workforce whose labour has to be organized. Everything in it follows from lifting the living floor eight to twelve feet into the air. The ground storey becomes a thick-walled brick or stuccoed-brick service level — wine and provision storage, offices, work rooms — cool because it is massive and shaded, expendable because water will eventually get into it. The principal floor above sits above the flood, above the mosquitoes, and up in the moving air off the river, and it is reached not through the house but by an exterior stair rising to the gallery. There is no front door in the Anglo sense; there is a stair, a gallery, and a row of French doors.\n\nThe gallery is the building's real room. Eight to fourteen feet deep, running the full front and often all four sides, it is carried on square or round masonry piers at the ground storey and on slender turned or chamfered wooden colonnettes above. That change of material and slenderness at the gallery floor line is the type's most reliable single tell, and it is structurally honest: masonry where the load is greatest and where water will reach, light timber where neither applies. Between the columns the space is shaded all day, and it functions as circulation, as dining room, as sleeping porch, and as the household's connection to the plantation landscape.\n\nBehind it the plan is Creole and unmodified: rooms opening into one another through French doors, no corridor, a rear loggia recessed between projecting cabinets, chimneys internal, ceilings twelve to fourteen feet. Walls above the masonry storey are colombage with bousillage or briquette infill under weatherboard. The roof is broad, hipped, forty to fifty degrees over the body, breaking to twenty or thirty degrees over the gallery and framed on Norman trusses with dormers set into the main slope.\n\nWhat it is negotiating against, from 1803, is the Anglo-American plantation house, which will arrive with a central hall, a giant order of full-height columns, and a pedimented portico. That house is a temple; this one is a shed with an enormous porch, and it is a far better building for the climate. Standing on a raised gallery at Homeplace or Parlange in late afternoon, twelve feet up with the shade twelve feet deep and the river breeze coming through, one can see very clearly that the Greek Revival that displaced it was a cultural argument rather than an environmental one."
+  },
+  "defining_characteristics": [
+    "Principal floor raised 8–12 ft on a full masonry (brick or stuccoed brick) service storey",
+    "Gallery 8–14 ft deep on at least the principal elevation, commonly encircling, reached by an exterior stair",
+    "Columns changing material at the gallery floor: masonry piers below, slender turned or chamfered wooden colonnettes above",
+    "Broad hipped roof, 40–50 degrees over the body, breaking to 20–30 degrees over the gallery, framed on Norman trusses with dormers set in the main slope",
+    "No interior corridor: rooms open into one another and onto the gallery through full-height French casement doors",
+    "Rear loggia recessed between projecting cabinets, one containing the stair to the garret",
+    "Upper walls of colombage with bousillage or briquette-entre-poteaux infill; ceilings 12–14 ft"
+  ],
+  "diagnostic_tells": [
+    "The column change at the gallery floor line — heavy masonry below, thin wood above — visible from any angle",
+    "An exterior stair as the only way to the principal floor",
+    "A visible pitch break in the roof where the gallery begins",
+    "Dormers set into the main roof slope rather than above the gallery",
+    "Openings are doors, not windows, all the way round"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-southern-plantation",
+      "difference": "The Anglo house that supersedes it has a giant order of full-height columns of a single material carrying an entablature and often a pediment, a central hall running through the house, and a low roof with no pitch break. The Creole house changes column material at the gallery floor, has no hall, no pediment and a strong pitch break."
+    },
+    {
+      "node": "creole-cottage-vernacular",
+      "difference": "Identical plan logic; the raised house lifts it onto a masonry service storey and adds an exterior stair, deeper galleries and taller ceilings. The cottage sits at or near grade on low piers."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Twentieth-century 'Louisiana raised cottages' keep the gallery and the raised floor but insert a central hall, substitute double-hung sash for French doors, use uniform columns top to bottom, and rarely break the roof pitch. The absence of a corridor is the honest test."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The gallery depth and the service-storey height are the governing dimensions; the room block is whatever fits behind and beneath them.",
+    "typical_ratios": [
+      "Body 40–60 ft wide × 30–44 ft deep; with galleries, overall 60–80 ft wide",
+      "Principal floor 8–12 ft above grade; service storey ceiling 8–10 ft",
+      "Gallery depth 8–14 ft, typically 25–35% of the total building depth",
+      "Principal-floor ceiling 12–14 ft",
+      "Colonnette diameter 6–9 in; masonry pier 16–24 in square — a slenderness change of roughly 1:2.5",
+      "Body roof 40–50 degrees; gallery roof 20–30 degrees"
+    ],
+    "bay_rhythm": "Five to nine equal bays of French doors across the gallery, columns evenly spaced at 8–11 ft on centre, with no centre bay emphasis and no pediment.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "raised-cottage",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "canonical",
+      "note": "Where the gallery encircles all four sides."
+    },
+    {
+      "massing": "creole-cottage",
+      "affinity": "possible",
+      "note": "The unraised parent plan."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "atypical",
+      "note": "Service wings occasionally extend to the rear, but the type resists the ell."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "severity": "hard",
+      "statement": "Principal floor not less than 8 ft above grade on a full masonry service storey (absolute minimum 6 ft), reached by an exterior stair. A raised cottage on wooden piers with an enclosed underfloor is a different and lesser building."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Gallery depth 8–14 ft on the principal elevation. Below 8 ft the gallery stops shading the wall and stops functioning as a room."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Column material and slenderness must change at the gallery floor line: masonry pier 16–24 in square below, wooden colonnette 6–9 in above. A single continuous order top to bottom converts the building into a Greek Revival plantation house."
+    },
+    {
+      "kind": "climatic",
+      "severity": "hard",
+      "statement": "No interior corridor on the principal floor; every principal room opens onto the gallery through French casement doors, and every room has openings on two walls."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Roof pitch break required at the gallery: 40–50 degrees over the body, 20–30 degrees over the gallery. Dormers, where used, sit in the main slope with their faces set back behind the gallery line."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Homeplace Plantation House (Keller Homeplace)",
+      "location": "Hahnville, St. Charles Parish, Louisiana",
+      "year": 1791,
+      "note": "Built 1787–91. Stuccoed brick ground storey, cypress above, encircling gallery under a two-storey hip roof; designated a National Historic Landmark in 1970 as one of the finest French colonial raised cottages in the country."
+    },
+    {
+      "name": "Parlange Plantation House",
+      "location": "Pointe Coupee Parish, Louisiana",
+      "year": 1750,
+      "note": "Traditionally dated c. 1750; some fabric analysis argues for c. 1830–40, and the date should be treated as contested. Brick raised basement, bousillage of mud, moss and animal hair above, encircling gallery, octagonal pigeonniers."
+    },
+    {
+      "name": "Madame John's Legacy",
+      "location": "632 Dumaine Street, New Orleans, Louisiana",
+      "year": 1789,
+      "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on a site occupied since c. 1730; six-bay gallery on shaped colonnettes, brick basement, double-pitched roof over Norman trusses with two dormers."
+    },
+    {
+      "name": "Destrehan Plantation",
+      "location": "Destrehan, St. Charles Parish, Louisiana",
+      "year": 1790,
+      "note": "Built 1787–90 as a raised Creole house and given Greek Revival columns in an 1840 remodelling — the two traditions visible in one building, and a useful case for teaching the distinction."
+    }
+  ],
+  "sources": [
+    "Jay D. Edwards, 'The Origins of Creole Architecture', Winterthur Portfolio 29 (1994)",
+    "Jay D. Edwards and Nicolas Kariouk Pecquet du Bellay de Verton, A Creole Lexicon: Architecture, Landscape, People (2004)",
+    "Jessie Poesch and Barbara SoRelle Bacot, eds., Louisiana Buildings, 1720–1940 (1997)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "raised",
+    "galerie",
+    "colonnette",
+    "no-corridor",
+    "flood-adapted"
+  ]
+}

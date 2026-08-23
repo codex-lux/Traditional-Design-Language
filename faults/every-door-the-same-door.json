@@ -1,0 +1,197 @@
+{
+  "id": "every-door-the-same-door",
+  "name": "One Door For The Whole House",
+  "aka": [
+    "no door hierarchy",
+    "the service door that thinks it is the front door"
+  ],
+  "slots": [
+    "secondary_door",
+    "entry_door",
+    "interior_door"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "The rear door, the side door, the door from the garage into the house and the front door are the same leaf, the same height, the same panel arrangement and the same hardware. In the worse variant the rear and side doors are given sidelights and a surround of their own, so a house has three entrances of equal rank and no principal one. In the opposite variant the front door is a flush steel slab identical to the service doors.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Door schedules are consolidated for purchasing. One leaf size across a project means one order, one hardware set, one keying, one rough opening, and fewer errors. Fire separation between a garage and a dwelling requires a rated or solid-core leaf at that opening under IRC R302.5.1, and the cheapest compliant leaf is the same moulded unit used at the front, so the two converge on one product.",
+    "cost_saved": "5 to 12 per cent on the door package through consolidation, plus real reductions in hardware and error costs."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / secondary_door.height",
+      "statement": "secondary door height = module * 2 * 0.94: service and secondary doors run about six per cent shorter than the principal one."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a plan has a gradient from public to private, and the doors are where it is declared",
+      "statement": "The entrance sequence works because each threshold is ranked. When every door is equal the house tells a visitor nothing about where they are permitted to be, and the front door loses its meaning by being ordinary."
+    }
+  ],
+  "correct_practice": "Grade the doors. The principal entrance is the tallest, the thickest, the most panelled and the only one with a surround. Secondary and service doors run about 6 per cent shorter — 6 ft 3 in against 6 ft 8 in — with a simpler panel arrangement, plainer hardware and a plain casing with a drip cap and no entablature. Rear and garden doors serving principal rooms may be glazed and generous but remain subordinate in ornament. The door from the garage to the house is a service door and takes the service treatment, whatever its fire rating. Hardware follows the same gradient: a knocker, a substantial lockset and a boot scraper at the front, a plain latch and no ornament behind.",
+  "fixes": {
+    "right": "Three door specifications instead of one: principal, secondary and service, differing in height, panel count and hardware.",
+    "cheap": "Keep one leaf for everything except the front, and spend the whole saved difference on making the front door different. A single upgraded principal leaf plus a proper surround, against a house of identical stock doors, costs perhaps 1,500 USD net and restores the entire hierarchy. Also free: strip the sidelights and surrounds from the secondary doors, which saves money and improves the composition simultaneously.",
+    "dishonest": "Distinguishing the front door by colour alone while every dimension stays identical. It reads at a glance and fails on approach, and it means the hierarchy vanishes in a photograph taken in low light or in monochrome."
+  },
+  "detection": "Compare leaf heights across the elevations in photographs: the front door should be about 6 per cent taller than the rear and side doors. Compare panel counts and hardware. Then look for surrounds on more than one door of the same house — a house with two entablatured entrances has no principal one. On the street elevation specifically, check whether the garage-side service door has been given the same treatment as the front, which is the most common instance.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Two identical full-height French casement doors on the front, one to each front room, with no principal entrance, is the type's defining arrangement.",
+      "bounds": "Both identical, both full-height, no interior corridor, and the type must have the four-room square plan that produces them.",
+      "bounds_test": {
+        "expression": "front_door_width_variance_in",
+        "threshold": 2.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Both identical, both full-height, no interior corridor, and the type must have the four-room square plan that produces them."
+      },
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ]
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "Every principal room opens onto the gallery through identical French casement doors; the openings are doors all the way round.",
+      "bounds": "Full-height casements, no interior corridor, gallery on the principal elevations.",
+      "bounds_test": {
+        "expression": "ceiling_height_in",
+        "threshold": 144,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Ceilings 12 to 14 ft, every principal room opening onto the gallery through full-height French casement doors, no interior corridor."
+      },
+      "applies_when": {
+        "regions": [
+          "lower-mississippi",
+          "gulf-coast"
+        ]
+      }
+    },
+    {
+      "style": "dogtrot-vernacular",
+      "why": "The two pens face each other across an open passage through identical doors, and the passage rather than any door is the entrance.",
+      "bounds": "Two pens, open central passage, doors facing into it.",
+      "bounds_test": {
+        "expression": "open_central_passage_width_ft",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Two pens with an open passage between them. Where the passage has been enclosed the type has changed and the door gradient returns."
+      },
+      "applies_when": {
+        "regions": [
+          "upland-south",
+          "appalachia"
+        ],
+        "note": "Depends on the two-pen plan with an open breezeway, not on the style label."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The false street door and the true piazza door are deliberately of comparable rank, and the false one is the more visible.",
+      "bounds": "The street door opens onto the piazza, not into the house; the true entrance is at least one bay back.",
+      "bounds_test": {
+        "expression": "false_street_doors",
+        "threshold": 1,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The street door opens onto the piazza, not into the house, and the true entrance is at least one bay back."
+      },
+      "applies_when": {
+        "regions": [
+          "south-carolina-lowcountry"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "six-panel-door-everywhere",
+      "difference": "That fault is one pattern used across styles. This one is one door used across ranks within a single house."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That is a whole-elevation hierarchy fault. This one is confined to the doors and can be present on a house whose entrance otherwise dominates correctly."
+    }
+  ],
+  "sources": [
+    "proportions/systems/opening-proportion.json",
+    "IRC R302.5.1, dwelling-garage opening protection",
+    "Measured service and principal door heights, HABS documentation"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "door",
+    "hierarchy",
+    "secondary",
+    "gradient"
+  ],
+  "test": {
+    "expression": "principal_door_height_in / secondary_door_height_in",
+    "threshold": 1.04,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "elevation",
+    "note": "The pack gives secondary door height = module x 2 x 0.94: service and secondary doors run about six per cent shorter, so the correct ratio is 1.064 and 1.04 is the floor. HONEST LIMIT: needs more than one elevation, so it is not evaluable from a single street photograph."
+  },
+  "secondary_tests": [
+    {
+      "expression": "entablatured_entrances_per_house",
+      "threshold": 1,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "elevation",
+      "note": "A house with two entablatured entrances has no principal one. This is the version that shows on the street elevation, because the commonest instance is a garage-side service door given the same surround as the front."
+    },
+    {
+      "expression": "distinct_door_specifications_per_house",
+      "threshold": 3,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "plan",
+      "note": "Principal, secondary and service, differing in height, panel count and hardware. One specification across the schedule is the fault stated as a count, and it is the form a door schedule can be audited against directly."
+    }
+  ],
+  "severity_in_use": "minor",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The plan has a strong public-to-private gradient and the doors are where it is declared."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "not-applicable",
+      "why": "The false street door and the true piazza door are deliberately of comparable rank, and the false one is the more visible."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "severity": "not-applicable",
+      "why": "Two identical full-height French casement doors, one to each front room, with no principal entrance, is the type's defining arrangement."
+    },
+    {
+      "style": "dogtrot-vernacular",
+      "severity": "not-applicable",
+      "why": "The two pens face each other across an open passage through identical doors, and the passage rather than any door is the entrance."
+    }
+  ],
+  "co_occurs_with": [
+    "six-panel-door-everywhere",
+    "entry-not-the-most-elaborated-element"
+  ]
+}

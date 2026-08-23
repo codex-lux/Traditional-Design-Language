@@ -1,0 +1,179 @@
+{
+  "id": "shallow-relief-on-a-bold-order",
+  "name": "Relief Too Shallow For Its Period",
+  "aka": [
+    "pressed ornament",
+    "the applied appliqué",
+    "Adamesque depth on Georgian work"
+  ],
+  "slots": [
+    "ornament_vocabulary",
+    "entablature",
+    "modillion_dentil",
+    "door_surround"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "Ornament of the correct motif and the correct period, executed at a depth that belongs to a different one. A Georgian modillion with a scroll 3/8 in deep instead of 2 in; an egg-and-dart whose eggs are hemispheres of 1/8 in instead of half-round at 1/2 in; an acanthus leaf whose lobes have no undercut, so the leaf reads as a pattern printed on a flat surface. From ten feet the ornament is present and correct. From forty it is a grey smudge, and the cornice or the surround it sits on reads as plainer than an entirely unornamented one would, because the shallow ornament has broken up the surface without replacing it with anything.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Cast polyurethane, composition, PVC and glass-fibre ornament all share a manufacturing constraint: the part must release from a mould. Undercuts require a split mould, a flexible mould or hand-finishing, each of which multiplies cost, so catalogue ornament is designed with draft angles and without undercuts. A carved acanthus leaf is deeply undercut — the lobes stand clear of the ground and you can get a fingernail behind them — and that undercut is the entire source of the shadow. The mould cannot produce it, so the manufacturer produces the outline and reduces the depth, on the reasonable assumption that the customer is buying the shape.",
+    "cost_saved": "Cast polyurethane ornament runs 15-40 per cent of the price of carved wood or cast plaster. A carved modillion is 60-180 USD; a moulded one is 12-35 USD. On a cornice with sixty modillions, 3,000-9,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / ornament_vocabulary / relief",
+      "statement": "Bold and deep, cut rather than applied; the relief is what separates Georgian from Federal more reliably than the motif does."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / ornament_vocabulary / concentration",
+      "statement": "The entrance, the chimney breast of the best room, and the stair; almost nothing elsewhere. Relief and concentration are the two rules, and cheap ornament tends to fail both — shallow, and everywhere."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-ionic / cornice member projections in parts",
+      "statement": "Every member in the pack carries a stated projection as well as a height, and the projections are large: the Ionic cornice's cymatium projects nearly seven inches on a 5 in module. Relief is dimensioned, not implied."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "ornament is a shadow-generating device and its depth is its content",
+      "statement": "At any distance beyond about twenty feet the eye stops resolving the outline of a small ornament and reads only the pattern of light and dark it produces. That pattern requires undercut: a form that is merely raised produces a gradient, and a gradient at distance is a grey tone. This is why an unornamented but boldly moulded cornice outperforms a shallowly ornamented one."
+    }
+  ],
+  "correct_practice": "Specify ornament by projection as well as by motif, and match the projection to the period. Georgian and Baroque ornament is cut, deeply undercut, and projects 0.15 to 0.35 of its own width — an egg-and-dart on a 2 in ovolo has eggs standing 1/2 to 3/4 in proud with the darts cut back behind them; a modillion is a full scroll of 2 to 4 in projection with a panelled soffit behind it. Federal and Adamesque ornament is deliberately shallow at 0.03 to 0.10, but it is shallow ON A SMOOTH GROUND, crisply edged, with a hard arris at every boundary, and it is composition or carved plaster rather than a moulded blob — its shallowness is a precision, not a softness. Greek Revival ornament is bold in outline and shallow in section, and its anthemia and honeysuckles are drawn with hard flat planes and sharp arrises. The one thing no period does is soft shallow relief with rounded edges, which is the signature of a mould with draft on it.",
+  "fixes": {
+    "right": "Carved wood, cast plaster or composition for the ornament, at the period's own relief, concentrated at the entrance and the principal interior.",
+    "cheap": "Concentrate and delete. Take the whole ornament budget and spend it on ONE element — the door surround — at full depth, and leave the cornice, the frieze and the window heads entirely plain. This is not a compromise; it is the period rule, since Georgian ornament is concentrated at the entrance and the chimney breast and appears almost nowhere else. A plain cornice above a properly carved entrance is correct; a shallowly ornamented cornice above a shallowly ornamented entrance is wrong twice for the same money.",
+    "dishonest": "Painting or glazing the shallow ornament with a darker colour in its recesses to fake the shadow. It works in a photograph taken from one position and fails from every other, and it fails completely on an overcast day, when a real ornament still reads because its shadows are self-generated. Equally dishonest: choosing a LARGER shallow ornament so the shape is visible at distance, which produces an oversized motif at the wrong scale for its member."
+  },
+  "detection": "The distance test is the same one that works for muntins and dentils, and it is definitive: view or photograph the elevation from the far kerb, about forty feet. Correct ornament still reads as pattern; shallow ornament has become a uniform grey band. In a close photograph, two measurements. (1) Projection against width: measure how far the ornament stands off its ground and divide by the width of one repeat. Georgian work gives 0.15 to 0.35; catalogue ornament gives 0.03 to 0.08. (2) Undercut: look at the ornament's edge in raking light. A carved or cast-plaster element has a hard shadow at its boundary and often a dark line beneath it where it stands clear of the ground; a moulded one has a soft gradient because the mould needed draft. Third check, which is fast: look for a DRAFT ANGLE. Every moulded ornament's sides slope inward toward its face by 2 to 5 degrees, visible as a tapering highlight along each edge. Nothing carved has this.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "ornament_projection / ornament_repeat_width",
+    "threshold": 0.12,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Georgian, Baroque and Victorian ornament runs 0.15 to 0.35; the threshold of 0.12 is deliberately permissive. Federal and Adamesque work legitimately runs 0.03 to 0.10 and is covered in exceptions, but only where the relief is crisp-edged on a smooth ground — the discriminator between correct Adamesque shallowness and a moulded blob is the presence of a hard arris, not the depth."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit says outright that relief is what separates Georgian from Federal more reliably than motif does. Shallow relief on a Georgian is not a diminished Georgian; it is a Federal reading with Georgian motifs."
+    },
+    {
+      "style": "english-baroque",
+      "severity": "fatal",
+      "why": "Baroque architecture is an argument about depth."
+    },
+    {
+      "style": "italian-baroque",
+      "severity": "fatal",
+      "why": "Same."
+    },
+    {
+      "style": "second-empire",
+      "severity": "serious",
+      "why": "The mansard cornice's heavy brackets and modillions depend entirely on projection."
+    },
+    {
+      "style": "federal-style",
+      "severity": "minor",
+      "why": "Shallow relief is correct here; the fault reduces to whether the edges are crisp."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "Greek Revival ornament is bold in outline and genuinely shallow in section, and its arrises carry it."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "federal-style",
+      "why": "Adamesque low relief is deliberate and definitional: the ornament is a thin crisp layer on a smooth ground, executed in composition or carved plaster at 1/8 to 3/8 in, and its delicacy is the whole aesthetic position. Deepening it makes it Georgian.",
+      "bounds": "Shallow AND crisp. Every boundary must be a hard arris with a shadow line at it, and the ground must be smooth and flat. A soft-edged moulded blob at the same depth is this fault, not this exception, and the test is the edge rather than the depth.",
+      "bounds_test": {
+        "expression": "ornament_projection / ornament_repeat_width",
+        "threshold": 0.03,
+        "upper": 0.12,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1785,
+          1830
+        ]
+      }
+    },
+    {
+      "style": "adam-style",
+      "why": "The source of the shallow manner.",
+      "bounds": "As above: shallowness with hard arrises, on a smooth ground, in composition or plaster."
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival flattens deliberately: the anthemion, the honeysuckle and the Greek fret are drawn with broad flat planes and sharp arrises, and their power is in outline and edge rather than in modelling. Benjamin's plates show them incised or in low flat relief.",
+      "bounds": "The outline must be BOLD and the arris HARD. Greek Revival buys back in scale and in edge definition what it gives up in depth: the motifs are larger, simpler and more sharply cut than Georgian ones.",
+      "applies_when": {
+        "date_range": [
+          1820,
+          1870
+        ]
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Plastered ornament is intrinsically soft-edged and shallow — a cast or hand-modelled plaster cartouche has rounded arrises because plaster over lath cannot hold a sharp edge, and the softness is the material speaking.",
+      "bounds": "The ornament must be genuinely plaster, applied wet, with the softness distributed over the whole elevation. A polyurethane cartouche on a stucco wall has the softness without the material and is the fault.",
+      "applies_when": {
+        "construction": [
+          "stucco",
+          "plaster"
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "router-scale-ornament",
+    "dentil-strip-by-the-foot",
+    "swag-and-urn-before-its-date",
+    "cornice-with-no-architrave-or-frieze"
+  ],
+  "confused_with": [
+    {
+      "fault": "swag-and-urn-before-its-date",
+      "difference": "Motif versus depth. That fault is a Federal motif on a Georgian house; this is Federal DEPTH on a Georgian house, which the kit says is the more reliable discriminator of the two. A house can have entirely correct Georgian motifs executed at Adamesque relief, and it will read as Federal."
+    },
+    {
+      "fault": "router-scale-ornament",
+      "difference": "That is about ornament whose SCALE and cutting method betray a router or a CNC — a motif the same size everywhere, with a constant bit radius at every internal corner. This is about depth alone, and a hand-carved ornament can be too shallow while a router-cut one can be adequately deep."
+    },
+    {
+      "fault": "flat-grille-no-shadow-line",
+      "difference": "The same mechanism at the sash: correct outline, insufficient relief, passes at four feet and fails at forty. These two and the dentil strip are the three clearest members of the profile-depth family."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, ornament_vocabulary.relief and .concentration",
+    "proportions/orders/vignola-ionic.json — member projections stated in parts alongside heights",
+    "NPS Preservation Brief 23, Preserving Historic Ornamental Plaster",
+    "Decorators Supply and Fypon catalogue literature — mould draft and the absence of undercut in cast polymer ornament"
+  ],
+  "confidence": "high",
+  "tags": [
+    "ornament",
+    "profile-depth",
+    "relief",
+    "distance",
+    "mechanism",
+    "material-substitution"
+  ]
+}

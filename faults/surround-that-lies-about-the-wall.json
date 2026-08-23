@@ -1,0 +1,249 @@
+{
+  "id": "surround-that-lies-about-the-wall",
+  "name": "A Surround That Describes A Wall That Is Not There",
+  "aka": [
+    "quoined surround on a frame wall",
+    "the flush window in a mass wall",
+    "reveal collapse at the opening"
+  ],
+  "slots": [
+    "window_surround_masonry",
+    "window_surround_wood",
+    "window_type"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "Two opposite versions of one error. Either a heavy masonry surround — quoined jambs, moulded architrave, keystone — is applied to a wall that has no thickness to justify it, most often a thin stucco or veneer skin over a frame, where the canonical treatment for the style is no surround at all. Or a wall that is meant to express mass has its windows set flush at the outer face, with a reveal of an inch or less, so the opening reads as a hole cut in paper.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Both versions come from the same substitution: the wall was not built the way the language assumes, and the opening is where the substitution becomes visible. A 2 in stucco skin over a frame cannot produce a 10 in reveal, so the window goes at the face where the flashing is easiest and the framing is shallowest. Conversely, a facade with no thickness at all is given catalogue surrounds to supply the gravity the wall lacks. Deep reveals also cost real money in a frame wall — furred jambs, sloped sills, additional flashing at every return.",
+    "cost_saved": "A flush window in a stucco skin saves 150 to 400 USD an opening against a returned or splayed reveal; on twenty openings, 3,000 to 8,000 USD. Applied surrounds are the cheaper way to buy apparent weight."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "andalusian-spanish-revival / window_surround_masonry",
+      "statement": "Window reveal depth not less than 8 in. A flush window in a stucco wall destroys the expression of mass on which the entire idiom depends, and is the single most common failure in contemporary versions."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "spanish-colonial-revival / window_surround_masonry",
+      "statement": "Minimum 6 in reveal, jambs returned or splayed in stucco with no applied wood casing. Flush windows in a thin stucco skin void the style."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "mediterranean-revival / window_surround_masonry",
+      "statement": "Minimum 6 in reveal, often 12 to 18 in, so every window sits in a visible shadow box; this single measurement separates a real example from a stucco-clad frame house at fifty feet."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / door_surround / no-surround",
+      "statement": "A door in a hole. The entrance is the one place a Georgian house always spends money, even the plainest."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "modern-farmhouse-traditional / window_surround_wood",
+      "statement": "Ornament essentially absent: no shutters, no keystones, no applied classical elements. The canonical surround is a flat board."
+    }
+  ],
+  "correct_practice": "Ask what the wall is, and let the opening report it truthfully. A mass or mass-expressing wall gets its shadow from depth: reveal 6 in minimum in Mediterranean and Spanish Colonial Revival, 8 in minimum in Andalusian, 10 in in Pueblo Revival, 12 to 24 in in Richardsonian Romanesque, 12 in in Beaux-Arts, achieved by returning or splaying the jamb in the wall material with no applied wood casing. A thin-skinned frame wall gets its shadow from applied trim, and that trim should be flat and broad rather than sculptural, because a moulded stone-derived profile in a nailed board is a lie the material will not carry. Styles whose canonical surround is none — Shingle Style, Prairie, Modern Farmhouse, Mission Revival, Pueblo Revival — get nothing, and a surround added to them is not an enrichment but a category error.",
+  "fixes": {
+    "right": "Build the reveal. In a frame wall pretending to mass, this means furring the exterior out 4 to 6 in with continuous exterior insulation, which the energy code increasingly wants anyway, and setting the window at the inner face. The insulation pays for the reveal.",
+    "cheap": "Set the window at the inner face of the framing rather than at the sheathing, and return the stucco or the head and jamb into the opening. In a 2x6 wall with sheathing and a stucco assembly this yields a 6 1/2 to 7 in reveal at no material cost whatever — the same window, the same wall, a different position within it. This is the highest-value zero-cost move available on a Mediterranean or Spanish elevation.",
+    "dishonest": "An applied foam surround with a stucco skin, sometimes moulded as a splayed reveal, glued to the face of the wall around a flush window. The shadow it casts is on the wrong side and at the wrong scale, and it becomes obvious the first time the sun is low, because a real reveal darkens the whole opening while an applied band darkens only itself."
+  },
+  "detection": "For the mass-wall case, find the shadow inside the opening. At midday a 6 in reveal puts the whole head and one jamb in hard shade and the window glass reads as a dark rectangle set back; a flush window reads as a bright rectangle in the same plane as the wall. Measure the shadow band at the head as a fraction of the opening width — under 0.03 means no reveal. For the applied-surround case, look at the return: an applied surround stops at the corner of the wall or dies into siding, and its ends are cut square; a real masonry surround turns the corner or terminates on a real quoin. Also check whether the surround's material appears anywhere else on the building; a single-purpose material used only around windows is a catalogue accessory.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "The style's canonical answer is no surround and near-zero casing, and adding one is the fault in the opposite direction.",
+      "bounds": "Casing 3 in maximum, projection 1 in maximum, no projecting hoods or moulded sills.",
+      "bounds_test": {
+        "expression": "window_casing_projection_in",
+        "threshold": 1.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Casing 3 in maximum, projection 1 in maximum."
+      },
+      "applies_when": {
+        "construction": [
+          "shingle-cladding"
+        ]
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Flat, broad, unmoulded surrounds on a frame wall are correct and are the style's method; the flatness is a positive statement about board construction rather than an imitation of stone.",
+      "bounds": "Broad and flat. The moment a Greek Revival surround acquires a keystone or a moulded architrave it has left the style.",
+      "bounds_test": {
+        "expression": "surround_projection_from_wall_face_in",
+        "threshold": 1.5,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Broad and flat. The moment a Greek Revival surround acquires a keystone or a moulded architrave it has left the style; the flatness is the licence and the depth is not."
+      },
+      "applies_when": {
+        "construction": [
+          "timber-frame",
+          "board-cladding"
+        ],
+        "note": "The flat surround is a statement about board construction; on a masonry Greek Revival the reveal rules return."
+      }
+    },
+    {
+      "style": "french-eclectic",
+      "why": "The style requires masonry or stucco walls to express thickness with a minimum 5 in reveal, quoins, water table or a returned surround, so a substantial surround is not applique but the wall reporting itself.",
+      "bounds": "The wall must actually be masonry or must carry the 5 in reveal. Flush-set windows in a thin veneer wall break the style by its own constraint.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 5.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The style's own minimum. Flush-set windows in a thin veneer wall break the style by its own constraint, so the exception is self-limiting."
+      },
+      "applies_when": {
+        "construction": [
+          "masonry",
+          "thick-stucco",
+          "load-bearing-masonry"
+        ],
+        "note": "Depends on the wall being masonry or stucco expressing thickness, not on the style label."
+      }
+    },
+    {
+      "style": "beaux-arts-american",
+      "why": "Elaborated stone surrounds with voussoirs, keystones and rustication are the style's proper vocabulary.",
+      "bounds": "The wall must be, or must fully express, cut stone: minimum 12 in reveal, jambs returned in the face material, true voussoirs, rusticated base of not less than one storey.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 12.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Minimum 12 in reveal, jambs returned in the face material, true voussoirs, rusticated base of not less than one storey."
+      },
+      "applies_when": {
+        "construction": [
+          "cut-stone",
+          "load-bearing-masonry"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "keystone-on-a-steel-lintel",
+      "difference": "That fault is a single applique member on a head. This is the whole surround misdescribing the wall it sits in, and it includes the opposite case of no surround where depth was required."
+    },
+    {
+      "fault": "casing-at-a-third-of-palladio",
+      "difference": "That fault is about a correctly conceived casing being too narrow. This is about the surround belonging to a different construction altogether."
+    }
+  ],
+  "sources": [
+    "styles/andalusian-spanish-revival.json constraints",
+    "styles/mediterranean-revival.json constraints",
+    "styles/spanish-colonial-revival.json constraints",
+    "styles/beaux-arts-american.json constraints",
+    "NPS Preservation Brief 22, the preservation and repair of historic stucco"
+  ],
+  "confidence": "high",
+  "tags": [
+    "surround",
+    "reveal",
+    "material-honesty",
+    "mass-wall"
+  ],
+  "test": {
+    "expression": "window_reveal_depth_in",
+    "threshold": 6.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "CONDITIONAL: applies where the wall is or claims to be mass. Read from the shadow — at midday a 6 in reveal puts the whole head and one jamb in hard shade and the glass reads as a dark rectangle set back, while a flush window reads as a bright rectangle in the wall plane. Style floors: Spanish Colonial Revival and Mediterranean 6 in, French Eclectic 5 in, Andalusian 8 in, Pueblo 10 in, Beaux-Arts 12 in, Richardsonian 12 to 24 in."
+  },
+  "secondary_tests": [
+    {
+      "expression": "head_shadow_band_depth_in / opening_width_in",
+      "threshold": 0.03,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The scale-free version, which works without knowing the opening size: the shadow at the head as a fraction of the opening width. Under 0.03 there is effectively no reveal."
+    },
+    {
+      "expression": "surround_material_occurrences_elsewhere_on_the_building",
+      "threshold": 1,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "THE APPLIQUE TEST, running the other way. A single-purpose material used only around windows is a catalogue accessory. A real masonry surround shares its material with a water table, a quoin, a belt course or a base; a cast surround appears nowhere else and dies into siding with a square-cut end."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "andalusian-spanish-revival",
+      "severity": "fatal",
+      "why": "The style names it: a flush window in a stucco wall destroys the expression of mass on which the entire idiom depends, and is the single most common failure in contemporary versions."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "severity": "fatal",
+      "why": "Flush windows in a thin stucco skin void the style by its own constraint."
+    },
+    {
+      "style": "mediterranean-revival",
+      "severity": "fatal",
+      "why": "The reveal is the single measurement that separates a real example from a stucco-clad frame house at fifty feet."
+    },
+    {
+      "style": "richardsonian-romanesque",
+      "severity": "fatal",
+      "why": "The style is entirely a wall style and thin stone veneer over frame is prohibited outright."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "The canonical answer is no surround and near-zero casing; the fault here runs in the opposite direction."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "Flat broad surrounds on a frame wall are correct and are a positive statement about board construction rather than an imitation of stone."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A surround is the fault. Casing 3 in maximum, projection 1 in maximum, no projecting hoods or moulded sills."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "statement": "An applied classical surround is the fault: the style node states that ornament is essentially absent — no keystones, no applied classical elements."
+    },
+    {
+      "style": "mission-revival",
+      "statement": "A carved or cast entrance or window surround is the fault, and its presence reclassifies the building as Spanish Colonial Revival."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "Any applied surround is the fault; the opening is bounded by continuous bands."
+    },
+    {
+      "style": "pueblo-revival",
+      "statement": "An applied surround is the fault, and so is a shallow reveal — the two errors are simultaneous and opposite, which is what makes this idiom the hardest to fake."
+    }
+  ],
+  "co_occurs_with": [
+    "keystone-on-a-steel-lintel",
+    "head-casing-without-a-cap",
+    "sill-without-wash-or-drip"
+  ]
+}

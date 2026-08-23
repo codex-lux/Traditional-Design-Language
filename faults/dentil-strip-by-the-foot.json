@@ -1,0 +1,156 @@
+{
+  "id": "dentil-strip-by-the-foot",
+  "name": "Dentils Sold By The Foot",
+  "aka": [
+    "the continuous dentil strip",
+    "the half dentil in the corner",
+    "dentil wallpaper"
+  ],
+  "slots": [
+    "modillion_dentil",
+    "entablature",
+    "cornice",
+    "ornament_vocabulary"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "alignment",
+  "symptom": "A dentil course running under a cornice in which the dentils are wrong in one of three ways, usually all three at once. The spacing is wrong — dentils are as wide as the gap between them, or wider, so the band reads as a row of squares rather than as teeth. The relief is wrong — the whole band is one moulded strip of PVC or polyurethane with the dentils formed as bumps 1/4 to 1/2 in deep, so it casts no shadow. And the setting out is wrong — the band was cut to length at each corner, so a half or a quarter dentil sits at every corner of the building and at every side of every gable.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "A dentil band bought as a continuous moulded strip is cut like any other moulding: to length, at the corner, wherever it lands. Setting out from the centre of the elevation so that the corner member is whole requires the band to be made in individual blocks, or the spacing to be adjusted along the run, which means somebody must calculate it before ordering. The strip product exists precisely to remove that step. The width-to-gap ratio comes from the extrusion die, which wants generous material and shallow undercuts, so the gaps narrow and the depth flattens.",
+    "cost_saved": "A moulded dentil strip runs 6-14 USD a foot; individually applied wood or cast dentils on a backing band run 22-55 USD a foot installed. On 140 ft of cornice that is 2,200-5,700 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / modillion_dentil / corner_rule",
+      "statement": "Set out from the centre of the elevation; the corner member must be whole. A rule about SETTING OUT rather than dimension — a half dentil in a corner is the fastest way to spoil an otherwise good cornice, and it is what happens automatically when a cornice is ordered by the foot rather than set out."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / modillion_dentil / dentil_width_to_spacing = 0.5",
+      "statement": "Each dentil about half its spacing wide, with twice its width between."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-composite / modillion_dentil.spacing = module / 2",
+      "statement": "The Composite carries dentils at a quarter diameter on centres rather than modillions."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / modillion_dentil / interior_dentil_height_in = 1.75, interior_dentil_spacing_in = 1.25",
+      "statement": "A dentil is taller than it is wide. The proportion is a tooth, not a block."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a repeating small member is read as rhythm, and rhythm is destroyed by a fractional term at the end",
+      "statement": "The eye counts a dentil band without meaning to and notices the broken interval at the corner before it notices anything else about the cornice, because the corner is where two runs meet and the mismatch is doubled."
+    }
+  ],
+  "correct_practice": "Dentils are individual blocks, taller than they are wide, set with twice their own width between them — a width-to-pitch ratio of about 1:3, or width-to-gap of 1:2. The kit's interior figures are 1 3/4 in tall by about 5/8 in wide at 1 1/4 in centres; exterior work scales up with the order but keeps the ratio. Depth of projection should be roughly equal to the dentil's width, so a 3/4 in dentil projects 3/4 in and casts a shadow the width of itself — this is the number that decides whether the band exists at forty feet. Setting out is the rule that matters most: begin at the centre of the elevation, work outward, and adjust the SPACING by a fraction of an inch so that the member at each corner is whole. Never adjust the dentil width, which must be constant. Where dentils and modillions both occur, dentils sit below modillions and only in the richest work; the two are not mixed casually on one cornice.",
+  "fixes": {
+    "right": "Individual dentils on a continuous backing band, set out from the centre of each elevation with whole members at the corners, projecting about their own width.",
+    "cheap": "Keep the strip product but set it out. Buy 10 per cent extra, start at the centre of the elevation, and cut the SPACER at the end rather than the dentil — most strip profiles allow a plain length of the backing band to be spliced in at the corner where the fascia turns. Cost: about 40 USD in extra material and twenty minutes of layout per elevation. Second free move: choose the strip with the deepest relief the vendor offers and the narrowest dentil, and mount it so it is genuinely under the corona rather than applied to the fascia.",
+    "dishonest": "Reducing the dentil count so the band 'reads better'. Widely spaced large dentils are not a simplification of a dentil course; they are a different member — usually mistaken for blocks or for a mutule band — and they make the cornice look coarser rather than plainer. If the budget will not carry dentils, delete them entirely and run a plain bed mould; a plain classical cornice is correct everywhere and a bad dentil band is correct nowhere."
+  },
+  "detection": "Photograph the cornice at a corner of the building, straight on if possible. Two measurements and one look. (1) Measure one dentil's width and the gap beside it. Gap should be about twice the width. If the gap is equal to or narrower than the dentil, the band is wrong. (2) Look at the corner itself: is the last dentil before the corner a whole one, and is the first dentil on the return also whole? A sliver at the corner is the tell, and it is present on almost every strip-installed band. (3) Shadow: in any light other than flat overcast, a real dentil band shows a hard dark rectangle under and beside each dentil. A moulded strip shows a soft grey gradient. In a photograph, look at the tonal range within the band — a real band contains near-black; a strip contains only mid-tones.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "dentil_width / dentil_gap",
+    "threshold": 0.4,
+    "upper": 0.6,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The kit gives 0.5: each dentil about half its spacing wide, with twice its width between. Combine with two categorical checks that cannot be reduced to a ratio — the corner member must be whole, and the projection should be roughly equal to the dentil width."
+  },
+  "severity_by_style": [
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "The Federal cornice is largely a dentil band; a fine, deep, correctly spaced dentil course is one of the style's two or three defining members and there is nothing else in the cornice to carry it."
+    },
+    {
+      "style": "adam-style",
+      "severity": "fatal",
+      "why": "Adamesque cornices depend on fine repeating members at correct intervals."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Dentils are permitted rather than canonical; the modillion is the canonical member and the cornice survives without dentils entirely."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "not-applicable",
+      "why": "Benjamin notes that the Grecians never employed mutules, dentils or modillions in the raking cornices of pediments, and Greek Revival cornices are commonly plain. A dentil band there is usually an anachronism rather than a badly set-out member."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "No dentils exist in the idiom."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "colonial-revival",
+      "why": "Colonial Revival practice from about 1900 used machine-run dentil stock as a matter of course, and much admired surviving work of 1900-1930 has strip dentils with imperfect corners. The style is a revival and its own conventions include the millwork of its date.",
+      "bounds": "The relief must still be real — not less than 1/2 in of projection on an exterior band, which pre-war wood stock had and modern PVC does not — and the width-to-gap ratio must still be about 1:2. The licence is on the setting out at corners, not on the profile.",
+      "bounds_test": {
+        "expression": "dentil_projection_in",
+        "threshold": 0.5,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1890,
+          1940
+        ]
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "The Italianate cornice runs paired scrolled brackets with a plain or panelled band between, and where small blocks appear under them they are a secondary member whose spacing follows the brackets rather than a dentil rule of its own.",
+      "bounds": "The blocks must be subordinate to and aligned with the brackets: a whole number of blocks between each pair of brackets, the same number in every bay."
+    },
+    {
+      "style": "second-empire",
+      "why": "The mansard cornice carries heavy modillions and a dentil-like block course at large scale, and the scale is deliberately coarse to read against the roof mass.",
+      "bounds": "The 1:2 width-to-gap ratio still holds; only the absolute size changes."
+    }
+  ],
+  "co_occurs_with": [
+    "modillion-aligned-to-nothing",
+    "cornice-with-no-architrave-or-frieze",
+    "router-scale-ornament"
+  ],
+  "confused_with": [
+    {
+      "fault": "modillion-aligned-to-nothing",
+      "difference": "Modillions are large, widely spaced brackets whose alignment with columns, windows and corners is the issue. Dentils are small and numerous and their issue is interval and whole members at the corner. A cornice can have both and fail both differently."
+    },
+    {
+      "fault": "flat-grille-no-shadow-line",
+      "difference": "Different member, identical mechanism: a correct outline at insufficient relief that passes at four feet and fails at forty. Worth reading together as the two clearest cases of the profile-depth family."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, modillion_dentil (corner_rule, dentil_width_to_spacing = 0.5, interior dentil 1.75 in tall at 1.25 in centres)",
+    "proportions/orders/vignola-composite.json, vignola-ionic.json — dentil spacing rules",
+    "Fypon and Style Solutions dentil moulding catalogues — published projections",
+    "HABS measured cornice details, Federal and Georgian dentil courses"
+  ],
+  "confidence": "high",
+  "tags": [
+    "dentil",
+    "setting-out",
+    "profile-depth",
+    "alignment",
+    "endemic"
+  ]
+}

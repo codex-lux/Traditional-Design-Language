@@ -1,0 +1,194 @@
+{
+  "id": "greek-revival-upland-vernacular",
+  "name": "Upland Vernacular Greek Revival",
+  "aka": [
+    "Plain-Style Greek Revival",
+    "Backcountry Greek Revival",
+    "Carpenter Grecian"
+  ],
+  "rank": "variant",
+  "member_of": "greek-revival-american",
+  "status": "historical",
+  "period": {
+    "origin": 1830,
+    "floruit_start": 1835,
+    "floruit_end": 1870,
+    "decline_end": 1890,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1995,
+        "end": 2026,
+        "revival_node": "modern-farmhouse-traditional",
+        "note": "The contemporary market's 'modern farmhouse' takes its silhouette from exactly this stratum - plain gable, wide flat trim, no ornament - while omitting the proportional rules that made the plainness legible."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Upland South",
+      "Appalachia",
+      "Tennessee Valley",
+      "Bluegrass",
+      "Ozarks",
+      "Ohio Valley",
+      "Piedmont"
+    ],
+    "hearth": "East Tennessee and the Kentucky Bluegrass",
+    "climate_zones": [
+      "3A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "greek-revival-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "southern-federal",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The center-passage plan, the gable-end chimneys and the tall single-pile section arrive from here; the Grecian trim is a change of profile on an unchanged house."
+    },
+    {
+      "target": "log-vernacular-american",
+      "type": "hybridizes_with",
+      "weight": 0.35,
+      "inherits_kit": false,
+      "note": "Extremely common and routinely missed: an existing log house is weatherboarded, given a Grecian doorway, corner pilasters and a frieze board, and thereafter reads as a frame Greek Revival house. Many 'Greek Revival' I-houses in the uplands have logs inside their walls."
+    }
+  ],
+  "description": {
+    "short": "The Greek Revival reduced to its cheapest legible signals - a heavy doorway, wide corner boards, a frieze under the eave - applied to the ordinary two-storey single-pile farmhouse of the Upland South and the Ohio Valley, frequently over a log core.",
+    "long": "This is the Greek Revival as most Americans actually encountered it, and it is almost entirely a matter of trim. The house underneath is the one the region was already building: two storeys tall, one room deep, a central passage running front to back, chimneys at both gable ends, a porch across the front. What the Grecian moment adds is a set of boards. The corner boards widen from four inches to ten or twelve and acquire a cap, so they read as pilasters. A frieze board a foot deep runs under the eave, and the cornice returns are clipped across the gable base. The door surround becomes a rectangular transom with sidelights inside broad flat pilasters carrying a heavy flat entablature - copied, usually badly and always confidently, from a plate in Benjamin or Lafever that a local carpenter owned or had seen. Nothing else changes. The plan does not change, the framing does not change, the chimneys do not move. This is the mechanism by which a national style becomes a vernacular one: it arrives as a set of profiles that can be run with planes a carpenter already owns, and it costs the price of wider boards.\n\nThe conditions are those of a cash-poor but land-rich agricultural society reaching a modest surplus at exactly the moment the style was available. The Upland South and the Ohio Valley filled with Scots-Irish, German and Virginia migrant families between 1780 and 1830; by the 1840s the successful among them were replacing log houses with frame or brick ones, or - just as often - encasing the log house they already had. Water-powered sawmills on every creek supplied the wide boards; itinerant carpenters carried the handbooks; and the whole transformation could be accomplished a piece at a time. The result is a landscape where the same house form runs from a two-room log pen to a full brick I-house with a Grecian doorway, and the Greek Revival content of any given example is a fair measure of how good the last twenty years had been.\n\nWhat it reacts against is not Federal - most of these builders never built a Federal house - but plainness itself, and the reaction is careful and cheap. There is no portico on the ordinary example, because a portico costs columns; there is a shed or hip porch on square or chamfered posts, and where a builder could afford it those posts get a bevel and a cap that gesture at an order. The most interesting quality of the stratum is its discipline: because there is no ornament to hide behind, the proportions have to carry the building, and the good ones are good almost entirely because the frieze depth, the trim widths and the roof pitch are right. The bad ones fail for exactly the same reason, which is the argument for encoding the ratios rather than the mouldings.\n\nStanding in front of one, on a ridge road in East Tennessee or on a Bluegrass turnpike, the first impression is of a very tall, very thin house. The I-house is two storeys and one room deep, so from the gable end it is a slab, and the eave assembly is the only heavy thing on it. The doorway is where all the money went and it is out of scale in a way that is entirely satisfying: a fifteen-hundred-square-foot farmhouse with an entrance surround that would look correct on a courthouse. Inside, the passage runs straight through with a door at each end, the stair goes up one wall, the rooms are twelve feet square with plain heavy architraves and a mantel of two flat pilasters and a shelf, and everything is painted or whitewashed. In August, with both passage doors open, the house works exactly as the dogtrot works, which is the point: the same climate logic runs from the log pens through this stratum and up into the plantation houses, and only the amount of trim changes."
+  },
+  "defining_characteristics": [
+    "Greek Revival present as trim profile only: wide corner pilaster boards, deep plain frieze, clipped cornice returns, heavy flat door surround",
+    "Underlying plan unchanged from regional practice - two-storey single-pile with central passage, or double-pen, or hall-and-parlor",
+    "Rectangular-transom entrance with sidelights in a broad pilastered surround, disproportionately grand relative to the house",
+    "Gable-end chimneys, frequently exterior, retained from the region's earlier practice",
+    "Front porch on plain square or chamfered posts rather than a classical portico",
+    "Roof pitch dropped to 5:12-7:12 from the steeper pitches of the log and Federal-era work it replaces",
+    "Frequent log or hewn-timber core concealed inside a weatherboarded frame wall"
+  ],
+  "diagnostic_tells": [
+    "A courthouse-scale doorway on a farmhouse-scale building - the surest sign of the stratum",
+    "Corner boards 10-12 inches wide with a simple capital, and no columns anywhere on the building",
+    "Two-storey, one-room-deep silhouette (I-house) with a heavy eave band - it is a facade from the road and a wall from the side",
+    "Porch posts chamfered with a lamb's-tongue stop instead of turned or classical columns",
+    "Weatherboard that steps oddly around a thicker wall zone, or window jambs unusually deep: there are logs inside"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-southern-plantation",
+      "difference": "A matter of two orders of magnitude in cost and of the presence or absence of an actual order. The plantation variant has a colossal colonnade, 12-14 foot ceilings and a detached kitchen; this stratum has trim boards, 9-10 foot ceilings, a rear kitchen ell and no columns."
+    },
+    {
+      "node": "greek-revival-northern",
+      "difference": "The Northern variant turns the gable to the road and builds compactly with a side-hall plan; the Upland variant keeps the broadside I-house with a central passage open at both ends, because it is solving for summer heat rather than for winter."
+    },
+    {
+      "node": "american-farmhouse-vernacular",
+      "difference": "Direct descendant and often indistinguishable on a bad day. The Greek Revival stratum keeps the classical trim discipline - continuous frieze, pilastered corners, entablature over the door. Once the frieze becomes a plain fascia and the doorway loses its entablature, the building has crossed into the un-styled farmhouse."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Classical proportion carried entirely by board width and eave depth, with no orders present. The frieze-to-storey-height and trim-width ratios are what make the building legible as classical; when they are wrong the house simply looks like a plain box, which is exactly what happened after 1875.",
+    "typical_ratios": [
+      "Frieze board 10-16 inches on a two-storey house; total eave assembly 14-22 inches",
+      "Corner pilaster boards 10-12 inches wide, projecting 1-1.5 inches, with a 2-3 inch cap",
+      "Door surround: pilasters 6-9 inches wide, entablature 12-18 inches deep, opening 4.5-6 feet wide overall with sidelights",
+      "Ceiling heights 9-10.5 feet ground, 8.5-9.5 upper",
+      "I-house depth 16-20 feet single-pile; passage 8-12 feet wide",
+      "Roof pitch 5:12 to 7:12; cornice returns 10-18 inches"
+    ],
+    "bay_rhythm": "Three or five even bays broadside to the road with the door centred on the passage; the rhythm is the plan's, not the style's, and the trim simply marks it.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "i-house",
+      "affinity": "canonical",
+      "note": "Two storeys, one room deep, three to five bays - the definitive Upland South statement of arrival, and the substrate this variant dresses."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "common",
+      "note": "Where Northern settlement reached the Ohio Valley the upright-and-wing appears with the same Grecian trim."
+    },
+    {
+      "massing": "double-pen",
+      "affinity": "common",
+      "note": "The two-door, two-room house with Grecian corner boards - the cheapest possible expression of the stratum."
+    },
+    {
+      "massing": "dogtrot",
+      "affinity": "possible",
+      "note": "Dogtrots were routinely weatherboarded and given Grecian doorways at both ends of the passage in the 1840s-50s."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "A continuous frieze board of at least 10 inches (14-16 on a two-storey house) must run under the eave on all elevations, with corner pilaster boards no less than 10 inches wide. Below these widths the classical reading collapses and the building is simply a plain farmhouse.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Entrance must be a rectangular opening with a rectangular transom, sidelights optional, inside flat pilasters carrying a flat entablature at least 12 inches deep. Elliptical fanlights, arched openings and applied Adamesque ornament are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Where a central passage is used it must be operable at both ends and the main block must remain single-pile (16-20 feet deep). Doubling the depth without adding cross-ventilation converts a working summer plan into a dark box.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Free-standing classical columns are out of character; porch supports are square or chamfered posts 4x4 to 6x6, chamfer stopped 12-18 inches from deck and soffit. If columns are wanted, the building belongs to a different variant.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Where a log core is encased, the weatherboard must be furred out to a consistent plane and window jambs detailed for a wall 8-12 inches thick; the deep reveal is a legitimate and legible feature, not a defect to be concealed.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "DeVault-Massengill House",
+      "location": "Piney Flats, Sullivan County, Tennessee",
+      "year": 1842,
+      "note": "Built by Isaac DeVault; upland East Tennessee Greek Revival on a farm whose earlier circa-1769 log house survives on the same property - the whole log-to-Grecian sequence in one place."
+    },
+    {
+      "name": "Swaim House",
+      "location": "Chapel Hill, Marshall County, Tennessee",
+      "year": 1845,
+      "note": "Circa 1840s; a plain Greek Revival farmhouse in the Middle Tennessee uplands, listed on the National Register in 1984. Ordinary in the way this stratum is ordinary, which is why it is worth recording."
+    }
+  ],
+  "sources": [
+    "Henry Glassie, Folk Housing in Middle Virginia (1975)",
+    "Talbot Hamlin, Greek Revival Architecture in America (1944)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "Asher Benjamin, The Architect, or Practical House Carpenter (1830)",
+    "Tennessee Historical Commission National Register nomination files"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "early-republic",
+    "regional",
+    "upland-south",
+    "vernacular",
+    "trim-only-classicism"
+  ]
+}

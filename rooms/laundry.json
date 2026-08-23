@@ -1,0 +1,300 @@
+{
+  "id": "laundry",
+  "name": "Laundry",
+  "aka": [
+    "wash house",
+    "laundry room",
+    "utility (loosely)",
+    "washhouse",
+    "the wash"
+  ],
+  "function_class": "service",
+  "description": "The room the household's textiles are washed, dried and folded in. It is the room whose position has changed most often and most recently: it has been a detached building, a cellar, a back kitchen, a garage corner, and since about 1995 it has been migrating up to the bedroom floor, which is where the clothes are and where it belongs. Three things decide whether it can go there and only one of them is plumbing.",
+  "history": {
+    "appears": 1700,
+    "declines": null,
+    "note": "Washing was the heaviest and wettest domestic operation there was - a full wash day meant hauling and boiling perhaps forty gallons, a copper, a dolly or a washboard, a mangle, and a drying yard - and it was therefore put as far from the living rooms as the plan allowed: a detached WASH HOUSE, a cellar, or the back of the service ell, very often sharing the copper and the water supply with the scullery or the summer kitchen. The electric washing machine (1908 Thor, widespread in the US from the 1920s) removed the boiling and the mangling; the automatic machine of the late 1940s removed the attendance; the tumble dryer removed the drying yard, which is the change that actually moved the room, because a drying yard has to be outdoors and a dryer does not. The room then sat in the basement or the garage for forty years for no better reason than that it always had. The move upstairs is recent and is a straightforward observation about distance: clothing lives in the bedroom closets and is worn in the bedrooms, so a laundry in the basement of a two-storey house means every garment travels two flights twice. The obstacles to the move are noise, water and the DRYER VENT, and it is the vent that most often decides it."
+  },
+  "dimensions": {
+    "area_sf": [
+      45,
+      110
+    ],
+    "width_ft": [
+      6,
+      9
+    ],
+    "length_ft": [
+      7,
+      14
+    ],
+    "proportion": [
+      1.1,
+      2.0
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "FORTY-EIGHT INCHES IN FRONT OF A FRONT-LOADING WASHER. A front-load machine is 27 in wide and 32 to 34 deep, and its door swings 24 to 26 in into the room and you kneel or stoop in front of it - so the clear floor in front is 42 in absolute and 48 in to work in with a basket. Room depth is therefore 34 (machine) + 48 (clear) = 82 in, 6 ft 10 in, and 6 ft 6 in is the floor. A side-by-side pair is 54 to 60 in wide, so the smallest real laundry is 5 ft by 7 ft and it holds nothing else. ADD THE FOLDING SURFACE - 24 in deep and 48 in long minimum, and it must NOT be on top of the machines if they are front-loading, because a folding counter over front-loaders blocks the doors - and the room is 7 by 9. THE SECOND CRITICAL DIMENSION IS THE DRYER VENT AND IT IS NOT IN THE ROOM AT ALL: IRC M1502.4.5 limits the exhaust duct to 35 ft of developed length, less 5 ft for each 90-degree elbow and 2.5 ft for each 45. A dryer in the middle of a second floor with two elbows and a 25 ft run to a gable is at 35 ft and has nothing left. THIS IS THE NUMBER THAT DECIDES WHETHER A FIRST-FLOOR OR SECOND-FLOOR LAUNDRY IS POSSIBLE, and it is discovered by the mechanical contractor after the framing is up."
+  },
+  "furniture": [
+    {
+      "item": "washer, front-loading",
+      "footprint_in": [
+        27,
+        34
+      ],
+      "clearance_in": 48,
+      "note": "Door swings 24-26 in. Add 1 in behind for the standpipe and hoses - a machine drawn tight to the wall is 2 in proud of where it is drawn."
+    },
+    {
+      "item": "dryer",
+      "footprint_in": [
+        27,
+        32
+      ],
+      "clearance_in": 48,
+      "note": "Add 4 to 6 in behind for the vent elbow unless a recessed periscope box is used, which is worth specifying - it recovers 4 in of room depth and is a $60 item."
+    },
+    {
+      "item": "stacked pair",
+      "footprint_in": [
+        27,
+        34
+      ],
+      "clearance_in": 42,
+      "essential": false,
+      "note": "27 wide by 78 tall. Saves 27 in of width and costs the top-loading convenience; the upper door is at 50 in, which is fine for an adult and impossible for a child."
+    },
+    {
+      "item": "folding counter",
+      "footprint_in": [
+        60,
+        24
+      ],
+      "clearance_in": 36,
+      "note": "At 36 in. This is the surface the room is judged by and the one most often omitted; without it the folding happens on a bed, which is the observable symptom."
+    },
+    {
+      "item": "utility sink",
+      "footprint_in": [
+        24,
+        22
+      ],
+      "clearance_in": 30,
+      "note": "Deep bowl for soaking and for the mop bucket. A laundry without a sink sends both to the kitchen."
+    },
+    {
+      "item": "hanging rod for drip-dry",
+      "footprint_in": [
+        48,
+        20
+      ],
+      "clearance_in": 30,
+      "note": "48 in of rod at 66 in, over the sink or over a floor drain. The single most useful fitting in the room and it costs eleven dollars."
+    },
+    {
+      "item": "drying rack or airing space",
+      "footprint_in": [
+        30,
+        24
+      ],
+      "clearance_in": 24,
+      "essential": false,
+      "note": "The drying yard's descendant. A pulley airer over a heat source is the traditional and the best version."
+    },
+    {
+      "item": "baskets, sorted",
+      "footprint_in": [
+        42,
+        18
+      ],
+      "clearance_in": 30,
+      "note": "Three baskets at 14 by 18 each. They exist whether or not they are drawn, and if there is nowhere for them they live in the corridor."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.8,
+    "sides_lit": 1,
+    "orientation": "Any, and a window that opens is worth having because the room produces heat and moisture. Historically the wash house faced the drying yard, which faced south and the prevailing wind.",
+    "glazing_fraction": [
+      0.05,
+      0.12
+    ],
+    "note": "Very often an interior room, which is tolerable if the extract is real. The room sits behind or beneath other rooms and its head is usually low - under a stair, in a service ell, in a knee-wall zone - hence the shading multiplier."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "bathroom",
+        "why": "THE SERVICING RULE, and it is the one that makes an upstairs laundry affordable: a laundry sharing a wet wall with a bathroom shares the stack, the vent and the hot supply. A laundry on the far side of a bedroom floor from every bathroom needs its own stack down through the house, which is a plan problem before it is a cost.",
+        "relation": "shared-wall",
+        "strength": "strong",
+        "exceptions": [
+          "Ground-floor and basement laundries beside the plant room, which have their own stack anyway."
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "walk-in-closet",
+        "why": "THE ADJACENCY THAT MATTERS MOST AND IS DESIGNED FOR LEAST. Clothing travels closet to laundry to closet and nowhere else. A laundry within thirty feet of the bedroom closets removes the single largest recurring haul in a household.",
+        "relation": "same-floor",
+        "strength": "strong",
+        "via": [
+          "gallery-corridor",
+          "back-hall",
+          "landing"
+        ]
+      },
+      {
+        "room": "mudroom",
+        "why": "The other correct position, and the one for a household with dogs, sport and mud: wet and dirty clothing comes off at the door and should not cross the house to be washed. Where both are wanted, two laundries - a small one at the mudroom and a full one upstairs - is a defensible programme.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "linen-press",
+        "why": "Sheets and towels go from machine to shelf. Put them together and the folding counter is the linen store's lid.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "bedroom",
+        "why": "HARD. A washer's spin cycle runs at 70 to 75 dBA and, more to the point, it is an unbalanced rotating mass of 40 to 60 lb of wet cloth bolted to nothing, transmitting structure-borne vibration into the floor frame. Airborne noise can be treated; structure-borne noise through a shared joist system cannot, and no insulation in the partition touches it. A laundry above, beside or below a bed is the fault.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "centre-passage",
+        "why": "A laundry opening onto the principal circulation - or worse, laid out AS part of it, so that the route from the garage to the kitchen runs between the machines - is the commonest plan error in current production housing. The room has an open door, wet clothes on the counter and baskets on the floor for most of every week, and putting it in the spine means the household walks through its own washing several times a day.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      },
+      {
+        "room": "dining-room",
+        "why": "Noise, and the smell of detergent and hot lint, which is unmistakable and carries.",
+        "relation": "not-visible-from",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "back-hall",
+      "mudroom",
+      "landing",
+      "service-corridor",
+      "passage",
+      "scullery"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "Two separate systems and they are confused constantly. THE DRYER VENT is a dedicated 4 in smooth rigid duct to the outside, maximum 35 ft developed length less 5 ft per 90-degree elbow, with no screen at the termination and a backdraft damper - it may never terminate in an attic, a crawl space or a soffit, and it may never be shared with anything. THE ROOM VENT is a separate extract of 50 to 100 cfm for the humidity the room makes anyway. A condensing or heat-pump dryer eliminates the duct entirely and is the correct answer for a second-floor laundry in the middle of a plan; it is the single specification that unlocks the position.",
+    "heat": "The room is a heat source when running and cold when not. It also needs frost protection wherever it is, because the supply valves are the ones that burst.",
+    "electrical": "A dedicated 20A circuit for the washer, 240V/30A for an electric dryer, GFCI, and a receptacle for an iron near the folding counter. AFCI/GFCI requirements have tightened - check the current cycle.",
+    "stack_proximity_ft": 8
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "wash house / laundry",
+      "present": true,
+      "trim_grade": "none",
+      "note": "A separate building or a wing with a copper, a wash house, a drying room and an ironing room - four rooms for what is now one machine. The DRYING ROOM, a heated room with racks, is worth remembering: it is what a modern airing cupboard is a shrunken version of."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "name_in_style": "wash house / summer kitchen",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Usually the same building as the summer kitchen, because both needed a big fire and a lot of water and neither wanted to be in the house in July."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "laundry",
+      "present": true,
+      "trim_grade": "none",
+      "note": "In the basement, at the foot of the stair, with a set of concrete tubs. The concrete laundry tub is a real period fitting and a good one."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "utility room",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Between the kitchen and the garage - the type's own invention, and the direct ancestor of the modern mudroom-laundry. It is a good position for a single-storey house and a poor one for a two-storey."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "laundry",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "In the service ell where the plan already has a subordinate volume. A second-floor laundry in a symmetrical house is entirely possible provided it lands on the wet wall and the dryer is a condensing one."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "laundry",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Upstairs, beside the closets, on the bathroom wet wall, with a heat-pump dryer, a floor pan and a drain. That specification is worth writing out in full because each of the four items is separately omitted."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Dryer exhaust: 4 in duct, smooth interior, maximum 35 ft developed length less 5 ft per 90-degree bend and 2.5 ft per 45; terminate outdoors with a backdraft damper and no screen.",
+      "ref": "IRC M1502.4.5, M1502.3",
+      "conflict": "THE RULE THAT DECIDES WHERE THE ROOM CAN GO. It is checked at rough-in, after the plan is fixed, by someone who did not draw the plan. Compute it at design stage from the actual route, or specify a condensing/heat-pump dryer and delete the problem."
+    },
+    {
+      "requirement": "Clothes washer standpipe: trap 6 to 18 in above the floor, standpipe 18 to 42 in above the trap weir, 2 in minimum.",
+      "ref": "IRC P2706.2, P2717",
+      "conflict": "A standpipe too short siphons the trap; too tall and the machine cannot pump. Both are common and both produce a smell nobody can locate."
+    },
+    {
+      "requirement": "A laundry above habitable space should have a drain pan piped to a drain or the exterior.",
+      "ref": "Not required by IRC for washers, required for water heaters (P2801.6); insurance practice requires it",
+      "conflict": "The single largest domestic water-damage claim category is supply hoses to washing machines. A pan with a drain and a pair of braided hoses with an automatic shut-off is $250 and it is the difference between a nuisance and a ceiling."
+    },
+    {
+      "requirement": "Where the room contains a fuel-burning appliance, combustion air and clearances apply.",
+      "ref": "IRC G2407, M1305"
+    }
+  ],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "saltbox",
+    "telescope-house",
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "ranch-linear",
+    "ranch-l",
+    "split-level",
+    "cape-cod-massing",
+    "gambrel-block",
+    "townhouse-row",
+    "garrison-block",
+    "massed-picturesque"
+  ],
+  "slots": [
+    "service_zone_strategy",
+    "services_strategy",
+    "room_adjacency_overrides",
+    "storage_strategy",
+    "circulation_parti"
+  ],
+  "faults": [
+    "stack-with-nowhere-to-land",
+    "service-route-through-the-formal-plan",
+    "plant-room-that-was-never-drawn",
+    "duct-soffit-through-the-formal-room"
+  ],
+  "sources": [
+    "IRC M1502.3, M1502.4.5, P2706.2, P2717",
+    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981), for the four-room laundry department",
+    "Insurance Institute for Business and Home Safety, water-damage claim data for washing-machine supply hoses",
+    "Manufacturer dimensional data for front-load and stacked laundry pairs"
+  ],
+  "confidence": "high"
+}

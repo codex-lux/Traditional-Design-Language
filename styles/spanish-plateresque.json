@@ -1,0 +1,203 @@
+{
+  "id": "spanish-plateresque",
+  "name": "Spanish Plateresque",
+  "aka": [
+    "plateresco",
+    "estilo Isabelino tardio",
+    "Spanish Renaissance ornamental style"
+  ],
+  "rank": "style",
+  "member_of": "spanish-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1490,
+    "floruit_start": 1500,
+    "floruit_end": 1560,
+    "decline_end": 1580,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1880,
+        "end": 1930,
+        "revival_node": null,
+        "note": "Spanish neo-Plateresque, used for university and civic buildings at home and for Spanish pavilions abroad."
+      },
+      {
+        "start": 1915,
+        "end": 1940,
+        "revival_node": "spanish-colonial-revival",
+        "note": "Arrives in California and Florida as the 'Churrigueresque' portada — the ornamental-panel-against-plain-wall device, which is Plateresque in origin, generally misattributed. Goodhue's California Building at San Diego, 1915, is the hinge."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Spain",
+      "Mexico",
+      "Spanish Americas"
+    ],
+    "hearth": "Salamanca, Toledo and Valladolid",
+    "climate_zones": [
+      "3B",
+      "4B",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italian-renaissance",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The ornamental vocabulary — grotesques, candelieri, medallions, balusters, putti, shell niches — arrives with Italian craftsmen working in Spain from the 1490s and with engraved sheets, and is handled with real technical understanding. What does not arrive is the Italian sense that ornament should be regulated by an order."
+    },
+    {
+      "target": "mudejar",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Underneath a Plateresque facade the building is very often Mudejar: brick construction, a par y nudillo or artesonado timber ceiling, tile paving and dado, and a carpentry trade unchanged since the 14th century. The two coexist in the same buildings continuously and the kit genuinely blends."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.2,
+      "inherits_kit": false,
+      "note": "Columns, pilasters, entablatures and arches appear as a quoted surface repertoire framing the registers of a retablo facade. They are never used structurally and never regulate the building; this is quotation, not descent."
+    }
+  ],
+  "description": {
+    "short": "A Spanish ornamental system in which Italian Renaissance detail is compressed into a bounded, altarpiece-like panel of extraordinary density set against an otherwise blank ashlar wall.",
+    "long": "Plateresque is usually explained by its name — from platero, silversmith, so 'in the manner of a silversmith' — and the name is misleading. The style is not fine or small-scale in the way metalwork is; it is the exact opposite of small-scale, because its whole effect depends on a very large area of absolutely plain golden ashlar against which a very small area of hallucinatory carving detonates. The right analogy is not the silversmith's bench. It is the retablo, the carved and gilded altarpiece that stands behind a Spanish altar: a bounded rectangular field, divided into horizontal registers by cornices and vertically by columns or balusters, filled edge to edge with figures, medallions, heraldry and grotesque, and framed by a hard moulding that stops the whole thing dead. Plateresque takes that object off the sanctuary wall and puts it on the outside of the building, and the proportional system of the facade is retablo proportion, not classical proportion.\n\nThis is why Plateresque behaves so strangely by Italian standards. A Florentine palazzo facade is regulated throughout: string courses, window rhythm, cornice, and quoins are all part of one system, and ornament is distributed. A Salamanca facade has a plain wall with three or four small windows placed where the rooms need them, and then a single vertical explosion three or four registers tall around the door, which has almost no relationship to the fenestration behind it. Spain had received the Italian repertoire as a set of motifs rather than as a discipline, and — more importantly — Spain already had a late-Gothic Isabelline habit of doing exactly this, concentrating carving on a portada and leaving the wall alone. The Italian motifs simply replaced the Gothic ones inside a Spanish compositional habit that did not change.\n\nThe moment is short and the reasons for its end are documented. Plateresque belongs to the first half of the sixteenth century, the boom decades of Castilian confidence, university foundation and American silver, and it is essentially over by 1560. What kills it is the arrival of a genuinely disciplined classicism under Philip II — Juan Bautista de Toledo and Juan de Herrera at the Escorial from 1563 — which brings the Vitruvian regulation Spain had previously declined, and which produces a reaction so severe that estilo desornamentado, the 'unornamented style', becomes the court manner within a decade. Spanish architecture swings from the most decorated surface in Europe to the barest, in one generation, on the same peninsula.\n\nStanding in front of a Plateresque facade in low sun is an experience of pure relief-depth. The Salamanca stone is a soft golden sandstone that carves like cheese and hardens on exposure, so the undercutting is extreme — five and six centimetres deep in places — and the shadow does the work. From across the plaza the portada reads as a dark textured rectangle. From ten metres you begin to resolve the registers. From two metres it dissolves into a legible programme of heraldry, portrait medallions, saints and inscriptions that a literate sixteenth-century Spaniard was expected to read like a page. And two metres to the left of it, the wall is empty."
+  },
+  "defining_characteristics": [
+    "Ornament confined to a bounded field — portada, window surround, patio arcade, cresting — with the great majority of the wall left plain ashlar",
+    "Retablo composition: the ornamental panel divided into two to five stacked horizontal registers by cornices and framed by a hard vertical border",
+    "Italian Renaissance motif vocabulary — grotesques, candelieri, medallions, putti, shell niches, balusters — executed in deeply undercut relief",
+    "Heraldry as a compositionally load-bearing element, usually anchoring the upper register",
+    "Classical columns and pilasters used as framing devices only; they never carry a real entablature across the whole facade",
+    "Arcaded patio on slender columns with basket or Corinthianising capitals, and a carved or wrought balustrade above",
+    "Mudejar construction and carpentry behind the classicising skin — brick walls, artesonado ceilings, tile floors"
+  ],
+  "diagnostic_tells": [
+    "A wall that is more than half empty, with all the carving in one vertical strip around the door",
+    "Relief so deeply undercut that at midday the portada reads black",
+    "Coats of arms of a size that makes no compositional sense unless you understand they are the point",
+    "Scallop-shell niches and roundel portrait medallions used as repeating units within a register",
+    "A cresting (cresteria) of pierced stonework or pinnacles running along the parapet, unrelated to any roof behind it"
+  ],
+  "distinguished_from": [
+    {
+      "node": "churrigueresque",
+      "difference": "A century and a half later, and further gone. Churrigueresque uses the estipite — an inverted-obelisk pilaster — as its module, breaks and doubles every cornice, and dissolves the framing members into the ornament. Plateresque keeps its frames crisp and its registers legible."
+    },
+    {
+      "node": "italian-renaissance",
+      "difference": "Italian work regulates the whole facade by an order and distributes ornament across it. Plateresque leaves the facade unregulated and concentrates ornament in one panel. The motifs are shared; the compositional method is opposite."
+    },
+    {
+      "node": "mudejar",
+      "difference": "Mudejar is brick, geometric, non-figural and produced by a continuous Islamic craft. Plateresque is stone, figural, humanist and quoted from Italy. They occupy the same buildings routinely, which is why they need distinguishing rather than merging."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Retablo, not order. The module is the ornamental panel and its frame: total portada width sets the register heights, and the columns or balusters within it are dimensioned to fill their register rather than to any canonical ratio of diameter to height. The plain wall around it has no proportional system at all — its openings are placed by the rooms behind them.",
+    "typical_ratios": [
+      "Portada width to height roughly 1:2 to 1:3, in two to five registers",
+      "Ornamented area 15-40 percent of the principal elevation; plain ashlar the remainder",
+      "Relief depth 40-80 mm on the principal field, undercut",
+      "Patio arcade column slenderness 7-9 diameters"
+    ],
+    "bay_rhythm": "A single dominant vertical portada, symmetrical about its own axis, flanked by blank wall. The window rhythm of the building is independent of it and frequently in conflict with it, and the conflict is not resolved.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The colegio, convento and palace are all fully enclosed arcaded patios; the portada is the one point where the block addresses the street."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three-sided courts in smaller palaces and hospitals."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "possible",
+      "note": "The cross-plan hospitals of Enrique Egas (Santa Cruz, Toledo; Santiago) are effectively an H or a Greek cross with courts in the angles."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "atypical",
+      "note": "Urban palaces sit in continuous blocks, but the style is almost never applied at row-house scale."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Ornament must be confined to a bounded field with a hard frame. At least 60 percent of any principal elevation must remain plain ashlar. Distributing the ornament destroys the style outright.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Columns and pilasters frame registers; they must not carry a continuous entablature across the facade. If a real order regulates the whole wall, the building has become Italian Renaissance or Herreran, not Plateresque.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The portada is applied dressed stone carried on the wall behind, typically 300-600 mm deep. It is not a structural frontispiece and must not be modelled as one.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Heraldry is required and must anchor the composition, normally in the upper register. A Plateresque portada with no arms is missing the reason it was paid for.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Where the interior carpentry is Mudejar — artesonado, par y nudillo, tile dado — it must be allowed to remain so. Coffering a Plateresque building in the Italian manner is a common revival error and a historical falsification.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hospital de Santa Cruz",
+      "location": "Toledo, Spain",
+      "year": 1515,
+      "note": "1504-1515, Enrique Egas; the transitional building, with a Gothic cross plan, a Plateresque portada and a Renaissance patio."
+    },
+    {
+      "name": "Universidad de Salamanca, principal facade",
+      "location": "Salamanca, Spain",
+      "year": 1529,
+      "note": "c. 1512-1529; the canonical retablo facade, three registers of villamayor sandstone against a plain wall, with the medallion of the Catholic Monarchs at its centre."
+    },
+    {
+      "name": "Convento de San Esteban",
+      "location": "Salamanca, Spain",
+      "year": null,
+      "note": "Facade begun 1524 by Juan de Alava, completed 1610; a Plateresque portada at cathedral scale under a Gothic-vaulted church."
+    },
+    {
+      "name": "Ayuntamiento de Sevilla",
+      "location": "Seville, Spain",
+      "year": 1564,
+      "note": "1527-1564, Diego de Riano; the fullest civic application, with grotesque pilasters and medallion friezes over the Plaza de San Francisco front."
+    }
+  ],
+  "sources": [
+    "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800",
+    "Marias, El largo siglo XVI: los usos artisticos del renacimiento espanol",
+    "Chueca Goitia, Historia de la arquitectura espanola: Edad Moderna",
+    "Bevan, History of Spanish Architecture"
+  ],
+  "confidence": "high",
+  "tags": [
+    "ornament",
+    "retablo",
+    "renaissance",
+    "spain",
+    "portada"
+  ]
+}

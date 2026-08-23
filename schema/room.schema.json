@@ -1,0 +1,428 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/room.schema.json",
+  "title": "Room Type",
+  "version": "0.1.0",
+  "description": "A style-independent room. Rooms sit between the element slot and the massing: a massing is the skeleton, a room is an organ, and a grouping is a system. Like massings, rooms are NOT style — a parlor and a living room may be the same volume in the same position doing different social work, and the same room wears different trim in every style that contains it. What a room actually constrains is dimension, daylight, adjacency and servicing, and those are physical facts before they are stylistic ones.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "function_class",
+    "description",
+    "dimensions",
+    "daylight",
+    "adjacency",
+    "privacy_rank"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "aka": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The same room under other names and other centuries — parlour, sitting room, living room, front room, great room. Naming is where most of the confusion in residential design lives."
+    },
+    "function_class": {
+      "enum": [
+        "public",
+        "living",
+        "dining",
+        "service",
+        "sleeping",
+        "sanitary",
+        "work",
+        "storage",
+        "circulation",
+        "threshold",
+        "outdoor"
+      ],
+      "description": "What the room is FOR, independent of what it is called."
+    },
+    "description": {
+      "type": "string",
+      "description": "What it is, what it was for, and what it feels like to be in one."
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "appears": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "declines": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "replaced": {
+          "type": "string",
+          "description": "The room this one displaced."
+        },
+        "replaced_by": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string",
+          "description": "Rooms are social institutions before they are spaces. The parlor did not shrink because houses got smaller; it died because the funeral moved out of the house."
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "required": [
+        "area_sf"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "area_sf": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "width_ft": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "length_ft": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "proportion": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Length:width ratio band. Vernacular rooms cluster near 1.25; Palladio's seven shapes give the formal set."
+        },
+        "ceiling_min_ft": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "critical_dimension": {
+          "type": "string",
+          "description": "The one measurement that decides whether the room works, and why. Usually set by furniture or by a single act — the length of a laid table, the swing of a door, the reach from a hearth."
+        }
+      }
+    },
+    "furniture": {
+      "type": "array",
+      "description": "What has to fit, with clearances. This is the real constraint on a room and it is almost never written down, which is why so many plans have rooms that dimension correctly and cannot be furnished.",
+      "items": {
+        "type": "object",
+        "required": [
+          "item",
+          "footprint_in"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "footprint_in": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "clearance_in": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "essential": {
+            "type": "boolean",
+            "default": true
+          },
+          "note": {
+            "type": "string"
+          },
+          "placement": {
+            "enum": [
+              "freestanding",
+              "against-wall",
+              "corner",
+              "built-in"
+            ],
+            "default": "freestanding",
+            "description": "Freestanding items need clearance on both sides of the short dimension; anything against a wall needs it on one. Getting this wrong makes every galley kitchen and butler's pantry fail its own furniture check."
+          }
+        }
+      }
+    },
+    "daylight": {
+      "type": "object",
+      "required": [
+        "depth_multiplier"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "depth_multiplier": {
+          "type": "number",
+          "description": "Maximum useful room depth as a multiple of window head height. Roughly 2.25 for a primary living room, less behind a porch."
+        },
+        "sides_lit": {
+          "type": "integer",
+          "description": "How many walls should carry glass for the room to work."
+        },
+        "orientation": {
+          "type": "string",
+          "description": "Preferred aspect and why — a kitchen wants morning, a parlor wants afternoon, a dairy wants north."
+        },
+        "glazing_fraction": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "adjacency": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The join point to the plan-logic slot group, and the reason this catalogue exists. Rules are directional and typed.",
+      "properties": {
+        "must_adjoin": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/adj"
+          }
+        },
+        "should_adjoin": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/adj"
+          }
+        },
+        "must_not_adjoin": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/adj"
+          }
+        },
+        "entered_from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "room ids or circulation types this room may legitimately be entered from"
+        },
+        "never_a_through_room": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "privacy_rank": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "0 street, 1 threshold, 2 public, 3 family, 4 private, 5 intimate. The gradient a plan must not scramble: a bedroom off a formal hall is a rank-4 room opening onto a rank-2 space."
+    },
+    "servicing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "plumbing": {
+          "enum": [
+            "none",
+            "light",
+            "heavy"
+          ]
+        },
+        "ventilation": {
+          "type": "string"
+        },
+        "heat": {
+          "type": "string"
+        },
+        "electrical": {
+          "type": "string"
+        },
+        "stack_proximity_ft": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "How close this room must be to a waste stack. The single most common cause of a plan that cannot be built as drawn."
+        }
+      }
+    },
+    "style_variation": {
+      "type": "array",
+      "description": "How the room differs by style — name, size, position, trim grade, and whether it exists at all. This is the style facet; the room itself stays neutral.",
+      "items": {
+        "type": "object",
+        "required": [
+          "style",
+          "note"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "style": {
+            "type": "string"
+          },
+          "name_in_style": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "trim_grade": {
+            "enum": [
+              "highest",
+              "high",
+              "middle",
+              "plain",
+              "none"
+            ]
+          },
+          "present": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      }
+    },
+    "code": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "requirement"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "requirement": {
+            "type": "string"
+          },
+          "ref": {
+            "type": "string"
+          },
+          "conflict": {
+            "type": "string",
+            "description": "Where the code minimum and good practice diverge — the code is a floor and is routinely mistaken for a target."
+          }
+        }
+      }
+    },
+    "massing_fit": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "massing ids this room sits in comfortably"
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "element slots that matter most in this room"
+    },
+    "faults": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "fault ids that bite here"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    }
+  },
+  "$defs": {
+    "adj": {
+      "type": "object",
+      "required": [
+        "room",
+        "why"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "room": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "relation": {
+          "enum": [
+            "direct-door",
+            "shared-wall",
+            "same-floor",
+            "visible-from",
+            "acoustically-separated",
+            "not-visible-from"
+          ]
+        },
+        "strength": {
+          "enum": [
+            "hard",
+            "strong",
+            "preferred"
+          ]
+        },
+        "exceptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "styles or types where the rule does not hold"
+        },
+        "via": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Room types that legitimately stand between. A direct-door rule with no `via` forbids the very room invented to satisfy it — the butler's pantry between kitchen and dining is the standing case."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "id": "veneer-reveal-collapse",
+  "name": "The flush window in a mass wall",
+  "aka": [
+    "the one-inch reveal",
+    "no-reveal brick"
+  ],
+  "slots": [
+    "reveal_masonry",
+    "construction_type"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "A brick or stone house whose windows sit within about an inch of the outer face of the wall. There is no shadow inside the opening at any time of day; the glass, the frame and the brick are all effectively in one plane, and the openings look printed on the wall rather than cut into it.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The window is set in the sheathed and wrapped stud wall by the window crew, before the mason arrives, because the building must be dried in. The veneer is then laid up to the window's nailing flange with a 1 in air space behind it. The resulting geometry puts the outer face of the brick roughly 1 in proud of the window frame — the reveal is not designed, it is the leftover of a sequence. Nobody decides it. Furring the jambs to recover 4 in of reveal means the window crew must set the units 3-4 in inboard, which they will not do without a detail and a jamb extension, and which fights the flashing.",
+    "cost_saved": "Nothing is directly saved; the cost is in coordination. Building a real 4 in returned reveal in a veneer wall costs roughly $60-$140 per opening in jamb extensions, brick returns and additional flashing, plus one detail the framer has to read."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / reveal_masonry",
+      "statement": "The reveal at every opening expresses the real thickness of the wall — 4 to 8 in in masonry, under 2 in in frame."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course / wall_thickness_expression.width = 13.5 in",
+      "statement": "Two wythes with a real through-bond: the thickness the reveal is measured out of."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "depth of opening is the primary cue for wall mass",
+      "statement": "The eye judges wall thickness almost entirely from the shadow at the jamb, because it is the only place the wall's section is visible in elevation."
+    }
+  ],
+  "correct_practice": "In any wall that claims mass, the window sits back 4-8 in from the outer face, the brick returns into the jamb, and the sill projects past the face of the wall with a drip. At a 13.5 in solid wall the sash is typically set with 4-4.5 in (one half brick, or one header) of brick outboard of the frame, which puts the glass line about a third of the way into the wall. The masonry reveal takes NO architrave — depth does the work that trim does on a frame wall. Where the wall is honestly a veneer, either build the reveal by furring the opening in and returning the brick, or stop claiming mass: reduce the openings' pretensions, use a simple wood surround, and accept a frame reading.",
+  "fixes": {
+    "right": "Set the window units 4-4.5 in inboard of the sheathing plane on furred jamb bucks, return the brick into the reveal with a bullnosed or plain cut jamb brick, and use a projecting stone or brick rowlock sill with a 1 in overhang and a drip. This is a detail, a jamb extension and a flashing change — not a structural one.",
+    "cheap": "Recover 2-3 in of the 4 in for free by combining three no-cost moves: set the window at the inner face of the sheathing rather than proud of it (gains 1/2-1 in), use a picture-frame brick mould rather than a flat casing (gains apparent depth), and specify a projecting sill with a real drip and a 30-40 degree wash rather than a flush brick rowlock. Three inches of reveal with a projecting sill reads as mass; one inch with a flush sill never will.",
+    "dishonest": "Adding a wide flat trim board around the opening on the face of the brick to 'give the window presence'. A masonry opening never had an architrave; a flat board on brick reads as a picture frame and makes the wall look thinner, not thicker, because it flattens the one plane change the opening had left. Equally dishonest: a painted dark reveal to fake the shadow, which fails the moment the sun moves."
+  },
+  "detection": "This is the single most measurable envelope fault in a photograph. Take a front-oblique view. Measure, in pixels, the visible width of the jamb return between the face of the wall and the face of the window frame, and divide by the visible width of one brick stretcher (nominally 8 in). A ratio of 0.5-1.0 is a real reveal; a ratio under 0.15 is a veneer set flush. In a straight-on elevation photograph, look for the absence of a shadow triangle on the shaded jamb of each opening: if all four sides of every window read as pure line with no tonal step, the reveal is nil. The sill is a second index — a flush sill with no overhang almost always accompanies a nil reveal.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival deliberately flattens: broad, flat, unmoulded trim and a taut wall plane are the style's argument. Even in masonry, openings are trimmed with wide flat stone or wood architraves and the reveal is reduced.",
+      "bounds": "The reveal may reduce to 2-3 in, not to nil, and it is compensated by a flat architrave of real width — 5-8 in on the face with a 3/4-1 in step. Flatness is a positive gesture with a member doing it; absence of a member is not flatness.",
+      "bounds_test": {
+        "expression": "architrave_face_width_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 5,
+        "note": "Flatness is a positive gesture with a member doing it. The reveal may reduce to 2-3 in only where a flat architrave of 5-8 in face with a 3/4-1 in step replaces it; absence of a member is not flatness."
+      },
+      "applies_when": {
+        "slots": [
+          "window_surround_masonry",
+          "window_surround_wood"
+        ],
+        "note": "Requires the architrave to actually be specified, in stone or wide flat wood."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Openings are meant to read as punched with 2-3 in trim or none, the skin continuous over them; a deep articulated reveal would contradict the continuous surface.",
+      "bounds": "Applies only where the wall is genuinely a thin shingled skin and no mass is being claimed. A Shingle Style house with a rock-faced stone ground storey must give that storey its full masonry reveal.",
+      "bounds_test": {
+        "expression": "mass_gesture_count_on_wall",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "A Shingle Style house with a rock-faced stone ground storey must give that storey its full 4-8 in masonry reveal; the licence covers only the shingled skin."
+      },
+      "applies_when": {
+        "slots": [
+          "primary_cladding"
+        ],
+        "construction": [
+          "braced-timber-frame",
+          "balloon-frame",
+          "platform-frame"
+        ],
+        "note": "Holds only where primary_cladding is shingle and no masonry storey is present on the same wall."
+      }
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "An acknowledged rainscreen may express the skin's thinness honestly with a deliberate shadow gap at the opening rather than a reveal.",
+      "bounds": "The gap must be a designed void of not less than 3/4 in reading as a dark line, and no quoins, arches or water tables may appear on the same wall.",
+      "bounds_test": {
+        "expression": "shadow_gap_width_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.75,
+        "note": "The gap must be a designed void reading as a dark line. Under 3/4 in it is a caulk joint, and no quoins, arches or water tables may appear on the same wall."
+      },
+      "applies_when": {
+        "construction": [
+          "masonry-veneer-over-frame",
+          "platform-frame"
+        ],
+        "note": "An acknowledged rainscreen or skin, declared at every edge."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "architrave-that-is-not-there",
+      "difference": "That is the frame-wall version of the same failure: the frame wall was never meant to have depth, so its fault is a missing architrave rather than a missing reveal. Diagnose which wall you are looking at first — the fix is opposite in each case."
+    },
+    {
+      "fault": "flemish-bond-in-a-single-wythe",
+      "difference": "Pattern versus depth. This fault is visible at 100 ft; the bond fault is visible at 20 ft."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, reveal_masonry",
+    "proportions/modules/brick-course.json",
+    "HABS measured drawings of Chesapeake and Mid-Atlantic brick houses (typical 13.5 in walls, 4-4.5 in reveals)",
+    "Brick Industry Association, Technical Notes 28 (1 in minimum air space, veneer geometry)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "profile-depth",
+    "reveal",
+    "veneer",
+    "material-honesty"
+  ],
+  "test": {
+    "expression": "jamb_reveal_depth_in / brick_stretcher_length_in",
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 0.5,
+    "upper": 1.0,
+    "note": "Nominal stretcher 8 in, so 0.5-1.0 is a 4-8 in reveal. Under 0.15 is a veneer set flush against the window's nailing flange, which is the endemic case. Measure on the shaded jamb of a front-oblique photograph, where the return is a visible band of a third tone between the lit wall and the dark glass."
+  },
+  "secondary_tests": [
+    {
+      "expression": "reveal_depth_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "section",
+      "threshold": 4,
+      "upper": 8,
+      "note": "The dimension itself, where a section or a tape is available. Below 2 in the opening reverts to a hole in a skin."
+    },
+    {
+      "expression": "sill_projection_past_wall_face_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "The second half of the reveal. A flush sill almost always accompanies a nil reveal and is easier to see in a straight-on photograph than the jamb is; a projecting sill with a real drip reads as mass even where the jamb has been compromised."
+    },
+    {
+      "expression": "shaded_jamb_luminance / lit_wall_luminance",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.75,
+      "note": "The shadow-triangle test for a straight-on elevation with no oblique available. A real reveal darkens the shaded jamb by at least a quarter; a nil reveal gives no tonal step at all and every opening reads as pure line."
+    }
+  ],
+  "co_occurs_with": [
+    "flemish-bond-in-a-single-wythe",
+    "arch-that-carries-nothing",
+    "brick-ledge-base"
+  ],
+  "severity_by_style": [
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Openings are meant to read as punched in a thin skin; there is no mass being claimed to fail."
+    },
+    {
+      "style": "pueblo-revival",
+      "severity": "fatal",
+      "why": "The style node names reveal depth as the tell against the genuine article: 2 in of stucco over frame with a flush window is the revival failing at its own test."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "The style flattens deliberately and buys the depth back in a broad flat architrave; a reduced reveal is within its argument."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "A deep articulated reveal is the fault here. The skin must run tight to the opening with 2-3 in of trim or none, because an expressed reveal contradicts the continuous surface the whole style is built on."
+    }
+  ]
+}

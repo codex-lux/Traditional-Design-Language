@@ -1,0 +1,36 @@
+{
+  "id": "eclectic-revivals",
+  "name": "Eclectic Revivals",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1880,
+    "floruit_end": 1945,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The period-revival era, in which professionally trained architects reproduced historical styles with increasing archaeological accuracy — and gave American suburbia its permanent vocabulary.",
+    "long": "Every style in this family claims a historical ancestor while descending from something else entirely: Beaux-Arts professional training, the measured-drawing and architectural-photography culture of the 1890s onward, and the millwork catalog. The gap between what these styles claim and where they actually come from is the most important fact about them, and the reason the taxonomy needs separate `references` and `descends_from` edges.\n\nAccuracy increases sharply after about 1915, as measured drawings of colonial buildings circulate in portfolios like the White Pine Series. Early Colonial Revival is a free interpretation at exaggerated scale; late Colonial Revival is nearly a reproduction. A builder needs to know which one is being asked for, and the distinction is invisible if the taxonomy stops at the style name.\n\nThis is also where the contemporary American production-home vocabulary actually comes from. Almost every traditional plan sold today is a descendant of something in this family rather than of anything genuinely colonial."
+  },
+  "defining_characteristics": [
+    "Historical accuracy as an explicit and increasing professional value",
+    "Beaux-Arts compositional training applied to borrowed vocabularies",
+    "Photography, measured drawings, and portfolios as the transmission medium",
+    "Systematic departure from the model in scale, storey height, and bay width",
+    "The origin of nearly all current American traditional production housing"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

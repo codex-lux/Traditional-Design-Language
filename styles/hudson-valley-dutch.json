@@ -1,0 +1,195 @@
+{
+  "id": "hudson-valley-dutch",
+  "name": "Hudson Valley Dutch",
+  "aka": [
+    "Hudson Valley stone house",
+    "Ulster County stone house",
+    "Albany Dutch"
+  ],
+  "rank": "variant",
+  "member_of": "dutch-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1640,
+    "floruit_start": 1650,
+    "floruit_end": 1790,
+    "decline_end": 1830,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1940,
+        "revival_node": "dutch-colonial-revival",
+        "note": "The revival largely bypassed the steep-gabled stone house in favour of the New Jersey gambrel; the Hudson type survives more in preservation than in imitation."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Ulster County, New York",
+      "Albany and Rensselaer counties, New York",
+      "Greene and Columbia counties, New York",
+      "Dutchess and Orange counties, New York"
+    ],
+    "hearth": "the limestone belt of Ulster County — Kingston, Hurley, New Paltz — and the Beverwijck (Albany) region upriver",
+    "climate_zones": [
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "dutch-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "dutch-urban-gable-house",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The town houses of Kingston and Albany reproduce the Netherlandish parapeted street gable with vlechtingen brick tumbling and iron beam anchors almost without modification."
+    }
+  ],
+  "description": {
+    "short": "The one-and-a-half-storey stone house of the mid and upper Hudson: two to two-and-a-half feet of coursed limestone, a steep unbroken gable, gable-end hearths, and a plate you can touch.",
+    "long": "The Hudson Valley Dutch house is what happens when a timber-framing culture meets a valley full of workable stone. In Holland the H-bent frame with its wedged anchor beams was the whole structure and brick or plank merely infilled it; in Ulster County the settlers found bedded limestone that split into courses with almost no dressing, and within a generation the frame retreated indoors while the wall became the structure. What survives from the frame is the room — a bent-spacing rhythm of eighteen to twenty-two feet — and the anchor beams themselves, which continue to be built into stone houses purely as floor framing, their through-tenons still projecting past the posts because that is how a Dutch carpenter made a beam land.\n\nThe hearth is the other survival, and it is the one that surprises people. The jambless fireplace has no cheeks: the fire burns on a raised hearth against a flat plastered wall, and a hood of plaster on lath or of timber, sometimes trimmed with a valance of chintz or leather, hangs above it on iron rods. There is no chimney breast projecting into the room. It draws badly by English standards and radiates superbly, and it makes the fire an object in the room rather than a recess in it. Jean Hasbrouck's house at New Paltz retains the only original eighteenth-century example on Huguenot Street, and standing before it explains more about Dutch domestic life than any inventory.\n\nThe exterior logic is austere and rational. The wall is twenty to thirty inches thick, laid in wide beds of shell-lime mortar, dressed and coursed on the entrance elevation and left as rubble on the other three — a house with one good face, which tells you exactly how much of the building was for looking at. The plate sits seven to nine feet above the floor, so the roof, forty-five to fifty-five degrees and unbroken, is most of the elevation. Chimneys are at or inside the gable ends. Windows are small, casement and leaded in the seventeenth century, replaced by nine-over-nine sash in the eighteenth, and set with iron shutter pintles still visible in the stone. After about 1700 the eave begins to spring: the lower rafters run past the wall face on a shallow concave curve, throwing water eighteen to twenty-four inches clear of the masonry.\n\nIn the towns the same culture builds in brick with the gable to the street, stepped or spouted, its raking edge finished with mouse-tooth tumbling, and studded with wrought-iron beam anchors that sometimes spell out a date. Nothing about that elevation is American; it is Amsterdam, moved. To stand inside one of the rural houses is to be in a single low room lit from two sides, with the anchor beams overhead at seven and a half feet, a flat wall at one end where the fire is, and two feet of stone between you and a Hudson Valley January."
+  },
+  "defining_characteristics": [
+    "Load-bearing coursed limestone or sandstone walls 20–30 in thick, dressed on the entrance elevation and rubble elsewhere",
+    "Steep unbroken side-gable roof at 45–55 degrees, springing from a plate 7–9 ft above the floor",
+    "Chimneys at or within the gable end walls, serving jambless fireplaces with suspended hoods",
+    "Exposed transverse anchor beams with projecting wedged through-tenons carrying the upper floor",
+    "Dutch doors divided horizontally, with the upper leaf glazed on later work",
+    "Wrought-iron beam anchors visible on the masonry gable, sometimes forming a date",
+    "A flared or 'spring' eave projecting 18–24 in on a concave sweep, on work after c. 1700"
+  ],
+  "diagnostic_tells": [
+    "A flat, unbroken chimney wall in the principal room with no projecting breast — the jambless fireplace, or its ghost",
+    "Coursed ashlar on one elevation, rubble on the other three",
+    "Anchor-beam tenons projecting through the posts, visible from below",
+    "Iron anchors and date irons on the gable masonry",
+    "Roof volume exceeding wall volume in the elevation, with second-floor windows either absent or set in the gable only"
+  ],
+  "distinguished_from": [
+    {
+      "node": "new-jersey-dutch-gambrel",
+      "difference": "The Jersey branch uses a gambrel roof, red-brown Newark sandstone, and a pronounced concave spring eave that becomes a porch. The Hudson branch uses a steep straight gable, grey limestone, and a spring eave that is a water-shedding device rather than a shelter."
+    },
+    {
+      "node": "dutch-colonial-revival",
+      "difference": "The revival is a gambrel house with a full-width shed dormer, a wood frame, symmetrical fenestration and a straight overhanging eave. The Hudson Dutch house has none of those things — no gambrel in its earliest and best work, no dormers, no symmetry obligation, and a stone wall thick enough to sit in the window reveal."
+    },
+    {
+      "node": "german-pennsylvania-colonial",
+      "difference": "Both are thick-walled steep-roofed stone traditions. The German house has a central chimney serving a closed jamb stove and an asymmetric three-room plan; the Dutch house has gable-end hearths, open jambless fires and a one- or two-room plan."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The H-bent span carried over into masonry: rooms one bent deep, the house lengthened by adding bents along the ridge.",
+    "typical_ratios": [
+      "Room depth 18–22 ft; overall 30–46 ft long × 20–24 ft deep",
+      "Wall thickness 20–30 in; wall height to plate 7–9 ft, giving 1:4 to 1:5 thickness to height",
+      "Roof rise:run 12:12 to 17:12 (45–55 degrees)",
+      "Spring eave projection 18–24 in with a sweep radius of 5–9 ft",
+      "Window opening 2 ft 6 in – 3 ft 2 in × 4 ft 0 in – 5 ft 0 in, glazed area under 10% of wall area"
+    ],
+    "bay_rhythm": "Additive and unequal — two, three or five openings across the eave front, with the door placed by the plan rather than by the composition until Georgian symmetry arrives after 1750.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "Two rooms with gable hearths, no passage."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The one-bent house, expanded by adding bents."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "possible",
+      "note": "Late eighteenth-century Hudson work adopts the gambrel from the south."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "possible",
+      "note": "Post-1750 Anglicization behind an unchanged section."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "The Kingston and Albany urban gable-to-street house."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Wall not less than 20 in of coursed load-bearing stone; window and door reveals must express the full wall depth. Stone veneer over frame produces a different building and reads as such at every opening."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Wall plate 7 ft 0 in to 9 ft 0 in above the finished floor, and roof pitch 12:12 to 17:12. If the plate rises or the pitch drops, the roof stops dominating and the type dissolves."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Chimneys at or within the gable end walls. A central stack is a New England device and is incompatible with the open one- or two-room Dutch plan."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Spring eave, where used, projects 18–24 in on a concave sweep, not as a straight overhang, and only on work of c. 1700 or later. Below 12 in it does no work; a straight soffit is not a spring eave."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Openings: leaded casement with iron pintles to c. 1720; nine-over-nine or nine-over-six sash thereafter. Total glazed area under 10% of wall area. Dormers, where present at all, are small individual gabled ones, never continuous."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Pieter Bronck House",
+      "location": "Coxsackie, Greene County, New York",
+      "year": 1663,
+      "note": "Thick stone walls, steep straight gable, single open chambers on two floors — the type before the gambrel and before Anglicization."
+    },
+    {
+      "name": "Jean Hasbrouck House",
+      "location": "Historic Huguenot Street, New Paltz, New York",
+      "year": 1721,
+      "note": "National Historic Landmark. Retains the only original 18th-century jambless fireplace on Huguenot Street; built by Huguenots in wholly Dutch technique."
+    },
+    {
+      "name": "Abraham Hasbrouck House",
+      "location": "Historic Huguenot Street, New Paltz, New York",
+      "year": 1721,
+      "note": "Multi-phase stone house whose successive campaigns are legible in the masonry — a good demonstration of additive bent-by-bent growth."
+    },
+    {
+      "name": "Dyckman Farmhouse",
+      "location": "4881 Broadway, Manhattan, New York",
+      "year": 1784,
+      "note": "Late example: fieldstone lower storey, frame above, gambrel roof with a sprung eave carried on posts as a porch — the moment the eave becomes a porch."
+    }
+  ],
+  "sources": [
+    "Helen Wilkinson Reynolds, Dutch Houses in the Hudson Valley before 1776 (1929)",
+    "Roderic H. Blackburn and Ruth Piwonka, Remembrance of Patria: Dutch Arts and Culture in Colonial America (1988)",
+    "Rosalie Fellows Bailey, Pre-Revolutionary Dutch Houses and Families in Northern New Jersey and Southern New York (1936)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stone",
+    "jambless-fireplace",
+    "anchor-beam",
+    "spring-eave",
+    "steep-gable"
+  ]
+}

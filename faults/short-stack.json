@@ -1,0 +1,192 @@
+{
+  "id": "short-stack",
+  "name": "The Chimney That Ducks",
+  "aka": [
+    "code-minimum chimney",
+    "the lump on the roof"
+  ],
+  "slots": [
+    "chimney"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The stacks read against the sky as the terminating verticals of a symmetrical composition; ducked, the roof has no incident at all."
+    },
+    {
+      "style": "tidewater-georgian",
+      "severity": "serious",
+      "why": "The regional minimum is 6 ft above the ridge because the stacks are at the gable ends."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "serious",
+      "why": "3 ft above the ridge minimum, and the stack is a principal vertical."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Broad, low and heavy on purpose; heightening it would break the horizontal datum."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "Deliberately squat and massive."
+    }
+  ],
+  "severity_in_use": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "A chimney that clears the ridge by a foot or less, or one on a slope whose top stops below the ridge line altogether. It reads as a lump interrupting the roof rather than as the vertical that terminates the composition.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R1003.9 is a minimum - 3 ft above the roof penetration and 2 ft above anything within 10 ft - and both the mason and the builder read a minimum as a target. Every foot of stack above the roof is unbraced masonry that has to be designed for wind and, in much of the country, for seismic; it costs $150-400 a foot; and it is the roof's single largest flashing and maintenance liability. Three separate pressures all push the same way, and none of them is aesthetic.",
+    "cost_saved": "$500-2,000 per stack, plus a structural detail."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chimney / height_above_ridge_in",
+      "statement": "24-120 in above the ridge; the Chesapeake and Low Country minimum is 72 in."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "tudor-revival",
+      "statement": "Chimney breadth at least 1/6 of the elevation it sits on; stack height at least 3 ft above the ridge."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R1003.9",
+      "statement": "Not less than 3 ft above the highest point where the chimney passes through the roof, and not less than 2 ft higher than any portion of the building within 10 ft."
+    }
+  ],
+  "correct_practice": "The code figure is a draft and safety rule, not a proportional one, and the two answer different questions. Historically the stack is a compositional element: on a Georgian house 2 to 10 ft above the ridge, with the Chesapeake and Low Country minimum at 6 ft, because the stacks stand at the gable ends where they must read against the sky as the terminating verticals of a symmetrical composition. On a Tudor Revival house the stack is at least 3 ft above the ridge and at least a sixth of the elevation's width in breadth. The rule of thumb that resolves most cases: an end-wall stack should be tall enough that its top clears a line continuing the roof slope past the ridge, so that it reads as taller than the roof rather than as an interruption of it.",
+  "fixes": {
+    "right": "Design the stack height from the elevation and check it against the code, not the other way round.",
+    "cheap": "Two or three feet of additional brick at $150-400 a foot, decided at the drawing stage. If height cannot be had, get BREADTH instead: a stack 32 in wide at 30 in above the ridge reads far better than one 20 in wide at 48 in, because the eye judges a chimney's presence from its silhouette area, not its height alone.",
+    "dishonest": "A tall decorative pot or shroud added to a short stack. The pot is a real traditional element with real proportions of its own, and a 30 in pot on a 24 in stack reads as a chimney wearing a hat two sizes too big."
+  },
+  "test": {
+    "expression": "stack_height_above_ridge_in / roof_eave_to_ridge_height_in",
+    "threshold": 0.2,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Traditional work runs 0.25-0.5. Under 0.15 the chimney has ducked. A stack whose top falls below the ridge line in the image fails immediately."
+  },
+  "secondary_tests": [
+    {
+      "expression": "stack_height_above_roof_penetration_in",
+      "threshold": 36,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The code floor, which is a draught and safety rule and not a proportional one - and which everyone reads as a target. Also 2 ft above anything within 10 ft."
+    },
+    {
+      "expression": "stack_visible_face_width_in",
+      "threshold": 24,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The compensating measurement. The eye judges a chimney's presence from silhouette area, so a stack 32 in wide at 30 in above the ridge reads better than one 20 in wide at 48 in."
+    }
+  ],
+  "detection": "Measure, in a gable-end or oblique photograph, the height of the stack above the ridge as a fraction of the roof's eave-to-ridge height. Under 0.15 the chimney has ducked; traditional work runs 0.25-0.5. A stack whose top falls below the ridge line in the image fails immediately. Second check: stack width against stack height above the roof - a stack visibly wider than it is tall above the roof is a chase or a very shy chimney.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "prairie-school",
+      "why": "The chimney is broad, low and heavy on purpose - the fattest object in the composition - and heightening it would break the horizontal datum the whole style is built on.",
+      "bounds": "It has to earn the low height with breadth: 30-48 in of visible face, and it must still be the visually heaviest element on the building.",
+      "bounds_test": {
+        "expression": "stack_visible_face_width_in",
+        "threshold": 30,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 48,
+        "note": "It has to earn the low height with breadth, and must still be the visually heaviest element on the building."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "A clinker-brick or boulder stack is deliberately squat and massive, part of the stacked-material logic of base, wall and gable.",
+      "bounds": "Breadth and material weight must do the work; a narrow squat stack is just short.",
+      "bounds_test": {
+        "expression": "stack_visible_face_width_in",
+        "threshold": 30,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Breadth and material weight must do the work; a narrow squat stack is just short."
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "A central stack on a Cape sits close over a ridge that is only 18-22 ft above grade, and it is broad rather than tall.",
+      "bounds": "Still 24 in minimum above the ridge, and 30 in or more wide - the Cape's stack is a massive object seen against a low roof.",
+      "bounds_test": {
+        "expression": "stack_height_above_ridge_in",
+        "threshold": 24,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "And 30 in or more wide - the Cape's stack is a massive object seen against a low roof only 18-22 ft above grade."
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "A stucco chimney terminated with a small tile-capped hood is deliberately squat and sculptural.",
+      "bounds": "The termination must be a shaped hood or a tile cap; a flat stucco box stopping short is still the fault.",
+      "bounds_test": {
+        "expression": "count_of_shaped_hood_or_tile_cap_terminations",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The termination must be a shaped hood or a tile cap; a flat stucco box stopping short is still the fault."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "prairie-school",
+      "statement": "A tall stack is the fault. The chimney must be the fattest and heaviest object in the composition and must not rise far enough to break the horizontal banding."
+    },
+    {
+      "style": "craftsman",
+      "statement": "A slender tall stack is the fault; the mass belongs in the base."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "statement": "A tall brick stack is the fault; the chimney is a squat sculptural stucco form with a tile-capped hood."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "capless-stack",
+      "difference": "That fault is the top 18 in of a stack of adequate height. This one is the height itself."
+    }
+  ],
+  "co_occurs_with": [
+    "capless-stack",
+    "vestigial-chimney-chase"
+  ],
+  "sources": [
+    "IRC R1003.9 (termination)",
+    "kits/georgian-colonial-american.kit.json chimney",
+    "project style nodes: tudor-revival, prairie-school, cape-cod-colonial",
+    "CSIA guidance on the 3-2-10 rule"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chimney",
+    "proportion",
+    "code-conflict"
+  ]
+}

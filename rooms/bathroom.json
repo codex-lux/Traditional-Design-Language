@@ -1,0 +1,261 @@
+{
+  "id": "bathroom",
+  "name": "Bathroom",
+  "aka": [
+    "hall bath",
+    "family bath",
+    "full bath",
+    "bath chamber",
+    "bathroom (three-fixture)"
+  ],
+  "function_class": "sanitary",
+  "description": "The three-fixture room - water closet, lavatory, bath or shower - shared by a floor. It is the most dimensionally settled room in the American house and the settlement is almost exactly a hundred years old: a 5 by 8 rectangle with a tub across one end. That shape is not arbitrary and it is not a minimum reluctantly arrived at; it is the tightest arrangement in which three fixtures each get their code clearance off a single 8 ft wet wall, and every fixture in it is manufactured to suit.",
+  "history": {
+    "appears": 1880,
+    "declines": null,
+    "replaced": "washstand in the chamber, the privy, the bath-house",
+    "note": "The bathroom as a composed room is later than people assume. Fixtures came in one at a time - the fitted bath in the 1850s-70s in wealthy houses, the water closet indoors once a sewer existed to receive it, the pedestal lavatory in the 1880s - and they were inserted into whatever small room adjoined a chamber, which was usually a dressing room. The room only becomes a designed type around 1900-1915, when the one-piece vitreous china closet, the built-in enamelled tub with an apron and the tiled floor arrive together and the sanitary movement makes the SEAMLESS, WASHABLE room the point. The 5 by 8 fixes itself in the 1920s and has not moved since. What has changed is the count: one bathroom per house was normal in 1940, two by 1960, two and a half from 1975 and three or more in most new construction now, and the multiplication is the single largest driver of plumbing cost and of plan distortion in the modern house."
+  },
+  "dimensions": {
+    "area_sf": [
+      40,
+      70
+    ],
+    "width_ft": [
+      5,
+      6.5
+    ],
+    "length_ft": [
+      8,
+      11
+    ],
+    "proportion": [
+      1.4,
+      2.0
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "FIVE FEET, from the tub. A standard alcove bath is 60 in long, and it is 60 in long because the room is 5 ft wide - the causation runs both ways now and has for a century. Across the 8 ft length: the water closet needs 30 in of clear width (15 in from its centreline to any wall or fixture, IRC P2705.1.5) and 21 in clear in front, 24 to be usable; the lavatory needs 30 in of width and the same clear front. 30 + 30 = 60 in of fixture wall, plus the door, plus a towel position, is where the 8 ft comes from. A 5 by 7 bath is a real room and a tight one; a 5 by 8 is right; below 5 ft wide the tub does not fit and the room becomes a shower room, which is a different design with a different drain."
+  },
+  "furniture": [
+    {
+      "item": "alcove bathtub",
+      "footprint_in": [
+        60,
+        30
+      ],
+      "clearance_in": 21,
+      "note": "60 by 30 standard, 60 by 32 better, 60 by 36 for a soaking tub in a 6 ft room. 21 in clear in front by code and 30 to dry a child in. The apron face is a datum: it must land on a wall-to-wall dimension exactly, because a 1/2 in filler strip at a tub end is visible forever."
+    },
+    {
+      "item": "shower, minimum",
+      "footprint_in": [
+        30,
+        30
+      ],
+      "clearance_in": 24,
+      "note": "IRC P2708.1: 900 sq in minimum and 30 in minimum in any dimension, measured to the finished wall. A 30 by 30 shower is legal and is a phone booth. 36 by 48 is the smallest one an adult can wash in without touching the walls; 36 by 60 takes a bench."
+    },
+    {
+      "item": "water closet",
+      "footprint_in": [
+        20,
+        30
+      ],
+      "clearance_in": 24,
+      "note": "Depth 27-31 in from the wall depending on bowl shape; 30 in clear WIDTH is the rule that matters and it is 15 in each side of centre. 21 in clear in front by code, 24 in in practice, 30 if the door swings into it."
+    },
+    {
+      "item": "lavatory or vanity",
+      "footprint_in": [
+        30,
+        21
+      ],
+      "clearance_in": 30,
+      "note": "A 21 in deep vanity with a 22 in top. A pedestal is 20 by 18 and gives the small room back its floor, which is why period bathrooms feel larger than their dimensions - a vanity is a 20th-century storage decision, not a fixture decision."
+    },
+    {
+      "item": "door swing",
+      "footprint_in": [
+        28,
+        28
+      ],
+      "clearance_in": 0,
+      "note": "THE ITEM THAT WRECKS THE ROOM. A 28 in door swinging into a 5 ft wide bath sweeps a quadrant 28 in on each side, which in a 5 by 8 is 10 per cent of the floor and always the piece in front of the lavatory. Swing it OUT into the passage where the passage will take it, or use a pocket door and accept that a pocket door in a wet room needs a solid jamb and a good latch, or borrow the swing over the tub end."
+    },
+    {
+      "item": "towel positions",
+      "footprint_in": [
+        24,
+        4
+      ],
+      "clearance_in": 0,
+      "note": "Two bars or rings per user, 24 in long, within reach of the tub and of the basin without dripping across the floor - which is a real dimension and is the last thing on any bathroom drawing and the first thing the household notices."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.8,
+    "sides_lit": 1,
+    "orientation": "East if there is a choice. The room is used at 6 am and a small east window does more for it than any fixture in it.",
+    "glazing_fraction": [
+      0.04,
+      0.1
+    ],
+    "note": "A window is worth having and the modern practice of building windowless bathrooms with a fan is a real loss - but the window must not be IN the shower or over the tub. A wood sash in a wet enclosure fails in five to eight years, and a tub-surround window is the commonest source of concealed rot in a 1920s house. Where a window has to be near water, use a fixed glass-block or an obscured casement in a fully waterproofed reveal, or borrow light with a transom over the door, which is the period answer and is the reason so many old bathrooms have one."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "bedroom",
+        "why": "A shared bathroom serves the bedrooms on its floor and the route to it must not cross a public space or a stair open to a public space - crossing a landing that overlooks the entrance hall in a towel is the test. BUT NOT THE WET WALL: the bathroom's fixture wall must never be a bedroom's head wall. A 3 in stack passes 40 to 55 dBA of discharge noise through a single layer of gypsum and no insulation in a 2x4 cavity fixes it. Turn the room so its fixtures back onto a closet, a corridor or another bathroom.",
+        "relation": "same-floor",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "primary-bathroom",
+        "why": "Baths stack over baths and back onto baths. Two bathrooms sharing one wet wall - side by side on a floor, or one directly over another - is the single largest servicing economy available in a house, and it is decided in the first sketch or not at all.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      },
+      {
+        "room": "linen-press",
+        "why": "Towels are used ten feet away.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "A bathroom door visible from a laid table, and worse, a bathroom sharing a wall with a dining room, so that the discharge is audible mid-course. A 3 in stack passes 40 to 55 dBA through a single layer of gypsum.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "passage",
+      "landing",
+      "back-hall",
+      "bedroom"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "IRC M1505.4.4: 50 cfm intermittent or 20 cfm continuous, ducted to the OUTSIDE - not to a soffit, not to an attic, not to a ridge vent. And rated cfm is not delivered cfm: a 50 cfm fan on 20 ft of 4 in flex with three elbows moves roughly half its rating. Size the duct at 6 in, run it rigid and short, and specify the fan by its rating at 0.25 in w.g., not at 0.1.",
+    "heat": "The room with the highest surface-to-air heat loss and the one occupied wet. A towel radiator or a radiant floor is worth more here per dollar than anywhere else in the house, and the decision is a floor-assembly decision made at framing.",
+    "electrical": "GFCI on all receptacles; a receptacle within 36 in of the outside edge of each basin; no switch reachable from the tub or shower; a fan on its own switch or humidity control rather than ganged with the light, which is why so many extract fans never run.",
+    "stack_proximity_ft": 6
+  },
+  "style_variation": [
+    {
+      "style": "colonial-revival",
+      "name_in_style": "bathroom",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Hex or square mosaic floor, 4 to 6 ft of glazed wall tile with a bullnose cap and a bead, a wood-cased window, a pedestal lavatory and a claw-foot or apron tub. The period detailing is not decoration - the tiled dado to 5 ft is the sanitary movement's washable wall and it is the correct height because it is above the splash line of a standing person."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "bathroom",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "One bath, off the hall, between the bedrooms, 5 by 7 or 5 by 8, hex tile, a wood medicine cabinet recessed between studs. The recessed cabinet is the type's storage answer and it is a good one - 3 1/2 in of depth taken out of a partition costs nothing."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Does not exist and cannot be retrieved. The style node names 'a plan without closets, bathrooms or a garage' as a diagnostic. Every bathroom in a Georgian-styled house is authored, and the honest place for it is a rear ell, a thickened spine or a former dressing room - which is where the real ones went in the 1890s."
+    },
+    {
+      "style": "victorian",
+      "name_in_style": "bath room",
+      "present": true,
+      "trim_grade": "high",
+      "note": "The earliest true bathrooms and the most elaborate: encased woodwork round the tub and closet, marble-topped washstand, and often a window seat. Also the least sanitary, which is exactly what the 1900s reaction was against - the boxed-in fixture was replaced by the free-standing one so the floor could be washed under it."
+    },
+    {
+      "style": "minimal-traditional",
+      "name_in_style": "bath",
+      "present": true,
+      "trim_grade": "none",
+      "note": "One 5 by 7, no window in the later examples, a steel tub and a plastic-finished wall. The floor of the type."
+    },
+    {
+      "style": "mediterranean-revival",
+      "name_in_style": "bathroom",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Where the room is at its best in the revival styles - a full tiled floor and dado in patterned glazed tile, a plaster upper wall, a deep reveal at a small window. The tile carries the whole room and there is no trim to get wrong."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Water closet: 15 in minimum from centreline to any wall or fixture on each side (30 in total clear width), 21 in minimum clear in front.",
+      "ref": "IRC P2705.1.5",
+      "conflict": "21 in in front is a code floor that a person cannot comfortably stand up from. 24 in is the working number and 30 if a door swings into that space."
+    },
+    {
+      "requirement": "Shower: 900 sq in minimum area and 30 in minimum in any dimension, measured at the finished surface at the top of the threshold.",
+      "ref": "IRC P2708.1",
+      "conflict": "'At the finished surface' catches out framers: a 30 in stud opening with 1/2 in backer and 3/8 in tile each side is 28 1/4 in finished and fails. Frame 32 in for a 30 in shower."
+    },
+    {
+      "requirement": "Ceiling height may be reduced to 6 ft 8 in in a bathroom, and the shower head must have 6 ft 8 in of clear height above a 30 by 30 area.",
+      "ref": "IRC R305.1 exception, P2708.1",
+      "conflict": "Useful under a slope, and it is what makes a bathroom the right room to put under a stair or in a knee-wall zone where a bedroom will not go."
+    },
+    {
+      "requirement": "Exhaust 50 cfm intermittent / 20 cfm continuous, discharged outdoors.",
+      "ref": "IRC M1505.4.4",
+      "conflict": "Rated cfm is measured at 0.1 in w.g. and a real duct run is 0.25 or worse. Specify at 0.25 or the room is not ventilated."
+    },
+    {
+      "requirement": "Trap-arm maximum developed length to vent by size.",
+      "ref": "IRC Table P3105.1",
+      "conflict": "THE BINDING PLUMBING CONSTRAINT IS THE LAVATORY, NOT THE WATER CLOSET, and almost nobody knows it. IRC Table P3105.1 sets the maximum developed length from a fixture trap to its vent by trap-arm size: 1 1/4 in - 5 ft; 1 1/2 in - 6 ft; 2 in - 8 ft; 3 in - 12 ft. A water closet is a 3 in trap arm and may sit twelve feet from the stack. A basin is 1 1/4 or 1 1/2 and may sit five or six. So the fixture that pins the whole room to the wet wall is the smallest one in it, and a plan that puts the WC beside the stack and the basin across the room needs a second vent - which the plumber will fit as an air admittance valve inside the vanity, where it will fail silently in fifteen years and nobody will know why the room smells."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "garrison-block",
+    "cape-cod-massing",
+    "gambrel-block",
+    "cross-gable-victorian",
+    "massed-picturesque",
+    "mansard-block",
+    "townhouse-row",
+    "ranch-linear",
+    "ranch-l",
+    "split-level",
+    "bungalow-linear",
+    "i-house",
+    "telescope-house"
+  ],
+  "slots": [
+    "services_strategy",
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "storage_strategy",
+    "floor_material",
+    "daylight_strategy"
+  ],
+  "faults": [
+    "stack-with-nowhere-to-land",
+    "powder-room-on-the-dining-room",
+    "duct-soffit-through-the-formal-room",
+    "service-route-through-the-formal-plan",
+    "closet-on-the-exterior-wall"
+  ],
+  "sources": [
+    "IRC P2705.1.5, P2708.1, P3105.1, M1505.4.4, R305.1",
+    "faults/stack-with-nowhere-to-land.json",
+    "Nancy Tomes, The Gospel of Germs (1998), for the sanitary movement and the washable room",
+    "May N. Stone, 'The Plumbing Paradox: American Attitudes toward Late Nineteenth-Century Domestic Sanitary Arrangements', Winterthur Portfolio 14 (1979)"
+  ],
+  "confidence": "high"
+}

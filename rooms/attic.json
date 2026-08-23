@@ -1,0 +1,101 @@
+{
+  "id": "attic",
+  "name": "Attic",
+  "aka": [
+    "loft",
+    "garret space",
+    "roof space"
+  ],
+  "function_class": "storage",
+  "privacy_rank": 4,
+  "confidence": "high",
+  "description": "The volume the roof encloses and the plan does not claim. In a steep-roofed traditional house it is very large, and how much of it is taken as room, taken as storage, or given away to insulation and trusses is one of the most consequential and least examined decisions in the section.",
+  "history": {
+    "appears": 1620,
+    "note": "A 10:12 roof on a 28 ft house encloses about 40% of a floor's area at standing height. The trussed roof of the 1960s took all of it back and replaced it with a scuttle, which is the single largest uncompensated loss of usable volume in the history of the American house."
+  },
+  "dimensions": {
+    "area_sf": [
+      100,
+      900
+    ],
+    "ceiling_min_ft": 5.0,
+    "critical_dimension": "The width at which the rafters reach 5 ft, which is what decides whether the volume is habitable, storable or neither. On a 10:12 roof that is 8 ft in from each eave."
+  },
+  "furniture": [],
+  "daylight": {
+    "depth_multiplier": 1.5,
+    "sides_lit": 1,
+    "orientation": "Gable ends first, dormers second — a gable window is free and a dormer costs a roof penetration.",
+    "glazing_fraction": [
+      0.0,
+      0.12
+    ]
+  },
+  "adjacency": {
+    "must_adjoin": [],
+    "should_adjoin": [
+      {
+        "room": "stair-hall",
+        "why": "An attic reached by a proper stair gets used; one reached by a pull-down does not.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [],
+    "entered_from": [
+      "stair-hall",
+      "back-hall",
+      "landing"
+    ],
+    "never_a_through_room": false
+  },
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Vented cold roof or sealed conditioned — never half of each, which is how most retrofit moisture failures start.",
+    "heat": "None if vented",
+    "electrical": "Light at the head of the stair",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "cape-cod-colonial",
+      "note": "The half-storey IS the attic, and the whole type is an argument about how to use it — hence the named increments and the later shed dormer."
+    },
+    {
+      "style": "ranch-style",
+      "present": true,
+      "note": "Trussed and unusable by design. Where a client wants storage on a ranch, it has to be planned into the footprint."
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "note": "The gambrel exists to make this volume habitable at a low eave, and that is its entire justification."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable attic: 7 ft ceiling over at least 50% of the required floor area, and that area measured only where the ceiling is over 5 ft",
+      "ref": "IRC R305.1",
+      "conflict": "The 5 ft line is where the room legally begins and where the client thinks the storage begins, which is a conversation worth having before framing."
+    }
+  ],
+  "massing_fit": [
+    "cape-cod-massing",
+    "gambrel-block",
+    "saltbox",
+    "four-over-four",
+    "i-house",
+    "mansard-block"
+  ],
+  "slots": [
+    "roof_pitch",
+    "dormer",
+    "storage_strategy",
+    "services_strategy",
+    "roof_penetration_rules"
+  ],
+  "sources": [
+    "IRC R305.1",
+    "Cummings, The Framed Houses of Massachusetts Bay"
+  ]
+}

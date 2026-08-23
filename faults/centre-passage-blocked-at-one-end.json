@@ -1,0 +1,186 @@
+{
+  "id": "centre-passage-blocked-at-one-end",
+  "name": "The Passage That Stops",
+  "aka": [
+    "the dead-end hall",
+    "the one-ended passage",
+    "the blocked axis"
+  ],
+  "slots": [
+    "circulation_parti",
+    "public_private_gradient",
+    "daylight_strategy"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A house drawn as a centre-passage plan whose passage runs from the front door and then simply stops - at a kitchen wall, a coat closet, a powder room door, a mudroom, or a pair of doors into a two-storey family room. There is no rear exterior door on the passage axis, no through view, and no draught. Standing on the front step you see a wall twenty-eight feet away where a garden should be.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The rear third of a production plan is a continuous kitchen-family band, and that band is the product being sold. A passage that runs through to a rear door interrupts it, costs about 35 sq ft of plan and a second set of exterior steps, and gives back a door that the client will use twice a year. Meanwhile the two things that actually want the rear axis - the coat closet and the powder room - are placed by the drafter last, and the axis is the only wall left with nothing on it. Nobody decides to block the passage; three separate small decisions land on the same twelve square feet.",
+    "cost_saved": "$1,200-$2,500 for the rear door, its landing and steps, plus 30-40 sq ft of plan returned to the family room, which at $180-$300/sq ft is the number that actually wins the argument."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / circulation_parti / passage_runs",
+      "statement": "Front to back, full depth, with an exterior door at each end. The passage is not a corridor to rooms; it is the room that connects the front of the site to the back of it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / storage_strategy / rear_axis_keep_clear = true",
+      "statement": "No storage may occupy the rear passage axis. Stated in the kit as a hard rule and the whole reason the storage slot exists."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a passage with one opening is a corridor; a passage with two is a ventilation device",
+      "statement": "Cross-flow through a building requires an inlet and an outlet on opposite pressure faces. One door at one end of a 32-40 ft passage moves no air at all, whatever its size."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "dogtrot-vernacular",
+      "statement": "The passage must be open at both ends. Enclosing it converts the building to a centre-passage house and must be recorded as such."
+    }
+  ],
+  "correct_practice": "The passage runs the full depth of the main block, 10 to 14 ft wide in a Georgian house and 8 to 12 in southern vernacular work, with an exterior door at each end and the two doors on one centreline within zero tolerance. Both doors take a transom, which is what lights the middle of the passage when the doors are shut. Where the plan genuinely cannot give a rear door - a garage across the back, a walkout condition, a party wall - the minimum acceptable substitute is a full-height window or a glazed pair on the same axis, so that the through view survives even where the through route does not. A blank wall on the axis is not a reduced version of the rule; it is the absence of the rule. Everything else that wants that wall - the closet, the powder room, the refrigerator - moves 3 ft sideways, which costs nothing at framing and is invisible once built.",
+  "fixes": {
+    "right": "Put the rear door back, aligned with the front door, with a transom over each and a landing and steps to the rear terrace.",
+    "cheap": "Give the axis a window. Swapping the blank end wall for a 3 ft by 6 ft 8 in fixed or casement unit on the centreline costs roughly what the wall cost and restores the entire through view; then shift the powder room door 30 in off the axis so it does not face the front door. Both moves happen on the framing plan and neither is visible as an added line item.",
+    "dishonest": "A mirror at the end of the passage. It returns the appearance of depth in a photograph and nothing else - no light in the middle of the passage, no air, and a visitor looking at himself from the front step."
+  },
+  "detection": "From a listing photograph taken at the front door, look for daylight at the far end of the hall. Daylight means the axis is open; a lit wall means the axis is blocked and the light is borrowed from a side room. On a plan, draw the centreline of the front door through the house and see what it hits: a door or a window is correct, a closet, a WC, a range or a stair face is the fault. From outside, count exterior doors on the rear elevation of the main block and check whether any of them is on the front door's centreline - zero is endemic.",
+  "test": {
+    "expression": "exterior_openings_on_the_passage_axis / 2",
+    "threshold": 1.0,
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "plan",
+    "note": "One opening at each end scores 1.0. A window rather than a door at the rear scores 0.5 and is the acceptable compromise; 0.5 from a blocked rear and a transomed front is not the same thing, so record which end is missing."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "southern-federal",
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "american-farmhouse-vernacular",
+    "american-folk-vernacular",
+    "dogtrot-vernacular",
+    "shotgun-house",
+    "new-urbanist-traditional",
+    "modern-farmhouse-traditional",
+    "contemporary-traditional"
+  ],
+  "exceptions": [
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "There is no passage to block. The four-room square plan is deliberately hall-less and takes its ventilation from paired full-height French casement doors on the front and the recessed rear loggia, which is a better ventilation device than a passage because it works room by room rather than along one line.",
+      "bounds": "Requires the type's own machinery: an exterior door to each front room, openings on two walls of every room, and the loggia recessed between cabinets. A hall-less plan without those is not an exception, it is a plan with no ventilation strategy at all.",
+      "applies_when": {
+        "regions": [
+          "Lower Mississippi Valley",
+          "Gulf Coast"
+        ],
+        "note": "Same licence covers the raised Creole plantation house, where the gallery replaces the passage."
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "No interior corridor on the principal floor by hard constraint; every room opens onto the encircling gallery through French doors, so the gallery is the passage and it is open on all sides.",
+      "bounds": "Gallery 8-14 ft deep on the principal elevation and every principal room with openings on two walls. A raised house with an interior corridor and a gallery on one side only has neither system."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The stair passage is a side passage in a single-pile house, and its through-ventilation runs across the pile rather than along the passage. The far end of the passage may close on a room, because the piazza door does the work of the rear door.",
+      "bounds": "Requires the single-pile section, the piazza on the south or west flank, and the piazza door at least one bay back from the street. A double-pile 'single house' with a blocked side passage has lost both systems at once.",
+      "bounds_test": {
+        "expression": "principal_room_depth_ft",
+        "threshold": 20.0,
+        "direction": "at-most",
+        "units": "ft",
+        "measurable_from": "plan"
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "A party-wall row house's side hall ends at the stair and the rear parlour; the through view is carried by the parlour enfilade instead, and the rear wall is glazed almost fully because it is the only rear light the plan has.",
+      "bounds": "The enfilade doors between front and rear parlour must align, and the rear parlour must carry a full-height window or a pair of them on the same axis. A row house with a blocked hall and a blank rear wall is the fault in its worst form, because the plan has no other source of light.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The entry sequence is deliberately deflected and compressed before it releases into the living volume; a straight through-view from the front door contradicts the style's whole approach logic.",
+      "bounds": "The deflection must be a designed turn into a released space, not a wall. The compressed passage must open within about 15 ft into a room of at least half again the ceiling height."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "passage-that-is-a-corridor",
+      "difference": "That fault is about the passage's WIDTH. This one is about its ENDS. A 12 ft wide passage that stops at a pantry wall is still this fault, and it is the more common of the two in expensive houses."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That is an elevation fault about rank and ornament. This is a plan fault about a route, and it is invisible from the street."
+    }
+  ],
+  "co_occurs_with": [
+    "ceremonial-front-door",
+    "the-room-nobody-enters"
+  ],
+  "alternative_to": [
+    "passage-that-is-a-corridor"
+  ],
+  "severity_by_style": [
+    {
+      "style": "dogtrot-vernacular",
+      "severity": "fatal",
+      "why": "The open passage is the entire type. Enclosing either end converts it to a different building, and the style node says so as a hard constraint."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "fatal",
+      "why": "The aligned front-to-back axis through every door is the type's only environmental strategy; blocking it leaves a 40 ft deep house with two openings."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The passage is the style's central social invention and it is a passage from the road to the garden, not a lobby."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The revival was already loose about this by 1910; it is still the difference between a plan and a costume."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "not-applicable",
+      "why": "The type has no passage parti to violate."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json circulation_parti (passage_runs), storage_strategy (rear_axis_keep_clear)",
+    "styles/dogtrot-vernacular.json climatic constraint on the open passage",
+    "styles/shotgun-house.json structural constraint on door alignment within 3 in",
+    "Historic American Buildings Survey measured plans of Chesapeake and Mid-Atlantic centre-passage houses",
+    "proportions/systems/room-vernacular.json, circulation_parti derived rule and its note on regional passage width"
+  ],
+  "confidence": "high",
+  "tags": [
+    "plan",
+    "circulation",
+    "passage",
+    "ventilation",
+    "invisible-from-the-street",
+    "endemic"
+  ]
+}

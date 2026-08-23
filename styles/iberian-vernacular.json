@@ -1,0 +1,38 @@
+{
+  "id": "iberian-vernacular",
+  "name": "Iberian Vernacular",
+  "rank": "family",
+  "member_of": "iberian-mediterranean",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1200,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Andalusia",
+      "Spain",
+      "Portugal"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The whitewashed courtyard house of southern Spain — thick walls, small openings, deep shade, and a patio that does the work of a room.",
+    "long": "The Andalusian house is the Islamic courtyard diagram sustained in ordinary building for a thousand years: a blank whitewashed street wall, a controlled entry, and an interior court planted and often fitted with water. The climate logic is exact — thermal mass, night flushing, shaded transitional space, minimized solar gain on the envelope.\n\nThis is the most technically relevant traditional inheritance available for the American Sun Belt, and it is almost entirely unexploited by production builders there, who instead build Midwestern houses with more insulation."
+  },
+  "defining_characteristics": [
+    "Blank whitewashed street elevation and one controlled entry",
+    "Interior patio as the principal living space for much of the year",
+    "Very thick lime-rendered masonry with deep reveals",
+    "Small high openings and generous shaded galleries",
+    "Water and planting as architectural rather than decorative elements"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

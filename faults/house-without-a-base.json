@@ -1,0 +1,217 @@
+{
+  "id": "house-without-a-base",
+  "name": "The house sitting on the ground",
+  "aka": [
+    "the slab float",
+    "no first term",
+    "the sunk house"
+  ],
+  "slots": [
+    "foundation_expression",
+    "water_table"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A two-storey house whose first floor is 8 to 12 in above the surrounding earth, so the front door sits on one step or none and the wall runs into the mulch. Nothing is wrong with any individual element; the house simply appears to be settling into the site, and adding trim does not help.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Slab-on-grade removes the crawl space, the stem wall height, the stair to the entrance and a run of retaining or regrading at the drive and the garage. Every inch of first-floor height above grade is paid for in fill, in foundation wall, in exterior steps, and in the driveway's approach slope to a garage that must reach the same floor. Accessibility expectations and a level walk from the drive push in the same direction. The result is a floor level fixed by the driveway rather than by the elevation.",
+    "cost_saved": "Raising the first floor from 12 in to 30 in above grade on a typical lot costs $6,000-$18,000 in fill, stem wall, entrance steps, and drive regrading."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation / foundation_expression.height = part * 2.4 = 24 in, range 12-48 in",
+      "statement": "The graduation starts below the first floor: a visible base is the bottom term of the series, and a house sitting directly on grade has lost the first term and looks like it is sinking. This is the single cheapest correction available on an otherwise good elevation."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / elevation member foundation = 3 parts = 27 in to the bed of the water table",
+      "statement": "The elevation begins below the first floor."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the composed elevation is a series and the series must be complete",
+      "statement": "Foundation, water table, principal storey, belt, second storey, frieze, cornice. Removing the first term does not shorten the series, it breaks it, and the eye reads the break as subsidence rather than as economy."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R401.3",
+      "statement": "Grade falls 6 in within the first 10 ft. The code is on the side of the base here, which is worth saying out loud: falling the grade is required anyway and is the cheapest available correction to this fault."
+    }
+  ],
+  "correct_practice": "Set the first floor 18-30 in above finished grade for an ordinary Anglo-American house, 36-60 in for raised and flood-adapted types, and express the resulting band as a base capped by a water table at 24-36 in. Then fall the grade away 6 in in the first 10 ft, which is both the period practice and IRC R401.3, and which adds apparent height to the base for free. Where a piano nobile is intended, the rule inverts and the ground storey becomes a lower rusticated base of 7-9 ft with the principal floor above it. Where the floor genuinely cannot be raised, the honest response is to change what the building claims to be rather than to add classical apparatus to a low box.",
+  "fixes": {
+    "right": "Raise the first floor to 24-30 in above grade with a stem wall, express the base, and take the entrance in three or four risers with a proper stoop.",
+    "cheap": "Move the earth, not the house. Falling the grade 8-10 in away from the wall over the first 8 ft, and building a low retaining or a planted berm at the perimeter, gains most of the missing base at $1,000-$2,500 and no change to the structure. The eye measures the base against the visible ground immediately adjacent to the wall, not against the street, so a very local fall does most of the work. Combine with a water table set at the highest point code allows: even 18 in of expressed base reads as intentional where 8 in reads as an accident.",
+    "dishonest": "Adding a taller water table or a stone band to a low house to 'give it a base'. A base is a height, not a band: stacking 30 in of applied stone on a house whose floor is 10 in above grade produces a house whose first-floor windows now start immediately above the stone, which looks worse than the plain low house. The check is the sill: the first-floor window sill should sit at least 24-30 in above the top of the water table, and if applying a base violates that, the base is not the problem."
+  },
+  "detection": "Measure to the first-floor window sill. In a straight-on photograph, the distance from finished grade to the first-floor sill should be roughly 4 to 5 1/2 ft (a base of 24-30 in plus a sill height of 24-30 in above the floor). Under 3 ft is the fault. Second, count the entrance risers: a house with a base has three to five risers to its front door; a house without has one or none, and the door threshold is visibly at the level of the walk. Third, look at where the wall meets the ground: if grade rises to meet the siding at any point round the house, or if the base band pinches out at a corner, the floor level was set by the drive.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "Hugging the ground is the type's whole formal argument, and a low or absent base is correct.",
+      "bounds": "The building must then also be low, horizontal and unstacked. A two-storey house with a ranch's foundation height is not an exception, it is the fault.",
+      "bounds_test": {
+        "expression": "storey_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 1,
+        "note": "The building must then also be low, horizontal and unstacked. A two-storey house at a ranch's foundation height is not an exception, it is the fault."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "8-12 in above grade is the documented post-war figure for slab-on-grade work and is authentic to the type.",
+      "bounds": "Authentic where the whole building is minimal. Adding a portico, quoins or a full cornice to a minimal-traditional foundation height reintroduces the series the base is missing from.",
+      "bounds_test": {
+        "expression": "classical_apparatus_element_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Adding a portico, quoins or a full cornice to a minimal-traditional foundation height reintroduces the series the base is missing from."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1955
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Adobe meets the ground directly with a batter and no plinth; the mass is expressed at the wall rather than at the base.",
+      "bounds": "Requires the batter and requires a genuinely thick wall reading. A thin stuccoed frame box sitting on the ground is not this.",
+      "bounds_test": {
+        "expression": "wall_batter_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 2,
+        "note": "Requires the batter and a genuinely thick wall reading. A thin stuccoed frame box sitting on the ground is not this."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "rammed-earth"
+        ]
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "The opposite extreme is correct here — the principal floor stands 8-10 ft above grade on a masonry ground storey.",
+      "bounds": "Not an exception to the fault but its inverse; noted because a raised type built at ordinary foundation height loses its identity entirely.",
+      "bounds_test": {
+        "expression": "finished_grade_to_first_floor_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "threshold": 96,
+        "note": "Eight feet or more. Noted as an inverse rather than an exception: a raised type built at ordinary height loses its identity entirely."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "A raised ground storey of 7-9 ft under a piano nobile is the type; the base is the whole storey.",
+      "bounds": "The ground storey must be markedly lower than the floor above — around 0.72 of it — or the building has two principal floors and no hierarchy.",
+      "bounds_test": {
+        "expression": "ground_storey_height_in / principal_storey_height_in",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.8,
+        "note": "0.72 is the storey-graduation figure for a ground storey under a piano nobile. Above about 0.8 the building has two principal floors and no hierarchy."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "exposed-concrete-skirt",
+      "difference": "That fault is about the FINISH of the visible band; this is about its HEIGHT. A parged, well-detailed 8 in band is still a house without a base."
+    },
+    {
+      "fault": "brick-ledge-base",
+      "difference": "That fault is a missing water table on a masonry wall. This one is a missing dimension in the section. Both can be present and each has its own fix."
+    }
+  ],
+  "sources": [
+    "proportions/modules/storey-graduation.json, foundation_expression.height and its authority note",
+    "proportions/systems/facade-classical.json, elevation assembly",
+    "International Residential Code R401.3, R404.1.6",
+    "kits/georgian-colonial-american.kit.json, foundation_expression"
+  ],
+  "confidence": "high",
+  "tags": [
+    "foundation",
+    "proportion",
+    "base",
+    "site"
+  ],
+  "test": {
+    "expression": "finished_grade_to_first_floor_window_sill_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 48,
+    "note": "A base of 24-30 in plus a sill height of 24-30 in above the floor puts the first-floor sill 4 to 5 1/2 ft above the ground. Under 3 ft is the fault. This is the measurement to reach for first because it needs no knowledge of the floor level and is readable from any straight-on photograph with a person, a door or a brick course for scale."
+  },
+  "secondary_tests": [
+    {
+      "expression": "finished_grade_to_first_floor_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "section",
+      "threshold": 18,
+      "upper": 30,
+      "note": "The dimension itself. 36-60 in for raised and flood-adapted types; 8-12 in is the documented post-war slab-on-grade figure and is what production practice reverts to."
+    },
+    {
+      "expression": "entrance_risers_count",
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 3,
+      "note": "A house with a base has three to five risers to its front door. One or none, with the threshold visibly level with the walk, means the floor level was set by the driveway."
+    },
+    {
+      "expression": "grade_fall_in_first_10ft_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "site-visit",
+      "threshold": 6,
+      "note": "Both the period practice and IRC R401.3, and it adds apparent base height for free. The eye measures the base against the ground immediately adjacent to the wall, so a very local fall does most of the work."
+    }
+  ],
+  "co_occurs_with": [
+    "exposed-concrete-skirt",
+    "brick-ledge-base",
+    "water-table-as-trim-board"
+  ],
+  "severity_in_use": "serious",
+  "inverted_by": [
+    {
+      "style": "raised-creole-plantation",
+      "statement": "The fault inverts entirely: the principal floor stands 8-10 ft above grade on a masonry ground storey, and a raised type built at ordinary foundation height loses its identity outright."
+    },
+    {
+      "style": "charleston-single-house",
+      "statement": "Inverts at the bottom of the stack: the principal floor is the FIRST floor, over a lower ground storey of 7-9 ft at about 0.72 of it. A full-height ground storey under a piano nobile gives the building two principal floors and no hierarchy, which is the opposite error."
+    },
+    {
+      "style": "ranch-style",
+      "statement": "A tall expressed base is the fault. The type's whole formal argument is hugging the ground, and a 30 in plinth under a single-storey horizontal mass reads as a mistake."
+    }
+  ]
+}

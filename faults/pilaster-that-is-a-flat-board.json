@@ -1,0 +1,163 @@
+{
+  "id": "pilaster-that-is-a-flat-board",
+  "name": "The Pilaster That Is A Plank",
+  "aka": [
+    "the flat pilaster",
+    "the painted stripe",
+    "pilaster without a capital"
+  ],
+  "slots": [
+    "pilaster",
+    "order",
+    "entablature"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "profile-depth",
+  "symptom": "A vertical band of trim at the corner of a house, flanking an entrance, or framing a centre pavilion, which is called a pilaster on the drawing and is in fact a 3/4 in flat board. It has no base, no capital, no diminution and no fluting — often no moulded edge at all. It runs from the water table to the frieze as an unbroken stripe and is usually the same width top and bottom and the same width as the corner boards elsewhere. In the slightly better version it has a small crown moulding at the top and a plinth block at the bottom, and both are the wrong size.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A pilaster is an order in flat relief and therefore needs a capital, and a capital is a carved or cast item that costs more than the entire rest of the pilaster. Once the capital is deleted on price, the base follows — a base with no capital looks odd — and what remains is a board. The width then drifts to whatever the corner boards are, because ordering one width of 5/4 stock is cheaper than two, and the pilaster loses the last thing distinguishing it from trim.",
+    "cost_saved": "A pair of cast Ionic or Corinthian pilaster capitals runs 350-900 USD; Tuscan or Doric caps 120-300 USD. Adding the base, the fluting and the extra stock width, a real pilaster costs 500-1,400 USD against 120-200 USD for a wide board."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pilaster / rule",
+      "statement": "A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / pilaster.width = module / 8, range 7-24 in",
+      "statement": "Thirteen and a half inches on the default 9 ft bay, which at Vignola's Ionic makes a module of about 6 3/4 in and a column height of just over 10 ft — a plausible one-storey order. Run this rule the other way when the order is fixed."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / corner_treatment.width = module / 6",
+      "statement": "The corner is 18 in on the default — a quarter of the pier — and must be at least as wide as the narrowest pier reads and never as wide as the pier itself. A pilaster narrower than the corner treatment is a member pretending to be an order."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pilaster / projection_in = column_height / 18, i.e. 5 in at a 90 in column",
+      "statement": "The pilaster projects from the wall. Three-quarters of an inch is not a projection; it is a paint line."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the capital is what names the order, so a pilaster without one is not a pilaster",
+      "statement": "Everything else about a pilaster — width, height, diminution, fluting — is shared with ordinary trim. Only the capital declares that a member belongs to an order, which is why it is the one part that cannot be deleted."
+    }
+  ],
+  "correct_practice": "A pilaster is the bound order flattened, and it keeps everything the column has except its roundness: base, shaft, capital, height, diminution and the entablature above. Width comes from the pack at module/8 — 13 1/2 in on a 9 ft bay — and it must exceed the corner board width on the same building, which is module/6 at the corners themselves but 4 to 6 in on an ordinary wall. Projection is column_height/18, so 5 in at a 90 in column: this is the number most often wrong by a factor of six. It diminishes with the same 0.833 ratio as the column it answers, which on a 13 1/2 in pilaster means 11 1/4 in at the neck — a difference of 2 1/4 in, visible at fifty feet. Where it is fluted, the flutes stop about a seventh of the height from each end and the number is the order's own. The corner pilaster on a New England Georgian measures 10 to 16 in in surviving work, which agrees with the pack.",
+  "fixes": {
+    "right": "A built-out pilaster on a framed backing, 13 to 16 in wide, projecting 4 to 5 in, with a moulded base, a diminished shaft and the bound order's capital in flat relief.",
+    "cheap": "Two moves for under 200 USD a pilaster. First, WIDTH: take the pilaster to 12 to 14 in even if it stays 3/4 in thick, because width is what separates a pilaster from a corner board at any distance and it costs the difference between a 1x6 and a 1x12. Second, a CAPITAL of the simplest possible kind: a plain projecting cap of two members — a fascia and an ovolo or cyma, projecting 2 to 3 in and running the pilaster's full width — for about 30 USD. Tuscan capitals are almost that simple in the original. A wide board with a real projecting cap reads as a pilaster; a narrow board with a crown moulding reads as a corner board with a hat.",
+    "dishonest": "Applying half a round column to the wall in place of a pilaster. A pilaster is rectangular; the half-round is a column that has been sawn and reads as one. Also dishonest: painting the 'pilaster' a different colour from the wall to make it register, which announces that it has no depth."
+  },
+  "detection": "Three checks from a photograph. (1) Width: measure the pilaster against a known reference — a clapboard exposure, a brick course, or the door's width — and against the corner boards on the same house. If they are the same width, there is no pilaster. Correct is 12 to 18 in, and always wider than the corner boards. (2) Capital: is there anything at the top other than the entablature? If the board runs straight into the frieze with no member between, the order has not been declared. (3) Projection: in an oblique photograph, look for a shadow on the shaded side of the pilaster. A 4 in projection casts a shadow roughly a fifth of the pilaster's width in raking light; 3/4 in casts a hairline. Fourth and subtlest check: does the pilaster narrow toward the top? Measure at the base and at the neck; correct work gives about 0.83.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "pilaster_projection_in / pilaster_width_in",
+    "threshold": 0.125,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The kit gives projection as column_height/18, which on a 90 in column and a 13.5 in pilaster is 5 in — a ratio of 0.37. The threshold here is deliberately generous at one eighth, because a built-out pilaster at 1/8 of its width already reads correctly and anything at 3/4 in on a 13 in board (0.055) does not. Combine with a width test: pilaster_width must exceed corner_board_width on the same elevation."
+  },
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The Greek Revival corner pilaster is deliberately broad and flat — flatness is the style's positive gesture — but it is a wide flat member with a real capital and a real projection, and reducing it to a corner board removes the anta."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Pilasters at the corners and flanking the entrance are the kit's stated placement, and the entrance pilaster carries the door surround."
+    },
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "The giant pilaster order is the composition."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "No trim, no pilasters, no corner boards."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The idiom has no pilasters."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival flattens on purpose. The anta at a wall's end is a broad flat member with a simple capital of a fascia, an ovolo and a fillet, and its projection is genuinely slight — the taut wall plane is the style's argument and a boldly projecting pilaster would contradict it.",
+      "bounds": "Flatness is licensed; absence is not. The member must be WIDE — 10 to 20 in on a one-storey order, which is wider than the standard pilaster — and must carry a real anta capital of at least two members with a projection of not less than 1 1/2 in. Greek Revival buys back in width and in capital what it gives up in projection.",
+      "bounds_test": {
+        "expression": "pilaster_width_in",
+        "threshold": 10.0,
+        "upper": 24.0,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1825,
+          1865
+        ]
+      }
+    },
+    {
+      "style": "greek-revival-upland-vernacular",
+      "why": "Upland vernacular Greek Revival makes its corner pilasters out of two boards nailed to form an L, with a plain cap board, and the whole thing is 3/4 in thick. This is period, pervasive and correct in its own terms.",
+      "bounds": "It must be WIDE — not less than 10 in on the face — and must have a cap board projecting past it. A 5 1/2 in board with no cap is a corner board and is a different, ordinary thing.",
+      "applies_when": {
+        "construction": [
+          "wood-frame"
+        ],
+        "date_range": [
+          1830,
+          1870
+        ]
+      }
+    },
+    {
+      "style": "federal-style",
+      "why": "Federal pilasters are attenuated and shallow by intent, and their delicacy is bought back with reeding, gouged decoration and a fine-scaled capital rather than with projection.",
+      "bounds": "Shallow, but enriched and capitalled. A plain flat Federal pilaster with no reeding and no capital is this fault, not the exception."
+    }
+  ],
+  "co_occurs_with": [
+    "column-without-answering-pilaster",
+    "corner-board-thinner-than-the-casing",
+    "cornice-with-no-architrave-or-frieze"
+  ],
+  "confused_with": [
+    {
+      "fault": "column-without-answering-pilaster",
+      "difference": "There the pilaster is absent altogether. Here it is present and is a plank. Fixing the absence usually produces this fault, which is why the two should be read together."
+    },
+    {
+      "fault": "corner-board-thinner-than-the-casing",
+      "difference": "A corner board is trim and is governed by its relationship to the window casing. A pilaster is an order and is governed by the column it answers. The fault here is a pilaster demoted to a corner board; that fault is a corner board that has lost its own separate hierarchy."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, pilaster (width 13.5 in at a 9 ft bay, projection column_height/18, corner pilaster 10-16 in measured)",
+    "proportions/systems/facade-classical.json, pilaster.width and corner_treatment.width",
+    "HABS measured drawings, New England Georgian and Greek Revival corner pilasters",
+    "Asher Benjamin, The Practical House Carpenter, anta capitals"
+  ],
+  "confidence": "high",
+  "tags": [
+    "pilaster",
+    "profile-depth",
+    "order",
+    "capital"
+  ]
+}

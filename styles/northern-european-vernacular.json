@@ -1,0 +1,41 @@
+{
+  "id": "northern-european-vernacular",
+  "name": "Northern European Vernacular",
+  "rank": "tradition",
+  "member_of": null,
+  "status": "living",
+  "period": {
+    "origin": 1100,
+    "floruit_start": 1200,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Netherlands",
+      "Belgium",
+      "Germany",
+      "France",
+      "Scandinavia",
+      "Alps"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The continental traditions of timber frame, steep roof, and hard climate that arrived in America with Dutch, German, French, and Scandinavian settlers.",
+    "long": "Continental northern Europe produced building traditions shaped by long winters, abundant timber, and dense agricultural settlement rather than by treatise. Their logic is material and climatic before it is compositional: a roof pitched steeply enough to shed snow, a frame exposed and infilled because timber was the scarce and expensive part, a house and byre under one roof because a cow in the next room is a heat source.\n\nThese traditions reached North America through settlement rather than through books, which changes everything about how they behave. A pattern book transmits a style intact and abstract; a settler transmits what he can remember and build with the materials at hand. Dutch framing survives in the Hudson Valley as a gambrel roof and a particular way of hanging a door, German framing survives in Pennsylvania as a bank-set stone house with a forebay, and both lose their surface identity within two generations while keeping their structural habits.\n\nFor a design system this is instructive: the durable inheritance is rarely the ornament. It is the section, the roof pitch, the relationship to grade, and the position of the hearth."
+  },
+  "defining_characteristics": [
+    "Steep pitches and large roof volumes doing significant work in the section",
+    "Exposed structural framing as both economy and expression",
+    "House and agricultural function integrated rather than separated",
+    "Transmission by settlement and craft memory rather than by treatise",
+    "Strong grade relationships — banked, cellared, or raised — responding to slope and frost"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

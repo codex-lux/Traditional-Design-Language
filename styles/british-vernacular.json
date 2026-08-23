@@ -1,0 +1,37 @@
+{
+  "id": "british-vernacular",
+  "name": "British Vernacular",
+  "rank": "family",
+  "member_of": "british-isles",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1400,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Wales"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The unselfconscious regional building of the English countryside — Cotswold limestone, thatch, cob, and brick — later mined by revivalists for a whole century of cottage imagery.",
+    "long": "Regional vernacular in Britain is defined by geology. The Cotswolds build in oolitic limestone with stone-slate roofs because that is what the ground yields; East Anglia builds in flint and timber; the West Country in cob. Each produces a distinct language of wall thickness, roof pitch, opening size, and colour without any of it being designed.\n\nThe revival of this material from the 1890s onward — and its export to America as the Cotswold cottage and the Storybook style — is a case worth studying closely: a building culture generated entirely by local constraint, reproduced in places where none of those constraints apply."
+  },
+  "defining_characteristics": [
+    "Material determined by local geology, and everything else following from it",
+    "Steep roofs sized to the covering material — thatch, stone slate, or clay tile",
+    "Small irregular openings and very thick walls",
+    "Growth by accretion, producing irregular plans and rooflines",
+    "No designer, no date, no name"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

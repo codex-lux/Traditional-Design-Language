@@ -1,0 +1,198 @@
+{
+  "id": "tuscan-vernacular",
+  "name": "Tuscan Vernacular",
+  "aka": [
+    "casa colonica",
+    "Tuscan farmhouse",
+    "casale",
+    "podere house",
+    "leopoldina"
+  ],
+  "rank": "style",
+  "member_of": "mediterranean-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1250,
+    "floruit_start": 1400,
+    "floruit_end": 1900,
+    "decline_end": 1964,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1915,
+        "end": 1940,
+        "revival_node": "mediterranean-revival",
+        "note": "The American Mediterranean Revival draws its stucco walls, low tile roofs and blank-wall discipline as much from the Tuscan farm as from the villa."
+      },
+      {
+        "start": 1970,
+        "end": 2026,
+        "revival_node": null,
+        "note": "Mass restoration of abandoned poderi for residential and agriturismo use after the collapse of mezzadria, and a global 'Tuscan' idiom in speculative house-building that reproduces the finishes without the plan."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Tuscany",
+      "Umbria",
+      "central Italy",
+      "Italy"
+    ],
+    "hearth": "The Chianti, Val d'Orcia, Val di Chiana and the Florentine and Sienese contado",
+    "climate_zones": [
+      "3A",
+      "3B",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "roman-classical",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Real but narrow descent: the coppo-and-embrice tile roof, the terracotta floor, the lime mortar, the rubble-and-brick wall and the villa rustica arrangement of stock below and living above are all Roman survivals in unbroken use. The order system is not inherited at all - there is no column in this tradition except in the loggia, and it arrives late."
+    }
+  ],
+  "description": {
+    "short": "The stone farmhouse of the central Italian sharecropping estate: an accretive, tower-marked, tile-roofed block housing one family and its animals on one podere, with no composed facade at all.",
+    "long": "The casa colonica is not a style in the sense that the other members of this family are; it is the physical residue of a contract. Under mezzadria, the sharecropping system that governed central Italian agriculture from roughly the thirteenth century until it was legally wound up in 1964, a landowner supplied land, house, stock and seed, and a peasant family supplied labour, and they split the harvest. The unit was the podere - as much land as one family could work, typically five to fifteen hectares - and each podere required exactly one house. That house had to accommodate a large extended family, its oxen, its pigs, its grain, its wine, its oil and its tools, in one building, on the boundary of an economy that had almost no cash in it. Every feature of the type follows from that: the stalla on the ground floor, where the animals' body heat rises through the terracotta into the living rooms above; the external stair, so the family's floor is reached without going through the stable; the granary in the roof space; the colombaia tower for pigeons, which supplied both meat and the most valuable fertiliser available before industrial nitrates.\n\nWhat produced it technically is a set of hard local limits. There is good building stone almost everywhere in Tuscany but almost no long timber, so the room width is set by the chestnut or oak beam that can be cut and carried - about four to four and a half metres clear, five at the outside. The house therefore grows one four-metre cell at a time, and it grows sideways along the contour, because that is where the level ground is. Nobody drew it. A mason and the family added a bay when there was money and a reason, and the resulting building records its own history in the wall: changes of stone coursing, blocked openings, a straight vertical joint where a new cell was butted onto the old one, a roof that steps down where the added part was cheaper. There was a treatise attempt - Ferdinando Morozzi's Delle case de' contadini of 1770 - and a genuine reform programme, the Leopoldine farms built under Grand Duke Pietro Leopoldo from the 1770s to drain and settle the Val di Chiana, which regularised the type into a symmetrical block with a central colombaia. But even the Leopoldine are the same building with the arithmetic tidied.\n\nIt reacts against nothing, which is the honest thing to say about it, and this is precisely what makes it valuable in a kit-of-parts system. The casa colonica is a control case: architecture generated purely by climate, span, material and use, without a client who cares how it looks from a distance. Its virtues - the deep reveal, the small window, the thermal mass, the shaded loggia on the south, the aia threshing floor set to catch the wind - are not aesthetic decisions and cannot be reproduced by imitating the finishes.\n\nStanding at one in July, the first thing you notice is that the wall is cold. Half a metre and more of rubble limestone with lime render, small openings, and internal shutters rather than glass mean the interior sits fifteen degrees below the yard at three in the afternoon and gives the heat back after dark. The openings are placed by what is behind them, so the facade has a door, a window, and then a blank stretch, and the rhythm is meaningless as composition and completely legible as plan. The tile roof overhangs by half a metre on projecting courses of coppi, so there is a hard shadow line at the eave and a line of terracotta glowing against the wall. There is a fig tree, an oak, and a flat swept area of brick or beaten earth for threshing. And somewhere on the block there is a tower two storeys taller than everything else, with pigeon holes in it, which from a distance reads as gravity and status and is in fact a fertiliser factory."
+  },
+  "defining_characteristics": [
+    "Load-bearing rubble stone or mixed stone-and-brick walls 500-700 mm thick, lime-rendered or left as coursed stone, with the mass doing the thermal work",
+    "Animals stabled on the ground floor and the family living above, with the stalla's heat used deliberately",
+    "External stair or external landing giving direct access to the upper living floor without passing through the working ground floor",
+    "Additive growth in cells of roughly 4-4.5 m, set by the available timber beam span, extended along the contour rather than composed",
+    "Colombaia (dovecote tower) rising one to two storeys above the main roof, originally freestanding and later absorbed into the block",
+    "Shallow-pitched roof of coppi and embrici with a projecting corbelled tile eave (gronda) of 300-600 mm",
+    "Small, few, deeply reveal openings placed by internal need rather than by facade rhythm, with external shutters and no ornament",
+    "An aia - a swept, paved or beaten threshing floor - as an outdoor room of the house, with shade trees on the south side"
+  ],
+  "diagnostic_tells": [
+    "Ground-floor openings are wide and low with segmental brick heads (cart and stall doors), while upper-floor openings are small and vertical - the two storeys have visibly different logics",
+    "A straight vertical joint in the masonry where an added cell butts the original; the roof usually steps at the same line",
+    "Openings that do not stack: a window on the upper floor sitting over solid wall below is normal here and is a hard error in any composed classical style",
+    "A tower with rows of small square pigeon holes near its top, and a projecting tile course under them",
+    "Brick used only for arches, quoins, eaves courses and window heads, with rubble stone everywhere else - brick is the expensive material, spent only where geometry demands it"
+  ],
+  "distinguished_from": [
+    {
+      "node": "italian-villa-vernacular",
+      "difference": "The villa is the same building regularised, given a compact near-cubic block, a hipped roof, a loggia, a bracketed eave and a symmetrical or balanced front. It is where the landowner stayed; the casa colonica is where the tenant lived. If the openings stack and the front is balanced, it is the villa; if the openings are placed by the plan, it is the farm."
+    },
+    {
+      "node": "mediterranean-revival",
+      "difference": "The revival reproduces the stucco, tile and arch but drops the mass (stud wall with a render coat), the small aperture ratio, the additive plan and the working ground floor. Thin walls with large windows under a barrel-tile roof are the revival, not the vernacular."
+    },
+    {
+      "node": "andalusian-courtyard-vernacular",
+      "difference": "The Andalusian type turns inward around a patio with a whitewashed, water-cooled court and a blind street face. The Tuscan farm turns outward onto its own land, has no courtyard, and gets its cooling from wall mass and shutters rather than from evaporation and enclosure."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "None imposed. The generator is the clear span of a locally available chestnut or oak beam, which fixes the room width; the stall height fixes the ground storey; the family's need and the year's harvest fix how many cells get built. Growth is by repetition of the cell, not by subdivision of a whole.",
+    "typical_ratios": [
+      "Room clear span 4.0-4.5 m, 5.0 m maximum; rooms near-square or up to 1:1.5",
+      "Wall thickness 500-700 mm at ground, reducing to 400-500 mm above",
+      "Storey heights approximately 2.4-3.0 m for the stalla and 2.8-3.2 m for the living floor",
+      "Aperture area 5-10 percent of wall area, with window proportions roughly 1:1.3 to 1:1.8 and reveals 400-600 mm deep",
+      "Roof pitch 18-27 degrees (4:12 to 6:12), appropriate to coppi-and-embrici tile laid without underlayment",
+      "Eave overhang 300-600 mm on two or three corbelled courses of tile and brick",
+      "Colombaia tower height 1.3-1.8 times the eave height of the block it stands on; tower plan 3-4 m square",
+      "Loggia, where present, of two to four arches with pier width 0.4-0.6 of the clear opening"
+    ],
+    "bay_rhythm": "Additive and irregular. Openings are placed by what is behind them, so a wall may carry a door, a window, and a long blank in unequal spacing, and upper openings need not align with lower ones. Where regularity appears - notably in the Leopoldine farms of the late eighteenth century - it is an administrative reform imposed from above, not a vernacular instinct.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "Used here as a skeleton only: house, stall, barn and shed joined in a stepping additive chain. The Tuscan reason is accretion and contour, not a New England winter, but the geometry is the same."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "common",
+      "note": "The tower is a colombaia, a working dovecote and not a belvedere, and it usually sits at the angle of the block or over the entry rather than being composed against the mass."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Larger fattoria complexes close a working corte on three sides, with the aia occupying the open fourth."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "possible",
+      "note": "The irreducible single-cell house with a stall below survives on poorer poderi and in upland Tuscany."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "forbidden",
+      "note": "The irregularity is a byproduct of accretion, never a composition. Deliberately irregular massing designed for a viewpoint is a nineteenth-century picturesque idea and reads immediately as false here."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "No clear span above 5.0 m without either a masonry vault or an intermediate wall. Wide open-plan rooms are structurally impossible in the type and destroy its plan logic.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Aperture area must not exceed 12 percent of any wall area, and reveals must be at least 350 mm deep. The type's summer performance depends on small openings in high-mass walls; large glazing converts it into a greenhouse.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch between 4:12 and 6:12. Steeper reads as northern European; shallower will not shed water under coppi-and-embrici tile laid dry.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Openings must not be forced into a symmetrical rhythm. Vertical alignment between storeys is permitted only where a structural pier requires it; imposed symmetry converts the building into a villa.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Brick appears only at arches, quoins, window and door heads, and eaves courses. Brick used as a general facing material is a later or urban condition, not this one.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Leopoldine farmhouses of the Val di Chiana",
+      "location": "Val di Chiana, Arezzo and Siena provinces, Tuscany, Italy",
+      "year": 1780,
+      "note": "Built from the 1770s onward under Grand Duke Pietro Leopoldo's land-reclamation programme; several hundred survive. A symmetrical, regularised casa colonica with a central colombaia over the entrance - the type at its most codified."
+    },
+    {
+      "name": "Villa Medicea di Cafaggiolo",
+      "location": "Barberino di Mugello, Florence, Italy",
+      "year": 1452,
+      "note": "Michelozzo's reconstruction of an existing fortified farm for Cosimo de' Medici, 1452, keeping the crenellated entrance tower and battlemented wings. Included here because it preserves, at the moment of transition, the working farm block with tower from which the villa type was extracted."
+    },
+    {
+      "name": "Podere and fattoria complexes of the Val d'Orcia",
+      "location": "Val d'Orcia, Siena province, Tuscany, Italy",
+      "year": null,
+      "note": "The mezzadria landscape of dispersed single-family poderi inscribed as a UNESCO World Heritage cultural landscape in 2004; individual houses are undated but the settlement pattern is documented from the fifteenth century."
+    }
+  ],
+  "sources": [
+    "Ferdinando Morozzi, Delle case de' contadini: trattato architettonico (Florence, 1770)",
+    "Renato Biasutti, La casa rurale nella Toscana, CNR Ricerche sulle dimore rurali in Italia (1938)",
+    "Emilio Sereni, Storia del paesaggio agrario italiano (1961)",
+    "Bernard Rudofsky, Architecture Without Architects (1964)",
+    "Paul Oliver (ed.), Encyclopedia of Vernacular Architecture of the World (1997)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "vernacular",
+    "italian",
+    "farmhouse",
+    "mezzadria",
+    "high-mass",
+    "additive"
+  ]
+}

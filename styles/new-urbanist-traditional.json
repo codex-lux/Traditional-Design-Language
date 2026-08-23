@@ -1,0 +1,223 @@
+{
+  "id": "new-urbanist-traditional",
+  "name": "New Urbanist Traditional",
+  "aka": [
+    "Traditional Neighborhood Development architecture",
+    "TND",
+    "code-governed traditional",
+    "neotraditional town architecture"
+  ],
+  "rank": "style",
+  "member_of": "contemporary-traditional",
+  "status": "living",
+  "period": {
+    "origin": 1979,
+    "floruit_start": 1981,
+    "floruit_end": 2026,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Seaside, Walton County, Florida",
+    "climate_zones": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "folk-victorian",
+      "type": "descends_from",
+      "weight": 0.45,
+      "inherits_kit": true,
+      "note": "The Gulf Coast and Southern wood vernacular — raised floor, deep porch, tall shuttered openings, metal roof, simple trim — is the grammar the Seaside code actually encodes, chosen because Duany and Plater-Zyberk measured surviving examples in small Southern towns before drawing it."
+    },
+    {
+      "target": "charleston-single-house",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The side-piazza type is one of the code's canonical frontage solutions: it delivers a private outdoor room and a narrow street frontage simultaneously, which is exactly what a dense traditional block requires."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The American small-town default of 1830-1860 — pedimented gable, simple pilaster and entablature, tall narrow openings — survives here as the plainest available classical vocabulary and the one most easily specified in a code."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Supplies the Northeastern and Mid-Atlantic dialects of the movement, notably at Kentlands."
+    },
+    {
+      "target": "new-classical",
+      "type": "hybridizes_with",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "Shared personnel, shared institutions, and a shared theory of transmission. New Classical supplies the civic buildings and the terminated vistas; New Urbanist Traditional supplies the fabric around them."
+    },
+    {
+      "target": "neo-eclectic",
+      "type": "reacts_against",
+      "weight": 0.75,
+      "inherits_kit": false,
+      "note": "The defining opposition, and a precise one: the movement's codes read as an itemized prohibition of neo-eclectic practice — no street-facing garage, no front-only masonry, no misaligned heads, no arbitrary gables."
+    },
+    {
+      "target": "ranch-style",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Against the whole postwar settlement pattern the ranch belongs to: the cul-de-sac, the deep setback, the single-use pod, and the house that turns its back on the street."
+    }
+  ],
+  "description": {
+    "short": "The traditional architecture produced under form-based codes in walkable new towns from Seaside onward, in which the street section, the build-to line, the frontage type, and the relegation of the garage are specified before style, and the style itself is drawn from a single regional vernacular.",
+    "long": "New Urbanist Traditional is the only node in this branch whose unit of design is not the house. It is the block and the street, and the building is what happens at the edge of them. This inverts the entire logic of the preceding fifty years: rather than designing a house and placing it on a lot, the movement specifies the public space first — a street of eighteen to twenty-four feet of pavement, a sidewalk, a planted verge, a build-to line ten to twenty feet back, an alley behind — and then writes rules for the building envelope, the frontage type, the height in storeys, and the transparency of the ground floor that will produce a coherent wall along it. Style enters last, and it enters as a regional constraint: use the vernacular of this place, correctly, rather than a menu of six vernaculars from elsewhere.\n\nThe origin is precise. Robert Davis inherited eighty acres on the Florida panhandle in 1978, engaged Andres Duany and Elizabeth Plater-Zyberk, and the three of them drove the American South looking at small towns before drawing anything. Construction began in 1981 with two houses and a street. The Seaside urban code — famously compressed onto a single sheet, organized by street type, and legible to a builder in ten minutes — is the pivotal artifact, and it is worth being explicit about what kind of artifact it is. It is a pattern book. It works exactly as Gibbs and Langley and Asher Benjamin worked in the eighteenth century: it externalizes design knowledge into a portable, purchasable, enforceable document so that builders who have never seen the exemplar can produce coherent work. The eighteenth century transmitted proportion by engraved plate; Seaside transmits it by regulating plan and section; and the direct next step — encoding the same logic in software so that it can be checked, cascaded, and generated — is the reason this taxonomy exists. Kentlands followed a week-long charrette in June 1988 and began construction in 1989. Windsor, in Vero Beach, was founded in 1989 with a DPZ code and later a town hall by Leon Krier. The Congress for the New Urbanism organized in 1993, and the SmartCode of 2003 generalized the method into a transect-based model ordinance that hundreds of municipalities have since adapted.\n\nWhat produced it, beyond conviction, was the exhaustion of Euclidean zoning. Use-segregated, setback-driven, parking-minimum zoning cannot produce a walkable street no matter who designs the buildings, because it prohibits the geometry. The movement's central technical insight is that the enforceable instrument is the code, not the style — a builder will not follow taste but must follow an ordinance — and that once the code has fixed the section, a surprisingly wide range of architectural quality still produces a decent street. The corollary is uncomfortable and worth stating: much New Urbanist architecture is mediocre, and the places work anyway. That is a finding about which rules matter, and it should discipline any system that proposes to encode design.\n\nStanding in one, the differences from ordinary suburb are all dimensional and all felt immediately. The street is narrow enough that the buildings on both sides are in your visual field at once. The porch is eight to twelve feet deep and twelve to eighteen feet from the sidewalk, which is close enough to speak across and far enough not to be intruded upon — a distance the movement rediscovered empirically. There are no garage doors; they are on the alley, and the alley absorbs the bins, the meters, and the parked cars. Vistas terminate in something — a civic building, a tower, a tree. The buildings are various in colour and detail but identical in the two things that matter, setback and height, so the street reads as one room. What is under construction here is not a style but a demonstration that design logic, written down and enforced, produces a public good that individual good intentions do not."
+  },
+  "defining_characteristics": [
+    "A form-based code governing build-to line, frontage type, height in storeys, and street section, adopted before any building is designed",
+    "The garage relegated to an alley, or set well behind the front facade; no street-facing garage door on an alley-served lot",
+    "A front porch or equivalent frontage element of habitable depth at a shallow setback, in direct conversational relation to the sidewalk",
+    "A continuous street wall formed by a limited set of permitted frontage types rather than by a uniform setback",
+    "Stylistic vocabulary drawn from a single regional tradition per building, specified by the code and applied consistently on all elevations",
+    "Narrow street sections with on-street parking and terminated vistas, designed as public rooms rather than as traffic conduits",
+    "Mixed lot widths, building types, and uses within a single block"
+  ],
+  "diagnostic_tells": [
+    "No garage doors visible from the street anywhere on the block",
+    "Front porches at eight feet or more of depth, at setbacks of twelve to eighteen feet, occupied by actual furniture",
+    "A hard build-to line: adjacent facades line up within a foot or two, and the fence or hedge continues the line across the gaps",
+    "Streets narrow enough that two moving cars must negotiate, with parking on both sides",
+    "The same material and detail carried around all four elevations of every building, including the alley face"
+  ],
+  "distinguished_from": [
+    {
+      "node": "neo-eclectic",
+      "difference": "A code versus a menu. Both build traditional-looking houses for the same market; one enforces alignment, material return, garage relegation, and a single grammar per building, and the other selects an elevation package. The diagnostic is the side elevation and the alley."
+    },
+    {
+      "node": "new-classical",
+      "difference": "A difference of scale and commitment. New Classical is a discipline of the individual building organized around the correct use of the orders; New Urbanist Traditional is a discipline of the street that accepts plain vernacular buildings and often prefers them. The civic buildings in a New Urbanist town are usually New Classical."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Colonial Revival is a style that can be built on any lot in any pattern; this node is not usable outside a coded street. A single New Urbanist house in a conventional subdivision is simply a Colonial Revival or vernacular revival house."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The code first, the order second. Build-to line, lot width, height in storeys, frontage type, and required transparency are fixed by ordinance; within that envelope, building proportion follows regional vernacular precedent — a vertical window proportion, a single head datum per storey, a porch depth, and a plate height. The significant point for this project is that the code is a rule set of exactly the kind a generator consumes: it is enumerable, checkable, and independent of taste.",
+    "typical_ratios": [
+      "Front setback 10 to 20 ft, with facade occupying not less than 70 percent of the lot width at that line",
+      "Porch depth 8 to 12 ft clear; porch height one full storey",
+      "Window opening proportion 1:1.8 to 1:2.2, heads aligned to one datum per storey",
+      "Ground storey plate 9 to 11 ft; upper storey 8 to 9 ft",
+      "Street pavement 18 to 24 ft with parking on one or both sides; building height to street width roughly 1:2 to 1:3",
+      "Alley 12 to 20 ft, garages set 5 to 20 ft off it"
+    ],
+    "bay_rhythm": "Regular vertical openings at 8 to 12 ft centres on the principal frontage, with solid-to-void of roughly 60:40 on the ground storey and more solid above.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "common"
+    },
+    {
+      "massing": "charleston-single",
+      "affinity": "common",
+      "note": "The canonical narrow-lot frontage solution in the Southern codes: side piazza, gable to the street, entry through a false door onto the porch."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The type that makes the transect work at its denser calibrations, and the one most often missing from conventional zoning."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common"
+    },
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "possible"
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible"
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "code",
+      "statement": "Where an alley serves the lot, garages must be alley-loaded and street-facing garage doors are forbidden. Where no alley exists, the garage face must be set back not less than 20 ft behind the front facade plane, or be side-loaded.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Front porch not less than 8 ft clear depth and not less than 60 percent of the facade width, at a front setback of 10 to 20 ft.",
+      "severity": "hard"
+    },
+    {
+      "kind": "code",
+      "statement": "The principal facade must occupy not less than 70 percent of the lot width at the build-to line; gaps must be closed by a fence, wall, or hedge of not less than 3 ft continuing the line.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Window openings vertically proportioned between 1:1.8 and 1:2.2, with all heads on a storey aligned to a single datum. Ground storey transparency on the principal frontage not less than 30 percent.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "One regional stylistic vocabulary per building, applied to all elevations including alley and side. Mixing grammars on a single building, or changing material at an outside corner, is forbidden.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Seaside",
+      "location": "Walton County, Florida",
+      "year": 1981,
+      "note": "Robert Davis with Duany Plater-Zyberk; land assembled 1978, construction begun 1981, urban code drawn in the early 1980s. The founding case and the origin of the single-sheet form-based code."
+    },
+    {
+      "name": "Kentlands",
+      "location": "Gaithersburg, Maryland",
+      "year": 1988,
+      "note": "DPZ charrette June 1988, construction from 1989, first residents 1991. The first full-scale test of the method in a cold-climate Mid-Atlantic context and on a conventional developer's pro forma."
+    },
+    {
+      "name": "Windsor",
+      "location": "Vero Beach, Florida",
+      "year": 1989,
+      "note": "Founded 1989 by Hilary and Galen Weston with a DPZ plan and code; town hall by Leon Krier, 1999. The movement's most tightly coded and most expensively executed village."
+    }
+  ],
+  "sources": [
+    "Andres Duany, Elizabeth Plater-Zyberk and Jeff Speck, Suburban Nation: The Rise of Sprawl and the Decline of the American Dream (2000)",
+    "Andres Duany and Elizabeth Plater-Zyberk, The Lexicon of the New Urbanism, and the SmartCode (2003- )",
+    "Leon Krier, The Architecture of Community (2009)",
+    "Robert A. M. Stern, David Fishman and Jacob Tilove, Paradise Planned: The Garden Suburb and the Modern City (2013)",
+    "Witold Rybczynski, Last Harvest: How a Cornfield Became New Daleville (2007)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "form-based-code",
+    "pattern-book-return",
+    "walkable",
+    "garage-relegation",
+    "living-tradition"
+  ]
+}

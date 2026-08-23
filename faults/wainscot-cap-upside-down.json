@@ -1,0 +1,102 @@
+{
+  "id": "wainscot-cap-upside-down",
+  "name": "The Base Cap Turned Over",
+  "aka": [
+    "the inverted cyma",
+    "base moulding used as a chair rail",
+    "the cap with no corona"
+  ],
+  "slots": [
+    "chair_rail",
+    "wainscot",
+    "baseboard"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "The chair rail or wainscot cap is a length of base-cap moulding installed the other way up, so its cyma reversa runs concave-below and convex-above instead of the reverse, and there is no corona and no flat top surface. It has no projecting horizontal for a chair back to strike, so a chair back hits the panelling below it and the cap does nothing; in raking light the profile throws its shadow upward into the wall rather than downward onto the dado, which inverts the whole reading of the member.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "There is a large stock of small mouldings on any lumberyard shelf and only one or two of them are actually chair rails; the base caps, panel moulds and stop beads are cheaper, more available and come in longer lengths. A base cap turned over does superficially look like a small chair rail, and once painted the direction of a 1 5/8 in cyma is not obvious to anyone standing up. Real chair-rail stock is also often only 2 1/2 in tall and 3/4 in proud, which reads as insufficient, so the substitution is made in the direction of something that at least looks moulded.",
+    "cost_saved": "0.60 to 1.80 USD a lineal foot against a run four-member surbase, so perhaps 200 to 500 USD in a dining room. Small, which is why the fault is worth naming: it is nearly free to fix."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / wall_section_georgian, surbase members",
+      "statement": "The Georgian surbase is four members reading upward: astragal (0.10 parts high, 0.10 proud), cyma reversa (0.24 high, 0.18 proud), CORONA (0.18 high, 0.26 proud) and listel (0.06 high, 0.08 proud). The corona is the member that projects furthest and it sits above the cyma, not below it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chair_rail / profile",
+      "statement": "Astragal, cyma reversa, corona and listel — the corona is the member a chair back actually hits. And: its corona must project further than the base cap or it will not shed a chair."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a cyma reversa turns the eye toward the member it caps",
+      "statement": "Concave above and convex below turns the eye upward off the floor, which is why it caps a base. Inverted, the same section turns the eye downward off the wall, which is why it is used as a bed mould under a projecting member and nowhere else. Direction is not a preference; it is the profile's function."
+    }
+  ],
+  "correct_practice": "A surbase reads upward as astragal, cyma reversa, corona, listel — four members, about 3 1/2 in tall in total at a 9 ft ceiling, with the corona projecting furthest at roughly 1 1/2 times the base cap's projection. Two things the corona must do. First, it must be the most projecting member IN THE ROOM below the cornice, and specifically further out than the base cap, or a chair pushed against the wall touches the dado instead of the rail and the member has failed at its only job. Second, its underside must have a flat or slightly hollowed soffit so it casts a hard downward shadow onto the dado — a rail with no shadow beneath it reads as a stripe, whatever its profile. The cyma reversa runs concave-above, convex-below, which is the same section as the base cap and one of the great economies of classical trim: the SAME KNIFE serves as base cap, surbase cyma and architrave cap at one size, which is what period joiners did because they owned a finite number of planes. Reusing the profile is correct and reusing it upside down is not.",
+  "fixes": {
+    "right": "A four-member surbase run from the family's own profile list, corona included, projecting 1 1/2 times the base cap.",
+    "cheap": "Turn it over and add a cap. Taking the existing base-cap moulding off, reinstalling it the right way up, and nailing a flat 1x2 on top of it with its edge projecting 3/4 in makes a three-member surbase with a real corona for about 0.90 USD a lineal foot in new stock — 120 USD in a dining room — and it is the cheapest genuine improvement in this whole slot. If nothing else, ADD THE FLAT TOP: a chair rail with a horizontal top surface projecting 1 1/4 in reads as a rail even with a mediocre profile below it.",
+    "dishonest": "A single stock 'chair rail' profile of 2 1/2 in with a rolled top and no flat, sold under that name. It is the right member in the wrong section: rolled tops shed a chair sideways rather than stopping it, and they cast no shadow. Also dishonest: caulking a quarter round under the existing inverted cap to fake a corona — a quarter round projects less than it is tall and produces a soft shadow, which is the opposite of what a corona does."
+  },
+  "detection": "Photograph the rail in side light and look at the SHADOW DIRECTION. Correct: a hard dark band on the dado immediately below the rail, cast by the corona's soffit, and light on the top surface. Fault: the shadow falls above the moulding on the wall, or there is no shadow at all. Second, sight along the top: a correct surbase has a flat horizontal surface 3/4 to 1 1/2 in deep that will hold a coin; an inverted base cap has a curved top that will not. Third, compare the rail's projection with the base cap's projection in the same photograph — the rail must project further, and if the base cap stands further out than the chair rail the two members have been swapped. Fourth, the sure tell in an image: an inverted cyma reversa presents its CONVEX curve at the top and its concave at the bottom, so the highlight sits at the top of the member instead of the bottom.",
+  "test": {
+    "expression": "chair_rail_projection_in / base_cap_projection_in",
+    "threshold": 1.2,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "From the pack's parts: the Georgian surbase corona projects 0.26 parts and the base cap cyma 0.20, a ratio of 1.30. Where the two are the same moulding, the ratio is 1.00 and the rail has no functional advantage over the dado below it. The direction of the cyma is the diagnostic and the projection ratio is the consequence."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman wainscot cap is a flat board with a bevelled top edge and no cyma anywhere, and the plate rail is a genuine projecting shelf with a stop strip. There is nothing to invert.",
+      "bounds": "Flat board, square edges, bevel on top only, projecting about an inch — or, for the plate rail, a full 3 1/2 in shelf with a 1/2 in stop strip set back 1/2 in from the outer edge. The projection rule still holds and the Craftsman version satisfies it comfortably."
+    },
+    {
+      "style": "shingle-style",
+      "why": "A plain square cap on a board wainscot with no moulded profile at all is normal, and the informality is the style's method.",
+      "bounds": "Plain and flat, with a small projection. What is not licensed is a moulded profile installed backwards, which is a different thing from having no profile."
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Where the family runs a rail at all — which is rare, since it abandons the dado — the profile is a single broad ovolo or cavetto with a heavy square fillet, and the modelling is deliberately minimal.",
+      "bounds": "The fillet is the corona equivalent and it must project furthest. Greek Revival flattens curves; it does not reverse them."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "dado-panel-taller-than-wide",
+      "difference": "The cap against the field. Two independent decisions, and a dado can easily be right in one and wrong in the other."
+    },
+    {
+      "fault": "trim-from-no-family",
+      "difference": "That fault is a profile with no derivation; this is a correct profile used in the wrong orientation, which is arguably worse because the knowledge was there and got turned over."
+    }
+  ],
+  "co_occurs_with": [
+    "trim-from-no-family",
+    "chair-rail-at-thirty-six-inches"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, wall_section_georgian surbase members and their projection_parts",
+    "kits/georgian-colonial-american.kit.json, chair_rail profile",
+    "Vignola, Regola delli cinque ordini (1562), cyma reversa and corona",
+    "Asher Benjamin, The American Builder's Companion (1806), moulding plates"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chair-rail",
+    "profile-depth",
+    "moulding-direction",
+    "corona"
+  ]
+}

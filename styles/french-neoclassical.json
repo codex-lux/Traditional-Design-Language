@@ -1,0 +1,212 @@
+{
+  "id": "french-neoclassical",
+  "name": "French Neoclassical",
+  "aka": [
+    "Style Louis XVI",
+    "Gout grec",
+    "Style Directoire",
+    "Empire style",
+    "Architecture parlante"
+  ],
+  "rank": "style",
+  "member_of": "continental-baroque-neoclassical",
+  "status": "historical",
+  "period": {
+    "origin": 1740,
+    "floruit_start": 1750,
+    "floruit_end": 1830,
+    "decline_end": 1850,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1885,
+        "end": 1940,
+        "revival_node": "neoclassical-revival",
+        "note": "The American full-height-portico revival, launched by the 1893 World's Columbian Exposition, takes its authority from the French academic tradition even where its immediate models are English."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Paris",
+      "Ile-de-France",
+      "France",
+      "Europe"
+    ],
+    "hearth": "Paris",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-baroque",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Continuous institutional descent through the Academie royale d'architecture and the Blondel school. The plan types - hotel entre cour et jardin, the enfilade, the corps de logis with pavilions - and the stonecutting practice pass through untouched; Gabriel is Mansart's grammar with the adjectives removed."
+    },
+    {
+      "target": "french-baroque",
+      "type": "reacts_against",
+      "weight": 0.6,
+      "note": "Directed at the Rococo interior and at Baroque surface plasticity specifically: Cochin's polemics from 1754, Laugier's Essai of 1753 demanding that the column be structural and the pediment express a real roof. The target is ornament without structural warrant, not the Grand Manner plan."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.7,
+      "note": "Re-quotation from newly excavated evidence rather than from Renaissance intermediaries - Herculaneum from 1738, Pompeii from 1748, Piranesi's Antichita Romane 1756, Robert Adam's Spalatro 1764."
+    },
+    {
+      "target": "greek-classical",
+      "type": "references",
+      "weight": 0.5,
+      "note": "Le Roy's Ruines des plus beaux monuments de la Grece (1758) and Stuart and Revett's Antiquities of Athens (from 1762) put measured Greek buildings in French hands for the first time; the resulting taste for baseless Doric and severe unfluted shafts is a direct consequence."
+    }
+  ],
+  "description": {
+    "short": "The reduction of French classicism to geometric primary volumes, archaeologically correct detail used sparingly, and an ethic that every classical member must be justified by structure.",
+    "long": "French Neoclassicism is the tradition's first attempt at intellectual housekeeping. The argument, made most sharply by the Abbe Laugier in 1753, is that architecture had accumulated members that no longer meant anything: pilasters that support nothing, pediments over no roof, engaged columns embedded in walls that do not need them. Laugier's primitive hut - four trunks, four beams, two rafters - proposes that only the column, the entablature and the pediment are legitimate, and that everything else is arbitrary. This was never fully buildable, but as a critical instrument it was devastating, and its effect is visible everywhere: French Neoclassical buildings use fewer classical members, place them further apart, and make them do real work.\n\nTwo other conditions matter as much as the theory. The first is archaeology. Herculaneum from 1738 and Pompeii from 1748 delivered actual Roman domestic interiors, and Le Roy in 1758 and Stuart and Revett from 1762 delivered measured Greek temples. For two hundred years Europe had derived antiquity from Vitruvius plus the ruins of imperial Rome; now it had evidence of a plainer, sterner, earlier antiquity, and it turned out the Renaissance had been wrong about a great deal. The second is economic and institutional: eighteenth-century France was building a new class of public buildings - theatres, hospitals, mints, customs barriers, exchanges - for which no traditional type existed, and in which the design problem was function and circulation rather than status. Soufflot's Sainte-Genevieve is the pivotal object because it takes the structural ambition of Gothic - slender supports, minimal masonry, maximum light - and executes it in a wholly classical vocabulary, using iron cramps hidden inside the piers. The critics who attacked it for structural imprudence were arguing about statics, not taste, which tells you what had changed.\n\nThe reaction against the Rococo was specifically a reaction against the interior. Louis XV interiors are boiserie, asymmetrical rocaille cartouches, dissolving corners, no order at all. The Louis XVI answer is rectilinear panelling, straight fluted pilasters, Vitruvian scroll and guilloche in narrow bands, and corners that are corners. But nothing in the plan changed. The hotel particulier of 1780 has the same court-and-garden arrangement, the same enfilade, and the same social choreography as the hotel of 1680; the revolution was confined to the surface, which is exactly what you would expect from a reform driven by critics rather than by clients.\n\nThe Petit Trianon is the thing to stand in front of. It is a stone cube about twenty-three metres on a side, three storeys, five bays, with four free-standing Corinthian columns on the garden face and pilasters on two others - and the fourth face has neither. There is no ornament anywhere except the capitals, a balustrade and a single stringcourse. The roof is invisible. The effect, once your eye stops looking for incident, is of extraordinary calm and of the wall being a real, thick, cool, load-bearing thing, with each window cut cleanly into it and given exactly enough moulding to declare itself an opening. The building's whole argument is that if the proportions are right, nothing else is needed - and it is one of the few buildings that wins that argument outright."
+  },
+  "defining_characteristics": [
+    "Primary geometric volumes - cube, cylinder, hemisphere - legible as whole solids, with the roof suppressed behind a balustrade or parapet",
+    "Ornament reduced to a small number of correctly measured members, separated by large areas of plain wall",
+    "Free-standing columns carrying a real entablature in preference to engaged columns and pilasters",
+    "Even, unaccented bay rhythm across the whole front, with the centre marked by a portico or a slight projection but no change of rhythm",
+    "Archaeologically derived detail - Greek key, Vitruvian scroll, guilloche, paterae, husk garlands - used in narrow disciplined bands",
+    "Rustication confined to the ground storey with fine joints, or eliminated altogether",
+    "Straight lines and right angles reasserted at every scale, particularly in interiors, against Rococo curvature"
+  ],
+  "diagnostic_tells": [
+    "No visible roof: a balustrade or blocking course runs along the cornice line and the low hipped roof behind it is invisible from the ground",
+    "Column shafts unfluted, or fluted only in the upper two-thirds, and set widely apart with plain wall between",
+    "Windows cut into the wall as clean rectangles with a flat architrave, no aedicular surround, and no keystone drama",
+    "A giant portico of four or six free-standing columns applied to an otherwise entirely plain block",
+    "Interior corners are square and panelling is rectilinear - the immediate tell separating Louis XVI from Louis XV"
+  ],
+  "distinguished_from": [
+    {
+      "node": "french-baroque",
+      "difference": "The Baroque works by hierarchy of projecting blocks and heavy sculptural relief at the centre; Neoclassicism holds a single plane, suppresses relief, and distributes the emphasis evenly. The mansard roof is Baroque; the invisible roof behind a balustrade is Neoclassical."
+    },
+    {
+      "node": "beaux-arts-french",
+      "difference": "Beaux-Arts reinstates the sculptural richness, the coupled columns, the strong centrepiece and the visible attic or mansard, and works at a much larger scale. Neoclassicism is subtractive; Beaux-Arts is additive."
+    },
+    {
+      "node": "greek-revival-american",
+      "difference": "The American Greek Revival is a timber-and-stucco vernacular of temple fronts on houses, using Doric and Ionic almost exclusively and pattern-book profiles. French Neoclassicism is masonry, prefers Corinthian and Ionic, is applied to public and urban buildings, and derives its detail from measured survey rather than from a handbook."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Archaeological correctness of the individual member combined with geometric primitivism of the whole. The building is resolved into a small number of primary solids; the order is then applied at full correct proportion, sparingly, and is expected to be structurally justified. Jacques-Francois Blondel's Cours d'architecture (1771-1777) supplies the codified profiles.",
+    "typical_ratios": [
+      "Principal block approaching a cube: plan 1:1 to 1:1.3, height 0.8 to 1.0 of plan width (Petit Trianon is 23 m square)",
+      "Wall to void ratio high: window aperture area 12 to 20 percent of elevation area, with pier width 1 to 1.5 times opening width",
+      "Corinthian and Ionic column height 9.5 to 10 diameters; shafts unfluted or fluted only above 1/3 height",
+      "Entablature reduced to 1/5 of column height, against the Baroque 1/4",
+      "Low hipped roof at 5:12 to 8:12 concealed behind a balustrade of height 1/12 to 1/16 of the wall height",
+      "Rustication, where used, confined to the ground storey with joints 10 to 20 mm wide and no rock face",
+      "Window proportions rationalised by storey: ground 1:1.6, piano nobile 1:2 to 1:2.2, attic 1:1 to 1:1.2"
+    ],
+    "bay_rhythm": "Even, unaccented and repetitive. The centre is marked by a portico or by a projection of one to three bays with no change in the spacing itself. Uniformity is the argument: Gabriel's two Place de la Concorde palaces (1755-1775) repeat a single colonnaded bay across two separate buildings so that the square, not the building, is the composition.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The compact near-cubic double-pile block around a central hall or vestibule - the Petit Trianon and the whole maison de plaisance type."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The Parisian immeuble and the terraced hotel front; uniform bays, a plain stone wall and an invisible roof are what make a continuous street wall possible."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The hotel particulier entre cour et jardin survives unchanged from the Baroque; only its dress is renovated."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "common",
+      "note": "The full free-standing portico on a plain block, with subordinate flanking ranges, is the standing type for public buildings."
+    },
+    {
+      "massing": "mansard-block",
+      "affinity": "atypical",
+      "note": "Neoclassicism actively suppresses the mansard in favour of a low roof behind a balustrade. A mansard indicates either a survival from the previous century or the nineteenth-century revival."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "The roof must not be visible from a normal standing viewpoint at the building line. Pitch 5:12 to 8:12, hipped, concealed behind a balustrade or blocking course at least 1/16 the wall height.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "A pediment may appear only where a real roof or a real portico is behind it. Applying a pediment over a flat-roofed projection is the exact practice Laugier's critique was aimed at.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Plain wall must dominate: aperture area must not exceed 25 percent of any principal elevation, and every opening must be separated from the next by at least its own width.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Ornament is banded, not scattered. Enrichment may occur only in continuous horizontal bands (frieze, string, sill course) or within a single framed panel; free-floating swags and cartouches on open wall belong to the Baroque.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Where free-standing columns are used internally, they must carry the vault or floor above them and be spaced at 2.25 to 3 diameters. Decorative free-standing columns supporting nothing invert the style's founding argument.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Petit Trianon",
+      "location": "Versailles, Yvelines, France",
+      "year": 1762,
+      "note": "Ange-Jacques Gabriel, 1762-1768. A 23 m cube with four differently articulated faces responding to four different ground conditions; the reference object for the style's economy of means."
+    },
+    {
+      "name": "Pantheon (church of Sainte-Genevieve)",
+      "location": "Place du Pantheon, Paris, France",
+      "year": 1758,
+      "note": "Jacques-Germain Soufflot, foundations 1758, completed 1790 by Rondelet. Corinthian portico on a Greek-cross plan with slender piers and hidden iron cramps - Gothic structural ambition in a Roman vocabulary."
+    },
+    {
+      "name": "Place de la Concorde, twin palaces",
+      "location": "Paris, France",
+      "year": 1755,
+      "note": "Ange-Jacques Gabriel, 1755-1775. Two identical colonnaded fronts framing the Rue Royale; the buildings are designed as the walls of an urban room."
+    },
+    {
+      "name": "Hotel de Salm (Palais de la Legion d'Honneur)",
+      "location": "64 rue de Lille, Paris, France",
+      "year": 1782,
+      "note": "Pierre Rousseau, 1782-1787. The garden-front rotunda and the low balustraded silhouette that Jefferson admired in person and drew on at Monticello."
+    }
+  ],
+  "sources": [
+    "Marc-Antoine Laugier, Essai sur l'architecture (1753; 2nd ed. 1755)",
+    "Jacques-Francois Blondel, Cours d'architecture (1771-1777)",
+    "Robin Middleton and David Watkin, Neoclassical and 19th Century Architecture (1980)",
+    "Emil Kaufmann, Architecture in the Age of Reason (1955)",
+    "James Stevens Curl, Classical Architecture (2001)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "french",
+    "neoclassical",
+    "geometric",
+    "archaeological",
+    "enlightenment"
+  ]
+}

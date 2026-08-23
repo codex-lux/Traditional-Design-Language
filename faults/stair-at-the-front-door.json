@@ -1,0 +1,162 @@
+{
+  "id": "stair-at-the-front-door",
+  "name": "The Stair That Starts At The Front Door",
+  "aka": [
+    "the stairwell hall",
+    "landing in the face",
+    "the two-storey foyer"
+  ],
+  "slots": [
+    "stair_position",
+    "circulation_parti",
+    "public_private_gradient"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "sequence",
+  "symptom": "The front door opens and the bottom riser is two to four feet away, often with a curved starting step and a volute swinging into the door swing. Above it a landing, and above that a two-storey volume with a chandelier in it. There is no square of floor at the front of the house that is not either the door swing or the stair, and nobody can stand in the hall while somebody else uses the stair.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The stair is the most expensive linear element in a house and it is priced by run. Pushing it forward against the front wall shortens the upstairs corridor it feeds, because the landing lands in the middle of the plan rather than at one end. The open two-storey foyer is then sold as the amenity that justifies it. Behind both is the same area logic that produces the corridor hall: a passage that also holds the stair counts as circulation once instead of twice.",
+    "cost_saved": "$3,000-$8,000 in stair run, upper-floor corridor length and framing, on a stair that is already a $15,000-$40,000 assembly."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / stair_position / start_setback_from_front_door_ft = 6-12",
+      "statement": "The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before it reads as a stair."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / stair_position / landing_window",
+      "statement": "Required, on the rear or side elevation. A stair pushed to the front wall has no rear landing and its landing window, if it gets one, lands in the middle of the front elevation between the storey datums."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a threshold needs a place to arrive before it offers a route onward",
+      "statement": "The entry sequence is arrive, pause, choose. A stair inside the door removes the pause and makes the only offer be upward, which is the one direction a visitor is not invited to go."
+    }
+  ],
+  "correct_practice": "Set the first riser 6 to 12 ft back from the inside face of the front door, so the front of the passage is a square room that happens to have a stair at the far end of it. Run the flight against one side wall, not across the passage, and turn it at a landing lit by its own window on the rear or side elevation - the landing window is a real constraint that fights the facade rule, and period houses solved it by putting the landing at the back where the datum does not matter. Where a house is small, the honest alternatives are a stair in a rear stair hall, or a boxed stair behind a door, both of which are documented and neither of which is a compromise. Keep the volute and the curtail step: they belong where the stair begins, and they need the 6 ft of setback to be seen at all.",
+  "fixes": {
+    "right": "Move the first riser back 8 ft and turn the flight against the side wall with a rear landing and a landing window.",
+    "cheap": "Reverse the flight. Running the same stair up from back to front instead of front to back puts the landing at the front and the bottom riser 10 ft inside the house, costs nothing in framing, and returns the front of the passage as usable floor. Where the flight cannot move at all, gain the pause by moving the front door: a 5 ft entry projection or a proper vestibule of 5 by 7 ft adds a threshold in front of the stair for $4,000-$9,000 and is the single most effective small addition available on this plan.",
+    "dishonest": "Opening the hall to two storeys to relieve the crowding. Volume is not floor: the two-storey foyer makes the stair more dominant, not less, adds a heating load and a light fitting nobody can reach, and it puts the upstairs corridor rail in view of the front door, which pushes the private zone into the public one."
+  },
+  "detection": "From a photograph taken in the doorway, measure the distance from the door face to the first riser against the door's own width, which is very nearly always 36 in. Under two door widths is the fault. Second, look for the newel post in an exterior photograph through the sidelights or the fanlight - a newel visible from outside means the stair is at the door. Third, from the street: a landing window centred between the two storey datums on the FRONT elevation means the stair runs across the front of the plan.",
+  "test": {
+    "expression": "first_riser_setback_from_door_face_ft",
+    "threshold": 6.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "plan",
+    "note": "6 ft is the working floor and 8-12 ft is the period range. A photograph taken from the doorway substitutes door leaf widths for feet: two leaf widths is the minimum."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "southern-federal",
+    "greek-revival-american",
+    "adam-style",
+    "jeffersonian-classicism",
+    "palladian",
+    "neoclassical-revival",
+    "american-farmhouse-vernacular",
+    "modern-farmhouse-traditional",
+    "new-urbanist-traditional"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-townhouse",
+      "why": "On a 16-25 ft lot the stair rises against the party wall immediately inside the vestibule, because there is no plan depth to spend on a setback. The compensations are real: an inner vestibule door, a 10-12 ft ceiling, and an arched screen between hall and stair.",
+      "bounds": "Requires a genuine vestibule with two doors and the stair against the party wall running front to back, not across the hall. Without the vestibule the fault is present in a row house too.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ],
+        "note": "Covers Greek Revival, Federal, Italianate and Second Empire urban rows alike."
+      }
+    },
+    {
+      "style": "new-england-colonial",
+      "why": "The First Period lobby-entrance plan puts a winder stair directly in front of the door, wrapped round the chimney stack. The stair is four feet from the door because the chimney is four feet from the door, and that is the whole diagram.",
+      "bounds": "Requires the central stack of 7 ft square or more. The stair must be a boxed winder, not an open dog-leg with a turned newel.",
+      "bounds_test": {
+        "expression": "central_chimney_base_dimension_ft",
+        "threshold": 7.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "plan"
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "Same lobby-entrance diagram at one and a half storeys; the boxed stair against the stack is correct and characteristic.",
+      "bounds": "Central or off-centre chimney, boxed stair, and no two-storey volume of any kind."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The stair stands in the side passage immediately behind the true entrance, which is itself already one bay back along the piazza - the setback has been spent outdoors instead of indoors.",
+      "bounds": "Requires the false street door and the true door set at least one bay back along the piazza, so the threshold sequence has already given the pause the stair setback would otherwise provide."
+    },
+    {
+      "style": "second-empire",
+      "why": "A ceremonial stair rising in view of the entrance is part of the idiom in the largest examples.",
+      "bounds": "Only where the hall is genuinely a hall - 14 ft or more in the short dimension - so the stair is an object in a room rather than the room itself."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "passage-that-is-a-corridor",
+      "difference": "Width against position. A wide passage with the stair at the door still fails this test, and a narrow one with the stair set back still fails that one."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That is about the outside of the door. This is about the six feet behind it."
+    },
+    {
+      "fault": "stair-with-no-passage",
+      "difference": "That fault is a stair standing free in a volume with no wall and no passage at the top. This one is a stair correctly against a side wall that simply begins too close to the door. A plan can have either alone, and the two-storey foyer usually produces both."
+    }
+  ],
+  "co_occurs_with": [
+    "passage-that-is-a-corridor",
+    "primary-suite-off-the-formal-hall"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The setback is what makes the passage a room; without it the parti is nominally present and functionally gone."
+    },
+    {
+      "style": "new-england-colonial",
+      "severity": "not-applicable",
+      "why": "The lobby entrance puts the stair at the door by design."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Single-storey; where there is a stair at all it serves a basement and carries no ceremony."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json stair_position, start_setback_from_front_door_ft and landing_window",
+    "proportions/systems/room-vernacular.json stair_position derived rule (3 ft vernacular stairwell) and its note",
+    "HABS measured plans, Mid-Atlantic and Chesapeake centre-passage houses",
+    "styles/new-england-colonial.json (front door opens onto a chimney stack four feet away), styles/italianate-townhouse.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "plan",
+    "stair",
+    "entry-sequence",
+    "threshold",
+    "endemic"
+  ]
+}

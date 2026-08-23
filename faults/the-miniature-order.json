@@ -1,0 +1,163 @@
+{
+  "id": "the-miniature-order",
+  "name": "The Miniature Order",
+  "aka": [
+    "the 3 1/4 in colonial base",
+    "one trim package for every ceiling",
+    "Georgian shrunk to fit"
+  ],
+  "slots": [
+    "trim_family",
+    "baseboard",
+    "ceiling_height_rule",
+    "crown",
+    "chair_rail"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "Two forms of the same error. FIRST: a room of 9 or 10 ft finished with a 3 1/4 in 'colonial' base, a 2 1/4 in casing and a 3 5/8 in crown, so the wall's terms are a third to a half of the size the room asks for and the room reads as tall and unfurnished. SECOND: one trim package run through a house whose ceilings are 10 ft on the ground floor, 9 ft above and 8 ft in the finished basement, so the base that is thin in the great room is heavy in the basement and no room is right. In the worst version, a full Georgian family is shrunk proportionally to fit an 8 ft ceiling, producing a base at 7 1/2 in, a chair rail at 20 in and a 15 in entablature in a 96 in room — a room with more trim than wall.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Base and casing are ordered by the lineal foot for the whole house at one width, because the yard prices by width and because a mixed order arrives on one truck in one bundle and gets nailed up wherever the carpenter is standing. The 3 1/4 in base and the 2 1/4 in casing are the two highest-volume profiles in North American residential millwork and are what a 'colonial trim package' means on a takeoff. Underneath is a deeper driver: the 8 ft ceiling is not a design decision at all — it is what a stock 92 5/8 in precut stud gives, and 9 ft is what a 104 5/8 in stud gives. So ceiling heights are set by a stud length and trim is set by a bundle, and nothing in the process ever relates the two.",
+    "cost_saved": "A 3 1/4 in base at 1.10 USD a lineal foot against an 8 1/2 in built-up base at 4.50 to 7 USD: on 900 lineal feet, roughly 3,000 to 5,300 USD. Grading the package by floor adds a second order and about 400 USD of coordination."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / baseboard.height = ceiling_height * 1.5 / 19",
+      "statement": "7 1/2 in at 8 ft, 8 1/2 in at 9 ft, 9 in at 9 ft 6 in, 10 7/16 in at 11 ft, 11 3/8 in at 12 ft. Family multipliers on top: Georgian x 1.00, Federal x 0.85, Greek Revival x 1.27. The pack names this as the one dimension to specify if you specify only one, because everything else in the room is judged against it."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / conflicts[cost], severity: blocking",
+      "statement": "What you must not do is take the Georgian family and shrink every member proportionally. A miniature Georgian room does not read as a Georgian room seen from far away; it reads as a room whose trim is too small, because the human body does not scale and the chair rail is still 20 in off the floor."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / module, 19 parts",
+      "statement": "Every dimension in the pack is a fraction of the FINISHED CEILING HEIGHT of the room it is in. A trim package indifferent to ceiling height has discarded the module."
+    }
+  ],
+  "correct_practice": "Compute the base from each room's own ceiling and let it change between floors. At 8 ft the base is 7 1/2 in, at 9 ft 8 1/2 in, at 10 ft 9 1/2 in, at 12 ft 11 3/8 in. Then apply the family multiplier: Federal 0.85, Georgian 1.00, Greek Revival 1.27, so a Greek Revival base in a 9 ft room is 10 3/4 in and a Federal one is 7 1/4 in, and the difference between those two numbers does more for the character of the room than any amount of correct profile. Where the ceiling is fixed at 8 ft, the pack's answer is unambiguous and it is not to shrink: USE THE GREEK REVIVAL FAMILY AND NOTHING ELSE. It was developed in exactly these conditions — it abandons the dado entirely, puts a tall plain base at the bottom, runs one broad flat casing, and crowns the wall with four members — and it is the only one of the three families that works at 8 ft. Run the base at the full derived height even though it looks tall to a modern eye, because a tall base makes a low room read as deliberate. Run NO chair rail rather than a low one, and run a cornice of 6 in or run nothing at all rather than a 2 1/4 in stock crown, which reads as an admission. And before conceding any of this, push to raise the ceiling: nine feet costs a 104 5/8 in stud, about four per cent more wall material and one extra riser, and it is by a wide margin the cheapest architectural improvement available to a domestic interior, because it fixes the trim, the doors, the windows and the daylight in one move.",
+  "fixes": {
+    "right": "Ceiling height set first, then a per-floor trim schedule with the base computed at ceiling x 1.5/19 and the family multiplier applied.",
+    "cheap": "Buy the base height and nothing else. Of every dimension in the room, the base is the one the eye calibrates on, and a 1x8 S4S board with a small stock cap is 1.90 USD a lineal foot against 1.10 for a 3 1/4 in moulded base — about 700 USD on a whole house — and it takes the base from 3 1/4 to 8 1/4 in. Take the money out of the crown, which can be deleted entirely in the secondary rooms at a saving. Second cheap move, free: where the ceilings differ by floor and one package is unavoidable, size the package to the LOWER ceiling and delete the crown upstairs, because a base slightly small in a tall room is a lesser fault than a base too heavy in a low one.",
+    "dishonest": "Stacking two stock profiles to fake height — a 3 1/4 in base under a 3 1/4 in base with a cap between — which produces a repeated ripple with two identical curves and no hierarchy, and reads unmistakably as two boards. Also dishonest: shrinking the whole family proportionally to a low ceiling, which is the specific move the pack marks as blocking; the human body does not scale, and a 20 in chair rail is nonsense at any ceiling height."
+  },
+  "detection": "Measure base height against ceiling height in a photograph that shows both — the ratio should be 0.079 (that is, 1.5/19), so 8 1/2 in in a 108 in room. Below 0.05 the fault is unambiguous; the stock 3 1/4 in base in a 9 ft room gives 0.030, less than half. Second test, needing no ceiling: compare base height with door casing width. Classical families run 1.4 to 1.7; a 3 1/4 in base with a 2 1/4 in casing gives 1.44 and passes this test while failing the first, which is why the ceiling test must be run and why a room can be internally consistent and still be at the wrong scale. Third, the DOOR test: a 6 ft 8 in door leaf is 80 in, so if the base is less than 8 in in a room whose door head sits more than 26 in below the ceiling, the trim was sized to the bundle rather than to the room.",
+  "test": {
+    "expression": "baseboard_height_in / ceiling_height_in",
+    "threshold": 0.062,
+    "upper": 0.105,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Derivation gives 1.5/19 = 0.0789 for the Georgian family; the band spans the Federal multiplier (0.85, giving 0.067) to the Greek Revival multiplier (1.27, giving 0.100). A stock 3 1/4 in base in a 9 ft room gives 0.030. Both dimensions are measurable from one interior photograph against a door leaf of known height."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman family is derived from a board rather than from a room and its base is a constant 7 1/4 in — a 1x8 — at any ceiling height. That indifference is the family's stated structural difference from the classical one and it is exactly why a bungalow tolerates an 8 ft and a 9 ft 6 in ceiling equally well.",
+      "bounds": "A 1x10 at 9 1/4 in is used instead where the ceiling is 9 ft or more, so the family is not wholly scale-free — it steps once, by one board size, and not continuously. Below a 1x8 the family stops working. And the indifference does not extend to the DOOR: the Craftsman door is 80 in as a constant, and the room absorbs the difference in the frieze above the picture rail rather than in the trim.",
+      "bounds_test": {
+        "expression": "baseboard_height_in",
+        "threshold": 7.25,
+        "upper": 9.25,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "The type is defined by trim reduced to almost nothing in an 8 ft room, and a 3 in base with a 2 1/4 in casing is what it actually built. Giving it a correctly derived 7 1/2 in base misrepresents it.",
+      "bounds": "The thinness must be systematic and must include the exterior — shallow eaves, no cornice return, minimal casing outside as well as in. A house with a full classical entry and a minimal-traditional interior is not this exception, it is this fault.",
+      "applies_when": {
+        "date_range": [
+          1935,
+          1955
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Tall ceilings of 11 to 13 ft with genuinely modest trim is documented practice in the type, because the height is for stack ventilation rather than for rank and the budget never followed it up.",
+      "bounds": "The base still rises with the ceiling — surviving examples run 8 to 12 in — but the cornice is absent and the casing stays flat and plain. The exception licenses the missing entablature in a tall room, not a small base.",
+      "applies_when": {
+        "regions": [
+          "Gulf South",
+          "Lower Mississippi Valley"
+        ],
+        "note": "Where the ceiling height is climatic rather than social."
+      }
+    },
+    {
+      "style": "folk-victorian",
+      "why": "The interior is honestly thin. The ornament went on the porch and the gable and the rooms behind are plain.",
+      "bounds": "Thin profile, not thin BOARD: surviving Folk Victorian bases are commonly 7 to 9 in of plain board with a small cap, which passes the ratio test. The type is plain, not miniature, and that distinction is the whole content of this exception."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "trim-from-no-family",
+      "difference": "Size against profile. A correctly sized base in a stock profile and a stock-sized base in a correct profile are different faults, and the size one is more visible from further away."
+    },
+    {
+      "fault": "one-trim-grade-for-every-room",
+      "difference": "This fault is one SIZE for every ceiling; that one is one RANK for every room. The base is the member that must not vary by rank and must vary by ceiling; the cornice is the member that must vary by rank. Getting the two the wrong way round is the commonest single confusion in interior trim."
+    }
+  ],
+  "co_occurs_with": [
+    "base-thinner-than-its-casing",
+    "crown-that-projects-half-its-height",
+    "chair-rail-at-thirty-six-inches",
+    "casing-at-a-third-of-palladio"
+  ],
+  "alternative_to": [
+    "one-trim-grade-for-every-room"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, module note, baseboard derived rule, conflicts[cost] marked blocking",
+    "kits/georgian-colonial-american.kit.json, ceiling_height_rule and baseboard",
+    "APA / stud manufacturers' precut stud lengths, 92 5/8 in and 104 5/8 in",
+    "Asher Benjamin, The Practical House Carpenter (1830)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "scale",
+    "baseboard",
+    "ceiling-height",
+    "blocking-conflict"
+  ],
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The family is derived from a board rather than from a room and its base is a constant 7 1/4 in at any ceiling, stepping once to 9 1/4 in above 9 ft. Scale-indifference is the family's stated structural property."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The family survives a low ceiling better than any other, but only because its base is the TALLEST of the three at 1.27 times the Georgian. Shrinking the Greek Revival base removes the one member that makes the family work at 8 ft."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The Georgian wall is the nineteen-part division made visible. A house whose base, rail and cornice are all a third of their derived size has not made a small Georgian room; it has made a room with the pattern of one and none of its dimensions."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "not-applicable",
+      "why": "Thin trim in an 8 ft room is the type's definition and the derivation was never claimed."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "minor",
+      "why": "The idiom's flat broad boards are sized by taste rather than by a derivation, and its usual failure is narrowness rather than mis-scaling. The base should still grow with the ceiling."
+    }
+  ]
+}

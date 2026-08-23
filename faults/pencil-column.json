@@ -1,0 +1,181 @@
+{
+  "id": "pencil-column",
+  "name": "The Pencil Column",
+  "aka": [
+    "the 6-inch post under a gable",
+    "the toothpick portico",
+    "over-slender"
+  ],
+  "slots": [
+    "column",
+    "porch_support",
+    "order"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A two-storey entry portico, or a full-height pedimented gable, standing on a pair of columns 6 to 8 in in diameter and 16 to 20 ft tall. The columns are visually incapable of carrying what is above them, and the eye reads the pediment as hanging off the wall rather than standing on the columns. A related and equally common version is the full-width farmhouse porch on 6 in round columns at 10 ft centres, where the beam above them visibly sags between supports and the columns look like a row of dowels.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The columns are not structural. A steel or LVL beam, or the porch roof framing itself hung off the house wall, carries the load, and the column is a hollow FRP or PVC sleeve slipped over a 4x4 or a 6x6 post that carries only its share of a light roof. Once the column is decorative its diameter is set by price, and price scales roughly with the square of the diameter. A 20 ft two-storey portico wants a 26 in Ionic shaft costing 4,000-9,000 USD each; an 8 in shaft costs 400-700 USD. The decision is made by the number, not the drawing.",
+    "cost_saved": "3,000-8,000 USD per column on a two-storey portico; 1,200-2,500 USD on a six-column single-storey porch. This is the largest single line-item saving available anywhere in the classical apparatus, which is why it is endemic."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "benjamin-corinthian / column.height_modules = 22 (11 diameters)",
+      "statement": "Eleven diameters is the tallest column any authority in the pack draws. A 20 ft column on an 8 in shaft is 30 diameters."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / intercolumniation.araeostyle, clear_diameters 4.0",
+      "statement": "Four diameters clear is the widest spacing in the series and Ware notes it is only safe with a timber architrave. Beyond it the entablature has to be a beam, and the order has stopped governing."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the order is a diagram of load, and a column that cannot be believed carrying its load destroys the diagram",
+      "statement": "Classical proportion is not arbitrary: the range of 7 to 11 diameters is the range in which a stone column of ordinary material can actually stand and carry. Outside it the column becomes a line, and a line under a pediment reads as a prop."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R507 / R301 — porch post and beam sizing",
+      "statement": "Code sizes the post for load only, and a 4x4 or 6x6 will carry a residential porch roof at any of these spacings. Code has nothing to say about whether a column looks capable, which is why code-minimum porch framing produces this fault reliably."
+    }
+  ],
+  "correct_practice": "Size the shaft from the height and the bound order and treat the result as a hard minimum: 7 diameters for Tuscan, 8 for Roman Doric, 9 for Ionic, 10 for Corinthian, 11 at the absolute limit in Benjamin's Corinthian. A 20 ft giant order is therefore a 26 1/2 in Ionic shaft or a 24 in Corinthian one — which is why the giant order is rare and expensive and should not be attempted on a builder's budget. Spacing follows the same discipline: Vignola's own Tuscan colonnade is 2 1/3 diameters clear, his Ionic 2 1/4, his Doric 2 3/4; the outer limit of the Vitruvian series is 4 diameters clear and requires a timber architrave. On a 10 in Tuscan column that gives columns at 3 1/3 diameters — 2 ft 9 in — on centres, not 10 ft.",
+  "fixes": {
+    "right": "Build the order at its true diameter, or do not build the order. A correct 10 ft Tuscan portico on a 17 in shaft costs less than an incorrect 20 ft one on an 8 in shaft and is right.",
+    "cheap": "Drop the storey. A single-storey portico under a two-storey wall is correct, historical and cheap: the entrance gets its own 9 to 10 ft order at a 13 to 15 in shaft, the wall above it is left plain, and the composition is stronger than the giant order it replaces because the entrance is now scaled to a person rather than to the building. Second free move where the columns must stay thin: PAIR them. Two 8 in columns at 16 in on centres read as one 24 in support, and coupled columns are legitimate in every authority above the Doric.",
+    "dishonest": "Adding a pedestal to shorten the apparent column while leaving the shaft at 8 in. The pedestal does help the ratio — that is exactly why it exists — but a 20 ft assembly of a 6 ft pedestal and a 14 ft 8 in shaft is still 21 diameters and still reads as a prop. Equally dishonest: a heavy capital to 'give the column presence', which increases the discrepancy at the top."
+  },
+  "detection": "In a straight-on photograph, measure the column's shaft diameter at the foot and the height from plinth top to abacus, and divide. Above 11 the column is outside every authority. Above about 14 the failure is unmistakable to an untrained eye and the second, faster check applies: cover the columns with a thumb and see whether the composition above them changes. If the pediment reads the same with the columns hidden, they were not carrying it and the eye already knew. Third check, for the porch version: measure clear spacing between shafts against shaft diameter. Above 4 clear diameters the run has left the classical series entirely.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "column_height / lower_shaft_diameter",
+    "threshold": 11.0,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Eleven diameters is Benjamin's Corinthian, the tallest column in the pack, and is a hard ceiling for any column carrying a pediment or a second storey. The lower bound is handled by column-height-outside-the-authorities; this fault is the slender half of the polarity because it is the half that costs money to fix."
+  },
+  "severity_by_style": [
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "The giant order is the building. A pencil giant order is a stage flat."
+    },
+    {
+      "style": "greek-revival-southern-plantation",
+      "severity": "fatal",
+      "why": "The colonnade carries the whole reading; slender shafts collapse it into a suburban imitation of itself."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The idiom's whole porch is a row of columns and they are almost always 6 in square or round. It is the style's signature failure."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "severity": "not-applicable",
+      "why": "Slender colonnettes carrying a light gallery are correct there — see the exception."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Creole and Caribbean gallery colonnettes are correctly very slender — 11 to 14 diameters — because they carry a light single-storey gallery roof, no ceiling, and no load from the house. The slenderness is structurally honest in dense southern pine and cypress and is a documented regional signature.",
+      "bounds": "Single-storey gallery, low-pitch shed or hip roof over it, no room above, no pediment, no entablature above a plain plate. The moment a second gallery, a pediment or a habitable room sits on the colonnette the general rule returns.",
+      "bounds_test": {
+        "expression": "column_height / lower_shaft_diameter",
+        "threshold": 10.0,
+        "upper": 14.0,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ],
+        "slots": [
+          "porch_support"
+        ]
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "The upper gallery of a raised Creole plantation house carries slender wooden colonnettes above heavier masonry piers below — the classic Louisiana two-tier arrangement — and the upper colonnettes are correctly thin because the masonry below is doing the work.",
+      "bounds": "Only the UPPER tier. The lower tier must be masonry piers or a stout order; a raised Creole house on thin colonnettes at both levels is this fault twice.",
+      "applies_when": {
+        "regions": [
+          "lower-mississippi",
+          "gulf-coast"
+        ]
+      }
+    },
+    {
+      "style": "folk-victorian",
+      "why": "Catalogue turned posts are 4 to 5 in at the barrel and 8 to 9 ft tall — 20 diameters or more if measured as columns — and their thinness is exactly the point. The Folk Victorian porch is deliberately a light lattice of thin members, and thickening the posts destroys it.",
+      "bounds": "Only where the whole assembly is thin and of a piece: turned posts of 4-5 in with a sawn spindle frieze and sawn brackets, carrying a light shed or hip porch roof. A turned post carrying a gable or a second storey is not this.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ],
+        "construction": [
+          "wood-frame"
+        ]
+      }
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "The cantilevered Monterey balcony is carried by the floor structure, and its posts are slender because they carry only the balcony roof.",
+      "bounds": "The balcony must be genuinely cantilevered from the wall, not carried on the posts."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "Here the opposite is the fault. A Shingle Style Tuscan column at 9 diameters is wrong and one at 5 is right; slenderness in that idiom reads as a failure of nerve."
+    },
+    {
+      "style": "richardsonian-romanesque",
+      "statement": "The squat polished granite colonnette of 4 to 6 diameters is the point of the style, and a slender one is the error."
+    }
+  ],
+  "co_occurs_with": [
+    "column-height-outside-the-authorities",
+    "column-without-entasis",
+    "four-by-four-under-a-roof",
+    "entablature-off-the-quarter"
+  ],
+  "confused_with": [
+    {
+      "fault": "column-height-outside-the-authorities",
+      "difference": "That fault is the general ratio test in both directions. This is the slender half, treated separately because it has a different driver (cost, not catalogue) and a different fix, and because it is the one that reads as a structural lie rather than a proportional one."
+    },
+    {
+      "fault": "four-by-four-under-a-roof",
+      "difference": "That is about a square dimensional-lumber post. This is about a round classical column whose diameter is too small for its height."
+    }
+  ],
+  "sources": [
+    "proportions/orders/*.json — column.height_modules across all authorities",
+    "proportions/orders/vignola-tuscan.json, intercolumniation series (2 1/3 D clear Vignola's own; 4 D araeostyle limit)",
+    "W. R. Ware, The American Vignola (1902), on the araeostyle and timber architraves",
+    "IRC R507 porch framing provisions",
+    "FRP column manufacturer load tables and price schedules"
+  ],
+  "confidence": "high",
+  "tags": [
+    "column",
+    "proportion",
+    "load-reading",
+    "endemic",
+    "cost"
+  ]
+}

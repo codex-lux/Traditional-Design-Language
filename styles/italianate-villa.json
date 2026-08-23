@@ -1,0 +1,200 @@
+{
+  "id": "italianate-villa",
+  "name": "Italianate Villa",
+  "aka": [
+    "Italian Villa",
+    "Tuscan Villa",
+    "Bracketed Villa",
+    "Campanile Villa"
+  ],
+  "rank": "variant",
+  "member_of": "italianate-american",
+  "status": "historical",
+  "period": {
+    "origin": 1839,
+    "floruit_start": 1845,
+    "floruit_end": 1880,
+    "decline_end": 1890,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Midwest",
+      "Upper South",
+      "Northern California",
+      "Ontario"
+    ],
+    "hearth": "Hudson Valley and the Delaware Valley",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A",
+      "6A",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italianate-american",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The freestanding, picturesque, tower-bearing expression of the parent style."
+    },
+    {
+      "target": "italian-villa-vernacular",
+      "type": "references",
+      "weight": 0.45,
+      "inherits_kit": false,
+      "note": "The asymmetrical farm group with its detached campanile is the observed source, transmitted through English painting and through Barry and Loudon. Typed as reference, not descent: American builders never saw the source, so no construction practice was transmitted and the kit must not cascade."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false
+    },
+    {
+      "target": "rural-gothic-villa",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "Not a blend in fabric but a shared compositional method: both were designed by the same men, published in the same books, and composed by the same picturesque rules."
+    }
+  ],
+  "description": {
+    "short": "The freestanding Italianate country house: an L-shaped, low-hipped, deeply bracketed villa with a square campanile in the inner angle and a veranda facing the view, sold as the house of a cultivated gentleman.",
+    "long": "The Italianate villa is the picturesque programme applied to a client who wanted comfort rather than piety. John Notman built Riverside at Burlington, New Jersey in 1839, Richard Upjohn built the Edward King House at Newport between 1845 and 1847, and Downing reprinted the King House in The Architecture of Country Houses with the verdict that it was one of the most successful specimens of the Italian style in the United States, which effectively made it the national pattern. By the 1850s the type was everywhere a merchant, a mill owner, or a country doctor had money and a slope to build on.\n\nIts compositional logic is genuinely good and is worth extracting cleanly, because it is one of the most reusable arrangements in American traditional architecture. Take an L. Put the principal rooms in the long arm facing the view, the entry and service in the short arm, and the tower in the reentrant angle where the two meet. The tower now contains or adjoins the stair, resolves the awkward internal corner, provides the vertical accent, and, being the tallest element, ties the two arms into one composition. Run a veranda along the outer face of the long arm. Everything the massing needs is produced by a plan decision rather than by an applied motif, which is exactly the property a generative kit should prize.\n\nThe technology underneath is the same rupture that produced everything else in this branch. Balloon framing made the L, the tower, and the bay cheap; the steam band saw made the brackets, the hood moulds, the turned posts, and the pierced veranda valance cheap; the railroad made all of it available anywhere. There is an important secondary consequence. Because the brackets marched at a constant spacing regardless of what the plan did underneath, a builder could compose an entirely ad hoc, additive house and still unify it with a single purchased rhythm. The bracket is a coordination device as much as an ornament, and it is a real answer to the problem of holding an irregular building together, which is a problem every kit-of-parts system inherits.\n\nIn front of one, the tower does most of the emotional work. It is not tall, usually only a storey and a half above the main cornice, but it is the only vertical in a composition of horizontals and it converts a comfortable house into a small landmark. The eave shadow is deep and continuous and gives the whole building a dark upper edge that reads clearly at half a mile. Inside, the plan is generous and slightly loose, with tall round-headed windows dropping light almost to the floor in the parlour, double doors between the front and back parlours to make one long room for occasions, and a stair in the tower base that arrives, in the best examples, at a small square room with windows on four sides, which is the only genuinely surprising space in the ordinary American nineteenth-century house."
+  },
+  "defining_characteristics": [
+    "Freestanding, asymmetrical L or T plan with principal rooms facing the prospect",
+    "Square tower or campanile placed at the reentrant angle, rising above the main cornice",
+    "Low-pitched hipped roofs, 3:12 to 5:12, with wide bracketed eaves running continuously across all masses",
+    "Tall round-arched or segmental-headed windows, frequently paired, with moulded hoods",
+    "Veranda of substantial depth on at least the principal elevation, with chamfered or turned posts and a pierced valance",
+    "A single bracket rhythm carried across every mass of the building, unifying the composition",
+    "Quoins, string courses, or rusticated corners emphasising the horizontal on each mass"
+  ],
+  "diagnostic_tells": [
+    "Square tower in the inner angle of an L, capped by a low hipped or pyramidal roof with its own brackets: the type's signature and the fastest identification in American architecture",
+    "The tower roof is low and wide, never a spire and never a mansard; a mansarded tower makes it Second Empire",
+    "Bracket spacing continues unchanged across the tower, the main block, and the wing, at the same module",
+    "Windows are paired within a single hood or surround, giving a two-light rhythm no other style of the period uses so consistently",
+    "Roof invisible from the ground, in contrast to the Gothic villa where the roof is the dominant mass"
+  ],
+  "distinguished_from": [
+    {
+      "node": "second-empire",
+      "difference": "A Second Empire house is often an Italianate villa with a mansard added, sometimes literally by later remodelling. The test is whether the roof is habitable and visible; if the tower carries a concave mansard rather than a low hip, it is Second Empire."
+    },
+    {
+      "node": "italianate-townhouse",
+      "difference": "The same style at a different urban condition. The villa is freestanding, picturesque, and towered; the townhouse is party-walled, symmetrical, stooped, and towerless, and its ornament is masonry rather than sawn wood."
+    },
+    {
+      "node": "rural-gothic-villa",
+      "difference": "Shared authors and compositional method, inverted geometry: low versus steep, round-headed versus pointed, bracketed eave versus bargeboarded rake, square campanile versus octagonal turret."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the tower and the eave. The tower height establishes the vertical hierarchy over the two arms of the L; the bracket module establishes the only repeating rhythm and is carried across every mass without adjustment.",
+    "typical_ratios": [
+      "Tower height above main cornice 1.0 to 1.5 storeys; tower plan 12 to 16 ft square",
+      "Eave projection 24 to 36 in with brackets at 24 to 48 in on centre",
+      "Long arm of the L 1.5 to 2.5 times the length of the short arm",
+      "Roof pitch 3:12 to 5:12 on all masses including the tower cap",
+      "Veranda depth 8 to 12 ft; first-floor ceiling 11 to 14 ft"
+    ],
+    "bay_rhythm": "A constant bracket rhythm laid over an irregular plan. Window bays are placed by room and may be unequal; the eave rhythm is what makes the elevation read as ordered.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "villa-tower",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "common"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "The bracketed farm villa, common in the Midwest and upstate New York."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "The towerless bracketed cube; legitimate but forfeits the type's defining element."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "forbidden",
+      "note": "A party-walled row cannot carry a freestanding tower composition; use the townhouse variant."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Where a tower is used it shall stand at the reentrant angle of the plan and shall rise not less than one full storey above the main cornice, with its own bracketed eave at the same bracket module as the main building."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "The tower shall be occupied at every level by a stair, hall, or room. Hollow decorative towers are prohibited."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Bracket spacing shall be constant, between 24 and 48 in on centre, and shall be carried across every mass of the building including tower and wing without change of module. Eave projection 24 to 36 in."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "All roof pitches shall be between 3:12 and 5:12. No mansard, no gable steeper than 5:12, and no visible ridge from a viewpoint 40 ft from the facade at eye height."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "A veranda not less than 8 ft deep shall serve the principal elevation, and its cornice shall carry brackets at the main module or at exactly half the main module."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Edward King House",
+      "location": "Newport, Rhode Island",
+      "year": 1847,
+      "note": "Richard Upjohn, 1845-47. Praised by Downing in The Architecture of Country Houses and thereby made the American model for the type."
+    },
+    {
+      "name": "Morse-Libby House (Victoria Mansion)",
+      "location": "Portland, Maine",
+      "year": 1860,
+      "note": "Henry Austin, 1858-60. Brownstone villa with an asymmetrical tower and a complete surviving Gustave Herter interior."
+    },
+    {
+      "name": "Litchfield Villa",
+      "location": "Prospect Park, Brooklyn, New York",
+      "year": 1857,
+      "note": "Alexander Jackson Davis, 1854-57, for Edwin Clark Litchfield. Davis's most ambitious Italianate villa, with an octagonal and a square tower."
+    }
+  ],
+  "sources": [
+    "Andrew Jackson Downing, The Architecture of Country Houses (1850)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "William H. Pierson Jr., American Buildings and Their Architects: Technology and the Picturesque (1978)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "picturesque",
+    "tower",
+    "bracketed",
+    "freestanding",
+    "villa"
+  ]
+}

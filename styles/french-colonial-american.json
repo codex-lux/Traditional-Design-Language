@@ -1,0 +1,199 @@
+{
+  "id": "french-colonial-american",
+  "name": "French Colonial American",
+  "aka": [
+    "French Creole",
+    "Louisiana French Colonial",
+    "Illinois Country French"
+  ],
+  "rank": "style",
+  "member_of": "american-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1699,
+    "floruit_start": 1720,
+    "floruit_end": 1820,
+    "decline_end": 1870,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1925,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "Revived chiefly as the 'Louisiana raised cottage' inside the broader Colonial Revival and in the 1930s work of Richard Koch and the Historic American Buildings Survey in New Orleans."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Louisiana",
+      "Mississippi Gulf Coast",
+      "Mobile, Alabama",
+      "Illinois Country (Ste. Genevieve, Missouri; Cahokia and Prairie du Rocher, Illinois)",
+      "Natchitoches and the Cane River"
+    ],
+    "hearth": "the Lower Mississippi Valley — New Orleans and the German and Acadian coasts above it — with a northern outlier in the Illinois Country",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-provincial-farmhouse",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Plan habits — room-to-room circulation without a corridor, the salle and chambre pairing, French doors as the standard opening — arrive with settlers from western France."
+    },
+    {
+      "target": "norman-vernacular",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The roof is the clearest inheritance: the Norman truss, a steep hipped or double-pitched frame in heavy timber, and colombage walling with earth infill."
+    }
+  ],
+  "description": {
+    "short": "The one colonial tradition that solved a hot wet climate from first principles: a raised floor, a deep encircling gallery, a steep hipped roof, and a plan with no corridor and no room that does not cross-ventilate.",
+    "long": "French colonial building in North America is a hybrid before it is anything else. The frame is Norman — heavy hewn posts, mortised and pegged, sometimes set directly in the ground (poteaux-en-terre) and more often on a sill (poteaux-sur-sol), with the gaps filled by bousillage, a mud-and-Spanish-moss cob, or by soft brick, briquette-entre-poteaux, later stuccoed because the brick would not survive the weather. The plan is western French: rooms opening into one another through pairs of full-height casement doors, no corridor, no hall, circulation happening around the outside of the house rather than through the middle of it. But the gallery — the galerie, eight to twelve feet deep, running along the front and often around all four sides, its roof either a continuation of the main slope at a flatter pitch or a separate structure altogether — is not French. It arrives from the Caribbean, where French and Spanish builders had already spent a century learning the same lesson from the same climate, and it is the element that makes the whole thing work.\n\nWhat it is solving is specific and severe. Ninety-five degrees, ninety percent humidity, sixty inches of rain, hurricanes, standing water, termites, and no mechanical cooling for two centuries. Every element answers something. The floor is raised — on low piers in the country, on a full masonry storey where flooding warranted — to get air under it and water out of it. The gallery keeps direct sun off the wall entirely, so the wall stays cool and the rain never touches it; the deep shade also makes the openings usable in a downpour. The roof is steep to throw water fast, and hipped so there is no gable to catch wind. The rooms are one deep and every one of them has openings on two opposite walls, so a breeze always has a path. There is no hall because a hall is a room with one door and no cross-breeze, and in this climate that is a dead room.\n\nThe interior consequence is a house that is essentially open. Twelve- and fourteen-foot ceilings, French doors down to the floor on both sides of every room, jalousie blinds to keep sun out while letting air in, and no privacy of the Anglo sort — one moves between rooms by passing through them, or steps out onto the gallery and re-enters somewhere else. The gallery is the real circulation and also the real living room; the interior is for sleeping and for weather.\n\nStanding on a galerie in August, with twelve feet of shade overhead and the floor two feet up in the moving air, is a physical argument that is hard to refute. The Anglo-American builders who arrived after 1803 could not refute it either: within a generation they had bolted galleries onto their own houses, and the Southern porch — arguably the most consequential American architectural habit — descends more from this tradition than from any English source."
+  },
+  "defining_characteristics": [
+    "A galerie at least eight feet deep on the principal elevation, and commonly wrapping two to four sides, carried on light colonnettes or masonry piers",
+    "The floor raised clear of the ground — on low piers in the vernacular cottage, on a full masonry service storey in the plantation house",
+    "Colombage framing (poteaux-en-terre or poteaux-sur-sol) with bousillage or briquette-entre-poteaux infill, weatherboarded or stuccoed",
+    "Steep hipped or double-pitched roof, 40–50 degrees on the main mass, breaking to 20–30 degrees over the gallery",
+    "No interior corridor: rooms open directly into one another and onto the galerie through full-height French casement doors",
+    "Rear loggia flanked by cabinets — small enclosed corner rooms, one usually holding the stair",
+    "Ceilings of 11–14 feet and openings on opposite walls of every principal room"
+  ],
+  "diagnostic_tells": [
+    "A visible pitch break where the main roof meets the gallery roof — the single fastest tell of the whole tradition",
+    "French doors, not windows, as the standard opening: two leaves, glazed to the floor, with exterior louvred blinds",
+    "The rear elevation shows a recessed open loggia with a small square room at each end",
+    "Roof hipped on all four sides with no gable end anywhere",
+    "Exposed bousillage or brick-between-posts visible in the attic or where stucco has failed"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-southern-plantation",
+      "difference": "The Anglo plantation house that replaces it after 1820 has a giant order of full-height columns supporting a pediment, a central hall running front to back, and a low pitched roof. French Creole galleries are two-tier and slender, the columns change material at the gallery floor, there is no pediment and no central hall."
+    },
+    {
+      "node": "spanish-colonial-american",
+      "difference": "Both are Latin colonial and both use galleries, but the Spanish tradition turns inward to a courtyard behind a closed street wall, builds in thick load-bearing adobe or rubble, and uses small openings. The French tradition turns outward to a gallery, frames in timber with light infill, and opens the wall almost completely."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Revival Louisiana houses put the gallery on but keep the Anglo centre hall behind it, align the windows, use double-hung sash instead of French doors, and rarely break the roof pitch. The absence of a corridor is the honest test."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The room as an independent, cross-ventilated cell — dimensioned by the reach of a breeze and the length of a hewn cypress beam, not by a facade module.",
+    "typical_ratios": [
+      "Principal room 15–18 ft × 15–20 ft; house body two rooms wide and two deep, 36–44 ft × 30–40 ft",
+      "Galerie depth 8–12 ft; on the raised plantation house up to 14 ft",
+      "Ceiling 11–14 ft on the principal floor",
+      "Main roof 40–50 degrees; galerie slope 20–30 degrees; break at the outer wall plane",
+      "Raised floor 18–36 in on piers; 8–12 ft on a full masonry ground storey"
+    ],
+    "bay_rhythm": "Even-numbered and door-dominated. A four- or six-bay front of identical French doors, with no privileged centre, is normal — the absence of a single front door is itself the composition.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "creole-cottage",
+      "affinity": "canonical",
+      "note": "The urban and small-farm expression, at or near grade."
+    },
+    {
+      "massing": "raised-cottage",
+      "affinity": "canonical",
+      "note": "The plantation expression, principal floor over a masonry service storey."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "common",
+      "note": "Where the gallery encircles rather than fronts."
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "possible",
+      "note": "The simplest two-room Illinois Country houses approximate it, though without the Anglo entry logic."
+    },
+    {
+      "massing": "shotgun",
+      "affinity": "atypical",
+      "note": "Related by geography and by Afro-Caribbean transmission but a later and separate type."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "severity": "hard",
+      "statement": "No interior corridor in the principal floor plan. Every habitable room must have exterior openings on two opposite or adjacent walls for cross-ventilation."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Galerie depth not less than 8 ft measured from wall face to column centreline; below 6 ft it stops shading the wall at midday and becomes decoration."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "The main roof and the galerie roof meet at a pitch break at the exterior wall plane: 40–50 degrees above, 20–30 degrees over the gallery. A single continuous slope from ridge to gallery eave is a later Anglo simplification."
+    },
+    {
+      "kind": "climatic",
+      "severity": "soft",
+      "statement": "Finished floor raised not less than 18 in above grade on piers; in flood-prone parishes, above the base flood elevation. Slab-on-grade is incompatible with the type."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Openings are French casement doors, two leaves, 5 ft 6 in – 7 ft 0 in wide overall and full ceiling height less 12–18 in, with exterior louvred blinds whose leaf width equals half the opening."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Louis Bolduc House",
+      "location": "Ste. Geneviève, Missouri",
+      "year": 1792,
+      "note": "Poteaux-sur-sol with bousillage infill, steep hipped roof on hand-hewn Norman trusses, galleries on all four sides — the best-preserved Illinois Country house."
+    },
+    {
+      "name": "Cahokia Courthouse",
+      "location": "Cahokia, Illinois",
+      "year": 1740,
+      "note": "Built as a dwelling in poteaux-en-terre — vertical logs set directly in the ground — and converted to a courthouse in 1793; one of very few surviving poteaux-en-terre buildings."
+    },
+    {
+      "name": "Madame John's Legacy",
+      "location": "632 Dumaine Street, New Orleans, Louisiana",
+      "year": 1789,
+      "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on an earlier c. 1730 site; raised on a brick basement, six-bay gallery on colonnettes, double-pitched roof over Norman trusses."
+    },
+    {
+      "name": "Parlange Plantation House",
+      "location": "Pointe Coupee Parish, Louisiana",
+      "year": 1750,
+      "note": "Traditionally dated c. 1750; some recent fabric analysis argues for c. 1830–40. Either way it is the canonical raised Creole plantation house — brick ground storey, bousillage above, encircling gallery, octagonal pigeonniers."
+    }
+  ],
+  "sources": [
+    "Jay D. Edwards, 'The Origins of Creole Architecture', Winterthur Portfolio 29 (1994)",
+    "Jessie Poesch and Barbara SoRelle Bacot, eds., Louisiana Buildings, 1720–1940 (1997)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)",
+    "Charles E. Peterson, Colonial St. Louis: Building a Creole Capital (1949)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "galerie",
+    "colombage",
+    "bousillage",
+    "hot-humid",
+    "creole"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "bottom-rail-no-deeper-than-the-top",
+  "name": "The Door With Four Equal Rails",
+  "aka": [
+    "the door with no plinth",
+    "equal rails",
+    "the door that reads upside down"
+  ],
+  "slots": [
+    "interior_door",
+    "entry_door"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A panelled door whose bottom rail is the same width as its top rail — commonly both at 4 3/4 or 5 in — so the leaf has no visual footing. Turned upside down it would look identical, which is the test. The door appears to float in its opening, and in a run of doors along a passage the effect is a row of leaves that all look slightly loose at the floor.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "A moulded-skin door is pressed from two identical face skins in a mould, and the mould is designed for the maximum number of leaf heights: a symmetrical layout can be trimmed from either end to reach a shorter height without redesigning the tooling, and a symmetrical skin can be used either way up on the assembly line, which halves the handling errors. A stile-and-rail door made honestly has no such constraint, but the moulded door taught the market what a door looks like, and even solid stile-and-rail doors are now commonly specified with equal rails to match. Trimming for height compounds it: a door cut down at the bottom to clear a thick floor loses the very rail that was meant to be deepest.",
+    "cost_saved": "Nothing in the door itself. The saving is in tooling amortisation at the factory, which does not reach the buyer as a price difference — a solid door with a deep bottom rail costs the same as one without."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / interior_door / six-panel-raised-and-fielded",
+      "statement": "The canonical leaf, in which the bottom rail is the deepest member, the lock rail next, and the top rail equal to the stiles."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a door is a small wall and has a plinth",
+      "statement": "Every vertical composition in the classical tradition is heavier at the bottom: base, dado, wall, cornice; plinth, shaft, capital. A door repeats that series at leaf scale, with the bottom rail as its plinth. A leaf with equal rails has the series of a mullion rather than of a wall."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the bottom rail carries the racking load",
+      "statement": "A door hangs from two or three hinges on one edge and is pushed at the other, so the frame racks. The bottom rail is the longest lever arm from the hinge and carries the largest moment, which is why period doors are deepest there. The proportion is a structure made visible, which is also why an equal-railed door in solid stock is a genuinely weaker object."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a member below eye level reads narrower than it is",
+      "statement": "The bottom rail is seen at an oblique angle from above and the top rail nearly square-on, so equal widths do not appear equal. The classical correction is the same one applied to the top storey of a facade and to the abacus of a capital: make the far member bigger."
+    }
+  ],
+  "correct_practice": "Rails ascend in depth from the top down: top rail equal to the stile, lock rail about 1.5 times the stile, bottom rail 1.8 to 2.2 times the stile. On a period six-panel leaf with 5 in stiles that gives a 5 in top rail, a 7 1/2 in lock rail and a 9 1/2 to 11 in bottom rail — and the door immediately stands on something. The stile itself runs 4 1/2 to 5 1/2 in on a 30 to 36 in leaf, which is roughly a seventh of the leaf width. Two refinements worth taking. FIRST, the lock rail on a six-panel leaf lands at 30 to 38 in above the floor, which is the same band as the chair rail and the window stool; where a joiner controlled both, he made them agree, and a door whose lock rail continues the room's dado line is one of the quiet marks of a designed interior. SECOND, if the door must be cut down to clear a floor, cut it at the TOP and re-fit the head, or specify the leaf height correctly in the first place — taking 1 1/2 in off a 9 1/2 in bottom rail is survivable, taking it off a 5 in one is not. On a Craftsman door the same rule holds with different numbers: a five-cross-panel or three-panel leaf runs a bottom rail of 8 to 10 in against a top rail of 5 to 6, and the family's flatness does not exempt it from the hierarchy.",
+  "fixes": {
+    "right": "Solid stile-and-rail doors with rails specified in the schedule: top equal to stile, lock 1.5, bottom 2.0.",
+    "cheap": "Choose the leaf that already has it. Within the same price band and the same catalogue there are moulded and solid doors with a deeper bottom rail and doors without, and the difference is a model number rather than a cost. Specifying the deeper-railed model is free. Where the doors are already hung, an applied kick plate or a flat 5 in board fixed to the bottom rail on the push side of the service doors adds the missing depth where it is most useful and reads as a period detail rather than as a repair.",
+    "dishonest": "Painting the bottom rail a darker colour to suggest weight. It works in a photograph and fails on approach, and it introduces a horizontal that has no member behind it. Also dishonest: adding a moulded panel mould at the bottom to suggest a deeper rail, which produces a false joint line — the rail's depth must be a real dimension of the frame or the door will still read as light at the floor."
+  },
+  "detection": "In a square-on photograph of any panelled door, measure top rail and bottom rail. Correct: bottom / top between 1.7 and 2.3. Fault: 1.0 to 1.3. This is one of the most reliable single measurements available from an interior photograph, because both rails are usually fully visible and high-contrast against the panels. Second, the UPSIDE-DOWN TEST, which is the same thing stated for a person: mentally invert the door. If it looks the same, the fault is present. Third, on a six-panel leaf, check whether the lock rail sits at 30 to 38 in — a lock rail at 40 in or above usually means the panel layout was scaled from a taller leaf. Fourth, measure stile width against leaf width: correct is about 1/7, so 5 in on a 36 in leaf; below 1/9 the door is a moulded blank whatever its rails do.",
+  "test": {
+    "expression": "bottom_rail_width_in / top_rail_width_in",
+    "threshold": 1.7,
+    "upper": 2.3,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Period stile-and-rail doors run 1.8 to 2.2. Moulded blanks run 1.0 to 1.3. The measurement needs only a square-on photograph of the leaf and no scale reference, since it is a ratio between two members of the same object."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "Nothing here — the Craftsman door keeps the deep bottom rail and often exaggerates it, running 9 to 11 in under a 5 in top rail on a three-panel or five-cross-panel leaf. Listed as an exception only to record that the family's flatness does not license equal rails.",
+      "bounds": "Not an exception in fact. Flat panels, square sticking, and a bottom rail of at least 1.7 times the top."
+    },
+    {
+      "style": "tudor",
+      "why": "A ledged-and-braced or plank door has no rails at all in the framed sense — vertical boards on horizontal ledges — and the hierarchy is expressed by the ledge positions rather than by rail widths.",
+      "bounds": "Genuine vertical planks with visible ledges or clenched nails and strap hinges. The lowest ledge should still sit lower than the highest one is high, which is the same rule differently expressed. A framed panelled door in a Tudor Revival house takes the normal rule."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Heavy plank and carved doors, often with a deliberately archaic arrangement in which the rails are broad and near-equal and the interest is in the carving and the ironwork.",
+      "bounds": "Solid plank or heavy framed construction of 1 3/4 in or more with visible pegs or clavos. A hollow moulded blank with equal rails is not this exception."
+    },
+    {
+      "style": "prairie-school",
+      "why": "Doors composed as rectilinear compositions of glass and wood, sometimes with a deliberately even grid in which the equal division is the design.",
+      "bounds": "The evenness must be systematic and must relate to the room's banding and to the art glass. An accidental equality on a stock leaf is not a composition."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "hollow-core-blank-in-a-panelled-house",
+      "difference": "Proportion against construction. A solid stile-and-rail door can have equal rails and a moulded blank can have unequal ones, though the two usually travel together. Check the grain direction to separate them."
+    },
+    {
+      "fault": "six-panel-door-everywhere",
+      "difference": "That fault is the pattern applied to every style and it lives at the entrance; this is a proportion within whatever pattern is chosen and applies inside as well as out."
+    }
+  ],
+  "co_occurs_with": [
+    "hollow-core-blank-in-a-panelled-house",
+    "six-panel-door-everywhere"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, interior_door variants and graduation",
+    "HABS measured drawings of eighteenth and nineteenth century door leaves",
+    "Universal Millwork Catalog (1927), door schedules and rail dimensions",
+    "Asher Benjamin, The American Builder's Companion (1806)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "interior-door",
+    "proportion",
+    "bottom-rail",
+    "upside-down-test"
+  ]
+}

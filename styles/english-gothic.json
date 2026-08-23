@@ -1,0 +1,191 @@
+{
+  "id": "english-gothic",
+  "name": "English Gothic",
+  "aka": [
+    "Early English",
+    "Decorated",
+    "Perpendicular",
+    "Medieval Gothic"
+  ],
+  "rank": "style",
+  "member_of": "medieval-british",
+  "status": "historical",
+  "period": {
+    "origin": 1174,
+    "floruit_start": 1180,
+    "floruit_end": 1540,
+    "decline_end": 1660,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1749,
+        "end": 1830,
+        "revival_node": "gothic-revival-british",
+        "note": "Rococo 'Gothick' — Strawberry Hill and the picturesque castellated house. Antiquarian in mood, wholly Georgian in construction."
+      },
+      {
+        "start": 1836,
+        "end": 1900,
+        "revival_node": "gothic-revival-british",
+        "note": "The archaeological revival after Pugin's Contrasts, which claimed structural and moral descent rather than mere quotation."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Wales",
+      "Scotland",
+      "Ireland"
+    ],
+    "hearth": "Canterbury, where William of Sens brought Ile-de-France practice to the choir rebuilding of 1174",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "norman-romanesque-english",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Unbroken transmission through the same masons' lodges and the same quarries. The Transitional work of the 1170s-1190s shows the two systems in the same building, often in the same bay."
+    }
+  ],
+  "description": {
+    "short": "Four centuries of pointed-arched masonry in which the English worked out how to concentrate structure into piers and buttresses so that the wall between them could become window, and which in domestic use produced the open-roofed great hall.",
+    "long": "English Gothic begins as an import and becomes the most self-contained regional Gothic in Europe. William of Sens brought French practice to Canterbury in 1174; within fifty years the English had bent it toward their own preferences — long low buildings rather than tall ones, elaborate rib patterns rather than structural daring, and a fixation on the surface pattern of tracery that culminates in Perpendicular, a style with no Continental parallel. The three conventional phases (Early English c.1180-1275, Decorated c.1275-1375, Perpendicular c.1375-1540) are Thomas Rickman's 1817 coinage, not a medieval self-description, but they track real changes in window tracery closely enough to be worth keeping.\n\nThe domestic story is separate from the ecclesiastical one and matters more here. Once a landholding class felt safe enough to come down to the ground, the first-floor hall gave way to the ground-floor open hall: a single tall volume open to a carpented roof, with a dais at the upper end for the lord's table, a screens passage at the lower end separating hall from buttery, pantry and kitchen, and a central open hearth until wall fireplaces and chimney stacks became general in the fifteenth century. That plan — dais, hall, screens, service — is the single most consequential diagram in British domestic architecture. The H-plan and E-plan manor, Tudor and Jacobean great houses, and the persistent English habit of entering a house off-centre through a passage rather than on axis all descend directly from it.\n\nThe conditions were wool money, monastic and collegiate patronage, and a masons' lodge system that moved skilled men between cathedral, castle and manor sites. The Black Death of 1348-49 is the hinge: it destroyed the labour supply, ended the enormous Decorated projects, and pushed the trade toward the repeatable, panel-based Perpendicular window, which could be cut from templates with less carving per foot. Perpendicular is often described as the style of a diminished age. It is more accurately the style of a labour shortage, and its rectilinear economy is the first standardised architectural system in England — a fact worth holding onto, because it is the same logic the pattern book would later apply to classicism.\n\nA medieval great hall is one of the few interiors that still reliably silences people who walk into it. The volume is far taller than any domestic need requires; the roof is the whole show, an arch-braced or hammerbeam structure whose members are the size of ship timbers and whose joinery is visible from the floor; the light comes sideways and high from traceried windows, so the upper air is bright and the floor is dim. Entering through the screens passage rather than into the middle of the room means you arrive at the low end, in shadow, looking up the length of the room toward the dais. That was the point. The plan is a machine for producing a social gradient out of nothing but a sequence of thresholds and a fall of light."
+  },
+  "defining_characteristics": [
+    "The pointed arch used structurally throughout, freeing rise from span and allowing bays of unequal width to spring to a common height",
+    "Structure concentrated in piers, buttresses and ribs so that infill wall can be reduced to traceried window",
+    "Window tracery as the governing decorative system — plate, then geometric bar, then flowing curvilinear, then rectilinear panel",
+    "Deep stepped or flying buttresses with weathered offsets, expressing the line of thrust externally",
+    "In domestic work, the ground-floor open hall with dais end, screens passage at the low end, and service rooms beyond",
+    "Carpented open roofs (arch-braced, crown-post, hammerbeam) treated as the principal architectural display of the interior",
+    "Moulded and shafted openings with hood moulds and label stops shedding water clear of the reveal"
+  ],
+  "diagnostic_tells": [
+    "Pointed arch plus tracery plus a hood mould with carved label stops — the combination is decisive and appears nowhere else",
+    "Buttresses that step back and weather as they rise, rather than the flat pilaster strips of Norman work",
+    "In a house: an off-centre entrance leading into a passage across the low end of a tall room, with two or three service doorways in the wall opposite",
+    "Perpendicular window mullions running unbroken from sill to arch head and crossed by horizontal transoms, dividing the light into rectangular panels",
+    "Roof carpentry left exposed and moulded, with no ceiling — a plastered ceiling in a hall means it was floored over later, usually in the sixteenth or seventeenth century"
+  ],
+  "distinguished_from": [
+    {
+      "node": "norman-romanesque-english",
+      "difference": "Pointed versus round arch, and behind that a complete inversion of where material goes. Norman spreads stone evenly through a thick wall; Gothic gathers it into piers and buttresses and spends the savings on glass."
+    },
+    {
+      "node": "gothic-revival-british",
+      "difference": "The original is a continuous building practice with no theory of itself; the revival is a theory in search of a practice. A medieval hall has a chimney where the fire is; a revival hall has a chimney where a medieval hall would have had one. The revival is also built with Georgian-descended trades, sawn timber and, after 1840, industrial glass."
+    },
+    {
+      "node": "tudor",
+      "difference": "Tudor is late Perpendicular domesticated and secularised — the same masons, the same four-centred arch, but a symmetrical-ish gatehouse front, brick instead of stone in the lowland counties, and Italianate ornament arriving as surface decoration on a wholly Gothic frame."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Geometric setting-out from the square and its diagonal (ad quadratum) and from the equilateral triangle (ad triangulum), worked out full size on a tracing floor rather than calculated. The pointed arch's freedom from a fixed rise:span ratio is what makes the whole system possible.",
+    "typical_ratios": [
+      "Equilateral arch: rise equals span (centres struck at the springing points) — the Early English default",
+      "Lancet openings 4:1 to 6:1 height to width; Perpendicular windows 2:1 to 3:1 overall",
+      "Great hall: width 7.5-9.0 m, length 1.5 to 2 times width, wall-plate height roughly equal to width",
+      "Pier width to bay span roughly 1:4 to 1:6, against 1:2 to 1:3 in Norman work",
+      "Buttress projection 1/4 to 1/2 of its own width at the base, diminishing by weathered offsets"
+    ],
+    "bay_rhythm": "Regular structural bays set by the roof trusses or vault ribs, 3.5-5.0 m apart in domestic work, with the hall usually of three or four bays plus a screens bay. Openings sit centred in their bay; the bay, not the facade, is the unit of composition.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "h-plan-manor",
+      "affinity": "canonical",
+      "note": "The developed manorial diagram: hall range in the centre, family solar wing at the dais end, service and kitchen wing beyond the screens."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The unaisled open hall before wings accrete — the base condition from which everything else grows."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "common",
+      "note": "Collegiate, monastic and larger castle plans, where ranges close a quadrangle around the hall."
+    },
+    {
+      "massing": "telescope-house",
+      "affinity": "possible",
+      "note": "Descending ranges from hall to service are common, though the medieval version steps by function rather than by generation."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Arch heads are pointed. Where a depressed head is used it must be a true four-centred arch struck from four centres, not a flattened ellipse, and it belongs only to work after roughly 1400.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "A traceried window requires a hood mould or a weathered label above it. Tracery set flush in a wall with no drip is a modern detail and will fail in a British rain.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Entry to a hall is through a screens passage at the low end, never centrally on the long side and never at the dais end. This is the load-bearing rule of the whole domestic plan.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Hall wall-plate height not less than the hall's clear width; a hall wider than it is tall is a room, not a hall.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Roof pitch not less than 45 degrees, and 50-55 degrees where the covering is stone slate or thatch; the open roof must be framed to be seen from below.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Stokesay Castle",
+      "location": "Shropshire, England",
+      "year": 1291,
+      "note": "Licence to crenellate granted 1291 to the wool merchant Laurence of Ludlow. A fortified manor whose great hall, with its cruck-braced roof and tall traceried windows, survives almost unaltered."
+    },
+    {
+      "name": "Penshurst Place, Barons Hall",
+      "location": "Kent, England",
+      "year": 1341,
+      "note": "Built for Sir John de Pulteney. The most complete surviving fourteenth-century domestic hall: central octagonal hearth, chestnut arch-braced roof, dais, and screens passage all intact."
+    },
+    {
+      "name": "Westminster Hall roof",
+      "location": "London, England",
+      "year": 1399,
+      "note": "Hugh Herland's hammerbeam roof of 1393-99 spanning 20.7 m without intermediate support — the largest medieval timber roof in Northern Europe and the technical summit of the tradition."
+    },
+    {
+      "name": "Great Chalfield Manor",
+      "location": "Wiltshire, England",
+      "year": 1480,
+      "note": "Built c.1465-80 for Thomas Tropenell. A late-Perpendicular manor with the hall range flanked by gabled wings — the H-plan arriving in its finished domestic form."
+    }
+  ],
+  "sources": [
+    "John Harvey, The Perpendicular Style 1330-1485 (1978)",
+    "Margaret Wood, The English Mediaeval House (1965)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)",
+    "Mark Girouard, Life in the English Country House (1978)",
+    "R. W. Brunskill, Traditional Buildings of Britain (1981)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "medieval",
+    "masonry",
+    "pointed-arch",
+    "great-hall"
+  ]
+}

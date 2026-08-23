@@ -1,0 +1,220 @@
+{
+  "id": "chimney-omitted",
+  "name": "The House With No Fire",
+  "aka": [
+    "the electric colonial",
+    "clean roof syndrome"
+  ],
+  "slots": [
+    "chimney",
+    "composition_parti"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "tudor-revival",
+      "severity": "fatal",
+      "why": "The chimney is often the entrance front's principal vertical accent, at a sixth of the elevation's width."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "The plan pinwheels about a massive central masonry chimney which is the tallest and heaviest element of the composition."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "fatal",
+      "why": "The stack is the structural and compositional centre; without it the ridge is unbroken and the house has no centre."
+    },
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "The hearth organises the plan and the stack continues the stone or clinker-brick base."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Paired stacks terminate a symmetrical roof that has no other event on it."
+    },
+    {
+      "style": "saltbox-colonial",
+      "severity": "fatal",
+      "why": "One central stack breaking the ridge forward of its midpoint is a defining tell of the type."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "The revival was always looser, and a single end stack satisfies it."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "not-applicable",
+      "why": "Many were built with a small furnace flue and no fireplace at all."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "not-applicable",
+      "why": "Post-hearth by construction date."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "not-applicable",
+      "why": "Stove flues rather than chimneys."
+    }
+  ],
+  "severity_in_use": "minor",
+  "severity_trajectory": "Static in appearance, but the option closes: a chimney is the one element that cannot be added later without a footing, a structural opening through two floors and a roof, so a house built without one is built without one permanently.",
+  "frequency": "common",
+  "category": "omission",
+  "symptom": "A Tudor Revival, Cape, Georgian, Craftsman or Prairie house with no chimney at all: an unbroken roof, a mechanical flue on the rear slope, and either a direct-vent fireplace venting through a sidewall or nothing. The trim may be exemplary and the composition still has a hole in it, because the massing was designed around a vertical that is not there.",
+  "cause": {
+    "driver": "code",
+    "explanation": "An all-electric or heat-pump house has no combustion appliance to vent. Direct-vent gas fireplaces vent horizontally through a sidewall. And energy codes increasingly treat a masonry chimney as a thermal bridge and an air-leakage path that has to be sealed, insulated and blower-door tested around, so the cheapest compliant answer is not to have one. Three separate code and market pressures converge, and none of them has a line for what the chimney was doing compositionally.",
+    "cost_saved": "$10,000-25,000 including the footing, plus a measurable improvement in the blower-door result."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "tudor-revival",
+      "statement": "Chimney breadth at least 1/6 of the elevation it sits on; stack height at least 3 ft above the ridge - the chimney is a principal element of the entrance front, not an accessory."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "prairie-school",
+      "statement": "Plan pinwheeling about a massive central masonry chimney, which is the tallest and heaviest element of the composition."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chimney / count",
+      "statement": "Two, paired and symmetrically disposed - the terminating verticals of a symmetrical composition whose roof has no other incident."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC N1102.4",
+      "statement": "Building thermal envelope air sealing, verified by blower door. A masonry chimney is a thermal bridge and a leakage path that has to be sealed, insulated and tested around, so the cheapest compliant answer is not to have one - which is how an energy code deletes a compositional element."
+    }
+  ],
+  "correct_practice": "For most styles a lost chimney is a genuine and acceptable modern casualty. For a specific set it is fatal, because the massing was composed around the stack and there is nothing else to carry the vertical: Tudor Revival, where the chimney is often the entrance front's principal accent at a sixth of the elevation's width; Prairie School, where the plan turns around a central masonry mass that must be the heaviest object present; Craftsman, where the hearth organises the plan and the stack continues the stone or clinker-brick base; Cape Cod and First Period, where the stack is the structural and compositional centre; and Georgian, where paired stacks terminate a symmetrical roof that has no other event on it. On these, either build a real chimney doing real work, or choose a style whose massing does not depend on one.",
+  "fixes": {
+    "right": "A masonry chimney serving a wood-burning fireplace or stove, positioned by the plan.",
+    "cheap": "Gather every mechanical vent the house actually has - furnace or boiler flue, water heater, radon stack, plumbing vents, range and dryer where they can be combined - and run them up through ONE masonry-dimensioned chase in the historically correct position, capped properly. It is a real duct doing real work, it is honest, it removes half a dozen pipes from the roof, and it restores the massing for the price of the chase.",
+    "dishonest": "A shallow decorative chimney breast applied to a gable wall that stops at the eave. It claims a hearth and delivers neither the mass nor the vertical."
+  },
+  "test": {
+    "expression": "visible_chimney_count",
+    "threshold": 1,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Binary, and the right shape for this fault: the question is whether the composition has the vertical it was designed around. On a Georgian the threshold is 2, symmetrically placed."
+  },
+  "secondary_tests": [
+    {
+      "expression": "chimney_visible_face_width_in / elevation_width_in",
+      "threshold": 0.167,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The Tudor Revival rule - chimney breadth at least one sixth of the elevation it stands on. Absent or under a sixth is the fault on that style."
+    },
+    {
+      "expression": "chimney_visual_mass_rank_in_composition",
+      "threshold": 1,
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The Prairie test. If the chimney is not the visually heaviest object present, the composition has been inverted."
+    }
+  ],
+  "detection": "Look at the roofline for a vertical incident, then check against the style. On a Georgian, count: there should be two, symmetrically placed. On a Tudor Revival, measure the widest visible chimney face against the elevation's width - under a sixth, or absent, is the fault. On a Prairie house, if the chimney is not the visually heaviest object in the composition, the composition has been inverted. On a Cape, if the ridge is unbroken the house has no centre.",
+  "applies_to": [
+    "georgian-colonial-american",
+    "colonial-revival",
+    "cape-cod-colonial",
+    "cape-cod-revival",
+    "tudor-revival",
+    "craftsman",
+    "prairie-school",
+    "new-england-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "federal-style"
+  ],
+  "exceptions": [
+    {
+      "style": "minimal-traditional",
+      "why": "The FHA-era type often had only a small furnace flue and no fireplace at all; a chimneyless example is historically accurate.",
+      "bounds": "A small flue expressed as a flue is correct; the type does not want a monumental stack either.",
+      "bounds_test": {
+        "expression": "flue_diameter_in",
+        "threshold": 6,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 12,
+        "note": "A small flue expressed as a flue is correct; the type does not want a monumental stack either."
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "Post-hearth by construction date; many were built with metal flues from the start.",
+      "bounds": "Where a fireplace exists it should be expressed as a broad low masonry mass, which is the type's own idiom.",
+      "bounds_test": {
+        "expression": "chimney_width_in / chimney_height_above_roof_in",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Where a fireplace exists it should read as a broad low masonry mass, which is the type's own idiom."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Stove flues rather than chimneys, and often none surviving.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "flue_diameter_in",
+        "threshold": 6,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 10,
+        "note": "Read as a pipe."
+      }
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "The type's composition is carried by the cantilevered balcony and the wall-plane step, not by a stack.",
+      "bounds": "A small stucco or brick stack is still expected; it is simply not load-bearing compositionally.",
+      "bounds_test": {
+        "expression": "chimney_least_plan_dimension_in",
+        "threshold": 16,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "A small stucco or brick stack is still expected; it is simply not load-bearing compositionally."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "vestigial-chimney-chase",
+      "difference": "The opposite response to the same cause. One builds nothing; the other builds a box. The box is usually worse."
+    }
+  ],
+  "alternative_to": [
+    "vestigial-chimney-chase"
+  ],
+  "sources": [
+    "IECC/IRC N1102 air-sealing requirements as they bear on masonry chimneys",
+    "project style nodes: tudor-revival, prairie-school, craftsman, cape-cod-colonial",
+    "kits/georgian-colonial-american.kit.json chimney"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chimney",
+    "omission",
+    "massing",
+    "code-conflict"
+  ]
+}

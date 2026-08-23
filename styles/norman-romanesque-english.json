@@ -1,0 +1,179 @@
+{
+  "id": "norman-romanesque-english",
+  "name": "Norman Romanesque (English)",
+  "aka": [
+    "Norman",
+    "English Romanesque",
+    "Anglo-Norman"
+  ],
+  "rank": "style",
+  "member_of": "medieval-british",
+  "status": "historical",
+  "period": {
+    "origin": 1050,
+    "floruit_start": 1070,
+    "floruit_end": 1190,
+    "decline_end": 1220,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1830,
+        "end": 1880,
+        "revival_node": null,
+        "note": "The Norman Revival, a short-lived and unpopular branch of the British Gothic Revival. It failed because the Ecclesiologists judged the round arch doctrinally inferior to the pointed one, which tells you how much the nineteenth century thought was at stake in an arch."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Wales",
+      "Scotland",
+      "Ireland"
+    ],
+    "hearth": "Normandy, transplanted wholesale by the post-Conquest royal and monastic building programme",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "roman-classical",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The round arch, the barrel and groin vault, the ashlar course and the very idea of a masonry order reach Normandy through Carolingian and Lombard intermediaries, not by direct study of Roman buildings. Transmission is real but attenuated: no Norman mason had read Vitruvius."
+    }
+  ],
+  "description": {
+    "short": "The masonry architecture the Conquest imposed on England: round-arched, immensely thick-walled, cut rather than assembled, and in its domestic form a defensible stone hall raised over a vaulted undercroft.",
+    "long": "Norman Romanesque is what happens when a conquering minority builds in stone to make a political fact permanent. Within two generations of 1066 the Normans rebuilt nearly every English cathedral and major abbey and planted several hundred castles, and the surviving domestic examples — a scatter of twelfth-century stone houses in Lincoln, Bury St Edmunds, Southampton and Boothby Pagnell — belong to the same programme in miniature. The style is defined by mass rather than by line. Walls three to six feet thick carry everything; openings are small holes punched through that thickness and splayed inward to gather what light they can; ornament is chevron, billet and beakhead chiselled into the arris of a voussoir rather than applied to a surface. Nothing about it is skeletal, and nothing about it is delicate.\n\nThe conditions that produced it were military, monastic and administrative. A Norman lord in a hostile countryside needed a hall he could hold, and the standard answer was the first-floor hall: a vaulted stone undercroft at grade for storage, the living hall above it reached by an external stair that could be defended or removed. That plan is a security diagram before it is an architectural one, and it recurs across Europe wherever a landholding class lived among a population it did not trust. The technology was equally specific: quarried limestone, lime mortar of indifferent quality that took years to cure and therefore demanded very thick walls, and a mason-contractor tradition organised around the church-building lodge, which is where nearly all skilled stonecutting in England lived for two centuries.\n\nThere was nothing to react against, which is part of what makes the style so blunt. Anglo-Saxon England built substantially in timber; the Normans simply did not continue that practice at the top of the social scale, and the discontinuity is visible in the archaeology as a hard edge rather than a gradient. The one concession to what was already here is the survival of native carpentry in roofs, floors and everything below the rank of a lord, which continued unbroken and eventually produced the timber-frame tradition that is Norman Romanesque's true domestic sibling.\n\nStanding in a Norman undercroft is a distinct bodily experience, and it is not a pleasant one in the ordinary sense. The room is cold in a way that has nothing to do with air temperature; the vault is low and the piers are fat out of all proportion to the load they carry; sound dies immediately in the stone. Upstairs in the hall the geometry loosens — a twin-light window with a central colonnette, a great round-backed fireplace with an ashlar hood — but the wall is still the dominant fact in the room, and every opening announces its own depth. The experience is of being inside a solid rather than under a shelter, and no later British style ever reproduces it, because no later British style could afford to."
+  },
+  "defining_characteristics": [
+    "The semicircular arch used universally and without exception — doors, windows, arcades, vaults — with the rise exactly half the span",
+    "Load carried by wall mass, not by frame: principal walls 900 mm to 1.8 m thick, with openings expressed as deep splayed reveals through that thickness",
+    "Coursed rubble field walling with ashlar reserved for quoins, jambs, voussoirs, string courses and shafts",
+    "Cushion, scalloped or volute capitals of cubic derivation; ornament (chevron, billet, beakhead, cable) cut into the stone's arris rather than applied to its face",
+    "In domestic work, the first-floor hall raised over a vaulted or beamed undercroft and entered by an external stair",
+    "Openings small in relation to wall area, grouped as twin lights under a shared containing arch where more light is needed"
+  ],
+  "diagnostic_tells": [
+    "A round arch and a cushion capital in the same building, with no pointed arch anywhere — the moment a pointed arch appears you are in the Transitional or in Early English Gothic",
+    "Window reveals splayed so steeply that the internal opening is two or three times the external one; the wall's thickness is legible from inside",
+    "Chevron (zigzag) cut around an arch order — an ornament essentially confined to Anglo-Norman work and its revivals",
+    "Domestic entrance at first-floor level with a blind or barred undercroft below, no ground-floor front door at all",
+    "Buttresses that are flat pilaster strips of shallow projection rather than the deep stepped buttresses of Gothic"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-gothic",
+      "difference": "Round arch versus pointed; wall-as-mass versus wall-as-frame. Norman puts stone everywhere and light nowhere; Gothic concentrates stone into piers and buttresses so that the intervening wall can dissolve into glass. A Norman window is a hole; a Gothic window is what is left over."
+    },
+    {
+      "node": "english-medieval-timber-frame",
+      "difference": "Contemporaneous and complementary rather than competing. Norman Romanesque is the masonry practice of the lordly and ecclesiastical class; the timber tradition is the carpentry practice of everyone else, including the same lords' outbuildings. They share a century and almost no details."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Wall thickness and the semicircle. The arch's rise is fixed at half its span, so span sets height throughout; the vault bay and the ashlar course height are the working modules. There is no order, no entablature and no applied system of proportion.",
+    "typical_ratios": [
+      "Arch rise to span exactly 1:2 — the defining and non-negotiable ratio",
+      "Wall thickness 1/8 to 1/5 of the clear span it encloses",
+      "Pier or respond width 1/3 to 1/2 of the opening it flanks",
+      "External window opening height to width roughly 2.5:1 to 3:1; internal splayed opening roughly 1.5:1",
+      "Undercroft clear height 2.4-3.0 m; hall above 4.5-6.0 m"
+    ],
+    "bay_rhythm": "Heavy and slow: piers or vault responds at 3.0-5.0 m centres, with the bay set by what a groin vault of the available mortar could be trusted to span. Windows do not establish a rhythm of their own; they sit where the wall can spare the material.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-single-cell",
+      "affinity": "canonical",
+      "note": "The first-floor hall over an undercroft is a single-cell type stacked vertically — one room per level, entered directly."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The Jew's House at Lincoln and the Norman stone houses of Southampton stand in a street line with party or near-party walls; twelfth-century urban stone housing is genuinely a row type."
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "possible",
+      "note": "Where a chamber is partitioned off the upper hall, but the division is a screen, not a structural bay."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "atypical",
+      "note": "The H-plan belongs to the developed ground-floor hall of the later Middle Ages. Norman work reaching that plan has generally been rebuilt into it."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Every arched opening is semicircular with rise equal to half the span. Segmental, stilted, four-centred and pointed heads are forbidden; a single pointed arch reclassifies the building as Transitional.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Principal masonry walls not less than 900 mm thick, and openings must express that thickness with reveals splayed at 30-45 degrees. A thin wall with a round-headed opening is a stage set.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Ashlar is permitted only at quoins, jambs, voussoirs, string courses, shafts and fireplace hoods; field walling must be coursed rubble. Continuous fine ashlar over a whole elevation reads as Georgian regardless of the arch profile.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Glazed area not to exceed roughly 8 percent of the elevation. Beyond that the wall stops reading as mass and the style collapses.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Domestic entry at first-floor level by an external stair, with the undercroft either blind or given only slit openings.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Boothby Manor House (Boothby Pagnell Manor House)",
+      "location": "Boothby Pagnell, Lincolnshire, England",
+      "year": 1180,
+      "note": "Historic England dates it late twelfth century. The most complete surviving Norman domestic first-floor hall in England: two-chamber vaulted undercroft, hall above with a round-backed fireplace under a massive ashlar hood."
+    },
+    {
+      "name": "The Jew's House",
+      "location": "Steep Hill, Lincoln, England",
+      "year": 1170,
+      "note": "A twelfth-century stone town house standing in the street line, its ground-floor doorway carrying the chimney of the hall above — one of the oldest inhabited houses in Europe."
+    },
+    {
+      "name": "Oakham Castle Great Hall",
+      "location": "Oakham, Rutland, England",
+      "year": 1185,
+      "note": "A late-Norman aisled hall with carved capitals of exceptional quality, and the rare case of a domestic hall of this date surviving substantially intact."
+    },
+    {
+      "name": "Durham Cathedral nave",
+      "location": "Durham, England",
+      "year": 1133,
+      "note": "Not domestic, but the fullest statement of the structural and ornamental logic — chevron-cut piers, the first large-scale ribbed high vault in Europe — that the domestic work abbreviates."
+    }
+  ],
+  "sources": [
+    "Eric Fernie, The Architecture of Norman England (2000)",
+    "Margaret Wood, The English Mediaeval House (1965)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)",
+    "R. W. Brunskill, Traditional Buildings of Britain (1981)",
+    "John Summerson, Architecture in Britain 1530-1830 (for the later reception of the Romanesque)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "masonry",
+    "medieval",
+    "round-arch",
+    "defensive"
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "id": "palladian-window-related-to-nothing",
+  "name": "The Gable Window That Belongs To No Bay",
+  "aka": [
+    "the builder Palladian",
+    "the half-round in the gable",
+    "the window-shape menu"
+  ],
+  "slots": [
+    "special_window",
+    "window_grouping_rule",
+    "window_proportion",
+    "window_type"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A Palladian, Venetian or half-round window fills a front gable, and its width bears no relation to any opening below it, its springing line aligns with nothing, and it is one of three or four different window shapes on the same elevation — rectangular, arched, half-round, octagonal. Frequently it appears more than once on the same house, and frequently it lights a stair landing or a closet.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "The gable is a large blank triangle on a two-storey elevation and something has to go in it. Manufacturers sell a family of specials — half-round, quarter-round, octagon, arch-top — precisely to fill it, and the specification is made against the gable's shape rather than against the elevation's rhythm. Because it is a catalogue item it is priced per unit, so repeating it is cheap and its width is chosen from a stock list rather than derived.",
+    "cost_saved": "Nothing. A special window costs two to five times a rectangular one of the same area. This is another fault that spends money to be wrong.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / special_window / count_per_elevation",
+      "statement": "One. The special window is a hierarchical device and repetition destroys its function."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / special_window / placement",
+      "statement": "Centre bay of the second storey, over the entrance, or in a pediment."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / special_window.width",
+      "statement": "venetian max width = module * 0.72, that is 6 ft 5 3/4 in at a 9 ft bay; and the derivation runs from the sidelight width — opening_width * 4 — which should be run backwards from the bay in practice."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "queen-anne-free-classic / special_window",
+      "statement": "Not more than one Palladian, Venetian or cottage window shall appear on the building, placed in the principal gable or at the stair. Repetition of the motif destroys its hierarchical function."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "neo-eclectic / window_type",
+      "statement": "Three or more different window shapes on one elevation is a named diagnostic tell."
+    }
+  ],
+  "correct_practice": "One special window per building, placed where the hierarchy asks for it — the centre bay of the second storey over the entrance, or in a pediment or principal gable — and dimensioned from the bay rather than from the gable. Maximum width 0.72 of a bay, which at a 9 ft bay is 6 ft 5 3/4 in. Its centre line coincides with the entrance's centre line. Its flanking lights are the width of a sidelight, module / 3 or about 12 in, its centre light is arched and about twice each flanking light, and the springing of the arch sits on the head datum of the flanking lights, which in turn should relate to the head datum of the storey it sits in. Not more than two window shapes on any one elevation, and the second shape only where it marks something.",
+  "fixes": {
+    "right": "One Venetian window on the centre line, dimensioned from the bay, with its springing on a real datum, and every other window on the elevation rectangular.",
+    "cheap": "Replace the special window with a rectangular one of the correct proportion aligned to the bay below, and leave the gable otherwise blank. A blank gable is a positive element in almost every traditional idiom and costs less than any window. Where a gable opening is wanted, a small square or round louvred vent on the centre line is correct, cheap and honest, and it is what most of the buildings being imitated actually had.",
+    "dishonest": "Making the Palladian window wider so it 'relates' to the room behind it. Width was never the relationship in question; the centre line and the datum were, and widening it usually pushes it past 0.72 of a bay and into the roof framing."
+  },
+  "detection": "Count the distinct window shapes on the street elevation. Three or more is the fault. Then drop a vertical through the centre of the special window and see whether it passes through the centre of the entrance below; an offset of more than a few inches means it was placed by the gable rather than by the composition. Measure the special window's width against the widest opening below it — it should be within the bay's 0.72 cap and should relate to a real dimension on the elevation. Finally, count the special windows on the whole building: more than one is a fault by itself.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "queen-anne-free-classic",
+      "why": "The Palladian, Venetian or cottage window used as the gable or stair feature is a defining device of this substyle.",
+      "bounds": "Exactly one, in the principal gable or at the stair. The style's own constraint forbids repetition.",
+      "bounds_test": {
+        "expression": "special_windows_per_building",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Exactly one, in the principal gable or at the stair. The style's own constraint forbids repetition."
+      }
+    },
+    {
+      "style": "georgian-colonial-american",
+      "why": "The Venetian window in the centre bay of the second storey over the entrance is a proper Georgian device on houses of rank.",
+      "bounds": "One per elevation, maximum 0.72 of a bay, centre light arched at about twice each flanking light, springing on the flanking lights' head datum.",
+      "bounds_test": {
+        "expression": "special_window_width_in / bay_width_in",
+        "threshold": 0.72,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "One per elevation, centre light arched at about twice each flanking light, springing on the flanking lights' head datum, centred on the entrance below."
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Near-square frieze-band windows introduce a second shape legitimately, and they are the style's fastest identifier.",
+      "bounds": "Frieze band only, aligned with the bays below, no taller than a third of the frieze depth. This licenses a second shape, not a third, and the Greek Revival forbids round-headed arches outright.",
+      "bounds_test": {
+        "expression": "round_headed_openings_on_the_elevation",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The frieze window licenses a SECOND shape, not a third, and the style forbids round-headed arches outright — so the second shape must be the near-square frieze window and nothing else."
+      }
+    },
+    {
+      "style": "gothic-revival-american",
+      "why": "Pointed and lancet heads are the style's own shape and appear in the principal gable, the entry and the stair.",
+      "bounds": "Not more than 30 per cent of the openings on any elevation, and confined to those three positions; universal pointed heads produce a church.",
+      "bounds_test": {
+        "expression": "pointed_head_openings / total_openings_on_the_elevation",
+        "threshold": 0.3,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The style's own cap. Confined to the principal gable, the entry and the stair; universal pointed heads produce a church, not a house."
+      }
+    },
+    {
+      "style": "carpenter-gothic",
+      "why": "The pointed sash in the principal gable over square-headed sash elsewhere is the type's diagnostic — the owner bought one Gothic window.",
+      "bounds": "Not more than three pointed openings per building, confined to gable, entrance and stair.",
+      "bounds_test": {
+        "expression": "pointed_head_openings_per_building",
+        "threshold": 3,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The owner bought one Gothic window. Beyond three the house reads as a chapel."
+      }
+    },
+    {
+      "style": "mission-revival",
+      "why": "A single quatrefoil or circular window is the style's entire permitted ornamental opening.",
+      "bounds": "One, and no carved or cast entrance surround anywhere on the building.",
+      "bounds_test": {
+        "expression": "ornamental_openings_per_building",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "One quatrefoil or circular window, and no carved or cast entrance surround anywhere on the building — that surround would reclassify it as Spanish Colonial Revival."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "The gable window is frequently the element that beats the entrance, but that fault can occur with no special window at all."
+    },
+    {
+      "fault": "storeys-out-of-vertical-alignment",
+      "difference": "That is about the whole fenestration grid; this is about a single feature window's relationship to it."
+    },
+    {
+      "fault": "three-periods-on-one-elevation",
+      "difference": "That fault is about ornament drawn from three traditions, each competently executed. This is about one feature window with no dimensional relationship to the elevation. A builder Palladian in a gable over a Georgian doorcase under an Italianate bracket is both faults at once."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json",
+    "kits/georgian-colonial-american.kit.json special_window",
+    "styles/queen-anne-free-classic.json constraints",
+    "styles/neo-eclectic.json constraints"
+  ],
+  "confidence": "high",
+  "tags": [
+    "special-window",
+    "hierarchy",
+    "composition",
+    "catalog"
+  ],
+  "test": {
+    "expression": "distinct_window_shapes_on_the_street_elevation",
+    "threshold": 2,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "The Neo-Eclectic constraint names three or more shapes on one elevation as a diagnostic tell. Two is the ceiling and the second shape must be marking something. Count outline shapes — rectangular, arched, half-round, octagonal — not grid patterns."
+  },
+  "secondary_tests": [
+    {
+      "expression": "special_window_width_in / bay_width_in",
+      "threshold": 0.72,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The pack's maximum for a Venetian window in the centre bay: module x 0.72, which is 6 ft 5 3/4 in at a 9 ft bay. Widening it to suit the room behind pushes it past the cap and into the roof framing."
+    },
+    {
+      "expression": "abs(special_window_centreline_in - entrance_centreline_in)",
+      "threshold": 3.0,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Drop a vertical through the centre of the special window and see whether it passes through the centre of the entrance below. An offset over a few inches means it was placed by the gable rather than by the composition."
+    },
+    {
+      "expression": "special_windows_per_building",
+      "threshold": 1,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "One per building. The kit records count_per_elevation = 1 and the Queen Anne Free Classic constraint says it directly: repetition of the motif destroys its hierarchical function."
+    },
+    {
+      "expression": "special_window_flanking_light_width_in / special_window_centre_light_width_in",
+      "threshold": 0.5,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The internal proportion: flanking lights at a sidelight's width, module/3 or about 12 in, with the arched centre light about twice each of them and its springing on the flanking lights' head datum."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "neo-eclectic",
+      "severity": "fatal",
+      "why": "Three or more window shapes on one elevation and a half-round gable window unrelated in width to anything below are two of the style node's named diagnostic tells."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The vocabulary is exclusive and admits no round-headed arches; a half-round or Palladian window is outside it entirely."
+    },
+    {
+      "style": "queen-anne-free-classic",
+      "severity": "minor",
+      "why": "The Palladian, Venetian or cottage window as the gable or stair feature is a defining device — provided there is exactly one."
+    },
+    {
+      "style": "gothic-revival-american",
+      "severity": "minor",
+      "why": "Pointed and lancet heads are the style's own second shape, confined to gable, entry and stair."
+    },
+    {
+      "style": "mission-revival",
+      "severity": "minor",
+      "why": "A single quatrefoil or circular window is the style's entire permitted ornamental opening."
+    }
+  ],
+  "co_occurs_with": [
+    "entry-not-the-most-elaborated-element",
+    "storeys-out-of-vertical-alignment",
+    "three-periods-on-one-elevation",
+    "shutter-on-an-unshutterable-opening"
+  ]
+}

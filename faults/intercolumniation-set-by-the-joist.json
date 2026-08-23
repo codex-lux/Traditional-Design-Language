@@ -1,0 +1,178 @@
+{
+  "id": "intercolumniation-set-by-the-joist",
+  "name": "Column Spacing From The Span Table",
+  "aka": [
+    "8 ft on centre",
+    "the joist-span portico",
+    "triglyph drift"
+  ],
+  "slots": [
+    "column",
+    "porch_support",
+    "order",
+    "entablature",
+    "modillion_dentil"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "A porch or portico whose columns sit at 8 ft, 10 ft or 12 ft on centres — round numbers taken from a beam span table — regardless of their diameter. On a 10 in column that is 9.6 to 14.4 diameters on centres, three to five times the widest classical spacing. The porch reads as a beam with props under it. On the Doric version the failure is louder: the frieze carries triglyphs, and because the columns are on a spacing the triglyph pitch cannot divide, the triglyphs either do not land over the columns, or land over some and not others, or a half metope appears at one end.",
+  "cause": {
+    "driver": "code",
+    "explanation": "The porch beam is sized from an IRC span table, and the table's whole logic is to maximise span for a given member. Fewer columns means fewer footings — each one a hole, a form, an inspection and a post base — so the framer sets the columns as far apart as the beam allows, which on a doubled 2x10 is about 8 ft and on an engineered beam more. The spacing is therefore decided by the framing crew before any trim exists, and the column diameter is decided afterwards by someone else. There is no point in the process at which the order's intercolumniation could be consulted.",
+    "cost_saved": "About 250-600 USD per footing and post base avoided. Going from 3 ft 4 in spacing to 8 ft on a 24 ft porch saves four footings and four columns — 2,000-4,000 USD, the largest saving available on the porch after the columns themselves."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / intercolumniation.vignola-tuscan-colonnade, clear_diameters 2.333",
+      "statement": "Vignola's own Tuscan spacing: 4 modules 8 parts clear (2 1/3 D), 6 modules 8 parts on centres (3 1/3 D). The Italian commentary calls it an approximation to Vitruvius's eustyle."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-ionic / intercolumniation.vignola-ionic-colonnade, clear_diameters 2.25",
+      "statement": "Vignola's own Ionic colonnade lands exactly on the eustyle: 4 1/2 modules clear, 6 1/2 modules on centres."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-doric / derived_rules column.count — 'Doric column spacing is quantised'",
+      "statement": "Axes must fall on a multiple of 1 1/4 diameters (30 parts) because a triglyph is centred on every column. Vignola's ditriglyph spacing is 7 1/2 modules on centres; monotriglyph is 5. There is no continuous adjustment available."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / intercolumniation.araeostyle, clear_diameters 4.0",
+      "statement": "Four diameters clear is the outer limit of the Vitruvian series and Ware notes it requires a timber architrave; the ancients went to seven diameters only in Tuscan with wooden architraves."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R507.5, Table R507.5 — deck beam spans",
+      "statement": "The code sets a maximum span, not a spacing. Nothing in it prevents columns at 3 ft 4 in centres, and the assumption that the beam should be worked to its limit is a habit rather than a requirement."
+    }
+  ],
+  "correct_practice": "Set the columns from the order and let the beam be whatever the resulting span needs. The named series, clear between shafts: pycnostyle 1 1/2 D, systyle 2 D, eustyle 2 1/4 D, diastyle 3 D, araeostyle 4 D. Vignola's own colonnades are Tuscan 2 1/3 D clear (3 1/3 D on centres) and Ionic 2 1/4 D clear (3 1/4 D on centres). On a 12 in Tuscan column that is 3 ft 4 in on centres; on a 16 in one, 4 ft 5 in. The Doric is the hard case and is worth understanding, because it is quantised: a triglyph is centred over every column and triglyphs run at 1 1/4 D on centres, so the column axes must fall on a whole multiple of 1 1/4 D. Vignola's ditriglyph spacing is 3 3/4 D on centres — three triglyph pitches — and monotriglyph is 2 1/2 D. There is no adjustment between those two values. This is why Doric is the hardest order to lay out and why a Doric porch designed from a span table cannot be corrected by moving one column.",
+  "fixes": {
+    "right": "Space the columns by the order's intercolumniation and size the beam to the resulting short span, which is trivial. On a Doric porch, set out the triglyphs first, then place the columns under every second, third or fourth one.",
+    "cheap": "Two free moves. First, if the footings are the constraint, keep them where they are and PAIR the columns over each footing — coupled columns are legitimate in every order above the Doric, they halve the effective bay, and two 8 in columns cost less than one 16 in one. Second, if only one spacing is affordable, choose diastyle at 3 D clear (4 D on centres) rather than a round number: on a 10 in column that is 3 ft 4 in, and it will not be much more than the framer wanted. Third: if the spacing must stay at 8 ft, abandon the round column and use square piers, which carry no intercolumniation rule at all and are correct on many styles at wide spacing.",
+    "dishonest": "Keeping the 8 ft spacing and adding a deep decorative beam or a shallow arch between the columns to 'fill' the bay. A wide bay filled with an applied arch is a wider bay with a shape in it, and the arch will have a span-to-rise ratio no authority draws. Equally dishonest on Doric: stretching or compressing the triglyphs so they land on the columns, which changes the metope from square to oblong and is visible in every photograph."
+  },
+  "detection": "One ratio, from a straight-on photograph: clear distance between two adjacent shafts, divided by shaft diameter at the foot. Under 4 is inside the classical series; 4 to 6 is stretched but legible; over 6 is a beam on props. Second and far more diagnostic check where the frieze carries triglyphs: is there a triglyph centred over the axis of every column? If any column has a metope over it, or if a metope at the end of the run is narrower than the others, the run was set out from the framing rather than from the order. Third check for the Doric: measure the metopes. They must be square — 3/4 diameter on a side — and all identical. A single oblong metope, usually the end one, is the tell that the spacing was fixed first.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "clear_span_between_shafts / lower_shaft_diameter",
+    "threshold": 4.0,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Four diameters clear is araeostyle, the outermost of the Vitruvian series, and Ware notes it already requires a timber architrave. Vignola's own colonnades run 2 1/4 to 2 3/4 D clear. Tighten to 3 D for stone or a masonry-reading entablature. For Doric, this continuous test is necessary but not sufficient: the spacing must additionally be a whole multiple of 1.25 D on centres."
+  },
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The Greek Doric colonnade is the triglyph rule made visible. Spacing it from a span table produces a frieze that cannot be set out and the failure is on the most prominent surface of the building."
+    },
+    {
+      "style": "jeffersonian-classicism",
+      "severity": "fatal",
+      "why": "Jefferson set out his porticos from Palladio's plates by module. Spacing is not a free variable there."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Endemic on porches; the entablature is usually plain, so the failure is one of proportion rather than of setting out."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "minor",
+      "why": "The vernacular farmhouse porch was always framed from available timber at whatever spacing worked, on plain square or chamfered posts, and never claimed an order."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "minor",
+      "why": "Catalogue posts at 8 to 10 ft centres with a spindle frieze between are exactly what the millwork trade sold, and the frieze is what closes the bay visually rather than the entablature."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "The vernacular porch is framed, not composed: square or chamfered posts at the spacing the available timber and the bay of the house give, commonly 8 to 10 ft. There is no order and therefore no intercolumniation.",
+      "bounds": "Square, chamfered or plain-turned posts only, with no capital beyond a simple block, no base beyond a plinth block, and a plain plate rather than an entablature. A round moulded column at 10 ft centres is not vernacular, it is this fault.",
+      "applies_when": {
+        "construction": [
+          "wood-frame"
+        ],
+        "slots": [
+          "porch_support"
+        ]
+      }
+    },
+    {
+      "style": "folk-victorian",
+      "why": "The catalogue porch works at wide spacing on purpose: a sawn spindle frieze and paired brackets fill the top of each bay, so the bay is closed visually by ornament rather than by proximity of supports. Wide bays are what make the spindlework legible.",
+      "bounds": "The spindle frieze and brackets must actually be present and must span the full width of each bay. An empty 10 ft bay between two turned posts is this fault; a 10 ft bay with a full spindle frieze and 24 in brackets at each end is the style.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Gallery colonnettes stand at the rhythm of the openings behind them — commonly 8 to 12 ft — because the gallery answers the plan rather than an order, and the colonnettes are slender enough that wide spacing looks light rather than strained.",
+      "bounds": "Colonnette spacing must correspond to the openings behind it, one bay per opening. A gallery whose posts bear no relation to the doors and windows behind is not this exception.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ]
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman porch is deliberately few-bayed and wide-spanned: two heavy piers and a heavy beam, often a single 16 to 20 ft span, expressing the beam as a beam.",
+      "bounds": "The beam must be genuinely deep enough to be believed — not less than 1/12 of its span in visible depth — and the supports must be piers or battered posts, not columns. A 2x10 wrapped in PVC spanning 16 ft between round columns is not Craftsman.",
+      "bounds_test": {
+        "expression": "visible_beam_depth / clear_span",
+        "threshold": 0.083,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "pencil-column",
+    "entablature-off-the-quarter",
+    "four-by-four-under-a-roof",
+    "modillion-aligned-to-nothing"
+  ],
+  "confused_with": [
+    {
+      "fault": "pencil-column",
+      "difference": "That is the column too thin for its height. This is the columns too far apart for their diameter. A porch can have correctly proportioned columns at hopeless spacing, and it happens whenever an architect specifies the column and a framer sets out the deck."
+    },
+    {
+      "fault": "modillion-aligned-to-nothing",
+      "difference": "That is about the cornice's small repeating members failing to align with anything. This is about the columns themselves. On a Doric porch the two are the same failure seen at two scales."
+    }
+  ],
+  "sources": [
+    "proportions/orders/vignola-tuscan.json, vignola-ionic.json, vignola-doric.json — intercolumniation.named_spacings and the packs' own colonnade figures",
+    "proportions/orders/vignola-doric.json, derived_rules column.count — the quantisation note",
+    "W. R. Ware, The American Vignola (1902), plates on Doric spacing and on the araeostyle",
+    "Vitruvius III.3 on the named intercolumniations",
+    "IRC Table R507.5, deck beam spans"
+  ],
+  "confidence": "high",
+  "tags": [
+    "column",
+    "intercolumniation",
+    "doric",
+    "setting-out",
+    "mechanism"
+  ]
+}

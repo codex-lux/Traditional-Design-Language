@@ -1,0 +1,207 @@
+{
+  "id": "italian-renaissance",
+  "name": "Italian Renaissance",
+  "aka": [
+    "Quattrocento and Cinquecento",
+    "Rinascimento",
+    "High Renaissance"
+  ],
+  "rank": "style",
+  "member_of": "renaissance-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1419,
+    "floruit_start": 1420,
+    "floruit_end": 1600,
+    "decline_end": 1620,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1830,
+        "end": 1880,
+        "revival_node": "renaissance-revival-american",
+        "note": "The palazzo mode adopted for banks, clubs and city mansions in Britain and America, usually at brownstone rather than travertine scale."
+      },
+      {
+        "start": 1890,
+        "end": 1935,
+        "revival_node": "italian-renaissance-revival",
+        "note": "The Beaux-Arts-trained American revival, this time with correct proportions and real stone, for country houses and institutions."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Italy",
+      "Tuscany",
+      "Rome and Lazio",
+      "Lombardy",
+      "Veneto"
+    ],
+    "hearth": "Florence",
+    "climate_zones": [
+      "3A",
+      "3B",
+      "3C",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "roman-classical",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Recovery rather than unbroken practice: architects measured standing ruins directly (Brunelleschi and Donatello in Rome c. 1402-04) and read the Vitruvius manuscript recovered by Poggio Bracciolini in 1414. Italian masonry craft, brickwork and tile roofing were, however, genuinely continuous, so the material substrate never lapsed even while the proportional system did."
+    },
+    {
+      "target": "greek-classical",
+      "type": "references",
+      "weight": 0.3,
+      "note": "The orders are attributed to Greek origin throughout the treatises, but no fifteenth- or sixteenth-century Italian architect had seen a Greek temple. The Greek ancestry is textual, mediated entirely by Vitruvius."
+    }
+  ],
+  "description": {
+    "short": "The deliberate reconstruction of the Roman proportional system as a written, teachable design method, applied for the first time to the private urban palace and the country villa.",
+    "long": "The Italian Renaissance is not a style that grew; it is a style that was reconstructed on purpose, by a small number of identifiable people, from physical evidence and one text. What they were after was not Roman shapes - those had never fully disappeared - but the rule that generated the shapes. Alberti's formulation of concinnitas, that a building is finished when nothing can be added, taken away or altered without making it worse, is the whole programme in a sentence, and it converts architecture from a craft judgement into an argument about number. The consequence is that Renaissance buildings can be discussed, drawn to scale, published and copied in a way that Gothic buildings could not, and this is why the tradition, once restarted, never stops again.\n\nThe conditions are commercial and urban. Fifteenth-century Florence, Venice, Milan and later papal Rome had banking and textile fortunes in private hands, a class of patrons who were neither feudal nor clerical, and a legal and political situation in which the private palace in the city was the main statement of family standing. That produces a new building type: a four-storey block on a tight urban site, defensible but not fortified, blank and rusticated at the base where the street is, with the family's floor above it. It also produces a new professional: the architect as an educated designer who does not lay stone, whose authority comes from drawing and from knowledge of antiquity rather than from apprenticeship in a lodge. Printing arrives at exactly the right moment. Serlio's illustrated books from 1537 turn the orders into a mail-order product, and the system leaves Italy in the hands of anyone who can buy a folio.\n\nWhat it was reacting against is unmistakable if you stand in Florence: Gothic construction, which the Italians never loved and which they characterised as barbarous and northern. The Gothic wall is dematerialised, its structure exposed and expressive, its verticality unbounded, its ornament naturalistic and proliferating. The Renaissance answer is the opposite at every point - the wall reasserted as a flat, continuous, obviously solid plane; horizontality restated by string courses and terminated absolutely by a heavy cornice; ornament reduced to a fixed vocabulary of mouldings whose profiles can be specified. Brunelleschi's dome over Florence Cathedral is the pivot: Gothic in its ribbed double-shell structure, wholly un-Gothic in its serene hemispherical intention.\n\nStanding in the Piazza Farnese, what you feel is weight held absolutely still. The palazzo is a single unbroken plane about thirty metres high; the rustication grades from rough quoins at the corners to smooth ashlar; the storey heights diminish upward so the building sits down rather than rises; the windows are identical, evenly spaced, and none of them is more important than any other; and then the cornice - Michelangelo's, deep enough to lay a body in - throws the entire facade into a single band of shadow and stops it dead against the sky. There is no centrepiece and no crescendo. The doorway is simply the one opening you can walk through. Inside, the cortile does the whole architectural argument in miniature: three superimposed arcades, one order per storey, and a well of hot Roman light dropped into the middle of a cold building."
+  },
+  "defining_characteristics": [
+    "Whole-number commensurable ratios governing plan and elevation together, derived from a module and defensible in argument",
+    "The wall reasserted as a flat, continuous, evidently solid plane, with the orders applied to it as pilasters rather than projecting from it",
+    "Horizontal termination: string courses at every storey and a single deep crowning cornice that ends the composition absolutely",
+    "Storey heights and rustication both grading from heavy at the base to light at the top",
+    "An even, additive, non-hierarchical bay rhythm with no centrepiece and no crescendo",
+    "The arcaded internal courtyard (cortile) as the organising void of the urban palace",
+    "A fixed, published vocabulary of mouldings and orders, transmissible by treatise independent of any craft lodge"
+  ],
+  "diagnostic_tells": [
+    "Every window on a facade is the same size and the same distance apart, including the ones next to the door",
+    "Rustication is graded by storey - heavy channelled or rock-faced below, progressively flatter above - and stops at a string course, never mid-wall",
+    "The cornice projection is enormous relative to the wall (roughly 1/12 to 1/15 of total facade height) and has no gable behind it; the roof is invisible from the street",
+    "Round-headed arches only, springing from an impost, with the arch rise exactly half the span - no segmental, pointed or elliptical arches",
+    "Pilasters are flat, shallow (projection about 1/6 of their width) and do not carry anything; the wall behind them is continuous"
+  ],
+  "distinguished_from": [
+    {
+      "node": "palladian",
+      "difference": "Palladio makes the plan the generator and puts a temple portico on a house; the earlier Renaissance keeps the temple front for churches and composes its palaces as even, unaccented, planar walls. If there is a projecting pedimented portico dominating a domestic front, it is Palladian, not quattrocento or High Renaissance."
+    },
+    {
+      "node": "italian-baroque",
+      "difference": "The Baroque wall curves, the bays accelerate toward the centre, columns are stacked in several planes of projection within one bay, and pediments are broken or segmental. The Renaissance wall is flat, the bays are even, columns are in one plane, and pediments are whole."
+    },
+    {
+      "node": "italian-renaissance-revival",
+      "difference": "The revival reproduces the palazzo silhouette at reduced scale, usually with a modern floor-to-floor height that makes the storeys equal rather than graded, and often with a visible roof. The absence of storey-height grading is the fastest tell."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Commensurable whole-number ratios propagated from a module through plan and elevation alike (Alberti's concinnitas). The unit of composition is the bay - a pilaster-framed panel containing one opening - not the column.",
+    "typical_ratios": [
+      "Room and bay proportions 1:1, 3:4, 2:3, 3:5, 1:2, with the square and the double square dominant",
+      "Storey heights diminishing upward in the region of 10:9:8; Palazzo Farnese's principal storeys step down visibly",
+      "Crowning cornice projection roughly 1/12 to 1/15 of total facade height, with projection approximately equal to its own height",
+      "Pilaster projection about 1/6 to 1/8 of its width; entablature about 1/4 to 1/5 of the pilaster height",
+      "Arcade: arch rise exactly 1/2 the span (semicircular); pier width 1/3 to 1/2 the clear span",
+      "Window aperture 1:1.6 to 1:2 (w:h), with pier-to-opening ratio between 1:1 and 1:1.5",
+      "Cortile typically square or 3:4 in plan, with an odd number of bays per side"
+    ],
+    "bay_rhythm": "Even, additive and non-hierarchical: five to eleven identical bays across a front, with emphasis given only by centring the portal and, at most, by a slightly enlarged central window. The Renaissance palazzo has no centrepiece; the composition is a field, terminated by quoins and a cornice.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The palazzo: rooms on all four sides of an arcaded cortile, blank rusticated street face, all significant light borrowed from the court."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The palazzetto sits in a continuous street wall and reads as a unit of the block, not as a free-standing object."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The villa suburbana opens its fourth side to garden and view once it leaves the city wall."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "possible",
+      "note": "The dominant-centre-with-flanking-wings diagram exists before Palladio but without the hyphen discipline."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "forbidden",
+      "note": "Irregular agglomeration composed for the moving eye is the precise negation of the Renaissance argument that a building is a single resolved figure."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Storey heights must diminish upward by at least 8 percent per storey above the piano nobile. Equal-height storeys make the composition float and read as revival or as modern floor plate.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "All arches are semicircular: rise = half span, within 2 percent. Segmental, elliptical, pointed and flat arches are outside the style except in service openings below the piano nobile.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Crowning cornice must project between 1/12 and 1/16 of the total facade height, and its projection must be at least equal to its own vertical dimension, so that it throws the whole wall into shadow.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Rustication may change only at a string course or a storey line, never within a storey and never partway across an elevation.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "No pedimented projecting portico on a domestic front; the temple front is reserved for churches until Palladio.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Ospedale degli Innocenti",
+      "location": "Piazza Santissima Annunziata, Florence, Italy",
+      "year": 1419,
+      "note": "Brunelleschi, begun 1419, completed 1445. The first fully proportioned Renaissance elevation: an arcade of nine bays in which the column height, arch span and bay depth are all the same dimension."
+    },
+    {
+      "name": "Palazzo Rucellai",
+      "location": "Via della Vigna Nuova, Florence, Italy",
+      "year": 1446,
+      "note": "Traditionally 1446-1451, attributed to Alberti with Bernardo Rossellino executing. The first application of superimposed pilaster orders to a private palace facade - the Colosseum bay brought indoors to the city street."
+    },
+    {
+      "name": "Tempietto, San Pietro in Montorio",
+      "location": "Rome, Italy",
+      "year": 1502,
+      "note": "Bramante, c. 1502. A peripteral Tuscan drum under a hemispherical dome; the purest surviving demonstration that the Renaissance had fully recovered the ancient system."
+    },
+    {
+      "name": "Palazzo Farnese",
+      "location": "Piazza Farnese, Rome, Italy",
+      "year": 1517,
+      "note": "1517-1589; Antonio da Sangallo the Younger, cornice and upper cortile by Michelangelo from 1546. The reference palazzo for storey grading and cornice proportion."
+    }
+  ],
+  "sources": [
+    "Leon Battista Alberti, De re aedificatoria (written c. 1452, printed 1485)",
+    "Sebastiano Serlio, Tutte l'opere d'architettura et prospettiva (1537-1575)",
+    "Rudolf Wittkower, Architectural Principles in the Age of Humanism (1949)",
+    "Peter Murray, The Architecture of the Italian Renaissance (1963)",
+    "John Summerson, The Classical Language of Architecture (1963)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "renaissance",
+    "orders",
+    "palazzo",
+    "treatise"
+  ]
+}

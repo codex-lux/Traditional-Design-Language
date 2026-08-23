@@ -1,0 +1,377 @@
+{
+  "id": "benjamin-tuscan",
+  "name": "Tuscan Order (Asher Benjamin) - overlay on Vignola",
+  "aka": [
+    "American Tuscan",
+    "Federal Tuscan",
+    "Benjamin's Tuscan"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style of building, THIRD EDITION, corrected and enlarged (Boston: R. P. & C. Williams, April 1816), Plates 12, 24, 26-28, 35 - with the Tuscan of The Practical House Carpenter (Boston, 1830; text collated from the 1843 printing issued as The Architect, or Practical House Carpenter), Plate III, recorded as a second stratum in the notes and conflicts",
+    "author": "Asher Benjamin",
+    "year": 1816,
+    "strength": "canonical",
+    "url": "https://archive.org/details/americanbuilders00benj_0",
+    "note": "WHICH EDITION THIS PACK ENCODES, AND WHY IT MATTERS. Benjamin's Tuscan is NOT the same order in his two great books. This pack encodes the American Builder's Companion, 3rd edition, Boston 1816 - the Federal-period Tuscan, column EIGHT diameters. The Practical House Carpenter of 1830 gives a different Tuscan: column SEVEN diameters, entablature TWO diameters, Grecian mouldings on a Roman order, and permission to leave the base off entirely. Both are recorded here; the 1816 figures are the ones encoded, because that is the order that built Federal America and because Benjamin's own preface argues for it at length. Benjamin's stated debt is to Chambers - 'For this explanation I am principally indebted to sir William Chambers' incomparable Treatise on Civil Architecture' - and to Nicholson for stairs; he reaches Vignola only at two removes."
+  },
+  "overlay_of": "vignola-tuscan",
+  "module": {
+    "name": "semidiameter of the column at its base, divided into thirty minutes",
+    "parts": 30,
+    "default_size_in": 5.0,
+    "note": "THE MODULE ITSELF IS A DELTA. Vignola divides the module into 12 parts for Tuscan. Benjamin follows Chambers: 'the scale i, k, which is divided into sixty equal parts, and are called minutes' - i,k being the DIAMETER, so a minute is one sixtieth of a diameter and one thirtieth of a semidiameter. He then tells the carpenter how to build the scale off the drawing itself: 'first divide i k into twelve equal parts, then one twelfth into five, each of which is called a minute.' Every figure in this pack is in minutes. Default 5 in. gives a 10 in. column, the size of an ordinary Federal porch column, at which one minute is one sixth of an inch.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 16,
+    "shaft_height_modules": 14
+  },
+  "assemblies": {
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth",
+          "height_parts": 15,
+          "projection_parts": 10,
+          "profile": "plinth",
+          "note": "Figures stated verbatim in the letterpress of The Practical House Carpenter, Plate III, where Benjamin walks the reader through drawing the base minute by minute: 'Against the plinth c d is fifteen minutes... Against the torus is twelve minutes... and against the fillet e f is three minutes... Under P and against the plinth at g is ten minutes, the projection of the plinth... Against the torus at h is ten minutes, its projection... Against the fillet at i is four minutes.' Fifteen minutes is exactly Vignola's 6 parts of 12, so the plinth agrees; the members above it do not.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_torus",
+          "name": "Torus",
+          "height_parts": 12,
+          "projection_parts": 10,
+          "profile": "torus",
+          "note": "DELTA. Vignola's Tuscan torus is 4 parts of 12, i.e. 10 minutes. Benjamin's is 12. He takes the extra 2 minutes off the cincture below the shaft.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_fillet",
+          "name": "Fillet, with a quarter-circle congé joining it to the shaft",
+          "height_parts": 3,
+          "projection_parts": 4,
+          "profile": "fillet",
+          "note": "DELTA OF KIND, NOT ONLY OF SIZE. Vignola ends the Tuscan base with an apophyge - the flaring cincture at the foot of the shaft, 2 parts of 12 = 5 minutes. Benjamin substitutes a square FILLET of 3 minutes with a separately struck congé above it: 'then, with four and a half minutes in your compasses, describe the part of a circle which joins the fillet to the column.' A fillet can be run with a plane and a rebate; an apophyge cannot. This is the smallest change in the pack and the most characteristic one.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "subplinth": {
+      "height_modules": 2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "subplinth_block",
+          "name": "Subplinth",
+          "height_parts": 60,
+          "projection_parts": 14,
+          "profile": "plinth",
+          "note": "AN ADDED ASSEMBLY WITH NO COUNTERPART IN VIGNOLA, AND A PURELY AMERICAN ONE. Benjamin offers three ways to stand a column: on nothing, on a pedestal, or on a SUBPLINTH - a plain block one diameter high. 'If it should be necessary to add a subplinth, divide the whole height into forty three equal parts; give four of them to the diameter of the column, and four or one diameter to the height of the subplinth.' He gives it for all five orders. It is the answer to a problem Vignola never had: a wooden column standing on a wooden porch deck, where the base must be lifted clear of standing water and snow, and where a full pedestal would eat the view from the parlour window. Every Federal and Greek Revival porch in New England is built this way.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "pedestal": {
+      "height_modules": 4.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal",
+          "height_parts": 22.5,
+          "projection_parts": 12,
+          "profile": "plinth",
+          "note": "Total pedestal height stated: 'I have given the Tuscan, two diameters, fifteen minutes' = 135 minutes = 4 1/2 modules, against Vignola's 4 2/3. The three-part division into base, dye and cornice is Benjamin's own ('A pedestal, like a column or an entablature, is composed of three principal parts; which are, the base, the dye, and the cornice'), but the individual heights are figured on Plate 24 only and no reachable scan renders those numerals; they are apportioned here.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_die",
+          "name": "Dye of the pedestal",
+          "height_parts": 97.5,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "Apportioned, but bounded by Benjamin's own two rules, which are the useful part: 'when pedestals are profiled under each column, and the dye is much less than a square in height, the pedestal has a clumsy appearance; and when a pedestal of the same kind exceeds one third of the height of the column, it has a lean, unsolid, tottering aspect.' A lower bound set by the dye being square and an upper bound at one third of the column - which is exactly Vignola's fixed figure, demoted by Benjamin to a maximum.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_cap",
+          "name": "Cornice of the pedestal",
+          "height_parts": 15,
+          "projection_parts": 12,
+          "profile": "cyma-reversa",
+          "note": "Apportioned.",
+          "confidence": "low"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 3.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 30,
+          "projection_parts": 6,
+          "profile": "fascia",
+          "note": "The entablature TOTAL is fixed by Benjamin's construction: the whole height of column plus entablature divides into thirty-nine parts of which four are the diameter, so the whole is 9 3/4 diameters; the column is 8; the entablature is therefore 1 3/4 diameters = 105 minutes = 3 1/2 modules. That total is exactly Vignola's Tuscan entablature - but Vignola's stands on a 7-diameter column and Benjamin's on an 8-diameter one, so the RATIO has changed from 1:4 to 1:4.57. The internal division into architrave, frieze and cornice is figured on Plate 12 only and is apportioned here.",
+          "confidence": "low"
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 30,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "low",
+          "note": "Apportioned. Benjamin's Tuscan frieze is plain in both books."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice",
+          "height_parts": 45,
+          "projection_parts": 45,
+          "profile": "corona",
+          "note": "Apportioned. Benjamin offers an alternative on Plate 21: 'On plate 21 is a block cornice, which may sometimes be used instead of the plain one, where it is seen at a considerable distance; draw it by the same scale by which the rest of the order is drawn.' A block cornice - mutules reduced to plain sawn blocks - is the cheapest possible enrichment and it is what a very large number of Federal houses have.",
+          "confidence": "low"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The Tuscan column is EIGHT diameters, not seven.",
+      "expression": "column.height_modules == 16",
+      "tolerance": 0.001,
+      "note": "BENJAMIN'S HEADLINE DEPARTURE, AND HE DEFENDS IT IN HIS OWN PREFACE: 'I have given the Tuscan column eight diameters in height, in imitation of the Trajan and Antonian columns at Rome, which are of that height, and reckoned of the Tuscan order; and have regularly progressed, by giving the Doric nine, the Ionic ten, the Corinthian and Composite eleven diameters each. I expect it will be said by some, who rigidly adhere to the proportions of the ancients, that the Tuscan column ought not to be but seven, the Doric eight, the Ionic nine, and the Corinthian and Composite ten diameters each, in height. Experience has taught me that no determinate rule for columns, in all situations, will answer; they must be proportioned according to the weight, or apparent weight they are to sustain. I do not recollect, in the course of seventeen years extensive practice, to have made either of the orders larger than the proportion here given; and in but few cases so large.' ONE WHOLE DIAMETER IS ADDED TO EVERY ORDER. This single sentence is why American classical work is more attenuated than its English models, and it is a working builder's argument, not a theorist's."
+    },
+    {
+      "statement": "The entablature is 7/32 of the column - lighter than Vignola's quarter.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules * 7 / 32",
+      "tolerance": 0.001,
+      "note": "3 1/2 modules on a 16-module column = 1 : 4.571. Vignola's quarter on the same 8-diameter column would give 4 modules. The absolute entablature is unchanged and the column has grown under it, which is the cheapest possible way to lighten an order: you buy nothing, you simply stretch."
+    },
+    {
+      "statement": "The pedestal is 9/32 of the column - not Vignola's third.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules * 9 / 32",
+      "tolerance": 0.001,
+      "note": "4 1/2 modules on a 16-module column = 0.281. Vignola: 0.333. Gibbs: 0.250 of column plus entablature. Benjamin's figure sits between them, and he refuses to state it as a ratio at all: 'I have judged it more regular to treat of the pedestal as a separate body; having no more connection with the order, than as an attic, a basement, or any other part with which it may, on some occasions be accompanied... With regard to the proportion which their height ought to bear, to that of the columns they are to support, it is by no means fixed.' Vignola's second great invariant is not weakened by Benjamin, it is DENIED."
+    },
+    {
+      "statement": "The whole height of column and entablature divides into thirty-nine, of which four are the diameter.",
+      "expression": "(column.height_modules + assemblies.entablature.height_modules) / 2 * 4 == 39",
+      "tolerance": 0.001,
+      "note": "Benjamin's actual drawing-board instruction, Plate 12: 'Divide E F into thirty nine equal parts; take four of them for the diameter of the column just above its base.' 9 3/4 diameters. With a pedestal it is forty-eight parts; with a subplinth, forty-three."
+    },
+    {
+      "statement": "The subplinth is one diameter high.",
+      "expression": "assemblies.subplinth.height_modules == 2",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The base is one semidiameter, as in Vignola.",
+      "expression": "assemblies.base.height_modules == 1",
+      "tolerance": 0.001,
+      "note": "The one place where Benjamin and Vignola agree exactly on a Tuscan dimension - and even here Benjamin's 1830 book says the base 'may, when expense is to be avoided, be kept off with propriety; and particularly when the column is seven diameters or less.'"
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 8",
+      "units": "in",
+      "range": [
+        5,
+        14
+      ],
+      "authority_note": "THE ATTENUATION RULE AT PORCH SCALE, AND THE MOST USEFUL NUMBER IN THIS PACK. Vignola's Tuscan is seven diameters, so an 8 ft 6 in. porch column is 14 9/16 in. thick. Benjamin's is EIGHT diameters, so the same column is 12 3/4 in. An inch and three quarters of difference on every porch column in America, and it is the difference between a column that reads as Roman and one that reads as American. Benjamin's justification is explicitly about apparent load: a wooden porch roof weighs nothing compared with a stone entablature, and the column should show it.",
+      "judgment": false,
+      "note": "The 1830 Practical House Carpenter reverts to seven diameters for the Tuscan while making the entablature heavier - column_height/7 with a two-diameter entablature. If the house is Greek Revival rather than Federal, use the 1830 figures."
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height * 7 / 32",
+      "units": "in",
+      "range": [
+        12,
+        60
+      ],
+      "authority_note": "One quarter has become one four-and-a-half-seventh. On a 10 ft column that is 26 1/4 in. against Vignola's 30 in. Benjamin's own gloss, from the 1830 book, is the honest engineering statement of it: 'in different situations, both column and entablature require different proportions. They should in all cases be proportioned according to the weight, or apparent weight, which they have to sustain.'",
+      "judgment": false
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        7
+      ],
+      "authority_note": "BENJAMIN'S 1816 CASING RULE, AND IT IS NOT VIGNOLA'S SIXTH. 'To proportion architraves to doors and windows, divide the door into eight parts, give one to the width of the architrave. If a door is three feet six inches wide, one eighth would be five and a quarter inches.' A 32 in. door gives 4 in. of casing under Benjamin and 5 5/16 in. under Vignola - a quarter narrower, and it is why Federal trim is finer than Georgian trim in the same house type. He caps it at the top end: 'if a door should be six feet wide, one eighth of it would be nine inches, which would be too large, and may be reduced to six and a half, or seven inches.' Hence the range.",
+      "judgment": false,
+      "note": "By 1830 Benjamin had changed his mind and gone back to the sixth: 'I have in practice generally divided the width of the door into six equal parts, and given one to the width of the architrave.' The 1816 eighth is the Federal figure; the 1830 sixth is the Greek Revival one."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "count",
+      "expression": "1",
+      "units": "count",
+      "range": [
+        1,
+        1
+      ],
+      "authority_note": "ONE WIDTH OF ARCHITRAVE PER ROOM, WHATEVER THE OPENING. This is the single most useful sentence Benjamin ever wrote about interior trim and no classical source contains anything like it. 'If a door is three feet six inches wide, the opening between the architraves to the windows of the same room, would probably be as much as four feet four inches; one eighth of which would be six and a half inches, which would be very improper, as you would have two widths of architraves in the same room. I therefore should advise to make the architrave to the window five and a quarter inches.' The rule generating the number is subordinate to the rule that the room must read as one system. Benjamin repeats it in 1830 in almost the same words and calls it 'a compromise'.",
+      "judgment": false,
+      "note": "Size the casing from the DOOR, then use that width everywhere in the room. The exception he allows: 'If they are on external parts of buildings, and at a considerable distance from the eye, it will be proper to make them larger than if used on internal finishing, and near to the eye.'"
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 40",
+      "units": "in",
+      "range": [
+        2.5,
+        7
+      ],
+      "authority_note": "THE COLLAPSE OF THE ROOM CORNICE, DOCUMENTED. 'To proportion cornices for rooms, give the cornice one fortieth part of the height of the room. If a room is ten feet high, one fortieth will be three inches.' Vignola's Tuscan cornice at room scale is ceiling_height * (16/12)/14 = one tenth and a half of the ceiling - 11 3/8 in. in a 10 ft room. Benjamin gives THREE INCHES. This is a reduction of nearly four to one, and it is the clearest single measure of what happens when a stone order is handed to a carpenter running plaster and pine in a house rather than a temple.",
+      "judgment": false,
+      "note": "For an enriched stucco cornice Benjamin allows one thirtieth: 'their height, when enriched with three ornaments, about a thirtieth part of the height of the room' - 4 in. in a 10 ft room. Even the enriched figure is a third of Vignola's."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height / 32",
+      "units": "in",
+      "range": [
+        3,
+        10
+      ],
+      "authority_note": "AND THE COMPENSATION, WHICH IS THE INTERESTING HALF. Vignola and Gibbs both make a cornice project exactly its height. Benjamin: 'The projection of cornices, for rooms, ought to be at least one fourth more than their height... Their projection may, in some cases, be double their height.' Having lost three quarters of the cornice's height he buys the shadow back with projection - and he says why: 'About half of the projections ought to be given to the plancere, which will prevent its looking bulky, and give it a light appearance.' A wide flat soffit and a small vertical face. That is the profile of a Federal cornice and the reason it reads as delicate rather than as stunted.",
+      "judgment": false,
+      "note": "Range spans 1.25x to 2x the 1/40 height. The rest of the paragraph is the best short piece of moulding advice in the American literature: 'the parts should be as few as possible, and those well proportioned; not crowd in any moulding that cannot be seen... Their fillets ought not to be too small, give them a good projection before each moulding; at least as much as they rise. Their quirks ought to be large, as the principal beauty of plain cornices depends on the shadows of their quirks.'"
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "storey_height / 30",
+      "units": "in",
+      "range": [
+        8,
+        26
+      ],
+      "authority_note": "THE EAVE CORNICE, SIZED FROM THE BUILDING AND NOT FROM ANY ORDER. 'To proportion cornices to the eaves of buildings, divide the whole height into thirty parts, give one part to the height of the cornice. For example, suppose a house to be thirty five feet high, divide thirty five feet into thirty parts, and one thirtieth will be fourteen inches.' No classical author gives this rule because no classical author had to design a cornice for a building with no order on it. BIND storey_height TO THE FULL HEIGHT OF THE WALL from grade to the top of the frieze, not to one storey.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, and Benjamin makes it one himself, at length: 'It is sometimes necessary to vary the above proportion. If it be required to proportion a cornice to a basement story house of forty feet high, and twenty five feet front, unconnected with any other building, I would advise to divide the height into forty parts... Again, if a house be forty feet high, and from fifty to sixty feet front, or a block of buildings from seventy five to one hundred feet front, one thirtieth may not be too large... and if a house of two stories high, say twenty five feet whole height, and from fifty to sixty feet front, one thirtieth would be ten inches, which would not be large enough; in that case I would advise to make it eleven and a half or twelve inches.' TALL AND NARROW TAKES 1/40; LOW AND WIDE TAKES MORE THAN 1/30. He then gives a built check: the Thomas Amory house in Park Place, Boston, walls 62 ft high, cornice 20 in., 'which is about one thirty seventh part of the height.'"
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "profile_height",
+      "expression": "ceiling_height / 30",
+      "units": "in",
+      "range": [
+        2.5,
+        4.5
+      ],
+      "authority_note": "THE SURBASE, SIZED OFF THE DADO AND NOT OFF THE ORDER. 'To proportion base and surbase mouldings to the pedestal part of rooms, divide from the floor to the top of the surbase into ten parts, give one to the height of the surbase. Suppose the height from the floor to the top of the surbase to be two feet eight inches, one tenth would be three inches and one fifth of an inch, which divide into as many parts as are contained in the height of the surbase you make use of.' Note the worked example: Benjamin's own dado is 2 ft 8 in., which is exactly one third of an 8 ft ceiling - so he arrives at Vignola's chair rail height by a different route and then sizes the MOULDING at a tenth of it. Combining the two gives ceiling_height/30.",
+      "judgment": false,
+      "note": "The top of the rail is still ceiling_height/3, as in the Vignola spine - that rule is not overridden. What Benjamin adds is the height of the rail ITSELF, which no classical source states, and the instruction that the base mouldings are drawn from the same scale: 'The same scale, or parts, will draw the base mouldings in proportion to the surbase.'"
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "5.5",
+      "units": "in",
+      "range": [
+        5,
+        7
+      ],
+      "authority_note": "AN ABSOLUTE DIMENSION IN A BOOK OF PROPORTIONS, AND THAT IS THE POINT. 'Let the plinth be from five to six inches wide.' Not a fraction of the ceiling, not a module - a number, because a baseboard is made from a board and boards come in widths. Vignola's rule at room scale gives ceiling_height/14, which is 7 11/16 in. at a 9 ft ceiling and 8 9/16 in. at 10 ft; Benjamin says five to six inches in every room in the house. The moment the order stops governing and the material starts is visible in this one line.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT because Benjamin himself revised it. By 1830, with the dado abolished, he raises it: 'as a very good fashion seems now to prevail, of not using either dados or sur-bases, it is necessary to make the base somewhat larger than it was when these were in fashion. It will be proper to make the plinth to these designs for base mouldings about seven inches wide; in small, low rooms, their size may be somewhat reduced.' Federal room: 5-6 in. Greek Revival room: 7 in. The baseboard grows because the chair rail died."
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "width",
+      "expression": "ceiling_height * 3 / 8",
+      "units": "in",
+      "range": [
+        28,
+        60
+      ],
+      "authority_note": "CHAMBERS'S RULE AS BENJAMIN TRANSMITS AND DOUBTS IT. 'As to the proportion of windows to rooms, I do not believe any certain determined rule can be given for their height and breadth, although there are several European writers, who have given rules for their proportion. I think sir William Chambers has given the best proportion of any one I have seen, yet I do not find it to answer in all cases; he adds the depth and the height of the rooms on the principal floor together, and takes one eighth part thereof for the width of the window.' The expression assumes room depth equal to twice the ceiling height, the ordinary American case, giving (2h + h)/8. Where the depth is known, use (depth + ceiling_height)/8 directly.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT on the author's own authority. A 20 ft deep room 10 ft high gives a 45 in. window; the same room at 8 ft gives 42 in."
+    },
+    {
+      "target_slot": "interior_door",
+      "dimension": "height",
+      "expression": "84",
+      "units": "in",
+      "range": [
+        78,
+        96
+      ],
+      "authority_note": "BENJAMIN'S DOOR SIZES ARE FROM PRACTICE, NOT FROM PROPORTION, and he says so. 'The width and height of doors, depends on the size and height of rooms in some degree... In the course of my own practice, I have made doors for rooms of sixteen by eighteen or twenty feet, and ten feet high, three feet wide, and seven feet or seven feet two inches high. When rooms have been twenty by twenty three or twenty four feet, and twelve or fourteen feet high, I have made the doors three feet six or seven inches wide, and seven feet eight inches, or eight feet high; all the doors in the same room ought to be of the same size.' Folding doors between principal rooms are the exception: 'They ought to be made from eight to twelve inches higher than the other doors of the room, or they will, on account of their width, appear to be lower than the others.'",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The mapping from room size to door size is a table of Benjamin's own jobs, not a rule. External doors: 3 ft 4 in. to 3 ft 6 in. for a narrow town house with sidelights, 3 ft 10 in. to 4 ft for a large house without them, 'and never less than two diameters high' - his one proportional constraint on a door."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "BENJAMIN'S OWN COST RULE FOR ENTABLATURES, AND IT IS THE MOST DIRECTLY USEFUL SENTENCE IN EITHER OF HIS BOOKS. From the 1830 Tuscan: 'It will sometimes be convenient to lower the entablature, in which case it may be reduced to one hundred and ten minutes, or any where between one hundred and ten and one hundred and twenty, taken in about equal proportions from the frieze and architrave, and LEAVING THE CORNICE ITS FULL PROPORTIONS.' A ceiling too low, a storey too short, a budget too small - the entablature gives, but the reduction comes out of the architrave and frieze only.",
+      "resolution": "When an entablature will not fit, take the shortfall equally from architrave and frieze and do not touch the cornice. The cornice carries the shadow, the projection and the whole reading of the order; the architrave and frieze are flat boards and nobody measures them. Benjamin's own limit is about an eighth off the total - 110 of 120 minutes. Below that, delete the architrave and frieze entirely and run the cornice alone, which is what he does on the eaves of every house in the book.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "BENJAMIN SANCTIONS DELETING THE COLUMN BASE. From the 1830 Tuscan: 'The base given in this example may, when expense is to be avoided, be kept off with propriety; and particularly when the column is seven diameters or less.' A turned base is a separate operation, a separate piece of stock, and the first place water gets into a wooden column - so it is both the cheapest thing to omit and, on an exposed porch, arguably the right thing to omit.",
+      "resolution": "On a Tuscan column of seven diameters or fewer, the base may go, and the shaft stands on a plain subplinth block. On eight diameters keep it - Benjamin's own permission is explicitly limited to the shorter column, because a taller shaft needs the visual footing. If the base is kept on an exterior column, detail it to shed water: a base that traps water at the plinth destroys the column from the bottom within twenty years, which is why so few original Federal porch columns survive with original bases.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "EVEN BENJAMIN'S ALREADY-REDUCED TUSCAN EXCEEDS WHAT A PRODUCTION BUILDER WILL PAY FOR TODAY. His eight-diameter rule makes an 8 ft 6 in. porch column 12 3/4 in. in diameter at the base, diminishing to 10 5/8 in., with a turned base, a three-member capital and a 22 in. entablature above it. The production standard for the same porch is a 6x6 post, sometimes wrapped in 1x8 to read 8 in. square, carrying a 2x8 beam and a 6 in. crown - about one twelfth of the material and one twentieth of the labour.",
+      "resolution": "There is no proportional fix; a 6x6 post is not a thin Tuscan column, it is a different object, and no amount of trim disguises a shaft that is half the diameter it should be. The honest moves are, in order: (1) fewer columns further apart - Benjamin's own porches use wide spacing and it costs nothing; (2) a square panelled pier of correct WIDTH rather than a round column of incorrect width, which is a legitimate American vernacular form and reads correctly; (3) a hollow staved column of correct diameter, which is how Benjamin's own were made and is still the cheapest route to a correct 12 in. shaft. What must not be done is to keep the entablature at full size over an undersized post - the eye reads the ratio, not the absolute.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "At Benjamin's own default scale one minute is small. A 10 in. column gives a module of 5 in. and a minute of one sixth of an inch; the base fillet is 3 minutes, or half an inch, and the projections he specifies run to half-minutes. His interior cornices are worse: a 3 in. room cornice at one fortieth of a 10 ft ceiling divided among five or six members gives fillets under a sixteenth of an inch.",
+      "resolution": "Benjamin answers this himself and the answer is the rule: 'the parts should be as few as possible, and those well proportioned; not crowd in any moulding that cannot be seen.' At a 3 in. cornice use three members, not six. Set a hard floor of 3/16 in. on any painted fillet, delete below it, and buy the lost articulation back with projection rather than with more members - which is exactly what his one-and-a-quarter-times-the-height projection rule is for.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "early-republic",
+    "adam-style",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-upland-vernacular",
+    "american-farmhouse-vernacular",
+    "colonial-revival",
+    "minimal-traditional",
+    "modern-farmhouse-traditional",
+    "new-urbanist-traditional",
+    "folk-victorian"
+  ],
+  "sources": [
+    "Asher Benjamin, The American Builder's Companion, 3rd edition (Boston, 1816), Preface pp. iii-iv, pp. 30-38 (the orders), pp. 52-53 (pedestals), pp. 57-60 (cornices), p. 97 (architraves, base and surbase), pp. 102-103 (planning, windows and doors), and Plates 12, 21, 24, 26, 27, 28, 35; archive.org/details/americanbuilders00benj_0",
+    "Asher Benjamin, The Practical House Carpenter (Boston, 1830), text collated from the 1843 printing issued as The Architect, or Practical House Carpenter, Plate III (Tuscan order), Plates XXXIV-XXXVII (eave and stucco cornices), Plates XL-XLVIII (surbase, base and architrave mouldings); archive.org/details/architectorprac00benj",
+    "Sir William Chambers, A Treatise on Civil Architecture (1759 and later editions) - Benjamin's named source for the sixty-minute scale and for the descriptive matter on the orders, much of which he transcribes",
+    "William R. Ware, The American Vignola (1920 printing) - comparison datum only"
+  ],
+  "confidence": "medium",
+  "notes": "BENJAMIN'S TUSCAN AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nEDITION. This pack encodes THE AMERICAN BUILDER'S COMPANION, 3rd EDITION, BOSTON 1816. Benjamin's Tuscan changes between his books and the differences are recorded throughout: the 1830 Practical House Carpenter gives a seven-diameter column with a two-diameter entablature and Grecian mouldings, which is a different order and not a variant of this one. The 1806 first edition, co-authored with Daniel Raynerd, could not be consulted in a legible scan for this pass; whether the eight-diameter scheme was already present in it is UNVERIFIED, and the 1816 preface's phrasing ('I have given the Tuscan column eight diameters') does not settle it.\n\nTHE FIVE DIVERGENCES THAT MATTER.\n\n1. THE COLUMN GAINS A WHOLE DIAMETER. Eight, not seven - and Doric nine, Ionic ten, Corinthian and Composite eleven. Benjamin states the departure in his preface, names the traditional figures he is rejecting, and gives his reason: seventeen years of practice and the observation that a column should be proportioned to the weight it appears to carry. A wooden porch roof appears to carry nothing. THIS IS THE ATTENUATION, IN THE AUTHOR'S OWN WORDS, AND IT IS WHY AMERICAN CLASSICAL WORK IS LIGHTER THAN ENGLISH.\n\n2. THE QUARTER RULE IS GONE. The entablature stays at 3 1/2 modules while the column grows to 16, so the ratio slides from 1:4 to 1:4.57. Across the five orders Benjamin's ratios run 1:4.57, 1:4.82, 1:5.71, 1:5.50, 1:5.08 - no rule at all, which is precisely his position.\n\n3. THE PEDESTAL RULE IS DENIED, NOT MODIFIED. Benjamin treats the pedestal as 'a separate body; having no more connection with the order, than as an attic, a basement'. He gives absolute heights (Tuscan 2 D 15 min, Doric 2 D 30, Ionic 2 D 45, Corinthian and Composite 3 D) which work out at 0.281, 0.278, 0.275, 0.273 and 0.273 of their columns - a smooth drift, but he never states it as a ratio. What he states instead are two BOUNDS: the dye should not be less than square, and the pedestal should not exceed one third of the column. Vignola's fixed figure becomes Benjamin's maximum.\n\n4. THE SUBPLINTH IS ADDED. A plain block one diameter high, offered for all five orders as the middle course between no pedestal and a full one. There is no such member in Vignola. It exists because American columns stand on wooden decks in weather.\n\n5. THE MOULDINGS ARE SIMPLIFIED TO WHAT A PLANE WILL CUT. The base ends in a square fillet with a separately struck congé where Vignola has an apophyge. The room cornice drops from about a tenth of the ceiling height to a fortieth and buys the loss back in projection. The frieze is plain. The alternative cornice is a block cornice - mutules reduced to sawn blocks. Every one of these is a wood-and-small-scale decision and Benjamin argues each of them on those grounds.\n\nWHAT IS WEAK. Benjamin states his TOTALS in the letterpress and leaves his MEMBERS to the plates, which is the reverse of Gibbs. The base is exceptionally well sourced because he happens to walk through drawing it minute by minute in the 1830 book; the pedestal and the entablature subdivisions are figured on Plates 12 and 24 only, and no scan reached renders those numerals legibly. Those members carry confidence low and are apportioned within totals that are certain. The pack confidence is medium for that reason. The TOP-LEVEL figures - column 8 D, entablature 1 D 45 min, pedestal 2 D 15 min, subplinth 1 D, base 30 min with its three members - are all stated verbatim and carry high confidence.\n\nWHY THIS PACK IS THE PROJECT'S OWN MIRROR. Benjamin is not a theorist adapting an order; he is a builder cost-reducing one, in public, with reasons. He thins the column because the load is light. He shrinks the cornice because the room is 10 ft, not 30. He deletes the base because it costs money and rots. He caps the casing at 7 in. because 9 in. is silly. He tells you to keep one casing width in a room even where the rule says otherwise. Every one of those pressures is still acting on a production builder today, and the value of this pack is less in its numbers than in the fact that a canonical author wrote the reasoning down."
+}

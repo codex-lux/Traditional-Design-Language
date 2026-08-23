@@ -1,0 +1,272 @@
+{
+  "id": "mudroom",
+  "name": "Mudroom",
+  "aka": [
+    "boot room",
+    "back entry",
+    "drop zone",
+    "arrival room",
+    "lobby (Canadian usage)"
+  ],
+  "function_class": "threshold",
+  "description": "The room where the outside is taken off. It is a threshold room with the ceremony removed and the function doubled: it handles wet, dirt, bulk and the daily arrival of everyone who lives in the house, and it is now, in most North American plans, the door the household actually uses. It is drawn as a corridor with hooks and needs to be a room with a bench, and the difference between those two things is about twenty inches.",
+  "history": {
+    "appears": 1830,
+    "declines": null,
+    "replaced": "the back kitchen, the wash house and the summer kitchen, which absorbed dirty work in the farm house before the mudroom was distinguished from them",
+    "note": "The mudroom has two separate origins that converge. The first is agricultural: a northern farmhouse needs an unheated room between the yard and the kitchen because a man coming in from a barn in February brings in mud, manure, wet wool and cold, and the back kitchen or the ell entry does that job from the early nineteenth century. The second is automotive and much later: after about 1950 the household stops arriving on foot at the front door and starts arriving by car at the side, and the plan needs a room where the car door lands. THE CONSEQUENCE NOBODY DRAWS. The mudroom is now the house's primary entrance by frequency - typically 80 to 90 per cent of arrivals in a suburban house with an attached garage - and the front door is used for guests and deliveries. That is a straight inversion of the plan's stated hierarchy, and it is why the ceremonial front hall so often feels unused and why the fault door-reached-only-from-the-driveway is endemic. A plan honest about its own use would rank the mudroom as the entrance and detail it accordingly, which is what the better modern-farmhouse plans have started doing."
+  },
+  "dimensions": {
+    "area_sf": [
+      40,
+      120
+    ],
+    "width_ft": [
+      6,
+      10
+    ],
+    "length_ft": [
+      7,
+      16
+    ],
+    "proportion": [
+      1.0,
+      2.2
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "DEPTH ACROSS THE BENCH, AND IT IS 5 FT, NOT 4. A bench is 18 in deep at 18 in high. A seated person removing a boot needs 36 in clear in front of the bench - not 30, because the leg comes up and out. 18 + 36 = 54 in = 4 ft 6 in, and that is with nothing on the opposite wall. Put lockers or a coat rail opposite and the coat's 10 in projection plus 24 in of standing depth adds 34 in: 18 + 36 + 34 = 88 in = 7 FT 4 IN for a double-sided mudroom, which is why the drawn 5 x 7 mudroom with lockers on both sides does not work and never has. The single-sided answer at 6 ft is the good one. SECOND NUMBER, WHICH SIZES THE LENGTH: 12 in of hook and bench per person, so a family of five needs 60 in of bench plus 24 in of clear route past it, and the room is 6 x 8 ft. That is the honest minimum for a family and it is bigger than most plans allow."
+  },
+  "furniture": [
+    {
+      "item": "bench with boot storage under",
+      "footprint_in": [
+        60,
+        18
+      ],
+      "clearance_in": 36,
+      "note": "the 36 in is the seated leg, and it is the number that is always cut"
+    },
+    {
+      "item": "hook rail or lockers",
+      "footprint_in": [
+        60,
+        14
+      ],
+      "clearance_in": 24,
+      "note": "a hung winter coat projects 10 in from the wall; lockers at 14 to 16 in deep hold a coat only if the coat is hung on a hook rather than a hanger, since a hanger needs 20 in"
+    },
+    {
+      "item": "boot tray / drip zone",
+      "footprint_in": [
+        36,
+        20
+      ],
+      "clearance_in": 0,
+      "note": "on the floor under the bench, and it wants to be over a floor material that will take standing water - the one place in the house where tile is not a stylistic choice"
+    },
+    {
+      "item": "dog bowls and crate",
+      "footprint_in": [
+        42,
+        30
+      ],
+      "clearance_in": 24,
+      "essential": false,
+      "note": "the crate is 30 to 48 in long and is the object most often discovered after the plan is finished"
+    },
+    {
+      "item": "broom, vacuum, sports kit cupboard",
+      "footprint_in": [
+        30,
+        24
+      ],
+      "clearance_in": 30,
+      "essential": false
+    },
+    {
+      "item": "clear route, garage door to kitchen door",
+      "footprint_in": [
+        36,
+        96
+      ],
+      "clearance_in": null,
+      "note": "must not pass in front of the bench: a route across the seated zone means the room can be used by one person at a time, which defeats its whole purpose at 8 a.m."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.6,
+    "sides_lit": 1,
+    "orientation": "Whatever the garage leaves. In practice the mudroom is usually landlocked between the garage and the kitchen and its only glass is the back door, which makes the back door's glazing a real decision rather than a default.",
+    "glazing_fraction": [
+      0.0,
+      0.2
+    ],
+    "note": "The mudroom is usually a landlocked room and the 1.6 multiplier is the borrowed-light figure, but the argument for a window here is not daylight quantity - it is that this is a room where people bend down, sort things, and look for a matching glove, and those are close-focus tasks that need light on a horizontal surface, not ambient light. A window over the bench at 40 in sill height does more than a ceiling fixture. Where there is genuinely no exterior wall, a glazed door to the garage is worth more than it looks: the garage has a window."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "the two loads that come in through this door are people and groceries, and the groceries have to reach the kitchen without crossing a living space",
+        "relation": "direct-door",
+        "strength": "hard",
+        "exceptions": [
+          "american-farmhouse-vernacular, where the sequence is yard - back kitchen - kitchen and the mudroom's ancestor is itself a working room"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "laundry",
+        "why": "the wettest and dirtiest clothing in the house is removed in the mudroom, so the machine that washes it should be within reach - but see the exception, because combining them is not always right",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "where the laundry is upstairs with the bedrooms, which is where the CLOTHING actually is; the mudroom then needs only a sink and a hamper. Choosing between the two is a real decision and most plans make it by accident."
+        ]
+      },
+      {
+        "room": "powder-room",
+        "why": "a WC reachable from the garden and the garage without going through the house is the powder room's most-used function and the one it is never sited for",
+        "relation": "direct-door",
+        "strength": "strong",
+        "via": [
+          "back-hall"
+        ]
+      },
+      {
+        "room": "back-hall",
+        "why": "in a larger plan the mudroom is one bead on the service route rather than the whole of it",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "garage",
+        "why": "this is now the arrival sequence in most suburban plans and it should be dimensioned as an entrance rather than as a passage",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "the mudroom is the noisiest, wettest and most disordered room in the house; a door between it and the dining room puts the family's arrival into the middle of a meal",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "entrance-hall",
+        "why": "not because they must be far apart, but because if the mudroom opens onto the formal hall then the formal hall is the mudroom and the plan has one entrance pretending to be two",
+        "relation": "not-visible-from",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "exterior",
+      "garage",
+      "breezeway",
+      "yard"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 1,
+  "servicing": {
+    "plumbing": "light",
+    "ventilation": "Extract, 50 cfm, and it is not optional: this is the room where wet wool, wet dog and wet boots dry, and the moisture has to go somewhere. A mudroom with no extract puts its humidity into the kitchen.",
+    "heat": "In-floor electric under the tile is the one modern move here with no historical precedent and no argument against it - it dries the floor, which is the room's actual problem.",
+    "electrical": "Overhead plus a light on the bench. Charging outlets at bench height, because this is where the household leaves its devices whether the plan says so or not.",
+    "stack_proximity_ft": 10
+  },
+  "style_variation": [
+    {
+      "style": "american-farmhouse-vernacular",
+      "name_in_style": "back kitchen, ell entry",
+      "trim_grade": "plain",
+      "note": "The original: an unheated room in the ell with a stone or brick floor, a sink, hooks, and often the cream separator. It is a working room that also happens to be the entrance, which is the opposite emphasis from the modern version."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "trim_grade": "high",
+      "note": "The type's signature room and the one it does best: a bench under a run of hooks, shiplap or beadboard to the cap, lockers with cubbies over, a tile floor and a window. It is also where the type most often over-builds - a mudroom with more joinery than the dining room is a plan telling the truth about its priorities."
+    },
+    {
+      "style": "colonial-revival",
+      "present": false,
+      "note": "Not part of the historic model at all - a 1920s Colonial Revival has a back entry off the kitchen and nothing more. A mudroom in a Colonial Revival house is an honest modern addition and should be detailed in the service trim grade, not the parlor one."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "rear porch, service porch",
+      "trim_grade": "plain",
+      "note": "A screened or glazed service porch off the kitchen doing the job, with the laundry trays in it. West Coast bungalows almost always have one and it is one of the type's better inventions."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent - the rear room and the back gallery take the load, and in a single-file plan there is nowhere to put a room that is not on the route."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "service entry",
+      "trim_grade": "plain",
+      "note": "A 4 x 6 ft space between the carport and the kitchen with a broom closet, and it is where the mudroom's modern form begins."
+    },
+    {
+      "style": "new-mexico-adobe",
+      "present": false,
+      "note": "The portal does this work: boots come off outside under a roof, in a dry climate where that is possible. The mudroom is a wet-climate room and it is worth saying so - it is a response to snow, mud season and rain, not a universal need."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Door from an attached garage into the dwelling: solid or 20-minute rated, self-closing, and no opening from a garage directly into a sleeping room.",
+      "ref": "IRC R302.5.1"
+    },
+    {
+      "requirement": "Garage floor to be sloped toward the door or a drain, and the garage separated from the dwelling by 1/2 in gypsum board.",
+      "ref": "IRC R302.6",
+      "conflict": "The mudroom floor is commonly one step up from the garage. That step is where people fall carrying groceries; make it a full 7 in riser with a handrail-height wall, or make it flush and detail the threshold, but do not do 4 in."
+    },
+    {
+      "requirement": "Where the mudroom contains a laundry, a receptacle within 6 ft of the sink must be GFCI protected.",
+      "ref": "NEC 210.8(A)"
+    }
+  ],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "ranch-l",
+    "ranch-linear",
+    "telescope-house",
+    "foursquare",
+    "cape-cod-massing",
+    "saltbox",
+    "gable-front-and-wing",
+    "split-level",
+    "four-over-four",
+    "garrison-block",
+    "double-pen"
+  ],
+  "slots": [
+    "service_zone_strategy",
+    "storage_strategy",
+    "entry_sequence",
+    "secondary_door",
+    "circulation_parti",
+    "floor_material",
+    "built_ins"
+  ],
+  "faults": [
+    "door-reached-only-from-the-driveway",
+    "built-in-that-is-furniture",
+    "service-route-through-the-formal-plan",
+    "entry-not-the-most-elaborated-element",
+    "closet-depth-taken-from-the-room"
+  ],
+  "sources": [
+    "Thomas Hubka, Big House, Little House, Back House, Barn (1984), on the New England connected farmstead's back house",
+    "International Residential Code R302.5.1, R302.6",
+    "faults/door-reached-only-from-the-driveway.json",
+    "massings/catalog.json: linear-ell-farmhouse expansion logic"
+  ],
+  "confidence": "high"
+}

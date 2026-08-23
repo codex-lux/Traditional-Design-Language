@@ -1,0 +1,205 @@
+{
+  "id": "swiss-chalet",
+  "name": "Swiss Chalet",
+  "aka": [
+    "Schweizerhaus",
+    "Bernese Oberland farmhouse",
+    "chalet",
+    "Blockbau house"
+  ],
+  "rank": "style",
+  "member_of": "nordic-alpine-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1200,
+    "floruit_start": 1500,
+    "floruit_end": 1900,
+    "decline_end": 1950,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1850,
+        "end": 1885,
+        "revival_node": null,
+        "note": "The Swiss Chalet fashion in Britain and America. Downing's The Architecture of Country Houses (1850) and Vaux's Villas and Cottages (1857) both publish 'Swiss cottage' designs; the mode spreads through pattern books, and through the Swiss pavilions at the international exhibitions."
+      },
+      {
+        "start": 1885,
+        "end": 1915,
+        "revival_node": null,
+        "note": "The Chalet as a resort and railroad type in the American mountain West and Pacific Northwest, and as the 'Swiss Chalet style' in American style guides."
+      },
+      {
+        "start": 1900,
+        "end": 1930,
+        "revival_node": "craftsman",
+        "note": "The decisive downstream transmission. Exposed rafter tails, wide unsupported eaves, expressed purlin ends and brackets, flat sawn balusters and a broad low gable to the street pass from the American Chalet fashion into Craftsman and the California bungalow, where they become normative and the Swiss origin is forgotten."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Switzerland",
+      "Austria",
+      "Germany",
+      "France",
+      "Alps"
+    ],
+    "hearth": "Bernese Oberland and central Switzerland",
+    "climate_zones": [
+      "6B",
+      "7",
+      "5B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "german-fachwerk",
+      "type": "hybridizes_with",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "Genuine and technical, not general: the Swiss Mittelland and the northern cantons build Bohlenstanderbau and Standerbau — a post-and-beam skeleton with horizontal plank or log infill — which is Fachwerk carpentry hybridised with Blockbau. Basel and Schaffhausen build straightforward Fachwerk. The chalet proper is the alpine end of one continuous carpentry region."
+    }
+  ],
+  "description": {
+    "short": "The horizontally-logged, shallow-roofed, deeply overhanging alpine farmhouse whose entire form is dictated by the length of a log, the settlement of a log wall, and the need to keep snow and water off both.",
+    "long": "Almost everything a non-Alpine observer believes about the chalet is wrong, starting with the roof. A real high-alpine chalet has a low roof — eighteen to twenty-five degrees, sometimes less — not a steep one. The steep-roofed chalet is a nineteenth-century invention of the lowlands and the resorts, and it inverts the original logic. Snow on an alpine roof is not a problem to be shed; it is the best insulation available, free, delivered annually, and a metre of settled snow on a shallow shingle roof holds the building's heat far better than the roof itself. The roofs were built shallow deliberately, covered in heavy split larch shingles, and weighted down with rows of stones so that the whole assembly would not lift in a foehn wind. Where pitches are steeper — in the Bernese Mittelland, in the Emmental, in the lower valleys — it is because those places get rain rather than dry cold, and the roof form follows the precipitation type, not the altitude.\n\nThe wall is the second thing that governs everything. Blockbau — horizontally stacked squared logs, corner-notched — is a superb structure in an alpine forest, where straight softwood of eight metres is abundant and a mason is a week's walk away, and it imposes two absolute constraints. First, no wall can be longer than a log, which fixes the building's plan dimensions at roughly six to nine metres and means growth happens by stacking storeys or by adding a whole new building, never by lengthening a room. Second, a green log wall shrinks across the grain and settles by two to four per cent of its height over the first several years, which means every door and window frame must be built with a settlement gap above it and every vertical element that passes through the wall — a post, a chimney, a stair — must be detailed to slide. Openings must be small and grouped, because each one interrupts the continuity of the courses, and this is why chalet windows come in bands of three, four or six small lights rather than as isolated large openings. The Fensterband is not a design preference. It is what a log wall permits.\n\nFrom those two constraints the whole image follows. Because the log wall must be kept dry — a wetted, sun-baked log wall checks and rots — the eave overhang is enormous, one and a half to two metres on the gable face, and the gable face is where all the ornament goes: the carved bargeboard, the sawn balustrade of the Lauben (the galleries running the full width under the overhang), the painted or carved inscription band across the facade, and the exposed and shaped purlin ends stepping out to carry that overhang. Because the log wall must never touch the ground, the ground storey is masonry or is built into the hillside, holding the byre and the cellar, and the timber house sits on top of it. And because the sun-blackened larch of a two-hundred-year-old south face is the finest weathering material in Europe, the building gets better looking for a century and a half.\n\nInside, a chalet is small, low, and extremely warm. The Stube — the one heated room — has a plank floor, log walls left bare and scrubbed to a pale silver, a ceiling under two and a half metres, a corner bench, and a masonry stove (Kachelofen) fired from the passage so that no smoke or draught enters the room. The windows are small and grouped in one wall, so the light is directional and low. It smells strongly of pine. And what is genuinely striking, if you have come to it from Craftsman houses in California, is how completely familiar the exterior detail is: the exposed rafter tails, the bracketed overhang, the horizontal board banding, the flat sawn baluster. Those details crossed the Atlantic in the 1850s as an exotic Swiss fashion, were absorbed into American resort and railroad building, and by 1905 had become the ordinary structural expression of the American bungalow, at which point nobody remembered where they came from."
+  },
+  "defining_characteristics": [
+    "Horizontally stacked, corner-notched squared log walls (Blockbau), left exposed and unpainted",
+    "Plan dimensions bounded by log length — no wall longer than about 9 m without an intersecting cross-wall",
+    "Openings small, grouped into horizontal bands, and framed with a settlement gap above each head",
+    "Masonry or earth-set ground storey holding byre and cellar; the log storey never meets grade",
+    "Very deep roof overhang — 1.2 to 2.0 m on the gable face — carried on stepped, shaped purlin ends",
+    "Shallow roof pitch (18-25 degrees) in the high alps, rising to 35-45 in the wetter lower valleys; heavy split shingle, historically stone-weighted",
+    "Galleries (Lauben) running the full width of the gable face under the overhang, with sawn or turned balustrades",
+    "All ornament — bargeboard, balustrade, carved and inscribed facade band — concentrated on the gable face"
+  ],
+  "diagnostic_tells": [
+    "Log courses visibly continuous across the whole wall, with the corner notching exposed and projecting at the corners",
+    "Window heads with a visible gap or slip joint above the frame — the settlement allowance",
+    "Purlin ends stepping outward in a stack of three to five, each shorter than the one below, to carry the overhang",
+    "A masonry or stone ground storey under a timber upper storey, with the change of material sharp and unconcealed",
+    "A dated and inscribed board running the full width of the facade below the gallery"
+  ],
+  "distinguished_from": [
+    {
+      "node": "scandinavian-log-vernacular",
+      "difference": "Both are Blockbau, and they share the log-length constraint and the settlement problem. The Nordic farm disperses into many small single-purpose log buildings around a yard and paints them Falu red; the Alpine chalet concentrates house, byre and hay store in one tall building set into a slope, leaves the timber bare, and puts a gallery and an enormous overhang on the gable."
+    },
+    {
+      "node": "german-fachwerk",
+      "difference": "Fachwerk is a skeleton frame with infill panels; Blockbau is a solid stacked wall with no frame at all. The two meet in the Swiss Mittelland but are structurally opposite systems, and they settle and behave differently."
+    },
+    {
+      "node": "craftsman",
+      "difference": "The American descendant keeps the eave brackets, exposed rafter tails, wide overhang and horizontal banding and abandons the log wall, the settlement detailing, the gallery and the byre. Craftsman is stud-framed and clad; the resemblance is real inheritance, not convergence."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The log. Wall length is bounded by the available straight trunk, 6-9 m, which fixes the plan; the log course of roughly 18-25 mm x 200-250 mm sets a coursing module that all openings must land on; storey height is a whole number of courses. The overhang is dimensioned by what is needed to keep rain off a log wall, and the roof pitch by the local precipitation type. There is no compositional module anywhere in the system.",
+    "typical_ratios": [
+      "Wall length 6-9 m maximum without a cross-wall; plan roughly 1:1 to 1:1.4",
+      "Log course height 180-250 mm; settlement allowance 2-4 percent of wall height",
+      "Gable overhang 1.2-2.0 m; eave overhang 0.8-1.5 m",
+      "Roof pitch 18-25 degrees (high alps), 35-45 (lower valleys and Mittelland)",
+      "Gallery depth 1.0-1.5 m"
+    ],
+    "bay_rhythm": "Horizontal bands of ganged small windows — typically three to six lights in a continuous row — repeated at each storey. The rhythm is a band, not a bay: individual openings do not read separately.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gable-front",
+      "affinity": "canonical",
+      "note": "The chalet is emphatically gable-fronted; the gable face carries the gallery, the ornament and the whole architectural argument."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "canonical",
+      "note": "The Lauben are integral, not applied: they are circulation, drying space for hay and washing, and the social edge of the house."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The Stube plus a cold passage is the irreducible plan, and small chalets are little more than that stacked twice."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "The Emmental Einfirsthaus puts house, byre and barn under one enormous roof; a merged rather than a linked variant of the connected farm."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "forbidden",
+      "note": "A log wall cannot be a party wall and the type cannot be built in a row."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "No log wall may exceed about 9 m without an intersecting cross-wall to lock the corners. Plan dimensions are bounded by log length; the type grows by stacking storeys or adding a separate building, never by lengthening a wall.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "A settlement gap of 2-4 percent of wall height must be provided above every door and window head and at every point where a rigid element passes through the log wall. Log walls shrink across the grain; ignoring this splits frames and cracks chimneys within five years.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Gable overhang not less than 1.2 m, eave overhang not less than 0.8 m. The overhang exists to keep water and direct sun off the log wall; reducing it to a conventional 300 mm eave destroys the wall.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "The log storey must sit on a masonry base or on the uphill grade, never on the ground. Roof pitch 18-25 degrees where the precipitation is snow, 35-45 where it is rain — pitch follows precipitation type, not altitude.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Ornament belongs on the bargeboard, the gallery balustrade, the purlin ends and the inscription band. The log wall itself stays plain; carving or applied trim on the log courses is outside the tradition.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Haus Bethlehem",
+      "location": "Schwyz, Switzerland",
+      "year": 1287,
+      "note": "Dendro-dated to 1287; among the oldest surviving timber dwellings in Europe and an intact demonstration of medieval Blockbau."
+    },
+    {
+      "name": "Haus Nideroest",
+      "location": "Schwyz, Switzerland",
+      "year": 1176,
+      "note": "Timbers dendro-dated to 1176; discovered during demolition in 2002 and dismantled for conservation. Cited with that caveat — it is evidence rather than a visitable building."
+    },
+    {
+      "name": "Ballenberg Swiss Open-Air Museum",
+      "location": "Hofstetten bei Brienz, Switzerland",
+      "year": null,
+      "note": "Over a hundred relocated rural buildings of the 14th-19th centuries from every canton; the only place where the regional range of the type can be compared directly."
+    },
+    {
+      "name": "Chalet-Museum / farmhouses of the Simmental",
+      "location": "Bernese Oberland, Switzerland",
+      "year": null,
+      "note": "17th-18th century; the Simmental facade, with its stepped purlin overhang, carved and painted inscription band and full-width gallery, is the type specimen for what the 19th century exported as 'the chalet'."
+    }
+  ],
+  "sources": [
+    "Die Bauernhauser der Schweiz (Schweizerische Gesellschaft fur Volkskunde, multi-volume survey)",
+    "Hunziker, Das Schweizerhaus nach seinen landschaftlichen Formen",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World",
+    "Downing, The Architecture of Country Houses (1850) — for the American transmission"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "log-construction",
+    "alpine",
+    "overhang",
+    "gallery",
+    "ancestor-of-craftsman"
+  ]
+}

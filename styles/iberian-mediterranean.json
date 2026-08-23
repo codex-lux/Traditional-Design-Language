@@ -1,0 +1,40 @@
+{
+  "id": "iberian-mediterranean",
+  "name": "Iberian & Mediterranean",
+  "rank": "tradition",
+  "member_of": null,
+  "status": "living",
+  "period": {
+    "origin": 750,
+    "floruit_start": 800,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Spain",
+      "Portugal",
+      "North Africa",
+      "Mexico",
+      "Spanish Americas"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The courtyard, thick wall, and tile tradition of the Iberian peninsula, carrying an Islamic inheritance into the Americas by way of Mexico.",
+    "long": "The Iberian tradition is the one Western stream shaped decisively by Islamic building culture. Eight centuries of al-Andalus left a permanent inheritance: the inward-turned courtyard, water as an architectural element, geometric surface ornament in tile, the blind street wall, and a fundamentally different relationship between house and public realm than anything in the Anglo world. A Georgian house presents its best face to the street. An Andalusian house presents a wall and a door, and keeps its face for itself.\n\nCarried to the Americas by conquest and mission, the tradition met adobe construction, indigenous labor, and a scarcity of skilled masons, producing a simplified, massive, plain-surfaced architecture that has almost nothing in common with the Baroque churches of Spain except its plan diagrams and its tile. That simplification is not a loss — it is the emergence of a genuinely new regional language, and the direct ancestor of Mission Revival, Spanish Colonial Revival, and the entire architecture of California and the Southwest.\n\nThe tradition's hot-dry climate logic — thermal mass, small openings, deep shade, courtyards, cross-ventilation at night — is now the most technically relevant traditional inheritance available to builders in the American Sun Belt."
+  },
+  "defining_characteristics": [
+    "Inward orientation: courtyard and patio as the organizing void, street elevation substantially closed",
+    "Massive wall construction — adobe, rammed earth, rubble stone, brick — with deep window reveals",
+    "Small, deeply-set openings and generous shaded transitional space",
+    "Low-pitched or flat roofs, clay tile, parapets",
+    "Surface ornament concentrated at the entry and in tile rather than distributed over the facade"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "id": "italianate-american",
+  "name": "Italianate (American)",
+  "aka": [
+    "Italian Style",
+    "Bracketed Style",
+    "Tuscan Villa Style",
+    "American Bracketed"
+  ],
+  "rank": "style",
+  "member_of": "romantic-revivals",
+  "status": "historical",
+  "period": {
+    "origin": 1839,
+    "floruit_start": 1850,
+    "floruit_end": 1880,
+    "decline_end": 1890,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Midwest",
+      "Upper South",
+      "California",
+      "Ontario"
+    ],
+    "hearth": "Delaware Valley and the Hudson Valley",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A",
+      "6A",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italian-villa-vernacular",
+      "type": "references",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Transmitted at two removes: the Roman campagna farmhouse observed by English painters and travellers, systematised by Charles Barry and J. C. Loudon, then reprinted by Downing. American builders never saw the source. Typed as reference, not descent: American builders never saw the source, so no construction practice was transmitted and the kit must not cascade."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.6,
+      "inherits_kit": false,
+      "note": "The palazzo cornice, the quoin, and the arcaded window are quoted; the Renaissance proportional system is not carried over at all."
+    },
+    {
+      "target": "tuscan-vernacular",
+      "type": "references",
+      "weight": 0.35,
+      "inherits_kit": false,
+      "note": "The campanile and the low hipped roof are lifted from Tuscan farm groups as a picturesque motif."
+    },
+    {
+      "target": "gothic-revival-american",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Direct practice inheritance. Same pattern books, same authors, same carpenters, same balloon frame, same commercial millwork supply; Downing published Gothic and Italian designs on facing pages."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Against the temple front, the rigid symmetry, and the low horizontal entablature, replaced by a wide shadowed eave and a plan free to grow."
+    }
+  ],
+  "description": {
+    "short": "The most-built American style of the mid-nineteenth century: a low-hipped, wide-eaved, heavily bracketed villa or townhouse whose round-arched windows and optional tower promised a Mediterranean life to people living through Ohio winters.",
+    "long": "Italianate is what happens when the picturesque argument wins and then needs a version that ordinary people can afford and that looks prosperous rather than pious. John Notman's Riverside at Burlington, New Jersey (1839) is the usual American starting point, and Downing's books carried the type outward, but the style's real career belongs to the two decades after 1850, when it became the default dress for everything from a Brooklyn brownstone row to an Iowa farmhouse to a cast-iron commercial block on Broadway. It outnumbers every other Victorian style in the American building stock, and it is the one whose parts a modern kit would need first.\n\nThe technological explanation is nearly complete. The bracket is the diagnostic element of the style, and the bracket exists because a steam-powered band saw could cut a scrolled profile from a plank in seconds and a railroad could ship a crate of identical brackets anywhere in the country. The same is true of the arched window head, the moulded hood, the turned porch post, and the cast-iron cresting. Before 1840 the ornamental content of an American house was limited by the hours of a skilled hand; after 1850 it was limited by the owner's freight bill. Italianate is the first style whose visual density is a purchasing decision rather than a craft decision, and this is precisely the condition that a kit-of-parts platform reproduces. That the style then multiplied brackets past the point of coherence is a warning worth heeding.\n\nCulturally the style traded on a specific fantasy. The Italian villa in the Anglo-American imagination of the 1840s was the house of a cultivated gentleman of leisure with a library, a view, and a tolerance for irregularity; Downing praised the mode precisely because it permitted a plan to grow by addition without embarrassment, and because its campanile gave a house a vertical accent without the ecclesiastical baggage of a Gothic spire. It suited a merchant class that wanted to look landed without looking aristocratic, and it suited the fact that American families were adding rooms as they added money. The moral seriousness of the Gothic argument survives here in weakened form: architecture still shapes character, but the character it now shapes is worldly, cultivated, and comfortable.\n\nWhat the style actually does to a body standing in front of it is manufacture shadow. The eave projects two or three feet, and the brackets under it cut that projection into a rhythm of dark and light that changes hour by hour; the window hoods repeat the trick in miniature; the whole facade is legible from a distance because it is drawn in shadow rather than in line. Inside, the tall narrow round-headed windows drop a column of light almost to the floor, the parlour ceilings run eleven to fourteen feet, and the effect is of vertical, dim, generous space, cool in an August afternoon and impossible to heat in January. The tower, where there is one, is usually a disappointment: a stair, a small room, and a view that justified the whole expense in the owner's mind."
+  },
+  "defining_characteristics": [
+    "Low-pitched hipped or shallow gabled roof, 3:12 to 5:12, with the roof visually suppressed",
+    "Wide projecting eave, 18 to 36 in, carried on paired or single sawn brackets",
+    "Tall narrow windows with round-arched or segmental heads, frequently paired, with projecting hoods or moulded surrounds",
+    "Horizontal emphasis throughout: string courses, quoins, and clapboard or rusticated masonry courses reading across the elevation",
+    "An asymmetrical or additive plan permitted but not required; the style works on a symmetrical box as readily as on an L",
+    "Ornament concentrated at the eave, the openings, and the porch, and manufactured rather than carved",
+    "Optional campanile or cupola as the vertical accent"
+  ],
+  "diagnostic_tells": [
+    "Brackets under a wide eave with a low roof: Italianate. Add a mansard over the same brackets and it is Second Empire, which is the single most common misidentification",
+    "Round or segmental window heads with hoods, versus the pointed heads of Gothic Revival and the flat lintels of Greek Revival",
+    "If the tower stands in the reentrant angle of an L and rises a full storey above the main cornice, it is an Italianate villa; a tower rising from the centre of a symmetrical front is more likely Second Empire or Renaissance Revival",
+    "Cast-iron or wooden porch posts with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis",
+    "The roof is nearly invisible from the street; if you can read the roof shape from the sidewalk, reconsider the identification"
+  ],
+  "distinguished_from": [
+    {
+      "node": "second-empire",
+      "difference": "Second Empire is Italianate plus a mansard roof, and often literally so: the same bracketed cornice, the same arched windows, the same plan. The mansard is the whole difference, and it converts the roof from a suppressed element into the dominant one."
+    },
+    {
+      "node": "renaissance-revival-american",
+      "difference": "Renaissance Revival is academically symmetrical, uses a modillioned or dentilled cornice rather than sawn brackets, alternates pediment types by storey, and diminishes floor heights upward on a rule. Italianate is looser, bracketed, and indifferent to the palazzo's proportional discipline."
+    },
+    {
+      "node": "gothic-revival-american",
+      "difference": "Opposite geometry on shared parentage: horizontal versus vertical, round versus pointed, low roof versus steep roof, bracket versus bargeboard."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the eave, not by a module. The bracket spacing establishes the only repeating rhythm in the building, and every other element is sized against the cornice depth. Where a tower exists, the tower height sets the vertical hierarchy.",
+    "typical_ratios": [
+      "Eave projection 18 to 36 in; cornice fascia depth 1/2 to 2/3 of the projection",
+      "Bracket spacing 24 to 48 in on centre, with paired brackets at corners and at the ends of each bay",
+      "Window height to width 2.5:1 to 3:1, with paired windows read as a single opening",
+      "Roof pitch 3:12 to 5:12",
+      "Tower rises 1.0 to 1.5 storeys above the main cornice",
+      "First-floor ceiling 11 to 14 ft, diminishing 8 to 15 percent per storey above"
+    ],
+    "bay_rhythm": "Regular bracket rhythm laid over a possibly irregular plan. The brackets march at constant spacing across projections and recesses alike, which is exactly what unifies an additive elevation.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "villa-tower",
+      "affinity": "canonical",
+      "note": "The full Italian villa: L-plan with the campanile at the inner angle."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The brownstone row, quantitatively the largest population of Italianate buildings in America."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "common"
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "possible",
+      "note": "Works only if the pitches stay low; a steep cross gable pulls the building toward Gothic Revival."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "The bracketed cube, extremely common in the Midwest and the direct ancestor of the 1900s foursquare."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Eave projection shall be between 18 and 36 in measured from the wall face, and brackets shall be spaced between 24 and 48 in on centre and shall be paired at every external corner. A bracket spacing greater than 48 in reads as ornament rather than as rhythm and fails the style."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Principal roof pitch shall not exceed 5:12. The roof must be substantially concealed by the cornice when viewed from a point 40 ft from the facade at eye height."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Window heads on any single elevation shall be of one family only: round-arched, segmental, or flat with a moulded hood. Mixing round and pointed heads on one building is forbidden."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "A tower or campanile shall be provided only where a stair, a hall, or a room occupies it at every level. A tower that is a hollow ornament is prohibited; this is the single most common failure in modern Italianate work."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Porch depth shall be not less than 7 ft where a veranda is used, and the porch cornice shall carry brackets at the same spacing as the main eave, or at exactly half that spacing."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Edward King House",
+      "location": "Newport, Rhode Island",
+      "year": 1847,
+      "note": "Richard Upjohn, 1845-47. Downing published it in The Architecture of Country Houses as one of the most successful specimens of the Italian style in the United States, which made it the national template."
+    },
+    {
+      "name": "Morse-Libby House (Victoria Mansion)",
+      "location": "Portland, Maine",
+      "year": 1860,
+      "note": "Henry Austin, 1858-60. Brownstone Italianate villa with a tower and an intact Gustave Herter interior; the most completely preserved American example."
+    },
+    {
+      "name": "Litchfield Villa",
+      "location": "Prospect Park, Brooklyn, New York",
+      "year": 1857,
+      "note": "Alexander Jackson Davis, 1854-57. Davis's most ambitious Italianate villa, and a demonstration that the same architect drove both branches of the picturesque."
+    }
+  ],
+  "sources": [
+    "Andrew Jackson Downing, The Architecture of Country Houses (1850)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)",
+    "William H. Pierson Jr., American Buildings and Their Architects: Technology and the Picturesque (1978)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "picturesque",
+    "bracketed",
+    "mass-produced-ornament",
+    "pattern-book",
+    "most-built"
+  ]
+}

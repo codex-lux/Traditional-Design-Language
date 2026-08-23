@@ -1,0 +1,139 @@
+{
+  "id": "sprung-crown-in-a-bungalow",
+  "name": "The Cyma In The Bungalow",
+  "aka": [
+    "crown on a Craftsman ceiling",
+    "the renovation crown",
+    "the added cornice"
+  ],
+  "slots": [
+    "crown",
+    "trim_family",
+    "ceiling_height_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "A sprung classical crown moulding — a cyma with a bed and a fillet, run at 45 degrees into the wall-ceiling joint — in a room whose casings are flat square-edged boards with butted heads, whose base is a plain 1x8, and whose doors are 6 ft 8 in with a stepped head assembly. Often the crown is added in a renovation and the picture rail is removed in the same operation, so the room loses its datum and gains a member it never had.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Crown moulding is the single most requested interior upgrade in the residential remodelling market and it is understood by clients and by most contractors as a general mark of quality rather than as a member of a particular system. It is cheap, it is fast, it needs no coordination with anything else in the room, and it is legible in a listing photograph. A bungalow has an unarticulated wall-ceiling joint, which reads to a modern eye as unfinished, so the joint gets filled. The picture rail is removed in the same job because it reads as an obstruction and because painters hate cutting round it.",
+    "cost_saved": "None — this is a purchase, not an economy. A stock crown runs 3 to 7 USD a lineal foot installed, so 900 to 2,200 USD in a typical bungalow's public rooms. Removing the picture rail costs a further 300 to 600 USD and destroys the thing that organised the room.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / crown.height = 0.0",
+      "statement": "NO CROWN. Zero is the correct default and it is not a saving, it is a position: the wall meets the ceiling directly, or meets it through a picture rail set some distance below, and the transition is made by colour rather than by moulding. What is never correct is a sprung classical crown, and it is named in the pack as the single most common thing done to bungalow interiors in renovation."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / trim_family = ceiling_height * 0.8",
+      "statement": "The picture rail is the governing datum of the whole interior and it is not optional — 82 in at an 8 ft 6 in ceiling, set to the top of the door head assembly. Above it the wall is a frieze."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / trim_family",
+      "statement": "trim-craftsman is recorded as forbidden against the classical family for exactly the same reason in the other direction. The prohibition is symmetric and the corpus should state it both ways."
+    }
+  ],
+  "correct_practice": "Leave the joint alone, or articulate it with a flat board. The minority period practice, which appears in better bungalows and throughout Prairie School interiors, is a plain square-edged 1x3 or 1x4 laid flat against the ceiling, sometimes with the frieze paper running up to it — square, not sprung, and reading as a board rather than as a transition. The majority practice is nothing at all: the wall runs into the ceiling and the frieze above the picture rail is papered, stencilled or painted the ceiling colour brought down onto the wall, which is what actually makes the joint disappear. If the room feels unfinished, the missing member is almost never a crown; it is the picture rail at 80 to 84 in and the frieze above it. Restore that and the ceiling stops needing a moulding. Where the ceiling is 8 ft the pack's own resolution is to omit the picture rail too and let the head casing assembly at 87 1/2 in be the room's only datum, because a 8 1/2 in frieze is too narrow to read.",
+  "fixes": {
+    "right": "No crown. Reinstate the picture rail at the top of the head casing assembly, run it unbroken around the room past every opening, and treat the frieze above it in a second colour or a paper.",
+    "cheap": "If a crown is already installed and removal is not on the table, paint the crown, the frieze above the picture-rail line and the ceiling all one colour, and paint the wall below in a second. This dissolves the crown into the ceiling plane and re-establishes the frieze band that the room actually wanted, for the price of a gallon of paint. It is not a repair, but it converts an intrusion into a ceiling edge.",
+    "dishonest": "A 'craftsman crown' sold as a stepped square-edged built-up cornice of five members. Stacking square boards is not the Craftsman position — the position is that there is no member there — and a 6 in stepped cornice reads as a Prairie School frieze band on a house that has none of the other Prairie moves. Also dishonest: keeping the crown and removing the picture rail to avoid 'two lines', which trades the member the room needs for the member it does not."
+  },
+  "detection": "In any photograph that shows the wall-ceiling joint and a door in the same frame, compare the two profiles. If the door head is a flat board sitting on flat legs with a visible step at the corners, and the ceiling joint is a curved sprung profile, the room has two families in it and the crown is the intruder. Second, look for the picture rail scar: a horizontal line of filler, a paint-colour change, or a run of nail pops at 78 to 84 in on a bungalow wall means a rail was removed. Third, measure the crown's projection onto the ceiling against its height on the wall; a stock crown gives about 0.5 and a classical cornice gives 1.0 — but in this fault the ratio is beside the point, because the correct value is that there is no crown at all.",
+  "test": {
+    "expression": "crown_height_in",
+    "threshold": 0.0,
+    "direction": "equals",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The Craftsman family's crown height is zero by derivation. The only licensed non-zero value is a flat square board of 2 1/2 to 3 1/2 in laid against the ceiling, which has no sprung profile and no bed. Any curved profile at the wall-ceiling joint of a Craftsman room fails."
+  },
+  "applies_to": [
+    "craftsman",
+    "craftsman-bungalow",
+    "california-bungalow",
+    "american-arts-and-crafts",
+    "arts-and-crafts-american",
+    "british-arts-and-crafts",
+    "prairie-school"
+  ],
+  "exceptions": [
+    {
+      "style": "prairie-school",
+      "why": "Prairie interiors do articulate the wall-ceiling joint, but with a flat banded board or a shallow stepped soffit that continues the horizontal banding of the room. The joint is not left bare.",
+      "bounds": "Square-edged flat members only, stacked in a stepped profile whose members are boards rather than curves, and the band must relate to the room's other horizontals — the head band and the sill band. A sprung cyma is as wrong here as in a bungalow.",
+      "bounds_test": {
+        "expression": "curved_members_in_cornice",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "queen-anne-free-classic",
+      "why": "Where an Arts and Crafts exterior is carried over a genuinely Colonial Revival interior — which happened constantly between 1900 and 1925, particularly in the East — a classical cornice in the public rooms is the house's actual history.",
+      "bounds": "The interior must be classical THROUGHOUT that room: moulded casings with backbands, a classical base with a cyma cap, panelled or six-panel doors. A classical crown over flat butted Craftsman casings is not a hybrid, it is an addition."
+    },
+    {
+      "style": "colonial-revival",
+      "why": "Colonial Revival is the destination family for a great many bungalows that were remodelled between the wars, and a 1935 crown in a 1912 bungalow is a documented layer of the building's life rather than a fault in it.",
+      "bounds": "This is a preservation argument, not a design one. It licenses KEEPING an existing historic alteration; it does not license adding one now. And it holds only where the alteration is coherent — the same remodelling that added the crown usually replaced the casings and the mantel too."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "crown-that-projects-half-its-height",
+      "difference": "That fault is a classical crown too shallow in a classical room. This is a classical crown in a room that should have none. Fixing the projection here makes the fault worse."
+    },
+    {
+      "fault": "mixed-trim-families-in-one-room",
+      "difference": "The general case. This is the single commonest instance of it and it is worth naming separately because the driver is a remodelling market rather than a purchasing accident."
+    }
+  ],
+  "co_occurs_with": [
+    "mitred-craftsman-casing",
+    "mixed-trim-families-in-one-room",
+    "recessed-can-in-a-plaster-ceiling"
+  ],
+  "sources": [
+    "proportions/systems/trim-craftsman.json, crown derived rule and notes",
+    "Gustav Stickley, Craftsman Homes (1909)",
+    "NPS Preservation Brief 18: Rehabilitating Interiors in Historic Buildings",
+    "Old-House Journal technical archive on bungalow interior finishes"
+  ],
+  "confidence": "high",
+  "tags": [
+    "craftsman",
+    "crown",
+    "renovation",
+    "anachronism"
+  ],
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The pack sets the crown height at zero as a POSITION rather than a saving. A cyma at the ceiling of a bungalow contradicts the one thing the family says about the wall-ceiling joint."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "The horizontal banding is the interior's whole structure and a sprung curve is the one profile that cannot join it."
+    },
+    {
+      "style": "british-arts-and-crafts",
+      "severity": "serious",
+      "why": "The British movement is more tolerant of a plaster cove or a moulded cornice in a principal room, particularly in its larger houses, so the intrusion is less absolute."
+    },
+    {
+      "style": "california-bungalow",
+      "severity": "fatal",
+      "why": "Same as Craftsman, and the type's low ceilings make an added crown proportionally worse."
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "id": "white-trim-on-everything",
+  "name": "White trim as the default",
+  "aka": [
+    "builder white",
+    "the same white on every style",
+    "semi-gloss everywhere"
+  ],
+  "slots": [
+    "color_strategy"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "Every trim element on the house — casings, corner boards, frieze, cornice, water table, garage surround, gutter — in the same bright white, at the same sheen, on a house of any style whatever. The white is a modern titanium-dioxide white with a high reflectance and a slight blue cast, and it is applied in a satin or semi-gloss acrylic that catches light in a way no period paint did.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "White trim is the single-SKU answer: one product for every trim item on every house in the subdivision, no colour matching, no reorder risk, and it is what PVC and fibre-cement trim arrives factory-primed and often factory-finished in. Semi-gloss is specified because it is washable and because it is the manufacturer's warranted finish for cellular PVC, which chalks in flat.",
+    "cost_saved": "$800-$2,500 per house in colour-matching, staging and reorder risk across a subdivision, plus the loss of the factory finish warranty if a custom colour is used."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / color_strategy / white-lead-trim-on-coloured-body (canonical, date_range 1740-1800)",
+      "statement": "White lead is expensive and its use is a status claim; it becomes common on good houses after about 1740. Before that it is not the default, and outside the classical stream it is often wrong."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / color_strategy / sheen",
+      "statement": "Flat to low lustre on the body; higher lustre permitted on the door and shutters."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "colour is the cheapest style tell and therefore the most wasteful one to spend on nothing",
+      "statement": "A single default applied across every style erases exactly the distinctions the styles were built on: an Arts and Crafts house wants stained and earth-coloured trim, an Italianate wants a mid-tone polychrome, a Tudor wants dark timbering and cream render, a Georgian wants white lead. Making all four white makes all four the same house."
+    }
+  ],
+  "correct_practice": "Choose the trim colour from the style and the date, not from the shelf. White lead trim on a coloured body is correct for classical Anglo-American work after about 1740 and remains correct through Federal and Greek Revival. It is wrong or at least unusual on: Craftsman and Arts and Crafts, where trim is stained or painted in earth greens, browns and umbers to relate to the natural materials; Italianate, Queen Anne and Second Empire, where a polychrome of three to five related mid-tones is the practice; Tudor Revival, where render is cream or buff and timbering dark; Shingle Style, where trim is minimal and stained; Spanish and Mediterranean work, where the wall is limewashed and the joinery is a dark oiled wood or a deep colour. Sheen is a period tell in its own right: linseed-oil paints dried to a low lustre that softened with weathering, so a flat to eggshell body with a slightly higher lustre reserved for the door and shutters is right, and a uniform semi-gloss on all trim reads as modern immediately, particularly in a photograph taken in sun, where every trim member develops a specular highlight no period house had.",
+  "fixes": {
+    "right": "A scheme derived from the style: body, trim, sash and shutter colours chosen as a set with a stated value hierarchy, and a sheen schedule — flat or matte body, eggshell trim, satin or gloss on door and shutters only.",
+    "cheap": "Change the sheen and warm the white. Both are free at specification. Moving trim from semi-gloss to eggshell or satin costs nothing and removes the plastic reading. Moving from a titanium blue-white to a warm off-white with a trace of yellow ochre and raw umber costs nothing and is closer to what white lead actually looked like — white lead is a warm, slightly grey white, and it yellows further in linseed oil. These two changes do more for a house's period reading than any single element of trim.",
+    "dishonest": "An 'antique white' or 'colonial white' from a manufacturer's historic collection applied at semi-gloss on PVC. The hue is right and the surface is wrong, and the surface is what the eye reads at 40 ft: a specular highlight running the length of every trim member is a modern-materials signature that no amount of hue correction touches."
+  },
+  "detection": "Look for specular highlights. In any sunlit photograph, semi-gloss trim shows a bright reflected band along each moulding face and a hard highlight on every arris; period-appropriate low-lustre paint shows a diffuse gradient. This is measurable as the ratio of the brightest to the mean pixel value on a trim member — high ratios mean high sheen. Second, sample the trim's hue: a blue-shifted white (blue channel above red) is titanium; a warm white (red above blue) is closer to lead white. Third, check whether the same white appears on the gutter, the garage door surround, the porch rail and the cornice — one white on everything is the default's own signature.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "White on white is genuinely correct here: the Greek Revival house is frequently white-bodied with white trim, imitating marble, and the whole point is a monochrome mass read by shadow rather than by colour.",
+      "bounds": "Body AND trim white, not white trim on a coloured body, and the sheen must be low so the mass reads. The scheme depends on the deep entablature and broad flat members doing the work colour is not.",
+      "bounds_test": {
+        "expression": "abs(trim_lightness - body_lightness)",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.05,
+        "note": "White on white: body AND trim white, imitating marble, so the mass reads by shadow rather than by colour. White trim on a COLOURED body is a different scheme and not this exception. The sheen must still be low, and the scheme depends on the deep entablature and broad flat members doing the work colour is not."
+      },
+      "applies_when": {
+        "slots": [
+          "color_strategy",
+          "entablature"
+        ],
+        "date_range": [
+          1825,
+          1865
+        ]
+      }
+    },
+    {
+      "style": "cape-dutch",
+      "why": "Uniform whitewash over everything except the joinery is definitional.",
+      "bounds": "Limewash, not paint: the surface must be matte, slightly chalky and vary with the substrate. A uniform acrylic white on a Cape Dutch wall loses the whole effect.",
+      "bounds_test": {
+        "expression": "body_sheen_ratio",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.15,
+        "note": "Limewash, not paint: matte, slightly chalky, and varying with the substrate. A uniform acrylic white on a Cape Dutch wall loses the whole effect."
+      },
+      "applies_when": {
+        "regions": [
+          "Western Cape"
+        ],
+        "slots": [
+          "color_strategy"
+        ]
+      }
+    },
+    {
+      "style": "colonial-revival",
+      "why": "White trim on a coloured or white body is genuinely the Colonial Revival's own convention from the 1890s onward, and it is a real historical practice in its own right even where it misrepresents the colonial original.",
+      "bounds": "Correct as Colonial Revival, which is a style with its own dates and its own habits. It is not correct as a claim about 18th-century practice, and it does not travel to Craftsman, Tudor or Italianate houses.",
+      "bounds_test": {
+        "expression": "brightest_pixel_value_on_a_trim_member / mean_pixel_value_on_that_member",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "Correct as Colonial Revival, which is a style with its own dates and its own habits; the hue licence is real and the sheen licence is not. It is not a claim about 18th-century practice and it does not travel to Craftsman, Tudor or Italianate houses."
+      },
+      "applies_when": {
+        "date_range": [
+          1890,
+          1960
+        ],
+        "slots": [
+          "color_strategy"
+        ]
+      }
+    },
+    {
+      "style": "new-classical",
+      "why": "Contemporary classical practice uses white or off-white trim knowingly.",
+      "bounds": "Sheen and warmth still matter; the licence is about hue, not about surface.",
+      "bounds_test": {
+        "expression": "brightest_pixel_value_on_a_trim_member / mean_pixel_value_on_that_member",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "The licence is about hue, not about surface."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "dark-trim-inversion",
+      "difference": "Opposite defaults. Check the value relationship first: if trim is lighter than body you may have this fault; if darker, the other."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, color_strategy (period_palette, sheen)",
+    "NPS Preservation Brief 10: Exterior Paint Problems on Historic Woodwork",
+    "Roger W. Moss, Paint in America: The Colors of Historic Buildings",
+    "Cellular PVC trim manufacturers' finish requirements (light reflectance value limits, warranted sheens)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "colour",
+    "anachronism",
+    "sheen",
+    "paint"
+  ],
+  "test": {
+    "expression": "trim_red_channel_mean - trim_blue_channel_mean",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 0.0,
+    "note": "Warm versus cool white, which is the free half of the fix. White lead is a warm, slightly grey white that yellows further in linseed oil, so red should meet or exceed blue; a modern titanium exterior white is blue-shifted and reads as blue above red. Sample a sunlit and a shaded trim face and average, to avoid sky reflection bias in the shaded sample."
+  },
+  "secondary_tests": [
+    {
+      "expression": "brightest_pixel_value_on_a_trim_member / mean_pixel_value_on_that_member",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.5,
+      "note": "Sheen, and the more diagnostic of the two. Semi-gloss trim shows a bright reflected band along each moulding face and a hard highlight on every arris; low-lustre paint shows a diffuse gradient. Period linseed-oil paints dried to a low lustre that softened with weathering, so a specular highlight running the length of every trim member is a modern-materials signature no amount of hue correction touches."
+    },
+    {
+      "expression": "distinct_trim_colours_on_the_building",
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 2,
+      "note": "One white on gutter, garage surround, porch rail, cornice, casings and corner boards is the default's own signature. Most period schemes distinguish at least trim from sash, and usually trim from sash from shutters from door."
+    },
+    {
+      "expression": "body_sheen_ratio",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.3,
+      "note": "Flat to low lustre on the body; higher lustre permitted on the door and shutters. A uniformly satin body is a second and separate modern tell."
+    }
+  ],
+  "co_occurs_with": [
+    "dark-trim-inversion",
+    "the-black-window-package",
+    "architrave-that-is-not-there"
+  ],
+  "inverted_by": [
+    {
+      "style": "craftsman",
+      "statement": "White trim is the fault. Trim is stained or painted in earth greens, browns and umbers to relate to the natural materials, and a white-trimmed Craftsman bungalow reads as a Colonial Revival house with the wrong windows."
+    },
+    {
+      "style": "american-arts-and-crafts",
+      "statement": "White trim is the fault, on the same reasoning."
+    },
+    {
+      "style": "tudor-revival",
+      "statement": "White trim is the fault: render is cream or buff and timbering dark, and a bright white trim family fights both."
+    },
+    {
+      "style": "italianate-american",
+      "statement": "White trim is the fault. The style expects a three- to five-colour polychrome of related mid-tones, and picking the trim out in white flattens the hierarchy the scheme depends on."
+    },
+    {
+      "style": "shingle-style",
+      "statement": "White trim is the fault, and so is trim. What little exists is stained to disappear into the shingle field."
+    }
+  ]
+}

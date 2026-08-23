@@ -1,0 +1,209 @@
+{
+  "id": "french-normandy-revival",
+  "name": "French Normandy Revival",
+  "aka": [
+    "Norman Revival",
+    "Norman Farmhouse Style",
+    "French Norman"
+  ],
+  "rank": "variant",
+  "member_of": "french-eclectic",
+  "status": "revival",
+  "period": {
+    "origin": 1915,
+    "floruit_start": 1920,
+    "floruit_end": 1940,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "Philadelphia's Chestnut Hill; Berkeley and Los Angeles, California",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "3C",
+      "4B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-eclectic",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The picturesque, half-timbered, tower-centred wing of the parent style. Same offices and same roof logic; the difference is the tower and the timbering."
+    },
+    {
+      "target": "norman-vernacular",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The claimed ancestor: the timber-framed and rubble farm buildings of Normandy, with their round dovecote and colombier towers."
+    },
+    {
+      "target": "french-provincial-farmhouse",
+      "type": "references",
+      "weight": 0.8,
+      "note": "The farm-court plan, the flared eave, and the segmental dormer."
+    },
+    {
+      "target": "french-manoir",
+      "type": "references",
+      "weight": 0.6,
+      "note": "The small manor register, invoked where the composition becomes formal enough to need one."
+    },
+    {
+      "target": "tudor-revival",
+      "type": "hybridizes_with",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Genuinely blended. American half-timbering, steel casements, leaded glass and masonry veneer are shared wholesale with Tudor Revival; on many streets the two are separated only by the presence of a round tower."
+    },
+    {
+      "target": "arts-and-crafts-british",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Informal planning and the deliberate composition of irregular groups, transmitted through the same Anglo-American publishing channel that produced Tudor Revival."
+    },
+    {
+      "target": "norman-vernacular",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The Norman farmhouse variant of French Eclectic, identified by a round or polygonal entrance tower with a conical roof set at the junction of two wings, combined with steep hipped roofs, half-timbering, and mixed brick, stone and stucco walls.",
+    "long": "French Normandy Revival is the one variant in this branch that can be identified from a moving car by a single element. The round entrance tower, capped with a conical roof and containing the front door and often a stair, sits in the inside corner where two wings meet, and it comes directly from the freestanding colombier - the dovecote tower - of the Norman farm court, which American architects and returning soldiers had photographed extensively and which they moved from the farmyard to the front door because it made a spectacular entrance.\n\nEverything else follows the parent style. The roofs are steeply pitched hips, 12:12 and up, running at the same pitch on all faces, often flared at the eave. The walls mix materials with some freedom - brick, rubble stone, and stucco, with half-timbered panels in the gables and upper storeys, which is the point where this variant borrows heavily from Tudor Revival and where the two become genuinely difficult to separate. Windows are casements, tall and grouped. Dormers break the cornice line, arched or segmental. The plan is informal, usually an L or a shallow U, and where the composition is large it wants a walled forecourt.\n\nTwo developments define its American realisation. Robert Rodes McGoodwin's French Village at Chestnut Hill, built 1925-28 for George Woodward, is the East Coast case, executed in Wissahickon schist with real masonry and real restraint. William Raymond Yelland's Thornburg Village - universally called Normandy Village - at 1781-1851 Spruce Street in Berkeley, built in 1927 for the contractor Jack Thornburg, is the West Coast case and is considerably wilder: sagging ridges, hand-adzed timbers, carved corbels, and a deliberate air of medieval fantasy that shades into the Storybook manner then flourishing in Los Angeles. Between the two lies the whole range of the variant, from archaeology to theatre.\n\nWhat it is like depends on which end you are at. At the Philadelphia end it is calm, grey, and heavy, and the tower reads as a legitimate piece of planning - you enter through it, turn, and arrive in a hall. At the Berkeley end the same tower is a stage set: the plaster is trowelled unevenly on purpose, the timbers have axe marks that were put there with an axe, and the whole group is theatrical in a way that is completely unembarrassed about itself. Both work. The failure mode is the middle - a suburban builder's box with a half-round clad turret glued to the front, which has neither the mass of the first nor the conviction of the second."
+  },
+  "defining_characteristics": [
+    "Round or polygonal entrance tower with a conical roof, set at the junction of two wings and containing the front door or a stair",
+    "Steeply pitched hipped roofs, 12:12 or steeper, at consistent pitch on all faces, frequently flared at the eave",
+    "Mixed wall materials - brick, rubble stone, and stucco - with half-timbered panels in gables and upper storeys",
+    "Casement windows, tall and grouped, with true divided or leaded lights",
+    "Dormers breaking the cornice line, arched or segmental-headed",
+    "Informal L- or U-shaped plan, ideally with a walled or partly enclosed entrance court"
+  ],
+  "diagnostic_tells": [
+    "The conical-roofed round tower at an inside corner is decisive; nothing else in American domestic architecture places one there.",
+    "Steep hipped roofs with no dominant front gable, plus half-timbering. Tudor Revival gives you the timbering with gables; the parent French Eclectic gives you the hips without timbering.",
+    "Wall material changes vertically and abruptly - stone below, stucco and timber above - at a floor line or a jetty.",
+    "Casements, not double-hung, and a segmental or round-headed dormer.",
+    "Against genuine Norman building: the original tower is a freestanding dovecote in a farm court and does not contain the house entrance; the original timber frame is structural and 4-8 in. thick; and the original farm is a group of buildings, not one house pretending to be a group."
+  ],
+  "distinguished_from": [
+    {
+      "node": "french-eclectic",
+      "difference": "The parent style is broader and usually calmer - it may be entirely symmetrical, is often all-masonry, and rarely uses half-timbering or a tower. This variant is the picturesque Norman end, defined by the conical entrance tower and by mixed timbered walls."
+    },
+    {
+      "node": "tudor-revival",
+      "difference": "Roof geometry again. Tudor Revival is gabled and English-referenced; French Normandy Revival is hipped, flares its eave, uses casements, and puts a round tower at the entrance. The half-timbering and the masonry-veneer technology are shared, which is why the pair is so often confused."
+    },
+    {
+      "node": "cotswold-cottage-revival",
+      "difference": "The Cotswold variant is lower, all-stone, has no tower and no timbering, and rolls its eaves. The Norman variant is taller, mixes materials, uses timbering, and depends on the tower."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Roof-dominant, as in the parent style, with the tower as the compositional pivot: its diameter and height set the scale against which the two wings are judged, and its conical roof establishes the steepest pitch on the building.",
+    "typical_ratios": [
+      "Tower diameter 9-14 ft; height to eave 1.1 to 1.4 times the adjacent wall height",
+      "Conical tower roof pitch 18:12 to 24:12 - steeper than the main roof by at least 4:12",
+      "Main roof pitch 12:12 to 16:12, constant on all faces; roof height 0.6-1.0 times wall height",
+      "Half-timber members 5-8 in. face width, spaced 16-30 in. clear, projecting at least 1 in. from the stucco plane",
+      "Casement leaf 16-22 in. wide by 40-56 in. high, grouped in twos and threes"
+    ],
+    "bay_rhythm": "Additive and grouped. Each wing carries its own loose rhythm of casement clusters; the tower interrupts both and is the only element on the composition that resolves anything.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "Two or more hipped wings of unequal height meeting at a tower."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common",
+      "note": "The suburban builder reduction - a simple block with a turret and one steep hip."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "possible",
+      "note": "Larger examples where the composition becomes formal enough to read as a manor."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "The Norman farm court taken literally, with service ranges pulled into the composition."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "A round or polygonal tower, minimum 9'0\" in diameter, capped with a conical roof at 18:12 or steeper, must be present at the junction of two wings and must contain either the entrance or a stair. A tower applied flat to a facade, or one narrower than 9'0\", voids the variant."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Main roof pitch 12:12 to 16:12, constant within 1:12 across all faces, hipped. The tower roof must exceed the main roof pitch by not less than 4:12."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Where half-timbering is used it must describe a plausible frame under the parent Tudor rule: continuous verticals from sill to plate, horizontals terminating at posts, braces at 45 degrees or steeper, members 5-8 in. wide projecting not less than 1 in. from the infill plane."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Vertical material changes must occur at a floor line, a water table, or a jetty, with a minimum 4 in. horizontal offset. Stone below and stucco above stopping mid-storey is forbidden."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Windows shall be casements with true divided or leaded lights, leaves 16-22 in. wide, grouped in twos and threes. Double-hung sash on principal elevations is forbidden."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Thornburg Village (Normandy Village)",
+      "location": "1781-1851 Spruce Street, Berkeley, California",
+      "year": 1927,
+      "note": "William Raymond Yelland for Jack Wood Thornburg. The West Coast case at its most theatrical - hand-adzed timbers, sagging ridges, carved corbels - and a Berkeley landmark."
+    },
+    {
+      "name": "French Village",
+      "location": "Chestnut Hill / Mount Airy, Philadelphia, Pennsylvania",
+      "year": 1928,
+      "note": "Robert Rodes McGoodwin for George Woodward, 1925-28. The East Coast case in Wissahickon schist, archaeological rather than theatrical."
+    },
+    {
+      "name": "Oheka Castle",
+      "location": "West Hills (Huntington), New York",
+      "year": 1919,
+      "note": "Delano & Aldrich, 1914-19. Included as the grand French precedent from which the suburban Norman version is derived, with the same steep hipped roofs and tower motifs at estate scale."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Arrol Gellner and Douglas Keister, Storybook Style: America's Whimsical Homes of the Twenties (2001)",
+    "David R. Contosta, Suburb in the City: Chestnut Hill, Philadelphia, 1850-1990 (1992)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "revival",
+    "variant",
+    "picturesque",
+    "tower",
+    "half-timber",
+    "interwar"
+  ]
+}

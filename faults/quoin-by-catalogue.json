@@ -1,0 +1,184 @@
+{
+  "id": "quoin-by-catalogue",
+  "name": "The quoin sized by a trim catalogue",
+  "aka": [
+    "the 18-inch corner board",
+    "the wrong-module quoin"
+  ],
+  "slots": [
+    "corner_quoin"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "Quoins whose dimensions come from a product range rather than from the wall: long faces that are not a whole number of courses, an alternation that does not close at the top of the wall, quoin heights that cut through the middle of a brick, or — the reverse case — a wood corner board dimensioned at 16-18 in because a classical rule was applied to a framed corner. Either way the corner is at the wrong scale by roughly a factor of two.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Cast stone and polyurethane quoins are sold in fixed nominal sizes — commonly 6, 8 or 12 in high with 12 or 16 in long faces — chosen by the manufacturer to palletise well, not to course with anything. Meanwhile the classical proportion literature gives a single corner rule (a fraction of the bay) that predates the split between masonry quoining and frame corner boards, so a designer working from a pattern book applies a masonry number to a wooden corner without noticing that a different trade is involved.",
+    "cost_saved": "Nothing is saved by getting the module wrong; the cost is a coursing exercise the mason must be given time for, roughly half a day of layout per building. And the correct cheap answer is again deletion — a plain corner with correct coursing beats a quoined corner with a joint through the middle of every brick, and returns the whole quoin line item. The fault costs money.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / corner_treatment.width = module / 6 = 18 in at a 9 ft bay, range 9-30 in, in_calibration: false for frame",
+      "statement": "THE LIVE BUG THIS ONTOLOGY ALREADY FOUND. The pack derives 18 in for the corner; the measured New England corner board is 6-10 in and the pilaster 10-16 in. The pack is right about a stone quoin and roughly 2x wrong about a wood corner board. The corner_quoin / corner_board split in ontology 0.3.0 exists because of this."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course / corner_treatment.height = part * 2 = 5 1/2 in",
+      "statement": "Quoins alternate on a whole number of courses — two courses at a 2 3/4 in course — or the corner will not close."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / corner_quoin",
+      "statement": "The corner is expressed by a member of the bound order whose width is constant for the full height of the volume."
+    }
+  ],
+  "correct_practice": "Dimension the quoin from the masonry module and check it closes. Height: a whole number of courses, normally two (5 1/2 in at a 2 1/4 in brick and 1/2 in joint) or three (8 1/4 in), never a fraction. Long face: 12-18 in in brick, 16-24 in in stone. Short face: 8-9 in in brick, 10-14 in in stone — and critically, the short face is what the long face becomes when you turn the corner, so long and short must be a matched pair of the SAME unit. Then count from the water table to the frieze and confirm that the alternation arrives at the top on the correct face; adjust the group height, not the wall, and take the adjustment at the bottom where the water table can absorb it. Projection is 1/2 to 1 in in brick and 3/4 to 1 1/2 in in stone, constant top to bottom. On a FRAME corner, discard all of this and use the corner_board rule: 6-10 in wide, sized by the casing beside it.",
+  "fixes": {
+    "right": "Lay out the quoin on a story pole with the water table and the belt, so the alternation, the courses and the horizontals all resolve together before a brick is laid.",
+    "cheap": "Choose the coursing dimension over the catalogue dimension. If the available cast units are 6 in high and the course is 2 3/4 in, order 5 1/2 in units instead of adjusting the mortar — a special-height run of a cast unit is a modest surcharge and removes the fault entirely. Where the units cannot change, delete the quoins; a plain corner with correct coursing is better than a quoined corner with a joint through the middle of every brick.",
+    "dishonest": "Absorbing the discrepancy in the mortar joint — running a 5/8 or 3/4 in bed joint under the quoin courses to make a 6 in unit fit a 5 1/2 in module. It works dimensionally and it produces a wall whose bed joints visibly thicken at the corner, which is the exact opposite of what a quoin means: a quoin is the tightest, best-laid masonry on the building."
+  },
+  "detection": "Line through. From an elevation photograph, extend the horizontal joints of the quoin stack into the field of the wall. In correct work every quoin joint continues as a wall bed joint; in catalogue work the quoin joints float between courses, and once you see it in one place you see it everywhere. Second: count. Photograph the full corner from water table to cornice and count quoin units — the alternation should end at the top with the same face it began with at the bottom if the count is even, and the designer should have chosen that. A quoin stack that runs into the cornice mid-unit was never counted. Third, for the frame case: if the corner element is wood and reads wider than about 12 in without a base and a capital, the masonry rule has leaked into a frame condition.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "english-baroque",
+      "why": "Giant rusticated quoins far exceeding the ordinary range — 24-36 in long faces with deep rustication — are a deliberate Baroque device of scale.",
+      "bounds": "The exaggeration must be of a real stone quoin with real depth (2-4 in of rustication) and must still course. Baroque enlarges the unit; it does not free it from the wall.",
+      "bounds_test": {
+        "expression": "rustication_depth_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 2,
+        "note": "Baroque enlarges the unit — 24-36 in long faces — and it does not free the unit from the wall. The exaggeration must be of a real stone quoin with 2-4 in of rustication and must still course."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ]
+      }
+    },
+    {
+      "style": "scottish-baronial",
+      "why": "Rubble walling with dressed ashlar corner dressings of irregular size is the tradition, and strict alternation is not expected.",
+      "bounds": "The dressings must be real dressed stone with visible bed and joint lines in a rubble field; the irregularity is of a real masonry practice, not of a product range.",
+      "bounds_test": {
+        "expression": "quoin_bed_joints_aligned_with_wall_bed_joints / quoin_bed_joints",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.6,
+        "note": "Rubble walling has no consistent course to align to, so strict alternation is not expected and the alignment test is relaxed rather than dropped. The dressings must still be real dressed stone with visible bed and joint lines in a rubble field."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-three-wythe"
+        ],
+        "regions": [
+          "Scotland"
+        ]
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Quoins drawn in stucco or built in wood as flat panels on a frame wall are a legitimate 19th-century Italianate device, and there the sizing follows the elevation rather than a course.",
+      "bounds": "Wood or stucco quoins must be flat panels of consistent projection (3/4-1 1/4 in) reading frankly as applied ornament on a rendered or boarded wall, and they must alternate consistently. They may not appear on a brick veneer, where they claim to be masonry.",
+      "bounds_test": {
+        "expression": "quoin_projection_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.75,
+        "upper": 1.25,
+        "note": "Wood or stucco quoins as flat panels of consistent projection on a rendered or boarded wall, alternating consistently. They may not appear on a brick veneer, where they claim to be masonry."
+      },
+      "applies_when": {
+        "construction": [
+          "braced-timber-frame",
+          "balloon-frame",
+          "platform-frame",
+          "solid-masonry-two-wythe"
+        ],
+        "slots": [
+          "primary_cladding"
+        ],
+        "note": "Requires a rendered or boarded wall, frankly applied. Not available over brick veneer."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "quoin-as-veneer-return",
+      "difference": "That fault is about whether the quoin describes a bond; this one about whether it is the right size and lands on the coursing. Both can be present."
+    },
+    {
+      "fault": "corner-board-thinner-than-the-casing",
+      "difference": "The frame sibling with the opposite number. Establish construction_type before applying either rule — this is precisely the discrimination the 0.3.0 slot split was made for."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json, corner_treatment.width, calibrated_for note",
+    "proportions/modules/brick-course.json, corner_treatment.height",
+    "kits/georgian-colonial-american.kit.json, corner_quoin (records the conflict, confidence: low)",
+    "elements/slots.json 0.3.0, corner_quoin note"
+  ],
+  "confidence": "high",
+  "tags": [
+    "proportion",
+    "corner",
+    "masonry",
+    "pack-conflict"
+  ],
+  "test": {
+    "expression": "quoin_bed_joints_aligned_with_wall_bed_joints / quoin_bed_joints",
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "Line through. Extend every horizontal quoin joint into the field of the wall: in correct work each one continues as a wall bed joint, because the quoin height is a whole number of courses — two at 5 1/2 in, three at 8 1/4 in, at a 2 3/4 in course. A quoin joint floating between courses means the unit came from a product range (6, 8 or 12 in nominal) rather than from the wall. Once you see it in one place you see it everywhere."
+  },
+  "secondary_tests": [
+    {
+      "expression": "quoin_long_face_length_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 12,
+      "upper": 24,
+      "note": "12-18 in in brick, 16-24 in in stone, with the short face at 8-9 in and 10-14 in respectively. This is the MASONRY figure. facade-classical's module/6 = 18 in sits inside this band and is correct here — it is only its application to a framed corner that the pack's own calibrated_for note flags as roughly 2x wrong."
+    },
+    {
+      "expression": "quoin_alternation_closes_at_cornice",
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "Count units from the water table to the frieze. A designer who counted chose which face the stack ends on; a stack that runs into the cornice mid-unit was never counted. Adjust the group height and take the adjustment at the bottom, where the water table can absorb it."
+    },
+    {
+      "expression": "bed_joint_thickness_at_quoin_in / bed_joint_thickness_in_field_in",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.05,
+      "note": "Catches the dishonest fix. Absorbing a 6 in catalogue unit into a 5 1/2 in module by running a 5/8 or 3/4 in bed joint works dimensionally and thickens the joints visibly at the corner — the exact opposite of what a quoin means, since a quoin is the tightest, best-laid masonry on the building."
+    }
+  ],
+  "co_occurs_with": [
+    "quoin-as-veneer-return",
+    "flemish-bond-in-a-single-wythe"
+  ],
+  "inverted_by": [
+    {
+      "style": "contemporary-traditional",
+      "statement": "Where the corner is FRAMED the whole rule inverts and the masonry numbers become the fault: a wood corner at 16-18 in is roughly twice too wide, and the measured answer is 6-10 in sized by the casing beside it. This is the pack conflict the 0.3.0 corner_quoin / corner_board split was made to resolve, and it is the one place in this corpus where applying the correct rule to the wrong assembly is itself the named error."
+    }
+  ]
+}

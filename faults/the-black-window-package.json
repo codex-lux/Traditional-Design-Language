@@ -1,0 +1,236 @@
+{
+  "id": "the-black-window-package",
+  "name": "Black windows on everything",
+  "aka": [
+    "the black frame upgrade",
+    "dark sash by default"
+  ],
+  "slots": [
+    "color_strategy"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "Every window on the house in a factory black or bronze finish — frame, sash and grille together — against white trim and a light body. The openings read as a row of black rectangles, and the grilles, which are usually applied to the glass surface, dissolve into the frame so the whole window becomes a single dark shape.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Black exterior is a manufacturer's stock finish option carrying a modest upcharge, heavily marketed since about 2015, and it is chosen in a showroom against a white wall sample at 3 ft. It also solves a real problem: it hides the visual clutter of a modern window unit — the sash lock, the weep slots, the balance covers, the wide meeting rail — by putting all of it in shadow.",
+    "cost_saved": "Nothing saved; black costs $60-$180 per unit MORE than white. The driver is a catalogue option chosen in a showroom against a white wall sample at 3 ft, not a budget one — which is exactly why naming it as a default rather than a decision matters, and why the two-tone fix is usually free.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / color_strategy",
+      "statement": "Trim is the same colour as the body or lighter, never darker; shutters and the door are the only elements permitted to be darker than the wall."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the colour of the sash controls whether a window reads as a grid or as a void",
+      "statement": "Light sash makes the muntins read as a positive pattern against the dark glass and makes the window read as a grid of small lights. Dark sash merges the muntins with the glass and makes the window read as a single dark opening. Both effects are legitimate and both are period; which one you want is a style decision, and it is the decision the black package removes."
+    }
+  ],
+  "correct_practice": "Take a position rather than a default, and separate the three parts. Dark sash is NOT an anachronism — 17th and early 18th century Anglo-American sash was frequently painted a dark colour, and dark green, Spanish brown and near-black sash are documented right through the 19th century; a dark sash on a light-trimmed opening is one of the most convincing period effects available, because it makes the opening read as a void in a wall, which is what an opening in a mass wall is. What IS an anachronism is the package: frame, sash, grille and often the trim capping all in one flat factory black, so that no distinction survives between the fixed frame (which belongs to the wall) and the movable sash (which does not). The period logic is a hierarchy: the architrave belongs to the wall and takes the trim colour; the frame and the sash are joinery and may be darker; the muntins are the finest members and their colour decides how the window reads. Where a style wants a grid — Georgian, Federal, Colonial Revival — paint the sash white or light and let the muntins draw. Where a style wants a void — Tudor Revival with leaded casements, Spanish and Mediterranean work, and any genuine mass wall — dark sash is correct and effective. Do not apply either to all styles at once.",
+  "fixes": {
+    "right": "Decide sash colour per style, distinguish frame from sash, and if the sash is dark make the muntins as slender and as deeply profiled as the assembly allows, because dark muntins that are also fat and flat are the worst of every option.",
+    "cheap": "Split the difference at no cost: order black EXTERIOR frames if the client wants them, and specify white or light sash and muntins. Most manufacturers offer this as a standard two-tone option at little or no upcharge, and it recovers the whole distinction between the wall's opening and the joinery within it. If two-tone is unavailable, keep the trim white and go dark only on units in a genuinely deep reveal, where the shadow was going to darken the sash anyway.",
+    "dishonest": "Black windows with a snap-in white grille, or with a black grille sandwiched between the panes. Both defeat the point in opposite directions: the first puts a light pattern on a dark frame with no relief so it reads as printed, and the second is invisible at any distance because a dark grille inside dark glass has no contrast to read by. If the sash is dark, the muntins must have real depth — a putty-glazed or simulated-divided-light bar with a spacer and an exterior profile of at least 5/8 in — or they will vanish and the window will be a black hole."
+  },
+  "detection": "Ask whether the muntins are visible at distance. Photograph or view the house from 40-60 ft. If the divided lights are legible at that distance the window is working; if the window reads as a solid dark rectangle, the grille is doing nothing and the house has fewer, larger, blanker openings than it was drawn with. Second, check for the two-tone distinction: is the frame the same colour as the sash? Third, look at the style: black sash on a Georgian, Federal or Colonial Revival house with 6/6 or 9/9 lights is fighting the style's own preference for a legible grid, whereas black casements on a Tudor Revival house are correct. Fourth, glare: factory black on a vinyl or clad frame has a semi-gloss surface and produces a hard specular line on the frame's face in sun, which no painted period sash did.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "tudor-revival",
+      "why": "Steel casements — genuinely black or dark bronze, with slender leaded or rectangular lights — are correct and characteristic. The dark frame is the historical product, not a finish option.",
+      "bounds": "Requires slender sections: a genuine steel casement's frame is 1 to 1 1/2 in wide, against a clad wood unit's 3-4 in. A fat black frame in a Tudor opening reads as the modern product it is.",
+      "bounds_test": {
+        "expression": "frame_section_face_width_in",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "A genuine steel casement's frame is 1 to 1 1/2 in wide against a clad wood unit's 3-4 in. A fat black frame in a Tudor opening reads as the modern product it is, and the slenderness is the whole reason the dark colour works."
+      },
+      "applies_when": {
+        "slots": [
+          "window_type",
+          "glazing_assembly"
+        ]
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Dark joinery — oiled or stained wood, dark painted sash, wrought iron — against a limewashed wall is correct, and the deep reveal darkens the opening anyway.",
+      "bounds": "The wall must have the reveal. Black sash flush in a thin stucco wall is a graphic effect, not a void.",
+      "bounds_test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 6,
+        "note": "The wall must have the reveal. Black sash flush in a thin stucco wall is a graphic effect, not a void."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ]
+      }
+    },
+    {
+      "style": "mediterranean-revival",
+      "why": "As above.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 6,
+        "note": "As above."
+      }
+    },
+    {
+      "style": "english-medieval-timber-frame",
+      "why": "Dark oak mullions and leaded lights are the actual construction.",
+      "bounds": "Real mullions of real section.",
+      "bounds_test": {
+        "expression": "mullion_face_width_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 3,
+        "note": "Real mullions of real section, in oak, doing structural work."
+      }
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "A knowingly modern window in a traditional composition may be black, and the honesty of not pretending to be a period sash is defensible.",
+      "bounds": "Then do not add a grille. A black modern window with no divided lights is a defensible choice; a black modern window with a snap-in colonial grille is two claims that contradict each other.",
+      "bounds_test": {
+        "expression": "divided_light_bars_per_sash",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "A black modern window with no divided lights is a defensible choice; a black modern window with a snap-in colonial grille is two claims that contradict each other. The bound is zero grille bars, not a depth."
+      },
+      "applies_when": {
+        "slots": [
+          "window_lite_pattern",
+          "glazing_assembly"
+        ]
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Dark green or near-black sash against white trim and a white body is documented and highly effective, because it makes the openings read as voids punched in a marble mass.",
+      "bounds": "Requires white or very light trim to contrast against — the effect is the contrast, not the black. Black sash in black trim on a white body is a different and later idea.",
+      "bounds_test": {
+        "expression": "trim_lightness / sash_lightness",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 2.0,
+        "note": "The effect is the CONTRAST, not the black: dark sash reads as a void punched in a marble mass only against white or very light trim. Black sash in black trim on a white body is a different and later idea."
+      },
+      "applies_when": {
+        "slots": [
+          "color_strategy",
+          "window_surround_wood"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "dark-trim-inversion",
+      "difference": "Sash is joinery and is allowed to be dark; trim is part of the wall and is not. Conflating them is exactly how the black package spreads from the window to the casing."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, color_strategy (shutter_colour, period_palette)",
+    "NPS Preservation Brief 9: The Repair of Historic Wooden Windows",
+    "NPS Preservation Brief 13: The Repair and Thermal Upgrading of Historic Steel Windows",
+    "Roger W. Moss, Paint in America"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "colour",
+    "windows",
+    "anachronism",
+    "catalogue-default"
+  ],
+  "test": {
+    "expression": "muntin_exterior_profile_depth_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "site-visit",
+    "threshold": 0.625,
+    "note": "If the sash is dark, the muntins must have real depth — a putty-glazed or simulated-divided-light bar with a spacer and a genuine exterior profile — or they will vanish into the glass and the window becomes a black hole. A snap-in grille has zero exterior relief and fails outright; a surface-applied SDL bar without an internal spacer typically reads under 5/8 in."
+  },
+  "secondary_tests": [
+    {
+      "expression": "muntin_to_glass_luminance_contrast",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.15,
+      "note": "The photograph-available version, and the test that decides whether the window works at all. Photograph from 40-60 ft: if the divided lights are legible, the grille is doing its job; if the window reads as a solid dark rectangle, the house has fewer, larger, blanker openings than it was drawn with. A dark grille between the panes fails this outright — it has no contrast to read by."
+    },
+    {
+      "expression": "frame_lightness / sash_lightness",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.85,
+      "note": "The two-tone test, and the free fix. The architrave belongs to the WALL and takes the trim colour; the frame and sash are joinery and may be darker; the muntins decide how the window reads. A ratio at 1.0 means frame, sash and grille are one flat factory black and no distinction survives — which is the package, as opposed to the legitimate choice of dark sash."
+    },
+    {
+      "expression": "brightest_pixel_value_on_the_frame / mean_pixel_value_on_the_frame",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.5,
+      "note": "Factory black on a clad or vinyl frame has a semi-gloss surface and produces a hard specular line along the frame face in sun. No painted period sash did this."
+    }
+  ],
+  "co_occurs_with": [
+    "dark-trim-inversion",
+    "white-trim-on-everything"
+  ],
+  "severity_by_style": [
+    {
+      "style": "tudor-revival",
+      "severity": "not-applicable",
+      "why": "Genuinely black or dark bronze steel casements are the historical product, not a finish option."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "A 6/6 or 9/9 sash is meant to read as a legible grid of small lights, and a black package erases the grid at the distance the facade is actually seen from."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "severity": "minor",
+      "why": "Dark joinery against a limewashed wall is correct, and a deep reveal darkens the opening anyway."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "tudor-revival",
+      "statement": "White sash is the fault. The leaded or rectangular lights want a dark, slender steel or steel-imitating section, and a white frame turns a Tudor casement group into a Colonial Revival window band."
+    },
+    {
+      "style": "english-medieval-timber-frame",
+      "statement": "White sash is the fault: dark oak mullions and leaded lights are the actual construction, not a colour choice."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "statement": "White sash is the fault where the wall is limewashed and the joinery tradition is dark oiled wood and wrought iron."
+    }
+  ]
+}

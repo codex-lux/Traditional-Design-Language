@@ -1,0 +1,233 @@
+{
+  "id": "insulated-unit-defeats-the-divided-lite",
+  "name": "What The Sealed Unit Does To The Sash",
+  "aka": [
+    "the IGU tax",
+    "the fattened muntin and the deepened sash"
+  ],
+  "slots": [
+    "glazing_assembly",
+    "window_type",
+    "window_lite_pattern"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "Every dimension of the sash has grown by a fixed increment that nobody chose. The muntin has gone from 7/8 in to 1 1/8 or 1 1/4 in, the sash from 1 3/8 in deep to 1 3/4 in or more, the stiles and rails have widened to carry the extra weight and glazing rebate, and the frame around the whole unit has thickened. The window looks correct in plan and heavy in elevation, and the glass area has shrunk inside an unchanged opening.",
+  "cause": {
+    "driver": "code",
+    "explanation": "The energy code requires an assembly U-factor that single glazing cannot reach, so the unit is sealed. A sealed unit needs a perimeter edge seal of roughly 5/8 in that has to be concealed behind the sash and the muntin, and that single dimension propagates through the whole sash. This is the reason manufacturers state a true divided lite in insulated glass at 1 1/8 in and not narrower: the bar has to hide two edge seals meeting back to back. The dimension is not a preference and cannot be argued with; it can only be designed around.",
+    "cost_saved": "None. The sealed unit costs more than single glazing. This fault is produced entirely by a requirement, which makes it the one in this group that most needs its consequences stated rather than deplored."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / glazing_assembly / muntin_width_insulated_min",
+      "statement": "1 1/8 to 1 1/4 in. What a true divided insulated unit actually forces. The number is the argument."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / glazing_assembly / sash_depth_insulated_min",
+      "statement": "1 3/4 in against the historic 1 3/8 in."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_lite_pattern.width",
+      "statement": "muntin 7/8 in, sash depth 1 3/8 in, stile 2 in. The historic set the sealed unit displaces."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / glazing_assembly / interior_storm_u_factor",
+      "statement": "About 0.35 for a single-glazed sash with a well-fitted interior panel, cited as an order of magnitude."
+    }
+  ],
+  "correct_practice": "Decide which dimension the building cannot afford to lose, and protect that one. The muntin section is the most diagnostic dimension on a traditional facade — it dates the window more reliably than the light count does, because light counts were revived in the twentieth century and muntin sections mostly were not. Three honest routes. First, single-glazed true divided sash at the historic 7/8 in bar with an interior storm panel or secondary sash, which reaches an assembly U of roughly 0.35 — comparable to a standard double-glazed unit — and preserves both the bar and the sash depth. Second, insulated true divided lites at 1 1/8 in, accepted knowingly, with the light count reduced so that fewer heavy bars do the work of more light ones. Third, a single insulated light with no divisions at all in a correctly proportioned sash, which is honest and correct for any date after about 1870. What is not available is the historic bar over a sealed unit, and pretending otherwise produces the spacer showing through beside the muntin.",
+  "fixes": {
+    "right": "Single-glazed true divided sash with an interior storm panel, which is also the route that keeps existing historic sash in place and outperforms replacement on embodied carbon by a wide margin.",
+    "cheap": "Keep the sealed unit and spend the difference on the count rather than the section. Move from 12/12 to 6/6 and from 6/6 to 2/2 as the bar gets wider: the bar's weight and the light's size have to stay in proportion, and the period itself made exactly this substitution as glass improved. This costs nothing and often saves money, and it produces a window that is honestly dated to the technology in it.",
+    "dishonest": "A narrow applied bar over a sealed unit whose spacer is wider than the bar, so a grey aluminium line shows on both sides of every muntin. The window then reads as having a triple bar, which no period assembly produced, and the effect is strongest in exactly the raking light that would otherwise have flattered it."
+  },
+  "detection": "Measure the muntin width against the sash stile width. Historic: 7/8 against 2 in, a ratio of about 0.44. Insulated: 1 1/8 to 1 1/4 against 2 1/2 to 3 in, and the whole grid coarsens. Then look for the spacer: in an oblique photograph a sealed unit shows a grey or black band 1/2 to 5/8 in wide just inside the glazing bead all the way round, which single glazing does not have. Third, measure glass area against opening area: a sealed-unit sash with the same rough opening loses 5 to 10 per cent of its glass to the thickened members, which shows as a heavier frame around a smaller light.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The style asks for muntins not less than 1 1/8 in, so the sealed unit's forced dimension coincides with the style's own requirement. Craftsman is the one common idiom where the IGU costs nothing in appearance.",
+      "bounds": "Vertical bars in the upper sash only over a single-light lower sash. The sash depth still grows, which shows at the meeting rail.",
+      "bounds_test": {
+        "expression": "muntin_width_in",
+        "threshold": 1.125,
+        "direction": "at-least",
+        "upper": 1.375,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Vertical bars in the upper sash only over a single-light lower sash. The sash DEPTH still grows and that shows at the meeting rail, so the exception is on the bar and not on the whole assembly."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Wide bars and came in rectilinear art glass are unaffected by the sealed unit's dimension.",
+      "bounds": "Casement bands with continuous head and sill courses.",
+      "bounds_test": {
+        "expression": "curved_elements_in_the_glazing_pattern",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Casement bands with continuous head and sill courses; rectilinear geometry only."
+      }
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom's window is a contemporary unit by intention and carries no claim to a pre-industrial section.",
+      "bounds": "The head-datum and proportion rules still apply, and where the idiom uses grids they should be few and wide rather than many and thin.",
+      "bounds_test": {
+        "expression": "grid_bars_per_sash",
+        "threshold": 4,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Where the idiom uses grids they should be FEW and WIDE rather than many and thin. The head-datum and proportion rules still apply in full."
+      },
+      "applies_when": {
+        "date_range": [
+          2010,
+          2030
+        ]
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Leaded panels in casements can be set into an insulated unit as an interior or captured leaded light without the sash-bar arithmetic applying.",
+      "bounds": "Real came in a real leaded panel; a came-pattern grille between panes is the between-glass grille fault.",
+      "bounds_test": {
+        "expression": "lead_came_face_width_in",
+        "threshold": 0.25,
+        "direction": "between",
+        "upper": 0.375,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Real came in a real leaded panel, captured in or behind an insulated unit. A came-pattern grille between panes is the between-glass grille fault, not this exception."
+      },
+      "applies_when": {
+        "construction": [
+          "leaded-casement"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "muntin-wider-than-its-date",
+      "difference": "That fault is the resulting appearance; this one is the mechanism and its full set of consequences, including sash depth and glass area."
+    },
+    {
+      "fault": "low-e-and-the-colour-of-the-glass",
+      "difference": "The other half of what the sealed unit does — geometry here, optics there."
+    }
+  ],
+  "sources": [
+    "Kolbe true divided lite specification, 1 1/8 in bar",
+    "Marvin divided lite options and spacer-bar SDL",
+    "NPS Preservation Brief 9",
+    "kits/georgian-colonial-american.kit.json glazing_assembly",
+    "IECC residential fenestration U-factor requirements"
+  ],
+  "confidence": "high",
+  "tags": [
+    "glazing",
+    "muntin",
+    "code-driven",
+    "mechanism"
+  ],
+  "test": {
+    "expression": "muntin_width_in",
+    "threshold": 1.0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The historic ceiling for Anglo-American work before about 1850. A sealed unit needs a 5/8 in edge seal concealed behind the bar, and a true divided lite in insulated glass therefore cannot go below about 1 1/8 in — manufacturers state this directly. The bar is not chosen; it is what the sealed unit leaves. This test is the point at which that becomes visible."
+  },
+  "secondary_tests": [
+    {
+      "expression": "sash_depth_in",
+      "threshold": 1.5,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "site-visit",
+      "note": "Historic 1 3/8 in against an insulated minimum of 1 3/4 in. HONEST LIMIT: not measurable from a street photograph. It shows at the meeting rail and in the reveal at close range, and it is the dimension that thickens every stile and rail downstream."
+    },
+    {
+      "expression": "glass_area_sqft / opening_area_sqft",
+      "threshold": 0.72,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The consequence a photograph CAN see: a sealed-unit sash in the same rough opening loses 5 to 10 per cent of its glass to the thickened members, which reads as a heavier frame around a smaller light."
+    },
+    {
+      "expression": "visible_spacer_band_width_in",
+      "threshold": 0.0,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "In an oblique photograph a sealed unit shows a grey or black band 1/2 to 5/8 in wide just inside the glazing bead all the way round; single glazing shows none. Where a narrow applied bar has been fitted over a wider spacer, the band shows on BOTH sides of every muntin and the window reads as having a triple bar, which no period assembly produced."
+    },
+    {
+      "expression": "assembly_u_factor",
+      "threshold": 0.35,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "site-visit",
+      "note": "The number that makes the honest route arguable: a single-glazed true divided sash with a well-fitted interior storm panel reaches roughly this, comparable to a standard double-glazed unit, while preserving the 7/8 in bar and the 1 3/8 in sash. Cited as an order of magnitude, not a rating."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "The style's constraint caps the muntin at 7/8 in and states that Georgian-width bars collapse it beyond fifty feet; the sealed unit's floor is above the style's ceiling, so the two cannot both be satisfied."
+    },
+    {
+      "style": "regency",
+      "severity": "fatal",
+      "why": "12 to 18 mm bars are the signature and are well below what a sealed unit permits."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The kit's own range of 1 1/8 to 1 1/4 in against a historic 7/8 in is a 30 to 40 per cent increase in the most diagnostic dimension on the building."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The style's floor is 1 1/8 in, which is exactly what the sealed unit forces. Craftsman is the one common idiom where the insulated unit costs nothing in appearance."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Wide bars and came in rectilinear art glass are unaffected."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "not-applicable",
+      "why": "A contemporary unit by intention, carrying no claim to a pre-industrial section."
+    }
+  ],
+  "alternative_to": [
+    "grille-between-the-glass",
+    "grille-on-one-face"
+  ],
+  "co_occurs_with": [
+    "muntin-wider-than-its-date",
+    "flat-grille-no-shadow-line",
+    "low-e-and-the-colour-of-the-glass"
+  ],
+  "deprecated_inheritance": {
+    "statement": "Single-glazed putty-bedded sash at a 7/8 in muntin and a 1 3/8 in section is the authentic assembly and the one every dimension in the opening system was calibrated to.",
+    "why_not_to_inherit": "On its own it is a U-factor of roughly 1.0 and an air-leakage path at every meeting rail, which no current energy code will accept and which no client should be asked to live with. Reproducing the assembly unmodified inherits a thermal performance that was tolerable only because the house was heated by open fires in rooms that were shut off from each other, and it exports the whole cost of the aesthetic decision to the occupant's fuel bill for sixty years.",
+    "modern_substitute": "Keep the exterior assembly and add the performance behind it: single-glazed true divided sash at the historic section with a well-fitted interior storm panel or an interior secondary sash, reaching an assembly U of about 0.35. This preserves the diagnostic dimension, keeps existing historic sash in place where it exists, and beats full replacement on embodied carbon by a wide margin. Where new sash is being made, a compression-sealed interior secondary in the same reveal does the same job."
+  }
+}

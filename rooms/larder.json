@@ -1,0 +1,230 @@
+{
+  "id": "larder",
+  "name": "Larder",
+  "aka": [
+    "cold larder",
+    "meat safe room",
+    "dairy (loosely)",
+    "cool room",
+    "garde-manger"
+  ],
+  "function_class": "storage",
+  "description": "A cold, dark, ventilated room for raw and perishable food - meat, game, dairy, fat. Unlike the pantry it is a piece of building physics rather than a piece of joinery: its whole performance comes from a north wall, thermal mass, and a stack of moving air, and if any one of those is missing it is a cupboard with a cold name. It is the room the refrigerator killed, and it is worth rebuilding for exactly one kind of client - the one who preserves, bakes, keeps game or grows vegetables in quantity - because there is still nothing that stores forty pounds of root vegetables, a hanging bird and a wheel of cheese as well as a properly built larder.",
+  "history": {
+    "appears": 1300,
+    "declines": 1935,
+    "replaced_by": "the domestic refrigerator",
+    "note": "See pantry for the pairing. The larder needs COLD; the pantry does not; the refrigerator supplies cold; therefore the refrigerator killed one and not the other, on a curve that follows household refrigerator ownership almost exactly - Kelvinator 1918, mass affordability with the Frigidaire and General Electric monitor-top units of the mid-1920s, roughly 85 per cent of US urban households by 1944. Britain lagged by twenty years and British larders were still being built into the 1950s, which is why the room is remembered there and forgotten in America. THE PHYSICS ARE WORTH KEEPING because they are the same physics a modern passive cold store needs: a north or north-east external wall; heavy shelves of slate, marble or thick stone, which are not for looks - stone at 55 degrees holds a joint of meat cold for hours after the door opens, and a timber shelf does not; a floor of stone, brick or quarry tile laid on the ground rather than on a joisted floor, so the earth is doing work; TWO vents on the same outside wall, one low and one high, screened with fine mesh, which produces a slow gravity stack that keeps the room 8 to 12 degrees below the house without any machinery; no heating pipe, no flue, no sun. A larder built to that specification runs at 45 to 55 degrees F in a British or northern American climate for nine months of the year."
+  },
+  "dimensions": {
+    "area_sf": [
+      20,
+      60
+    ],
+    "width_ft": [
+      4,
+      7
+    ],
+    "length_ft": [
+      5,
+      9
+    ],
+    "proportion": [
+      1.0,
+      1.8
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "THE NORTH EXTERNAL WALL, AND TWO VENTS ON IT. This is the only room in the catalogue whose critical dimension is an orientation. Without a north-facing external wall the room does not work at any size and should not be built. Given one: 16 to 18 in of stone shelf on the cold wall (deeper than a pantry shelf because it is holding trays and joints, not tins), a 36 in aisle, and 12 to 14 in of lighter shelving opposite gives 5 ft 6 in of width. HANGING HEIGHT is the other real dimension and it is forgotten: a hung bird or a side of bacon needs 5 ft of clear drop under the hook, so the ceiling wants 7 ft 6 in and a hook rail, not a shelf, on part of one wall."
+  },
+  "furniture": [
+    {
+      "item": "stone or slate shelf",
+      "footprint_in": [
+        60,
+        18
+      ],
+      "clearance_in": 0,
+      "note": "1 1/2 to 2 in slate, marble or honed limestone on brick or timber bearers, on the coldest wall, at 32 to 36 in. The thermal mass IS the appliance."
+    },
+    {
+      "item": "upper shelving, timber",
+      "footprint_in": [
+        60,
+        12
+      ],
+      "clearance_in": 0,
+      "note": "Lighter goods above; the cold sits low, so the coldest shelf is the bottom one and the arrangement should follow."
+    },
+    {
+      "item": "hook rail for hanging",
+      "footprint_in": [
+        48,
+        6
+      ],
+      "clearance_in": 60,
+      "note": "5 ft of clear drop. Game, bacon, herbs."
+    },
+    {
+      "item": "meat safe or fly-screened cupboard",
+      "footprint_in": [
+        36,
+        20
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "Perforated zinc or fine mesh panels. Where the room is not fully screened, the safe is."
+    },
+    {
+      "item": "low and high air vents",
+      "footprint_in": [
+        9,
+        9
+      ],
+      "clearance_in": 0,
+      "note": "Two 9 by 9 in air bricks or grilles on the same external wall, one at 12 in above the floor and one just under the ceiling, mesh-screened at 1/16 in against insects and vermin. This is the machinery."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.2,
+    "sides_lit": 1,
+    "orientation": "NORTH, and it is not a preference. A larder with any direct sun on it is a warm cupboard.",
+    "glazing_fraction": [
+      0.0,
+      0.04
+    ],
+    "note": "Dark by design - light degrades fat, dairy and cured meat, which is why a larder window is small, high and often obscured or shuttered, and why the shading and the deep reveal are part of the specification rather than a style choice. The multiplier is low because the room is deliberately shaded and half-lit; it needs an electric fixture to work in and no daylight at all to do its job."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "Off the kitchen or the scullery, within a few paces - a cold store at the far end of a service wing is a cold store used once a day. BUT NOT ON THE RANGE WALL: the cooking wall is the hottest surface in the house and a larder behind it is a warm cupboard. Adjoin the kitchen by a door, share a wall with the scullery, and keep every larder surface away from the range, the flue and the refrigerator's condenser.",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "scullery",
+        "why": "Rough preparation and cold storage together, both at the back and both on the north.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "cold-room",
+        "why": "Where both exist - larder for meat and dairy at 45-55 degrees, cold room for roots at 32-40 - they share the north wall and the vent strategy and should be planned as one cool zone.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "plant-room",
+        "why": "FATAL TO THE ROOM. A boiler, a water heater, an air handler, a refrigerator's condenser or a flue on the other side of any of the larder's walls destroys the temperature differential the whole room depends on. This is the rule that most often kills a modern reconstruction, because the plant room and the larder both get put in the leftover space at the back of the plan.",
+        "relation": "shared-wall",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "kitchen",
+      "scullery",
+      "back-hall",
+      "service-corridor"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "THE ROOM'S ENTIRE MECHANISM: low and high vents to the outside on the north wall, mesh screened, permanently open. A larder that is sealed and insulated like the rest of the house is a warm cupboard, and a larder ventilated to the INSIDE is a cold-air leak into the kitchen.",
+    "heat": "NONE, and the modern difficulty is that this room must be OUTSIDE the thermal envelope while the rooms around it are inside it - so the larder's walls to the house are insulated, its wall to the outdoors is not, and its ceiling is insulated. That is the opposite build-up to every other room in the house and it is drawn wrong nine times in ten.",
+    "electrical": "One sealed fixture. No heat-producing equipment of any kind, which rules out putting the wine fridge or the second refrigerator in here - their condensers dump heat into exactly the room you are trying to keep cold.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "larder",
+      "present": true,
+      "trim_grade": "none",
+      "note": "One of several, specialised: a meat larder, a game larder (sometimes a separate ventilated building), a dry larder, a dairy or milk room. The game larder as a small detached octagonal or square building with louvred sides is a real type and a delightful one."
+    },
+    {
+      "style": "british-vernacular",
+      "name_in_style": "larder",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Standard in British housing into the 1950s, on the north wall of the back kitchen, with a slate slab and an air brick. Millions were built and most survive as broom cupboards with a bricked-up vent."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "name_in_style": "milk room / cool room",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Often at the cellar head or in the springhouse rather than in the house - the American farm answer was to use the ground or the spring rather than a north wall, which works better and is why the springhouse is a separate building."
+    },
+    {
+      "style": "french-provincial-farmhouse",
+      "name_in_style": "garde-manger",
+      "present": true,
+      "trim_grade": "none",
+      "note": "With the same north wall, the same stone shelf and the same two vents. The physics do not vary by country."
+    },
+    {
+      "style": "colonial-revival",
+      "present": false,
+      "note": "By the date the style is being built, the refrigerator has arrived and the room is gone. A 'larder' in a 1925 Colonial Revival is a pantry misnamed."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "cool larder",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Worth building for the right client and only with the north wall and the two vents. Without them, build a pantry and call it one."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Vents through the exterior envelope must be insect- and rodent-screened; openings in the thermal envelope must be accounted for in the energy compliance calculation.",
+      "ref": "IRC R303.6, IECC R402",
+      "conflict": "THE REAL CONFLICT AND IT IS UNRESOLVED. A permanently open pair of vents is a hole in the building envelope, and the energy code has no category for a deliberately unconditioned room inside the building footprint. The correct move is to treat the larder as OUTSIDE the envelope - insulate and air-seal its walls and ceiling toward the house, leave its exterior wall uninsulated, and declare it unconditioned - which is exactly how a garage or an unheated porch is treated. Nobody does this, and the usual result is a larder detailed as a conditioned room with two holes in it, which fails the energy calculation and does not get cold either."
+    },
+    {
+      "requirement": "Not habitable space; no minimum ceiling height or light requirement.",
+      "ref": "IRC R303, R305"
+    }
+  ],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "saltbox",
+    "telescope-house",
+    "four-over-four",
+    "side-hall-double-pile",
+    "i-house",
+    "cape-cod-massing",
+    "townhouse-row",
+    "gambrel-block",
+    "charleston-single",
+    "hall-and-parlor"
+  ],
+  "slots": [
+    "service_zone_strategy",
+    "storage_strategy",
+    "room_adjacency_overrides",
+    "orientation_rule",
+    "daylight_strategy",
+    "construction_type"
+  ],
+  "faults": [
+    "plant-room-that-was-never-drawn",
+    "service-route-through-the-formal-plan",
+    "closet-depth-taken-from-the-room"
+  ],
+  "sources": [
+    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981)",
+    "Mrs Beeton, Book of Household Management (1861), on larder management and siting",
+    "US household refrigerator saturation, 1920-1950",
+    "IRC R303.6; IECC R402 for envelope treatment of unconditioned spaces"
+  ],
+  "confidence": "high"
+}

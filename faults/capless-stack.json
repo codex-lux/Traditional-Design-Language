@@ -1,0 +1,176 @@
+{
+  "id": "capless-stack",
+  "name": "The Chimney With No Hat",
+  "aka": [
+    "the extruded stack",
+    "concrete wash and cage"
+  ],
+  "slots": [
+    "chimney"
+  ],
+  "severity": "minor",
+  "severity_in_use": "serious",
+  "severity_trajectory": "Minor on day one, serious by year fifteen, and the mechanism is the reverse of the excuse. Corbelling was omitted because projecting courses collect water - but a flush concrete wash cracks at its bond to the brick, water enters the head of the stack, and the top three courses spall. The detail that was deleted for maintenance reasons is the one whose absence causes the maintenance.",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "A brick stack that simply stops. The top course is the last course, there is a poured concrete wash, and a stainless rain cap with a spark-arrestor cage is bolted over the flue. No corbel, no cap, no projection - the stack reads as an extruded rectangle, and the brightest object in the whole roofscape is a piece of stainless steel.",
+  "cause": {
+    "driver": "maintenance",
+    "explanation": "Corbelled courses need cut and gauged brick and they are the classic failure point on a chimney: every projecting course is a horizontal surface collecting water, and the freeze-thaw damage shows there first. A flat wash with a metal cap sheds better, comes with a warranty, and is what the mason has been trained since the 1970s to build. Code compounds it: a spark arrestor is required on solid-fuel appliances in most jurisdictions, and the manufactured cage is the cheapest way to demonstrate one.",
+    "cost_saved": "$300-900 per stack."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chimney / cap_courses",
+      "statement": "2-4 corbelled courses, or a moulded stone cap."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the top of a chimney is the only part seen against sky",
+      "statement": "Everything else on a chimney is seen against roof or wall. The top 18 in is seen against nothing, which is why every tradition put its detail there."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R1003.9.1",
+      "statement": "A spark arrestor is required on solid-fuel appliances in most jurisdictions, and the manufactured cage is the cheapest way to demonstrate one - which is how a code requirement puts a bright metal object on the one part of the chimney seen against the sky."
+    }
+  ],
+  "correct_practice": "The top 12-24 in of a chimney is where every building tradition spent its money, because it is the only part of the house seen in silhouette. Two to four corbelled courses stepping out half to three quarters of a brick each; or a moulded stone or cast cap projecting 2-3 in with a drip under it; and the clay flue liners standing 4-8 in proud above the cap, which is both correct practice and a real draught improvement. The projection is what gives the stack a shadow line at its top and stops it reading as a post. Where a spark arrestor is required it belongs inside the flue liner or as a low band around the liners, not as a chrome box sitting on the stack.",
+  "fixes": {
+    "right": "Corbelled cap, or a moulded stone cap with a drip, with the flue liners standing proud.",
+    "cheap": "Three corbelled courses at the top and the liners left proud: $200-400, and it is the most visible $300 anywhere on the roof. If the cap must be cast concrete, cast it with a 2 in overhang and a drip kerf rather than stopping it flush with the brick - same concrete, same pour, one extra form board.",
+    "dishonest": "A stamped-metal 'chimney crown' or a half-inch cast-stone cap stuck to the face of the stack, and above all a decorative shroud, which reads from the street as a garden ornament that has been left on the roof."
+  },
+  "test": {
+    "expression": "cap_projection_beyond_stack_face_in",
+    "threshold": 2.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Silhouette against the sky. A correct stack widens at the top; 2-4 corbelled courses stepping out half to three quarters of a brick each, or a moulded cap projecting 2-3 in with a drip. The projection is what gives the stack a shadow line at its top and stops it reading as a post."
+  },
+  "secondary_tests": [
+    {
+      "expression": "flue_liner_projection_above_cap_in",
+      "threshold": 4,
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "upper": 8,
+      "note": "Correct practice and a real draught improvement. Where a spark arrestor is required it belongs inside the liner or as a low band around it."
+    },
+    {
+      "expression": "count_of_horizontal_shadow_lines_in_the_top_18in_of_the_stack",
+      "threshold": 2,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The direct photographic form: a corbelled cap produces two or three parallel shadows in its last eighteen inches; a flat wash produces none."
+    }
+  ],
+  "detection": "Silhouette. Photograph the stack against the sky: a correct stack widens at the top and shows two or three horizontal shadow lines in its last eighteen inches, with one or more flue liners standing above. The fault shows a plain rectangle, usually with a bright metal object on top that is wider than the stack itself - and that metal object is the single most visible thing in the picture, which is the whole problem.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "spanish-colonial-revival",
+      "why": "The chimney is a plastered form terminated by a small tile hood or a sculpted cap; brick corbelling would be foreign to it.",
+      "bounds": "The termination must still project or be sculpted. A plastered box that simply stops is the same fault in a different material.",
+      "bounds_test": {
+        "expression": "cap_projection_beyond_stack_face_in",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The termination must still project or be sculpted. A plastered box that simply stops is the same fault in a different material."
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "The stack is a modelled adobe form, sometimes with a pot or a tile cap, and its top is soft rather than moulded.",
+      "bounds": "It must be modelled - a shaped hood, a pot, or a tapered top - not a flat termination with a metal cap.",
+      "bounds_test": {
+        "expression": "count_of_modelled_or_potted_terminations",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "It must be modelled - a shaped hood, a pot, or a tapered top - not a flat termination with a metal cap."
+      }
+    },
+    {
+      "style": "new-mexico-adobe",
+      "why": "As above; a chimney pot of clay or a stack of tiles is the traditional termination.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "count_of_modelled_or_potted_terminations",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "As above.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "count_of_modelled_or_potted_terminations",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "A clinker-brick or boulder stack may terminate in a single poured cap or a stone slab, and the deliberate absence of classical corbelling is consistent with the whole material argument of the style.",
+      "bounds": "The slab or cap must overhang 2-4 in with a visible shadow. Flush is still flush.",
+      "bounds_test": {
+        "expression": "cap_projection_beyond_stack_face_in",
+        "threshold": 2.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The slab or poured cap must overhang 2-4 in with a visible shadow. Flush is still flush."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "pueblo-revival",
+      "statement": "A corbelled brick cap is the fault. The stack is a modelled adobe form with a soft tapered top, a clay pot, or a stack of tiles."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "statement": "Brick corbelling is the fault; the termination is a plastered hood or a tile cap."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "short-stack",
+      "difference": "One is the last eighteen inches, the other is the whole height. A tall stack with no cap and a short stack with a fine cap are different failures."
+    }
+  ],
+  "co_occurs_with": [
+    "short-stack",
+    "vestigial-chimney-chase"
+  ],
+  "sources": [
+    "IRC R1003.9.1 (spark arrestors), R1003.11 (flue lining)",
+    "kits/georgian-colonial-american.kit.json chimney cap_courses",
+    "NPS Preservation Brief 2: Repointing Mortar Joints in Historic Masonry Buildings",
+    "HABS documentation of Chesapeake gable-end stacks"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chimney",
+    "profile-depth",
+    "cheap-to-fix",
+    "silhouette"
+  ]
+}

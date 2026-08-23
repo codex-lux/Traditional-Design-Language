@@ -1,0 +1,187 @@
+{
+  "id": "lawn-to-the-front-door",
+  "name": "The House Standing In A Field",
+  "aka": [
+    "the unenclosed lawn",
+    "no forecourt",
+    "the open front yard"
+  ],
+  "slots": [
+    "landscape_idiom",
+    "fence_wall",
+    "street_relationship"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "An unbroken sheet of mown grass running from the kerb to the front wall of the house, with no gate, no wall, no hedge, no forecourt, no change of level and no edge of any kind. The front door faces a lawn; the lawn faces the street; nothing marks the boundary between public and private except an unspoken agreement. The house, however well composed, appears to have been set down in a field, and a visitor crosses forty feet of undifferentiated ground with no sense of having arrived anywhere until they are at the door.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Not primarily cost - it is an inherited convention with a specific and traceable origin. The American open front lawn was argued for explicitly in the 1870s by Frank J. Scott and the suburban improvement literature, which held that front fences were selfish and that neighbouring lawns should merge into a continuous park; municipalities and then deed restrictions and HOA covenants encoded it, and by 1930 the unenclosed front lawn was the default in American residential development and in many places is mandatory. It is now cheap as well - turf is $0.60-$1.20 per sq ft against $45-$90 per ft for a fence - so the convention and the budget point the same way.",
+    "cost_saved": "$3,000-$9,000 for a forecourt enclosure of hedge, fence or wall on a typical suburban frontage; and the mowing is somebody else's problem."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / landscape_idiom / lawn-to-the-front-door = forbidden",
+      "statement": "An unenclosed lawn removes the first of the three thresholds and is why so many otherwise correct houses feel as though they are standing in a field."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / landscape_idiom / geometric-forecourt (canonical)",
+      "statement": "The landscape near the house is geometric and axial - forecourt, terraces, allee, walled garden in quarters - and it is composed WITH the elevation rather than around it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fence_wall",
+      "statement": "The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "no traditional settlement pattern put an unenclosed lawn between a house and a road",
+      "statement": "Farmstead, village, town and country house all enclose the ground immediately around the dwelling - a dooryard fence, a walled forecourt, a hedged garth, a court, a terrace, a paved plat - because that ground is used, because animals were loose, and because a threshold has to be somewhere. The unenclosed lawn is a specific nineteenth-century American invention with a named advocate and a date, and treating it as the neutral default is the single most consequential unexamined assumption in American residential site design."
+    }
+  ],
+  "correct_practice": "Enclose the ground the house stands on, and make the entrance sequence cross a boundary. The minimum device is an edge on the property line or just inside it - a hedge at 36 to 48 in, a painted picket at 42 to 54, a low wall with piers, or a change of level and material - with a gate or a gap on the entrance axis, so that the approach is: public way, threshold, forecourt, threshold, door. That is the three-threshold sequence, and the first threshold is the one modern work omits. The ground inside the enclosure is then composed with the elevation rather than around it: rectilinear, axial, symmetrical about the entrance where the house is formal; planting clipped and architectural near the house, with anything picturesque beginning beyond the enclosure if at all. Where a covenant forbids a front fence - which is common and is a real constraint - the enclosure can be made entirely with planting and level: a clipped hedge, a low retaining edge and a raised forecourt terrace do the whole job and are almost never prohibited. And the useful precision for the argument is that the alternative to a lawn is not necessarily a wall; it is an EDGE, and an edge can be 12 in high.",
+  "fixes": {
+    "right": "Make a forecourt: an enclosure on or near the property line with a gate on the entrance axis, and the ground inside it composed with the elevation.",
+    "cheap": "Plant the edge and raise the plat. A clipped hedge on the frontage at 36 to 42 in, with a gap on the entrance axis, costs $1,200-$3,000 and delivers the entire first threshold; raising the forecourt 6 to 12 in behind a low retaining edge costs about the same and delivers the second. Either alone transforms the approach, and both together give a modest house a sequence that a much grander one usually lacks. Where nothing may be built at all, a change of paving and a pair of piers or posts at the walk's beginning marks the threshold for a few hundred dollars.",
+    "dishonest": "A pair of tall evergreens flanking the front walk. Two vertical objects do not make an edge - they make a gateway with nothing attached to it - and at maturity they close over the walk and hide the elevation, which is the opposite of the intent. The related move, a curved bed of shrubs and mulch floating in the middle of the lawn, is decoration in a field and leaves the field exactly as it was."
+  },
+  "detection": "Look for an edge anywhere between the kerb and the front wall. Its absence is the fault, and the fault is present on the large majority of American houses built since 1930. In an aerial image the tell is that the lot boundaries are invisible - you cannot tell where one property ends and the next begins. On the ground, ask where a visitor would say they had arrived: if the answer is 'at the door' rather than 'at the gate', there is only one threshold. Third, look at where the house's own composition stops: a formal elevation with an axial door and no axial anything in front of it has lost half its sequence.",
+  "test": {
+    "expression": "thresholds_crossed_from_public_way_to_front_door",
+    "threshold": 2.0,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Count marked boundaries crossed: a gate, gap, pier pair, hedge break, step, or change of level or material at the property line counts as one; the front door counts as one. Two is the minimum for a composed approach and three is the historic norm. Endemic value is one."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "adam-style",
+    "greek-revival-american",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "palladian",
+    "jeffersonian-classicism",
+    "italianate-american",
+    "second-empire",
+    "queen-anne-american",
+    "tudor-revival",
+    "french-eclectic",
+    "cotswold-cottage-revival",
+    "new-urbanist-traditional",
+    "spanish-colonial-revival",
+    "mediterranean-revival",
+    "english-cottage-vernacular",
+    "dutch-colonial-american"
+  ],
+  "exceptions": [
+    {
+      "style": "rural-gothic-villa",
+      "why": "Downing's picturesque villa is deliberately set in an informally planted, unenclosed ground, with the lawn sweeping to the house and the boundary dissolved - it is the tradition that produced the American lawn, and within it the absence of a forecourt is the programme.",
+      "bounds": "The ground must actually be picturesque: irregular planting masses, a curved approach drive, specimen trees, a lawn with modelled ground rather than a flat mown rectangle. A flat turf panel between a kerb and a house is not a picturesque landscape, it is the residue of one.",
+      "applies_when": {
+        "date_range": [
+          1840,
+          1890
+        ]
+      }
+    },
+    {
+      "style": "gothic-revival-american",
+      "why": "Same picturesque programme, and the same author.",
+      "bounds": "Requires the informal planting and the curved approach; the ha-ha or a sunk boundary is the period device where a boundary is needed."
+    },
+    {
+      "style": "prairie-school",
+      "why": "The lawn merging into the house's own terraces and planters, with no fence, is part of the horizontal continuity the style is about - the boundary is made by low walls, planters and a change of level that belong to the building rather than to the lot.",
+      "bounds": "Those low walls and planters must be there. Prairie houses are full of built ground; a Prairie-styled house on a flat mown lot has taken the openness and left out the architecture that structured it."
+    },
+    {
+      "style": "ranch-style",
+      "why": "Post-war suburban development with an open front lawn is the type's actual setting and its own convention.",
+      "bounds": "The type usually compensates with a courtyard, a screen wall or a private rear garden. A ranch with an open front and nothing enclosed anywhere has no private outdoor ground at all."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "The house sits in a working landscape rather than a garden - but note that the historic farmstead almost always had a dooryard fence around the house itself, to keep stock out of the garden, and it is the field beyond that is unenclosed.",
+      "bounds": "The dooryard enclosure is the part that should be kept; the open field is the part that may be. Deleting the dooryard and keeping the field is exactly the fault."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "buried-base",
+      "difference": "Both are landscape faults at the front of the house. That one is planting pushed against the wall; this is the absence of planting or enclosure at the boundary. A house often has both, which is the worst arrangement: no edge at the street and no visible base at the wall."
+    },
+    {
+      "fault": "door-reached-only-from-the-driveway",
+      "difference": "That is the missing route; this is the missing enclosure it should have run through. A brick walk across an unenclosed lawn fixes one and not the other."
+    },
+    {
+      "fault": "fence-from-the-wrong-century",
+      "difference": "Presence against absence. A wrong fence is a minor fault; no fence at all is a serious one, because the sequence is missing rather than misspelt."
+    },
+    {
+      "fault": "thresholds-uncrossed",
+      "difference": "That fault counts the thresholds in the entry sequence as a whole. This one names the specific landscape convention that deletes the first of them, and dates it: the unenclosed American front lawn is an argued nineteenth-century invention, not a neutral default."
+    }
+  ],
+  "co_occurs_with": [
+    "door-reached-only-from-the-driveway",
+    "buried-base",
+    "setback-out-of-step-with-the-street"
+  ],
+  "severity_by_style": [
+    {
+      "style": "charleston-single-house",
+      "severity": "fatal",
+      "why": "The garden wall and its gate are the type's first threshold and the false door sits in them; without the wall the whole entry sequence is gone."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "severity": "fatal",
+      "why": "The type is an enclosure; an unenclosed one is not a version of it."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The forecourt is the first of three thresholds and its omission is why so many correct houses feel as though they stand in a field."
+    },
+    {
+      "style": "rural-gothic-villa",
+      "severity": "not-applicable",
+      "why": "The unenclosed picturesque lawn is the programme."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "An open front lawn is the type's own setting."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json landscape_idiom (lawn-to-the-front-door and foundation-planting forbidden, geometric-forecourt canonical), fence_wall and the three-threshold note",
+    "Frank J. Scott, The Art of Beautifying Suburban Home Grounds of Small Extent (1870), the explicit argument against front fences",
+    "Andrew Jackson Downing, A Treatise on the Theory and Practice of Landscape Gardening (1841) and The Architecture of Country Houses (1850), for the picturesque exception",
+    "NPS Preservation Brief 36, Protecting Cultural Landscapes",
+    "Municipal fence ordinances and residential deed restrictions prohibiting front-yard enclosure"
+  ],
+  "confidence": "high",
+  "tags": [
+    "site",
+    "landscape",
+    "threshold",
+    "forecourt",
+    "lawn",
+    "endemic",
+    "teaches"
+  ]
+}

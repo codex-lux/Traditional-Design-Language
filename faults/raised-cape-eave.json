@@ -1,0 +1,208 @@
+{
+  "id": "raised-cape-eave",
+  "name": "The Cape With Its Eave Raised",
+  "aka": [
+    "the tall Cape",
+    "knee-walled Cape"
+  ],
+  "slots": [
+    "eave_condition",
+    "height_proportion",
+    "roof_pitch"
+  ],
+  "severity": "fatal",
+  "severity_by_style": [
+    {
+      "style": "cape-cod-colonial",
+      "severity": "fatal",
+      "why": "The eave height is the type's defining measurement; raised, the type is gone whatever the trim does."
+    },
+    {
+      "style": "cape-cod-revival",
+      "severity": "fatal",
+      "why": "As above, and this is where it actually happens."
+    },
+    {
+      "style": "new-england-colonial",
+      "severity": "minor",
+      "why": "A full two-storey colonial has no eave-height rule of this kind; the fault only bites where a Cape is being claimed."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "The type is story-and-a-half by economy rather than by rule."
+    }
+  ],
+  "severity_in_use": "minor",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A Cape Cod with its eave 11 to 13 ft above the first floor instead of 8 ft to 9 ft 6 in, and a band of blank siding between the first-floor window heads and the cornice. The pitch may still be 10:12 and the trim may be immaculate, but the house has become a small two-storey colonial wearing a Cape's roof. The elevation is now half wall and half roof, where a Cape is one third wall and two thirds roof.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R305.1 requires 7 ft 0 in of ceiling height in habitable space, and R305.1.1 requires that height over at least 50 per cent of the required floor area in a sloped-ceiling room. Under a 10:12 roof on a 28 ft deep house, the area meeting that test is small, and every inch the plate rises converts unsaleable roof volume into countable, appraisable floor. Raising the plate 16-24 in typically adds 300-400 sf of habitable second floor. It is the single most profitable twenty inches on a small plan, and it is decided in a framing conversation, not a design one.",
+    "cost_saved": "Roughly $2,500-5,000 of extra framing and siding to gain 300-400 sf, which is $8-15 per sf against a build cost several times that. Nothing else on the house has that return."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "cape-cod-colonial",
+      "statement": "Eave height 8 ft 0 in to 9 ft 6 in above finished first floor, and the head of the first-floor window not more than 14 in below the underside of the cornice. This single rule separates every real Cape from every revival Cape."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "cape-cod-colonial",
+      "statement": "Wall to roof height ratio on the front elevation about 1:2 - the entire house reads as roof."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R305.1, R305.1.1",
+      "statement": "7 ft 0 in ceiling height in habitable space, over at least 50 per cent of the required floor area where the ceiling is sloped. Under a 10:12 roof on a 28 ft depth the compliant area is small, and every inch the plate rises converts unsaleable roof volume into countable floor."
+    }
+  ],
+  "correct_practice": "The Cape's defining rule is the eave DOWN. Eave 8 ft 0 in to 9 ft 6 in above finished first floor; the head of the first-floor window within 14 in of the underside of the cornice, with no frieze between them; ground-floor ceiling 6 ft 10 in to 7 ft 6 in; ridge 18-22 ft above grade; roof 9:12 to 12:12; depth 26-30 ft. The upstairs comes out of the roof volume and is paid for with pitch and depth, not with wall. Where a full second storey is genuinely required, the honest answers are other types that exist for the purpose: a garrison, a New England two-storey colonial, or a story-and-a-half with rear shed dormers.",
+  "fixes": {
+    "right": "Drop the plate back to 8 ft 6 in - 9 ft 0 in and take the second-floor area in depth (28-30 ft) and pitch (11:12 or 12:12) instead of in wall height.",
+    "cheap": "Keep the raised plate at the back and drop the front eave to Cape height, taking the headroom in a rear shed dormer running 50-75 per cent of the roof length and set back 18-36 in from the rear wall plane. The street elevation is restored at effectively zero cost, and rear-slope dormers on a Cape are a permissible later addition in the type's own terms.",
+    "dishonest": "Holding the eave high and shrinking the first-floor windows so the 14 in head-to-cornice relationship is satisfied at a smaller scale. This produces a Cape with mean little windows, which is a worse building than an honest two-storey."
+  },
+  "test": {
+    "expression": "(cornice_underside_height_in - first_floor_window_head_height_in) / first_floor_window_height_in",
+    "threshold": 0.25,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The single most reliable Cape measurement, and it needs no scale reference because it is a ratio between two things in the same photograph. A real Cape reads under 0.25; a raised-eave revival reads 0.5-0.9. The absolute rule behind it is that the window head sits within 14 in of the underside of the cornice with no frieze between them."
+  },
+  "secondary_tests": [
+    {
+      "expression": "wall_height_grade_to_eave_in / total_height_grade_to_ridge_in",
+      "threshold": 0.4,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A Cape is about 1:3 - the entire house reads as roof, with the wall roughly one third of the elevation and the roof two thirds. The fault reads 0.5 or greater."
+    },
+    {
+      "expression": "eave_height_above_finished_first_floor_in",
+      "threshold": 96,
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "elevation",
+      "upper": 114,
+      "note": "8 ft 0 in to 9 ft 6 in. This is the constraint the whole type hangs on, and it is the one the framer changes."
+    },
+    {
+      "expression": "roof_slope_angle_deg",
+      "threshold": 36.9,
+      "direction": "between",
+      "units": "deg",
+      "measurable_from": "photograph",
+      "upper": 45.0,
+      "note": "9:12 to 12:12. The upstairs is paid for with pitch and depth, not with wall."
+    }
+  ],
+  "detection": "In a straight-on photograph of the front, measure the vertical distance from the head of a first-floor window to the underside of the cornice, and divide by the window's own height. A real Cape reads under 0.25; the raised-eave revival reads 0.5 to 0.9. Second measure: wall height (grade to eave) over total elevation height (grade to ridge). A Cape is about 1:3; the fault is 1:2 or greater. Third and fastest, from any distance: if there is a continuous band of blank siding between the upstairs of the windows and the cornice, the eave has been raised.",
+  "applies_to": [
+    "cape-cod-colonial",
+    "cape-cod-revival",
+    "new-england-colonial",
+    "minimal-traditional"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-upland-vernacular",
+      "why": "A story-and-a-half Greek Revival house DOES carry a 2-4 ft knee wall above the first-floor window heads - and it makes that knee wall a deep frieze board with horizontal attic windows set into it. The frieze-band window is the honest resolution of exactly this problem, and no other American style does it.",
+      "bounds": "The knee wall must be expressed as a frieze band 10-20 in deep with the attic windows inside it, not as blank siding. The moment the band is siding rather than frieze, the licence ends.",
+      "bounds_test": {
+        "expression": "frieze_band_depth_in",
+        "threshold": 10,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 20,
+        "note": "The knee wall must be expressed as a frieze band with the attic windows set INSIDE it. The moment the band is siding rather than frieze, the licence ends."
+      }
+    },
+    {
+      "style": "greek-revival-northern",
+      "why": "Same device, at higher finish: the frieze-band attic window under a deep entablature is a defining tell of the style.",
+      "bounds": "As above; and the entablature must be one quarter to one fifth of the column or pilaster height.",
+      "bounds_test": {
+        "expression": "entablature_depth_in / column_or_pilaster_height_in",
+        "threshold": 0.2,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 0.25,
+        "note": "The frieze-band window only works under a real entablature at one quarter to one fifth of the column height."
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "The story-and-a-half farmhouse legitimately runs a knee wall to give upstairs headroom, and does not claim to be a Cape.",
+      "bounds": "It must not then take on the Cape's other signatures - the central chimney, the 32-38 ft five-bay front, the eaveless rake - because those together make a claim the wall height contradicts.",
+      "bounds_test": {
+        "expression": "count_of_cape_signatures_present",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Central chimney, 32-38 ft five-bay front, eaveless rake. Take on more than one of these and the wall height starts contradicting a claim the building is making."
+      }
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "why": "A full second storey inside the roof is the type's whole purpose, achieved by the gambrel's 20:12-24:12 lower slope rather than by raising the eave.",
+      "bounds": "By the gambrel, not by the plate: wall height to eave 9-12 ft is one storey plus knee wall, and above that the gambrel must do the work.",
+      "bounds_test": {
+        "expression": "wall_height_to_eave_ft",
+        "threshold": 9,
+        "direction": "between",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "upper": 12,
+        "note": "One storey plus knee wall. Above that the gambrel's 20:12-24:12 lower slope must be doing the work, not the plate."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "georgian-colonial-american",
+      "statement": "The eave DOWN is the fault. Dropping the cornice to the first-floor window heads on a two-storey formal house turns the second storey into a half storey and destroys the graduation the composition depends on."
+    },
+    {
+      "style": "garrison-colonial",
+      "statement": "As above - the second storey is meant to be full height and to overhang."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "ungraduated-storeys",
+      "difference": "That fault is about the relation of two full storeys to each other. This one is about a type whose defining measurement is the height of a single plate."
+    }
+  ],
+  "co_occurs_with": [
+    "ungraduated-storeys"
+  ],
+  "alternative_to": [
+    "dormer-wall"
+  ],
+  "deprecated_inheritance": {
+    "statement": "The Cape's authentic interior dimensions - a 6 ft 10 in to 7 ft 6 in ground-floor ceiling and a loft 6 ft 0 in to 7 ft 0 in at the ridge - are correct for the type and were built that way for two centuries.",
+    "why_not_to_inherit": "The loft dimension is below the IRC R305.1 minimum of 7 ft 0 in for habitable space, so it cannot be reproduced literally in a bedroom today; and the pressure to make it legal is exactly what raises the eave and destroys the type.",
+    "modern_substitute": "Take the headroom from pitch and depth rather than from plate height: 11:12 or 12:12 over a 28-30 ft depth gives a compliant upper floor at a Cape eave. Where that is not enough, put the difference in a rear shed dormer, which the type admits as a later addition, and leave the street elevation alone."
+  },
+  "sources": [
+    "IRC R305.1 and R305.1.1 (ceiling heights, sloped ceilings)",
+    "project style node cape-cod-colonial",
+    "HABS documentation of Cape Cod and Barnstable County houses",
+    "Ernest Allen Connally, 'The Cape Cod House: An Introductory Study', JSAH 19 (1960)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "eave",
+    "height",
+    "cape",
+    "type-fatal"
+  ]
+}

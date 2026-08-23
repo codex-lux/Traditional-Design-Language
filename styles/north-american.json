@@ -1,0 +1,37 @@
+{
+  "id": "north-american",
+  "name": "North American",
+  "rank": "tradition",
+  "member_of": null,
+  "status": "living",
+  "period": {
+    "origin": 1565,
+    "floruit_start": 1600,
+    "floruit_end": 2026,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Four centuries of transplanted European traditions hybridizing with new climates, new materials, new technologies, and a new social order to produce the world's most stylistically promiscuous residential architecture.",
+    "long": "North American residential architecture is not a style but a laboratory. Every European tradition arrives, meets a climate it was not designed for and a labor market that cannot supply its craft, and mutates. The mutations are the interesting part: the Georgian box grows a porch it never had in England, the Dutch gambrel outlives the Dutch, the Spanish courtyard opens up when it reaches a wetter latitude, and the log pen from Scandinavia becomes the substrate of an entire Appalachian building culture.\n\nThree technological ruptures organize the whole story. Balloon framing and machine-cut nails around 1840 make complex irregular massing cheap for the first time, and the Victorian era is the immediate consequence. The railroad and the mail-order catalog around 1890 make a house in Iowa identical to a house in Oregon, which produces both national styles and the first crisis of placelessness. The automobile after 1930 reorganizes the plan around the garage and the lot around the driveway, a problem no traditional style solved because none had to.\n\nThe fourth rupture is happening now, and it is worth naming plainly: design knowledge is moving from the drafting room into software. The question this taxonomy exists to answer is whether that movement carries the traditional grammar with it or leaves it behind. Every previous rupture that democratized building — the pattern book, the catalog, the tract plan — degraded proportion while extending access. There is no law requiring the next one to do the same."
+  },
+  "defining_characteristics": [
+    "Continuous hybridization of transplanted traditions under new climatic and economic conditions",
+    "The porch, the ell, and the accretive plan as characteristically American adaptations",
+    "Technological ruptures (balloon frame, catalog, automobile) as primary drivers of stylistic change",
+    "Revivalism as a permanent condition rather than an episode",
+    "Regional variation of national styles as the level at which real buildability lives"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

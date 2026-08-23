@@ -1,0 +1,236 @@
+{
+  "id": "flush-rake",
+  "name": "The Cardboard Gable",
+  "aka": [
+    "zero-overhang verge",
+    "the cut-out gable"
+  ],
+  "slots": [
+    "rake_condition",
+    "gable_treatment"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "24-36 in of rake carrying exposed purlins and knee braces is the style's structural argument; flush, there is nothing left."
+    },
+    {
+      "style": "swiss-chalet",
+      "severity": "fatal",
+      "why": "The 1.2-2.0 m gable overhang carried on stepped purlin ends is the type."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The verge should be tight, so the loss is thickness rather than projection - recoverable with a thick rake board and a crown."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "serious",
+      "why": "4-6 in of rake trim is correct and thin, but it must still stand proud."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "not-applicable",
+      "why": "A close, mortar-bedded verge with no overhang is correct English practice."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "severity": "not-applicable",
+      "why": "A plastered edge with no overhang is the rule."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "not-applicable",
+      "why": "0-12 in on both eave and rake is the type."
+    }
+  ],
+  "severity_in_use": "serious",
+  "severity_trajectory": "Minor on day one, serious by year ten. With no overhang the gable wall takes the full run-off from the roof plane; the siding, the rake trim and the window heads on the gable end weather two to three times faster than on the eave walls, and the paint fails at the verge first.",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "The roof stops at the gable wall with an inch or two of overhang or none at all. Roof surface and wall surface meet as two planes with a metal drip edge between them, and the gable end looks like a shape cut out of card. In photographs the gable has no edge - the roof plane and the wall run into each other with a single line and no shadow anywhere along the rake.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A rake overhang needs ladder framing - outlookers notched over the last common rafter - plus a sub-fascia, a rake soffit, a rake frieze and two extra flashings. It also complicates the siding, which now has to be cut to a rake soffit rather than run into a drip edge. Vinyl and fibre-cement siding programmes prefer a flush rake for exactly that reason, and the flush rake also removes the cornice return, which removes the hardest cut on the building.",
+    "cost_saved": "$8-14 per lineal foot of rake in framing and trim. On a house with 120 lf of rake, $1,000-1,700, plus the returns."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / rake_condition",
+      "statement": "rake_overhang 4-8 in; the rake carries a reduced version of the eave profile at a rake-to-cornice ratio of 0.5-0.7, and must die into the cornice return rather than meeting it in a mitre."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the rake's shadow comes from thickness, not from projection",
+      "statement": "A colonial verge is tight and thick. The overhang can be small; the depth of the raking member cannot be."
+    }
+  ],
+  "correct_practice": "This is the fault whose correct answer is not 'more overhang'. A colonial or Georgian rake is tight - 4 to 8 in - but tight and thick: a raking cornice board 6-8 in deep carrying a reduced version of the eave profile, bed mould and crown without the corona and modillions, at roughly 0.5-0.7 of the eave cornice's members. The shadow comes from the member standing proud of the wall, not from how far it sticks out past the roof. What may never be zero is the thickness. A rake board 1 1/4 in proud of the siding with a crown mould on it, projecting only 2 in past the roof, is a far better verge than a 12 in overhang finished in a flat board.",
+  "fixes": {
+    "right": "Ladder-frame the rake for 4-8 in of overhang and run a raking cornice of the eave's own members at reduced scale, dying into a proper cornice return at the bottom.",
+    "cheap": "Keep the flush rake and make the verge THICK: a 5/4 x 8 rake board standing proud of the siding, with a 2 in crown mould laid over the roof edge and bedded on the shingle course. This costs about $4 per lineal foot and buys a continuous shadow the full length of the rake, which is 80 per cent of what the overhang was going to buy.",
+    "dishonest": "A wider flat rake board with no moulding. It makes the gable heavier without giving it any relief, and a wide flat board in the same colour as the siding disappears entirely in flat light."
+  },
+  "test": {
+    "expression": "rake_member_projection_from_siding_face_in",
+    "threshold": 1.25,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "THICKNESS, not overhang - this is the fault whose correct answer is not 'more overhang'. A raking member standing 1 1/4 in proud of the siding throws a continuous shadow down the whole rake; a flush rake with a drip edge throws none however far it projects past the roof."
+  },
+  "secondary_tests": [
+    {
+      "expression": "rake_overhang_in",
+      "threshold": 4,
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "upper": 8,
+      "note": "The tight-verge family. Colonial and Georgian work runs 4-8 in; the deep-overhang styles are governed by their own exceptions, and the rake should almost never exceed the eave outside them."
+    },
+    {
+      "expression": "rake_shadow_continuity_along_verge_percent",
+      "threshold": 90,
+      "direction": "at-least",
+      "units": "percent",
+      "measurable_from": "photograph",
+      "note": "Photographed in raking afternoon light. A correct rake casts a shadow onto the wall along its entire length; a flush rake casts one nowhere."
+    }
+  ],
+  "detection": "Photograph the gable end in raking afternoon light. A correct rake casts a continuous shadow onto the wall below it along its whole length; a flush rake casts none. Then measure the rake overhang against the eave overhang in the same image: outside the deep-overhang styles the rake should be equal to or tighter than the eave, and it should never be zero while the eave is 12 in. Third check: at the ridge, look for whether the rake member has a visible end - a thick raking cornice shows its section at the peak, a flush rake shows nothing.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "24-36 in of rake, equal to the eave on all four sides, is definitional; the gable overhang carries exposed purlins and knee braces and the shadow is the deepest on the building.",
+      "bounds": "The overhang must be structurally expressed - purlins running through, knee braces, visible ridge beam. A 30 in overhang finished in a plain fascia is a Craftsman roof with the argument removed.",
+      "bounds_test": {
+        "expression": "rake_overhang_in",
+        "threshold": 24,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 36,
+        "note": "Equal to the eave on all four sides, with purlins running through and knee braces under. A 30 in overhang finished in a plain fascia is a Craftsman roof with the argument removed."
+      }
+    },
+    {
+      "style": "swiss-chalet",
+      "why": "Gable overhang 1.2-2.0 m against an eave of 0.8-1.5 m: the rake is deliberately deeper than the eave, carried on purlin ends stepping outward in a stack of three to five.",
+      "bounds": "The overhang must be carried on visible stepped purlins; an unsupported 1.5 m rake is not chalet construction.",
+      "bounds_test": {
+        "expression": "gable_overhang_in",
+        "threshold": 47,
+        "direction": "between",
+        "upper": 79,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "1.2-2.0 m, against an eave of 0.8-1.5 m, carried on three to five stepped purlin ends. An unsupported 2 m rake is not chalet construction."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "A close or clipped verge with no overhang at all is correct English practice, and 'a cross-gable whose rake meets the wall in a straight line' is a documented tell of the type.",
+      "bounds": "The verge must be bedded - tile or slate carried over a tilting fillet and pointed in mortar, or a shaped bargeboard hung clear of the wall. A nailed flat board with a drip edge is not a close verge; it is a flush rake with a Tudor label.",
+      "bounds_test": {
+        "expression": "rake_overhang_in",
+        "threshold": 2,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The verge must be bedded - tile or slate over a tilting fillet, pointed in mortar - or carry a shaped bargeboard hung clear of the wall."
+      },
+      "applies_when": {
+        "construction": [
+          "clay-tile-roof",
+          "slate-roof",
+          "stone-slate-roof"
+        ],
+        "note": "The close verge is a masonry detail. A nailed flat board with a drip edge under asphalt shingle is a flush rake with a Tudor label."
+      }
+    },
+    {
+      "style": "cotswold-vernacular",
+      "why": "The stone-slate verge is mortared tight to the gable coping with no projection.",
+      "bounds": "As above - the tightness must be masonry tightness, with a visible bedding joint and a kneeler or coping stone.",
+      "bounds_test": {
+        "expression": "rake_overhang_in",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Mortared tight to a coping with a visible bedding joint and a kneeler."
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Minimal or no overhang with a plastered edge is the rule; the wall runs up past the roof or the tile is bedded into the plaster.",
+      "bounds": "The edge must be plaster or tile, never a board.",
+      "bounds_test": {
+        "expression": "rake_overhang_in",
+        "threshold": 6,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The edge must be plaster or tile, never a board."
+      }
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "0-12 in of overhang on both eave and rake is the type, and the absence of a shadow line is precisely what the type records about its own economics.",
+      "bounds": "The whole trim vocabulary must keep faith: 2 1/4 in casing, no surround, no cornice.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The whole trim vocabulary must keep faith: 2 1/4 in casing, no surround, no cornice."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "craftsman",
+      "statement": "A tight rake is the fault. An overhang under 18 in on a Craftsman gable removes the style's argument, and one under 24 in with no exposed structure disqualifies it."
+    },
+    {
+      "style": "swiss-chalet",
+      "statement": "A rake tighter than the eave is the fault; the gable overhang is deliberately the deeper of the two."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "An overhang under 24 in on any side disqualifies the node."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "return-that-never-returns",
+      "difference": "A flush rake usually produces that fault as well, but a house can have a generous rake overhang and still fail to return it, and a tight verge can be returned perfectly."
+    }
+  ],
+  "co_occurs_with": [
+    "pork-chop-return",
+    "return-that-never-returns",
+    "gutter-as-cornice"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json rake_condition",
+    "project style nodes: craftsman, swiss-chalet, tudor-revival, minimal-traditional",
+    "NPS Preservation Brief 8 and 16 on substitute siding and trim materials"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rake",
+    "verge",
+    "profile-depth",
+    "endemic"
+  ]
+}

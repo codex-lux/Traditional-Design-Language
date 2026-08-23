@@ -1,0 +1,141 @@
+{
+  "id": "georgian-service-core",
+  "name": "Georgian Service Core",
+  "aka": [
+    "kitchen offices",
+    "service wing"
+  ],
+  "scale": "core",
+  "confidence": "high",
+  "description": "The kitchen and its dependencies, kept out of sight and often out of the main block entirely. In the Chesapeake the kitchen is a separate building; in New England it is the rear lean-to. Either way the logic is the same: heat, smell, noise and servants are separated from the formal rooms, and connected by a route no guest uses.",
+  "rooms": [
+    {
+      "room": "kitchen",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "scullery",
+      "role": "servant",
+      "count": "0-1"
+    },
+    {
+      "room": "pantry",
+      "role": "servant",
+      "count": "1-2"
+    },
+    {
+      "room": "larder",
+      "role": "servant",
+      "count": "0-1"
+    },
+    {
+      "room": "butlers-pantry",
+      "role": "connector",
+      "count": "0-1",
+      "note": "The buffer between service and dining, and the reason the dining room stays clean."
+    },
+    {
+      "room": "back-hall",
+      "role": "connector",
+      "count": "1"
+    },
+    {
+      "room": "cellar",
+      "role": "optional",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "A route from kitchen to dining room that crosses no formal room. This is the rule the whole grouping exists to satisfy.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "The back stair is separate from the main stair and lands in the back hall, not on the formal landing.",
+      "kind": "circulation",
+      "severity": "strong",
+      "exceptions": [
+        "cape-cod-colonial"
+      ]
+    },
+    {
+      "statement": "The larder faces north and has no direct sun. A south-facing larder is a warm cupboard.",
+      "kind": "daylight",
+      "severity": "hard"
+    },
+    {
+      "statement": "Ridge and eave of a service wing sit below the main block, and the drop is legible from the street. A service wing at full height is a second house.",
+      "kind": "hierarchy",
+      "severity": "hard",
+      "test": "wing_ridge_ft / main_ridge_ft at-most 0.85"
+    },
+    {
+      "statement": "Where the kitchen is detached, the covered way is roofed and not more than about 40 ft — beyond that the food arrives cold and the connection stops being used.",
+      "kind": "dimension",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "five-part-palladian",
+      "fit": "canonical",
+      "position": "one dependency, joined by a hyphen"
+    },
+    {
+      "massing": "saltbox",
+      "fit": "canonical",
+      "position": "the rear lean-to — the whole reason the type exists"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "fit": "canonical",
+      "position": "the first link after the big house"
+    },
+    {
+      "massing": "four-over-four",
+      "fit": "common",
+      "position": "rear ell"
+    },
+    {
+      "massing": "telescope-house",
+      "fit": "common",
+      "position": "the second and third sections"
+    }
+  ],
+  "expansion_logic": "Add links. The connected farmstead is this grouping taken to its logical end, and each new need becomes a new lower, narrower section.",
+  "privacy_span": [
+    3,
+    4
+  ],
+  "typical_area_sf": [
+    400,
+    1200
+  ],
+  "servicing_strategy": "Its own stack, its own water, its own stair. The whole point is that it can run without touching the formal house.",
+  "circulation_parti": [
+    "center-hall",
+    "cross-passage",
+    "additive"
+  ],
+  "style_variation": [
+    {
+      "style": "tidewater-georgian",
+      "note": "Kitchen detached in the yard, joined by a covered way. Fire risk and heat, not squeamishness."
+    },
+    {
+      "style": "new-england-colonial",
+      "note": "Rear lean-to with the kitchen at the centre and the buttery and dairy at the cold ends."
+    },
+    {
+      "style": "charleston-georgian",
+      "note": "Detached kitchen house in the rear yard, with quarters above."
+    }
+  ],
+  "sources": [
+    "Cromley, The Food Axis",
+    "Waterman, The Dwellings of Colonial America",
+    "Hubka, Big House, Little House, Back House, Barn"
+  ]
+}

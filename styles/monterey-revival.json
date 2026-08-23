@@ -1,0 +1,198 @@
+{
+  "id": "monterey-revival",
+  "name": "Monterey Revival",
+  "aka": [
+    "Monterey style",
+    "Monterey Colonial Revival"
+  ],
+  "rank": "variant",
+  "member_of": "spanish-colonial-revival",
+  "status": "revival",
+  "period": {
+    "origin": 1925,
+    "floruit_start": 1929,
+    "floruit_end": 1955,
+    "decline_end": 1960,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "California",
+      "Southwest United States",
+      "Texas"
+    ],
+    "hearth": "Monterey and Los Angeles, California",
+    "climate_zones": [
+      "3B",
+      "3C",
+      "2B",
+      "4B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "spanish-colonial-revival",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "monterey-colonial",
+      "type": "revives",
+      "weight": 1,
+      "inherits_kit": false,
+      "note": "A deliberate resurrection of a style that had itself lasted barely twenty years, after a gap of roughly eighty."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "hybridizes_with",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The revival draws its sash, shutters, panelled doors, and much of its trim from the Colonial Revival vocabulary rather than from anything Californian — reproducing at second hand the same Anglo-Hispanic hybridity the original had at first hand."
+    },
+    {
+      "target": "andalusian-spanish-revival",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": true
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The professional channel: California offices trained in academic composition, working from the state's own newly-valued historical fabric."
+    }
+  ],
+  "description": {
+    "short": "The 1930s revival of California's brief Anglo-Hispanic hybrid, defined by a full-width second-storey cantilevered balcony running across a two-storey block under a low-pitched tile or shingle roof.",
+    "long": "The original Monterey style existed for about two decades. Thomas Larkin, a New England merchant who arrived in Mexican California in 1832, built himself a house that used adobe walls in the local manner, a hipped roof and framing in the manner of the Massachusetts he had left, and a two-storey balcony across the front that belonged fully to neither. Others copied it, California became American, redwood and milled lumber arrived, and the type was gone by the 1850s. It is a genuine hybrid produced by a genuine collision, and the collision lasted about as long as such things usually do.\n\nWhat makes the revival interesting is that it is a hybrid of a hybrid, and its second-generation blending runs in exactly the same direction as the first. The 1930s Monterey house takes the balcony, the two-storey mass, and the low roof from Larkin's building, and then furnishes it with double-hung sash, operable shutters, six-panel doors, and clapboard or board-and-batten on the upper storey — all of which come from the Colonial Revival millwork catalog rather than from anything in California history. The result reproduces, by an entirely different mechanism, the same Anglo-Hispanic doubling the original had achieved by accident. That is not a criticism of it. It is the reason the style works: the revivalists correctly identified what the original was about and rebuilt it from the materials they had.\n\nThe balcony is the whole thing, and it is a better piece of architecture than it usually gets credit for. Running the full width of the elevation, cantilevered or carried on slender posts, roofed by the main roof, it shades the entire upper south wall, gives every upstairs room an outdoor extension, and holds the two-storey mass down against the ground so that a fairly large house reads as a low one. It also solves the problem that defeats most two-storey traditional houses in hot climates: what to do with an upper storey that has no porch. The answer here is unusually elegant, and it is available to any builder willing to commit to a continuous element rather than a decorative fragment.\n\nMonterey Revival was popular enough in California suburban tracts through the 1940s and early 1950s to constitute one of the last genuinely traditional production styles before Minimal Traditional and the Ranch absorbed the market. It is worth studying as the end of a line."
+  },
+  "defining_characteristics": [
+    "Two full storeys — the type does not exist as a single-storey house",
+    "A cantilevered or post-supported balcony running the full width of the principal elevation at the second floor, roofed by the main roof",
+    "Low-pitched side-gable or hipped roof, 3:12 to 6:12, in clay tile or wood shingle",
+    "Stucco at the ground floor, frequently with a lighter material — clapboard, board-and-batten, or shingle — at the second storey",
+    "Double-hung sash with operable shutters, panelled entry door, and trim drawn from Anglo-American rather than Spanish practice",
+    "Simple rectangular or L-shaped massing with restrained ornament; iron or turned-wood balcony rail",
+    "A deliberate, legible pairing of Spanish and New England elements within one composition"
+  ],
+  "diagnostic_tells": [
+    "The balcony runs the entire elevation without interruption — a partial or centred balcony is a different and lesser thing",
+    "Stucco below and wood siding above, with the material change occurring exactly at the balcony floor line",
+    "Shutters and double-hung sash appearing on a tile-roofed stuccoed house",
+    "A slender, almost thin balcony rail and posts, quite unlike the heavy iron of the parent style",
+    "Roof overhang modest and even, with no decorative rafter tails"
+  ],
+  "distinguished_from": [
+    {
+      "node": "monterey-colonial",
+      "difference": "The original, c. 1835-1855, is built of true adobe with walls two to three feet thick, has small irregular openings, and was produced by an actual collision of Mexican and New England building practice in a place where both were present. The revival is frame construction with stucco cladding, has larger and regularly spaced openings, and reconstructs that collision deliberately from published sources eighty years later."
+    },
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "The parent style is asymmetrical, courtyard-oriented, ornamented at a focal entry, and predominantly single-storey or irregular in height. Monterey Revival is a frontal, near-symmetrical two-storey block whose entire architectural argument is a single horizontal balcony."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Colonial Revival shares the sash, shutters, and trim vocabulary but places them on a steep-roofed, symmetrical, wood- or brick-clad Georgian-derived box. Monterey Revival puts the same trim on a low-roofed stuccoed mass with a full-width upper balcony, which no Colonial Revival house has."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the horizontal balcony line, which divides the elevation and sets the reading of the whole. No classical module.",
+    "typical_ratios": [
+      "Balcony depth 6'-8'; below 6' it fails as usable space and reads as trim",
+      "Ground-floor storey height 9'-10'; second floor 8'-9'",
+      "Balcony line placed so the lower mass reads as the heavier of the two, roughly 55:45",
+      "Roof pitch 3:12 to 6:12"
+    ],
+    "bay_rhythm": "Three to five bays, evenly spaced, with the entry centred or set one bay off centre.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "common"
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common"
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "canonical",
+      "note": "The Monterey balcony is a gallery raised to the second storey and reduced to one face."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible"
+    },
+    {
+      "massing": "ranch-linear",
+      "affinity": "forbidden",
+      "note": "Single-storey massing eliminates the balcony and with it the type."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "The balcony must run the full width of the principal elevation and be not less than 6 feet deep. A centred or partial balcony, or one under 6 feet, converts the house into an ordinary two-storey stucco box with a decorative appendage.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The balcony must be sheltered by the main roof or by a continuous integral roof, never by a separate applied canopy.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Where a material change occurs between storeys it must fall exactly at the balcony floor line and continue around any return. A material change that stops at an outside corner is the characteristic production-housing failure.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Shutters, where used, must be sized to cover the full opening and hung on real hardware. Half-width shutters are more conspicuous on this style than on most, because the sash is the only Anglo element carrying the hybrid argument.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Principal balcony elevation should face within 60 degrees of south or west, where the shading it provides is worth its cost.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Larkin House",
+      "location": "Monterey, California",
+      "year": 1835,
+      "note": "The original from which the revival takes its name and its balcony; National Historic Landmark. Cited here as the referent, not as an example of the revival."
+    },
+    {
+      "name": "Casa Amesti",
+      "location": "516 Polk Street, Monterey, California",
+      "year": 1834,
+      "note": "Adobe with a full-width second-storey balcony; interiors remodelled by Frances Elkins in the 1920s, which is itself part of how the type re-entered fashionable circulation."
+    },
+    {
+      "name": "Cliff May's early Monterey-mode houses",
+      "location": "San Diego and Los Angeles, California",
+      "year": 1932,
+      "note": "May's pre-Ranch work in the early 1930s; individually documented examples are best cited through the Cliff May papers rather than by single address."
+    }
+  ],
+  "sources": [
+    "McAlester, A Field Guide to American Houses",
+    "Gebhard, Architecture in California",
+    "Kirker, California's Architectural Frontier",
+    "Winter, Toward a Simpler Way of Life: The Arts and Crafts Architects of California",
+    "Hess, The Ranch House"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "hybrid",
+    "balcony",
+    "california",
+    "revival-of-a-revival"
+  ]
+}

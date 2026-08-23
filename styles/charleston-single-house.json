@@ -1,0 +1,202 @@
+{
+  "id": "charleston-single-house",
+  "name": "Charleston Single House",
+  "aka": [
+    "Charleston Single",
+    "single house",
+    "piazza house"
+  ],
+  "rank": "style",
+  "member_of": "american-folk-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": 1720,
+    "floruit_start": 1740,
+    "floruit_end": 1890,
+    "decline_end": 1890,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1920,
+        "end": 2026,
+        "revival_node": "colonial-revival",
+        "note": "Charleston's 1931 zoning ordinance - the first historic district in the United States - froze the type and then licensed a continuous stream of new single houses, so the form has never actually stopped being built on the peninsula."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Lowcountry South",
+      "Charleston peninsula",
+      "Coastal South Carolina",
+      "Coastal Georgia"
+    ],
+    "hearth": "Charleston, South Carolina",
+    "climate_zones": [
+      "3A",
+      "2A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "federal-style",
+      "type": "hybridizes_with",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Reclassified 2026-08-18 from a Federal variant to a folk-vernacular type. It originates c.1720, sixty years before Federal, and is still being built in the 1880s, forty years after Federal ends. It wears Georgian, Federal and Greek Revival dress in turn without changing its plan, section or orientation, which is the signature of a type rather than a style expression. Federal is now one of the several dresses it wore, not its parent."
+    },
+    {
+      "target": "charleston-georgian",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "Unbroken. The type is fully formed in Charleston by the 1730s-50s under Georgian trim; the Federal generation inherited the plan intact and changed only the mouldings, the sash and the column profiles."
+    },
+    {
+      "target": "adam-style",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Arriving through imported London joinery, printed plates, and Charleston's exceptionally direct trade with Britain."
+    }
+  ],
+  "description": {
+    "short": "A house one room wide turned end-on to the street, with a multi-storey piazza down its south or west flank behind a false street door - the most thoroughly climate-determined dwelling type in Anglo-America, wearing Federal trim over a plan that is essentially a machine for moving air.",
+    "long": "The Charleston single house is what happens when a narrow deep urban lot meets a subtropical climate and an English building culture that has no ready answer for either. Its solution is to rotate the house ninety degrees. The narrow gable end - two or three bays, typically twenty-two to twenty-six feet wide - addresses the street; the long five-bay flank runs back into the lot; and along that flank, on the south or west side, runs a piazza of two or three storeys, ten or twelve feet deep, open to the prevailing breeze and shading the wall behind it for the entire afternoon. Inside, the plan is one room on either side of a stair passage, one room deep, so that every habitable room has windows on two opposite walls. The famous move is the door: what looks from the sidewalk like the front door of the house is a false door, a gate in a screen wall, and it opens not into the house but onto the piazza. The real entrance is halfway along the piazza, at right angles to the street, and you are outdoors and in shade for the twenty feet between the two. Charleston invented a threshold sequence that is genuinely without parallel in American building.\n\nEvery dimension of the type is doing thermal work. The single-pile section guarantees cross ventilation. Ceiling heights of eleven to thirteen feet on the principal floor put the hot air above the occupants and let the tall sash exhaust it. The piazza takes the sun off the long wall so that the windows behind it can stay open in the rain, which in a climate with sixty inches of annual rainfall and afternoon thunderstorms all summer is not a small matter. The blind wall on the opposite flank - built to or near the lot line, often with almost no openings - is a fire wall and a privacy wall at once, a lesson learned expensively in the fires of 1740 and 1778. The kitchen sits in a detached building at the back of the lot to keep its heat and its fire risk out of the house, with quarters for enslaved domestic workers above it, and it is worth being exact about that: the walled garden, the detached dependency and the gated piazza are a system for regulating who can see whom, and the type's celebrated privacy was privacy from the street for some people and enclosure for others.\n\nThe economic conditions were rice, indigo and, from the 1790s, sea-island cotton, plus a mercantile port that was for a time the richest city in British North America. The urban condition was a peninsula between two rivers with no room to grow sideways, which produced deep narrow lots, sometimes taxed on frontage, and made the rotated house an economic necessity as well as a climatic one. When the Federal fashion arrived after the Revolution, Charleston's builders did not change the diagram at all; they replaced Georgian bolection mouldings with Adamesque reeding, cut elliptical fanlights into the piazza screen and the real front door, swapped heavy Doric piazza columns for slender Tuscan or Ionic ones, and thinned the sash. The Nathaniel Russell House, which is a double house rather than a single, shows what the same builders could do when the lot allowed; the single houses along Church, Tradd, Legare and Meeting show what they did the other ninety percent of the time.\n\nStanding on Tradd Street the effect is of a wall of houses that are all facing away from you. You see gable ends, chimney stacks, and a rhythm of garden gates, and the street is defined by buildings that give it almost nothing - the reverse of a New England or Philadelphia street where every house presents its best face. Then you open a gate and the whole logic reverses: you are in a shaded outdoor room the length of a house, floored in heart pine, ceiled in beadboard, with a garden on your right and eleven-foot windows on your left standing open. The air moves. In August, in a city that is functionally tropical for four months, this is not a pleasant amenity but the entire reason the building exists, and it works so well that the type survived air conditioning and is still being built."
+  },
+  "defining_characteristics": [
+    "One room wide, turned so the narrow gable end faces the street; two or three bays to the street, five to the flank",
+    "One room deep on either side of a side stair passage - single-pile, so every room is cross-ventilated and lit from two sides",
+    "Multi-storey piazza running the full length of the south or west flank, open to the prevailing breeze",
+    "False street door opening onto the piazza rather than into the house; the true entrance is set back along the piazza",
+    "Opposite flank built at or near the lot line as a near-blind fire and privacy wall",
+    "Tall principal-floor ceilings with sash carried close to the ceiling line to exhaust hot air",
+    "Detached kitchen house and dependency at the rear of the lot, historically with quarters above"
+  ],
+  "diagnostic_tells": [
+    "A door in a garden wall or screen that sits in the street facade but opens sideways onto a porch - unmistakable and unique to the type",
+    "The street elevation is a gable end two or three bays wide, with the long piazza visible in perspective down the lot",
+    "Piazza consistently on the south or west flank across a whole street, regardless of which side of the street the house is on",
+    "Near-windowless flank wall on the north or east side, tight to the property line",
+    "Chimneys on the rear wall or the blind flank rather than symmetrically paired on the street gable"
+  ],
+  "distinguished_from": [
+    {
+      "node": "charleston-georgian",
+      "difference": "Same plan, same piazza, same false door. The Georgian version has heavier piazza columns (Doric or Tuscan at 7-8 diameters), muntins over an inch, projecting door frontispieces and steeper roofs; the Federal version thins the columns, cuts an elliptical fanlight, and drops the roof pitch."
+    },
+    {
+      "node": "massing:side-hall-double-pile",
+      "difference": "A single house is single-pile - one room deep - which is the whole point. A double-pile side-hall townhouse of similar street width has four rooms per floor and no cross ventilation to the interior rooms; it belongs to a colder climate."
+    },
+    {
+      "node": "creole-cottage-vernacular",
+      "difference": "Both are Gulf and Lowcountry climate types with galleries and no interior corridors in the Creole case. The Creole cottage faces the street broadside with four openings and no hall; the single house turns its narrow end to the street and keeps an Anglo stair passage. The distinction is Anglo versus French-Caribbean plan descent."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Dimensioned by airflow and by the lot. Room depth is set by the distance daylight and cross-ventilation will carry, house width by the standard Charleston lot, and ceiling height by stack effect - the classical trim is applied afterward and changes none of it.",
+    "typical_ratios": [
+      "Street facade width 22-26 feet (rarely over 28); house depth 45-60 feet, occasionally more",
+      "Room dimension 16-20 feet square; stair passage 8-12 feet wide",
+      "Piazza depth 8-12 feet (10 typical), running the full flank length",
+      "Ceiling heights: ground 10-11 feet, principal floor 12-13 feet, upper floor 10-11 feet",
+      "Window opening 1:2.4 to 1:2.8 width to height, head within 12-18 inches of ceiling",
+      "Piazza column spacing 8-10 feet, columns 8-10 diameters tall in Federal-era work"
+    ],
+    "bay_rhythm": "Three bays to the street with the entrance bay off-centre or absent entirely (the false door sits in the piazza screen); five even bays along the piazza flank, the true entrance occupying the second bay from the street.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "charleston-single",
+      "affinity": "canonical",
+      "note": "The type and the massing are the same object; this node supplies the style dress."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible",
+      "note": "Deeper lots and later dates occasionally produce a double-pile version, at the direct cost of the cross-ventilation the type exists for."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "atypical",
+      "note": "Single houses stand free with a gap for the piazza; a party-walled row of them is a contradiction, though the street reads almost as continuously."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "Where the piazza wraps the rear as well as the flank, the type approaches the Caribbean gallery house it is often compared to."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "The piazza must be on the south or west flank, minimum 8 feet deep (10-12 preferred), running the full length of the house. A piazza on the north or east flank, or shallower than 8 feet, fails as both shade device and outdoor room and voids the type.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Street frontage must not exceed 28 feet and the plan must remain single-pile: one room on each side of the stair passage, room depth 16-20 feet, with operable windows on two opposite walls of every principal room.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "The street door must be a false door opening onto the piazza, with the true entrance set at least one bay back along the piazza. Deleting the false door and entering the house directly from the sidewalk destroys the type's threshold sequence and its privacy logic.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Principal-floor ceiling height minimum 11 feet (12-13 typical) with window heads within 18 inches of the ceiling, and sash operable top and bottom. Ceilings under 10 feet break the stack ventilation the section depends on.",
+      "severity": "hard"
+    },
+    {
+      "kind": "code",
+      "statement": "The flank opposite the piazza sits at or within 3 feet of the property line and carries no more than token openings - it is a fire wall, a response to the Charleston fires of 1740 and 1778, and modern separation-distance rules reach the same answer.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Robert Pringle House",
+      "location": "70 Tradd Street, Charleston, South Carolina",
+      "year": 1774,
+      "note": "Circa 1774; a canonical pre-Revolutionary single house whose Federal-era neighbours copy its section exactly."
+    },
+    {
+      "name": "Timothy Ford House",
+      "location": "54 Meeting Street, Charleston, South Carolina",
+      "year": 1806,
+      "note": "Built circa 1800-1806; the type at full Federal maturity, three storeys with a two-tier piazza."
+    },
+    {
+      "name": "Charles Elliott House",
+      "location": "43 Legare Street, Charleston, South Carolina",
+      "year": 1759,
+      "note": "Circa 1759; among the earliest documented single houses, showing the plan fully resolved a generation before Federal trim arrives."
+    },
+    {
+      "name": "Charles Graves House",
+      "location": "123 Tradd Street, Charleston, South Carolina",
+      "year": null,
+      "note": "Late eighteenth century; normal single-house plan with a three-storey central stair hall, one room each side, and a two-storey west piazza on Tuscan columns."
+    }
+  ],
+  "sources": [
+    "Bernard L. Herman, Town House: Architecture and Material Life in the Early American City, 1780-1830 (2005)",
+    "Gene Waddell, Charleston Architecture 1670-1860 (2003)",
+    "Kenneth Severens, Charleston: Antebellum Architecture and Civic Destiny (1988)",
+    "Jonathan Poston, The Buildings of Charleston: A Guide to the City's Architecture (1997)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "early-republic",
+    "regional",
+    "lowcountry",
+    "climate-machine",
+    "urban",
+    "piazza",
+    "type-not-style"
+  ]
+}

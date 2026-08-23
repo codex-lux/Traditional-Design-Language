@@ -1,0 +1,270 @@
+{
+  "id": "study",
+  "name": "Study",
+  "aka": [
+    "den",
+    "office",
+    "home office",
+    "cabinet",
+    "closet (17th-century sense)",
+    "snug (loosely)"
+  ],
+  "function_class": "work",
+  "description": "A small room for one person to work in, with a door that shuts. It is the private end of the library's spectrum: where a library is lined and sociable and holds a collection, a study is compact, single-occupant and holds a desk. Its defining property is not its contents but its DOOR - a study is the only room in a house whose whole value depends on being able to exclude the household, and every failure of a study is a failure of that.",
+  "history": {
+    "appears": 1550,
+    "declines": null,
+    "replaced": "the medieval closet and the Renaissance studiolo, a tiny private room off a bedchamber for reading, writing and keeping valuables",
+    "note": "The study is one of the oldest small rooms in the domestic catalogue and it has never gone away, which is unusual - it survives because the need it serves, one person working alone with the door shut, has never been abolished by any technology. WHAT HAS CHANGED IS WHOSE ROOM IT IS. From the sixteenth to the nineteenth century it is the master's, and its position in the plan follows: off the hall so that business callers can reach it, or off the bedchamber so that it is private, and never in the family's part of the house. In the twentieth century it becomes the den - a masculine retreat, panelled, with the fishing tackle in it - and then from the 1980s the home office, and then after 2020 something genuinely new: a room that must support a VIDEO CALL, which imposes requirements no previous version had. THE VIDEO-CALL REQUIREMENTS ARE REAL AND ARCHITECTURAL: no window directly behind the sitter, or the camera exposes for the window and the face goes black; a wall behind the sitter that can be looked at by strangers; a door that LATCHES rather than merely closes; and enough acoustic separation that a household is not audible. None of those is satisfied by the standard arrangement of a desk pushed against a window in a corner of a bedroom, and all four are cheap at the layout stage."
+  },
+  "dimensions": {
+    "area_sf": [
+      90,
+      220
+    ],
+    "width_ft": [
+      9,
+      14
+    ],
+    "length_ft": [
+      10,
+      17
+    ],
+    "proportion": [
+      1.0,
+      1.4
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "THE DEPTH BEHIND THE DESK, AND IT IS 42 IN, NOT 30. A desk is 24 to 30 in deep. The chair pushed back for a person to stand needs 36 in from the desk edge and 42 in if there is anything behind it - and a study almost always has shelving behind the chair. 30 (desk) + 42 (chair zone) = 72 in = 6 FT before you reach the back wall, so a study cannot be less than about 9 ft in the desk's direction once the shelving's 12 in is added. THE SECOND DIMENSION IS THE DOOR SWING AGAINST THE CHAIR: an inward-swinging door into a 9 x 10 study frequently sweeps the chair zone, which means the occupant must move to let anyone in - the single most annoying property a small room can have. Swing the door against the shelving wall or hang it to swing out into the corridor if the corridor is wide enough. THIRD: 11 FT of clear wall for a desk plus a file unit plus a printer, because those three items are what actually goes in the room and only the first is ever drawn."
+  },
+  "furniture": [
+    {
+      "item": "desk",
+      "footprint_in": [
+        60,
+        30
+      ],
+      "clearance_in": 42,
+      "note": "42 in behind, not 36, because the shelving behind the chair takes 12 in and a person must be able to rise and turn"
+    },
+    {
+      "item": "desk chair",
+      "footprint_in": [
+        26,
+        26
+      ],
+      "clearance_in": 0
+    },
+    {
+      "item": "bookshelves",
+      "footprint_in": [
+        72,
+        12
+      ],
+      "clearance_in": 30,
+      "note": "a study's shelving is 100 to 250 volumes; past about 400 the room is a library and needs the library's structural check"
+    },
+    {
+      "item": "filing and printer unit",
+      "footprint_in": [
+        36,
+        22
+      ],
+      "clearance_in": 36,
+      "note": "a lateral file needs 36 in in front for a full drawer extension plus the person; this is the piece that most often does not fit"
+    },
+    {
+      "item": "one visitor chair",
+      "footprint_in": [
+        24,
+        24
+      ],
+      "clearance_in": 24,
+      "essential": false,
+      "note": "the study's social capacity is exactly one visitor, and a room that seats three is a small sitting room"
+    },
+    {
+      "item": "the camera wall",
+      "footprint_in": [
+        60,
+        4
+      ],
+      "clearance_in": 60,
+      "note": "not furniture, but it is a dimensional requirement: 5 ft of wall BEHIND the sitter that is not a window and is fit to be seen, at a distance of about 5 ft from the camera so the framing is not a close-up"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "North or east. A study is occupied for long unbroken periods and its problem is glare rather than quantity: direct sun on a page or a screen is unusable and the occupant closes the blind, after which the room is worse than a north room would have been. NORTH LIGHT IS THE RIGHT ANSWER for any room in which someone works for four hours at a stretch, and it is the historic choice for exactly this reason.",
+    "glazing_fraction": [
+      0.1,
+      0.2
+    ],
+    "note": "The window position matters more than the window size here, and the rule is specific: the desk sits SIDE-ON to the window so that light falls across the working surface rather than into the eyes or from behind the screen. Desk facing the window means glare and a silhouetted screen; desk with its back to the window means the camera exposes for the window. Side-on solves both and it is the arrangement every period study drawing shows, arrived at long before there were screens."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "in every historic version the study is reachable from the hall, because it is where business callers are taken - and in the modern version the same rule holds for a different reason: a work room the household must cross to reach is a work room that gets interrupted",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "the private study or cabinet off a bedchamber, which is deliberately unreachable and is a different arrangement with a different purpose - if the room is to be private, commit to that and give it no other approach"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "library",
+        "why": "where both exist, the study is the working room off the sociable one",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "powder-room",
+        "why": "a study occupied for a working day needs a WC reachable without crossing the family's rooms, and this is the modern requirement nobody plans for",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "family-room",
+        "why": "THE DEFINING ADJACENCY RULE OF THIS ROOM. A study is for concentration and a gypsum-board partition between two rooms gives about 33 to 38 STC, at which a raised voice and a television are both clearly intelligible through the wall. Concentration needs about 50 STC, which needs a double-stud or staggered-stud wall with insulation and resilient channel, or - far cheaper - a closet, a corridor or a bathroom between the two rooms. Put the plan's dead space where the acoustic problem is.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "great-room",
+        "why": "same reason, worse: a two-storey hard volume is audible everywhere on both floors",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "laundry",
+        "why": "a spin cycle at 1,400 rpm transmits through structure rather than air, and no partition detail fixes structure-borne noise - only distance and separate framing",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "centre-passage",
+      "library",
+      "gallery-corridor",
+      "bedchamber"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "One person in a 150 sq ft room with the door shut for four hours will push CO2 past 1,200 ppm, at which measurable cognitive decrements begin, and past 2,000 ppm in a well-sealed room. This is the one room in the house where the ventilation requirement is a PERFORMANCE requirement rather than a comfort one, and an openable window or a 20 cfm supply is the whole fix.",
+    "heat": "Separately controllable, because the room is occupied on a different schedule from the rest of the house and a sedentary occupant wants it two to three degrees warmer than an active one.",
+    "electrical": "Two dedicated circuits, data at the desk on two walls, and a light that is not behind the sitter. Switch the room so it can be lit for a call independently of being lit for reading - two scenes, and it is the only room in a house where that is genuinely necessary.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "italian-renaissance",
+      "name_in_style": "studiolo",
+      "trim_grade": "highest",
+      "note": "The tiny intensely decorated private study of a fifteenth-century prince, lined with intarsia, off the bedchamber, sometimes under 100 sq ft. It is the ancestor of the whole type and it establishes the two properties that persist: very small, and very hard to get into."
+    },
+    {
+      "style": "english-georgian-country-house",
+      "trim_grade": "high",
+      "note": "The estate office end of the plan: a plain room near the hall with a desk, a press for papers and a door the steward and the tenants could reach without entering the house proper. One trim grade below the library."
+    },
+    {
+      "style": "victorian",
+      "name_in_style": "study, smoking room",
+      "trim_grade": "high",
+      "note": "Darkly finished, masculine by convention, and often paired with a smoking room or billiard room in a separate wing - which is the first appearance of the acoustic-and-smell isolation this room now needs for other reasons."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "den",
+      "trim_grade": "high",
+      "note": "A small panelled room off the living room with a built-in desk and bookcase and a window seat, and it is one of the best small studies in the catalogue - the built-ins do the work that would otherwise need floor area."
+    },
+    {
+      "style": "colonial-revival",
+      "trim_grade": "high",
+      "note": "Panelled, with a small fireplace, off the hall at the front, and in a 1920s plan it is the room now most often converted back to an office - correctly, since that is what it was."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "home office",
+      "trim_grade": "middle",
+      "note": "Now frequently the front room of a plan that would previously have had a formal living room, which is the right substitution. The failing is that it is drawn at 10 x 11 with a double door of frosted glass, which defeats the acoustic requirement the room exists for. A study needs a solid-core door with a full perimeter seal, and that is a $400 decision."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent - there is no room in the file that can be shut off from the others without blocking the house."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "den",
+      "trim_grade": "plain",
+      "note": "Present as a fourth bedroom converted, which is the most honest thing about the type: a study is a small room with a door, and a bedroom is a small room with a door."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "A room with a closet and a window that meets egress will be treated as a bedroom for occupancy and valuation purposes in most jurisdictions.",
+      "conflict": "This is a live decision rather than a technicality: giving the study a closet and an egress window makes it a bedroom on paper, which raises the house's bedroom count and its resale value and may trigger septic sizing. Deciding it deliberately is the point."
+    },
+    {
+      "requirement": "Habitable room minimum 70 sq ft and 7 ft in any dimension.",
+      "ref": "IRC R304",
+      "conflict": "A 70 sq ft study is 7 x 10 and will hold a desk and nothing else. The furniture minimum is about 100 sq ft and the working figure 120 to 150."
+    },
+    {
+      "requirement": "Emergency escape opening not required in a room not used for sleeping.",
+      "ref": "IRC R310.1",
+      "conflict": "Which is exactly why a study is the cheapest room in the house to put in a converted attic or basement - and why so many of them end up there without the acoustic or ventilation work the room actually needs."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "townhouse-row",
+    "cross-gable-victorian",
+    "bungalow-linear",
+    "ranch-linear",
+    "cape-cod-massing",
+    "mansard-block",
+    "garrison-block",
+    "saltbox",
+    "gable-front-and-wing"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "built_ins",
+    "public_private_gradient",
+    "interior_door",
+    "daylight_strategy",
+    "orientation_rule",
+    "services_strategy"
+  ],
+  "faults": [
+    "built-in-that-is-furniture",
+    "hollow-core-blank-in-a-panelled-house",
+    "one-trim-grade-for-every-room",
+    "egress-window-flips-the-proportion",
+    "recessed-can-in-a-plaster-ceiling",
+    "closet-depth-taken-from-the-room"
+  ],
+  "sources": [
+    "Dora Thornton, The Scholar in his Study: Ownership and Experience in Renaissance Italy (1997)",
+    "Robert Kerr, The Gentleman's House (1864), on the study and the business room",
+    "Allen and others, Harvard T. H. Chan School of Public Health, 'Associations of Cognitive Function Scores with Carbon Dioxide...' Environmental Health Perspectives 124 (2016)",
+    "ASTM E413 sound transmission class; typical single-stud partition performance"
+  ],
+  "confidence": "high"
+}

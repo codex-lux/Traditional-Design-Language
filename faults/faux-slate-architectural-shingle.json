@@ -1,0 +1,166 @@
+{
+  "id": "faux-slate-architectural-shingle",
+  "name": "The Shingle That Pretends to Be Slate",
+  "aka": [
+    "designer laminate",
+    "the printed shadow"
+  ],
+  "slots": [
+    "roof_material"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "gothic-revival-american",
+      "severity": "serious",
+      "why": "Patterned and banded slate is a defining feature; an imitation cannot carry a pattern."
+    },
+    {
+      "style": "second-empire",
+      "severity": "serious",
+      "why": "Coloured and patterned slate in horizontal bands is nearly diagnostic of the style."
+    },
+    {
+      "style": "chateauesque",
+      "severity": "serious",
+      "why": "The roof is the principal element of the composition."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Wrong twice over: not a period material, and it fakes a shadow the real material does not cast."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "minor",
+      "why": "The type's roof was wood shingle, so a slate imitation is a claim the type never made - the fault is the imitation, not the loss of slate."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Post-war types have no slate claim to fail."
+    }
+  ],
+  "severity_trajectory": "Worsening, which is the opposite of the material it imitates. The printed shadow band fades unevenly with UV exposure and granule loss, so by year twelve to fifteen the roof reads as a mottled grey field rather than as slate - the imitation degrades away from its claim, whereas real slate weathers toward it.",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "A laminated asphalt shingle in a grey blend, cut and shaded by the manufacturer to imitate slate: a printed dark band under each tab standing in for the shadow of a thick butt, random-width 'slates' arranged in a repeating cartridge, and a stamped edge irregularity. At four feet it is convincing. At forty it is a flat grey field with a horizontal beat about three feet long.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Slate runs $1,200-2,500 a square installed, weighs 800-1,500 lb a square against 250-400 for asphalt so the structure has to carry it, and wants a steep pitch. A designer laminate is $150-350 a square, passes at 4:12, and comes with a warranty and a marketing name. The imitation exists because the market wants the reading of slate at the price of asphalt, and the manufacturers have got very good at supplying exactly that - in the photograph.",
+    "cost_saved": "$35,000-90,000 on a 3,000 sf roof, plus the structural allowance."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_material / dimensional-architectural-composition = forbidden",
+      "statement": "Wrong twice over: it is not a period material and it fakes a shadow the real material does not cast."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a printed shadow does not move",
+      "statement": "A real shadow changes depth with the sun and disappears under an overcast sky. A printed one is identical at every hour and in every weather, which is why the imitation photographs well in raking light and fails at noon."
+    }
+  ],
+  "correct_practice": "Two things distinguish a slate roof at distance and neither of them is the tab outline. First, thickness: a slate is 1/4 to 3/8 in thick, and a graduated roof runs to 3/4 in at the eave, so every course throws a real shadow whose depth changes with the sun; a laminate is two layers of 1/8 in and its 'shadow' is a printed grey. Second, randomness: real slate is laid in courses of random width whose sequence never repeats, whereas a laminate repeats on the length of its cartridge, typically 36-40 in, so a horizontal beat appears at that interval - the single most reliable tell, and one a camera catches better than the eye. If slate is not in the budget the honest answers, in order, are: a single-thickness shingle in a solid colour making no claim at all; a standing-seam metal roof; or a full-thickness composite or fibre-cement slate laid in random widths with no printed shading.",
+  "fixes": {
+    "right": "Real slate, or a full-thickness composite slate in random widths, on a pitch that suits it.",
+    "cheap": "If a laminate must be used, choose a solid dark colour with no printed shadow band and no imitation coursing, and put the saved money into a doubled eave course and a thicker starter so that the one edge of the roof anyone stands close to has a real shadow. A roof that makes no claim cannot fail it.",
+    "dishonest": "The shadow band itself - and, worse, specifying a slate-imitating laminate on a 4:12 roof, where the imitation claims a material that the roof's own geometry contradicts. A slate roof at 4:12 never existed, so the imitation is refuted by the pitch before anyone gets close enough to see the granules."
+  },
+  "test": {
+    "expression": "course_butt_thickness_in",
+    "threshold": 0.25,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Slate is 1/4 to 3/8 in thick, and a graduated roof runs to 3/4 in at the eave, so every course throws a real shadow whose depth changes with the sun. A laminate is two layers of 1/8 in and its shadow is printed - identical at every hour and in every weather, which is why the imitation photographs well in raking light and fails at noon."
+  },
+  "secondary_tests": [
+    {
+      "expression": "coursing_pattern_repeat_period_in",
+      "threshold": 96,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Real slate is laid in random widths whose sequence never repeats. A laminate repeats on its cartridge, typically 36-40 in, so a horizontal beat appears at that interval - the single most reliable tell, and one a camera catches better than the eye."
+    },
+    {
+      "expression": "eave_course_shadow_depth_in / field_course_shadow_depth_in",
+      "threshold": 2.0,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "On real slate the eave and field shadows are the same order of magnitude. On a laminate the eave shadow is real - it is a genuine doubled course - and the field 'shadows' are flat grey, so the ratio blows out."
+    }
+  ],
+  "detection": "In any photograph of a whole roof plane, look for a repeating pattern with a period of about three feet - it appears as a faint vertical striping in the coursing. Second, compare the shadow at the butt of a field course with the shadow at the eave edge: on real slate they are the same order of magnitude, on a laminate the eave shadow is real and the field shadows are flat grey. Third, look at hips and ridges: cut slate at a hip shows its thickness in the mitre, asphalt shows a folded cap.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "construction:re-roof-of-an-existing-frame-house",
+      "why": "Where the existing structure cannot carry 800-1,500 lb a square, slate is genuinely unavailable and a substitute is the only option.",
+      "bounds": "Choose a substitute that makes no slate claim - a solid-colour shingle or a metal roof - rather than one that does. The structural constraint licenses the substitution, not the imitation.",
+      "bounds_test": {
+        "expression": "existing_structure_capacity_lb_per_square",
+        "threshold": 800,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "site-visit",
+        "note": "Slate runs 800-1,500 lb per square against 250-400 for asphalt. Where the structure cannot carry it the substitution is licensed; the IMITATION is not. Choose a shingle that makes no slate claim."
+      }
+    },
+    {
+      "style": "construction:synthetic-slate-full-thickness",
+      "why": "Moulded composite slates of full thickness, laid in random widths with no printed shading, are a legitimate substitute rather than an imitation: they carry real thickness and cast real shadows.",
+      "bounds": "Full thickness with a real butt, random widths that do not repeat on a cartridge, and no printed colour variation within a single unit.",
+      "bounds_test": {
+        "expression": "course_butt_thickness_in",
+        "threshold": 0.25,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Full thickness with a real butt, random widths that do not repeat on a cartridge, and no printed colour variation within a single unit. A substitute rather than an imitation."
+      },
+      "applies_when": {
+        "construction": [
+          "moulded-composite-slate",
+          "fibre-cement-slate"
+        ],
+        "note": "The licence is thickness and randomness, not the product category - a thin composite with a printed shadow fails for the same reasons the asphalt one does."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "pitch-below-material-shed-limit",
+      "difference": "There the material is real slate at an impossible slope. Here the slope may be fine and the material is a picture of slate."
+    },
+    {
+      "fault": "roof-course-scale-mismatch",
+      "difference": "That is about the size of a correct material's courses. This is about a material pretending to be another one."
+    }
+  ],
+  "co_occurs_with": [
+    "roof-course-scale-mismatch",
+    "truss-flattened-pitch"
+  ],
+  "alternative_to": [
+    "pitch-below-material-shed-limit"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json roof_material",
+    "NPS Preservation Brief 29: Historic Slate Roofs",
+    "NPS Preservation Brief 16: The Use of Substitute Materials on Historic Building Exteriors",
+    "asphalt shingle manufacturer product literature (laminate cartridge repeat lengths and weights per square)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "roof",
+    "material",
+    "imitation",
+    "endemic"
+  ]
+}

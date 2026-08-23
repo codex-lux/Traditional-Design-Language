@@ -1,0 +1,193 @@
+{
+  "id": "carpenter-gothic",
+  "name": "Carpenter Gothic",
+  "aka": [
+    "Rural Gothic cottage",
+    "Steamboat Gothic",
+    "Gingerbread Gothic"
+  ],
+  "rank": "variant",
+  "member_of": "gothic-revival-american",
+  "status": "historical",
+  "period": {
+    "origin": 1842,
+    "floruit_start": 1845,
+    "floruit_end": 1885,
+    "decline_end": 1905,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Midwest",
+      "Upper South",
+      "Gulf Coast",
+      "Ontario",
+      "Maritime Canada",
+      "Northern California"
+    ],
+    "hearth": "Hudson Valley and the Connecticut Valley",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "gothic-revival-american",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The wooden, small-budget, carpenter-executed expression of the parent style; quantitatively it is almost the whole of the parent's built population."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "descends_from",
+      "weight": 0.45,
+      "inherits_kit": true,
+      "note": "The frame, the plan, and the door and window stock come straight from the Greek Revival carpenter's kit; only the sawn ornament is new."
+    },
+    {
+      "target": "english-gothic",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "Cusping, tracery, and the lancet head are quoted at third hand, translated from stone into 1-inch pine board by a band saw."
+    }
+  ],
+  "description": {
+    "short": "Gothic Revival executed entirely in sawn softwood by ordinary carpenters, in which stone tracery becomes pierced board, the buttress becomes a batten, and the whole style is reduced to a purchasable set of profiles.",
+    "long": "Carpenter Gothic is the moment the Gothic Revival stops being an architect's argument and becomes a product. Downing and Davis supplied plates; the scroll saw supplied the labour; the railroad supplied distribution; and the result was that between roughly 1845 and 1885 a farmer in Iowa or a shipwright in Nova Scotia could buy a bargeboard, a finial, a drip mould, and a pointed sash, nail them to a perfectly ordinary frame house, and own a Gothic cottage. The style is defined less by a set of forms than by a translation rule: every element that was carved from stone in England is here cut from a plank, and the plank is nominally an inch thick, which sets the entire visual character.\n\nThe mechanism deserves to be stated exactly. A jig or scroll saw driven by a stationary steam engine, in general workshop use in American towns from the late 1830s, could follow a pierced curvilinear pattern through softwood board at a speed no hand-held fretsaw approached. Machine-cut nails, produced by the hundred million from the 1820s, made attaching that board to a light frame a matter of minutes. Balloon framing let a carpenter with no joinery training raise a wall of nailed studs and then hang whatever profile he liked on it. And the railroad meant the pattern did not have to be local. The American Gothic House in Eldon, Iowa, built in 1881-82, is the perfect specimen of the whole system: an utterly plain gable-front frame cottage with two pointed sash in the gable, and those windows are believed to have been ordered from a Sears catalogue. Grant Wood painted it in 1930 and made it the most reproduced building in the country.\n\nWhat the mode was reacting against, and what it demonstrates, are two different things. It was reacting, at least in Downing's intention, against the white Greek Revival farmhouse and the doctrine that a house should look like a temple. What it demonstrates is the first full appearance of a condition that has never since gone away: ornament decoupled from structure and construction, produced elsewhere, chosen from a catalogue, and applied. Carpenter Gothic is the earliest American style where the parts list and the building are separable, and every judgement a contemporary kit-of-parts system has to make about which parts may be combined with which was first faced, and mostly not answered, by the carpenters of the 1850s.\n\nThe buildings themselves are thin and lively in a way that stone Gothic never is. Board-and-batten siding turns the whole wall into a set of shallow vertical shadow lines that shift as you move; the bargeboard, cut from a single plank, is only an inch deep, so at a raking evening light it reads as pure silhouette and lace against the sky, and at noon it nearly vanishes. There is no mass anywhere in the building. Inside, the ceilings are low, the pointed window in the gable lights a stair or an upstairs bedroom rather than anything grand, and the rooms are the ordinary rooms of an ordinary farmhouse. The whole style lives on the outer inch of the building, which is either its charm or its indictment depending on how much you require of architecture."
+  },
+  "defining_characteristics": [
+    "Light wood frame construction, with every ornamental element sawn from nominal 1 in board stock",
+    "Steeply pitched gables, 12:12 or greater, usually with a central gable over the entrance on a symmetrical body",
+    "Pierced and cusped bargeboard applied to the rake, the single indispensable element",
+    "Pointed, lancet, or ogee-headed sash, generally confined to the principal gable",
+    "Vertical board-and-batten siding, or, in later and cheaper examples, plain clapboard with Gothic trim",
+    "Turned or chamfered porch posts with sawn brackets and a pierced valance",
+    "No masonry ornament of any kind; a Carpenter Gothic building with a carved stone label mould is misidentified"
+  ],
+  "diagnostic_tells": [
+    "Ornament is flat. Sight along the wall: everything projects less than about two inches, because everything came off a plank",
+    "A central gable rising through the eave line of an otherwise symmetrical two-storey farmhouse is the commonest American Carpenter Gothic composition, and separates it from the irregular architect-designed villa",
+    "Pointed sash in the gable but square-headed sash everywhere else: the owner bought one Gothic window",
+    "Bargeboard patterns repeat on a short module (12 to 24 in) because they were cut from a template",
+    "If the vertical siding stops and clapboard begins at a storey line, the house is later and cheaper; true Downing practice runs battens unbroken from water table to eave"
+  ],
+  "distinguished_from": [
+    {
+      "node": "rural-gothic-villa",
+      "difference": "Same parent style, opposite economics. The villa is architect-designed, genuinely irregular in plan, and composed for silhouette from several viewpoints; Carpenter Gothic is a builder's symmetrical box with sawn ornament applied to one or two elevations."
+    },
+    {
+      "node": "folk-victorian",
+      "difference": "The same operation performed twenty to forty years later with a different catalogue. Folk Victorian applies Italianate brackets and Queen Anne spindlework to a plain folk house; Carpenter Gothic applies pointed sash and bargeboards. Where a house has both, date it by the porch."
+    },
+    {
+      "node": "gothic-revival-british",
+      "difference": "The British parent is a masonry tradition with real archaeological scholarship behind it and Pugin's insistence on structural truth; Carpenter Gothic is the exact thing Pugin condemned, an applied scenery of Gothic profiles over a frame that owes nothing to Gothic construction."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by stock lumber and by the saw. Board widths, plank thickness, and pattern-template repeat set every ornamental dimension; the body of the house keeps the symmetrical Greek Revival proportions the carpenter already knew.",
+    "typical_ratios": [
+      "Roof pitch 12:12 to 16:12 on the principal and central gables",
+      "Bargeboard depth 10 to 18 in, cut from 1 to 1.5 in stock, with pattern repeat 12 to 24 in",
+      "Battens 2 to 3 in wide at 12 to 16 in on centre over 8 to 12 in boards",
+      "Pointed window head included angle 60 to 75 degrees",
+      "Porch post 4x4 to 6x6 chamfered, with sawn brackets 12 to 20 in on the diagonal"
+    ],
+    "bay_rhythm": "Regular three or five bay body inherited from the Greek Revival farmhouse, interrupted once by the central gable. The irregularity is ornamental, not planimetric.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "i-house",
+      "affinity": "canonical",
+      "note": "The two-storey single-pile farmhouse with a central Gothic gable is the most numerous American Carpenter Gothic form."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common"
+    },
+    {
+      "massing": "gable-front",
+      "affinity": "common"
+    },
+    {
+      "massing": "pyramidal-cottage",
+      "affinity": "atypical",
+      "note": "A hipped roof gives the bargeboard nowhere to go."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "All ornament shall be sawn or turned from wood and shall project not more than 3 in from its ground plane. Cast stone, carved stone, terra cotta, and moulded masonry ornament are forbidden in this variant."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Principal gable pitch shall be not less than 12:12, and the bargeboard shall run the full rake with a verge overhang of 12 to 24 in so it is read against shadow."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Where board-and-batten is used, boards shall be 8 to 12 in wide with 2 to 3 in battens at 12 to 16 in on centre, running unbroken from water table to eave on every elevation that receives them. Mixing board-and-batten and clapboard on one elevation is prohibited."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Pointed or ogee window heads shall be limited to the principal gable, the entrance, and the stair, and to not more than three openings per building. Beyond that the house reads as a chapel."
+    },
+    {
+      "kind": "proportional",
+      "severity": "advisory",
+      "statement": "Bargeboard pattern repeat shall not exceed 24 in, and the same pattern shall be used on every gable of the building. Two different bargeboard patterns on one house is a twentieth-century restoration error."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Roseland Cottage",
+      "location": "Woodstock, Connecticut",
+      "year": 1846,
+      "note": "Joseph Collins Wells for Henry Chandler Bowen. Board-and-batten, elaborate bargeboards, and the original saturated pink body colour."
+    },
+    {
+      "name": "Henry Delamater House",
+      "location": "Rhinebeck, New York",
+      "year": 1844,
+      "note": "Alexander Jackson Davis. Board-and-batten wood frame; an architect-designed cottage that became the template thousands of carpenters copied."
+    },
+    {
+      "name": "American Gothic House (Dibble House)",
+      "location": "Eldon, Iowa",
+      "year": 1882,
+      "note": "Built 1881-82. A plain frame cottage with two Gothic sash in the gable, believed bought from a catalogue; the purest demonstration of ornament shipped by rail. Painted by Grant Wood in 1930."
+    }
+  ],
+  "sources": [
+    "Andrew Jackson Downing, The Architecture of Country Houses (1850)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "William H. Pierson Jr., American Buildings and Their Architects: Technology and the Picturesque (1978)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "vernacular-gothic",
+    "sawn-ornament",
+    "catalog",
+    "wood-frame",
+    "mass-market"
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "id": "queen-anne-patterned-masonry",
+  "name": "Queen Anne, Patterned Masonry",
+  "aka": [
+    "Masonry Queen Anne",
+    "Brick Queen Anne",
+    "Panel Brick Queen Anne"
+  ],
+  "rank": "variant",
+  "member_of": "queen-anne-american",
+  "status": "historical",
+  "period": {
+    "origin": 1878,
+    "floruit_start": 1880,
+    "floruit_end": 1900,
+    "decline_end": 1908,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Baltimore",
+      "Philadelphia",
+      "Boston",
+      "New York",
+      "Chicago",
+      "Great Lakes cities",
+      "Ontario"
+    ],
+    "hearth": "The Atlantic seaboard cities, where brick was the ordinary urban material",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "queen-anne-american",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The masonry expression of the parent, a small minority of the American population by McAlester's count but the one closest to the British original."
+    },
+    {
+      "target": "queen-anne-british",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Closer to the source than any other American subtype. Shaw and Nesfield built in brick with rubbed and moulded work and terra cotta sunflower panels, and this is the American branch that actually kept the material."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "Shares the urban masonry trades and the taste for rock-faced stone bases and heavy arches, but keeps the Queen Anne's articulated wall rather than adopting Richardsonian mass."
+    }
+  ],
+  "description": {
+    "short": "The urban masonry Queen Anne, in which the multi-texture rule of the parent style is satisfied by brick of contrasting colours, moulded and rubbed brickwork, terra cotta panels, and stone trim rather than by clapboard and cut shingle.",
+    "long": "This is the smallest of the American Queen Anne subtypes and the closest to the English original, which is a useful reminder that the American mainstream is the deviation and not the norm. Richard Norman Shaw's houses were brick, with rubbed and gauged work, moulded string courses, and panels of terra cotta ornament, and the small number of American architects and builders who worked in that material rather than in balloon-framed pine produced the most literally Shavian buildings in the country. They cluster where brick was the ordinary urban material and where a large body of skilled masons existed: Baltimore, Philadelphia, Boston, and the Great Lakes cities.\n\nThe technological substrate is different from the rest of this branch and it is worth stating exactly. The mechanised brickmaking of the 1870s and 1880s, stiff-mud extrusion and dry-press machines, produced brick in consistent sizes, hard bright colours, and, decisively, in moulded shapes: rope courses, bullnose returns, cove and ovolo profiles, and complete ornamental panels, all orderable from a catalogue. Architectural terra cotta from firms in Chicago, Boston, and Perth Amboy supplied sunflower, foliate, and panel ornament by the piece. The result is that the same decoupling of ornament from construction that produced the spindled porch also produced the moulded brick frieze; the material changed and the economic logic did not.\n\nThe subtype satisfies the parent style's hard rule, that a principal elevation must carry at least two distinct wall textures changing at a horizontal line, by material rather than by cladding. A typical elevation runs rock-faced brownstone or granite at the base, dark red pressed brick through the main storeys, a moulded brick or terra cotta frieze at the top, and cut shingle or half-timbering only in the gable if at all. Because masonry cannot be sawn on site, every ornamental decision has to be made at the order stage, which enforces a discipline the wooden subtypes never had, and the buildings are correspondingly tighter.\n\nWhat it feels like is heavier and more urban than the rest of the style. The wall has actual thickness, the window reveals are deep enough to shadow, the ornament is integral to the material and will still be there in a century, and the colour is in the clay rather than in the paint. The chimney becomes the compositional star, corbelled, panelled, and carried high, because in a brick house the chimney is the one element where the mason can show what he can do. Where the wooden Queen Anne is a light box wrapped in decorated boards, this is a solid thing with the decoration cut into and built out of its own substance, and it ages in the opposite direction: the wooden version needs paint and the brick version needs nothing."
+  },
+  "defining_characteristics": [
+    "Load-bearing or substantially masonry wall construction in pressed or moulded brick",
+    "Two or more masonry colours or materials on each principal elevation, with the change occurring at a horizontal course, belt, or storey line",
+    "Moulded, rubbed, or gauged brick and terra cotta panels used as the ornamental vocabulary in place of sawn and turned woodwork",
+    "The parent style's dominant mass, irregular massing, projecting bays or oriels, and non-rectangular ridge",
+    "Corbelled and panelled chimney stacks treated as major compositional elements",
+    "Segmental or flat brick arches with rubbed voussoirs over openings, and stone or terra cotta sills and lintels",
+    "Deep window reveals expressing the thickness of the wall"
+  ],
+  "diagnostic_tells": [
+    "Terra cotta or moulded brick panels set into a brick field, often with sunflower, foliate, or geometric motifs: the clearest single tell",
+    "Two brick colours in a designed relationship rather than in a repair patch, with the change on a horizontal line",
+    "Corbelled chimney caps projecting several inches and stacks carried high above the ridge",
+    "Compared with Richardsonian Romanesque: the wall is articulated into zones with belt courses and the arches are segmental or flat rather than full semicircles, and there is far more opening area",
+    "Compared with the wooden subtypes: there is no porch spindlework, and the porch, if any, is small and masonry-piered"
+  ],
+  "distinguished_from": [
+    {
+      "node": "richardsonian-romanesque",
+      "difference": "Both are urban masonry of the same decade and the boundary is real. Richardsonian uses one material top to bottom, semicircular arches, few openings, and reads as mass; patterned masonry Queen Anne changes material at horizontal lines, uses segmental and flat arches, has a high opening ratio, and reads as an articulated wall."
+    },
+    {
+      "node": "queen-anne-spindled",
+      "difference": "The same style in the opposite material culture. Everything the wooden subtype achieves with lathe and jigsaw this subtype achieves with mould and kiln, and the constraints run differently as a result: masonry ornament must be specified before construction and cannot be improvised on site."
+    },
+    {
+      "node": "queen-anne-british",
+      "difference": "The closest American relative to the British parent, but still American in massing: bigger, more irregular, with a taller corner tower and a more emphatic dominant mass than Shaw's tighter, more Jacobean compositions."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the parent's mass hierarchy and by the brick course. Because the module is a brick dimension, every belt, panel, and arch is set out in whole courses, which gives this subtype a dimensional discipline the wooden ones lack.",
+    "typical_ratios": [
+      "Brick course height 2.5 to 3 in; all belts, panels, and arch rises set out in whole courses",
+      "Ornamental panel field not more than 25 percent of any elevation",
+      "Window reveal depth 4 to 9 in",
+      "Chimney stack rising 4 to 8 ft above the adjacent ridge, with a corbelled cap projecting 3 to 6 in",
+      "Opening area 35 to 50 percent of a principal elevation, notably higher than Richardsonian Romanesque",
+      "Dominant mass at least 1.5 times any subordinate mass, per the parent style"
+    ],
+    "bay_rhythm": "Irregular by room, as in the parent, but tightened by the coursing: heads and sills align across an elevation even where widths do not, because the mason set them out from the same course.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The urban masonry Queen Anne row of Baltimore, Philadelphia, and Boston."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "common"
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible",
+      "note": "Round or polygonal brick tower with a conical slate cap."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible"
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Not fewer than two masonry materials or brick colours shall appear on each principal elevation, with every change occurring on a horizontal course line. A vertical or diagonal material change is prohibited."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "All ornament shall be moulded, rubbed, gauged, carved, or cast in the wall material itself. Applied sawn or turned wooden ornament is prohibited on masonry elevations; a spindled porch places the building in the spindlework subtype."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Chimney stacks shall rise 4 to 8 ft above the adjacent ridge and shall carry a corbelled or panelled cap projecting 3 to 6 in. In this subtype the chimney is a primary compositional element and may not be suppressed."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Ornamental panels of moulded brick or terra cotta shall occupy not more than 25 percent of any elevation and shall be concentrated in frieze, spandrel, and gable positions."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Arches shall be segmental or flat with rubbed voussoirs. A full semicircular arch springing from a squat column moves the building toward Richardsonian Romanesque and should be classified there."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "James E. Hooper House",
+      "location": "Baltimore, Maryland",
+      "year": 1886,
+      "note": "Freestanding masonry Queen Anne in dark red brick with terra cotta, brownstone, and granite trim, a slate roof, and a projecting wooden oriel; now part of the Old Goucher College group."
+    },
+    {
+      "name": "William C. Sharpless House",
+      "location": "Germantown, Philadelphia, Pennsylvania",
+      "year": 1886,
+      "note": "Wissahickon schist with clapboard and shingle above and terra cotta decorative details, with a brick stable with stone quoining on the property; a Philadelphia demonstration of masonry-plus-texture."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Mark Girouard, Sweetness and Light: The Queen Anne Movement 1860-1900 (1977)",
+    "Michael Stratton, The Terracotta Revival (1993)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "masonry",
+    "terra-cotta",
+    "urban",
+    "closest-to-british-source",
+    "minority-subtype"
+  ]
+}

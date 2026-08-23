@@ -1,0 +1,198 @@
+{
+  "id": "dutch-colonial-american",
+  "name": "Dutch Colonial American",
+  "aka": [
+    "New Netherland Colonial",
+    "Dutch-American vernacular"
+  ],
+  "rank": "style",
+  "member_of": "american-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1625,
+    "floruit_start": 1640,
+    "floruit_end": 1790,
+    "decline_end": 1840,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1940,
+        "revival_node": "dutch-colonial-revival",
+        "note": "The revival fixed on the gambrel roof and the full-width shed dormer — a combination that almost never occurs in the colonial original — and made it the second most common American suburban house type of the 1920s."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Hudson Valley, New York",
+      "Long Island and Brooklyn",
+      "northern New Jersey",
+      "Rockland and Westchester counties, New York",
+      "southwestern Connecticut",
+      "Delaware Valley"
+    ],
+    "hearth": "New Netherland — the Hudson corridor from Nieuw Amsterdam to Beverwijck (Albany), with a second core in the Hackensack and Passaic valleys",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "dutch-urban-gable-house",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "The urban expression — parapeted gable to the street, mouse-tooth (vlechtingen) brick tumbling, iron beam anchors and date irons — is transplanted almost intact to Nieuw Amsterdam, Kingston and Albany."
+    },
+    {
+      "target": "flemish-vernacular",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Much of the rural framing tradition, including the H-bent anchor-beam frame and the flared eave, is Flemish and Brabantine rather than Hollandish; a large share of the settlers came from the southern Low Countries."
+    }
+  ],
+  "description": {
+    "short": "The building culture of New Netherland — anchor-beam framing, jambless fireplaces, and steep unbroken gables in stone and brick — which outlived Dutch rule by a century and a half and then was misremembered by its own revival.",
+    "long": "The Dutch lost New Netherland in 1664 and kept building it until about 1800. That gap is the most interesting fact about this style: it survived not as a political culture but as a set of carpentry habits and a language of domestic comfort transmitted inside families, in a region where English law and Dutch construction coexisted for five generations. What was transmitted was not a look. It was a frame — the H-bent, a pair of posts with a transverse anchor beam tenoned through them and secured with a projecting wedged tenon — and a hearth, the jambless fireplace, which has no side cheeks at all: the fire sits on a raised hearth against a flat wall and a plastered or timber hood hangs above it on iron rods, so that the fire is a piece of furniture in the room rather than a hole in a wall. Anyone who has stood in front of one understands immediately why the Dutch kept them and why the English thought them wasteful. They radiate into the room instead of drawing everything up the flue, and they smoke.\n\nThe walls follow the geology. In the Hudson Valley the settlers found workable limestone and sandstone and laid it in wide beds of shell-lime mortar, walls twenty to thirty inches thick, sometimes with the entrance facade coursed and squared and the other three sides left as rubble — a house with one good face, which tells you what the elevation was for. In the Hackensack Valley it is the red-brown Newark sandstone. In the towns it is brick, laid in cross bond, with the gable turned to the street and stepped or spouted in the manner of Amsterdam. The rural roof begins steep and straight, forty-five to fifty-five degrees, sprung from a low plate seven to nine feet above the floor, so that the roof is most of what you see. The gambrel — two slopes, a steep lower and a shallow upper — is an eighteenth-century arrival that lets you get a full upper storey out of a low wall, and it spreads through New Jersey and the lower Hudson after about 1720.\n\nThe deep flared eave, the so-called spring eave, is the tradition's signature and its most misunderstood element. It is not a porch and it did not begin as one: it is the lower rafter run continued past the wall face on a curve, projecting eighteen to thirty-six inches, throwing water clear of an unfired stone wall and shading the summer sun off the openings. Only later, in the eighteenth century, does someone put posts under it and discover a porch. That accidental porch is the most quietly influential detail in American domestic architecture — the ancestor of a national habit.\n\nWhat the style negotiated against was English fashion, and it lost slowly and gracefully. By 1750 a Bergen County house has a Dutch frame, a Dutch eave, and a Georgian five-bay front with a centre door. Nothing about that is a compromise; it is exactly what a builder does when the plan and the section still work and only the face has to change."
+  },
+  "defining_characteristics": [
+    "H-bent anchor-beam framing, the transverse beams exposed and their projecting tenons visible in the room, on frame houses; twenty- to thirty-inch load-bearing stone or brick on masonry houses",
+    "The jambless fireplace — an open hearth against a flat wall with a suspended hood, no side jambs — as the domestic centre before c. 1750",
+    "Chimneys at or in the gable ends, never a single central stack of the New England kind",
+    "Steep straight gable (45–55 degrees) in the seventeenth century; the broad gambrel with a steep lower slope and shallow upper slope from c. 1720",
+    "A flared or 'spring' eave, projecting 18–36 in on a concave sweep beyond the wall plane, on eighteenth-century work",
+    "A low wall plate — 7 to 9 feet above the floor — so that the roof carries most of the visual mass of the building",
+    "Dutch (horizontally divided) doors, wrought-iron beam anchors on masonry gables, and casement or nine-over-nine sash"
+  ],
+  "diagnostic_tells": [
+    "A jambless fireplace, or the flat unbroken chimney breast that remains after one has been rebuilt, is decisive and occurs in no other American tradition",
+    "Exposed transverse anchor beams with wedged through-tenons projecting past the post",
+    "Wrought-iron wall anchors on a masonry gable, sometimes forming a date",
+    "Dressed and coursed stone on the entrance elevation only, with rubble on the other three",
+    "Low eave: the second-floor window sits partly within the roof, or there is no second-floor window at all"
+  ],
+  "distinguished_from": [
+    {
+      "node": "dutch-colonial-revival",
+      "difference": "The revival is defined by a gambrel roof with a full-width shed dormer, symmetrical fenestration on all elevations, wood framing with a brick or shingle skin, and an eave that overhangs straight rather than springing on a curve. The colonial original almost never has a shed dormer; where it has dormers at all they are small individual gabled ones. If the dormer runs the length of the roof, it is a house built after 1900."
+    },
+    {
+      "node": "new-england-colonial",
+      "difference": "Chimney position separates them instantly: one enormous central stack in New England, gable-end stacks in New Netherland. New England covers its frame in clapboard and hides the joinery; the Dutch house exposes its anchor beams and builds in stone where stone exists."
+    },
+    {
+      "node": "german-pennsylvania-colonial",
+      "difference": "Both build in thick stone with steep roofs, but the German house is organized around an asymmetric three-room Flurküchenhaus plan with a central chimney serving a closed jamb stove, while the Dutch house is a one- or two-room open plan with gable hearths and an open jambless fire."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The H-bent frame bay — a pair of posts with an anchor beam — repeated along the length of the house at 8 to 12 feet on centre; masonry houses inherit the same rhythm without needing it.",
+    "typical_ratios": [
+      "Room depth 18–22 ft (one bent span); overall length 30–48 ft as bents are added",
+      "Wall plate 7 ft 0 in – 9 ft 0 in above the floor; total wall height to eave rarely exceeds 11 ft on a one-and-a-half-storey house",
+      "Masonry wall thickness 20–30 in, roughly 1:5 to 1:7 of wall height",
+      "Gambrel: lower slope 60–72 degrees, upper 18–30 degrees, break at 55–70% of the half-span",
+      "Spring eave projection 18–36 in beyond the wall face"
+    ],
+    "bay_rhythm": "Additive along the ridge. Three-bay and five-bay fronts both occur; the door is centred on five-bay work after c. 1730 and off-centre before.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "Two rooms, gable hearths, no passage — the standard rural New Netherland plan."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The one-bent starting house, expanded by adding bents along the ridge."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "canonical",
+      "note": "The eighteenth-century form that the revival later seized on."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "possible",
+      "note": "Post-1750 Anglicization of the plan behind a still-Dutch section."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "The urban gable-to-street house of Nieuw Amsterdam, Kingston and Albany."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Chimneys sit at or within the gable end walls. A single central stack is a New England device and destroys the Dutch plan, which depends on an open one- or two-room volume."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Wall plate 7 ft 0 in – 9 ft 0 in above the finished floor. If the plate rises above 10 ft the roof stops governing the elevation and the building reads Georgian."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break point at 55–70% of the half-span. A gambrel whose two slopes differ by less than 30 degrees reads as a twentieth-century barn-roof house."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Full-width shed dormers are forbidden. They are the diagnostic signature of Dutch Colonial Revival, not of any colonial Dutch building."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Load-bearing stone walls 20–30 in thick, laid in lime mortar with wide joints; dressed and coursed on the entrance elevation, rubble elsewhere. Thin stone veneer over frame is a different building."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Pieter Wyckoff House",
+      "location": "Flatlands, Brooklyn, New York",
+      "year": 1652,
+      "note": "Occupied by the Wyckoffs from about 1652 and generally called the oldest house in New York City, though much of the standing fabric is later; the small kitchen wing preserves the earliest work."
+    },
+    {
+      "name": "Pieter Bronck House",
+      "location": "Coxsackie, Greene County, New York",
+      "year": 1663,
+      "note": "Thick stone walls, steep straight gable, single open chambers on two floors — the rural Hudson type before the gambrel."
+    },
+    {
+      "name": "Jean Hasbrouck House",
+      "location": "Historic Huguenot Street, New Paltz, New York",
+      "year": 1721,
+      "note": "National Historic Landmark; retains the only original eighteenth-century jambless fireplace on Huguenot Street. Built by Huguenot settlers using wholly Dutch construction — a useful reminder that this is a building culture, not an ethnicity."
+    },
+    {
+      "name": "Steuben House (Zabriskie House)",
+      "location": "Historic New Bridge Landing, River Edge, New Jersey",
+      "year": 1752,
+      "note": "Bergen sandstone, enlarged c. 1765 when the fashionable gambrel roof was added."
+    }
+  ],
+  "sources": [
+    "Helen Wilkinson Reynolds, Dutch Houses in the Hudson Valley before 1776 (1929)",
+    "Roderic H. Blackburn and Ruth Piwonka, Remembrance of Patria: Dutch Arts and Culture in Colonial America (1988)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "anchor-beam-frame",
+    "jambless-fireplace",
+    "gambrel",
+    "stone",
+    "new-netherland"
+  ]
+}

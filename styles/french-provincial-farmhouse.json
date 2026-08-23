@@ -1,0 +1,201 @@
+{
+  "id": "french-provincial-farmhouse",
+  "name": "French Provincial Farmhouse",
+  "aka": [
+    "mas provencal",
+    "longere",
+    "ferme bressane",
+    "maison de campagne",
+    "French farmhouse"
+  ],
+  "rank": "style",
+  "member_of": "french-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1400,
+    "floruit_start": 1600,
+    "floruit_end": 1900,
+    "decline_end": 1950,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1915,
+        "end": 1945,
+        "revival_node": "french-eclectic",
+        "note": "American French Eclectic and 'French Provincial': the steep hipped roof, symmetrical stuccoed or brick block, segmental-arched openings and shutters, drawn from the farmhouse and the small manoir together."
+      },
+      {
+        "start": 1970,
+        "end": 2026,
+        "revival_node": null,
+        "note": "A continuous international market vernacular — the Provencal mas as a renovation and holiday-house type, which has kept the trade alive and also flattened it."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "France",
+      "Provence",
+      "Brittany",
+      "Burgundy",
+      "Alsace"
+    ],
+    "hearth": "Provence and the Rhone valley, with strong parallel regional traditions across rural France",
+    "climate_zones": [
+      "3C",
+      "4A",
+      "4B",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "tuscan-vernacular",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The southern half of the type is straightforwardly Mediterranean: rubble limestone walls, canal tile at a low pitch, the genoise cornice, whitewashed or lime-rendered surfaces, and a Gallo-Roman continuity of practice that never broke. Retargeted from the family container to a style node so the cascade resolves to a real kit."
+    },
+    {
+      "target": "norman-vernacular",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "The northern and western half is timber-framed and steep-roofed, and shares carpentry, dispersal and roof logic with Normandy. 'French farmhouse' is a single node covering two genuinely different climatic solutions, and the lineage records both."
+    }
+  ],
+  "description": {
+    "short": "The thick-walled, shuttered, low-tiled rural house of southern and central France, whose plan and orientation are dictated by wind, sun and the storage of a crop rather than by any compositional idea.",
+    "long": "The mas is the type specimen, and it is best understood as a machine for surviving the mistral. In Provence the dominant wind is a cold, dry, violent northerly that blows for days at a stretch, and the mas answers it by presenting a nearly blind wall to the north-west — no door, one or two small high openings, sometimes a bank of earth or a stand of cypress planted specifically as a windbreak — and opening its entire life to the south-east. The long facade faces the morning sun; the windows there are large and shuttered; the terrace and the plane tree that shades it are there. A building rotated ninety degrees from that orientation is not a mas. It is a house that happens to look like one, and it will be uninhabitable for two months of the year.\n\nThe wall does the rest of the work. Rubble limestone or river cobble bedded in lime mortar, five hundred to seven hundred millimetres thick, rendered in lime that leaves the aggregate faintly visible, gives a thermal mass sufficient to run a twelve-hour lag between outdoor and indoor temperature — the house is coolest in the afternoon and gives its heat back at night. The roof is canal tile, the round Roman tile, laid at a genuinely low pitch of twenty-five to thirty-five degrees because there is no snow to shed and because a low pitch is stable under a wind that will strip a steep one. Where the wall meets the roof there is a genoise: two, three or four courses of the same canal tile corbelled out and bedded in mortar to throw water clear. The number of courses was, quite literally, a statement of the owner's standing.\n\nIn the north and west the same social type — a working farm belonging to a family that owns it — produces something climatically opposite. The Breton and Norman longere is a long, low, single-pile granite or framed range with a steep slate or thatched roof and a chimney at each gable. The Bressan farm is a timber frame on a brick plinth under a vast low-pitched hipped tile roof, with an external gallery on the first floor and, uniquely, a freestanding timber-and-daub chimney — the cheminee sarrasine — carried up through the roof as a separate structure. The Alsatian farm is a Fachwerk courtyard block indistinguishable in construction from its neighbours across the Rhine. Grouping these under one node is a deliberate simplification: what they share is a social and economic condition — the owner-worked farm, the ground floor given to a crop, the plan organised by storage and process — rather than a construction system.\n\nWhat is consistent everywhere is that the ground floor is not primarily for living. It is for the crop: the cave and the cuverie in the south, the byre or the cider press in the north, the grain floor in Beauce. People live above it or beside it, and the stair up to them is often external. The interior of a mas is therefore a sequence of low, deep, cool, hard-surfaced rooms with small deep-reveal windows, thick lime-plastered walls, exposed beam ceilings, and a fireplace so large that its hood is a room in itself. In August, walking in from a white glaring courtyard, the drop in light and temperature in the first two metres is physical, and the shutters — not the glass, the shutters — are the thing doing it."
+  },
+  "defining_characteristics": [
+    "Massive load-bearing masonry walls of local rubble stone, 500-700 mm thick, lime-rendered or left rough",
+    "Orientation as a climatic instrument: near-blind north or north-west elevation, principal openings to the south or south-east",
+    "Low-pitched canal (Roman) tile roof, 25-35 degrees, terminated in a corbelled genoise cornice of two to four tile courses in the south; steep slate or tile with gable chimneys in the north and west",
+    "External timber shutters on every opening, doing the environmental work that glazing does not",
+    "Ground floor given over to production and storage — cave, cuverie, byre, press — with living quarters above or alongside",
+    "Additive growth: bays and ranges added end to end and around a working yard as the holding prospers",
+    "Openings small in area and deeply reveal-set, sized by the lintel or relieving arch available"
+  ],
+  "diagnostic_tells": [
+    "A long facade of openings on one side and an almost blank wall on the other, on the same building",
+    "Genoise: two to four courses of round tile corbelled out under the eave, with no fascia, gutter or soffit board",
+    "Round canal tiles at a pitch visibly lower than any northern European roof",
+    "Shutters that are solid boarded below and louvred above, hinged directly to the masonry reveal, not to a frame",
+    "Window and door openings of visibly different sizes and heights on one elevation — the fenestration follows the room, never a composition"
+  ],
+  "distinguished_from": [
+    {
+      "node": "tuscan-vernacular",
+      "difference": "Very close, and genuinely the same building culture across the Ligurian Sea. The Tuscan casa colonica is more often a compact two-storey block with a dovecote tower and an external stair to a first-floor loggia; the mas is longer, lower, more additive, and is defined by an orientation the Tuscan house does not need because it has no mistral."
+    },
+    {
+      "node": "andalusian-courtyard-vernacular",
+      "difference": "The Andalusian house turns inward around a patio and gives the street a blank wall on every side. The mas turns outward on its sunny face and encloses a yard only for work.  Whitewash is universal in Andalusia and optional in Provence."
+    },
+    {
+      "node": "french-manoir",
+      "difference": "A manoir has a great hall, dressed stone openings, a stair turret and an architectural intent. A farmhouse of the same date and county has none of these; the difference is social, and it is visible in the window surrounds before anywhere else."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Structural and climatic. The bay is the span of a floor beam or roof purlin between masonry cross-walls, about 4.5-5.5 m; the wall thickness is set by the stability of rubble masonry at storey height; opening width is limited by the timber lintel or the stone relieving arch available. The composition of the elevation is a consequence of these and of the orientation, never a starting point.",
+    "typical_ratios": [
+      "Wall thickness 500-700 mm; range depth 5.5-7 m clear",
+      "Structural bay 4.5-5.5 m between cross-walls",
+      "Roof pitch 25-35 degrees (canal tile, south), 40-55 (slate or flat tile, north)",
+      "Openings 8-15 percent of wall area on the sun face, under 5 percent on the mistral face"
+    ],
+    "bay_rhythm": "Irregular and functional. Openings are placed by room and by use; the only regularity is that they line up vertically where a wall above must be carried, and even that is often abandoned.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "canonical",
+      "note": "The type grows by extension at the gable and by ells into the yard, each addition a whole bay, roofs stepping as they go."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "A prosperous farm closes three sides of a working cour, keeping the fourth open to the south."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The single-cell cabanon and the smallest holdings — one vaulted or beamed room with a hearth."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "possible",
+      "note": "Fully enclosed in the largest Provencal and Languedoc bastides and in the Alsatian courtyard farm."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "In the Rhone valley and Provence, the north-west elevation must be effectively closed: openings not to exceed 5 percent of its wall area, none at ground level, and no principal entrance. Principal openings and outdoor living space face south to south-east.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Canal tile roofs at 25-35 degrees; below 22 degrees wind-driven rain lifts under the tile. The eave must be a corbelled genoise of at least two tile courses, projecting a minimum of 200 mm; a fascia-and-gutter eave is prohibited on southern work.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Rubble masonry walls 500-700 mm thick. Openings not wider than 1.2 m without a stone relieving arch or a full-bearing timber lintel; a wide opening in a rubble wall requires dressed stone jambs.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Every opening carries an external shutter, hinged to the masonry reveal. Shutters are the primary environmental control; a mas with fixed glazing and no shutters is a facade, not a building.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Ornament is essentially absent. Where money was spent it went into dressed stone at the door surround and into the number of genoise courses, not into applied decoration.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Ferme de la Foret",
+      "location": "Courtes, Ain, France",
+      "year": null,
+      "note": "17th century; a Bressan timber-framed farm with an external first-floor gallery and a cheminee sarrasine of timber and daub. Classee monument historique."
+    },
+    {
+      "name": "Mas de la Pyramide",
+      "location": "Saint-Remy-de-Provence, Bouches-du-Rhone, France",
+      "year": null,
+      "note": "A working mas cut into the face of the Roman quarry at Glanum and continuously occupied into the 20th century; the clearest demonstration of a Provencal farm built out of, and into, its own material source."
+    },
+    {
+      "name": "Village de Poul-Fetan",
+      "location": "Quistinic, Morbihan, France",
+      "year": null,
+      "note": "A restored Breton hamlet of 16th-19th century granite longeres with thatched roofs, preserved as a working ensemble."
+    },
+    {
+      "name": "Ecomusee d'Alsace",
+      "location": "Ungersheim, Haut-Rhin, France",
+      "year": null,
+      "note": "Some seventy relocated Alsatian rural buildings of the 15th-19th centuries, reassembled as a village; the largest single sample of the eastern French farm."
+    }
+  ],
+  "sources": [
+    "Doyon & Hubrecht, L'Architecture rurale et bourgeoise en France",
+    "Trochet, Maisons paysannes en France et leur environnement",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World",
+    "Rudofsky, Architecture Without Architects"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "masonry",
+    "climatic-orientation",
+    "farmstead",
+    "mediterranean",
+    "france"
+  ]
+}

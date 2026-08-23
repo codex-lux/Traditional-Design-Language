@@ -1,0 +1,218 @@
+{
+  "id": "adam-style",
+  "name": "Adam Style",
+  "aka": [
+    "Adamesque",
+    "Neoclassical (British)",
+    "the Adam manner"
+  ],
+  "rank": "style",
+  "member_of": "english-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1758,
+    "floruit_start": 1762,
+    "floruit_end": 1792,
+    "decline_end": 1810,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1785,
+        "end": 1820,
+        "revival_node": "federal-style",
+        "note": "Carried to America almost immediately by the Works in Architecture and by emigrant craftsmen; the Federal style is substantially an Adam derivative executed in wood."
+      },
+      {
+        "start": 1890,
+        "end": 1935,
+        "revival_node": "georgian-revival",
+        "note": "Neo-Adam interiors become the standard grammar of the Edwardian and American country-house drawing room."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland"
+    ],
+    "hearth": "London and Edinburgh, from the Adam brothers' office in the Adelphi",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-georgian",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The envelope, the plan, the sash window, the brick and the trades are all Georgian. Adam almost never built a new shell where an existing one could be remodelled; a great deal of his most famous work is decoration inside somebody else's carcass."
+    },
+    {
+      "target": "english-palladian",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Adam trained within the Palladian consensus and kept its plan discipline and its proportional habits even while attacking its ornament."
+    },
+    {
+      "target": "english-palladian",
+      "type": "reacts_against",
+      "weight": 0.6,
+      "inherits_kit": false,
+      "note": "Stated in the Adams' own preface to the Works in Architecture (1773), which condemns the 'ponderous' compartment ceiling and the massive entablature of Kent and Burlington by name and proposes lightness, movement and variety in their place."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "Adam's authority is archaeological but selective: Diocletian's palace at Split, which he surveyed in 1757 and published in 1764, and above all Roman domestic and bath interiors — the grotesque wall-painting of the Golden House rediscovered through Piranesi's circle. He quotes Roman interiors, not Roman structure."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "The grotesque ornament reaches Adam as much through Raphael's Vatican loggie and their engraved copies as through antiquity itself."
+    }
+  ],
+  "description": {
+    "short": "A decorative revolution conducted inside the Georgian box: flattened, delicate, polychrome ornament and rooms shaped into apses, ovals and screened recesses, by an architect who designed everything down to the doorknob.",
+    "long": "Robert Adam returned from four years in Italy and Dalmatia in 1758 with a survey of Diocletian's palace, a portfolio of Roman interior ornament, and an accurate reading of the market. The Palladian generation had exhausted itself; its rooms were rectangular, its ceilings compartmented and heavy, its ornament derived from Roman temple exteriors applied indoors at a scale that suited nothing. Adam's proposal, argued in the preface to the Works in Architecture published with his brother James from 1773, was that interiors should follow Roman domestic precedent instead — lighter, flatter, more varied, more colourful — and that a building should exhibit what he called movement: rise and fall, advance and recess, convexity and concavity, so that a composition changes as you walk past it.\n\nWhat he actually delivered was the first complete design system in British architecture. An Adam room is designed as a totality: the plaster ceiling, the carpet echoing the ceiling in reverse, the chimneypiece, the door furniture, the mirror frames, the sconces, the silverware. The vocabulary is small and endlessly recombined — fans, paterae, husk swags, anthemion, urns, griffins, arabesque candelabra, all in relief so shallow that it reads as drawing rather than sculpture, and coloured in pale green, lilac, pink and terracotta against white. The spatial vocabulary is equally consistent: apsed ends, screens of columns dividing a space without closing it, niches for statuary, oval and circular rooms, and a sequence of rooms deliberately varied in shape so that the movement doctrine operates in plan as well as elevation.\n\nThe economic context matters. Adam ran a large office as a business, took on speculative development at the Adelphi in 1768 which nearly ruined him, and licensed his manner through publication in a way no British architect had before. His ornament was also uniquely suited to the new industries: Coade artificial stone for exteriors from 1769, cast composition for interior enrichments, wallpaper, and Wedgwood's jasperware, which is Adam ornament in ceramic. This is why the style spread so fast and so far, and why the American Federal style is essentially Adam translated into carved and moulded wood by joiners working from the plates.\n\nThe experience of an Adam interior is peculiarly modern: it is light, precise and slightly cool, and it flatters the person moving through it rather than overawing them. Ceilings appear higher than they are because the ornament is drawn in pale colour rather than modelled in shadow; a screen of columns across the end of a library makes the room feel longer than its dimensions allow; the sequence from a square anteroom to an apsed drawing room to an oval boudoir is composed like music. Outside, the same house is often almost plain — Adam's exteriors are frequently a Georgian elevation with the mouldings thinned, a shallow relieving arch, and a Coade stone panel — which is exactly the point. This is a style that put nearly all of its intelligence indoors."
+  },
+  "defining_characteristics": [
+    "Room shapes deliberately varied in sequence: rectangles alternating with apsed, oval, circular and niched spaces, and columnar screens dividing without enclosing",
+    "Ornament in very low relief — 5 to 15 mm projection — drawn rather than modelled, in fans, paterae, husk swags, anthemion, urns, sphinxes and arabesque grotesques",
+    "Polychromy: ornament picked out in pale green, lilac, rose, straw and terracotta against white or off-white ground, replacing the white-and-gold or plain plaster of the Palladians",
+    "Total design of the interior, with ceiling, carpet, chimneypiece, furniture, mirrors and metalwork designed as one system by one office",
+    "Attenuated orders and thinned mouldings throughout, including thinner sash glazing bars and more delicate cornice profiles than Georgian practice",
+    "The 'movement' doctrine: elevations and plans composed with advance and recess, convex and concave, so the composition changes with the viewer's position",
+    "Radiating fanlights and delicate ironwork as the exterior signature of an otherwise restrained Georgian facade"
+  ],
+  "diagnostic_tells": [
+    "A radiating spider-web fanlight in fine lead or wrought iron over a six-panel door, far more elaborate and much thinner in section than a mid-Georgian fan",
+    "Low-relief plaster ceilings laid out as a geometric field of roundels, fans and octagons, colour-picked rather than left white — the inverse of the Palladian deep-coffered ceiling",
+    "A screen of two or four attenuated columns across the end of a room, defining a recess that is neither a separate room nor part of the main volume",
+    "Ornament repeating at small scale across every surface — the same honeysuckle in the frieze, the chair back, the fire grate and the carpet",
+    "Externally: a Georgian box whose mouldings have all been thinned, often with a shallow blind relieving arch linking the first-floor windows and a Coade stone panel or plaque"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-georgian",
+      "difference": "Same box, thinner everything. Georgian mouldings are chunky and cast strong shadows; Adam's are shallow and read as pattern. Georgian rooms are rectangles; Adam rooms are shaped. The exterior difference is small and the interior difference is total."
+    },
+    {
+      "node": "english-palladian",
+      "difference": "The declared enemy. Palladian interiors are heavy, rectangular, deeply coffered and derived from temple exteriors; Adam interiors are light, varied, shallow and derived from Roman domestic and bath decoration. Palladian rooms impose; Adam rooms accommodate."
+    },
+    {
+      "node": "regency",
+      "difference": "Regency takes the thinning further but changes the source from Rome to Greece and then to anywhere — Egypt, India, China. Adam ornament is delicate, floral and polychrome; Regency ornament is sparse, linear and archaeologically Greek, and Regency exteriors go over to stucco, bows and iron balconies."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Georgian and Palladian proportion retained for the shell, with the orders attenuated beyond canonical limits and the interior organised by a sequence of contrasted room shapes rather than by a single module.",
+    "typical_ratios": [
+      "Columns attenuated to 10-11 diameters where the canonical Ionic is 9 and Corinthian 9.5-10",
+      "Ornament relief depth 5-15 mm; cornice projection reduced to roughly 0.6 of Palladian practice at the same room height",
+      "Glazing bars 16-20 mm, against 25-32 mm in early Georgian work",
+      "Room sequence alternating 1:1, 1:1.5 and apsed or oval plans; apse depth 0.25-0.35 of room width",
+      "Ceiling height 3.0-4.2 m on the principal floor, with the frieze occupying 0.10-0.14 of wall height",
+      "Sash proportion 1.7:1 to 2:1, unchanged from Georgian"
+    ],
+    "bay_rhythm": "Georgian evenness on the street front, modulated by shallow advance and recess: a slightly projecting centre of three bays, or an end pavilion brought forward 300-600 mm, so that the wall models itself in raking light without any change of bay spacing.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The remodelled or newly built double-pile block, with the plan's interest concentrated in the shaping of individual rooms."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "Adam's most consequential urban work — the Adelphi, Portman Square, Fitzroy Square and the design of Charlotte Square in Edinburgh in 1791 — treats the terrace as a single palace-fronted composition."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "Retained at Kedleston, where Adam completed a Palladian five-part scheme and rebuilt its centre."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "possible",
+      "note": "Adam's castle style — Culzean, Seton, Oxenfoord — wraps drums, battlements and turrets around a wholly classical plan, and is the direct link from this node to the picturesque family."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Interior ornament relief must not exceed 20 mm projection. Deep, heavily modelled enrichment belongs to Palladian or Baroque work and reads as the wrong century immediately.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Ceiling, carpet, chimneypiece and joinery in a principal room must share one ornamental vocabulary. Mixing Adam plasterwork with a heavier moulding family is the standard failure mode of revival work.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Glazing bars not thicker than 20 mm, and cornice and architrave profiles reduced by roughly a third from mid-Georgian section. Adam is Georgian thinned; if it is not thinner it is not Adam.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "At least one principal room in the sequence must be shaped — apsed, oval, circular or screened — or the movement doctrine that defines the style is absent.",
+      "severity": "soft"
+    },
+    {
+      "kind": "proportional",
+      "statement": "External modelling by advance and recess of 300-600 mm at the centre or ends, without changing bay spacing.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Syon House interiors",
+      "location": "Isleworth, London, England",
+      "year": 1769,
+      "note": "Remodelled 1762-69 for the first Duke of Northumberland inside a Jacobean shell. The Ante-Room with its twelve verd-antique columns from the Tiber and the apsed Long Gallery are the fullest demonstration of Adam's spatial doctrine."
+    },
+    {
+      "name": "Osterley Park",
+      "location": "Isleworth, London, England",
+      "year": 1780,
+      "note": "Remodelled 1761-80 for the Child banking family, again around an Elizabethan core. The Etruscan Dressing Room, painted throughout in the antique grotesque manner, is the most complete surviving Adam interior scheme."
+    },
+    {
+      "name": "Kedleston Hall, Marble Hall and Saloon",
+      "location": "Derbyshire, England",
+      "year": 1765,
+      "note": "Adam took over from Matthew Brettingham and James Paine in 1760 and completed the south front and principal interiors 1759-65, including a triumphal-arch south elevation and a domed rotunda saloon."
+    },
+    {
+      "name": "Home House, 20 Portman Square",
+      "location": "Marylebone, London, England",
+      "year": 1777,
+      "note": "Built 1773-77 for Elizabeth, Countess of Home. A town house whose top-lit oval staircase and sequence of shaped rooms show what Adam could do within a terrace plot."
+    }
+  ],
+  "sources": [
+    "Robert and James Adam, The Works in Architecture of Robert and James Adam (1773-78)",
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "Eileen Harris, The Genius of Robert Adam: His Interiors (2001)",
+    "Damie Stillman, The Decorative Work of Robert Adam (1966)",
+    "Mark Girouard, Life in the English Country House (1978)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "neoclassical",
+    "interior-driven",
+    "total-design",
+    "low-relief-ornament"
+  ]
+}

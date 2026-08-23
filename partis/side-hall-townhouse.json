@@ -1,0 +1,291 @@
+{
+  "id": "side-hall-townhouse",
+  "name": "Side-Hall Town House",
+  "aka": [
+    "the row house plan",
+    "two-bay urban"
+  ],
+  "description": "Stair and passage pushed to one side, rooms in a line beside them. The plan that makes narrow-lot urbanism work: light comes only from the two short ends, so the plan must put service and stair where light is not needed.",
+  "massing": "side-hall-double-pile",
+  "alternate_massings": [
+    "townhouse-row",
+    "gable-front"
+  ],
+  "styles": [
+    "federal-style",
+    "greek-revival-american",
+    "italianate-townhouse",
+    "second-empire",
+    "charleston-georgian",
+    "colonial-revival"
+  ],
+  "groupings": [
+    "public-enfilade",
+    "stair-and-landing-core",
+    "entry-sequence",
+    "secondary-bedroom-cluster"
+  ],
+  "circulation_parti": "side-hall",
+  "storeys": 3,
+  "area_range_sf": [
+    1600,
+    4000
+  ],
+  "bedroom_range": [
+    2,
+    4
+  ],
+  "rooms": [
+    {
+      "id": "stoop",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Stoop",
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "hall",
+        "exterior"
+      ]
+    },
+    {
+      "id": "hall",
+      "type": "entrance-hall",
+      "level": 0,
+      "name": "Entrance Hall",
+      "exterior_walls": [
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "stoop",
+        "exterior",
+        "frontparlor",
+        "stair"
+      ]
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Stair Hall",
+      "doors": [
+        "hall",
+        "backparlor"
+      ]
+    },
+    {
+      "id": "frontparlor",
+      "type": "drawing-room",
+      "level": 0,
+      "name": "Front Parlor",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "hall",
+        "backparlor"
+      ]
+    },
+    {
+      "id": "backparlor",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Back Parlor / Dining",
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "frontparlor",
+        "stair",
+        "kitchen"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "backparlor",
+        "powder",
+        "exterior"
+      ],
+      "fixtures": [
+        "sink",
+        "dishwasher"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "doors": [
+        "kitchen"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "doors": [
+        "upperhall"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "upperhall",
+      "type": "gallery-corridor",
+      "level": 1,
+      "name": "Upper Hall",
+      "doors": [
+        "landing",
+        "primary",
+        "hallbath"
+      ]
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Principal Chamber",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "upperhall",
+        "primarybath"
+      ],
+      "stacks_over": "frontparlor"
+    },
+    {
+      "id": "primarybath",
+      "type": "primary-bathroom",
+      "level": 1,
+      "name": "Principal Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "primary"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub",
+        "shower"
+      ],
+      "stacks_over": "powder"
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Bath",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ]
+    },
+    {
+      "id": "chamber",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperhall"
+      ]
+    },
+    {
+      "id": "chambercl",
+      "type": "closet",
+      "level": 1,
+      "name": "Closet",
+      "repeats_with_bedrooms": true,
+      "doors": [
+        "chamber"
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "stair",
+      "b": "landing",
+      "relation": "below"
+    },
+    {
+      "a": "landing",
+      "b": "stair",
+      "relation": "above"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "adding-a-storey",
+      "deepening"
+    ],
+    "bay_module_ft": 8,
+    "max_bay_count": 3,
+    "note": "Grows vertically, not horizontally. Room depth is capped at about 25 ft before the middle goes dark."
+  },
+  "trades_away": "Cross ventilation and daylight on two long walls. In exchange it halves the envelope, works on a 20 ft lot, and makes a street wall rather than a row of objects.",
+  "exemplars": [
+    "Nathaniel Russell House, Charleston, 1808",
+    "the Greenwich Village row houses, 1830s"
+  ],
+  "sources": [
+    "Herman, Town House",
+    "Summerson, Georgian London"
+  ],
+  "confidence": "high"
+}

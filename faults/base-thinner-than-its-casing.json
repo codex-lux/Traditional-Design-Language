@@ -1,0 +1,118 @@
+{
+  "id": "base-thinner-than-its-casing",
+  "name": "The Base That Has To Be Scribed",
+  "aka": [
+    "the half-inch base",
+    "the missing plinth block",
+    "the joint that opens in January"
+  ],
+  "slots": [
+    "baseboard",
+    "casing",
+    "trim_family"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "The baseboard is 1/2 or 9/16 in thick and the door casing beside it is 11/16 or 3/4 in. Where they meet, the base has been cut at an angle and pressed against the face of the casing so that its cap dies out into thin air, or a small return has been mitred round the end of the base. Within two heating seasons a wedge-shaped crack opens at the joint, gets caulked, opens again, and by the third year the caulk bead is 3/16 in wide and visibly painted over.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Primed finger-jointed and MDF base is sold in 1/2 and 9/16 in thicknesses because a thinner board is cheaper per lineal foot, warps less in transit, and can be bent round a bowed wall by the nail gun — which is the real reason, since it lets the carpenter skip shimming. Casing is sold at 11/16 in because it must stand proud of the jamb's 1/4 in reveal and still look like something. So the two stock items are dimensioned by two unrelated logics and arrive in the wrong order. The plinth block, which is the joint that resolves them, has no place in a pre-hung door package and requires the casing to be cut to a length that is not the jamb height.",
+    "cost_saved": "About 0.35 to 0.80 USD a lineal foot on the base, plus the plinth blocks themselves at 4 to 9 USD each. On a house with 30 openings and 900 lineal feet of base, roughly 600 to 1,200 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / baseboard.projection = ceiling_height * 1.5 / 19 * 0.097",
+      "statement": "Base thickness 7/8 in at a 9 ft 6 in ceiling — 4/4 stock dressed, not the 1/2 in of modern primed base. The base must be THICKER than the casing it dies into, or the casing will have to be scribed onto it and the joint will open with the first heating season."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / casing.height = ceiling_height * 1.5 / 19 + 1.0",
+      "statement": "Plinth block height, one inch above the top of the base — 9 1/2 in at a 9 ft ceiling, 10 in at 9 ft 6 in. The block must also be WIDER than the casing by about 1/4 in and THICKER than the base by about 1/8 in, so that everything dies into it and nothing has to be scribed to anything."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "in a stack of members, each dies into something thicker than itself",
+      "statement": "Wood moves across the grain and not along it, so a joint between two members of the same thickness in different planes is a joint that must open. The period assembly always steps: base into plinth, plinth into casing, casing into head. Every step is a tolerance and a seasonal movement absorbed."
+    }
+  ],
+  "correct_practice": "The order of thicknesses runs plinth block, then base, then casing, each about 1/8 in thicker than the next. On a 9 ft ceiling: base 8 1/2 in high and 7/8 in thick, plinth block 9 1/2 in high (one inch above the base cap), 1 in thick, and 1/4 in wider than the casing on each side; casing 6 in wide on a 36 in door and 3/4 in thick, dying onto the face of the block. Every joint is then a butt into a face, nothing is scribed, nothing is mitred against a curve, and seasonal movement shows as a hairline at a plane change rather than as a crack across a profile. In the Greek Revival family the plinth block is legitimately omitted and the base runs INTO the casing with a square butt, which works because the Greek Revival casing is a single broad flat board with no cap to die out — that is the family's own solution to the same problem, and it is available at 8 ft ceilings where the block would eat the wall. In the Craftsman family the base and casing are the same 3/4 in stock and butt square, which is why that family needs no plinth block at all.",
+  "fixes": {
+    "right": "Solid 4/4 base at 7/8 in dressed, plinth blocks at every cased opening, casing 3/4 in. Solid clear stock for base and casing; take the saving out of the cornice, which is high, dry and unexamined.",
+    "cheap": "Add plinth blocks to the trim you already have. A block ripped from 5/4 stock, 1 1/16 in dressed, 9 1/2 in tall and 1/4 in wider than the casing each side, costs about 5 USD and eliminates the scribe entirely — the thin base now butts into a thick block instead of dying onto a thin casing, and the thickness order is restored at the only point where it is visible. Thirty openings, 150 USD, one afternoon. This is the highest-return small move in an interior trim package and almost nobody makes it.",
+    "dishonest": "Caulking the joint and calling it finished. Caulk is a gasket, not a joint, and a caulked scribe between two members that move in different directions will open every winter for the life of the building — the fault is not that the crack appeared, it is that the assembly required a crack. Also dishonest: mitring a return around the end of the base so it stops cleanly short of the casing, leaving a 3/4 in gap. It photographs as a detail and reads as a mistake, and it means the base and the casing are no longer members of one system."
+  },
+  "detection": "Photograph the floor-level junction of base and casing square-on. Correct: a plinth block stands proud of both, its face 1/8 in forward of the base and its edges 1/4 in outboard of the casing, and the base cap dies flat into it. Fault: the base runs up to the casing and stops, and the base cap profile is cut off in mid-curve. The single most reliable image test is the CAP TERMINATION — a moulded base cap that stops against a vertical surface without a block has been scribed, and a scribed cap always shows a small triangle of end grain or filler. Second test: sight along the base and the casing from an oblique angle; if the casing's face stands FORWARD of the base's face, the thickness order is inverted and the fault is present whatever the joint looks like.",
+  "test": {
+    "expression": "baseboard_thickness_in / casing_thickness_in",
+    "threshold": 1.1,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Measurable from an oblique photograph of a door jamb at floor level: the two faces are both visible and their offset is directly readable. Modern stock gives 0.5/0.6875 = 0.73. Period gives 0.875/0.75 = 1.17. The Craftsman family is the licensed exception at exactly 1.00, where both members are 3/4 in and butt square."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The base dies into the casing leg with a plain butt and the two are the same 3/4 in stock; that equality is precisely why the family needs no plinth block. Where the base is a 1x8 and the casing a 1x4 of the same thickness, the detail is exact and needs no thought at all.",
+      "bounds": "Equal thickness, both 3/4 in dressed, both square-edged, and the base must have no moulded cap to die out — a flat board with a bevelled square cap butts cleanly where a cyma cannot. The moment a moulded base cap appears in this assembly the exception lapses.",
+      "bounds_test": {
+        "expression": "baseboard_thickness_in / casing_thickness_in",
+        "threshold": 0.95,
+        "upper": 1.05,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The Greek Revival casing is one broad flat fascia and the base runs into it with a square butt; the family omits the plinth block by design, which is also its answer to the low ceiling where a block would be out of scale.",
+      "bounds": "Requires the casing to be a genuine flat fascia of 5 to 7 in with a square arris and no cap at the bottom, and the base to be a plain tall plinth of 10 in or more with a minimal ogee cap that can be mitred to a small return. Both members are still 7/8 in or thicker; the exception is about the block, not about the thickness."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "The type genuinely built with thin stock — 1/2 in base and 1/2 in casing — and reproducing it in 4/4 misrepresents it.",
+      "bounds": "Both members thin and EQUAL, which restores the butt joint. The fault here is the thickness inversion, not thinness as such; a house that is thin in one member and stock in the other has neither system."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Trim is minimal and members are often the same board thickness throughout, with the base butting the casing directly.",
+      "bounds": "Equal thickness and no moulded cap. The same test as Craftsman."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "trim-from-no-family",
+      "difference": "This is a dimensional relationship between two members; that is the quality of one member's profile. A house can have perfect profiles in the wrong thickness order and it will still crack."
+    },
+    {
+      "fault": "mixed-trim-families-in-one-room",
+      "difference": "A base thinner than its casing is often the first visible symptom of family drift, because the two members came from different suppliers — but the thickness inversion also happens within a single correctly-chosen family and is worth its own name."
+    }
+  ],
+  "co_occurs_with": [
+    "trim-from-no-family",
+    "mixed-trim-families-in-one-room",
+    "the-miniature-order"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, baseboard.projection and casing.height (plinth block) derived rules",
+    "kits/georgian-colonial-american.kit.json, baseboard note on base-thicker-than-casing",
+    "proportions/systems/trim-craftsman.json, baseboard.projection note",
+    "Asher Benjamin, The American Builder's Companion (1806)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "baseboard",
+    "casing",
+    "plinth-block",
+    "assembly",
+    "maintenance"
+  ],
+  "severity_trajectory": "Invisible at handover and worst in year three. The scribed joint is tight when it is nailed, opens 1/16 in at the first heating season, is caulked, and opens wider each year as the caulk loses elasticity and the wood cycles — so the fault is minor on the punch list and serious by the second sale. Naming it at rough-trim stage is the only time it is free to fix."
+}

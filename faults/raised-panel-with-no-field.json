@@ -1,0 +1,115 @@
+{
+  "id": "raised-panel-with-no-field",
+  "name": "The Raised Panel With Nothing To Raise",
+  "aka": [
+    "the pyramid panel",
+    "the 9-inch dado",
+    "all bevel and no field"
+  ],
+  "slots": [
+    "wainscot",
+    "chair_rail",
+    "ceiling_height_rule"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "A raised-and-fielded dado in a room whose chair rail is low or whose ceiling is short, so the clear panel between the base cap and the surbase is 6 to 10 in. Once the fielding bevel of 1 1/4 to 2 in has been taken off each edge, the flat raised centre is 3 to 6 in, and in the worst cases the four bevels meet and the panel is a low pyramid with no field at all. The wall reads as a row of shallow lozenges rather than as panelling, and in raking light it produces four converging shadows per panel where a real panel produces a flat lit centre inside a frame of shadow.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The dado is specified as a finish — 'raised panel wainscot' — without a section, and it is fitted into whatever vertical space is left after the base and the rail have been placed by other decisions. The base is set by a stock height, the rail by habit or by an out-of-range derivation, and the panel gets the remainder. The fielding bevel meanwhile is a fixed dimension set by the shaper cutter or the panel-raising bit, typically 1 1/4 to 2 in, and it does not shrink with the panel — so the smaller the space, the larger the proportion of it that is bevel. Where the wainscot is a manufactured MDF system the bevel is moulded into a sheet and is not adjustable at all.",
+    "cost_saved": "Nothing over a flat panel, and usually 20 to 40 per cent more: raised panels need thicker stock, a shaper setup and a floating fit. The saving is upstream, in not raising the ceiling and not re-siting the rail."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / wainscot.height = ceiling_height * 1.92 / 19",
+      "statement": "Dado panel field height: 9 11/16 in at 8 ft, 10 15/16 in at 9 ft, 11 1/2 in at 9 ft 6 in, 13 5/16 in at 11 ft. This is the dimension that gets squeezed to nothing when the pedestal rule is applied to a low ceiling."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / wainscot / min_clear_field_in = 9",
+      "statement": "Below about 9 in of clear field, abandon the panelled dado and use a flat one, or abandon the dado altogether and go to the Greek Revival family, which was invented for exactly this situation."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a raised panel is a field with a bevel, not a bevel with a centre",
+      "statement": "The fielding exists to catch light on a chamfer and set the field forward of the frame. If the bevel occupies more than about a third of the panel's short dimension, the panel has no plane to raise and the member becomes a moulding rather than a panel."
+    }
+  ],
+  "correct_practice": "Size the clear field first and let the panelling follow. The derivation gives the clear panel field at ceiling x 1.92/19, so 10 15/16 in at a 9 ft ceiling and 13 5/16 in at 11 ft, and the working floor is 9 in of clear field — below that a raised panel cannot be built. Then check the bevel: a fielding bevel of 1 1/4 to 2 in must leave a flat raised centre of at least three times its own width in the short dimension, so a 1 1/2 in bevel wants a panel of at least 4 1/2 + 3 = 7 1/2 in and prefers 11. In a low room the correct answers, in order, are: flat-panel dado, which needs only the stiles and rails and reads perfectly well at 8 or 9 in of field; a plain plaster dado with a rail and no panels at all, which is entirely period and is what most secondary rooms actually had; or the Greek Revival family with a tall plain base and no dado, which is the family developed in exactly these conditions. And note the arithmetic trap: raising the chair rail from 23 in to the sill at 31 in adds 8 in of dado, which turns a 9 in field into a 17 in one — so the field problem and the rail problem are the same problem, and fixing the rail usually fixes the panel for free.",
+  "fixes": {
+    "right": "Rail at the sill, clear field of 11 in or more, raised panels with a 1 1/4 to 1 3/4 in bevel in solid stock, floating in a grooved frame so they can move.",
+    "cheap": "Flat panels. A flat-panel dado of the same stiles and rails with a plain 1/2 in flat panel and a small applied panel mould costs 30 to 40 per cent less than a raised one, works down to 8 in of field, and is documented as a permitted variant in the kit for exactly this reason. It is also better in MDF, which holds a flat panel and swells at a bevel. Second free move: raise the chair rail to the sill line and the field grows by the same amount you moved it.",
+    "dishonest": "A manufactured MDF wainscot sheet with a moulded pseudo-bevel of 1/4 in relief. It has the outline of a raised panel and none of its section, so the field and the frame are the same plane and the whole assembly reads as a printed pattern under paint. Also dishonest: reducing the bevel to 1/2 in to preserve the field — a narrow bevel does not catch light at a shallow angle and the panel goes flat, which is the same failure by another route."
+  },
+  "detection": "In a photograph, measure the flat raised centre against the bevel width on a single panel. Correct: field at least three times the bevel in the short dimension, so a 1 1/2 in bevel in an 11 in panel gives 8 in of field, a ratio of 5.3. Fault: a ratio below 2, and at a ratio of 1 the bevels meet and the panel is a pyramid. The bevel is visible in any photograph with side light because it is the only sloped surface in the assembly. Second test: measure the clear panel height between base cap and surbase against ceiling height. Correct is 0.10 (that is, 1.92/19); below 0.07 the dado is a slot. Third, look for the SHADOW SIGNATURE: a correct raised panel shows a bright flat centre with a dark hairline round it where the field meets the frame; a squeezed one shows a soft X of converging highlights and no flat centre at all.",
+  "test": {
+    "expression": "panel_clear_field_height_in / fielding_bevel_width_in",
+    "threshold": 3.0,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Both dimensions are directly visible on a single panel in a side-lit photograph. Run the absolute check alongside: clear panel field of at least 9 in, derived as ceiling x 1.92/19. A ratio near 1 means the bevels meet and the panel has become a pyramid."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "The family abandons the dado entirely — its wall section is a tall plain base running into a fourteen-part wall field — so the absence of panelling is correct and there is no panel to fail this test.",
+      "bounds": "No dado, and a base of 10 1/4 in or more carrying the bottom of the wall. This is the licensed answer to a low ceiling and the pack names it as such."
+    },
+    {
+      "style": "german-pennsylvania-colonial",
+      "why": "Small square or near-square raised panels in tight arrangements are a genuine Continental habit, and the dense small-panel dado with heavy stiles is documented in Pennsylvania German work.",
+      "bounds": "Small AND square AND with a full bevel — the panels are small because they are numerous, not because the space ran out, and the field still exceeds the bevel by three to one. The stiles are also unusually wide, which is the tell that the arrangement is intended.",
+      "bounds_test": {
+        "expression": "panel_clear_field_height_in / fielding_bevel_width_in",
+        "threshold": 3.0,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "cotswold-vernacular",
+      "why": "Small-panelled oak wainscot with narrow fields and heavy muntins is genuine sixteenth and seventeenth century joinery, where the panel size was limited by the width of riven oak available.",
+      "bounds": "Solid riven or quartersawn oak, unpainted, with the panels genuinely small in BOTH dimensions and the framing members correspondingly heavy at 2 1/2 to 4 in. A painted MDF dado with small panels is not this."
+    },
+    {
+      "style": "tudor",
+      "why": "Linenfold and small-square oak panelling runs to panels of 8 to 12 in with shallow relief, and the small panel is the historical unit.",
+      "bounds": "Solid oak, carved or moulded relief, heavy stiles and rails. And linenfold is not a fielded panel at all — it is a carved one, and the bevel test does not apply."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "dado-panel-taller-than-wide",
+      "difference": "Field size against field shape. A panel can have an ample field and the wrong aspect ratio, or the right ratio at a size too small to build. Diagnose the height first, because the height problem is usually caused by the rail and the shape problem by the layout."
+    },
+    {
+      "fault": "chair-rail-at-the-pedestal-cap",
+      "difference": "The usual cause of this fault. A rail derived at ceiling x 4/19 in a 9 ft room leaves 9 1/2 in of dado between base cap and surbase, which is exactly the slot this fault describes."
+    }
+  ],
+  "co_occurs_with": [
+    "chair-rail-at-the-pedestal-cap",
+    "the-miniature-order",
+    "dado-panel-taller-than-wide"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, wainscot.height derived rule and its note",
+    "kits/georgian-colonial-american.kit.json, wainscot min_clear_field_in and variants",
+    "Batty Langley, The City and Country Builder's and Workman's Treasury of Designs (1740), wainscot plates",
+    "HABS measured drawings of eighteenth-century dado sections"
+  ],
+  "confidence": "high",
+  "tags": [
+    "wainscot",
+    "raised-panel",
+    "proportion",
+    "field"
+  ]
+}

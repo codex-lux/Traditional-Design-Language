@@ -1,0 +1,127 @@
+{
+  "id": "dado-panel-taller-than-wide",
+  "name": "The Vertical Dado Panel",
+  "aka": [
+    "portrait panels",
+    "the panel that thinks it is a door",
+    "the reproduction tell"
+  ],
+  "slots": [
+    "wainscot",
+    "built_ins"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A panelled dado whose panels are taller than they are wide — commonly 11 in high by 8 in wide, or a run of narrow verticals at 6 in wide — in a room whose period wants them at roughly 11 by 18. The wall below the chair rail reads as a picket fence of narrow uprights rather than as a continuous horizontal band. On a long wall the effect compounds: fourteen narrow panels where six wide ones belong.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "Vertical is the default in almost every modern panelling product and drawing. Manufactured wainscot systems are sold as a repeat of a vertical unit because it tiles to any length without recalculation; kitchen and cabinet vocabulary, which is where most designers meet panel proportion, is overwhelmingly vertical because cabinet doors are tall; and a vertical panel needs no set-out from the room's centre, which is the step that a horizontal panel forces. The default is also self-confirming, because six-panel doors in the same room have vertical panels and the eye takes them as the reference.",
+    "cost_saved": "Nothing. A wide panel and a tall panel cost the same in stock and labour; the wide one needs a set-out drawing and the narrow one does not, which is a difference of perhaps two hours."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / wainscot.width = ceiling_height * 1.92 / 19 * 1.6",
+      "statement": "Dado panels run WIDER than tall, typically 1.5 to 1.8 to 1, which is the opposite of the vertical panels people default to and is one of the reliable tells of a reproduction dado. 17 1/2 in wide by 10 15/16 high at a 9 ft ceiling."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / wainscot.count = max(2, round(span / (ceiling_height * 4 / 19 * 1.45)))",
+      "statement": "Six panels on an 18 ft wall at a 9 ft 6 in ceiling. The count must be adjusted so the panels either side of a door, a window or a chimney breast are EQUAL and so that no panel is a fragment: set out from the centre of the wall, or from the centre of the chimney breast, and take the accumulated difference in the STILES rather than in the panels."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a solid wood panel moves across its width and not along its length",
+      "statement": "The reason is structural as much as visual: a wide shallow panel in a solid-wood dado moves less across its width than a tall one moves across its height, so the eighteenth-century joiner was sizing panels to survive winter. A panel wider than tall floats in its groove with a smaller seasonal excursion at the rails, which is where the frame is weakest."
+    }
+  ],
+  "correct_practice": "Panels wider than tall, at 1.5 to 1.8 to 1. On a 9 ft ceiling that is about 11 in high by 17 to 19 in wide; on a 11 ft ceiling, 13 1/4 by 21 to 24. Set out from the centre of the wall, or from the centre of the chimney breast where there is one, and take the accumulated difference in the stiles rather than in the panels — a dado whose panel widths vary by more than about ten per cent along one wall reads as an error even to someone who cannot say why, and the stiles can vary by half an inch without anyone noticing. The panels flanking a door, a window or a chimney breast must be EQUAL, which usually means starting the set-out at those features and working outward rather than starting at a corner. The count is the last thing to fix, not the first: choose the panel width you want, divide, and adjust the stiles. Full-height panelling follows the opposite rule and is worth knowing so the two are not confused — a full-height panelled wall runs tall panels above the dado rail and wide ones below, so a single wall can legitimately carry both proportions stacked, and the horizontal band at the rail is what makes that legible.",
+  "fixes": {
+    "right": "A set-out elevation per wall with panel widths, stile widths and the chimney-breast centre marked, drawn before the stock is cut.",
+    "cheap": "Reduce the count. Where a dado is being run in flat panel or in applied panel mould on plaster — which is most of them — using six panels instead of twelve on an 18 ft wall uses LESS material, takes less labour, and produces the correct proportion. This is one of the few faults in the corpus whose correct answer is cheaper than the wrong one, and the only reason it is not the default is that nobody drew it.",
+    "dishonest": "Making the panels wide by omitting the intermediate stiles and running a single long panel per wall. A 14 ft panel is not a wide panel, it is an unpanelled field with a moulding round it, and in solid wood it is unbuildable. The ratio is a ratio, not a direction to maximise."
+  },
+  "detection": "Measure width against height on any single dado panel in a photograph. Correct: 1.5 to 1.8. Fault: less than 1.0. This is one of the easiest interior measurements to take from an image because the panel edges are high-contrast and the whole panel is usually visible. Second test, on a long wall: count the panels and divide the wall length by the count — a value below about 14 in means the panels are too narrow whatever their height. Third, look at the panels either side of a door or a chimney breast: if they differ in width, the wall was set out from a corner rather than from a centre, and that is usually the same decision that produced the vertical proportion.",
+  "test": {
+    "expression": "dado_panel_width_in / dado_panel_height_in",
+    "threshold": 1.4,
+    "upper": 2.0,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Derivation gives 1.6. Values below 1.0 are the fault; values above about 2.5 mean the intermediate stiles have been omitted. Applies to the DADO only — full-height panelling above a rail runs tall panels and follows a different rule."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman wainscot is boards and battens or plain vertical boards, which are vertical by construction — the battens run at about 16 in on centres, coinciding with the studs behind, and the verticality is the exposed-joinery logic applied to a wall.",
+      "bounds": "Boards and battens, not panels: there are no stiles, no rails and no floating fields, and the spacing you see is the spacing that is there. The moment the assembly acquires a frame with panels in it, the classical rule returns.",
+      "bounds_test": {
+        "expression": "batten_spacing_in",
+        "threshold": 14,
+        "upper": 18,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Stud spacing, because the battens are nailed to studs."
+      }
+    },
+    {
+      "style": "gothic-revival-american",
+      "why": "Linenfold and vertical-panelled Gothic wainscot is vertical by iconography — the panel repeats a window or a tracery unit — and the tall narrow panel is the whole point.",
+      "bounds": "The panels must carry Gothic detail, arched or traceried heads, or linenfold; a plain tall rectangle is not the exception. And the vertical rhythm should relate to a real vertical elsewhere in the room, usually the window mullions."
+    },
+    {
+      "style": "carpenter-gothic",
+      "why": "Same reasoning at a vernacular scale: vertical board wainscot with a moulded cap, matching the vertical board-and-batten of the exterior.",
+      "bounds": "Boards, not panels, and the verticality must be echoed on the exterior. A Carpenter Gothic house with horizontal siding and a vertical panelled dado has the argument backwards."
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Linenfold panelling is vertical by definition, the carved fold running the height of the panel.",
+      "bounds": "Genuine linenfold or a close carved equivalent in solid oak. Tudor Revival rooms that use plain rectangular panelling follow the classical proportion and this exception does not cover them."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "raised-panel-with-no-field",
+      "difference": "Shape against size. A panel can be correctly wide and still too short to raise. Fix the height first, from the chair rail; the width is then a layout decision that costs nothing."
+    },
+    {
+      "fault": "wainscot-cap-upside-down",
+      "difference": "The field against the member above it. A dado can have perfect panels and a nonsensical cap; the two are decided by different people."
+    }
+  ],
+  "co_occurs_with": [
+    "raised-panel-with-no-field",
+    "chair-rail-at-thirty-six-inches"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, wainscot.width and wainscot.count derived rules and notes",
+    "kits/georgian-colonial-american.kit.json, wainscot panel_width_in",
+    "HABS measured drawings of eighteenth-century dado elevations",
+    "Asher Benjamin, The American Builder's Companion (1806)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "wainscot",
+    "panel",
+    "proportion",
+    "reproduction-tell",
+    "cost-negative-fix"
+  ],
+  "inverted_by": [
+    {
+      "style": "gothic-revival-american",
+      "statement": "Vertical panels are correct and a wide horizontal panel is the fault, because the panel repeats a window or a tracery unit."
+    },
+    {
+      "style": "tudor-revival",
+      "statement": "Linenfold is vertical by definition and a horizontal linenfold panel does not exist."
+    }
+  ]
+}

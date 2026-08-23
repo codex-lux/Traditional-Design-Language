@@ -1,0 +1,631 @@
+{
+  "id": "vignola-tuscan",
+  "name": "Tuscan Order (Vignola)",
+  "aka": [
+    "Ordine Toscano",
+    "Roman Tuscan",
+    "Vignolesque Tuscan"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII",
+    "author": "Giacomo Barozzi da Vignola",
+    "year": 1562,
+    "strength": "canonical",
+    "url": "https://archive.org/details/fiveordersofarch00vign",
+    "note": "Figures taken from Vignola's own plates as transmitted by the 1889 Juglaris & Locke English translation and the Italian commentary 'Dei cinque ordini d'architettura' (Politecnico di Torino digital library), cross-checked against Ware, The American Vignola (1902/1904/1920). Where Ware's simplified diameter-fraction scheme departs from Vignola's plate figures, Vignola is encoded and the departure is recorded in the member note."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "semidiameter of the column at its base",
+    "parts": 12,
+    "default_size_in": 6.0,
+    "note": "Vignola divides the module into 12 parts for Tuscan and Doric, 18 minutes for Ionic, Corinthian and Composite. Confirmed verbatim in Ware (1920) p.9 and in the 1889 translation, Plate I. Default 6 in. gives a 12 in. column, a 7 ft column shaft-to-abacus of 7 ft 0 in., i.e. an order 14 modules tall.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 14,
+    "shaft_height_modules": 12,
+    "diminution": 0.8333333333333334,
+    "entasis_begins_at": 0.3333333333333333,
+    "fluting": {
+      "count": null,
+      "profile": "unfluted; Vignola's Tuscan shaft is plain",
+      "fillet": false
+    }
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 4.666666666666667,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base_fascia",
+          "name": "Pedestal base, fascia (zoccolo)",
+          "height_parts": 5,
+          "projection_parts": 4,
+          "profile": "fascia",
+          "note": "Vignola gives the Tuscan pedestal base half a module in height and one third of a module (4 parts) of projection, ornamented only with a fascia and a fillet. The 1889 translation reads the projection as 1/2 module; the Italian commentary reads 1/3 module and states the arithmetic ('un terzo di modulo, che viene ad essere quattro parti'), which is encoded here. The 5:1 split of the 6-part base between fascia and fillet is apportioned, not stated.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Pedestal base, fillet (pianetto)",
+          "height_parts": 1,
+          "projection_parts": 4,
+          "profile": "fillet",
+          "note": "Apportioned within the stated 6-part base.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_die",
+          "name": "Pedestal die (dado)",
+          "height_parts": 44,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "3 modules 8 parts, left plain. Stated by Vignola.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_cap_cyma",
+          "name": "Pedestal cap, cyma reversa (gola rovescia)",
+          "height_parts": 4,
+          "projection_parts": 4,
+          "profile": "cyma-reversa",
+          "note": "The Tuscan pedestal cap is half a module and carries only a cyma reversa and a fascia; Ware notes that Vignola's Tuscan pedestal, alone among the five, has no corona. Split within the 6 parts is apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_cap_fascia",
+          "name": "Pedestal cap, fascia (fascia)",
+          "height_parts": 2,
+          "projection_parts": 4,
+          "profile": "fascia",
+          "note": "Apportioned within the stated 6-part cap.",
+          "confidence": "low"
+        }
+      ]
+    },
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth (plinto)",
+          "height_parts": 6,
+          "projection_parts": 4.5,
+          "profile": "plinth",
+          "note": "Ware's table gives 1/4 D for the height of the Tuscan plinth, i.e. exactly half the 1-module base; Vignola's base projection is 4 1/2 parts. Both sources agree.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_torus",
+          "name": "Torus (toro)",
+          "height_parts": 4,
+          "projection_parts": 3.5,
+          "profile": "torus",
+          "note": "Vignola names three members only - plinto, toro, imoscapo. Ware's rule 'dividing the Base into two' fixes the plinth at 6 parts; the 4:2 division of the remaining 6 between torus and imoscapo follows the standard reading of the plate but is not stated numerically in any text source consulted.",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_apophyge",
+          "name": "Cincture and congé of the shaft (imoscapo)",
+          "height_parts": 2,
+          "projection_parts": 1.0,
+          "profile": "apophyge",
+          "note": "Vignola counts the imoscapo as part of the base, so 'base' here means base plus cincture - Ware is explicit: 'this measurement includes not only the Base itself, but the Cincture at the foot of the Shaft'.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "shaft": {
+      "height_modules": 12,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "shaft_body",
+          "name": "Shaft (fusto)",
+          "height_parts": 141,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "Plain, unfluted. Cylindrical for the lower third, then diminishing to 5/6 of the lower diameter.",
+          "confidence": "high"
+        },
+        {
+          "id": "shaft_apophyge",
+          "name": "Apophyge at the top of the shaft (sommoscapo)",
+          "height_parts": 1.5,
+          "projection_parts": 0,
+          "profile": "congé",
+          "note": "Height apportioned; Vignola gives it graphically only.",
+          "confidence": "low"
+        },
+        {
+          "id": "shaft_fillet",
+          "name": "Fillet under the astragal",
+          "height_parts": 0.5,
+          "projection_parts": 0.5,
+          "profile": "fillet",
+          "note": "Vignola's plate shows the fillet half the height of the bead above it.",
+          "confidence": "medium"
+        },
+        {
+          "id": "shaft_astragal",
+          "name": "Astragal at the top of the shaft (tondino)",
+          "height_parts": 1,
+          "projection_parts": 1,
+          "profile": "astragal",
+          "note": "The 1889 translation calls this 'the top bead of the column - this last is the same in all orders'. Ware's table gives the astragal height and projection as the same small fraction of a diameter (1/24 D = 1 part).",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "capital": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "cap_necking",
+          "name": "Necking / frieze of the capital (fregio)",
+          "height_parts": 4,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "Vignola: the capital's frieze 'pianta subito sopra il collarino della colonna'. Ware's table gives the Tuscan necking as 1/6 D = 4 parts, i.e. the capital divides into three equal parts. Both sources agree.",
+          "confidence": "high"
+        },
+        {
+          "id": "cap_fillet",
+          "name": "Fillet under the echinus (listello)",
+          "height_parts": 1,
+          "projection_parts": 2,
+          "profile": "fillet",
+          "note": "Within Ware's middle third (4 parts = echinus zone).",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_ovolo",
+          "name": "Echinus (ovolo)",
+          "height_parts": 3,
+          "projection_parts": 4,
+          "profile": "ovolo",
+          "note": "Plain in Vignola's Tuscan; the ovolo is never carved in this order.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_abacus",
+          "name": "Abacus (gocciolatoio del capitello)",
+          "height_parts": 3,
+          "projection_parts": 5,
+          "profile": "abacus",
+          "note": "Ware: the abacus is 7/6 D across, not counting the fillet above it, and projects its own height from the face of the architrave.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cap_fillet_top",
+          "name": "Fillet over the abacus (pianetto)",
+          "height_parts": 1,
+          "projection_parts": 5,
+          "profile": "fillet",
+          "note": "Within Ware's upper third (4 parts = abacus zone).",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_face",
+          "name": "Architrave face, single fascia",
+          "height_parts": 11,
+          "projection_parts": 0,
+          "profile": "fascia",
+          "note": "Vignola's Tuscan architrave is a single undivided face; its lower edge is set in line with the top of the shaft (Ware). Ware also gives it 1/2 D = 1 module, which agrees with Vignola.",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_fillet",
+          "name": "Taenia / crowning fillet (listello)",
+          "height_parts": 1,
+          "projection_parts": 6,
+          "profile": "fillet",
+          "note": "Vignola sets the height of this fillet at one sixth of the architrave's projection. Encoded at 1 part on a 6-part projection.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.1666666666666667,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze_face",
+          "name": "Frieze (fregio), plain",
+          "height_parts": 14,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "DISAGREEMENT: Vignola gives 1 module 2 parts (14 parts). Ware simplifies the Tuscan frieze to 1/2 D = 12 parts and the cornice to 3/4 D = 18 parts, but himself records the departure: 'Vignola ... sets the Bed Mold up one-twelfth, making the Frieze wider and the Corona narrower.' One twelfth of a diameter is exactly 2 parts, which reconciles the two accounts. Vignola's figure is encoded.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.3333333333333333,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_bedmould",
+          "name": "Bed mould, cyma reversa (gola rovescia)",
+          "height_parts": 4,
+          "projection_parts": 3,
+          "profile": "cyma-reversa",
+          "note": "Ware: 'The Bed Mold is a large Cyma Reversa.' Member order is Vignola's; the 16 parts are apportioned across his six named members.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_fillet_lower",
+          "name": "Fillet over the bed mould (listello)",
+          "height_parts": 1,
+          "projection_parts": 4,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "corn_corona",
+          "name": "Corona (gocciolatoio)",
+          "height_parts": 5,
+          "projection_parts": 12,
+          "profile": "corona",
+          "note": "DISAGREEMENT: Ware's simplified Tuscan gives the whole cornice 3/4 D = 18 parts with a correspondingly deeper corona. Vignola's cornice is 1 module 4 parts = 16, which is what is encoded; his corona is therefore narrower than Ware's.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_fillet_upper",
+          "name": "Fillet over the corona (listello)",
+          "height_parts": 1,
+          "projection_parts": 13,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "corn_torus",
+          "name": "Torus under the cymatium (toro)",
+          "height_parts": 1,
+          "projection_parts": 14,
+          "profile": "torus",
+          "note": "Named by the Italian commentary in this position. Unusual, and not shown as a distinct member on Ware's plate; height apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "corn_cymatium",
+          "name": "Cymatium, ovolo (ovolo)",
+          "height_parts": 4,
+          "projection_parts": 16,
+          "profile": "ovolo",
+          "note": "Ware: 'Vignola's Tuscan Order is marked by the use of the Ovolo in the Cymatium.' This is the single most diagnostic profile in the order - an ovolo, not a cyma recta, crowns the Tuscan cornice. Total cornice projection equals its height (16 parts), per Ware.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 3.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 12,
+          "projection_parts": 6,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "1 module."
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 14,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "medium",
+          "note": "1 module 2 parts (Vignola); Ware simplifies to 1 module."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice",
+          "height_parts": 16,
+          "projection_parts": 16,
+          "profile": "corona",
+          "confidence": "medium",
+          "note": "1 module 4 parts (Vignola); Ware simplifies to 1 1/2 modules. Projection equals height."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The entablature is one quarter the height of the column, base and capital included.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 4",
+      "tolerance": 0.001,
+      "note": "Vignola, Tavola VI: 'l'architrave, fregio e cornice siano la quarta parte dell'altezza della colonna'. 3.5 modules against a 14-module column. This and the pedestal rule are the whole of Vignola's systematising achievement."
+    },
+    {
+      "statement": "The pedestal is one third the height of the column, base and capital included.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules / 3",
+      "tolerance": 0.001,
+      "note": "Vignola, Tavola IV: 'i piedestalli con i suoi ornamenti dover essere la terza parte della sua colonna colla base e capitello'. 4 modules 8 parts = 56 parts against a 14-module (168-part) column."
+    },
+    {
+      "statement": "The entablature is the sum of architrave, frieze and cornice.",
+      "expression": "assemblies.entablature.height_modules == assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is the sum of base, shaft and capital.",
+      "expression": "assemblies.base.height_modules + assemblies.shaft.height_modules + assemblies.capital.height_modules == column.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is seven diameters high.",
+      "expression": "column.height_modules == 14",
+      "tolerance": 0.001,
+      "note": "Vignola takes this from Vitruvius IV.7, having found no antique Tuscan entablature to rule from."
+    },
+    {
+      "statement": "The shaft diminishes to five sixths of its lower diameter.",
+      "expression": "column.diminution == 5/6",
+      "tolerance": 0.002,
+      "note": "Upper diameter 1 module 8 parts against a lower diameter of 2 modules."
+    },
+    {
+      "statement": "Diminution begins at one third the height of the shaft; below that the shaft is cylindrical.",
+      "expression": "column.entasis_begins_at == 1/3",
+      "tolerance": 0.002,
+      "note": "1889 translation, Plate XXIX, first method of tapering, used for Tuscan and Doric."
+    },
+    {
+      "statement": "Order without pedestal divides five to one: four parts column, one part entablature.",
+      "expression": "column.height_modules / assemblies.entablature.height_modules == 4",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "pycnostyle",
+        "clear_diameters": 1.5,
+        "note": "Vitruvian 1 D, but Ware records that it is set out at 1 1/4 D (2 1/4 D on centres) to avoid crowding the bases. Vignola does not use it for Tuscan."
+      },
+      {
+        "name": "systyle",
+        "clear_diameters": 2.0,
+        "note": "Two diameters clear, three on centres."
+      },
+      {
+        "name": "eustyle",
+        "clear_diameters": 2.3333333333333335,
+        "note": "VIGNOLA'S OWN TUSCAN SPACING. Tavola VI gives 4 modules 8 parts clear (2 1/3 D), 6 modules 8 parts on centres (3 1/3 D); the Italian commentary states this 'si approssima a quella di Vitruvio, che si chiama Eustilo'. Note that the ancient eustyle is 2 1/2 D clear; 2 1/3 D is the modern figure, and is what Vignola draws."
+      },
+      {
+        "name": "diastyle",
+        "clear_diameters": 3.0,
+        "note": "Three diameters clear, four on centres."
+      },
+      {
+        "name": "araeostyle",
+        "clear_diameters": 4.0,
+        "note": "Four diameters clear. Only safe with a timber architrave."
+      },
+      {
+        "name": "tuscan-intercolumniation",
+        "clear_diameters": 7.0,
+        "note": "Ware: 'the ancients used Tuscan Columns chiefly with wooden architraves, setting them as much as seven Diameters apart, which is called the Tuscan Intercolumniation, and which makes the space between the columns about square.' This is the American porch spacing, and the reason a Tuscan porch reads correctly with columns far apart."
+      },
+      {
+        "name": "arched-tuscan",
+        "clear_diameters": 3.75,
+        "note": "Tavola VII: with an arch and no pedestal, 9 1/2 modules on centres, arch opening 6 1/2 modules wide by 13 high, two squares exactly."
+      }
+    ],
+    "default": "eustyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 4",
+      "units": "in",
+      "authority_note": "Vignola's first invariant, stated in Tavola VI and held across all five orders. It is the reason his book beat Serlio's and Palladio's in the builder's market: one number governs.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height / 3",
+      "units": "in",
+      "range": [
+        30,
+        38
+      ],
+      "authority_note": "THE ACTUAL HISTORICAL DERIVATION. Vignola's pedestal is one third the column. Read the room as the order - floor to ceiling is the column - and the top of the pedestal cap falls at one third the ceiling height. A 9 ft ceiling puts it at 36 in.; an 8 ft ceiling at 32 in. That is why chair rails sit where they sit, and why they drop when ceilings drop. Measure to the TOP of the rail.",
+      "judgment": false,
+      "note": "The rail itself is the pedestal cap: cyma reversa below, fascia above, 6 parts of the 56-part pedestal, i.e. ceiling_height * 6/168 thick. The wainscot below it IS the pedestal - base, die, cap - so its cap and the chair rail are one member, not two; a wainscot whose panelling stops at a different height from the rail reads as two systems fighting. The rail itself is the pedestal cap: ceiling_height * 6/168 in Tuscan, ceiling_height * 6/192 in Doric."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "ceiling_height / 14",
+      "units": "in",
+      "range": [
+        5,
+        12
+      ],
+      "authority_note": "The base of the order at room scale: one module of a fourteen-module column. A 9 ft ceiling gives 7 11/16 in. The plinth of the order is the logic - the baseboard's own plinth block should be half its height (Vignola's Tuscan plinth is 6 parts of a 12-part base), with the remainder given to a torus or a cyma and cincture.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * (16/12) / 14",
+      "units": "in",
+      "range": [
+        6,
+        16
+      ],
+      "authority_note": "Room read as an order at reduced module: ceiling height = column height, crown = the Tuscan cornice alone, 1 module 4 parts of 14 modules. A 9 ft ceiling gives 10 1/4 in.",
+      "judgment": false,
+      "note": "If the room is important enough to carry a full entablature rather than a cornice alone, use ceiling_height * 3.5/14 = one quarter the ceiling height - 27 in. in a 9 ft room. That is a state-room move and it eats the wall; see the conflict with 8 ft ceilings."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height * (16/12) / 14",
+      "units": "in",
+      "authority_note": "Ware: 'The projection of the Cornice is the same as its height, except in the Doric Order.' A Tuscan crown that projects less than it drops is not Tuscan, it is stock.",
+      "judgment": false
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 6",
+      "units": "in",
+      "range": [
+        3.25,
+        7.5
+      ],
+      "authority_note": "The casing is the entablature architrave brought down to the opening: a single fascia crowned by a fillet, in the same 11:1 proportion as Vignola's Tuscan architrave. One sixth of the opening width is the standard classical door-architrave rule. A 32 in. door gives 5 5/16 in. casing.",
+      "judgment": false,
+      "note": "The same rule governs the window surround; where a window takes a full entablature or a pediment above, that entablature is opening_width/2 deep for a 1:2 opening."
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "height",
+      "expression": "opening_width / 2",
+      "units": "in",
+      "authority_note": "Vignola's Tuscan arched opening is two squares - 6 1/2 modules wide by 13 high. Treat the door height as the column height; its entablature is a quarter of it, i.e. half the opening width for a 1:2 opening.",
+      "judgment": false,
+      "note": "Height of the crowning entablature over the door, not of the door."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 7",
+      "units": "in",
+      "range": [
+        6,
+        14
+      ],
+      "authority_note": "A Tuscan column is seven diameters. The diameter follows from the height of the porch, not from what the lumber yard stocks. An 8 ft 6 in. porch column is 14 9/16 in. at the base - which is why a correct Tuscan porch column is much fatter than a 6x6 post and why 6x6 posts read as sticks.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "column_height * (16/12) / 14",
+      "units": "in",
+      "range": [
+        8,
+        30
+      ],
+      "authority_note": "Building-scale main cornice where the elevation carries a real or implied order: the cornice alone of a Tuscan entablature whose column is the storey or the full pilaster height.",
+      "judgment": false
+    },
+    {
+      "target_slot": "frieze",
+      "dimension": "height",
+      "expression": "storey_height * (14/12) / 14",
+      "units": "in",
+      "range": [
+        6,
+        24
+      ],
+      "authority_note": "Where there is no order on the elevation, the frieze band is being asked to stand in for one. Vignola's Tuscan frieze is 1 module 2 parts of a 14-module column; applied to a storey height this gives a defensible band, but the choice of what plays the part of the column - the storey, the wall, the whole building - is not determined by any classical source.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Pick the datum consciously. A frieze sized off the storey on a two-storey house gives a lighter cornice than one sized off the whole wall, and both are defensible; splitting the difference is not."
+    },
+    {
+      "target_slot": "porch_depth",
+      "dimension": "width",
+      "expression": "96",
+      "units": "in",
+      "range": [
+        84,
+        132
+      ],
+      "authority_note": "No classical source gives a porch depth; the American porch is not a Roman element. Below about 7 ft a porch is decoration, above it a room.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The order will size the column once you have fixed the depth and the height; it cannot fix the depth for you."
+    },
+    {
+      "target_slot": "balustrade",
+      "dimension": "height",
+      "expression": "36",
+      "units": "in",
+      "range": [
+        30,
+        42
+      ],
+      "authority_note": "Ware is explicit that balustrades, like steps, are proportioned to the human figure and NOT to the order: 'A Balustrade, like a Parapet, is intended to lean upon, and should not be more than 3 or 4 feet high.' The order governs everything above the rail and nothing about the rail itself.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, and a load-bearing one: guard height is set by code (42 in. commonly, 36 in. for one- and two-family dwellings), by the hand, and by the sight line from a seated position - never by the module."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "A full Tuscan entablature at room scale in an 8 ft ceiling wants 24 in. of wall (one quarter of 96 in.), leaving 6 ft to the top of the chair rail's field. The order asks for more room than the standard American ceiling has.",
+      "resolution": "In an 8 ft room run the cornice alone (96 * (16/12)/14 = 9 1/8 in.) and drop the architrave and frieze. Do not shrink all three proportionally - a 24 in. entablature compressed to 9 in. reads as a mistake, whereas a cornice alone reads as a deliberate abbreviation and is what every good Federal house actually does. If the room is a principal room, raise the ceiling to 9 or 10 ft and take the full entablature; that is the cheaper fix, because the framing cost of the extra foot is less than the joinery cost of a full entablature.",
+      "severity": "material"
+    },
+    {
+      "with": "egress-code",
+      "statement": "Vignola's Tuscan intercolumniation is 2 1/3 diameters clear. On a porch with 10 in. columns that is 23 1/3 in. clear between shafts at the base - below the 32 in. clear width required at an exit door, and below a 36 in. accessible route.",
+      "resolution": "Do not narrow the column to buy width; that breaks the seven-diameter rule and the column reads as a stick. Use the Tuscan intercolumniation proper (Ware's 7 D, the wooden-architrave spacing that gives a roughly square opening) for the bay containing the door, and hold the eustyle spacing elsewhere - Tuscan tolerates unequal bays better than any other order because it has no triglyph or modillion to keep in step.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "At the default 6 in. module one part is 1/2 in. and the smallest members encoded here - the 1/2-part shaft fillet, the 1-part cornice fillets - are 1/4 in. and 1/2 in. Three coats of paint on a site-run profile is 1/32 in.; a 1/4 in. fillet survives. At a 3 in. module (a 6 in. pilaster) the same fillet is 1/8 in. and disappears under paint.",
+      "resolution": "Set a hard floor of 3/16 in. for any painted fillet and 1/8 in. for stained hardwood. Below the floor, delete the member and give its height to the neighbour rather than drawing something that will not be built. Record the deletion; a fillet silently absorbed is how profile families rot.",
+      "severity": "minor"
+    },
+    {
+      "with": "energy-code",
+      "statement": "Continuous exterior insulation pushes the wall plane 1 1/2 to 3 in. proud of the sheathing. Vignola sets the lower face of the architrave in line with the top of the shaft; with the wall moved out, an engaged Tuscan pilaster of correct projection (5 parts at the capital) is swallowed by the insulation and the entablature no longer lands on anything.",
+      "resolution": "Either furr the order out on the insulation plane as a complete assembly with its own back-band and flashing, or reduce the pilaster to a flat panelled strip and let the entablature carry the order alone. Do not thin the entablature to match a shallow pilaster - the entablature is the quarter-of-the-column invariant and is the last thing to give.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "charleston-single-house",
+    "federal-style",
+    "southern-federal",
+    "new-england-federal",
+    "greek-revival-upland-vernacular",
+    "american-farmhouse-vernacular",
+    "folk-victorian",
+    "italianate-american",
+    "italianate-villa",
+    "colonial-revival",
+    "minimal-traditional",
+    "modern-farmhouse-traditional",
+    "new-urbanist-traditional"
+  ],
+  "sources": [
+    "Vignola, Regola delli cinque ordini d'architettura (Rome, 1562), Tavole IV-VIII",
+    "Vignola, The Five Orders of Architecture, tr. Tommaso Juglaris & Warren Locke (Norwood Press, 1889), Plates I-VI and XXIX; archive.org/details/fiveordersofarch00vign",
+    "William R. Ware, The American Vignola (1902/1904; 1920 printing), Plate II and Plates III-IV, 'The Tuscan Order', and Plates XVI and XVIII; archive.org/details/cu31924091026504",
+    "Anon., Dei cinque ordini d'architettura di M. Jacopo Barozzi da Vignola, Parte II (Politecnico di Torino digital library, digit.biblio.polito.it/4220) - Italian commentary giving Vignola's member-by-member composition and the modules-and-parts figures",
+    "Frank Chouteau Brown / Study of the Orders (American School of Correspondence), archive.org/details/studyoforders00browiala - independent confirmation of pedestal and entablature figures",
+    "Robert Chitham, The Classical Orders of Architecture (1985) - consulted only through secondary citation; not available in full text for this pass"
+  ],
+  "confidence": "high",
+  "notes": "TUSCAN, encoded from Vignola's own figures in modules and parts, module = semidiameter, 12 parts.\n\nTop-level figures are firmly sourced and agreed by three independent witnesses (the 1889 Juglaris & Locke translation, the Italian 'Dei cinque ordini' commentary, and Ware's American Vignola): column 14 modules; entablature 3 1/2 modules; pedestal 4 modules 8 parts; base 1 module with 4 1/2 parts projection; capital 1 module with 5 parts projection; architrave 1 module; clear intercolumniation 4 modules 8 parts.\n\nONE REAL DISAGREEMENT, and it matters. Ware simplifies the Tuscan frieze to 1/2 D (12 parts) and the cornice to 3/4 D (18 parts); Vignola's plate gives frieze 1 module 2 parts (14) and cornice 1 module 4 parts (16). Both sum to 3 1/2 modules, so the invariant holds either way, but the profiles differ. Ware himself flags the departure - 'Vignola ... sets the Bed Mold up one-twelfth, making the Frieze wider and the Corona narrower' - and one twelfth of a diameter is exactly the 2 parts of difference. Vignola's figures are encoded; the affected members carry confidence 'medium' and a note.\n\nWHAT IS WEAK. The division of the 16-part cornice, the 6-part pedestal base and the 6-part pedestal cap among their named mouldings is apportioned, not sourced: Vignola gives these only as figured dimensions on the plate, and no full-text source consulted transcribes the plate numerals. The MEMBERS and their ORDER are Vignola's (the Italian commentary lists them member by member); the individual heights are ours. Those members carry confidence 'low'. Projections for minor mouldings are likewise apportioned within the stated total projection of each assembly. Do not treat a low-confidence height as a millwork dimension without checking a plate.\n\nThe Italian commentary lists a torus immediately under the crowning ovolo of the cornice, which is not a member Ware shows. It is encoded, at low confidence, because the source is the closer witness to the plate.\n\nAPPLIES_TO is deliberately broad. Tuscan is the American default order - it is what a Georgian or Federal porch column, an Italianate porch post and a vernacular Greek Revival column all actually are, whatever the pattern book calls them. It is not bound to Greek Revival's temple front, which is Doric or Ionic."
+}

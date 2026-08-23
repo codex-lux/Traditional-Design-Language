@@ -1,0 +1,194 @@
+{
+  "id": "arts-and-crafts-american",
+  "name": "American Arts and Crafts",
+  "aka": [
+    "American Craftsman movement",
+    "Mission style (furniture-derived usage)",
+    "United Crafts"
+  ],
+  "rank": "style",
+  "member_of": "american-arts-and-crafts",
+  "status": "historical",
+  "period": {
+    "origin": 1890,
+    "floruit_start": 1897,
+    "floruit_end": 1920,
+    "decline_end": 1930,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Boston and Chicago as intellectual centres; Stickley's workshops at Eastwood, New York, as the transmission point",
+    "climate_zones": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "arts-and-crafts-british",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "Ruskin and Morris arrive as text and as furniture before they arrive as buildings. The Boston Society of Arts and Crafts (1897), Elbert Hubbard's Roycroft (1895) and Gustav Stickley's United Crafts (1898) are all deliberate transplants of an English reform programme."
+    },
+    {
+      "target": "shingle-style",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The American formal substrate: the continuous unornamented skin, the open living hall organized on a hearth, and the horizontal spread of the plan are inherited directly, not imported."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "descends_from",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "Richardson's insistence that material be shown doing its work, and his base-shaft-cap masonry hierarchy, pass into the movement through the Shingle Style and through Sullivan's office."
+    },
+    {
+      "target": "queen-anne-american",
+      "type": "reacts_against",
+      "weight": 0.55,
+      "inherits_kit": false,
+      "note": "The specific target is machine-sawn applied ornament sold by the linear foot from a millwork catalog. The reform is not anti-decoration; it is a demand that decoration be produced by construction."
+    }
+  ],
+  "description": {
+    "short": "The American branch of the Arts and Crafts reform, which held that ornament must arise from construction and that a house, its furniture, and its site are a single commission, and which reorganized the middle-class plan around an open hearth-centred living room.",
+    "long": "American Arts and Crafts is a reform movement before it is a style, and this matters for how the node behaves in a graph: its defining content is a rule about where ornament may come from. Ornament must be produced by the act of building — by the joint, the bracket, the rafter end, the change of material at a structural transition — and not applied to a surface after the fact. Everything the movement looks like follows from that rule. Wood is left unpainted or matte-stained so that the grain and the joinery remain legible. Porch supports are battered piers on heavy bases because that is what a compressive member honestly looks like. Windows group into bands because they are openings between structural posts rather than punched holes in a decorated wall. The movement's American originality lies in its scale: where William Morris built for wealthy patrons, Stickley, Hubbard, and the Chicago and Pasadena architects built for a salaried professional class, and then published the result.\n\nThe conditions that produced it are specific and largely economic. The scroll saw, the moulding machine, and the national millwork catalog had, by the 1880s, made ornament cheaper than plainness, and the visible result was a generation of houses wearing decoration that no one had made and no one could account for. The Panic of 1893 discredited the display culture attached to it. At the same moment the domestic servant supply collapsed for middle-class households, which quietly rewrote the plan: the formal parlour, the back stair, and the segregated dining room became liabilities, and the open living room with built-in cabinetry, a hearth, and a plate rail became the answer — fewer rooms, fewer surfaces to dust, fewer pieces of furniture to move. The mail-order catalog and the mass magazine, the very instruments of the ornament glut, then became the movement's own distribution system. Stickley's The Craftsman (1901-1916) is the pivotal case: a magazine that printed Morris and Ruskin alongside measured plans a local carpenter could execute, which is to say a magazine that converted an ideology into a buildable specification.\n\nWhat it reacts against is therefore not the Victorian era in general but a particular industrial dishonesty: the imitation of handwork by machine. The movement's American compromise, and it is an intelligent one, is to accept the machine where the machine does honest work — dimensional lumber, plate glass, cast hardware — and to reserve the hand for the joint and the finish. Greene and Greene push this to its limit in Pasadena, where the pegged scarf joints and rounded timber ends of the Gamble House are simultaneously a display of craft and a demonstration of how a stick of wood terminates. Stickley pushes it in the opposite direction, toward reproducibility, and it is Stickley's direction that produces a national vernacular.\n\nTo stand in one of these rooms is to be in a space that is lower and darker than a Victorian room and considerably calmer. The ceiling is beamed and near, often eight and a half feet. Light arrives filtered through art glass in rectilinear geometry and does not glare. The wood is brown and matte and absorbs rather than reflects. The hearth is the largest object in the room and everything is arranged with reference to it, including built-in seating that cannot be moved, which is the movement's most radical and least remarked act: the plan is fixed against redecoration. Outside, the eaves are wide enough that the wall is in shadow for most of the day, and the shadow is what gives a plain wall its interest. This last point is the one the twentieth century will spend the next fifty years forgetting."
+  },
+  "defining_characteristics": [
+    "Ornament produced by construction — exposed joinery, rafter tails, purlins, brackets, and material transitions — rather than applied to a finished surface",
+    "The hearth as the generative centre of the plan, with an open living room replacing the parlour and built-in cabinetry replacing movable furniture",
+    "Materials left in their own colour and texture: unpainted or matte-stained wood, clinker brick, river rock, stucco, matte tile",
+    "Horizontal emphasis established by low broad roofs, wide eaves, and continuous window and trim bands",
+    "House, interior fittings, furniture, and garden conceived as one commission under one grammar",
+    "Absence of applied classical orders and of machine-sawn Victorian ornament"
+  ],
+  "diagnostic_tells": [
+    "Exposed rafter tails and knee braces that continue the actual framing rather than being screwed on",
+    "Battered (tapered) porch piers standing on heavy masonry bases at least two feet wide",
+    "Wide flat unpainted trim, a plate rail at door head height, and bookcases built into the wall flanking the fireplace",
+    "Art glass in rectilinear, non-floral geometry, usually confined to upper sash and cabinet doors",
+    "Two or three natural materials stacked base-to-top on one elevation (stone base, shingle middle, stucco gable) with each change occurring at a structural line"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-american",
+      "difference": "Queen Anne ornament is sawn, turned, and applied to the surface; Arts and Crafts ornament is the structure itself left visible. If a bracket would fall off without changing anything, it is Queen Anne."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Colonial Revival restores bilateral symmetry, applied classical orders, and painted trim — all three of which American Arts and Crafts explicitly rejects."
+    },
+    {
+      "node": "prairie-school",
+      "difference": "Prairie abstracts and suppresses structural evidence into continuous planes; Arts and Crafts insists on displaying it. A clean soffit with no visible rafter is Prairie; a rafter tail is Arts and Crafts."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "No canonical module. Proportion is set by two datums and one structural rhythm: the horizontal line of the porch beam, the aligned head height of all doors and windows, and the spacing of the stud or timber bay that the exposed members declare. The system is dimensional rather than ratio-based, which is why it scales badly upward — an Arts and Crafts house of more than two storeys loses its logic.",
+    "typical_ratios": [
+      "Roof pitch 4:12 to 6:12",
+      "Eave and rake overhang 24 to 36 inches",
+      "Wall plate 8 ft 6 in to 9 ft 0 in at the principal floor",
+      "Window and door heads aligned at a single datum, 6 ft 8 in to 7 ft 0 in above finish floor",
+      "Porch depth 7 to 9 ft — deep enough to furnish"
+    ],
+    "bay_rhythm": "Windows grouped into ribbons of two to four units between structural posts rather than isolated as punched openings; the group, not the sash, is the compositional unit.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "bungalow-linear",
+      "affinity": "canonical",
+      "note": "The single-storey hearth-centred bungalow is the movement's most-built vessel."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "common",
+      "note": "The 'Craftsman foursquare' — the movement's grammar applied to an efficient two-storey urban box on a narrow lot."
+    },
+    {
+      "massing": "airplane-bungalow",
+      "affinity": "possible"
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "possible"
+    },
+    {
+      "massing": "prairie-cruciform",
+      "affinity": "possible",
+      "note": "Shared with the Prairie branch; the pinwheel plan is common ancestry, not a distinguishing trait."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Exposed rafter tails must correspond to actual rafters at 16 to 24 in on centre and project 24 to 36 in beyond the wall plane. Decorative tails applied to a boxed eave are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Principal roof pitch between 4:12 and 6:12. Pitches above 8:12 belong to the Tudor and Storybook families and break the horizontal reading.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden. Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "All window and door heads on a given storey align to one datum, tolerance zero. Transoms and clerestories may sit above that datum only where the wall plate is raised for the whole bay.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "No more than three wall materials per elevation, each change occurring at a structural line (water table, belt, plate) and returning fully around any corner it meets.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Gamble House",
+      "location": "Pasadena, California",
+      "year": 1908,
+      "note": "Greene and Greene. The movement's high-craft limit case: every joint, hardware piece, rug, and light fitting designed under one commission."
+    },
+    {
+      "name": "Craftsman Farms (the Log House)",
+      "location": "Parsippany-Troy Hills, New Jersey",
+      "year": 1911,
+      "note": "Gustav Stickley's own house, built 1908-1911. The theorist of The Craftsman building for himself in chestnut logs and fieldstone."
+    },
+    {
+      "name": "Roycroft Campus",
+      "location": "East Aurora, New York",
+      "year": 1897,
+      "note": "Elbert Hubbard's craft colony, built out c. 1897-1915. The American attempt at a Morris-style guild settlement, and the commercial engine that sold the idea nationally."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Wendy Kaplan (ed.), 'The Art That Is Life': The Arts and Crafts Movement in America, 1875-1920 (1987)",
+    "Clay Lancaster, The American Bungalow, 1880-1930 (1985)",
+    "Alan Gowans, The Comfortable House: North American Suburban Architecture 1890-1930 (1986)",
+    "Edward R. Bosley, Greene and Greene (2000)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "reform-movement",
+    "hearth-centred",
+    "structural-ornament",
+    "magazine-transmitted"
+  ]
+}

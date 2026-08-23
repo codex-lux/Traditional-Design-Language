@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+"""Generate the wanted-asset manifest — the shot list.
+
+An asset record is authored BEFORE the image exists. The record carries the meaning;
+the file is swappable, and can be a sketch now and a HABS photograph later. Because the
+alt_text is written to be reasoned from, an agent can use the record while the file is
+still missing, and a photographer can shoot from it.
+
+Sources of wanted records:
+  forbidden variant   -> an incorrect/correct PAIR, which is the unit that does the teaching
+  invented slot       -> a diagram, because there is no precedent to photograph
+  code_conflict       -> a comparison of the period dimension against the code one
+  proportion members  -> a measured detail, generated from the engine
+"""
+import json, os, glob, re, importlib.util, sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); os.chdir(ROOT)
+spec = importlib.util.spec_from_file_location("pe", "build/proportion_engine.py")
+pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+
+SLOTS = {}
+for g in json.load(open("elements/slots.json"))["groups"]:
+    for s in g["slots"]: SLOTS[s["id"]] = {**s, "group": g["id"], "group_name": g["name"]}
+STYLES = {json.load(open(f))["id"]: json.load(open(f)) for f in glob.glob("styles/*.json")}
+
+HIGH_VALUE_GROUPS = {"openings", "envelope", "massing-and-roof", "threshold"}
+
+def slug(*parts):
+    s = "-".join(str(p) for p in parts).lower()
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+    return re.sub(r"-{2,}", "-", s)[:80].strip("-")
+
+def take(seq, n): return seq[:n]
+
+assets, pairs = [], 0
+for kf in sorted(glob.glob("kits/*.kit.json")):
+    kit = json.load(open(kf))
+    sid = kit["style"]
+    style = STYLES.get(sid)
+    if not style: continue
+    sname = style["name"]
+    for slot_id, slot in (kit.get("slots") or {}).items():
+        meta = SLOTS.get(slot_id, {})
+        grp = meta.get("group", "")
+        canon = next((v for v in slot.get("variants", []) if v.get("status") == "canonical"), None)
+        rule = slot.get("rule") or meta.get("note") or ""
+
+        for v in slot.get("variants", []):
+            if v.get("status") != "forbidden": continue
+            base = slug(sid, slot_id, v["id"])
+            bad, good = f"{base}-wrong", f"{base}-right"
+            pri = "critical" if slot.get("code_conflict") else ("high" if grp in HIGH_VALUE_GROUPS else "normal")
+            why = v.get("note") or f"Forbidden in {sname}."
+            assets.append({
+                "id": bad, "kind": "photograph", "role": "incorrect", "pair_with": good,
+                "depicts": {"nodes": [sid], "slots": [slot_id]},
+                "caption": f"{sname}, {meta.get('name', slot_id).lower()}: {v.get('name') or v['id']} — wrong, and why.",
+                "alt_text": (f"A {sname} house showing {meta.get('name', slot_id).lower()} executed as "
+                             f"{(v.get('name') or v['id']).lower()}. This is the error condition. {why} "
+                             f"The frame must be close enough that the {meta.get('name', slot_id).lower()} reads at full "
+                             f"detail and wide enough to show what it sits against, so the viewer can see the mistake in context "
+                             f"rather than as an abstraction.")[:1400],
+                "shot_spec": {
+                    "subject": f"{meta.get('name', slot_id)} on a {sname} house, executed wrongly as {v.get('name') or v['id']}",
+                    "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+                    "must_show": [f"the {meta.get('name', slot_id).lower()} in full", "enough adjacent wall or trim to judge scale",
+                                  "the junction where the error is legible"],
+                    "must_avoid": ["foliage or cars across the element", "heavy shadow across the profile", "wide-angle distortion"],
+                    "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+                    "scale_cue": "an adjacent door, sash, or brick course"
+                },
+                "provenance": {"license": "unknown"}, "file": None,
+                "status": "wanted", "priority": pri,
+                "tags": ["fault", grp, slot_id]
+            })
+            assets.append({
+                "id": good, "kind": "photograph", "role": "correct", "pair_with": bad,
+                "depicts": {"nodes": [sid], "slots": [slot_id]},
+                "caption": f"{sname}, {meta.get('name', slot_id).lower()}: the same element done correctly.",
+                "alt_text": (f"A {sname} house showing {meta.get('name', slot_id).lower()} executed correctly"
+                             + (f", as {(canon.get('name') or canon['id']).lower()}" if canon else "")
+                             + f". Shot to pair with {bad}: same vantage, same distance, same framing, so the two images "
+                             f"differ only in the thing being taught. {rule}")[:1400],
+                "shot_spec": {
+                    "subject": f"{meta.get('name', slot_id)} on a {sname} house, correctly executed",
+                    "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+                    "must_show": [f"the {meta.get('name', slot_id).lower()} in full", "the same adjacent context as the pair"],
+                    "must_avoid": ["a different scale of building from the pair", "restoration work of doubtful accuracy"],
+                    "lighting": "match the pair", "scale_cue": "match the pair"
+                },
+                "provenance": {"license": "unknown"}, "file": None,
+                "status": "wanted", "priority": pri,
+                "tags": ["exemplar", grp, slot_id]
+            })
+            pairs += 1
+
+        if slot.get("invented"):
+            assets.append({
+                "id": slug(sid, slot_id, "diagram"), "kind": "line-diagram", "role": "diagram",
+                "depicts": {"nodes": [sid], "slots": [slot_id]},
+                "caption": f"{sname}, {meta.get('name', slot_id).lower()}: an authored position, not a retrieved one.",
+                "alt_text": (f"A measured diagram of the {meta.get('name', slot_id).lower()} strategy proposed for {sname}. "
+                             f"No historical precedent exists for this slot, so there is nothing to photograph and the drawing "
+                             f"has to carry the argument. {rule} Dimensions must be shown, because the whole claim is that the "
+                             f"proposal follows rules the style already contains.")[:1400],
+                "shot_spec": {"subject": f"{meta.get('name', slot_id)} strategy diagram",
+                              "vantage": "plan and street elevation together, at a stated scale",
+                              "must_show": ["dimensions", "the relationship to the main block", "the street elevation consequence"],
+                              "must_avoid": ["rendering that flatters the proposal", "omitting the car"],
+                              "lighting": "n/a", "scale_cue": "a dimensioned bar and a figure"},
+                "provenance": {"license": "owned"}, "file": None,
+                "status": "wanted", "priority": "critical", "tags": ["invented", "judgment", slot_id]
+            })
+
+        for cc in slot.get("code_conflict", []) or []:
+            assets.append({
+                "id": slug(sid, slot_id, "code"), "kind": "detail-drawing", "role": "comparison",
+                "depicts": {"nodes": [sid], "slots": [slot_id]},
+                "caption": f"{sname}, {meta.get('name', slot_id).lower()}: the period dimension against the code minimum.",
+                "alt_text": (f"A dimensioned comparison drawing. Period: {cc.get('period_value')}. Code: "
+                             f"{cc.get('code_requirement')}{' (' + cc['code_ref'] + ')' if cc.get('code_ref') else ''}. "
+                             f"Resolution: {cc.get('resolution')}. Both conditions drawn at the same scale and overlaid, "
+                             f"so the size of the compromise is visible rather than argued.")[:1400],
+                "provenance": {"license": "owned"}, "file": None,
+                "status": "wanted", "priority": "critical", "tags": ["code-conflict", slot_id]
+            })
+
+# measured details generated by the engine — these can be produced without a camera
+for pid in ["gibbs-ionic", "vignola-doric", "vignola-corinthian", "benjamin-doric", "trim-classical"]:
+    if pid not in pe.PACKS: continue
+    pk = pe.resolve(pid)
+    d = pe.dimension(pk, 12 * pe.diameters_per_module(pk))
+    for asm in d["assemblies"]:
+        if asm["id"] not in ("cornice", "capital", "base", "entablature"): continue
+        assets.append({
+            "id": slug(pid, asm["id"], "profile"), "kind": "detail-drawing", "role": "diagram",
+            "depicts": {"packs": [pid], "members": [f"{pid}.{asm['id']}"]},
+            "caption": f"{pk['name']}: {asm['id']} profile, {len(asm['members'])} members, {asm['height_in_stated']:.2f} in at a 12 in column.",
+            "alt_text": (f"A measured section through the {asm['id']} of {pk['name']}, drawn at a 12 inch column diameter. "
+                         f"Members bottom to top: " + ", ".join(f"{m['name']} ({m['height_parts']}p)" for m in take(asm['members'], 12)) +
+                         ". Every dimension is generated by the proportion engine from the pack, so the drawing and the data "
+                         "cannot silently disagree.")[:1400],
+            "generated_from": {"pack": pid, "module_in": 12 * pe.diameters_per_module(pk),
+                               "parameters": {"assembly": asm["id"]}, "engine_version": pe.ENGINE_VERSION},
+            "provenance": {"source": (pk.get("authority") or {}).get("source"), "license": "owned"},
+            "file": None, "status": "wanted", "priority": "high", "tags": ["profile", "generated", pid]
+        })
+
+os.makedirs("assets", exist_ok=True)
+manifest = {"schema": "schema/asset.schema.json", "version": "0.1.0",
+            "counts": {"total": len(assets), "pairs": pairs,
+                       "by_priority": {p: sum(1 for a in assets if a["priority"] == p) for p in ("critical","high","normal","low")},
+                       "by_status": {"wanted": sum(1 for a in assets if a["status"] == "wanted")}},
+            "note": "Every record here is WANTED — specified, with a shot spec and alt text, and no file yet. "
+                    "That is the design: the gap is visible, the shot list exists, and an agent can already reason "
+                    "from the record. Set status to sourced when a file lands and approved when a human has checked it.",
+            "assets": assets}
+json.dump(manifest, open("assets/manifest.json", "w"), indent=2, ensure_ascii=False)
+
+import jsonschema
+sch = json.load(open("schema/asset.schema.json"))
+bad = 0
+for a in assets:
+    try: jsonschema.validate(a, sch)
+    except jsonschema.ValidationError as e:
+        print("  x", a["id"], e.message); bad += 1
+print(f"assets: {len(assets)} wanted records ({pairs} good/bad pairs), {bad} invalid")
+print(f"by priority: {manifest['counts']['by_priority']}")

@@ -1,0 +1,37 @@
+{
+  "id": "antique-classical",
+  "name": "Antique Classical",
+  "rank": "family",
+  "member_of": "classical-mediterranean",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": -600,
+    "floruit_end": 400,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Greece",
+      "Italy",
+      "Roman Mediterranean"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The Greek and Roman architecture of antiquity, in which the orders were first codified and the proportional method invented.",
+    "long": "Everything downstream in the classical stream is a reading of this material. Greek building gave the West a system of proportion derived from a module rather than from absolute measure, and a set of orders that graduate character from robust to delicate. Roman building gave it the arch, the vault, the dome, and a bureaucratic capacity to standardize and export the whole apparatus across three continents.\n\nWhat matters for a design system is that these are the only two bodies of ancient architecture the West has ever possessed complete enough to reverse-engineer. Every revival since the fifteenth century has worked from surviving Roman fabric and, after the 1750s, from measured Greek fabric — which is why the revivals differ so sharply in the accuracy of what they reproduce."
+  },
+  "defining_characteristics": [
+    "Proportional derivation from a module rather than absolute dimension",
+    "The orders as a graduated system of architectural character",
+    "Trabeated Greek construction and arcuated Roman construction as two distinct structural logics",
+    "Temple and domus as the two type-diagrams the West kept returning to"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

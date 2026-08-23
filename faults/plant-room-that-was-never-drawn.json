@@ -1,0 +1,127 @@
+{
+  "id": "plant-room-that-was-never-drawn",
+  "name": "The Plant Room That Was Never Drawn",
+  "aka": [
+    "the furnace in the closet",
+    "the garage bay that is a boiler room",
+    "the attic air handler"
+  ],
+  "slots": [
+    "services_strategy",
+    "service_zone_strategy",
+    "storage_strategy"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "No room on the plan for the equipment. The air handler ends up in a 30 in closet off a bedroom corridor with the doors removed to get it in, or in the attic on a platform over a bedroom ceiling, or standing in the garage taking most of a parking bay, with the water heater, the softener, the manifold and the panel arranged around it. The filter cannot be changed without moving something, and there is nowhere to stand.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "Mechanical equipment enters a residential drawing set as a symbol on a schedule, not as a room with a dimension, and it enters late. The architectural plan is complete and every square foot is allocated before the load calculation exists, so the equipment is placed in whatever residual space remains. The attic and the garage are chosen because they are outside the square-foot count: an attic platform costs nothing in saleable area and a garage bay is already built.",
+    "cost_saved": "60 to 100 sq ft of conditioned floor - $12,000-$30,000 of saleable area - plus the framing of a proper plant room. Attic placement also saves a chase and shortens the supply runs to the upper floor."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / service-ell-plant-room",
+      "statement": "Equipment in the subordinate volume the style already has, which is where the kitchen was for the same reasons of noise and fire."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / equipment_location",
+      "statement": "Service ell, basement or detached dependency. Three named places, all of which the style already builds for other reasons."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC M1305.1 - appliances shall be accessible for inspection, service, repair and replacement, with a level working space not less than 30 in deep by 30 in wide at the control side",
+      "statement": "The code states the working space and is routinely satisfied on paper by a closet whose door swing provides it. The code does not require that the appliance can be REMOVED, which is the requirement that actually bites at year fifteen."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC M1305.1.2 - appliances in attics require a 22 by 30 in passageway, a 30 by 30 in platform and a walkway not over 20 ft",
+      "statement": "An air handler that satisfies the attic access rule can still be impossible to replace with a modern unit of different dimensions, and every attic installation puts the equipment and its ducts outside the thermal envelope, where duct losses run 20 to 30 per cent."
+    }
+  ],
+  "correct_practice": "Draw the plant as a room, dimensioned, at schematic stage, in the same pass as the stair and the chimney. The traditional types make this easy because they all have a subordinate service volume already: the rear ell, the basement, the dependency, the service range across the court. Size it properly - 6 by 10 ft is a working minimum for a forced-air house with a water heater and a softener, 8 by 10 with a floor drain if there is a boiler or a heat-pump water heater, plus 30 in of clear working space at the control side of every appliance and a clear removal route to a door at least 32 in wide. Put it inside the thermal envelope, which removes the 20 to 30 per cent duct loss that attic and garage installations carry. Put it at the centre of gravity of the distribution rather than at the edge, which is what removes the trunk that would otherwise cross the passage. And give it a solid-core door, an insulated wall against habitable rooms, and its own light and outlet, because the failure mode of a plant closet is that nobody ever opens it.",
+  "fixes": {
+    "right": "A dedicated plant room of 60-80 sq ft inside the envelope, in the service ell or basement, at the centre of the distribution.",
+    "cheap": "Take the room out of the garage rather than out of the house, and enclose it. A 6 by 10 ft framed and rated enclosure at the back of the garage costs $2,500-$5,000, keeps the equipment out of the conditioned plan, gets it out of the parking bay, gives it a door and a working space, and if the garage is within the thermal envelope it recovers most of the duct loss too. Second cheap move that costs nothing: rotate the equipment so the control side faces the door, which is the difference between a serviceable closet and a bad one.",
+    "dishonest": "A louvred bifold door on a 30 in closet. It satisfies the access rule at inspection, it is what everyone builds, and it means every filter change is done kneeling in a corridor and every replacement requires cutting the framing. The louvres also put the equipment's noise directly into the circulation spine."
+  },
+  "detection": "Look for a room labelled 'mechanical' with a dimension on the plan. Its absence is the fault, and it is absent on the great majority of production plans. In an existing house, open the mechanical closet and try to stand in front of the filter: if you cannot, or if the door has to be removed, the room was never drawn. On an elevation, an attic installation announces itself with a mushroom or gable vent and a condensate line emerging high on a flank wall; a garage installation shows as a unit visible through the open garage door with no enclosure around it.",
+  "test": {
+    "expression": "dedicated_plant_room_area_sqft",
+    "threshold": 60.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "plan",
+    "note": "Floor area of enclosed space dedicated to mechanical, plumbing and electrical equipment, with a door and a clear 30 in working space at each appliance's control side. Square feet; the schema has no sq ft token. Zero is the endemic value."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "tidewater-georgian",
+      "why": "The dependency is the correct answer and is better than a plant room: wholly detached, in the building the style already uses for the noisy and the dangerous, with the distribution running underground to the main block.",
+      "bounds": "Only where a genuine dependency exists at 25-80 ft and the composition is five-part. The buried distribution must be insulated and drained, or the losses are worse than an attic.",
+      "applies_when": {
+        "regions": [
+          "Chesapeake",
+          "South Carolina and Georgia low country"
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Flat-roof types put plant on the roof behind the parapet, and a roof-mounted package unit is a legitimate answer that needs no room at all.",
+      "bounds": "Fully concealed by an 18-30 in parapet from every principal viewpoint, and the ducts must be inside the roof insulation, not above it."
+    },
+    {
+      "style": "shotgun-house",
+      "why": "A 14 ft wide house has no 60 sq ft to give. The historical answer is the rear addition and the modern one is a small exterior closet on the rear elevation or a mini-split system with no ductwork at all.",
+      "bounds": "Ductless equipment or a rear exterior enclosure. Equipment in the file of rooms is not an exception; it blocks the enfilade, which is the type's only environmental strategy."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The English basement is the plant room and always was.",
+      "bounds": "Requires the basement to be full height and reachable from the areaway, so equipment can be removed without going through the parlour floor.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "condenser-on-the-entrance-elevation",
+      "difference": "That is the outdoor half of the same omission. A house with no plant room pushes everything it can outdoors, which is where the condensers on the front come from."
+    },
+    {
+      "fault": "duct-soffit-through-the-formal-room",
+      "difference": "That is the distribution; this is the source. Putting the plant at the edge of the plan is the commonest single reason a trunk has to cross it."
+    }
+  ],
+  "co_occurs_with": [
+    "condenser-on-the-entrance-elevation",
+    "duct-soffit-through-the-formal-room",
+    "stack-with-nowhere-to-land"
+  ],
+  "severity_trajectory": "Minor on the day of handover, serious at the first service call, and effectively fatal at the first replacement in year twelve to eighteen, when a unit of different dimensions has to be brought in through a corridor and a 30 in door. At that point the fix is framing work in a finished house, so what gets installed instead is whatever fits, and the house is committed to bad equipment for the rest of its life.",
+  "sources": [
+    "kits/georgian-colonial-american.kit.json services_strategy: service-ell-plant-room, equipment_location, dependency-plant",
+    "International Residential Code M1305.1 (access and working space), M1305.1.2 (appliances in attics), M1601.4",
+    "US Department of Energy and Lawrence Berkeley National Laboratory measurements of duct losses in unconditioned attics (typically 20-30 per cent of delivered capacity)",
+    "ACCA Manual J and Manual S, for equipment footprints and clearance requirements"
+  ],
+  "confidence": "high",
+  "tags": [
+    "services",
+    "plant",
+    "plan",
+    "omission",
+    "drafting-convention",
+    "endemic"
+  ]
+}

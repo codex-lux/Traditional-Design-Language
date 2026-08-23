@@ -1,0 +1,200 @@
+{
+  "id": "vestigial-chimney-chase",
+  "name": "The Chimney That Is Not One",
+  "aka": [
+    "the framed chase",
+    "direct-vent chimney"
+  ],
+  "slots": [
+    "chimney",
+    "roof_penetration_rules"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The paired stacks are the terminating verticals of the composition and a chase cannot carry that weight."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "fatal",
+      "why": "The chimney is a principal element at a sixth of the elevation's width; a 20 in box cannot be it."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "The plan pinwheels about a massive central masonry chimney which must be the heaviest object present."
+    },
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "The stack is meant to continue the clinker-brick or boulder base."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The type is post-hearth and its flues were often minimal from the start."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "not-applicable",
+      "why": "A small metal stove flue is the historically correct chimney."
+    }
+  ],
+  "severity_in_use": "minor",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "A chimney 16 to 24 in wide in plan, finished in siding, stucco board or thin brick, standing 24 in above the roof, topped with a sheet-metal hip cap and a louvred shroud. It contains a 4 in direct-vent pipe, or nothing at all. Its walls are half an inch thick and its corners have J-channel in them.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A direct-vent gas fireplace vents horizontally through a sidewall and needs no chimney whatever, while a masonry stack costs $8,000-25,000, needs its own footing, and brings an entire chapter of the code (IRC R1001-R1003) with it. But buyers read a chimney as a fireplace and appraisers read a fireplace as value, so a framed box is built to carry the image at three to five per cent of the cost. The chase is the marketing residue of a heating system that no longer exists.",
+    "cost_saved": "$10,000-20,000 against a real masonry stack, plus the footing and the structural allowance."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course -> chimney.stack_plan_in = part * 8",
+      "statement": "Chimney plan dimensions are whole bricks: a stack is 1.5 x 2 bricks (13.5 x 18 in), 2 x 2 (18 in), or 2 x 3 (18 x 27 in) OF MASONRY around the flue, so the finished stack is larger again."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the chimney is the fossil of the heating strategy",
+      "statement": "Its dimensions come from flues and bricks. Nothing dimensioned by a stud bay can be read as masonry."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R1001, R1003.9, R1003.11",
+      "statement": "A masonry chimney brings a footing, a fire-clay or listed liner, a 3 ft termination and a whole chapter of requirements with it, while a direct-vent gas appliance vents horizontally through a sidewall and brings none. The code difference between the two is most of the cost difference, and the chase is what is left when the second is chosen and the first is still wanted visually."
+    }
+  ],
+  "correct_practice": "A chimney's plan comes from its flues. A single-flue stack is 1.5 x 2 bricks of masonry around an 8 x 12 in liner - about 20 x 24 in finished; a two-flue stack is 2 x 3 bricks, around 27 x 32 in. Nothing under about 20 in in its smaller plan dimension can be masonry, and the eye knows it without being told, because it has seen ten thousand real ones. Height follows IRC R1003.9 - at least 3 ft above the highest point where the stack passes through the roof, and 2 ft above anything within 10 ft - which on a 9:12 roof means a ridge stack stands about 3 ft and a stack a third of the way down the slope stands 5-7 ft. The top takes 2-4 corbelled courses or a moulded cap, with the flue liners standing 4-8 in proud. And the honest option is always available: a house with a direct-vent appliance and no chimney at all is truthful, whereas a house with a fake one is not, and the fakeness is legible from the sidewalk the moment anyone measures the width.",
+  "fixes": {
+    "right": "A real masonry stack of correct plan dimension, or no chimney at all.",
+    "cheap": "Where a chase must exist, spend the money on plan dimension before anything else. A chase 24 x 32 in in full-depth brick veneer with a corbelled cap and a genuine clay flue liner used as the vent chase costs perhaps $1,500-3,000 more than a sided box and is indistinguishable from masonry at any distance beyond twenty feet. Width first, then the cap, then the material - in that order, because the width is what the eye checks.",
+    "dishonest": "Thin brick or cultured stone on a chase of the wrong plan dimension. Getting the material right while the proportion is wrong is the WORSE of the two errors: a sided chase reads as a vent and is merely dull, while a thin-brick one makes a claim to be masonry and visibly fails it."
+  },
+  "test": {
+    "expression": "chimney_least_plan_dimension_in",
+    "threshold": 20,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Measurable against any known unit in the same image - a siding course at 4-7 in exposure, a brick course at 2 2/3 in, a shingle course. A single-flue masonry stack is 1.5 x 2 bricks around an 8 x 12 in liner, about 20 x 24 in finished. Nothing narrower can be masonry, and the eye knows it without being told."
+  },
+  "secondary_tests": [
+    {
+      "expression": "chimney_depth_in / chimney_width_in",
+      "threshold": 0.6,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A real stack is deep as well as wide and throws a shadow on the roof whose width equals its depth. A framed chase is usually much shallower than it is wide and throws almost none."
+    },
+    {
+      "expression": "count_of_sheet_metal_caps_or_louvred_shrouds_at_the_stack_head",
+      "threshold": 0,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "A sheet-metal cap with a little hip roof and a mesh shroud is a chase, always."
+    }
+  ],
+  "detection": "Measure the stack's width in a photograph against a known dimension in the same image - a siding course (4, 5, 6 or 7 in exposure), a brick course (2 2/3 in), a shingle course. Under about 20 in of finished width it cannot be masonry. Then look at the top: a sheet-metal cap with a little hip roof and a mesh shroud is always a chase. Then look at the shadow the stack throws onto the roof: a real stack is deep as well as wide and throws a shadow whose width equals its depth, while a chase is usually much shallower than it is wide and throws almost none.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shotgun-house",
+      "why": "A small metal stove flue is the historically correct chimney for the type, and it should read as a pipe, not as masonry.",
+      "bounds": "It must visibly be a pipe - 6-10 in, round or square, metal - not a clad box imitating a stack.",
+      "bounds_test": {
+        "expression": "flue_diameter_in",
+        "threshold": 6,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 10,
+        "note": "It must visibly be a pipe - round or square, metal - not a clad box imitating a stack."
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Same: small stove flues and slender brick stacks serving individual hearths are correct, and a monumental stack would be wrong.",
+      "bounds": "A slender brick stack is still brick, still whole-brick in plan, and still capped.",
+      "bounds_test": {
+        "expression": "chimney_least_plan_dimension_in",
+        "threshold": 13.5,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "A slender brick stack is still brick, still whole-brick in plan, and still capped."
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "The type is post-hearth and its chimneys were often minimal metal flues from the start.",
+      "bounds": "Read as a flue: exposed metal, no masonry claim.",
+      "bounds_test": {
+        "expression": "flue_diameter_in",
+        "threshold": 6,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 12,
+        "note": "Read as a flue: exposed metal, no masonry claim."
+      }
+    },
+    {
+      "style": "construction:decorative-stack-required-by-review",
+      "why": "Some design review boards require a visible chimney on a house with no combustion appliance.",
+      "bounds": "Then build it to masonry dimensions and let it carry the house's mechanical vents, so that it is at least a real duct doing real work.",
+      "bounds_test": {
+        "expression": "chimney_least_plan_dimension_in",
+        "threshold": 20,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Then build it to masonry dimensions and let it carry the house's mechanical vents, so that it is at least a real duct doing real work."
+      },
+      "applies_when": {
+        "construction": [
+          "framed-chase",
+          "brick-veneer-chase"
+        ],
+        "note": "The licence is to build a chase, not to build a small one."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chimney-omitted",
+      "difference": "That fault is the absence of a chimney where the massing needs one. This is the presence of an object that cannot be one."
+    },
+    {
+      "fault": "capless-stack",
+      "difference": "That is a real chimney with no cap. This is not a chimney."
+    }
+  ],
+  "co_occurs_with": [
+    "short-stack",
+    "capless-stack"
+  ],
+  "alternative_to": [
+    "chimney-omitted"
+  ],
+  "sources": [
+    "IRC R1001, R1003.9, R1003.11 (masonry chimneys, termination, flue lining)",
+    "proportions/modules/brick-course.json",
+    "kits/georgian-colonial-american.kit.json chimney",
+    "direct-vent gas appliance manufacturer venting literature"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chimney",
+    "material",
+    "endemic",
+    "massing"
+  ]
+}

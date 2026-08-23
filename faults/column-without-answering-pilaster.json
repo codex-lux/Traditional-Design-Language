@@ -1,0 +1,157 @@
+{
+  "id": "column-without-answering-pilaster",
+  "name": "The Unanswered Column",
+  "aka": [
+    "no responding pilaster",
+    "the entablature that dies in the siding"
+  ],
+  "slots": [
+    "pilaster",
+    "column",
+    "porch_support",
+    "entablature"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "A portico or porch with a proper row of columns and a proper entablature, where the entablature reaches the house wall and simply stops against the siding. There is no pilaster, no engaged column, no responding pier — the architrave, frieze and cornice run into the clapboard and are terminated with a piece of vertical trim or nothing. Looking along the porch, the near end has a column and the far end has a wall.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The pilaster is a siding-crew problem disguised as a trim problem. It must be set before the cladding, because the cladding has to die into it; if it is not there when the siders arrive, the wall is clad continuously and the pilaster can then only be applied on top of the siding, which looks wrong and everyone knows it. So it is dropped. On a retrofit or a plan-book house the pilaster also does not appear on the elevation drawing at all, because elevation drawings show the porch in front of the wall and the wall behind the porch is drawn as blank.",
+    "cost_saved": "150-400 USD a pilaster in material and labour, so 300-800 USD on a typical portico. Where the order is enriched and the pilaster needs a matching capital, 400-900 USD each."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_support / column-without-answering-pilaster = forbidden",
+      "statement": "Each free column must be answered by a pilaster on the wall behind. Without it the portico reads as furniture stood in front of the house."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pilaster / rule",
+      "statement": "A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width; it appears at the corners of the volume, flanking the entrance, and framing a centre pavilion."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / pilaster.width = module / 8",
+      "statement": "Pilaster width where an order is applied to a bay or a pavilion: 13 1/2 in on a 9 ft bay, which at Vignola's Ionic gives a module of about 6 3/4 in and a column height of just over 10 ft."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an entablature must be carried at both ends",
+      "statement": "An entablature is a beam. A beam that lands on a column at one end and on nothing at the other is a statement the eye reads as false, whatever is actually holding it up. The pilaster is the visible bearing at the wall end."
+    }
+  ],
+  "correct_practice": "Every free column is answered by a pilaster, engaged half-column or responding pier on the wall directly behind it, at the same height, with the same base, capital and diminution, and the entablature returns from the column back to the wall and dies into the pilaster's capital. The pilaster is a rectangular member of the order in flat relief: width from the pack at module/8 — 13 1/2 in on a 9 ft bay — projecting about a sixth of its width, so 2 to 3 in for a typical residential pilaster, and diminishing with the same 0.833 ratio as the column it answers. It is set BEFORE the cladding and the cladding dies into it. On a two-column portico this means two pilasters; on a five-column porch, five, or at minimum one at each end where the porch entablature meets the wall.",
+  "fixes": {
+    "right": "Pilasters of the bound order, set before cladding, full height, with the order's capital in flat relief and the entablature returning into them.",
+    "cheap": "A flat pilaster board of the correct WIDTH — module/8, so 12 to 14 in on an ordinary bay — with a backband at its edges and a simple moulded cap where it meets the architrave, applied before siding. About 90-150 USD a pilaster and it does most of the work, because at any distance beyond twenty feet what registers is the vertical band of correct width answering the column, not the carving on it. Width is the variable that matters; a 5 1/2 in board is a corner board and does not answer a 10 in column.",
+    "dishonest": "A half-round split column applied flat to the wall. A pilaster is rectangular. A half-round applied to a plane reads as a column that has been sliced, and it also makes the siding termination worse, because siding cannot die cleanly into a curve."
+  },
+  "detection": "Look at the point where the porch entablature meets the house wall. Three possible readings. (a) It dies into a vertical member of roughly the column's width, with the siding stopping against that member: correct. (b) It dies into a narrow 4 to 6 in trim board: a corner board doing a pilaster's job — better than nothing, still the fault at reduced severity. (c) It runs into unbroken siding and is terminated with a caulk joint or a scribed cut: the fault. In a straight-on photograph of the porch, count the columns and count the vertical members on the wall plane behind them; the numbers must match. The comparison of WIDTHS is the second measurement: pilaster width divided by column lower diameter should be between about 0.9 and 1.15.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "pilaster_width / column_lower_diameter",
+    "threshold": 0.9,
+    "upper": 1.15,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "A pilaster answers a column and is therefore the column's width, seen flat. Below 0.9 it is a trim board and does not answer; above 1.15 it reads as a wall pier and the entablature's bearing shifts. A value of 0 — no member at all — is the endemic case."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Named as a forbidden variant in the kit. The pilaster is what makes the portico part of the wall."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The anta — the Greek pilaster at the end of a wall — is a defining member. A Greek Revival porch whose entablature dies into siding has lost the temple analogy entirely."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Endemic and cheap."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "The Craftsman porch beam usually lands on a masonry pier or is let into the wall framing openly, and there is no order to answer. Where the beam dies into shingle the reading is still weak but it is not a classical failure."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "The shingle field runs past everything by intent, including porch beams."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "The Shingle Style suppresses trim deliberately and runs the shingle field continuously past porch beams and column lines. A pilaster would be exactly the sort of applied classical member the style set out to eliminate.",
+      "bounds": "Only where the cladding is genuinely shingle and genuinely continuous, with no corner boards and no other applied trim on the elevation. A house with corner boards, window casings and a returned cornice does not get this licence.",
+      "applies_when": {
+        "construction": [
+          "wood-shingle-clad"
+        ],
+        "slots": [
+          "primary_cladding"
+        ]
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman porch beam bears on a masonry pier or is carried into the wall framing, and the structural expression is of a beam and a pier rather than of an order. There is no column to answer.",
+      "bounds": "There must be no classical column, capital or entablature anywhere on the porch. A Craftsman-massing house with round Tuscan columns has invoked the order and owes the pilaster."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The Creole gallery runs in front of the wall as an independent light structure, its plate carried on colonnettes at both ends and sometimes free of the wall entirely — the gallery is a separate roof, not an entablature bearing on the house.",
+      "bounds": "The gallery structure must be visibly independent: its own posts at both ends, its own plate, and a roof that is separate from or continuous over the main roof. A gallery whose beam bears on the house wall owes a member at that bearing.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ]
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "A plastered corridor arcade springs from the wall plane itself; a responding pilaster would be a member the plastered tradition does not contain, and the arch simply dies into the wall.",
+      "bounds": "The wall must be genuinely plastered with no applied trim of any kind, and the arcade must be arched rather than trabeated."
+    }
+  ],
+  "co_occurs_with": [
+    "decorative-pair-at-the-entry",
+    "cornice-with-no-architrave-or-frieze",
+    "pilaster-that-is-a-flat-board"
+  ],
+  "confused_with": [
+    {
+      "fault": "decorative-pair-at-the-entry",
+      "difference": "That is the whole entry assembly being decorative — misaligned columns, no entablature, split shafts. This fault occurs on genuinely structural, well-built porticos and is purely the missing responding member."
+    },
+    {
+      "fault": "pilaster-that-is-a-flat-board",
+      "difference": "There the pilaster is present and is a plank. Here there is none at all. The plank is the better of the two and the cheap fix for this fault."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, porch_support and pilaster",
+    "proportions/systems/facade-classical.json, pilaster.width = module / 8",
+    "HABS measured drawings of New England and Chesapeake porticos",
+    "Asher Benjamin, The American Builder's Companion, plates on antae and responding pilasters"
+  ],
+  "confidence": "high",
+  "tags": [
+    "pilaster",
+    "portico",
+    "omission",
+    "trade-sequence",
+    "endemic"
+  ]
+}

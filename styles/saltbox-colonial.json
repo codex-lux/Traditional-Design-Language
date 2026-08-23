@@ -1,0 +1,189 @@
+{
+  "id": "saltbox-colonial",
+  "name": "Saltbox Colonial",
+  "aka": [
+    "lean-to house",
+    "catslide house",
+    "break-back house"
+  ],
+  "rank": "variant",
+  "member_of": "new-england-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1650,
+    "floruit_start": 1660,
+    "floruit_end": 1750,
+    "decline_end": 1800,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "A staple of the Colonial Revival cottage, and of Royal Barry Wills's practice, from the 1920s."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Massachusetts",
+      "Connecticut",
+      "Rhode Island",
+      "New Hampshire",
+      "Long Island"
+    ],
+    "hearth": "eastern Massachusetts and the Connecticut River valley",
+    "climate_zones": [
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "new-england-colonial",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "english-medieval-timber-frame",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The outshut or lean-to behind a two-storey range is an English medieval move; New England only had to make it universal."
+    }
+  ],
+  "description": {
+    "short": "A two-storey New England house with a single-storey lean-to across the rear, producing an asymmetric roof whose long rear slope runs almost to the ground.",
+    "long": "The saltbox is not a designed form. It is the visible record of a decision that thousands of families made independently: that the cheapest square footage in New England is under an extension of the roof you already have. A two-storey hall-and-parlor house needed more room — for a kitchen that could be got out of the hall, for a buttery to keep milk cool, for a borning room off the warm chimney wall. Building out the back at one storey and running the rafters down over it required no new plate, no new chimney and no second-floor framing. The result is a roof with a short front slope and a long rear catslide, a ridge that sits well forward of the plan centre, and a rear eave you can touch.\n\nWhat the section does thermally is the reason the form persisted after it stopped being merely cheap. The long rear slope faces north in the standard siting, so the winter wind hits a surface it cannot get under and is deflected up and over; the low rear wall presents almost no elevation to it; and the unheated service rooms are stacked on the cold side, buffering the heated rooms from it. The house is, in effect, a windbreak with rooms inside. Once builders understood this, they began framing the lean-to from the start rather than adding it, which is why the distinction between integral and added lean-tos matters so much in the field. An added lean-to shows a pitch change at the original plate line, a break in the rafter run, and often a different sheathing; an integral one is a single unbroken slope from ridge to rear eave.\n\nThe front is the same face as any First Period house — five bays, central door, central chimney stack, small windows tight under the eave, riven clapboard — so the type is invisible from the road and obvious from the side. That asymmetry between the public and the working faces of the building is worth naming: the saltbox has one elevation for the world and three for the household, and it does not pretend otherwise.\n\nInside, the lean-to rooms feel entirely different from the front rooms. The ceiling follows the rafters down, so the far wall of the kitchen may be five feet high; the light is low and level, coming through small windows just above the counter; and the fireplace at the back of the central stack is the biggest one in the house, with the oven in its cheek. It is the room the family actually lived in, and it is the room the roof was extended to make."
+  },
+  "defining_characteristics": [
+    "Two full storeys at the front, one storey plus loft at the rear, under one continuous roof plane",
+    "Asymmetric roof: short front slope, long rear catslide, ridge set forward at 35–45% of the plan depth",
+    "Rear eave 6 ft 6 in – 8 ft 6 in above grade — low enough to reach",
+    "Central chimney stack serving front rooms and the rear kitchen fireplace, with the oven in the rear cheek",
+    "Lean-to depth 10–14 ft, holding kitchen, buttery and borning room",
+    "Five-bay symmetrical front with centre door; no corresponding order on the rear elevation",
+    "No dormers, and few or no second-floor openings on the rear slope"
+  ],
+  "diagnostic_tells": [
+    "From the gable end the roof is visibly lopsided — this is the only First Period type you can identify from a single oblique view",
+    "The rear eave is at head height while the front eave is at eighteen feet",
+    "A pitch change part-way down the rear slope means the lean-to was added; an unbroken slope means it was framed integrally",
+    "Rear windows are small, few, and set at odd heights because the ceiling is following the rafters",
+    "One chimney, dead centre, breaking the ridge forward of its midpoint"
+  ],
+  "distinguished_from": [
+    {
+      "node": "cape-cod-colonial",
+      "difference": "A Cape is one-and-a-half storeys with a symmetrical roof; a saltbox is two storeys in front with an asymmetric roof. A Cape with a rear lean-to is still a Cape — the front eave stays at nine feet."
+    },
+    {
+      "node": "garrison-colonial",
+      "difference": "A garrison is two full storeys front and rear with a framed overhang at the second-floor line and a symmetrical roof. Many garrisons later acquired lean-tos and became jettied saltboxes; the overhang is the deciding feature."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Revival saltboxes carry the asymmetric roof but give the rear slope dormers, full-height rear walls behind a false catslide, symmetrical windows on all elevations, an 8:12 pitch and an attached garage. If the rear eave is above ten feet, the section is fake."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The original two-storey frame governs; the lean-to is whatever the rafter can reach at the working pitch.",
+    "typical_ratios": [
+      "Main body 38–42 ft × 18–20 ft; lean-to adds 10–14 ft of depth, total depth 28–34 ft",
+      "Ridge at 35–45% of total depth from the front wall",
+      "Front slope 45–52 degrees; rear slope 38–45 degrees if broken, equal to the front if integral",
+      "Front eave 16–18 ft above grade; rear eave 6 ft 6 in – 8 ft 6 in",
+      "Lean-to ceiling 7 ft 0 in at the wall of the main house, falling to 5 ft 0 in – 6 ft 0 in at the rear wall"
+    ],
+    "bay_rhythm": "Five bays on the front, unequal, set by post positions with the narrow entry bay centred on the stack; the rear has no rhythm at all.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "saltbox",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "common",
+      "note": "The two-room core that the lean-to is added behind."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "possible",
+      "note": "Half-house saltboxes exist, as at the Hoxie House."
+    },
+    {
+      "massing": "garrison-block",
+      "affinity": "possible",
+      "note": "A jettied two-storey front with a lean-to behind is a common hybrid."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Rear eave height 6 ft 6 in to 8 ft 6 in above finished grade. Above 10 ft the catslide is cosmetic and the type is not present."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Front roof slope 45–52 degrees. Where the rear slope is broken it runs 38–45 degrees; where integral it matches the front exactly. A rear slope shallower than 35 degrees will not clear a usable lean-to ceiling."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "No dormers on the rear catslide. The slope exists to shed weather and hold heat; puncturing it is the revival's habit, not the colonial one."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Lean-to depth 10–14 ft — the practical reach of a single rafter run past the plate. Beyond 14 ft the rear eave drops below head height at the door."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Sash 12/12 or 12/8 before c. 1750, 9/6 thereafter, with heads within 8 in of the front eave and no frieze band."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hoxie House",
+      "location": "Sandwich, Massachusetts",
+      "year": 1675,
+      "note": "A two-and-a-half-storey half house with an integral rear lean-to; frequently called the oldest house on Cape Cod, and a saltbox rather than a Cape despite its location."
+    },
+    {
+      "name": "John Quincy Adams Birthplace",
+      "location": "141 Franklin Street, Quincy, Massachusetts",
+      "year": 1717,
+      "note": "Central-chimney saltbox with two rooms per floor flanking the stack; the lean-to was added c. 1764, so the rear slope shows the classic break. Often mis-dated to 1663 in popular sources."
+    },
+    {
+      "name": "Stanley-Whitman House",
+      "location": "Farmington, Connecticut",
+      "year": 1720,
+      "note": "A jettied saltbox — the type in its hybrid form, with a framed overhang on the front and a catslide behind."
+    },
+    {
+      "name": "Boardman House",
+      "location": "Saugus, Massachusetts",
+      "year": 1692,
+      "note": "Unusually unaltered First Period frame with an integral lean-to; the framing is legible throughout."
+    }
+  ],
+  "sources": [
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625–1725 (1979)",
+    "J. Frederick Kelly, Early Domestic Architecture of Connecticut (1924)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "catslide",
+    "lean-to",
+    "asymmetric-roof",
+    "central-chimney"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "id": "closet-depth-taken-from-the-room",
+  "name": "The Depth Tax",
+  "aka": [
+    "the closet bank",
+    "the 10 by 11 bedroom",
+    "storage out of the width"
+  ],
+  "slots": [
+    "storage_strategy",
+    "depth_and_pile",
+    "room_adjacency_overrides"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "Every secondary bedroom in the house measures about 10 by 11 ft with an 8 ft ceiling, and a bank of bifold doors occupies one whole wall. The rooms were laid out at 10 by 13 and then a 26 in closet was subtracted from each without the plan growing. There is one wall long enough for a bed, the door swings into the only clear corner, and the room feels tight in a way that its stated square footage does not explain - because two feet of the missing dimension went into a cupboard.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The reach-in closet is a marketing requirement - a bedroom without one does not count as a bedroom in most appraisal and listing conventions - and it arrives after the plan's overall dimensions are fixed by the framing module and the roof span. Depth is therefore taken from inside the room rather than added outside it, and it is taken from every bedroom at once because the closets are drawn as a repeated detail. The upper floor's total dimensions are set by the ground floor beneath it, which was designed for the kitchen and garage, so there is nothing to give.",
+    "cost_saved": "Growing the upper floor to absorb the closets would add 60-90 sq ft: $11,000-$27,000. Taking it from the rooms costs nothing and keeps the bedroom count."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / storage_strategy / walk-in-closet-off-the-chamber",
+      "statement": "AUTHORED, and the honest compromise. It works only if it is taken out of the DEPTH of the plan and not out of the WIDTH, because the width is set by the bay rhythm and the depth is not."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / room_adjacency_overrides.ratio = 1.25, range 1.0-1.55",
+      "statement": "Ninety per cent of measured vernacular rooms fall between 1.0 and 1.5. A room shortened by a closet bank on its long wall does not merely get smaller, it gets squarer and loses the wall the furniture needed."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / module note - measured chamber range 9-14 ft, below 10 ft a room will not take a bed and a hearth on the same wall",
+      "statement": "There is a floor below which a room stops being a room, and it is set by furniture rather than by code."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R304 - habitable rooms not less than 70 sq ft and not less than 7 ft in any horizontal dimension",
+      "statement": "The floor is 70 sq ft and 7 ft, which is far below anything usable. A 10 by 11 bedroom is 40 per cent above code minimum and still cannot take a bed, two bedside tables and a chest of drawers with the door swinging clear."
+    }
+  ],
+  "correct_practice": "Decide where the storage volume comes from before the plan dimensions are fixed, and take it from the plan's depth rather than from the room's. A hanging closet needs 24 in clear absolute and 26 to 28 in to work; a walk-in needs 5 ft clear between hanging rails, so 7 ft overall, and below that it is a reach-in with a door tax. The room it serves needs, at minimum, one wall of 11 ft clear for a bed plus tables, a second dimension of 11 ft to leave a circulation route, and a corner clear of both the door swing and the closet doors. The traditional answers are still the best ones and they all take the storage out of the room: the chimney-flanking closet at 18 to 30 in deep in the residual space beside a gable-end stack, which costs no plan area at all because that space cannot be used for anything else; the dressing room between two chambers; the wall-thickened recess in solid masonry; the garret; and the detached store. Where a modern reach-in is unavoidable, put it on the wall shared with the corridor and let it do the sound separation the corridor wall needed anyway - that is a 26 in wall doing two jobs, which is the only way this tax is ever paid back.",
+  "fixes": {
+    "right": "Add the closet depth to the plan, not subtract it from the room: push the upper-floor wall out by 26 in or take the storage into the roof, the chimney flank or a dressing room.",
+    "cheap": "Put the closets back to back across the corridor wall. Two bedrooms' closets sharing one 5 ft thick zone against the corridor turns dead depth into acoustic separation and returns the exterior wall and the long wall to both rooms; it costs nothing but a different partition layout. Second free move: swap bifold doors for a single 30 in door on a 6 ft closet, which returns 3 ft of wall to the room for furniture and improves the closet, because bifold hardware wastes the corners anyway.",
+    "dishonest": "Calling it a 'built-in wardrobe' and giving it panelled doors and a cornice. Better joinery does not return the missing 26 in, and a well-detailed wall of cupboards in a 10 by 11 room draws attention to how small the room is."
+  },
+  "detection": "Measure the clear dimensions of the secondary bedrooms, not their stated area. Two dimensions both under 11 ft, with one wall entirely occupied by closet doors, is the fault. Second, compare the bedroom's proportion: a room at 1.05 to 1.1 that is also small is nearly always a room that started at 1.3 and was taxed. Third, on the plan, check whether the closets sit against the corridor wall - if they are on the exterior wall or on the wall between two bedrooms, the layout took the easy route rather than the useful one.",
+  "test": {
+    "expression": "secondary_bedroom_clear_short_dimension_ft",
+    "threshold": 11.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "plan",
+    "note": "Clear of closet, measured wall face to wall face. 11 ft is the working floor for a bed with tables and a circulation route; the code minimum of 7 ft is not a design value. Endemic production value is 9 ft 6 in to 10 ft 6 in."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The type fixes the plan with built-in joinery on purpose - window seats, cupboards, drawer banks under eaves - and a bedroom whose storage is built in rather than freestanding needs less floor for furniture, so a smaller clear dimension is genuinely workable.",
+      "bounds": "The built-ins must be real and must replace the furniture: a drawer bank and a window seat, not a bank of bifold doors. And the room must keep one clear wall of 11 ft for the bed."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "Chambers under the roof are small, low and irregular by definition, and their storage goes into the knee-wall space, which is free volume nobody could use otherwise.",
+      "bounds": "The storage must actually be in the knee wall behind a door in the slope. A full-height reach-in in a 10 by 10 upper chamber is the fault here too."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "Small bedrooms are authentic to the post-war type, which was built at 9 by 10 as a matter of policy.",
+      "bounds": "The whole house must be minimal. A 3,000 sq ft house with 10 by 11 bedrooms has the constraint without the reason."
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Rooms are 12-16 ft wide by the type's own limit and storage is a wardrobe, an armoire or a rear addition - the type predates the closet entirely and does not pretend otherwise.",
+      "bounds": "Storage as furniture, not as a subtracted volume; a closet built across the enfilade axis breaks the type."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "closet-on-the-exterior-wall",
+      "difference": "The other answer to the same question. That one keeps the room's dimensions and spends its window; this one keeps the window and spends the floor."
+    },
+    {
+      "fault": "egress-window-flips-the-proportion",
+      "difference": "Both are bedroom faults that come from outside the design. That one is a code dimension driving an opening; this is a market expectation driving a partition."
+    }
+  ],
+  "co_occurs_with": [
+    "closet-on-the-exterior-wall",
+    "the-room-nobody-enters"
+  ],
+  "alternative_to": [
+    "closet-on-the-exterior-wall"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json storage_strategy: walk-in-closet-off-the-chamber, chimney_flanking_closet_depth, closet_depth_min",
+    "proportions/systems/room-vernacular.json module note (measured chamber range) and room_adjacency_overrides ratio",
+    "International Residential Code R304 (minimum room areas and dimensions)",
+    "elements/slots.json note on storage_strategy: closets are a plan element and built-ins are joinery, and they are not the same slot"
+  ],
+  "confidence": "high",
+  "tags": [
+    "storage",
+    "closet",
+    "proportion",
+    "bedroom",
+    "endemic",
+    "invisible-from-the-street"
+  ]
+}

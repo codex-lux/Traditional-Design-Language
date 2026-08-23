@@ -1,0 +1,162 @@
+{
+  "id": "garage-head-above-the-window-head",
+  "name": "The Garage Door Head Above The Window Head",
+  "aka": [
+    "the 8-foot door",
+    "garage breaking the datum"
+  ],
+  "slots": [
+    "garage_strategy",
+    "window_head_wood",
+    "window_head_masonry"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "The top of the garage door opening sits above the line of the first-floor window heads on the same volume, usually by 6 to 18 in. The largest opening on the building is also the one that breaks the elevation's only continuous horizontal, and the wall band between the garage head and the eave or the second-floor sill is squeezed to a strip.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The 8 ft garage door has become the default in much of the market, driven by larger vehicles, and it needs about 8 ft 4 in to 8 ft 6 in of head clearance with the track and the operator. A 9 ft garage plate then gives a head at about 8 ft 4 in, while the house's window heads sit at ceiling height x 16/19, which on a 9 ft ceiling is 7 ft 7 in. The two numbers were never compared, because the garage is dimensioned by the door supplier and the windows by the window schedule.",
+    "cost_saved": "A 7 ft door is 100 to 250 USD cheaper than an 8 ft one, so the fault costs money rather than saving it. What it saves is the coordination and the risk of a client complaining that a large vehicle will not fit.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / garage_strategy / door_head_datum",
+      "statement": "Aligned with the first-floor window head datum of the volume it sits in. Follows from the opening pack's one-datum-per-storey rule."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_head.count",
+      "statement": "head_datums_per_storey = 1, and a garage door is an opening on that storey."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_head.height",
+      "statement": "head height = ceiling_height * 16/19, that is 7 ft 7 in on a 9 ft ceiling."
+    }
+  ],
+  "correct_practice": "The garage door head sits on the first-floor window head datum of the volume it belongs to. On a 9 ft plate that is about 7 ft 7 in, which accommodates a 7 ft door comfortably and an 8 ft door not at all. If an 8 ft door is required, raise the garage volume's plate so its own window head datum rises with the door — a garage wing with a 10 ft plate has a head datum at 8 ft 5 in and the door fits under it — and accept that the garage volume is then a different storey height from the house, which is legitimate for a dependency at 0.6 to 0.75 of the main block's height. What is not legitimate is a garage in the same volume as habitable rooms with two head datums on one storey.",
+  "fixes": {
+    "right": "Match the garage volume's plate to the door and let it be its own volume, or use a 7 ft door on the house's own datum.",
+    "cheap": "Specify a 7 ft door. It is cheaper than the 8 ft one, it lands on the datum, and it fits every passenger vehicle sold; the 8 ft door is bought against a hypothetical truck. If an 8 ft door is contractually fixed, drop the whole garage volume's floor level by 12 in where the site allows, which puts the head back on the datum and costs a short driveway grade.",
+    "dishonest": "Adding a decorative header board or a pergola bracket assembly over the garage door so that the composite element's top lands on the window head line. The opening is what the eye reads; a trim band above it announces the misalignment."
+  },
+  "detection": "Extend the first-floor window head line across the garage in a frontal photograph. The top of the garage door opening — not its trim — must touch it. Also measure the wall band between the garage head and whatever is above: below about 18 in the wall reads as squeezed and the fault is almost certainly present. A quick proxy: an 8 ft garage door on a house with 8 or 9 ft ceilings is nearly always off the datum.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "A single-storey house with a continuous low eave has only one horizontal that matters, and where the garage sits under the same eave a taller door can be absorbed as long as the eave line is unbroken.",
+      "bounds": "The eave must be continuous over both. The door head still should not rise above the window heads within the same wall plane.",
+      "bounds_test": {
+        "expression": "roof_eave_continuity_over_house_and_garage",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The eave must be continuous over both, and the door head still should not rise above the window heads within the same wall plane."
+      }
+    },
+    {
+      "style": "carpenter-gothic",
+      "why": "Not applicable to garages historically; where a carriage house is built in the idiom, its opening is genuinely taller than the house windows because a carriage is taller than a person.",
+      "bounds": "Applies to a detached carriage house read as an outbuilding with its own datum, not to an attached garage sharing a wall with habitable rooms.",
+      "bounds_test": {
+        "expression": "garage_distance_from_main_block_ft",
+        "threshold": 25.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Applies to a DETACHED carriage house read as an outbuilding with its own datum, because a carriage is taller than a person. It does not extend to an attached garage sharing a wall with habitable rooms."
+      },
+      "applies_when": {
+        "construction": [
+          "detached-outbuilding"
+        ],
+        "note": "Depends on the garage being a detached outbuilding, not on the style label; the same licence holds for any detached carriage house."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "broken-head-datum",
+      "difference": "This is the garage-specific instance, with a stock-size cause and a different fix; it is worth naming separately because the offending opening is the largest one on the building."
+    },
+    {
+      "fault": "one-wide-door-where-two-would-do",
+      "difference": "Height versus width."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json garage_strategy",
+    "proportions/systems/opening-proportion.json",
+    "Standard residential garage door heights 7 and 8 ft"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "garage",
+    "datum",
+    "alignment",
+    "modern-slot"
+  ],
+  "test": {
+    "expression": "garage_door_head_height_in - first_floor_window_head_height_in",
+    "threshold": 0.0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Extend the first-floor window head line across the garage; the top of the garage door OPENING, not its trim, must land on or below it. Head datum is ceiling height x 16/19, that is 7 ft 7 in on a 9 ft ceiling, which accommodates a 7 ft door comfortably and an 8 ft door not at all."
+  },
+  "secondary_tests": [
+    {
+      "expression": "wall_band_between_garage_head_and_element_above_in",
+      "threshold": 18.0,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Below about 18 in the wall reads as squeezed and the fault is almost certainly present even where the head line is ambiguous."
+    },
+    {
+      "expression": "garage_door_height_ft",
+      "threshold": 7.0,
+      "direction": "at-most",
+      "units": "ft",
+      "measurable_from": "photograph",
+      "note": "The fast proxy: an 8 ft garage door on a house with 8 or 9 ft ceilings is nearly always off the datum. The 8 ft door is also 100 to 250 USD more than the 7 ft one, so the fault costs money."
+    },
+    {
+      "expression": "distinct_head_datums_per_storey_per_elevation",
+      "threshold": 1,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The parent rule. A garage in the same volume as habitable rooms is an opening on that storey and takes that storey's datum; a garage in its own volume at its own plate height gets its own datum and is not in breach."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Follows from the opening pack's one-datum-per-storey rule, which is retrieved rather than invented."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "All heads on a storey must die into a single continuous lintel band; a garage head above it breaks the band."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "A single-storey house with a continuous low eave has only one horizontal that matters, and a taller door under the same unbroken eave can be absorbed."
+    }
+  ],
+  "co_occurs_with": [
+    "broken-head-datum",
+    "one-wide-door-where-two-would-do",
+    "garage-forward-of-the-facade"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/brief.schema.json",
+  "title": "Brief",
+  "version": "0.1.0",
+  "description": "What a client asks for. Deliberately short — a brief that specifies everything has already done the designing, and a brief that specifies nothing gives the corpus no standing. Anything absent is decided by the composer and reported as a decision, not smuggled in as a fact.",
+  "type": "object",
+  "required": ["style", "target_area_sf"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "style": { "type": "string", "description": "style node id" },
+    "target_area_sf": { "type": "number" },
+    "area_tolerance": { "type": "number", "default": 0.12, "description": "Fraction either side of target that counts as a hit." },
+    "bedrooms": { "type": "integer", "default": 3, "description": "Sleeping rooms including the principal chamber." },
+    "bathrooms": { "type": "number", "default": 2.5 },
+    "storeys": { "type": "integer", "description": "Leave unset and the composer picks from the massing." },
+    "massing": { "type": "string", "description": "Force a skeleton, or leave unset and let style affinity choose." },
+    "must_have": { "type": "array", "items": { "type": "string" },
+      "description": "Room type ids the client has explicitly asked for. The composer will not drop these." },
+    "must_not_have": { "type": "array", "items": { "type": "string" } },
+    "context": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "climate_zone": { "type": "string" },
+        "lot_width_ft": { "type": "number" }, "lot_depth_ft": { "type": "number" },
+        "entrance_faces": { "enum": ["N","NE","E","SE","S","SW","W","NW"] },
+        "jurisdiction": { "type": "string" },
+        "date_of_representation": { "type": "integer" },
+        "budget_tier": { "enum": ["value", "mid", "custom", "unlimited"] },
+        "garage_bays": { "type": "integer" },
+        "note": { "type": "string" }
+      }
+    },
+    "household": { "type": "string", "description": "Free text. Who lives here and how they use a house — the thing that decides whether the dining room gets built and never used." },
+    "candidates": { "type": "integer", "default": 4, "description": "How many contrasting plans to return." },
+    "note": { "type": "string" }
+  }
+}

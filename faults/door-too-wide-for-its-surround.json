@@ -1,0 +1,188 @@
+{
+  "id": "door-too-wide-for-its-surround",
+  "name": "The Door That Outgrew Its Frame",
+  "aka": [
+    "the 42-inch door in a 36-inch surround",
+    "pilasters squeezed by the leaf"
+  ],
+  "slots": [
+    "entry_door",
+    "door_surround"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "The entrance door leaf has been widened — to 3 ft 6 in, 4 ft, or a pair — but the surround around it has not grown with it. The flanking pilasters are reduced to a few inches, the entablature over the door is the same height it was, and the whole composition looks as if the door has swollen inside a frame drawn for a smaller one. Frequently the cap moulding of the surround now overruns the pilaster below it and dies into the wall with no support under it.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Entry surrounds are sold as kits dimensioned for a 3 ft 0 in x 6 ft 8 in leaf, which is the volume size. When the client asks for a grander door — and a wider leaf is the single easiest way to sound grand on a specification — the leaf changes and the surround does not, because the surround is a purchased assembly with a fixed opening. Nobody re-derives the surround, because the rule that would tell you to is not in any drawing.",
+    "cost_saved": "Nothing at the door and a modest saving at the surround: a stock 36 in kit runs 400 to 1,200 USD against 1,500 to 6,000 USD for a surround made to a wider leaf. The widened leaf itself costs 200 to 800 USD more, so the fault typically spends money on the opening and refuses to spend it on the frame — which is the wrong way round, because the surround is what carries the entrance at a distance."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / entry_door.width",
+      "statement": "door width = storey_height / 3.5. Palladio verbatim: divide the space from floor to joists into three parts and a half, and allow two to the height and one to the breadth. This is the rule to run FIRST, before any door is chosen."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / door_surround.width",
+      "statement": "casing = module / 6, so a 42 in leaf asks for a 7 in casing, not the 6 in the kit supplies."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / door_surround.height",
+      "statement": "surround height above the opening = module / 6 * 3, a full entablature of architrave, frieze and cornice at three times the casing width."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / door_surround.width",
+      "statement": "max composition width = module * 0.8, that is 7 ft 2 in at a 9 ft bay. The whole entrance composition over its outermost projection must fit inside 0.8 of the bay."
+    }
+  ],
+  "correct_practice": "Run the storey rule first. On a 10 ft storey the door wants 34 1/4 in wide by 68 1/2 in high; on a 12 ft 6 in storey, 42 7/8 by 85 5/8. The measured Anglo-American band is 36 to 44 in wide by 78 to 90 in high, with a leaf 1 3/4 to 2 1/4 in thick. If the storey is asking for more than about 44 in, the answer is a pair of leaves rather than one wide one — which is exactly why grand entrances have double doors — and a pair of 36 in leaves reads as a 72 in opening and can carry the full Palladian 2:1 at 12 ft of height. When the leaf grows, everything grows with it: casing at leaf/6, entablature at three times the casing, and the whole composition capped at 0.8 of the bay so it does not crowd the windows either side.",
+  "fixes": {
+    "right": "Derive the door from the storey, then the surround from the door. Where the door must be wide, use a pair or add sidelights within the same total width rather than widening the leaf.",
+    "cheap": "Keep the stock 36 in leaf and make the surround bigger. A 36 in door with a 7 in casing, a 21 in entablature and a proper cap reads far grander than a 42 in door in a 5 in frame, and it costs less because the leaf is the expensive item. Grandeur at the entrance is bought in the surround, not in the opening.",
+    "dishonest": "Widening the door and reducing the pilasters to keep the total composition inside the bay. This is the most common outcome and it produces the characteristic builder entrance: a big slab of door with two thin strips beside it and a cornice floating above with nothing under its ends."
+  },
+  "detection": "Measure the casing or pilaster width beside the door and divide by the door leaf width. Below 0.12 the fault is present; the correct value is 0.167. Second check: measure the total height of everything above the door opening — architrave, frieze, cornice — and divide by the casing width. It should be about 3.0; kit surrounds typically give 1.5 to 2.0. Third: look at the ends of the cornice. If it projects past the pilaster below it by more than its own depth, or dies into the wall with nothing under it, the surround was drawn for a narrower door.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "The Greek Revival entrance is a wide rectangular opening with sidelights and a rectangular transom inside a pilastered surround, and the total assembly is genuinely broad — the door and its lights read as one opening.",
+      "bounds": "The pilasters are broad and flat and still at or above leaf/6 in width; the transom is rectangular, never elliptical; and the whole assembly still fits inside 0.8 of the bay.",
+      "bounds_test": {
+        "expression": "entrance_composition_width_in / bay_width_in",
+        "threshold": 0.8,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The licence is on the breadth of the aperture, not on the surround: the pilasters remain broad and at or above leaf/6, the transom is rectangular and never elliptical, and the whole assembly still fits inside 0.8 of the bay."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "A front door noticeably shorter and narrower than a person expects, in a low arched opening, is a named device.",
+      "bounds": "Deliberately small, not deliberately large. This exception runs the other way and does not licence an oversized leaf.",
+      "bounds_test": {
+        "expression": "door_leaf_height_in",
+        "threshold": 78,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Deliberately small, not deliberately large. A leaf under 6 ft 6 in in an arched opening is the device; anything taller is claiming the exception without performing it."
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "The front openings are full-height French casement doors, one per front room, whose proportions are governed by the ceiling rather than by a leaf module.",
+      "bounds": "Full-height paired casements reaching within 12 to 18 in of an 11 ft or taller ceiling, with no single principal entrance to compose.",
+      "bounds_test": {
+        "expression": "ceiling_height_in",
+        "threshold": 132,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Full-height paired casements reaching within 12 to 18 in of an 11 ft or taller ceiling. An 8 ft ceiling defeats the stack ventilation the whole type depends on and voids the exception."
+      },
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ],
+        "note": "Depends on the four-room square plan with no corridor and a door to each front room, not on the style label."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "casing-at-a-third-of-palladio",
+      "difference": "That fault undersizes casing everywhere on the building. This one is a mismatch created by enlarging the door alone."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That is a hierarchy fault across the whole elevation. This is a proportional fault within the entrance assembly itself."
+    }
+  ],
+  "sources": [
+    "Palladio, I quattro libri, Book I ch. XXV",
+    "proportions/systems/opening-proportion.json",
+    "proportions/systems/facade-classical.json",
+    "styles/colonial-revival.json constraints"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry",
+    "door",
+    "surround",
+    "proportion"
+  ],
+  "test": {
+    "expression": "pilaster_or_casing_width_in / door_leaf_width_in",
+    "threshold": 0.14,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Palladio's architrave at 1/6 of the void gives 0.167; 0.14 is the tolerance floor. Kit surrounds are dimensioned for a 3 ft 0 in leaf, so widening the door to 3 ft 6 in without regrowing the surround takes the ratio straight through the floor."
+  },
+  "secondary_tests": [
+    {
+      "expression": "surround_height_above_opening_in / casing_width_in",
+      "threshold": 2.5,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The full entablature over the door is three times the casing width — architrave, frieze and cornice, 18 in on a 36 in module. Kit surrounds typically give 1.5 to 2.0."
+    },
+    {
+      "expression": "entrance_composition_width_in / bay_width_in",
+      "threshold": 0.8,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The whole entrance composition over its outermost projection is capped at 0.8 of a bay, 7 ft 2 in at a 9 ft bay. This is the arithmetic that forces the choice between a wide leaf and a proper surround, and it is why the correct answer to a grand entrance is a PAIR of leaves rather than one wide one."
+    },
+    {
+      "expression": "door_leaf_width_in / (storey_height_in / 3.5)",
+      "threshold": 0.95,
+      "direction": "between",
+      "upper": 1.15,
+      "units": "ratio",
+      "measurable_from": "section",
+      "note": "Palladio's rule to run FIRST: the door from the storey. A 10 ft storey wants 34 1/4 in, a 12 ft 6 in storey 42 7/8 in. Past about 44 in a single leaf becomes unwieldy and the storey's demand is met with two."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The entrance is the one place the style always spends money and the surround is where the spending shows; a door in a pinched frame is the composition failing at its own accent."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "The entrance is a genuinely broad opening in which door, sidelights and transom read as one aperture inside a pilastered surround."
+    },
+    {
+      "style": "storybook-style",
+      "severity": "not-applicable",
+      "why": "A door noticeably smaller than expected is a named device; the fault here runs the other way."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "storybook-style",
+      "statement": "An oversized leaf is the fault. The device is a front door noticeably shorter and narrower than a person expects, in a low arched opening."
+    }
+  ],
+  "co_occurs_with": [
+    "casing-at-a-third-of-palladio",
+    "sidelights-as-storefront-glass",
+    "entry-not-the-most-elaborated-element",
+    "transom-bar-at-the-wrong-height"
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "id": "entry-porch",
+  "name": "Entry Porch",
+  "aka": [
+    "stoop",
+    "portico",
+    "porch",
+    "veranda (when it wraps)",
+    "gallery (Gulf South)"
+  ],
+  "function_class": "threshold",
+  "description": "The roofed platform in front of the door, and the first room of the house even though it has no walls. Its work is social before it is climatic: it is the place where a caller can be received without being admitted, where a household can occupy the street without leaving the property, and where the transition from public to private happens over about eight feet rather than at a line. A porch you cannot sit on is not a porch; it is a canopy that has been given a porch's name.",
+  "history": {
+    "appears": 1700,
+    "declines": 1950,
+    "replaced_by": "the garage door, which relocated the household's daily entrance to the side of the house and left the front porch to be looked at",
+    "note": "The full-width porch is not an ancient Anglo form. It arrives in North America through the Caribbean and the Gulf - French and Spanish colonial galleries were standard by 1720 while contemporary New England had none - and spreads north through the nineteenth century as sawn lumber makes it cheap. Downing and Vaux publish it as a moral good in the 1840s and 1850s; by 1900 it is universal. Three things kill it, and none of them is taste. Air conditioning (window units from 1932, general by 1965) removes the reason to be outside on a summer evening. The automobile moves the arriving guest from the sidewalk to the driveway, so the porch faces the wrong way. And television, from about 1950, gives the evening a destination indoors. The porch survives on elevations as an image of a thing nobody does, which is why so many are built four feet deep."
+  },
+  "dimensions": {
+    "area_sf": [
+      40,
+      300
+    ],
+    "width_ft": [
+      5,
+      10
+    ],
+    "length_ft": [
+      8,
+      30
+    ],
+    "proportion": [
+      1.2,
+      5.0
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "DEPTH, and the number is 8 ft, not 6. A rocking chair is 30 in deep and rocks through another 24 to 30 in; a person passing behind it needs 36 in. 30 + 24 + 36 = 90 in = 7 ft 6 in, so 8 ft is the working figure and 6 ft is the floor at which one chair can be occupied only if nobody walks past. Below 5 ft the porch cannot hold a body and a door swing at the same time and has become a stoop, which is a legitimate thing with its own name. The width band above is DEPTH; length runs the elevation."
+  },
+  "furniture": [
+    {
+      "item": "rocking chair",
+      "footprint_in": [
+        26,
+        30
+      ],
+      "clearance_in": 30,
+      "note": "the 30 in clearance is the rocker's own travel, not circulation - it is why a rocker needs more depth than an armchair of the same size"
+    },
+    {
+      "item": "porch swing, hung",
+      "footprint_in": [
+        60,
+        24
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "swings forward and back through about 30 in; hang it parallel to the wall, never across the route to the door"
+    },
+    {
+      "item": "two chairs and a small table",
+      "footprint_in": [
+        72,
+        30
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "clear route from step to door",
+      "footprint_in": [
+        36,
+        96
+      ],
+      "clearance_in": null,
+      "note": "must not pass through the seating group; a porch whose only route crosses in front of the occupied chairs is a corridor with furniture in it"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.8,
+    "sides_lit": 1,
+    "orientation": "West and south porches are the ones people use, because the porch is an evening room; a north porch is a wet cold slab from November to April and an east porch is empty after ten in the morning. In the Deep South the calculation inverts and the south-west porch is a shading device first.",
+    "note": "THE PORCH TAX. This is the one entry in this catalogue where the depth_multiplier describes what the room does to its NEIGHBOUR. An 8 ft porch under a low eave drops the daylight multiplier of the room behind it from 2.25 to about 1.8 - a fifth of its usable depth. On a 9 ft storey with a 7 ft head that is 15 ft 9 in of daylit depth without the porch and 12 ft 7 in with it: three feet two inches of room, gone, and gone from the front room, which is the one that mattered. The historic answer was not to shorten the porch but to raise the storey until the head cleared the porch ceiling, which is why porched vernacular houses in the same region have taller ceilings than unporched ones and why lowering a porched house's ceiling is a mistake felt long before it is understood. The modern answer - recessed cans in the room behind - lights the room and does not restore the view out, which is the thing that was actually lost."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "the porch's whole purpose is to be the outside of a door, and the door must lead somewhere that can receive a person",
+        "relation": "direct-door",
+        "strength": "hard",
+        "exceptions": [
+          "creole-cottage-vernacular and shotgun-house have no hall at all: the porch opens directly into the front room, and that is the type working correctly rather than a fault",
+          "charleston-single-house: the street door opens onto the piazza, not into the house"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "parlor",
+        "why": "the porch and the best front room are the two halves of one reception system - the caller is held on the porch or admitted to the parlor, and the decision is made at the door",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      },
+      {
+        "room": "living-room",
+        "why": "in twentieth-century plans the porch is an extension of the principal room and wants a pair of doors or a wide window onto it",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "a bedroom window onto a porch is a bedroom window onto a room other people are sitting in, at head height, three feet away",
+        "relation": "not-visible-from",
+        "strength": "strong",
+        "exceptions": [
+          "sleeping-porch, where the overlap is the point",
+          "raised-creole-plantation and gallery-house, where every room including chambers opens onto the encircling gallery through French doors and privacy is managed by louvred shutters instead of by plan"
+        ]
+      }
+    ],
+    "entered_from": [
+      "street",
+      "garden",
+      "exterior"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 1,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "open",
+    "heat": "none; a porch that is heated has become a sunroom and should be catalogued as one",
+    "electrical": "one ceiling outlet centred on the door and switched from inside, plus a receptacle. The ceiling fixture belongs over the door, not in the middle of the porch, because it is lighting a face at a threshold rather than a floor.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "greek-revival-american",
+      "name_in_style": "portico",
+      "trim_grade": "highest",
+      "note": "Not a porch but a temple front: a pedimented portico of two or four columns, full height, occupying the centre bay only. Furniture on it is a solecism. Where a Greek Revival house has a usable sitting porch it is on the side or on the wing, never on the temple face."
+    },
+    {
+      "style": "queen-anne-spindled",
+      "name_in_style": "veranda",
+      "trim_grade": "high",
+      "note": "Wraps two elevations and turns the corner on a round or polygonal bay. The wrap is structural to the type - a Queen Anne with a porch across the front only has lost the picturesque asymmetry it exists for."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "trim_grade": "high",
+      "note": "Deep - 8 to 10 ft is normal, not exceptional - under the main roof rather than under an applied one, on tapered piers. The porch is a room of the house and is dimensioned as one; this is the type that gets porch depth right most consistently."
+    },
+    {
+      "style": "charleston-single-house",
+      "name_in_style": "piazza",
+      "trim_grade": "high",
+      "note": "Not this room. See piazza: it runs the long flank, is entered through a false street door, and is the house's principal outdoor room rather than its entry."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "trim_grade": "highest",
+      "note": "Usually no porch at all - a pedimented door surround with pilasters and an entablature, and at most a small roofed stoop of one bay. A five-bay Georgian with a full-width porch is a nineteenth-century alteration or a mistake; the type puts its money in the door surround.",
+      "present": true
+    },
+    {
+      "style": "new-mexico-adobe",
+      "name_in_style": "portal",
+      "trim_grade": "plain",
+      "note": "Peeled log posts with corbel brackets carrying vigas, roof flat, depth 6 to 10 ft. Runs along the courtyard face rather than the street face, which is blank."
+    },
+    {
+      "style": "prairie-school",
+      "trim_grade": "middle",
+      "note": "Present but absorbed: the porch is a terrace under a deep cantilevered eave, low walled, without visible posts, and the entry is deflected sideways off it rather than centred on it."
+    },
+    {
+      "style": "second-empire",
+      "trim_grade": "high",
+      "note": "One-storey porch under a mansard mass, often only one or three bays wide. Full-width porches are rare because the type's dignity is vertical."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Landing at each exterior door not less than 36 in in the direction of travel and not less than the door width, with a maximum drop of 1.5 in below the threshold.",
+      "ref": "IRC R311.3",
+      "conflict": "The code landing is 36 in. A door swinging out over a 36 in landing leaves 0 in for the person opening it. Anything used as a porch needs 60 in clear beyond the door swing."
+    },
+    {
+      "requirement": "Guard required where the walking surface is more than 30 in above grade, minimum 36 in high.",
+      "ref": "IRC R312.1",
+      "conflict": "36 in of guard on a porch whose historic rail was 30 in changes the elevation's proportion badly. Set the porch floor within 30 in of grade wherever the site allows and the guard requirement disappears entirely - a grading decision, not a railing decision."
+    }
+  ],
+  "massing_fit": [
+    "bungalow-linear",
+    "gable-front",
+    "gable-front-and-wing",
+    "cross-gable-victorian",
+    "i-house",
+    "foursquare",
+    "pyramidal-cottage",
+    "shotgun",
+    "creole-cottage",
+    "raised-cottage",
+    "dogtrot",
+    "double-pen",
+    "ranch-linear",
+    "gallery-house",
+    "temple-front-with-wings"
+  ],
+  "slots": [
+    "porch_type",
+    "porch_depth",
+    "porch_support",
+    "porch_rail",
+    "porch_ceiling",
+    "steps_and_stoop",
+    "entry_sequence"
+  ],
+  "faults": [
+    "porch-too-shallow-to-inhabit",
+    "porch-as-a-stage-set",
+    "porch-hung-on-the-wall",
+    "porch-without-the-height-to-pay-for-it",
+    "porch-ceiling-of-exposed-joists",
+    "porch-pitch-unrelated-to-the-roof",
+    "stoop-without-a-landing",
+    "column-foot-on-the-deck-board",
+    "pencil-column",
+    "entry-steps-compressed-to-the-drive",
+    "lawn-to-the-front-door",
+    "door-reached-only-from-the-driveway"
+  ],
+  "sources": [
+    "proportions/systems/room-vernacular.json, daylight_strategy derived rule: 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth'",
+    "A. J. Downing, The Architecture of Country Houses (1850), on the veranda as a moral and social necessity",
+    "Historic American Buildings Survey measured drawings of Gulf Coast galleries and Carolina piazzas",
+    "massings/catalog.json: gallery-house, creole-cottage, shotgun (porch listed as non-optional)"
+  ],
+  "confidence": "high"
+}

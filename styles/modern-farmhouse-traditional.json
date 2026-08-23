@@ -1,0 +1,200 @@
+{
+  "id": "modern-farmhouse-traditional",
+  "name": "Modern Farmhouse",
+  "aka": [
+    "Modern Farmhouse style",
+    "New Farmhouse",
+    "Board-and-batten farmhouse",
+    "Fixer Upper style"
+  ],
+  "rank": "style",
+  "member_of": "contemporary-traditional",
+  "status": "emergent",
+  "period": {
+    "origin": 2010,
+    "floruit_start": 2014,
+    "floruit_end": 2026,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "No design hearth. Its transmission hearth is Waco, Texas, by way of television and a retail brand, and its production hearth is the Sun Belt builder market.",
+    "climate_zones": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "american-farmhouse-vernacular",
+      "type": "references",
+      "weight": 0.6,
+      "inherits_kit": false,
+      "note": "Silhouette only, and this edge is deliberately typed as a reference rather than a descent. What is quoted is the outline: a simple steep gable, vertical boarding, a metal roof, a porch. What is not transmitted is everything that made the original work — the 10:12 to 12:12 pitch, the 12-to-18-inch overhang with a moulded rake return, the full-depth working porch, the small openings in a thick wall, and the accretive plan that grew by ells over generations."
+    },
+    {
+      "target": "minimal-traditional",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The economy, and the specific habit of deleting the overhang first. The lineage of cost engineering runs unbroken from the 1936 FHA bulletin to a 2020 elevation with a 6-inch rake."
+    },
+    {
+      "target": "neo-eclectic",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The apparatus: production builders, elevation packages, engineered trusses, sheet-goods modules, the 9-to-10-foot plate, and the street-facing garage. Structurally this is a neo-eclectic house with a different skin."
+    },
+    {
+      "target": "neo-eclectic",
+      "type": "reacts_against",
+      "weight": 0.45,
+      "inherits_kit": false,
+      "note": "And at the same time a genuine reaction against it: monochrome instead of contrasting materials, one grammar instead of six, simple gables instead of stacked ones, restraint instead of accumulation. Both edges are true, which is the most interesting fact about this node."
+    },
+    {
+      "target": "ranch-style",
+      "type": "descends_from",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "The plan and the section: open great room, island kitchen, indoor-outdoor rear relationship, attached garage on the frontage."
+    }
+  ],
+  "description": {
+    "short": "The market-dominant American idiom of the 2010s and 2020s: white board-and-batten or lap siding with black windows and black metal accents under a simple gable, descending in silhouette from the farmhouse vernacular, in economy from minimal traditional, in apparatus from the production builder, and in section from contemporary open planning.",
+    "long": "Modern Farmhouse is the first traditional idiom selected by photograph. Its predecessors were transmitted by pattern book, magazine, catalog, or code — media that carry plans, sections, and dimensions. This one was transmitted by television and by image feeds: HGTV's Fixer Upper ran from 2013 to 2018 out of Waco, Texas, and the Magnolia brand that grew from it converted a renovation aesthetic into a national exterior style; Pinterest and Instagram did the rest. That transmission medium has a specific consequence which explains nearly every characteristic of the style: an image at thumbnail size carries value contrast and silhouette and carries nothing at all of profile depth, reveal, or shadow. So the style optimizes hard for the first two and abandons the third. White wall, black window, black roof, simple outline: it is extremely legible on a screen, and it is thin in front of you.\n\nThe material and technical conditions are as specific as the media ones. Fibre-cement board-and-batten and lap siding — Hardie, LP SmartSide — made a durable, paintable, dead-flat vertical wall available in four-by-eight and four-by-ten panels at production-builder prices; this is the actual enabler, and it is why the wall is flat, because the panel is. Black-clad aluminium and vinyl windows fell in price in the 2010s and became a stock item rather than an upcharge. Standing-seam metal, formerly agricultural and industrial, became a residential accent product. Meanwhile the open great room with an island kitchen pushed the ground-floor plate to nine and often ten feet, which raised the window head to eight feet, which left one to two feet of blank wall between head and soffit — a gap the historical farmhouse never had, because its heads died into the frieze within six to ten inches. The garage remained where the ranch left it, on the street.\n\nWhere it characteristically fails is worth stating precisely, because these are five measurable deviations from the thing it quotes, and correcting them would cost very little. Roof pitch: the vernacular farmhouse gable runs 10:12 to 12:12; the market version flattens to 6:12 or 8:12 to reduce truss cost and attic volume, and the result reads as a shed with a tall wall rather than a house under a roof. Overhang: the historical eave projected twelve to eighteen inches with a moulded rake and a cornice return at the gable corner; the market version boxes it at zero to eight inches, so the wall meets the sky at a knife edge, the gable never terminates, and no part of the wall is ever in shadow. Window head height: heads set by the plate rather than by the wall composition, leaving twelve to twenty-four inches of blank siding above them and misaligning heads between storeys. Porch: reduced from a full-width working porch of eight to ten feet to an entry shed of five or six, which is a gesture rather than a room and is never furnished. And contrast substituting for depth: black on white is being asked to do the work that three to six inches of projection used to do. It photographs beautifully and, at twenty feet, produces a house made entirely of outline.\n\nThe fair assessment is that this is the closest thing to a shared national traditional idiom since the ranch, and that it is a real improvement on what it replaced. It is restrained, it is coherent, it uses one grammar per building, and it has largely stopped applying half-width shutters and three-material fronts. Its interiors are genuinely good — light from two or three sides, generous circulation, an intelligible plan. The deficiency is precisely five dimensions deep: pitch, eave overhang, rake overhang, head-to-soffit distance, and porch depth. Fix those five and the idiom becomes a good style rather than a photographed one — which is a nearly perfect demonstration of what a small, enforceable, numeric rule set can be worth, and the reason this node is included in a design system rather than merely described in a field guide."
+  },
+  "defining_characteristics": [
+    "Simple dominant gable forms with minimal cross-gabling and a legible single roof hierarchy",
+    "Vertical board-and-batten or narrow lap siding, or the two combined by storey, in a single light value",
+    "High-contrast dark window frames, trim, and roof accents against a light wall — a strict two-value palette",
+    "Standing-seam metal roofing at porches, dormers, or the whole roof",
+    "A covered entry or partial porch under a shed or extended gable roof",
+    "Open great-room plan with a 9 to 10 ft ground-floor plate and correspondingly high window heads",
+    "Ornament essentially absent: no shutters, no keystones, no applied classical elements, no material changes at an outside corner"
+  ],
+  "diagnostic_tells": [
+    "Black windows in a white wall, with no trim colour in between",
+    "Board-and-batten to the gable or upper storey over lap siding below, with the change occurring at a floor line",
+    "A standing-seam shed roof over the entry, in a different plane and material from the main roof",
+    "Overhangs under 12 in, boxed, with no rake return at the gable corner",
+    "Gooseneck barn lights over the garage doors and a sliding barn door somewhere visible through the glazing"
+  ],
+  "distinguished_from": [
+    {
+      "node": "american-farmhouse-vernacular",
+      "difference": "The original has a steeper roof (10:12-12:12), a real eave and rake overhang with a cornice return, small openings in proportion to solid wall, a full-width porch of habitable depth, and an accreted plan of ells built over decades. The modern version has one mass, a flat eave, a high plate, and a shed porch. Almost every difference is measurable."
+    },
+    {
+      "node": "neo-eclectic",
+      "difference": "Simplification versus accumulation. Neo-eclectic multiplies gables, materials, window shapes, and quoted motifs; modern farmhouse reduces to one gable family, one material, one window type, and no motifs. Both are production-builder products with the same plans behind them."
+    },
+    {
+      "node": "new-urbanist-traditional",
+      "difference": "A look versus a code. New Urbanist towns frequently build in this idiom, and when they do the code forces the porch depth, the pitch, and the garage relegation — which produces a visibly better version of the same style and demonstrates that the failures listed here are enforcement failures, not stylistic ones."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Photographic and economic. The operative modules are the fibre-cement panel (4 x 8 and 4 x 10 ft), the 24-inch truss, the 9-to-10-foot plate, and the 16- or 18-foot garage door. Composition proceeds by silhouette and colour value rather than by profile and shadow, and that single substitution is what separates the idiom from every style it quotes. Recording the as-built and the source dimensions side by side, as below, is the most useful thing this node can carry.",
+    "typical_ratios": [
+      "Principal gable pitch as built 6:12 to 8:12; vernacular source 10:12 to 12:12",
+      "Eave and rake overhang as built 0 to 8 in; vernacular source 12 to 18 in with a cornice return",
+      "Window head to soffit or frieze as built 12 to 24 in; vernacular source 6 to 10 in",
+      "Window opening proportion 1:1.7 to 1:2.0, commonly ganged in twos and threes",
+      "Ground plate 9 to 10 ft; window head 8 ft 0 in",
+      "Entry porch depth as built 5 to 6 ft; vernacular source 8 to 10 ft full width",
+      "Wall-to-trim luminance contrast greater than 8:1, doing the work of profile depth"
+    ],
+    "bay_rhythm": "Regular ganged openings at 8 to 14 ft centres on the principal elevation, with the garage terminating one end; heads generally aligned within a storey, which is a genuine advance over the preceding node.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "canonical",
+      "note": "The quoted skeleton, and the one the idiom handles best because the ell gives a secondary mass without requiring a stacked gable."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "common"
+    },
+    {
+      "massing": "ranch-l",
+      "affinity": "common",
+      "note": "The single-storey market version, particularly in the Sun Belt."
+    },
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "possible"
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "Works surprisingly well, because a hipped or steep-gabled square mass tolerates the flat wall and the high plate better than a long elevation does."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Principal gable pitch not less than 6:12, and 10:12 preferred. Below 8:12 the mass reads as a shed and the quoted vernacular silhouette is lost.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner. Zero-overhang boxed rakes are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Window heads shall sit not more than 10 in below the soffit or frieze line, and shall align to one datum per storey. Where the plate exceeds 9 ft, either raise the head or introduce a transom to close the gap.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Board-and-batten battens at 16 or 24 in on centre aligned to the framing, minimum 1x2 nominal with not less than 3/4 in projection. Battens at 12 in centres or with projection under 1/2 in read as stripes rather than as boarding.",
+      "severity": "soft"
+    },
+    {
+      "kind": "proportional",
+      "statement": "A covered space may be described as a porch only at 8 ft or more of clear depth across not less than 40 percent of the facade. Shallower entry roofs are hoods and must be detailed as such.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Fixer Upper renovations",
+      "location": "Waco, Texas",
+      "year": 2013,
+      "note": "The 2013-2018 television series and the Magnolia brand that followed. Listed as the style's transmission event rather than as architectural authorship, because that is honestly what it is: the idiom has no canonical designed building, and saying so is more useful than inventing one."
+    },
+    {
+      "name": "Serenbe, Selborne hamlet",
+      "location": "Chattahoochee Hills, Georgia",
+      "year": 2005,
+      "note": "Steve Nygren's New Urbanist community, first houses sold 2005 and built out since. The same farmhouse idiom under a form-based code that enforces porch depth, setback, and garage relegation — the control case showing what the style looks like when the five failing dimensions are regulated."
+    }
+  ],
+  "sources": [
+    "Thomas C. Hubka, Big House, Little House, Back House, Barn: The Connected Farm Buildings of New England (1984)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Marianne Cusato and Brent Hull, Get Your House Right: Architectural Elements to Use and Avoid (2007)",
+    "Dolores Hayden, Building Suburbia: Green Fields and Urban Growth, 1820-2000 (2003)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "emergent",
+    "market-dominant",
+    "photographic-composition",
+    "production-builder",
+    "measurable-failure-modes"
+  ]
+}

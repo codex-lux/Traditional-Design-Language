@@ -1,0 +1,38 @@
+{
+  "id": "germanic-vernacular",
+  "name": "Germanic Vernacular",
+  "rank": "family",
+  "member_of": "northern-european-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1200,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Germany",
+      "Austria",
+      "Pennsylvania"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The half-timbered Fachwerk town house and the great hall-house of the north German plain, and their descendants in Pennsylvania stone.",
+    "long": "German building culture is organized around the visible timber frame — an infilled skeleton whose geometry is the architecture — and around the integration of dwelling, storage, and livestock under a single very large roof. Both traits reflect a scarcity of good timber and an abundance of long winters.\n\nIn Pennsylvania this tradition met abundant limestone and reorganized itself: the frame went away, the massive wall arrived, and the bank house with its forebay carried the section logic of the German farm into an American landscape. The style disappeared within two generations; the section survived."
+  },
+  "defining_characteristics": [
+    "Expressed timber frame with infill panels as the primary wall system",
+    "House, byre, and storage integrated under one large roof",
+    "Very steep pitches sized to snow and to the roof's storage volume",
+    "Banked construction using slope for a sheltered lower level",
+    "Durable section logic surviving the loss of surface identity"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "id": "wing-pitch-drift",
+  "name": "Every Wing Its Own Pitch",
+  "aka": [
+    "four-pitch house",
+    "the near-miss roof"
+  ],
+  "slots": [
+    "roof_pitch",
+    "wing_strategy",
+    "roof_form"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "Main block 6:12, garage wing 8:12, entry gable 10:12, porch 4:12 - four pitches on one house, none of them expressing hierarchy. The ridge lines do not relate to one another and the roofscape reads as a pile of unrelated objects rather than as one roof with subordinate parts.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "Each roof was drawn to solve a local problem in isolation. The entry gable was steepened to look important; the garage was flattened to stay under a height limit or to clear an upstairs window; the porch was flattened to pass beneath a second-floor sill; the main roof took whatever the truss quote gave. Nobody drew the roof as a single object, because in a plan-driven drawing set the roof is generated last and separately for each mass.",
+    "cost_saved": "Nothing. Uniquely among the faults in this group it saves no money at all - it costs extra valley flashing, extra cut waste and extra framing coordination. It saves only the design hours that resolving the roof would have taken.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_pitch / wing_pitch_deviation_max",
+      "statement": "A wing may not differ from the main block by more than 1:12."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_form / picturesque-roof-intersection = forbidden",
+      "statement": "Two roofs of unequal ridge height meeting on the main block."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a near miss reads as an error; a clear difference reads as a decision",
+      "statement": "Two pitches within about 2:12 of each other but not equal are read by the eye as a failed attempt at the same pitch."
+    }
+  ],
+  "correct_practice": "One pitch governs the whole house. Secondary masses either match it exactly or depart by a stated, consistent amount for a stated reason. The Georgian rule is the useful general one: a wing may not differ from the main block by more than 1:12, and in practice matching exactly is better. Where a porch or lean-to must run flatter to pass under a sill, it should be a different kind of roof and look like one - a standing-seam shed at 3:12 against a 9:12 shingled main roof is a hierarchy; an 8:12 shingled shed against a 9:12 shingled main roof is a mistake. Two clearly different pitches on one building is a composition; four is a shrug.",
+  "fixes": {
+    "right": "Draw the roof as one object in three dimensions before the plan is frozen, and dimension every pitch on one drawing so the set can be read for coincidence. Resolve wings to the main pitch and let their ridges fall where the narrower span puts them - a subordinate wing at the same pitch automatically gets a lower ridge, which is exactly what is wanted.",
+    "cheap": "Match every secondary roof to the main pitch and let the ridge heights sort themselves out. This is free at the drawing stage and it is the single most effective thing that can be done to a bad roofscape, because a wing at the same pitch and a narrower span is subordinate by geometry alone.",
+    "dishonest": "Hiding the disagreement behind a cricket, a false gable or a piece of shed roof stitched between the two. Adding a fifth pitch to reconcile four is not a fix."
+  },
+  "test": {
+    "expression": "count_of_distinct_roof_slope_angles_on_the_building",
+    "threshold": 2,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "More than two on a single-family house is the fault. Measure every visible rake angle from a 45 degree oblique."
+  },
+  "secondary_tests": [
+    {
+      "expression": "min_absolute_difference_between_distinct_slope_angles_deg",
+      "threshold": 8.0,
+      "direction": "at-least",
+      "units": "deg",
+      "measurable_from": "photograph",
+      "note": "The near-miss test, and the more diagnostic of the two. Two pitches 8 degrees apart (about 2:12) read as a decision; two pitches 3 degrees apart read as a failed attempt at the same pitch."
+    },
+    {
+      "expression": "max_secondary_ridge_height_in / main_ridge_height_in",
+      "threshold": 1.0,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "No secondary ridge at or above the main ridge. A wing held at the main pitch over a narrower span passes this automatically."
+    }
+  ],
+  "detection": "Photograph the house from a 45 degree oblique and measure every visible rake angle. Count distinct values. More than two on a single-family house is the fault; so is any pair of values within 2:12 of each other but not equal. The near-miss is the diagnostic: 8:12 beside 4:12 reads as a decision, 8:12 beside 9:12 reads as an error. Second check: extend the main ridge line horizontally across the photograph and see whether any secondary ridge sits at or above it.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "dutch-colonial-revival",
+      "why": "The gambrel is two pitches by definition - 20:12 to 24:12 below, 6:12 to 9:12 above - and the difference is what makes it a gambrel.",
+      "bounds": "The two slopes must be at least 8:12 apart; closer than that and the roof becomes a mansard and the identification fails.",
+      "bounds_test": {
+        "expression": "lower_slope_angle_deg - upper_slope_angle_deg",
+        "threshold": 25.0,
+        "direction": "at-least",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "note": "At least 8:12 apart. Closer than that and the identification fails."
+      }
+    },
+    {
+      "style": "saltbox-colonial",
+      "why": "The catslide is asymmetrical by design: front slope 45-52 degrees, broken rear slope 38-45 degrees.",
+      "bounds": "The rear slope is either broken and shallower, or integral and exactly equal to the front. A rear slope that differs by two or three degrees is neither, and reads as sag.",
+      "bounds_test": {
+        "expression": "front_slope_angle_deg",
+        "threshold": 45.0,
+        "direction": "between",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "upper": 52.0,
+        "note": "Rear slope 38-45 if broken, exactly equal to the front if integral."
+      }
+    },
+    {
+      "style": "second-empire",
+      "why": "A mansard is a 65-80 degree lower slope over a 2:12-4:12 deck; nothing about it is a near miss.",
+      "bounds": "The mansard must run all the way around the building; a mansard on the street front only is a twentieth-century commercial device.",
+      "bounds_test": {
+        "expression": "mansard_lower_slope_angle_deg",
+        "threshold": 65.0,
+        "direction": "between",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "upper": 80.0,
+        "note": "Over an upper deck of 2:12 to 4:12, and running all the way round the building."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Eaves are deliberately swept and bell-cast, so the pitch changes continuously along one plane and no single number describes it.",
+      "bounds": "The change must be a continuous curve within one plane, not two straight planes meeting at a break.",
+      "bounds_test": {
+        "expression": "count_of_straight_plane_breaks_within_one_swept_roof_plane",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The change must be a continuous curve within one plane - a bell-cast or swept eave - not two straight planes meeting at a break. If a break line is visible, the roof has two pitches and is governed by the rule."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "Deliberately wavering and unequal roof planes are the entire point of the idiom.",
+      "bounds": "The irregularity must be legible as craft - swept eaves, rolled edges, deliberate sag - not as two flat planes at slightly different angles.",
+      "bounds_test": {
+        "expression": "count_of_straight_plane_breaks_within_one_swept_roof_plane",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The irregularity must be legible as craft - swept eaves, rolled edges, deliberate sag - not as two flat planes at slightly different angles."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "dutch-colonial-revival",
+      "statement": "A single pitch is the fault. Two slopes closer than 8:12 apart stop being a gambrel and become a mansard, and equal slopes are simply a gable."
+    },
+    {
+      "style": "saltbox-colonial",
+      "statement": "A symmetrical roof is the fault. The front slope must be 45-52 degrees and the rear either broken at 38-45 or exactly equal - a two or three degree difference is neither, and reads as sag."
+    },
+    {
+      "style": "second-empire",
+      "statement": "A single pitch is the fault; the mansard is 65-80 degrees over a 2:12-4:12 deck by definition."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "co-equal-mass",
+      "difference": "That fault is about the wing's ridge height and setback. This one is about the angle of the roof planes, and a house can fail either independently."
+    }
+  ],
+  "co_occurs_with": [
+    "co-equal-mass",
+    "picturesque-parti-on-a-formal-style"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json roof_pitch, roof_form",
+    "project style nodes: dutch-colonial-revival, saltbox-colonial, second-empire, shingle-style"
+  ],
+  "confidence": "high",
+  "tags": [
+    "roof",
+    "pitch",
+    "composition",
+    "wing"
+  ]
+}

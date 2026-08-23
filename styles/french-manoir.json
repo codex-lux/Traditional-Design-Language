@@ -1,0 +1,204 @@
+{
+  "id": "french-manoir",
+  "name": "French Manoir",
+  "aka": [
+    "manoir",
+    "logis seigneurial",
+    "gentilhommiere",
+    "maison forte"
+  ],
+  "rank": "style",
+  "member_of": "french-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": 1250,
+    "floruit_start": 1400,
+    "floruit_end": 1650,
+    "decline_end": 1750,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1885,
+        "end": 1930,
+        "revival_node": "chateauesque",
+        "note": "The American Chateauesque draws more from the Loire chateau than from the manoir, but its stair towers, steep hipped roofs and dormer treatment come out of the same French repertoire."
+      },
+      {
+        "start": 1915,
+        "end": 1945,
+        "revival_node": "french-eclectic",
+        "note": "American French Eclectic — the steep hipped roof, through-the-cornice dormers and round entrance tower are manoir features abstracted from photographs."
+      },
+      {
+        "start": 1915,
+        "end": 1940,
+        "revival_node": "french-normandy-revival",
+        "note": "The half-timbered Norman subtype of the revival is specifically manoir-derived."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "France",
+      "Normandy",
+      "Brittany",
+      "Perche"
+    ],
+    "hearth": "Normandy, the Perche and Brittany",
+    "climate_zones": [
+      "4A",
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "norman-vernacular",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The manoir is the local vernacular executed by the same carpenters and masons with a seigneur's money behind it. The frame, the roof, the single-pile section and the dispersed ensemble are all vernacular; what money buys is dressed stone, a great hall, a stair turret and scale."
+    },
+    {
+      "target": "french-renaissance-chateau",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "From about 1520 the manoir quotes chateau detail — moulded croisee mullions, pedimented lucarnes rising through the cornice, classicising turret caps, candelabra finials — often executed by the same masons moving down the scale between commissions. It is quotation and not descent: the manoir is the older tradition and the chateau's own substrate, so the inheritance runs the other way. See french-renaissance-chateau, which correctly holds the hybridizes_with edge back to this node."
+    }
+  ],
+  "description": {
+    "short": "The fortified-then-domesticated country seat of the minor French nobility: a single-pile hall range with a projecting stair turret, standing with its chapel, dovecote, gatehouse and press inside a walled or moated cour.",
+    "long": "A manoir is not a small chateau. It is a working agricultural seat that has stopped being defensible and has not become a palace, and its architecture records exactly that middle position. The defensive memory survives in the walled or moated enclosure, the gatehouse, the corner turrets that no longer command anything, and the machicolation-shaped corbelling that is now purely a string course. The agricultural reality survives in the fact that the pressoir, the granges, the etables and the colombier stand in the same cour and are built of the same stone by the same hands. And the social ambition survives in three things: the great hall, the stone-mullioned croisee window, and the stair.\n\nThe stair is the diagnostic. A medieval hall range is single-pile — one room deep, because that is what a roof over a stone or framed wall will do and because every room must be lit and cross-ventilated from both faces — which means there is nowhere inside the plan to put a stair without eating a room. The French answer is to push it out: a polygonal or round tower projecting into the courtyard face, containing a stone or oak newel stair, rising above the eave and capped with its own conical or polygonal roof. Because the stair is external, every room on both floors opens off it directly, and the tower becomes the plan's only circulation node and the elevation's only vertical accent. It is also, not coincidentally, the most photogenic feature of the type, which is why it is the one thing the American revival never omits.\n\nThe construction divides by region and by what the ground gives. In the Perche and lower Normandy it is limestone or roussard rubble with dressed stone at every opening; in the Pays d'Auge it is colombage over a stone base, the same close-studded frame as the farms but with carved brackets, moulded sills and often a jettied upper storey; in Brittany it is granite throughout, which produces smaller openings and heavier lintels because granite is worked with difficulty. Everywhere the roof is very steep — fifty to sixty degrees, slate or flat tile — and everywhere the dormers are the elevation's rhetoric: stone lucarnes rising through the cornice line, pedimented, finialled, one per bay, each announcing a room in a roof that is doing a full storey of work.\n\nInside, a manoir is high, cold and thin. The hall is a tall single volume with an open or moulded-beam ceiling and a stone chimneypiece taking most of one gable wall; the rooms beyond it are strung in file, one room deep, each with a window on both faces. There are no corridors, because the stair tower is the corridor, and there is no comfort in the modern sense — the plan is undivided, the windows are large and single-glazed, and the fireplace is the only heat in a stone room with a four-metre ceiling. What is remarkable is the light. A single-pile room with a croisee window on each side is lit from two directions all day, and on a grey Norman afternoon the interior of a manoir is far brighter than the massive walls suggest it should be."
+  },
+  "defining_characteristics": [
+    "Single-pile hall range, one room deep, every principal room lit and ventilated from two faces",
+    "A projecting stair turret — round or polygonal — on the courtyard face, rising above the eave with its own roof, serving as the building's only circulation",
+    "Stone-mullioned croisee windows: a cross of one vertical mullion and one transom, moulded, with the transom set high",
+    "Very steep roof, 50-60 degrees, in slate or flat tile, with stone or timber lucarnes rising through the cornice",
+    "An ensemble, not a single object: logis, porterie or gatehouse, chapel, colombier, pressoir and granges within a walled, hedged or moated cour",
+    "Defensive vocabulary retained as ornament — corner turrets, corbelled string courses, a gate arch — with no defensive function",
+    "Enfilade planning: rooms open directly into one another and off the stair, with no corridors"
+  ],
+  "diagnostic_tells": [
+    "A stair tower on the inner (courtyard) face rather than the outer face, and taller than the ridge it abuts",
+    "Cross-mullioned windows with the transom well above centre, roughly two-thirds up the opening",
+    "Dormers whose bases cut through the eave line and stand on the wall below, not perched on the roof slope",
+    "A freestanding colombier — round or square, with a conical roof and a ring of flight holes — in the same enclosure",
+    "Roof volume equal to or greater than the wall height beneath it"
+  ],
+  "distinguished_from": [
+    {
+      "node": "norman-vernacular",
+      "difference": "The vernacular farm has no hall, no dressed stone openings, no stair tower and no ensemble pretension. Everything about a manoir that reads as architecture is what money added to that vernacular."
+    },
+    {
+      "node": "french-renaissance-chateau",
+      "difference": "A chateau is symmetrical, double-pile in its later phases, planned around a formal approach and a garden axis, and has no agricultural function within its walls. A manoir is asymmetrical, single-pile, planned around a working cour, and has a cider press in it."
+    },
+    {
+      "node": "massing:h-plan-manor",
+      "difference": "The English Tudor H-plan reaches its rooms through a screens passage and a great hall on the ground; the French manoir reaches them through an external stair turret. That single difference reorganises both plans."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The hall and the roof. Range depth is fixed at 6-7 m by the single-pile section and the roof span above it; the salle sets the length of the principal range; the croisee window, a stone cross in a rectangular opening, governs the proportion of every principal opening at roughly 2:3 width to height. Nothing here is derived from an order; the vertical accent is the stair turret and it is placed by circulation, not by composition.",
+    "typical_ratios": [
+      "Range depth 6-7 m clear; storey height 3.5-4.5 m in the salle",
+      "Croisee opening roughly 2:3, transom at about two-thirds of opening height",
+      "Roof pitch 50-60 degrees; roof height equal to or greater than wall height",
+      "Stair turret diameter 3-4.5 m, rising 1.5-3 m above the eave"
+    ],
+    "bay_rhythm": "Three to seven bays on the principal range, one dormer per bay, but the rhythm is broken deliberately by the stair turret, which lands where the plan needs it rather than where symmetry wants it.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "h-plan-manor",
+      "affinity": "canonical",
+      "note": "The developed manoir is a hall range with wings at one or both ends, the skeleton the catalog records as the H- or half-H plan."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three ranges around a cour, the fourth side closed by a wall and gatehouse."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "The ensemble reading — logis, chapel, press and granges as a chain of separately roofed volumes."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible",
+      "note": "The stair turret gives the manoir the same compositional device the Italianate villa uses, arrived at three centuries earlier and for a structural reason rather than a picturesque one."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Principal ranges are single-pile, clear depth not exceeding 7 m. A double-pile manoir requires an internal bearing wall and an internal stair, at which point it has become a chateau or a later house.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "The stair turret must project into the courtyard or a reentrant angle, never from the outer face, and must rise above the eave of the range it serves. A stair turret on the entrance front is a revival invention.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Croisee windows are divided by a stone mullion and transom, the transom at roughly two-thirds of the opening height. Removing the mullion to gain glass area destroys the proportion the whole elevation depends on.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Roof pitch 50-60 degrees in slate or flat tile. Dormers must be wall dormers rising through the eave line and carried on the wall below; dormers sitting on the roof slope belong to a later and different tradition.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "A manoir is defined by its ensemble. A freestanding logis without a gate, a chapel, a dovecote or a working range is a large house; the type requires the enclosure and at least two ancillary buildings.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Manoir du Catel",
+      "location": "Ecretteville-les-Baons, Seine-Maritime, France",
+      "year": 1270,
+      "note": "c. 1270; one of the oldest surviving non-fortified manor houses in France, and a rare survival of the pre-Renaissance hall-and-solar plan. Classe monument historique."
+    },
+    {
+      "name": "Manoir de Courboyer",
+      "location": "Perche en Noce, Orne, France",
+      "year": null,
+      "note": "15th-16th century; the canonical Perche manoir, with corner turrets, stair tower and an intact agricultural domaine. Facades, roofs and four chimneypieces classes monument historique."
+    },
+    {
+      "name": "Manoir d'Ango",
+      "location": "Varengeville-sur-Mer, Seine-Maritime, France",
+      "year": 1544,
+      "note": "Built 1532-1544 for the shipowner Jean Ango; the Renaissance hybrid in its clearest form, with a polychrome flint-and-brick colombier at the centre of the cour."
+    },
+    {
+      "name": "Manoir de Coupesarte",
+      "location": "Mezidon Vallee d'Auge, Calvados, France",
+      "year": null,
+      "note": "15th-16th century; the timber-framed variant of the type, moated, with overhanging corner turrets carried on brackets."
+    }
+  ],
+  "sources": [
+    "Lescroart, Manoirs du Pays d'Auge",
+    "Mesqui, Chateaux et enceintes de la France medievale",
+    "Blunt, Art and Architecture in France 1500-1700 (Pelican History of Art)",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "manor",
+    "stair-turret",
+    "ensemble",
+    "france",
+    "late-medieval"
+  ]
+}

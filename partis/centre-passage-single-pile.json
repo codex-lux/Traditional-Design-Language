@@ -1,0 +1,381 @@
+{
+  "id": "centre-passage-single-pile",
+  "name": "Centre Passage, Single Pile",
+  "aka": [
+    "one room deep",
+    "the Southern I-plan"
+  ],
+  "description": "The same through-passage with only one room either side. Every room is lit and ventilated from two sides, and the passage opened at both ends becomes a cooling device. It is why the South stayed single-pile a century after the North went double.",
+  "massing": "center-passage-single-pile",
+  "alternate_massings": [
+    "i-house"
+  ],
+  "styles": [
+    "tidewater-georgian",
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "american-farmhouse-vernacular",
+    "federal-style",
+    "southern-federal"
+  ],
+  "groupings": [
+    "centre-passage-core",
+    "entry-sequence",
+    "stair-and-landing-core",
+    "secondary-bedroom-cluster",
+    "georgian-service-core"
+  ],
+  "circulation_parti": "center-hall",
+  "storeys": 2,
+  "area_range_sf": [
+    1400,
+    3200
+  ],
+  "bedroom_range": [
+    2,
+    4
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Front Porch",
+      "exterior_walls": [
+        "S",
+        "E",
+        "W"
+      ],
+      "doors": [
+        "passage",
+        "exterior"
+      ]
+    },
+    {
+      "id": "passage",
+      "type": "centre-passage",
+      "level": 0,
+      "name": "Centre Passage",
+      "exterior_walls": [
+        "S",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "porch",
+        "exterior",
+        "parlor",
+        "dining",
+        "stair"
+      ]
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Stair",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "passage"
+      ]
+    },
+    {
+      "id": "parlor",
+      "type": "parlor",
+      "level": 0,
+      "name": "Parlor",
+      "exterior_walls": [
+        "S",
+        "E",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "passage"
+      ]
+    },
+    {
+      "id": "dining",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Dining Room",
+      "exterior_walls": [
+        "S",
+        "W",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "passage",
+        "butlers"
+      ]
+    },
+    {
+      "id": "butlers",
+      "type": "butlers-pantry",
+      "name": "Butler's Pantry",
+      "level": 0,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "dining",
+        "kitchen"
+      ],
+      "fixtures": [
+        "sink"
+      ],
+      "note": "Between dining and kitchen, with the doors offset. Without it the service route crosses the back hall, which the room rules forbid and which the validator catches."
+    },
+    {
+      "id": "backhall",
+      "type": "back-hall",
+      "level": 0,
+      "name": "Back Hall",
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen",
+        "powder",
+        "exterior",
+        "butlers"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "doors": [
+        "backhall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N",
+        "W",
+        "S"
+      ],
+      "lit_from": [
+        "N",
+        "S"
+      ],
+      "doors": [
+        "backhall",
+        "pantry",
+        "exterior",
+        "butlers"
+      ],
+      "fixtures": [
+        "sink",
+        "dishwasher"
+      ]
+    },
+    {
+      "id": "pantry",
+      "type": "pantry",
+      "level": 0,
+      "name": "Pantry",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperpassage"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "upperpassage",
+      "type": "centre-passage",
+      "level": 1,
+      "name": "Upper Passage",
+      "exterior_walls": [
+        "S",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "landing",
+        "primary",
+        "hallbath"
+      ],
+      "stacks_over": "passage"
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Principal Chamber",
+      "exterior_walls": [
+        "S",
+        "E",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "upperpassage",
+        "primarybath"
+      ],
+      "stacks_over": "parlor"
+    },
+    {
+      "id": "primarybath",
+      "type": "primary-bathroom",
+      "level": 1,
+      "name": "Principal Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "primary"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub",
+        "shower"
+      ],
+      "stacks_over": "powder"
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Chamber Bath",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperpassage"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ]
+    },
+    {
+      "id": "chamber",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "S",
+        "W",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "upperpassage"
+      ]
+    },
+    {
+      "id": "chambercl",
+      "type": "closet",
+      "level": 1,
+      "name": "Closet",
+      "repeats_with_bedrooms": true,
+      "doors": [
+        "chamber"
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "stair",
+      "b": "landing",
+      "relation": "below"
+    },
+    {
+      "a": "landing",
+      "b": "stair",
+      "relation": "above"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "widening",
+      "adding-a-link"
+    ],
+    "bay_module_ft": 10,
+    "max_bay_count": 5,
+    "note": "Cannot deepen without becoming a different diagram — filling in behind buys area and loses the draft that is the whole point. It grows by a rear ell instead."
+  },
+  "trades_away": "Floor area for a given envelope, and a great deal of exterior wall. In exchange every room has light and air from two sides, which no double-pile plan can offer.",
+  "exemplars": [
+    "Tuckahoe, Goochland County, c.1730",
+    "Shirley Plantation, 1738"
+  ],
+  "sources": [
+    "Glassie, Folk Housing in Middle Virginia",
+    "Upton, Architecture in the United States"
+  ],
+  "confidence": "high"
+}

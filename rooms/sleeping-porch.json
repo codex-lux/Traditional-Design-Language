@@ -1,0 +1,242 @@
+{
+  "id": "sleeping-porch",
+  "name": "Sleeping Porch",
+  "aka": [
+    "air porch",
+    "fresh air porch",
+    "open-air room",
+    "upper gallery (loosely)",
+    "cure porch"
+  ],
+  "function_class": "sleeping",
+  "description": "A roofed, screened, largely unglazed room, usually on the second floor at the rear or the side, containing beds and used year round. It looks like a comfort feature and it was not. The sleeping porch was a MEDICAL DEVICE, and knowing that is what makes its dimensions, its orientation and its detailing legible - it faces the wrong way for a porch, it is on the wrong floor for a porch, and it is deeper than a porch needs to be, because none of those decisions were made for a porch.",
+  "history": {
+    "appears": 1900,
+    "declines": 1955,
+    "replaced_by": "the glazed sun room, then the air-conditioned bedroom",
+    "note": "THE SLEEPING PORCH IS THE OPEN-AIR CURE FOR TUBERCULOSIS, DOMESTICATED. E. L. Trudeau opened the Adirondack Cottage Sanitarium at Saranac Lake in 1884 on the principle that continuous exposure to cold outdoor air arrested pulmonary consumption, and by 1900 the cure porch - patients in beds, out of doors, in winter, under blankets - was the standard architecture of the sanatorium on both sides of the Atlantic. TB was then the leading or second-leading cause of death in American cities, and the therapy migrated into ordinary houses very fast: between about 1905 and 1920 every pattern book, Ladies' Home Journal, Gustav Stickley's Craftsman and the mail-order catalogues carried sleeping porches, and they were fitted to existing houses in enormous numbers. A parallel and longer-lived strand is infant care - the fresh-air regime for babies, which survives intact in Scandinavia, where prams are still put outside to nap in winter. IT THEN DISAPPEARED TWICE. The first disappearance is 1925-1940 and it is not air conditioning, which was not yet domestic. It is three things at once: TB mortality collapsing (down roughly 80 per cent in the US between 1900 and 1940, before streptomycin in 1943 and before any effective drug), so the medical reason evaporated; the electric and then the attic fan, which made an ordinary bedroom sleepable in a heat wave; and the FHA-financed small house of the 1930s, which had no square footage for an unheated room and no way to count one. Most sleeping porches were glazed in during exactly this period and became sun rooms or extra bedrooms. The SECOND disappearance is 1950-1970 and it is air conditioning, and it happened in the South, where the sleeping porch had survived the first round because its second job - a cool place to sleep in August - was still real. The window air conditioner reached the mass market in 1947, central cooling entered tract housing in the mid-1950s, and within a generation the surviving Southern sleeping porches were glazed too. The room died once as medicine and once as climate control, and neither death had anything to do with taste."
+  },
+  "dimensions": {
+    "area_sf": [
+      90,
+      220
+    ],
+    "width_ft": [
+      8,
+      12
+    ],
+    "length_ft": [
+      11,
+      20
+    ],
+    "proportion": [
+      1.2,
+      2.2
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "NINE FEET OF DEPTH IF THE BED RUNS ACROSS, seven if it runs along. A full bed is 75 in long; across an 8 ft (96 in) porch that leaves 21 in, which is not a passage. Nine feet gives 33 in, which is. If the beds run parallel to the long face - which is what most surviving examples do, twin beds head to the house wall - the porch can be 7 ft deep and 14 ft long. Either way this is DEEPER THAN A PORCH, and the depth is the tell: an ordinary upper gallery is 6 to 7 ft, a sleeping porch is 8 to 10, and where a plan shows a 10 ft deep second-storey porch on a 1910 house that is what it was."
+  },
+  "furniture": [
+    {
+      "item": "pair of iron or wooden bedsteads",
+      "footprint_in": [
+        100,
+        80
+      ],
+      "clearance_in": 24,
+      "note": "Two 38 by 75 beds with 24 in between. Iron was preferred because it did not hold damp and could be washed - a sanatorium habit that came into the house with the room."
+    },
+    {
+      "item": "single bed or day bed",
+      "footprint_in": [
+        38,
+        78
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "blanket chest or built-in locker",
+      "footprint_in": [
+        42,
+        20
+      ],
+      "clearance_in": 30,
+      "note": "Bedding had to be brought in or shut away, which is why so many sleeping porches have a built-in locker or a bench with a lid under the sill."
+    },
+    {
+      "item": "roll-down canvas or wood-slat blinds",
+      "footprint_in": [
+        144,
+        4
+      ],
+      "clearance_in": 0,
+      "note": "Not curtains - exterior roll blinds on the outside of the screen, to keep driven rain and snow off the beds. They are the single most consistently missing element in modern reconstructions and without them the room is unusable in weather."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.5,
+    "sides_lit": 3,
+    "orientation": "EAST OR SOUTH-EAST, and this is the diagnostic. A porch for sitting faces the shade and the view; a sleeping porch faces the morning and, in the cure literature, the sun - patients were placed to get direct morning sun on the bed. A north-facing sleeping porch is a room somebody drew as a porch. In the South a secondary consideration is the prevailing summer breeze, which on the Atlantic and Gulf coasts is south-west, and where the two conflict the breeze wins.",
+    "glazing_fraction": [
+      0.35,
+      0.7
+    ],
+    "note": "Screen, not glass, over 50 to 70 per cent of the enclosing surface, with a solid rail or a sill up to 30 to 36 in for privacy from below and to keep bedding out of the weather. The room is bright and it does not matter: the beds are used at night. What matters is that the OPENINGS ARE ON THREE SIDES, because the whole device is cross-flow across a horizontal body at 24 in above the floor."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "bedroom",
+        "why": "A sleeping porch is entered from a chamber, not from a landing. It is an annexe to a bedroom and it has no door to the public circulation - which is also why it never needed a corridor and why it costs so little plan.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "bathroom",
+        "why": "You get up in the night from a room with no plumbing and no heat. Same floor, short route, and in the historical examples usually through the bedroom you came from.",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "primary-bedroom",
+        "why": "In the plans that use it best the porch is shared between two chambers and reached from both, which doubles its use and halves its cost.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "garage",
+        "why": "An open-air sleeping room over or beside a running engine. Obvious, and drawn anyway whenever a sleeping porch is revived on a modern plan, because the garage is where the rear ell now is.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "bedroom",
+      "bedchamber",
+      "primary-bedroom"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The room IS the ventilation. Openings on three sides, low sill, and a ceiling fan is an anachronism that defeats the point.",
+    "heat": "NONE, by definition and by intention. This is the fact that makes the room unbuildable as a bedroom under a modern code and it is worth confronting rather than fudging - see the code conflict.",
+    "electrical": "One damp-rated fixture and one GFCI receptacle. Everything on the porch is outdoors as far as the electrical code is concerned.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "sleeping porch",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "The type most associated with it, and it is usually at the rear over the kitchen ell or tucked under the main roof slope with the screen between the porch posts. Stickley published them repeatedly."
+    },
+    {
+      "style": "american-arts-and-crafts",
+      "name_in_style": "open-air room",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Ideologically central rather than incidental - the health-and-air argument is part of the movement's programme, not an add-on."
+    },
+    {
+      "style": "shingle-style",
+      "name_in_style": "sleeping porch",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Absorbed easily because the elevation is freely composed and the shingle field runs over and around the opening without a rhythm to break."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "sleeping porch",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Common 1905-1930 and almost always at the REAR or on a flank, never on the symmetrical front, because a screened opening in a five-bay front destroys it. This is the correct rule for any formal style."
+    },
+    {
+      "style": "greek-revival-southern-plantation",
+      "name_in_style": "upper gallery, used for sleeping",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Predates the medical version by a century and has a different reason: the upper gallery of a Southern house was slept on in summer because it was the coolest surface in the building. The two traditions converge around 1900 and should not be conflated - one is a cure, the other is a climate response."
+    },
+    {
+      "style": "queen-anne-american",
+      "name_in_style": "sleeping porch",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Frequently a later insertion into an existing porch or balcony, which is why so many are detailed differently from the house they are on."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "Gone by the time the type appears. No square footage for an unheated room and no financing that would count one."
+    },
+    {
+      "style": "ranch-style",
+      "present": false,
+      "note": "Air conditioning had removed the reason before the type was built at scale."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Every habitable room used for sleeping requires heating capable of 68 degrees F and an emergency escape and rescue opening.",
+      "ref": "IRC R303.10, R310",
+      "conflict": "THIS IS THE CONFLICT AND IT IS UNRESOLVABLE AS DRAWN. A genuine sleeping porch is unheated and cannot legally be a sleeping room; a compliant one is heated and glazed and is not a sleeping porch. There are only two honest positions. (1) Build it as an unconditioned screened porch, do not label it a bedroom, do not count it in the bedroom schedule, and let the household sleep on it as households have always used rooms for what they like - this is legal and it is what the historical fabric was. (2) Build it as a conditioned room with large operable screened openings and heat, accept that it is a bedroom with an unusually good window wall, and stop calling it a porch. What is not honest is a heated, glazed room labelled 'sleeping porch' on the marketing plan."
+    },
+    {
+      "requirement": "Guard required at 30 in above grade below; 36 in minimum height for a dwelling, 4 in sphere rule.",
+      "ref": "IRC R312.1",
+      "conflict": "A 36 in guard is 6 in higher than the 30 in sill that gives privacy and keeps bedding dry, so the two want the same element and disagree about its height. Build a solid rail wall to 36 in with the screen above it, which satisfies the guard and improves the room."
+    },
+    {
+      "requirement": "Screen enclosures and their supporting structure carry the same live and wind loads as any roofed appendage.",
+      "ref": "IRC R301",
+      "conflict": "A second-storey screened room is a large sail with a roof on it and it is very often hung off the wall of the house rather than carried on its own posts - see the porch-hung-on-the-wall fault."
+    }
+  ],
+  "massing_fit": [
+    "bungalow-linear",
+    "airplane-bungalow",
+    "cross-gable-victorian",
+    "massed-picturesque",
+    "foursquare",
+    "gallery-house",
+    "raised-cottage",
+    "linear-ell-farmhouse",
+    "saltbox",
+    "i-house",
+    "charleston-single",
+    "telescope-house"
+  ],
+  "slots": [
+    "porch_type",
+    "porch_depth",
+    "porch_rail",
+    "room_adjacency_overrides",
+    "daylight_strategy",
+    "window_grouping_rule",
+    "wing_strategy"
+  ],
+  "faults": [
+    "porch-too-shallow-to-inhabit",
+    "porch-hung-on-the-wall",
+    "guard-height-against-the-period-rail",
+    "porch-without-the-height-to-pay-for-it",
+    "the-room-nobody-enters"
+  ],
+  "sources": [
+    "E. L. Trudeau and the Adirondack Cottage Sanitarium, Saranac Lake (1884), and the open-air cure literature 1890-1930",
+    "Gustav Stickley, The Craftsman, and Ladies' Home Journal plan features, 1905-1920",
+    "US Vital Statistics: tuberculosis mortality 1900-1950",
+    "Gail Cooper, Air-Conditioning America (1998), for the domestic diffusion of cooling 1947-1970",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "IRC R303.10, R310, R312"
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,156 @@
+{
+  "id": "porch-without-the-height-to-pay-for-it",
+  "name": "The Porch That Darkens The House",
+  "aka": [
+    "the eight-foot porch on an eight-foot ceiling",
+    "the borrowed four feet",
+    "the shaded front room"
+  ],
+  "slots": [
+    "daylight_strategy",
+    "depth_and_pile",
+    "orientation_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A porch 8 to 10 ft deep across the front of a house with 8 ft ceilings and a window head at 6 ft 10 7/8 in. The porch is correct and welcome; the rooms behind it are gloomy all day and the occupants keep the lamps on. The same house without the porch would be adequately lit, and the same porch on a house with a 10 ft ceiling would be a delight.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The porch depth is drawn by the designer, who knows a porch must be deep enough to sit on. The ceiling height is set by the stud length - 92 5/8 in precut for an 8 ft ceiling - and the window head by the stock header at 6 ft 10 7/8 in, both of which are decided by the framing supplier and neither of which appears on the elevation the client approves. The two decisions are made by different people who never meet, and the interaction between them is invisible on every drawing: neither a plan nor an elevation shows daylight.",
+    "cost_saved": "Going from an 8 ft to a 10 ft ceiling on a two-storey house costs $9,000-$20,000 in studs, drywall, siding, stair run, extra window height and conditioned volume. That is the whole argument, and it is a real one."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / daylight_strategy.ratio = 2.25, drop to 1.8 under a porch",
+      "statement": "Drop to 1.8 wherever there is a porch, a deep eave, a verandah or a shading tree, because all four lower the effective head. THIS IS THE RULE A PORCH BREAKS: an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / ceiling_height_rule.height = part * 8, range 6-12 ft",
+      "statement": "The Southern answer was to raise the storey until the head was high enough to carry the loss, which is why porched vernacular houses have taller ceilings than unporched ones in the same region, and why lowering the ceiling of a porched house is a mistake that is felt long before it is understood."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "shotgun-house",
+      "statement": "Ceiling height minimum 10 feet, 11-12 typical, with a full-width porch of at least 5 ft. The two numbers belong together and the type never separates them."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R305.1 - minimum ceiling height 7 ft",
+      "statement": "The code floor is 7 ft, which is three feet below what a porched house needs, and no residential code anywhere measures daylight distribution. A porched house with 8 ft ceilings is fully compliant and dark."
+    }
+  ],
+  "correct_practice": "A porch is a light budget as well as a shade device, and the two must be sized together. The working rule: any porch deeper than about 6 ft drops the daylight multiplier for the rooms behind it from 2.25 to about 1.8, so a room behind an 8 ft porch loses roughly a quarter of its daylit depth. Pay for it in height. The historical figures are consistent and regional: porched Southern vernacular runs 10 to 12 ft on the principal floor, Charleston 11 to 13, raised Creole 12 to 14, and the shotgun 10 to 12 on a house 14 ft wide. Northern porched houses either keep the porch shallow - 5 to 6 ft - or accept the loss on a north or east elevation where the light was diffuse anyway. Three further moves buy back the loss at no height: a light-coloured porch ceiling, which is the real reason so many porch ceilings are painted pale blue and is worth 10 to 20 per cent of the reflected component; a porch roof that stops short of the window head rather than running over it; and a raised, glazed transom over the front-room windows above the porch soffit line.",
+  "fixes": {
+    "right": "Raise the principal-floor ceiling to 9 ft 6 in or 10 ft and take the window head to 8 ft 0 in, then build the porch as deep as the type wants.",
+    "cheap": "Raise the head, not the ceiling. Specifying an 8 ft 0 in head under a 9 ft ceiling - which costs one taller header and a shorter cripple - buys about two feet of daylit depth back and nearly cancels an 8 ft porch. Then paint the porch soffit at 80 per cent reflectance or higher; a pale porch ceiling is worth a measurable amount of interior daylight and costs a tin of paint. Third free move: hold the porch roof BELOW the window head where the type allows, so the sky is visible from the window seat.",
+    "dishonest": "Widening the windows behind the porch. Under a porch the sky component is already blocked, so extra width adds glazing area and almost no illuminance; it also breaks the pier-to-void rhythm on the one elevation that is being looked at. The porch is stealing height, and only height buys it back."
+  },
+  "detection": "Compare porch depth with window head height above the floor. Porch depth greater than about 0.9 times the head height means the rooms behind will be dark; the classic failure is an 8 ft porch against a 6 ft 11 in head, a ratio of 1.16. From a photograph, look at the porch soffit against the window head: if the soffit is at or below the head, the window sees no sky at all. Inside, in a daytime photograph, the front rooms of this house are always the darkest rooms in the listing set, which is the reverse of every historic house.",
+  "test": {
+    "expression": "porch_depth / window_head_height_above_floor",
+    "threshold": 0.9,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "elevation",
+    "note": "Both dimensions are available from a measured elevation and often from a straight-on photograph. Above 0.9 the rooms behind lose a quarter or more of their daylit depth and the ceiling height must rise to compensate. A pale porch soffit is worth roughly 0.05 on this ratio."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "A 10-12 ft piazza on an 11-13 ft ceiling is the correct pairing, and the type is the demonstration of the rule rather than an exception to it - the piazza is deep BECAUSE the section is tall.",
+      "bounds": "Ceiling not less than 11 ft with heads within 18 in of it. A piazza on a 9 ft storey has the depth without the payment.",
+      "bounds_test": {
+        "expression": "porch_depth / window_head_height_above_floor",
+        "threshold": 1.1,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "section"
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "8-14 ft galleries against 12-14 ft ceilings and full-height French doors - the openings run to within a foot of the ceiling, which raises the effective head as far as it can go.",
+      "bounds": "Requires the full-height French doors. A gallery in front of ordinary punched windows loses the trade."
+    },
+    {
+      "style": "shotgun-house",
+      "why": "5-8 ft porch against 10-12 ft ceilings, on a house only 14 ft wide, so the room depth is small enough to survive the loss.",
+      "bounds": "Room depth must stay within 1.8 times the head after the porch is accounted for; a 14-16 ft wide shotgun does."
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman porch is habitable-depth by definition and the type accepts a dim, enclosed front room as part of its character - the dark-stained interior, the plate rail and the art glass are a coherent response to a deliberately shaded room.",
+      "bounds": "The licence covers the front room only, and it requires the type's compensations: the banded windows on the side walls, a hearth as the room's centre, and the release into a lighter dining room behind. A Craftsman with a deep porch AND a deep unlit plan behind it has no compensation left."
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "The portal shades small deeply recessed openings on purpose; the interiors are meant to be dim and cool and the solid-to-void ratio is 6:1 or higher.",
+      "bounds": "Requires the type's genuinely thick walls and small openings. A thin stuccoed frame box with big windows under a portal is not this."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "The court does the shading and the deep eave is explicitly not used; the type has already solved this by moving the light source inside the plan.",
+      "bounds": "No deep projecting eaves; roofs at 20-30 degrees or flat azotea."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "room-deeper-than-its-daylight",
+      "difference": "That is the room's own geometry against its own head. This is a shading device outside the wall reducing the effective head, and it can make a room that passes the depth test fail in practice."
+    },
+    {
+      "fault": "porch-as-a-stage-set",
+      "difference": "That fault is a porch too shallow to use. This one is a porch deep enough to use and a house too short to afford it. They are opposite errors with the same cause: the porch depth and the section were decided separately."
+    }
+  ],
+  "co_occurs_with": [
+    "room-deeper-than-its-daylight"
+  ],
+  "alternative_to": [
+    "porch-as-a-stage-set"
+  ],
+  "severity_by_style": [
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The type's signature is a deep wrap porch on a production section with 8 or 9 ft ceilings, which is exactly the collision."
+    },
+    {
+      "style": "greek-revival-southern-plantation",
+      "severity": "fatal",
+      "why": "A two-storey portico over 8 ft ceilings puts the principal rooms in permanent shade behind a colossal order; the type's own 12-14 ft storeys exist to prevent it."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "A dim front room is part of the idiom and the type compensates deliberately."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "not-applicable",
+      "why": "No porch, no projections - the type forbids the device that causes the fault."
+    }
+  ],
+  "sources": [
+    "proportions/systems/room-vernacular.json, daylight_strategy derived rule and its note on porches; ceiling_height_rule and the climate map",
+    "styles/shotgun-house.json, styles/charleston-single-house.json, styles/raised-creole-plantation.json paired porch-depth and ceiling-height constraints",
+    "International Residential Code R305.1 (7 ft minimum ceiling height)",
+    "Advanced Buildings, Daylighting Pattern Guide, on external shading and effective head height",
+    "NPS Preservation Brief 44, The Use of Awnings on Historic Buildings, for the shading-versus-daylight trade in historic fabric"
+  ],
+  "confidence": "high",
+  "tags": [
+    "daylight",
+    "porch",
+    "ceiling-height",
+    "climate",
+    "teaches",
+    "endemic"
+  ]
+}

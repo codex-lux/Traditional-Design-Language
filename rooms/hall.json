@@ -1,0 +1,257 @@
+{
+  "id": "hall",
+  "name": "Hall",
+  "aka": [
+    "great hall",
+    "the hall",
+    "hall (Anglo-American vernacular sense)",
+    "houseplace",
+    "firehouse",
+    "living hall"
+  ],
+  "function_class": "public",
+  "description": "The undivided room that is the whole house. One volume, open to the roof, with the fire in it, where the household ate, worked, transacted business, received, and in the smaller versions slept. Everything else in the Anglo-American catalogue is a room that separated out of this one, and the separations happened in a knowable order over about four hundred years. It is the only room in this catalogue that is also a building type.",
+  "history": {
+    "appears": 1100,
+    "declines": 1650,
+    "replaced_by": "the parlor and the great chamber above it, which took its polite functions, and the kitchen, which took its working ones - leaving the entrance-hall as the residue",
+    "note": "THE ORDER OF THE SEPARATIONS IS THE SPINE OF THE WHOLE CATALOGUE. (1) The hall is one room with an open central hearth, high end with a dais and low end with a cross passage, 1100-1400. (2) The family withdraws upward and outward: a parlour at the high end for private eating and a great chamber above it for sleeping and state, 1300-1500. (3) THE CHIMNEY ARRIVES, and this is the hinge. A wall fireplace with a flue means the smoke no longer has to rise through the room, which means a floor can be inserted at collar level, which doubles the house's usable area at a stroke. W. G. Hoskins named the resulting building boom the Great Rebuilding and dated it 1570-1640; whether or not the dating survives every regional test, the mechanism is exact and it is the reason the open hall vanishes within two generations. (4) The floored-over hall becomes the ordinary living-and-cooking room of a vernacular house - the 'hall' of the Anglo-American hall-and-parlor plan - and keeps the name for two more centuries. (5) By 1700 the polite hall is a lobby. THE ROOM THEN COMES BACK TWICE. Once in the 1880s as the Queen Anne and Shingle Style LIVING HALL, with the hearth and the stair in it and the front door opening straight in. Once again in the 1980s as the GREAT ROOM, with the television where the fire was. Four hundred years of subdivision, and the twentieth century put it back together in a decade."
+  },
+  "dimensions": {
+    "area_sf": [
+      300,
+      1400
+    ],
+    "width_ft": [
+      16,
+      30
+    ],
+    "length_ft": [
+      22,
+      55
+    ],
+    "proportion": [
+      1.3,
+      2.2
+    ],
+    "ceiling_min_ft": 12,
+    "critical_dimension": "THE ROOF SPAN, WHICH SETS THE WIDTH AND IS NOT NEGOTIABLE IN A TIMBER BUILDING. An open hall has no floor over it, so its width is the clear span of the roof truss: 18 to 22 ft in ordinary medieval work, up to 30 ft in the great examples and only with a hammerbeam or an arch-braced collar. The length is then set by the bay module - two bays for the hall proper, one for the screens and services - so a 3-bay hall at 16 ft per bay is 32 to 48 ft long. THE SECOND DIMENSION IS THE HIGH TABLE AND IT IS THE REASON THE HALL IS AS WIDE AS IT IS: the lord's table stands ACROSS the width on the dais with the company seated along one side only, facing down the room, and it therefore needs the full width plus circulation behind it - 30 in of seat, 36 in behind, and the table itself at 30 in deep, so a 20 ft hall gives an 8 ft table and 6 ft of dais each side. Narrow the hall and the high table stops working, which is why the hall is proportioned across rather than along."
+  },
+  "furniture": [
+    {
+      "item": "high table on the dais",
+      "footprint_in": [
+        96,
+        30
+      ],
+      "clearance_in": 36,
+      "note": "seated on ONE side only, facing down the hall - this is what makes the room directional and why the dais end is the high end"
+    },
+    {
+      "item": "trestle tables and forms down the body",
+      "footprint_in": [
+        30,
+        144
+      ],
+      "clearance_in": 30,
+      "note": "demountable, and the demountability is the point: the hall was cleared for dancing, for sleeping and for business, and permanent furniture would have prevented all three"
+    },
+    {
+      "item": "open central hearth with a louver over",
+      "footprint_in": [
+        60,
+        60
+      ],
+      "clearance_in": 60,
+      "note": "5 ft of clear floor all round the fire, so 15 x 15 ft of the hall is hearth zone - which is why a hall under about 20 ft wide with a central fire has no room left"
+    },
+    {
+      "item": "screen at the low end",
+      "footprint_in": [
+        216,
+        6
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "cupboard or buffet for display of plate",
+      "footprint_in": [
+        60,
+        24
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "on the dais wall; the ancestor of the sideboard and the display cabinet"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "The high end takes the best light - the oriel or bay window at the dais end is the room's one good window and it exists to light the lord, which is a lighting decision made for social reasons and is worth recognising as such.",
+    "glazing_fraction": [
+      0.08,
+      0.3
+    ],
+    "note": "The hall is the one traditional room where the daylight multiplier is generous rather than binding, because the window head is enormous: a hall open to the roof has a transomed window whose head is 14 or 16 ft above the floor, and 2.25 times that is 32 to 36 ft of reach. THIS IS WHY A ROOM YOU CAN LIGHT ACROSS 30 FT EXISTS AT ALL, and it is the general rule stated in reverse - raise the head and you buy depth, one for two and a quarter. Floor the hall over at 8 ft, as the Great Rebuilding did, and the same window head drops to 7 ft and the reach collapses to 16 ft. The inserted floor did not only halve the volume; it halved the daylight depth, and the two lower rooms it produced had to be shallower than the one they replaced. That is why so many post-rebuilding houses are single-pile."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "cross-passage",
+        "why": "the hall's low end is defined by the screens and the passage behind them; a hall without a low end has no social direction and is a barn",
+        "relation": "shared-wall",
+        "strength": "hard",
+        "exceptions": [
+          "the Anglo-American vernacular hall of a hall-and-parlor house, which is entered directly from outside and has no screens - by then the room is the working room rather than the great hall, and the two should not be conflated",
+          "creole-cottage-vernacular and shotgun-house, which have no passage of any kind"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "best-parlor",
+        "why": "the parlour separates out of the hall's HIGH end and stays there; the sequence high-end-to-parlour is the direction of the whole four-century withdrawal",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "kitchen",
+        "why": "off the low end past the screens, and detached or in a wing wherever fire risk allowed it",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "stair-hall",
+        "why": "the stair to the great chamber rises at the HIGH end, beside the parlour, because it serves the family's rooms and not the household's",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "great-chamber",
+        "why": "the great chamber sits directly over the parlour at the high end and is reached by the high-end stair - the vertical half of the withdrawal",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "buttery",
+        "why": "not a prohibition of proximity but of POSITION: the service rooms belong past the screens at the low end, and a service door at the dais end inverts the room's whole social geometry. This is the one adjacency rule in the medieval plan that is never broken in a surviving building.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "cross-passage",
+      "entry-porch",
+      "exterior",
+      "breezeway"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The open hearth vents through a louver in the roof ridge and the room is smoky by modern standards and was known to be - the chimney's arrival was greeted as a comfort revolution, and William Harrison in 1577 lists 'the multitude of chimneys lately erected' as the first of the three great changes in English life within living memory.",
+    "heat": "One fire, central and open, in the earliest form; a wall fireplace at the side after about 1400. The radiant reach of an open fire is about 10 to 12 ft, which means a 45 ft hall was warm in the middle and cold at both ends, and the seating hierarchy tracked the temperature exactly.",
+    "electrical": "n/a historically. In revival and great-room work the lesson is that this room is lit from the walls and the hearth, not from the ceiling: a 16 ft ceiling puts a downlight so far from the task that it does nothing but reveal the height.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-medieval-timber-frame",
+      "name_in_style": "hall",
+      "trim_grade": "highest",
+      "note": "The canonical form: open to an arch-braced or crown-post roof, central hearth with a louver, dais and high table at one end, screens passage and three service doors at the other, oriel window lighting the dais. The roof is the room's principal ornament and its carpentry is the building's whole expressive effort."
+    },
+    {
+      "style": "english-gothic",
+      "name_in_style": "great hall",
+      "trim_grade": "highest",
+      "note": "In stone, with a hammerbeam roof where the span demands it, and the hall's hierarchy given full architectural expression - the dais canopy, the oriel, the carved screen."
+    },
+    {
+      "style": "tudor",
+      "trim_grade": "highest",
+      "note": "The hall reaches its ornamental peak and its functional end simultaneously. By 1550 the family eats in the great chamber and the hall is used by servants; the carved screens of the 1530s are being installed in rooms that are already ceasing to be used, which is the pattern the parlor would repeat three hundred years later."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "name_in_style": "hall (as against parlor)",
+      "trim_grade": "plain",
+      "note": "The vernacular descendant: the larger of two ground-floor rooms in a hall-and-parlor plan, floored over at 7 ft, with the cooking fireplace in it. It is the working room and the family's ordinary living room, and its name is all that survives of the medieval hall."
+    },
+    {
+      "style": "queen-anne-american",
+      "name_in_style": "living hall",
+      "trim_grade": "highest",
+      "note": "The 1880s return. The front door opens into it, the stair rises out of it as a piece of furniture, there is an inglenook with a built-in bench beside a large fireplace, and the other ground-floor rooms open off it through wide cased openings. This is the medieval hall reassembled from memory and it is the direct ancestor of the great room."
+    },
+    {
+      "style": "shingle-style",
+      "name_in_style": "living hall",
+      "trim_grade": "high",
+      "note": "Broader, lower and calmer than the Queen Anne version, and usually the room the whole plan is composed around."
+    },
+    {
+      "style": "north-german-hall-house",
+      "name_in_style": "Diele",
+      "trim_grade": "plain",
+      "note": "The Continental parallel and a useful corrective: the Hallenhaus's Diele is a full-height aisled hall with the cattle stalled down both sides and the family's living end at the far gable. Same volume, same open hearth, entirely different occupants, and it survives in use two centuries after the English hall was floored over."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "present": false,
+      "note": "No hall in either sense. The type has four equal square rooms and no dominant room at all, which is what makes it read as un-hierarchical to an Anglo eye."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable rooms not less than 7 ft in any horizontal dimension and not less than 70 sq ft.",
+      "ref": "IRC R304",
+      "conflict": "Irrelevant at this scale, which is worth noting: the code has nothing whatever to say about the room type that generated the entire domestic tradition."
+    },
+    {
+      "requirement": "A two-storey volume with a floor level more than one storey above grade requires guards at 36 in on any open edge, and the mezzanine or gallery over a great hall triggers them.",
+      "ref": "IRC R312.1",
+      "conflict": "The medieval minstrels' gallery has a rail at 30 to 34 in. The compliant version reads as a fence over the hall; ramp it, or set the guard back from the edge and let the historic rail be a decorative front."
+    }
+  ],
+  "massing_fit": [
+    "hall-single-cell",
+    "hall-and-parlor",
+    "h-plan-manor",
+    "double-pen",
+    "dogtrot",
+    "saltbox",
+    "cape-cod-massing",
+    "massed-picturesque",
+    "linear-ell-farmhouse"
+  ],
+  "slots": [
+    "circulation_parti",
+    "hearth_position",
+    "ceiling_height_rule",
+    "public_private_gradient",
+    "room_adjacency_overrides",
+    "fireplace_surround",
+    "depth_and_pile",
+    "roof_form"
+  ],
+  "faults": [
+    "hearth-on-an-interior-wall",
+    "chimney-omitted",
+    "open-plan-in-a-room-based-style",
+    "room-deeper-than-its-daylight",
+    "half-timber-that-frames-nothing",
+    "surround-that-is-not-the-firebox"
+  ],
+  "sources": [
+    "W. G. Hoskins, 'The Rebuilding of Rural England, 1570-1640', Past and Present 4 (1953), 44-59",
+    "William Harrison, The Description of England (1577), Book II ch. 12, on chimneys",
+    "Margaret Wood, The English Mediaeval House (1965)",
+    "Vincent Scully, The Shingle Style and the Stick Style (1955), on the living hall",
+    "massings/catalog.json: hall-single-cell, hall-and-parlor and its expansion logic"
+  ],
+  "confidence": "high"
+}

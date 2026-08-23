@@ -1,0 +1,185 @@
+{
+  "id": "co-equal-mass",
+  "name": "The Wing That Is Another House",
+  "aka": [
+    "the equal ridge",
+    "two houses joined"
+  ],
+  "slots": [
+    "wing_strategy",
+    "composition_parti",
+    "roof_form"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A wing, ell or garage whose ridge is at the same height as the main block's, whose depth equals the main block's, and whose front face is flush with the main facade - so the building reads as two houses joined and there is no principal mass. The commonest instance is a two-storey garage wing sharing the house's plate height, pitch and eave line. The same failure at roof scale is a row of equal gables with nothing dominant among them.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A garage with a room over it wants the same plate height as the house so that the floor system, the wall panels and the trusses are one order and one set of details. Setting the wing back costs driveway length and lot width, which on a narrow lot is the most expensive dimension there is. Framing a flush wall is cheaper than framing a stepped one, and there is no line item anywhere for hierarchy.",
+    "cost_saved": "$2,000-5,000 in matched plates, avoided foundation steps and simplified roof intersections, plus several feet of lot width."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / wing_strategy / wing_ridge_rule",
+      "statement": "Always below the main ridge. A wing whose ridge equals the main block's is a second house."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / wing_strategy",
+      "statement": "dependency_height_ratio 0.6-0.75; wing_setback 12-48 in; hyphen length 12-20 ft. A wing is subordinate in every dimension - lower ridge, shallower depth, set back from the main facade plane."
+    }
+  ],
+  "correct_practice": "A wing is subordinate in every dimension at once: its ridge below the main ridge without exception; its depth shallower; its facade set back from the main plane by 12-48 in and, for a garage, by a full bay or more. Where wings are symmetrical they must be identical, because a five-part composition with unequal dependencies is not a composition. Numeric anchors: a flanking dependency runs 0.6-0.75 of the main block's height and is joined by a hyphen 12-20 ft long; a garage wing sets back at least 4 ft with its ridge at least 2 ft below the main ridge. There is a free way to get all of this: hold the wing at the SAME pitch and give it a narrower span, and it becomes subordinate by geometry alone.",
+  "fixes": {
+    "right": "Lower the wing's plate by one storey step, narrow its span, and set its face back a full bay.",
+    "cheap": "Hold the plate where the framing wants it and set the wing back 4 ft in plan. Setback alone produces a shadow line at the junction, a visible change of plane and an apparent depth difference, and it costs driveway paving rather than framing.",
+    "dishonest": "Differentiating the wing by material or colour while leaving its ridge and face where they are. A hierarchy of masses cannot be established by paint; the eye reads mass first and colour second."
+  },
+  "test": {
+    "expression": "wing_ridge_height_in / main_ridge_height_in",
+    "threshold": 0.9,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "A wing whose ridge equals the main block's is a second house. Equal ridges in an oblique photograph is the fault, full stop."
+  },
+  "secondary_tests": [
+    {
+      "expression": "wing_facade_setback_from_main_facade_plane_in",
+      "threshold": 12,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "12-48 in for an ell, and a full bay or more for a garage. A flush wing throws no shadow at the junction and the two masses read as one long wall."
+    },
+    {
+      "expression": "largest_mass_visible_area / second_largest_mass_visible_area",
+      "threshold": 1.1,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Which mass is the house? If two candidates are within 10 per cent of each other there is no hierarchy, and the answer is that neither is."
+    },
+    {
+      "expression": "dependency_height_in / main_block_height_in",
+      "threshold": 0.6,
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "upper": 0.75,
+      "note": "A flanking dependency in a five-part composition, joined by a hyphen 12-20 ft long."
+    }
+  ],
+  "detection": "In an oblique photograph, compare ridge heights: equal ridges is the fault. Then compare facade planes: a flush wing throws no shadow at the junction and the two masses read as one long wall. Then ask the direct question - which mass is the house? If two candidates are within 10 per cent of each other in visible area, there is no hierarchy and the answer is that neither is.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "dogtrot-vernacular",
+      "why": "Two equal pens flanking an open central passage IS the type, and their equality is the whole idea - the passage is the dominant element, not either pen.",
+      "bounds": "The two pens must be genuinely equal and the breezeway genuinely open; two unequal masses with a covered link is a different and lesser thing.",
+      "bounds_test": {
+        "expression": "left_pen_area / right_pen_area",
+        "threshold": 0.95,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 1.05,
+        "note": "The two pens must be genuinely equal and the breezeway genuinely open; two unequal masses with a covered link is a different and lesser thing."
+      }
+    },
+    {
+      "style": "georgian-colonial-american",
+      "why": "In the five-part Palladian composition the two flanking dependencies MUST be identical to each other - unequal dependencies are the fault there.",
+      "bounds": "Equal to each other and still subordinate to the main block at 0.6-0.75 of its height, connected by hyphens of 12-20 ft.",
+      "bounds_test": {
+        "expression": "dependency_height_in / main_block_height_in",
+        "threshold": 0.6,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 0.75,
+        "note": "Equal to each other and still subordinate to the main block, connected by hyphens of 12-20 ft."
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "Additive, accretive growth is the type's honesty and the record of its economics.",
+      "bounds": "Telescoping means each successive unit is SMALLER than the last - which is a hierarchy, not the absence of one. Equal additions are not telescoping.",
+      "bounds_test": {
+        "expression": "each_successive_unit_area / previous_unit_area",
+        "threshold": 0.9,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Telescoping means each successive unit is SMALLER than the last, which is a hierarchy rather than the absence of one. Equal additions are not telescoping."
+      }
+    },
+    {
+      "style": "appalachian-log-house",
+      "why": "Additive pen-and-passage growth, same logic.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "each_successive_unit_area / previous_unit_area",
+        "threshold": 0.9,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The piazza runs the full flank length and is co-extensive with the house, which is the type's defining move.",
+      "bounds": "The piazza is a void, not a mass, and it is one storey lower in reading because it is open.",
+      "bounds_test": {
+        "expression": "piazza_depth_ft",
+        "threshold": 8,
+        "direction": "between",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "upper": 12,
+        "note": "The piazza is a void, not a mass, and reads one storey lower because it is open."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "dogtrot-vernacular",
+      "statement": "Unequal pens are the fault. Two equal pens flanking an open passage is the type, and the passage is the dominant element rather than either pen."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "statement": "Where a five-part Palladian composition is intended, UNEQUAL flanking dependencies are the fault; they must be identical to each other and both subordinate to the main block."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "wing-pitch-drift",
+      "difference": "That fault is the angle of the wing's roof. This one is its height, depth and setback. A wing can match the main pitch exactly and still be a second house."
+    },
+    {
+      "fault": "picturesque-parti-on-a-formal-style",
+      "difference": "This is one specific relation between two masses; that is the absence of a governing parti altogether."
+    }
+  ],
+  "co_occurs_with": [
+    "wing-pitch-drift",
+    "picturesque-parti-on-a-formal-style"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json wing_strategy",
+    "massings/catalog.json expansion logic",
+    "project style nodes: dogtrot-vernacular, charleston-single-house"
+  ],
+  "confidence": "high",
+  "tags": [
+    "wing",
+    "massing",
+    "hierarchy",
+    "garage"
+  ]
+}

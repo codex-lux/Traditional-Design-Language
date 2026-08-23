@@ -1,0 +1,37 @@
+{
+  "id": "mediterranean-vernacular",
+  "name": "Mediterranean Vernacular",
+  "rank": "family",
+  "member_of": "classical-mediterranean",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1200,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Tuscany",
+      "Italy",
+      "Mediterranean basin"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The unwritten farmhouse and villa building of the Italian countryside, whose plain massing and tile roofs supplied the twentieth century with an entire romantic idiom.",
+    "long": "Alongside the treatise tradition ran a peasant one: stone or stuccoed masonry, low-pitched clay tile roofs, small deep-set openings, buildings that grew by accretion around a courtyard or along a slope. It has no theorists and no dates, and it produced the visual material that Italianate, Italian Renaissance Revival, and Mediterranean Revival all quarried.\n\nThe irony is instructive. The high tradition was designed to be copied and largely was not, outside of professional circles; the vernacular was never designed to be copied at all and became the most imitated Italian architecture in America."
+  },
+  "defining_characteristics": [
+    "Massive stuccoed or stone walls with deep reveals",
+    "Low-pitched clay tile roofs with modest overhang and exposed rafters",
+    "Accretive growth around courts and along contours",
+    "Ornament almost entirely absent, concentrated where it is unavoidable"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

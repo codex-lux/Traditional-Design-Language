@@ -1,0 +1,155 @@
+{
+  "id": "baluster-spacing-as-fence",
+  "name": "The Rail Spaced Like A Fence",
+  "aka": [
+    "balusters at 5 1/2 inches",
+    "the four-inch sphere",
+    "picket spacing"
+  ],
+  "slots": [
+    "porch_rail",
+    "balustrade"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "Balusters set as far apart as the code will permit — a clear gap of just under 4 in, giving centres of 5 1/2 to 6 in on a 1 1/2 in square baluster — so the rail reads as a row of separated sticks with light between them rather than as a continuous balustrade. On a period rail the balusters are dense: 4 to 6 in on centres with a turned baluster of 2 to 2 1/2 in at its widest, so the solid is comparable to the void and the rail reads as a translucent band. The modern rail reads as a fence with the fence's characteristic rhythm of thin dark lines on a bright background.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R312.1.3 requires that a 4 in sphere not pass through any opening in a guard. Every rail is therefore laid out to the maximum: the fewer balusters, the less material and the less labour, and the spacing is set by dividing the run so that the widest gap is just under 4 in. A baluster costs 3 to 12 USD installed, so on a 40 ft porch the difference between 5 1/2 in and 4 1/2 in centres is about eighteen extra balusters. The 4 in sphere is a child-safety rule and is entirely sound; nothing in it requires the maximum.",
+    "cost_saved": "60-250 USD per 40 ft run of rail. It is one of the smallest savings in the corpus and one of the most consistently taken, because the layout software and the installer's habit both default to the maximum."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_rail / baluster_spacing_in = 4-6, code_max_baluster_gap_in = 4",
+      "statement": "The baluster spacing conflict is resolved by taking the 4 in end of the period band, which is period-correct anyway."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / balustrade / baluster_spacing_in = 4-6",
+      "statement": "Turned or square balusters at 4 to 6 in centres."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R312.1.3 — 4 in sphere",
+      "statement": "Required guards shall not have openings from the walking surface to the required guard height which allow passage of a sphere 4 in in diameter. A maximum, not a target."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a balustrade is a screen, not a fence, and the difference is the solid-to-void ratio",
+      "statement": "The classical balustrade descends from a pierced parapet and is meant to read as a band of pattern with light behind it. Once the void exceeds about 60 per cent of the run the band dissolves and the eye reads individual members instead of a course."
+    }
+  ],
+  "correct_practice": "Spacing is measured on CENTRES in period work, not as a clear gap, and the figure is 4 to 6 in for a residential balustrade. Note what that implies: with a turned baluster 2 to 2 1/2 in at its widest and 1 1/4 to 1 1/2 in at its neck, 4 in centres give a clear gap at the widest point of about 1 1/2 to 2 in and at the neck of about 2 1/2 to 3 in, so a period balustrade is comfortably inside the 4 in sphere rule without any adjustment at all — the two authorities agree here, and this is the one place in the whole code-versus-period conflict where the correct answer is also the compliant one. The layout rule matters as much as the spacing: set out from the CENTRE of each run so that the spacing at each end, against the newel or the column, is the same, and so no partial gap appears. Where the run cannot divide evenly, adjust the spacing by a fraction across the whole run rather than leaving a wider gap at one end.",
+  "fixes": {
+    "right": "Balusters at 4 to 5 in centres, set out from the centre of each run, with equal end gaps.",
+    "cheap": "Take the 4 in end of the period band, which is the correct answer AND the compliant one, and pay for the extra balusters — 60-250 USD per run, the cheapest meaningful improvement available in the threshold group. Free move where money is genuinely absent: keep the spacing but set it out from the centre so the end conditions are symmetrical, which costs nothing and removes the most visible symptom, the odd narrow gap against the newel.",
+    "dishonest": "Adding a horizontal member — a mid-rail or a run of lattice — to reduce the apparent void. A horizontal mid-rail is a climbable member the code specifically dislikes, and horizontal lines in a balustrade fight the vertical rhythm that makes it a balustrade."
+  },
+  "detection": "Count balusters per foot of rail in a photograph. Period work gives 2.0 to 3.0 per foot; code-maximum work gives 1.8 to 2.2 on a square baluster and as few as 1.6 on a wide one. Second and better measurement because it needs no calibration: measure the solid-to-void ratio along the rail — the total width of baluster against the total width of gap in the same span. Period balustrades run 0.4 to 0.7; a code-maximum rail on a 1 1/2 in baluster runs about 0.37 and on a 1 1/4 in one about 0.30. Third check: look at the two ends of each run, against the newel or the column. Unequal end gaps, or a single wider gap at one end, means the run was set out from one end and is the surest sign that nothing about the layout was designed.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "baluster_solid_width_total / rail_clear_run_length",
+    "threshold": 0.4,
+    "upper": 0.75,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Solid-to-run rather than spacing, because it is calibration-free in a photograph and because it captures what the eye actually reads. Period balustrades sit at 0.4 to 0.7; a code-maximum deck rail sits at 0.30 to 0.37. Turned balusters should be measured at their widest point."
+  },
+  "severity_by_style": [
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "The Federal roof balustrade is read as a silhouette against the sky, where the solid-to-void ratio is the entire visual content."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "serious",
+      "why": "Dense turned balusters are the idiom; sparse ones make it a deck."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "The kit's own resolution is that the 4 in end of the period band satisfies both authorities, so the fault is purely a failure to take it."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "Craftsman rails use fewer, heavier square balusters at wider spacing by intent — see the exception."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "Square balusters at wider spacing are within the vernacular range."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman rail deliberately uses fewer and heavier members: square balusters of 2 to 3 in at 6 to 8 in centres, or solid panels with a few widely spaced verticals. The idiom's argument is mass and interval, not density.",
+      "bounds": "The baluster must be heavy — 2 in square minimum, commonly 2 1/2 to 3 in — so the solid-to-void ratio stays above about 0.35 despite the wider spacing. Wide spacing with a thin baluster is the fault in any style.",
+      "bounds_test": {
+        "expression": "baluster_least_dimension_in",
+        "threshold": 2.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The Prairie rail uses widely spaced flat vertical slats or a solid parapet, and the interval is a deliberate compositional rhythm.",
+      "bounds": "Slats must be wide and flat — 3 to 5 in on the face — and the rhythm regular across the whole run."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Creole and Caribbean gallery rails use slender turned or sawn balusters at wider spacing, matching the lightness of the colonnettes; density would make the gallery read heavier than its supports.",
+      "bounds": "The whole gallery must be light — slender colonnettes, thin rail, no entablature — and the balusters must be turned or shaped rather than plain stock.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style rails often use widely spaced flat sawn balusters with cut-out shapes, or a solid shingled parapet with no balusters at all.",
+      "bounds": "Where balusters occur they must be flat and shaped, not turned, and the pattern must be deliberate."
+    }
+  ],
+  "co_occurs_with": [
+    "guard-height-against-the-period-rail",
+    "baluster-too-thin",
+    "rail-without-a-bottom-rail"
+  ],
+  "confused_with": [
+    {
+      "fault": "baluster-too-thin",
+      "difference": "Interval versus section. A rail can be correctly spaced on a baluster too thin to carry the spacing, and the two together produce the fence reading. The solid-to-void test catches both, which is why it is the more useful single measurement."
+    },
+    {
+      "fault": "guard-height-against-the-period-rail",
+      "difference": "Interval versus height. Both come from the code, but this conflict has an exact resolution and that one does not."
+    }
+  ],
+  "sources": [
+    "IRC R312.1.3 — the 4 in sphere",
+    "kits/georgian-colonial-american.kit.json, porch_rail and balustrade (4-6 in centres, code_conflict resolution)",
+    "HABS measured balustrade details",
+    "Nineteenth-century stair and porch millwork catalogues — published baluster spacing"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rail",
+    "balustrade",
+    "code",
+    "spacing",
+    "endemic"
+  ]
+}

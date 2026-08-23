@@ -1,0 +1,254 @@
+{
+  "id": "fanlight-before-its-date",
+  "name": "A Fanlight On A House That Predates It",
+  "aka": [
+    "the anachronistic fanlight",
+    "the sunburst transom",
+    "fan on a Georgian"
+  ],
+  "slots": [
+    "transom_sidelight",
+    "door_surround"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "anachronism",
+  "symptom": "An elliptical or semicircular fanlight with radiating tracery sits over the front door of a house whose every other detail is earlier than about 1780, or later than about 1840, or belongs to a tradition that never had one at all. The commonest cases are a fan over the door of a claimed early Georgian, and a fan on a Greek Revival, where the style's own vocabulary explicitly excludes it.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "The fanlight is the single most recognisable signal of 'historic' in the residential entrance market, so it is fitted to every door system regardless of the house behind it, usually as a moulded plastic or lead-cameed insert in a rectangular or arched frame. Its date range — a fifty-five-year window in a two-hundred-year tradition — is not information the market carries.",
+    "cost_saved": "Nothing. A fanlight costs more than a rectangular transom. This is a fault that spends money to be wrong, driven by recognisability rather than economy.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / transom_sidelight / elliptical-fanlight",
+      "statement": "Federal, from about 1785. A fanlight on a house dated before 1780 is named in the style node as a revival tell."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / transom_sidelight / earliest_fanlight_date",
+      "statement": "1780. A date rule, not a taste rule."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "greek-revival-american / transom_sidelight",
+      "statement": "No round-headed arches, no domes, no elliptical fanlights. The entrance must be a rectangular opening with a rectangular transom. The rectangular transom is the single fastest Federal / Greek Revival discriminator on a plain house."
+    }
+  ],
+  "correct_practice": "Date the transom. Before about 1780 in Anglo-American work, the transom over a door is a rectangular light divided on the same module as the windows — four lights across a 36 in opening at a 9 in module — and about 15 3/4 in high, or module x 0.44. From about 1785 the semicircular and then the elliptical fanlight arrives with the Federal entrance and normally brings sidelights with it. From about 1825 the Greek Revival abolishes it again and returns to the rectangular transom, and this reversal is the fastest discriminator between the two styles on an otherwise plain house. Where a fanlight is correct, it sits flush in the wall rather than under a projecting pedimented hood, and its tracery is lead or wood radiating from a centre at the springing, not a moulded plastic sunburst.",
+  "fixes": {
+    "right": "A rectangular transom on the house's own light module, unless the house is genuinely Federal, Adam or Regency, in which case a properly traceried fanlight set flush in the wall.",
+    "cheap": "A plain rectangular transom light, undivided or with two vertical bars. It costs less than the fanlight it replaces, it is correct for a wider date range than any other transom, and it removes both the date fault and the plastic-tracery fault at once.",
+    "dishonest": "A rectangular transom with a moulded sunburst pattern applied to the glass. It claims the fanlight's date and adds a decal, and it is visible as a decal because the pattern is in one plane with the glass and has no came shadow."
+  },
+  "detection": "Look for the arc. A curved transom head, elliptical or semicircular, dates the entrance to 1785 or later in Anglo-American work; if the rest of the elevation reads earlier — heavy muntins, small lights, a pedimented doorcase, a modillion cornice — the fault is present. Check the tracery: real fanlight bars radiate from a single centre at the springing line and vary in width from centre to rim; moulded inserts have parallel or constant-width bars and often a pattern that does not resolve to a centre. Check the plane: a Federal fanlight is flush with the wall; a fanlight sitting under a projecting hood or pediment is a revival composite. Finally, check for the Greek Revival exclusion — pilasters, wide flat trim, a frieze band and an elliptical fanlight cannot coexist.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "federal-style",
+      "why": "The elliptical or semicircular fanlight with flanking sidelights is the defining Federal entrance.",
+      "bounds": "Set within the wall plane rather than in a projecting frontispiece; elliptical rather than semicircular in the mature phase; real tracery. Dates from about 1785.",
+      "bounds_test": {
+        "expression": "fanlight_projection_beyond_wall_face_in",
+        "threshold": 1.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Set within the wall plane rather than in a projecting frontispiece; elliptical rather than semicircular in the mature phase; real tracery radiating from a centre."
+      },
+      "applies_when": {
+        "date_range": [
+          1785,
+          1830
+        ]
+      }
+    },
+    {
+      "style": "adam-style",
+      "why": "The British source of the device, from the 1760s onward, and earlier than the American arrival.",
+      "bounds": "British work only; the earlier date does not transfer to American Georgian fabric.",
+      "bounds_test": {
+        "expression": "fanlight_bar_width_at_rim_in / fanlight_bar_width_at_centre_in",
+        "threshold": 0.8,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The British source from the 1760s. The earlier date does not transfer to American Georgian fabric, which is the bound that matters."
+      },
+      "applies_when": {
+        "regions": [
+          "british-isles"
+        ],
+        "date_range": [
+          1760,
+          1795
+        ],
+        "note": "British work only."
+      }
+    },
+    {
+      "style": "regency",
+      "why": "Fanlights and margin-lit doorcases continue through the Regency with very thin bars.",
+      "bounds": "Thin glazing bars, doorcase distinct from house to house; the fanlight sits under a flat or shallow head, not a pediment.",
+      "applies_when": {
+        "regions": [
+          "british-isles"
+        ],
+        "date_range": [
+          1790,
+          1837
+        ]
+      },
+      "bounds_test": {
+        "expression": "glazing_bar_width_in",
+        "threshold": 0.71,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "12 to 18 mm bars, and the fanlight sits under a flat or shallow head rather than a pediment. A heavy-barred fanlight under a projecting pediment is a revival composite, not Regency."
+      }
+    },
+    {
+      "style": "english-georgian-townhouse",
+      "why": "Ornament restricted to the doorcase, fanlight and railings is the terrace's whole ornamental budget, and the fanlight is what distinguishes one house from its neighbours.",
+      "bounds": "British urban Georgian from the 1750s; the fanlight is set in the reveal with the frame set back not less than 100 mm from the wall face per the Act of 1709.",
+      "bounds_test": {
+        "expression": "window_frame_setback_from_wall_face_in",
+        "threshold": 3.9,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The Act of 1709 requires frames set back not less than 100 mm from the external wall face, with sash boxes concealed in the reveal. The fanlight sits in that reveal, under a flat or shallow head and not a pediment."
+      },
+      "applies_when": {
+        "regions": [
+          "british-isles"
+        ],
+        "date_range": [
+          1750,
+          1830
+        ],
+        "construction": [
+          "terrace",
+          "party-wall"
+        ]
+      }
+    },
+    {
+      "style": "colonial-revival",
+      "why": "The revival's entry assembly is deliberately larger and more elaborate than any colonial precedent, and a fanlight over a Georgian-pattern door is its signature composite.",
+      "bounds": "Legitimate on a house honestly presented as Colonial Revival. It is not a licence on a house claiming an eighteenth-century date, and it remains forbidden on Greek Revival.",
+      "bounds_test": {
+        "expression": "entrance_composition_width_in / door_leaf_width_in",
+        "threshold": 1.6,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Legitimate on a house honestly presented as Colonial Revival, which means it carries the revival's larger and more elaborate entry assembly. It is not a licence on a house claiming an eighteenth-century date, and it remains forbidden on Greek Revival."
+      },
+      "applies_when": {
+        "date_range": [
+          1880,
+          1955
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "sidelights-as-storefront-glass",
+      "difference": "Date versus scale; they usually arrive in the same catalogue assembly and should be checked together."
+    },
+    {
+      "fault": "transom-bar-at-the-wrong-height",
+      "difference": "That fault is about where the transom sits, not what shape it is."
+    },
+    {
+      "fault": "swag-and-urn-before-its-date",
+      "difference": "The same date boundary at a different element. Adamesque swags, urns and paterae arrive on the same wave as the fanlight, so a house that carries one anachronistically usually carries the other."
+    },
+    {
+      "fault": "broken-pediment-out-of-vocabulary",
+      "difference": "That fault is a pediment form used outside its own vocabulary; this is a transom shape used outside its own date. A fanlight sitting UNDER a broken pediment is both faults and a revival composite besides."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json",
+    "styles/federal-style.json",
+    "styles/greek-revival-american.json constraints",
+    "Measured Federal entrances, HABS documentation"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry",
+    "fanlight",
+    "date",
+    "transom"
+  ],
+  "test": {
+    "expression": "transom_head_rise_in / transom_width_in",
+    "threshold": 0.02,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "THE EXECUTABLE FORM OF A DATE RULE. Before about 1780 in Anglo-American work the transom over a door is flat-headed, so its rise over its width is effectively zero. A curved head — elliptical or semicircular — scores above 0.02 and dates the entrance to 1785 or later. Greek Revival abolishes the curve again from about 1825, and that reversal is the fastest Federal / Greek Revival discriminator on an otherwise plain house."
+  },
+  "secondary_tests": [
+    {
+      "expression": "fanlight_bar_width_at_rim_in / fanlight_bar_width_at_centre_in",
+      "threshold": 0.8,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "THE TRACERY TEST, which separates a real fanlight from a moulded insert regardless of date. Real fanlight bars radiate from a single centre at the springing line and taper from centre to rim. Moulded inserts have parallel or constant-width bars and a pattern that does not resolve to a centre."
+    },
+    {
+      "expression": "fanlight_projection_beyond_wall_face_in",
+      "threshold": 1.0,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "A Federal fanlight sits FLUSH in the wall plane rather than in a projecting frontispiece; a fanlight under a projecting pediment or hood is a revival composite rather than a Federal entrance."
+    },
+    {
+      "expression": "elliptical_or_arched_heads_on_a_greek_revival_elevation",
+      "threshold": 0,
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The exclusion stated as a count. Pilasters, wide flat trim, a frieze band and an elliptical fanlight cannot coexist; the style's vocabulary admits no round-headed arches, no domes and no elliptical fanlights."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The style's vocabulary is exclusive and forbids the elliptical fanlight outright; the rectangular transom is the single fastest discriminator against Federal."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The kit names it a revival tell on a house dated before 1780, and sets the boundary as a date rule rather than a taste rule."
+    },
+    {
+      "style": "federal-style",
+      "severity": "not-applicable",
+      "why": "The elliptical or semicircular fanlight with flanking sidelights is the defining Federal entrance."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "A fanlight over a Georgian-pattern door is the revival's signature composite and is legitimate on a house honestly presented as of the revival."
+    }
+  ],
+  "co_occurs_with": [
+    "sidelights-as-storefront-glass",
+    "broken-pediment-out-of-vocabulary",
+    "swag-and-urn-before-its-date",
+    "three-periods-on-one-elevation"
+  ]
+}

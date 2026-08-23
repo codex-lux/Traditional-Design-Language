@@ -1,0 +1,265 @@
+{
+  "id": "primary-bathroom",
+  "name": "Primary Bathroom",
+  "aka": [
+    "master bathroom",
+    "en-suite",
+    "principal bathroom",
+    "bath suite"
+  ],
+  "function_class": "sanitary",
+  "description": "The private bathroom of the primary suite: two basins, a separated water closet, a shower, usually a tub, and increasingly a dressing bench and a linen store. It is the most expensive room per square foot in a traditional house, the loudest room in it at six in the morning, and the one most often placed directly over a formal room. Its design problems are not aesthetic. They are acoustic, thermal, and structural, and all three are decided in the first week.",
+  "history": {
+    "appears": 1960,
+    "declines": null,
+    "replaced": "dressing room with a fitted bath",
+    "note": "The private bathroom attached to a principal bedchamber is Victorian and English in origin, and it was usually a converted dressing room. The AMERICAN primary bathroom as a designed room - two of everything, a compartmented WC, a separate shower and tub - is post-1960 and it is the room that grew fastest of any in the house: from roughly 45 sq ft in a 1955 custom house to 120-180 sq ft now, an area larger than the median 1950 bedroom. The reason it grew is worth naming, because it is not vanity: it is the doubling. Two people using one room at the same time on a working morning needs two basins, a WC behind a door, and a shower that is not the tub, and each of those is a real requirement that the single 5 by 8 could not meet. What was added on top of that requirement - the corner jetted tub of 1985-2005, now largely dead, and the ceremonial freestanding tub that replaced it - is fashion, and it should be argued about separately from the plan."
+  },
+  "dimensions": {
+    "area_sf": [
+      90,
+      190
+    ],
+    "width_ft": [
+      8,
+      13
+    ],
+    "length_ft": [
+      11,
+      17
+    ],
+    "proportion": [
+      1.15,
+      1.8
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "SIXTY INCHES OF CLEAR FLOOR BETWEEN OPPOSING FIXTURE FACES, and it is a two-person dimension rather than a code one. A person at a basin occupies 24 in of depth in front of the vanity face; two people passing behind each other need 42 in; one person passing behind another who is bent over a drawer needs 48. 21 (vanity) + 60 (clear) + 21 (opposite fixture or wall) = 102 in, 8 ft 6 in, and that is the minimum width of a real primary bath. THE SECOND NUMBER IS THE DOUBLE VANITY: two bowls need 30 in between centres to be usable and 36 to be comfortable, plus 15 in from each outer centre to a wall, so 30 + 15 + 15 = 60 in absolute and 36 + 18 + 18 = 72 in to work. A 60 in double vanity is two basins you cannot both stand at. Draw 72."
+  },
+  "furniture": [
+    {
+      "item": "double vanity",
+      "footprint_in": [
+        72,
+        21
+      ],
+      "clearance_in": 42,
+      "note": "Bowls at 36 in centres minimum. 84 in is where it stops being a compromise. Below 60 in fit ONE bowl and a run of counter, which is a better room than two bad basins."
+    },
+    {
+      "item": "freestanding tub",
+      "footprint_in": [
+        66,
+        32
+      ],
+      "clearance_in": 24,
+      "note": "Needs 4 to 6 in clear of every wall to be cleaned behind, and 24 to 30 in on the approach side to get into. A freestanding tub in an alcove is the worst of both: it wants a bay of its own, ideally in front of a window, and it needs a floor-mounted filler whose supply comes up through the floor - which is a framing and a waterproofing decision, not a fixture one, and cannot be changed after the slab or the subfloor."
+    },
+    {
+      "item": "shower with bench",
+      "footprint_in": [
+        42,
+        60
+      ],
+      "clearance_in": 24,
+      "note": "36 by 48 is the smallest adult shower; 42 by 60 takes a 15-18 in deep bench with the seat at 17-19 in, which is the single most useful thing in an ageing-in-place bathroom. A curbless entry needs the floor structure dropped 1 1/2 to 2 in over the shower area - decided at framing or not at all."
+    },
+    {
+      "item": "water closet compartment",
+      "footprint_in": [
+        36,
+        66
+      ],
+      "clearance_in": 0,
+      "note": "30 in clear width is the code; a real compartment is 36 by 66 in the clear with an OUT-swinging or pocket door, because a 24 in door swinging into a 36 in compartment leaves 12 in to stand in. The compartment is what makes the room usable by two people and it is the first thing cut for area."
+    },
+    {
+      "item": "linen store",
+      "footprint_in": [
+        24,
+        14
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "14 in deep, as at linen-press. A 24 in deep linen cupboard in a bathroom is 10 in of stored damp."
+    },
+    {
+      "item": "a place to sit and a place to put a towel down",
+      "footprint_in": [
+        36,
+        18
+      ],
+      "clearance_in": 24,
+      "note": "Never drawn, always wanted. A bench or a stool, and 18 in of dry counter that is not the basin surround."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.0,
+    "sides_lit": 1,
+    "orientation": "East. This room is used at 6 am, in the dark, half the year, and a window on the morning side is worth more than any lighting scheme in it.",
+    "glazing_fraction": [
+      0.06,
+      0.12
+    ],
+    "note": "Two windows are usual and both are a privacy problem, which is why the room so often ends up with obscured glass and blinds permanently down - a window nobody opens the blind on is not a window. Solve it in plan: put the glazing where it looks at a wall, a hedge, a courtyard or the sky, not at a neighbour. A high transom band at 6 ft 6 in gives full daylight, complete privacy and needs no covering at all, and it is the most under-used device in this room."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "Direct and private. A primary bath reached through a corridor shared with anything else is not en-suite.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "walk-in-closet",
+        "why": "Bedroom - closet - bathroom, with the closet as the lock. The closet door is the one you can shut at 6 am.",
+        "relation": "direct-door",
+        "strength": "strong",
+        "via": [
+          "primary-bedroom"
+        ]
+      },
+      {
+        "room": "bathroom",
+        "why": "Stack the wet rooms. A primary bath over or beside a secondary bath shares the wet wall, the stack, the vent and very often the recirculation loop, and the saving is thousands of dollars decided in one sketch.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      },
+      {
+        "room": "laundry",
+        "why": "Where a laundry is on the bedroom floor it should share the wet wall with this room. It is the same stack and the same supply run.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "Not the room - the FLOOR PLATE. A primary bathroom directly above a dining room, a study or a formal room means a shower drain, a WC discharge and a fan running over people's heads at 6 am, plus a stack that has to land somewhere in the room below. Over a kitchen, another bath, a laundry, a closet or a passage: yes. Over a formal room: no.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "study",
+        "why": "Same reason, and this one bites in the era of the home office: a study under a primary bath is unusable for a video call at exactly the hours it is needed.",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "primary-bedroom",
+      "walk-in-closet",
+      "dressing-room"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 5,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "Two extract points, not one - the shower and the WC compartment are separate volumes and a single fan in the ceiling ventilates neither. 50 cfm each intermittent, or a single 110 cfm unit with two inlets, ducted rigid to the outside. A steam shower needs a vapour-tight enclosure, a ceiling sloped at least 2 in per foot to shed condensate, and a maximum 7 ft ceiling inside the enclosure - a steam shower under a 10 ft ceiling does not work and rains on the user.",
+    "heat": "The coldest room in the house by feel: stone or tile floor, high air change, occupied wet and undressed. Radiant floor heat is the right answer and it is a FLOOR ASSEMBLY decision - it changes the build-up by 1/2 to 1 1/2 in and it must be resolved with the adjacent bedroom floor level before framing. Retrofitting it means taking the tile up.",
+    "electrical": "GFCI throughout; a receptacle at each basin; the WC compartment on the same fan circuit; and a lighting layout with at least three switched groups, because this room is used at 6 am and at 11 pm and wants different light each time.",
+    "stack_proximity_ft": 6
+  },
+  "style_variation": [
+    {
+      "style": "colonial-revival",
+      "name_in_style": "master bath",
+      "present": true,
+      "trim_grade": "high",
+      "note": "The room where the style most often loses its nerve: a Georgian-detailed house with a 160 sq ft bathroom in it has a room with no precedent, and the good answer is restraint - painted panelled wainscot, a marble-topped washstand rather than a fitted vanity, a plain tiled floor, and no ornament that the house does not use elsewhere."
+    },
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "bathroom off the dressing room",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Historically inserted into a dressing room, and that sequence - chamber, dressing room, bath - is the one to keep. It gives the bathroom an interior position where its lack of a window matters less and its noise reaches nobody."
+    },
+    {
+      "style": "mediterranean-revival",
+      "name_in_style": "bath",
+      "present": true,
+      "trim_grade": "high",
+      "note": "The style that carries a large bathroom best, because a fully tiled room with a plaster vault and a deep window reveal is authentic to it and needs no joinery at all."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "No such room. Inserting one produces a bungalow with a bathroom larger than its bedrooms."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "master bath",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Where the compartmented plan was invented - the 1960s ranch master bath with the WC and tub behind a door and the vanity outside it is the correct diagram and it is better than most of what replaced it."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "primary bathroom",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "The room most in need of an argument rather than a specification. Two things are worth defending against the current brief: the WC compartment, which is always cut and always missed, and a window that can be left uncovered."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Fixture clearances as at bathroom; shower 900 sq in and 30 in minimum dimension at the finished surface.",
+      "ref": "IRC P2705.1.5, P2708.1"
+    },
+    {
+      "requirement": "Shower and tub-shower valves must be pressure-balancing or thermostatic, limited to 120 degrees F.",
+      "ref": "IRC P2708.4, P2724",
+      "conflict": "A multi-head shower can exceed the flow the balancing valve was selected for; two valves on one shower is common and each must be independently compliant."
+    },
+    {
+      "requirement": "Waterproofing of shower receptors and walls; slope to drain 1/4 in per foot; curbless entries require a compliant linear or point drain and a structural drop.",
+      "ref": "IRC P2709, ANSI A118.10",
+      "conflict": "The waterproofing plane and not the tile is the building element, and the commonest failure in a large primary bathroom is at the junction between the shower pan and a curbless threshold in a wood-framed floor. If the brief wants curbless, the framer must know at floor layout."
+    },
+    {
+      "requirement": "Exhaust ventilation, 50 cfm intermittent per fixture group.",
+      "ref": "IRC M1505.4.4"
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "massed-picturesque",
+    "h-plan-manor",
+    "ranch-linear",
+    "ranch-l",
+    "foursquare",
+    "gambrel-block",
+    "linear-ell-farmhouse",
+    "mansard-block",
+    "villa-tower",
+    "courtyard-u",
+    "telescope-house"
+  ],
+  "slots": [
+    "services_strategy",
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "daylight_strategy",
+    "floor_material",
+    "storage_strategy"
+  ],
+  "faults": [
+    "stack-with-nowhere-to-land",
+    "duct-soffit-through-the-formal-room",
+    "primary-suite-off-the-formal-hall",
+    "closet-on-the-exterior-wall",
+    "room-deeper-than-its-daylight"
+  ],
+  "sources": [
+    "IRC P2705.1.5, P2708, P2709, P2724, M1505.4.4",
+    "ANSI A118.10 for shower waterproofing",
+    "NKBA Bathroom Planning Guidelines, for vanity centre spacing and clear-floor dimensions",
+    "faults/stack-with-nowhere-to-land.json"
+  ],
+  "confidence": "high"
+}

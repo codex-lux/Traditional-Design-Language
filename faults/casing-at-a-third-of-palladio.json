@@ -1,0 +1,233 @@
+{
+  "id": "casing-at-a-third-of-palladio",
+  "name": "Casing At A Third Of The Width It Should Be",
+  "aka": [
+    "the 2 1/4 casing",
+    "ranch casing on a classical opening",
+    "the missing architrave"
+  ],
+  "slots": [
+    "window_surround_wood",
+    "window_surround_masonry",
+    "casing"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "The band of trim around an opening is 2 1/4 or 3 1/2 in wide where the classical rule asks for a sixth to a fifth of the opening — 6 to 7 1/5 in on a 36 in opening. The surround reads as an outline rather than as a frame, and every classical element that is supposed to be measured against it, from the door entablature to the interior chair rail, loses its reference. Modern practice misses this by roughly a factor of three.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Casing is a milled profile sold by the linear foot in a small number of stock widths, and the two that dominate the market — 2 1/4 in colonial and 3 1/2 in — were set by twentieth-century economy and have been reinforced by every jamb, every pre-hung door unit and every corner-block system since. A 6 in casing is a special order in most markets. There is also a jamb-depth driver: wide casing wants a proportionally deeper backband and a jamb extension, and every pre-hung assembly is dimensioned around narrow trim.",
+    "cost_saved": "Roughly 1.20 to 2.50 USD a linear foot for stock against 4 to 9 USD for wide profiled casing, plus the mitre and backband labour. On a whole house, 3,000 to 12,000 USD, which is why it is the interior line item most often cut."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / casing.width",
+      "statement": "casing width = opening_width / 6, which is 6 in on a 36 in opening; Palladio permits 1/6 to 1/5 of the void."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / window_surround.width",
+      "statement": "window casing = opening_width / 5.5, which is 6 9/16 in — the window casing is WIDER than the door casing in the same room."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / casing.projection",
+      "statement": "casing projection = opening_width / 6 * 0.18, about 1 1/16 in. Width without projection is only half the rule."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / door_surround.width",
+      "statement": "module / 6 = 6 in, with the full entablature above at three times that, 18 in."
+    }
+  ],
+  "correct_practice": "Casing width = opening width / 6 to / 5. On a 36 in opening that is 6 to 7 1/5 in; on a 30 in opening 5 to 6 in; on a 42 in door 7 to 8 2/5 in. The window casing in a given room is wider than the door casing in the same room, at opening / 5.5 against opening / 6, because the window is the thing being framed and the door is the thing being passed through. Projection about 0.18 of the casing width, roughly 1 in on a 6 in casing, which normally means a backband. The exterior head assembly above a window runs about 2.6 times the casing width in total height. Federal work narrows the casing deliberately and Greek Revival broadens it, and the pack's own invariants check that ordering.",
+  "fixes": {
+    "right": "Wide casing at opening / 6 with a backband, mitred or with corner blocks according to the family. Order the jambs to suit.",
+    "cheap": "Build the width out of stock. A 3 1/2 in stock casing with a 1 1/4 in backband and a 1 in outer strip reaches 5 3/4 in with no special milling, three cuts, and material that is on the shelf. The profile will not be as good as a run one; the width and the projection, which are what the eye measures, will be right. Width first, profile second — this is the correct order of concession and almost everyone gets it backwards.",
+    "dishonest": "A wider flat board with no backband and no projection. This gets the plan dimension right and leaves the section flat, so the surround now reads as a broad pale stripe. The projection is doing at least half the work; a 6 in flat board is not obviously better than a 3 1/2 in profiled one."
+  },
+  "detection": "Measure the casing width against the opening width in a photograph. Below 0.14 (that is, narrower than opening / 7) the fault is present; the stock 2 1/4 in casing on a 36 in opening gives 0.06, against the correct 0.167. Second test: compare the window casing with the door casing in the same room — if they are identical, the trim was bought rather than composed. Third: look at the outer edge of the casing for a backband shadow; a flat outer edge meeting the wall with no step means the projection rule is unmet as well.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "The style refuses casing almost entirely — its own constraint caps it at 3 in and 1 in of projection, and openings are meant to read as punched.",
+      "bounds": "The refusal must be systematic: no corner boards, no projecting heads, no moulded sills, shingles over corners. A house that takes this licence at the windows and then applies a classical entry with pilasters has not understood it.",
+      "bounds_test": {
+        "expression": "window_casing_width_in / window_opening_width_in",
+        "threshold": 0.09,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "3 in on a 36 in opening is 0.083. The refusal must be systematic: no corner boards, no projecting heads, no moulded sills, shingles over corners."
+      },
+      "applies_when": {
+        "construction": [
+          "shingle-cladding"
+        ]
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "The type caps window casing at 4 to 5 in as a deliberate budget that must read as a budget, with no continuous frieze and no pilasters.",
+      "bounds": "4 to 5 in flat with a drip cap over. Below 4 in the type stops reading as a nineteenth-century building; above 5 in it starts claiming a rank it does not have.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 4.0,
+        "direction": "between",
+        "upper": 5.0,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "4 to 5 in, with no continuous frieze and no pilasters. Below 4 in the type stops reading as a nineteenth-century building; above 5 in it claims a rank it does not have."
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Broad, flat, unmoulded trim is the style's method — ornament by profile and mass rather than by relief carving — and the casing is deliberately wider than Georgian at 7 to 9 in.",
+      "bounds": "Broad AND flat is licensed here; narrow and flat is not. The Greek Revival casing exceeds opening / 5, which is the top of Palladio's band, and that excess is the style's argument.",
+      "bounds_test": {
+        "expression": "casing_width_in / opening_width_in",
+        "threshold": 0.2,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Broad AND flat is licensed; narrow and flat is not. The Greek Revival casing exceeds Palladio's upper bound at 7 to 9 in on a 36 in opening, and that excess is the style's argument."
+      }
+    },
+    {
+      "style": "federal-style",
+      "why": "The Federal casing is deliberately narrower than the Georgian, and the pack tests that as an invariant; Adamesque delicacy is the point.",
+      "bounds": "Narrower than Georgian but still within Palladio's band at opening / 6 or a shade under, and compensated by finer profiles, reeding and applied composition ornament. Federal narrowness is refinement, not omission.",
+      "bounds_test": {
+        "expression": "casing_width_in / opening_width_in",
+        "threshold": 0.15,
+        "direction": "between",
+        "upper": 0.167,
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Narrower than Georgian but still inside Palladio's band, compensated by finer profiles, reeding and applied composition ornament. Federal narrowness is refinement, not omission, and below 0.15 it is omission."
+      }
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "Flat broad boards in a single dark value, with contrast doing the work that profile does elsewhere.",
+      "bounds": "Not less than 5 in wide. The idiom's licence is on profile, not on width — narrow flat trim in this idiom reads as builder-grade and the style's own diagnostic is the two-value contrast, which needs area to work.",
+      "bounds_test": {
+        "expression": "trim_width_in",
+        "threshold": 5.0,
+        "direction": "at-least",
+        "upper": 7.0,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "THE LINE, STATED. The licence is on profile, not on width. 5 to 7 in flat boards in a strict second value against the wall; below 5 in neither shadow nor contrast is working."
+      },
+      "applies_when": {
+        "date_range": [
+          2010,
+          2030
+        ],
+        "note": "A contemporary idiom; the licence does not transfer to a revival of an earlier style."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "head-casing-without-a-cap",
+      "difference": "Width of the band versus presence of the cap above it. A correct 6 in casing with no crown is still the other fault."
+    },
+    {
+      "fault": "door-too-wide-for-its-surround",
+      "difference": "That fault is a mismatch between a door and a surround kit; this is a general undersizing of the trim band on any opening."
+    },
+    {
+      "fault": "mitred-craftsman-casing",
+      "difference": "That fault is about how flat casing is joined at the head — mitred like a picture frame rather than butted under a head board. It is a Craftsman-specific assembly error; this is a universal width error, and a correctly wide casing can still be mitred wrong."
+    }
+  ],
+  "sources": [
+    "Palladio, I quattro libri, Book I ch. XXVI",
+    "proportions/systems/trim-classical.json",
+    "proportions/systems/opening-proportion.json",
+    "Asher Benjamin, The American Builder's Companion (1806)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "casing",
+    "proportion",
+    "trim",
+    "factor-of-three"
+  ],
+  "test": {
+    "expression": "casing_width_in / opening_width_in",
+    "threshold": 0.15,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Palladio permits 1/6 to 1/5 of the void, that is 0.167 to 0.20. 0.15 is the tolerance floor. The stock 2 1/4 in casing on a 36 in opening gives 0.06 — modern practice misses this by roughly a factor of three. Greek Revival deliberately exceeds 0.20, so the upper bound is a style question and only the floor is universal."
+  },
+  "secondary_tests": [
+    {
+      "expression": "casing_projection_in / casing_width_in",
+      "threshold": 0.15,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Projection is about 0.18 of the casing width, roughly 1 in on a 6 in casing, which normally means a backband. Width without projection is only half the rule, and a flat outer edge meeting the wall with no step means the second half is unmet."
+    },
+    {
+      "expression": "window_casing_width_in / door_casing_width_in",
+      "threshold": 1.05,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The window casing in a given room is WIDER than the door casing in the same room — opening/5.5 against opening/6 — because the window is the thing being framed and the door is the thing being passed through. Identical casings mean the trim was bought rather than composed."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "The style refuses casing almost entirely; its constraint caps it at 3 in and 1 in of projection."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "Broad flat trim is the style's method and its casing deliberately exceeds Palladio's upper bound; a narrow casing here removes the ornament-by-mass argument the style is making."
+    },
+    {
+      "style": "federal-style",
+      "severity": "minor",
+      "why": "The Federal casing is deliberately narrower than the Georgian and the pack tests that ordering as an invariant; Adamesque delicacy is the point, so the floor matters more than the target."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "minor",
+      "why": "The type caps window casing at 4 to 5 in as a deliberate budget that must read as a budget."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The idiom's whole diagnostic is a two-value contrast, and contrast needs area; narrow flat trim reads as builder-grade and there is no profile to fall back on."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "Casing over 3 in wide or 1 in proud is the fault. Openings must read as punched rather than framed, and a Palladian architrave on a shingle wall is the error."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "An individual casing is the fault; the opening is bounded by continuous lintel and sill bands and an applied architrave interrupts them."
+    }
+  ],
+  "co_occurs_with": [
+    "head-casing-without-a-cap",
+    "sill-without-wash-or-drip",
+    "door-too-wide-for-its-surround",
+    "mitred-craftsman-casing"
+  ]
+}

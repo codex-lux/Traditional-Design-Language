@@ -1,0 +1,167 @@
+{
+  "id": "fixed-sash-pretending-to-be-double-hung",
+  "name": "The Fixed Unit With A Painted-On Meeting Rail",
+  "aka": [
+    "the fake check rail",
+    "the picture window with a grid"
+  ],
+  "slots": [
+    "window_type",
+    "glazing_assembly",
+    "window_lite_pattern"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "assembly",
+  "symptom": "A fixed window carries a horizontal bar across it at roughly the height a meeting rail would be, so that it reads at a glance as a double-hung sash. But the bar is the same thickness as the vertical grid bars, both halves of the glass are in the same plane, and there is no step, no shadow and no lock. Often the window is flanked by real double-hung units whose meeting rails sit at a different height.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A fixed unit is 20 to 40 per cent cheaper than an operable one of the same size, needs no balances, no locks and no weatherstripping, and performs better thermally and for air leakage. Where the room does not need ventilation — a stair, a great room with other openings, a bathroom with a fan — the fixed unit is specified, and a grid is added so it matches its neighbours. The grid pattern is chosen from a menu and the meeting-rail line is simply one more bar in it.",
+    "cost_saved": "150 to 400 USD per opening, plus a measurable improvement in air infiltration."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_type.width",
+      "statement": "The sash stile is 2 in and the meeting rail is its own dimension, distinct from the muntin at 7/8 in. A meeting rail is not a muntin."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the meeting rail is a joint between two moving parts and shows as one",
+      "statement": "In a real double-hung the two sashes lie in different planes separated by the parting bead, so the meeting rail is a doubled member 1 1/4 to 2 in deep with a step between the upper and lower glass, a cast shadow, and a lock on it. A single bar in a single plane cannot produce any of that."
+    }
+  ],
+  "correct_practice": "If the window is fixed, let it be fixed and compose it as such: no horizontal bar at meeting-rail height, and a grid, if any, that reads as a fixed light — a full-height column of lights, or no divisions at all. If the window must match operable neighbours, make it operable, or make the whole run fixed so there is nothing to match against. Where a fixed unit sits in a run of double-hung windows, the honest arrangement is a fixed unit whose sightlines match the operable frames exactly, which good manufacturers offer as a matched fixed unit, and which differs from a cheap picture window in that its frame and stiles are the same dimension as the sash beside it. Meeting rails across an elevation must sit on one line: two neighbouring windows with meeting rails at different heights is the same fault as a broken head datum, at a smaller scale.",
+  "fixes": {
+    "right": "A matched fixed unit with the same sightlines and the same rail dimensions as the operable sash beside it, or an operable unit.",
+    "cheap": "Delete the false meeting rail and run the grid full height. A fixed unit divided into a vertical column of lights is a legitimate historical type — the stair window, the flanking light, the fixed upper sash — and it costs nothing to specify. It also removes the mismatch with the neighbours' rail line, because there is now no rail to mismatch.",
+    "dishonest": "A thicker horizontal bar to imitate the meeting rail's depth. Without the plane change it just reads as an unusually heavy muntin, and it makes the absence of a lock and of a step more conspicuous."
+  },
+  "detection": "Look for the step. In an oblique photograph a real double-hung shows the lower sash standing about 1 to 1 1/2 in in front of the upper, with a visible edge at the meeting rail and a shadow under it. A fixed unit shows one flat plane. Second: look for the lock and the lift. Third: extend the meeting-rail line across the elevation — real double-hung units in one storey will share it; a fixed unit's false rail will usually be at a different height because it was set by the grid pattern rather than by the sash division. Fourth: a horizontal bar the same width as the vertical bars is always a grid bar and never a meeting rail.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The style's canonical window is a divided upper sash over a single-light lower sash, and where the lower is fixed the division is real and at the true meeting rail.",
+      "bounds": "The meeting rail must still be a real one with a plane change; only the operability of the lower sash is at issue.",
+      "bounds_test": {
+        "expression": "meeting_rail_width_in / muntin_width_in",
+        "threshold": 1.4,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The meeting rail must still be a REAL one with a plane change; only the operability of the lower sash is at issue."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Fixed feature windows with margin lights and coloured borders are placed as set pieces and were never operable.",
+      "bounds": "Composed as feature windows, at the stair or the principal rooms, and not carrying a false meeting rail.",
+      "bounds_test": {
+        "expression": "false_meeting_rails_per_feature_window",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Composed as feature windows at the stair or the principal rooms, and not carrying a false meeting rail."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Fixed art-glass panels between operable casements are standard, and the fixed panels carry the same rectilinear geometry as their neighbours with no imitation of a different window type.",
+      "bounds": "Casement idiom; no double-hung imitation anywhere.",
+      "bounds_test": {
+        "expression": "curved_elements_in_the_glazing_pattern",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Casement idiom, rectilinear geometry, no double-hung imitation anywhere."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "grille-on-one-face",
+      "difference": "That fault is about which side the bar is on. This one is about a bar imitating a member that has a different section and a different job."
+    },
+    {
+      "fault": "equal-lite-grid-where-the-period-graduated",
+      "difference": "That fault is about the grid's internal proportions; this is about one bar in it claiming to be a rail."
+    }
+  ],
+  "sources": [
+    "proportions/modules/sash-light.json",
+    "NPS Preservation Brief 9",
+    "Window manufacturer fixed and matched-fixed unit literature"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "window-type",
+    "meeting-rail",
+    "assembly"
+  ],
+  "test": {
+    "expression": "meeting_rail_width_in / muntin_width_in",
+    "threshold": 1.4,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "A real meeting rail is a doubled member 1 1/4 to 2 in deep against a 7/8 in muntin, a ratio of 1.4 to 2.3. A horizontal bar the same width as the vertical bars is always a grid bar and never a meeting rail, and this is the single measurement that settles it from a frontal photograph."
+  },
+  "secondary_tests": [
+    {
+      "expression": "lower_sash_plane_offset_from_upper_sash_in",
+      "threshold": 0.75,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The step. In a real double-hung the two sashes lie in different planes separated by the parting bead, so the lower stands about 1 to 1 1/2 in in front of the upper with a visible edge and a shadow under it. Needs an oblique view; a fixed unit shows one flat plane at any angle."
+    },
+    {
+      "expression": "distinct_meeting_rail_heights_per_storey_per_elevation",
+      "threshold": 1,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "Meeting rails across an elevation sit on one line. Real double-hung units in one storey will share it; a fixed unit's false rail is usually at a different height because it was set by the grid pattern rather than by the sash division. This is the broken-head-datum rule at a smaller scale."
+    },
+    {
+      "expression": "visible_sash_lock_and_lift_per_operable_unit",
+      "threshold": 1,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The hardware test. A real double-hung carries a lock at the meeting rail and a lift at the bottom rail; a fixed unit carries neither, and their absence beside a bar claiming to be a meeting rail is conclusive at close range."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "The fixed upper sash of 1700 to 1750 is a documented arrangement, so a fixed light in a double-hung frame is not itself alien; only the false rail is."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The canonical window is a divided upper sash over a single-light lower sash, and where the lower is fixed the division is real and at the true meeting rail."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Fixed art-glass panels between operable casements are standard and imitate no other window type."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "not-applicable",
+      "why": "Fixed feature windows with margin lights were never operable and are composed as set pieces."
+    }
+  ],
+  "co_occurs_with": [
+    "equal-lite-grid-where-the-period-graduated",
+    "grille-on-one-face",
+    "broken-head-datum"
+  ]
+}

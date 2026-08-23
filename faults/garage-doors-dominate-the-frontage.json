@@ -1,0 +1,177 @@
+{
+  "id": "garage-doors-dominate-the-frontage",
+  "name": "Garage Doors As The Largest Element On The Street",
+  "aka": [
+    "the three-car wall",
+    "garage frontage ratio"
+  ],
+  "slots": [
+    "garage_strategy",
+    "street_relationship"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "Garage doors occupy more than a third of the street-facing elevation, and on a three-car house frequently more than half. Whatever else the elevation does, the largest single area of it is a surface designed to open, painted one colour, with no relationship in scale, rhythm or material to any other opening on the building.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The garage bay count is a marketing specification set by the sales programme before any elevation exists — two-car, three-car, tandem — and lot width is minimised for land cost. Three 9 ft doors plus piers is about 31 ft, which on a 40 ft-wide house is 78 per cent of the frontage before the entrance has been considered. No design decision produced this; an arithmetic collision did.",
+    "cost_saved": "Splitting or turning a three-car garage requires 15 to 25 ft more lot width or a substantially deeper lot with a rear drive: 15,000 to 60,000 USD in land."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "neo-eclectic / garage_strategy",
+      "statement": "Total garage door width not more than 33 per cent of the street-facing facade; three-car garages must be split or turned."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "new-urbanist-traditional / garage_strategy",
+      "statement": "No garage doors visible from the street anywhere on the block where an alley serves the lot."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / garage_strategy / height_ratio_to_main_block",
+      "statement": "A dependency stands at 0.6 to 0.75 of the main block. An element occupying half the frontage is not a dependency."
+    }
+  ],
+  "correct_practice": "Total garage door width not more than 33 per cent of the street-facing elevation, measured at the doors and not including piers. Above two doors, split the garage into separate volumes or turn part of it: a two-and-one arrangement with the single door in a different plane, at a different setback, or facing sideways. The garage volume's ridge stands at 0.6 to 0.75 of the main block's height, so it reads as subordinate in the third dimension even where it is wide. Where the frontage arithmetic cannot be made to work, the correct answer is to change the plan type rather than the elevation: a deeper, narrower house with a rear or side garage is a different product, and the elevation cannot rescue the other one.",
+  "fixes": {
+    "right": "Split the doors across two planes or two volumes and hold the total to a third of the frontage.",
+    "cheap": "Widen the house rather than the garage, if only on paper: extend the front elevation with a one-storey element — a porch, a projecting entry bay, a garden wall returning to the property line — that counts as facade and pushes the garage's fraction down. A 10 ft porch on a 40 ft house takes the garage from 45 per cent of the frontage to 36. A masonry garden wall with a gate is cheaper still and does the same arithmetic while giving the entrance a forecourt.",
+    "dishonest": "Painting the garage doors the wall colour so they disappear. In a photograph and in flat light they do partly disappear; in raking light the panel joints and the track shadows return, and the elevation now has a large blank area where the eye expected either a wall or an opening and finds neither."
+  },
+  "detection": "Sum the widths of all garage door openings and divide by the width of the street-facing elevation. Above 0.33 the fault is present; above 0.5 it is severe. A second measure that matters as much: compare the garage doors' total area with the total glazed area of the windows on the same elevation. On a correct front the windows win; on a builder front the doors win by a factor of two or more.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "The garage door being the largest single element on the street elevation is a named diagnostic tell of the type as historically built.",
+      "bounds": "This records the type rather than prescribing it, and the style's own constraint still requires a 4 ft setback or a turned door. A three-car Ranch is a late variant and not covered.",
+      "bounds_test": {
+        "expression": "garage_doors_per_wall_plane",
+        "threshold": 2,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "This records the type rather than prescribing it, and the style's own constraint still requires a 4 ft setback or a turned door. A three-car Ranch is a late variant and is not covered."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "mid-century-traditional",
+      "why": "Integrated carports and garages under a continuous roof genuinely occupy large fractions of a low horizontal frontage.",
+      "bounds": "A carport is open and reads as structure rather than as surface; a solid door wall does not get the same licence.",
+      "bounds_test": {
+        "expression": "open_carport_bays / total_garage_bays",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "A carport is OPEN and reads as structure rather than as surface. A solid door wall does not get the same licence."
+      },
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ],
+        "construction": [
+          "carport",
+          "continuous-low-roof"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "garage-forward-of-the-facade",
+      "difference": "Area versus plane. A garage set back 20 ft can still occupy half the frontage of a wide shallow house."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That is about ornament and rank; this is a measurable area ratio and can be checked without judging elaboration."
+    }
+  ],
+  "sources": [
+    "styles/neo-eclectic.json constraints",
+    "styles/new-urbanist-traditional.json constraints",
+    "kits/georgian-colonial-american.kit.json garage_strategy"
+  ],
+  "confidence": "high",
+  "tags": [
+    "garage",
+    "frontage",
+    "ratio-test",
+    "endemic"
+  ],
+  "test": {
+    "expression": "total_garage_door_width_in / street_elevation_width_in",
+    "threshold": 0.33,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The Neo-Eclectic constraint's number, measured at the doors and not including piers. Above 0.33 the fault is present; above 0.5 it is severe. Three 9 ft doors plus piers is about 31 ft, which on a 40 ft house is 0.78 before the entrance has been considered."
+  },
+  "secondary_tests": [
+    {
+      "expression": "total_glazed_window_area_sqft / total_garage_door_area_sqft",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The measure that matters as much and is easier to read: on a correct front the windows win; on a builder front the doors win by a factor of two or more."
+    },
+    {
+      "expression": "garage_volume_ridge_height_in / main_block_ridge_height_in",
+      "threshold": 0.6,
+      "direction": "between",
+      "upper": 0.75,
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Subordination in the third dimension. A dependency stands at 0.6 to 0.75 of the main block, so a garage that is wide can still be read as subordinate if it is also low."
+    },
+    {
+      "expression": "garage_doors_per_wall_plane",
+      "threshold": 2,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "Above two doors, split the garage into separate volumes or turn part of it: a two-and-one arrangement with the single door in a different plane, at a different setback, or facing sideways."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "new-urbanist-traditional",
+      "severity": "fatal",
+      "why": "No garage doors visible from the street anywhere on the block where an alley serves the lot."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "An element occupying half the frontage is not a dependency, and the kit's height ratio of 0.6 to 0.75 assumes subordination the width has already destroyed."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The garage door being the largest single element on the street elevation is a named diagnostic tell of the type as historically built."
+    },
+    {
+      "style": "mid-century-traditional",
+      "severity": "minor",
+      "why": "Integrated carports genuinely occupy large fractions of a low horizontal frontage."
+    }
+  ],
+  "co_occurs_with": [
+    "garage-forward-of-the-facade",
+    "one-wide-door-where-two-would-do",
+    "entry-not-the-most-elaborated-element",
+    "door-reached-only-from-the-driveway"
+  ]
+}

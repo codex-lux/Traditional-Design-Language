@@ -1,0 +1,485 @@
+{
+  "id": "gibbs-composite",
+  "name": "Composite Order (Gibbs) - overlay on Vignola",
+  "aka": [
+    "Gibbsian Composite",
+    "Roman Order (Gibbs's own name for it)",
+    "Georgian Composite"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 5, XX, XXI, XXII, XXIII, XXIV, XXV, XXVI, XXXIV, XXXVIII no. 3, XL",
+    "author": "James Gibbs",
+    "year": 1732,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011578867",
+    "note": "Transcribed from the letterpress of the 1732 first edition. Gibbs calls it 'the Roman or Composite' and gives it the same general proportions as the Corinthian throughout, so this overlay is largely the Corinthian overlay with three named exceptions - the astragal at the foot of the frieze, the capital's volutes, and the architrave's fasciae. Where Gibbs agrees with Vignola the member is omitted."
+  },
+  "overlay_of": "vignola-composite",
+  "module": {
+    "name": "semidiameter of the column at its base",
+    "parts": 18,
+    "default_size_in": 6.0,
+    "note": "Gibbs uses no module; see the gibbs-tuscan overlay. Figures translated into Vignola's 18-part Composite module. Gibbs treats Corinthian and Composite together in one paragraph: 'The whole height is divided into five parts both in the one and the other, one of which is the Pedestal; and the other four parts over it are divided into six, one of which is the height of the Entablature. The height of the Column being divided into ten parts, one of them is the Diameter of it. The height of the Capital is one Diameter and one sixth; the other dimensions are as in the Ionick Order.'",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 20
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_plinth",
+          "name": "Plinth of the pedestal",
+          "height_parts": 27,
+          "projection_parts": 8,
+          "profile": "plinth",
+          "note": "One quarter of the pedestal. Gibbs, Plate XX: 'The general proportions of the Composite Pedestal are the same as in the [foregoing] Orders.' Vignola's Composite pedestal is 7 modules; Gibbs's is 6.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_base_ogee",
+          "name": "Pedestal base, ogee reversed",
+          "height_parts": 6.75,
+          "projection_parts": 8,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "One twelfth of the pedestal for the base; split with its fillet apportioned. Vignola's Composite pedestal base is a cyma recta of 6 1/2 parts over a 4-part plinth."
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Pedestal base, fillet",
+          "height_parts": 2.25,
+          "projection_parts": 8,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned within the stated 9-part base."
+        },
+        {
+          "id": "ped_die",
+          "name": "Die (dado) of the pedestal",
+          "height_parts": 58.5,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "13/24 of the pedestal. Vignola gives the Composite die 97 of 126 parts and frames it top and bottom with a fillet; Gibbs does not."
+        },
+        {
+          "id": "ped_cap_ogee",
+          "name": "Pedestal cap, ogee",
+          "height_parts": 9,
+          "projection_parts": 8,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "One eighth of the pedestal, with a platband over. Gibbs, Plate XXIV, on all pedestal caps: 'their projection is to their height as two to three.' Vignola's Composite pedestal cap carries a full corona."
+        },
+        {
+          "id": "ped_cap_platband",
+          "name": "Pedestal cap, platband",
+          "height_parts": 4.5,
+          "projection_parts": 8,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned within the stated 13 1/2-part cap."
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1.2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_fascia_1",
+          "name": "Lower fascia",
+          "height_parts": 6,
+          "projection_parts": 0,
+          "profile": "fascia",
+          "note": "DELTA. Vignola's Composite architrave has TWO fasciae. Gibbs, Plate XXVI: 'that of the Ionick, Corinthian and Composite is divided into three parts, and those subdivided, to form their members' - three fasciae. Combined with the lighter entablature this is the largest visible change to the Composite architrave: 1 module 3 3/5 parts in three bands against Vignola's 1 1/2 modules in two. Individual fascia heights are figured on Plate XXVI and are apportioned here.",
+          "confidence": "medium"
+        },
+        {
+          "id": "arch_fascia_1_astragal",
+          "name": "Astragal over the lower fascia",
+          "height_parts": 1.1,
+          "projection_parts": 1.1,
+          "profile": "astragal",
+          "enrichment": "bead and reel",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_1_fillet",
+          "name": "Fillet",
+          "height_parts": 0.5,
+          "projection_parts": 1.3,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_2",
+          "name": "Middle fascia",
+          "height_parts": 5.5,
+          "projection_parts": 1.3,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_3",
+          "name": "Upper fascia",
+          "height_parts": 5,
+          "projection_parts": 2.1,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_cymatium",
+          "name": "Cymatium, reversed cima",
+          "height_parts": 2.5,
+          "projection_parts": 3.6,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "Plate XXVI: the architrave of the three richer orders projects half its height, against a quarter in Tuscan and Doric."
+        },
+        {
+          "id": "arch_cymatium_fillet",
+          "name": "Fillet over the cymatium",
+          "height_parts": 1,
+          "projection_parts": 4,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze_face",
+          "name": "Frieze, plain, with no astragal at its head",
+          "height_parts": 21.6,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "DELTA, AND GIBBS NAMES IT AS THE ONLY DIFFERENCE BETWEEN HIS COMPOSITE AND HIS CORINTHIAN ENTABLATURE. Plate XXI: 'The height and projection of the Composite Entablature is the same with that of [the Corinthian], only the Astragal under [the ogee] at the bottom of the Cornice is taken off the Frize.' He repeats it on Plate XXII: 'The Astragal under the Ogee at the bottom is not a part of the Cornice, but belongs to the height of the Frize.' The two statements are contradictory as OCR'd and one of them is corrupt; what is certain is that a single astragal moves between the two members, and that in the Composite the frieze does not carry it. Vignola's Composite frieze has neither an astragal nor a fillet at its head - his Composite frieze is 25 1/2 parts plus a 1-part astragal and a 1/2-part fillet, which is exactly the ambiguity Gibbs is trying to resolve.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_astragal",
+          "name": "Astragal at the foot of the cornice",
+          "height_parts": 1,
+          "projection_parts": 1,
+          "profile": "astragal",
+          "enrichment": "bead and reel",
+          "note": "ADDED MEMBER relative to Gibbs's own Corinthian. This is the astragal Gibbs says is 'taken off the Frize' in the Composite. Its 1-part height is taken from the reversed cima below the dentils, which is correspondingly reduced from 3 84/100 to 2 84/100. Vignola gives no astragal in this position in either order.",
+          "confidence": "low"
+        },
+        {
+          "id": "corn_bed_cyma",
+          "name": "Reversed cima at the bottom of the cornice",
+          "height_parts": 2.84,
+          "projection_parts": 3,
+          "profile": "cyma-reversa",
+          "note": "The cornice otherwise follows Gibbs's Corinthian exactly: 'The height of the Composite [Cornice is divided into five] parts', the upper three going to modillion, corona and cymatium and the lower two subdividing into three for reversed cima, dentils and ovolo. Reduced here by the 1 part given to the astragal below it.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_dentil_band",
+          "name": "Dentil band",
+          "height_parts": 3.84,
+          "projection_parts": 6,
+          "profile": "dentil",
+          "count": null,
+          "spacing_parts": 3.857,
+          "confidence": "medium",
+          "note": "As in the Corinthian: dentil two parts to a one-part space, semidiameter divided into fourteen. Gibbs gives no separate Composite dentil rule."
+        },
+        {
+          "id": "corn_ovolo",
+          "name": "Ovolo",
+          "height_parts": 3.84,
+          "projection_parts": 8,
+          "profile": "ovolo",
+          "enrichment": "eggs and darts",
+          "confidence": "medium",
+          "note": "As in the Corinthian."
+        },
+        {
+          "id": "corn_modillion",
+          "name": "Modillion band",
+          "height_parts": 5.76,
+          "projection_parts": 12,
+          "profile": "modillion",
+          "count": null,
+          "spacing_parts": 22.5,
+          "note": "DELTA IN SPACING, AND DIFFERENT AGAIN FROM THE CORINTHIAN. Gibbs's table: 'The Composite from middle to middle of the Modillions is [five eighths] of a Diameter.' Five eighths of a diameter is 22 1/2 parts, against seven twelfths (21 parts) in the Corinthian and one module (18 parts) in Vignola. The numeral is damaged in both scans consulted; five eighths is the reading that fits his Composite arch dimension of six diameters and a half on centres, which is very nearly a whole number of pitches. Treat with caution.",
+          "confidence": "low"
+        },
+        {
+          "id": "corn_corona",
+          "name": "Corona",
+          "height_parts": 5.76,
+          "projection_parts": 22,
+          "profile": "corona",
+          "confidence": "medium",
+          "note": "Fourth fifth of the cornice, as in the Corinthian."
+        },
+        {
+          "id": "corn_cymatium",
+          "name": "Cymatium, cyma recta",
+          "height_parts": 5.76,
+          "projection_parts": 28.8,
+          "profile": "cyma-recta",
+          "confidence": "medium",
+          "note": "Fifth fifth, with projection equal to the whole cornice height. Vignola's Composite cornice projects 36 parts and stands 36 parts high; Gibbs's is 28 4/5 each way."
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 21.6,
+          "projection_parts": 4,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "Three tenths. Vignola gives 27 parts."
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 21.6,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "Three tenths. Vignola gives 27 parts including its astragal and fillet."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice",
+          "height_parts": 28.8,
+          "projection_parts": 28.8,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "Four tenths. Vignola gives 36 parts."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The entablature is one FIFTH the height of the column, not one quarter.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 5",
+      "tolerance": 0.001,
+      "note": "'The Entablature of the Composite has the same proportion with that of the Corinthian.' 4 modules against Vignola's 5."
+    },
+    {
+      "statement": "The pedestal is one quarter of column and entablature taken together.",
+      "expression": "assemblies.pedestal.height_modules == (column.height_modules + assemblies.entablature.height_modules) / 4",
+      "tolerance": 0.001,
+      "note": "6 modules against Vignola's 7."
+    },
+    {
+      "statement": "The Composite entablature is identical in height and projection to the Corinthian.",
+      "expression": "assemblies.cornice.height_modules == assemblies.architrave.height_modules * 4 / 3",
+      "tolerance": 0.001,
+      "note": "Gibbs, Plate XXI: 'The height and projection of the Composite Entablature is the same with that of [the Corinthian], only the Astragal ... is taken off the Frize.' The Composite is not a separate proportional system in Gibbs, only a separate ornamental one."
+    },
+    {
+      "statement": "The entablature is the sum of architrave, frieze and cornice.",
+      "expression": "assemblies.entablature.height_modules == assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is ten diameters, as in Vignola.",
+      "expression": "column.height_modules == 20",
+      "tolerance": 0.001,
+      "note": "Gibbs, on the five orders: 'none exceeding ten Diameters in height, nor less than seven: Those of eight and ten are accounted perfect, and the first invented by the Antients; the rest are inferior.' A striking judgement to find in a book of rules, and it explains why he gives Doric and Corinthian the fullest treatment."
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "gibbs-composite-arcade",
+        "clear_diameters": 5.5,
+        "note": "Plate XXXIV: 'The distance from middle to middle of the Columns of the Composite Arch, without the Pedestal, is six Diameters and a half, the Pilasters [seven twelfths], the Opening of the Arch four [Diameters] and [a half].'"
+      },
+      {
+        "name": "gibbs-composite-arcade-with-pedestal",
+        "clear_diameters": 7.0,
+        "note": "Plate XXXIV: eight diameters on centres. 'To find the Center of the Arch, divide the distance from the upper part of the Pedestal to the under part of the Entablature into ten parts; the Center is at the sixth division.'"
+      },
+      {
+        "name": "gibbs-composite-door",
+        "clear_diameters": 6.0,
+        "note": "Plate XXXVIII: 'The distance from middle to middle of the Columns, so that the Modillions may answer right, must be seven Diameters, the Opening four Diameters and a half, and the height of the Opening ten Diameters and [a half].'"
+      },
+      {
+        "name": "gibbs-composite-arched-door",
+        "clear_diameters": 6.5,
+        "note": "Plate XL no. 1: seven diameters and a half from middle to middle of the columns, the opening of the arch five diameters."
+      }
+    ],
+    "default": "gibbs-composite-arcade"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 5",
+      "units": "in",
+      "authority_note": "Palladio's ratio for the three richer orders, as Gibbs transmits it. Vignola holds a quarter for all five.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height * 3 / 10",
+      "units": "in",
+      "range": [
+        26,
+        35
+      ],
+      "authority_note": "Gibbs's pedestal rule at room scale with the one-fifth entablature: 3/10 of the ceiling height, 32 2/5 in. at 9 ft against Vignola's 36. The Composite is the order for state rooms and vestibules, where ceilings are highest and the absolute figure most nearly matches Vignola's anyway - at a 12 ft ceiling Gibbs gives 43 1/5 in. and Vignola 48, and both are above comfortable dado height, which is the point at which the room-as-order analogy stops being useful.",
+      "judgment": false,
+      "note": "Above about a 10 ft ceiling, stop deriving the dado from the order and set it from the human figure - 32 to 36 in. - then treat the remaining wall as the shaft. Gibbs implicitly does this in his gallery designs."
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "1.25",
+      "units": "ratio",
+      "range": [
+        1.1667,
+        1.25
+      ],
+      "authority_note": "Composite modillion pitch, five eighths of a diameter = 1 1/4 modules on centres, against seven twelfths in Gibbs's Corinthian and one module in Vignola. Expression is in modules. The range spans the Corinthian and Composite readings because the Composite numeral is damaged in every scan reached; if the two orders are used together on one building, take the Corinthian pitch for both rather than trying to reconcile them.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, forced by an illegible source. Gibbs's table of modillion spacings is the one passage in the book where the OCR of all consulted scans fails on every numeral in a row."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.6 / 20",
+      "units": "in",
+      "range": [
+        7,
+        18
+      ],
+      "authority_note": "Room read as a Composite order at reduced module, cornice alone: 1 3/5 modules of a 20-module column. 8 5/8 in. at a 9 ft ceiling, 11 1/2 in. at a 12 ft one - and the Composite cornice needs the 12 ft ceiling, because it carries seven members where Gibbs's Corinthian carries six.",
+      "judgment": false
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 6",
+      "units": "in",
+      "range": [
+        3.5,
+        12
+      ],
+      "authority_note": "One sixth of the opening, as in every Gibbs order, but the Composite architrave carries three fasciae where Vignola's carries two. On a 4 ft doorway - a Composite scale - that is 8 in. of casing divided into three bands rather than two, and the difference is legible from across a hall.",
+      "judgment": false
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "height",
+      "expression": "opening_width / 2",
+      "units": "in",
+      "range": [
+        14,
+        40
+      ],
+      "authority_note": "Gibbs on doors with a full entablature: the architrave, frieze and cornice together are half the breadth of the opening. Of that, one third to the architrave and the remaining two thirds divided 3 : 4 between frieze and cornice. Note that this is a DIFFERENT subdivision from the 3 : 3 : 4 of his Composite building entablature - a door entablature is more architrave and less frieze, because it is read close up.",
+      "judgment": false,
+      "note": "Doors: 'their height is twice their breadth; but the highest of them should not exceed two squares and one quarter.' The Composite door at four and a half diameters by ten and a half is 1 : 2.33 - Gibbs's own limit, slightly exceeded, which is what the Composite is for."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        20
+      ],
+      "authority_note": "Archivolt and impost each one eighth of the arch opening. 'But in the Ionick and Composite, the Imposts project [one third] and [one sixth] more of one of these parts' than in Tuscan and Doric - the richer the order, the bolder the impost.",
+      "judgment": false,
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "pediment",
+      "dimension": "height",
+      "expression": "opening_width * 0.1340",
+      "units": "in",
+      "range": [
+        8,
+        70
+      ],
+      "authority_note": "Gibbs's circular construction for pediment height, given once on Plate XXXVIII and applied to all orders: describe a circle on the full extent of the cornice, then a second circle of the same radius from the bottom of the first, and take the segment. A fixed rise of about one fifteenth of the span, i.e. about 15 degrees. He also draws circular and broken pediments in the Composite, for which no rule is given at all.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The construction is on the span of the CORNICE, not on the opening; the coefficient assumes a cornice projecting a tenth of the opening on each side. Draw the construction when the cornice projection is known."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "The Composite capital is a Corinthian body carrying Ionic volutes - Gibbs: 'The Volute is the same as the Ionick. The height of the Capital, including the Abacus, is one Diameter and one sixth, [as] that of the Corinthian, and so are the height of the Leaves and [Cauliculi].' It is therefore the most expensive capital in the book, being both carved and turned, and it appears on a column ten diameters high which in a house means a shaft that must be staved and glued.",
+      "resolution": "The Composite is a triumphal order. Gibbs is explicit that the Romans used it 'in their triumphal arches... meaning to express their dominion over those nations that invented the orders of which this is composed.' On a house it is almost always the wrong choice and reads as boastful; use it for a public building, a gate, or a single doorcase, and use Corinthian or Ionic elsewhere on the same building.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Gibbs's Composite cornice carries seven members in 28 4/5 parts, including a 1-part astragal at its foot and a dentil band at a one-fourteenth-diameter pitch. At a 4 in. module - an interior pilaster - the astragal is 2/9 in. and the dentil spaces are 1/7 in. Neither survives paint.",
+      "resolution": "Take the astragal off again and give its part back to the reversed cima, which is where the Corinthian has it. Gibbs moved one small moulding between two members to distinguish the orders; at small scale the distinction is invisible and the moulding is a liability. Record the deletion, and if the distinction matters, make it in the capital instead, where it is visible.",
+      "severity": "minor"
+    },
+    {
+      "with": "cost",
+      "statement": "Gibbs's Composite modillion pitch of five eighths of a diameter is not commensurable with his Corinthian pitch of seven twelfths, nor with the dentil pitch of one fourteenth in either order. A building carrying both orders - Composite over Corinthian, which is Gibbs's own superimposition - has three incommensurable rhythms on two storeys, all of which must be set out and none of which can be shared between trades.",
+      "resolution": "Use one modillion pitch for the whole building, taken from the LOWER order, and let the upper order's modillions be slightly wider or closer than the book. Gibbs's own rule for superimposition already forces the upper column's diameter to the lower one's diminished diameter, so the two orders are not independent anyway. Nobody has ever detected this substitution from the ground.",
+      "severity": "minor"
+    },
+    {
+      "with": "material-availability",
+      "statement": "A Composite column at ten diameters and a house-scale 12 in. diameter is a 10 ft shaft that must be staved, glued and turned, with a diminution of one sixth beginning at a third of its height. There is no solid stock for it and no standard fibreglass column carries a correct Gibbsian Composite capital.",
+      "resolution": "Specify a staved and glued shaft to Gibbs's diminution and buy the capital separately in cast composition, sized to the shaft rather than the other way round. Gibbs gives no advice on this because in 1732 every column was made this way; the modern failure mode is choosing a catalogue column and then discovering its diminution and capital belong to different systems.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "english-georgian",
+    "english-georgian-country-house",
+    "english-baroque",
+    "english-palladian",
+    "palladian",
+    "georgian-colonial-american",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "georgian-revival",
+    "colonial-revival",
+    "neoclassical-revival"
+  ],
+  "sources": [
+    "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), letterpress pp. 1-4, 12-13, 13-16, 17-19, and Plates I no. 5, XX-XXVI, XXXIV, XXXVIII, XL; archive.org/details/gri_33125011578867",
+    "Andrea Palladio, I quattro libri dell'architettura (1570), Book I",
+    "William R. Ware, The American Vignola (1920 printing), 'The Composite Order' - comparison datum only"
+  ],
+  "confidence": "medium",
+  "notes": "GIBBS COMPOSITE AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nGIBBS GIVES ALL FIVE ORDERS, and the Composite is the one he treats most briefly - two short plates of letterpress, each of which refers the reader back to the Corinthian or the Ionic. He calls it 'the Roman or Composite'.\n\nWHAT AGREES WITH VIGNOLA. Column 10 diameters. Capital one diameter and one sixth. Base one semidiameter. Diminution to five sixths from a third of the height. Twenty-four flutes (Gibbs gives no Composite fluting rule, so Vignola's stands).\n\nTHE DIVERGENCES.\n1. THE ENTABLATURE IS A FIFTH OF THE COLUMN, 4 modules against Vignola's 5.\n2. THE PEDESTAL is one quarter of column-plus-entablature, 6 modules against 7, with a plinth of a quarter its height and no corona in its cap.\n3. THREE FASCIAE in the architrave, against Vignola's two.\n4. THE ASTRAGAL MOVES. Gibbs's one named distinction between his Composite and his Corinthian entablature is that the astragal at the junction of frieze and cornice belongs to the cornice in the Composite and to the frieze in the Corinthian. Vignola gives the Composite frieze an astragal and a fillet at its head; Gibbs takes them away.\n5. MODILLION PITCH five eighths of a diameter, against seven twelfths in his own Corinthian and one module in Vignola.\n\nWHAT IS WEAK, AND IT IS THE WEAKEST OF THE FIVE GIBBS OVERLAYS. Two problems.\n\nFirst, Gibbs's two statements about the astragal (Plates XXI and XXII) contradict each other as they survive in the scans consulted, and neither can be read with confidence. The astragal is encoded on the cornice at 1 part with confidence low, and the reversed cima below it correspondingly reduced. If a plate becomes legible, this is the first thing to check.\n\nSecond, his table of modillion spacings on the 'placing Columns over Columns' page - which gives the Doric triglyph pitch and the Ionic, Corinthian and Composite modillion pitches in one run - has lost every numeral but two in both scans reached. The Corinthian value of seven twelfths survives because Gibbs adds his own cross-check ('It is twelve times in seven Diameters'); the Composite value does not, and the five eighths encoded here is inferred from his Composite arch dimension of six diameters and a half on centres. It carries confidence low and the corresponding derived rule is marked judgment.\n\nThe pack confidence is medium for those two reasons. The top-level proportions - column, entablature, pedestal, and the 3 : 3 : 4 entablature division - are stated in words and are secure."
+}

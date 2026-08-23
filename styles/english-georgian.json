@@ -1,0 +1,213 @@
+{
+  "id": "english-georgian",
+  "name": "English Georgian",
+  "aka": [
+    "Georgian",
+    "British Georgian",
+    "Hanoverian"
+  ],
+  "rank": "style",
+  "member_of": "english-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1714,
+    "floruit_start": 1720,
+    "floruit_end": 1800,
+    "decline_end": 1837,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1880,
+        "end": 1940,
+        "revival_node": "georgian-revival",
+        "note": "Neo-Georgian in Britain and Colonial Revival in America, both drawing on the same measured drawings and the same surviving pattern books."
+      },
+      {
+        "start": 1980,
+        "end": 2026,
+        "revival_node": "new-classical",
+        "note": "The living New Traditional practice, in which Georgian remains the default reference for a well-mannered house in the English-speaking world."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Wales",
+      "Ireland"
+    ],
+    "hearth": "London and Bath, and from there by book to every county town and every British colony",
+    "climate_zones": [
+      "4A",
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-palladian",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Descent by book. Georgian is Palladian rule applied to ordinary construction through the builders' manuals: Gibbs's Book of Architecture (1728) and Rules for Drawing (1732), Batty Langley's Treasury of Designs (1740), William Halfpenny's Practical Architecture (c.1724), Abraham Swan's British Architect (1745), and Isaac Ware's Complete Body of Architecture (1756)."
+    },
+    {
+      "target": "english-baroque",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The carcass is a Queen Anne carcass: the compact double-pile brick box, the sash window, the hipped roof and dormer, the London building acts of 1667 and 1707, and the trade practices that came out of the post-Fire rebuilding."
+    },
+    {
+      "target": "dutch-urban-gable-house",
+      "type": "descends_from",
+      "weight": 0.15,
+      "inherits_kit": true,
+      "note": "Contested and deliberately weighted low. The sash window and the flat-fronted parapeted brick house are sometimes credited to Dutch practice arriving with the Anglo-Dutch court after 1688; H. J. Louw's research concludes the sash was developed in England, with the earliest survivors at Ham House and Palace House in the 1670s, and no inventor identifiable. The edge records a plausible channel, not a settled fact."
+    }
+  ],
+  "description": {
+    "short": "The most transmissible traditional style ever devised: a symmetrical brick or stone box of vertically aligned sash windows, graduated storey heights and a single elaborated doorcase, buildable anywhere from a printed plate by a builder who had never seen a classical building.",
+    "long": "Georgian is what happens when an aristocratic theory becomes a builder's default. Everything Burlington and Campbell established for the Whig country house — bilateral symmetry, an ordered wall, a fixed set of room ratios, ornament restricted to licensed positions — was stripped of its portico and its piano nobile and sold to the building trade in shilling parts. The pattern books did this work. James Gibbs's Book of Architecture of 1728 was explicitly written, in his own words, for gentlemen in remote parts of the country with no access to able architects; Batty Langley's Treasury of Designs of 1740 gave the carpenter full-size profiles he could set out with dividers; Abraham Swan's British Architect of 1745 solved the stair, which is the hardest thing in a small classical house; William Halfpenny and Isaac Ware supplied everything else. A joiner in Norwich or Norfolk, Virginia could produce a correct Doric doorcase from a plate without understanding the theory behind it — and the theory survived the loss of understanding, which is the single most important fact about this style and the reason it is the founding case study for any kit-of-parts system.\n\nThe conditions were legal, financial and material. The London Building Acts made Georgian as much as taste did: the 1667 Act following the Fire set four rates of house and prohibited timber facades; the 1707 Act banned the projecting wooden eaves cornice and required a parapet; the 1709 Act required window frames to be recessed at least four inches behind the face of the wall, which is why a Georgian window sits in a deep reveal and a mock-Georgian one does not; the 1774 Act codified the rates into a system that produced the terraces of Bloomsbury and the New Town of Edinburgh. Behind the Acts stood the leasehold building system, in which a landowner let ground on a 99-year lease to speculating builders who put up shells to a standard section, which is why Georgian streets are so consistent and Georgian back elevations so casual. Brick was cheap and improving, plate glass was not, and a sash divided into six or twelve panes was the economical answer to both.\n\nWhat Georgian was reacting against is less a style than a condition: the irregularity and unruliness of the seventeenth-century town. Its virtues are urban virtues — a continuous cornice line, a repeated bay, a party wall, a shared palette, a facade that behaves. Individual expression is confined to the door, which is why the Georgian doorcase carries such an extravagant share of the design attention: fluted pilasters or engaged columns, a pediment or a fanlight of increasing delicacy as the century goes on, six raised panels, and a semicircular fan of glazing bars whose pattern is the one place a speculator's builder was allowed to be personal.\n\nStanding in a Georgian street is a lesson in what repetition can do that variety cannot. No single house is remarkable; the wall of them is. The proportion that makes it work is the graduation of storey heights — ground floor tallest, first floor slightly less, second floor markedly less, attic squat — which makes the whole elevation appear to sit down on the pavement rather than float. Inside, the plan is a double-pile box around a stair hall, rooms of resolvable ratio, a chair rail at the height of a chair back, a cornice, a six-panel door, and a window whose sill you can sit on because the wall is a foot and a half thick. It is the most reproducible good house ever designed, and after three hundred years the reproduction has still not exhausted it."
+  },
+  "defining_characteristics": [
+    "Strict bilateral symmetry of the principal elevation, with an odd number of bays (3, 5 or 7) and the entrance centred — or, in the town house, deliberately displaced to one side over a side-hall plan",
+    "Vertical alignment of openings between storeys, with no window out of column, and graduated storey heights diminishing upward",
+    "Double-hung sash windows in deep reveals, of 6-over-6, 9-over-9 or 12-over-12 lights, with glazing bars thinning progressively from about 32 mm around 1720 to 16 mm by 1800",
+    "Brick in Flemish bond, or ashlar in the stone counties, with gauged brick flat arches or stone lintels over the openings",
+    "Ornament restricted to the doorcase, the cornice or parapet, and the window heads; the wall surface itself is left plain",
+    "A crowning modillion or dentil cornice in the country, or a plain parapet with concealed gutter in town, above a low-pitched hipped or side-gabled roof",
+    "A plan of resolvable proportion — double-pile with a central or side stair hall — that generates the facade rather than being fitted behind it"
+  ],
+  "diagnostic_tells": [
+    "Storey heights that visibly diminish upward: the first-floor window is shorter than the ground-floor window and the second-floor window shorter again. Equal window heights on all floors is the fastest way to spot a fake",
+    "Sash boxes set back at least 100 mm from the face of the brickwork, throwing a deep shadow at every opening; from 1709 in London the boxes are also concealed behind the reveal",
+    "A doorcase carrying the entire ornamental budget of the house — pilasters or columns, entablature and pediment, and after about 1760 a radiating fanlight — on a facade otherwise devoid of ornament",
+    "Gauged brick flat arches in rubbed and cut brick over the openings, with fine joints of lime putty barely a millimetre wide against the 6-10 mm joints of the field brickwork",
+    "Against Adam: Georgian mouldings are chunky and shadowed, Adam's are thin, flat and low-relief. Against Regency: Georgian shows its brick, Regency covers it in stucco and adds bows, iron balconies and wide bracketed eaves"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-palladian",
+      "difference": "Georgian is Palladianism without the ceremony. No piano nobile, no external stair, no portico, entrance at grade, brick instead of ashlar, and a doorcase where the villa had a temple front. Every proportional rule survives; the aristocratic apparatus does not."
+    },
+    {
+      "node": "adam-style",
+      "difference": "Adam is a decorative revolution inside a Georgian envelope. The box, the sashes and the plan are Georgian; the mouldings are flattened, the ornament becomes low-relief fans, paterae, husks and honeysuckle in delicate colour, and the room shapes acquire apses, niches and screens of columns. At fifty feet, Adam is a Georgian house that has been thinned."
+    },
+    {
+      "node": "regency",
+      "difference": "Regency renders the brick in stucco and scores it to imitate ashlar, bows the front, hangs cast-iron balconies with tented canopies, extends the eaves on brackets or drops them behind a shallow parapet, and takes its detail from Greece rather than Rome. Georgian shows its material; Regency conceals it."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Palladian ratios transmitted through builders' manuals and disciplined by the London Building Acts' rates of house. The working modules are the storey height, the bay width and the brick course; the orders appear only at the doorcase and the cornice, where the module is the column diameter.",
+    "typical_ratios": [
+      "Sash opening 1.6:1 to 2:1 height to width; a 6-over-6 sash of roughly 900 x 1650 mm is the workhorse dimension",
+      "Storey graduation: ground floor exceeds first floor by 10-20 percent; second floor 0.7-0.8 of the first; attic or garret 0.5-0.6 of the first",
+      "Pier (solid) to void ratio on the elevation between 1:1 and 1.5:1 — wall must dominate glass",
+      "Bay spacing 2.6-3.6 m centre to centre, equal across the facade",
+      "Wall thickness at the ground floor one and a half bricks (330 mm) or more, giving a reveal of 100-150 mm at every opening",
+      "Doorcase opening 1.9:1 to 2.2:1 height to width, with a fanlight adding 0.4-0.5 of the door height above",
+      "Room ratios 1:1, 1:1.25, 1:1.33, 1:1.5 or 1:2, with ceiling heights of 3.0-3.6 m on the principal floor"
+    ],
+    "bay_rhythm": "An even metronome. Bays are identical in width and spacing, the centre marked only by the door and occasionally by a slight projection or a pediment. Any variation of spacing across a Georgian front is a mistake, and any variation of window size within a storey is a worse one.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The double-pile centre-hall box is the Georgian house in its purest form; the symmetry is generated by the plan rather than applied to it."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The terrace is where Georgian does its most consequential work, and where the individual house is subordinated to the street wall."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "canonical",
+      "note": "The standard urban plan behind the terrace facade: stair and passage to one side, front and back rooms lit from the two short ends."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "The country house version, with hyphens and flanking dependencies inherited directly from the Palladian generation."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "atypical",
+      "note": "A colonial and American adaptation rather than a British one; the mansard and gambrel are rare in British Georgian before the 1860s."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Sash proportion between 1.6:1 and 2:1 height to width. Anything squarer reads as a modern opening with muntins applied; anything taller belongs to a piano nobile.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Ground-floor storey height must exceed the first floor by 10-20 percent, and each storey above must diminish. Equal storey heights are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Window frames set back not less than 100 mm from the external face of the wall, following the London Act of 1709. A frame flush with the cladding face is the single commonest failure of modern Georgian work.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Openings must align vertically between storeys without exception, and the solid-to-void ratio must not fall below 1:1. Wall dominates glass.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Applied ornament is confined to the doorcase, the crowning cornice or parapet, the window heads and, in grander work, a string course. Pilasters, quoins and pediments elsewhere on the wall require justification from a specific plate.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Bedford Square",
+      "location": "Bloomsbury, London, England",
+      "year": 1783,
+      "note": "Built 1775-83 by Thomas Leverton and others for the Bedford estate. The most complete surviving Georgian square in London, with palace-fronted terraces, Coade stone doorcases and the whole grammar of the leasehold building system visible in one place."
+    },
+    {
+      "name": "Queen Square",
+      "location": "Bath, England",
+      "year": 1736,
+      "note": "Built 1728-36 by John Wood the Elder. The north side is composed as a single Palladian palace front of seven bays plus wings, which established that a terrace of separate houses could be treated as one building."
+    },
+    {
+      "name": "Fairfax House",
+      "location": "Castlegate, York, England",
+      "year": 1762,
+      "note": "Remodelled 1755-62 by John Carr for Viscount Fairfax. A complete Georgian town house with its plasterwork by Giuseppe Cortese and its plan, stair and joinery intact — the provincial pattern-book classicism of the middle of the century at its best."
+    },
+    {
+      "name": "Merrion Square",
+      "location": "Dublin, Ireland",
+      "year": 1780,
+      "note": "Laid out from 1762 and built over four decades. Dublin Georgian, with its granite steps, iron area railings, elaborate radiating fanlights and famously coloured doors, is the largest surviving body of the style anywhere."
+    }
+  ],
+  "sources": [
+    "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)",
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "John Summerson, Georgian London (1945)",
+    "James Gibbs, A Book of Architecture (1728)",
+    "Batty Langley, The City and Country Builder's and Workman's Treasury of Designs (1740)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "pattern-book",
+    "brick",
+    "sash-window",
+    "urban"
+  ]
+}

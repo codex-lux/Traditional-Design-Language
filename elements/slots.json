@@ -1,0 +1,870 @@
+{
+  "$comment": "The element ontology is ORTHOGONAL to the style graph. Slots are universal; a style is a set of bindings and constraints on these slots. Georgian does not own a cornice — it specifies one. Adding a style must never require adding a slot; if it does, the ontology was incomplete, not the style exotic.",
+  "version": "0.4.0",
+  "groups": [
+    {
+      "id": "massing-and-roof",
+      "name": "Massing & Roof",
+      "note": "The skeleton. Inherits along a different axis than ornament — see massings/ catalog.",
+      "slots": [
+        {
+          "id": "composition_parti",
+          "name": "Composition parti",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "The whole-building compositional law: symmetry class, bay parity, where the centre is and whether there is one. Added in 0.2.0 — the Georgian exercise found that a style whose identity IS strict bilateral symmetry had nowhere to say so, and could not forbid a picturesque parti because no slot existed to forbid it in."
+        },
+        {
+          "id": "roof_form",
+          "name": "Roof form",
+          "cardinality": "one",
+          "value_type": "enum",
+          "examples": [
+            "side-gable",
+            "front-gable",
+            "cross-gable",
+            "hip",
+            "gambrel",
+            "mansard",
+            "gable-on-hip",
+            "shed",
+            "pyramidal",
+            "catslide",
+            "saltbox",
+            "flat-parapet"
+          ]
+        },
+        {
+          "id": "roof_pitch",
+          "name": "Roof pitch",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "units": "rise:12",
+          "note": "One of the highest-signal, lowest-cost style tells. A 4:12 Georgian reads wrong at any level of trim quality."
+        },
+        {
+          "id": "roof_material",
+          "name": "Roof material",
+          "cardinality": "many",
+          "value_type": "enum",
+          "examples": [
+            "wood-shingle",
+            "slate",
+            "clay-tile-barrel",
+            "clay-tile-flat",
+            "standing-seam-metal",
+            "thatch",
+            "composition-shingle",
+            "cedar-shake"
+          ]
+        },
+        {
+          "id": "eave_condition",
+          "name": "Eave condition",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "note": "Where the wall meets the sky. Boxed-and-returned, exposed rafter tail, closed soffit, flared, clipped — arguably the single most diagnostic detail in the whole kit."
+        },
+        {
+          "id": "rake_condition",
+          "name": "Rake / verge condition",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "cornice_return",
+          "name": "Cornice return",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "gable_treatment",
+          "name": "Gable treatment",
+          "cardinality": "many",
+          "value_type": "assembly",
+          "examples": [
+            "pedimented",
+            "half-timbered",
+            "shingled",
+            "bargeboard",
+            "parapeted",
+            "jerkinhead",
+            "flush"
+          ]
+        },
+        {
+          "id": "dormer",
+          "name": "Dormer type",
+          "cardinality": "many",
+          "value_type": "assembly",
+          "examples": [
+            "gabled",
+            "shed",
+            "hipped",
+            "eyebrow",
+            "segmental",
+            "pedimented",
+            "wall-dormer",
+            "recessed"
+          ]
+        },
+        {
+          "id": "chimney",
+          "name": "Chimney",
+          "cardinality": "many",
+          "value_type": "assembly",
+          "note": "Position (central, gable-end, exterior-end, paired) is a plan-logic decision, not decoration. It is the fossil of the heating strategy."
+        },
+        {
+          "id": "roof_penetration_rules",
+          "name": "Roof penetration discipline",
+          "cardinality": "one",
+          "value_type": "rule"
+        },
+        {
+          "id": "height_proportion",
+          "name": "Storey proportion",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "note": "Ratio of ground-floor to upper-floor height; the graduation that makes a facade sit down rather than float."
+        },
+        {
+          "id": "wing_strategy",
+          "name": "Wing / ell strategy",
+          "cardinality": "one",
+          "value_type": "rule",
+          "examples": [
+            "telescoping",
+            "subordinate-ell",
+            "flanking-symmetrical-dependencies",
+            "additive-accretive",
+            "none"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "envelope",
+      "name": "Envelope & Wall",
+      "slots": [
+        {
+          "id": "construction_type",
+          "name": "Construction type",
+          "cardinality": "one",
+          "value_type": "enum",
+          "examples": [
+            "solid-masonry-two-wythe",
+            "solid-masonry-three-wythe",
+            "masonry-veneer-over-frame",
+            "braced-timber-frame",
+            "balloon-frame",
+            "platform-frame",
+            "log",
+            "adobe",
+            "rammed-earth",
+            "structural-insulated-panel"
+          ],
+          "note": "Added in 0.2.0. The ontology recorded appearance and not construction, so nothing could state whether Flemish bond was physically possible or was half-bricks glued to a backup. Nearly every honest-material question resolves here."
+        },
+        {
+          "id": "primary_cladding",
+          "name": "Primary cladding",
+          "cardinality": "one",
+          "value_type": "enum",
+          "examples": [
+            "clapboard",
+            "beaded-clapboard",
+            "shingle",
+            "board-and-batten",
+            "brick-flemish-bond",
+            "brick-common-bond",
+            "stone-rubble",
+            "stone-ashlar",
+            "stucco",
+            "half-timber-infill",
+            "adobe",
+            "log"
+          ]
+        },
+        {
+          "id": "secondary_cladding",
+          "name": "Secondary cladding",
+          "cardinality": "many",
+          "value_type": "enum",
+          "note": "Material change is usually a storey-line or wing decision, never arbitrary."
+        },
+        {
+          "id": "material_change_rule",
+          "name": "Material transition rule",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "Where a material may change and what must occur at the joint. Prevents the 'brick blanket on the front only' pathology of production building."
+        },
+        {
+          "id": "foundation_expression",
+          "name": "Foundation expression",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "water_table",
+          "name": "Water table",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "belt_course",
+          "name": "Belt / string course",
+          "cardinality": "many",
+          "value_type": "profile"
+        },
+        {
+          "id": "corner_quoin",
+          "name": "Corner quoin",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "examples": [
+            "brick-rubbed-quoin",
+            "stone-ashlar-quoin",
+            "alternating-long-short",
+            "rusticated-quoin",
+            "stucco-scored-quoin",
+            "none"
+          ],
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. A quoin is an ORDER element governed by the masonry module. Applying its dimension to a framed corner is roughly 2x wrong, and did in fact produce a live bug in facade-classical."
+        },
+        {
+          "id": "corner_board",
+          "name": "Corner board",
+          "cardinality": "one",
+          "value_type": "profile",
+          "examples": [
+            "plain-board",
+            "board-with-backband",
+            "pilaster-corner",
+            "mitred-no-board",
+            "none"
+          ],
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. A corner board is TRIM, measured at 6-10 in on surviving frame work, and sized by the clapboard it terminates rather than by any module."
+        },
+        {
+          "id": "reveal_masonry",
+          "name": "Reveal, masonry",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "units": "in",
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. 4-8 in of reveal in a mass wall, with no architrave. The depth IS the expression, and it is what tells the eye the wall carries load."
+        },
+        {
+          "id": "reveal_frame",
+          "name": "Reveal, frame",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "units": "in",
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. 3/4-2 in of reveal plus a 5-6 in architrave doing the work the depth cannot. The opposite assembly reaching the same effect."
+        },
+        {
+          "id": "cornice",
+          "name": "Main cornice",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "parapet",
+          "name": "Parapet",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "rainwater",
+          "name": "Rainwater strategy",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "note": "Added in 0.2.0. Gutters and leaders ruin more traditional eaves than any other single element, and the eave slot is about the cornice."
+        },
+        {
+          "id": "color_strategy",
+          "name": "Colour strategy",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "Added in 0.2.0. Highly diagnostic, period-specific, and the cheapest thing on a house to get right or wrong."
+        }
+      ]
+    },
+    {
+      "id": "openings",
+      "name": "Openings",
+      "slots": [
+        {
+          "id": "window_type",
+          "name": "Window type",
+          "cardinality": "many",
+          "value_type": "enum",
+          "examples": [
+            "double-hung",
+            "casement-leaded",
+            "casement-steel",
+            "fixed",
+            "awning",
+            "sash-with-transom"
+          ]
+        },
+        {
+          "id": "window_proportion",
+          "name": "Window proportion",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "note": "Height:width of the sash opening. Governs whether a facade reads as vertical (traditional) or horizontal (modern default)."
+        },
+        {
+          "id": "window_lite_pattern",
+          "name": "Lite pattern",
+          "cardinality": "many",
+          "value_type": "enum",
+          "examples": [
+            "12/12",
+            "9/9",
+            "9/6",
+            "6/6",
+            "6/1",
+            "3/1",
+            "2/2",
+            "1/1",
+            "diamond-leaded",
+            "queen-anne-margin"
+          ]
+        },
+        {
+          "id": "window_head_masonry",
+          "name": "Window head, masonry",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "examples": [
+            "gauged-brick-flat-arch",
+            "segmental-brick-arch",
+            "jack-arch-with-keystone",
+            "stone-lintel",
+            "splayed-stone-lintel",
+            "relieving-arch",
+            "label-mould",
+            "none-course-continues"
+          ],
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. A gauged brick jack arch is the mason's: structural, cambered by roughly opening/96, four courses deep, laid up on a centre before the wall closes."
+        },
+        {
+          "id": "window_head_wood",
+          "name": "Window head, wood",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "examples": [
+            "moulded-cap",
+            "cornice-head",
+            "pedimented-head",
+            "backband-head",
+            "drip-cap",
+            "flat-casing-head",
+            "none"
+          ],
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. A moulded wood cap is the carpenter's: non-structural, nailed on after the wall is closed, and free to be any profile the plane can cut."
+        },
+        {
+          "id": "window_surround_masonry",
+          "name": "Window surround, masonry",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "examples": [
+            "none-opening-cut-in-the-mass",
+            "rubbed-brick-jamb",
+            "stone-architrave",
+            "eared-architrave",
+            "quoined-jamb"
+          ],
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. In masonry Georgian the canonical value is NONE, and that is a design decision rather than an absence: the opening reads as a hole cut in a mass, and adding a surround destroys the reading."
+        },
+        {
+          "id": "window_surround_wood",
+          "name": "Window surround, wood",
+          "cardinality": "one",
+          "value_type": "profile",
+          "examples": [
+            "flat-casing",
+            "moulded-architrave",
+            "backband-architrave",
+            "pilaster-and-entablature",
+            "crossette-architrave"
+          ],
+          "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type."
+        },
+        {
+          "id": "window_sill",
+          "name": "Sill",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "window_grouping_rule",
+          "name": "Grouping & rhythm rule",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "Singles, pairs, ribbons; bay spacing; alignment of upper to lower. The grammar of the facade."
+        },
+        {
+          "id": "shutter",
+          "name": "Shutter",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "note": "Must be sized to actually close over the opening, hung on real hardware. Half-width shutters are the most common single tell of a fake traditional facade."
+        },
+        {
+          "id": "special_window",
+          "name": "Special window",
+          "cardinality": "many",
+          "value_type": "assembly",
+          "examples": [
+            "palladian",
+            "lunette",
+            "oculus",
+            "oriel",
+            "bay",
+            "bow",
+            "diocletian",
+            "dormer-round"
+          ]
+        },
+        {
+          "id": "entry_door",
+          "name": "Entry door",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "door_surround",
+          "name": "Door surround",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "note": "In most traditional styles the entry is the single most elaborated element. The surround is where the style declares itself."
+        },
+        {
+          "id": "transom_sidelight",
+          "name": "Transom & sidelights",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "secondary_door",
+          "name": "Secondary doors",
+          "cardinality": "many",
+          "value_type": "assembly"
+        },
+        {
+          "id": "garage_strategy",
+          "name": "Garage strategy",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "No historical precedent exists. Every traditional style needs an explicit, authored answer or the car eats the facade. This slot is where a modern kit-of-parts earns its keep."
+        },
+        {
+          "id": "glazing_assembly",
+          "name": "Glazing assembly",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "note": "Added in 0.2.0. Insulated glass changes muntin width, which changes the window, which is most styles' first tell. The trade-off needs somewhere to live."
+        }
+      ]
+    },
+    {
+      "id": "classical-apparatus",
+      "name": "Classical Apparatus",
+      "note": "Only bound in styles within the classical stream. Vernacular and picturesque styles set these to 'forbidden' or leave open.",
+      "slots": [
+        {
+          "id": "order",
+          "name": "Order",
+          "cardinality": "many",
+          "value_type": "enum",
+          "examples": [
+            "tuscan",
+            "doric-greek",
+            "doric-roman",
+            "ionic-greek",
+            "ionic-scamozzi",
+            "corinthian",
+            "composite",
+            "vernacular-abstracted"
+          ]
+        },
+        {
+          "id": "column",
+          "name": "Column / post",
+          "cardinality": "many",
+          "value_type": "assembly",
+          "note": "Entasis, diminution, and plinth height are parametric and must scale with the order, not with the lumber yard."
+        },
+        {
+          "id": "entablature",
+          "name": "Entablature",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "pediment",
+          "name": "Pediment",
+          "cardinality": "many",
+          "value_type": "assembly",
+          "examples": [
+            "triangular",
+            "segmental",
+            "broken-scroll",
+            "swan-neck",
+            "open-bed"
+          ]
+        },
+        {
+          "id": "pilaster",
+          "name": "Pilaster",
+          "cardinality": "many",
+          "value_type": "assembly"
+        },
+        {
+          "id": "modillion_dentil",
+          "name": "Modillion / dentil course",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "balustrade",
+          "name": "Balustrade",
+          "cardinality": "many",
+          "value_type": "assembly"
+        },
+        {
+          "id": "ornament_vocabulary",
+          "name": "Ornament vocabulary",
+          "cardinality": "many",
+          "value_type": "enum",
+          "examples": [
+            "swag-and-urn",
+            "fan-and-patera",
+            "guttae-triglyph",
+            "acanthus",
+            "rope-and-rosette",
+            "none"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "threshold",
+      "name": "Porch & Threshold",
+      "note": "The mediating zone between public and private. In American residential architecture this is where the social contract of the street is written.",
+      "slots": [
+        {
+          "id": "porch_type",
+          "name": "Porch type",
+          "cardinality": "many",
+          "value_type": "enum",
+          "examples": [
+            "full-width",
+            "wrap-around",
+            "entry-portico",
+            "recessed-loggia",
+            "engaged-under-roof",
+            "sleeping-porch",
+            "stoop-only",
+            "none"
+          ]
+        },
+        {
+          "id": "porch_depth",
+          "name": "Porch depth",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "note": "Depth decides what a porch IS, and different traditions want different answers. A Craftsman or Queen Anne porch below about 7 ft fails as an outdoor room; a Georgian entry portico is 5-6 ft and is a piece of the order rather than a room, and enlarging it to satisfy a Craftsman threshold makes it wrong. Bind the threshold in the style's kit, not here. (0.2.0: this note previously asserted the Craftsman figure as universal, which the Georgian authoring exercise caught.)"
+        },
+        {
+          "id": "porch_support",
+          "name": "Porch support",
+          "cardinality": "many",
+          "value_type": "assembly"
+        },
+        {
+          "id": "porch_rail",
+          "name": "Porch rail",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "porch_ceiling",
+          "name": "Porch ceiling & soffit",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "steps_and_stoop",
+          "name": "Steps & stoop",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "entry_sequence",
+          "name": "Entry sequence",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "Number of thresholds crossed from street to hall. Phenomenologically the most consequential decision in the whole kit and the one most often unmade."
+        }
+      ]
+    },
+    {
+      "id": "interior",
+      "name": "Interior Language",
+      "slots": [
+        {
+          "id": "ceiling_height_rule",
+          "name": "Ceiling height rule",
+          "cardinality": "one",
+          "value_type": "parametric"
+        },
+        {
+          "id": "trim_family",
+          "name": "Trim profile family",
+          "cardinality": "one",
+          "value_type": "profile-set",
+          "note": "A single coherent profile family per style. Mixing families is the interior equivalent of mixing typefaces."
+        },
+        {
+          "id": "baseboard",
+          "name": "Baseboard",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "casing",
+          "name": "Door & window casing",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "crown",
+          "name": "Crown / cornice",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "chair_rail",
+          "name": "Chair rail",
+          "cardinality": "one",
+          "value_type": "profile"
+        },
+        {
+          "id": "wainscot",
+          "name": "Wainscot",
+          "cardinality": "one",
+          "value_type": "assembly",
+          "examples": [
+            "raised-panel",
+            "flat-panel",
+            "beadboard",
+            "board-and-batten",
+            "none"
+          ]
+        },
+        {
+          "id": "interior_door",
+          "name": "Interior door",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "stair_type",
+          "name": "Stair type",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "newel_balustrade",
+          "name": "Newel & balustrade",
+          "cardinality": "one",
+          "value_type": "assembly"
+        },
+        {
+          "id": "fireplace_surround",
+          "name": "Fireplace surround",
+          "cardinality": "many",
+          "value_type": "assembly"
+        },
+        {
+          "id": "built_ins",
+          "name": "Built-ins",
+          "cardinality": "many",
+          "value_type": "assembly"
+        },
+        {
+          "id": "floor_material",
+          "name": "Floor material",
+          "cardinality": "many",
+          "value_type": "enum"
+        },
+        {
+          "id": "hardware",
+          "name": "Hardware",
+          "cardinality": "many",
+          "value_type": "enum"
+        },
+        {
+          "id": "light_fixture_family",
+          "name": "Light fixture family",
+          "cardinality": "one",
+          "value_type": "enum"
+        }
+      ]
+    },
+    {
+      "id": "plan-logic",
+      "name": "Plan Logic",
+      "note": "The deepest layer. Two houses can share every trim profile and still be different species if their plan logic differs.",
+      "slots": [
+        {
+          "id": "circulation_parti",
+          "name": "Circulation parti",
+          "cardinality": "one",
+          "value_type": "enum",
+          "examples": [
+            "center-hall",
+            "side-hall",
+            "hall-and-parlor",
+            "central-chimney-lobby",
+            "open-plan",
+            "enfilade",
+            "cross-passage",
+            "double-pile-stair-hall"
+          ]
+        },
+        {
+          "id": "hearth_position",
+          "name": "Hearth position",
+          "cardinality": "one",
+          "value_type": "enum",
+          "examples": [
+            "central-stack",
+            "gable-end-paired",
+            "exterior-end",
+            "corner",
+            "distributed"
+          ]
+        },
+        {
+          "id": "stair_position",
+          "name": "Stair position",
+          "cardinality": "one",
+          "value_type": "enum"
+        },
+        {
+          "id": "public_private_gradient",
+          "name": "Public-private gradient",
+          "cardinality": "one",
+          "value_type": "rule"
+        },
+        {
+          "id": "room_adjacency_overrides",
+          "name": "Room adjacency overrides",
+          "cardinality": "many",
+          "value_type": "rule",
+          "note": "Demoted in 0.4.0. The UNIVERSAL adjacency rules now live on the room records in rooms/, where they belong — they are properties of a dining room, not of Georgian. This slot holds only what a style ADDS or SUPPRESSES: Georgian permits chambers entered through one another, which the neutral rule forbids; the Creole cottage suppresses the corridor rule entirely. Same element-first-with-style-as-facet pattern as the fault corpus. A style that states a universal rule here is duplicating data that will drift."
+        },
+        {
+          "id": "service_zone_strategy",
+          "name": "Service zone strategy",
+          "cardinality": "one",
+          "value_type": "rule"
+        },
+        {
+          "id": "depth_and_pile",
+          "name": "Depth / pile",
+          "cardinality": "one",
+          "value_type": "enum",
+          "examples": [
+            "single-pile",
+            "double-pile",
+            "one-and-a-half-pile"
+          ]
+        },
+        {
+          "id": "daylight_strategy",
+          "name": "Daylight strategy",
+          "cardinality": "one",
+          "value_type": "rule"
+        },
+        {
+          "id": "storage_strategy",
+          "name": "Storage strategy",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "Added in 0.2.0. Closets are a plan element and built-ins are joinery; they are not the same slot. Styles that predate the closet need an authored answer here."
+        },
+        {
+          "id": "services_strategy",
+          "name": "Mechanical & services strategy",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "Added in 0.2.0. Chases, stacks, ducts, equipment. Where the plumbing stacks go decides whether a centre-passage plan survives contact with an MEP layout, and the ontology was silent on it."
+        }
+      ]
+    },
+    {
+      "id": "site",
+      "name": "Site & Settlement",
+      "note": "A style is not only a building. Detached from its settlement pattern it becomes a costume.",
+      "slots": [
+        {
+          "id": "street_relationship",
+          "name": "Street relationship",
+          "cardinality": "one",
+          "value_type": "rule"
+        },
+        {
+          "id": "setback_rule",
+          "name": "Setback rule",
+          "cardinality": "one",
+          "value_type": "parametric"
+        },
+        {
+          "id": "orientation_rule",
+          "name": "Orientation rule",
+          "cardinality": "one",
+          "value_type": "rule"
+        },
+        {
+          "id": "outbuilding_types",
+          "name": "Outbuildings",
+          "cardinality": "many",
+          "value_type": "enum"
+        },
+        {
+          "id": "fence_wall",
+          "name": "Fence / wall",
+          "cardinality": "many",
+          "value_type": "assembly"
+        },
+        {
+          "id": "landscape_idiom",
+          "name": "Landscape idiom",
+          "cardinality": "one",
+          "value_type": "enum"
+        },
+        {
+          "id": "grade_relationship",
+          "name": "Grade relationship",
+          "cardinality": "one",
+          "value_type": "rule",
+          "note": "How the building meets the ground. Plinth, berm, cellar-exposure, terrace."
+        }
+      ]
+    }
+  ]
+}

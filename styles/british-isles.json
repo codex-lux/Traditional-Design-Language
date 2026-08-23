@@ -1,0 +1,39 @@
+{
+  "id": "british-isles",
+  "name": "British Isles",
+  "rank": "tradition",
+  "member_of": null,
+  "status": "living",
+  "period": {
+    "origin": 900,
+    "floruit_start": 1000,
+    "floruit_end": 1940,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Wales",
+      "Ireland"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The insular stream that fused Norman masonry, medieval timber framing, and imported classicism into the pattern-book culture that furnished colonial America with most of its architecture.",
+    "long": "Britain's building tradition is a hybrid from the start: Romanesque masonry from Normandy laid over Anglo-Saxon timber practice, then Gothic, then a late and reluctant Renaissance arriving through Netherlandish intermediaries rather than directly from Italy. The reluctance matters. English classicism is never purely classical; it is classicism negotiated with a stubborn vernacular of steep roofs, tall chimneys, and small-paned windows suited to a cold, wet, cloudy island.\n\nThe decisive British contribution to world architecture is not a style but a medium: the pattern book. Beginning in the early eighteenth century, builders' guides by Gibbs, Langley, Swan, and later Asher Benjamin in America converted architectural knowledge from guild apprenticeship into printed, purchasable instruction. A carpenter in rural Connecticut who had never seen a classical building could execute a correct Ionic door surround from a plate. This is the historical precedent for what a design platform now attempts, and it is worth studying closely — including its failures, which were mostly failures of proportion at unusual scales.\n\nThe second British contribution is the picturesque: the deliberate composition of irregular, asymmetrical, historically allusive buildings for their visual and emotional effect. This is the ancestor of Gothic Revival, Queen Anne, Shingle Style, and eventually of the entire Anglo-American suburban imagination."
+  },
+  "defining_characteristics": [
+    "Steep roof pitches and prominent chimney stacks as climatic and compositional constants",
+    "Classicism absorbed and domesticated rather than adopted wholesale",
+    "Pattern-book transmission of design knowledge from the early 18th century onward",
+    "A strong parallel vernacular of local stone, brick, and timber that never fully surrenders to fashion",
+    "The picturesque as a legitimate compositional method alongside the classical"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

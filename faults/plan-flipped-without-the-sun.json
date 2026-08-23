@@ -1,0 +1,162 @@
+{
+  "id": "plan-flipped-without-the-sun",
+  "name": "The Plan Mirrored Onto The Wrong Side Of The Street",
+  "aka": [
+    "the flipped elevation",
+    "the piazza facing north",
+    "solar indifference"
+  ],
+  "slots": [
+    "orientation_rule",
+    "daylight_strategy",
+    "street_relationship"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "The same house plan appears down both sides of a street, mirrored where the lot required it, so that a device which exists to face the sun faces away from it on half the lots: a piazza on the north flank, a galerie facing east, a courtyard in permanent shade, a two-storey glass wall on the west, a sleeping porch over a driveway. The elevation is unchanged and correct. The building's environmental argument has been reversed and nothing on the drawings records it.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "A plan is a product and a lot is a constraint, so the plan is mirrored to suit the lot the way a component is fitted left- or right-handed. Mirroring costs nothing and is done in the software in one operation, often by a drafter, often after approval. Nothing in a residential drawing set records solar orientation: there is a north arrow on the site plan and nowhere else, and no elevation, section or specification carries an orientation-dependent requirement. So the one decision that determines whether the house works is made by someone with no instruction and no way to know it matters.",
+    "cost_saved": "Nothing. Orienting correctly is free at the moment of siting and impossible afterwards.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / orientation_rule",
+      "statement": "The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows. A REAL LIABILITY, STATED PLAINLY: Georgian orientation logic is indifferent to the sun, which means a correctly oriented Georgian house can face north with its principal rooms in permanent shade. Charleston is the exception that proves it - the piazza must face within 45 degrees of southwest, and that is the one place the tradition put climate ahead of the approach."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "charleston-single-house",
+      "statement": "The piazza must be on the south or west flank, minimum 8 ft deep, running the full length of the house. A piazza on the north or east flank fails as both shade device and outdoor room and voids the type."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "dogtrot-vernacular",
+      "statement": "Orient the passage axis to the prevailing summer breeze - generally south to southwest in the Upland South - and keep it shaded at both ends. The passage is a cooling device before it is a circulation space, and a badly oriented one is merely a hole in the house."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an overhang works on the south elevation and on no other",
+      "statement": "At 40 degrees north the summer noon sun stands about 73 degrees above the horizon, so a 2 ft overhang shades an 8 ft south window completely. At five in the afternoon in July the sun is about 20 degrees above the horizon and nearly due west, and no horizontal overhang of any plausible depth shades a west window at all. That asymmetry is why a plan flipped east-for-west is not a neutral operation."
+    }
+  ],
+  "correct_practice": "Decide which of the building's devices are orientation-bound before the plan is allowed to mirror, and mark them on the drawings as orientation-critical. The list is short and specific for each type: the Charleston piazza faces within 45 degrees of southwest and never north or east; the Creole galerie and the raised plantation gallery face the prevailing summer breeze, which is south to southeast on the Gulf; the dogtrot passage runs south to southwest; a courtyard at 36-38 degrees north is sized against the height of its ranges precisely because the sun angle sets what it shades; a Prairie or Craftsman deep eave is doing its real work on the south. Then apply the general rules that hold everywhere: principal living rooms south and east; large glazed areas on south, where an overhang of 0.4 to 0.5 of the window height controls them, and never west, where nothing does; service rooms, garages, stairs, stores and blank walls on the west and north; sleeping rooms east. Where the approach and the sun genuinely conflict - which is the Georgian liability, stated honestly - the house must choose, and the choice should be recorded rather than inherited by accident.",
+  "fixes": {
+    "right": "Site the house from the sun and the approach together, and mark the orientation-critical elements on the plan so a mirror operation cannot be applied silently.",
+    "cheap": "Mirror the plan and re-detail the two elevations that changed. Where a plan must flip, the free repair is to move the shading to follow the sun rather than the drawing: deep overhangs and shutters onto whichever elevation is now south and west, and the glazing area rebalanced between them, which is a change of window schedule and costs nothing if it is done before ordering. On a west wall, an operable exterior shutter or a 4 to 6 ft deep porch is the only thing that works, and both are already in the vocabulary.",
+    "dishonest": "Solving a west wall with low-E glass and a heavier air-conditioning unit. A low-solar-gain coating removes perhaps half the heat and none of the glare, the sun still enters at eye level from ten degrees above the horizon for three hours, and the room is unusable at the exact time of day it was built for. Glazing coatings are a thermal fix for a geometric problem."
+  },
+  "detection": "Compare the plan with a north arrow and a satellite image. On a street of one builder's plans, look for mirrored pairs and check which of them puts a porch, a courtyard, a glass wall or a sleeping porch on the north or the west. In a photograph alone the tells are indirect but reliable: exterior blinds or aftermarket awnings on one elevation, a porch with no furniture on it, curtains permanently drawn in a large window, an air-conditioning unit sized visibly larger than the neighbours'. On the ground the simplest test is the shadow at four in the afternoon in summer.",
+  "test": {
+    "expression": "principal_shading_device_azimuth_deviation_from_south_deg",
+    "threshold": 45.0,
+    "direction": "at-most",
+    "units": "deg",
+    "measurable_from": "plan",
+    "note": "Deviation of the piazza, gallery, galerie, portal, corredor or principal porch from due south, measured on the plan against true north. Charleston's own rule is within 45 degrees of southwest; the general rule for a shading device in the northern hemisphere is within 45 degrees of south. Beyond 90 degrees the device is on the wrong side of the building."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "georgian-colonial-american",
+      "why": "The style's own orientation rule is explicitly indifferent to the sun: the house faces its approach and everything follows. A correctly built Georgian house facing north is not a fault by the style's rules, which is exactly the liability the kit records.",
+      "bounds": "Inherited but deprecated. The licence covers the ENTRANCE facing the approach; it does not cover putting a modern wall of glazing on the west or a great room on the north face. Where a modern plan adds environmental devices the style did not have, those devices are bound by the sun even though the entrance is not.",
+      "applies_when": {
+        "slots": [
+          "street_relationship"
+        ],
+        "note": "The kit asks for a way to mark a rule as correct-for-the-period and dangerous-to-inherit; this exception is that flag written out longhand."
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "A row house on a fixed street grid has no orientation freedom at all; the front faces where the street faces and both long walls are party walls.",
+      "bounds": "The freedom that remains is in the rear extension and the room allocation, and those should still follow the sun.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "The court is the environmental device and it is horizontal, so it works on any orientation as long as its proportion is right - which is why the type is so robust on an irregular medieval street pattern.",
+      "bounds": "Patio width 0.8 to 1.2 times the height of the enclosing ranges and 3.5 to 7 m across. Outside that band the orientation stops being irrelevant.",
+      "bounds_test": {
+        "expression": "patio_width / enclosing_range_height",
+        "threshold": 0.8,
+        "direction": "between",
+        "upper": 1.2,
+        "units": "ratio",
+        "measurable_from": "plan"
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Mass walls with high thermal lag and small openings are far less orientation-sensitive than a lightweight envelope, and the type's small deeply recessed openings are self-shading on every face.",
+      "bounds": "Requires genuine mass - 18-36 in - and the solid-to-void ratio of 6:1. A stucco-over-frame version has none of the lag and all of the sensitivity."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "porch-without-the-height-to-pay-for-it",
+      "difference": "Both concern a porch and the sun. That fault is about how much light a porch of any orientation removes; this is about which face the porch is on."
+    },
+    {
+      "fault": "room-deeper-than-its-daylight",
+      "difference": "That is a quantity of daylight; this is its direction and its timing. A north room can be perfectly daylit and still be the wrong room to put a living room in."
+    }
+  ],
+  "co_occurs_with": [
+    "room-deeper-than-its-daylight",
+    "condenser-on-the-entrance-elevation"
+  ],
+  "severity_by_style": [
+    {
+      "style": "charleston-single-house",
+      "severity": "fatal",
+      "why": "Hard constraint: a piazza on the north or east flank voids the type, and the piazza is the type."
+    },
+    {
+      "style": "raised-creole-plantation",
+      "severity": "fatal",
+      "why": "The gallery is a climate machine and a gallery on the wrong face is a covered walkway."
+    },
+    {
+      "style": "dogtrot-vernacular",
+      "severity": "serious",
+      "why": "A badly oriented passage is merely a hole in the house, in the style node's own words."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "The style is genuinely indifferent, and its indifference is documented rather than accidental."
+    },
+    {
+      "style": "italianate-townhouse",
+      "severity": "not-applicable",
+      "why": "No orientation freedom exists on a party-wall lot."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json orientation_rule and its note on the Charleston exception and the missing 'inherited but deprecated' flag",
+    "styles/charleston-single-house.json (piazza south or west, hard), styles/dogtrot-vernacular.json (passage to the prevailing summer breeze)",
+    "ASHRAE Handbook - Fundamentals, solar position and incident irradiance by orientation; solar altitude at 40 degrees N at summer solstice (about 73 degrees at noon, about 20 degrees at 17:00)",
+    "Victor Olgyay, Design with Climate (1963), for the orientation-by-climate-region method"
+  ],
+  "confidence": "high",
+  "tags": [
+    "orientation",
+    "climate",
+    "site",
+    "daylight",
+    "cost-negative",
+    "endemic",
+    "teaches"
+  ]
+}

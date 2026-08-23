@@ -1,0 +1,36 @@
+{
+  "id": "contemporary-traditional",
+  "name": "Contemporary Traditional",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "living",
+  "period": {
+    "origin": null,
+    "floruit_start": 1980,
+    "floruit_end": 2026,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "New Classical, New Urbanist, and the current market idioms — the living attempt to recover traditional design logic under contemporary economics.",
+    "long": "Since about 1980 a serious body of practice has worked to recover traditional architecture as a living discipline rather than a costume: Krier's urban theory, Duany and Plater-Zyberk's codes at Seaside and Kentlands, the Institute of Classical Architecture and Art, and the Notre Dame school.\n\nThe striking thing is the mechanism. These practitioners returned to pattern books and form-based codes — the eighteenth-century solution — because they faced the eighteenth-century problem: how to get correct traditional building out of a trade that no longer carries the knowledge. That is the immediate precedent for encoding design logic in software, and the reason this family sits at the end of the taxonomy rather than as an appendix to it."
+  },
+  "defining_characteristics": [
+    "Deliberate recovery of traditional design logic rather than of style alone",
+    "Pattern books and form-based codes revived as the transmission mechanism",
+    "Urbanism treated as inseparable from architecture",
+    "Contemporary programme, construction, and code accommodated openly",
+    "An explicit argument with the market idioms it competes against"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

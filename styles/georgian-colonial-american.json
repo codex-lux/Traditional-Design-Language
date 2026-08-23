@@ -1,0 +1,281 @@
+{
+  "id": "georgian-colonial-american",
+  "name": "Georgian Colonial American",
+  "aka": [
+    "American Georgian",
+    "Colonial Georgian"
+  ],
+  "rank": "style",
+  "member_of": "american-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1700,
+    "floruit_start": 1720,
+    "floruit_end": 1780,
+    "decline_end": 1800,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1880,
+        "end": 1955,
+        "revival_node": "georgian-revival",
+        "note": "The most durable American revival; by the 1920s the standard vocabulary of banks, schools, fraternity houses and upper-middle-class suburbs."
+      },
+      {
+        "start": 1876,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "The looser, more numerous suburban descendant."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "New England",
+      "Mid-Atlantic",
+      "Chesapeake",
+      "South Carolina and Georgia low country"
+    ],
+    "hearth": "the colonial port cities — Boston, Newport, New York, Philadelphia, Annapolis, Charleston — where merchants had the money and the books arrived first",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-georgian",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "Direct and documented: the same books, the same mouldings, often the same immigrant joiners. William Buckland arrived in Virginia in 1755 as an indentured joiner with a working library."
+    },
+    {
+      "target": "english-palladian",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The five-part composition, the piano nobile, the temple portico and the Venetian window all arrive through the Burlington–Kent–Campbell circle rather than from Italy."
+    },
+    {
+      "target": "palladian",
+      "type": "references",
+      "weight": 0.4,
+      "note": "Palladio himself is quoted rather than descended from. Drayton Hall's portico derives from a plate in the Quattro Libri that its builder knew through Leoni's English edition; almost no colonial builder had seen an Italian building."
+    }
+  ],
+  "description": {
+    "short": "The first American architecture designed rather than accumulated — a symmetrical, proportioned, classically detailed box whose grammar arrived not with craftsmen but in books.",
+    "long": "Georgian is the moment when American building stops being a craft tradition and becomes a design system, and the mechanism of that change is the pattern book. Before about 1720 a colonial carpenter built what his master had built. After 1720 he could buy a quarto volume of plates and execute an Ionic entablature he had never seen, at any scale he liked, by following a rule of proportion. The books were specific and their influence is traceable in surviving fabric: James Gibbs's A Book of Architecture (1728) and Rules for Drawing the Several Parts of Architecture (1732), which supplied door surrounds and the rusticated 'Gibbs surround' from Annapolis to Charleston; Batty Langley's The City and Country Builder's and Workman's Treasury of Designs (1740), the workhorse of the middling builder; William Salmon's Palladio Londinensis (1734), whose doorway plates appear repeatedly in Virginia; Abraham Swan's The British Architect (1745), the first architectural book reprinted in America, at Philadelphia in 1775; and William Halfpenny's Practical Architecture (1724). What crossed the Atlantic was not a style but an algorithm — a module, a set of ratios, and instructions for deriving everything else.\n\nThe result is a plan and an elevation that are the same argument. The centre passage runs front to back, ten to fourteen feet wide, dividing the house into two equal halves and putting the stair on display for the first time in American building. Two rooms on each side, one deep or two, arranged so that no room is entered through another — the emergence of privacy as an architectural value. The elevation follows: five bays with the door at the middle, an odd number so there is a centre to occupy, windows of a fixed proportion diminishing in height from ground to attic, a water table below and a cornice above, and a doorway that receives all the classical attention in the building. Roof pitches drop from the First Period's 12:12 or steeper to 8:12–10:12. Ceilings rise. Sash lights shrink and multiply — twelve-over-twelve, then nine-over-six, then six-over-six by the 1770s as glass got cheaper and bigger.\n\nWhat it was negotiating against is worth stating plainly, because it was social rather than aesthetic. Colonial society between 1720 and 1770 was stratifying fast, and the Georgian house is a machine for making that stratification legible and liveable. It separates family from servants and enslaved workers, front from back, public from private, and it announces the owner's participation in metropolitan culture to anyone approaching down the drive. The regularity is a claim about the owner's mind. Even at its most modest — a five-bay farmhouse with a plain pedimented door — it is saying that its builder knows the rules.\n\nInside, it feels ordered in a way nothing before it in America does. The passage is cool and cross-lit, doors align on axis so that you can see through the house at the moment of entry, the panelled chimney breast in the best room is the most expensive object the family owns, and every moulding in the room belongs to a single order and therefore agrees with every other. That coherence is the actual achievement, and it is the reason the Georgian grammar has been revived continuously for a hundred and forty years without ever quite dying."
+  },
+  "defining_characteristics": [
+    "Strict bilateral symmetry about a central entrance, with an odd number of bays — five is normative, three on smaller houses, seven on the largest",
+    "A central passage running front to back, 10–14 ft wide, containing the principal stair, with rooms opening off it rather than through one another",
+    "Classical detail derived from a printed order: entablature, modillion or dentil cornice, pilasters, and a fully worked door surround",
+    "Double-hung sash of fixed proportion, diminishing in height by storey, with muntin patterns keyed to date (12/12, then 9/6, then 6/6)",
+    "Side-gable or hipped roof at 8:12–10:12, markedly lower than seventeenth-century work, with a boxed cornice returning at the gable",
+    "Chimneys paired and symmetrically placed — interior on either side of the ridge, or at both gable ends — never a single central stack",
+    "A composed elevation in which the rear and ends are treated as elevations too, not as leftovers"
+  ],
+  "diagnostic_tells": [
+    "Five bays, door dead centre, and the same window rhythm carried around to the rear",
+    "A doorway that is plainly copied from a plate — pilasters or engaged columns carrying a pediment, or a Gibbs surround with alternating blocks",
+    "Windows shorter on the second floor than the first by roughly 15%, and shorter again in the attic",
+    "A modillion or dentil cornice with a full return across the gable end (not a clipped 'pork chop')",
+    "A water table with a moulded or beveled brick or wood course 24–36 in above grade"
+  ],
+  "distinguished_from": [
+    {
+      "node": "colonial-revival",
+      "difference": "The defining confusion in American architecture. A colonial Georgian house has hand-made brick or riven clapboard, mouldings cut with a specific order's proportions, muntins 7/8 to 1-1/8 in wide, true divided lights, shutters whose leaves actually cover the opening, and a plan without closets, bathrooms or a garage. A revival house has muntins under 3/4 in or applied grilles, machine-perfect trim of generic profile, shutters half the required width, an attached garage, and often a two-storey portico on a house whose eave cannot support one. Trim consistency on all four elevations is a revival tell; so is a fanlight on a house dated before 1780."
+    },
+    {
+      "node": "federal-style",
+      "difference": "Federal (from c. 1785) keeps the symmetry but thins everything: flatter, more attenuated mouldings, elliptical fanlights and sidelights, oval and polygonal rooms, lower-relief ornament in the Adam manner, and often a low hipped roof with a balustrade. Georgian is heavier, bolder in relief, and has no fanlight."
+    },
+    {
+      "node": "new-england-colonial",
+      "difference": "The First Period house has one enormous central chimney, a 12:12+ roof, window heads jammed under the eave and no classical order. Many surviving houses are First Period frames wearing Georgian doors and cornices; read the chimney and the roof pitch, not the trim."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "A classical order chosen from a pattern book supplies the module; the entablature, door surround and cornice are derived from it, and the facade is divided so that the window openings and piers fall into a regular arithmetic rhythm.",
+    "typical_ratios": [
+      "Window opening height:width 1.9:1 to 2.1:1 on the principal floor",
+      "Second-floor window height 82–88% of first-floor; attic 60–70%",
+      "Pier (wall between windows) 0.6 to 1.0 times the window width",
+      "Cornice height roughly 1/12 to 1/14 of the wall height from water table to cornice",
+      "Passage width 10–14 ft, roughly one-third of the facade on a five-bay front",
+      "Ceiling 9–11 ft ground floor, 8–10 ft second, in a plan 32–40 ft deep if double-pile",
+      "Roof rise:run 8:12 to 10:12"
+    ],
+    "bay_rhythm": "Odd, even and unaccented: a-a-A-a-a on five bays, with the centre bay differentiated only by the doorway, never by a projecting mass, except on the most ambitious Palladian compositions where a pedimented pavilion breaks forward 18–36 in.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "canonical",
+      "note": "The Southern and modest Northern norm — one room deep, passage through."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The double-pile Georgian box, four rooms per floor around a central passage."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "Main block, hyphens, dependencies — the ambition of the plantation and the great town seat."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible",
+      "note": "The urban lot version, three bays wide with the passage at one side."
+    },
+    {
+      "massing": "telescope-house",
+      "affinity": "possible",
+      "note": "Chesapeake growth pattern where dependencies step down from the main block."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "atypical",
+      "note": "Rare, and mostly a survival of Jacobean planning as at Stratford Hall."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The front elevation must have an odd number of bays (3, 5 or 7) with the entrance in the centre bay. An even-bay Georgian front is a contradiction: there is no centre to enter."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 8:12 to 10:12. Below 7:12 the cornice loses its relationship to the roof and the house reads Federal or later; above 11:12 it reads First Period."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Sash lights by date: 12/12 or 12/8 to c. 1750; 9/6 c. 1740–1770; 6/6 from c. 1765. Fanlights and sidelights do not appear before c. 1780 and are a Federal marker, not a Georgian one."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Shutter leaf width equals half the clear opening width so that a closed pair exactly covers the window, and shutter height equals the sash height. Anything narrower is applied decoration."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Brick laid in Flemish bond on the entrance elevation (with glazed headers in the Chesapeake), common or English bond elsewhere; water table 24–36 in above grade; flat or segmental gauged arches over openings with a 4–6 in rise."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Westover",
+      "location": "Charles City County, Virginia",
+      "year": 1750,
+      "note": "Built by William Byrd III shortly after a 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Steep hipped roof, tall paired interior-end chimneys, Portland stone doorways added c. 1767."
+    },
+    {
+      "name": "Drayton Hall",
+      "location": "Ashley River, Charleston County, South Carolina",
+      "year": 1742,
+      "note": "Built 1738–42; the earliest fully realized two-tier Palladian portico in British North America, derived from a plate in Palladio known through its English editions. Never modernized — no plumbing or wiring — so the fabric is exceptionally legible."
+    },
+    {
+      "name": "Mount Pleasant",
+      "location": "Fairmount Park, Philadelphia, Pennsylvania",
+      "year": 1765,
+      "note": "Built 1762–65 for John Macpherson; stuccoed and scored rubble with brick quoins, pedimented central pavilion, flanking dependencies — the Mid-Atlantic Palladian composition at full strength."
+    },
+    {
+      "name": "Hammond-Harwood House",
+      "location": "Annapolis, Maryland",
+      "year": 1774,
+      "note": "William Buckland's last work. The entrance is a Gibbs surround executed in southern pine and rusticated to imitate stone, taken directly from Gibbs's A Book of Architecture (1728), as are the oeil-de-boeuf windows in the pediment — pattern-book transmission caught in the act."
+    }
+  ],
+  "sources": [
+    "Thomas Tileston Waterman, The Mansions of Virginia, 1706–1776 (1946)",
+    "Fiske Kimball, Domestic Architecture of the American Colonies and of the Early Republic (1922)",
+    "Helen Park, A List of Architectural Books Available in America before the Revolution (1973)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "pattern-book",
+    "symmetry",
+    "classical-order",
+    "center-passage"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "role": "primary",
+      "authority": "gibbs-ionic",
+      "note": "The order that supplies the module for the whole classical apparatus — doorway, cornice, pilaster, modillion. Gibbs rather than Vignola or Palladio because Gibbs is the book colonial builders actually owned: A Book of Architecture (1728) and Rules for Drawing the Several Parts of Architecture (1732) are the two most frequently recorded architectural titles in colonial American inventories, and the Hammond-Harwood House entrance is a Gibbs plate executed in southern pine. The choice is load-bearing and not decorative: Gibbs's entablature is one FIFTH of the column where Vignola's is one quarter, so at a 10 in diameter Gibbs gives 1'-6\" of entablature against Vignola's 1'-10 1/2\". A Georgian doorhead drawn to Vignola is four and a half inches too tall.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "The everyday order. Ionic is the order of the entrance frontispiece and the best room; Doric is the order of the eave cornice, the porch, the secondary doorway and the plainer house. A five-bay farmhouse with a pedimented door is Doric throughout and is no less correct for it. Bind both and grade them by rank — the graduation of orders within one building is a period habit and is almost entirely absent from modern work.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the elevation as a composition: odd bay count, pier width, the position and projection of water table and belt course, cornice projection, the width the whole entrance composition is permitted, and the ratio of the front's height to its width. This is the pack that enforces the style's single hard proportional constraint — an odd number of bays with the entrance in the centre. Palladio Book I chs. XXI–XXVI read against measured Anglo-American fronts of 1700–1860.",
+      "precedence": 6
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the void before anything is put round it: door size taken from the storey (storey / 3.5), the 13:6 window ratio, the 5/6 diminution of window height by storey, and the one rule that most disciplines a Georgian elevation — one head datum per storey on every elevation without exception. Palladio Book I chs. XXV–XXVI with Vitruvius IV.vi.",
+      "precedence": 5
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The measured counterpart to opening-proportion, and the pack that dates the building. The light of glass is the real module of a Georgian window: 12/12 and 12/8 to c. 1750, 9/6 c. 1740–70, 6/6 from c. 1765, because the glasshouse could supply a larger pane each decade at a price a builder would pay. It also carries the muntin section (7/8 in) and the shutter rule (leaf = half the clear opening less the meeting clearance), which are the two fastest tells of a fake. Where it and opening-proportion disagree on the window ratio — 2.1 measured against 13/6 = 2.167 treatise — prefer this one; the pack says so itself.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The interior. Its wall_section_georgian assembly is the profile family for every internal moulding, and its nineteen-part division of the wall (pedestal 4 : field 12 : entablature 3) is Vignola's general rule applied to a room, which is exactly what the eighteenth-century builders' companions did. Bind this one family and no other: the Federal and Greek Revival sections in the same pack are the successor styles and mixing them is the interior equivalent of mixing typefaces. Read its calibration warning — the derivation was worked out for rooms of 11–13 ft and misbehaves below about 9 ft 6 in.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Governs the vertical: second storey at 0.85 of the first, attic at 0.62, the sill datum that does not move (30 in), the head at 0.78 of the storey, and the position of the belt course at the second-floor STRUCTURE rather than its finish. The graduation is the thing that makes a Georgian front sit down on the ground instead of floating, and it is the first casualty of a modern equal-storey frame.",
+      "precedence": 7
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Governs room shape and the relation of ceiling height to plan. Bound because the Georgian plan is the first American plan designed rather than accumulated, and its rooms are set out to ratios (3:4, 2:3, and the square passage bay) rather than to what the frame gave. Applies to the principal floor only; garrets and service rooms are not composed.",
+      "precedence": 9
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "Primary on the masonry variants, absent on the frame ones — which is why it is bound optional here and promoted on the children. Where the wall is brick it is the real module of everything horizontal: four courses to eleven inches on a 2 1/4 in brick with a 1/2 in bed joint, water table at ten courses (27 1/2 in), belt course two courses, quoins on a whole number of courses, window head snapped to a course line. The tidewater-georgian node previously stated a 3/8 in joint, which is arithmetically impossible over four courses; corrected 2026-08-18 to the pack's 1/2 in figure.",
+      "precedence": 8
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "Bound optional and low: the Georgian house is designed from a drawing rather than from a frame, and the bay no longer sets the plan the way it does in First Period work. It still governs where the house is framed — the 16 ft bay is why a New England Georgian is 32–38 ft deep and not 40 — so it is bound rather than dropped, and it is promoted on new-england-georgian.",
+      "precedence": 10
+    }
+  ]
+}

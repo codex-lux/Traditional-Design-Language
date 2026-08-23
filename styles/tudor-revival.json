@@ -1,0 +1,236 @@
+{
+  "id": "tudor-revival",
+  "name": "Tudor Revival",
+  "aka": [
+    "Tudor",
+    "English Revival",
+    "Stockbroker Tudor",
+    "Mock Tudor",
+    "Half-Timbered Style"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "revival",
+  "period": {
+    "origin": 1885,
+    "floruit_start": 1890,
+    "floruit_end": 1940,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "the streetcar and rail suburbs of the Northeast and Midwest",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "5B",
+      "4B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "tudor",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The claimed ancestor, known to American architects almost entirely through photographs, Country Life, and a summer's sketching tour."
+    },
+    {
+      "target": "english-medieval-timber-frame",
+      "type": "references",
+      "weight": 0.9,
+      "note": "The half-timbered wall is quoted from genuine box-frame construction whose structural logic the revival almost never reproduces."
+    },
+    {
+      "target": "cotswold-vernacular",
+      "type": "references",
+      "weight": 0.6,
+      "note": "Stone-and-slate cottage register, drawn on for the smaller suburban examples; see cotswold-cottage-revival."
+    },
+    {
+      "target": "arts-and-crafts-british",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Real transmission. Shaw, Voysey, Lutyens and Baillie Scott were published in American journals monthly; the plan-forms, the sweeping roof, and the grouped casement come from there, not from the sixteenth century."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Composition, drafting culture, and the office structure that made a large picturesque house buildable on schedule."
+    },
+    {
+      "target": "queen-anne-american",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The American carpenter's habit of picturesque massing and applied wall pattern, which Tudor Revival inherits and re-skins."
+    },
+    {
+      "target": "shingle-style",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "In the 1890s the two are barely separable; the same offices produced Tudor gables over shingled walls."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "note": "The Anglophile alternative for buyers who wanted lineage without American plainness - romance and shadow in place of white symmetry."
+    },
+    {
+      "target": "tudor",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The dominant American picturesque revival of the interwar suburb, in which steeply pitched cross-gables, decorative half-timbering, and massive chimneys assemble a fantasy of English medieval building on a balloon-framed house with a two-car garage.",
+    "long": "Tudor Revival is the great counterweight to Colonial Revival, and it wins the 1920s. Its necessary conditions are a steep roof - 10:12 and up - with at least one prominent front-facing cross-gable, a massive and elaborated chimney placed on a visible face rather than hidden, tall narrow casement or multi-light double-hung windows grouped in bands, an entrance with a Tudor arch or a round-arched stone surround, and a wall of at least two materials, typically brick or stone below with stucco and applied timbering above. What it references is a two-hundred-year band of English building from roughly 1450 to 1650 that American architects had never touched. What it descends from is quite different: the British Arts and Crafts movement, published continuously in American journals from the 1890s; the picturesque massing habits of American Queen Anne; and the professional apparatus of the Beaux-Arts-trained office, which could get a complicated irregular building through working drawings and a general contractor.\n\nTwo material facts made the style possible. The first is the perfection of masonry veneer. Brick and stone tied back to a wood frame, rather than laid as a bearing wall, gave American builders the appearance of English mass at American labour rates, and it is the reason Tudor Revival could descend from millionaires' estates to $6,000 suburban houses within twenty-five years. The second is the millwork and metalwork catalog, which by 1925 supplied steel casements, leaded glass, strap hinges, and precast stone surrounds as stock items. The style's economics run exactly opposite to its imagery: the more it claims hand-craft, the more of it came out of a catalog.\n\nThe social claim being made was specific. If Colonial Revival argued descent from the American founders, Tudor Revival argued descent from the English, which for the professional class of Cleveland, Kansas City, Detroit and Toronto was the more prestigious of the two and carried none of the provincialism. It read as scholarship - the buyers of Stan Hywet or Meadow Brook Hall knew the names Compton Wynyates and Haddon Hall - and it read as antiquity, which mattered in cities that were forty years old. In the suburban version the same claim is compressed into one gable, one chimney, and forty running feet of applied board.\n\nThe experience of a Tudor Revival house is one of deliberate compression and release, inherited from Arts and Crafts planning rather than from anything medieval. The entrance is low, arched, and set in shadow beneath an overhanging storey; you duck slightly and then the living room opens tall, with a beamed or trussed ceiling and a fireplace scaled to burn logs the length of a man. Light comes sideways through leaded casements in bands rather than down through big windows, so the interior stays dim and the stained oak reads warm. Outside, the building never resolves into a single view: the gables are of different sizes, the chimney is off-axis, the roof sweeps down over a bay on one side and stops short on the other. That refusal to resolve is the point of the style, and it is the hardest thing to fake, which is why the cheap examples read as a symmetrical box wearing a costume."
+  },
+  "defining_characteristics": [
+    "Steeply pitched roof, 10:12 minimum and frequently 12:12 to 16:12, with one or more prominent front-facing cross-gables of unequal size",
+    "A massive, elaborated chimney placed on a visible elevation, often with corbelled or clustered stacks and decorative brick or stone patterning",
+    "Tall, narrow windows in grouped bands - casements or multi-light double-hung - with leaded, diamond, or small rectangular glazing",
+    "Entrance under a Tudor (four-centred) arch or a heavy round-arched masonry surround, usually recessed and often placed in a projecting gabled bay",
+    "Multi-material wall with a horizontal change of material between storeys, most often masonry below and stuccoed half-timbering above",
+    "Picturesque asymmetrical massing in which no elevation reads as symmetrical and the front door is not at the centre of the facade"
+  ],
+  "diagnostic_tells": [
+    "Half-timbering that describes no possible frame: timbers that stop mid-wall, do not meet at corners, or run past window heads without a lintel. Genuine box-frame timbering always resolves into posts, sills, plates and braces.",
+    "Timbering thickness is the giveaway - revival boards are 1 to 2 in. thick nailed to sheathing; real English frames are 4 to 8 in. members with the stucco or brick nogging set between them and behind their face.",
+    "A cross-gable whose rake meets the wall in a straight line without a return, and an entrance arch of cast stone with a visible mould seam.",
+    "Windows are grouped in threes and fours with a single continuous head; Colonial and Georgian revivals keep windows single and evenly spaced.",
+    "Compare with the historical Tudor original: real Tudor houses have almost no windows on the ground floor of the entrance range, tiny rooms, and no through-composition; the revival puts its biggest glass at the front and plans in open suites."
+  ],
+  "distinguished_from": [
+    {
+      "node": "tudor",
+      "difference": "The original is a bearing structure - either a genuine timber box frame with infill, or stone walls carrying a roof - with small openings, low ceilings, no corridor circulation, and a plan generated by adding rooms over generations. The revival is a single-campaign wood frame with veneer, large grouped glazing, corridor circulation, and applied timbering that carries nothing."
+    },
+    {
+      "node": "jacobethan-revival",
+      "difference": "Jacobethan Revival is the formal, masonry, symmetrical end of the same import - parapeted shaped gables, mullioned and transomed bay windows, strapwork, and an E- or H-plan. Tudor Revival is the picturesque, half-timbered, asymmetrical end. Both were built by the same architects, often on the same street."
+    },
+    {
+      "node": "cotswold-cottage-revival",
+      "difference": "The Cotswold cottage version is small, all-stone or stone-and-slate, has a rolled or swept eave, and generally omits half-timbering entirely. Tudor Revival is larger, taller, and depends on the timber pattern for its identity."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "No classical module. Proportion is governed by the notional structural bay of the timber frame being imitated - roughly 8 to 12 ft between posts - and by roof geometry, since the steep pitch makes the gable triangle the dominant proportional figure on every elevation.",
+    "typical_ratios": [
+      "Roof pitch 10:12 to 16:12; the principal cross-gable steeper than the main roof, never shallower",
+      "Gable width to eave-to-ridge height approximately 1:0.7 - the triangle reads taller than half its base",
+      "Casement leaves 16-22 in. wide by 40-56 in. high, proportion between 1:2.2 and 1:2.8, grouped in 2, 3, or 4",
+      "Second-storey overhang (jetty) where used: 8-16 in., never more than the depth of a plausible joist",
+      "Chimney breadth at least 1/6 of the elevation it sits on; stack height at least 3 ft above the ridge"
+    ],
+    "bay_rhythm": "Additive rather than rhythmic. Windows group into clusters separated by broad blank wall, and the clusters do not align between storeys. Any facade that produces an even, repeating bay spacing has left the style.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The defining skeleton: an irregular assembly of gabled volumes of differing height and depth."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common",
+      "note": "The suburban builder version - a simple block with one dominant front cross-gable."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "Large estate examples; shades into jacobethan-revival as it becomes symmetrical."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible",
+      "note": "Narrow-lot urban Tudor, common in Chicago and Toronto; the picturesque is reduced to the gable and the chimney."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "atypical",
+      "note": "A symmetrical double-pile block with Tudor trim is the failure mode of the style, not an expression of it."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Applied half-timbering must describe a structurally plausible frame. Every vertical member must run continuously from a sill or plate to a plate above; every horizontal must terminate at a post; braces must run corner to corner at 45 degrees or steeper; no member may cross a window head without a continuous lintel member above it. Free-floating decorative boards are forbidden."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Timbering members shall be no less than 5 in. and no more than 10 in. in face width, with a minimum 1 in. projection from the stucco plane, and shall be spaced 16-30 in. clear between verticals. Wider spacing or thinner boards reads as trim rather than as frame."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Main roof pitch not less than 10:12. Where a subordinate cross-gable is introduced its pitch must equal or exceed the main roof pitch. Any Tudor Revival roof below 10:12 is void."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Where masonry meets stucco on a wall plane, the material change must occur at a floor line or at a projecting jetty, with a minimum 4 in. horizontal offset or a water table. A material change stopping in mid-storey without an offset is forbidden."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "The principal chimney must be expressed on an elevation visible from the approach, be no less than 3'0\" wide in plan, and project at least 12 in. from the wall face. A Tudor Revival house with a flush or concealed flue is incoherent."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Stan Hywet Hall",
+      "location": "Akron, Ohio",
+      "year": 1915,
+      "note": "Charles Sumner Schneider with George B. Post & Sons. Composed after a 1912 study tour of Compton Wynyates, Ockwells Manor and Haddon Hall, and explicitly designed to suggest growth across centuries."
+    },
+    {
+      "name": "Meadow Brook Hall",
+      "location": "Rochester Hills, Michigan",
+      "year": 1929,
+      "note": "William Kapp of Smith, Hinchman & Grylls. 88,000 sq ft; the late estate version at full budget, with genuinely varied stonework and a chimney programme of unusual quality."
+    },
+    {
+      "name": "Cranbrook House",
+      "location": "Bloomfield Hills, Michigan",
+      "year": 1908,
+      "note": "Albert Kahn. Early and restrained; shows the Arts and Crafts descent more plainly than the Tudor reference."
+    },
+    {
+      "name": "Agecroft Hall",
+      "location": "Richmond, Virginia",
+      "year": 1928,
+      "note": "A genuine fifteenth-century Lancashire house dismantled, shipped and reassembled with substantial new work. Instructive as the limit case: the revival's ambition made literal."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Gavin Stamp and Andre Goulancourt, The English House 1860-1914 (1986)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)",
+    "John Milnes Baker, American House Styles: A Concise Guide (1994)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "picturesque",
+    "suburban",
+    "masonry-veneer",
+    "anglophile"
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "id": "living-room",
+  "name": "Living Room",
+  "aka": [
+    "lounge (British)",
+    "front room",
+    "sitting room (US, loosely)",
+    "parlor (its predecessor)",
+    "salon"
+  ],
+  "function_class": "living",
+  "description": "The principal room of the twentieth-century house: one general-purpose social room, used by the family and by guests without distinction, containing the fireplace, the seating, the books, the music and later the television. It was invented as a polemic - the word was pushed deliberately to replace 'parlor' and to make the point that the room was for the living - and it spent the next hundred years being displaced by exactly the same process that produced it.",
+  "history": {
+    "appears": 1890,
+    "declines": 1990,
+    "replaced": "parlor",
+    "replaced_by": "the family room and then the great room, each of which took the daily use and left the living room the ceremonial residue",
+    "note": "THE NAME WAS AN ARGUMENT AND IT WON IN ABOUT TWENTY YEARS. 'Living room' is used occasionally in the 1860s, is pushed hard from the 1890s in the reform press - Edward Bok's Ladies' Home Journal, Gustav Stickley's The Craftsman, and the whole Arts and Crafts household-reform literature - against the parlor, which was attacked as wasteful, unhealthy, morbid and dishonest. By 1915 builders' catalogues use it as the default and 'parlor' has become a period word. THEN THE CYCLE REPEATS TWICE. The living room acquires the good furniture and the guest function; the family retreats to a new room beside the kitchen, which is called the family room and is invented in the 1940s; the family room in turn is opened to the kitchen and grows into the great room in the 1980s, and by 2000 the living room has been deleted from the speculative plan altogether. FOUR NAMES, THREE CAPTURES, ONE MECHANISM, and the period is about forty years each time. Anyone designing a house today should be asked which of these two rooms they actually want, because building both produces one unused room within five years."
+  },
+  "dimensions": {
+    "area_sf": [
+      240,
+      480
+    ],
+    "width_ft": [
+      13.5,
+      20
+    ],
+    "length_ft": [
+      16,
+      26
+    ],
+    "proportion": [
+      1.1,
+      1.6
+    ],
+    "ceiling_min_ft": 8.5,
+    "critical_dimension": "13 FT 6 IN OF SHORT DIMENSION, AND THE ARITHMETIC IS THE SEATING GROUP. Sofa 34 in deep, 18 in gap, coffee table 28 in, 18 in gap, facing chair 34 in = 132 in = 11 ft. Add 30 in of circulation behind the chairs and you are at 162 in = 13 ft 6 in. That is the floor and 14 ft is the working figure. THE SECOND NUMBER IS THE CONVERSATION LIMIT AT 10 FT, and it is the one that decides the LONG dimension: face-to-face conversation fails past about 10 ft, so a living room wider than about 20 ft cannot hold one group and has two whether or not you drew two. A 16 x 26 living room is two rooms with no wall between them, and the honest response is to furnish it as two - a seating group at the fire and a second group or a piano or a table at the far end - rather than to spread one group thin, which is what produces the sofa-marooned-in-the-middle plan. THE THIRD NUMBER IS THE UNBROKEN WALL: a sofa plus two end tables needs 11 ft of wall with no door, no window below 30 in and no traffic. Most failed living rooms have four doors and no such wall."
+  },
+  "furniture": [
+    {
+      "item": "sofa",
+      "footprint_in": [
+        84,
+        36
+      ],
+      "clearance_in": 30,
+      "note": "needs 132 in of wall with the end tables; this is the dimension that decides where the doors can go"
+    },
+    {
+      "item": "two armchairs",
+      "footprint_in": [
+        34,
+        34
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "coffee table",
+      "footprint_in": [
+        48,
+        28
+      ],
+      "clearance_in": 16,
+      "note": "16 to 18 in from the sofa: closer and legs will not fit, further and it is out of reach"
+    },
+    {
+      "item": "end tables, pair",
+      "footprint_in": [
+        24,
+        24
+      ],
+      "clearance_in": 0
+    },
+    {
+      "item": "television",
+      "footprint_in": [
+        57,
+        4
+      ],
+      "clearance_in": 102,
+      "note": "a 65 in set is 57 in wide and wants to be viewed from 1.5 to 2 times its width - 7 to 9 ft 6 in - which means 102 in of clear floor between screen and seated eye. THE CONFLICT: the set and the fireplace both want the focal wall and both want the seats aimed at them, and stacking the set over the mantel puts its centre at 60 to 66 in against a seated eye height of 42 in, a 15 to 22 degree upward viewing angle where the comfortable limit is about 15 degrees. That is why a television over a fireplace is uncomfortable, and the discomfort is measurable rather than aesthetic."
+    },
+    {
+      "item": "bookcases or built-ins flanking the chimney breast",
+      "footprint_in": [
+        30,
+        12
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "the residual space beside a chimney breast is the one place in the room where built-ins cost no floor at all"
+    },
+    {
+      "item": "piano, upright",
+      "footprint_in": [
+        58,
+        25
+      ],
+      "clearance_in": 36,
+      "essential": false
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "South-west for an evening room, which is what this is in most households. A living room lit from two sides - a long wall and one end - is disproportionately better than one lit from one, because it removes the silhouette effect that makes faces unreadable against a single bright wall, and that is a real reason to prefer a corner room over a middle one.",
+    "glazing_fraction": [
+      0.15,
+      0.28
+    ],
+    "note": "At a 9 ft ceiling the head sits near 7 ft and single-sided daylight reaches 15 ft 9 in, so a living room 16 ft deep is right at the limit and one 20 ft deep has a dark third at the back. Two things fix it and only two: a second window wall, or a taller head. THE PORCH CASE MATTERS HERE because this room is usually the one behind the porch: an 8 ft porch drops the multiplier to about 1.8 and the reach to 12 ft 7 in, which turns a 16 ft living room into a room with four dark feet at the back. That is the single most common daylight failure in an American house and it is invisible on a plan."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "guests are received into this room, so it must be reached from the arrival point directly - but through a hall, not from the front door",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "craftsman-bungalow and california-bungalow, where the front door opens straight into the living room by doctrine and there is no hall at all - which is the fault front-door-into-the-living-room in every other style and correct practice here"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "the house's two public rooms, and the route between them carries every dinner party; a wide opening or a pair of doors is right and a corridor is not",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "entry-porch",
+        "why": "in porched types the living room extends onto the porch in summer and wants a pair of doors or a full-height window to it",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "stair-hall",
+        "why": "the stair should be reachable from the living room without going back out to the front door, but should not rise out of the living room unless the type says it does",
+        "relation": "same-floor",
+        "strength": "preferred"
+      },
+      {
+        "room": "library",
+        "why": "where both exist they are the quiet and the social halves of one zone and share a chimney wall",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "the living room is the loudest room in the house after the kitchen and a bedroom sharing a wall with it - particularly the wall the television is on - is the most common acoustic failure in single-storey plans. A closet, a bathroom or a corridor between them is the fix, and it costs nothing at the layout stage.",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "mudroom",
+        "why": "the family's daily arrival should not land in the room the guests are sitting in",
+        "relation": "not-visible-from",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "centre-passage",
+      "vestibule",
+      "entry-porch",
+      "stair-hall",
+      "hall"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Ordinary. Note that a sealed gas appliance in this room is the modern replacement for the open fire and needs no combustion air, which is why direct-vent boxes have taken over - and why the fault direct-vent-box-in-a-period-surround is now endemic: the box is 36 in wide and shallow and the period surround it is put into was sized for a 42 in masonry opening.",
+    "heat": "The fireplace, if there is one, is a focal point and not a heat source - an open fire is roughly 10 per cent efficient and a room relying on it is cold. Say this rather than pretending otherwise, and put the real heat under the window.",
+    "electrical": "Four to six lamp circuits switched at the door, and NOT a ceiling grid of downlights - this room is used seated at night, and downlighting produces exactly the wrong distribution. One floor outlet under the seating group is the single most useful thing an electrician can do here and is almost never asked for.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "craftsman-bungalow",
+      "trim_grade": "highest",
+      "note": "The type's central room and the best-resolved living room in the catalogue: entered directly from the porch, an inglenook or a fireplace of clinker brick or tile flanked by built-in bookcases with leaded glass, a beamed ceiling, a plate rail, and a wide cased opening to the dining room. The built-ins are structural to the type - they are what let the room be small and still work."
+    },
+    {
+      "style": "american-arts-and-crafts",
+      "trim_grade": "highest",
+      "note": "As Craftsman, and the room where the whole reform argument against the parlor is built rather than written."
+    },
+    {
+      "style": "colonial-revival",
+      "trim_grade": "high",
+      "note": "A parlor's dimensions and trim with a living room's name and use, usually 14 x 22 with the fireplace on the long inside wall and a pair of French doors to a sun porch at one end."
+    },
+    {
+      "style": "prairie-school",
+      "trim_grade": "high",
+      "note": "The living room is the pivot of the pinwheel plan, defined by a massive central hearth mass, with the ceiling brought down at the perimeter and lifted in the middle, and no doors on two of its sides. Wright's argument that the fireplace is the house's anchor is a plan argument and not a sentimental one."
+    },
+    {
+      "style": "minimal-traditional",
+      "trim_grade": "plain",
+      "note": "12 x 16 at the front of a 900 sq ft house, with the front door opening into it because there is nowhere else for the door to open. The room does everything and is dimensioned for nothing."
+    },
+    {
+      "style": "ranch-style",
+      "trim_grade": "middle",
+      "note": "The picture-window living room at the front, and by 1960 it is the room the family does not use, because the family room is at the back. This is the parlor's death repeating at one generation's remove and inside the same house."
+    },
+    {
+      "style": "shotgun-house",
+      "name_in_style": "front room",
+      "trim_grade": "middle",
+      "note": "The first room of the file, and it is also the vestibule, the parlor and frequently a bedroom. The type has no dedicated living room and does not need one."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "present": false,
+      "note": "Increasingly absent: the plan has a great room instead, and where a separate 'living room' appears at the front it is usually labelled 'flex' or 'study' because builders know it will not be used as a living room."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Anachronistic. The Georgian house has a parlor and a dining room and no room called or used as a living room; putting one in a Georgian plan is a modern requirement that should be met by adapting the parlor rather than by adding a room the type has no place for."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable room 70 sq ft minimum, 7 ft minimum dimension, 7 ft ceiling, 8 per cent glazing, 4 per cent openable.",
+      "ref": "IRC R303.1, R304, R305",
+      "conflict": "Every one of these is far below the furniture-driven minimum. The relevant number is 13 ft 6 in of clear short dimension, which is 92 per cent above the code's 7 ft, and no code anywhere in North America has anything to say about whether a sofa fits."
+    },
+    {
+      "requirement": "Fireplace hearth extension 16 in front and 8 in each side under 6 sq ft of opening; 20 in and 12 in above.",
+      "ref": "IRC R1001.10",
+      "conflict": "The hearth extension lands exactly where the coffee table wants to be. Either draw the extension into the furniture plan or set the seating group 20 in further back and lose it from the room's depth."
+    },
+    {
+      "requirement": "Arc-fault protection required on all 120 V branch circuits serving living areas.",
+      "ref": "NEC 210.12",
+      "conflict": "Not a design conflict, but a reason floor outlets are worth specifying early: retrofitting one into a finished slab or a joisted floor costs ten times what it costs at rough-in."
+    }
+  ],
+  "massing_fit": [
+    "bungalow-linear",
+    "foursquare",
+    "gable-front",
+    "gable-front-and-wing",
+    "cross-gable-victorian",
+    "four-over-four",
+    "side-hall-double-pile",
+    "ranch-linear",
+    "ranch-l",
+    "split-level",
+    "cape-cod-massing",
+    "prairie-cruciform",
+    "pyramidal-cottage",
+    "airplane-bungalow",
+    "townhouse-row",
+    "massed-picturesque"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "fireplace_surround",
+    "built_ins",
+    "ceiling_height_rule",
+    "trim_family",
+    "daylight_strategy",
+    "light_fixture_family",
+    "floor_material"
+  ],
+  "faults": [
+    "front-door-into-the-living-room",
+    "the-room-nobody-enters",
+    "room-deeper-than-its-daylight",
+    "hearth-on-an-interior-wall",
+    "direct-vent-box-in-a-period-surround",
+    "mantel-at-the-wrong-height",
+    "recessed-can-in-a-plaster-ceiling",
+    "built-in-that-is-furniture",
+    "open-plan-in-a-room-based-style",
+    "duct-soffit-through-the-formal-room"
+  ],
+  "sources": [
+    "Gustav Stickley, The Craftsman (1901-1916), on the living room against the parlor",
+    "Clifford Edward Clark, The American Family Home, 1800-1960 (1986)",
+    "Edward T. Hall, The Hidden Dimension (1966), on conversational distance",
+    "SMPTE and THX viewing-angle recommendations for seated screen viewing",
+    "proportions/systems/room-vernacular.json, daylight_strategy and the porch penalty"
+  ],
+  "confidence": "high"
+}

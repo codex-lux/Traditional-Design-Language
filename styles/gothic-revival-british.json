@@ -1,0 +1,220 @@
+{
+  "id": "gothic-revival-british",
+  "name": "Gothic Revival (British)",
+  "aka": [
+    "Victorian Gothic",
+    "Gothick",
+    "Pugin Gothic",
+    "High Victorian Gothic"
+  ],
+  "rank": "style",
+  "member_of": "british-picturesque",
+  "status": "revival",
+  "period": {
+    "origin": 1749,
+    "floruit_start": 1836,
+    "floruit_end": 1885,
+    "decline_end": 1914,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1940,
+        "revival_node": "tudor-revival",
+        "note": "Domestic Gothic dissolves into Tudor Revival and Arts and Crafts; only ecclesiastical and collegiate work continues the pointed arch into the twentieth century."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Wales",
+      "Ireland"
+    ],
+    "hearth": "Twickenham for the Gothick phase; Ramsgate, Westminster and the Ecclesiological Society for the archaeological one",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-gothic",
+      "type": "references",
+      "weight": 1,
+      "inherits_kit": false,
+      "note": "The claimed ancestry, and the reason this node exists in the taxonomy. The Revival quotes medieval Gothic from measured drawings, sketchbooks and — after 1840 — photographs. There is no transmission of practice: the masons' lodges had gone, the trade had forgotten how to cut tracery, and Pugin and Scott had to teach it back to their own contractors from published plates."
+    },
+    {
+      "target": "english-georgian",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The real descent. Every Gothic Revival house was built by Georgian-descended trades using Georgian carcass construction, sash-window joinery, plastered ceilings and brick or ashlar walling, and the earliest Gothick was published as a Georgian pattern book — Batty Langley's Gothic Architecture Improved by Rules and Proportions (1742, reissued 1747), which supplied five invented 'Gothick orders' for a carpenter to work from."
+    },
+    {
+      "target": "regency",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The castellated picturesque villa of Nash, Wyatville and Atkinson is the direct predecessor of the Victorian Gothic house, and supplies the asymmetrical composition before the archaeology arrives."
+    },
+    {
+      "target": "english-palladian",
+      "type": "reacts_against",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "Pugin's Contrasts (1836) and The True Principles of Pointed or Christian Architecture (1841) attack classicism as pagan, dishonest and socially corrupt. The argument is explicitly moral rather than aesthetic, which is what distinguishes this revival from every other."
+    },
+    {
+      "target": "english-gothic",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The moral revival of the pointed arch: a style that quoted medieval Gothic from books while descending entirely from Georgian building practice, and which invented the modern idea that construction should be visible and honest.",
+    "long": "The Gothic Revival has two distinct halves and the split matters. The first, from Horace Walpole's Strawberry Hill of 1749-76 onward, is Gothick: an antiquarian mood applied as thin decoration to Georgian rooms, with fan vaults in papier-mache and battlements on sash-windowed villas. Batty Langley's Gothic Architecture Improved of 1742 shows exactly what this phase was — a pattern book that reduced Gothic to five invented orders with published proportions, so that a jobbing carpenter could produce it from a plate. Gothick is Georgian architecture in fancy dress, and it knows it.\n\nThe second half begins with Augustus Welby Northmore Pugin, who converted to Catholicism in 1835 and spent the fourteen years before his death in 1852 arguing that Gothic was not a style at all but the only truthful way to build. His two principles, published in True Principles in 1841, are among the most consequential sentences in architectural history: that there should be no features about a building which are not necessary for convenience, construction or propriety, and that all ornament should consist of enrichment of the essential construction. The whole modern movement's rhetoric of honesty comes from a Catholic convert defending the fourteenth century. In practice these principles produced houses planned from the inside out, with asymmetrical massing expressing internal function, steep roofs, tall clustered chimneys, gables, bay and oriel windows, and after 1850 the structural polychromy of Butterfield and Street — walls banded in different coloured bricks so that the pattern is the material rather than a coating on it.\n\nThe conditions were industrial, religious and political. Church-building on an enormous scale followed the Church Building Act of 1818 and the Catholic Emancipation Act of 1829; the Ecclesiological Society at Cambridge from 1839 policed the correctness of every parish church in England; the rebuilding of the Palace of Westminster after the fire of 1834 was made a Gothic competition by statute, on the grounds that Gothic was the national and constitutional style. And under all of it lay industry: plate glass, cast iron, machine-cut stone, railways to move it, and the money of manufacturers who wanted country houses with pedigrees. Ruskin supplied the theory in The Seven Lamps of Architecture (1849) and The Stones of Venice (1851-53), and with it the ethical anxiety about machine work that eventually turned into Arts and Crafts.\n\nA Victorian Gothic house is a heavier, darker, more emphatic experience than any of its medieval sources. Materials are hard and richly coloured — encaustic tile, polished granite shafts, stained glass, banded brick — and the detail is sharper than any hand-cut medieval work because it was machine-dressed. The rooms are tall and the windows are large but the glass is often coloured, so the light arrives tinted and heavy. What stays with you is the insistence: every arch is pointed, every chimney is clustered, every surface declares its construction, and the whole building argues with you continuously about how architecture ought to be done."
+  },
+  "defining_characteristics": [
+    "The pointed arch used consistently, and after 1840 used structurally rather than as applied decoration",
+    "Asymmetrical massing and plan, generated from internal function rather than from an elevation — the plan drawn first, the facade a consequence",
+    "Steep roof pitches (45-60 degrees), prominent cross gables and dormers, and tall clustered or shafted chimney stacks",
+    "Structural expression as an ethical requirement: exposed roof timbers, visible lintels and relieving arches, and ornament confined to the enrichment of real structural members",
+    "Polychromy in the material itself after 1850 — banded and patterned brickwork, contrasting stone courses, encaustic tile, marble shafting",
+    "Label or drip moulds over openings, buttresses where thrust actually occurs, and traceried, cusped or plate-traceried windows",
+    "Vertical emphasis throughout: tall proportions, steep gables, finials, spirelets and a silhouette designed to be broken"
+  ],
+  "diagnostic_tells": [
+    "Banded structural polychromy — courses of red and black brick or two stones alternating — which is a High Victorian invention and appears in no medieval English building",
+    "Machine-sharp mouldings and perfectly repeated carving, against the tolerant irregularity of genuine medieval stonework",
+    "A steeply gabled asymmetrical front with a projecting buttressed porch, a bay window and an entrance placed wherever the plan required it",
+    "Clustered polygonal chimney shafts on a moulded base, taken from Tudor precedent and used at three times the frequency any Tudor house had them",
+    "Plate glass or two-pane sashes behind pointed or square-headed stone openings in domestic work — the Victorian window betraying the Victorian date"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-gothic",
+      "difference": "The core distinction of this whole taxonomy. The original is a continuous building practice that had no name for itself; the revival is a theory reconstructing that practice from books. Diagnostically: revival work has regular floor levels, damp courses, flues that work, plate glass, machine-cut repetition and a plan with corridors. Medieval work has none of these."
+    },
+    {
+      "node": "scottish-baronial",
+      "difference": "Same decades, same clients, different quoted source. Baronial takes crow-steps, corbelling and bartizans from Scottish tower houses and avoids the pointed arch almost entirely; Gothic Revival takes tracery, buttresses and pointed openings from English churches."
+    },
+    {
+      "node": "arts-and-crafts-british",
+      "difference": "The successor that kept Pugin's ethics and discarded his archaeology. Arts and Crafts abandons the pointed arch, the polychromy and the church detail, keeps truth to materials and plan-driven asymmetry, and turns to English vernacular sources instead of medieval ecclesiastical ones."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "No applied system. Proportion is derived from medieval precedent by measurement and from Pugin's rule that form follows construction; composition is picturesque, balanced by mass and vertical accent rather than by axis.",
+    "typical_ratios": [
+      "Roof pitch 45-60 degrees, with 50-55 degrees typical in slate or plain tile",
+      "Window proportion 2:1 to 3.5:1 height to width in principal openings; grouped in twos and threes under a shared label",
+      "Gable width to apex height roughly 1:0.7 to 1:1",
+      "Chimney height above ridge 1.5 to 2.5 times the stack width, with shafts of 300-450 mm each",
+      "Storey heights 3.3-4.3 m at principal level, generally uniform rather than graduated — the loss of Georgian graduation is itself a diagnostic",
+      "Buttress projection 1/3 to 1/2 of its own width, stepped and weathered"
+    ],
+    "bay_rhythm": "Irregular and functional. Openings are grouped by room and by internal need, giving clusters of two or three windows separated by blank wall; the resulting rhythm is syncopated and deliberately unresolved when read frontally.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The High Victorian country house and vicarage: an agglomeration of gabled masses with a dominant tower or entrance gable."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "canonical",
+      "note": "The intersecting gabled block is the workhorse form of the smaller Gothic Revival house, parsonage and school."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "common",
+      "note": "The entrance or stair tower placed at the reentrant angle, sometimes carrying a spirelet."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "Where the client wanted a great hall and the architect obliged with a screens passage — Scott and Pugin both did this repeatedly."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "forbidden",
+      "note": "A symmetrical double-pile box with a centred door contradicts the plan-driven asymmetry that defines the style after 1840."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Every arch is pointed and every pointed opening must be structurally plausible — a real arch with voussoirs or a real relieving arch above a lintel. Applied pointed trim over a square opening is precisely what Pugin's True Principles forbids.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Buttresses may occur only where thrust exists — at an arcade, a vault or a tall gable wall. Decorative buttresses on a two-storey wall are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Polychromy must be in the material — different bricks or stones bonded into the wall — never painted or rendered on. This is the one rule High Victorian architects never broke.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch not less than 45 degrees, and the entrance must not be centred on a symmetrical front. Plan generates elevation, not the reverse.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.",
+      "severity": "hard"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Strawberry Hill",
+      "location": "Twickenham, London, England",
+      "year": 1776,
+      "note": "Built by Horace Walpole in phases between 1749 and 1776 with his 'Committee of Taste'. Gothick at its purest: chimneypieces copied from medieval tombs, papier-mache fan vaulting, and a wholly Georgian house behind it."
+    },
+    {
+      "name": "Palace of Westminster",
+      "location": "London, England",
+      "year": 1870,
+      "note": "Built 1840-70 by Charles Barry with A. W. N. Pugin responsible for all Gothic detail and fittings. A rigorously symmetrical classical plan clothed in Perpendicular detail — the contradiction that Pugin himself acknowledged bitterly."
+    },
+    {
+      "name": "The Grange",
+      "location": "Ramsgate, Kent, England",
+      "year": 1844,
+      "note": "Built 1843-44 by Pugin for himself beside his own church. The first house planned entirely from the inside out on his stated principles, and the direct ancestor of every asymmetrical, plan-driven English house that followed."
+    },
+    {
+      "name": "Tyntesfield",
+      "location": "Wraxall, Somerset, England",
+      "year": 1865,
+      "note": "Remodelled 1863-65 by John Norton for William Gibbs on a guano fortune. A complete High Victorian Gothic country house with its chapel, service wing, fittings and collections intact — the style in full domestic operation."
+    }
+  ],
+  "sources": [
+    "Kenneth Clark, The Gothic Revival: An Essay in the History of Taste (1928)",
+    "A. W. N. Pugin, The True Principles of Pointed or Christian Architecture (1841)",
+    "Mark Girouard, The Victorian Country House (1971, rev. 1979)",
+    "Chris Brooks, The Gothic Revival (1999)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "picturesque",
+    "pointed-arch",
+    "structural-honesty",
+    "polychromy"
+  ]
+}

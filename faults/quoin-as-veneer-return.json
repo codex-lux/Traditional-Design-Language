@@ -1,0 +1,163 @@
+{
+  "id": "quoin-as-veneer-return",
+  "name": "The quoin that returns nowhere",
+  "aka": [
+    "stuck-on quoins",
+    "the foam quoin"
+  ],
+  "slots": [
+    "corner_quoin",
+    "construction_type"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "Quoins on a veneered or stuccoed corner where the alternating long and short faces do not correspond to anything: the long face on one elevation is not the short face on the other, or both faces are the same length, or the 'quoin' is a moulded foam or cast block applied over the finished wall with a visible caulk joint round it.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "A quoin in a veneer has no stone to alternate. Suppliers sell cast-stone and polyurethane quoin sets in fixed sizes with a stated 'projection' of 3/4 to 1 1/2 in, applied after the wall is finished, and the installer works from a corner-height count rather than from a wall module. Nothing in the product or the installation requires the two faces to correspond, because in a veneer they do not meet — each is fixed to its own elevation.",
+    "cost_saved": "Cast or foam quoin sets run $18-$40 per lineal foot of corner installed, against $90-$200/lf for genuine cut stone quoins. But note the sign: the correct cheap answer is to DELETE the quoins, which returns the whole $18-$40/lf. This fault costs money rather than saving it, and nobody is defending a budget.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / corner_quoin",
+      "statement": "The corner is expressed by a member of the bound order whose width is constant for the full height of the volume, and quoins alternate on a whole number of courses."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course / corner_treatment.height = part * 2 = 5.5 in",
+      "statement": "Quoins must alternate on a whole number of courses (two courses at a 2 3/4 in course) or the corner will not close."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a quoin is the visible evidence of two walls bonded into each other at a corner",
+      "statement": "The long face on one elevation is by definition the short face on the other. If it is not, no bond is being described."
+    }
+  ],
+  "correct_practice": "A quoin is an assembly of real units laid into the wall, alternating long-face and short-face at each course group. On brick, the standard is a two-course rise (5.5 in at a 2 1/4 in brick with a 1/2 in joint) with the long face at 12-18 in and the short face at 8-9 in, so that the long face on the front is exactly the short face on the flank at the same course. On stone, long faces run 16-24 in and short faces 10-14 in, and the quoin is a full bed unit, not a facing. The quoin must project from the wall face by 1/2 to 1 in in brick and 3/4 to 1 1/2 in in stone — enough to cast a line, not enough to become a pilaster — and the projection must be constant top to bottom.",
+  "fixes": {
+    "right": "Use real corner units of the same material as the wall, bedded through, laid to the coursing, alternating true long and short faces so that the two elevations agree at every course.",
+    "cheap": "Delete the quoins entirely. This costs nothing, saves money, and is period-correct on a great deal of good brick work — the Chesapeake answer is rubbed brick at the corner or nothing at all. A plain, well-coursed corner with a deep reveal and a real water table beats a corner wearing applied quoins on every count.",
+    "dishonest": "Rubbed or contrasting brick laid in a quoin PATTERN on a running-bond veneer — a colour-change quoin. It reads as a quoin at 40 ft and dissolves at 15 ft into a wall with a stripe on it, and it teaches the eye that the corner is decoration. Also dishonest: increasing the foam quoin's projection to 2-3 in to 'get a shadow', which turns the corner into an obviously hollow box and rings acoustically when knocked."
+  },
+  "detection": "Stand at the corner or find an oblique photograph that shows both elevations. Measure the long face on elevation A and the short face on elevation B at the SAME course. In real quoining they are the same stone and therefore the same course, and the long-short alternation is out of phase between the two elevations by one unit. If both elevations show a long face at the same course, or if the alternation is in phase, the corner is applied. Second test: count courses per quoin. Real brick quoins rise on a whole number of courses — the horizontal joint of the quoin lines through into the wall bed joint. If the quoin joint runs through the middle of a brick, the quoin is not masonry. Third: look for a continuous caulk line, uniform in width, around the whole quoin stack.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-american",
+      "why": "Scored-stucco quoins over a solid masonry wall are a legitimate 19th-century treatment: the stucco is the finish of a real mass wall and the quoin is drawn in it, not applied to it. Italianate and Italian Villa work uses this openly.",
+      "bounds": "The whole wall must be rendered, the quoin must be formed in the render with a real 1/2-3/4 in projection or a scored recess, and no other element on the wall may claim to be cut stone. This is drawn masonry on real masonry, which is a different act from a plastic block glued to a veneer.",
+      "bounds_test": {
+        "expression": "scored_or_modelled_quoin_relief_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "note": "Drawn masonry on real masonry. The quoin must be formed in the render with a genuine 1/2-3/4 in projection or scored recess, and no other element on the wall may claim to be cut stone."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ],
+        "slots": [
+          "primary_cladding"
+        ],
+        "note": "Requires a fully rendered wall over solid masonry. A plastic block glued to a veneer is a different act."
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Same logic — quoins scored or modelled in lime render over adobe or masonry are within the tradition.",
+      "bounds": "Only over genuine mass wall construction, and the arris should stay soft; a crisp cast quoin on a Spanish Colonial Revival wall is wrong for a second reason (see stucco-with-no-arris).",
+      "bounds_test": {
+        "expression": "arris_radius_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "note": "A crisp cast quoin fails here for a second reason — see stucco-with-no-arris. The modelled quoin must carry the soft arris of the wall it belongs to."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "adobe",
+          "rammed-earth"
+        ],
+        "note": "Genuine mass wall construction only."
+      }
+    },
+    {
+      "style": "jeffersonian-classicism",
+      "why": "Rubbed and gauged brick corners without projection are a legitimate Virginia answer that reads as quoining without alternating faces.",
+      "bounds": "Achieved by brick colour and joint refinement in a solid wall; not transferable to a veneer, where the rubbed corner has no depth behind it.",
+      "bounds_test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "threshold": 13.5,
+        "note": "Rubbed and gauged brick corners work by colour and joint refinement, which requires a solid wall behind them; the effect is not transferable to a veneer, where the rubbed corner has no depth."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "quoin-by-catalogue",
+      "difference": "That fault is about SIZE — a quoin dimensioned by a trim catalogue or by the wrong proportion pack. This one is about whether the quoin describes a bond at all. A correctly sized quoin can still return nowhere."
+    },
+    {
+      "fault": "corner-board-thinner-than-the-casing",
+      "difference": "Different trade and different slot. A corner board is trim on a frame wall and is sized by the clapboard it terminates; a quoin is masonry and is sized by the course. Do not apply either rule to the other assembly."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, corner_quoin (records the facade-classical calibration conflict)",
+    "proportions/modules/brick-course.json",
+    "proportions/systems/facade-classical.json, corner_treatment.width and its calibrated_for note",
+    "NPS Preservation Brief 16: Substitute Materials on Historic Building Exteriors"
+  ],
+  "confidence": "high",
+  "tags": [
+    "material-honesty",
+    "corner",
+    "veneer",
+    "masonry"
+  ],
+  "test": {
+    "expression": "quoin_long_face_length_elevation_a_in / quoin_short_face_length_elevation_b_in",
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "At the same course, on the two elevations meeting at one corner. In real quoining the long face on the front IS the short face on the flank — one stone seen two ways — so the two measurements are of the same unit and must agree. Requires an oblique photograph showing both faces of the corner; this is the single measurement that separates a bonded corner from two independent facings."
+  },
+  "secondary_tests": [
+    {
+      "expression": "quoin_bed_joints_aligned_with_wall_bed_joints / quoin_bed_joints",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "Extend every horizontal quoin joint into the field of the wall. In masonry each one continues as a bed joint; a joint running through the middle of a brick means the quoin is not masonry."
+    },
+    {
+      "expression": "quoin_projection_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.5,
+      "upper": 1.5,
+      "note": "Half to one inch in brick, three-quarters to one and a half in stone. Under 0.5 in the quoin casts no line; over about 2 in it has become a pilaster and the corner has stopped being a corner. Foam sets ship at 0.75-1.5 in, so projection alone does not diagnose this fault — the face correspondence does."
+    }
+  ],
+  "co_occurs_with": [
+    "flemish-bond-in-a-single-wythe",
+    "quoin-by-catalogue",
+    "veneer-reveal-collapse"
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "id": "palladian",
+  "name": "Palladian",
+  "aka": [
+    "Palladianism",
+    "Venetian villa manner",
+    "the manner of Andrea Palladio"
+  ],
+  "rank": "style",
+  "member_of": "renaissance-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1540,
+    "floruit_start": 1540,
+    "floruit_end": 1580,
+    "decline_end": 1616,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1715,
+        "end": 1760,
+        "revival_node": "english-palladian",
+        "note": "Burlington, Campbell and Kent; triggered by Campbell's Vitruvius Britannicus (1715) and Leoni's English edition of the Quattro Libri (1716-20). A revival made from a book, not from the buildings."
+      },
+      {
+        "start": 1768,
+        "end": 1826,
+        "revival_node": "jeffersonian-classicism",
+        "note": "Jefferson worked from Giacomo Leoni's Palladio and from Gibbs; Monticello and the University of Virginia are Palladian by transmission through England."
+      },
+      {
+        "start": 1740,
+        "end": 1830,
+        "revival_node": "tidewater-georgian",
+        "note": "The five-part plantation house of Virginia and Maryland is the Palladian villa diagram in brick and timber, arriving via English pattern books."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Veneto",
+      "Vicenza",
+      "Venice",
+      "Italy"
+    ],
+    "hearth": "Vicenza and the Venetian terraferma",
+    "climate_zones": [
+      "3A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italian-renaissance",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Palladio is trained as a stonecutter in the Vicentine workshop tradition and formed by Trissino's humanist circle; the vocabulary, the treatise habit and the proportional method are all inherited whole."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.7,
+      "note": "Palladio measured Roman baths, temples and bridges in person and published the surveys in Book IV. But his signature move - putting a temple portico on a farmhouse - quotes a Roman form Rome never used domestically. He believed, wrongly, that ancient houses had porticoes."
+    },
+    {
+      "target": "italian-villa-vernacular",
+      "type": "hybridizes_with",
+      "weight": 0.4,
+      "note": "The Palladian villa is a working farm. The barchesse are barns and cart sheds, the dovecote towers are dovecotes, and the plan responds to grain storage and estate management. Half its DNA is the Veneto agricultural building, not the treatise.",
+      "inherits_kit": true
+    }
+  ],
+  "description": {
+    "short": "Andrea Palladio's synthesis of the Roman temple front with the working farm villa, generated from a plan of harmonically proportioned rooms and made globally transmissible by a single illustrated book.",
+    "long": "Palladianism is the most consequential act of packaging in architectural history. Palladio did roughly forty villas, a handful of palaces and three great Venetian churches, all within about a hundred kilometres of Vicenza, and then in 1570 published I quattro libri dell'architettura: his own designs drawn to scale, with dimensions, next to his surveys of Roman antiquity, next to a clean statement of the orders. A book crosses oceans; a guild does not. Within a century his manner is being built in England, and within two in Virginia, Bengal and St Petersburg, by people who have never seen a Palladio building and in most cases never left their own country. The style spreads as data.\n\nThe generative innovation is that the plan comes first. Palladio designs a set of rooms whose lengths and widths are drawn from seven approved shapes - the circle, the square, the square-and-a-third, the square-and-a-half, the square-and-two-thirds, the double square, and the square's diagonal - and whose heights are set by taking the arithmetic, geometric or harmonic mean of each room's own two dimensions. The rooms are then arranged in graded sizes about a cross axis, and the elevation is whatever falls out of that arrangement. This is why a Palladian villa can be shrunk, enlarged or built in brick instead of stone and still look right: the ratios are the design, and the material is not.\n\nThe conditions are agricultural and political. Sixteenth-century Venetian patricians were being squeezed out of the eastern Mediterranean trade by the Ottomans and by the Atlantic routes, and were reinvesting capital into reclaiming and farming the terraferma. They needed buildings that were simultaneously a farm headquarters and an assertion of Roman gravitas by men who had just become landlords. Palladio's answer is brilliant and slightly fraudulent: give the granary the pediment of a temple, run the barns out sideways as arcaded wings, build it in brick and stucco-over-brick because there is no good local building stone, and paint the interior with frescoes that cost a fraction of what marble would. The villa is a farm dressed as an antiquity, and everyone involved knew it.\n\nStanding at the foot of the steps of the Rotonda, what registers is that the building has no back. Four identical porticoes face four directions, each with its own flight of steps, and the house rotates around a domed central hall rather than proceeding from front to rear. Inside, the effect of the mean-derived ceiling heights is that no room feels either squashed or hollow, and the sequence from small corner room to large hall reads as a graded scale rather than as a set of different rooms. At Maser, the opposite pleasure: you stand in a long, low, sun-struck court with barn arcades running out to sundial pavilions on either side, smelling of dust and stone, and the temple front in the middle is doing rhetorical work it has no structural business doing at all - and getting away with it."
+  },
+  "defining_characteristics": [
+    "A plan generated first, from a closed set of harmonic room ratios, with the elevation derived from it rather than composed independently",
+    "Room heights fixed by the arithmetic, geometric or harmonic mean of the room's own width and length",
+    "The temple front - a pedimented portico of engaged or free-standing columns - applied to a domestic building",
+    "Tripartite A-B-A composition with a dominant raised centre and subordinate flanking elements",
+    "Piano nobile raised on a rusticated or plain service basement, reached by an external flight of steps",
+    "Subordinate wings (barchesse) stepping down in both height and order, carrying real agricultural or service functions",
+    "Stucco over brick treated as a legitimate finish standing in for ashlar, with the proportions rather than the material carrying the argument"
+  ],
+  "diagnostic_tells": [
+    "A pediment over a house rather than over a church - the single fastest identifier",
+    "Steps up to the principal floor on the outside, with the ground storey treated as a plinth and given smaller, plainer openings",
+    "Flanking arcaded wings that are lower AND use a simpler order than the centre; if the wings match the centre in order and height, it is not Palladian",
+    "The serliana (Palladian window: arched centre light flanked by two square-headed lights on columns) used as a compositional event, not as a repeated window type",
+    "Interlocking pediments on church fronts - a tall narrow temple front for the nave overlapping a wider low one for the aisles"
+  ],
+  "distinguished_from": [
+    {
+      "node": "italian-renaissance",
+      "difference": "The earlier Renaissance composes an even, unaccented, planar wall with no centrepiece and reserves the temple front for churches. Palladio introduces a dominant centre, a projecting portico on a house, and a plan-first design method."
+    },
+    {
+      "node": "english-palladian",
+      "difference": "The English revival is drawn from the Quattro Libri woodcuts rather than from the buildings, so it corrects Palladio's improvisations into a stricter grammar, builds in Portland stone rather than stucco, drops the working farm wings, and adds a fully developed English service basement. It is more correct and less agricultural than Palladio."
+    },
+    {
+      "node": "italian-baroque",
+      "difference": "Palladian composition is planar, additive and static: one plane of columns, whole pediments, bays that do not accelerate. The Baroque deforms the wall itself into curves, stacks columns in several planes within one bay, and breaks its pediments."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Two systems locked together. The plan is generated from a closed list of room ratios; the elevation from the orders, module = lower column diameter. The link between them is the rule for room height, which makes the section a function of the plan rather than an independent decision.",
+    "typical_ratios": [
+      "The seven approved room shapes: circle; 1:1; 1:1.414 (diagonal of the square); 3:4; 2:3; 3:5; 1:2",
+      "Vaulted room height h = (w+l)/2 (arithmetic), h = sqrt(w*l) (geometric), or h = 2wl/(w+l) (harmonic)",
+      "Flat-ceilinged square rooms: height equal to width; oblong rooms: height equal to width for the smaller dimension",
+      "Villa front commonly tripartite 2:3:2 or 3:5:3 in bay widths across the principal block",
+      "Portico of four or six columns, Ionic or Corinthian, occupying 1/2 to 3/5 of the block width",
+      "Il Redentore: total facade height = 4/5 of total width; the central portion's width = 5/6 of its own height",
+      "Barchesse wing eave height 0.5 to 0.7 of the principal block's eave height",
+      "Pediment tympanum height 1/5 to 1/4 of its span - notably steeper than antique practice"
+    ],
+    "bay_rhythm": "Tripartite with a dominant centre: A-B-A, where B is both wider and taller. A five- or seven-bay front carries the portico across the middle three or five bays; the flanking bays are plain and equal. Long wings then repeat a single uniform arcaded bay outward from the centre with no further accent.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "The eponym: dominant central block, low connecting hyphens, terminal pavilions. Hierarchy made dimensional."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "common",
+      "note": "The compressed version, where the hyphens vanish and the wings attach directly to the block."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The compact villa block - Rotonda, Foscari, Emo - is a double-pile square around a central hall, which is the same skeleton the Georgians later standardise."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "The barchesse can close three sides of a working court, as at Maser and Badoer."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "The Vicentine palazzi sit in a street wall, but Palladio treats each as a free-standing composition regardless."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Every principal room must take its plan proportion from the approved set (1:1, 1:1.414, 3:4, 2:3, 3:5, 1:2, or circular) within 3 percent, and its ceiling height from the arithmetic, geometric or harmonic mean of its own width and length.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Flanking wings must be subordinate in BOTH height and order - lower eave line and a simpler order than the centre. Equal wings destroy the hierarchy that defines the composition.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Pediment tympanum height between 1/5 and 1/4 of span (approximately 22 to 27 degrees). Shallower reads as antique quotation; steeper reads as a domestic gable with trim on it.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The piano nobile must be raised at least 1.2 m above grade on a plain or rusticated base, with external steps. A Palladian portico landing at grade is a nineteenth-century compression, not the type.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Use the serliana at most once per elevation and only on axis or as a terminal event. Repeating it as a standard window is a Georgian and Colonial Revival habit, not a Palladian one.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Villa La Rotonda (Villa Almerico Capra)",
+      "location": "Vicenza, Veneto, Italy",
+      "year": 1567,
+      "note": "Commissioned 1565-66, begun 1567, completed under Vincenzo Scamozzi by 1605. Four identical porticoes about a domed circular hall; the whole plan inscribed in a single circle."
+    },
+    {
+      "name": "Villa Barbaro",
+      "location": "Maser, Treviso, Veneto, Italy",
+      "year": 1560,
+      "note": "Dating disputed; commonly given as c. 1554-1560, with some scholarship pushing completion to 1570. Ionic temple front over a working farm, barchesse terminating in sundial pavilions, frescoes by Veronese."
+    },
+    {
+      "name": "Palazzo Chiericati",
+      "location": "Piazza Matteotti, Vicenza, Italy",
+      "year": 1550,
+      "note": "Begun 1550, completed only in 1680. A two-storey open loggia across the entire front - the Roman forum portico turned into a private house facade."
+    },
+    {
+      "name": "Il Redentore",
+      "location": "Giudecca, Venice, Italy",
+      "year": 1577,
+      "note": "Founded 1577 as a plague votive, consecrated 1592. The canonical interlocking-pediment temple front."
+    }
+  ],
+  "sources": [
+    "Andrea Palladio, I quattro libri dell'architettura (Venice, 1570)",
+    "James S. Ackerman, Palladio (1966)",
+    "Rudolf Wittkower, Architectural Principles in the Age of Humanism (1949)",
+    "Robert Tavernor, Palladio and Palladianism (1991)",
+    "John Summerson, The Classical Language of Architecture (1963)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "renaissance",
+    "villa",
+    "treatise",
+    "temple-front"
+  ]
+}

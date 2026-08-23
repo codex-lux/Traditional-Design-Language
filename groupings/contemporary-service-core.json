@@ -1,0 +1,132 @@
+{
+  "id": "contemporary-service-core",
+  "name": "Contemporary Service Core",
+  "aka": [
+    "mud core",
+    "back entry cluster",
+    "drop zone"
+  ],
+  "scale": "core",
+  "confidence": "medium",
+  "description": "The modern replacement for the servant wing, and the busiest twelve feet in a contemporary house: the route from car to kitchen, carrying groceries, dogs, coats, sports equipment and mud. Nearly every household uses this as its real front door, and it is drawn as leftover space between the garage and the kitchen more often than it is designed.",
+  "rooms": [
+    {
+      "room": "mudroom",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "laundry",
+      "role": "secondary",
+      "count": "0-1"
+    },
+    {
+      "room": "powder-room",
+      "role": "secondary",
+      "count": "0-1"
+    },
+    {
+      "room": "pantry",
+      "role": "secondary",
+      "count": "0-1"
+    },
+    {
+      "room": "garage",
+      "role": "connector",
+      "count": "1"
+    },
+    {
+      "room": "back-hall",
+      "role": "connector",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "The car-to-kitchen route passes through at least one dirty room. Where it does not, the kitchen becomes the mudroom within a month of occupancy.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Mudroom clear width not less than 5 ft where it is also a passage — 30 in of bench and hooks plus a 30 in walking lane. A 4 ft mudroom is a corridor with coats in it.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "mudroom_clear_width_ft at-least 5"
+    },
+    {
+      "statement": "The powder room door is not visible from the kitchen or any eating area.",
+      "kind": "adjacency",
+      "severity": "strong"
+    },
+    {
+      "statement": "Laundry within the core, not upstairs and not in the cellar, unless the household is one storey. The argument for upstairs laundry is proximity to clothes; the argument against is that it is above finished ceilings.",
+      "kind": "servicing",
+      "severity": "preferred"
+    },
+    {
+      "statement": "Refuse and recycling have a drawn position. They are always present and never on the plan, which is why they end up in the third garage bay.",
+      "kind": "servicing",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "ranch-l",
+      "fit": "canonical",
+      "position": "the inside corner, between garage leg and house"
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "fit": "canonical",
+      "position": "the wing's inner angle"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "fit": "canonical",
+      "position": "the link, which is exactly where the historic type put it"
+    },
+    {
+      "massing": "foursquare",
+      "fit": "possible",
+      "note": "The cube resists it; usually needs a rear addition, which the type takes badly."
+    },
+    {
+      "massing": "charleston-single",
+      "fit": "forbidden",
+      "note": "No lot depth for it, and the piazza already does the transition."
+    }
+  ],
+  "expansion_logic": "Lengthen the link. This grouping is the direct descendant of the connected farmstead and it grows the same way, by adding a lower narrower section.",
+  "privacy_span": [
+    1,
+    3
+  ],
+  "typical_area_sf": [
+    120,
+    400
+  ],
+  "servicing_strategy": "Plumbing wall shared between laundry and powder room; the garage door must be the rated self-closing assembly and it must actually close.",
+  "circulation_parti": [
+    "open-plan",
+    "side-hall",
+    "additive"
+  ],
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "note": "Treat as the dependency it is: subordinate ridge, hyphen, and never on the entrance elevation. The style already has the composition rule; only the contents are new."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "note": "Usually the best-resolved part of the plan, because it is the part the market actually shops."
+    },
+    {
+      "style": "craftsman",
+      "note": "The bungalow's rear porch and service stair are the historical equivalent and are worth reviving rather than replacing."
+    }
+  ],
+  "sources": [
+    "Hubka, Big House, Little House, Back House, Barn",
+    "IRC R302.5"
+  ]
+}

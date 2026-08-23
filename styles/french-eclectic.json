@@ -1,0 +1,218 @@
+{
+  "id": "french-eclectic",
+  "name": "French Eclectic",
+  "aka": [
+    "French Provincial",
+    "French Country",
+    "Provincial Revival"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "revival",
+  "period": {
+    "origin": 1910,
+    "floruit_start": 1915,
+    "floruit_end": 1945,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "the Philadelphia Main Line and the Long Island North Shore",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "3A",
+      "5B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-manoir",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The principal claimed ancestor - the small provincial manor house of the Ile-de-France, Touraine and Normandy."
+    },
+    {
+      "target": "french-provincial-farmhouse",
+      "type": "references",
+      "weight": 0.9,
+      "note": "Source of the flared eave, the segmental dormer, the stucco-over-rubble wall and the informal L-plan."
+    },
+    {
+      "target": "norman-vernacular",
+      "type": "references",
+      "weight": 0.7,
+      "note": "The half-timbered and round-towered Norman register; where this dominates the result is french-normandy-revival."
+    },
+    {
+      "target": "french-neoclassical",
+      "type": "references",
+      "weight": 0.5,
+      "note": "The formal symmetrical subtype, quoting Louis XV and Louis XVI town and country houses rather than farm buildings."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The real descent. Delano & Aldrich, Carrere & Hastings, Trumbauer, Mellor Meigs & Howe - Ecole-derived offices with French plate books on the shelf."
+    },
+    {
+      "target": "arts-and-crafts-british",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Informal planning, grouped fenestration and the deliberate cultivation of the picturesque came through the same Anglo-American channel that produced Tudor Revival."
+    },
+    {
+      "target": "tudor-revival",
+      "type": "hybridizes_with",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Same offices, same buyers, same masonry-veneer economics; the two styles share a kit almost entirely and differ in roof geometry and ornament."
+    }
+  ],
+  "description": {
+    "short": "The interwar American reading of the French provincial manor and farmhouse, distinguished from its English-derived neighbours by a tall hipped roof of near-equal pitch on all sides, flared at the eave, and by dormers that break the cornice line.",
+    "long": "French Eclectic is the quietest of the big interwar revivals and the hardest to name from memory, because its identity rests almost entirely on roof geometry. Where Tudor Revival organises itself around gables and Colonial Revival around a symmetrical facade, French Eclectic organises itself around a steep hipped roof - 12:12 and up - that runs at the same pitch on all four sides, comes down low, and very often flares outward at the eave in the characteristic bell curve of a French provincial roof. Under that roof the house may be symmetrical or rambling, brick or stone or stucco, three bays or nine. The roof is what makes it French.\n\nThe style has an unusually specific catalyst: the First World War. Between 1917 and 1919 something over a million American soldiers spent extended periods in the villages of northern France, and a great many of the young architects and draughtsmen among them came home with sketchbooks. That experience arrived in offices already primed by Ecole training and by a well-established American taste for French academic classicism, and it converted French building from an aristocratic reference - the chateau, which only Vanderbilts could afford - into a domestic one. The 1920s house market was the beneficiary. Publishers ran plate books of Normandy farm buildings; Mellor, Meigs & Howe in Philadelphia and Delano & Aldrich in New York built the high end; and by 1930 the suburban builder could produce a passable French Eclectic in brick veneer with a steep hip and two segmental dormers.\n\nWhat the buyer was claiming is worth stating precisely, because it differs from the Tudor claim. Tudor asserts ancestry - English descent, old family, inherited land. French asserts cultivation - taste acquired rather than inherited, travel, education, an eye. This is why French Eclectic appears disproportionately among clients who were self-consciously modern: it flattered people who wanted to be understood as sophisticated rather than as old. It is also why the style tolerates so much variety. A house that claims taste can be symmetrical or informal without contradiction, whereas a house that claims lineage must be consistent.\n\nIn front of one, the roof does the work. It is large - often more than half the visible height of the building - and because the pitch is constant on every face, the building reads as a solid under a lid rather than as a set of gables. The flare at the eave softens the meeting of roof and wall and casts a long, low shadow, and the eye follows that line all the way round the house. Dormers push up through it, arched or segmental, with their own little hipped or eyebrow roofs. The wall below is usually calm: stucco or brick with quoins, tall casements often running to the floor, shutters that in the best examples actually work. The entrance is modest, sometimes only a stone surround and an arched door. The whole composition is less theatrical than Tudor and less insistent than Colonial, and it ages better than either."
+  },
+  "defining_characteristics": [
+    "Steeply pitched hipped roof, 12:12 or steeper, at substantially the same pitch on all faces, with the ridge short relative to the plan",
+    "Eave carried low and, in most examples, flared outward in a bell curve over the wall head",
+    "Dormers that break through the cornice line, most often arched or segmental-headed with hipped or eyebrow roofs",
+    "Massive masonry or stucco wall with quoins, water table, or other expression of thickness at reveals and corners",
+    "Tall casement windows, frequently paired and running near to the floor, with true divided lights and functional shutters",
+    "Absence of a dominant front-facing gable - the element that would immediately make the house read as English"
+  ],
+  "diagnostic_tells": [
+    "Hipped roof of equal pitch on all four sides with no front gable. One dominant cross-gable and the house is Tudor Revival, not French Eclectic.",
+    "The eave flare: a change of rafter angle in the bottom 18-30 in. of the roof, producing a visible upward curve. Nothing English does this.",
+    "Dormers cut through the wall head so that their cheeks are masonry continuous with the wall below, rather than sitting entirely on the roof slope.",
+    "Windows are casements, not double-hung, and their proportion is tall - 1:2.5 or better - with the head often segmental or round.",
+    "Chimneys are tall, slim and often stuccoed, placed at ridge ends; the massive corbelled brick stack of Tudor Revival is absent."
+  ],
+  "distinguished_from": [
+    {
+      "node": "chateauesque",
+      "difference": "Chateauesque is aristocratic, load-bearing cut stone, and vertical, with turrets, cresting and late Gothic ornament on a Loire chateau model. French Eclectic is domestic, usually veneered or stuccoed, and takes the small manor and the farmhouse as its models, with almost no carved ornament."
+    },
+    {
+      "node": "tudor-revival",
+      "difference": "Roof geometry decides it. Tudor Revival is gabled, English-referenced, and depends on half-timbering and a massive chimney; French Eclectic is hipped, French-referenced, flares its eave, and uses casements without applied timbering."
+    },
+    {
+      "node": "french-manoir",
+      "difference": "The original is a masonry building of two-foot walls with a plan generated by defensible parti and generations of accretion, small windows and interior circulation through rooms. The revival is a single-campaign house with a corridor plan, large glazing, and a roof that is imitated rather than framed to carry slate or thatch."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Roof-dominant. The hipped roof mass is designed first and the wall is sized to sit beneath it; wall thickness expression at reveals and quoins sets the secondary scale. No classical module except in the formal symmetrical subtype, where a nominal French order governs the entrance.",
+    "typical_ratios": [
+      "Roof height eave to ridge 0.6 to 1.0 times wall height, so the roof reads as 40-50 percent of the elevation",
+      "Roof pitch 12:12 to 18:12, constant within 1:12 on all faces",
+      "Eave flare: rafter angle reduced by 15-25 degrees over the bottom 18-30 in. of slope",
+      "Casement leaf 18-24 in. wide by 54-84 in. high; paired openings 1:2.5 to 1:3 overall",
+      "Wall reveal at openings 5-8 in. in masonry examples"
+    ],
+    "bay_rhythm": "Even and calm in the symmetrical subtype - three, five or seven bays with a centred entrance - and loosely grouped in the informal subtype, where wings of differing height meet at right angles and each carries its own regular fenestration.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The informal subtype: an L or a T of hipped volumes at differing heights, often with a round entrance tower at the junction."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The formal symmetrical subtype - a double-pile block with a centred entrance under a tall hip."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "Estate examples with projecting wings enclosing a forecourt."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "Where service ranges and stabling are pulled into the composition, as in a Norman farm court."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "forbidden",
+      "note": "A dominant front-facing gable converts the house to Tudor Revival."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Principal roof pitch not less than 12:12 and constant within 1:12 across all faces. No front-facing gable may occupy more than 25 percent of the primary elevation width; a dominant front gable voids the style."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Dormers of the principal rank must be wall dormers whose cheeks continue the wall material and whose sills sit at or below the eave line. Roof-set dormers set entirely above the eave are permitted only as secondary attic lights."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Where an eave flare is used, the flare shall extend 18-30 in. up the slope with a rafter-angle reduction of 15-25 degrees, and shall be carried continuously around all hips. A flare on the front elevation only is forbidden."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Masonry or stucco walls must express thickness: minimum 5 in. reveal at window and door jambs, with quoins, water table, or a returned surround. Flush-set windows in a thin veneer wall read as builder-grade and break the style."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Windows shall be casements with true divided lights, minimum leaf proportion 1:2.5. Where shutters are used they must be board-and-batten or louvred, sized to cover the full opening, and hung on strap hinges with tiebacks."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Oheka Castle",
+      "location": "West Hills (Huntington), New York",
+      "year": 1919,
+      "note": "Delano & Aldrich for Otto Kahn; begun 1914. French chateau parti executed in fireproof steel and concrete - the grand end from which the suburban version is reduced."
+    },
+    {
+      "name": "Nemours",
+      "location": "Wilmington, Delaware",
+      "year": 1910,
+      "note": "Carrere & Hastings for Alfred I. du Pont, in the Louis XVI manner with gardens after the Petit Trianon. Precedes the suburban floruit and defines its formal subtype."
+    },
+    {
+      "name": "The Elms",
+      "location": "Newport, Rhode Island",
+      "year": 1901,
+      "note": "Horace Trumbauer, after the Chateau d'Asnieres. Included as the academic French model that the interwar suburban style domesticates."
+    },
+    {
+      "name": "French Village",
+      "location": "Chestnut Hill / Mount Airy, Philadelphia, Pennsylvania",
+      "year": 1928,
+      "note": "Robert Rodes McGoodwin, 1925-1928. A whole development of French provincial houses; the point at which the style becomes a suburban product. See also french-normandy-revival."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)",
+    "Robert A. M. Stern, Gregory Gilmartin and Thomas Mellins, New York 1930 (1987)",
+    "John Milnes Baker, American House Styles: A Concise Guide (1994)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "interwar",
+    "suburban",
+    "roof-dominant",
+    "francophile"
+  ]
+}

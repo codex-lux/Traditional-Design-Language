@@ -1,0 +1,232 @@
+{
+  "id": "mexican-colonial",
+  "name": "Mexican Colonial",
+  "aka": [
+    "arquitectura virreinal",
+    "New Spain colonial",
+    "Novohispanic architecture"
+  ],
+  "rank": "style",
+  "member_of": "colonial-iberian-americas",
+  "status": "historical",
+  "period": {
+    "origin": 1521,
+    "floruit_start": 1550,
+    "floruit_end": 1800,
+    "decline_end": 1821,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1920,
+        "revival_node": "mission-revival",
+        "note": "The Californian mission chain is the northern frontier of this tradition, and the first American revival draws on its simplified adobe-and-arcade version rather than on the Mexican core."
+      },
+      {
+        "start": 1915,
+        "end": 1942,
+        "revival_node": "spanish-colonial-revival",
+        "note": "The main channel. After Goodhue's San Diego exposition of 1915 the estipite portada, the tiled dome, the patio and the arcaded corredor become a national American residential vocabulary."
+      },
+      {
+        "start": 1918,
+        "end": 1940,
+        "revival_node": "mediterranean-revival",
+        "note": "The looser, more Italianate American variant borrows the arcade, the tile and the low-pitched clay roof."
+      },
+      {
+        "start": 1905,
+        "end": 1940,
+        "revival_node": "pueblo-revival",
+        "note": "Indirect: the New Mexican adobe churches and casas of the northern frontier, themselves a branch of this tradition crossed with Puebloan building, are what Pueblo Revival actually revives."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Mexico",
+      "Guatemala",
+      "Central America",
+      "American Southwest"
+    ],
+    "hearth": "Mexico City, Puebla and the Bajio",
+    "climate_zones": [
+      "3B",
+      "4B",
+      "2A",
+      "1A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "spanish-plateresque",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The 16th-century conventos import the retablo-portada composition directly: a bounded panel of ornament against a plain wall, executed by Spanish masters and by indigenous carvers working from prints, which produces the tequitqui manner in which European motifs are cut with pre-Hispanic relief conventions."
+    },
+    {
+      "target": "mudejar",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Seville was the only legal port to the Indies, and what shipped out of it was Andalusian craft: par y nudillo and artesonado timber ceilings, azulejo tile, brick construction and the alfiz. Mudejar carpentry was standard practice in New Spain for two centuries, and the Mexican ceiling is technically an Andalusian ceiling."
+    },
+    {
+      "target": "churrigueresque",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The 18th-century phase, which in New Spain outruns its Spanish source: Jeronimo de Balbas brings the estipite to Mexico City in 1718 and Lorenzo Rodriguez brings it outdoors in 1749."
+    },
+    {
+      "target": "andalusian-courtyard-vernacular",
+      "type": "hybridizes_with",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "The domestic type — patio, zaguan, blind street wall, whitewash, tile — is not a monumental import but the ordinary Andalusian house, carried by ordinary settlers and reproduced in every colonial town grid in Mexico."
+    }
+  ],
+  "description": {
+    "short": "Three centuries of building in New Spain, in which Andalusian craft, Italian-derived ornament and indigenous labour and masonry tradition met a seismic, high-altitude, resource-rich continent and produced something with no European equivalent.",
+    "long": "Mexican colonial architecture is habitually described as Spanish architecture built in America. It is not, and the differences begin in the first generation. The Spanish crown's building programme in New Spain was a mass-conversion programme, and mass conversion required a building type that did not exist in Europe: a walled precinct (the atrio) large enough to hold thousands of people outdoors, with a raised open chapel (capilla abierta) from which mass could be said to a crowd in the open air, and four posa chapels at the corners of the enclosure for processional stations. The church itself, single-naved and buttressed, sits at one side of this enclosure rather than on the street. Nothing in Spain looks like this. It is an invention of the 1530s and 1540s, made under pressure by Franciscan, Dominican and Augustinian friars with an indigenous congregation that would not fit inside a building, and it is the clearest evidence that New Spain was producing architecture rather than importing it.\n\nThe labour and much of the technical intelligence were indigenous, and the record is explicit about it. The great sixteenth-century conventos were built by Nahua, Otomi, Mixtec and Maya masons and carvers working under friars who were not architects, using pre-Hispanic construction organisation and pre-Hispanic quarrying and lime-burning. What came out is a relief convention now called tequitqui: European motifs — vine scroll, angels, the instruments of the Passion — cut flat, in even depth, with the ground worked as pattern rather than as background, which is exactly how Mesoamerican relief carving handled a surface. Two visual grammars occupy the same stone. Later the same synthesis appears in the poblano tile facades, in the plaster and gilt of the Puebla and Oaxaca church interiors, and in the extraordinary indigenous-built and indigenous-decorated churches at Tonantzintla and Acatepec.\n\nThe material and structural culture is a response to the ground. The Valley of Mexico is seismic, high (2240 m), with a huge diurnal temperature swing and, in the colonial period, a subsiding lakebed under the capital. The response is low, massive, and heavily buttressed: adobe or rubble walls six hundred to a thousand millimetres thick, single-storey where possible, two-storey only around a stiffening patio arcade; flat azotea roofs with parapets and stone canales on the altiplano, where there is little rain and where a flat roof is a usable terrace; and tezontle, the deep red-brown vesicular volcanic stone that is light, strong, and beautiful against the pale chiluca limestone used for the dressed portadas and window surrounds. That red-and-cream combination is Mexico City's signature and there is nothing like it in Spain. In the tierra caliente and along the Gulf, where it rains, the same plan is roofed in clay tile at twenty to thirty degrees with a deep overhang, and the arcaded corredor around the patio becomes the deepest and most important space in the house.\n\nWalking into a Mexican colonial house is a sequence of thresholds. Off a hard, sunlit, dead-flat grid street there is a plain plastered wall and a single tall doorway, often with a carved chiluca surround and no other decoration on the block. Inside is the zaguan — high, dark, wide enough for a carriage, paved in stone — and beyond it the patio: an arcaded court with an orange tree, a fountain and a stone stair, all of the rooms opening onto the corredor around it, and light bouncing down off cream plaster into the shade. The rooms are tall, cool and dark, their ceilings either beamed with vigas or, in the finer houses, a Mudejar interlace of small timbers. Then you look up past the parapet and there is a volcano."
+  },
+  "defining_characteristics": [
+    "Patio-centred plan with a single controlled entry (zaguan) and a largely closed street elevation, on a gridded colonial town plan",
+    "Massive adobe, rubble or tezontle walls, 600-1000 mm, single-pile ranges around the court",
+    "Arcaded corredor on the patio carrying circulation and social life; rooms entered from it, not from corridors",
+    "Ornament confined to the portada, window surrounds and cornice, against a plain field wall of tezontle, plaster or ashlar",
+    "Mudejar carpentry — par y nudillo and artesonado ceilings — and Andalusian azulejo tile as standard trades, not exotic features",
+    "Flat azotea roofs with parapets and canales on the altiplano; low-pitched clay tile with deep overhangs in the wet and hot lowlands",
+    "Seismic response as a formal determinant: low profile, heavy buttressing, wide wall-to-opening ratio",
+    "The walled atrio with open chapel and posa chapels at religious sites — a New World type with no Spanish precedent"
+  ],
+  "diagnostic_tells": [
+    "Dark red-brown vesicular tezontle field walls framed and trimmed in pale chiluca limestone",
+    "A church set within a large walled forecourt with a raised open-air chapel, rather than on the street line",
+    "Buttresses on a single-naved church that are visibly oversized for the vault they carry",
+    "Flat-relief carving in which the background is worked as pattern rather than left as ground (tequitqui)",
+    "Glazed tile applied over whole facade fields in Puebla, in contrast to Andalusia where tile stays at dado height"
+  ],
+  "distinguished_from": [
+    {
+      "node": "churrigueresque",
+      "difference": "Churrigueresque is one ornamental phase, roughly 1730-1790, within this tradition. Mexican Colonial covers three centuries of plans, walls, roofs and construction practice, the great majority of which is entirely plain."
+    },
+    {
+      "node": "andalusian-courtyard-vernacular",
+      "difference": "The Mexican house descends directly from the Andalusian one and then diverges: bigger lots on a regular grid, a continuous arcaded corredor rather than a partial gallery, flat azotea roofs at altitude, and seismic wall thicknesses. And it has an indigenous labour and carving tradition inside it that Andalusia does not."
+    },
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "The 20th-century American revival takes the portada, the tile, the arcade and the low tile roof and applies them to double-pile, corridor-planned, stud-framed houses that face outward to a lawn. The revival keeps the ornament and reverses the plan."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The arcade bay and the viga. The patio corredor bay of 2.5-3.5 m is set by the span of a stone arch on a monolithic shaft; room depth of 5-6 m is set by the span of the roof beams. Where a building has two storeys, the lower arcade order is heavier and the upper lighter. Facade composition is governed by the portada — a bounded ornamental panel inherited from Plateresque — rather than by any order regulating the wall.",
+    "typical_ratios": [
+      "Patio arcade bay 2.5-3.5 m; column slenderness 7-10 diameters",
+      "Room depth 5-6 m clear; wall thickness 600-1000 mm",
+      "Church nave width 8-12 m, single-naved, with buttresses at 4-6 m centres",
+      "Tile roof pitch 20-30 degrees with 700-1000 mm overhang; azotea flat with a 600-900 mm parapet"
+    ],
+    "bay_rhythm": "Even, unaccented arcade rhythm on the patio, five to nine bays a side. On the street, a plain wall with a few tall openings and one emphasised doorway; the portada does not relate to the fenestration and is not expected to.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The urban casa, the convento and the colegio are all four-sided enclosed patios with blind or near-blind street walls."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three-sided courts on smaller and irregular lots, and in the second service patio behind the first."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "common",
+      "note": "The corredor is a true gallery — circulation, shade and social space in one, and the deepest room in the building."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "Colonial town grids produce continuous party-walled blocks, each house a courtyard within it."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "possible",
+      "note": "The rural and working-class house of one adobe room with a portal in front of it, which is the vast majority of what was actually built."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Adobe or rubble walls 600-1000 mm minimum. In seismic zones a two-storey building requires the patio arcade to act as a continuous stiffening ring, and no unbraced wall may run more than about 12 m without a buttress or cross-wall.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "On the altiplano above roughly 1800 m, roofs are flat azotea with parapets and stone canales; in the tierra caliente and on the Gulf and Pacific coasts, clay tile at 20-30 degrees with an overhang of at least 700 mm. Mixing the two on one building is a revival error.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Room depth must not exceed the viga span, about 6 m clear. Ranges are single-pile and the building grows by adding courts, never by thickening a range.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Ornament is confined to the portada, the window and door surrounds and the cornice. The field wall between them stays plain tezontle, ashlar or lime plaster; an evenly ornamented elevation misreads the tradition.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "At religious sites the church stands within a walled atrio, set back from the street, with a processional route around it. Placing a colonial-type church on the street line removes the element that most distinguishes New Spain from Spain.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Casa de Montejo",
+      "location": "Merida, Yucatan, Mexico",
+      "year": 1549,
+      "note": "1542-1549; the earliest surviving substantial domestic facade in Mexico, with a Plateresque portada carved by Maya masons — including the notorious conquistadores standing on severed heads."
+    },
+    {
+      "name": "Convento de San Nicolas de Tolentino",
+      "location": "Actopan, Hidalgo, Mexico",
+      "year": 1573,
+      "note": "1546-1573; Augustinian, with an intact walled atrio, one of the largest surviving open chapels, and a fully frescoed stair."
+    },
+    {
+      "name": "Casa del Dean",
+      "location": "Puebla, Mexico",
+      "year": 1580,
+      "note": "c. 1580; the oldest surviving house in Puebla, with a Renaissance portada and two rooms of indigenous-painted mural cycles."
+    },
+    {
+      "name": "Casa de los Azulejos",
+      "location": "Mexico City, Mexico",
+      "year": 1737,
+      "note": "16th-century house whose facade was clad in Puebla talavera tile in 1737; the fullest surviving demonstration of tile used as a whole-facade field rather than as a dado."
+    }
+  ],
+  "sources": [
+    "Kubler, Mexican Architecture of the Sixteenth Century (1948)",
+    "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800",
+    "Toussaint, Arte colonial en Mexico",
+    "Bunting, Early Architecture in New Mexico — for the northern frontier",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
+  ],
+  "confidence": "high",
+  "tags": [
+    "colonial",
+    "courtyard",
+    "adobe",
+    "tezontle",
+    "new-spain",
+    "seismic"
+  ]
+}

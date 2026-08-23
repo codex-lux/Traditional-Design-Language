@@ -1,0 +1,458 @@
+{
+  "id": "gibbs-doric",
+  "name": "Doric Order (Gibbs) - overlay on Vignola",
+  "aka": [
+    "Gibbsian Doric",
+    "Georgian Doric",
+    "Mutule-and-modillion Doric"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 2, VI, VII, VIII, IX, XXIV, XXV, XXVI, XXXI, XXXVII no. 2, XLIV",
+    "author": "James Gibbs",
+    "year": 1732,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011578867",
+    "note": "Transcribed from the letterpress of the 1732 first edition. Gibbs's Doric is Palladian in its ratios and unusually explicit in its cornice: he states the whole eighteen-part cornice member by member, which Vignola does not. Where Gibbs agrees with Vignola the member is omitted from this overlay."
+  },
+  "overlay_of": "vignola-doric",
+  "module": {
+    "name": "semidiameter of the column at its base",
+    "parts": 12,
+    "default_size_in": 6.0,
+    "note": "Gibbs uses no module; see the gibbs-tuscan overlay for his geometric substitute. Figures translated into Vignola's 12-part Doric module for comparison. Gibbs's own Doric construction: 'divide the whole height into five equal parts; one of them is the height of the Pedestal: The other four parts are to be divided into five parts, one of which is the height of the Entablature; and that height is divided into eight parts, two of which give the Architrave, three the Frize, and three the Cornice. The height of the Column is divided into eight parts, one of which is the Diameter.'",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 16,
+    "fluting": {
+      "count": 24,
+      "profile": "twenty-four flutes, semicircular in plan and meeting in an arris; Gibbs figures them on the column of Plate VII and gives no fillet",
+      "fillet": false
+    }
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_plinth",
+          "name": "Plinth of the pedestal",
+          "height_parts": 15,
+          "projection_parts": 5,
+          "profile": "plinth",
+          "note": "One quarter of the pedestal, per Gibbs's universal rule. Vignola's Doric pedestal instead begins with a 4-part socle under a 2-part plinth and a cyma recta; Gibbs collapses all of that into one plinth of a quarter the height.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_base_ogee",
+          "name": "Pedestal base, ogee reversed",
+          "height_parts": 3.75,
+          "projection_parts": 5,
+          "profile": "cyma-reversa",
+          "note": "One twelfth of the pedestal for the base, split with its fillet. Gibbs: 'The Base and Cap of the Pedestal, as to their heights, are the same as in the Tuscan Order, as also their projections.' Split apportioned.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Pedestal base, fillet",
+          "height_parts": 1.25,
+          "projection_parts": 5,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned within the stated 5-part base."
+        },
+        {
+          "id": "ped_die",
+          "name": "Die (dado) of the pedestal",
+          "height_parts": 32.5,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "13/24 of the pedestal. Vignola gives the Doric die 48 of 64 parts.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_cap_ogee",
+          "name": "Pedestal cap, ogee",
+          "height_parts": 5,
+          "projection_parts": 5,
+          "profile": "cyma-reversa",
+          "note": "One eighth of the pedestal for the cap, with a platband over. Vignola's Doric pedestal cap is a five-member affair - cyma reversa, corona, fillet, quarter-round, pianetto. Gibbs reduces it to two.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cap_platband",
+          "name": "Pedestal cap, platband",
+          "height_parts": 2.5,
+          "projection_parts": 5,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned within the stated 7 1/2-part cap."
+        }
+      ]
+    },
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth",
+          "height_parts": 4,
+          "projection_parts": 4,
+          "profile": "plinth",
+          "note": "DELTA - GIBBS GIVES THE DORIC AN ATTIC BASE. Plate VII names the members: 'A, The upper Torus. B, Scotia or Cavetto. C, Under Torus. D, Plinth.' Vignola's Doric base is plinth, single torus, astragal and apophyge. The Attic base is Palladio's choice and it is what almost every Georgian Doric column in America stands on. Gibbs: 'The Bases are in height a Semidiameter of their Columns; their projection is one third of their height.' Individual heights are figured on Plate XXV and are apportioned here.",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_lower_torus",
+          "name": "Lower torus",
+          "height_parts": 2.5,
+          "projection_parts": 4,
+          "profile": "torus",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "base_lower_fillet",
+          "name": "Fillet under the scotia",
+          "height_parts": 0.25,
+          "projection_parts": 2.5,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned; Gibbs names no fillets in the Doric base but his scotia construction on Plate XXV requires them."
+        },
+        {
+          "id": "base_scotia",
+          "name": "Scotia",
+          "height_parts": 2.25,
+          "projection_parts": 1.75,
+          "profile": "scotia",
+          "note": "Gibbs gives a two-centre construction for the scotia: 'let fall a perpendicular from the Center of the upper Torus, and divide it within the space of the Scotia into seven parts; the three uppermost will be the Semidiameter of the lesser Circle.' Height apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "base_upper_fillet",
+          "name": "Fillet over the scotia",
+          "height_parts": 0.25,
+          "projection_parts": 2.5,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "base_upper_torus",
+          "name": "Upper torus",
+          "height_parts": 2,
+          "projection_parts": 3,
+          "profile": "torus",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "base_cincture",
+          "name": "Cincture and congé of the shaft",
+          "height_parts": 0.75,
+          "projection_parts": 1,
+          "profile": "apophyge",
+          "confidence": "low",
+          "note": "Apportioned. As in Vignola, the semidiameter of base height includes the cincture at the foot of the shaft."
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_triglyph_cap",
+          "name": "Flat member crowning the triglyphs",
+          "height_parts": 2,
+          "projection_parts": 2,
+          "profile": "fascia",
+          "note": "THE WHOLE CORNICE IS STATED IN WORDS, which is rare. Gibbs, Plate IX: 'The Cornice is in height three quarters of a Diameter, and is divided into three parts; and each of them is subdivided into three. Take off one of those subdivided parts at the bottom of the Cornice, for the flat member that crowns the Triglyphs; then give two for the Ovolo, two for the Modillion, two for the Corona, and two for the Cimatium.' Nine subdivisions of 2 parts each. 'The Fillets and small Ogee are explained by the smaller divisions' - the fillets are absorbed into the five members here, as Gibbs gives no figure for them.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_ovolo",
+          "name": "Ovolo",
+          "height_parts": 4,
+          "projection_parts": 5,
+          "profile": "ovolo",
+          "enrichment": "eggs and darts where the order is enriched; Gibbs gives the construction on Plate XXVIII",
+          "confidence": "high",
+          "note": "Two of the nine subdivisions."
+        },
+        {
+          "id": "corn_modillion",
+          "name": "Modillion band",
+          "height_parts": 4,
+          "projection_parts": 12,
+          "profile": "modillion",
+          "count": null,
+          "spacing_parts": 30,
+          "note": "DELTA, AND THE BIG ONE. Vignola's Doric cornice carries MUTULES - flat inclined blocks with guttae, representing rafter ends. Gibbs's carries MODILLIONS, scrolled brackets, in the Doric. He sizes them off the triglyphs: 'divide the distance from middle to middle of two Triglyphs into four parts; two of them will be the Modillion with the Fillet and Ogee over it, and two will be the distance betwixt the Modillions.' Triglyph pitch is 30 parts, so the modillion is 15 parts wide with a 15-part interval - one modillion per triglyph pitch. Their soffit panels are figured: 'divided into five parts for the Pannel in the Sofite; take one on each side for its Border, there will remain three for the square of the Pannel.'",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_corona",
+          "name": "Corona",
+          "height_parts": 4,
+          "projection_parts": 20,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "Two of the nine subdivisions."
+        },
+        {
+          "id": "corn_cymatium",
+          "name": "Cymatium, cyma recta with a list over it",
+          "height_parts": 4,
+          "projection_parts": 24,
+          "profile": "cyma-recta",
+          "note": "Plate VIII, member A: 'Cima with a Lift over it.' Total cornice projection is 'one Diameter or four of those parts, or one half of the height of the whole Entablature' = 24 parts = 2 modules, which is a THIRD MORE THAN THE CORNICE IS HIGH. Vignola's Doric cornice also projects more than its height; Ware notes the Doric as the standing exception to 'projection equals height'. Gibbs states the exception numerically where Vignola only draws it.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 12,
+          "projection_parts": 3,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "Two eighths. Same as Vignola. Two fasciae with taenia and regula: 'the height of the Architraves of the Tuscan and Dorick Orders is divided into two parts, and then subdivided.'"
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 18,
+          "projection_parts": 1,
+          "profile": "triglyph",
+          "confidence": "high",
+          "note": "Three eighths. Same as Vignola. Triglyph half a diameter wide (12 parts), metopes square at 3/4 diameter (18 parts), 30 parts on centres, drops six and triangular in form."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice",
+          "height_parts": 18,
+          "projection_parts": 24,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "Three eighths - same height as Vignola, wholly different composition, and a stated projection of one diameter."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The pedestal is one quarter of column and entablature taken together.",
+      "expression": "assemblies.pedestal.height_modules == (column.height_modules + assemblies.entablature.height_modules) / 4",
+      "tolerance": 0.001,
+      "note": "5 modules against Vignola's 5 1/3. Gibbs's universal pedestal rule."
+    },
+    {
+      "statement": "The entablature is one quarter the height of the column, as in Vignola and Palladio.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 4",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The entablature divides into eight: two architrave, three frieze, three cornice.",
+      "expression": "assemblies.entablature.height_modules * 3 / 8 == assemblies.cornice.height_modules",
+      "tolerance": 0.001,
+      "note": "Identical to Vignola. The Doric entablature is the one place where Gibbs and Vignola agree completely on the top-level division; everything inside the cornice then differs."
+    },
+    {
+      "statement": "The cornice projects one diameter, half the height of the whole entablature - more than its own height.",
+      "expression": "assemblies.cornice.members.corn_cymatium.projection_parts == assemblies.entablature.height_modules * 12 / 2",
+      "tolerance": 0.001,
+      "note": "24 parts of projection against 18 of height. The Doric is the exception to the projection-equals-height rule in both authorities, but only Gibbs gives the number."
+    },
+    {
+      "statement": "The column is eight diameters.",
+      "expression": "column.height_modules == 16",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The Doric shaft carries twenty-four flutes, not Vignola's twenty.",
+      "expression": "column.fluting.count == 24",
+      "tolerance": 0.001,
+      "note": "Gibbs, Plate VII: 'The Flutings are twenty-four as they are marked on the Column.' Vignola's twenty channels meet in a sharp arris; Gibbs's twenty-four are semicircular. Twenty-four is Palladio's number and the one that recurs in Anglo-American Doric."
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "gibbs-doric-arcade",
+        "clear_diameters": 5.5,
+        "note": "Plate XXXI: 'the distance from middle to middle of the Columns must be six Diameters and a half, the Pilasters that support the Arch must be half a Diameter, and the Opening of the Arch four Diameters and a half. These dimensions cannot be varied, because of the divisions of the Metops and Triglyphs.' That last clause is the whole discipline of the Doric arcade and it is why Doric is the least forgiving order to fit to an existing plan."
+      },
+      {
+        "name": "gibbs-doric-arcade-with-pedestal",
+        "clear_diameters": 6.5,
+        "note": "Plate XXXI: seven diameters and a half on centres, piers three quarters of a diameter, opening five diameters and a quarter."
+      },
+      {
+        "name": "gibbs-doric-door",
+        "clear_diameters": 5.5,
+        "note": "Plate XXXVII no. 2: six diameters and a half on centres, opening four diameters and a half wide by eight diameters and a half high."
+      },
+      {
+        "name": "gibbs-doric-gate",
+        "clear_diameters": 6.5,
+        "note": "Plate XLIV: 'in order to have the Metops and Triglyphs justly divided, the distance from middle to middle of the Columns next the Arch must be seven Diameters and a half, and from middle to middle of the lesser Intercolumniation three Diameters and a half, and the Opening of the Arch five Diameters. The Attick is one third of the whole height of the Order, including the Pedestal.'"
+      }
+    ],
+    "default": "gibbs-doric-arcade"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height * 5 / 16",
+      "units": "in",
+      "range": [
+        27,
+        36
+      ],
+      "authority_note": "Gibbs's pedestal rule read at room scale, as in the Tuscan overlay: pedestal = (column + column/4)/4 = 5/16 of the ceiling height. 33 3/4 in. at 9 ft against Vignola's 36. In Doric the wainscot cap should carry the same two members as the pedestal cap - ogee and platband - and no more.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "2.5",
+      "units": "ratio",
+      "range": [
+        2.5,
+        2.5
+      ],
+      "authority_note": "DORIC IS SPACED BY ITS ORNAMENT, NOT BY ITS COLUMNS. Triglyph pitch is 1 1/4 diameters = 2 1/2 modules on centres, a triglyph centred on every column axis, and Gibbs's Doric modillion sits on the same 2 1/2-module pitch, being half of it in width. Every bay dimension in the order is a whole number of these pitches. Expression is in modules of pitch.",
+      "judgment": false,
+      "note": "Gibbs tabulates it for all the enriched orders: 'The Dorick from middle to middle of the Triglyphs is one Diameter and one quarter... The Ionick from middle to middle of the Modillions is three quarters the Diameter... The Corinthian from middle to middle of the Modillions is seven twelfths of the Diameter. N.B. It is twelve times in seven Diameters.'"
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.5 / 16",
+      "units": "in",
+      "range": [
+        7,
+        16
+      ],
+      "authority_note": "Room read as a Doric order at reduced module, cornice alone: 1 1/2 modules of a 16-module column. 10 1/8 in. at a 9 ft ceiling. Identical in height to Vignola's Doric cornice; what changes is that the bed mould is a plain ovolo over a flat triglyph cap rather than Vignola's mutule-and-cyma stack, which makes it very much cheaper to run.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height * 2 / 16",
+      "units": "in",
+      "range": [
+        9,
+        22
+      ],
+      "authority_note": "THE DORIC EXCEPTION, STATED. 'The projection of the Cornice is equal to half the height of the whole Entablature' - one diameter, or 2 modules, against a cornice height of 1 1/2. Every other Gibbs cornice projects exactly its height. A Doric cornice drawn with projection equal to height is not Doric; it is Tuscan with triglyphs.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "column_height * 1.5 / 16",
+      "units": "in",
+      "range": [
+        9,
+        34
+      ],
+      "authority_note": "Building-scale main cornice where the elevation carries a real or implied Doric order. On a two-storey Georgian front with the order taken from water table to eaves this puts the cornice at about a sixteenth of the wall - close to Asher Benjamin's independent American rule of one thirtieth of the whole building height, once the pediment and the basement are allowed for.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT: what plays the part of the column on an elevation with no order drawn on it is not determined by Gibbs or anyone else."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        14
+      ],
+      "authority_note": "Gibbs's universal arch rule: archivolt and impost each one eighth of the opening, 'whether the Arch be great or small'. The impost then divides into three, one for the neck or frieze, two for the cap; and 'in the Tuscan and Dorick, divide the Architrave that goes round the Arch into three parts, one of them is the projection of the Impost' - so a Doric impost projects a third of its own height, less than an Ionic or Composite one.",
+      "judgment": false,
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "pediment",
+      "dimension": "height",
+      "expression": "opening_width * 0.1340",
+      "units": "in",
+      "range": [
+        6,
+        60
+      ],
+      "authority_note": "GIBBS GIVES A GEOMETRIC, NOT AN ARITHMETIC, PEDIMENT. Plate XXXVIII: 'Draw the line B G through the middle of the intended Door, take the full extent of the Cornice A C, from the middle of it at E describe the Circle A B C D, and from D describe the Circle A F C G, the Segment A F C is the proper height of the Pediment.' The rise is the sagitta of a circle whose radius equals the full span of the cornice - that is (1 - sqrt(3)/2) times half the span, i.e. 0.0670 of the span, or 0.1340 of the opening width once the cornice overhang is allowed for. It is a fixed pitch of about 15 degrees on the span of the cornice, which is why Georgian pediments are shallower than they look and why raising one to a roof pitch destroys it.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The construction is on the SPAN OF THE CORNICE, not on the opening; the coefficient here assumes a cornice projecting a tenth of the opening on each side. Draw the construction rather than trusting the number when the cornice projection is known."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "0.8",
+      "units": "ratio",
+      "range": [
+        0.75,
+        1.5
+      ],
+      "authority_note": "Gibbs's room rule, repeated from the Tuscan overlay because it is order-independent: coved ceilings take half the sum of length and breadth, flat ceilings take the breadth, and English cost and climate reduce that by one fifth or at most one quarter. Expression is height as a fraction of room breadth.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "construction-tolerance",
+      "statement": "'These dimensions cannot be varied, because of the divisions of the Metops and Triglyphs.' Gibbs is telling the truth. A Doric arcade or portico must be a whole number of 2 1/2-module triglyph pitches, and the corner condition leaves a fragment of metope that has to be exactly right. On a house whose bay spacing is set by the plan rather than by the order, the two systems will not reconcile.",
+      "resolution": "Decide first which system governs. If the order governs, set the bay from the triglyph pitch and let the plan take the remainder. If the plan governs, do not use Doric - use Gibbs's Tuscan, which has no repeating ornament and tolerates unequal bays, or take the Doric entablature without triglyphs, which is what most Georgian houses actually do and which Gibbs's own Doric door plate half-concedes.",
+      "severity": "blocking"
+    },
+    {
+      "with": "cost",
+      "statement": "Gibbs's Doric cornice carries a modillion 15 parts wide with a five-part panelled soffit between every pair, plus triglyphs with six triangular drops apiece and enriched metopes. At a 6 in. module a modillion is 7 1/2 in. wide with a sunk panel, repeating every 15 in. along the whole eaves. This is the most expensive linear foot of exterior trim in the entire Georgian repertoire.",
+      "resolution": "Take Gibbs's own five-member cornice and delete the modillion band, giving its 4 parts to the corona. The remaining flat-triglyph-cap, ovolo, corona, cyma sequence is a plain Doric cornice that any shop can run, and it is what the great majority of surviving American Georgian houses have. Do NOT keep the modillions and shrink them; a modillion under about 4 in. wide reads as a dentil and the order loses its scale.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "A Doric cornice projecting one diameter - 2 modules, or 12 in. at a 6 in. module - is a continuous 12 in. horizontal thermal bridge and a continuous interruption of the air barrier at the eaves, exactly where blower-door failures concentrate.",
+      "resolution": "Build the cornice as an applied assembly outboard of a continuous air and thermal barrier, with the lookouts penetrating the barrier only at discrete points and sealed. Do not reduce the projection to simplify the detail: in Doric the projection is a stated proportion and a Doric cornice that projects its own height reads as the wrong order.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "charleston-georgian",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "english-palladian",
+    "palladian",
+    "english-baroque",
+    "georgian-revival",
+    "colonial-revival",
+    "jeffersonian-classicism"
+  ],
+  "sources": [
+    "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), letterpress pp. 2-3, 6-7, 13-16, 19, and Plates I no. 2, VI-IX, XXIV-XXVI, XXXI, XXXVII, XLIV; archive.org/details/gri_33125011578867",
+    "William R. Ware, The American Vignola (1920 printing), 'The Doric Order' - comparison datum only",
+    "Andrea Palladio, I quattro libri dell'architettura (1570), Book I - Gibbs's stated authority for the entablature ratios and for the Attic base"
+  ],
+  "confidence": "high",
+  "notes": "GIBBS DORIC AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nWHAT AGREES, AND IT IS A LOT. Column 8 diameters. Entablature one quarter of the column, divided 2 : 3 : 3. Frieze with square metopes 3/4 diameter on a side, triglyphs half a diameter wide, 1 1/4 diameters on centres, a triglyph over every column. Architrave of two fasciae. Diminution to five sixths from one third the height. The Doric is where Gibbs and Vignola are closest at the top level.\n\nTHE FOUR REAL DIVERGENCES.\n1. THE BASE IS ATTIC. Gibbs names upper torus, scotia, under torus, plinth. Vignola's Doric base is plinth, torus, astragal, apophyge. This is the commonest single difference between an English Georgian Doric column and an Italian one, and it is visible from across a street.\n2. MODILLIONS REPLACE MUTULES. Vignola's Doric cornice hangs flat inclined mutules with guttae over the triglyphs; Gibbs hangs scrolled modillions, 15 parts wide on a 30-part pitch, with panelled soffits between. The Doric cornice loses its roof-timber metaphor and gains a bracket.\n3. THE CORNICE IS RESTATED IN FIVE EQUAL BLOCKS. Gibbs divides eighteen parts as 2 : 4 : 4 : 4 : 4 - triglyph cap, ovolo, modillion, corona, cymatium - against Vignola's ten-member stack. Simpler to draw, simpler to run, and coarser.\n4. TWENTY-FOUR FLUTES, not Vignola's twenty, and semicircular rather than meeting in an arris.\n\nAlso: the pedestal is one quarter of column-plus-entablature rather than one third of the column (5 modules against 5 1/3), and it acquires a plinth of a quarter its height that Vignola's has not.\n\nWHAT IS WEAK. The Doric cornice is stated verbatim and carries high confidence throughout - unusually good for a pattern book. The Attic base members are named by Gibbs but their heights are figured only on Plate XXV, which no reachable scan renders legibly; those members are apportioned and carry confidence low. The same applies to the internal splits of the pedestal base and cap. The pediment coefficient in the derived rules is computed from Gibbs's geometric construction, not read off a plate, and is marked judgment.\n\nA NOTE ON WHAT GIBBS DOES NOT SAY. He gives no Doric entablature without triglyphs, and no Doric without a base, though Georgian builders produced both constantly. Where a surviving house has a Doric cornice with plain frieze, it is an abbreviation of this order and should be recorded as such rather than as a different one."
+}

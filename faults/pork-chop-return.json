@@ -1,0 +1,232 @@
+{
+  "id": "pork-chop-return",
+  "name": "The Pork Chop",
+  "aka": [
+    "the clipped return",
+    "the wedge"
+  ],
+  "slots": [
+    "cornice_return",
+    "rake_condition"
+  ],
+  "severity": "fatal",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "It is the fastest way to date a Georgian-looking house to after 1930, and it sits at the corner where every trained eye goes first."
+    },
+    {
+      "style": "new-england-georgian",
+      "severity": "fatal",
+      "why": "The 12-24 in returned cornice is the best-documented detail of the regional variant."
+    },
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "As above."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "fatal",
+      "why": "This is where the fault actually lives, and it is the single detail that separates real from applied traditional work."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "serious",
+      "why": "The Cape's own answer is a plain 6-12 in return, so the loss is smaller - but a moulded plastic wedge is still wrong."
+    },
+    {
+      "style": "greek-revival-upland-vernacular",
+      "severity": "minor",
+      "why": "A genuinely clipped period return made of the building's own broad flat boards is documented practice here."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "No cornice exists to return."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The gable carries exposed structure, not an entablature."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "not-applicable",
+      "why": "The rake meeting the wall in a straight line with no return is a diagnostic tell."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "severity": "not-applicable",
+      "why": "A plastered edge has no members to return."
+    }
+  ],
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "At the bottom of each rake the trim swells into a small triangular or lozenge-shaped block - flat-faced, roughly as tall as it is wide, sloped on top - which closes the gap between the rake board and the eave fascia and then stops. It carries no moulding and returns nothing. It is the fastest way to date a Georgian-looking house to after about 1930.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The rake trim and the eave trim arrive at the corner at different depths and different angles, and the intersection is a genuine geometry problem: the raking crown springs at a different angle from the level crown and the two must be joined with compound cuts made on site by a carpenter who has done it before. The pork chop closes the hole in ten minutes with no compound cuts, and vinyl and aluminium eave systems ship it as a stock accessory precisely so the crew never has to solve the geometry.",
+    "cost_saved": "$60-150 a corner in labour, so $250-600 on a simple gabled house. A properly returned cornice carrying modillions runs $400-1,200 a corner."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / cornice_return / clipped-pork-chop-return = forbidden",
+      "statement": "A twentieth-century economy and the fastest way to date a Georgian-looking house to after 1930."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / cornice_return",
+      "statement": "return_depth 12-24 in, carrying bed mould, modillions or dentils, corona and crown."
+    }
+  ],
+  "correct_practice": "The cornice returns onto the gable wall carrying its complete profile - bed mould, dentil or modillion band where present, corona, crown - for 12 to 24 in, and then dies into the wall in a mitred return. What makes it work is that the return is a horizontal fragment of the entablature: it says the entablature runs all the way round the building and has merely been interrupted by the gable. A block that is not the entablature says nothing at all, which is why the pork chop reads as a lump rather than as a piece of architecture. In the Southern brick houses the cornice is often returned all the way round the building instead, which is a different and equally correct answer.",
+  "fixes": {
+    "right": "A full return 12-24 in deep in the eave's own members, mitred and returned to the wall, with the raking cornice dying into its top.",
+    "cheap": "Build the return from the actual eave members - the same bed mould, the same fascia depth, the same crown - mitred and returned just 12 in. About $80-150 a corner of finish carpentry, and it is the single highest-value $500 on a traditional house, because the corner of the gable is where every trained eye goes first. Cheaper still, and historically correct: abandon the return and run the cornice LEVEL all the way across the base of the gable as a full pediment. Four corners of returns cost more than one straight run.",
+    "dishonest": "An injection-moulded polyurethane 'cornice return' block or a vinyl 'pediment corner'. Both reproduce the outline at 3/4 in of projection, and the outline is not what is legible at forty feet."
+  },
+  "test": {
+    "expression": "return_projection_from_wall_in / cornice_height_in",
+    "threshold": 1.0,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "A correct return projects at least as far as the cornice is tall. A pork chop is roughly as tall as it is wide and carries no profile, so it fails this and the secondary together."
+  },
+  "secondary_tests": [
+    {
+      "expression": "count_of_moulding_profiles_carried_around_onto_the_return",
+      "threshold": 2,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The distinguishing measurement. A pork chop scores zero - it is a flat-faced block. A correct return carries bed mould, corona and crown, plus the modillion or dentil band where one exists."
+    },
+    {
+      "expression": "return_length_along_gable_wall_in",
+      "threshold": 12,
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "upper": 24,
+      "note": "12 to 24 in before dying into the wall. Southern brick houses often return the cornice all the way round instead, which is a different and equally correct answer and passes this trivially."
+    }
+  ],
+  "detection": "The single fastest check on a traditional house. Look at the bottom corner of any gable and expect one of three things. (a) The eave moulding turns the corner and runs 12-24 in along the gable wall with a shadow under it: correct. (b) A flat triangular or lozenge block, wider at the bottom, sloping on top, with no moulding on it: pork chop. (c) Nothing at all: a different fault. In a photograph, measure the return's projection from the wall against the cornice's height - a correct return projects at least as far as the cornice is tall.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-upland-vernacular",
+      "why": "The clipped return is a documented period gesture on plain vernacular Greek Revival houses in the Northeast - the cheapest possible nod toward a pediment, made in the 1830s and 1840s with the same broad flat boards as the rest of the trim, and it is everywhere.",
+      "bounds": "It must be made of the building's own trim: as deep as the frieze board and carrying the crown, and at least as deep from the wall as the corner pilaster is wide. It is a SHORT return, not a wedge, and it is not a licence to hang a moulded plastic block on a Georgian.",
+      "bounds_test": {
+        "expression": "return_projection_from_wall_in / corner_pilaster_width_in",
+        "threshold": 1.0,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "It must be made of the building's own trim - as deep as the frieze board, carrying the crown, and at least as deep from the wall as the corner pilaster is wide. A short return, not a wedge."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "A cross-gable whose rake meets the wall in a straight line with no return at all is a listed diagnostic tell of the style; there is no entablature to return.",
+      "bounds": "There must be no cornice anywhere on the building for this to be consistent - a bracketed or moulded eave elsewhere makes the unreturned gable an omission again.",
+      "bounds_test": {
+        "expression": "count_of_moulded_cornice_members_anywhere_on_the_building",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "There must be no cornice anywhere for the unreturned gable to be consistent; a moulded eave elsewhere makes it an omission again."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "No cornice exists to return; the eave is 6-12 in and cut tight and the shingle field runs over everything.",
+      "bounds": "Total trim suppression.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Total trim suppression, verified at the casing and the corners."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "The gable end carries exposed structure, not an entablature.",
+      "bounds": "The rake must be 24-36 in with visible purlins or braces.",
+      "bounds_test": {
+        "expression": "rake_overhang_in",
+        "threshold": 24,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "With visible purlins or braces resolving the junction structurally."
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "A plastered edge has no members to return.",
+      "bounds": "Stucco or tile edge, no boards.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 12,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Stucco or tile edge, no boards."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "tudor-revival",
+      "statement": "A cornice return is the fault. The cross-gable's rake must meet the wall in a straight line, and a return there reads as a Colonial Revival detail applied to an English house."
+    },
+    {
+      "style": "shingle-style",
+      "statement": "Any returned moulding is the fault; it breaks the continuous shingle field."
+    },
+    {
+      "style": "greek-revival-american",
+      "statement": "Where a full pediment is intended, a pair of returns is the fault - the cornice must run level all the way across the base of the gable."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "return-that-never-returns",
+      "difference": "The pork chop is a block that carries no profile. The other is the absence of any horizontal element at all - the rake and eave simply meet at the corner board."
+    },
+    {
+      "fault": "return-shallower-than-tall",
+      "difference": "There the return is real and carries the profile, and is merely too short. Here it carries nothing."
+    }
+  ],
+  "co_occurs_with": [
+    "flush-rake",
+    "gutter-as-cornice",
+    "return-that-never-returns",
+    "stamped-pediment-return"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json cornice_return",
+    "project style nodes: new-england-georgian, greek-revival-american",
+    "HABS measured drawings of New England Georgian gable ends",
+    "Old-House Journal technical archive on cornice returns"
+  ],
+  "confidence": "high",
+  "tags": [
+    "cornice-return",
+    "endemic",
+    "fatal",
+    "diagnostic"
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "id": "drawing-room",
+  "name": "Drawing Room",
+  "aka": [
+    "withdrawing room",
+    "withdrawing chamber",
+    "saloon (when larger and more formal)",
+    "salon"
+  ],
+  "function_class": "public",
+  "description": "The room a company withdraws TO. Its name is a contraction of 'withdrawing room' and it is the only room in the domestic catalogue defined entirely by a movement rather than by an activity: after dinner the party leaves the dining room and goes somewhere else, and the drawing room is where it goes. Everything that distinguishes it from a parlor follows from that - it must be large enough to seat the whole company at once, it must be one door from the dining room, and that door must be wide enough for twelve people to pass through as a group.",
+  "history": {
+    "appears": 1600,
+    "declines": 1930,
+    "replaced": "the great chamber, which was the Elizabethan room of state and eating and which the drawing room subdivided out of",
+    "replaced_by": "the living room, which took the furniture and dropped the ritual",
+    "note": "THE ROOM IS A RITUAL MADE ARCHITECTURAL, and the ritual is specific and datable. From the later seventeenth century to the First World War, at the end of a formal dinner the hostess rose and the ladies withdrew to the drawing room while the men remained at table with the wine for perhaps half an hour, after which they joined the ladies for coffee. The custom is documented continuously from the 1660s, is at its most rigid between about 1780 and 1900, and dissolves in the 1920s. THE PLAN CONSEQUENCE IS EXACT AND STILL VISIBLE IN SURVIVING HOUSES: the drawing room and the dining room must be adjacent and connected by a door the whole company can use as a body, which is why that door is so often a pair of doors, why it is on axis, and why the two rooms are the same rank and usually the same size. Where the connection runs through a hall or a passage, the sequence works but loses its force; where it runs through a third room, the ritual is impossible. Once the withdrawal stops, the requirement stops with it, and the twentieth-century living room drifts away from the dining room within one generation."
+  },
+  "dimensions": {
+    "area_sf": [
+      320,
+      800
+    ],
+    "width_ft": [
+      16,
+      24
+    ],
+    "length_ft": [
+      20,
+      36
+    ],
+    "proportion": [
+      1.25,
+      2.0
+    ],
+    "ceiling_min_ft": 11,
+    "critical_dimension": "SEATING FOR THE WHOLE COMPANY AT ONCE, WHICH IS THE NUMBER PEOPLE GET WRONG. A dinner of twelve produces twelve people in the drawing room half an hour later, and every one of them must have a seat. Twelve seats at an average 24 in of seat width plus arms is 24 linear feet of seating; arranged as two facing groups with a fireplace group between, with 30 in between a seat front and a table and 36 in of circulation behind, the seating alone needs about 320 sq ft of the floor and the room needs 400 to 500. THAT IS WHY A DRAWING ROOM IS BIG AND A PARLOR IS NOT: the parlor receives two or four callers and the drawing room receives a dinner party. A 15 x 20 room called a drawing room is a parlor. SECOND DIMENSION: the door to the dining room, which should be a pair at 5 to 6 ft overall, because twelve people move through it in under a minute and a 30 in leaf makes that a queue."
+  },
+  "furniture": [
+    {
+      "item": "sofas, pair, facing",
+      "footprint_in": [
+        84,
+        34
+      ],
+      "clearance_in": 30,
+      "note": "and they face each other across no more than 10 ft, because beyond that people stop talking across and start talking around - the conversation limit sets the group, and the group sets the room"
+    },
+    {
+      "item": "eight to twelve chairs, movable",
+      "footprint_in": [
+        24,
+        26
+      ],
+      "clearance_in": 24,
+      "note": "the drawing room's chairs are light and are MOVED, which is a real requirement: heavy fixed seating cannot absorb a party of variable size"
+    },
+    {
+      "item": "grand piano",
+      "footprint_in": [
+        58,
+        72
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "the drawing room is the music room in any house that does not have a separate one; a 6 ft grand plus bench and player is 58 x 120 in of floor"
+    },
+    {
+      "item": "card tables, pair",
+      "footprint_in": [
+        36,
+        36
+      ],
+      "clearance_in": 30,
+      "essential": false
+    },
+    {
+      "item": "tea table",
+      "footprint_in": [
+        30,
+        42
+      ],
+      "clearance_in": 30,
+      "note": "coffee and tea arrive from the butler's pantry and land here; the route from the door to this table must not cross the seating"
+    },
+    {
+      "item": "pier tables and glasses between the windows",
+      "footprint_in": [
+        42,
+        16
+      ],
+      "clearance_in": 24,
+      "essential": false,
+      "note": "the pier - the wall between two windows - is a piece of the room's architecture that exists to be furnished, and a modern window arrangement with no piers leaves the room's long wall unusable"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "South and west, and the reason is the hour: the drawing room is occupied from late afternoon into the evening, so it wants the low sun and it wants a view of the garden at dusk. In the English country house the drawing room is on the garden front, always, and the dining room takes the cooler and less desirable aspect - which is a use of orientation as social ranking and worth noticing.",
+    "glazing_fraction": [
+      0.18,
+      0.35
+    ],
+    "note": "This is a big room by the standards of the daylight rule and it needs the ceiling to pay for it: at a 12 ft storey the head sits near 9 ft 4 in and the single-sided reach is 21 ft, which is why an 11 to 13 ft ceiling and a 22 ft depth go together and why the same plan at 8 ft ceilings has a dead middle. Full-height windows to a terrace do the rest - they raise the head to the cornice and reach the whole depth. THE RULE STATED PLAINLY: a room this size cannot be lit from one side at a domestic ceiling height, so either the ceiling goes up or a second wall gets glass, and the historic examples do both."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "THE WITHDRAWAL. The whole company moves from one room to the other as a body, so the two rooms are adjacent and joined by a door - preferably a pair - that a group can pass through together. This is the hardest adjacency rule in the formal plan and it is the room's reason for existing.",
+        "relation": "direct-door",
+        "strength": "hard",
+        "exceptions": [
+          "English country houses of the eighteenth century where a saloon or an anteroom sits between them, which works because the intermediate room is part of the same processional sequence and is not a room anyone lives in",
+          "American plans after about 1920, where the ritual has stopped and the requirement has genuinely lapsed - at which point the room is a living room and should be catalogued as one"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "guests arrive and are received here before dinner, so the hall must reach it directly",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "library",
+        "why": "in the country-house sequence the drawing room, library and dining room form an enfilade along the garden front, and the library is where the men rejoin or where the party disperses to",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "loggia",
+        "why": "the drawing room opens to the terrace or the garden through full-height windows; this is the room that goes outside",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "music-room",
+        "why": "where a separate music room exists it opens off the drawing room, because the audience is the drawing room's company",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "the drawing room is the furthest formal room from the service end by design; the butler's pantry and the dining room stand between them",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "back-hall",
+        "why": "service circulation must not surface in this room; the drawing room is served through one door and that door comes from the formal side",
+        "relation": "not-visible-from",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "dining-room",
+      "gallery-corridor",
+      "stair-hall",
+      "library"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Twelve to twenty people in a closed room is a real ventilation load - roughly 15 cfm of outside air per person, so 200 to 300 cfm for a full drawing room. The historic answer was the sash window and the fire's draw, and the modern one has to be deliberate, because a well-sealed room of this size with twenty people in it becomes unpleasant within an hour.",
+    "heat": "One chimneypiece, and it is the room's compositional centre - the seating group is built round it and the mirror over it is what returns the candlelight into the room.",
+    "electrical": "Lamps, wall brackets, and a chandelier that is a light source rather than a fitting: this is the one domestic room where a central chandelier is historically correct, because it lit the whole company at once. Dimming is essential and downlights are wrong in principle - they light the floor and leave the faces dark, which inverts what the room is for.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "trim_grade": "highest",
+      "note": "The canonical case: on the garden front, 24 x 36 or thereabouts, with a full entablature, a marble chimneypiece, pier glasses between three tall windows, and a door on axis to the dining room. Frequently one of a suite of three or four rooms in enfilade."
+    },
+    {
+      "style": "adam-style",
+      "trim_grade": "highest",
+      "note": "Adam's drawing rooms are apsidal, coved or circular-ended, with the ceiling, carpet and chimneypiece designed as one composition. The room is the fullest expression of the idea that a room is a single designed object rather than a set of surfaces."
+    },
+    {
+      "style": "federal-style",
+      "trim_grade": "highest",
+      "note": "The American reduction, at 18 x 24 rather than 24 x 36, often with a shallow bow on the garden side and a delicate mantel. The withdrawal ritual is fully observed in Federal Boston, Philadelphia and Charleston."
+    },
+    {
+      "style": "regency",
+      "trim_grade": "highest",
+      "note": "Full-height French windows to a verandah or a balcony, so the drawing room extends into the garden - the beginning of the room's dissolution into the living room."
+    },
+    {
+      "style": "italianate-american",
+      "name_in_style": "drawing room or double parlour",
+      "trim_grade": "highest",
+      "note": "In an American villa the front and back parlours together do the drawing room's work, which is why they are joined by an arch or sliding doors: two rooms that become one for a party of twenty."
+    },
+    {
+      "style": "queen-anne-british",
+      "trim_grade": "high",
+      "note": "Lighter, whiter and less formal - the 'artistic' drawing room of 1880, with a frieze rail, a dado, and furniture that is deliberately unmatched. The ritual is still observed and the room has stopped looking as though it is."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent, and its absence is the type's whole argument. There is nothing to withdraw from and nowhere to withdraw to."
+    },
+    {
+      "style": "colonial-revival",
+      "trim_grade": "highest",
+      "note": "Revived as a room and largely abandoned as a ritual: a 1915 Colonial Revival drawing room is correctly sized and correctly placed next to the dining room, and the ladies stopped withdrawing about ten years after it was built."
+    },
+    {
+      "style": "ranch-style",
+      "present": false,
+      "note": "Absent entirely. The type has no formal reception sequence and does not want one."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable rooms 8 per cent glazing, 4 per cent openable.",
+      "ref": "IRC R303.1",
+      "conflict": "A 500 sq ft room needs 40 sq ft of glass by code and wants 100 to 150. The code minimum applied to a large room produces the worst possible result: an under-lit room whose size makes the deficiency obvious."
+    },
+    {
+      "requirement": "Assembly occupancy thresholds do not apply to a dwelling regardless of how many guests it holds.",
+      "conflict": "Worth knowing because the room's design case - twenty people seated - is an assembly load in every respect except the legal one, and the egress, ventilation and acoustic consequences are real even though no code enforces them."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "five-part-palladian",
+    "h-plan-manor",
+    "side-hall-double-pile",
+    "townhouse-row",
+    "mansard-block",
+    "villa-tower",
+    "temple-front-with-wings",
+    "massed-picturesque",
+    "courtyard-u"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "ceiling_height_rule",
+    "trim_family",
+    "crown",
+    "chair_rail",
+    "fireplace_surround",
+    "casing",
+    "light_fixture_family",
+    "interior_door"
+  ],
+  "faults": [
+    "the-room-nobody-enters",
+    "one-wide-door-where-two-would-do",
+    "six-eight-door-in-a-tall-room",
+    "mantel-at-the-wrong-height",
+    "duct-soffit-through-the-formal-room",
+    "recessed-can-in-a-plaster-ceiling",
+    "one-trim-grade-for-every-room",
+    "room-deeper-than-its-daylight",
+    "service-route-through-the-formal-plan"
+  ],
+  "sources": [
+    "Mark Girouard, Life in the English Country House (1978), chapters 7-9 on the withdrawing room and the social plan",
+    "Robert Kerr, The Gentleman's House (1864), on the drawing room's position relative to the dining room",
+    "proportions/systems/room-harmonic.json, the 2:3 shape as 'the workhorse' and the enfilade rank rule",
+    "Andrea Palladio, I quattro libri (1570), Book I ch. XXI-XXIII"
+  ],
+  "confidence": "high"
+}

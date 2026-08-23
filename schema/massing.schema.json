@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/massing.schema.json",
+  "title": "Massing Type",
+  "description": "A style-independent volumetric skeleton. Massings and styles inherit along DIFFERENT axes: an American Foursquare massing can be dressed Craftsman, Colonial Revival, or Prairie. Fusing the two catalogs is the most expensive mistake available at this stage.",
+  "type": "object",
+  "required": ["id", "name", "footprint", "stories", "roof_default", "circulation", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "name": { "type": "string" },
+    "aka": { "type": "array", "items": { "type": "string" } },
+    "footprint": { "type": "string", "description": "Plan geometry: rectangle, L, T, cross, U, courtyard, linear-additive, irregular." },
+    "stories": { "type": "string", "description": "e.g. '1', '1.5', '2', '2.5', '1-2'." },
+    "bays": { "type": "string", "description": "Facade bay count, or range." },
+    "depth_rooms": { "enum": ["single-pile", "one-and-a-half-pile", "double-pile", "triple-pile", "variable"] },
+    "roof_default": { "type": "array", "items": { "type": "string" } },
+    "circulation": { "type": "string", "description": "Reference to a circulation_parti value." },
+    "hearth": { "type": "string" },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "period": { "type": "string" },
+        "region": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "description": { "type": "string" },
+    "structural_logic": { "type": "string", "description": "Why the volume is this shape: span limits, framing, heating, ventilation, land division." },
+    "expansion_logic": { "type": "string", "description": "How the type grows without breaking. The single most under-modelled property in production housing." },
+    "typical_area_sf": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" }
+  }
+}

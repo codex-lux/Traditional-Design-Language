@@ -1,0 +1,151 @@
+{
+  "id": "modillion-aligned-to-nothing",
+  "name": "Modillions Aligned To Nothing",
+  "aka": [
+    "random brackets",
+    "the unset-out cornice",
+    "brackets at 24 inches"
+  ],
+  "slots": [
+    "modillion_dentil",
+    "entablature",
+    "cornice",
+    "order"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "A cornice carrying scrolled or block modillions at a constant, round spacing — 16, 20 or 24 in on centres — which bears no relation to anything else on the building. Modillions land beside the corners rather than on them, and beside the columns rather than over them. Over a five-bay front, no modillion falls on any window axis, and the number of modillions between one window centre and the next is not the same as the number between the next pair. On the gable end the run restarts from the corner, so the two elevations disagree.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "Modillions are drawn on an elevation as a hatched band or a note reading 'modillions at 20 in o.c.' and are ordered by the piece against a linear-foot take-off. The setting-out drawing that would place them — a cornice plan with the modillion centres dimensioned from the elevation's centreline — is not part of a residential drawing set and is not part of any trade's scope. The installer then starts at one end of the run, because starting at one end is how every other trim is installed, and the accumulated error appears at the far corner.",
+    "cost_saved": "Nothing in material. About two hours per elevation of layout, so 400-900 USD on a house. Where the modillion spacing is adjusted to suit the bays, one or two extra modillions may be needed — 30-80 USD each.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / modillion_dentil / corner_rule",
+      "statement": "Set out from the centre of the elevation; the corner member must be whole."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-corinthian / modillion_dentil.spacing = module * 4/3",
+      "statement": "Modillions 2/3 D = 24 parts on centres, each 2/9 D wide (8 parts) with 4/9 D between. The spacing is a function of the module and therefore of the column diameter, not a round number."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "gibbs-doric / cornice — modillions 15 parts wide on a 30-part pitch",
+      "statement": "Gibbs hangs scrolled modillions on his Doric where Vignola hangs mutules, and their pitch is the Doric triglyph pitch: half a diameter wide at 1 1/4 diameters on centres. Even the bracket inherits the order's spacing."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a modillion is a rafter end, and rafter ends land where rafters land",
+      "statement": "The modillion is the petrified end of a roof timber. Its spacing is therefore a structural rhythm and it must relate to the bay: a whole number of modillions per bay, one on the axis of each column, and a whole one at each corner. Spacing it at 24 in because 24 divides neatly into feet is spacing it from the tape measure."
+    }
+  ],
+  "correct_practice": "Set out modillions from the module and from the bay, in that order. Vignola's Corinthian gives modillions at 2/3 of a diameter on centres, 2/9 of a diameter wide, with 4/9 between; Gibbs's Doric puts them on the triglyph pitch of 1 1/4 diameters. Then reconcile with the elevation: begin from the centreline of the front, place a modillion on the centre of the door bay, and adjust the pitch by a fraction of an inch so that a whole modillion lands at each corner AND on the axis of each column of any portico below. Where a portico exists this is not negotiable — a modillion over every column, and a whole number between columns. On the returns and the gable ends, continue the same rhythm around the corner rather than restarting. Where the arithmetic cannot be made to work, the classical answer is to change the modillion pitch, never the modillion width, and never to accept a fractional member.",
+  "fixes": {
+    "right": "A cornice setting-out drawing: centreline of each elevation, modillion centres dimensioned, corner and column conditions drawn. Two hours of drafting that removes the fault entirely.",
+    "cheap": "One free rule given to the installer: start at the centre of the elevation and work both ways, and adjust the spacing rather than cutting a modillion. It costs nothing, it fixes the corners, and it fixes the symmetry of the front — which is what the eye actually reads on a composed elevation, more than the alignment with the windows. If only one thing can be corrected, make it the CORNERS: a whole modillion at every external corner, on both faces.",
+    "dishonest": "Adding a wide plain block at each corner to disguise the fractional member. A corner block is a member the cornice does not contain, it reads as a patch, and it makes the corner heavier than the run — which is the opposite of what a classical cornice does at a corner."
+  },
+  "detection": "Three checks, all from a straight-on photograph of the front. (1) Corner: is the modillion at each end of the run whole, and does it sit at the corner rather than 4 in short of it? (2) Symmetry: count modillions from the left corner to the door centreline and from the right corner to the door centreline. On a symmetrical front they must be equal. This is the single most reliable test and it needs no dimensions at all. (3) Column alignment, where a portico exists: is there a modillion centred over each column? If a modillion lands between columns and the next one lands over one, the cornice was set out from the tape. Fourth check for the flat-strip version: modillions applied to the fascia rather than under the corona are a different fault — they should be visible in an oblique view as brackets standing under the projecting corona, with the soffit panelled between them.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "modillion_count_left_of_axis - modillion_count_right_of_axis",
+    "threshold": 0,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "On a symmetrical composed front the modillion count on either side of the entrance axis must be equal and the member at each corner must be whole. This is directly countable from a straight-on photograph and requires no dimensional calibration, which makes it one of the most reliably machine-evaluable tests in the corpus. Where the front is asymmetrical, substitute the corner-member test."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The modillion is the kit's canonical member and the front is strictly symmetrical, so the count test applies exactly and the failure is visible."
+    },
+    {
+      "style": "beaux-arts-american",
+      "severity": "fatal",
+      "why": "Academic setting-out is the discipline being judged."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Endemic and free to avoid."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "serious",
+      "why": "The paired bracket is the style's dominant member and the bays are wide, so misalignment is more visible, not less."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "No cornice, no modillions."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "queen-anne-american",
+      "why": "The Queen Anne elevation is deliberately asymmetrical and its brackets follow the incidents of the massing — a bay window, a gable, a tower — rather than a single rhythm across a flat front. There is no axis to count from.",
+      "bounds": "The corner rule survives asymmetry: whole members at every external corner, and a consistent pitch within each continuous run. Different runs on different masses may differ; a single run may not drift.",
+      "applies_when": {
+        "slots": [
+          "composition_parti"
+        ],
+        "note": "applies only where the composition is genuinely picturesque, with a broken plan and roofline, not to a symmetrical front with a bay stuck on"
+      }
+    },
+    {
+      "style": "italianate-villa",
+      "why": "The asymmetrical Italianate villa with a tower groups its paired brackets by mass, and the tower's bracket rhythm is deliberately denser than the wing's to make the tower read as taller.",
+      "bounds": "Within any one mass the rhythm must be regular and the corners whole. Deliberate variation between masses is a compositional device; drift within a run is a layout failure."
+    },
+    {
+      "style": "folk-victorian",
+      "why": "Sawn brackets on a Folk Victorian eave are applied at the corners and at intervals chosen by the carpenter from a catalogue, and their charm depends on being frankly applied ornament rather than a petrified structural rhythm.",
+      "bounds": "The brackets must be sawn flat ornament rather than modillions — no scroll in section, no panelled soffit between — and must be at the corners at minimum. A modillion cornice does not get this licence.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "dentil-strip-by-the-foot",
+    "intercolumniation-set-by-the-joist",
+    "entablature-of-a-different-order"
+  ],
+  "confused_with": [
+    {
+      "fault": "dentil-strip-by-the-foot",
+      "difference": "Scale and rule. Dentils are numerous and small and their rule is interval; modillions are few and large and their rule is alignment with the bay and the column. Where both occur, dentils sit below modillions and must be a whole number between them, which is a third rule that almost nothing built today satisfies."
+    },
+    {
+      "fault": "intercolumniation-set-by-the-joist",
+      "difference": "That is the columns spaced from the framing. This is the cornice's small members spaced from the tape. Both are the same underlying failure — a rhythm set by construction convenience rather than by the order — at two different scales, and the Doric is where they become one fault."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, modillion_dentil.corner_rule",
+    "proportions/orders/vignola-corinthian.json — modillion spacing module * 4/3",
+    "proportions/overlays/gibbs-doric.json — modillions 15 parts wide on a 30-part pitch",
+    "W. R. Ware, The American Vignola, on setting out modillions and the corner condition",
+    "HABS measured cornice drawings, Chesapeake and New England modillion cornices"
+  ],
+  "confidence": "high",
+  "tags": [
+    "modillion",
+    "alignment",
+    "setting-out",
+    "cornice",
+    "machine-checkable"
+  ]
+}

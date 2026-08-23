@@ -1,0 +1,180 @@
+{
+  "id": "belt-course-at-the-wrong-datum",
+  "name": "The belt course at the wrong line",
+  "aka": [
+    "the sill-line band",
+    "the belt that does not return"
+  ],
+  "slots": [
+    "belt_course"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "A horizontal band between the storeys that is not at the floor structure: usually at the second-floor window sill line, sometimes at the second-floor finish floor, occasionally at the midpoint between the two storeys' windows because that is where it looked balanced. Frequently it runs on the front only and dies at the corners.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "The belt is composed on the elevation, where the eye wants it to relate to the windows, rather than located from the section, where it should relate to the joists. Sill lines and head lines are the visible datums on an elevation drawing; the floor structure is not drawn. On a veneer there is also no wall-thickness change at any height, so nothing in the building pushes back.",
+    "cost_saved": "Nothing — the band costs the same wherever it goes. This fault is free to fix, which is why it is in the corpus as a minor rather than a serious: it survives purely because nobody checks it against a section."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation / belt_course.height = storey_height + part * 0.6 = 126 in",
+      "statement": "The belt course sits at the second-floor STRUCTURE, not the second-floor finish — about six inches above the top of the first storey, i.e. on the joist zone. That is where the wall changes thickness in masonry and where the frame changes in a box frame, so it is the only place a horizontal band has a reason to be."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course / belt_course.height = part * 2 = 5 1/2 in (two courses); the belt lands on the course line nearest the storey-graduation figure",
+      "statement": "In brickwork the belt must land on a course line; the brick pack's rounding rule takes precedence over the storey pack's exact number."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / elevation.belt: height_parts 1.0 (9 in), projection_parts 0.25 (2 1/4 in)",
+      "statement": "The band must be shallower and less projecting than the water table below it and far less than the cornice above. Three horizontals of decreasing weight going up is the whole discipline of the front."
+    }
+  ],
+  "correct_practice": "Locate the belt from the section: it sits on the joist zone, about 6 in above the top of the first storey — 126 in above the first floor at a 10 ft storey — and where the wall is brick it is then moved to the nearest bed joint, because a band that does not land on a course cannot be built. Its depth is two courses (5 1/2 in) in brick or one part (9 in) on the bay module in frame, and it projects 2 1/4 in — less than the water table's 3 1/8 in and far less than the cornice's 7 3/4 in. It runs the full width of every elevation of the volume and returns at the corners. Where no belt is wanted, omit it: 'none' is a legitimate answer and is the norm on New England frame houses, where there is no wall-thickness change to express.",
+  "fixes": {
+    "right": "Set the belt from the section at the floor structure, round it to a course line in masonry, and run it round every elevation with a wash and a drip.",
+    "cheap": "Move it. This costs nothing before construction: dropping a belt from the second-floor sill line to the joist zone is a dimension change on one drawing. If it is too late to move, delete it — a house with no belt is correct and a house with a belt in the wrong place is not.",
+    "dishonest": "Aligning the belt with the second-floor window sills and calling it a continuous sill course. That is a real element, but a sill course is a different member with a different job: it must actually run under the sills and become their bearing, so it must be at the sill line on EVERY window of that storey and must be sectioned as a sill, with a wash and a projecting drip past the wall face. Half the houses that claim this are using it to justify a band that does not touch the sills at all."
+  },
+  "detection": "Two measurements from a straight-on elevation photograph. (1) Read the second-floor window sill height and the belt height. If they coincide within a few inches and the belt does not pass under the sills as their bearing, it is at the sill line and probably wrong. (2) Estimate the top of the first-storey window heads, add a frieze-sized gap, and you are at the plate; the belt should be a few inches above that, not below it. A belt UNDER the first-floor window heads is unambiguously wrong. Then check projection: the belt must cast a shallower shadow than the water table and a far shallower one than the cornice. If the belt is the deepest shadow on the elevation, the hierarchy has inverted. Finally, follow it to the corner: it must return.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-american",
+      "why": "Italianate uses string courses freely as horizontal emphasis and may run more than one, including at window-head level as a continuous hood band. The style's whole argument is horizontal banding.",
+      "bounds": "Each band must still be continuous round the volume and must still be subordinate to the cornice, which in Italianate is very deep (18-36 in of eave on brackets). Multiple bands are licence; a band that stops at a corner is not.",
+      "bounds_test": {
+        "expression": "cornice_projection_in / deepest_belt_projection_in",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 2.0,
+        "note": "Multiple bands are licence. Each must still be continuous round the volume and subordinate to the cornice, which in Italianate is 18-36 in of bracketed eave and therefore easily clears the factor of two."
+      },
+      "applies_when": {
+        "slots": [
+          "belt_course",
+          "cornice"
+        ],
+        "note": "Horizontal banding is the style's argument, so band count is unbounded; band hierarchy is not."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "A belt at the piazza floor level rather than at the main house's joist line is legitimate where the piazza deck IS the structural datum on that elevation.",
+      "bounds": "Only on the elevation the piazza serves, and the main block's own belt still governs the street front.",
+      "bounds_test": {
+        "expression": "abs(belt_height_in - piazza_deck_height_in)",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 6,
+        "note": "Legitimate only on the elevation the piazza serves, and only where the piazza deck genuinely is the structural datum there. The main block's own belt still governs the street front."
+      }
+    },
+    {
+      "style": "new-england-colonial",
+      "why": "No belt at all is the norm on frame work, because a frame wall has no thickness change to weather.",
+      "bounds": "Omission is correct; a belt that exists must still be at the right line.",
+      "bounds_test": {
+        "expression": "belt_course_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Omission is correct, because a frame wall has no thickness change to weather. A belt that exists must still be at the right line, so this bound is about presence and not about placement."
+      },
+      "applies_when": {
+        "construction": [
+          "braced-timber-frame",
+          "balloon-frame",
+          "platform-frame"
+        ],
+        "regions": [
+          "New England"
+        ]
+      }
+    },
+    {
+      "style": "second-empire",
+      "why": "A heavy belt at the base of the mansard, doubling as the mansard's own base moulding, sits above the plate rather than at a floor.",
+      "bounds": "It is a roof member there, not a wall member, and it must read as the bottom of the mansard, with the mansard's slope starting immediately above it.",
+      "bounds_test": {
+        "expression": "mansard_slope_start_height_in - belt_height_in",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "elevation",
+        "threshold": 6,
+        "note": "It is a roof member there, not a wall member: the mansard's slope must start immediately above it. A gap of more than about 6 in means the band is floating on the wall again."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "water-table-as-trim-board",
+      "difference": "Different member and different rule: the water table is set by grade and is the deepest of the lower horizontals; the belt is set by the section and is the shallowest."
+    },
+    {
+      "fault": "material-change-with-no-plane-change",
+      "difference": "A belt is often used to justify a material change. If the belt is at the wrong datum, the material change it authorises is at the wrong datum too — diagnose the belt first."
+    }
+  ],
+  "sources": [
+    "proportions/modules/storey-graduation.json, belt_course.height",
+    "proportions/modules/brick-course.json, belt_course rules",
+    "proportions/systems/facade-classical.json, elevation member belt",
+    "kits/georgian-colonial-american.kit.json, belt_course"
+  ],
+  "confidence": "high",
+  "tags": [
+    "alignment",
+    "belt-course",
+    "horizontals",
+    "section"
+  ],
+  "test": {
+    "expression": "belt_height_above_first_floor_in",
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "elevation",
+    "threshold": 114,
+    "upper": 138,
+    "note": "126 in at a 10 ft storey — storey_height + part * 0.6, the joist zone, about 6 in above the top of the first storey. The band of tolerance is one storey-graduation part either side. In brickwork the figure is then moved to the nearest bed joint, because a band that does not land on a course cannot be built."
+  },
+  "secondary_tests": [
+    {
+      "expression": "belt_course_projection_in / water_table_projection_in",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.9,
+      "note": "Three horizontals of decreasing weight going up: water table 3 1/8 in, belt 2 1/4 in, cornice 7 3/4 in. If the belt is the deepest shadow on the elevation, the hierarchy has inverted. Needs no absolute scale, which makes it the more useful of the two tests in a photograph."
+    },
+    {
+      "expression": "abs(belt_height_in - second_floor_sill_height_in)",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 6,
+      "note": "The commonest wrong datum is the second-floor sill line. A belt within 6 in of the sills that does not pass under them as their bearing has been composed on the elevation rather than located from the section."
+    },
+    {
+      "expression": "belt_course_length / elevation_length",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "It runs the full width of every elevation of the volume and returns at the corners."
+    }
+  ],
+  "co_occurs_with": [
+    "material-change-with-no-plane-change",
+    "water-table-as-trim-board"
+  ]
+}

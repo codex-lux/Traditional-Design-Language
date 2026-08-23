@@ -1,0 +1,148 @@
+{
+  "id": "butt-hinge-before-its-date",
+  "name": "The Butt Hinge On A 1740 Door",
+  "aka": [
+    "the invisible hinge",
+    "the hardware anachronism nobody sees",
+    "the missing HL"
+  ],
+  "slots": [
+    "hardware",
+    "interior_door"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "A house presented as early or mid eighteenth century whose doors hang on mortised butt hinges — two or three per leaf, concealed in the edge, invisible when the door is shut. The period house of that date hangs its doors on wrought iron HL and H hinges surface-mounted on the face of the leaf and the casing, where they are among the most conspicuous objects in the room. The same substitution runs through the whole slot: cup hinges on cupboard doors, tubular latches in place of thumb latches, and a modern knob on a rose where a box lock belongs.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Every pre-hung door assembly in North America ships with butt hinges mortised into the jamb at the factory, so the hinge is not a purchase at all — it is part of the door, and changing it means buying an unmortised slab, a separate jamb and a different hanging operation. Surface hinges also require the door to be hung on the FACE of the frame rather than within it, which changes the rebate, the stop and the swing clearance; the whole assembly is different, not just the ironmongery. And butt hinges genuinely work better: they are stronger, adjustable, and they do not tear out of a soft leaf.",
+    "cost_saved": "Reproduction wrought HL hinges run 45 to 120 USD a pair against 8 to 20 USD for butts, and hanging a door on surface hinges to an unmortised jamb adds 40 to 90 minutes. On twelve doors, 900 to 2,500 USD — which is small, and is why this fault is worth naming: correct hardware is one of the few genuinely cheap period corrections available."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / hardware / cast-butt-hinge, date_range [1775, 1800]",
+      "statement": "Arrives about 1775. A HARD BOUNDARY: butt hinges on a house dated 1740 are wrong in a way a specialist sees immediately."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / hardware / wrought-iron-HL-hinge and H-hinge, date_range [1700, 1790]",
+      "statement": "The canonical hinges of the period, surface-mounted and visible. Strap hinges on batten and service doors; Suffolk thumb latch to about 1780, Norfolk from about 1750."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / hardware / concealed-euro-hinge, status forbidden",
+      "statement": "A cup hinge on a period cupboard door. The whole point of colonial hardware is that it is visible and wrought."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / hardware / hinge_count_per_door = 2 and finish",
+      "statement": "Two hinges per door, wrought and blackened iron in ordinary rooms, brass box locks and knobs in principal rooms — the hardware is graded with the room exactly as the mouldings are."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "hardware is the one element that is both dated and cheap to correct",
+      "statement": "Most anachronisms in a period interior cost thousands to fix. Hardware costs hundreds, is not structural, is not embedded in another trade, and can be changed at any point in a building's life. That combination makes it the highest-leverage detail in the corpus and its neglect the least defensible."
+    }
+  ],
+  "correct_practice": "Match the hinge to the date and to the room's rank. BEFORE ABOUT 1775: wrought iron HL hinges on the principal doors and H hinges on chamber doors, surface-mounted on the face of the leaf and the casing, blackened rather than painted; strap hinges on batten and service doors; a Suffolk thumb latch on ordinary doors and a brass box lock on the principal rooms. AFTER ABOUT 1775: cast butt hinges become available and are correct, and the interior begins to conceal its ironwork — a Federal or Greek Revival house on butts is right and on HL hinges is wrong, which is the same boundary read from the other side. The two per leaf figure matters: three hinges on a period door is a modern habit driven by heavier leaves, and where a third is needed for a solid 1 3/4 in door it should be the same pattern, not a different one. Grade the hardware with the room exactly as the mouldings are graded: brass box locks and knobs in the parlour and dining room, blackened iron thumb latches in the chambers, wooden turn buttons and strap hinges in the service rooms and cupboards. Cupboard and cabinet doors take surface butterfly, H or rat-tail hinges, never a concealed cup hinge — the whole argument of the period cabinet is that its ironwork is visible and made.",
+  "fixes": {
+    "right": "Reproduction wrought hinges of the correct pattern for the date, surface-mounted, with the doors hung to suit and the hardware graded by room.",
+    "cheap": "Fix the visible half. Hang the doors on butts as the pre-hung assembly requires, and spend the whole saving on latches, knobs and cupboard hardware, which are what the hand meets and the eye reads. A blackened iron Suffolk latch is 40 to 90 USD and reads across a room; a butt hinge is invisible when the door is shut. This is a legitimate hierarchy of concession and it should be stated on the drawing rather than left to happen. Second cheap move: applied dummy HL plates over butt-hung doors are NOT the answer, but genuine surface hinges on the CUPBOARD doors — where the leaves are light, the jambs unmortised and the work all new — cost almost nothing and restore the visible ironwork where it is most concentrated.",
+    "dishonest": "Applied hinge-shaped plates screwed to the face of a butt-hung door. They are a decal with a shadow, they do not move with the door, and the tell is that the leaf swings while the 'hinge' stays flat against the frame — visible in any photograph of an open door. Also dishonest: antiquing modern hardware with a chemical patina while keeping a modern profile. Age is not the anachronism; the shape is."
+  },
+  "detection": "Photograph a door in the open position, which is the only view that shows its hinges. Period: two black iron plates on the FACE of the leaf and the casing, roughly 4 to 7 in across, with a visible pintle or knuckle at the joint. Modern: nothing on the face at all, and a knuckle just visible in the edge gap. Second, count: two per leaf before about 1800, three on a modern solid door. Third, look at the LATCH, which is more visible than the hinge and equally diagnostic — a thumb latch shows a cusped or beaned iron handle with a thumb piece above and a bar visible on the other side of the door; a modern latch shows a knob or a lever on a round rose. Fourth, cupboards: open any cabinet door in a photograph of a kitchen or a built-in and look at the hinge — a concealed cup hinge is a large white or nickel mechanism screwed into the door back and is unmistakable.",
+  "test": {
+    "expression": "visible_surface_hinges_per_leaf",
+    "threshold": 2,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Applies only to houses dated before about 1775, where surface-mounted wrought hinges are canonical. After 1775 the correct value is zero and the test inverts, which is why this fault carries an inverted_by entry rather than a single threshold. Evaluable only from a photograph of an OPEN door."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "cape-cod-colonial",
+    "new-england-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "dutch-colonial-american",
+    "hudson-valley-dutch",
+    "german-pennsylvania-colonial",
+    "colonial-revival",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "charleston-georgian",
+    "spanish-colonial-american",
+    "french-colonial-american",
+    "log-vernacular-american",
+    "appalachian-log-house",
+    "cape-cod-revival"
+  ],
+  "inverted_by": [
+    {
+      "style": "federal-style",
+      "statement": "After about 1775 the butt hinge is the correct hardware and the surface HL hinge becomes the anachronism. A Federal interior with wrought HL hinges on its principal doors is making the opposite dating error, and it is the commoner of the two in Colonial Revival work, where the whole eighteenth century tends to be collapsed into one look."
+    },
+    {
+      "style": "greek-revival-american",
+      "statement": "Butt hinges, mortise locks and pressed-glass or white porcelain knobs are correct from the 1820s onward. Surface ironwork here reads as a hundred years too early."
+    },
+    {
+      "style": "adam-style",
+      "statement": "Concealed hinges and refined brass or cut-steel furniture are the point; visible wrought iron contradicts the whole Adamesque interior."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "tudor-revival",
+      "why": "Surface strap hinges and heavy wrought ironwork are correct here regardless of the building's actual date, because the style's whole reference is to a period of visible ironwork.",
+      "bounds": "Genuinely wrought or convincingly forged, on plank or heavily framed doors, not stamped plates on a moulded blank. The straps should be long — a third to two thirds of the leaf width — and should be fixed through the leaf with visible clenched or rosehead fixings."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Visible strap hinges, clavos and heavy iron pulls are definitional and carry no date claim beyond the idiom's own.",
+      "bounds": "Heavy plank doors. Iron straps on a hollow-core blank is the fault wearing the exception's coat."
+    },
+    {
+      "style": "craftsman",
+      "why": "Butt hinges in blackened or oil-rubbed finish, with hammered copper or wrought escutcheons on the face, are the family's correct arrangement — the visible hardware is the plate and the pull rather than the hinge.",
+      "bounds": "The visible hardware must be genuinely hammered or wrought in copper, bronze or iron with a real texture; the hinge itself is properly concealed. This is an exception in date rather than in principle."
+    },
+    {
+      "style": "storybook-style",
+      "why": "Deliberately archaic and exaggerated ironwork, hand-forged in appearance, on doors of theatrical construction.",
+      "bounds": "The theatricality must be consistent — rolled edges, uneven surfaces, visible tool marks — rather than a single applied gesture on machine-made joinery."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "lever-on-a-period-door",
+      "difference": "Hinge against handle, and different arguments: the hinge is a pure dating question with no counter-pressure, while the lever is a dating question in direct conflict with accessibility. Only one of them has an honest defence."
+    },
+    {
+      "fault": "strip-oak-in-a-plank-house",
+      "difference": "The same dating logic on a much larger surface. The floor is seen by everyone and the hinge by a specialist, but the hinge costs a hundredth as much to correct."
+    }
+  ],
+  "co_occurs_with": [
+    "lever-on-a-period-door",
+    "strip-oak-in-a-plank-house",
+    "hollow-core-blank-in-a-panelled-house"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, hardware variants with date ranges and butt_hinge_earliest_date",
+    "Donald Streeter, Professional Smithing and articles on early American wrought hardware",
+    "NPS Preservation Brief 18: Rehabilitating Interiors in Historic Buildings",
+    "HABS documentation of surviving eighteenth-century door hardware"
+  ],
+  "confidence": "high",
+  "tags": [
+    "hardware",
+    "anachronism",
+    "date-boundary",
+    "cheap-fix"
+  ]
+}

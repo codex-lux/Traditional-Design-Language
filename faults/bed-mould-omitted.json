@@ -1,0 +1,186 @@
+{
+  "id": "bed-mould-omitted",
+  "name": "The Boxed Eave With Nothing In It",
+  "aka": [
+    "the two-board cornice",
+    "J-channel entablature"
+  ],
+  "slots": [
+    "eave_condition",
+    "cornice",
+    "frieze"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The box is the right shape and the entablature is missing from inside it."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "As above, and Federal work is more dependent on fine mouldings than Georgian."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "not-applicable",
+      "why": "Deliberate flattening: broad unmoulded boards, ornament by profile and mass."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "A plain fascia and plain soffit are correct."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "The clean soffit is definitional."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Trim suppression."
+    }
+  ],
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "A boxed eave of roughly the right depth - soffit, fascia, closed - but with nothing in it. Where the soffit meets the wall there is no frieze board, only a length of J-channel; where the soffit meets the fascia there is no bed mould, only a corner. Two flat boards meeting at ninety degrees, twice.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "The soffit is vented vinyl or aluminium in 12 and 16 in widths, installed by the siding crew, and the only 'moulding' in that trade's kit is J-channel and F-channel, which produce a 3/4 in reveal where a bed mould would produce a 2 1/2 in one. The frieze is skipped for the same reason: the siding runs up to the soffit and is terminated in channel, which is faster than cutting siding to a frieze board and takes no layout.",
+    "cost_saved": "$3-6 per lineal foot for a frieze and bed mould in primed finger-jointed pine, against nothing. On 150 lf, $450-900 - which is why this fault is worse value than almost any other in the group."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical -> frieze.height = part * 1",
+      "statement": "The frieze is one part - 9 in at a 9 ft bay - and the cornice is twice the frieze."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation -> frieze.height = module / 12, cornice.height = module / 8",
+      "statement": "At a 10 ft storey: frieze 10 in, cornice 15 in."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an entablature is architrave, frieze and cornice",
+      "statement": "The bed mould's job is to hold a shadow at the top of the frieze. Without it the frieze is indistinguishable from siding, and the eave has one shadow line instead of three."
+    }
+  ],
+  "correct_practice": "Even the plainest colonial boxed cornice carries a frieze board 8-10 in deep and a bed mould where the soffit meets it. The three shadow lines in order from below are: the top of the frieze (bed mould), the underside of the corona, and the fascia-to-crown junction. Two of the three cost almost nothing. On a masonry house the equivalent is a corbelled brick cornice of a whole number of courses - five courses of 2 2/3 in gauge gives about 13 in, which is why brick cornices come out close to the classical figure without anyone consulting an order.",
+  "fixes": {
+    "right": "A frieze board with a bed mould under a boxed soffit, and a crown over the fascia. Four members instead of two.",
+    "cheap": "Add the bed mould only. It is the highest-value single moulding on the building because it sits at the top of a tall flat surface and its shadow is what tells the eye the eave has depth. About $2 per lineal foot.",
+    "dishonest": "A vinyl 'crown' J-channel or a foam bed mould with a 1/2 in projection. The projection is what makes the shadow, and half an inch makes half an inch of shadow."
+  },
+  "test": {
+    "expression": "count_of_moulded_members_in_the_eave_assembly",
+    "threshold": 2,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "A bed mould at the top of the frieze and a crown over the fascia. A boxed eave with neither shows two flat boards meeting at ninety degrees, twice."
+  },
+  "secondary_tests": [
+    {
+      "expression": "frieze_height_in / storey_height_in",
+      "threshold": 0.07,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "facade-classical puts the frieze at one part - 9 in at a 9 ft bay, 10 in at a 10 ft storey. Below about 0.05 the frieze is indistinguishable from siding."
+    },
+    {
+      "expression": "bed_mould_projection_in",
+      "threshold": 1.5,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Vinyl J-channel gives a 3/4 in reveal where a bed mould gives 2 1/2. Half an inch of projection makes half an inch of shadow."
+    }
+  ],
+  "detection": "Look at the corner of the house where the eave returns, because there you see the cornice in section. Count the members: a real cornice shows three or more steps between the wall face and the fascia. A boxed eave with nothing in it shows one long flat soffit meeting a flat wall in a straight line, and a photograph taken in raking light will show a single hard edge rather than a stack of parallel shadows.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Deliberate flattening. The frieze board runs 10-20 in, the trim is broad and unmoulded, and there may be no bed mould at all - ornament in this style is by profile and mass rather than by relief.",
+      "bounds": "The flatness has to be paid for in depth. A Greek Revival eave is bigger, not thinner: the entablature is one quarter to one fifth of the column height and the frieze board is 10-20 in deep. A 6 in fascia with no mouldings is not Greek Revival simplification, it is nothing.",
+      "bounds_test": {
+        "expression": "frieze_board_depth_in",
+        "threshold": 10,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 20,
+        "note": "The flatness is paid for in depth: the entablature runs one quarter to one fifth of the column height. A 6 in fascia with no mouldings is not Greek Revival simplification, it is nothing."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "A plain fascia and a plain soffit are correct; the eave earns its shadow from 24-36 in of projection.",
+      "bounds": "Rafter tails, purlins or knee braces should be doing the visual work instead.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 24,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "With rafter tails, purlins or knee braces doing the visual work instead."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The clean soffit with no mouldings is the fastest separation from Craftsman and is definitional.",
+      "bounds": "Only with the 30-48 in overhang and the continuous fascia band drawn unbroken around the whole building.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 30,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "With the continuous fascia band drawn unbroken around the whole building."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Trim suppression is the rule; a bed mould would be an intrusion.",
+      "bounds": "Total suppression, not selective.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Total suppression, not selective: 2-3 in casing or none, and no corner boards."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "gutter-as-cornice",
+      "difference": "There is no boxed eave there at all. Here the box exists and is empty."
+    }
+  ],
+  "co_occurs_with": [
+    "gutter-as-cornice",
+    "soffit-vent-through-cornice",
+    "return-that-never-returns"
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json",
+    "proportions/modules/storey-graduation.json",
+    "Asher Benjamin, The American Builder's Companion (1806), plates on cornices",
+    "kits/georgian-colonial-american.kit.json eave_condition"
+  ],
+  "confidence": "high",
+  "tags": [
+    "eave",
+    "cornice",
+    "profile-depth",
+    "cheap-to-fix"
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "cellar",
+  "name": "Cellar",
+  "aka": [
+    "basement",
+    "undercroft",
+    "root cellar"
+  ],
+  "function_class": "storage",
+  "privacy_rank": 4,
+  "confidence": "high",
+  "description": "The ground under the house put to work. Before mechanical refrigeration it was the cold store and the root house; before central heating it held the coal; now it holds the equipment that makes the rest of the house habitable, and its ceiling height is decided by ductwork nobody has drawn yet.",
+  "history": {
+    "appears": 1620,
+    "note": "The American cellar is a frost-line artifact: a foundation has to go below frost anyway, so the volume is nearly free north of about the 36th parallel and expensive south of it. That single fact explains most of the regional difference in American house section, and it is why Tidewater houses have crawl spaces and New England houses have basements."
+  },
+  "dimensions": {
+    "area_sf": [
+      200,
+      2400
+    ],
+    "ceiling_min_ft": 6.67,
+    "critical_dimension": "Clear height under the lowest duct or beam, not under the joists. A 8 ft pour becomes 7 ft under a trunk duct and 6 ft 4 in under a beam, and the difference between a storage cellar and a habitable one is decided there."
+  },
+  "furniture": [
+    {
+      "item": "mechanical equipment zone",
+      "footprint_in": [
+        72,
+        120
+      ],
+      "clearance_in": 30,
+      "essential": true,
+      "note": "Furnace or air handler, water heater, panel. Code clearances are real and routinely designed out."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.0,
+    "sides_lit": 1,
+    "orientation": "Wherever grade falls. A walk-out is worth more than any amount of area.",
+    "glazing_fraction": [
+      0.0,
+      0.08
+    ],
+    "note": "Areaway windows at the head of the wall are the traditional answer and read as part of the water table, not as windows."
+  },
+  "adjacency": {
+    "must_adjoin": [],
+    "should_adjoin": [
+      {
+        "room": "back-hall",
+        "why": "The cellar stair belongs on the service side, not off a public room.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "kitchen",
+        "why": "Historically the cold store served the kitchen and the stair was next to it.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "A cellar door off a formal hall is a rank-4 opening onto rank 2, and it will always be the door left ajar.",
+        "relation": "not-visible-from",
+        "strength": "strong",
+        "exceptions": [
+          "side-hall-double-pile"
+        ]
+      }
+    ],
+    "entered_from": [
+      "back-hall",
+      "kitchen",
+      "mudroom",
+      "exterior"
+    ],
+    "never_a_through_room": false
+  },
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "Mechanical; a sealed conditioned cellar and a vented one are different buildings and mixing the details causes most basement moisture failures.",
+    "heat": "Source of the house's",
+    "electrical": "Panel location",
+    "stack_proximity_ft": 0
+  },
+  "style_variation": [
+    {
+      "style": "tidewater-georgian",
+      "present": false,
+      "note": "Raised on a crawl or a full raised basement instead; a dug cellar in a high water table is a cistern."
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "note": "The whole type is a cellar with a house on it: banked into the slope with the lower level at grade on the downhill side and used as kitchen and dairy."
+    },
+    {
+      "style": "raised-creole-plantation",
+      "present": false,
+      "note": "The equivalent volume is above grade, which is the correct response to inundation."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable basement rooms require an emergency escape opening",
+      "ref": "IRC R310.1",
+      "conflict": "A finished basement bedroom without an egress window is the commonest illegal room in American housing, and it is usually finished after the permit."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "cape-cod-massing",
+    "saltbox",
+    "foursquare",
+    "i-house",
+    "split-level"
+  ],
+  "slots": [
+    "foundation_expression",
+    "grade_relationship",
+    "services_strategy",
+    "storage_strategy",
+    "water_table"
+  ],
+  "sources": [
+    "IRC R310, R305",
+    "McAlester, A Field Guide to American Houses"
+  ]
+}

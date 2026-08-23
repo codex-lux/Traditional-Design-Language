@@ -1,0 +1,86 @@
+{
+  "id": "sunroom",
+  "name": "Sunroom",
+  "aka": ["sun porch", "sun parlor", "solarium", "conservatory (when planted)", "Florida room", "garden room", "enclosed porch"],
+  "function_class": "living",
+  "description": "A room glazed on two or three sides, used for sitting in the light. It is the only room in the domestic catalogue whose defining feature is also its principal defect: the glass that makes it work in April makes it uninhabitable in July and in January, and the entire history of the type is a sequence of attempts to keep the light and lose the consequences.",
+  "history": {
+    "appears": 1840,
+    "declines": 1960,
+    "replaced": "the orangery and the conservatory, which were plant rooms that people visited rather than rooms with plants in them",
+    "replaced_by": "the four-season room and the sliding door to a deck - the same light with the room's ambition removed",
+    "note": "THE SUNROOM'S POPULARITY BETWEEN 1900 AND 1930 IS A MEDICAL PHENOMENON AND THIS IS THE PART THAT IS NEVER SAID. Before antibiotics the standard treatment for tuberculosis was the open-air or heliotherapy cure - fresh air, rest and direct sunlight - and tuberculosis was among the leading causes of death in North America and Europe at the turn of the century. Sanatorium design put patients on open galleries in all weathers, and the doctrine came straight into domestic building as the SLEEPING PORCH and the SUN PARLOR, which appear in pattern books and builders' catalogues from about 1905 and are near-universal in middle-class American houses by 1920. Vitamin D and rickets research in the 1920s reinforced it. Then streptomycin arrives in 1944, the sanatoria close, and within a decade the sleeping porch is a storage room and the sun parlor has been glazed in and radiator-heated. THE ROOM SURVIVES AS THE FLORIDA ROOM AND THE FOUR-SEASON ROOM, the same room fighting the same thermal battle with better glass. Understanding that the type came from a disease rather than from a taste explains its sudden arrival, its sudden decline, and its odd position in the plan - hung on the side of the house rather than built into it, because it was added to an existing type."
+  },
+  "dimensions": {
+    "area_sf": [120, 320],
+    "width_ft": [9, 15],
+    "length_ft": [12, 24],
+    "proportion": [1.2, 2.0],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "THE OVERHANG, WHICH IS AN EXTERIOR DIMENSION THAT DECIDES WHETHER THE ROOM IS USABLE. Shade depth needed = glass height / tan(solar altitude). At 40 degrees north the noon sun is about 73 degrees up at the summer solstice and 26 degrees at the winter solstice; an 8 ft high south glass wall therefore needs 2 ft 5 in of overhang to be fully shaded at midsummer noon, and would need over 16 ft to be shaded at midwinter noon - which is exactly what you want, because in winter you want the sun in. A 3 FT OVERHANG ON A SOUTH SUNROOM at 40 degrees north shades the glass around midday from roughly May to August and admits it from October to February: that is the whole design, and it is one number. WEST GLASS CANNOT BE SHADED BY AN OVERHANG AT ALL - at 4 p.m. in July the sun is 25 to 30 degrees up and arriving nearly horizontally - so a west-facing sunroom needs a vertical device or a deciduous tree or it will reach 110 degrees F. THE SECOND DIMENSION IS DEPTH, AND IT IS SMALL: 9 to 12 ft. A sunroom deeper than about 14 ft has a back zone that is neither in the light nor in the room, and the furniture ends up in a line along the glass with a corridor behind it."
+  },
+  "furniture": [
+    {"item": "wicker or rattan seating group", "footprint_in": [72, 32], "clearance_in": 30, "note": "light furniture is not a style preference here: the room is used differently by season and the furniture gets moved toward and away from the glass"},
+    {"item": "two chairs and a small table", "footprint_in": [60, 30], "clearance_in": 30},
+    {"item": "small dining or games table", "footprint_in": [42, 42], "clearance_in": 36, "essential": false, "note": "a sunroom that can seat four to eat is worth twice one that cannot, and 42 in of table plus 36 in of pull each side is 114 in = 9 ft 6 in, which sets the room's minimum depth if this use is wanted"},
+    {"item": "plant shelf or staging at the glass", "footprint_in": [96, 14], "clearance_in": 24, "essential": false, "note": "in the conservatory version this is the room's programme. Note that plants and people want different humidity, and that a planted sunroom will condense on its glazing in winter."},
+    {"item": "daybed", "footprint_in": [78, 34], "clearance_in": 24, "essential": false, "note": "the sleeping-porch survival, and the room's original use"}
+  ],
+  "daylight": {
+    "depth_multiplier": 2.8,
+    "sides_lit": 3,
+    "orientation": "SOUTH OR SOUTH-EAST. South is shadeable by an overhang and gives winter gain; east gives morning sun and no afternoon overheating; WEST IS THE WORST ORIENTATION IN THE HOUSE for a glazed room and is exactly where sunrooms most often get put, because it is what the plan has left over. North is a cold glass box with no compensating gain - pleasant in July, unusable in January, and structurally the least defensible version.",
+    "glazing_fraction": [0.4, 0.8],
+    "note": "THE ONE ROOM WHERE THE DAYLIGHT DEPTH RULE DOES NOT BIND, because glazing on three sides means there is no single window wall to measure from - which is why the multiplier is set generously at 2.8. The binding constraints are the other two. GLARE, because a room lit from three sides has no dark surface for the eye to rest on and the contrast against the doorway into the house is severe. And HEAT, in both directions: a single-glazed sun porch loses roughly five to ten times as much heat per square foot as the wall it replaced, which is why the historic ones were unheated and shut in winter, and why heating one is the most expensive square footage in a house to condition. The honest position for new work is to decide whether the room is CONDITIONED or SEASONAL and build it accordingly - a seasonal room with single glazing, no heat and a door to the house that seals, or a conditioned room with insulated glass, a proper thermal envelope and shading. The half measure, which is what most enclosed porches are, gives a room that is uncomfortable eight months of the year and a heating bill for all twelve."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {"room": "living-room", "why": "the sunroom is an annexe of a principal room and is entered from it, not from a corridor - it has no independent purpose, and a sunroom reached down a passage will not be used", "relation": "direct-door", "strength": "strong",
+       "exceptions": ["the conservatory proper, which is a plant house attached to a garden front and may be reached from the garden or the hall", "the sleeping porch, which is off a bedchamber and is a different room with a different privacy rank"]}
+    ],
+    "should_adjoin": [
+      {"room": "dining-room", "why": "a sunroom that can be eaten in is used far more than one that cannot, and the route from the kitchen must not cross a seating group", "relation": "direct-door", "strength": "preferred"},
+      {"room": "morning-room", "why": "the same aspect, the same hours, and in interwar plans the sunroom is what the morning room became", "relation": "direct-door", "strength": "preferred"},
+      {"room": "loggia", "why": "the glazed room and the shaded outdoor room are a good pair and cover different halves of the year from the same face of the house", "relation": "same-floor", "strength": "preferred"}
+    ],
+    "must_not_adjoin": [
+      {"room": "library", "why": "a room with 60 per cent glazing next to a room full of books puts direct sun and a large humidity swing where neither can be tolerated; if they must be adjacent, the connecting opening should be a solid door and not a cased opening", "relation": "acoustically-separated", "strength": "preferred"}
+    ],
+    "entered_from": ["living-room", "dining-room", "morning-room", "entrance-hall", "sitting-room"],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "HIGH AND LOW OPENINGS, and this is the room's one genuinely effective passive device: a glazed room stratifies violently, so an opening at the top of the glass and another at the bottom drives a stack flow that will shift the whole volume several times an hour with no fan. Historic conservatories all have top vents; almost no modern sunroom has any.",
+    "heat": "Decide. Either seasonal and unheated with a sealing door to the house - which is what the historic sun porch was and is a perfectly good answer - or conditioned, with an insulated envelope, low-E glazing and its own zone, because it will never track the rest of the house's heating demand. A sunroom on the same zone as the living room will make the living room too hot or the sunroom too cold, always.",
+    "electrical": "Minimal, and think about where the sun falls: a switch plate on the sun-facing wall will be the first plastic in the house to yellow and become brittle.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {"style": "colonial-revival", "name_in_style": "sun porch, sun parlor", "trim_grade": "middle", "note": "The canonical American version, 1910-1935: a one-storey glazed room at the gable end of the main block, balancing a porte-cochere or a porch at the other end, with three-sided banks of casements or triple-hung sash and often a flat roof used as a deck. It is almost always symmetrical with something at the other end, which is the revival's way of accommodating an asymmetrical need."},
+    {"style": "craftsman-bungalow", "name_in_style": "sun porch, sleeping porch", "trim_grade": "middle", "note": "Often at the rear or over the porch, with banks of casements and a low knee wall of shingles. The sleeping-porch version, upstairs and originally unglazed with only screens and canvas blinds, is the type at its most literal about the fresh-air doctrine."},
+    {"style": "regency", "name_in_style": "conservatory", "trim_grade": "highest", "note": "Curved iron and glass attached to the drawing room, planted, and the ancestor of the whole type. The Regency conservatory is a plant house that people visit; the twentieth-century sunroom is a sitting room with plants in it, and the difference decides the humidity, the drainage and the floor."},
+    {"style": "queen-anne-british", "name_in_style": "garden room, conservatory", "trim_grade": "high", "note": "Attached to the garden front with a tiled floor and a glazed roof. The glazed ROOF is the difference and it is what makes the room unusable in summer without blinds - which is why every surviving Victorian conservatory has an internal blind system."},
+    {"style": "mediterranean-revival", "name_in_style": "solarium", "trim_grade": "high", "note": "Frequently on the roof, or a loggia glazed in. In a Mediterranean climate the thermal argument runs the other way - the problem is shading rather than heating - and the type works better."},
+    {"style": "ranch-style", "name_in_style": "Florida room", "trim_grade": "plain", "note": "A rear addition with jalousie windows and an indoor-outdoor carpet, usually added after construction, usually unconditioned, and usually the room the family used most in spring and autumn. Its ad-hoc quality is authentic to the type."},
+    {"style": "georgian-colonial-american", "present": false, "note": "Anachronistic - the sash and glass technology of the period could not make one, and an eighteenth-century house with a sunroom has an addition. Where one is wanted on a Georgian-Revival plan, put it at the end of a wing or a hyphen where the historic type put its dependencies, never on the principal elevation."},
+    {"style": "shotgun-house", "present": false, "note": "Absent. The rear gallery does this work, open."},
+    {"style": "cape-cod-colonial", "present": false, "note": "Absent from the historic type; a glazed room on a Cape is invariably a later addition and should be detailed as one - subordinate, lower, and on the rear or the gable end."}
+  ],
+  "code": [
+    {"requirement": "Sunrooms are treated as a distinct category with reduced thermal requirements where they are thermally isolated from the dwelling by a wall and a door meeting the code's U-factor; otherwise they are conditioned space and must meet the full envelope requirements.", "ref": "IECC R402.2.13 / AAMA-NPEA-NSA 2100", "conflict": "THE DECISION THE CODE FORCES AND THAT MOST PROJECTS DUCK. Keep the sealing door and the sunroom can be lightly built and seasonal; remove it - which is what everyone wants to do, because the door is in the way - and the room becomes conditioned space subject to the full glazing area, U-factor and SHGC limits, which usually means it can no longer be mostly glass. Decide at concept, not at permit."},
+    {"requirement": "Glazing in a hazardous location - within 24 in of a door, less than 18 in above the floor, or larger than 9 sq ft with a bottom edge under 18 in - must be safety glazed.", "ref": "IRC R308.4", "conflict": "In a sunroom this means essentially all of it, which is a real cost and is routinely missed in budgeting a three-sided glazed room."},
+    {"requirement": "Skylights and sloped glazing must be laminated or wired on the inboard face.", "ref": "IRC R308.6", "conflict": "A glazed conservatory roof triggers this and roughly doubles the roof glazing cost. And a glass roof cannot be shaded from outside without a structure over it: the summer performance of an unshaded glass roof at 40 degrees north is worse than any wall condition."}
+  ],
+  "massing_fit": ["foursquare", "bungalow-linear", "four-over-four", "cross-gable-victorian", "gable-front-and-wing", "ranch-linear", "ranch-l", "cape-cod-massing", "linear-ell-farmhouse", "mansard-block", "villa-tower", "airplane-bungalow"],
+  "slots": ["glazing_assembly", "window_type", "daylight_strategy", "orientation_rule", "room_adjacency_overrides", "wing_strategy", "eave_condition", "floor_material"],
+  "faults": ["room-deeper-than-its-daylight", "porch-as-a-stage-set", "the-black-window-package", "low-e-and-the-colour-of-the-glass", "insulated-unit-defeats-the-divided-lite", "dependency-that-is-not-subordinate", "plan-flipped-without-the-sun"],
+  "sources": [
+    "Sheila M. Rothman, Living in the Shadow of Death: Tuberculosis and the Social Experience of Illness in American History (1994)",
+    "Paul Overy, Light, Air and Openness: Modern Architecture Between the Wars (2007), on the sanatorium doctrine's spread into ordinary building",
+    "International Energy Conservation Code R402.2.13; IRC R308.4, R308.6",
+    "Solar altitude calculations at 40 degrees N for solstice and equinox"
+  ],
+  "confidence": "high"
+}

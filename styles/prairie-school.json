@@ -1,0 +1,199 @@
+{
+  "id": "prairie-school",
+  "name": "Prairie School",
+  "aka": [
+    "Prairie style",
+    "Chicago School (residential branch)",
+    "the Prairie box (plan-book derivative)"
+  ],
+  "rank": "style",
+  "member_of": "american-arts-and-crafts",
+  "status": "historical",
+  "period": {
+    "origin": 1893,
+    "floruit_start": 1900,
+    "floruit_end": 1917,
+    "decline_end": 1925,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Oak Park and Chicago, Illinois",
+    "climate_zones": [
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "arts-and-crafts-american",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Shares the reform ethic, the hearth-centred open plan, the built-in furniture, the art glass, and the refusal of applied classical ornament. Wright exhibited and published within the movement's institutions."
+    },
+    {
+      "target": "shingle-style",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Wright's formative years with J. L. Silsbee. The continuous unbroken skin, the pinwheel plan turning about a central chimney mass, and the horizontal spread are all Shingle Style inheritances stripped of their picturesque incident."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Through Sullivan's office: the low sheltering arch, the base-shaft-cap wall hierarchy, and the conviction that a wall's mass should be expressed in long horizontal courses."
+    },
+    {
+      "target": "queen-anne-american",
+      "type": "reacts_against",
+      "weight": 0.6,
+      "inherits_kit": false,
+      "note": "Wright's stated programme in 'The Art and Craft of the Machine' (1901) and in the Ladies' Home Journal designs: eliminate the attic, the cellar stair, the porch spindle, the bric-a-brac, and the room-by-room subdivision of the ground floor."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "reacts_against",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "The competing American answer to the same Victorian exhaustion. Prairie rejects the historicist route explicitly, which is what places it at the edge of this taxonomy."
+    }
+  ],
+  "description": {
+    "short": "The Chicago-centred style that answered the exhaustion of Victorian building by dissolving the house into horizontal planes gathered about a central chimney, and in doing so became the point at which the American tradition begins arguing with itself.",
+    "long": "Prairie School belongs in this graph and sits uneasily in it, and the honest thing is to say why. Every other node here inherits a grammar and modifies it. Prairie inherits a grammar and sets out to replace it with a first-principles derivation from site, plan, and material — the same intellectual move that modernism will make twenty years later, made here while the details are still being cut by Arts and Crafts craftsmen out of oak and art glass. It is traditional in its methods, its materials, its craft economy, and its plan lineage from the Shingle Style; it is anti-traditional in its refusal of any historical reference whatsoever. This is the point where the American tradition begins arguing with itself, and the argument is not settled: the Wasmuth Portfolio of 1910 carried these houses to Berlin, where they were read as a programme rather than a style, and the reading returned to America in the 1930s as the International Style, which then spent forty years dismantling everything else in this taxonomy. A design system that omits Prairie because it is inconvenient is falsifying its own history.\n\nThe conditions that produced it are Chicago's. A flat glaciated landscape with no vertical incident, which the style takes as an instruction rather than a deficiency. A rail commuter suburb — Oak Park, River Forest, Riverside — with deep lots and a professional clientele willing to be argued with. A local building economy fluent in plaster, in long thin Roman brick, in leaded glass, and in the wide-span steel and timber framing that Chicago commercial work had made routine. And a specific intellectual milieu: Sullivan's theory of an organic ornament generated from the building's own geometry, Hull House and its Arts and Crafts Society, and the conviction, widely shared in Chicago in 1900, that a democratic society ought to be able to produce a domestic architecture of its own. The transmission mechanism is worth naming as precisely as Stickley's magazine: in February and July 1901 the Ladies' Home Journal — then the largest-circulation magazine in the world — published Wright's 'A Home in a Prairie Town' and 'A Small House with Lots of Room in It' as buildable designs for its readers. The style reached the American public through a women's magazine before it reached the profession, and the plan-book trade promptly reduced it to the 'Prairie box': a foursquare with wide eaves and a belt course, which is how most Americans have actually seen it.\n\nWhat it looks like follows from one decision: the house is composed of horizontal planes, and every vertical element is either suppressed or converted into a datum. The roof is low-pitched and hipped, its eaves projecting far enough — thirty inches to four feet — to throw the whole wall into shadow and to read as a floating plane. A continuous water table, a sill band, a lintel band, and the fascia draw four unbroken lines around the building. Windows become bands of casements set at the outer wall face so that the wall reads as a screen rather than as a mass with holes. Corners are dissolved with glass or turned by a projecting pier. The entry is displaced — around a corner, behind a wall, under a low overhang — so that arrival is a sequence rather than an announcement, and the front door is frequently invisible from the street. What holds all of this together is the chimney: the plan pinwheels about a masonry mass that is the heaviest, tallest, and most solid object in the composition, and the horizontal planes are understood as slabs slid past it.\n\nTo be inside one is a specific and still-startling experience of compression and release. Ceilings drop to seven feet at the entry and in the circulation zones and lift to nine and a half or more over the living space, and the change is felt in the body before it is noticed by the eye. Light is filtered through art glass whose geometry is derived from the plan, so the pattern on the floor at four in the afternoon is a projection of the building's own logic. There is nowhere to hang a picture and no place to put an inherited sideboard, which is the source of most contemporary complaints about these houses and also the point. Outside, at a hundred feet, the building appears to be pressed down into the ground and spreading; at twenty feet, it appears to be made entirely of edges. Neither reading resembles anything else built in America before it."
+  },
+  "defining_characteristics": [
+    "Dominant low-pitched hipped roof with eaves projecting 30 in to 48 in and reading as an unbroken floating plane",
+    "Horizontality asserted by continuous banding: water table, sill course, lintel course, and fascia drawn unbroken around the whole building",
+    "Windows as horizontal bands of casements, glazed in rectilinear art glass and set at the outer face of the wall",
+    "Plan pinwheeling about a massive central masonry chimney, which is the tallest and heaviest element of the composition",
+    "Suppressed or indirect entry — the front door is displaced from the principal elevation and often not visible from the street",
+    "Wall surfaces continuous and unornamented: stucco with wood banding, or long thin Roman brick in raked horizontal joints",
+    "Ceiling heights deliberately varied between compressed circulation and released living volume",
+    "No historical reference of any kind — no orders, no revival motifs, no applied period detail"
+  ],
+  "diagnostic_tells": [
+    "The eave soffit is clean: no rafter tails, no knee braces, no brackets. This is the fastest separation from Craftsman.",
+    "Roman brick — brick roughly twice as long and half as tall as standard — laid with raked horizontal and flush vertical joints so only the horizontal reads",
+    "Casement windows in continuous ribbons, with art glass in rectilinear geometry and no curves",
+    "The chimney is visibly the fattest object in the composition and the plan turns around it",
+    "You cannot find the front door from the sidewalk"
+  ],
+  "distinguished_from": [
+    {
+      "node": "craftsman",
+      "difference": "Craftsman shows the structure — rafter tails, braces, piers, stacked rustic materials — and roofs in gables over double-hung sash. Prairie suppresses all structural evidence into planes and roofs in hips over casement bands. If you can count the rafters, it is not Prairie."
+    },
+    {
+      "node": "arts-and-crafts-american",
+      "difference": "Same movement, opposite method. Arts and Crafts finds its expression in the evidence of the hand; Prairie finds it in geometry, and is content to have the machine execute it."
+    },
+    {
+      "node": "ranch-style",
+      "difference": "The ranch inherits Prairie's horizontal parti and low hipped roof but none of its hierarchy: the ranch is long because the lot is wide and the plan is single-loaded, not because horizontality is being composed. Prairie has a centre; the ranch has an extent."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "A system of horizontal datums rather than a vertical module. Four continuous lines — water table, sill band, lintel band, fascia — are established first and every element is then sized to die into one of them. The secondary module is dimensional: the Roman brick course and the standard casement width of roughly 2 ft, from which window bands are built in multiples. Vertical proportion is handled by ceiling height differentiation, not by facade ratio.",
+    "typical_ratios": [
+      "Hipped roof pitch 3:12 to 4:12",
+      "Eave overhang 30 to 48 in, uniform on all sides",
+      "Ceiling heights differentiated: 6 ft 10 in to 7 ft 4 in at compression, 9 ft 0 in to 10 ft 0 in at release",
+      "Window band length 3 to 8 casement units, each 1 ft 10 in to 2 ft 4 in wide",
+      "Lintel band to sill band dimension approximately equal to the fascia depth, so the three lines read as one family"
+    ],
+    "bay_rhythm": "Continuous rather than bayed. The compositional unit is the band, subdivided by mullions at a regular casement module; solid wall occurs between bands, not between windows.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "prairie-cruciform",
+      "affinity": "canonical",
+      "note": "The pinwheel of wings about a central chimney is the style's own skeleton and was largely invented for it."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "common",
+      "note": "The 'Prairie box' of the plan-book trade: a foursquare with wide hipped eaves, a belt course, and a hipped dormer. This is how the style reached most of the country."
+    },
+    {
+      "massing": "ranch-linear",
+      "affinity": "possible",
+      "note": "Wright's Usonian houses of the later 1930s take this direction, and it is the formal channel by which Prairie horizontality reaches the postwar ranch."
+    },
+    {
+      "massing": "bungalow-linear",
+      "affinity": "atypical",
+      "note": "Occurs as the 'Prairie bungalow' of Midwestern builders; correct in silhouette and usually wrong in the eave and the sash."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Principal roof hipped at 3:12 to 4:12 with eave overhang not less than 30 in on every side. A gabled principal roof or an overhang under 24 in disqualifies the node.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Exposed rafter tails, knee braces, applied brackets, shutters, and any classical or revival ornament are forbidden. The eave soffit is a continuous closed plane.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "All window heads on a storey must die into a single continuous lintel band, and all sills into a single sill band; the bands must return around every corner without interruption.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "The primary entry may not be centred on the principal street elevation, and should be approached at right angles to the direction of arrival.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "The chimney mass must exceed the width of any other vertical element by at least 50 percent and must terminate above the highest roof plane.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Frederick C. Robie House",
+      "location": "Chicago, Illinois",
+      "year": 1910,
+      "note": "Frank Lloyd Wright, designed 1908-09 and completed 1910. The style's limit case: cantilevered roof planes, a continuous glass band, and an entry hidden behind the chimney mass."
+    },
+    {
+      "name": "Ward W. Willits House",
+      "location": "Highland Park, Illinois",
+      "year": 1902,
+      "note": "Wright's first fully resolved Prairie house; the cruciform pinwheel about a central hearth in its clearest form."
+    },
+    {
+      "name": "Purcell-Cutts House",
+      "location": "Minneapolis, Minnesota",
+      "year": 1913,
+      "note": "Purcell and Elmslie. Demonstrates that the style was a school rather than one man, and carries Elmslie's Sullivanian ornament."
+    }
+  ],
+  "sources": [
+    "H. Allen Brooks, The Prairie School: Frank Lloyd Wright and His Midwest Contemporaries (1972)",
+    "Frank Lloyd Wright, 'A Home in a Prairie Town', Ladies' Home Journal, February 1901",
+    "Frank Lloyd Wright, Ausgefuehrte Bauten und Entwuerfe (the Wasmuth Portfolio, 1910)",
+    "Vincent Scully, The Shingle Style and the Stick Style, rev. ed. (1971)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "boundary-of-traditional",
+    "horizontal-datum-system",
+    "magazine-transmitted",
+    "chicago"
+  ]
+}

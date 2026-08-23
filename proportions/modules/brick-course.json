@@ -1,0 +1,381 @@
+{
+  "id": "brick-course",
+  "name": "The Brick Course",
+  "aka": [
+    "coursing measure",
+    "gauge",
+    "the mason's story pole",
+    "brick module"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Measured coursing of surviving 17th-19th c. Anglo-American and English brickwork, checked against Brick Industry Association Technical Notes 10 and 31 and the English statute brick sizes",
+    "year": null,
+    "strength": "documented",
+    "url": "https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf",
+    "note": "Nobody wrote this system down as a system because every mason carried it in his hand and on his gauge rod. But it is fully recoverable: the brick and the joint are both measurable in surviving fabric, and every horizontal on a brick building is a whole number of courses off a datum. What follows is the reconstruction of a rule that was never a text but was always a rule."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One coursing measure: four brick courses, each course being one brick bed-depth plus one bed joint, measured on the mason's gauge rod",
+    "parts": 4,
+    "default_size_in": 11.0,
+    "note": "The part is one course, because the course is the only unit a mason can actually lay to. The module is four courses rather than one because four courses is the interval the gauge rod is marked in, because four courses of a statute-size brick come out very near the brick's own length (an internal check the mason used to keep the wall square in both directions), and because the historic Chesapeake and Mid-Atlantic figure is quoted as a four-course number: four courses to eleven inches, i.e. a 2 1/4 in brick with a 1/2 in lime bed joint. Historic coursing measures, four courses: Dutch/New Netherland yellow brick 8 to 8 1/2 in; English statute and Anglo-colonial brick 10 1/2 to 11 1/2 in; 19th-century American common brick 10 1/4 to 10 3/4 in; modern modular brick 10 2/3 in exactly (three courses to eight inches); modern queen and engineer-modular 12 4/5 in (five courses to sixteen inches). The default of 11.0 in is the mid-18th-century Anglo-American norm. Change it and every horizontal in the pack moves with it, which is the entire point."
+  },
+  "assemblies": {
+    "water_table": {
+      "height_modules": 2.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "plinth_courses",
+          "name": "Plinth courses — the base wall, one half-brick thicker than the wall above",
+          "height_parts": 7,
+          "projection_parts": 0.75,
+          "profile": "plinth",
+          "note": "Seven courses, roughly 19 in, brings the top of the plinth to about 24-30 in above finished grade on a normal set-out. The plinth is not decoration: it is the extra wythe that carries the wall above and keeps splash and ground damp out of the thinner wall. Laid in English bond even on buildings whose principal face above is Flemish — the strongest bond goes where the load is.",
+          "confidence": "high"
+        },
+        {
+          "id": "ovolo_moulded_course",
+          "name": "Moulded brick water-table course (ovolo or bull-nose)",
+          "height_parts": 1,
+          "projection_parts": 0.75,
+          "profile": "ovolo",
+          "enrichment": "rubbed and gauged on the entrance elevation; plain moulded brick on the flanks and rear",
+          "note": "One course of purpose-moulded brick. The ovolo is the ordinary form; a cyma-reversa (ogee) water table is the better grade and is the Westover standard in the Chesapeake. On cheap work this course is simply a bevelled or 'plain sloped' brick, and on the cheapest it is a plain rowlock. The moulding profile of this single course is one of the highest-signal details on a brick vernacular building and costs one course of brick.",
+          "confidence": "high"
+        },
+        {
+          "id": "weathering_course",
+          "name": "Bevelled weathering course",
+          "height_parts": 1,
+          "projection_parts": 0.4,
+          "profile": "bevel",
+          "note": "The transition course that brings the wall face back from the plinth to the naked of the upper wall. Omitted where the moulded course does the whole job in one; present wherever the offset exceeds about 2 1/2 in, because a single course cannot turn more than about its own height without the water sitting on it.",
+          "confidence": "medium"
+        },
+        {
+          "id": "first_wall_course",
+          "name": "First course of the upper wall, at the naked",
+          "height_parts": 1,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "The datum. Every opening sill, belt course and cornice above is counted in whole courses from the bed joint under this course, not from a drawing dimension.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one brick course: the module is exactly four courses.",
+      "expression": "module.parts == 4",
+      "tolerance": 0.0
+    },
+    {
+      "statement": "The default course height is 2 3/4 in — a 2 1/4 in brick with a 1/2 in lime bed joint.",
+      "expression": "module.default_size_in / module.parts == 2.75",
+      "tolerance": 0.01
+    },
+    {
+      "statement": "The water table assembly is a whole number of courses (ten).",
+      "expression": "assemblies.water_table.height_modules * module.parts == 10",
+      "tolerance": 0.001
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "reveal_masonry",
+      "dimension": "width",
+      "expression": "13.5",
+      "units": "in",
+      "range": [
+        9.0,
+        22.0
+      ],
+      "authority_note": "A solid brick wall is a whole number of half-brick wythes and nothing else. One brick (two wythes, header-bonded) is about 9 in; one and a half brick about 13 1/2 in; two brick about 18 in. Surviving Chesapeake great houses run 18-24 in at the base.",
+      "note": "This is the rule that decides which bonds are even available. Flemish and English bond are through-bonds: they require headers that pass into the wall, so they require at least a one-brick wall. A 3 5/8 in veneer over wood frame physically cannot be laid in Flemish bond, and the 'Flemish' veneers of production building are half-bricks glued to the face. Default 13 1/2 in = one and a half brick, the ordinary two-storey Anglo-colonial wall. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one.",
+      "judgment": false
+    },
+    {
+      "target_slot": "reveal_masonry",
+      "dimension": "height",
+      "expression": "storey_height",
+      "units": "in",
+      "authority_note": "Documented in surviving fabric across the Chesapeake and the Delaware Valley.",
+      "note": "The wall steps in by a half-brick (about 4 1/2 in) at each floor level, not continuously. The step is what the belt course covers. This is why a belt course exists at all: it is the weathering over a real change in wall thickness, and putting one on a building of uniform wall thickness is putting a lid on nothing. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one.",
+      "judgment": false
+    },
+    {
+      "target_slot": "water_table",
+      "dimension": "height",
+      "expression": "module * 2.5",
+      "units": "in",
+      "range": [
+        22.0,
+        38.5
+      ],
+      "authority_note": "24-36 in above grade is the range recorded across Tidewater and Mid-Atlantic brick houses; the moulded course itself must land on a course line.",
+      "note": "Two and a half modules — ten courses — puts the top of the water table at 27 1/2 in on the default coursing. Set the number of courses first and let the height fall where it falls; never set the height and ask the mason to make it work.",
+      "judgment": false
+    },
+    {
+      "target_slot": "water_table",
+      "dimension": "projection",
+      "expression": "part * 0.75",
+      "units": "in",
+      "range": [
+        1.5,
+        4.5
+      ],
+      "authority_note": "The projection equals half the change in wall thickness, which on a wall that steps by a half-brick is about 2 to 2 1/4 in.",
+      "note": "About 2 in on the default. A water table that projects less than about 1 1/2 in does not throw water and does not read in raking light; one that projects more than about 4 1/2 in is either carrying a real offset or is a stuck-on moulding.",
+      "judgment": false
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "height",
+      "expression": "round((storey_height + part * 0.6) / part) * part",
+      "units": "in",
+      "range": [
+        96.0,
+        156.0
+      ],
+      "authority_note": "Attested throughout: the belt course centres on the second-floor framing, which is where the wall steps in.",
+      "note": "The rounding is the whole rule. The belt course lands on the course line nearest the second-floor structure, and then the storey height is adjusted to match — not the other way round. On a 110 in storey with a 2 3/4 in course the belt bed joint is at 110.0 in exactly (40 courses); on a 108 in storey it goes to 107.25 (39 courses) or 110.0 (40) and the framer is told which."
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "height",
+      "expression": "part * 2",
+      "units": "in",
+      "range": [
+        2.75,
+        8.5
+      ],
+      "authority_note": "Belt courses in surviving work run from one plain rowlock course to three courses with a moulded brick cap.",
+      "note": "Two courses is the ordinary case: a moulded or bevelled brick over a plain projecting course. A one-course belt reads as an accident at any distance; a four-course belt starts competing with the cornice and should only appear on a building with a full order."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "round(opening_width * 2.05 / part) * part",
+      "units": "in",
+      "range": [
+        48.0,
+        108.0
+      ],
+      "authority_note": "Anglo-American brick openings run 1.9:1 to 2.2:1 height to width; the Chesapeake runs at the tall end, 2.0:1 to 2.2:1.",
+      "note": "This is the single rule that most distinguishes real brickwork from drawn brickwork. The opening height is not a design number — it is whatever whole multiple of the course lands nearest the intended proportion, because the head of the opening has to be a bed joint. Get this wrong and the arch springs from a half-course and every jamb in the elevation has a cut brick in it. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "ratio",
+      "expression": "round(opening_width * 2.05 / part) * part / opening_width",
+      "units": "ratio",
+      "range": [
+        1.85,
+        2.25
+      ],
+      "note": "The realised ratio after the head has been snapped to a course. Report it, don't specify it. If the snapped ratio falls outside the band, change the opening width by a half-brick (4 1/2 in) rather than forcing the height."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "opening_width / 96",
+      "units": "in",
+      "range": [
+        0.25,
+        0.75
+      ],
+      "authority_note": "The traditional camber for a gauged flat (jack) arch is 1/8 in per foot of span, i.e. span/96.",
+      "note": "A flat arch is not flat. Its soffit is cambered up by about 1/8 in per foot so that when the wall settles it reads level; a truly level flat arch reads as sagging within a decade. A 40 in opening gets a bit under a half inch of camber. This is invisible on paper and unmistakable on the building. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        8.25,
+        16.5
+      ],
+      "authority_note": "Gauged flat arches in surviving 18th-century work are three to five courses deep; the Brick Industry Association's structural minimum for a modern jack arch is 4 in plus 1 in per foot of span.",
+      "note": "The depth of the arch itself. One module — four courses, 11 in on the default — satisfies both the historic look and the modern structural minimum up to a 7 ft span. The two rules agree, which is not an accident: the historic mason arrived at the same number empirically. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        2.5,
+        9.0
+      ],
+      "authority_note": "Segmental heads on 17th and early-18th-century Anglo-American brickwork rise between 1/12 and 1/6 of the span; 1/8 is the common case.",
+      "note": "The rise of a segmental arch. Early work is segmental, later work goes flat and cambered — the change is roughly 1720-1750 in the Chesapeake and is a better date marker than most trim. A segmental head on a 1780 house is as wrong as a Palladian window on a 1650 one. Below 1/12 the arch stops behaving as an arch and needs a relieving lintel; above 1/6 it starts reading as a relieving arch over a lintel, which is a different and older detail. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "window_sill",
+      "dimension": "height",
+      "expression": "part",
+      "units": "in",
+      "range": [
+        2.5,
+        4.5
+      ],
+      "authority_note": "The ordinary Anglo-American brick sill is a single rowlock course, laid on edge and pitched.",
+      "note": "One course. A rowlock sill occupies exactly the course it displaces, which is why it does not disturb the coursing of the wall beside it. A stone sill in a brick wall must be sized to a whole number of courses too, or the jambs beside it go to pieces."
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "width",
+      "expression": "part * 1.6",
+      "units": "in",
+      "range": [
+        2.25,
+        9.0
+      ],
+      "authority_note": "Rubbed-and-gauged jamb work and brick architraves in surviving work run from a half-brick (4 1/2 in) to a brick and a half.",
+      "note": "A brick surround is measured in bricks, not inches. Half a brick reads as a change of texture only; a full brick (9 in) reads as an architrave. There is nothing available in between, and drawing a 6 in brick architrave produces a wall full of cut brick. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "height",
+      "expression": "part * 2",
+      "units": "in",
+      "range": [
+        2.75,
+        8.5
+      ],
+      "authority_note": "Brick quoins are laid up in units of two or three courses so that the long face and the short face alternate on a whole-course rhythm.",
+      "note": "Brick quoins must alternate on a whole number of courses or the corner will not close. Two courses per quoin is the ordinary rhythm and gives a quoin about 5 1/2 in high by 13 1/2 in long — squarer and smaller than a stone quoin, which is why brick quoins read as pattern and stone quoins read as structure. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "part * 5",
+      "units": "in",
+      "range": [
+        5.5,
+        22.0
+      ],
+      "authority_note": "Corbelled brick cornices in Anglo-American and Dutch work run three to eight courses, each course stepping out about a quarter to a third of a brick.",
+      "note": "A corbelled brick cornice is a stack of whole courses, each stepping out no more than about 1 in (a third of the brick's bearing must remain on the course below, or the corbel fails). Five courses at 1 in each gives a 5 in projection over a 13 3/4 in height — flatter and taller than a wooden cornice, which is exactly why an all-brick building looks wrong with a big wooden box cornice sitting on it and right with a modest one.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "round(ceiling_height / part) * part",
+      "units": "in",
+      "range": [
+        84.0,
+        156.0
+      ],
+      "note": "In a brick building the storey height is not a free variable. It is a whole number of courses, because the second-floor framing has to land on a bed joint. Round the architect's number to the mason's rod, publish the rounded number, and dimension the stair from it. Every belt course, string course, sill and head above then falls out automatically."
+    },
+    {
+      "target_slot": "chimney",
+      "dimension": "width",
+      "expression": "part * 8",
+      "units": "in",
+      "range": [
+        16.0,
+        60.0
+      ],
+      "note": "Chimney plan dimensions are whole bricks: a stack is 1 1/2 x 2 bricks (about 13 1/2 x 18 in), 2 x 2 (18 in square), 2 x 3 (18 x 27 in) and so on. Twenty-two inches on the default coursing is between sizes; the mason will build 18 or 27 and someone should decide which rather than discovering it on site.",
+      "judgment": true
+    },
+    {
+      "target_slot": "steps_and_stoop",
+      "dimension": "height",
+      "expression": "part * 2.5",
+      "units": "in",
+      "range": [
+        6.0,
+        7.75
+      ],
+      "authority_note": "Brick risers in period work are two or three courses, giving 5 1/2 or 8 1/4 in on the default coursing.",
+      "note": "Two and a half courses is 6 7/8 in — a good riser and NOT a whole number of courses, which is the honest problem. Period brick steps solve it by making the riser two courses plus the tread's own bed joint, or by capping in stone. Modern code wants 7 in max and 3/8 in tolerance across a flight; pick two courses plus a stone tread and stop pretending the riser is brick all the way.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "material-availability",
+      "statement": "Modern modular brick courses three to eight inches — 2 2/3 in per course. The Anglo-colonial brick courses at 2 3/4 in. That is 1/12 in per course, which sounds like nothing and is not: over a 40-course storey it is 3 1/3 inches, enough to put the belt course a third of a foot below the second floor and to change the number of courses under a window head. Every historic horizontal recomputed on modern coursing lands somewhere else.",
+      "resolution": "Decide at the outset which coursing governs and derive everything from it, once. If the building is to look like 1750, specify an oversize or a purpose-made historic brick (2 1/4 x 4 x 8 1/4 with a 1/2 in joint) and accept the premium — it is a few percent of the masonry, not of the building. If the budget says modular, then set the module to 10.667 and re-derive the water table, belt, sills and heads from that number rather than transcribing dimensions off a measured drawing of a real house. What you must not do is draw historic dimensions and let a modular mason resolve them; the result is a cut course somewhere, and it is always somewhere visible.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "Brick veneer over wood frame is a single 3 5/8 in wythe. It cannot be laid in Flemish or English bond, because both are through-bonds defined by headers passing into the wall's depth. A 'Flemish bond' veneer is half-bricks glued to a backup, and the giveaway is that the header and the stretcher have the same shade and the same arris — real glazed-header Flemish reads as a chequer at two hundred yards precisely because the headers are the burnt ends of bricks fired differently.",
+      "resolution": "Three honest answers, in order. First: if Flemish bond is diagnostic of the style — Tidewater Georgian, Charleston Georgian, mid-Atlantic Georgian — build a real 8 in or 10 in composite wall on the entrance elevation and veneer the rest, which is exactly what period builders did with their good brick and their glazed headers. Second: lay the veneer in running bond or common bond with a header course every sixth or seventh, which is a real bond available at one wythe and is what most 19th-century American brickwork actually is. Third and last: if a clipped-header Flemish veneer is unavoidable, say so in the drawings, use headers of a genuinely different burn so the chequer has a reason to exist, and never glaze them.",
+      "severity": "blocking"
+    },
+    {
+      "with": "energy-code",
+      "statement": "Continuous exterior insulation pushes the veneer three to four inches outboard of the structure. The water table and belt course, which exist to weather a real change in wall thickness, now have nothing behind them: they become foam-backed bumps, and the wall above and below is the same thickness, so the profile is a lie the shadow line eventually tells.",
+      "resolution": "Put the insulation inboard where the wall can still change thickness — cavity fill plus interior insulation gets most jurisdictions to compliance in climate zones 3 and 4 with a masonry wall, and the mass credit helps. Where exterior continuous insulation is unavoidable, thicken the base: run the plinth wythe as a genuine extra wythe carried on a wider footing so the water table offset is real, and accept that the belt course above may have to become an ornamental string course rather than a weathering. Draw the section. If the section does not show a change in thickness, delete the moulding — a projecting course that weathers nothing is the surest sign of a building that was drawn rather than built.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Rubbed and gauged brickwork — flat arches, moulded water tables, brick architraves — is hand work at ten to twenty times the cost per square foot of laid common brick. A full house of it is not buildable on any ordinary budget, and specifying it everywhere guarantees it gets value-engineered out everywhere.",
+      "resolution": "Do what the period did: spend it on the entrance elevation and nowhere else. Gauged flat arches, Flemish bond and glazed headers on the front; common bond, segmental heads and plain water table on the flanks and rear. This is not a compromise, it is the historically correct hierarchy — Westover and Carter's Grove both do it — and a building that grades its own brickwork reads as more authentic than one that is uniformly expensive.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Historic lime bed joints run 3/8 to 5/8 in and were struck to whatever the brick's own irregularity demanded. Modern practice specifies 3/8 in and holds it. Over forty courses the difference between a 3/8 and a 1/2 in joint is five inches of wall height, and the mason will absorb it silently unless told not to.",
+      "resolution": "Give the mason a course count and a story pole, not a dimension. Mark the rod with the water table, the sill line, the head line, the belt and the plate, and require that the wall be built to the rod. Then specify the joint width you actually want — a wider joint with a soft lime mortar is a large part of why historic brickwork looks the way it does, and a 3/8 in joint in grey portland will make a correctly proportioned wall look mechanical.",
+      "severity": "minor"
+    },
+    {
+      "with": "climate",
+      "statement": "Portland-cement mortar is harder than soft historic brick. In a freeze-thaw climate the brick face spalls at the joint rather than the mortar sacrificing itself, and a wall that was designed to be repointed every eighty years instead loses its bricks.",
+      "resolution": "Specify mortar softer than the unit, always — a lime or lime-heavy mortar (Type O or a straight lime-sand) with soft historic-format brick, and reserve Type N or S for genuinely hard modern units and for below-grade work. This is the whole of NPS Preservation Brief 2 in one line, and it is violated on most restoration jobs.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "charleston-georgian",
+    "new-england-georgian",
+    "georgian-colonial-american",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "adam-style",
+    "regency",
+    "jeffersonian-classicism",
+    "pennsylvania-bank-house",
+    "german-pennsylvania-colonial",
+    "dutch-colonial-american",
+    "hudson-valley-dutch",
+    "dutch-urban-gable-house",
+    "italianate-townhouse",
+    "queen-anne-patterned-masonry",
+    "richardsonian-romanesque",
+    "colonial-revival",
+    "georgian-revival"
+  ],
+  "sources": [
+    "Brick Industry Association, Technical Notes on Brick Construction 10: Dimensioning and Estimating Brick Masonry (2009)",
+    "Brick Industry Association, Technical Notes on Brick Construction 31: Brick Masonry Arches (1995)",
+    "National Park Service, Preservation Brief 2: Repointing Mortar Joints in Historic Masonry Buildings",
+    "Colonial Williamsburg Foundation, 'Bricks and Brickmaking in Colonial Virginia', Colonial Williamsburg Journal, Winter 2005-06",
+    "Thomas Tileston Waterman, The Mansions of Virginia, 1706-1776 (1946)",
+    "Dell Upton, 'Vernacular Domestic Architecture in Eighteenth-Century Virginia', Winterthur Portfolio 17 (1982)",
+    "Peter Nicholson, The New Practical Builder and Workman's Companion (1823), on gauged and rubbed arch work",
+    "Institute of Classical Architecture & Art, 'Historic Brickwork: A Design Resource'"
+  ],
+  "confidence": "high",
+  "notes": "The brick module is the most completely recoverable of the vernacular proportioning systems, because the evidence is still standing and still measurable: put a tape on any brick wall and you have read the mason's rod. The consequence worth internalising is that in a brick building there are no free horizontal dimensions above the water table. Storey height, sill height, head height, belt course and plate are all whole numbers of courses off a single datum, and the moment one of them is set by something else — a stair, a stock window, a drawing — every other one has to be renegotiated. Historic builders resolved this by fixing the coursing first and letting the joinery follow. Modern practice does the reverse, which is why modern traditional brickwork so often has a cut course under a sill or a belt that misses the floor line by two inches."
+}

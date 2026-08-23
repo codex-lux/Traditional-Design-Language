@@ -1,0 +1,155 @@
+{
+  "id": "cornice-sized-off-the-attic",
+  "name": "The cornice sized off the storey it crowns",
+  "aka": [
+    "the mean cornice",
+    "the shrinking top"
+  ],
+  "slots": [
+    "cornice",
+    "frieze"
+  ],
+  "severity": "minor",
+  "frequency": "occasional",
+  "category": "proportion",
+  "symptom": "A house with correctly graduated storeys — a tall first floor, a shorter second, a shorter attic — whose cornice has been scaled down in proportion with the storey it sits on. Nothing is obviously wrong. The house simply looks slightly deflated at the top, and the correction is invisible until it is pointed out.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "A designer working proportionally applies the same fraction to every member, and the cornice sits at the top of the shortest storey, so it gets the smallest number. The intuition is consistent and it is wrong. It happens most often to people who are doing everything else right, which is why it belongs in a corpus rather than a checklist.",
+    "cost_saved": "Nothing. A larger cornice costs perhaps $8-$20 per lineal foot more, but the fault is not driven by cost — it is driven by a plausible rule applied to the wrong module."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation / cornice.height = module / 8 = 15 in",
+      "statement": "The cornice is sized off the PRINCIPAL storey even though it sits at the top of the shortest one, which is why a graduated building's cornice always looks slightly generous for the storey it crowns — and it should. A cornice sized off the top storey looks mean."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / cornice.projection = module / 14 = 7 11/16 in, note",
+      "statement": "It must be sized from the PRINCIPAL storey, not from the shortened storey it actually crowns."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the crowning member terminates the whole wall, not the top storey",
+      "statement": "The cornice is read against the full height from water table to eave, which is why its own proportion is stated as 1/12 to 1/14 of that height rather than as a fraction of anything local."
+    }
+  ],
+  "correct_practice": "Take the cornice from the principal storey and from the wall height, never from the storey it sits on. At a 10 ft principal storey the cornice member is 11 3/4 to 15 in; expressed against the wall, the Georgian figure is 1/12 to 1/14 of the height from the water table to the top of the cornice, so a 22 ft wall takes a 19-22 in crowning assembly of frieze plus cornice. The same reasoning governs foreshortening: the cornice is seen at a sharper angle than anything else on the building, so its apparent height at the viewer's eye is perhaps 60-70 per cent of its true height at a 40 ft standoff on a two-storey house. Both effects push the same way, which is why every rule of thumb in the literature errs generous at the top.",
+  "fixes": {
+    "right": "Dimension the cornice from the principal storey, check it as 1/12 to 1/14 of the water-table-to-cornice height, and hold that dimension constant across every wing of the same volume regardless of each wing's height.",
+    "cheap": "Free before construction — one number on one drawing. The habit worth building is to size the cornice FIRST, from the principal storey, and then draw the storeys under it.",
+    "dishonest": "Restoring the apparent weight by adding a heavier crown moulding while keeping the assembly's height and projection. See the fascia fault: crown adds height and almost no projection, and the corona is what the eye reads."
+  },
+  "detection": "Compare the cornice against the first storey rather than the last. Measure the cornice's height in a straight-on photograph and divide by the height from the water table to the underside of the cornice. Between 0.071 and 0.083 (1/14 to 1/12) is right; below 0.06 is mean. A second and quicker test on a house with wings: the cornice on a lower wing should be the SAME size as the cornice on the main block if the two are one volume, and a smaller cornice on the wing is a reliable sign that someone has been scaling proportionally. Third, look at the frieze: the cornice should be exactly twice the frieze's height, so measure both — a cornice-to-frieze ratio below about 1.6 usually means the cornice has been shrunk rather than the frieze grown.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "second-empire",
+      "why": "A mansard has two cornices — a main cornice at the base of the mansard and a smaller crowning cornice at its top — and the upper one is legitimately lighter because it terminates only the mansard, not the wall.",
+      "bounds": "The MAIN cornice at the mansard base still takes the full principal-storey dimension and is still the heaviest horizontal. The upper cornice is a subordinate member and must read as such — roughly half the main one.",
+      "bounds_test": {
+        "expression": "upper_cornice_height_in / main_cornice_height_in",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.6,
+        "note": "The upper crowning cornice terminates only the mansard and is legitimately lighter — about half the main one. The MAIN cornice at the mansard base still takes the full principal-storey dimension and is still the heaviest horizontal."
+      },
+      "applies_when": {
+        "slots": [
+          "roof_form",
+          "cornice"
+        ],
+        "note": "Requires an actual mansard, so that the two cornices belong to two different things."
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "A crowning cornice on a four- or five-storey townhouse is sized against the whole facade and will therefore be far larger than any storey rule would produce.",
+      "bounds": "Scales up with the wall, never down with the storey. This is the rule pushed further, not an exception to it.",
+      "bounds_test": {
+        "expression": "cornice_height_in / wall_height_water_table_to_cornice_in",
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.0714,
+        "upper": 0.0833,
+        "note": "This is the rule pushed further, not an exception to it: the cornice scales up with the WALL, so a four- or five-storey facade gets a far larger cornice than any storey rule would produce. The ratio is unchanged."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "On the piazza elevation the piazza's own entablature is subordinate to the main cornice and is correctly smaller.",
+      "bounds": "A subordinate structure's entablature may be smaller; the main block's cornice may not.",
+      "bounds_test": {
+        "expression": "piazza_entablature_height_in / main_cornice_height_in",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.8,
+        "note": "A subordinate structure's entablature may be smaller. The main block's cornice may not."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "cornice-that-is-a-fascia",
+      "difference": "That fault has no cornice at all; this one has a correct cornice that is 20-30 per cent too small. This is the version that appears on otherwise good buildings and it is a refinement, not a failure."
+    }
+  ],
+  "sources": [
+    "proportions/modules/storey-graduation.json, cornice.height note",
+    "proportions/systems/facade-classical.json, cornice.projection note",
+    "kits/georgian-colonial-american.kit.json, cornice / wall_height_ratio (1/12 to 1/14)",
+    "styles/georgian-colonial-american.json"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "proportion",
+    "cornice",
+    "module-choice"
+  ],
+  "test": {
+    "expression": "cornice_height_in / wall_height_water_table_to_cornice_in",
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 0.0714,
+    "upper": 0.0833,
+    "note": "One twelfth to one fourteenth of the WALL height, not of the storey it sits on. The cornice terminates the whole wall, which is why its proportion is stated against the full height from water table to eave. Below about 0.06 the cornice is mean. Measurable from a straight-on photograph with no absolute scale required."
+  },
+  "secondary_tests": [
+    {
+      "expression": "cornice_height_in / frieze_height_in",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 2.0,
+      "note": "The facade-classical invariant: the cornice is twice the frieze. A ratio below about 1.6 usually means the cornice has been shrunk rather than the frieze grown, which distinguishes this fault from frieze-as-fascia-board using the same two measurements."
+    },
+    {
+      "expression": "wing_cornice_height_in / main_block_cornice_height_in",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "The quickest test on a house with wings. If the two are one volume the cornice is the same size on both, and a smaller cornice on a lower wing is a reliable sign that someone has been scaling proportionally — which is the whole mechanism of this fault."
+    },
+    {
+      "expression": "cornice_height_in / principal_storey_height_in",
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.097,
+      "upper": 0.125,
+      "note": "11 3/4 to 15 in at a 10 ft principal storey: gibbs-ionic gives storey/4 x 7/18 = 11.67, storey-graduation gives module/8 = 15, brick-course gives part x 5 = 13.75. Take it from the PRINCIPAL storey even though it crowns the shortest one. Foreshortening pushes the same way: at a 40 ft standoff on a two-storey house the cornice's apparent height is only 60-70 per cent of its true height, which is why every rule of thumb in the literature errs generous at the top."
+    }
+  ],
+  "co_occurs_with": [
+    "cornice-that-is-a-fascia",
+    "frieze-as-fascia-board"
+  ]
+}

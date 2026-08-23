@@ -1,0 +1,164 @@
+{
+  "id": "dormer-off-the-bay",
+  "name": "Dormers Off the Rhythm",
+  "aka": [
+    "evenly spaced dormers",
+    "four over five"
+  ],
+  "slots": [
+    "dormer",
+    "composition_parti",
+    "window_grouping_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "alignment",
+  "symptom": "Four dormers over a five-bay front; or dormers spaced evenly along the roof at an interval unrelated to the windows below, so that no dormer sits over a window and several sit over solid wall. The upper storey and the lower storey are two different buildings sharing an eave.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The roof is framed and the dormer openings are set by the rafter or truss layout at 16 or 24 in on centre and by the second-floor partitions, which come from the plan. The plan was not drawn against the elevation. Even spacing along the ridge is then the framer's default because it is the layout that takes one measurement and a division, and it produces a result that looks orderly on the roof and is wrong against the wall.",
+    "cost_saved": "Nothing. Aligning dormers to the bays costs nothing at framing and nothing at design. It is a pure sequencing failure - free to avoid, and effectively impossible to fix once the roof is on."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / dormer / alignment_rule",
+      "statement": "Each dormer centred on a window of the storey below."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / dormer / count_parity",
+      "statement": "Odd."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical -> window_grouping_rule.count = max(3, floor((span/module - 1)/2)*2 + 1)",
+      "statement": "The bay count is odd by arithmetic, and the dormers inherit it."
+    }
+  ],
+  "correct_practice": "Each dormer is centred on the axis of a window below, and on a symmetrical front the count is odd - three dormers over a five-bay house on bays one, three and five, or on two, three and four where the type wants a tight central group. Never one dormer per bay on a five-bay Georgian front. Where the count must be even, as on a four-bay wing, the dormers still sit on the bays. The dormer rhythm may be a subset of the window rhythm; it may not be an independent rhythm.",
+  "fixes": {
+    "right": "Set the dormer centrelines on the elevation before the roof framing is laid out, and carry those dimensions onto the framing plan.",
+    "cheap": "Reduce the count rather than move the openings. Three dormers on the correct bays cost less than four on the wrong ones, and the arithmetic is done at the drawing stage for nothing.",
+    "dishonest": "Widening the dormers until they visually cover the windows below. A dormer whose face spans two bays does not align with either."
+  },
+  "test": {
+    "expression": "count_of_dormers_centred_on_a_window_below / dormer_count",
+    "threshold": 1.0,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Drop a vertical from each dormer centre and see where it lands. Every dormer must land on a window centre; any line landing on siding is the fault."
+  },
+  "secondary_tests": [
+    {
+      "expression": "dormer_count % 2",
+      "threshold": 1,
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "Odd on a symmetrical front - three dormers over a five-bay house. The exception is Second Empire, where dormer count equals bay count and may therefore be even."
+    },
+    {
+      "expression": "max_dormer_offset_from_window_centreline_in / window_width_in",
+      "threshold": 0.5,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The near-miss threshold, which is the one that matters in picturesque styles too: an offset under half a window width reads as an error in every tradition. Either land on the window or clear it by a full bay."
+    }
+  ],
+  "detection": "Drop vertical lines from each dormer centre in a straight-on photograph and see where they land. Any line landing on siding rather than on a window centre is the fault. Then count: an even dormer count on an odd-bay symmetrical front fails, and so does a dormer sitting on the centreline of a house whose centre bay is the door - the centre dormer belongs over the door only where the door and the window above it share the axis.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "second-empire",
+      "why": "Dormer count equals bay count and the dormers line up with the windows below - which is alignment, not an exception to it, but it means one-per-bay is correct here and wrong on a Georgian.",
+      "bounds": "Every dormer must still be on a bay; the licence is about count, not about position.",
+      "bounds_test": {
+        "expression": "dormer_count / bay_count",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "One per bay, and every dormer still on a bay. The licence is about count, not about position."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "The picturesque parti places dormers by interior need, and irregular placement is the intention.",
+      "bounds": "Deliberately unrelated is the licence; NEARLY aligned is not. A dormer offset from a window below by less than half a window's width is read as an error in every style, including this one. Either land on it or clear it by a full bay.",
+      "bounds_test": {
+        "expression": "min_dormer_offset_from_window_centreline_in / window_width_in",
+        "threshold": 0.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Deliberately unrelated is licensed; nearly aligned is not. Clear the window below by at least half its width or land on it exactly."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Picturesque asymmetry governs, and dormers follow the rooms.",
+      "bounds": "As above - the near miss is never licensed.",
+      "bounds_test": {
+        "expression": "min_dormer_offset_from_window_centreline_in / window_width_in",
+        "threshold": 0.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "Deliberate irregularity is the entire idiom.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "min_dormer_offset_from_window_centreline_in / window_width_in",
+        "threshold": 0.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "A single broad dormer centred on the mass, rather than a row of dormers on bays, is the type's normal answer.",
+      "bounds": "One dormer centred on the roof plane, not several off the rhythm.",
+      "bounds_test": {
+        "expression": "dormer_count",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "A single broad dormer centred on the mass, rather than a row of dormers off the rhythm."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "one-bay-symmetry-break",
+      "difference": "That fault is in the wall. This one is in the roof, and a house can pass the wall test and fail this one."
+    }
+  ],
+  "co_occurs_with": [
+    "dormer-wall",
+    "overscaled-dormer",
+    "one-bay-symmetry-break"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json dormer",
+    "proportions/systems/facade-classical.json",
+    "project style node second-empire"
+  ],
+  "confidence": "high",
+  "tags": [
+    "dormer",
+    "alignment",
+    "rhythm"
+  ]
+}

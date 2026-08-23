@@ -1,0 +1,196 @@
+{
+  "id": "new-england-federal",
+  "name": "New England Federal",
+  "aka": [
+    "Bulfinch Federal",
+    "Salem Federal",
+    "Adamesque New England"
+  ],
+  "rank": "variant",
+  "member_of": "federal-style",
+  "status": "historical",
+  "period": {
+    "origin": 1785,
+    "floruit_start": 1790,
+    "floruit_end": 1825,
+    "decline_end": 1840,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1880,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "New England Federal is the single largest donor to the Colonial Revival image bank: the fanlighted door, the Palladian window over it, and the balustraded hip roof."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "New England",
+      "Coastal Maine",
+      "Boston Basin",
+      "Connecticut River Valley"
+    ],
+    "hearth": "Boston and Salem, Massachusetts",
+    "climate_zones": [
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "federal-style",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "new-england-georgian",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Direct craft continuity. The same housewrights, the same white pine clapboard over braced frame, the same central-chimney-derived plan discipline; only the mouldings changed."
+    },
+    {
+      "target": "adam-style",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Bulfinch saw Adam's work in England in 1785-87 and carried it back as first-hand observation rather than as printed plates - the one American case where the Adam transmission is direct."
+    }
+  ],
+  "description": {
+    "short": "The Federal style executed in white-painted clapboard and Charlestown brick by the housewrights of Boston, Salem and the Maine coast, at its best a wooden architecture pretending, very thinly, to be a masonry one.",
+    "long": "New England Federal is what happens when a masonry style is handed to a carpentry culture with the best softwood in the Atlantic world and a shortage of both stone and plasterers. The urban version - Bulfinch's Boston, the brick fronts of Beacon Hill and Salem's Chestnut Street - is genuinely Adamesque: three-storey brick with graduated storey heights, a marble stringcourse, a fanlighted door, and a hipped roof behind a balustrade. The rural and coastal version is the more interesting one, because there everything Adam did in stucco and stone is being executed in clear white pine with moulding planes. Fluted pilasters at the corners are boards. The 'quoins' are cut into a board. The elliptical fanlight is joinery. The whole facade is painted white so that at a distance it does not read as wood at all, which is exactly the intention: this is a carpenter's imitation of a mason's architecture, performed so competently that the imitation became the regional idiom.\n\nThe conditions were maritime and brief. Between the Peace of Paris and the Embargo of 1807, the New England carrying trade made a class of merchants in Boston, Salem, Newburyport, Portsmouth, Providence and the Maine ports rich very quickly, and they built. Salem's Chestnut Street and Portsmouth's Middle Street are the physical residue of the East Indies and the neutral-carrying trade. Samuel McIntire in Salem, Charles Bulfinch in Boston, Asher Benjamin as the publishing intermediary, and dozens of housewrights working from Benjamin's plates supplied the design. Timber supply mattered as much as taste: eastern white pine in wide clear widths, easily worked and dimensionally stable, made possible the very thin muntins and crisp shallow mouldings that define the style, and made it cheap to imitate stone forms in wood. When the trade collapsed after 1807 and again after 1812, so did the building, and the coast is full of superb Federal houses that were essentially the last thing their towns could afford - Wiscasset and Columbia Falls, Maine, are museums of this fact.\n\nWhat it reacts against, within New England, is the massive central chimney and the steep dark roof of the colonial house. The Federal generation moved the chimneys to the gable ends or into paired interior stacks, dropped the pitch, opened the plan around a stair hall, and doubled the glass area. The result is a demonstrably brighter, colder, more expensive house - a deliberate trade of thermal sense for light and formality, made by people who could now afford to heat four fireplaces instead of hoarding one. The three-storey brick townhouse version goes further still and abandons the free-standing house entirely for the party wall, which in Boston produced the finest American urbanism before 1850.\n\nInside a good one the effect is of thinness and light. Rooms are eleven or twelve feet high on the principal floor with windows nearly to the ceiling, and the woodwork is all edge: reeded pilasters an inch and a half wide, a mantel of applied composition swags, a chair rail that is a band rather than a moulding. McIntire's carving in Salem is so shallow you have to stand at an angle to see it. The stair, where the money went, curves out of the hall and rises without any visible means of support - the Ruggles House in Columbia Falls has one built by a housewright in a town of a few hundred people, and standing under it is the closest American domestic architecture gets to a magic trick."
+  },
+  "defining_characteristics": [
+    "Federal proportions and Adamesque detail executed predominantly in painted white pine over a braced timber frame, or in brick in the seaport cities",
+    "Gable-end or paired interior chimneys replacing the colonial central stack, with a low hip or side-gable roof",
+    "Roof frequently hipped and screened by a balustrade or captain's walk; pitch dropped well below colonial practice",
+    "Elliptical fanlight and sidelight entrance, often with a small semicircular or elliptical portico on slender colonnettes",
+    "Palladian or triple window centred over the entrance on the principal facade",
+    "Corner treatment by flat fluted pilasters or applied wood 'quoins' - masonry gestures executed in board",
+    "Wide, thin, crisply run mouldings possible only in clear eastern white pine"
+  ],
+  "diagnostic_tells": [
+    "Wood imitating masonry: flat pilasters at the corners, rusticated or quoined boards, all painted white",
+    "A semicircular or elliptical entrance portico so small and slender it shelters nothing - it is a frame, not a roof",
+    "Palladian window stacked directly over the fanlight door, a New England signature the South used far less",
+    "Balustrade or captain's walk on a low hip roof, in a region whose colonial houses had steep gables and a huge central chimney",
+    "Four-chimney silhouette (paired interior stacks) rather than one massive central stack"
+  ],
+  "distinguished_from": [
+    {
+      "node": "new-england-georgian",
+      "difference": "Same frame, same clapboard, same town. The Georgian house has a central chimney or heavy paired stacks, a steeper roof, a projecting pedimented door frontispiece, and muntins over an inch. The Federal house has a lower hip, thin muntins, a fanlight set flush in the wall, and graduated storey heights."
+    },
+    {
+      "node": "southern-federal",
+      "difference": "New England builds tight, tall and closed - three storeys, low hip, no porch, windows shut against the winter. Southern Federal builds wide and one room deep with piazzas, taller ground-floor ceilings, and often a raised basement. The plan responds to opposite climates within an identical ornamental vocabulary."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Revival work enlarges the fanlight assembly, thickens muntins, and combines Federal doorways with gambrel roofs, sunrooms and attached garages. Genuine New England Federal doorways are smaller than photographs suggest and sit on a house whose upper windows are visibly shorter than its lower ones."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Adamesque classical proportion transmitted through Bulfinch's first-hand observation and Asher Benjamin's plates, executed to the tolerances of hand-run wood mouldings rather than plaster.",
+    "typical_ratios": [
+      "Three-storey brick townhouse: storey heights approximately 12 : 10 : 7.5 feet",
+      "Two-and-a-half-storey frame house: 9.5-11 feet ground floor, second floor 0.85-0.9 of it",
+      "Colonnette height 10-11 diameters on entrance porticoes",
+      "Clapboard exposure 4-5 inches on principal facades, 5-6 inches on secondary elevations",
+      "Roof pitch 6:12 to 8:12 hipped, against 9:12-12:12 in the colonial work it replaced"
+    ],
+    "bay_rhythm": "Five-bay frame houses and three-bay townhouses with even spacing; the Palladian window over the door is the only permitted disturbance of the rhythm and it must be centred.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "Beacon Hill, Salem's Chestnut Street, Providence's Benefit Street."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common"
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "possible",
+      "note": "Gore Place is the outstanding New England case and is rare precisely because the region's wealth was mercantile and urban rather than agricultural."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Where masonry forms are executed in wood (pilasters, quoins, rustication), the board thickness must not exceed 1-1/4 inch and the whole assembly must be painted a single light colour. Exposed wood grain or contrasting trim colour destroys the masonry illusion the variant depends on.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Sash 6/6 or 6/9 with muntins 5/8 to 7/8 inch; glass 10 x 14 to 12 x 18 inches. Upper-storey window height must be 0.80-0.90 of the principal storey, and third-storey 0.60-0.75.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Central chimney is forbidden. Chimneys must be at the gable ends or paired as interior stacks flanking the stair hall - the plan liberation that distinguishes the variant from its colonial parent.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Roof pitch 6:12 to 8:12 (hip or low side gable) - low enough to read Federal, steep enough to shed New England snow. Below 5:12 the assembly fails in zone 5A-6A snow loads and above 9:12 it reads colonial.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Entrance portico, where present, is limited to a single storey and a projection of 4-6 feet on colonnettes no more than 7 inches in diameter. It is a frame for the door, not a shelter.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "First Harrison Gray Otis House",
+      "location": "141 Cambridge Street, Boston, Massachusetts",
+      "year": 1796,
+      "note": "Charles Bulfinch; brick, three storeys, five bays, Palladian window above the entrance with a lunette above that."
+    },
+    {
+      "name": "Gore Place",
+      "location": "52 Gore Street, Waltham, Massachusetts",
+      "year": 1806,
+      "note": "Five-part brick country house about 190 feet long with bowed oval projections; plans developed with the French architect Jacques-Guillaume Legrand."
+    },
+    {
+      "name": "Nickels-Sortwell House",
+      "location": "Main and Federal Streets, Wiscasset, Maine",
+      "year": 1808,
+      "note": "Built 1807-08 for shipmaster William Nickels; the fullest expression of the coastal Maine merchant Federal, with a monumental two-storey entrance frontispiece in wood."
+    },
+    {
+      "name": "Ruggles House",
+      "location": "146 Main Street, Columbia Falls, Maine",
+      "year": 1818,
+      "note": "Built 1818-20 by housewright Aaron Sherman with carving by Alvah Peterson; the free-flying stair rises to a landing and reverses without visible support in a village of a few hundred people."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "Asher Benjamin, The American Builder's Companion (1806)",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625-1725 (1979), for the framing tradition this variant inherits",
+    "William H. Pierson Jr., American Buildings and Their Architects: The Colonial and Neoclassical Styles (1970)",
+    "Historic New England property files (Otis House, Nickels-Sortwell House)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "early-republic",
+    "regional",
+    "new-england",
+    "maritime",
+    "wood-imitating-masonry"
+  ]
+}

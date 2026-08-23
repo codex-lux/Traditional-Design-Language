@@ -1,0 +1,206 @@
+{
+  "id": "queen-anne-free-classic",
+  "name": "Queen Anne, Free Classic",
+  "aka": [
+    "Free Classic Queen Anne",
+    "Colonial Queen Anne",
+    "Classic Queen Anne"
+  ],
+  "rank": "variant",
+  "member_of": "queen-anne-american",
+  "status": "historical",
+  "period": {
+    "origin": 1886,
+    "floruit_start": 1890,
+    "floruit_end": 1910,
+    "decline_end": 1918,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States nationwide",
+      "Northeast",
+      "Midwest",
+      "South",
+      "Pacific Coast",
+      "Ontario"
+    ],
+    "hearth": "Newport and Boston, spreading through the pattern press after 1890",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "3C",
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "queen-anne-american",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The late phase of the parent, roughly a third of the American Queen Anne population by McAlester's count, and the bridge to the twentieth century."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "references",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "The classical vocabulary of this subtype and the mature Colonial Revival style are the same body of material, and the Colonial Revival node descends from this one rather than the reverse; the inheritance is therefore carried by the descends_from edge to georgian-colonial-american."
+    },
+    {
+      "target": "queen-anne-british",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "Shaw's own free-classic manner, the half of his work Americans initially ignored, reasserts itself here; the term free classic is taken directly from British usage."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.2,
+      "inherits_kit": false
+    },
+    {
+      "target": "georgian-colonial-american",
+      "type": "references",
+      "weight": 0.6,
+      "inherits_kit": false,
+      "note": "The actual source of the columns, dentils, swan-neck pediments, and Palladian windows: eighteenth-century American work, measured and republished from the late 1870s, and then produced as stock millwork. Retyped 2026-08-18. This edge reaches early New England building through the 1877 McKim, Mead, White and Bigelow sketching tour of Marblehead, Salem, Newburyport and Portsmouth, and the measured drawings and photographs that followed. That mechanism transmits appearance, not craft. Ruling applied consistently across shingle-style, queen-anne-free-classic and colonial-revival: drawings do not carry a kit. A revival detailed with true eighteenth-century assembly is a reconstruction, not a revival."
+    }
+  ],
+  "description": {
+    "short": "The Queen Anne after 1890, in which classical columns, Palladian windows, and dentilled cornices replace turned spindlework while the irregular massing, dominant mass, and wrapping porch of the parent style are retained.",
+    "long": "The free classic subtype is the American Queen Anne getting its classical education, and it is the hinge on which the entire American house swings from the nineteenth century into the twentieth. The chronology is tight and legible: the 1876 Centennial revived interest in early American building, McKim, Mead and White measured the New England colonial in 1877, the Colonial Revival became a national programme through the 1880s, and the World's Columbian Exposition of 1893 in Chicago gave the classical case an overwhelming public demonstration. By 1895 the turned spindle looked provincial and the Tuscan column looked correct, and builders responded by swapping the porch and leaving the house alone.\n\nThe result is a specific and analytically clean condition, which is why it deserves its own node: a picturesque body with classical trim. The massing rules of the parent survive intact, one dominant mass, an irregular ridge, a wrapping porch, projecting bays, and are simply detailed with a different vocabulary. That combination is unstable, which is exactly what makes it interesting. Classical trim carries its own logic, of symmetry, of hierarchy, of a column bearing an entablature, and once a builder has bought Ionic columns he tends to want to line them up. Ten years of this pressure straightened the massing out, and the result is the Colonial Revival house, the foursquare, and eventually the whole twentieth-century American suburb. Free classic Queen Anne is the transitional fossil, and a taxonomy that omits it cannot explain how the country got from the Carson Mansion to a 1915 foursquare in eleven years.\n\nTechnologically nothing changed. The same mills that had been turning spindles retooled to produce turned Tuscan columns, dentil moulding by the linear foot, and stock Palladian window units, and shipped them from the same catalogues on the same railroads. This is worth noting precisely because it complicates the moralised story of Victorian excess giving way to classical restraint. The restraint was itself a purchase. What changed was not the mode of production but the fashion in parts, and a design platform should expect its own users to behave the same way, swapping vocabularies while the underlying generative rules stay put.\n\nIn front of one the tension is visible and often rather charming. The house is still restless, still turning a corner with a tower or a bay, still refusing to show you a symmetrical face, but the porch now has three fat Tuscan columns on a shingled or brick balustrade, the cornice has a proper run of dentils that returns on the gable rake, and there is one good Palladian window in the front gable doing the work that a spindle sunburst used to do. It looks like a house that has recently acquired opinions. The interior usually follows: the living hall becomes more formal, the openings get classical casings, and the plan starts to close back up into named rooms."
+  },
+  "defining_characteristics": [
+    "Classical porch supports: Tuscan, Doric, or Ionic columns, singly or in groups of two or three, often raised on a pedestal or a solid balustrade",
+    "A cornice carrying dentils or modillions, with the same cornice returning on the gable rake",
+    "Palladian, Venetian, or cottage windows used as the gable or stair feature",
+    "Retention of the parent's picturesque massing: one dominant mass, irregular ridge, projecting bays, and a porch that wraps a corner",
+    "Absence of turned spindlework and pierced valances anywhere on the building",
+    "Wall texture change retained, but usually reduced to shingle above and clapboard or brick below, with a proper belt course",
+    "Swan-neck or broken pediments, garlands, and swags used sparingly at the entrance"
+  ],
+  "diagnostic_tells": [
+    "Classical columns on an asymmetrical house is the whole diagnosis; if the facade were symmetrical it would be Colonial Revival",
+    "Dentils or modillions on a Queen Anne body, and critically, the cornice returning on the rake rather than running as a plain bargeboard",
+    "One Palladian window, placed in the principal gable or over the stair, and only one",
+    "Porch columns are grouped, two or three on a single pedestal, which is a free classic habit that classical Colonial Revival avoids",
+    "Date it late: this subtype starts around 1890 and outlives the spindlework version by a decade"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-spindled",
+      "difference": "Same massing, opposite trim, and sequential in time. Turned posts and a spindle frieze versus classical columns and a dentilled cornice; the two vocabularies effectively never appear on the same original building."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "The co-parent, and the distinction is made in the massing, never in the trim. If the principal facade is symmetrical about the entrance and the ridge is a simple rectangle, it is Colonial Revival; if a dominant mass and an irregular ridge survive under the classical detail, it is free classic Queen Anne."
+    },
+    {
+      "node": "shingle-style",
+      "difference": "Both mix classical trim with picturesque massing in the same years and the same offices. Shingle Style suppresses trim into a continuous surface; free classic Queen Anne emphasises trim and keeps the wall articulated and layered."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Two systems in tension, which is the subtype's whole character. The massing follows the parent's mass hierarchy with no proportional rule; the trim follows classical proportion, since a Tuscan column has a fixed height-to-diameter ratio and a dentil course has a fixed module. Good examples let the classical rules govern locally and the picturesque rules govern globally.",
+    "typical_ratios": [
+      "Column shaft height to diameter 7:1 to 9:1 for Tuscan, 8:1 to 9:1 for Ionic",
+      "Columns in groups of one to three on a pedestal 24 to 36 in high",
+      "Dentil block 2 to 3 in wide at 4 to 6 in on centre, dentil course depth 3 to 5 in",
+      "Palladian window: centre light 1.5 to 2 times the width of each side light, arch springing at the head of the side lights",
+      "Dominant mass at least 1.5 times any subordinate mass, per the parent style",
+      "Porch depth 8 to 10 ft, wrapping at least one corner"
+    ],
+    "bay_rhythm": "Irregular in the wall, regular in the porch. The porch colonnade introduces the first genuinely classical rhythm to appear on an American picturesque house, and it is usually the element that later straightens the whole composition out.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "common"
+    },
+    {
+      "massing": "pyramidal-cottage",
+      "affinity": "common",
+      "note": "The hipped-roof free classic cottage with a classical porch, extremely common after 1900."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "The end of the road for this subtype; when the massing becomes a cube the style has become something else."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible"
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Porch supports shall be classical columns of correct proportion, shaft height 7 to 9 diameters, used singly or in groups of two or three on a pedestal or solid balustrade. Turned spindlework, pierced valances, and lathe-turned posts are prohibited anywhere on the building."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The principal massing shall remain asymmetrical with one dominant mass exceeding every other by at least 50 percent, and the ridge shall be non-rectangular in plan. A symmetrical facade with classical trim is Colonial Revival and shall be classified there."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Where a dentil or modillion cornice is used it shall run continuously at the eave and shall return on the gable rake. A dentil course that stops at the corner is prohibited."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Not more than one Palladian, Venetian, or cottage window shall appear on the building, placed in the principal gable or at the stair. Repetition of the motif destroys its hierarchical function."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Wall texture change, where used, shall occur at a moulded belt course rather than at a plain butt joint, in keeping with the classical detailing of the rest of the building."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Fuller House",
+      "location": "Minden, Louisiana",
+      "year": 1905,
+      "note": "Queen Anne massing culminating in a turret, with an unusually early and complete free classic vocabulary: Palladian window, Tuscan columns on a wraparound gallery, and denticular moulding. Listed on the National Register in 1996."
+    },
+    {
+      "name": "Rector House",
+      "location": "Heber Springs, Arkansas",
+      "year": 1916,
+      "note": "Built 1915-16 and documented as Free Classic Queen Anne; a late survival showing how long the subtype persisted in the interior South after the coasts had moved to Colonial Revival."
+    },
+    {
+      "name": "William Watts Sherman House",
+      "location": "Newport, Rhode Island",
+      "year": 1876,
+      "note": "Cited only for its later alterations; the free-classic elements added in the 1880s to Richardson's original demonstrate the vocabulary shift happening on a single building."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Mark Girouard, Sweetness and Light: The Queen Anne Movement 1860-1900 (1977)",
+    "Vincent Scully, The Shingle Style and the Stick Style (1955; rev. ed. 1971)",
+    "William B. Rhoads, The Colonial Revival (1977)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "transitional",
+    "classical-trim",
+    "colonial-revival-bridge",
+    "late-queen-anne"
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "id": "three-periods-on-one-elevation",
+  "name": "Three Centuries On One Wall",
+  "aka": [
+    "the sampler elevation",
+    "vocabulary drift",
+    "one of each"
+  ],
+  "slots": [
+    "ornament_vocabulary",
+    "composition_parti",
+    "door_surround",
+    "entablature",
+    "porch_support"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A single front elevation carrying ornament from three or more distinct traditions, each competently executed. The characteristic set: a Georgian broken-scroll door surround, a Craftsman tapered post on a stone pier at the porch, a Victorian sawn bracket in the gable, a Palladian window in the second storey, a stone-veneer water table from nowhere in particular, and a dentil cornice over all of it. Nothing on the wall is badly made and there is no single element you can point at. The elevation reads as a display of options rather than as a building, and the eye finds no rule to carry from one part to the next.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The elevation is assembled from options rather than designed. Production builders sell 'elevation packages' — Craftsman, Colonial, Tuscan, Farmhouse — over one floor plan, and the packages are lists of substitutable exterior components at graded prices. A buyer choosing upgrades picks the stone water table from one line, the Palladian window from another and the door surround from a third, each priced independently and each shown in isolation on a selection sheet. There is no drawing on which the combination appears until the house is framed. The result is not a failure of taste but of the process: the elevation was never composed by anyone.",
+    "cost_saved": "Nothing. Buyers routinely pay 8,000-25,000 USD in options to produce this elevation, and a single coherent vocabulary at the same cost would be better. The fault reliably costs money.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / order / rule",
+      "statement": "One order governs the whole building and every moulding in it is derived from that order's module."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / ornament_vocabulary / rule",
+      "statement": "Ornament is carved in bold relief, belongs to the bound order, and is concentrated at the entrance and the chimney breast; it does not appear on the rear or the ends."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / notes — the negative case",
+      "statement": "A composed classical front asserts that the building has one public face, one axis and one entrance. Where that assertion is false, the honest move is not to apply the composition anyway but to go to the picturesque system, which is a different discipline with its own and equally strict rules."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a style is a set of rules, and a building can only obey one set at a time",
+      "statement": "Every tradition answers the same questions — where the ornament goes, how deep it is cut, what the corner does, what carries what — and answers them differently and consistently. Combining three traditions does not give a building three sets of answers; it gives it none, because each element's rule is contradicted by its neighbours."
+    }
+  ],
+  "correct_practice": "Bind one vocabulary and derive everything from it, then concentrate the ornament rather than distributing it. This is the same discipline as the order rule at the scale of the whole elevation: choose the tradition, and let it decide the porch support, the door surround, the cornice type, the window proportion, the relief depth and the corner treatment together, because in every real tradition those six decisions are one decision. Genuine historical layering — an 1840 house with an 1890 porch — is a different thing and is legitimate, but it reads as layering because each layer is internally consistent and is legible AS a layer: its own materials, its own relief depth, its own datum, and a visible junction. Superimposed orders on a Charleston piazza are legitimate for the same reason: two complete orders, storey-separated, heavier below. What is not legitimate is three vocabularies on one plane at one date, each represented by a single element.",
+  "fixes": {
+    "right": "Choose the tradition first, then select every option from it. On a production house this is a single conversation at the selection stage and costs nothing.",
+    "cheap": "Subtract. Take the elevation as built and remove the two weakest vocabularies entirely, leaving the strongest — which is usually whichever one the massing and the roof pitch already support. Deleting the Palladian window, the stone-veneer band and the sawn bracket costs less than nothing, since these are all paid options, and the elevation improves immediately. The rule of thumb that works on a selection sheet: count the traditions represented and stop at one; where a second is genuinely wanted, it must occupy a whole storey or a whole mass, not one element.",
+    "dishonest": "Unifying the elevation with a single paint colour, so the vocabularies 'read as one'. Colour cannot reconcile relief depth, ornament scale or support type; it removes the material distinction between the parts and leaves the formal contradiction more exposed, not less. Equally dishonest: adding a fourth element to 'tie it together' — a repeated motif applied across the elevation — which produces four vocabularies."
+  },
+  "detection": "Name the tradition of each of five things independently, from a single front photograph, without looking at the others. (1) The porch support: round classical column, turned post, battered pier, square boxed pier, iron. (2) The door surround: pedimented classical, bracketed hood, plain, arched, Craftsman. (3) The cornice: modillion, dentil, bracket, exposed rafter tail, plain box. (4) The principal window: double-hung with a period lite pattern, Palladian, casement, banded. (5) The base: water table, masonry to a datum, stone veneer to a random height, nothing. Then count the distinct traditions the five answers belong to. One is a designed elevation; two is common and may be a legitimate layering or a legitimate superimposition, which the datum and the material will tell you; three or more is this fault. Second check for the layering case: does each vocabulary occupy a whole storey, a whole mass or a whole date, with a visible junction? If the vocabularies interleave on one plane, it is not layering.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "distinct_style_vocabularies_on_one_elevation",
+    "threshold": 2,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Classify porch support, door surround, cornice type, principal window and base treatment independently, then count distinct traditions. One is composed; two is permissible where the second occupies a whole storey or mass (superimposition, or genuine historical layering); three or more is the fault. Directly evaluable from a front photograph by any model that can classify the five elements."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The style IS the consistency: one order, every moulding derived from its module, ornament concentrated at one place."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The temple analogy cannot survive a competing vocabulary anywhere on the same plane."
+    },
+    {
+      "style": "neo-eclectic",
+      "severity": "minor",
+      "why": "The neo-eclectic is the name given to exactly this practice, and calling it a fault within its own category is circular. It should be assessed against whether the combination is composed rather than accumulated."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "minor",
+      "why": "Queen Anne deliberately combines materials, textures and historical references, and its richness is the point — but it does so with a single compositional logic and a consistent relief depth."
+    },
+    {
+      "style": "eclectic-revivals",
+      "severity": "minor",
+      "why": "The category exists to describe knowing historical combination."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "queen-anne-american",
+      "why": "Queen Anne is a knowing eclecticism: half-timbering, patterned shingles, classical columns, terracotta panels and turned spindlework on one house, held together by a single picturesque compositional logic, a consistent scale of member, and a consistent relief depth. The variety is orchestrated rather than accumulated.",
+      "bounds": "The combination must be held by something: a consistent relief depth, a consistent member scale, and a compositional hierarchy in which each vocabulary belongs to a distinct mass or surface. Three vocabularies on one flat plane with no hierarchy is the fault in this style too, and the discriminator is whether the massing is genuinely broken.",
+      "applies_when": {
+        "date_range": [
+          1875,
+          1905
+        ]
+      }
+    },
+    {
+      "style": "queen-anne-free-classic",
+      "why": "The Free Classic subtype is defined by using classical fragments within a picturesque composition, which is two vocabularies by definition.",
+      "bounds": "Two, not three, and the classical fragments must all come from ONE order.",
+      "applies_when": {
+        "date_range": [
+          1885,
+          1910
+        ]
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "Superimposed piazza orders put two complete orders on one elevation and this is correct, documented and characteristic.",
+      "bounds": "Storey-separated, heavier below, each complete with its own entablature. This is superimposition, not mixture.",
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ]
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "A vernacular farmhouse that has grown over a hundred and fifty years genuinely carries a Greek Revival cornice, an 1890 porch and a 1930 kitchen wing, and the accumulation is the building's history and its charm.",
+      "bounds": "Each layer must occupy a whole mass or a whole element with a legible junction and its own materials and datum. Real layering has seams; fabricated layering distributes the vocabularies evenly and has none. The test is whether the junctions are visible.",
+      "applies_when": {
+        "slots": [
+          "wing_strategy",
+          "composition_parti"
+        ],
+        "note": "requires genuine accretion — distinct masses of distinct dates, not one elevation with mixed selections"
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "The idiom's method is a deliberate collage of cottage motifs pushed to caricature, and internal consistency of period is not one of its rules.",
+      "bounds": "The collage must be cottage vocabulary throughout — no classical orders, no Craftsman structure — and must be executed with the style's characteristic exaggeration rather than as a set of catalogue options.",
+      "applies_when": {
+        "date_range": [
+          1920,
+          1940
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "swag-and-urn-before-its-date",
+    "turned-post-out-of-period",
+    "broken-pediment-out-of-vocabulary",
+    "router-scale-ornament"
+  ],
+  "confused_with": [
+    {
+      "fault": "entablature-of-a-different-order",
+      "difference": "That is two orders in one assembly — a column and the entablature it carries. This is several traditions across a whole elevation. That fault is a special case of this one at the scale of a single member, and it is the more diagnosable of the two because the members are adjacent."
+    },
+    {
+      "fault": "swag-and-urn-before-its-date",
+      "difference": "That is one motif from the wrong decade within a single tradition. This is several traditions at once. A house can be perfectly Georgian except for a Federal swag, which is that fault; a house with a Georgian door, a Craftsman porch and a Victorian bracket is this one."
+    },
+    {
+      "fault": "picturesque-parti-on-a-formal-style",
+      "difference": "That is the massing contradicting the style. This is the ornament vocabulary contradicting itself. They travel together on option-package elevations and both cost money to commit."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, order.rule and ornament_vocabulary.rule",
+    "proportions/systems/facade-classical.json, the negative case in notes",
+    "Production builder elevation option packages — Lennar, DR Horton, Toll Brothers published elevation series over common plans",
+    "Virginia and Lee McAlester, A Field Guide to American Houses, on Neoeclectic housing"
+  ],
+  "confidence": "high",
+  "tags": [
+    "ornament",
+    "composition",
+    "vocabulary",
+    "cost-negative",
+    "endemic",
+    "options"
+  ]
+}

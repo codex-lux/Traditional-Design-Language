@@ -1,0 +1,137 @@
+{
+  "id": "shutter-without-hardware",
+  "name": "The Shutter That Cannot Move",
+  "aka": [
+    "screwed-on shutter",
+    "the applied blind"
+  ],
+  "slots": [
+    "shutter"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "The shutter lies flat against the cladding with no hinge, no pintle and no holdback. There is no gap between the back of the leaf and the wall, no shadow line down its outer edge, and no hardware anywhere on the elevation. It is fixed with four screws or plastic push-in fasteners through the face of the leaf, sometimes with the fastener heads visible as small dark dots in the panel field.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Shutters are installed by the siding crew at the end of the cladding trade, not by a millwork or hardware trade, and they are installed from a ladder in minutes per pair. Real hardware requires the pintle to be set into a solid substrate before the cladding closes over it, which means a decision made two trades earlier by someone who has left the site. There is also a maintenance argument the builder will make honestly: an operable blind is a hinged object on a wall in weather, and it will need paint and adjustment.",
+    "cost_saved": "Roughly 60 to 200 USD per pair in hardware plus 30 to 60 minutes of a carpenter's time, against about 5 minutes with a screw gun. On a 14-window house, 1,500 to 4,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / shutter / shutter-without-hardware",
+      "statement": "A shutter screwed flat to the cladding with no pintle and no dog is applied decoration, whatever its width."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an element that expresses a function it cannot perform is ornament pretending to be construction",
+      "statement": "The blind exists to be closed against sun, storm and heat loss. Remove the ability to close it and the only argument left for its presence is that it looks like something that used to work."
+    }
+  ],
+  "correct_practice": "Offset pintles set into the jamb or into blocking behind the cladding, with strap or L hinges on the leaf; the offset must carry the open leaf clear of the wall by 3/4 to 1 1/4 in so the leaf casts its own shadow and air moves behind it. A shutter dog or holdback at the bottom outer corner of each leaf, in cast iron, and set so the leaf is actually restrained. On louvred blinds a slide bar or turn button at the meeting stile. Total hardware count on a two-leaf window: four pintles, four hinge straps, two dogs.",
+  "fixes": {
+    "right": "Offset pintles, strap hinges and cast dogs, with the leaves hung so a person can close them. Once a year someone will, and that single fact changes how the whole elevation is read.",
+    "cheap": "Keep the fixed attachment but mount the leaf on 1 in standoffs at the hinge line so it sits off the wall, and fit real cast-iron dogs at the bottom corners. The leaf now throws a shadow down its outer edge and the dogs read as hardware. This costs 25 to 40 USD a window and recovers most of the shadow, though not the honesty.",
+    "dishonest": "Moulded-in fake hinge straps and moulded-in fake dogs on the vinyl leaf itself. These are the same colour and the same plane as the leaf, so they cast no shadow, and at any distance the elevation reads as having no hardware at all — the same reading as having none, with an extra lie in it."
+  },
+  "detection": "Look down the outer edge of the leaf for a shadow. A shutter standing off the wall on pintles shows a continuous dark line 3/4 to 1 1/4 in wide the full height of the leaf; a shutter screwed flat shows none, and the leaf's edge meets the cladding with no interruption. Second check: look at the bottom outer corner for a dog. Third: on lap siding, a flat-screwed shutter will show the siding's own shadow lines running behind it and up to its edge, whereas a stood-off shutter interrupts them. In a photograph, zoom the panel field for four evenly spaced fastener heads.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "minimal-traditional",
+      "why": "The type used emblematic shutters from new; its own constraint asks for jamb hinging but the historical fabric is frequently face-nailed.",
+      "bounds": "Restoration of an original may keep the original attachment. New work in the idiom should hinge.",
+      "applies_when": {
+        "date_range": [
+          1935,
+          1950
+        ],
+        "note": "Restoration of original fabric only."
+      },
+      "bounds_test": {
+        "expression": "original_fabric_retained",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "site-visit",
+        "note": "The licence is for surviving original fabric only. New work in the idiom hinges, and a restoration that replaces the leaves has stopped being a restoration and takes the general rule."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Interior folding shutters set into the jamb boxes are the Queen Anne and high-Victorian answer, and the exterior of such a house correctly shows no shutter and no exterior hardware at all.",
+      "bounds": "This is an exception to the presence of exterior shutters, not to their attachment: it licenses omitting them entirely, never fixing a dummy pair to the wall.",
+      "bounds_test": {
+        "expression": "exterior_shutter_leaves_on_elevation",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The licence is to have no exterior shutters at all, the blinds being interior folding leaves in the jamb boxes. It is not a licence to fix a dummy pair to the wall, so the correct count is zero."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "shutter-half-width-leaf",
+      "difference": "Width versus attachment. Correct hardware on a half-width leaf still reads as false, because the leaf visibly cannot cover the opening; correct width with no hardware reads as false at close range only."
+    }
+  ],
+  "sources": [
+    "NPS Preservation Brief 3",
+    "Period ironmongery catalogues, offset pintle and shutter dog patterns",
+    "Measured surviving blinds, Chesapeake and New England, 1750-1850"
+  ],
+  "confidence": "high",
+  "tags": [
+    "shutter",
+    "hardware",
+    "shadow",
+    "trade-sequence"
+  ],
+  "test": {
+    "expression": "visible_hardware_items_per_window",
+    "threshold": 6,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Four hinge straps or pintles plus two holdbacks is the minimum count for a two-leaf window. Moulded-in relief does not count: it must cast its own shadow to be counted. A screwed-flat shutter scores 0."
+  },
+  "secondary_tests": [
+    {
+      "expression": "shutter_standoff_from_cladding_in",
+      "threshold": 0.75,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The offset pintle carries the open leaf 3/4 to 1 1/4 in clear of the wall, which shows as a continuous dark line down the leaf's outer edge for its full height. Measured from the shadow band width in a daylight photograph."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "colonial-revival",
+      "severity": "fatal",
+      "why": "The style's constraint requires offset pintles and functioning holdbacks explicitly, and lists face-screwed shutters as a diagnostic tell of the fake version."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "Original fabric of the type is frequently face-nailed; the style's own constraint asks for jamb hinging in new work only."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "fatal",
+      "why": "The blinds are a heat and storm device on a type whose entire section is an environmental strategy. A blind that cannot close has removed a working part of the building."
+    }
+  ],
+  "severity_in_use": "serious",
+  "severity_trajectory": "Minor on day one and serious by the first storm or the first heat wave in any region where the blind was a working device. In hurricane and Gulf coastal building the trajectory is steeper still: a face-screwed leaf is a projectile rather than a protection, and the fault moves to fatal-in-use.",
+  "co_occurs_with": [
+    "shutter-half-width-leaf",
+    "shutter-louvre-reversed",
+    "shutter-panel-scale"
+  ]
+}

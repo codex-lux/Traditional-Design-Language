@@ -1,0 +1,554 @@
+{
+  "id": "gibbs-ionic",
+  "name": "Ionic Order (Gibbs) - overlay on Vignola",
+  "aka": [
+    "Gibbsian Ionic",
+    "Georgian Ionic",
+    "Modillion Ionic"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV, XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII",
+    "author": "James Gibbs",
+    "year": 1732,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011578867",
+    "note": "Transcribed from the letterpress of the 1732 first edition. THIS IS THE ORDER IN WHICH GIBBS AND VIGNOLA DIVERGE MOST, because Gibbs follows Palladio in making the Ionic entablature one fifth of the column where Vignola makes it one quarter. Where Gibbs agrees with Vignola the member is omitted from this overlay."
+  },
+  "overlay_of": "vignola-ionic",
+  "module": {
+    "name": "semidiameter of the column at its base",
+    "parts": 18,
+    "default_size_in": 6.0,
+    "note": "Gibbs uses no module; see the gibbs-tuscan overlay. Figures translated into Vignola's 18-part Ionic module for comparison. Gibbs's own construction: 'Take any determined height, and divide it into five equal parts; one of those parts is the height of the Pedestal; the other four being divided into six parts, one of them is the height of the Entablature. The height of the Column being divided into nine parts, one of them is the Diameter of it.' Several of the figures below are therefore not whole numbers of parts - an artefact of translating a five-and-six system into a twelve-and-eighteen one, not of any imprecision in Gibbs.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 18,
+    "shaft_height_modules": 16
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 5.4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_plinth",
+          "name": "Plinth of the pedestal",
+          "height_parts": 24.3,
+          "projection_parts": 7,
+          "profile": "plinth",
+          "note": "One quarter of the pedestal. Gibbs, Plate X: 'The general divisions of the Ionick Pedestal are the same as in the foregoing Orders', and he names the members J plinth of the base, H base, G dado, F cima of the pedestal. Vignola's Ionic pedestal is 6 modules and begins with a 5 1/2-part plinth of its own; Gibbs's is 5 2/5 modules with a plinth of 24 3/10 parts - a plinth more than four times as tall, occupying a quarter of the whole.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_base_ogee",
+          "name": "Pedestal base, ogee reversed",
+          "height_parts": 6.1,
+          "projection_parts": 7,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "One twelfth of the pedestal for the base, split with its fillet; the split is apportioned. 'The other parts of the Pedestal are as in the Dorick and Tuscan Orders.'"
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Pedestal base, fillet",
+          "height_parts": 2,
+          "projection_parts": 7,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned within the stated 8 1/10-part base."
+        },
+        {
+          "id": "ped_die",
+          "name": "Die (dado) of the pedestal",
+          "height_parts": 52.65,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "13/24 of the pedestal. Vignola gives the Ionic die 87 of 108 parts."
+        },
+        {
+          "id": "ped_cap_ogee",
+          "name": "Pedestal cap, ogee",
+          "height_parts": 8.15,
+          "projection_parts": 7,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "One eighth of the pedestal for the cap, with a platband over. Vignola's Ionic pedestal cap is a four-member stack ending in a corona and listel; Gibbs's has no corona at all."
+        },
+        {
+          "id": "ped_cap_platband",
+          "name": "Pedestal cap, platband",
+          "height_parts": 4,
+          "projection_parts": 7,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned within the stated 12 3/20-part cap."
+        }
+      ]
+    },
+    "capital": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "cap_volute",
+          "name": "Volute with its channel",
+          "height_parts": 9,
+          "projection_parts": 9,
+          "profile": "volute",
+          "note": "DELTA. Gibbs, Plate XIV: 'give half a Diameter [to the height of the capital] A B'. Half a diameter is one module = 18 parts; Vignola's Ionic capital is 12 parts. Part of the difference is real and part is a difference in where the two authors start measuring - Gibbs measures from the bottom of the volute, Vignola from the top of the shaft astragal - but the consequence is unambiguous: Gibbs's Ionic shaft is 16 modules where Vignola's is 16 1/3, and the capital reads a third larger. 'As the height of the Volute is divided into eight parts, the breadth of it must be seven of them.' Individual member heights within the capital are figured on Plate XIV only and are apportioned here.",
+          "confidence": "low"
+        },
+        {
+          "id": "cap_ovolo",
+          "name": "Echinus (ovolo)",
+          "height_parts": 4.5,
+          "projection_parts": 10,
+          "profile": "echinus",
+          "enrichment": "eggs and darts; Gibbs: 'the Eggs and Darts are of the same Divisions' as the flutes below",
+          "confidence": "low",
+          "note": "Apportioned. 'Then divide the height B C into eight parts, two of them give the Ovolo, one the Bead which answers to the Eye of the Volute, and half one of those parts gives the Lift.'"
+        },
+        {
+          "id": "cap_bead",
+          "name": "Bead answering to the eye of the volute",
+          "height_parts": 1.5,
+          "projection_parts": 8,
+          "profile": "astragal",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "cap_abacus_ovolo",
+          "name": "Abacus, ovolo",
+          "height_parts": 2.25,
+          "projection_parts": 11,
+          "profile": "abacus",
+          "confidence": "low",
+          "note": "'[The upper division is] the Abacus, which you are to divide into two parts, and the upper half into four, of which you must give three to the Ovolo, and one to the Lift of the Abacus.' Apportioned."
+        },
+        {
+          "id": "cap_abacus_fillet",
+          "name": "Abacus, list",
+          "height_parts": 0.75,
+          "projection_parts": 11,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1.08,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_fascia_1",
+          "name": "Lower fascia",
+          "height_parts": 5.5,
+          "projection_parts": 0,
+          "profile": "fascia",
+          "note": "DELTA. Vignola's Ionic architrave has TWO fasciae. Gibbs, Plate XXVI: 'that of the Ionick, Corinthian and Composite is divided into three parts, and those subdivided, to form their members.' Three fasciae. The architrave is also markedly shallower: 1 module 1 1/2 parts against Vignola's 1 module 4 1/2 parts, because Gibbs's whole Ionic entablature is a fifth of the column rather than a quarter. Individual fascia heights are figured on Plate XXVI and are apportioned here.",
+          "confidence": "medium"
+        },
+        {
+          "id": "arch_fascia_1_astragal",
+          "name": "Astragal over the lower fascia",
+          "height_parts": 0.8,
+          "projection_parts": 0.8,
+          "profile": "astragal",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_2",
+          "name": "Middle fascia",
+          "height_parts": 5.3,
+          "projection_parts": 0.5,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_2_fillet",
+          "name": "Fillet over the middle fascia",
+          "height_parts": 0.5,
+          "projection_parts": 1.2,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_3",
+          "name": "Upper fascia",
+          "height_parts": 4.34,
+          "projection_parts": 1.5,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_cymatium",
+          "name": "Cymatium, reversed cima",
+          "height_parts": 2.5,
+          "projection_parts": 3.5,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "Plate XI names the members of the Ionic entablature: F frieze, G list, H reversed cima, I upper fascia. 'The Architrave projects one fourth of its height.'"
+        },
+        {
+          "id": "arch_cymatium_fillet",
+          "name": "List over the cymatium",
+          "height_parts": 0.5,
+          "projection_parts": 4,
+          "profile": "listel",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.08,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze_face",
+          "name": "Frieze, plain",
+          "height_parts": 19.44,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "DELTA. Gibbs: 'The height of the Entablature is divided into five parts, one part and a half is the height of the Architrave; the Frize is of the same height with it, and two parts give the height of the Cornice' - equivalently 3 : 3 : 4 of ten. Vignola's Ionic frieze is 1 1/2 modules (27 parts); Gibbs's is 1 module 1 1/2 parts (19 44/100). The Ionic frieze loses more than a quarter of its height in the move from Rome to London.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.44,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_bed_cyma",
+          "name": "Bed mould, reversed cima",
+          "height_parts": 4.98,
+          "projection_parts": 3,
+          "profile": "cyma-reversa",
+          "note": "GIBBS GIVES TWO IONIC CORNICES AND THIS PACK ENCODES THE FIRST. 'There are two Ionick Cornices, one with Modillions, and the other with [Dentels]; they have both the same [general divisions but differ] in their particular members. The Ionick Modillion-Cornice is divided into four principal parts.' Four principal parts of 6 12/25 each. Vignola's Ionic cornice has DENTILS AND NO MODILLIONS; Gibbs's principal Ionic cornice has modillions and no dentils. The dentil version is given as the alternative, which reverses Vignola's priority.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_bed_fillet",
+          "name": "Fillet over the bed mould",
+          "height_parts": 1.5,
+          "projection_parts": 4,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned within the first principal part."
+        },
+        {
+          "id": "corn_modillion",
+          "name": "Modillion band",
+          "height_parts": 5.48,
+          "projection_parts": 12,
+          "profile": "modillion",
+          "count": null,
+          "spacing_parts": 27,
+          "note": "Gibbs sizes the Ionic modillion off the column and states the pitch: modillions three quarters of a diameter (1 1/2 modules = 27 parts) from centre to centre, 'always the centre of a Modillion exactly over the centre of each column', the pricked line through the column axis passing through the middle of a modillion. Confirmed by his Ionic arch, set at six diameters on centres 'so as to have the Modillions fall right' - eight pitches exactly. The soffit between modillions divides into six, one each side for the border, four for the panel.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_modillion_cap",
+          "name": "Ogee and fillet capping the modillion",
+          "height_parts": 1,
+          "projection_parts": 13,
+          "profile": "cyma-reversa",
+          "confidence": "low",
+          "note": "Apportioned. 'The projection of the Ogee and Fillet over it, the Cap of the Modillion, is shewn by a [line at] the end of the [Modillion].'"
+        },
+        {
+          "id": "corn_corona",
+          "name": "Corona",
+          "height_parts": 5.48,
+          "projection_parts": 20,
+          "profile": "corona",
+          "confidence": "medium",
+          "note": "Third principal part. 'Mark the same divisions on the Profile of the Corona, and divide the projecting part in two for the Drip.'"
+        },
+        {
+          "id": "corn_corona_listel",
+          "name": "List over the corona",
+          "height_parts": 1,
+          "projection_parts": 21,
+          "profile": "listel",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "corn_cymatium",
+          "name": "Cymatium, cyma recta",
+          "height_parts": 4.98,
+          "projection_parts": 25,
+          "profile": "cyma-recta",
+          "confidence": "medium",
+          "note": "Fourth principal part with its fillet. 'The projection of the Cornice is equal to its height.' 25 92/100 parts of projection to 25 92/100 of height."
+        },
+        {
+          "id": "corn_cymatium_fillet",
+          "name": "Fillet over the cymatium",
+          "height_parts": 1.5,
+          "projection_parts": 25.92,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 3.6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 19.44,
+          "projection_parts": 5,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "Three tenths. Vignola gives 22 1/2 parts."
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 19.44,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "Three tenths, equal to the architrave. Vignola gives 27 parts."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice",
+          "height_parts": 25.92,
+          "projection_parts": 25.92,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "Four tenths. Vignola gives 31 1/2 parts. Projection equals height."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The entablature is one FIFTH the height of the column, not one quarter.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 5",
+      "tolerance": 0.001,
+      "note": "THE HEADLINE DIVERGENCE. Vignola holds the quarter across all five orders; Gibbs follows Palladio, who 'makes the Entablatures of the Tuscan and Dorick to be to their Columns as one to four, and the Ionick, Corinthian and Composite, as one to five.' 3 3/5 modules against Vignola's 4 1/2 - the Ionic entablature loses one fifth of its height. Gibbs states it twice, once as a ratio and once as a construction ('the other four being divided into six parts, one of them is the height of the Entablature'). It is the reason a Georgian Ionic front looks lighter than an Italian one at the same column height."
+    },
+    {
+      "statement": "The pedestal is one quarter of column and entablature taken together.",
+      "expression": "assemblies.pedestal.height_modules == (column.height_modules + assemblies.entablature.height_modules) / 4",
+      "tolerance": 0.001,
+      "note": "5 2/5 modules against Vignola's 6. Compounding with the lighter entablature, a Gibbs Ionic order on a pedestal is a full module shorter than a Vignola one at the same column height."
+    },
+    {
+      "statement": "Architrave and frieze are equal and the cornice is four thirds of either.",
+      "expression": "assemblies.architrave.height_modules == assemblies.frieze.height_modules",
+      "tolerance": 0.001,
+      "note": "Vignola makes them 22 1/2 : 27, unequal. Gibbs's 3 : 3 : 4 of ten is a much flatter division and is the diagnostic proportion of a Georgian Ionic entablature."
+    },
+    {
+      "statement": "The entablature is the sum of architrave, frieze and cornice.",
+      "expression": "assemblies.entablature.height_modules == assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is nine diameters, as in Vignola.",
+      "expression": "column.height_modules == 18",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Base, shaft and capital sum to the column, with the capital a full semidiameter.",
+      "expression": "column.shaft_height_modules + assemblies.capital.height_modules + 1 == column.height_modules",
+      "tolerance": 0.001,
+      "note": "Gibbs: 'The Base and Capital are each in height a Semidiameter of the Column' - a rule he applies to Tuscan, Doric and Ionic alike. Vignola's Ionic capital is two thirds of a semidiameter, so Gibbs's Ionic shaft is 16 modules against Vignola's 16 1/3."
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "gibbs-ionic-arcade",
+        "clear_diameters": 5.0,
+        "note": "Plate XXXII: 'The distance from middle to middle of the Columns of the Ionick Arch without the Pedestal, so as to have the Modillions fall right, must be six Diameters; the Pilasters that support the Arch must be half a Diameter, and the Opening of the Arch four Diameters.' Six diameters is exactly eight modillion pitches of three quarters of a diameter; the arcade dimension is a consequence of the cornice, not of the columns."
+      },
+      {
+        "name": "gibbs-ionic-arcade-with-pedestal",
+        "clear_diameters": 6.5,
+        "note": "Plate XXXII: seven diameters and a half on centres, piers three quarters of a diameter, opening five diameters and a half."
+      },
+      {
+        "name": "gibbs-ionic-door",
+        "clear_diameters": 5.5,
+        "note": "Plate XXXVII no. 3: six diameters and a half on centres, opening four diameters and a half wide by nine diameters and a half high - a 1 : 2.11 opening, taller than the Doric door and shorter than the Corinthian, which is Gibbs's consistent practice of making the opening more slender as the order gets richer."
+      },
+      {
+        "name": "gibbs-ionic-gate",
+        "clear_diameters": 7.0,
+        "note": "Plate XLIV: eight diameters between middle and middle of the columns on each side of the opening, which is six diameters and a half; the lesser intercolumniation three diameters and a half; 'the Attick is one third of the height of the Order.'"
+      },
+      {
+        "name": "gibbs-venetian-window",
+        "clear_diameters": 6.0,
+        "note": "Plate XLVIII, the Venetian or Serlian window - 'they are called Venetian Windows, because they are [much used] about that City. They are proper to be placed at the [end of a room or gallery].' Gibbs gives one Doric and one Ionic; the Doric has seven diameters from middle to middle of the pilasters of the middle opening and three diameters and a half for the lesser openings. This is the single motif most strongly associated with Gibbs in American work."
+      }
+    ],
+    "default": "gibbs-ionic-arcade"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 5",
+      "units": "in",
+      "authority_note": "PALLADIO'S RULE, NOT VIGNOLA'S, AND IT IS THE MOST CONSEQUENTIAL SINGLE NUMBER IN THE GIBBS OVERLAYS. For Ionic, Corinthian and Composite the entablature is a fifth of the column, not a quarter. An 11 ft Ionic column takes a 26 1/2 in. entablature under Gibbs and a 33 in. one under Vignola. When a client says a portico looks 'top-heavy' or 'Italian', this ratio is usually what they are seeing.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height * 3 / 10",
+      "units": "in",
+      "range": [
+        26,
+        35
+      ],
+      "authority_note": "Gibbs's pedestal rule at room scale with his Ionic entablature ratio: pedestal = (column + column/5)/4 = 3/10 of the ceiling height. 32 2/5 in. at 9 ft, 28 4/5 in. at 8 ft - lower again than the Gibbs Tuscan and Doric figure of 5/16, and a full 3 1/2 in. below Vignola's ceiling/3. The richer the order, the lower the dado: that is a real and consistent Georgian phenomenon and it follows arithmetically from these two rules.",
+      "judgment": false,
+      "note": "Measure to the TOP of the rail. The rail itself is the pedestal cap, one eighth of the pedestal: ceiling_height * 3/80, about 4 in. at 9 ft."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.44 / 18",
+      "units": "in",
+      "range": [
+        6,
+        14
+      ],
+      "authority_note": "Room read as an Ionic order at reduced module, cornice alone: 1 44/100 modules of an 18-module column. 8 5/8 in. at a 9 ft ceiling, against Vignola's Ionic 10 1/2 in. A Georgian Ionic cornice is a smaller object than a Roman one and carries modillions rather than dentils.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "1.5",
+      "units": "ratio",
+      "range": [
+        1.5,
+        1.5
+      ],
+      "authority_note": "Ionic modillion pitch: three quarters of a diameter = 1 1/2 modules on centres, a modillion centred on every column axis. Expression is in modules. Everything else in an Ionic elevation - arcade bay, door width, window spacing - is then a whole number of these pitches. Vignola's Ionic has no modillions at all, so this rule has no Vignola counterpart to override; it is an addition, not a change.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "width",
+      "expression": "column_height / 18 / 6",
+      "units": "in",
+      "range": [
+        0.6,
+        3
+      ],
+      "authority_note": "GIBBS'S RULE FOR DENTILS CUT LOOSE FROM THE ORDER, and one of very few statements anywhere on how to size an ornament for an interior. 'When this Cornice is used over Pillars or Pilasters, the Dentels must be exactly divided by the Diameter of the [Column]: half a Diameter divided into twelve equal parts, of which one is half a Dentel, and one the space [between].' That gives a dentil one sixth of a module wide with a one twelfth interval - a 2 : 1 dentil-to-space ratio, which is the Georgian signature. 'But where the Cornice is used by itself for Rooms, Doors, Windows, [take] the bigness of the Dentel [thus]: divide one quarter of the Scale of the projection of the Cornice into six parts: then take the length of seven such parts, and divide it into five parts; two of them will be the Dentel, and one the space betwixt them' - the same 2 : 1, now referred to the cornice's own projection because there is no column to refer it to.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The expression encodes the over-columns case. For an interior cornice with no order, use 2 : 1 dentil to space and set the absolute size from the cornice projection, as Gibbs directs. Below about 3/4 in. a dentil band paints solid and should be deleted rather than shrunk."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 6",
+      "units": "in",
+      "range": [
+        3.25,
+        9
+      ],
+      "authority_note": "Gibbs agrees with Vignola on the sixth - 'The Architraves in all of them are one sixth of their Openings' - but his Ionic architrave has THREE fasciae where Vignola's has two, so the same six inches of casing is divided differently. That is what makes a Georgian Ionic door architrave read as finer than a Roman one at identical width.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        16
+      ],
+      "authority_note": "Archivolt and impost, one eighth of the arch opening, in every order. Gibbs adds that 'in the Ionick and Composite, the Imposts project [one third] and [one sixth] more' than the Tuscan and Doric third - the richer orders get a bolder impost.",
+      "judgment": false,
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "projection",
+      "expression": "column_height / 18",
+      "units": "in",
+      "range": [
+        2,
+        12
+      ],
+      "authority_note": "Gibbs's Ionic capital is 'half the Semidiameter of the Column' in projection on each side. For pilasters he gives seven flutes per face 'divided from the middle; at the corner of each Pilaster there remains [a portion] for a Bead' - a rule modern millwork almost never observes and which is why reproduction pilasters read flat.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The projection of an engaged pilaster is a wall-thickness and cladding decision before it is a proportional one; the order fixes only the width."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "Gibbs's Ionic modillion cornice at a 1 1/2-module pitch puts a scrolled bracket with a panelled soffit every 9 in. at a 6 in. module along the entire eaves - and the modillions must land on the column axes, so the bay spacing is not free. His own alternative, the dentil cornice, replaces the brackets with a sawn band at a 2 : 1 rhythm and costs a fraction as much.",
+      "resolution": "Take Gibbs's own dentil version and say so. He offers the two as equals, not as a good and a cheap option, and a Georgian Ionic entablature with a dentil band is fully canonical. What is NOT canonical is keeping the modillions and letting them fall off the column axes to suit a plan-driven bay - that reads as an error to anyone who knows the order and as vague wrongness to everyone else.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The Ionic capital is the most expensive single piece of millwork in the Georgian repertoire that is not carved: two volutes with eight-centre spirals, an enriched echinus, and a bead, all at a scale where the volute eye is a fraction of an inch. Gibbs devotes a whole plate (XV) to drawing the spiral alone.",
+      "resolution": "Buy the capital, do not run it. Composition or cast capitals to Gibbs's proportions are correct and cheap; site-carved ones at house scale are neither. Where the budget will not carry a capital, use the gibbs-tuscan overlay rather than an impoverished Ionic - the Tuscan is a complete order and a stripped Ionic is an unfinished one.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "At the default 6 in. module the Ionic architrave is 1 module 1 1/2 parts = 6.48 in. divided among three fasciae, two small mouldings and two fillets; the fillets fall at half a part, 1/6 in. Three coats of paint is about 1/32 in.; a 1/6 in. fillet on a site-run profile survives, but only just, and the same architrave at a 4 in. module does not.",
+      "resolution": "Set a floor of 3/16 in. on any painted fillet and, below it, merge the fascia divisions rather than the fillets - Gibbs's three-fascia architrave collapses gracefully to two, which is Vignola's Ionic anyway. Record the collapse. A three-fascia architrave with invisible divisions costs three-fascia money and reads as one fascia.",
+      "severity": "minor"
+    },
+    {
+      "with": "structural",
+      "statement": "A Gibbs Ionic entablature is a fifth of the column and its architrave is only three tenths of that - at a 12 ft column, an architrave 8 1/2 in. deep spanning six diameters of intercolumniation, or about 8 ft clear. In stone that is a bending problem; in wood it is a deflection problem that shows as a sag in the frieze line within a decade.",
+      "resolution": "Carry the span on a hidden steel or engineered-lumber header inside the entablature depth and let the architrave, frieze and cornice be a cladding on it. This is what every competent Georgian revival job does and it is invisible. Do not deepen the architrave to make it structural - that returns you to Vignola's quarter and changes the order.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "charleston-georgian",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "english-palladian",
+    "palladian",
+    "english-baroque",
+    "georgian-revival",
+    "colonial-revival",
+    "jeffersonian-classicism"
+  ],
+  "sources": [
+    "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), letterpress pp. 1-3, 8-10, 13-16, 18-21, and Plates I no. 3, X-XV, XXIV-XXVII, XXXII, XXXVII, XLIV, XLV, XLVIII; archive.org/details/gri_33125011578867",
+    "Andrea Palladio, I quattro libri dell'architettura (1570), Book I - the source Gibbs names for the one-to-five entablature",
+    "William R. Ware, The American Vignola (1920 printing), 'The Ionic Order' - comparison datum only"
+  ],
+  "confidence": "medium",
+  "notes": "GIBBS IONIC AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nTHE HEADLINE. The entablature is ONE FIFTH of the column, not one quarter. 3 3/5 modules against 4 1/2. Gibbs takes it from Palladio and applies it to Ionic, Corinthian and Composite alike, keeping Vignola's quarter only for Tuscan and Doric. Everything else in this overlay follows from that number or from the pedestal rule.\n\nTHE OTHER DIVERGENCES.\n1. ENTABLATURE SUBDIVISION 3 : 3 : 4 of ten, against Vignola's 22 1/2 : 27 : 31 1/2 of ninety (5 : 6 : 7). Gibbs's architrave and frieze are equal; Vignola's are not.\n2. MODILLIONS. Gibbs's principal Ionic cornice carries modillions at three quarters of a diameter on centres; Vignola's carries dentils and no modillions. Gibbs offers a dentil version as the alternative - the exact reverse of Vignola's priority.\n3. THREE FASCIAE in the architrave, against Vignola's two.\n4. THE CAPITAL IS A FULL SEMIDIAMETER, against Vignola's two thirds, so the shaft is 16 modules rather than 16 1/3. Part of this is a difference in measuring convention rather than in the object; it is flagged as such on the member.\n5. THE PEDESTAL is one quarter of column-plus-entablature (5 2/5 modules) rather than one third of the column (6), and it gains a plinth of a quarter its height.\n\nWHAT IS WEAK, AND IT IS MORE THAN IN THE TUSCAN AND DORIC OVERLAYS. Gibbs states the top-level Ionic divisions in words but leaves the interior of the capital, the architrave and the cornice to Plates XI-XIV and XXVI, and the OCR of those clauses is damaged in every scan reached: the passage giving the architrave division survives only as 'three of them go to the height of the Architrave, three [...]', and the capital passage is broken in three places. The capital and architrave members therefore carry confidence low and are apportioned within figures that ARE sourced. The pack confidence is medium for that reason. Do not take a low-confidence member height here as a millwork dimension without a plate.\n\nThe modillion pitch of three quarters of a diameter is confirmed independently by Gibbs's own arch dimension - six diameters on centres 'so as to have the Modillions fall right', which is exactly eight pitches - and carries confidence medium rather than low on that basis."
+}

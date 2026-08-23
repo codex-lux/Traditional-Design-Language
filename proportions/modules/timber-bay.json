@@ -1,0 +1,304 @@
+{
+  "id": "timber-bay",
+  "name": "The Timber Bay",
+  "aka": [
+    "the framing bay",
+    "the box frame bay",
+    "bent-to-bent",
+    "the pen (framed)"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Reconstructed by measurement from surviving English and Anglo-American box frames; principally Cummings' survey of the Massachusetts Bay houses and the Chesapeake impermanent-architecture literature",
+    "author": "after Abbott Lowell Cummings and Cary Carson",
+    "year": 1979,
+    "strength": "reconstructed",
+    "note": "No period text states the bay rule, because carpenters did not need to be told what a bay was. The rule is recovered from the buildings: measure enough surviving frames and the bay dimension turns out to be tightly clustered, the plan types turn out to be bay-counts, and the window positions turn out to be post positions. The English medieval setting-out unit — the rod, pole or perch of 16 1/2 feet — sits inside that cluster and is almost certainly its origin, but the derivation is inference, not documentation."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One structural bay: the distance from the centre of one principal cross-frame (bent) to the centre of the next, which is also the span the floor joists or the summer beam must make",
+    "parts": 16,
+    "default_size_in": 192.0,
+    "note": "The part is the foot, because the carpenter reckoned, contracted and scribed in whole feet and half feet, and because every derived dimension in a frame — post size, joist depth, brace run, plate overhang — is a whole or half foot. Sixteen parts because the default bay is sixteen feet. The bay is not an arbitrary number: it is bounded below by the smallest room a household can live in and bounded above by the span a hewn oak or pine joist of about 4 x 8 in will make without visible deflection under a floor load. Those two bounds meet at roughly sixteen to twenty feet, and the whole Anglo-American house catalogue is built inside that window. The English rod of 16 ft 6 in is the same number reached from the surveying side, and medieval barn bays are laid out in rods and fractions of rods."
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The default bay sits inside the documented 16-20 ft band.",
+      "expression": "module.default_size_in >= 192.0 and module.default_size_in <= 240.0",
+      "tolerance": 0.0
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        192.0,
+        264.0
+      ],
+      "authority_note": "Single-pile depth in surviving Anglo-American frames runs 16-22 ft, and the massing catalogue records 18-22 ft for the Chesapeake single-pile centre-passage house and 18-20 ft for the New England hall-and-parlor.",
+      "note": "The depth of a single-pile house IS the bay: one joist span, no interior bearing wall, a common-rafter roof. Cross-reference massing:hall-single-cell, massing:hall-and-parlor, massing:center-passage-single-pile, massing:i-house, massing:cape-cod-massing. This is the number that decides whether the type is available at all — draw a 26 ft deep single-pile house and you have drawn something no hand-framed building ever was.",
+      "judgment": false
+    },
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "width",
+      "expression": "module * 2 - part * 1",
+      "units": "in",
+      "range": [
+        336.0,
+        456.0
+      ],
+      "authority_note": "Georgian double-pile depths run 32-36 ft, which is two joist spans sharing an interior bearing partition.",
+      "note": "Double-pile depth is not a new dimension, it is two bays minus the shared partition. Cross-reference massing:four-over-four and massing:side-hall-double-pile. The interior bearing wall that the second pile requires is what the stair hall is for — this is the structural reason the Georgian plan has a passage and the hall-and-parlor plan does not.",
+      "judgment": false
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "count",
+      "expression": "round((module * 2) / module)",
+      "units": "count",
+      "note": "Two bays is hall-and-parlor: massing:hall-and-parlor. The two bays are deliberately unequal — the hall takes about 0.55 of the frame and the parlor 0.45 — which is why the door is off centre. Forcing the two bays equal to get a centred door does not produce a symmetrical hall-and-parlor house, it produces a double-pen (massing:double-pen), which is a different and later type with a different social meaning."
+    },
+    {
+      "target_slot": "circulation_parti",
+      "dimension": "width",
+      "expression": "module * 2 + part * 10",
+      "units": "in",
+      "range": [
+        420.0,
+        552.0
+      ],
+      "authority_note": "Chesapeake centre-passage houses run 44-54 ft on the front with a passage of 10-14 ft; the massing catalogue and the tidewater-georgian node both record the passage at one-fifth to one-quarter of the facade.",
+      "note": "The centre-passage plan is two bays plus a passage bay, and the passage is a real bay of the frame, not a subdivision of one. That is the whole invention: it costs a third frame, and what you buy is the ability to put a door in the middle. Cross-reference massing:center-passage-single-pile and massing:i-house. The passage bay is narrower than the room bays because it does not have to be habitable, only walkable and stair-able — 10 ft is the usual number and 8 ft is the floor."
+    },
+    {
+      "target_slot": "stair_position",
+      "dimension": "width",
+      "expression": "part * 10",
+      "units": "in",
+      "range": [
+        96.0,
+        168.0
+      ],
+      "authority_note": "10-14 ft passage width in the Chesapeake; 8-10 ft in New England and the upland South.",
+      "note": "The stair sets the floor on the passage bay. A straight run needs about 3 ft of width and 11-13 ft of run, which fits in the depth of the house. A dog-leg with a landing — the better and later form — needs about 8 ft of width minimum and produces the 10 ft passage. Below 8 ft you get a straight run against one wall and the passage stops being a room; above 14 ft the passage starts reading as a hall and the type changes."
+    },
+    {
+      "target_slot": "hearth_position",
+      "dimension": "width",
+      "expression": "module * 0.55",
+      "units": "in",
+      "range": [
+        96.0,
+        156.0
+      ],
+      "authority_note": "The New England central stack measures 8-12 ft square at the base, roughly one-third of the plan depth — recorded in the new-england-colonial node and confirmed across Cummings' survey.",
+      "note": "A central stack occupies over half a bay in plan. That is the reason the New England chimney bay exists as a bay: the stack is too big to sit inside a room bay, so the frame gets a narrow third bay for it, and the front door goes in front of the stack because there is nowhere else for it. Gable-end stacks (Chesapeake, upland South) free the bay and are why those regions get symmetrical fronts a generation earlier."
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "count",
+      "expression": "floor((module - part * 2) / (opening_width + part * 2))",
+      "units": "count",
+      "range": [
+        1.0,
+        3.0
+      ],
+      "note": "How many windows a bay will take. A 16 ft bay less 2 ft of post and corner allowance is 14 ft; a 3 ft opening with 2 ft of wall each side takes 5 ft, so two windows fit and three do not. This is why first-period fronts are four-bay and five-bay rather than six and seven, and why the openings sit in pairs with a wide blank between pairs. It is also why craftsman fronts group their windows: same rule, different frame."
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "width",
+      "expression": "part * 1.25",
+      "units": "in",
+      "range": [
+        8.0,
+        30.0
+      ],
+      "authority_note": "Post sizes in surviving first-period frames run 8-11 in on the face, with the jowl or gunstock head wider still.",
+      "note": "The minimum clear wall between the face of a post and the jamb of a window: about 15 in. It is not an aesthetic margin — it is the post itself, plus the stud and the nailing for the window frame, plus the brace that runs up from the post foot and crosses that zone. Windows cannot be moved off a bay centre by less than this without hitting structure, which is exactly why period fronts have their characteristic slightly-off rhythm. Reproducing that rhythm without the frame that caused it is the difference between a house that looks framed and one that looks drawn."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "part * 7",
+      "units": "in",
+      "range": [
+        78.0,
+        96.0
+      ],
+      "authority_note": "6 ft 8 in to 7 ft 6 in clear under the summer beam, 7 ft 0 in to 8 ft 0 in to the joists — recorded in the new-england-colonial node and standard across the first-period survey.",
+      "note": "The frame gives two ceiling heights in the same room, and they are eighteen inches apart. Under the summer beam is the low one and it is the one your head meets. Modern practice draws a single ceiling height, which makes an exposed-beam room either uncomfortably low everywhere or structurally impossible. Decide which number you are holding and dimension the post from it: post length = clear under summer + summer depth + joist depth."
+    },
+    {
+      "target_slot": "reveal_masonry",
+      "dimension": "width",
+      "expression": "part * 0.5",
+      "units": "in",
+      "range": [
+        5.0,
+        12.0
+      ],
+      "note": "Six inches: the post plane, sheathing and clapboard. A box frame is a thin wall and it reads as thin at every opening — the jamb return is 4-5 in and the window sits almost in the plane of the cladding. A modern 2x6 wall with continuous insulation and a rainscreen returns 9-12 in, and the deep reveal it produces reads as masonry. If the reveal is going to be deep anyway, at least detail it as a deliberate jamb rather than letting it happen. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "ratio",
+      "expression": "1.0",
+      "units": "ratio",
+      "range": [
+        0.75,
+        1.2
+      ],
+      "authority_note": "45-50 degrees (10:12 to 12:12) in first-period New England; 7:12 to 9:12 in the 18th-century Chesapeake.",
+      "note": "The steep first-period pitch is a common-rafter roof over a single bay: the rafter is a piece of the frame, its length is set by the bay depth, and 45 degrees on a 18 ft depth gives a 13 ft rafter — the longest piece that pairs conveniently with the joists out of the same tree. The Chesapeake drop to 7:12 is not a change in framing, it is a change in climate priority and roofing material. Set the pitch from the region, then check that the rafter length is a plausible stick."
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "width",
+      "expression": "module * 0.8",
+      "units": "in",
+      "range": [
+        120.0,
+        216.0
+      ],
+      "note": "An ell or lean-to is a new frame, and it is always narrower and lower than the main frame — 12-16 ft against 16-20. This is why the saltbox reads the way it does (massing:saltbox): the rear lean-to is a shorter span leaned on the main frame's rear plate, and the catslide roof is the honest consequence. A rear addition drawn the same depth as the main block is a 20th-century move and it destroys the type."
+    },
+    {
+      "target_slot": "daylight_strategy",
+      "dimension": "ratio",
+      "expression": "2.0",
+      "units": "ratio",
+      "note": "Two exterior walls per room. Because the bay caps the depth at one span, every room in a single-pile house is lit and cross-ventilated from two sides. Everything the Chesapeake did with air — the through passage, the aligned doors, the tall ceilings — depends on this and disappears the moment the plan goes double-pile. When you widen the bay with engineered lumber you get a deeper house and you silently lose the daylight strategy that the type existed to provide."
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "width",
+      "expression": "part * 0.9",
+      "units": "in",
+      "range": [
+        8.0,
+        14.0
+      ],
+      "note": "The corner post is 8-11 in and in early work it is not concealed — the corner board is sized to cover it and is therefore wider than a modern corner board, 6-8 in rather than 3 1/2 to 4. A 4 in corner board on a nominally first-period house is one of the commonest and most legible errors in the revival literature, and it costs nothing to fix. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one.",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "ratio",
+      "expression": "0.88",
+      "units": "ratio",
+      "range": [
+        0.8,
+        0.95
+      ],
+      "authority_note": "Second-storey posts in surviving two-storey first-period frames are shorter than ground-storey posts, but the ratio is not tightly clustered and is often set by the timber available rather than by intent.",
+      "note": "See the storey-graduation pack for the general rule. In a box frame the graduation is weaker than in a masonry or later frame building, because the post is a single stick and the carpenter took what the tree gave. Marked judgment here because the record genuinely varies: some first-period frames are near-equal and some drop by a foot.",
+      "judgment": true
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "projection",
+      "expression": "part * 0.5",
+      "units": "in",
+      "range": [
+        2.0,
+        12.0
+      ],
+      "authority_note": "First-period New England eaves are effectively flush — the rafter foot lands on the plate and the boarding runs past it by a few inches.",
+      "note": "Six inches or less, and often nothing. A box frame gives you no overhang for free, because the rafter bears on the plate, not past it; every inch of eave is a deliberate extension and 17th-century builders did not spend it. The generous boxed cornice arrives with the 18th century as a piece of joinery applied to the frame, not as a piece of the frame. This is a hard date marker."
+    },
+    {
+      "target_slot": "chimney",
+      "dimension": "width",
+      "expression": "part * 6",
+      "units": "in",
+      "range": [
+        48.0,
+        144.0
+      ],
+      "note": "A gable-end stack is about 6 ft wide at the fireplace and 8-10 ft where it serves two flues. It sits outside the bay grid or inside the gable wall, and either way it is dimensioned in feet from the masonry side, not from the frame — this is the one place where the two module systems in a building have to be reconciled by hand.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "Engineered lumber has abolished the constraint that generated the system. An 11 7/8 in I-joist spans 20 ft at residential loads without thinking about it; an LVL or open-web truss will go 30 or 40. The bay is therefore no longer a limit, and once it stops being a limit it stops being a module: partitions drift off the post lines, windows land wherever the elevation wants them, and the house becomes as deep as the lot allows. What is lost is not nostalgia. It is the correlation between the interior partition, the exterior post and the window jamb — the thing that makes a traditional facade look loaded rather than applied — and it is the daylight strategy, because a 34 ft deep single-pile house is not single-pile, it is a deep house with no light in the middle.",
+      "resolution": "Keep the bay as a planning module after it has stopped being a structural one. Frame the building however it is economical to frame it, and then require that partitions, posts (real or expressed) and window centrelines fall on a 16-20 ft grid, and that no habitable room be more than about 22 ft from an exterior wall. This is a discipline, not a technique, and it survives the change in technique intact. Where the frame is to be exposed, the reverse also holds: do not expose a beam that is not doing anything, because a decorative summer beam in a room with an I-joist floor above it is the timber equivalent of a clipped-header Flemish veneer.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "A true scribed or square-rule box frame in oak or eastern white pine costs two to four times a platform frame of the same footprint, and the trades that can build one are regionally scarce. Specifying it on an ordinary budget guarantees a value-engineering exercise in month four, at which point the plan has been drawn around a frame that no longer exists.",
+      "resolution": "Decide at schematic which you are doing and design honestly for it. If it is a platform frame, use the bay as a planning grid and spend the timber budget on the two or three places where the frame is actually seen — a stair hall post, an exposed summer in the keeping room, a real timber porch — rather than spreading it thin. If it is a true frame, size the plan to the frame from the first sketch, because a timber frame will not absorb a plan change late.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "An exposed interior frame and a continuous air barrier are in direct opposition. Every post, brace and joist end that penetrates the wall plane is a thermal bridge and an air leak, and the code now tests for both. The traditional infill wall — brick nogging, wattle, or vertical plank between posts — has an assembly R-value in the single digits and no drainage plane.",
+      "resolution": "Wrap the frame. Build the enclosure entirely outboard of the timber — structural panels or a separate insulated stud wall — so the frame is inside the conditioned, air-sealed envelope and reads as an interior structure that happens to be doing work. This is now standard good practice in the timber-frame trade and it is also, usefully, honest: the frame is visible, complete, and obviously not the weather barrier. What you must not do is half-embed the frame in the wall so that posts show inside and outside; that detail leaks, rots, and fails inspection.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "A scribed frame is dimensionally irregular by design — each joint is fitted to the two particular sticks that meet there, and a room can be an inch out of square corner to corner and two inches out of plumb over a storey. Modern interior work assumes the opposite: drywall, stock casing, frameless cabinetry and engineered flooring all want plumb, level and square within an eighth.",
+      "resolution": "Put the irregularity where it is a virtue and the regularity where it is needed. Plaster or wide-board finishes over an irregular frame look right and hide the movement; kitchens and baths get a furred, plumbed secondary structure inside the frame and nobody ever knows. Scribe the trim, do not shim it. And accept that a scribed frame will move seasonally for the first several years, which rules out rigid grout joints, mitred stone and tight-tolerance sliding doors in the rooms where the frame is exposed.",
+      "severity": "material"
+    },
+    {
+      "with": "material-availability",
+      "statement": "The bay is set by what one tree could give. A 20 ft, 8 x 8 in stick of clear old-growth oak or pine — the ordinary raw material of a 1690 frame — is now a specialty purchase, and 24 ft plus is reclaimed-only in most of the country. Push the bay to 24 ft in a real timber frame and the cost curve goes vertical, which is precisely the constraint the historic builder felt.",
+      "resolution": "Feel the same constraint. Hold the bay at 16-20 ft and add bays rather than stretching one, which is what every historic plan type is a record of. Where a longer clear span is genuinely required — a great room, a modern kitchen-living volume — do it with an intermediate post or a trussed bent and let the structure show why, rather than hiding a steel flitch inside a decorative timber.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "new-england-colonial",
+    "cape-cod-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "american-farmhouse-vernacular",
+    "american-folk-vernacular",
+    "english-medieval-timber-frame",
+    "tudor",
+    "elizabethan",
+    "jacobean",
+    "english-cottage-vernacular",
+    "cotswold-vernacular",
+    "german-fachwerk",
+    "north-german-hall-house",
+    "dutch-colonial-american",
+    "hudson-valley-dutch",
+    "flemish-vernacular",
+    "norman-vernacular",
+    "cape-dutch",
+    "colonial-revival",
+    "cape-cod-revival",
+    "garrison-revival"
+  ],
+  "sources": [
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625-1725 (Belknap/Harvard, 1979)",
+    "Cary Carson et al., 'Impermanent Architecture in the Southern American Colonies', Winterthur Portfolio 16 (1981)",
+    "Dell Upton, 'Vernacular Domestic Architecture in Eighteenth-Century Virginia', Winterthur Portfolio 17 (1982)",
+    "Cecil A. Hewett, English Historic Carpentry (1980)",
+    "The Friends of Cressing Temple, 'The Barns and Medieval Carpentry' — on setting-out in rods, poles and perches (16 ft 6 in)",
+    "HABS measured drawings of first-period New England and Chesapeake frames",
+    "tdl massings/catalog.json, entries hall-single-cell, hall-and-parlor, center-passage-single-pile, i-house, saltbox, four-over-four, double-pen"
+  ],
+  "confidence": "medium",
+  "notes": "The bay is the least visible and most consequential of the vernacular modules, because unlike the brick course it leaves no mark on the finished surface. You cannot read a bay off a clapboard wall the way you can read a coursing measure off a brick one — you have to get inside, or infer it from the window rhythm and the chimney position. That invisibility is why it is the module most often lost in revival work: a Cape Cod Revival house is very often a correct-looking exterior wrapped around a plan that no frame would ever have produced, with a 28 ft deep 'single-pile' block and windows at equal centres. The test to apply is simple and it catches most of it: can you draw the frame? If the plan does not resolve into bays of 16 to 20 feet with the partitions and window jambs falling near the posts, the building is wearing a costume."
+}

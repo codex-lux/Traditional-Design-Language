@@ -1,0 +1,161 @@
+{
+  "id": "dependency-that-is-not-subordinate",
+  "name": "The Outbuilding That Is A Second House",
+  "aka": [
+    "the co-equal garage",
+    "the barn that outranks the house",
+    "the pool house with a cornice"
+  ],
+  "slots": [
+    "outbuilding_types",
+    "service_zone_strategy",
+    "street_relationship"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "scale",
+  "symptom": "A detached garage, guest house, barn-style store or pool house standing at the same ridge height as the main block, with the same roof pitch, the same cladding, the same trim widths and often the same cornice. From the approach the site reads as two buildings of equal rank with no argument between them, and the eye cannot tell which one to go to. In the worst case the outbuilding is taller, because its doors needed the height.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Building a second structure in the same trades, with the same crew, the same framing package and the same trim order, is much cheaper than designing a different one - and the trim order is the reason the details match, because the takeoff is one order for the site. The height comes from the programme: a garage with storage above, or with a 9 ft door for a truck or a lift, needs 22 to 26 ft to the ridge, which on a one-and-a-half-storey house is more than the house has. Nobody decides the outbuilding should compete; the framing package decides it.",
+    "cost_saved": "Nothing, and usually negative. Reducing the outbuilding's ridge means a shallower pitch or a smaller footprint, which is cheaper; matching the main house's trim is more expensive than a plainer treatment. What it saves is a second design decision.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / outbuilding_types / dependency_height_ratio = 0.6-0.75",
+      "statement": "Outbuildings visible from the approach are composed symmetrically about the axis and subordinated in height."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / service_zone_strategy / dependency_height_ratio",
+      "statement": "A dependency stands at 0.6 to 0.75 of the main block. Hyphen 12-20 ft where hyphenated, detached at 25 ft minimum."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "american-farmhouse-vernacular",
+      "statement": "Wing and ell ridges must step down monotonically from the main block by at least 3 ft each, and each attached volume must be set back from the plane of the one before it. Equal ridge heights or a flush front plane produce a building with two fronts and no hierarchy - the defining failure of contemporary imitations."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "mexican-hacienda",
+      "statement": "The ornament budget goes to the gate and to the chapel; the casa grande asserts itself by height and by the order of its arcade. A complex states rank by height and by ornament allocation, and one of the two must be doing it."
+    }
+  ],
+  "correct_practice": "A dependency is subordinate in three measurable ways and it needs at least two of them. Height: ridge at 0.6 to 0.75 of the main block's ridge, measured from the same datum, which is the single most reliable rule and the one the kit fixes. Ornament: a step down in the trim vocabulary - no cornice where the house has one, a plain fascia and rake, corner boards rather than pilasters, sash of the same pattern but fewer lights or smaller. Position: set back from the main block's front plane, and either composed symmetrically about the entrance axis where it is visible from the approach or grouped informally in the service yard where it is not - which is the historic split and worth keeping, because the same complex is a composition on the approach side and a working yard behind. Detached kitchens stood 25 to 80 ft away, formalised into a five-part composition at the top of that range, and hyphens ran 12 to 20 ft. Where a modern programme forces height - a lift, a loft, an ADU - take the extra volume in LENGTH or in a lower pitch rather than in ridge height, and if the ridge cannot come down, then drop the ornament decisively so that rank is stated somewhere.",
+  "fixes": {
+    "right": "Hold the outbuilding's ridge at 0.6-0.75 of the main block, set it back behind the front plane, and step the trim down a grade.",
+    "cheap": "Change the pitch, not the plan. Dropping a detached garage from a 10:12 to a 7:12 roof takes 3 to 4 ft off its ridge on a 24 ft span, costs less in framing and roofing, and is invisible as a decision because nobody reads a garage's pitch against the house's - they read its height. Then delete the cornice: substituting a plain 8 in fascia and a simple rake for a returned cornice saves $2,000-$5,000 and does the rank argument for free.",
+    "dishonest": "Making the outbuilding match the house even more closely - same cornice, same shutters, same fanlight over the garage door - so that the pair reads as intentional. Two co-equal buildings dressed identically read as a duplex, and every added piece of the house's vocabulary makes the competition worse."
+  },
+  "detection": "Measure the two ridges from a single oblique photograph and take the ratio: 0.6 to 0.75 is correct, above 0.85 is the fault, above 1.0 is severe. Second, compare the trim: identical cornice profiles, identical casing widths and identical sash on the house and the outbuilding is the tell that one order covered both. Third, look at the front planes - a dependency level with or forward of the main block's front plane is competing whatever its height.",
+  "test": {
+    "expression": "dependency_ridge_height / main_block_ridge_height",
+    "threshold": 0.75,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Both ridges measured from the same datum. The kit's range is 0.6-0.75; below 0.5 an outbuilding starts to read as a shed rather than a dependency, which is fine for a store and wrong for a guest house. Directly measurable from an oblique photograph where both ridges are visible."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "A farmstead genuinely contains buildings that outrank the house in size - a barn is bigger than a farmhouse and always was, and the composition is honest about it because the barn is a different KIND of building with different materials, a different opening vocabulary and no domestic trim at all.",
+      "bounds": "The large outbuilding must be agricultural in type and detail: unpainted or single-coloured, large unglazed openings, no domestic sash, no cornice. A 'barn-style' garage with six-over-six windows, shutters and a cupola is not a barn; it is a second house with a hay door.",
+      "applies_when": {
+        "slots": [
+          "outbuilding_types"
+        ],
+        "note": "The licence attaches to genuinely agricultural buildings, not to agricultural styling."
+      }
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "The chapel is the only ornamented and often the only vaulted structure in the precinct and it legitimately outranks the casa grande in elaboration; production buildings - trojes, tinacal, mill - are full architectural members of the composition and can be very large.",
+      "bounds": "The rank is stated by ornament and by type rather than by height: the chapel gets the carving and the belfries, the casa grande gets the height and the arcade order. A complex where every building has the same ornament has no hierarchy in either currency."
+    },
+    {
+      "style": "tidewater-georgian",
+      "why": "The five-part composition puts flanking dependencies in a deliberate formal relationship with the main block, and at the top of the range they become substantial buildings in their own right.",
+      "bounds": "They remain at 0.6-0.75 of the main block, they are symmetrically paired about the entrance axis, and they are joined by hyphens of 12-20 ft. A single large dependency on one side is not a five-part composition; it is a wing, and the wing rules apply.",
+      "bounds_test": {
+        "expression": "dependency_ridge_height / main_block_ridge_height",
+        "threshold": 0.6,
+        "direction": "between",
+        "upper": 0.75,
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "regions": [
+          "Chesapeake"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Freely composed groups where a stable, a carriage house or a casino can be a substantial element of an informal ensemble.",
+      "bounds": "Requires the unifying skin - one continuous shingle field across the group - and one roof plane that is decisively dominant."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The kitchen house at the rear of the lot is a substantial two- or three-storey building, because it held workrooms and quarters.",
+      "bounds": "It stands at the rear of the lot, behind the main house, and is reached across the garden - subordination is by position and by concealment rather than by height."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "co-equal-mass",
+      "difference": "That fault concerns two masses of one building. This is two separate buildings on one site, and the fix is different: you cannot subordinate a detached structure by setting it back in plane alone, you have to take its height or its trim."
+    },
+    {
+      "fault": "garage-doors-dominate-the-frontage",
+      "difference": "That is an area ratio on one elevation. This is a height ratio between two buildings, and a detached garage can pass that test and fail this one comfortably."
+    }
+  ],
+  "co_occurs_with": [
+    "garage-doors-dominate-the-frontage",
+    "co-equal-mass"
+  ],
+  "severity_by_style": [
+    {
+      "style": "tidewater-georgian",
+      "severity": "fatal",
+      "why": "The five-part composition is a hierarchy of heights; equalise the dependencies and the composition has no centre."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The dependency ratio is a stated kit parameter and the approach reads it immediately."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "minor",
+      "why": "Genuine farm buildings legitimately outsize the house."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "minor",
+      "why": "Informal grouping is the idiom, provided the skin unifies it."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json outbuilding_types (arrangement, dependency_height_ratio, detached_kitchen_distance_ft), service_zone_strategy",
+    "styles/american-farmhouse-vernacular.json monotonic ridge-step constraint; styles/mexican-hacienda.json ornament-budget constraint",
+    "HABS documentation of Chesapeake five-part compositions and detached dependencies",
+    "kits/georgian-colonial-american.kit.json note that the modern kit turns the detached dependency into a garage, guest suite or pool house, and that the substitution should be recorded as one"
+  ],
+  "confidence": "high",
+  "tags": [
+    "site",
+    "outbuilding",
+    "hierarchy",
+    "scale",
+    "photograph-testable",
+    "cost-negative"
+  ]
+}

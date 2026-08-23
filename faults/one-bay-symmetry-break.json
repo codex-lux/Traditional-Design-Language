@@ -1,0 +1,234 @@
+{
+  "id": "one-bay-symmetry-break",
+  "name": "The Bay That Broke the Symmetry",
+  "aka": [
+    "the stair window",
+    "the almost-symmetrical front"
+  ],
+  "slots": [
+    "composition_parti"
+  ],
+  "severity": "fatal",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Symmetry is arithmetic here, not visual balance; one bay out is a broken claim."
+    },
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "As above."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "As above."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The revival can absorb a small departure on a flank; not on the front."
+    },
+    {
+      "style": "garrison-colonial",
+      "severity": "serious",
+      "why": "The overhang makes the front plane emphatic, which makes the break more visible."
+    },
+    {
+      "style": "queen-anne-free-classic",
+      "severity": "not-applicable",
+      "why": "Balanced asymmetry is a deliberate mode - but only at whole-mass scale."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "not-applicable",
+      "why": "The incomplete Cape's off-centre door records household growth."
+    }
+  ],
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A five-bay front that is symmetrical except for one thing: a garage door in the end bay, a wider window where the kitchen is, a small bathroom window pushed off axis, a half-storey stair window at the wrong height, or an entrance shifted eighteen inches to suit the stair. The composition claims symmetry everywhere and then breaks it once, which reads worse than not claiming it at all.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The plan wins, one decision at a time. A stair landing needs light at half-storey height; a kitchen sink wants a wider unit; a bathroom wants a small high window; a garage must be on the driveway side. Each is a local optimum that costs nothing and each is decided on the plan, where its consequence for the elevation is literally invisible - a plan cannot show that two windows are at different heights.",
+    "cost_saved": "No construction cost at all. It saves four to twelve hours of design and sometimes twenty to forty square feet of plan efficiency.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / composition_parti / strict-bilateral-symmetry",
+      "statement": "Every elevation is composed; the rear and the ends are elevations too, not leftovers - but they are composed to a LOWER rank, not to the same rank."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / composition_parti / balanced-asymmetrical = forbidden",
+      "statement": "Near-symmetry with a deliberate offset is Queen Anne Free Classic and Shingle Style. Georgian symmetry is arithmetic, not visual balance."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a broken claim reads as a defect, not as a variation",
+      "statement": "The eye reads a departure under about 15 per cent of the facade width as an error and one over about 30 per cent as an intention. Between the two is the worst place to be."
+    }
+  ],
+  "correct_practice": "Symmetry is a claim, and a broken claim is read as damage. Four disciplines cover almost every case. (1) Put every non-conforming opening on an elevation that is not the composed one; the composed elevation ranks the others, and the rear and service flank are composed to a lower rank, not to none. (2) Where a stair landing must be lit from the front, make its window one of the bay windows and step the stair to suit - a landing that lands on a window head is a plan problem with a plan fix. (3) Where a wider opening is wanted, hold the OUTER dimension of the opening constant and change the sash within it; the rhythm is read from the openings, not from the glazing bars. (4) A garage never appears in the composed front.",
+  "fixes": {
+    "right": "Move the offending function. The kitchen, the stair and the garage are all movable in plan; the front elevation is not movable at all once built.",
+    "cheap": "Hold the opening SIZE and change what is in it. A 3 ft x 5 ft opening can hold a double-hung, a fixed sash, an obscure-glazed bathroom unit or a pair of casements, and from the street all four read as the same bay. This costs nothing and solves the majority of real cases.",
+    "dishonest": "Adding a false window - a shuttered blank, a painted panel - to restore the count. Blind windows are a real and old device on masonry buildings where they are recessed in a real reveal with real depth. A flat panel of siding with shutters on it is not that, and it is legible at any distance in raking light."
+  },
+  "test": {
+    "expression": "count_of_openings_without_a_mirror_twin_about_the_facade_centreline",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Fold a straight-on photograph about its centreline and difference the halves. Any opening lacking a twin of the same width, height and head height is the fault. A model can execute this directly by mirroring the image."
+  },
+  "secondary_tests": [
+    {
+      "expression": "width_of_the_largest_asymmetric_element_in / facade_width_in",
+      "threshold": 0.15,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The scale test, and the one that decides whether the eye reads error or intention. Under about 0.15 a departure reads as a mistake; over about 0.30 it reads as balanced asymmetry. Between the two is the worst place a facade can be."
+    },
+    {
+      "expression": "count_of_garage_doors_in_the_composed_front",
+      "threshold": 0,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The single most frequent offender, ahead of the half-storey stair window, the oversized kitchen window and the shifted entrance."
+    }
+  ],
+  "detection": "Fold a straight-on photograph of the front about its centreline and compare the halves. Any opening without a mirror twin of the same width, same height and same head height is the fault. The offenders in order of frequency: the garage door, the half-storey stair window, an oversized kitchen window, and an entrance shifted off the axis. A model can do this directly by mirroring the image and differencing.",
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "georgian-revival",
+    "colonial-revival",
+    "federal-style",
+    "greek-revival-american",
+    "palladian",
+    "neoclassical-revival",
+    "garrison-colonial",
+    "adam-style",
+    "early-republic",
+    "new-urbanist-traditional",
+    "contemporary-traditional"
+  ],
+  "exceptions": [
+    {
+      "style": "queen-anne-free-classic",
+      "why": "Balanced asymmetry is a deliberate compositional mode: a large element on one side answered by a group on the other.",
+      "bounds": "The departure must be LARGE - a whole mass, a tower, a porch, a bay window - not one window's worth. Under about 15 per cent of the facade width the eye reads error; the test is scale, not intention.",
+      "bounds_test": {
+        "expression": "width_of_the_largest_asymmetric_element_in / facade_width_in",
+        "threshold": 0.3,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The departure must be LARGE - a whole mass, a tower, a porch, a bay window - not one window's worth. The test is scale, not intention."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Picturesque composition, unified by the skin rather than by articulation; the openings are grouped in bands of two to five with long stretches of plain shingle between.",
+      "bounds": "The rhythm belongs to the groups, not to a bay module. A near-regular front with one window out is not this.",
+      "bounds_test": {
+        "expression": "count_of_openings_in_the_largest_window_group",
+        "threshold": 2,
+        "direction": "between",
+        "units": "count",
+        "measurable_from": "photograph",
+        "upper": 5,
+        "note": "Openings occur in bands of two to five under a common head, separated by long stretches of plain shingle. A near-regular front with one window out is not this."
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "The half and three-quarter Cape's off-centre door records the growth of the household, and the whole grammar is legible: door offset, chimney offset differently, openings in the quarter-half-three-quarter-full sequence.",
+      "bounds": "It must be a genuinely incomplete Cape - two or three openings plus a door - not a full five-bay front with one thing wrong.",
+      "bounds_test": {
+        "expression": "upper_floor_opening_count",
+        "threshold": 4,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "A genuinely incomplete Cape - two or three openings plus a door - not a full five-bay front with one thing wrong."
+      }
+    },
+    {
+      "style": "saltbox-colonial",
+      "why": "Five bays on the front, unequal, set by post positions with a narrow entry bay centred on the stack. The unequal spacing is structural and correct.",
+      "bounds": "Unequal spacing about a true centre; not an opening displaced off the centre.",
+      "bounds_test": {
+        "expression": "count_of_openings_without_a_mirror_twin_about_the_facade_centreline",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Unequal SPACING about a true centre is licensed because it is structural; a displaced opening is not. The saltbox front still has five bays and a centred door."
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "Additive growth with openings placed by use is the type's honesty.",
+      "bounds": "It must not simultaneously claim a composed front with a pedimented centre bay.",
+      "bounds_test": {
+        "expression": "count_of_composed_centre_bay_features",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "It must not simultaneously claim a composed front with a pedimented centre bay."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "Strict bilateral symmetry is the fault. The rhythm belongs to the grouped openings, not to a bay module, and a regular five-bay front is a Colonial Revival house wearing shingles."
+    },
+    {
+      "style": "queen-anne-american",
+      "statement": "A symmetrical front is the fault; the style's identity is the multiplication of unequal masses."
+    },
+    {
+      "style": "tudor-revival",
+      "statement": "As above - picturesque asymmetry is the declared symmetry class."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "even-bay-front",
+      "difference": "There the count itself makes a centre impossible. Here the count is right and one opening is wrong."
+    },
+    {
+      "fault": "picturesque-parti-on-a-formal-style",
+      "difference": "That fault is in three dimensions - masses and ridge heights. This one is in the flat elevation."
+    }
+  ],
+  "co_occurs_with": [
+    "picturesque-parti-on-a-formal-style",
+    "co-equal-mass",
+    "dormer-off-the-bay"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json composition_parti",
+    "proportions/systems/facade-classical.json",
+    "project style nodes: queen-anne-free-classic, shingle-style, cape-cod-colonial"
+  ],
+  "confidence": "high",
+  "tags": [
+    "parti",
+    "symmetry",
+    "composition",
+    "endemic"
+  ]
+}

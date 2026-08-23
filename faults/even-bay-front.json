@@ -1,0 +1,241 @@
+{
+  "id": "even-bay-front",
+  "name": "The Front With No Centre",
+  "aka": [
+    "four-bay Georgian",
+    "the doorless axis"
+  ],
+  "slots": [
+    "composition_parti",
+    "window_grouping_rule"
+  ],
+  "severity": "fatal",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The style's one hard proportional constraint. There is no centre to enter."
+    },
+    {
+      "style": "palladian",
+      "severity": "fatal",
+      "why": "The whole composition is an axis, and an even count abolishes it."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "A temple front with no central intercolumniation to enter through."
+    },
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "As Georgian."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The revival tolerates a good deal, but not the loss of the door's axis."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "not-applicable",
+      "why": "The entrance is not on the street facade at all."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "not-applicable",
+      "why": "The front is a record of household growth rather than a composition."
+    }
+  ],
+  "frequency": "common",
+  "category": "composition",
+  "symptom": "A formal, symmetrical-looking front with four or six openings on the upper floor. Either the door has been pushed to one side of a composition that is otherwise claiming symmetry, or it sits on the centreline between two windows rather than under one. The axis of the composition lands on a piece of wall.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "The plan is drawn first and the elevation is generated from it. A two-rooms-either-side plan with a stair produces an even number of windows on the front almost automatically, because each room wants two and the stair wants none. In a plan-first drawing set nothing objects, because bay parity is a fact about the elevation and there is no elevation until the plan is finished.",
+    "cost_saved": "Nothing. Deleting a window saves $600-1,200; adding one costs the same. Bay parity is free, which makes this the cheapest fatal fault in the corpus to avoid."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / composition_parti / even-bay-front = forbidden",
+      "statement": "There is no centre to enter. This is the style's one hard proportional constraint."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / composition_parti",
+      "statement": "bay_parity odd; bay_count_permitted 3, 5, 7; bay_count_normative 5."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical -> window_grouping_rule.count = max(3, floor((span / module - 1) / 2) * 2 + 1)",
+      "statement": "The pack enforces odd parity arithmetically: a 45 ft front on a 9 ft bay resolves to 5."
+    }
+  ],
+  "correct_practice": "On any style whose parti is bilateral symmetry about an entrance, the front is three, five or seven bays and the door is in the middle one. The arithmetic is in the pack and it never returns an even number. If the plan produces an even count, the plan changes - this is the one case in the whole system where the elevation outranks the plan, because here the parti IS the style and a Georgian composed without a centre is not a defective Georgian but a different species. Two answers are correct rather than merely tolerable: a three-bay side-hall front, which is composed about its door on a narrower parti and is the urban and Charleston solution; and a five-part Palladian composition, which extends the symmetry to the whole complex rather than abandoning it.",
+  "fixes": {
+    "right": "Recompose the front on an odd bay count and move the plan to suit, using the pack's arithmetic as the constraint.",
+    "cheap": "Where a fourth opening is unavoidable, make the front a genuine three-bay side-hall composition instead of a broken five-bay one: move the door to the end bay, hold the three windows above at equal spacing, and accept the narrower parti. It costs one window and it converts a fault into a type.",
+    "dishonest": "Pairing two of the four windows into a single wide unit to make three 'bays'. A paired sash under one head is one opening only where the whole facade is composed in groups, as in Italianate or Craftsman work; on a Georgian front the eye counts openings and gets four."
+  },
+  "test": {
+    "expression": "upper_floor_opening_count % 2",
+    "threshold": 1,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Count the openings on the upper floor of the principal elevation. Even is the fault on any style whose declared symmetry class is strict-bilateral. The pack does the same arithmetic and never returns an even number: bay count = max(3, floor((span/module - 1)/2)*2 + 1)."
+  },
+  "secondary_tests": [
+    {
+      "expression": "horizontal_distance_from_door_centreline_to_centre_window_centreline_in",
+      "threshold": 3,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Drop a vertical from the door's centre; it must land on the centre of the middle upper window. Landing between two windows is this fault; landing on a non-central window is a side-hall parti and may be correct."
+    },
+    {
+      "expression": "upper_floor_opening_count",
+      "threshold": 3,
+      "direction": "between",
+      "units": "count",
+      "measurable_from": "photograph",
+      "upper": 7,
+      "note": "Three, five or seven. Nine-bay fronts are institutional, not domestic."
+    }
+  ],
+  "detection": "Count the openings on the upper floor of the principal elevation. Even is the fault on any formal style. Then drop a vertical from the door's centre: it should land on the centre of the middle upper window. Landing between two windows, or on a window that is not the middle one of an odd count, are two different failures - the first is this fault, the second is a side-hall parti and may be correct.",
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "georgian-revival",
+    "colonial-revival",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "greek-revival-american",
+    "palladian",
+    "english-palladian",
+    "jeffersonian-classicism",
+    "neoclassical-revival",
+    "adam-style",
+    "early-republic"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The street elevation is a gable end two or three bays wide with the door in a garden wall opening sideways onto a piazza. The parti is complete and the entrance is not on the street facade at all.",
+      "bounds": "The type's other rules must hold: 22-26 ft street width, a piazza the full flank length, a near-windowless flank on the north or east.",
+      "bounds_test": {
+        "expression": "street_facade_width_ft",
+        "threshold": 22,
+        "direction": "between",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "upper": 28,
+        "note": "With a piazza the full flank length and a near-windowless flank on the north or east."
+      }
+    },
+    {
+      "style": "english-georgian-townhouse",
+      "why": "A three-bay side-hall front with the door in an end bay is the urban parti and is composed, not broken.",
+      "bounds": "Three bays with the door in an end bay; not four bays with a door somewhere in them.",
+      "bounds_test": {
+        "expression": "upper_floor_opening_count",
+        "threshold": 3,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Three bays with the door in an end bay - not four bays with a door somewhere in them."
+      }
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "Same side-hall logic.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "upper_floor_opening_count",
+        "threshold": 3,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "One-room-wide with a door and a window, a two-opening front; the type has no symmetry claim to break.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "upper_floor_opening_count",
+        "threshold": 2,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "One room wide; there is no symmetry claim to break."
+      }
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "why": "'Even, three or five bays' with the entrance set to one side on the narrow-lot version is documented practice for the type.",
+      "bounds": "The dormer windows must still align with the openings below, and the gambrel must be doing the compositional work.",
+      "bounds_test": {
+        "expression": "count_of_dormer_windows_aligned_with_openings_below / dormer_count",
+        "threshold": 1.0,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The dormers must still align with the openings below, and the gambrel must be doing the compositional work."
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "The quarter, half and three-quarter Cape have an off-centre door by definition, because the front is a record of household growth rather than a composition.",
+      "bounds": "The growth grammar must be visible and complete - door offset, chimney offset differently, openings in a 1-2-3-4 sequence. A full five-bay Cape with an off-centre door is still the fault.",
+      "bounds_test": {
+        "expression": "upper_floor_opening_count",
+        "threshold": 4,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The growth grammar must be visible and complete - door offset, chimney offset differently, openings in the quarter-half-three-quarter sequence. A full five-bay Cape with an off-centre door is still the fault."
+      },
+      "applies_when": {
+        "note": "Applies only to the incomplete Cape - quarter, half and three-quarter. The full Cape is centred and is governed by the rule."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "charleston-single-house",
+      "statement": "A five-bay centred street front is the fault. The type's street elevation is a two or three bay gable end with the door in a garden wall opening sideways onto a piazza."
+    },
+    {
+      "style": "shotgun-house",
+      "statement": "A composed symmetrical front is the fault; the type is one room wide with a door and a window."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "one-bay-symmetry-break",
+      "difference": "That fault is an odd-bay front with one opening wrong. This one is a front whose count makes a centre impossible."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json composition_parti",
+    "proportions/systems/facade-classical.json",
+    "Andrea Palladio, I quattro libri (1570), Book I ch. XXI-XXVI",
+    "HABS documentation of five-bay Georgian fronts"
+  ],
+  "confidence": "high",
+  "tags": [
+    "parti",
+    "symmetry",
+    "composition",
+    "fatal"
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "id": "muntin-wider-than-its-date",
+  "name": "The Bar That Dates The Window Wrong",
+  "aka": [
+    "the 1 1/4 muntin",
+    "the insulated bar",
+    "Georgian bar on a Federal house"
+  ],
+  "slots": [
+    "window_lite_pattern",
+    "glazing_assembly",
+    "window_type"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "The light count and the sash proportion are right for the style, but the bar is visibly heavy. On a Federal or Greek Revival elevation the bar measures 1 1/8 to 1 1/4 in where it should be 5/8 to 7/8 in; the grid reads as a dark lattice rather than as thin lines, and at fifty feet the window looks fifty years older than the house.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "The insulated glass unit sets the floor. A sealed unit needs an edge seal of about 5/8 in that must be concealed, so the narrowest bar that can conceal an edge seal on both sides of a joint in a true divided assembly is about 1 1/8 in, and manufacturers state this directly — Kolbe's true divided lite is a 1 1/8 in wood bar and not narrower. The bar is not chosen; it is what the sealed unit leaves. Sash depth follows: 1 3/8 in historic becomes 1 3/4 in or more.",
+    "cost_saved": "Nothing at the bar. The driver is thermal code compliance, which requires the sealed unit, which requires the bar. This is a fault produced by a requirement rather than by an economy, which is why it is the hardest one in the openings group to argue away."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_lite_pattern.width",
+      "statement": "muntin width 7/8 in; sash depth 1 3/8 in. The pack's own note: the muntin section dates a window more reliably than the light count, because light counts were revived and muntin sections mostly were not."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "federal-style / window_lite_pattern",
+      "statement": "Muntins no wider than 7/8 in. Muntins at Georgian width, 1 1/4 in and up, collapse the style at any distance beyond fifty feet."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / glazing_assembly / muntin_width_insulated_min",
+      "statement": "A true divided insulated unit forces 1 1/8 to 1 1/4 in."
+    }
+  ],
+  "correct_practice": "Know which number the style is asking for before choosing the glazing. Georgian and earlier: 7/8 to 1 in, with 12/12 or 9/9 sash and small lights. Federal and Regency: 5/8 to 7/8 in, fewer and larger lights, 6/6 or 6/9. Greek Revival: back toward 7/8 to 1 in with 6/6 and larger glass again. Craftsman and Prairie: 1 1/8 in and up, deliberately. If the style wants a bar under 7/8 in, an insulated true divided light cannot supply it, and the honest routes are a single-glazed sash with an interior storm panel — which reaches an assembly U of about 0.35 — or a simulated assembly whose exterior bar is made to the correct width regardless of the seal behind it.",
+  "fixes": {
+    "right": "Single-glazed true divided sash at the historic bar width, with a well-fitted interior storm panel or an interior secondary sash. This preserves the diagnostic dimension and reaches thermal parity with a standard double-glazed unit.",
+    "cheap": "Keep the sealed unit and reduce the light count so the wide bar has a job to do. A 6/6 sash at 1 1/8 in bars is a defensible mid-nineteenth-century window; a 12/12 at 1 1/8 in is a lattice. Changing the count costs nothing and moves the window to a date the bar can actually support.",
+    "dishonest": "Specifying a narrow simulated bar over a sealed unit whose spacer is wider than the bar. The spacer then shows as a grey line either side of the muntin and the window reads as having a triple bar, which is a period impossibility and looks it."
+  },
+  "detection": "Measure the bar against the glass in a photograph: express bar width as a fraction of light width. A Georgian 9 in light with a 7/8 in bar gives about 0.10; the same light with a 1 1/4 in bar gives 0.14, and the grid darkens visibly. Cross-check against the style's date: if the elevation carries a fanlight, thin cornice and graduated storey heights — Federal signals — and the bar is heavy, the fault is present. Also compare against the sash stile: the historic stile is about 2 in and the bar 7/8 in, a ratio of 2.3; when the bar has been fattened by the sealed unit the ratio falls toward 1.6 and the grid competes with the frame.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The style's own constraint sets a floor, not a ceiling: muntins not less than 1 1/8 in wide, vertical, three or four per upper sash. A thin bar is the fault here, not a wide one.",
+      "bounds": "Vertical bars in the upper sash only, lower sash a single light. Width 1 1/8 to 1 3/8 in. This does not licence a wide bar in a horizontal grid.",
+      "bounds_test": {
+        "expression": "muntin_width_in",
+        "threshold": 1.125,
+        "direction": "at-least",
+        "upper": 1.375,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Style floor. Vertical bars in the upper sash only, 1 1/8 to 1 3/8 in; the lower sash is a single light."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Rectilinear art glass with came or wide wood bars is the idiom; the bar is a compositional line and its weight is the point.",
+      "bounds": "Casement sash, rectilinear geometry, no curves, bands with continuous head and sill courses.",
+      "bounds_test": {
+        "expression": "curved_elements_in_the_glazing_pattern",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Casement sash, rectilinear geometry, no curves, bands with continuous head and sill courses. Any curve in the pattern voids the exception."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Leaded glazing uses lead came of 1/4 to 3/8 in face width in diamond or rectangular quarries, which is a different family of dimension entirely and is not measured against sash-bar rules.",
+      "bounds": "True lead came in a glazed panel set into a casement, not a bar imitating came. Where a Tudor Revival house uses double-hung sash, the sash-bar rules apply again.",
+      "bounds_test": {
+        "expression": "lead_came_face_width_in",
+        "threshold": 0.25,
+        "direction": "between",
+        "upper": 0.375,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "True lead came in a leaded panel set into a casement. Outside 1/4 to 3/8 in it is not came, and a came-pattern grille between panes is a different fault entirely."
+      },
+      "applies_when": {
+        "construction": [
+          "leaded-casement"
+        ],
+        "note": "Depends on the glazing being real leaded panel in a casement. Where a Tudor Revival house uses double-hung sash, the sash-bar rules apply again in full."
+      }
+    },
+    {
+      "style": "colonial-revival",
+      "why": "The revival itself ran 7/8 in and wider against the eighteenth century's nearer 5/8 in, and that heaviness is a documented characteristic of the revival rather than a modern error.",
+      "bounds": "Legitimate on a house dated and detailed as Colonial Revival — that is, one that also carries the revival's larger entry surround and its 6/6 or 6/1 sash. It is not a licence on a house claiming an eighteenth-century date.",
+      "bounds_test": {
+        "expression": "muntin_width_in",
+        "threshold": 0.875,
+        "direction": "at-least",
+        "upper": 1.25,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The revival's own band runs 7/8 in and up with 6/6, 8/8 or 6/1 sash. The licence is void on a house claiming an eighteenth-century date, which is the bound that matters."
+      },
+      "applies_when": {
+        "date_range": [
+          1880,
+          1955
+        ],
+        "note": "The licence is for work honestly presented as of the revival period, carrying the revival's larger entry surround and its own sash patterns."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "flat-grille-no-shadow-line",
+      "difference": "Width versus depth. A correct 7/8 in bar with no setback still fails at distance; a 1 1/4 in bar with a full moulded setback reads well but reads as the wrong period."
+    },
+    {
+      "fault": "lite-count-wrong-for-the-date",
+      "difference": "Count versus section. The pack's own claim is that the section is the more reliable date evidence, because counts were revived and sections were not."
+    }
+  ],
+  "sources": [
+    "Kolbe true divided lite specification, 1 1/8 in wood muntin bar",
+    "Marvin SDL bar widths",
+    "NPS Preservation Brief 9",
+    "proportions/modules/sash-light.json",
+    "styles/federal-style.json constraints"
+  ],
+  "confidence": "high",
+  "tags": [
+    "muntin",
+    "date",
+    "insulated-glass",
+    "diagnostic"
+  ],
+  "test": {
+    "expression": "muntin_width_in / individual_light_width_in",
+    "threshold": 0.11,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The scale-free form, which works from a photograph without knowing the opening size. A 9 in Georgian light with a 7/8 in bar gives 0.097; the same light with a 1 1/4 in bar gives 0.139 and the grid visibly darkens. This is the ratio the eye is actually reading."
+  },
+  "secondary_tests": [
+    {
+      "expression": "muntin_width_in",
+      "threshold": 0.625,
+      "direction": "between",
+      "upper": 1.0,
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The absolute band for Anglo-American work before about 1850. Federal and Regency sit at the bottom of it, Georgian and Greek Revival at the top. Craftsman, Prairie and any post-1900 idiom are outside it by intention and should be evaluated against their own floors instead."
+    },
+    {
+      "expression": "muntin_width_in / sash_stile_width_in",
+      "threshold": 0.4,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Historic: 7/8 against a 2 in stile, about 0.44. When the sealed unit fattens the bar the stile is widened with it, so this ratio holds and the grid coarsens together — which is why it is a poor primary test and a useful confirmation that the whole sash has been scaled up rather than just the bar."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "The style's constraint states that muntins at Georgian width, 1 1/4 in and up, collapse the style at any distance beyond fifty feet."
+    },
+    {
+      "style": "regency",
+      "severity": "fatal",
+      "why": "Bars heavier than 18 mm date the work to before 1780 and remove the sheet-of-light reading the style depends on."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "The revival itself ran 7/8 in and wider against the eighteenth century's nearer 5/8 in, and that heaviness is a documented characteristic of the revival rather than a modern error."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The style's floor is 1 1/8 in; a wide bar is the requirement, not the fault."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Wide bars and came in rectilinear art glass are the idiom."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "craftsman",
+      "statement": "Here the fault is a bar narrower than 1 1/8 in. The style's constraint sets a floor and no ceiling, and a thin equal grid is the Craftsman failure."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "A slight bar is the fault; the bar's weight is the composition."
+    },
+    {
+      "style": "tudor-revival",
+      "statement": "The dimension inverts entirely: lead came at 1/4 to 3/8 in face width is a different family, and a sash bar imitating came at 7/8 in is the fault."
+    }
+  ],
+  "co_occurs_with": [
+    "insulated-unit-defeats-the-divided-lite",
+    "flat-grille-no-shadow-line",
+    "lite-count-wrong-for-the-date"
+  ]
+}

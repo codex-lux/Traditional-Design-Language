@@ -1,0 +1,200 @@
+{
+  "id": "ranch-style",
+  "name": "Ranch",
+  "aka": [
+    "Ranch house",
+    "California ranch",
+    "rambler",
+    "ranchburger"
+  ],
+  "rank": "style",
+  "member_of": "mid-century-traditional",
+  "status": "historical",
+  "period": {
+    "origin": 1932,
+    "floruit_start": 1945,
+    "floruit_end": 1970,
+    "decline_end": 1980,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "San Diego and Los Angeles, California",
+    "climate_zones": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "minimal-traditional",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The direct ancestor: the same builders, the same FHA underwriting, the same trim, the same eight-foot plate. The ranch is the Minimal Traditional house laid on its side across a wider lot once postwar land and lumber allowed it."
+    },
+    {
+      "target": "prairie-school",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "The horizontal parti, the low hipped roof with a wide eave, the banded windows, and the open plan reach the ranch through the plan-book Prairie box and, more directly, through Wright's Usonian houses of 1936 onward, which Cliff May and the Sunset editors knew well."
+    },
+    {
+      "target": "craftsman",
+      "type": "descends_from",
+      "weight": 0.25,
+      "inherits_kit": true,
+      "note": "The single-storey habit, the low horizontal spread, the indoor-outdoor terrace relationship, and the informality of the plan are bungalow inheritances carried through Californian practice without interruption."
+    },
+    {
+      "target": "monterey-colonial",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "The claimed ancestry. Cliff May, who grew up among the Estudillo family's adobes, marketed the type as a descendant of the Californian rancho, and the name stuck. The reference is honest in feeling and false in fact: the rancho was a courtyard building of thick adobe walls organized inward, while the ranch is a thin-walled suburban bar organized toward a private rear yard."
+    }
+  ],
+  "description": {
+    "short": "The long, low, single-storey suburban house of postwar America, and the first house type in the world organized around the automobile — a reorganization it accomplished by attaching the garage to the street elevation, a problem it never solved and bequeathed to every traditional style built since.",
+    "long": "The ranch is the American house at the moment the American house stopped being upright. Everything about it is horizontal: a single storey, a plan one room deep along most of its length, a body twenty-four to thirty-two feet deep and fifty to eighty feet long lying parallel to the street, a roof of three to five in twelve with an eave of eighteen to thirty-six inches, an eight-foot ceiling, and a facade whose width is two and a half to four times its height. Cliff May built the first of them in San Diego in 1932 and spent the next fifty years arguing that it descended from the Californian adobe rancho; Sunset published Western Ranch Houses with him in 1946 and turned a regional idea into a national one. But the ranch that got built ten million times was not May's courtyard house. It was the Minimal Traditional house of the 1930s laid on its side, and the agent of that transformation was land: postwar subdivisions on wider, cheaper, flatter lots made spreading out less expensive than stacking up.\n\nThe technology is worth enumerating because each item changed the building. The engineered light wood truss, commercialized in the late 1940s, spanned the full width of the house at twenty-four inches on centre, eliminated interior bearing walls, and made the low pitch structurally trivial and the open plan cheap. Plywood and gypsum board in four-by-eight sheets set the module for everything. The concrete slab on grade removed the basement in the West and put the floor at the level of the yard, which is what actually produces the indoor-outdoor life the marketing promised. Large float glass gave the picture window and the sliding glass door. Forced-air heating in the slab or in the attic removed the chimney's necessity, and residential air conditioning, spreading fast after 1955, removed the porch's — a covered outdoor room facing the street has no function in a house you keep sealed and cooled, and its disappearance is a mechanical fact before it is a social one. The FHA and VA supplied the mortgages, and the 1949 Housing Act supplied the political mandate.\n\nAnd then there is the car, which is why this node matters more than its architectural quality warrants. The ranch is the first house type in history designed from the outset to receive an automobile at the dwelling. The driveway replaces the front walk as the real approach. The garage stops being an outbuilding at the rear of the lot and becomes a room of the house, attached, and — because the driveway must reach it, and because the cheapest driveway is the shortest one — it lands on the street elevation. A sixteen-foot garage door on a fifty-foot frontage occupies a third of the facade; a two-car door on a forty-foot frontage occupies more. The front door, meanwhile, has become the smallest and least visible opening on the front of the house, and is frequently invisible from the place where visitors actually arrive. This is the unsolved problem of American residential design, and it should be stated plainly: no traditional style has a rule for it, because no traditional style ever had to accommodate a twenty-by-twenty-foot windowless room that must open directly onto the public frontage. Every style in the contemporary-traditional group inherits this problem, and the only strategies that work are the ones the ranch itself occasionally used and then forgot — set the garage face back behind the main facade plane, turn it ninety degrees and side-load it, or push it to an alley.\n\nTo be inside a good ranch is more pleasant than its reputation suggests. The ceiling is low and the rooms run into one another, the light comes from two sides in most rooms, and the sliding door to the terrace means the yard is part of the living space in a way that no two-storey house achieves. To stand in front of one is a different experience: the building presents a long low band with a wide garage door, a picture window, and a recessed entry, and it does not address you. It has turned around. The public face of the American house was moved to the back garden in about 1950, and the street elevation has been an unsolved leftover ever since."
+  },
+  "defining_characteristics": [
+    "Single storey, long axis parallel to the street, facade width not less than twice the wall height",
+    "Low-pitched hipped or gabled roof, 3:12 to 5:12, with an eave of 18 to 36 in and a long unbroken ridge",
+    "Attached garage or carport composed as part of the house rather than as an outbuilding",
+    "Plan opened by trussed roof framing: living, dining, and kitchen spaces continuous or only partly divided",
+    "Direct indoor-outdoor relationship to a private rear yard through a sliding or french door, with the finish floor near grade",
+    "Picture window or window band on the principal elevation, in place of individually punched openings",
+    "No habitable front porch; entry as a recessed or hooded stoop",
+    "Asymmetrical facade organized by the competing claims of the entry and the garage"
+  ],
+  "diagnostic_tells": [
+    "The garage door is the largest single element on the street elevation",
+    "A picture window composed as a wide fixed centre light flanked by narrow operable sash",
+    "Roof ridge running unbroken for 40 ft or more at a pitch under 5:12",
+    "Finish floor within about 12 in of exterior grade, with one or two steps at the entry rather than a raised stoop",
+    "Decorative shutters, scalloped bargeboard, diamond-pane entry sidelights, or a cupola applied to an otherwise unornamented long low box — the 1955-1970 traditionalizing overlay"
+  ],
+  "distinguished_from": [
+    {
+      "node": "minimal-traditional",
+      "difference": "Its parent. Minimal Traditional is a compact upright block with a cellular plan and a detached rear garage; the ranch is a long low bar with an open plan and an attached garage. The 1948-1953 transitional houses have both characters and should be assigned by garage: attached means ranch."
+    },
+    {
+      "node": "prairie-school",
+      "difference": "Prairie horizontality is composed and hierarchical, gathered about a dominant chimney with deliberate compression and release; ranch horizontality is extensive and economic, a consequence of plan length. Prairie has a centre; the ranch has an extent."
+    },
+    {
+      "node": "california-bungalow",
+      "difference": "The bungalow addresses the street with a deep front porch and puts its living room behind it; the ranch turns its living space to the rear yard and gives the street a garage. Both are low Californian single-storey houses; the difference is which side the life is on."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Economic and dimensional. The operative modules are the 4-by-8 sheet of plywood and gypsum board, the 24-inch truss spacing, the 8-foot precut stud, and the 16- or 18-foot garage door. Facade proportion is a residual of plan length rather than a governed quantity, and no vertical hierarchy survives at all — there is no base, no piano nobile, no attic, and frequently no cornice. Where a ranch elevation looks well proportioned it is because someone controlled three things by eye: the ridge line, the head datum, and the position of the garage.",
+    "typical_ratios": [
+      "Facade width to wall height 2.5:1 to 4:1",
+      "Body depth 24 to 32 ft; overall length 50 to 80 ft",
+      "Roof pitch 3:12 to 5:12; eave overhang 18 to 36 in",
+      "Ceiling 8 ft 0 in; window and door head 6 ft 8 in",
+      "Garage door 16 ft (two-car) or 9 ft (one-car); door height 7 ft",
+      "Picture window 6 to 9 ft wide, head aligned with the general door head datum"
+    ],
+    "bay_rhythm": "None governing. Openings are grouped by room — a picture window at the living room, a pair at each bedroom, a small high sash at the bath — with long blank runs of wall between. The garage terminates the composition at one end.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "ranch-linear",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "ranch-l",
+      "affinity": "canonical",
+      "note": "The L is the type's answer to a corner lot and to the desire for a sheltered rear terrace; it is also the massing in which side-loading the garage becomes natural."
+    },
+    {
+      "massing": "split-level",
+      "affinity": "common",
+      "note": "The sloped-lot and cold-climate variant of the same programme, 1955-1975; retains every ranch characteristic except the single floor plane."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "Cliff May's own preferred parti and the one closest to the rancho the style claims descent from; almost never built by tract developers because it consumes lot width."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "forbidden",
+      "note": "A two-storey cubic mass negates every defining characteristic of the node."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "statement": "An attached garage facing the street must have its door plane set back not less than 4 ft behind the primary facade plane; otherwise the garage must be side-loaded, rear-loaded, or alley-served. A garage face forward of the front door is forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Total garage door width shall not exceed 33 percent of the street-facing facade width.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Roof pitch 3:12 to 5:12 with eave and rake overhang between 18 and 36 in. Overhang under 12 in disqualifies the node; a pitch over 6:12 makes the horizontal reading impossible.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Facade width not less than twice the wall plate height, single storey throughout the street-facing mass.",
+      "severity": "soft"
+    },
+    {
+      "kind": "climatic",
+      "statement": "The low-pitch, wide-eave, slab-on-grade assembly is native to IECC zones 2 through 5. In zones 6 and 7 the pitch must rise toward 5:12, ice-dam detailing is required at the wide eave, and the slab must be replaced by a frost-protected foundation.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "O'Leary House",
+      "location": "San Diego, California",
+      "year": 1932,
+      "note": "Cliff May's first ranch house, sold for $9,500. The origin point of the type as an idea, if not of the tract house that carried it."
+    },
+    {
+      "name": "Levittown ranch model",
+      "location": "Nassau County, New York",
+      "year": 1949,
+      "note": "The model that replaced the 1947 Cape mid-build-out, with a carport and a rear-facing living room. The moment the East Coast tract industry converted."
+    },
+    {
+      "name": "Lakewood",
+      "location": "Lakewood, California",
+      "year": 1950,
+      "note": "Boyar, Taper and Weingart, 1949-1953: 17,500 houses at up to 110 completions in a day. The ranch as an industrial product, and the largest single American subdivision of its moment."
+    }
+  ],
+  "sources": [
+    "Cliff May and the editorial staff of Sunset Magazine, Western Ranch Houses (1946)",
+    "Barbara Miller Lane, Houses for a New World: Builders and Buyers in American Suburbs, 1945-1965 (2015)",
+    "Dolores Hayden, Building Suburbia: Green Fields and Urban Growth, 1820-2000 (2003)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Kenneth T. Jackson, Crabgrass Frontier (1985)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "automobile",
+    "garage-problem",
+    "truss",
+    "slab-on-grade",
+    "production-housing"
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "id": "english-georgian-townhouse",
+  "name": "English Georgian Town House",
+  "aka": [
+    "Georgian terrace house",
+    "London terraced house",
+    "rated house"
+  ],
+  "rank": "variant",
+  "member_of": "english-georgian",
+  "status": "historical",
+  "period": {
+    "origin": 1667,
+    "floruit_start": 1720,
+    "floruit_end": 1820,
+    "decline_end": 1850,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 1939,
+        "revival_node": "georgian-revival",
+        "note": "Neo-Georgian infill and mansion flats, which borrow the elevation and abandon the section."
+      },
+      {
+        "start": 1985,
+        "end": 2026,
+        "revival_node": "new-urbanist-traditional",
+        "note": "The Georgian terrace is the single most-cited precedent in contemporary urbanist practice, generally reproduced without the basement, the mews or the leasehold system that made it work."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland",
+      "Wales"
+    ],
+    "hearth": "London's West End estates — Grosvenor, Bedford, Portman — and after them Bath, Dublin, Edinburgh New Town and Bristol",
+    "climate_zones": [
+      "4A",
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-georgian",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "The urban expression of the parent style. Everything in the kit is inherited; what changes is that the plan is turned through ninety degrees onto a narrow lot, the composition becomes the street wall rather than the house, and statutory regulation replaces taste as the enforcing mechanism."
+    },
+    {
+      "target": "english-baroque",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "The type is fixed by the post-Fire rebuilding: the Act of 1667 defined four rates of house and banned timber facades, and the surviving Queen Anne houses of Spitalfields and the City are the immediate ancestors of the whole Georgian terrace."
+    }
+  ],
+  "description": {
+    "short": "The rated, party-walled, leasehold-built terrace house whose individual facade is deliberately unremarkable so that the street wall can be magnificent.",
+    "long": "The Georgian town house is a product, in the industrial sense, and understanding it as one explains everything about its form. A ground landlord let land on a building lease of sixty to ninety-nine years; a speculating builder — often a carpenter or bricklayer with very little capital — took a plot or three, put up carcasses to a standard section, and sold the leases on to fit out. Because the builder could fail at any point and frequently did, the section had to be conventional enough that another tradesman could finish it. Because the ground landlord wanted a coherent estate, the elevation was controlled by covenant. And because Parliament kept legislating after each fire and each collapse, the construction was controlled by statute: the 1667 Act's four rates, the 1707 Act banning the projecting timber eaves cornice and requiring a parapet, the 1709 Act setting window frames back four inches from the wall face, and the consolidating Act of 1774, which fixed the rates by floor area and value and gave London the terraces of Bloomsbury and Marylebone.\n\nThe plan is the side-hall double pile turned onto a narrow frontage: entrance and stair against one party wall, front and back rooms lit only from the two short ends, a closet wing projecting into the yard, and the whole service life pushed down into a basement lit by an area cut in front of the pavement and up a back stair. The vaults under the pavement take the coal, delivered through a round iron plate; the mews behind takes the horses; the servants sleep in the garret behind the parapet. Vertically the house is a social section, and it is worth stating the one place where it departs from the country-house rule: in a town house the principal storey is usually the first floor, not the ground floor. The drawing room is up one flight, away from the street noise and the smell of the area, and its windows are the tallest in the elevation, frequently reaching the floor and opening onto a shallow iron balcony. The ground floor, holding the dining room and the front parlour, is broad but slightly lower; above the drawing room the bedroom floor drops sharply and the garret drops again.\n\nWhat the type was reacting against was the timber-fronted, jettied, gabled London street that burned in 1666. What it produced instead is the most successful piece of urban design in the English-speaking world: a wall of nearly identical houses, brick or stucco, with a continuous cornice or parapet line, uniform floor levels, uniform railings, and a rhythm of doorcases at the pavement. No individual house asks for attention. The doorcase is the one licensed indulgence, and in Dublin the fanlight above it becomes an art form in its own right.\n\nTo walk a Georgian street is to be held by a wall of consistent height with a floor of consistent width, and the effect on the body is unmistakable — the street is a room. To enter one of the houses is a compression: up three or four steps, past the railings and the void of the area, through a narrow doorcase into a passage the width of a coffin, and then a release upward into the stair, which is nearly always the best-lit part of the plan. The rooms themselves are simple boxes, deep-silled, chair-railed, and if you sit in the drawing-room window on a spring afternoon with the sash raised you will understand exactly why the first floor became the principal one."
+  },
+  "defining_characteristics": [
+    "Party-wall construction in a continuous terrace, with the street wall rather than the individual house as the compositional subject",
+    "Side-hall double-pile plan on a narrow lot: entrance passage and stair against one party wall, front and back rooms lit only from the ends",
+    "A vertical social section — basement service, ground-floor dining, first-floor principal drawing room, bedroom floor, garret — expressed in graduated window heights",
+    "The first floor as the principal storey, with the tallest windows, often taken to the floor with an iron balcony",
+    "A front area with railings, steps up to a raised entrance, and coal vaults extending under the pavement",
+    "Regulated construction: brick or stucco facades, parapet with concealed gutter and no projecting eaves, window frames set back from the wall face",
+    "Ornament restricted to the doorcase, fanlight, railings and, at grander scale, a shared pediment or giant order across a whole terrace"
+  ],
+  "diagnostic_tells": [
+    "First-floor windows taller than ground-floor windows — the reverse of the country-house rule and the quickest way to identify an urban Georgian elevation",
+    "A parapet with no visible eaves, and dormers set back behind it so the garret is invisible from the opposite pavement",
+    "The area: a sunken open trench across the front with railings above and a bridge to the front steps, admitting light to the basement kitchen",
+    "Round cast-iron coal plates set into the pavement in front of each house, marking the vaults beneath",
+    "A doorcase and fanlight that differ from house to house on a street where nothing else does"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-georgian-country-house",
+      "difference": "The same style solving the opposite problem. The country house is free-standing, lit on four sides, entered on the ground floor at the centre of a symmetrical front, with the principal rooms at grade. The town house is party-walled, lit on two sides, entered off-centre, and puts its principal room on the first floor."
+    },
+    {
+      "node": "regency",
+      "difference": "Chronological successor on the same plan. Regency stuccoes the brick, bows the front, thins the glazing bars, and hangs iron balconies with tented canopies. If the terrace is brick with a plain flat front, it is Georgian; if it is cream stucco with bows and ironwork, it is Regency."
+    },
+    {
+      "node": "italianate-townhouse",
+      "difference": "The American and mid-Victorian successor: taller storeys, a high stoop, heavy bracketed cornice, segmental-arched windows with pronounced hood mouldings, and one-over-one or two-over-two glazing. Georgian terraces are flat-fronted, small-paned and cornice-light."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The statutory rates of house, which fix floor area, storey heights and wall thicknesses, combined with the inherited Georgian sash and bay proportions. The unit of composition is the terrace, not the house; the unit of construction is the party-wall bay.",
+    "typical_ratios": [
+      "Frontage 5.0-7.5 m for a second- or third-rate house, giving three bays; 4.0-5.0 m and two bays for a fourth rate",
+      "Depth front wall to rear wall 9.0-12.5 m, beyond which the middle of the plan goes dark",
+      "Storey heights: basement 2.4-2.7 m, ground 3.0-3.4 m, first floor 3.3-3.9 m (the tallest), second 2.7-3.0 m, garret 2.3-2.6 m",
+      "Sash proportion 1.6:1 to 1.9:1 at ground and second floors, 2:1 to 2.4:1 at the first floor",
+      "Solid to void ratio on the facade 1:1 to 1.4:1; pier between windows not less than 450 mm",
+      "Front steps 3-6 risers above pavement level; area 1.2-2.0 m wide and one full storey deep",
+      "Party wall one and a half bricks (330 mm) minimum, carried up above the roof as a fire break"
+    ],
+    "bay_rhythm": "Two or three equal bays per house, the door taking one of them, repeated without variation along the terrace. Where a whole row is composed as a palace front, the rhythm is broken only by a pedimented centre and slightly advanced end pavilions.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The type is the massing; the individual house has no independent silhouette."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "canonical",
+      "note": "The plan behind the facade, with a closet wing or rear ell extending into the yard."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "Only at the widest first-rate houses and at the ends of terraces, where a centred door and a genuine centre hall become possible."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "code",
+      "statement": "Facades in brick, stone or stucco only; no timber-fronted elevation, and no projecting timber eaves cornice. Rainwater is taken behind a parapet into a concealed gutter, following the London Act of 1707.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Window frames set back not less than 100 mm from the external wall face, per the Act of 1709; sash boxes concealed within the reveal.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "First-floor storey height must exceed the ground floor by 5-20 percent, and first-floor windows must be the tallest on the elevation. Applying the country-house graduation to a terrace produces a facade that looks top-heavy and wrong.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Party walls carried up through the roof as a fire break, and no window on a party wall elevation. Plan depth not to exceed 12.5 m without a light well or closet-wing set-back.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Cornice or parapet line, floor levels, material and railing pattern must be continuous across the terrace. Individual expression is confined to the doorcase, fanlight and door colour.",
+      "severity": "hard"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Bedford Square",
+      "location": "Bloomsbury, London, England",
+      "year": 1783,
+      "note": "Built 1775-83 for the Bedford estate, probably by Thomas Leverton with the builders William Scott and Robert Grews. Each side treated as a palace front with a stuccoed pedimented centre; Coade stone doorcases throughout."
+    },
+    {
+      "name": "Charlotte Square",
+      "location": "Edinburgh New Town, Scotland",
+      "year": 1791,
+      "note": "Designed by Robert Adam in 1791 and built 1792-1820. The north side is a single palace-fronted composition in polished ashlar — the Georgian terrace at its most disciplined, and No. 7 survives as a furnished Georgian House museum."
+    },
+    {
+      "name": "Fournier Street",
+      "location": "Spitalfields, London, England",
+      "year": 1728,
+      "note": "Built 1725-c.1730 for Huguenot silk masters. Early Georgian brick with wooden doorcases on carved brackets and long attic weavers' lofts glazed for north light — the type before its facades were fully regulated."
+    },
+    {
+      "name": "Merrion Square",
+      "location": "Dublin, Ireland",
+      "year": 1780,
+      "note": "Laid out from 1762 and built over four decades. Dublin brick with granite steps, wrought-iron railings and the finest radiating fanlights in the British Isles."
+    }
+  ],
+  "sources": [
+    "John Summerson, Georgian London (1945)",
+    "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)",
+    "Dan Cruickshank and Neil Burton, Life in the Georgian City (1990)",
+    "Peter Guillery, The Small House in Eighteenth-Century London (2004)",
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "urban",
+    "terrace",
+    "party-wall",
+    "regulated",
+    "speculative-building"
+  ]
+}

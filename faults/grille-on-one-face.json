@@ -1,0 +1,130 @@
+{
+  "id": "grille-on-one-face",
+  "name": "The Grille On One Side Only",
+  "aka": [
+    "snap-in grille",
+    "the removable grid",
+    "interior-only muntin"
+  ],
+  "slots": [
+    "window_lite_pattern",
+    "glazing_assembly"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A grid is present on one face of the glass and absent on the other. Usually the bar is on the interior, clipped into the sash so it can be removed for cleaning, and the exterior is a bare sheet; occasionally the reverse. From outside the window reads as undivided in flat light and faintly divided when the interior is lit at night, which is the opposite of the correct behaviour.",
+  "cause": {
+    "driver": "maintenance",
+    "explanation": "The removable interior grille is sold on a cleaning argument and specified by builders because it is the option a homeowner is thought to want. There is also a warranty driver: a bonded exterior bar is an adhesive joint exposed to weather and to expansion, and the manufacturer would rather not own it. The result is a window whose only division lies on the surface that is almost never seen from any distance.",
+    "cost_saved": "About 15 to 30 USD per unit against a bonded pair of bars with a shadow bar; the snap-in grille is frequently free."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / glazing_assembly / applied-grille-no-spacer",
+      "statement": "A plastic lattice clipped to a single sheet."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the exterior face is where the building is read from",
+      "statement": "Every dimension in an opening system is calibrated to a viewer on the ground outside. A division that exists only inside is not a division of the facade."
+    }
+  ],
+  "correct_practice": "The bar must exist on the exterior face at minimum, permanently bonded, in the correct width and with a moulded rather than flat section. Where the budget carries only one bar, put it outside. The complete simulated assembly is three parts in the same plane family: exterior bonded bar, matching interior bonded bar, and an airspace shadow bar of the same width and colour aligned with both, so that the unit reads as divided from outside in daylight, from inside at night, and in reflection at every angle.",
+  "fixes": {
+    "right": "Bonded bars both faces with a matched shadow bar in the airspace.",
+    "cheap": "Move the single bar from the inside to the outside and delete the interior one. Same cost, correct reading. Where the manufacturer will not bond an exterior bar without also supplying the interior, delete the grid entirely and use a single light.",
+    "dishonest": "Keeping the interior snap-in grille and adding a between-glass grille to fill in the exterior reading. Now there are two false grids and still no shadow, and the two will not align perfectly, so the glass shows a doubled line."
+  },
+  "detection": "Photograph the window from outside in flat overcast light, which suppresses reflection. A one-sided interior grid nearly vanishes; an exterior bar remains crisp. At night, reverse the test: a lit room behind an interior-only grid shows the grid strongly, which is the tell. In a single daylight photograph, look at where the grid crosses a strong reflection — an interior bar sits behind the reflection and is washed out by it, an exterior bar sits in front and interrupts it.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "prairie-school",
+      "why": "Prairie art glass is a leaded assembly in a single plane and the came is structural, so the question does not arise; but where a Prairie casement uses a rectilinear applied pattern the interior face is the one that matters, because the elevation is read from inside outward and the exterior of a Prairie window is deliberately flush with the wall face.",
+      "bounds": "Applies only to rectilinear art-glass patterns in casement sash with no exterior stop; not a licence for snap-in grilles in double-hung sash.",
+      "bounds_test": {
+        "expression": "curved_elements_in_the_glazing_pattern",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Rectilinear geometry, no curves, is the style's own bound and the thing that separates its art glass from every neighbouring idiom's. Any curve in the pattern voids the exception, and the exception never extends to snap-in grilles in double-hung sash."
+      },
+      "applies_when": {
+        "slots": [
+          "window_type"
+        ],
+        "construction": [
+          "casement",
+          "art-glass-panel"
+        ],
+        "note": "Depends on the sash type: casement with no exterior stop. Void on double-hung."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "grille-between-the-glass",
+      "difference": "Location: airspace versus a face. The between-glass grille is worse because neither face carries a bar."
+    }
+  ],
+  "sources": [
+    "Marvin and Kolbe divided-lite option literature",
+    "NPS Preservation Brief 9"
+  ],
+  "confidence": "high",
+  "tags": [
+    "muntin",
+    "glazing",
+    "assembly"
+  ],
+  "test": {
+    "expression": "bonded_bars_on_the_exterior_face",
+    "threshold": 1,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "site-visit",
+    "note": "HONEST LIMIT: this is the correctness condition and it is not reliably evaluable from a single street photograph. In flat overcast light an interior-only grid nearly vanishes and an exterior bar stays crisp, but the same difference is produced by a shallow bar, so the photographic test aliases with flat-grille-no-shadow-line. A snap-in grille can be lifted out by hand at a site visit, which settles it in two seconds."
+  },
+  "secondary_tests": [
+    {
+      "expression": "grid_contrast_daylight_exterior / grid_contrast_night_interior_lit",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The differential test, which does discriminate and needs two photographs. An interior-only grid reads strongly at night against a lit room and weakly by day from outside, giving a ratio below 1. An exterior bar reverses it. Two exposures of the same elevation, twelve hours apart."
+    },
+    {
+      "expression": "clear_glass_margin_between_grid_and_sash_stile_in",
+      "threshold": 0.125,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Shared with the between-glass case and worth running first, because it separates a bar in ANY exposed plane from one in the airspace before the face question is asked."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "prairie-school",
+      "severity": "minor",
+      "why": "The elevation is composed to be read from inside outward and the exterior of a Prairie window is deliberately flush with the wall face, so the interior plane genuinely carries more of the reading here than anywhere else."
+    },
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "Same reason as the between-glass case: the style is decided on the bar and the bar is on the wrong side of the glass."
+    }
+  ],
+  "alternative_to": [
+    "grille-between-the-glass",
+    "insulated-unit-defeats-the-divided-lite"
+  ],
+  "co_occurs_with": [
+    "flat-grille-no-shadow-line"
+  ]
+}

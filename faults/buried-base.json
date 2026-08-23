@@ -1,0 +1,137 @@
+{
+  "id": "buried-base",
+  "name": "The Base Buried To Hide It",
+  "aka": [
+    "the foundation planting cure",
+    "earth against the siding",
+    "the berm at the wall"
+  ],
+  "slots": [
+    "grade_relationship",
+    "landscape_idiom",
+    "fence_wall"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "Earth, mulch and a bank of shrubs pushed up against the wall to cover a foundation that was too tall, too short or too raw to look at. The water table is behind the planting or under the soil, the grade rises to meet the siding, the mulch line is 2 to 4 in below the bottom course, and in the mature version the yews and hollies are at sill height and the ground-floor windows are shrubbed to their heads. Nothing is visible where the house meets the ground, which is the one relationship the composition needed to state.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Foundation planting and a mulched berm are the last five hundred dollars on a job and they solve, visually and immediately, a problem that would cost thousands to solve properly. The habit is also a hundred years old and thoroughly institutionalised: the American nursery trade after 1900 sold foundation planting as the standard finish for a house, in an era of high exposed masonry foundations, and it survived long after the condition that produced it. Grading crews independently pull soil towards the wall because it is the fastest way to get positive drainage away from the middle of the yard.",
+    "cost_saved": "$400-$1,500 in planting and mulch against $6,000-$18,000 to raise the floor level or to regrade properly with a retaining course."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / landscape_idiom / foundation-planting = forbidden",
+      "statement": "Shrubs banked against the wall. A twentieth-century habit that buries the water table, which is the datum the whole elevation is measured from."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / grade_relationship / grade_fall_away_from_wall",
+      "statement": "Not less than 6 in in the first 10 ft. The grade falls away from the wall rather than being banked against it."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R401.3 - surface drainage; R317.1 - protection against decay; R318 - termite protection",
+      "statement": "The ground must fall 6 in within the first 10 ft; untreated wood siding, sheathing and framing require 6 to 8 in of clearance above finished grade, and termite inspection needs the same gap visible. Earth or mulch against siding fails all three, and it is the commonest single cause of sill and sheathing rot in houses under thirty years old."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the elevation is measured from the ground it stands on",
+      "statement": "Every vertical dimension in a composed elevation - the base, the water table, the sill height, the storey graduation - is measured from the visible ground immediately adjacent to the wall. Bury 12 in of it and every one of those dimensions is read 12 in short."
+    }
+  ],
+  "correct_practice": "Make the base by moving the ground away from the house, not towards it. Fall the finished grade not less than 6 in in the first 10 ft, which is both the period practice and the code, and hold 6 to 8 in of clear foundation between the finished grade or the top of the mulch and the bottom of any wood cladding - 8 in is the safer number and it is what termite inspection wants to see. Where the base is too short, gain it locally: a fall of 8 to 10 in over the first 8 ft, with a low retaining course or a planted bank set BACK from the wall, gains most of a missing base for $1,000-$2,500. Where planting is wanted near the house, keep a clear paved or gravelled strip 18 to 24 in wide against the wall - the historic arrangement, which is a drip strip and an inspection path at once - and start the planting beyond it, in a bed with a defined edge, using material whose mature height is below the sill and not merely its nursery height. And where the real problem is a badly proportioned base, say so: shrubbery is not a proportional correction, and the same money spent on falling the grade does more.",
+  "fixes": {
+    "right": "Regrade to fall 6 in in 10 ft, expose 24-30 in of base with the water table on it, and hold a 24 in clear strip against the wall before any planting begins.",
+    "cheap": "Cut the mulch back and edge the bed. Pulling soil and mulch 18 in off the wall and re-cutting the bed edge takes a day and costs a few hundred, restores the inspection gap, and immediately gives the elevation back its first term - it is the single highest-return hour of work available on a bad base. Then replace the foundation shrubs with material whose MATURE height is below the sill, and put the tall material at the corners, where it frames the elevation instead of covering it.",
+    "dishonest": "Raising the mulch and adding a decorative stone or brick edging on top of it, so the bed is a raised planter against the wall. It looks tidier, it makes the drainage and decay problem worse by holding water permanently against the sheathing, and it usually pushes the finished level above the sill plate, which is the point at which the fault stops being visual."
+  },
+  "detection": "Look at where the wall meets the ground. If the siding, the sheathing or the sill plate is within 6 in of the mulch line, or if you cannot see any foundation at all, the fault is present. Check for a water table stopping abruptly at a bed edge or disappearing behind planting. In a photograph, compare the visible foundation height at the front - where the shrubs are - with the flanks, where nobody bothered: a house with 3 in of base at the front and 18 in at the side has been buried rather than built low. And look at the plants against the sills: any shrub touching or above a first-floor sill has already outgrown its role and has been pruned flat for years.",
+  "test": {
+    "expression": "clear_height_from_finished_grade_or_mulch_to_bottom_of_cladding_in",
+    "threshold": 6.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "6 in is the code floor and 8 in is the durable figure. A second and equally readable test: mature_shrub_height / first_floor_sill_height_above_grade, which must be at most 1.0 - foundation planting that reaches the sills has buried the elevation whatever the drainage is doing."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "Earth banked against the uphill wall to within 12 in of the principal floor level is the type - the berm is structural and functional, and the wall is built to carry it.",
+      "bounds": "Requires 22 in or more of load-bearing stone designed for earth pressure, a real cross-slope of 1:8 or steeper, and no openings in the bermed wall below the principal floor. A frame wall with earth against it is not this; it is rot.",
+      "applies_when": {
+        "construction": [
+          "load-bearing-stone",
+          "mass-masonry"
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Adobe meets the ground directly with a batter and no plinth; the mass is expressed at the wall rather than at the base and there is no water table to bury.",
+      "bounds": "Requires the batter and a genuinely thick wall. Adobe is more vulnerable to splash and rising damp than timber, not less, so the ground must still fall away and the base still needs its protection - in New Mexican practice a cement or stone stem, in Mexican practice the stone socle."
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "The tall stone or fired-brick socle 1.2 m or more high IS the answer to earth and splash, and planting against it does no harm because there is no wood within reach of it.",
+      "bounds": "The socle must be present and must read as a different material. Planting may not cover it, because it is the element that tells you the wall above is earth."
+    },
+    {
+      "style": "rural-gothic-villa",
+      "why": "Downing and the picturesque villa tradition deliberately embed the house in planting, with vines, creepers and shrubbery brought up to the wall as an aesthetic programme - this is the one Anglo-American tradition that argues FOR the practice.",
+      "bounds": "It is an argument about the picturesque, not about drainage: the historic examples still stand on a plinth and still have a base, and the planting is climbing and open rather than a solid bank against the wall.",
+      "applies_when": {
+        "date_range": [
+          1840,
+          1880
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "house-without-a-base",
+      "difference": "That is a missing dimension in the section - the floor is too low. This is a base that exists and has been covered up, and the fix is a spade rather than a foundation."
+    },
+    {
+      "fault": "water-table-that-follows-the-grade",
+      "difference": "That is the band failing to hold a level datum. This is the ground rising to swallow it. On a sloping site both appear together and the berm is usually what was done to disguise the first."
+    },
+    {
+      "fault": "walkout-basement-on-a-principal-elevation",
+      "difference": "Opposite responses to a sloping site: expose the storey or bury it. A house has one or the other, rarely both."
+    }
+  ],
+  "co_occurs_with": [
+    "house-without-a-base",
+    "exposed-concrete-skirt",
+    "water-table-that-follows-the-grade"
+  ],
+  "alternative_to": [
+    "walkout-basement-on-a-principal-elevation"
+  ],
+  "severity_trajectory": "The clearest maintenance trajectory in the corpus. On the day of planting it is a minor visual fault and the shrubs are 24 in high. By year eight they are at the sills and the elevation has lost its base entirely. By year twelve to twenty the sill plate and the bottom of the sheathing behind the berm have taken enough moisture to rot, and what began as $600 of landscaping is $8,000 to $30,000 of sill and framing repair - which is why this fault belongs as much to the maintenance family as to the composition one.",
+  "sources": [
+    "kits/georgian-colonial-american.kit.json landscape_idiom (foundation-planting forbidden), grade_relationship (grade_fall_away_from_wall)",
+    "International Residential Code R401.3, R317.1, R318.1",
+    "NPS Preservation Brief 39, Holding the Line: Controlling Unwanted Moisture in Historic Buildings",
+    "NPS Preservation Brief 36, Protecting Cultural Landscapes, on the twentieth-century origin and spread of foundation planting",
+    "Frank J. Scott, The Art of Beautifying Suburban Home Grounds (1870), and the American nursery-trade literature after 1900 that established the practice"
+  ],
+  "confidence": "high",
+  "tags": [
+    "grade",
+    "landscape",
+    "foundation",
+    "maintenance",
+    "moisture",
+    "photograph-testable",
+    "endemic"
+  ]
+}

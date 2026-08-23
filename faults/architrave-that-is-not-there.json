@@ -1,0 +1,235 @@
+{
+  "id": "architrave-that-is-not-there",
+  "name": "Three-quarters of an inch standing in for five",
+  "aka": [
+    "the foam architrave",
+    "flat-stock casing",
+    "the 1x4 window trim"
+  ],
+  "slots": [
+    "reveal_frame",
+    "secondary_cladding"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "A frame house whose window and door openings are trimmed with a flat board 3 1/2 to 5 1/2 in wide and 3/4 in thick, square-edged, with no backband, no moulded edge and no cap. The opening reads as a line drawn round the glass. In the worst version the trim is 1/2 in urethane or a J-channel with nothing in it at all.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "A frame wall gives its window a reveal of 3/4 to 2 in and no more — that is all a 2x6 wall with sheathing has. The period answer was to buy the depth back with a 5-6 in architrave built up of two or three members: a flat casing, a backband standing 3/4 to 1 in proud of it, and often a moulded cap. The modern answer is one piece of 1x4 or 1x6 in whatever the trim package is, because a backband is a second SKU, a second cut list and a second nailing operation, and because the window manufacturer's flange detail wants a single flat plane to lap onto.",
+    "cost_saved": "A three-member architrave with a backband runs $9-$18 per lineal foot installed against $3.50-$6 for flat stock. On thirty openings, $2,400-$5,000."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / reveal_frame",
+      "statement": "3/4 to 2 in of reveal plus a 5-6 in architrave doing the work the depth cannot. The opposite assembly reaching the same effect."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / casing.width = opening_width / 6 = 6 in at a 3 ft opening; casing.projection = opening_width / 6 * 0.18 = 1 1/16 in",
+      "statement": "The casing's projection is 18 per cent of its width. Six inches wide and one inch proud is the target; six inches wide and three-quarters of an inch proud is 30 per cent short and reads it."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / window_surround.width = opening_width / 5.5 = 6 9/16 in",
+      "statement": "The window surround runs slightly wider than the door casing on the same wall."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a frame wall has no depth, so all of its depth is in its trim",
+      "statement": "Masonry and frame reach the same effect by opposite assemblies. Removing the architrave from a frame wall is exactly equivalent to removing the reveal from a masonry one."
+    }
+  ],
+  "correct_practice": "Build the architrave in members. A Georgian or Colonial Revival window surround on a frame wall is 5 to 6 1/2 in wide overall and stands 1 to 1 3/8 in proud of the cladding at its outer edge, made as a flat casing 4-5 in wide with a backband of 1 1/4-1 3/4 in projecting 3/4-1 in beyond it, and it carries a moulded cap or a shallow cornice at the head with a wash and a drip. The rule of thumb from the trim pack is a width of one sixth of the opening and a projection of 18 per cent of that width — at a 3 ft opening, 6 in wide and 1 1/16 in proud. Below about 3/4 in of total projection the surround stops throwing a shadow at any sun angle and the opening reverts to a hole.",
+  "fixes": {
+    "right": "Casing plus backband plus a moulded head cap with a drip, all in one wood or a cellular PVC that will hold an arris; 6 in wide, 1 1/8 in proud minimum, mitred or butted with the head running past the jambs.",
+    "cheap": "Add a backband to the flat stock you already have. A single ripped 1x2 with a bevelled or ogee outer edge, nailed to the outer edge of the existing casing, costs about $1.20 a lineal foot and turns a 3/4 in flat board into a 1 3/4 in stepped architrave. This one move recovers most of the shadow for roughly $250 a house, and it is the highest-return dollar in the whole envelope group. If even that is refused, widen the flat casing from 3 1/2 to 5 1/2 in — width is free and partially substitutes for depth, because a wide flat band at least reads as a member.",
+    "dishonest": "Urethane or polystyrene 'architrave' with a moulded profile at 1/2 to 5/8 in of relief. It has the right shape at 4 ft and none of the right depth at 40, because the moulding's members are each about 1/8 in and every one of them falls below the threshold at which a profile casts a legible shadow. Also dishonest: painting the casing a strong contrasting colour to make it read — which substitutes a graphic outline for relief, and is precisely what a classical profile is not doing."
+  },
+  "detection": "Measure the shadow, not the width. In an image with directional light, the casing should throw a dark band along its shaded edge roughly equal to its projection: 1 in of projection at a 45 degree sun is a 1 in shadow, easily 1/4 of the casing's own width. If the casing edge is a hairline with no tonal step, the projection is under 1/4 in and the fault is present regardless of what the casing width is. Second, look for the backband step: a correct architrave shows TWO parallel lines along its outer edge, the casing face and the backband face, at different tones. One line means one member. Third, at the head: a correct surround has a cap that projects past the jambs on both sides by 1-2 in with returned ends. A head casing flush with the jamb casings, mitred at the corners like a picture frame, is the flat-stock tell.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "Window trim 2 to 3 in wide or absent is definitional, and openings are meant to look punched rather than framed. A full architrave would contradict the continuous skin.",
+      "bounds": "The trim must be genuinely narrow AND the shingles must run tight to it — the effect depends on the skin's continuity, not on a thin picture frame. A 3 1/2 in flat casing with a J-channel round it is not this exception.",
+      "bounds_test": {
+        "expression": "casing_face_width_in",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 3,
+        "note": "Genuinely narrow AND the shingles run tight to it. A 3 1/2 in flat casing with a J-channel round it fails both halves and is not this exception."
+      },
+      "applies_when": {
+        "slots": [
+          "primary_cladding"
+        ],
+        "note": "Holds only where the skin is shingle and continuous over the opening's surroundings."
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "Broad, flat, unmoulded trim is the style's stated method: ornament by profile and mass rather than by relief carving. Greek Revival casings are wide and deliberately plain.",
+      "bounds": "Wide means wide — 6 to 10 in — and flat means unmoulded, not thin. The Greek Revival casing is the BROADEST of the three families in the trim pack, and it stands proud of the wall with a crisp square arris. Flatness of profile with full width and a real 1 in step is the exception; a narrow thin board is not.",
+      "bounds_test": {
+        "expression": "casing_face_width_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 6,
+        "note": "Wide means 6-10 in and flat means unmoulded, not thin. The Greek Revival casing is the broadest of the three families in the trim pack and still stands 1 in proud with a crisp square arris."
+      },
+      "applies_when": {
+        "slots": [
+          "window_surround_wood",
+          "trim_family"
+        ],
+        "note": "Flat profile at full width and full step — a moulding change, not a dimension change."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "Craftsman trim is flat and unmoulded with a projecting head cap and often no backband, and its expression is in the head, the sill and the wide flat jamb boards.",
+      "bounds": "The head cap must project 1 1/2-2 1/2 in with a wash and a drip; Craftsman moves the depth from the jamb to the head rather than deleting it.",
+      "bounds_test": {
+        "expression": "head_cap_projection_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "Craftsman moves the depth from the jamb to the head. The head cap must project 1 1/2-2 1/2 in with a wash and a drip; a flat head casing flush with the jambs is the fault."
+      },
+      "applies_when": {
+        "slots": [
+          "window_head_wood",
+          "trim_family"
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "No applied trim anywhere; the opening is deeply recessed in a thick rendered wall and the depth comes from the reveal.",
+      "bounds": "Requires a genuine reveal of 8 in or more with a rounded arris. Two inches of stucco over frame with a flush window is the revival failing at its own test — the style node itself names reveal depth as the tell against the genuine article.",
+      "bounds_test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "threshold": 8,
+        "note": "Two inches of stucco over frame with a flush window is the revival failing at its own test."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "rammed-earth"
+        ]
+      }
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "Same reasoning: mass wall, deep reveal, no architrave, and a limewashed or painted band round the opening instead.",
+      "bounds": "Wall must be genuinely 500-700 mm; the painted surround is a colour gesture on top of real depth, not a substitute for it.",
+      "bounds_test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "threshold": 19.7,
+        "note": "500 mm. The painted surround is a colour gesture on top of real depth, not a substitute for it."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "veneer-reveal-collapse",
+      "difference": "The masonry twin of this fault. Diagnose the wall first: a masonry wall needs the reveal and takes NO architrave; a frame wall has no reveal and needs the architrave. Applying either cure to the other wall produces a new fault."
+    }
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, casing.width and casing.projection",
+    "kits/georgian-colonial-american.kit.json, reveal_frame",
+    "Asher Benjamin, The American Builder's Companion (1806), plates of window and door architraves",
+    "NPS Preservation Brief 16: Substitute Materials on Historic Building Exteriors"
+  ],
+  "confidence": "high",
+  "tags": [
+    "profile-depth",
+    "reveal",
+    "trim",
+    "frame"
+  ],
+  "test": {
+    "expression": "casing_projection_in / casing_face_width_in",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 0.18,
+    "note": "The trim pack's own figure: casing.projection = opening_width / 6 * 0.18, so a 6 in casing stands 1 1/16 in proud. Measure the shadow, not the width — at a 45 degree sun the shaded edge of the casing throws a dark band equal to its projection, roughly a quarter of the casing's own width. A hairline edge with no tonal step means the ratio is under about 0.05 and the fault is present regardless of how wide the casing is."
+  },
+  "secondary_tests": [
+    {
+      "expression": "casing_face_width_in / opening_width_in",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.1667,
+      "note": "One sixth of the opening: 6 in at a 3 ft window. Width partially substitutes for depth because a wide flat band at least reads as a member, which is why widening stock casing from 3 1/2 to 5 1/2 in is a real if partial fix."
+    },
+    {
+      "expression": "casing_projection_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.75,
+      "note": "The absolute floor. Below 3/4 in of total projection the surround stops throwing a shadow at any sun angle and the opening reverts to a hole."
+    },
+    {
+      "expression": "distinct_parallel_face_planes_on_casing_edge",
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 2,
+      "note": "A correct architrave shows TWO parallel lines along its outer edge at different tones — the casing face and the backband face. One line means one member, and one member means the depth is whatever the stock thickness was."
+    }
+  ],
+  "co_occurs_with": [
+    "j-channel-corner",
+    "corner-board-thinner-than-the-casing",
+    "panel-seam-and-nailing-hem"
+  ],
+  "severity_by_style": [
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Trim of 2-3 in or none is definitional; there is no architrave to fail."
+    },
+    {
+      "style": "pueblo-revival",
+      "severity": "not-applicable",
+      "why": "No applied trim anywhere on the exterior."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "Ornament by profile and mass rather than by relief carving means the broad flat casing is carrying the entire expressive load; thin it and there is nothing left."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "pueblo-revival",
+      "statement": "An applied architrave is the fault. Depth comes from a reveal of 8 in or more with a rounded arris, and the style node names reveal depth as the tell against the genuine article."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "statement": "As above: mass wall, deep reveal, no architrave, and a limewashed painted band round the opening instead."
+    },
+    {
+      "style": "shingle-style",
+      "statement": "A full architrave is the fault, because it frames an opening the style wants to read as punched through a continuous skin."
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "id": "sitting-room",
+  "name": "Sitting Room",
+  "aka": [
+    "back parlour",
+    "morning room (loosely)",
+    "snug",
+    "den",
+    "family parlour",
+    "second parlour"
+  ],
+  "function_class": "living",
+  "description": "The room the family actually sits in, in a house that also has a room it does not sit in. It only exists as a distinct type where there is a more formal room above it in rank - take the drawing room or best parlor away and the sitting room simply becomes the living room. It is smaller, warmer, worse-lit, more comfortable and more used than the room it is subordinate to, and in almost every surviving house it is the room the family remembers.",
+  "history": {
+    "appears": 1750,
+    "declines": null,
+    "replaced_by": "the living room where the plan collapses to one room, and the family room where it does not",
+    "note": "THE SITTING ROOM IS A SYMPTOM, NOT A TYPE. It appears whenever a house has a formal room that has become too formal to use, and it disappears whenever that formal room is abolished. That gives it an unusual history: it does not evolve, it recurs. It is the back parlour of 1780, the sitting room of 1850, the morning room of 1890, the den of 1935, the family room of 1955 and the keeping room of 1998, and each time the mechanism is identical - a household builds a room for display, finds it cannot live in it, and builds a second room beside it to live in. The interesting corollary is that the second room then acquires the display function within a generation or two and a third room has to be built, which is the actual engine behind the growth of the American house: not larger families and not more possessions, but the repeated ceremonial capture of the room the family was using."
+  },
+  "dimensions": {
+    "area_sf": [
+      160,
+      320
+    ],
+    "width_ft": [
+      12,
+      17
+    ],
+    "length_ft": [
+      13,
+      22
+    ],
+    "proportion": [
+      1.0,
+      1.4
+    ],
+    "ceiling_min_ft": 8.5,
+    "critical_dimension": "THE CONVERSATION CIRCLE, AT 10 FT MAXIMUM ACROSS. Face-to-face conversation at normal volume works to about 10 ft and fails beyond it; past that people either raise their voices or turn to speak to a neighbour instead, and the group silently splits in two. A sofa at 34 in deep facing two chairs at 34 in with a 28 in coffee table and 18 in gaps each side gives 34 + 18 + 28 + 18 + 34 = 132 in = 11 ft of seating group, plus 30 in of circulation behind the chairs: 13 FT 6 IN is the room's short dimension and it is not negotiable downward. The sitting room is deliberately AT this dimension rather than above it. A sitting room that grows past about 17 ft has stopped being able to hold one conversation and has become a living room, which is why enlarging a snug destroys it."
+  },
+  "furniture": [
+    {
+      "item": "sofa",
+      "footprint_in": [
+        78,
+        34
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "two armchairs",
+      "footprint_in": [
+        32,
+        34
+      ],
+      "clearance_in": 24,
+      "note": "and they should be MOVABLE - the sitting room's virtue is that the furniture can be pulled round to the fire in winter and to the window in summer"
+    },
+    {
+      "item": "coffee table or low table",
+      "footprint_in": [
+        48,
+        28
+      ],
+      "clearance_in": 16,
+      "note": "16 to 18 in from the sofa front is the reach dimension: closer and you cannot get your legs in, further and you cannot reach a cup"
+    },
+    {
+      "item": "bookcase or built-in cupboard",
+      "footprint_in": [
+        42,
+        12
+      ],
+      "clearance_in": 30,
+      "essential": false
+    },
+    {
+      "item": "writing table or bureau",
+      "footprint_in": [
+        42,
+        22
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "the sitting room absorbs the household's small administration in any house without a study"
+    },
+    {
+      "item": "television, in every version after 1955",
+      "footprint_in": [
+        57,
+        4
+      ],
+      "clearance_in": 96,
+      "note": "a 65 in set wants a viewing distance of 7 to 9 ft, and the seating group above is 11 ft across - so the set and the fire compete for the same wall and the same seats, which is the central unsolved problem of every modern sitting room"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "South and east if the house allows, because this is a daytime room used by whoever is at home. In a two-parlour plan it usually gets what is left after the front room has taken the road elevation, which is why so many back parlours face north and why they read as cosy rather than bright - a virtue arrived at by accident.",
+    "glazing_fraction": [
+      0.12,
+      0.22
+    ],
+    "note": "This is the second room of a double-pile plan, and the daylight arithmetic is what makes it what it is. A back room lit only from one end wall or through a doorway carries about 1.2 times the head height, which is 8 to 9 ft - a service dimension. Give it a proper window wall of its own and it carries 2.25, which is 15 to 16 ft, and the room works. The difference between a snug and a dark back room is one exterior wall with glass in it, and in a double-pile plan that wall is the gable end or the garden face. Where a sitting room genuinely has only borrowed light, the historic device is the INTERIOR TRANSOM over the door from the front room, and removing it in a renovation is why so many restored double-pile houses have a back room nobody can explain the gloom of."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "parlor",
+        "why": "the sitting room is defined by being the second room of a pair; it opens off the formal one, usually through a wide opening that can be closed, so the two can be thrown together for a party and separated for an evening",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "English country houses where the morning room or sitting room sits in a different part of the plan entirely, off the hall or the garden front, and is not paired with the drawing room at all"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "the family eats and then sits, and the route between should not cross the formal reception route",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "library",
+        "why": "the two informal rooms of a large plan work as a pair and often share a fireplace wall and a chimney",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      },
+      {
+        "room": "loggia",
+        "why": "the sitting room is the room that goes outside in summer, and a door to a shaded terrace roughly doubles its usable area for four months",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "not a prohibition of proximity but of DIRECTNESS: the sitting room is the family's room and should not be the first thing a caller is put into, or it becomes the parlor and the household loses the room it was living in - which is exactly the capture mechanism described in the history note",
+        "relation": "not-visible-from",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "parlor",
+      "entrance-hall",
+      "centre-passage",
+      "hall",
+      "gallery-corridor"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Ordinary, but note that this is the room with the fire that is actually lit, so it is the room whose combustion air has to come from somewhere - in a tightly built modern house an open fire needs 200 to 300 cfm of makeup air and will otherwise pull it down the nearest other flue.",
+    "heat": "A fireplace or a stove that is USED, unlike the parlor's. This is the room the household heats, and in a period house it is where the better stove went.",
+    "electrical": "Lamps at seating height, two or three circuits, and switching at the door and at the seat. This is the room where a single central ceiling fixture does the most damage, because the room is used seated and at night.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "italianate-townhouse",
+      "name_in_style": "back parlour",
+      "trim_grade": "high",
+      "note": "The rear of the two parlours on a party-wall lot, opening to a rear window wall or a balcony, and the room the family used. It is one trim grade below the front parlour, deliberately, and that grading is how a row-house interior is read."
+    },
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "morning room or sitting room",
+      "trim_grade": "high",
+      "note": "A smaller room on the garden or east front, used in the first half of the day for correspondence and household business - the drawing room being an afternoon and evening room. Its orientation is in its name."
+    },
+    {
+      "style": "queen-anne-american",
+      "name_in_style": "sitting room",
+      "trim_grade": "high",
+      "note": "In a house that also has a parlor and a living hall, this is the third social room, usually behind the parlor with its own smaller fireplace, and it is where the family was."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent - the type has one living room and refuses to have two, which is exactly the argument the sitting room exists to lose."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "den, sun room, sitting room",
+      "trim_grade": "middle",
+      "note": "Present as a small room off the living room, frequently with a different and lower trim grade, and it is where the radio and then the television went."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "family room",
+      "trim_grade": "plain",
+      "note": "Renamed and moved to the back beside the kitchen. Same room, same reason, and see family-room for what the move to the kitchen side changed."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent. Every room is a sitting room in rotation."
+    },
+    {
+      "style": "cotswold-cottage-revival",
+      "name_in_style": "snug",
+      "trim_grade": "middle",
+      "note": "Small, low, inglenooked and deliberately tight - the type's best room and the clearest demonstration that a sitting room's virtue is its dimension rather than its finish."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable room minimum 70 sq ft, 7 ft minimum dimension, 7 ft ceiling.",
+      "ref": "IRC R304, R305",
+      "conflict": "Far below anything usable. The furniture floor is 13 ft 6 in of short dimension, which is nearly twice the code minimum, and the code has nothing to say about whether a conversation is possible in the room."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "townhouse-row",
+    "foursquare",
+    "cross-gable-victorian",
+    "i-house",
+    "mansard-block",
+    "gable-front-and-wing",
+    "linear-ell-farmhouse",
+    "ranch-l",
+    "villa-tower",
+    "saltbox"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "depth_and_pile",
+    "fireplace_surround",
+    "trim_family",
+    "built_ins",
+    "daylight_strategy"
+  ],
+  "faults": [
+    "room-deeper-than-its-daylight",
+    "interior-transom-removed",
+    "one-trim-grade-for-every-room",
+    "the-room-nobody-enters",
+    "open-plan-in-a-room-based-style",
+    "built-in-that-is-furniture"
+  ],
+  "sources": [
+    "Robert Kerr, The Gentleman's House (1864), on the morning room and the sitting room",
+    "proportions/systems/room-vernacular.json, depth_and_pile second-rank room rule and its note on the interior transom",
+    "Edward T. Hall, The Hidden Dimension (1966), on social distance and the limits of conversational range"
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,186 @@
+{
+  "id": "stamped-pediment-return",
+  "name": "The Colonial Pediment",
+  "aka": [
+    "the vinyl pediment",
+    "the accessory gable"
+  ],
+  "slots": [
+    "cornice_return",
+    "gable_treatment",
+    "eave_condition"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Applied gable ornament of any kind is forbidden in the kit; a stamped pediment is that plus a false claim about the eave."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Where the fault lives - it is sold as an accessory on the same catalogue page as the siding."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "serious",
+      "why": "The type's honesty is its whole value, and an applied pediment destroys it while adding nothing."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "not-applicable",
+      "why": "Applied flat sawn ornament in a gable field with no entablature is a separate and honest tradition."
+    },
+    {
+      "style": "carpenter-gothic",
+      "severity": "not-applicable",
+      "why": "As above."
+    }
+  ],
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "The gable of a bay, a dormer or an entry projection is finished with a triangular vinyl or PVC panel - often a one-piece moulded 'pediment' with a stamped dentil band or a sunburst in the field - applied flat to a wall whose eave has no cornice at all. There is no entablature for a pediment to sit on, so a pediment has been drawn on the wall.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "The vinyl siding and PVC trim catalogues sell 'cornice return kits', 'gable pediments' and 'dentil accents' as accessories precisely because the underlying eave has none. They cost $30-90 each, clip to J-channel, need no cuts, and are ordered from the same page as the siding. The ornament is chosen by the same person and at the same moment as the colour.",
+    "cost_saved": "$40-90 a gable against $150-600 for a built return, and no skilled labour at all."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical -> pediment.height = span / 5.0",
+      "statement": "A pediment's rise is one fifth of its span (Palladian practice runs 1:4.5 to 1:5.5) - a rule that presupposes a horizontal cornice from which to measure the span."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / gable_treatment / applied-gable-ornament = forbidden",
+      "statement": "Any sunburst, fan, louvre panel or applied trim in the field of the gable."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a pediment is the end of an entablature",
+      "statement": "The pediment is not a triangle; it is what happens when an entablature is turned up at both ends over a span. Without the entablature there is nothing for it to be the end of."
+    }
+  ],
+  "correct_practice": "A pediment requires three things: a horizontal cornice running across the base of the gable, or at minimum a cornice returning from both eaves; a raking cornice made of the same members; and a tympanum recessed 2-4 in behind the face of those members. Rise one quarter and a half to one fifth and a half of the span. If the eave is not a cornice, the correct move is not to add a pediment - it is to stop. A flush plain gable terminated by a modest return is canonical Georgian and asks nothing of the budget, and a plain gable is a better building than a decorated one whose decoration has nothing behind it.",
+  "fixes": {
+    "right": "Build the cornice first. If there is a cornice, the pediment follows from it almost automatically; if there is not, there is no pediment to build.",
+    "cheap": "Delete the applied ornament and spend the identical money on making the eave two inches thicker. A plain gable with a real 4 in shadow at the eave beats an ornamented gable with no shadow at every viewing distance beyond about fifteen feet, and it costs less.",
+    "dishonest": "The stamped dentil band, which deserves its own name. A dentil is a block with a void beside it; a stamped dentil is a corrugation whose void is an eighth of an inch deep and full of shadowless plastic. At forty feet a real dentil band reads as an alternating black-and-light rhythm and a stamped one reads as a uniform grey stripe - which is exactly why it looks convincing in the catalogue photograph, which was taken from four feet away in raking light."
+  },
+  "test": {
+    "expression": "tympanum_recess_behind_moulding_face_in",
+    "threshold": 2.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The measurement that separates a pediment from a picture of one. In a real pediment the field is recessed 2-4 in behind the mouldings and is in shadow at midday; a stamped panel's field is flush or proud and reads at the same brightness as the wall."
+  },
+  "secondary_tests": [
+    {
+      "expression": "dentil_void_depth_in",
+      "threshold": 0.75,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "A dentil is a block with a void beside it. A stamped dentil is a corrugation whose void is an eighth of an inch deep. At forty feet a real band reads as an alternating black-and-light rhythm and a stamped one reads as a uniform grey stripe - which is why it looks convincing in a catalogue photograph taken from four feet."
+    },
+    {
+      "expression": "count_of_horizontal_cornice_members_running_across_the_base_of_the_gable",
+      "threshold": 1,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "A pediment is the END of an entablature. Without a horizontal cornice at the gable base, or returns from both eaves, there is nothing for it to be the end of."
+    },
+    {
+      "expression": "pediment_rise_in / pediment_span_in",
+      "threshold": 0.18,
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "upper": 0.22,
+      "note": "One quarter and a half to one fifth and a half of the span; facade-classical gives span/5 = 0.20."
+    }
+  ],
+  "detection": "Two checks. First, follow the raking member down to where it meets the horizontal: on a real pediment they are the same members at the same depth and the junction shows a mitre; on a stamped one the whole triangle is a single flat panel with a moulded outline and no junction. Second, look for the tympanum. In a real pediment the field is recessed behind the mouldings and is in shadow at midday; in a stamped one the field is flush or proud with the mouldings and reads at the same brightness as the wall. A third cue for a model: real dentils produce alternating high-contrast pixels along a band; stamped ones produce a low-contrast uniform strip.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "folk-victorian",
+      "why": "Flat sawn ornament applied to a gable field with no entablature behind it is an honest and separate tradition. Jigsawn work is meant to read as applied ornament and it is cut THROUGH, so light passes it and it has real voids and real shadows.",
+      "bounds": "The ornament must be cut through, not stamped or moulded in relief on a solid panel, and it must not imitate a classical assembly. A sawn bracket and a scroll are one thing; a moulded plastic dentil band is another.",
+      "bounds_test": {
+        "expression": "ornament_void_fraction",
+        "threshold": 0.15,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The ornament must be cut THROUGH so light passes it. A sawn bracket or a pierced scroll is one thing; a moulded plastic dentil band on a solid panel is another."
+      },
+      "applies_when": {
+        "construction": [
+          "sawn-wood-ornament"
+        ],
+        "date_range": [
+          1870,
+          1910
+        ],
+        "note": "The tradition is explicitly two-dimensional applied decoration in cut-through wood. It does not license moulded relief on a solid panel."
+      }
+    },
+    {
+      "style": "carpenter-gothic",
+      "why": "Same logic: the bargeboard and the gable ornament are pierced boards, and the tradition is explicitly one of applied two-dimensional decoration.",
+      "bounds": "Pierced, in wood, and in the Gothic vocabulary - a Georgian dentil band is not licensed by this exception.",
+      "bounds_test": {
+        "expression": "ornament_void_fraction",
+        "threshold": 0.15,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Pierced, in wood, and in the Gothic vocabulary - a Georgian dentil band is not licensed by this exception."
+      }
+    },
+    {
+      "style": "queen-anne-spindled",
+      "why": "Applied spindlework and sunburst panels in the gable field are canonical.",
+      "bounds": "Turned and sawn work with genuine voids, not moulded panels.",
+      "bounds_test": {
+        "expression": "ornament_void_fraction",
+        "threshold": 0.2,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Turned and sawn work with genuine voids, not moulded panels."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "pork-chop-return",
+      "difference": "The pork chop occurs where a cornice exists and was cheapened. This occurs where no cornice was ever built and a pediment was applied to the resulting blank."
+    }
+  ],
+  "co_occurs_with": [
+    "gutter-as-cornice",
+    "pork-chop-return",
+    "bed-mould-omitted"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json gable_treatment, cornice_return",
+    "proportions/systems/facade-classical.json",
+    "vinyl and cellular-PVC trim manufacturer catalogues (accessory pediments and dentil bands)",
+    "NPS Preservation Brief 8: Aluminum and Vinyl Siding on Historic Buildings"
+  ],
+  "confidence": "high",
+  "tags": [
+    "gable",
+    "pediment",
+    "profile-depth",
+    "material"
+  ]
+}

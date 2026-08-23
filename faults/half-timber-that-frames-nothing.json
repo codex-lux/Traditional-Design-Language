@@ -1,0 +1,175 @@
+{
+  "id": "half-timber-that-frames-nothing",
+  "name": "Half-timbering that describes no frame",
+  "aka": [
+    "applied timbering",
+    "1x6 Tudor"
+  ],
+  "slots": [
+    "secondary_cladding",
+    "material_change_rule",
+    "primary_cladding"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "Boards applied over stucco in a pattern that could not be a timber frame: members stopping in mid-wall, verticals that do not land on a sill or reach a plate, braces that brace nothing, timbering that runs past a window head with no lintel, and boards 1 to 1 1/2 in thick set flush on the face of the render rather than with the render set between and behind them.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "Half-timbering is drawn on an elevation as a pattern of lines, and a pattern of lines has no structural obligations. The elevation is then handed to a trim carpenter who applies boards after the stucco, to the pattern shown, using stock 1x material, because the timbering is scheduled as trim rather than as frame. The one thing that would prevent it — drawing the timbering in section with the infill behind it — is not a drawing anyone produces.",
+    "cost_saved": "Applied 1x timbering runs $9-$16/sf of gable; real or convincingly deep timbering (3-4 in members with recessed panels) runs $30-$60/sf. On a pair of Tudor gables the difference is $8,000-$20,000."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "tudor-revival",
+      "statement": "Half-timbering that describes no possible frame — timbers that stop mid-wall, do not meet at corners, or run past window heads without a lintel — is the style's own recorded diagnostic tell for a bad example."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "half-timbering is the only legitimate case of a material change with structural logic behind it",
+      "statement": "The change of material is between frame and infill, so the geometry must be that of a frame: post, sill, plate, brace, and infill panels bounded on all four sides."
+    }
+  ],
+  "correct_practice": "Draw the frame before drawing the pattern. Every vertical must run between a sill and a plate; every panel must be bounded on four sides; braces must run from post to plate at 45-60 degrees and be continuous; a window head in a timbered wall must have a timber lintel over it and the timbering above must bear on that lintel. Members are 4-8 in wide in genuine English work and should not be less than 3 in in a revival. Critically, the INFILL SITS BACK: the render or nogging is set between the timbers and behind their face, so the timber projects 3/4 to 1 1/2 in and the panel is a recessed field. Flush is the tell.",
+  "fixes": {
+    "right": "Set the timbering out from the sheathing on furring and stucco between the members so the render is recessed 3/4-1 1/2 in behind the timber face, with a wash or drip on the top edge of every horizontal member. Then draw a frame that could stand up.",
+    "cheap": "Halve the amount of timbering and spend the same money on depth. A gable with four correct members standing 1 in proud of a recessed render panel is worth more than a gable with twenty flush ones. Simplify the pattern to a sill, two posts, a plate and two braces — a frame that is legible as a frame — and delete every member that does not resolve into it. No added cost, often a saving.",
+    "dishonest": "Painting the 'timbers' dark brown or black on a light render to strengthen the contrast. This buys graphic legibility at 100 ft and destroys it at 20, because the flatness becomes obvious the moment the pattern is dark enough to be read carefully. Genuine oak weathers silver-grey; the blackened-timber convention is itself a Victorian invention applied to older buildings."
+  },
+  "detection": "Trace the members with a finger on the photograph and try to build a frame. Look for: verticals terminating in mid-panel; horizontals that do not run corner to corner; braces whose ends do not meet another member; timbering crossing a window head. Then look at the edges: if the render meets the board in a flush plane with a caulk joint, or if there is no shadow along the underside of a horizontal member, the timbering is applied. Board thickness is measurable at a gable end where the timbering meets the rake — genuine members read 4-8 in wide and 3-6 in deep; revival boards read 5-6 in wide and 1 in deep.",
+  "applies_to": [
+    "tudor-revival",
+    "jacobethan-revival",
+    "storybook-style",
+    "french-normandy-revival",
+    "german-fachwerk",
+    "english-medieval-timber-frame",
+    "tudor",
+    "elizabethan",
+    "cotswold-cottage-revival"
+  ],
+  "exceptions": [
+    {
+      "style": "german-fachwerk",
+      "why": "Fachwerk is genuinely structural and its patterns — Mann, wilder Mann, Andreaskreuz, curved Stiel — are far more elaborate than English work and can look arbitrary to an eye trained on English framing. They are not.",
+      "bounds": "Every member still resolves into the frame; the elaboration is in the bracing pattern within a panel, never in members that stop in mid-air. Regional decorative patterns are licence; a floating member is not.",
+      "bounds_test": {
+        "expression": "member_ends_resolving_into_the_frame / member_ends",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Regional bracing patterns — Mann, wilder Mann, Andreaskreuz — elaborate WITHIN a panel and still resolve. The test is unchanged; only the expected pattern complexity rises."
+      },
+      "applies_when": {
+        "regions": [
+          "Germany",
+          "Alsace",
+          "Franconia",
+          "Lower Saxony"
+        ],
+        "note": "Elaboration of the bracing pattern, never a floating member."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "Storybook work is knowingly theatrical and deliberately distorts framing — sagging plates, curved posts, deliberately irregular panels.",
+      "bounds": "The distortion must be of a frame that exists: a swayed plate is still a plate running the full length. And the members must still be deep. A flat pattern is not whimsy, it is thinness.",
+      "bounds_test": {
+        "expression": "timber_projection_past_render_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.75,
+        "note": "A swayed plate is still a plate running the full length. Whimsy is licensed in the geometry and not in the depth: a flat pattern is not whimsy, it is thinness."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Nogging patterns — herringbone brick between the timbers — are correct and add another material to the wall without adding a fault.",
+      "bounds": "The nogging must be recessed behind the timber face like the render, and the panel must be four-sided.",
+      "bounds_test": {
+        "expression": "nogging_recess_behind_timber_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.75,
+        "note": "Herringbone brick nogging is correct and must be recessed behind the timber face exactly as the render is, in a four-sided panel."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "material-change-with-no-plane-change",
+      "difference": "Half-timbering is the great exception to that fault — a material change with real structural logic. It fails only when the logic is absent, which is a different diagnosis and a different fix."
+    },
+    {
+      "fault": "brick-front-vinyl-return",
+      "difference": "Tudor's masonry-below, timber-above change is legitimate; it becomes the brick-blanket fault only when the lower material stops at an outside corner instead of running round."
+    }
+  ],
+  "sources": [
+    "styles/tudor-revival.json, diagnostic_tells",
+    "R. W. Brunskill, Timber Building in Britain (framing typologies and member sizes)",
+    "NPS Preservation Brief 16: Substitute Materials",
+    "styles/german-fachwerk.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "material-honesty",
+    "half-timber",
+    "material-change",
+    "profile-depth"
+  ],
+  "test": {
+    "expression": "member_ends_resolving_into_the_frame / member_ends",
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "Trace every timber and count its two ends. A resolved end lands on a sill, a post, a plate, a brace or another member; an unresolved end stops in mid-panel or runs past a window head with no lintel. Anything under 1.0 is the fault and the deficit tells you how badly. Directly countable in a photograph and the single most diagnostic measurement on a Tudor Revival elevation."
+  },
+  "secondary_tests": [
+    {
+      "expression": "timber_projection_past_render_face_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.75,
+      "note": "The infill sits BACK. Render set between the timbers and behind their face gives 3/4-1 1/2 in of projection; a flush board with a caulk joint gives zero and is the second half of this fault."
+    },
+    {
+      "expression": "member_face_width_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 3,
+      "note": "Genuine English framing runs 4-8 in wide and 3-6 in deep. Three inches is the revival floor. Measure at the gable end where the timbering meets the rake and the section is visible."
+    },
+    {
+      "expression": "panels_bounded_on_four_sides / panels",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "A frame makes closed panels. An open-sided panel means a member is missing, which the first test will also have caught but which is easier to see at a glance."
+    }
+  ],
+  "co_occurs_with": [
+    "material-change-with-no-plane-change",
+    "batten-on-the-stud-line"
+  ],
+  "severity_by_style": [
+    {
+      "style": "tudor-revival",
+      "severity": "fatal",
+      "why": "The style node's own first diagnostic tell is timbering that describes no possible frame; there is nothing else the style is made of."
+    },
+    {
+      "style": "storybook-style",
+      "severity": "serious",
+      "why": "Deliberate distortion is licensed, so a viewer's tolerance is higher — but the distortion must be of a frame that exists."
+    }
+  ]
+}

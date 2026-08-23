@@ -1,0 +1,36 @@
+{
+  "id": "british-picturesque",
+  "name": "British Picturesque & Revival",
+  "rank": "family",
+  "member_of": "british-isles",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1740,
+    "floruit_end": 1910,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The deliberate composition of irregular, historically allusive buildings for visual and emotional effect — the intellectual origin of nearly all Anglo-American suburban architecture.",
+    "long": "The picturesque begins as a theory of landscape and becomes a theory of building: that irregularity, variety, and historical association are legitimate architectural aims, and that a house may be composed like a painting. Once accepted, it licenses Gothic Revival, Scottish Baronial, Old English, Queen Anne, and eventually the entire vocabulary of the freestanding suburban house.\n\nThis family is where the classical assumption that a building should be symmetrical is abandoned as a general rule. Everything that follows in America — the Victorian villa, the Shingle Style, the ranch — depends on that permission having been granted."
+  },
+  "defining_characteristics": [
+    "Asymmetry and irregular massing as deliberate compositional choices",
+    "Historical association valued as a source of architectural meaning",
+    "Silhouette and skyline treated as primary design material",
+    "Texture and material variety used to animate surface"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

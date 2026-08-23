@@ -1,0 +1,117 @@
+{
+  "id": "trim-from-no-family",
+  "name": "The Profile That Descends From Nothing",
+  "aka": [
+    "WM 356",
+    "big-box colonial",
+    "the catalogue number with a style name on it"
+  ],
+  "slots": [
+    "trim_family",
+    "casing",
+    "baseboard",
+    "crown"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "Trim whose profile is a shallow S-curve of no particular derivation, sold under a name — 'colonial', 'princess', 'williamsburg', 'ranch' — that corresponds to nothing in the record. The section is 11/16 in thick rather than 3/4 or 4/4, the members within the profile are each about 1/8 in deep, the outer edge is eased rather than square, and the whole is one piece. Held against a measured Georgian architrave it has no fascia, no astragal, no backband and no arris; held against a Craftsman casing it is neither flat nor square.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "The dominant residential trim profiles are WM (Wood Moulding and Millwork Producers Association) standard patterns, which are a manufacturing standard rather than a design one: they exist so that a knife ground in one state fits a run ordered in another. The profiles were rationalised for continuous high-speed moulders and for finger-jointed and MDF stock, which will not hold a fine arris, so every quirk was softened and every member shallowed until the profile could be run at speed in bad material and survive shipping. The style names are marketing applied afterwards. Nobody chose this; it is what forty years of process optimisation does to a curve.",
+    "cost_saved": "Stock WM profiles run 1.10 to 2.50 USD a lineal foot against 4 to 11 USD for a run knife, and the knife itself is a 250 to 600 USD setup per profile before the first foot. On a house with six distinct profiles the origination alone is 2,000 to 3,500 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / trim_family.count",
+      "statement": "Georgian cornice 5 members, Federal 6, Greek Revival 4; Georgian casing 7 members, Federal 7, Greek Revival 4. A one-piece profile has one member and cannot be any of them."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / casing.projection = opening_width / 6 * 0.18",
+      "statement": "About 1 1/8 in on a 36 in door in the Georgian family, 5/8 in Federal, 1 5/16 in Greek Revival. Stock casing at 11/16 in overall thickness cannot reach the Federal figure, let alone the other two."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a classical profile is a shadow, and a shadow needs a quarter of an inch",
+      "statement": "Each member of a moulded profile works by producing a distinct band of light or dark. Below roughly 3/16 to 1/4 in of relief per member the bands merge at normal room light levels and the profile reads as a single soft blur, which is exactly what a stock profile is."
+    }
+  ],
+  "correct_practice": "Build profiles out of members whose individual relief is at least a quarter of an inch, and prefer a few real steps to many soft ones. Two routes, both cheap. FIRST, ASSEMBLE: a flat 1x board plus a separately applied backband is two pieces of stock, no knife, and it produces a genuine step of 3/4 to 1 in where a one-piece profile produces 1/8 in. This is how period casing was made and it is why period casing survives being painted eleven times. SECOND, GO FLAT ON PURPOSE: the Greek Revival and Craftsman families are both correct with almost no profile at all, and a broad flat board with a square arris and a real backband or cap is both cheaper and better than a shallow moulded one. Where a run profile is genuinely wanted, reduce the count of distinct knives to six or seven for the whole house and reuse aggressively — one fascia, one backband, one cyma reversa, one astragal, one ovolo, one corona, one bed — which is what the period joiner did because he owned a finite number of planes.",
+  "fixes": {
+    "right": "Six or seven run knives taken from the pack's member list for one family, in solid clear stock, with the assemblies varied room by room at no extra cost.",
+    "cheap": "Refuse the profile and buy the width. A flat S4S board is the cheapest trim in the yard, and a flat 5 1/2 in casing with a ripped 1 1/4 in backband beats any stock moulded 3 1/2 in profile at roughly the same money. The rule of concession is width and projection first, profile last, and almost everyone gets it backwards.",
+    "dishonest": "Buying the same shallow profile in a 'primed hardwood' or a polymer at a higher price, on the theory that the material was the problem. The material was not the problem; the depth was. Also dishonest: doubling the stock profile — running two 2 1/4 in casings side by side to make 4 1/2 in — which produces a repeated ripple with no hierarchy of members and reads worse than one."
+  },
+  "detection": "Photograph the trim in raking light from the side and count TONAL BANDS across its width, not shapes. A Georgian architrave shows five to seven distinguishable bands of light and dark; a Federal one shows the reeding as a set of fine parallel lines; a stock profile shows one soft gradient and one thin line at the outer edge. Second, measure overall thickness at the wall: stock trim is 11/16 in, period trim is 3/4 to 1 1/16 in, and a built-up architrave is 1 1/2 to 1 3/4 in at the backband. Third, look at the outer edge where trim meets wall: a period profile stops at a square arris or a fillet, and a stock profile eases into the wall with a small radius, which is the single most reliable tell and is visible in any photograph at any distance where the trim itself is visible.",
+  "test": {
+    "expression": "max_member_relief_in",
+    "threshold": 0.25,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The relief of the deepest single step within the profile, measured perpendicular to the wall. Below 1/4 in no member of the profile casts a legible shadow in diffuse interior light and the whole assembly reads as a printed line. Stock WM profiles run 1/8 in per member; an applied backband runs 3/4 in."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "federal-style",
+      "why": "The Federal family is deliberately the flattest of the three classical families, with the interest reeded into the face rather than standing proud of it, and its backband projects 5/8 in against the Georgian 1 1/8 in. Adamesque delicacy is a real refusal of relief.",
+      "bounds": "Flat but not shallow, and above all not soft. Federal reeding is a set of crisp parallel beads with square quirks between them, each about 1/8 in but separated by a full-depth groove, which reads at distance where a smeared curve does not. And the reeding must be run in solid stock — finger-jointed reeding chips at every joint, which is the pack's own material conflict.",
+      "bounds_test": {
+        "expression": "quirk_depth_in",
+        "threshold": 0.125,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The groove between beads, which is what produces the line. Depth, not width, is the operative dimension."
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "One broad flat fascia with a single small backband is the whole casing — four members against the Georgian seven — and the flatness is the argument, not an economy.",
+      "bounds": "The fascia must be genuinely broad (5 to 7 in) and genuinely flat with a square arris on both edges, and the backband must project a full 1 5/16 in. Flat plus wide plus one real step. Flat plus narrow plus no step is the fault wearing the exception's coat."
+    },
+    {
+      "style": "craftsman",
+      "why": "Every visible member is a plain board with square edges and the only profiles anywhere are a bevel on a cap and an occasional cove under a shelf. A moulded Craftsman casing is a contradiction.",
+      "bounds": "Square edges, not eased ones, and the depth is bought back by stacking: the head sits on the legs and projects 3/4 in past them, the cap projects 1 1/2 in past the head. The family has no profile and considerable relief, which is the distinction this fault turns on."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "The type is defined by trim reduced almost to nothing — a 2 1/4 in casing and a 3 in base were what it actually built — and giving it a full architrave misrepresents it as firmly as giving a Georgian house none.",
+      "bounds": "Applies to the genuine 1935-1950 type and to honest revivals of it, where the thinness is systematic across the whole house including the entry. A house claiming Colonial Revival or Georgian at the front door and running minimal-traditional trim inside is not this exception."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "mixed-trim-families-in-one-room",
+      "difference": "That fault is two real families colliding; this is one profile belonging to no family at all. The stock profile is not a bad Georgian casing, it is not a casing in any system."
+    },
+    {
+      "fault": "architrave-that-is-not-there",
+      "difference": "The exterior twin, and the same mechanism at a larger scale. That fault is about the absence of the architrave on a frame wall; this is about the profile of whatever is there."
+    }
+  ],
+  "co_occurs_with": [
+    "mixed-trim-families-in-one-room",
+    "casing-at-a-third-of-palladio",
+    "crown-that-projects-half-its-height"
+  ],
+  "sources": [
+    "WM (Wood Moulding & Millwork Producers Association) standard profile series",
+    "proportions/systems/trim-classical.json, member lists and projection_parts for the three families",
+    "Asher Benjamin, The American Builder's Companion (1806), architrave plates",
+    "Minard Lafever, The Modern Builder's Guide (1833)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "trim",
+    "profile-depth",
+    "millwork",
+    "catalogue"
+  ]
+}

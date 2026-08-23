@@ -1,0 +1,201 @@
+{
+  "id": "minimal-traditional",
+  "name": "Minimal Traditional",
+  "aka": [
+    "FHA house",
+    "small house of the thirties",
+    "GI house",
+    "Depression-era cottage",
+    "Levittown Cape"
+  ],
+  "rank": "style",
+  "member_of": "mid-century-traditional",
+  "status": "historical",
+  "period": {
+    "origin": 1932,
+    "floruit_start": 1935,
+    "floruit_end": 1950,
+    "decline_end": 1955,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "No design hearth. The style was standardized in Washington by the Federal Housing Administration's underwriting manuals and built simultaneously in every American metropolitan area.",
+    "climate_zones": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "colonial-revival",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The silhouette, the double-hung sash, the shutter, and the centred or near-centred entry survive; the proportional system, the trim profiles, and the applied orders do not. This is the most consequential partial inheritance in the American branch."
+    },
+    {
+      "target": "cape-cod-revival",
+      "type": "references",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "The quoted silhouette. The compact one-and-a-half storey box with a steep side gable was the FHA's most-published small house image, and the Levittown house of 1947 is a Cape reduced to its outline. It is a reference rather than a descent because the two styles are contemporaries converging in the same market rather than one transmitting practice to the other; the actual transmission of building practice runs through colonial-revival, and the reciprocal convergence is recorded on the cape-cod-revival node as a hybridization."
+    },
+    {
+      "target": "tudor-revival",
+      "type": "descends_from",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "The vestigial front-facing entry gable with a prominent chimney beside it is a Tudor Revival move that outlived its own style, surviving as the single compositional event on thousands of otherwise plain elevations."
+    },
+    {
+      "target": "craftsman",
+      "type": "reacts_against",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "Not an aesthetic reaction but a cost reaction, and the more instructive for it. Every expensive element of the bungalow — the 30-inch overhang, the deep porch, the masonry piers, the built-in cabinetry, the 5-inch casing — is deleted in turn between 1930 and 1940, while the plan efficiency the bungalow pioneered is kept."
+    }
+  ],
+  "description": {
+    "short": "The smallest complete house the American mortgage system could underwrite: traditional in silhouette, symmetrical enough to be legible, and stripped of overhang, porch, profile depth, and every other element that cost money — the direct ancestor of the ranch and the moment the traditional kit of parts was cost-engineered out of the American house.",
+    "long": "Minimal Traditional is the most consequential and least discussed style in American housing. Between the middle of the 1930s and about 1950 it was built in the millions; it set the physical template for the postwar suburb; it established the dimensional habits — the shallow eave, the thin trim, the small opening, the eight-foot plate — that still govern American production housing ninety years later. It has no theorists, no manifesto, no monograph, and no architect's name attached to it. It has a federal agency instead. The house is a compact rectangle or shallow L of 750 to 1,300 square feet, one storey or one and a half, under a gable or hip of four to six in twelve. The eave and rake overhang is six to twelve inches and sometimes zero. There is no porch, only a stoop, occasionally under a small hood. The trim is a two-and-a-quarter-inch clamshell casing and a flat frieze board. The ornament consists of a chimney, a pair of shutters, and, if the budget allowed, a simple door surround. Everything else that a traditional house had was removed, deliberately, one line item at a time.\n\nThe machinery that produced it is documentable to an unusual degree, which is why this node earns a long entry. The National Housing Act of 1934 created the Federal Housing Administration to insure mortgages, and in doing so replaced the five-year balloon loan requiring fifty percent down with the amortized twenty- and later thirty-year loan requiring ten. That single change moved the binding constraint on a house from total price to monthly payment, and it moved design authority from the builder and the plan book to the underwriter. The FHA then wrote down what it would insure: Minimum Property Requirements, the underwriting manual, and a series of technical bulletins of which No. 4, Principles of Planning Small Houses (1936), is the crucial document — a national specification for the American house, complete with minimum room dimensions, circulation diagrams, and approved elevations. Because the appraisal determined the loan, and the appraisal rewarded conventional appearance and marketability, style became a risk category. Traditional silhouette was the safe collateral. This is the precise mechanism by which the traditional look survived the disappearance of traditional substance: the underwriter would insure a house that looked like a Colonial and would not insure one that looked experimental, but nothing in the underwriting manual required an eave, a porch, or a moulding with depth. The same apparatus, it must be said plainly, wrote redlining into the national housing map, and the Minimal Traditional landscape is inseparable from that fact.\n\nThe cost engineering itself follows a legible sequence, and any design system for production housing should study it, because the same sequence runs today. Overhang goes first: it consumes rafter length, sheathing, soffit material, fascia, flashing, gutter, and labour at height, and its benefit — shadow, weather protection of the wall, and a visible termination for the roof — is invisible on a spec sheet. The porch goes second, because it is conditioned-area-equivalent cost with no conditioned area. Trim profile depth goes third: a two-and-a-quarter-inch clamshell costs a third of a four-and-a-half-inch moulded casing and, unlike the casing, casts no shadow. Wall thickness, window size, and ceiling height follow. Wartime accelerated all of it: the Linda Vista defense project in San Diego put up three thousand houses in two hundred and fifty-nine days in 1941-43, and by 1947 Levitt was building a 750-square-foot Cape on a 60-by-100-foot lot in twenty-six sequenced operations, thirty a day. The Servicemen's Readjustment Act of 1944 supplied the demand. What survived the process is exactly what cost nothing: proportion of the overall mass, placement of the openings, and the outline against the sky.\n\nAnd here is the part that resists the lament. These are, at their best, decent little houses, and a street of them reads better than most of what has been built since. The plans are tight and workable, the rooms are small but correctly related, the massing is compact, and — critically — the kit was so short that consistency was almost unavoidable, so the street has a coherence that no amount of variety-seeking has since reproduced. Minimal Traditional is the proof that a coherent public realm can be made from an impoverished kit of parts provided the rules are few, consistent, and universally followed. Standing in front of one you feel the absence physically: the wall meets the sky at a knife edge with no shadow at all, the door sits in the plane of the wall with no reveal, the shutters are half the width of the window and could never have closed, and there is nowhere to stand out of the rain. But you also feel that nothing is pretending. The house is exactly as big as it is, and it does not have a two-storey entry, and the roof is one simple shape. Between this house and the neo-eclectic house of 1985 the money spent per square foot went up substantially and the quality of the street went down, which is the single most useful fact in this entire branch of the graph."
+  },
+  "defining_characteristics": [
+    "Compact rectangular or shallow-L massing of 750 to 1,300 sq ft, one storey or one and a half, with the long axis often perpendicular to the street",
+    "Moderate roof pitch of 4:12 to 6:12, gabled or hipped, with eave and rake overhang not exceeding 12 in and frequently under 6 in",
+    "Complete absence of a habitable porch; entry is a stoop, at most under a small hood or shallow entry gable",
+    "Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround",
+    "Trim of minimal profile depth — flat frieze, narrow clamshell or ranch casing, no cornice return of any consequence",
+    "Small double-hung openings, six-over-six or two-over-two, sized and placed by interior requirement rather than by facade composition",
+    "Traditional silhouette retained as the only surviving carrier of style: the outline is Colonial or Cape, and nothing below the outline is"
+  ],
+  "diagnostic_tells": [
+    "A recognizably traditional shape with essentially no eave — the roof surface stops at the wall surface and the two meet without a shadow line",
+    "Shutters roughly half the width of the sash they flank, fixed flat to the wall",
+    "The front door lies in the plane of the wall with a reveal of an inch or less and no projecting surround",
+    "A single small gabled or hipped entry projection or bay as the only three-dimensional event on the whole elevation",
+    "One-and-a-half storey examples carrying an added shed dormer at the rear, from a later expansion of the attic"
+  ],
+  "distinguished_from": [
+    {
+      "node": "cape-cod-revival",
+      "difference": "Cape Cod Revival keeps the full symmetrical five-bay facade, the heavier trim, the correct cornice with returns, and a genuine central chimney. Minimal Traditional keeps the box and deletes all four. The tell is the rake: a Cape Cod Revival has a moulded rake with a return at the eave; Minimal Traditional has a 1x6 board."
+    },
+    {
+      "node": "ranch-style",
+      "difference": "The ranch is longer than it is deep, sits lower, has a wider eave, opens its plan, and attaches its garage. Minimal Traditional is an upright compact block with a cellular plan and a detached garage at the rear of the lot, reached by a driveway beside the house."
+    },
+    {
+      "node": "craftsman-bungalow",
+      "difference": "The same size and often the same footprint, thirty years apart. The bungalow has a 30-inch eave, a full-width porch, exposed rafters, and built-in cabinetry; Minimal Traditional has none of them. If it is small and has a deep porch it is a bungalow; if it is small and has a stoop it is Minimal Traditional."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Economic, not proportional, and it is important to say so without apology because it is the true answer. The governing modules are the FHA minimum room dimension, the 16-inch stud bay, the 8-foot precut stud and the 8-foot ceiling that follows from it, the 4-by-8 sheet, and the maximum insurable loan amount. The facade is a residual: openings are located by the rooms behind them and then nudged toward apparent balance. Nothing is derived from a module of order, and the style's visual coherence comes not from any internal system but from the smallness and uniformity of its vocabulary.",
+    "typical_ratios": [
+      "Overall footprint 24 x 32 ft to 26 x 40 ft",
+      "Roof pitch 4:12 to 6:12; eave and rake overhang 0 to 12 in",
+      "Wall plate 8 ft 0 in; window and door head 6 ft 8 in",
+      "Window openings 2 ft 8 in to 3 ft 0 in wide by 4 ft 2 in to 4 ft 10 in tall, roughly 1:1.6",
+      "Casing 2 1/4 in wide with a projection under 3/4 in",
+      "FHA minimum principal bedroom approximately 9 ft 6 in by 11 ft 0 in"
+    ],
+    "bay_rhythm": "Irregular and plan-driven. Openings occur in ones and twos with no governing interval; the appearance of rhythm on the best examples is the result of a two-room-deep plan happening to produce even spacing.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "canonical",
+      "note": "The one-and-a-half storey side-gabled box; the FHA's most-published and Levitt's chosen form."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "common",
+      "note": "The single-storey version with a projecting entry or living-room gable — the one compositional move the style allows itself."
+    },
+    {
+      "massing": "ranch-linear",
+      "affinity": "possible",
+      "note": "The transitional form of 1948-1953: the same detailing stretched along the lot. Watching this massing displace cape-cod-massing in a subdivision's build-out sequence dates it to within two years."
+    },
+    {
+      "massing": "ranch-l",
+      "affinity": "possible"
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "possible",
+      "note": "The two-room single-storey core of the smallest wartime examples is literally this ancient skeleton, arrived at again by cost rather than by tradition."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Eave and rake overhang shall not exceed 12 in. Where overhang exceeds 12 in the node is misassigned; classify as cape-cod-revival, colonial-revival, or ranch-style.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Conditioned floor area 750 to 1,400 sq ft; roof pitch 4:12 to 6:12; one or one and a half storeys only.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Decorative shutters, where used, must each be not less than 45 percent of the width of the window opening they flank, hinged at the jamb, and must be omitted entirely from ganged, bay, and non-rectangular windows. Half-width shutters are the single most common failure of this style's descendants and are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "No full- or partial-width habitable porch. Entry cover projection not more than 3 ft; where a deeper covered space is wanted the node is not minimal-traditional.",
+      "severity": "soft"
+    },
+    {
+      "kind": "code",
+      "statement": "Room dimensions follow FHA Minimum Property Requirements as a historical floor: principal bedroom not less than 9 ft 6 in by 11 ft 0 in, secondary bedroom not less than 8 ft 0 in by 10 ft 0 in, minimum one full bath.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Linda Vista Defense Housing Project",
+      "location": "San Diego, California",
+      "year": 1941,
+      "note": "3,000 houses and 750 dormitory units built in 259 days, 1941-43, at up to 40 completions a day, under a garden-city neighbourhood plan. The style's wartime proving ground."
+    },
+    {
+      "name": "Levittown",
+      "location": "Nassau County, New York",
+      "year": 1947,
+      "note": "The 1947 Levitt Cape: roughly 750 sq ft on a 60 x 100 ft lot, built in 26 sequenced operations. Over 17,000 houses by 1951, sold to veterans under the GI Bill at about $8,000 with almost nothing down."
+    },
+    {
+      "name": "Westlake, Daly City",
+      "location": "Daly City, California",
+      "year": 1949,
+      "note": "Henry Doelger's tract, begun in the late 1940s and built out through the 1950s. The West Coast counterpart, and the place where the style visibly shades into the ranch mid-subdivision. Construction begins 1949; the tract was annexed to Daly City in 1948."
+    }
+  ],
+  "sources": [
+    "Federal Housing Administration, Principles of Planning Small Houses, Technical Bulletin No. 4 (1936)",
+    "Kenneth T. Jackson, Crabgrass Frontier: The Suburbanization of the United States (1985)",
+    "Gwendolyn Wright, Building the Dream: A Social History of Housing in America (1981)",
+    "Barbara Miller Lane, Houses for a New World: Builders and Buyers in American Suburbs, 1945-1965 (2015)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "fha",
+    "cost-engineering",
+    "production-housing",
+    "case-study",
+    "ancestor-of-ranch"
+  ]
+}

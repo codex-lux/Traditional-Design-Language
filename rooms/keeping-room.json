@@ -1,0 +1,253 @@
+{
+  "id": "keeping-room",
+  "name": "Keeping Room",
+  "aka": [
+    "the keeping room",
+    "hearth room (modern revival)",
+    "kitchen chamber (loosely)",
+    "houseplace"
+  ],
+  "function_class": "living",
+  "description": "In its original New England sense, the warm room - the general living room of a house, next to or containing the cooking hearth, where the family kept, meaning where they lived. Its defining property is that heat in a pre-central-heating house was a LOCAL resource attached to a mass of masonry, and one room in the house had more of it than the others. The keeping room is that room, and it was where everybody was in January.",
+  "history": {
+    "appears": 1680,
+    "declines": 1850,
+    "replaced_by": "the sitting room, once the stove and then central heating made every room equally warm and there was no longer a warmest room to gather in",
+    "note": "THE KEEPING ROOM WAS KILLED BY UNIFORM HEATING, AND THIS IS THE CLEANEST CASE IN THE CATALOGUE OF A ROOM DYING OF A TECHNOLOGY RATHER THAN A FASHION. In a central-chimney house the stack is a mass of five to eight thousand bricks running the full height of the building, and it holds and re-radiates heat for hours after the fire dies. The room built against the largest face of that mass, with the cooking fire in it, was several degrees warmer than any other room in the house all winter - and in an uninsulated timber house that difference is between fifteen and twenty-five degrees F, which is not a preference, it is the difference between habitable and not. So the family kept there: the spinning, the sewing, the children's lessons, the meals, the sitting. Then the cast-iron cookstove arrives in the 1830s and 1840s and puts the heat in a movable box; then the parlour stove heats other rooms; then central heating from the 1880s makes the whole house one temperature. The moment every room is warm, there is no reason for one room to be the room, and the keeping room dissolves into the sitting room and the kitchen. THE MODERN REVIVAL IS A DIFFERENT ROOM WITH THE SAME NAME: from about 1995 speculative builders have used 'keeping room' or 'hearth room' for a small sitting area off the kitchen with a fireplace. It is a family room in miniature, and calling it a keeping room is a marketing recovery of a word whose mechanism has gone."
+  },
+  "dimensions": {
+    "area_sf": [
+      180,
+      320
+    ],
+    "width_ft": [
+      13,
+      18
+    ],
+    "length_ft": [
+      14,
+      20
+    ],
+    "proportion": [
+      1.0,
+      1.35
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "THE RADIANT REACH OF THE FIRE, AND IT IS 10 FT. Radiant flux from an open fire falls off with the square of distance; the practical comfortable zone in front of a 4 to 5 ft opening in a cold room is 8 to 10 ft, and beyond that the fire is a light source. That puts a hard cap on the useful size of a room heated by one hearth: 300 to 320 sq ft is the outer limit, and the room-vernacular pack sets the same figure from the measured record. A keeping room is therefore about 14 x 18 and NOT LARGER, and if a plan shows one hearth serving 500 sq ft then either the room was not comfortably heated - historically normal, and worth saying out loud - or the plan is wrong. THE SECOND DIMENSION IS THE SETTLE: a high-backed settle is 60 to 72 in long and 20 in deep and it sits WITHIN the radiant zone facing the fire, and its 5 ft high back is not a style choice - it is a draught screen, blocking the cold air being drawn across the floor toward the fire by the chimney's own updraught. The settle is a piece of environmental equipment and the room does not work without one."
+  },
+  "furniture": [
+    {
+      "item": "high-backed settle facing the fire",
+      "footprint_in": [
+        66,
+        20
+      ],
+      "clearance_in": 36,
+      "note": "the 60 in high back is a draught screen against the floor-level cold air the chimney draws toward the fire; a modern reproduction with a low back has removed the working part"
+    },
+    {
+      "item": "trestle or gate-leg table",
+      "footprint_in": [
+        36,
+        60
+      ],
+      "clearance_in": 36,
+      "note": "the family ate here, and the table is demountable or folding because the room had to be cleared for work"
+    },
+    {
+      "item": "ladder-back and banister-back chairs",
+      "footprint_in": [
+        18,
+        18
+      ],
+      "clearance_in": 24
+    },
+    {
+      "item": "great wheel or flax wheel",
+      "footprint_in": [
+        60,
+        24
+      ],
+      "clearance_in": 60,
+      "essential": false,
+      "note": "a walking wheel needs the spinner to pace three to four steps back and forward, so it takes 5 ft of clear floor and is the largest single space demand in the room"
+    },
+    {
+      "item": "cradle by the hearth",
+      "footprint_in": [
+        40,
+        20
+      ],
+      "clearance_in": 24,
+      "essential": false
+    },
+    {
+      "item": "cooking hearth with crane and oven",
+      "footprint_in": [
+        60,
+        30
+      ],
+      "clearance_in": 42,
+      "note": "the working hearth is 5 to 7 ft wide in first-period work and its chimney breast is 9 to 10 ft; on a 14 ft wall that leaves almost nothing either side, which is exactly why first-period halls are wider than their successors"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "South, and in a central-chimney house it takes the south front beside the entry, because it is the room used all day. The north lean-to rooms behind it are the buttery and the dairy, which want the cold - so a first-period New England plan is a thermal diagram, warm rooms south and cold rooms north, and the daylight follows the same line.",
+    "glazing_fraction": [
+      0.06,
+      0.14
+    ],
+    "note": "Under-glazed by modern standards - one or two small casements or a single sash on a 14 ft wall - and deliberately so, because glass was the coldest surface in the building and the room's whole purpose was warmth. THE TRADE IS EXPLICIT AND WORTH KEEPING IN MIND FOR ANY COLD-CLIMATE ROOM: at a 7 ft window head the daylight rule permits 15 ft 9 in of depth, which the 14 ft room is comfortably inside, so the room could be fully daylit with modest glazing - and it is. The vernacular builder was not short of daylight; he was short of heat, and glazed to the minimum that would light the room to its depth. That is a defensible calculation and not a poverty of ambition."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "in the original form the keeping room CONTAINS the cooking hearth and there is no separate kitchen; once a kitchen separates out into a lean-to or an ell, the keeping room must be against it and against the same stack, or it stops being the warm room",
+        "relation": "shared-wall",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "parlor",
+        "why": "the parlor is on the other side of the stack, sharing the same chimney mass but with a smaller fireplace and a fire lit only when needed - the two rooms are the warm one and the good one, and their relationship is the whole social content of the plan",
+        "relation": "shared-wall",
+        "strength": "strong"
+      },
+      {
+        "room": "stair-hall",
+        "why": "the winder stair in a central-chimney plan rises against the front of the stack between the two rooms, so it is warmed on one side, which is why the chambers above are reachable without crossing a cold space",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "buttery",
+        "why": "the cold service rooms - buttery, dairy, pantry - are in the north lean-to directly behind, so that the warm room and the cold rooms share a wall and the temperature gradient does the storage work",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "best-parlor",
+        "why": "not a spatial prohibition but a thermal one that is easy to get backwards: the best room must NOT be the one against the largest mass of the stack, because the whole point of the best room is that it is closed and unheated. Give it the second face of the chimney and the cooler aspect.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "vestibule",
+      "kitchen",
+      "hall",
+      "exterior"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "An open cooking hearth moves an enormous volume of air - a 5 ft opening with a good draw pulls 800 to 1,500 cfm up the flue, all of it replaced by cold air drawn in through the building's leaks. That is the room's real thermal balance: enormous radiant heat at the front and a permanent cold draught across the floor, which is why the settle exists and why people sat with their feet up.",
+    "heat": "The house's principal fire, and the masonry mass behind it. In reproduction work the significant point is that a modern insulated firebox with a metal flue has NO MASS and therefore no re-radiation - it stops heating the moment the fire dies, and the room's whole thermal character is lost even where the appearance is exact.",
+    "electrical": "n/a historically. In restoration, resist the ceiling fixture: this room's light came from the fire, from rushlights and from the windows, and its low ceiling makes any modern overhead source dominant.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "new-england-colonial",
+      "name_in_style": "keeping room",
+      "trim_grade": "plain",
+      "note": "The canonical case. Ground floor of a central-chimney house, largest fireplace in the building with a bake oven in the back or side of it, 7 to 7 ft 6 in ceiling, exposed summer beam and joists, plain sheathed walls. Plain trim by design - the parlor took the panelling."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "trim_grade": "plain",
+      "note": "The keeping room occupies the rear of the plan behind the chimney in a full Cape, or the whole of the larger front room in a half Cape. It is the room the house is organised round."
+    },
+    {
+      "style": "saltbox-colonial",
+      "trim_grade": "plain",
+      "note": "When the lean-to is added the kitchen moves into it and the old keeping room becomes a sitting room - which is the exact moment in the plan's evolution when the keeping room begins to die, and it is visible in the fabric of thousands of houses."
+    },
+    {
+      "style": "german-pennsylvania-colonial",
+      "name_in_style": "Stube",
+      "trim_grade": "middle",
+      "note": "THE CONTINENTAL ANSWER TO THE SAME PROBLEM, AND IT IS BETTER. The Germanic plan puts a closed five-plate or six-plate iron stove in the Stube, fed through the wall from the Kuche next door, so the living room has radiant heat with NO fire, no draught, no smoke and no cold floor. An open hearth is about 10 per cent efficient and a closed jamb stove 40 to 50; the Anglo house was demonstrably worse at the thing this room existed to do, and English observers in Pennsylvania said so at the time."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "trim_grade": "plain",
+      "note": "Survives as a word into the nineteenth century for the general living room next to the kitchen, by which time the mechanism has gone and only the habit remains."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "name_in_style": "keeping room, hearth room",
+      "trim_grade": "middle",
+      "note": "The revival: a 12 x 14 sitting area off the kitchen with a fireplace and two chairs. It is a small family room and the name is borrowed. Worth building - it is a genuinely useful room - and worth being honest that the thing that made the original a keeping room was a thermal gradient that no longer exists."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent - no central stack, no thermal hierarchy, and in the Gulf climate the object is to get away from the fire rather than toward it."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "present": false,
+      "note": "Absent, and the reason is climate: the Creole plan's four equal rooms have no warm room because warmth is not the scarce resource. The scarce resource is moving air, and the plan is organised round that instead. Set the two types beside each other and you have the clearest available demonstration that plan hierarchy follows the local scarcity."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Ceiling height 7 ft minimum over 50 per cent of the required floor area.",
+      "ref": "IRC R305.1",
+      "conflict": "First-period keeping rooms at 6 ft 8 in to 7 ft are at or below the modern minimum. Restoration is grandfathered; reproduction is not, and a reproduction keeping room at 8 ft ceilings loses a large part of the room's character. This is one of the few places where the code and the type are in direct and unresolvable conflict."
+    },
+    {
+      "requirement": "Masonry fireplace hearth extension, firebox dimensions, and flue sizing at 1/10 to 1/12 of the opening area.",
+      "ref": "IRC R1001",
+      "conflict": "A 5 ft x 4 ft historic cooking opening is 20 sq ft and would require a flue of about 2 sq ft - which is buildable, but it will smoke in a modern airtight house because there is nothing to replace 1,200 cfm of exhaust. A reproduction cooking hearth needs a dedicated outside combustion-air duct, which is an entirely modern element and should be admitted as one."
+    }
+  ],
+  "massing_fit": [
+    "cape-cod-massing",
+    "saltbox",
+    "hall-and-parlor",
+    "hall-single-cell",
+    "i-house",
+    "center-passage-single-pile",
+    "garrison-block",
+    "linear-ell-farmhouse",
+    "gambrel-block",
+    "double-pen"
+  ],
+  "slots": [
+    "hearth_position",
+    "room_adjacency_overrides",
+    "ceiling_height_rule",
+    "fireplace_surround",
+    "service_zone_strategy",
+    "public_private_gradient",
+    "depth_and_pile"
+  ],
+  "faults": [
+    "hearth-on-an-interior-wall",
+    "chimney-off-the-hearth",
+    "chimney-breast-shallower-than-its-firebox",
+    "surround-that-is-not-the-firebox",
+    "direct-vent-box-in-a-period-surround",
+    "vestigial-chimney-chase",
+    "strip-oak-in-a-plank-house",
+    "one-trim-grade-for-every-room"
+  ],
+  "sources": [
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625-1725 (1979)",
+    "proportions/systems/room-vernacular.json, hearth_position derived rule: one hearth serves about 300 sq ft, and its note on the negative case",
+    "Henry Glassie, Folk Housing in Middle Virginia (1975)",
+    "Benjamin Franklin, An Account of the New Invented Pennsylvanian Fire-Places (1744), on the inefficiency of the open hearth and the performance of the German stove"
+  ],
+  "confidence": "high"
+}

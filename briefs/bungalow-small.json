@@ -1,0 +1,13 @@
+{
+  "id": "bungalow-small",
+  "name": "Small bungalow for two",
+  "style": "craftsman-bungalow",
+  "target_area_sf": 1350,
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "must_have": ["sleeping-porch"],
+  "context": { "climate_zone": "3B", "lot_width_ft": 45, "entrance_faces": "S",
+    "jurisdiction": "IRC model text, advisory", "budget_tier": "mid" },
+  "household": "A couple who work from home and want one room that can be shut and one that cannot.",
+  "candidates": 3
+}

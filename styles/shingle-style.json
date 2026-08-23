@@ -1,0 +1,228 @@
+{
+  "id": "shingle-style",
+  "name": "Shingle Style",
+  "aka": [
+    "Seaside Style",
+    "American Shingle Style"
+  ],
+  "rank": "style",
+  "member_of": "victorian",
+  "status": "living",
+  "period": {
+    "origin": 1874,
+    "floruit_start": 1880,
+    "floruit_end": 1900,
+    "decline_end": 1912,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1965,
+        "end": 2026,
+        "revival_node": null,
+        "note": "Named and rehabilitated by Vincent Scully in 1955, then revived in practice by Venturi, Charles Moore, Robert A. M. Stern, and the coastal New England custom house, where it remains in continuous production and is arguably the only Victorian style still genuinely alive."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Coastal New England",
+      "Newport and Narragansett Bay",
+      "Long Island",
+      "New Jersey shore",
+      "Great Lakes resorts",
+      "Northern California"
+    ],
+    "hearth": "Newport, Rhode Island",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "queen-anne-american",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "The immediate American parent, and the two are inseparable before about 1882. Same architects, same clients, same irregular plans, same balloon frame; Shingle Style is what happens when a Queen Anne house stops articulating."
+    },
+    {
+      "target": "queen-anne-british",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Direct and documented. Richard Norman Shaw's Old English work, with its tile-hung upper walls, sweeping roofs, and long horizontal window bands, reached Richardson and McKim, Mead and White through The Building News and Shaw's published perspectives; Leyswood of 1868 is the specific ancestor of the Watts Sherman House."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "references",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "A co-parent in substance and the reason this node cannot sit on a single-parent tree: the 1877 sketching tour of Marblehead, Salem, Newburyport and Portsmouth by McKim, Mead, White and Bigelow put measured early New England building into the same office that was drawing Shaw. Direction note: the mature Colonial Revival style node descends from this one, so the graph carries no inheritance edge back the other way. What this node actually inherited was the antiquarian colonial interest of the 1870s, which is recorded here as the descends_from edge to new-england-colonial."
+    },
+    {
+      "target": "new-england-colonial",
+      "type": "references",
+      "weight": 0.75,
+      "inherits_kit": false,
+      "note": "The load-bearing colonial edge, and the one that carries the kit. Practice transmission through those 1877 measured drawings and through surviving local carpentry: the gambrel, the lean-to, the massive central chimney, the unpainted weathered shingle, and the low broad entrance are taken from seventeenth and eighteenth-century fabric rather than from a style book. Retyped 2026-08-18. This edge reaches early New England building through the 1877 McKim, Mead, White and Bigelow sketching tour of Marblehead, Salem, Newburyport and Portsmouth, and the measured drawings and photographs that followed. That mechanism transmits appearance, not craft. Ruling applied consistently across shingle-style, queen-anne-free-classic and colonial-revival: drawings do not carry a kit. A revival detailed with true eighteenth-century assembly is a reconstruction, not a revival."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "hybridizes_with",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Richardson is literally the same author, and the transfer is a principle rather than a motif: the wall as a continuous unbroken surface stretched over a volume. Shingle Style is that idea executed in a light skin instead of in ashlar, frequently with a rock-faced stone base carried up under the shingle."
+    },
+    {
+      "target": "arts-and-crafts-british",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "Shared sensibility about material honesty and the vernacular, arriving in parallel rather than by transmission; the American style is earlier than most of the British Arts and Crafts houses it resembles."
+    }
+  ],
+  "description": {
+    "short": "The one genuinely original American style of the nineteenth century: an irregular, freely planned house wrapped in a continuous unbroken skin of wooden shingles that runs across storey lines, around corners, and over the roof as a single surface.",
+    "long": "Shingle Style is this taxonomy's best argument that a single-parent tree cannot represent architectural descent, and it is worth stating why in the terms the graph uses. The style has at least four ancestors of comparable weight, and they arrive by different mechanisms. From the American Queen Anne it takes the irregular plan, the living hall, the corner tower, and the whole practice of balloon-framed picturesque composition, and that inheritance is so complete that the earliest examples, notably Richardson's Watts Sherman House at Newport of 1874-76, are legitimately classified as both. From Richard Norman Shaw's Old English manner in Britain it takes the sweeping roof, the tile-hung upper wall translated into shingle, and the long horizontal window band; that transmission is by publication, and it is documented in the drawings. From the emerging Colonial Revival it takes the gambrel, the lean-to section, the classical porch column, and the entire idea that early New England building is a usable resource; that transmission is by the 1877 McKim, Mead, White and Bigelow sketching tour of Marblehead, Salem, Newburyport and Portsmouth, which is the rare case of a stylistic parent with a date and an itinerary. And from Richardson's Romanesque it takes the principle that a wall should be one continuous surface, transposed from ashlar into shingle.\n\nAssign any one of these as the parent and you lose something the buildings actually contain. Make it a child of Queen Anne and the Colonial gambrel and the Romanesque continuity become inexplicable decoration. Make it a child of Colonial Revival and the wildly irregular plans and the towers make no sense. Make it a child of Richardson and you lose the wooden lightness that is its whole substance. This is what reticulation means in practice: the node is the intersection of four traditions, each contributing a different layer, and a tree can only record the strongest edge. A directed acyclic graph with weighted, typed edges records all four and lets a kit-of-parts cascade draw the gambrel from one parent, the plan from another, and the surface doctrine from a third.\n\nThe technological conditions are the same as for Queen Anne and produce the opposite result, which is instructive. Shingle mills in Michigan, Maine, and the Pacific Northwest were by 1880 turning out sawn cedar and white pine shingles by the millions and shipping them anywhere by rail; the shingle was the cheapest cladding in America. Queen Anne builders used that cheapness to buy pattern, cutting shingles into fish-scale and diamond courses and stacking textures. The Shingle Style architects used the same cheapness to buy uniformity, running one plain butt across the entire building and eliminating corner boards, water tables, belt courses, and trim so nothing would interrupt it. The difference between the two styles is a decision about what to do with an industrial surplus, and it is exactly the decision a modern kit-of-parts platform will have to make, over and over, on behalf of its users.\n\nWhat it feels like is the thing the imitations never get. A shingled wall has no visible joints, no trim, no shadow lines except the courses themselves, so the building reads as a solid carved from one substance, and the shingles silver unevenly with weather so the surface is alive and slightly mottled. Openings appear to be cut into the mass rather than framed into it. The roof comes down low, sometimes to the height of a person's shoulder at the eave, so the building crouches; the porch is a void scooped out of the volume rather than a structure added to it. Inside, the living hall opens through wide screens and inglenooks into every principal room, the stair is a piece of furniture, and there is a continuous flow of space that no European house of the period offers. It is the American house at its least anxious and its most confident, and it is not an accident that it is the one Victorian style still being built."
+  },
+  "defining_characteristics": [
+    "A continuous unbroken wooden shingle surface running across storey lines, around corners, and frequently over the roof as one material",
+    "Suppression of trim: no corner boards, minimal window casing, shallow eaves cut tight to the wall",
+    "Irregular, freely composed plan and massing, unified entirely by the skin rather than by articulation",
+    "A broad sheltering roof of large simple planes, often gambrel or a long sweeping gable, coming low to the ground",
+    "Porches and loggias read as voids carved out of the volume, not as attached structures",
+    "Horizontal window bands of multiple sash grouped under a single head, frequently with multi-light upper sash over single-light lower",
+    "A living hall with fireplace and stair as the organising interior space, with rooms opening into it through wide cased screens"
+  ],
+  "diagnostic_tells": [
+    "Run your eye along a corner: if the shingles wrap the corner with no corner board, it is Shingle Style. A corner board makes it Queen Anne",
+    "Eaves are shallow, 6 to 12 in, and cut tight; deep bracketed eaves belong to Italianate or Stick Style",
+    "Window trim is 2 to 3 in wide or absent, and openings look punched rather than framed",
+    "Shingle butts are plain and uniform; patterned fish-scale or diamond coursing over more than a small panel indicates Queen Anne",
+    "The roof is a few large simple planes, in contrast to the Queen Anne's multiplication of small gables",
+    "A rock-faced stone base carried up around the ground storey and then shingled above is a Richardson-derived signature"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-american",
+      "difference": "The closest sibling and the one it descends from. Queen Anne articulates and layers the wall into textured zones with visible trim; Shingle Style unifies it into one surface and deletes the trim. The corner board test settles nearly every case."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "A co-parent, not a neighbour, and the boundary is real: Colonial Revival is symmetrical, trimmed, painted, and archaeologically referential; Shingle Style is asymmetrical, untrimmed, unpainted, and uses Colonial elements as material rather than as quotation. Where the plan becomes symmetrical and the shingles get painted white, the building has crossed over."
+    },
+    {
+      "node": "richardsonian-romanesque",
+      "difference": "The same surface doctrine in a different material and weight class. Ashlar is the mass; shingle is a skin over a light frame. Where both appear on one building, which is common, the stone stops at the first floor."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by surface continuity and by the roof. There is no module and no bay system; the design is controlled by keeping one material unbroken over an irregular volume, and by making the roof large and simple enough to gather that volume into one shape.",
+    "typical_ratios": [
+      "Shingle exposure 4 to 6 in, uniform across the entire building",
+      "Eave overhang 6 to 12 in; rake overhang 4 to 10 in",
+      "Window casing width 2 to 3 in, or omitted entirely",
+      "Roof plane area: the largest single plane not less than 40 percent of total roof area",
+      "Eave height at the lowest sweep 6 to 9 ft above grade",
+      "Porch column height to diameter 5:1 to 8:1 where classical, or shingled piers 16 to 24 in square"
+    ],
+    "bay_rhythm": "Grouped rather than regular. Windows occur in bands of two to five under a common head, separated by long stretches of plain shingle. The rhythm belongs to the openings, not to a structural bay.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "common",
+      "note": "The Colonial inheritance, and the reason so many Shingle Style houses have a gambrel that Queen Anne houses do not."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common"
+    },
+    {
+      "massing": "saltbox",
+      "affinity": "possible",
+      "note": "The long rear catslide, taken directly from seventeenth-century New England and used to bring the roof to the ground."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible",
+      "note": "Round and shingled, absorbed into the mass rather than standing free."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "forbidden",
+      "note": "The style requires a freely modelled volume and a wrapping surface; a party wall gives it neither."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "The shingle field shall be continuous across every storey line, corner, and change of plane on all elevations. No corner board, water table, belt course, frieze board, or storey band may interrupt it. This single rule is what separates the style from Queen Anne and it admits no exceptions."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Eave overhang shall not exceed 12 in and rake overhang shall not exceed 10 in, and both shall be closed tight to the wall plane with no exposed brackets, rafter tails, or purlin ends."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Window and door casing shall not exceed 3 in in width and shall not project more than 1 in from the shingle plane. Projecting hoods, crowns, pedimented heads, and moulded sills are prohibited."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Shingle exposure shall be uniform at 4 to 6 in over the entire building. Decorative butt patterning, where used at all, shall not exceed 10 percent of total wall area and shall occur only within a single gable field."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Where a masonry base is used it shall be rock-faced, shall terminate at or below the first-floor window sill line, and shall be the only material change permitted on the elevation."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Isaac Bell House",
+      "location": "Newport, Rhode Island",
+      "year": 1883,
+      "note": "McKim, Mead and White, 1881-83. Shingled walls over a brick base, bamboo-turned porch columns, an open living hall, and a Japanese-influenced lightness; the most complete surviving statement of the style."
+    },
+    {
+      "name": "Mary Fiske Stoughton House",
+      "location": "Cambridge, Massachusetts",
+      "year": 1883,
+      "note": "H. H. Richardson, 1882-83. Shingles stretched over irregular volumes as a taut skin with minimal ornament; the building that demonstrated the surface doctrine in wood."
+    },
+    {
+      "name": "William Watts Sherman House",
+      "location": "Newport, Rhode Island",
+      "year": 1876,
+      "note": "H. H. Richardson, 1874-76. The prototype, and simultaneously an American Queen Anne; contemporaries reported that builders could not find a name for it, which is the reticulation problem stated by the people who were there."
+    }
+  ],
+  "sources": [
+    "Vincent Scully, The Shingle Style and the Stick Style (1955; rev. ed. 1971)",
+    "Vincent Scully, The Shingle Style Today, or The Historian's Revenge (1974)",
+    "Leland Roth, McKim, Mead and White, Architects (1983)",
+    "Jeffrey Karl Ochsner, H. H. Richardson: Complete Architectural Works (1982)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "reticulation",
+    "multi-parent",
+    "continuous-surface",
+    "american-original",
+    "living-hall",
+    "still-built"
+  ]
+}

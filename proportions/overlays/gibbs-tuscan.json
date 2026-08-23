@@ -1,0 +1,485 @@
+{
+  "id": "gibbs-tuscan",
+  "name": "Tuscan Order (Gibbs) - overlay on Vignola",
+  "aka": [
+    "Gibbsian Tuscan",
+    "Georgian Tuscan",
+    "English Tuscan after Palladio"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture, in a more exact and easy manner than has been heretofore practised, by which all fractions, in dividing the principal members and their parts, are avoided (London, 1732), Plates I, III, IV, V, VI, XXIV, XXV, XXVI, XXX",
+    "author": "James Gibbs",
+    "year": 1732,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011578867",
+    "note": "Figures transcribed from the letterpress of the 1732 first edition (Getty copy, archive.org/details/gri_33125011578867), which states nearly every proportion in words rather than leaving it to the plate. Gibbs's stated authority for the entablature is Palladio: 'for which Palladio has given a Rule which cannot undergo any considerable change.' Gibbs, not Vignola, is the immediate source for the great majority of surviving American Georgian work, both directly and through the copies of his plates in Batty Langley, Salmon and Halfpenny. Where Gibbs agrees with Vignola the member is omitted from this overlay."
+  },
+  "overlay_of": "vignola-tuscan",
+  "module": {
+    "name": "semidiameter of the column at its base",
+    "parts": 12,
+    "default_size_in": 6.0,
+    "note": "GIBBS HAS NO MODULE. This is the single most important thing to know about him, and it is his selling point: his title page promises a method 'by which all fractions, in dividing the principal members and their parts, are avoided.' He rejects both Vignola's module-and-parts and Palladio's sixty minutes, because 'dividing a circle's diameter into minutes and seconds may occasion mistakes', and substitutes a diagonal scale and a geometric construction on a square by which a workman steps off thirds, sixths and twelfths of any given height directly with dividers. Every figure below is therefore a TRANSLATION of Gibbs's proportional divisions into Vignola's 12-part module so that the two can be compared. Gibbs's own numbers are all ratios of the whole height: divide it into five, one is the pedestal; divide the remaining four into five, one is the entablature; divide the column into seven, one is the diameter.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 14
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 4.375,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_plinth",
+          "name": "Plinth of the pedestal",
+          "height_parts": 13.125,
+          "projection_parts": 5,
+          "profile": "plinth",
+          "note": "ADDED MEMBER. Vignola's Tuscan pedestal has no plinth at all - it runs zoccolo, dado, cimasa. Gibbs: 'Divide the height of the Pedestal into four parts; one is the height of the Plinth.' One quarter of 52 1/2 parts is 13 1/8. Gibbs states that this division 'is to be observed through all the Five Orders', and the Doric, Ionic, Corinthian and Composite overlays repeat it.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_base_ogee",
+          "name": "Pedestal base, ogee reversed (cyma reversa)",
+          "height_parts": 3.375,
+          "projection_parts": 4.375,
+          "profile": "cyma-reversa",
+          "note": "Gibbs: 'one third of one of them is the height of the Base of the Pedestal', i.e. 1/12 of the whole pedestal = 4 3/8 parts, carrying an ogee reversed and a fillet (Plate III, members J and H). 'The projection of the Base is equal to its height.' The 3 3/8 : 1 split between ogee and fillet is apportioned; Gibbs draws it at large on Plate XXIV but gives no figure in the text.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Pedestal base, fillet",
+          "height_parts": 1,
+          "projection_parts": 4.375,
+          "profile": "fillet",
+          "note": "Apportioned within the stated 4 3/8-part base.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_die",
+          "name": "Die (dado) of the pedestal",
+          "height_parts": 28.4375,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "The remainder: 13/24 of the pedestal. Vignola gives his Tuscan die 44 of 56 parts, i.e. 11/14 of the pedestal; Gibbs gives it barely more than half, because he has taken a quarter away for the plinth. A Gibbs pedestal is therefore a much more articulated object than Vignola's, and reads as a small building rather than a block.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_cap_ogee",
+          "name": "Pedestal cap, ogee (cyma reversa)",
+          "height_parts": 4.5,
+          "projection_parts": 4.375,
+          "profile": "cyma-reversa",
+          "note": "Gibbs: 'half the height of one of them is the height of the Cap', i.e. 1/8 of the pedestal = 6 9/16 parts, composed of an ogee and a platband (Plate III, members F and E). 'The Cap projects the same as the Base.' Gibbs adds on Plate XXIV that 'the Caps or Cornices of Pedestals... their projection is to their height as two to three.' The internal split is apportioned.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cap_platband",
+          "name": "Pedestal cap, platband",
+          "height_parts": 2.0625,
+          "projection_parts": 4.375,
+          "profile": "fascia",
+          "note": "Apportioned within the stated 6 9/16-part cap.",
+          "confidence": "low"
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_lower_fascia",
+          "name": "Lower fascia",
+          "height_parts": 6,
+          "projection_parts": 0,
+          "profile": "fascia",
+          "note": "DELTA. Vignola's Tuscan architrave is a single undivided face crowned by one fillet. Gibbs, Plate XXVI: 'the height of the Architraves of the Tuscan and Dorick Orders is divided into two parts, and then subdivided' - so his Tuscan architrave carries an upper and a lower fascia (Plate IV, members G and H). This is a Palladian, not a Vignolesque, Tuscan, and it is why Georgian Tuscan door and window architraves in America are two-membered where Vignola's would be flat.",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_upper_fascia",
+          "name": "Upper fascia",
+          "height_parts": 4.5,
+          "projection_parts": 0.75,
+          "profile": "fascia",
+          "note": "The subdivision of the two-part architrave into fascia and crowning listel is apportioned; Gibbs draws it at large on Plate XXVI and gives no figure.",
+          "confidence": "low"
+        },
+        {
+          "id": "arch_listel",
+          "name": "Listel (taenia) over the architrave",
+          "height_parts": 1.5,
+          "projection_parts": 1.5,
+          "profile": "listel",
+          "note": "Apportioned. Gibbs states only that 'the Architrave projects one fourth of its height'.",
+          "confidence": "low"
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze_face",
+          "name": "Frieze, plain",
+          "height_parts": 12,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "DELTA. Vignola gives the Tuscan frieze 1 module 2 parts (14). Gibbs divides the entablature into seven: 'two of which go to the height of the Architrave, two to the Frize, and three to the Cornice.' Two sevenths of 42 parts is exactly 12, so Gibbs's frieze is 2 parts (one sixth of a module) shorter than Vignola's, and his architrave and frieze are equal. Ware's simplified Tuscan agrees with Gibbs here, not with Vignola.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_cavetto",
+          "name": "Cavetto (bed mould)",
+          "height_parts": 2.4,
+          "projection_parts": 3,
+          "profile": "cavetto",
+          "note": "DELTA. Vignola's Tuscan bed mould is a large cyma reversa; Gibbs's is a CAVETTO with an ovolo above it. Gibbs, Plate V: 'The lowermost division contains two members of equal bigness, viz. the [Cavetto] and the Ovolo; the Cavetto has a Lift of one fourth of its height.' The cornice divides into three equal parts of 6, and the lowest 6 splits equally between cavetto-plus-fillet and ovolo-plus-fillet.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_cavetto_fillet",
+          "name": "Fillet over the cavetto",
+          "height_parts": 0.6,
+          "projection_parts": 3.5,
+          "profile": "fillet",
+          "note": "Stated: one fourth the height of the cavetto.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_ovolo",
+          "name": "Ovolo",
+          "height_parts": 2.4,
+          "projection_parts": 5,
+          "profile": "ovolo",
+          "confidence": "high",
+          "note": "Equal in height to the cavetto, by Gibbs's statement."
+        },
+        {
+          "id": "corn_ovolo_fillet",
+          "name": "Fillet over the ovolo, forming the drip under the corona",
+          "height_parts": 0.6,
+          "projection_parts": 5.5,
+          "profile": "fillet",
+          "note": "Gibbs: 'the Lift over the Ovolo, which makes the Drip under the Corona'. Its height is figured on the plate only and is taken here as equal to the cavetto's fillet.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_corona",
+          "name": "Corona",
+          "height_parts": 5,
+          "projection_parts": 14,
+          "profile": "corona",
+          "note": "Middle third of the cornice, less its list. Gibbs: 'The Corona has a Lift of a sixth part of the middle division.'",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_corona_list",
+          "name": "List over the corona",
+          "height_parts": 1,
+          "projection_parts": 15,
+          "profile": "listel",
+          "confidence": "high",
+          "note": "Stated: one sixth of the middle division of 6 parts."
+        },
+        {
+          "id": "corn_cyma_recta",
+          "name": "Cymatium, cyma recta",
+          "height_parts": 4,
+          "projection_parts": 17,
+          "profile": "cyma-recta",
+          "note": "THE WHOLESALE SUBSTITUTION. Ware: 'Vignola's Tuscan Order is marked by the use of the Ovolo in the Cymatium.' Gibbs crowns his Tuscan with a CYMA RECTA - Plate IV, member A, 'Cima recta with a Fillet' - and so does every English and American Georgian Tuscan cornice descended from him. If you want to know at a glance which authority a Tuscan cornice was built to, look at the top moulding: a quarter-round means Vignola, an S-curve means Gibbs. Gibbs: 'The uppermost division contains the Cyma Recta with its Fillet, which is two thirds of that part.' The OCR of that clause is damaged in every scan reached; the 2:1 reading is the one that makes the arithmetic close.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corn_cyma_fillet",
+          "name": "Fillet over the cymatium",
+          "height_parts": 2,
+          "projection_parts": 18,
+          "profile": "fillet",
+          "note": "The remainder of the upper third. A 2-part fillet is fat for its position; see the construction-tolerance conflict. Confidence low because the governing clause is the damaged one.",
+          "confidence": "low"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 3.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 12,
+          "projection_parts": 3,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "Two sevenths. Same as Vignola."
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 12,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "Two sevenths. Vignola gives 14."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice",
+          "height_parts": 18,
+          "projection_parts": 18,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "Three sevenths. Vignola gives 16. Gibbs: 'The Cornice projects as much as it is in height.' The total entablature is 3 1/2 modules in both authorities - the invariant survives, the profile does not."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The pedestal is one quarter of the height of the column and entablature taken together - NOT one third of the column.",
+      "expression": "assemblies.pedestal.height_modules == (column.height_modules + assemblies.entablature.height_modules) / 4",
+      "tolerance": 0.001,
+      "note": "GIBBS'S CENTRAL DEPARTURE FROM VIGNOLA, and he states it as a universal: 'the Entablature being a part proportionable to its Column, and the Pedestal an addition to both, it should be considered as a part of the Column and Entablature taken together; therefore the height of the Column and Entablature being divided into four equal parts, one of them shall be the height of the Pedestal. This Rule is to be observed through all the Five Orders.' 4 3/8 modules against Vignola's 4 2/3 - a Gibbs Tuscan pedestal is about 3 1/2 inches lower than a Vignola one at a 6 inch module."
+    },
+    {
+      "statement": "The whole height divides into five: one pedestal, four for column and entablature together.",
+      "expression": "assemblies.pedestal.height_modules * 5 == assemblies.pedestal.height_modules + column.height_modules + assemblies.entablature.height_modules",
+      "tolerance": 0.001,
+      "note": "The same rule stated as Gibbs actually works it on the drawing board: 'Take any height proposed for this Order upon a straight line, and divide it into five equal parts; one of those parts shall be the height of the Pedestal.'"
+    },
+    {
+      "statement": "The entablature is one quarter the height of the column - Gibbs keeps Vignola's rule for Tuscan and Doric only.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 4",
+      "tolerance": 0.001,
+      "note": "Gibbs takes this from Palladio, who 'makes the Entablatures of the Tuscan and Dorick to be to their Columns as one to four, and the Ionick, Corinthian and Composite, as one to five.' The Ionic, Corinthian and Composite overlays therefore break with Vignola; Tuscan and Doric do not."
+    },
+    {
+      "statement": "Architrave and frieze are equal, and the cornice is half as much again.",
+      "expression": "assemblies.architrave.height_modules == assemblies.frieze.height_modules",
+      "tolerance": 0.001,
+      "note": "Vignola makes them 12 : 14. Gibbs's 2 : 2 : 3 division of the entablature is the diagnostic proportion of a Georgian Tuscan cornice."
+    },
+    {
+      "statement": "The cornice is three halves of the architrave.",
+      "expression": "assemblies.cornice.height_modules == assemblies.architrave.height_modules * 3 / 2",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The entablature is the sum of architrave, frieze and cornice.",
+      "expression": "assemblies.entablature.height_modules == assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is seven diameters, as in Vignola.",
+      "expression": "column.height_modules == 14",
+      "tolerance": 0.001,
+      "note": "Gibbs's column heights are identical to Vignola's in all five orders: 'The Tuscan is in height 7 Diameters, The Dorick 8, The Ionick 9, The Corinthian 10, and The Roman or Composite 10.' The two authorities part company over the entablature and the pedestal, not over the column."
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "gibbs-arcade-without-pedestal",
+        "clear_diameters": 5.0,
+        "note": "DELTA, and a large one. Gibbs, Plate XXX: 'the distance from middle to middle of the Columns must be six Diameters... the Pilasters on each side of the Column are a Semidiameter of it in bigness, and the width of the Arch is four Diameters.' Vignola's Tuscan arcade is 9 1/2 modules (4 3/4 D) on centres with an opening of 6 1/2 modules (3 1/4 D). Gibbs's arcade bay is a quarter wider than Vignola's and its opening is three quarters of a diameter wider - which is exactly why English and American Georgian arcades feel airier than Italian ones."
+      },
+      {
+        "name": "gibbs-arcade-with-pedestal",
+        "clear_diameters": 6.0,
+        "note": "Plate XXX: seven diameters on centres, opening four diameters and a half, piers three quarters of a diameter."
+      },
+      {
+        "name": "gibbs-tuscan-door",
+        "clear_diameters": 5.0,
+        "note": "Plate XXXVII: six diameters on centres, the opening of the door four diameters, the frame round it a semidiameter, the height of the opening seven diameters."
+      }
+    ],
+    "default": "gibbs-arcade-without-pedestal"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height * 5 / 16",
+      "units": "in",
+      "range": [
+        27,
+        36
+      ],
+      "authority_note": "GIBBS'S CHAIR RAIL SITS LOWER THAN VIGNOLA'S. Read the room as the order with floor-to-ceiling as the column, as the Vignola pack does. Vignola's pedestal is one third of the column: ceiling/3, so 36 in. at 9 ft. Gibbs's pedestal is one quarter of column-plus-entablature, and his entablature is a quarter of the column, so the pedestal is (1 + 1/4)/4 = 5/16 of the ceiling height: 33 3/4 in. at 9 ft, 30 in. at 8 ft. Two to three inches lower, consistently, across every Georgian room. Measure to the TOP of the rail.",
+      "judgment": false,
+      "note": "Gibbs's pedestal has a plinth that Vignola's has not, so the wainscot below the rail should read base-plinth, dado, cap rather than Vignola's zoccolo, dado, cap. The plinth is a quarter of the whole pedestal height: ceiling_height * 5/64, about 8 1/2 in. at 9 ft - which is why a Georgian wainscot has a tall skirting and a Vignolesque one does not."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "0.8",
+      "units": "ratio",
+      "range": [
+        0.75,
+        1.5
+      ],
+      "authority_note": "GIBBS IS THE ONLY AUTHORITY IN THIS SET WHO GIVES A ROOM-HEIGHT RULE, AND HE GIVES TWO. For coved or arched ceilings: 'let the length and breadth of them be added together, [half that] Sum is the height of the Room' - a 20 x 30 room is 25 ft high. For flat ceilings: 'if they are flat, their height will be agreeable if made equal to their breadth' - 20 ft. Then the admission that makes him useful: 'But in the common Buildings in England, we are forced to give Rooms a lower proportion in regard to the coldness of the Climate and the expence of building; so that the height is sometimes one fifth less than the breadth, as 20 feet broad by 16 feet high, and sometimes one fourth less, as 20 feet broad by 15 feet high, which is the lowest proportion they should have.' The expression is height as a fraction of ROOM BREADTH. 0.8 encodes the ordinary English reduction; 0.75 is Gibbs's own hard floor; 1.5 is the coved double-square case.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. This is the oldest surviving statement in the literature of the trade-off this project exists to model: the ideal proportion, the cost-and-climate reduction, and an explicit floor below which the author will not go. A modern 8 ft ceiling in a 14 ft room is 0.57 - well under Gibbs's floor, which is why a modern room cannot carry a Georgian cornice at full size."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.5 / 14",
+      "units": "in",
+      "range": [
+        7,
+        16
+      ],
+      "authority_note": "Room read as an order at reduced module, cornice alone: Gibbs's Tuscan cornice is 1 1/2 modules of a 14-module column, against Vignola's 1 module 4 parts. A 9 ft ceiling gives 11 9/16 in. where Vignola gives 10 1/4 in. Gibbs's crown is about an eighth bigger, and it is a cavetto-ovolo-corona-cyma profile rather than Vignola's cyma-corona-ovolo.",
+      "judgment": false
+    },
+    {
+      "target_slot": "frieze",
+      "dimension": "height",
+      "expression": "storey_height / 14",
+      "units": "in",
+      "range": [
+        6,
+        22
+      ],
+      "authority_note": "Gibbs's Tuscan frieze is exactly one module of a fourteen-module column, against Vignola's 1 module 2 parts. On a storey-height datum this is 8 1/2 in. at a 10 ft storey where Vignola gives 10 in.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT for the same reason as in the Vignola pack: the choice of what plays the part of the column is not determined by any classical source."
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "height",
+      "expression": "opening_width * 4 / 21",
+      "units": "in",
+      "range": [
+        5,
+        16
+      ],
+      "authority_note": "THE CORNICE ALONE of a Gibbs door entablature. Plate XLV: the whole architrave-frieze-cornice over a door is half the breadth of the opening (which agrees with Vignola); 'that being divided into three parts, one goes to the Architrave; the other two being divided into seven, three go to the Frize, and four to the Cornice.' That is 7 : 6 : 8 of twenty-one - the architrave is one sixth of the opening, the frieze two sevenths of the remainder, the cornice four sevenths. Note that this is NOT the 2:2:3 of Gibbs's own Tuscan entablature: a door entablature and a building entablature are proportioned differently, and he is explicit about it.",
+      "judgment": false,
+      "note": "Height of the crowning cornice over the door, not of the door. Full assembly = opening_width / 2."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        14
+      ],
+      "authority_note": "Gibbs's arch rule, and it governs every Georgian arched opening: 'The Architrave that goes round the Arch, as also the Impost, are each of them as [big] as the Pilaster, or one eighth of the Opening of the Arch' - he arrives at it mechanically by dividing the distance from column to column into ten, one for the pilaster, eight for the opening. He adds 'whether the Arch be great or small', which is the whole point: the archivolt does not scale with the building, only with the opening. The impost divides into three, one for the neck or frieze, two for the cap.",
+      "judgment": false,
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "width",
+      "expression": "opening_width / 3",
+      "units": "in",
+      "range": [
+        8,
+        60
+      ],
+      "authority_note": "Gibbs on arcades: 'let the Peers be no more than one half, nor less than one third of the Void.' A band, not a number, and the only place in the book where he gives one. The lower bound is encoded; anything below it and the arcade reads as a colonnade with the arches filled in.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Where the arcade carries an order the pier is fixed instead by the intercolumniation, and in Doric by the triglyphs - Gibbs: 'The Arches of each Order will not admit of any considerable variety, being confined to the divisions of Triglyphs and Modillions.'"
+    },
+    {
+      "target_slot": "balustrade",
+      "dimension": "spacing",
+      "expression": "1.5",
+      "units": "ratio",
+      "range": [
+        1.4,
+        1.6
+      ],
+      "authority_note": "Gibbs, Plate LXII: 'The Ballusters are distant from each other one half of their thickness.' Pitch is therefore 1 1/2 baluster thicknesses on centres. He adds that the delicate twelve-part balusters 'are fittest to be done in Wood or cast in Metal; the others may be made of Stone' - the first explicit statement in this set that the profile follows the material. Their caps and bases 'have the same proportions with the common Pedestals'.",
+      "judgment": false,
+      "note": "Modern guard codes require a 4 in. sphere not to pass, which for a 3 in. baluster gives 1.33 pitch - tighter than Gibbs. See the accessibility conflict."
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "height",
+      "expression": "2.0",
+      "units": "ratio",
+      "range": [
+        1.0,
+        2.0
+      ],
+      "authority_note": "Gibbs, Plate XLV, 'The Proportions of Windows for different heights of Rooms': two of two squares, one of a square and three quarters, one of a square and a half, one of a square and a quarter, and one square window. The rule is that WINDOW PROPORTION IS A FUNCTION OF ROOM HEIGHT, not of the elevation - the taller the room, the taller the window, down to a square in a garret. Expression is height as a multiple of width. He adds that 'the Breast, or Pedestal-part, of the Window is one third of the whole height', though that numeral is damaged in the scans consulted.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Gibbs gives the family, not the mapping from a given ceiling height to a given member of it."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "Gibbs breaks his own pedestal rule, in print, for a cost-and-use reason: 'It was observed before, that the Pedestal should not be less than one quarter of the height of the Column and Entablature together; but here is a necessity to have it less, otherwise the Breasts of the Windows would be too high, if the Columns be of a large Diameter.' The order and the window sill are competing for the same wall.",
+      "resolution": "Do what Gibbs does. When an order is applied to a wall that also has to have windows in it, the pedestal is the member that gives, because it is the only one whose height is not fixed by a ratio to the column. Reduce the pedestal until the sill lands at 2 ft 6 in. to 3 ft, and hold the column and entablature. Never solve it by shortening the column - that changes the order.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "Gibbs's own room-height rule collapses under heating cost. His ideal for a 20 x 30 room is 25 ft, his flat-ceiling rule gives 20 ft, and his actual English practice gives 16 ft or, at the floor, 15 ft - a 40 percent reduction from the ideal, attributed by him to 'the coldness of the Climate and the expence of building'. The modern American figure for the same room is 8 or 9 ft, which is half his floor again.",
+      "resolution": "The order does not scale down with the room; only the module does. At 8 ft, take the cornice alone at ceiling_height * 1.5/14 and delete the architrave and frieze - a Gibbs cornice at 10 1/4 in. still reads correctly in an 8 ft room, whereas a full entablature at 24 in. does not. Where the client will pay for one room to be right, buy ceiling height before buying joinery: Gibbs's whole argument is that height is the proportion and the mouldings are only the evidence of it.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The 1732 plates carry fillets of one quarter and one sixth of their neighbouring mouldings. At the default 6 in. module the fillet over the cavetto is 0.6 parts = 0.3 in., and the fillet over the ovolo the same. Gibbs's own instruction on flat ceilings anticipates the problem: 'the lower the Cieling is, the Mouldings and Fret-work must project the less: For a Cieling 10 feet high must not have its Ornaments project as much as a Cieling 20 feet high; if it did, the Ornaments would appear a weight to the Cieling.'",
+      "resolution": "Set a floor of 3/16 in. on any painted fillet. Below it, delete the member and give its height to the neighbour, and record the deletion. Gibbs's cornice tolerates this better than Vignola's because his members come in equal pairs - the cavetto and the ovolo are the same size, so losing one fillet does not throw the other out.",
+      "severity": "minor"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "Gibbs's balustrade pitch of 1 1/2 baluster thicknesses on centres gives a clear opening equal to half the baluster thickness. For a 3 in. baluster that is 1 1/2 in., which passes the 4 in. sphere rule easily; but for the 'more delicate' twelve-part wooden balusters he recommends, at 1 3/4 in. thick, the clear opening is 7/8 in. and the balustrade becomes a screen, expensive and visually solid.",
+      "resolution": "Hold Gibbs's ratio only down to about a 2 1/2 in. baluster. Below that, fix the clear opening at 3 3/4 in. and let the ratio go - the code number and the eye agree here, and a stone balustrade rhythm copied at wood scale is the commonest error in reproduction Georgian work.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "charleston-georgian",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "charleston-single-house",
+    "english-palladian",
+    "palladian",
+    "english-baroque",
+    "american-colonial",
+    "new-england-colonial",
+    "cape-cod-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "georgian-revival",
+    "colonial-revival"
+  ],
+  "sources": [
+    "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), letterpress pp. 1-28 and Plates I, III, IV, V, VI, XXIV, XXV, XXVI, XXIX, XXX, XXXVII, XLV, LIV, LXII; archive.org/details/gri_33125011578867",
+    "James Gibbs, A Book of Architecture, containing Designs of Buildings and Ornaments (London, 1728) - referred to by Gibbs himself throughout the 1732 Rules for 'great variety of Doors', windows, niches and chimneypieces; not itself a source of proportional rules",
+    "William R. Ware, The American Vignola (1920 printing) - used only as the comparison datum for Vignola's figures",
+    "Jane Griswold Radocchia, 'James Gibbs' Rules for Drawing the several Parts of Architecture' (2024), jgrarchitect.com - independent confirmation of the column heights and of Gibbs's geometric substitute for the module"
+  ],
+  "confidence": "high",
+  "notes": "GIBBS TUSCAN AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nWHAT AGREES. Column 7 diameters. Entablature one quarter of the column. Diminution to five sixths beginning at one third the height. Base one semidiameter, capital one semidiameter divided into three equal parts. Base and capital projections. These are omitted from the overlay.\n\nTHE FOUR REAL DIVERGENCES.\n1. THE PEDESTAL RULE. Vignola: one third of the column. Gibbs: one quarter of column and entablature together, 'to be observed through all the Five Orders'. 4 3/8 modules against 4 2/3. And Gibbs's pedestal has a PLINTH occupying a full quarter of its height, which Vignola's Tuscan pedestal has not.\n2. THE ENTABLATURE SUBDIVISION. Vignola 12 : 14 : 16. Gibbs 2 : 2 : 3 of seven, i.e. 12 : 12 : 18. Same total, different order. Gibbs's architrave and frieze are equal and his cornice is markedly deeper.\n3. THE CYMATIUM. Vignola crowns the Tuscan with an OVOLO - Ware calls it the diagnostic feature of the order. Gibbs crowns it with a CYMA RECTA, and his bed mould is a cavetto where Vignola's is a cyma reversa. This is the single fastest way to tell which book a Tuscan cornice came out of.\n4. THE ARCADE. Gibbs's Tuscan arcade is six diameters on centres with a four-diameter opening; Vignola's is 4 3/4 diameters on centres with a 3 1/4-diameter opening.\n\nMINOR: the Tuscan architrave carries two fasciae in Gibbs and one in Vignola; the base projects one third of a semidiameter (4 parts) against Vignola's 4 1/2.\n\nWHAT IS WEAK. Gibbs states nearly everything in words, which makes this overlay unusually well sourced for a pattern book - but the internal split of the pedestal base and cap, of the two-part architrave, and of the crowning cyma and its fillet are figured on Plates XXIV and XXVI only, and no reachable scan renders those numerals. Those members carry confidence low or medium. The clause governing the cyma recta ('which is two thirds of that part') is damaged in the OCR of both scans consulted and the reading is inferred from the arithmetic.\n\nWHY THIS PACK MATTERS MORE THAN ITS SIZE SUGGESTS. Gibbs, not Vignola, is what American Georgian builders had on the shelf, directly or through the pirated plates in Batty Langley, William Salmon and the Halfpennys. When a question is asked about a Georgian house, the honest answer is usually 'Gibbs', and the differences encoded here - a lower chair rail, a deeper cornice, an S-curve where Vignola has a quarter-round - are exactly the differences that make a Georgian room read as Georgian rather than as generically classical."
+}

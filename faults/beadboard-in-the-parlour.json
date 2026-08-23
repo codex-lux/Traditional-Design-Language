@@ -1,0 +1,170 @@
+{
+  "id": "beadboard-in-the-parlour",
+  "name": "Beadboard In The Parlour",
+  "aka": [
+    "the cottage wainscot everywhere",
+    "service material in a state room",
+    "the 32-inch sheet"
+  ],
+  "slots": [
+    "wainscot",
+    "trim_family"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "Narrow beaded vertical boarding — genuine tongue-and-groove or, more often, a 1/4 in MDF sheet with the beads pressed into it — used as the wainscot in a dining room, a formal living room, an entrance hall or a principal bedroom of a house that is otherwise claiming a classical or Colonial Revival interior. Frequently it runs through the whole house at one height, so the powder room, the mudroom and the dining room have the same wall.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Beadboard is the cheapest wainscot that reads as wainscot in a photograph. It arrives as a 4x8 sheet that cuts into three 32 in strips with no waste, it needs no set-out, no stiles, no rails and no panel arithmetic, it hides an uneven wall, and it is installed by one person with a nail gun in an afternoon. The sheet dimension also sets the height, which is why so much of it lands at 32 or 36 in. And the last twenty years of shelter media have made it a general signifier of 'traditional', detached from the room types where it belongs.",
+    "cost_saved": "8 to 16 USD per square foot for a raised-panel dado installed against 4 to 9 USD for beadboard, and closer to 3 USD for the MDF sheet version. On a dining room, 1,200 to 3,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / wainscot / variants",
+      "statement": "Raised-and-fielded panel dado is canonical; flat panel, full-height panelling on the chimney wall and plaster with a chair rail are permitted. Beaded boarding is not among them, because in the eighteenth century it is a service and utility finish."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / wainscot",
+      "statement": "The classical dado is a framed assembly of stiles, rails and floating panels. Beaded boarding has no frame, which means it has no relationship to the room's set-out, to the chimney breast, or to the openings — and that relationship is most of what a dado is doing."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "material carries rank",
+      "statement": "The historical distribution of beaded boarding is precise and it is about rank and about water: kitchens, sculleries, pantries, bathrooms, back stairs, porch ceilings, attic rooms, and after about 1880 the cheaper cottage generally. It appears in state rooms almost nowhere before the Colonial Revival, and putting it there is not a stylistic choice but a levelling of the house's internal hierarchy."
+    }
+  ],
+  "correct_practice": "Match the wainscot to the room's rank and to the family. In a classical interior the principal rooms take a framed dado — raised and fielded in the best room, flat panel elsewhere — or plaster with a chair rail and nothing else, which is what most secondary rooms genuinely had and which is both cheaper and more correct than beadboard. Full-height panelling belongs on the CHIMNEY WALL of the best room only, with the other three walls plastered above the dado; that asymmetry is the most characteristic thing about a Georgian room and it is not a cost compromise, because the panelled chimney breast is the most expensive object in the house and the plaster around it is what makes it read. Beaded boarding is correct, and often the best answer, in the rooms where it belongs: kitchen, pantry, mudroom, back hall, bathroom, porch ceiling, attic chamber. Run it there and run something else in the parlour, and the house immediately has a hierarchy it did not have. Where beadboard is used, use it honestly: individual tongue-and-groove boards with a real bead, 2 1/2 to 3 1/2 in exposed, running to a flat cap, not a sheet with a printed pattern at 1/8 in of relief.",
+  "fixes": {
+    "right": "A framed flat-panel or raised-panel dado in the principal rooms, beaded boarding kept to the service rooms and wet rooms, and plaster with a rail in the rooms that get neither.",
+    "cheap": "Plaster and a rail. Deleting the beadboard from the dining room and running a good four-member chair rail on a plain painted wall costs LESS than the beadboard did, is documented as a permitted variant, and instantly re-ranks the room above the mudroom. Where a panelled effect is wanted at beadboard money, applied panel mould on the flat wall below a proper rail gives a flat-panel dado for about 5 USD a square foot and takes the set-out rules with it.",
+    "dishonest": "MDF beadboard sheet with 1/8 in beads, painted gloss white and caulked at every edge. It has the pattern of boarding and none of the section — a real bead is a 1/4 to 3/8 in half-round with a quirk each side and casts two lines, and a pressed one casts none — and at the first plumbing incident the sheet wicks water and swells irreversibly, which is a poor result in the one room type where beadboard genuinely belongs. Also dishonest: running beadboard in the parlour and calling it Colonial Revival on the strength of the Revival's own catholicity; the Revival used framed panelling in its state rooms too."
+  },
+  "detection": "First, LOCATION: note which rooms have it. Beadboard in the mudroom and framed panelling in the dining room is a graded house; beadboard in both is an ungraded one. Second, RELIEF: photograph the wainscot in raking light and look for the quirk — a genuine bead shows two fine dark lines, one each side of the half-round, plus the board joint; a pressed sheet shows one soft line per repeat. Third, the JOINT test in an image: real boarding shows a V or a shadow at every board joint and the joints do not align with the studs behind; a sheet shows a repeat that terminates at a 48 in interval with a butt seam and often a visible filler line. Fourth, the CORNER: real boarding turns an inside corner with a scribed board and an outside corner with a corner bead; a sheet is caulked.",
+  "test": {
+    "expression": "bead_quirk_depth_in",
+    "threshold": 0.1875,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Depth of the groove beside the bead, which is what produces the double line. Genuine beaded boarding runs 3/16 to 3/8 in; pressed MDF sheet runs 1/16 to 1/8 in. The primary test for this fault is however categorical rather than dimensional — which ROOM the material is in — and no ratio expresses that."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "georgian-revival",
+    "colonial-revival",
+    "federal-style",
+    "greek-revival-american",
+    "new-classical",
+    "neoclassical-revival",
+    "adam-style",
+    "italianate-american",
+    "second-empire",
+    "english-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "beaux-arts-american"
+  ],
+  "exceptions": [
+    {
+      "style": "folk-victorian",
+      "why": "Beaded boarding IS the wainscot of the type — the mass-produced beaded ceiling and wainscot board was one of the products the railway and the millwork catalogue made cheap, and it is what these houses actually have in every room including the parlour.",
+      "bounds": "Genuine tongue-and-groove boards with a real bead, 2 1/2 to 3 1/2 in exposed, running to a plain flat cap, and consistent with an interior that is thin everywhere. The type's honesty is the licence; a Folk Victorian parlour with a five-member cornice and beadboard has taken half of each argument.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ],
+        "construction": [
+          "balloon-frame"
+        ]
+      }
+    },
+    {
+      "style": "carpenter-gothic",
+      "why": "Vertical boarding inside and out is the type's structural and decorative logic, and a beaded or V-jointed board wainscot echoes the board-and-batten exterior.",
+      "bounds": "The verticality must be systematic, appearing on the exterior cladding as well. A Carpenter Gothic house with horizontal siding does not get this."
+    },
+    {
+      "style": "craftsman",
+      "why": "Plain vertical boarding with a flat cap is one of the family's two licensed wainscots, alongside board-and-batten. The Craftsman argument for it is honesty of material rather than economy.",
+      "bounds": "Stain-grade vertical-grain fir or quartersawn oak in the public rooms, or paint-grade elsewhere, with a flat bevelled cap at about 0.36 of the ceiling. A painted white MDF beadboard sheet in a bungalow dining room is not this exception and is arguably a worse fault, because the family's whole claim is that the material is what it appears to be."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Beaded and plain boarding used freely throughout, including in principal rooms, as part of the style's deliberate informality and its coastal-cottage sources.",
+      "bounds": "Real boards, often stained or left natural rather than painted gloss white, and combined with the style's other moves — minimal casings, no cornice, a plaster or shingled surface above. Selective use of the material with a classical interior elsewhere is not covered."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "Vertical sheathing boards, sometimes beaded, are genuine early New England practice for chamber walls and for the walls flanking a chimney — this is a structural sheathing tradition rather than an applied wainscot.",
+      "bounds": "Wide boards of 8 to 16 in with a single bead or a simple V, running FULL HEIGHT rather than to a dado line, unpainted or in an early pigment. Narrow 3 in beadboard at 32 in is a nineteenth-century industrial product and does not qualify.",
+      "bounds_test": {
+        "expression": "board_exposed_width_in",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chair-rail-at-thirty-six-inches",
+      "difference": "Material against height. The same 4x8 sheet drives both decisions, so the two travel together, but a framed panel dado at 36 in is only the height fault and beadboard at 31 in is only the material one."
+    },
+    {
+      "fault": "one-trim-grade-for-every-room",
+      "difference": "This fault is one material in the wrong room; that is one grade of trim in every room. Beadboard everywhere is both."
+    }
+  ],
+  "co_occurs_with": [
+    "chair-rail-at-thirty-six-inches",
+    "one-trim-grade-for-every-room"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, wainscot variants and the chimney-wall note",
+    "proportions/systems/trim-classical.json, wainscot derived rules",
+    "Old-House Journal technical archive on beaded board and its historical distribution",
+    "Sears, Roebuck and Co. Building Materials catalogues, beaded ceiling and wainscot board"
+  ],
+  "confidence": "high",
+  "tags": [
+    "wainscot",
+    "material",
+    "rank",
+    "beadboard"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The panelled chimney breast and the framed dado are the room's rank made visible, and the material distinction between state room and service room is one of the type's organising facts."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "Federal principal rooms are more often plaster with a rail than fully panelled, so the missing member is smaller — but beaded boarding is still a service material."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The family abandons the dado, so the correct answer is usually a tall plain base and nothing. Beadboard imports a member that does not belong rather than degrading one that does."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "The Revival used beaded board in halls, porches and bathrooms freely and the boundary is looser, though its state rooms still took framed panelling."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "minor",
+      "why": "Later date, catalogue millwork, and a real tradition of beaded board in halls and back rooms."
+    }
+  ],
+  "severity_trajectory": "Stable in wood and progressive in MDF. Genuine tongue-and-groove boarding is a fifty-year material that takes paint indefinitely. The pressed MDF sheet version is minor at handover and serious by year eight: every joint at the floor, at the cap and at an outside corner is caulked, the caulk fails, the sheet wicks any moisture it meets and swells irreversibly, and the swelling is worst in the bathroom and mudroom — which is where beaded boarding is otherwise the correct material. So the fault is worst exactly where the material belongs."
+}

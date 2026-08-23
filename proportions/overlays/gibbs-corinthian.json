@@ -1,0 +1,501 @@
+{
+  "id": "gibbs-corinthian",
+  "name": "Corinthian Order (Gibbs) - overlay on Vignola",
+  "aka": [
+    "Gibbsian Corinthian",
+    "Georgian Corinthian"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 4, XVI, XVII, XVIII, XIX, XXIV, XXV, XXVI, XXXIII, XXXVIII, XLI, XLII, LXIV",
+    "author": "James Gibbs",
+    "year": 1732,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011578867",
+    "note": "Transcribed from the letterpress of the 1732 first edition. Gibbs's Corinthian cornice is the most fully stated cornice in the book - he gives the whole four-tenths of the entablature in two nested divisions, both in words - so this overlay is unusually well sourced at member level. Where Gibbs agrees with Vignola the member is omitted."
+  },
+  "overlay_of": "vignola-corinthian",
+  "module": {
+    "name": "semidiameter of the column at its base",
+    "parts": 18,
+    "default_size_in": 6.0,
+    "note": "Gibbs uses no module; see the gibbs-tuscan overlay. Figures translated into Vignola's 18-part Corinthian module. Gibbs's construction: 'The whole height is divided into five parts both in the one and the other, one of which is the Pedestal; and the other four parts over it are divided into six, one of which is the height of the Entablature. The height of the Column being divided into ten parts, one of them is the Diameter of it. The height of the Capital is one Diameter and one sixth.'",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 20,
+    "fluting": {
+      "count": 20,
+      "profile": "twenty flutes, semicircular in plan and separated by fillets",
+      "fillet": true
+    }
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_plinth",
+          "name": "Plinth of the pedestal",
+          "height_parts": 27,
+          "projection_parts": 8,
+          "profile": "plinth",
+          "note": "One quarter of the pedestal. Gibbs, Plate XVI: 'The Corinthian Pedestal is the same, as to its general proportions and parts, as the Pedestal of the foregoing Orders.' Vignola's Corinthian pedestal is 7 modules with a 4-part plinth under a cyma recta; Gibbs's is 6 modules with a plinth of 27 parts - a whole module shorter overall, but with a plinth nearly seven times as tall.",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_base_ogee",
+          "name": "Pedestal base, ogee reversed",
+          "height_parts": 6.75,
+          "projection_parts": 8,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "One twelfth of the pedestal for the base. Split with its fillet apportioned. Vignola's Corinthian pedestal base is a cyma RECTA; Gibbs's is a reversed one throughout the five orders."
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Pedestal base, fillet",
+          "height_parts": 2.25,
+          "projection_parts": 8,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned within the stated 9-part base."
+        },
+        {
+          "id": "ped_die",
+          "name": "Die (dado) of the pedestal",
+          "height_parts": 58.5,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "13/24 of the pedestal. Vignola gives the Corinthian die 97 of 126 parts, and frames it with a fillet above and below; Gibbs does not."
+        },
+        {
+          "id": "ped_cap_ogee",
+          "name": "Pedestal cap, ogee",
+          "height_parts": 9,
+          "projection_parts": 8,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "One eighth of the pedestal. Vignola's Corinthian pedestal cap is a full small cornice - cyma reversa, fillet, corona, listel. Gibbs reduces it to an ogee and a platband in every order, which is the single largest simplification he makes and the one that most affects interior joinery, since the pedestal cap is the chair rail."
+        },
+        {
+          "id": "ped_cap_platband",
+          "name": "Pedestal cap, platband",
+          "height_parts": 4.5,
+          "projection_parts": 8,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned within the stated 13 1/2-part cap."
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1.2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_fascia_1",
+          "name": "Lower fascia",
+          "height_parts": 5.5,
+          "projection_parts": 0,
+          "profile": "fascia",
+          "note": "Three fasciae, as in Vignola - the Corinthian is the one order where the two authorities agree on the number. What differs is the depth: Gibbs's architrave is 1 module 3 3/5 parts against Vignola's 1 1/2 modules, because the whole entablature is a fifth of the column rather than a quarter. Individual fascia heights are figured on Plate XXVI and are apportioned here.",
+          "confidence": "medium"
+        },
+        {
+          "id": "arch_fascia_1_astragal",
+          "name": "Astragal over the lower fascia",
+          "height_parts": 1,
+          "projection_parts": 1,
+          "profile": "astragal",
+          "enrichment": "bead and reel",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_1_fillet",
+          "name": "Fillet",
+          "height_parts": 0.5,
+          "projection_parts": 1.2,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_2",
+          "name": "Middle fascia",
+          "height_parts": 5.5,
+          "projection_parts": 1.2,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_fascia_3",
+          "name": "Upper fascia",
+          "height_parts": 5.6,
+          "projection_parts": 2,
+          "profile": "fascia",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "arch_cymatium",
+          "name": "Cymatium, reversed cima",
+          "height_parts": 2.5,
+          "projection_parts": 3.5,
+          "profile": "cyma-reversa",
+          "confidence": "medium",
+          "note": "'The Architrave projects one fourth of its height' in the Tuscan and Doric and half of it in the other three orders, per Plate XXVI."
+        },
+        {
+          "id": "arch_cymatium_fillet",
+          "name": "Fillet over the cymatium",
+          "height_parts": 1,
+          "projection_parts": 4,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze_face",
+          "name": "Frieze",
+          "height_parts": 21.6,
+          "projection_parts": 0,
+          "profile": "flat",
+          "enrichment": "plain in Gibbs's plate; a swelled or carved frieze is offered in his Book of Architecture designs",
+          "note": "DELTA. Gibbs: 'The height of the Corinthian Entablature is divided into ten parts; [three go to] the Architrave, the Frize three, and the Cornice four.' Vignola's Corinthian frieze is 1 1/2 modules (27 parts) with an astragal and fillet on top; Gibbs's is 1 module 3 3/5 parts (21 3/5) plain, and in his Composite the astragal is moved off the frieze onto the cornice.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_bed_cyma",
+          "name": "Reversed cima at the bottom of the cornice",
+          "height_parts": 3.84,
+          "projection_parts": 3,
+          "profile": "cyma-reversa",
+          "note": "THE WHOLE CORNICE IS STATED IN WORDS - the best-sourced cornice in the book. Gibbs, Plate XVIII: 'The second Scale is divided into five parts, the third of which goes to the Modillion, the fourth to the Corona, the fifth to the Cimatium; the first and second together are divided into three parts, the first is for the reversed Cima at the [bottom], the second for the Dentels, and the third for the Ovolo.' So the 28 4/5-part cornice divides into five of 5 76/100; the lower two of those five subdivide into three equal bands of 3 84/100 each. Six members, no more. Vignola's Corinthian cornice has thirteen.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_dentil_band",
+          "name": "Dentil band",
+          "height_parts": 3.84,
+          "projection_parts": 6,
+          "profile": "dentil",
+          "count": null,
+          "spacing_parts": 3.857,
+          "note": "Gibbs: 'As to the Dentels, divide the Semidiameter marked on the Cornice into fourteen parts: two of those parts will be the Dentel, and one the space betwixt them.' A semidiameter is one module = 18 parts, so a dentil is 2 4/7 parts wide with a 1 2/7-part space and a pitch of 3 6/7 parts. The 2 : 1 dentil-to-space ratio is constant across Gibbs's orders; only the absolute size changes.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_ovolo",
+          "name": "Ovolo",
+          "height_parts": 3.84,
+          "projection_parts": 8,
+          "profile": "ovolo",
+          "enrichment": "eggs and darts; Gibbs gives the nine-part construction on Plate XXVIII",
+          "confidence": "high",
+          "note": "Third of the three lower bands."
+        },
+        {
+          "id": "corn_modillion",
+          "name": "Modillion band",
+          "height_parts": 5.76,
+          "projection_parts": 12,
+          "profile": "modillion",
+          "count": null,
+          "spacing_parts": 21,
+          "note": "DELTA IN SPACING. Gibbs: 'Half a Diameter is here divided on the Cornice into six parts, of which the breadth of the Modillion is two, and the length of it is four; the Cap projects [half] of those parts, and the distance betwixt the Modillions is five. By this Rule the exact distance betwixt middle and middle of the Modillions is seven twelfths of the Diameter.' He confirms it: 'N.B. It is twelve times in seven Diameters.' Seven twelfths of a diameter is 21 parts, against Vignola's Corinthian modillion pitch of one module = 18 parts. Gibbs's modillions are further apart and each is 6 parts wide with a 12-part projection. The out-fillets and the bead are each one eighth of the modillion's breadth; the modillion profile itself is a scroll with an eight-centre spiral, drawn at large on Plate LXIV.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_corona",
+          "name": "Corona",
+          "height_parts": 5.76,
+          "projection_parts": 22,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "Fourth fifth of the cornice. 'The Pannels in the Sofite are plain by the divisions marked on them.'"
+        },
+        {
+          "id": "corn_cymatium",
+          "name": "Cymatium, cyma recta",
+          "height_parts": 5.76,
+          "projection_parts": 28.8,
+          "profile": "cyma-recta",
+          "confidence": "high",
+          "note": "Fifth fifth. 'The projection of the Cornice [is] equal to its height' - 28 4/5 parts each way. Vignola's Corinthian cornice projects 36 parts; Gibbs's projects 28 4/5, a fifth less, in step with the lighter entablature."
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 21.6,
+          "projection_parts": 4,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "Three tenths. Vignola gives 27 parts."
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 21.6,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "Three tenths, equal to the architrave. Vignola gives 27 parts."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice",
+          "height_parts": 28.8,
+          "projection_parts": 28.8,
+          "profile": "corona",
+          "confidence": "high",
+          "note": "Four tenths. Vignola gives 36 parts. Projection equals height."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The entablature is one FIFTH the height of the column, not one quarter.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 5",
+      "tolerance": 0.001,
+      "note": "4 modules against Vignola's 5. Palladio's rule, which Gibbs adopts for Ionic, Corinthian and Composite. On a 20 ft Corinthian column that is a 4 ft entablature under Gibbs and a 5 ft one under Vignola."
+    },
+    {
+      "statement": "The pedestal is one quarter of column and entablature taken together.",
+      "expression": "assemblies.pedestal.height_modules == (column.height_modules + assemblies.entablature.height_modules) / 4",
+      "tolerance": 0.001,
+      "note": "6 modules against Vignola's 7 - the largest absolute pedestal difference between the two authorities in any order."
+    },
+    {
+      "statement": "Architrave and frieze are equal; the cornice is four thirds of either.",
+      "expression": "assemblies.cornice.height_modules == assemblies.architrave.height_modules * 4 / 3",
+      "tolerance": 0.001,
+      "note": "3 : 3 : 4 of ten. Vignola's Corinthian is 3 : 3 : 4 of ten as well (27 : 27 : 36) - so on this one point the SUBDIVISION agrees exactly and only the total differs. The Corinthian entablature is the only one of the five where Gibbs's proportions inside the entablature are identical to Vignola's."
+    },
+    {
+      "statement": "The entablature is the sum of architrave, frieze and cornice.",
+      "expression": "assemblies.entablature.height_modules == assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is ten diameters, as in Vignola.",
+      "expression": "column.height_modules == 20",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The shaft carries twenty flutes, not Vignola's twenty-four.",
+      "expression": "column.fluting.count == 20",
+      "tolerance": 0.001,
+      "note": "Gibbs, Plate XVI: 'The Flutings of the Column are twenty in number, and are of a Semicircular form.' Vignola gives twenty-four, sometimes cabled to a third of their height. Twenty is the fluting of the Pantheon portico and of most English Corinthian; it makes each flute wider and the shaft read bolder at a distance, which is the right choice for a painted wooden column."
+    },
+    {
+      "statement": "Corinthian modillions are spaced seven twelfths of a diameter on centres.",
+      "expression": "assemblies.cornice.members.corn_modillion.spacing_parts == 21",
+      "tolerance": 0.001,
+      "note": "Gibbs states it and then checks his own arithmetic: 'N.B. It is twelve times in seven Diameters.' Vignola's pitch is one module, 18 parts. The consequence is that a Gibbs Corinthian bay must be a multiple of 7/12 D and a Vignola one a multiple of 1/2 D - two arcades that look alike will not share a single dimension."
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "gibbs-corinthian-arcade",
+        "clear_diameters": 5.1667,
+        "note": "Plate XXXIII: 'The distance from middle to middle of the Columns of the Corinthian Arch, without the Pedestal, must be six Diameters and one sixth, the Pilasters that support the Arch are [seven twelfths] of a Diameter, and the opening of the Arch four Diameters and [one third].' Six and one sixth diameters is exactly eleven modillion pitches of seven twelfths - again the cornice, not the column, sets the bay."
+      },
+      {
+        "name": "gibbs-corinthian-arcade-with-pedestal",
+        "clear_diameters": 7.1667,
+        "note": "Plate XXXIII: eight diameters and one sixth on centres, opening five diameters and a fraction. 'To find the Center of the Arch, divide the distance from the upper part of the Pedestal to the under part of the Entablature into ten parts; the sixth division will be the Center of the Arch.'"
+      },
+      {
+        "name": "gibbs-corinthian-door",
+        "clear_diameters": 6.0,
+        "note": "Plate XXXVIII no. 2: seven diameters between middle and middle of the columns, the opening four diameters and a half wide by ten diameters and a half high - a 1 : 2.33 opening, the tallest Gibbs draws and just inside his own limit of 'two squares and one quarter'."
+      },
+      {
+        "name": "gibbs-corinthian-arch-double-columns",
+        "clear_diameters": 6.0,
+        "note": "Plate XLII no. 1: seven diameters from middle to middle of the columns each side of the arch, and one diameter and a third from middle to middle of the coupled columns - Gibbs's narrowest intercolumniation, given only for columns placed two and two."
+      }
+    ],
+    "default": "gibbs-corinthian-arcade"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 5",
+      "units": "in",
+      "authority_note": "Palladio's ratio as Gibbs transmits it, for Ionic, Corinthian and Composite. Vignola holds a quarter for all five. This single number is the largest systematic difference between the Italian and the Anglo-American classical tradition, and it is why a Georgian portico of the same column height as an Italian one is nearly a foot shorter overall.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "1.1667",
+      "units": "ratio",
+      "range": [
+        1.1667,
+        1.1667
+      ],
+      "authority_note": "CORINTHIAN MODILLION PITCH, seven twelfths of a diameter = 1 1/6 modules on centres, against Vignola's 1 module. Expression is in modules. Gibbs's cross-check - twelve pitches in seven diameters - is the kind of arithmetic a builder can actually verify on a story pole, and it is why his book beat the more elegant ones in the shops.",
+      "judgment": false,
+      "note": "Dentils in the same cornice run 2 : 1 dentil to space with a pitch of one seventh of a module; a modillion pitch is therefore a whole number of dentil pitches only by luck, and Gibbs does not attempt to make them coincide. Vignola does. If both bands are drawn, decide which one governs and let the other run through."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height * 3 / 10",
+      "units": "in",
+      "range": [
+        26,
+        35
+      ],
+      "authority_note": "Gibbs's pedestal rule at room scale with the one-fifth entablature: pedestal = (column + column/5)/4 = 3/10 of the ceiling height. 32 2/5 in. at 9 ft against Vignola's 36. In a Corinthian room the cap of that dado is an ogee and a platband only - Gibbs strips Vignola's corona out of the pedestal cap in every order, so a Gibbsian chair rail is a two-member profile and a Vignolesque one is a four-member profile at the same height.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.6 / 20",
+      "units": "in",
+      "range": [
+        7,
+        16
+      ],
+      "authority_note": "Room read as a Corinthian order at reduced module, cornice alone: 1 3/5 modules of a 20-module column. 8 5/8 in. at a 9 ft ceiling, against Vignola's Corinthian 10 4/5 in. Gibbs's six-member composition - reversed cima, dentils, ovolo, modillions, corona, cyma recta - is exactly what a Georgian drawing-room cornice is, and it is very nearly the maximum number of members that will read in 8 5/8 in.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height * 1.6 / 20",
+      "units": "in",
+      "authority_note": "'The projection of the Cornice [is] equal to its height.' True of every Gibbs cornice except the Doric. A Corinthian cornice that projects less than it drops has been value-engineered and will read as a picture rail.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        2,
+        4
+      ],
+      "authority_note": "Gibbs enriches by rule, not by taste: eggs and darts on the ovolo, bead and reel on the astragal, acanthus on the modillion soffit and the capital, and nothing on the fasciae. He gives the constructions for each on Plates XXVIII and LIX and notes that frets and guilloches 'are proper to be placed in Picture-frames, Sofites of Arches and Architraves, on Fascia's and Plinths of Bases, WHEN THE REST OF THE MEMBERS ARE CARVED' - enrichment is all-or-nothing per surface, never sprinkled.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Count is the number of enriched members in one cornice. Gibbs gives no number; three is the working figure that Asher Benjamin later states explicitly ('Three embellishments are generally sufficient for any cornice'), and the two authorities' practice agrees even though only one of them wrote it down."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 6",
+      "units": "in",
+      "range": [
+        3.25,
+        10
+      ],
+      "authority_note": "One sixth of the opening, agreeing with Vignola; three fasciae, also agreeing. The Corinthian door architrave is the one place in Gibbs where the profile as well as the ratio matches Vignola, and it is the safest thing in the book to copy.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        18
+      ],
+      "authority_note": "Archivolt and impost, one eighth of the arch opening, 'whether the Arch be great or small'. The impost divides into three, one for its neck, two for its cap; 'The Impost resembles the form of a Capital because of its bearing' - Gibbs's one sentence of theory in a book that otherwise contains none.",
+      "judgment": false,
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height * 5 / 6 / 10",
+      "units": "in",
+      "range": [
+        6,
+        30
+      ],
+      "authority_note": "SUPERIMPOSED ORDERS. 'The first or lowermost Order must give the bigness of the Diameter to the Order immediately over it, which being [five sixths] of the Diameter of the Dorick, the Diameter of the Ionick will be equal to the diminished part of the Dorick. In small Draughts divide six Diameters of the Dorick into seven parts, [six] will be the Diameter required for the Ionick. The same method is to be taken for finding the Diameter of the Corinthian over the Ionick.' The upper column starts where the lower one finished - the rule that makes a two-storey Georgian front cohere, and the one most often broken in modern work by choosing both columns from a catalogue.",
+      "judgment": false,
+      "note": "Expression gives the diameter of the order ABOVE, from the height of the Corinthian column below it. Gibbs also warns that on such fronts 'here is a necessity to have [the Pedestal] less, otherwise the Breasts of the Windows would be too high.'"
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "A Corinthian capital is one diameter and one sixth high with two ranks of acanthus, eight caulicoli and sixteen volutes, and Gibbs draws it at three views over a whole plate. Even in cast composition it is the most expensive component in a house; carved in wood at 12 in. diameter it is a month of one carver's time.",
+      "resolution": "The order is either worth the capital or it is the wrong order. Where a Corinthian effect is wanted at a Tuscan budget, use the gibbs-ionic overlay with its modillion cornice - it carries most of the richness at a fraction of the cost, and the Ionic capital can be bought. Never use a shallow-relief or pressed Corinthian capital: the whole character of the order is in the undercutting, and a capital without shadow reads as damage.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Gibbs's Corinthian cornice carries dentils 2 4/7 parts wide with 1 2/7-part spaces between them. At a 6 in. module that is 7/8 in. by 7/16 in.; at a 3 in. module - a 6 in. pilaster, which is a common interior size - it is 7/16 in. by 7/32 in., and the space closes up under three coats of paint.",
+      "resolution": "Below about a 3/8 in. clear space between dentils, delete the dentil band and give its 3.84 parts to the ovolo below the modillions. Gibbs's cornice survives this because his six members are in three sizes only. Do not machine the dentils shallower to keep them - a dentil band whose shadows have closed is worse than no dentil band, because it reads as a dirty line.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Two repeating rhythms in one cornice: modillions at seven twelfths of a diameter and dentils at one fourteenth of a diameter. Twelve modillion pitches occupy seven diameters; ninety-eight dentil pitches occupy the same seven diameters. The two bands do not commensurate, and at every corner and every break one of them must be cheated.",
+      "resolution": "Set out the modillions first, from the column axes outward, and let the dentils run through and die into the corner. Vignola commensurates the two bands; Gibbs does not, and pretending otherwise on a Gibbsian cornice produces modillions that miss their columns - the one error a knowledgeable eye catches instantly.",
+      "severity": "minor"
+    },
+    {
+      "with": "cost",
+      "statement": "Gibbs's Corinthian entablature is a fifth of the column, which sounds like a saving against Vignola's quarter; it is not, because the four tenths given to the cornice now contain six enriched members instead of Vignola's thirteen plainer ones. The cheaper proportion carries the more expensive linear foot.",
+      "resolution": "Where the budget is fixed, take Gibbs's PROPORTIONS and Vignola's ENRICHMENT policy: the one-fifth entablature with a plain frieze, uncut dentils and plain modillion soffits. This is what most surviving Anglo-American Corinthian actually is, and it is a defensible reading of both authorities rather than a compromise between them.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "english-georgian",
+    "english-georgian-country-house",
+    "english-georgian-townhouse",
+    "english-palladian",
+    "palladian",
+    "english-baroque",
+    "georgian-colonial-american",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "charleston-georgian",
+    "georgian-revival",
+    "colonial-revival",
+    "jeffersonian-classicism",
+    "neoclassical-revival"
+  ],
+  "sources": [
+    "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), letterpress pp. 1-4, 11-12, 13-16, 17-19, 27-28, and Plates I no. 4, XVI-XIX, XXIV-XXVIII, XXXIII, XXXV, XXXVIII, XLI-XLII, LXIV; archive.org/details/gri_33125011578867",
+    "Andrea Palladio, I quattro libri dell'architettura (1570), Book I - the source Gibbs names for the one-to-five entablature",
+    "William R. Ware, The American Vignola (1920 printing), 'The Corinthian Order' - comparison datum only"
+  ],
+  "confidence": "high",
+  "notes": "GIBBS CORINTHIAN AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nWHAT AGREES. Column 10 diameters. Capital one diameter and one sixth (2 1/3 modules), with three equal divisions from the astragal to the underside of the abacus for the leaves and caulicoli. Architrave of three fasciae. Base one semidiameter. Diminution to five sixths from one third the height. Entablature divided 3 : 3 : 4 - identical to Vignola's 27 : 27 : 36. Cornice projection equal to its height.\n\nTHE FOUR REAL DIVERGENCES.\n1. THE ENTABLATURE IS A FIFTH OF THE COLUMN, not a quarter: 4 modules against 5. This is Palladio's rule, which Gibbs adopts for Ionic, Corinthian and Composite.\n2. THE PEDESTAL is one quarter of column-plus-entablature: 6 modules against Vignola's 7, the largest pedestal difference in any order, and it gains a plinth of a quarter its height while losing the corona from its cap.\n3. TWENTY FLUTES, not twenty-four, semicircular with fillets.\n4. MODILLIONS AT SEVEN TWELFTHS OF A DIAMETER on centres, against Vignola's one module (one half diameter). Gibbs checks the arithmetic himself: twelve pitches in seven diameters.\n\nAlso: Gibbs's cornice has six members where Vignola's has thirteen; the dentils run 2 : 1 dentil to space at a pitch of one fourteenth of a diameter; the frieze is plain and carries no astragal.\n\nWHAT IS STRONG HERE. This is the best-sourced of the five Gibbs overlays. He states the entire cornice in words, in two nested divisions, and both the modillion and the dentil rules with worked cross-checks. Every cornice member carries confidence high. Only the internal subdivision of the three-fascia architrave and of the pedestal base and cap are apportioned.\n\nA PRACTICAL NOTE. Because Gibbs and Vignola agree on the 3 : 3 : 4 division and differ only on the total, a Corinthian entablature can be moved from one authority to the other by scaling alone - the only order where that is true. If a client wants a Roman Corinthian entablature on a Georgian house, multiply by five quarters and change nothing else."
+}

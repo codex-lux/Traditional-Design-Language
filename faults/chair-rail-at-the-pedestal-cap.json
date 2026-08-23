@@ -1,0 +1,187 @@
+{
+  "id": "chair-rail-at-the-pedestal-cap",
+  "name": "The Rail At Twenty-Three Inches",
+  "aka": [
+    "the classically correct chair rail",
+    "the pedestal cap taken literally",
+    "Vignola out of calibration"
+  ],
+  "slots": [
+    "chair_rail",
+    "wainscot",
+    "ceiling_height_rule"
+  ],
+  "severity": "serious",
+  "frequency": "occasional",
+  "category": "proportion",
+  "symptom": "A chair rail at 20 to 25 in above the floor in a room of 8 to 10 ft, derived correctly from the classical division of the wall and placed exactly where the arithmetic says. It is below the back of every chair in the room, so it stops nothing; it is below the window stools by six to ten inches, so the wall carries two unrelated horizontals; and the dado beneath it is a slot of 9 to 12 in between the base cap and the surbase, too shallow to panel. The room looks as though its trim slid down the wall. This is the fault most likely to be committed by someone who has read the right books.",
+  "cause": {
+    "driver": "ignorance",
+    "explanation": "Not ignorance of the rule — ignorance of its range. The nineteenth-part derivation is genuine: a room treated as an order divides pedestal, column and entablature; Vignola makes the pedestal one third of the column and the entablature one quarter of it, which fixes the division at 4 : 12 : 3. The arithmetic is exact and it is honestly reported in every source that carries it. What is almost never reported is that it was worked out by people building rooms of eleven to thirteen feet, and it is not scale-free. At 12 ft it puts the rail at 30 3/8 in, exactly where measured Georgian chair rails sit. At 9 ft it puts it at 22 3/4 in. The rule did not change; the room did. This is one of the few faults in the corpus whose driver really is a knowledge gap rather than a cost, and the gap is not in the rule but in its calibration.",
+    "cost_saved": "None. The rail costs the same at 23 in as at 31 in, and the panelled dado beneath it costs less because there is less of it — which is the only sense in which this fault ever saved anyone anything, and it is not why it is done.",
+    "cost_negative": false
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / chair_rail.height = ceiling_height * 4 / 19 [JUDGMENT]",
+      "statement": "Named in the pack as THE MOST IMPORTANT JUDGMENT MARKER IN THE PACK. The classical derivation is calibrated to a room of 11 to 13 ft, where it lands exactly where a chair rail belongs. Below that it produces a rail below the back of a chair, which is not merely unhistorical but useless: the member is called a chair rail because it stops chairs, and a rail at 20 in stops nothing."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / chair_rail / packs[trim-classical], in_calibration: false",
+      "statement": "22.7 in at a 9 ft ceiling, ten inches below the other two bound packs. The kit records this as in_calibration false and notes that the derivation reaches the measured 30 in band only at a 142.5 in ceiling, so it stays out of calibration through the whole New England and Chesapeake range and becomes true only in Charleston."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / wainscot.height = ceiling_height * 1.92 / 19",
+      "statement": "The dado panel field: 9 11/16 in at 8 ft. Below about 9 in of clear field, abandon the panelled dado and use a flat one, or abandon the dado altogether and go to the Greek Revival family, which was invented for exactly this situation."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the human body does not scale with the ceiling",
+      "statement": "Every dimension in a room set by a person — sill, rail, mantel shelf, handrail, counter, door handle — is fixed within a few inches regardless of ceiling height, and every dimension set by the wall scales with it. A proportional system that does not distinguish the two will fail at the ends of its range, always in the same direction, and always at the members that touch people."
+    }
+  ],
+  "correct_practice": "Compute the derivation and then check it against the body, in that order, and take the body where they disagree by more than about an inch. The check is one number: ceiling x 4/19 against the measured 30 to 32 in band. It passes at 142.5 in of ceiling and above, which is the Charleston and low-country range, and it fails everywhere else — at 8 ft by 10 in, at 9 ft by 8 in, at 10 ft by 6 in, at 11 ft by 3 in. Where it fails, take the sill (28 to 32 in), and then RE-DERIVE the base and the cornice from the pedestal you actually used so the room stays internally consistent: the correction factor is sill / (ceiling x 4/19), which is 1.36 at a 9 ft ceiling, and applying its square root to the base and crown — giving about 10 in and 8 in at 9 ft against the raw 8 1/2 and 6 3/4 — keeps the room coherent without making it heavy. Where the ceiling is 8 ft, do not run a rail at all: the pack's answer is the Greek Revival family, which abandoned the dado precisely because it was working in low rooms, and a tall plain base with no rail is both period and correct. What must not happen is the low rail with a proportionally shrunk everything, because that produces a room whose trim is a scale model of a room and whose occupants are not.",
+  "fixes": {
+    "right": "Rail at the sill, base and cornice re-derived from it at the square root of the correction factor, and the derivation recorded on the drawing as a check rather than as the answer.",
+    "cheap": "Where a rail has already been run at the derived height and cannot be moved, convert it. Take it off the wall, re-fix it at 31 in, and use the recovered stock for the base cap — same profile, same room, no new material, and the low dado becomes a normal one. Where it must stay, add a second flat band at the sill line and treat the low member as a base cap, which reads as a tall base rather than as a low rail. Free.",
+    "dishonest": "Choosing furniture with low backs so the rail is 'correct for the chairs in this room'. The dimension is a human one, not a furniture one, and the next owner will have different chairs. Also dishonest: raising the base to meet the low rail, producing a 14 in base and a rail at 23 in, which passes the internal-consistency test and produces a wall whose bottom third is entirely millwork."
+  },
+  "detection": "Measure the rail height against a known human datum in the photograph — a light switch at 44 to 48 in, an outlet at 12 to 18 in, a door handle at 34 to 38 in, a counter at 36 in. A rail below the door handle by more than 8 in is the fault. Second, measure it against the window stool: the derived rail sits 6 to 10 in BELOW the stool, which is a large and unmistakable gap, unlike the 1 to 4 in near-miss of the coordination fault. Third, measure the clear dado field between base cap and rail: below 9 in the field cannot be panelled and the presence of panelling in a field of 9 in or less is diagnostic of a derivation applied out of range. Fourth, run the arithmetic: if rail_height / ceiling_height is within 5 per cent of 0.2105 (that is, 4/19), the rail was derived rather than measured, and the fault is present unless the ceiling is 142.5 in or more.",
+  "test": {
+    "expression": "chair_rail_top_in",
+    "threshold": 28,
+    "upper": 34,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The absolute band, because this member is set by the body. The derived value ceiling x 4/19 enters the band only at ceilings of 133 in and above and matches the middle of it at 142.5 in. Below a 133 in ceiling the derivation and the test are in conflict and the test wins."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "georgian-revival",
+    "english-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "adam-style",
+    "colonial-revival",
+    "neoclassical-revival",
+    "new-classical",
+    "palladian",
+    "english-palladian",
+    "jeffersonian-classicism",
+    "early-republic",
+    "regency"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The derivation comes back into calibration here and nowhere else in the American range. Charleston and low-country principal rooms run 12 to 14 ft, and at 142.5 in the nineteenth-part rule gives exactly 30 in — the middle of the measured band. In these rooms the classical height IS the sill height and no correction is needed.",
+      "bounds": "Ceiling of 133 in or more, which is where the derivation first enters the 28 to 34 in band. Below that the exception lapses and the correction returns. This is the clearest case in the corpus of an exception defined by a dimension rather than by a taste.",
+      "bounds_test": {
+        "expression": "ceiling_height_in",
+        "threshold": 133,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "note": "The ceiling at which ceiling x 4/19 reaches 28 in. Full agreement with the measured band's centre at 142.5 in."
+      },
+      "applies_when": {
+        "regions": [
+          "South Carolina and Georgia low country",
+          "Chesapeake"
+        ],
+        "note": "Where the ceiling height is climatic and generous. A Charleston principal room is five feet taller than a New England one."
+      }
+    },
+    {
+      "style": "charleston-georgian",
+      "why": "Same reasoning and the same region: the ceiling is tall enough that the pedestal cap and the sill coincide.",
+      "bounds": "Ceiling of 133 in or more. In the same house's second-floor chambers at 108 in the exception does not hold and the rail must be set from the sill."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "Parlour-floor ceilings of 11 to 13 ft in the urban row house bring the derivation back into range, and a dado cap at 28 to 30 in in such a room is both derived and correct.",
+      "bounds": "Parlour floor only. The same house's upper floors run 9 to 10 ft and the rule fails there, which is why a townhouse should be drawn floor by floor and not once.",
+      "applies_when": {
+        "slots": [
+          "ceiling_height_rule"
+        ],
+        "note": "The exception is per storey, not per building."
+      }
+    },
+    {
+      "style": "antique-classical",
+      "why": "Where the room is a genuine attempt at a Roman or Greek interior at monumental scale, the pedestal is a real pedestal carrying real columns or pilasters and its cap is set by the order rather than by furniture.",
+      "bounds": "There must be actual pilasters or engaged columns standing on the pedestal. Where the pedestal carries nothing the analogy is decorative and the body governs."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chair-rail-that-misses-the-sill",
+      "difference": "That fault is a rail near the sill and not on it; this is a rail far below it, placed by an authority rather than by accident. The gap size distinguishes them: 1 to 4 in is coordination, 6 to 10 in is derivation."
+    },
+    {
+      "fault": "chair-rail-at-thirty-six-inches",
+      "difference": "The opposite pole of the same question, and the two never occur together. That one is set by a trade habit and lands too high; this one is set by a treatise and lands too low. Both are answers to a question whose real answer is the window."
+    },
+    {
+      "fault": "the-miniature-order",
+      "difference": "Both come from applying the nineteenth-part derivation below its calibrated range, but that fault is about members being too small and this one is about a member being in the wrong place. The base at 8 ft is merely small; the rail at 8 ft is useless."
+    }
+  ],
+  "alternative_to": [
+    "chair-rail-at-thirty-six-inches"
+  ],
+  "co_occurs_with": [
+    "raised-panel-with-no-field",
+    "the-miniature-order"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, module note and chair_rail.height, both marked judgment",
+    "kits/georgian-colonial-american.kit.json, chair_rail, recording the three-pack conflict and in_calibration: false",
+    "Vignola, Regola delli cinque ordini d'architettura (1562), pedestal and entablature general rules",
+    "kits/georgian-colonial-american.kit.json, ceiling_height_rule regional bands"
+  ],
+  "confidence": "high",
+  "tags": [
+    "chair-rail",
+    "calibration",
+    "proportion",
+    "judgment",
+    "range-error"
+  ],
+  "severity_by_style": [
+    {
+      "style": "charleston-single-house",
+      "severity": "not-applicable",
+      "why": "At a 133 in ceiling and above the derivation enters the measured 28 to 34 in band, and at 142.5 in it lands exactly on 30 in. In the low country the classical height IS the sill height."
+    },
+    {
+      "style": "charleston-georgian",
+      "severity": "not-applicable",
+      "why": "Same regional ceiling heights and the same arithmetic."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "New England and Mid-Atlantic ceilings of 102 to 132 in put the derivation 3 to 10 in below the sill, and the error grows as the ceiling falls."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The Revival's ceilings are commonly 96 to 108 in, which is the worst part of the range: the derivation gives 20 to 23 in and the dado becomes a slot."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "not-applicable",
+      "why": "The family abandons the dado, so there is no rail to place."
+    }
+  ]
+}

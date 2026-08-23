@@ -1,0 +1,203 @@
+{
+  "id": "cape-cod-revival",
+  "name": "Cape Cod Revival",
+  "aka": [
+    "Cape Cod",
+    "Modern Cape",
+    "Cape"
+  ],
+  "rank": "variant",
+  "member_of": "colonial-revival",
+  "status": "living",
+  "period": {
+    "origin": 1920,
+    "floruit_start": 1930,
+    "floruit_end": 1960,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1990,
+        "end": 2026,
+        "revival_node": null,
+        "note": "Continuous production in New England and as a New Traditional and cottage-community type nationally."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Boston and eastern Massachusetts",
+    "climate_zones": [
+      "5A",
+      "6A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "colonial-revival",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The small, frame, one-and-a-half-storey wing of the parent style, and the only one whose proportions were seriously studied."
+    },
+    {
+      "target": "cape-cod-colonial",
+      "type": "revives",
+      "weight": 1.0,
+      "note": "The claimed ancestor, and one of the few in this branch whose dimensions the revival genuinely tried to reproduce rather than inflate."
+    },
+    {
+      "target": "new-england-colonial",
+      "type": "references",
+      "weight": 0.6,
+      "note": "The broader New England frame vocabulary - clapboard, small sash, massive central chimney - from which the Cape is a reduction."
+    },
+    {
+      "target": "minimal-traditional",
+      "type": "hybridizes_with",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "Convergent from about 1938: the FHA-standard minimal house and the Cape Cod Revival cottage become nearly the same building, and the reciprocal claim is recorded on both nodes."
+    }
+  ],
+  "description": {
+    "short": "The small, steep-roofed, one-and-a-half-storey frame house that Royal Barry Wills and the FHA between them made the default American starter home from 1935 to 1960, and the one revival in this branch that shrank its model rather than inflating it.",
+    "long": "Cape Cod Revival is unusual in this family for treating its historical model as a discipline rather than as a costume. The eighteenth-century Cape is a very tightly reasoned building: a rectangular box a room and a half deep, one and a half storeys, a massive central chimney, a steep gable roof to shed snow, an eave line dropped almost onto the window heads to reduce wind exposure, and no ornament except a door surround. The revival keeps almost all of that. What it adds is a dormer or two, a cellar, plumbing, and a garage; what it changes is that the chimney stops being structural and starts being an emblem.\n\nRoyal Barry Wills is the reason it is a style rather than a survival. Working from a Boston office from 1925, Wills spent thirty years measuring, publishing, and refining the type, and he was explicit that the whole thing lived or died on proportion. His office standards are worth repeating because they are exactly the sort of enforceable number this taxonomy exists to record: roof pitch between 8:12 and 10:12; eaves set just above the second-floor window heads; sash with 24 to 36 lights; clapboards graduated from about 2 3/4 in. exposure at the water table to 4 1/4 in. near the eave, so that the wall appears to rise. In 1938 Life magazine paired four modern and four traditional architects against each other for real client families; in the $5,000-$6,000 bracket Wills was set against Frank Lloyd Wright, and the family chose Wills. That result is the clearest single piece of evidence about mid-century American taste that exists.\n\nThe economics finished what the design started. The FHA's mortgage-insurance underwriting after 1934 favoured exactly this footprint - small, detached, expandable, on a modest lot - and after 1945 the veterans' housing programmes and the merchant builders adopted it wholesale. Levitt & Sons built roughly seventeen thousand houses at Levittown, New York, between 1947 and 1951, and the first model was a Cape. That is the moment the American production home acquires its default vocabulary, and it is a Colonial Revival vocabulary.\n\nA Cape Cod house is small in a way that reads as deliberate rather than as poor, and the reason is the eave. Because the eave line sits within a foot or so of the upper window heads, the wall is very short and the roof is very large, and the building crouches. There is no shadow line to speak of, no cornice, no projection; the whole thing is one taut skin with a door in the middle of it and a chimney coming out of the ridge. Inside, the ground floor is compact and low and the upper floor is all sloped ceiling and dormer, and the effect - the reason people keep buying them - is that a very small building feels finished rather than incomplete."
+  },
+  "defining_characteristics": [
+    "One-and-a-half storeys, rectangular in plan, with a steeply pitched side-gable roof",
+    "Eave line carried low, within roughly 12 in. of the second-floor window heads, producing a short wall and a dominant roof",
+    "Central chimney on the ridge, or paired end chimneys, expressed as mass",
+    "Symmetrical three- or five-bay front with a centred entrance and a modest pilastered or hooded door surround",
+    "Multi-light double-hung sash, 6/6 or 8/12, small in individual dimension relative to the wall",
+    "Minimal ornament: no cornice beyond a simple moulding, no corner boards beyond a plain board, no porch beyond a stoop"
+  ],
+  "diagnostic_tells": [
+    "Second-floor windows sit in dormers or in the gable ends, never in a full-height side wall. A full second storey makes it a Colonial Revival, not a Cape.",
+    "Roof pitch 8:12 to 10:12 with the eave nearly touching the upper window heads; a 6:12 roof with a tall wall is Minimal Traditional.",
+    "The chimney is on the ridge at or near the centre. A gable-end chimney is acceptable in pairs; an off-centre single stack is a builder's compromise.",
+    "No cornice, no returns, no frieze board. The presence of a modillioned cornice means the house has left this variant.",
+    "Against the eighteenth-century original: revival Capes have dormers (the originals rarely did), a full cellar, larger sash, and a chimney that no longer contains the cooking hearth and the structural core."
+  ],
+  "distinguished_from": [
+    {
+      "node": "cape-cod-colonial",
+      "difference": "The original, c. 1690-1850, is a shingled or clapboarded box with a genuinely structural central chimney stack 6-8 ft square containing multiple hearths, almost never dormered, with tiny sash and no cellar stair to speak of. The revival keeps the silhouette and the proportional discipline but hollows out the chimney and cuts dormers into the roof."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "This is the parent style at one and a half storeys with the ornament removed. A Cape that grows a full second floor, a cornice, and a portico has become general Colonial Revival."
+    },
+    {
+      "node": "minimal-traditional",
+      "difference": "Minimal Traditional, the FHA type of 1935-1950, has a low roof pitch of 4:12 to 6:12, a shallow eave, a tall wall, and no chimney of consequence. It is what a Cape becomes when the builder economises on roof framing."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Roof pitch against wall height. The type is generated by pulling the eave down to the upper window heads, which fixes the wall height, which fixes everything else. Wills's office treated graduated clapboard exposure as a second proportional device operating on the wall itself.",
+    "typical_ratios": [
+      "Roof pitch 8:12 to 10:12",
+      "Wall height from grade to eave 11-13 ft for the full one-and-a-half storeys",
+      "Eave soffit within 12 in. of the second-floor window heads",
+      "Overall footprint 24-28 ft deep by 32-40 ft wide - a plan proportion near 1:1.4",
+      "Sash of 24-36 lights total per window; graduated clapboard exposure from 2 3/4 in. at the water table to 4 1/4 in. near the eave",
+      "Door surround overall width not exceeding 5'6\" for a 2'8\"-3'0\" leaf"
+    ],
+    "bay_rhythm": "Three bays on the half Cape and three-quarter Cape, five bays on the full Cape, at 7'6\"-9'0\" on centre. The rhythm is tighter than general Colonial Revival because the original framing bay is genuinely being reproduced.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "canonical",
+      "note": "The variant is this massing; the half, three-quarter and full Cape are its three states."
+    },
+    {
+      "massing": "saltbox",
+      "affinity": "common",
+      "note": "The rear lean-to extension, which Wills used constantly to add a kitchen or family room without breaking the front."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "Where the Cape grows to a full two storeys it stops being this variant and becomes plain Colonial Revival."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "atypical",
+      "note": "A gambrel over a Cape footprint is a Dutch Colonial Revival move, not a Cape one."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 8:12 to 10:12, and the eave soffit must sit not more than 12 in. above the second-floor window head line. A tall wall with a low roof is Minimal Traditional and is not this variant."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Maximum two full storeys of wall is forbidden: the front wall may not exceed 13'0\" from grade to eave. All upper-floor light on the front and rear must come from dormers."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "A masonry chimney is required, on the ridge at or near the centre or paired at the gable ends, minimum 3'0\" x 3'0\" in plan for a central stack and rising not less than 2'0\" above the ridge."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Dormers, where used, must total not more than 50 percent of the roof length on any one slope, with their faces set back not less than 12 in. from the wall plane and their ridges not less than 18 in. below the main ridge."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Ornament is limited to the door surround, a simple 4-6 in. eave moulding, and 4-6 in. corner boards. Cornice returns, modillions, friezes, pediments over windows, and full-width porches are forbidden."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Royal Barry Wills House",
+      "location": "59 Oakland Street, Melrose, Massachusetts",
+      "year": 1929,
+      "note": "The architect's own house and the reference example for his office's Cape standards; later extended to the rear."
+    },
+    {
+      "name": "Life magazine 'Eight Houses for Modern Living' Wills house",
+      "location": "Edina, Minnesota",
+      "year": 1938,
+      "note": "Royal Barry Wills. The traditional entry chosen by the client family over Frank Lloyd Wright's modern design in the same income bracket."
+    },
+    {
+      "name": "Levittown Cape Cod model",
+      "location": "Levittown, New York",
+      "year": 1947,
+      "note": "Levitt & Sons. The first mass-produced model at Levittown, 1947-49, and the vehicle by which the type became the American postwar default."
+    },
+    {
+      "name": "Webber House",
+      "location": "Brookline, Massachusetts",
+      "year": 1935,
+      "note": "Harry Morton Ramsay. Included as a contemporaneous Boston-area point of comparison; see garrison-revival, where its overhang places it."
+    }
+  ],
+  "sources": [
+    "Royal Barry Wills, Houses for Good Living (1940)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Richard Wills and Kevin Bone, At Home in New England: Royal Barry Wills Architects 1925 to Present (2013)",
+    "Barbara Kelly, Expanding the American Dream: Building and Rebuilding Levittown (1993)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "variant",
+    "small-house",
+    "fha",
+    "production-home",
+    "new-england"
+  ]
+}

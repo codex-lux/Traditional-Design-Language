@@ -1,0 +1,252 @@
+{
+  "id": "stair-hall",
+  "name": "Stair Hall",
+  "aka": [
+    "staircase hall",
+    "stairwell (pejorative)",
+    "the stairs",
+    "escalier d'honneur (grand version)"
+  ],
+  "function_class": "circulation",
+  "description": "The room the stair is in, when the stair is important enough to have one. The distinction that matters is this: a stair hall is not a room you pass through, it is a room you ARRIVE IN, twice - once at the bottom coming in, and once at the top coming down. A stair discharges you across the direction of its run, so the space at each end is not corridor but landing, and it has to be big enough to stop in, turn in, and be seen in. It is also the only place in a traditional house where two storeys are one volume, which is why it carries the house's height, its best joinery, and all of its sound.",
+  "history": {
+    "appears": 1560,
+    "declines": null,
+    "replaced": "the newel stair in a turret or trapped beside a chimney stack, which was a climbing device and not a room",
+    "note": "The stair becomes a room when the inserted floors of the Great Rebuilding give ordinary houses a full upper storey worth going to, and when the open-well framed stair replaces the stone or timber newel. The Elizabethan and Jacobean dog-leg with square newels and pierced strapwork balustrade is the first stair designed to be looked at from below. The eighteenth century turns it into the principal ornamental event of the interior: three balusters to a tread, a ramped and wreathed handrail over a curtail step, an open string with carved brackets. Then two things flatten it. Stair manufacture goes to catalogue parts after 1870, and the 1927 model codes and their descendants fix the geometry - which is why a stair drawn today at exactly 7.75 in rise and 10 in run looks like every other stair drawn today. The stair hall is one of the few rooms whose decline is legible entirely in its details rather than in its plan."
+  },
+  "dimensions": {
+    "area_sf": [
+      90,
+      320
+    ],
+    "width_ft": [
+      7,
+      16
+    ],
+    "length_ft": [
+      10,
+      24
+    ],
+    "proportion": [
+      1.1,
+      2.2
+    ],
+    "ceiling_min_ft": 9,
+    "critical_dimension": "THE ARITHMETIC OF THE RUN, WHICH SIZES THE ROOM AND IS ALMOST NEVER DONE FIRST. A 9 ft finished ceiling with a 12 in floor assembly gives 10 ft 0 in floor to floor. At 7.5 in that is 16 risers and therefore 15 treads. At 10 in of run, a STRAIGHT flight is 150 in = 12 ft 6 in of horizontal run, plus a 36 in landing at each end, plus the 36 in of clear floor you actually need at the bottom to stop and turn: about 19 ft of room. That is why the straight stair belongs in a passage that is already 19 ft long and nowhere else. Fold it into a U with a half landing and the same sixteen risers become two flights of seven and eight treads: 80 in of run plus a 40 in landing = 10 ft 0 in of length by (36 + 36 + 6 in well) = 6 ft 6 in of width, and the room is 10 x 8 with arrival space. The choice between a straight flight and a dog-leg is therefore a decision about the plan's proportion and not about the stair, and it must be made before the walls are drawn. SECOND NUMBER: 36 in of clear floor beyond the bottom riser, measured across the run and not along it, because that is the direction you are facing when you get off."
+  },
+  "furniture": [
+    {
+      "item": "the stair itself, dog-leg with half landing",
+      "footprint_in": [
+        120,
+        78
+      ],
+      "clearance_in": 36,
+      "note": "two flights at 36 in clear width, a 40 in landing, a 4 to 8 in well between strings. The well matters: a stair with no well has no daylight route down it and no handrail continuity at the turn."
+    },
+    {
+      "item": "clear landing at the foot",
+      "footprint_in": [
+        60,
+        48
+      ],
+      "clearance_in": null,
+      "note": "the arrival square. It is not the code landing, which is 36 in; it is the space in which a person who has just come down can stop, be seen, and choose a direction."
+    },
+    {
+      "item": "hall clock or tall case",
+      "footprint_in": [
+        22,
+        12
+      ],
+      "clearance_in": 0,
+      "essential": false,
+      "note": "the traditional occupant of the wall under the ramp, where the ceiling slopes and nothing else fits"
+    },
+    {
+      "item": "window seat or chair on the half landing",
+      "footprint_in": [
+        48,
+        20
+      ],
+      "clearance_in": 30,
+      "essential": false
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "North is best and is the historic choice where there is one, because a stair window that faces the sun throws a moving bar of light across the treads and a tread you cannot read the edge of is a tread you fall on. The stair window is the one opening in the house where glare is a safety matter.",
+    "glazing_fraction": [
+      0.1,
+      0.3
+    ],
+    "note": "The stair hall is the only room in a traditional house that is TWO STOREYS OF DEPTH, and that changes the daylight arithmetic entirely: light entering high on the half landing falls the full height of the well and lights both floors from one opening. This is why the half-landing window is the single most efficient window in the house and why removing it - which happens whenever the stair is moved to an interior wall to free the exterior wall for a bedroom - darkens two floors at once and is never noticed as the cause. The corollary for new work: if the stair must go inside, it needs a top-lit well or a borrowed opening at the upper landing, and neither is optional."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "the principal stair must be visible from arrival - not because it must be grand, but because a visitor has to know where the house goes without being told",
+        "relation": "visible-from",
+        "strength": "hard",
+        "exceptions": [
+          "charleston-single-house, where the stair is off the side hall which is itself off the piazza, so the stair is two moves from the street door",
+          "italianate-townhouse, where the stair is deliberately set back down the side hall behind a plaster arch so the parlour doors come first"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "centre-passage",
+        "why": "the stair belongs on the passage, generally against the wall opposite the parlor door and set back from the front door so the front door's swing and the bottom riser do not fight",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "back-hall",
+        "why": "in a serviced house the principal stair and the back stair should land on the same upper corridor at opposite ends, so that service and family circulation never share a tread",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "THE ACOUSTIC CHIMNEY. An open stair well is a two-storey air path with hard surfaces; conversation at normal level in the hall is intelligible on the upper landing, and a bedroom door on the landing is a bedroom door on the conversation. Historic plans put the chamber doors around a corner from the stair head, and the plans that did not are the ones everyone remembers as noisy.",
+        "relation": "acoustically-separated",
+        "strength": "strong",
+        "exceptions": [
+          "cape-cod-colonial and other one-and-a-half-storey types, where the stair lands directly in the chamber or between two chambers and there is no corridor to be had - accepted as a limit of the type, and the reason those chambers were children's rooms"
+        ]
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "centre-passage",
+      "vestibule",
+      "hall",
+      "living-room",
+      "gallery-corridor"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The house's stack. In summer an open stair with a window at the top vents the whole building; in winter it is the reason the upstairs is warm and the hall is cold. Traditional plans managed it with a door at the head or the foot of the stair, and removing that door - which almost every renovation does - changes the heating behaviour of the entire house.",
+    "heat": "None of its own if the hall has a source; the stack does the rest.",
+    "electrical": "A fixture that can be relamped from a landing or a ladder that will stand on treads, which rules out most two-storey pendants over an open well. Three-way switching at both ends is required by code and by sense. Step lights at the string are a modern addition with no precedent and are worth having anyway.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "jacobean",
+      "trim_grade": "highest",
+      "note": "The open-well framed stair: massive square newels carried up as posts with carved finials and pendants below, flat pierced strapwork panels in place of balusters, short heavy flights around a square well. It is joinery pretending to be architecture and it is the origin of the whole tradition."
+    },
+    {
+      "style": "english-georgian",
+      "trim_grade": "highest",
+      "note": "Three turned balusters per tread of alternating pattern, open string with carved and applied brackets on the outer face of each riser, a mahogany handrail ramped and wreathed over a swept curtail step at the bottom. Balusters slender - 1.25 to 1.5 in at the shaft - because they are numerous."
+    },
+    {
+      "style": "federal-style",
+      "trim_grade": "highest",
+      "note": "The lightest version: square-section tapered balusters, a very thin rail, and the stair curved in plan where the plan permits. Federal is where the freestanding elliptical stair enters American work."
+    },
+    {
+      "style": "greek-revival-american",
+      "trim_grade": "high",
+      "note": "Heavier and plainer than Federal. Square newel, plain square or simply turned balusters, closed string as often as open, and the whole thing subordinate to the door architraves."
+    },
+    {
+      "style": "craftsman",
+      "trim_grade": "high",
+      "note": "Square-section balusters, often flat boards, a square capped newel, and the stair enclosed by a half-wall of vertical boarding with a cap - so the stair is a piece of built-in furniture rather than an open structure. Frequently rises out of the living room with a landing bench."
+    },
+    {
+      "style": "queen-anne-american",
+      "trim_grade": "highest",
+      "note": "In the living hall the stair is the room's principal furniture: a broad first flight, a deep landing with a window seat and stained glass, spindle screens, and a turned newel of exaggerated scale."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent. One storey; where a camelback adds rear rooms above, the stair is a steep enclosed straight run in the last room and is a ladder with a handrail, not a hall."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "present": false,
+      "note": "No interior stair to the half-storey in the canonical type - access to the attic cabinets is by an enclosed winder or by an exterior stair off the rear loggia, which keeps the four principal rooms uninterrupted."
+    },
+    {
+      "style": "ranch-style",
+      "present": false,
+      "note": "No stair. Where a split level introduces one it is four to seven risers, and the type's characteristic move - a half flight visible from the entry - is a stair hall compressed to a landing."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Stair width 36 in minimum above the handrail, headroom 6 ft 8 in, riser 7.75 in maximum, tread 10 in minimum, handrail 34 to 38 in with a graspable profile.",
+      "ref": "IRC R311.7",
+      "conflict": "The code minima produce the steepest legal stair, and a 7.75/10 stair is noticeably harder to climb than a 7/11. The historic comfortable band is a 7 to 7.25 in rise on an 11 to 11.5 in tread, and the difference in plan is about 18 in of run - the cheapest comfort in the house. See fault stair-at-the-code-minimum."
+    },
+    {
+      "requirement": "Guards not less than 34 in on the open side of a stair and 36 in at the landing; baluster spacing such that a 4 in sphere cannot pass.",
+      "ref": "IRC R312.1",
+      "conflict": "Period balustrades run 30 to 32 in and space balusters at 5 to 6 in. The compliant version is taller and denser and it changes the whole character of the stair. The honest fix is to raise the rail height while keeping the period baluster diameter and rhythm, and to accept the extra baluster - not to substitute a thin modern stick, which is the fault baluster-too-thin."
+    },
+    {
+      "requirement": "Winder treads: 10 in minimum at 12 in from the narrow edge and 6 in minimum at any point.",
+      "ref": "IRC R311.7.5.2.1",
+      "conflict": "The vernacular winder around a chimney stack meets none of this and is the reason so many restored early houses carry a legal-nonconforming stair. Reproducing one in new work is not permitted; a three-tread winder at code geometry needs about 8 in more radius than the original."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "center-passage-single-pile",
+    "side-hall-double-pile",
+    "i-house",
+    "townhouse-row",
+    "foursquare",
+    "garrison-block",
+    "mansard-block",
+    "cross-gable-victorian",
+    "villa-tower",
+    "h-plan-manor",
+    "five-part-palladian",
+    "charleston-single",
+    "saltbox",
+    "gambrel-block",
+    "octagon"
+  ],
+  "slots": [
+    "stair_type",
+    "stair_position",
+    "newel_balustrade",
+    "circulation_parti",
+    "public_private_gradient",
+    "ceiling_height_rule",
+    "special_window"
+  ],
+  "faults": [
+    "stair-at-the-front-door",
+    "stair-with-no-passage",
+    "stair-at-the-code-minimum",
+    "newel-too-thin",
+    "baluster-too-thin",
+    "baluster-spacing-as-fence",
+    "open-string-without-a-bracket",
+    "guard-height-against-the-period-rail",
+    "handrail-you-cannot-grip"
+  ],
+  "sources": [
+    "International Residential Code R311.7, R312.1",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay (1979)",
+    "faults/stair-at-the-code-minimum.json, faults/stair-with-no-passage.json",
+    "proportions/systems/room-vernacular.json, stair_position derived rule (3 ft of vernacular stair well)"
+  ],
+  "confidence": "high"
+}

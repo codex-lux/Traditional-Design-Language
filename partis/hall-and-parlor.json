@@ -1,0 +1,299 @@
+{
+  "id": "hall-and-parlor",
+  "name": "Hall and Parlor",
+  "aka": [
+    "the two-cell plan"
+  ],
+  "description": "Two unequal rooms side by side, the larger for work and reception, the smaller for the best furniture. The oldest Anglo-American diagram and the ancestor of everything: insert a passage between the two rooms and you have the Georgian plan.",
+  "massing": "hall-and-parlor",
+  "alternate_massings": [
+    "i-house",
+    "cape-cod-massing"
+  ],
+  "styles": [
+    "new-england-colonial",
+    "american-farmhouse-vernacular",
+    "log-vernacular-american",
+    "folk-victorian",
+    "cape-cod-colonial"
+  ],
+  "groupings": [
+    "hall-and-parlor-pair",
+    "keeping-room-hearth-cluster",
+    "entry-sequence"
+  ],
+  "circulation_parti": "hall-and-parlor",
+  "storeys": 2,
+  "area_range_sf": [
+    900,
+    1900
+  ],
+  "bedroom_range": [
+    2,
+    3
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Stoop",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "hall",
+        "exterior"
+      ]
+    },
+    {
+      "id": "hall",
+      "type": "hall",
+      "level": 0,
+      "name": "Hall",
+      "exterior_walls": [
+        "S",
+        "E",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "porch",
+        "exterior",
+        "parlor",
+        "keeping",
+        "stair"
+      ],
+      "area_weight": 0.2,
+      "note": "The larger of the two, and the entrance is placed by that inequality rather than centred on the facade."
+    },
+    {
+      "id": "parlor",
+      "type": "parlor",
+      "level": 0,
+      "name": "Parlor",
+      "exterior_walls": [
+        "S",
+        "W",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "hall"
+      ],
+      "area_weight": 0.15
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Winder Stair",
+      "required": false,
+      "doors": [
+        "hall"
+      ]
+    },
+    {
+      "id": "keeping",
+      "type": "keeping-room",
+      "level": 0,
+      "name": "Keeping Room",
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "hall",
+        "kitchen"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "keeping",
+        "pantry",
+        "exterior"
+      ],
+      "fixtures": [
+        "sink",
+        "dishwasher"
+      ]
+    },
+    {
+      "id": "pantry",
+      "type": "pantry",
+      "level": 0,
+      "name": "Pantry",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "required": false,
+      "doors": [
+        "keeping"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "doors": [
+        "upperhall"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "upperhall",
+      "type": "gallery-corridor",
+      "level": 1,
+      "name": "Upper Hall",
+      "exterior_walls": [
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "landing",
+        "primary",
+        "hallbath"
+      ]
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Principal Chamber",
+      "exterior_walls": [
+        "S",
+        "E",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "stacks_over": "hall"
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "stacks_over": "powder"
+    },
+    {
+      "id": "chamber",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "S",
+        "W",
+        "N"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "upperhall"
+      ]
+    },
+    {
+      "id": "chambercl",
+      "type": "closet",
+      "level": 1,
+      "name": "Closet",
+      "repeats_with_bedrooms": true,
+      "doors": [
+        "chamber"
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "stair",
+      "b": "landing",
+      "relation": "below"
+    },
+    {
+      "a": "landing",
+      "b": "stair",
+      "relation": "above"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "adding-a-link",
+      "deepening"
+    ],
+    "bay_module_ft": 9,
+    "max_bay_count": 4,
+    "note": "Grows by a rear lean-to, which is how the saltbox happened, and then by an ell off the kitchen end."
+  },
+  "trades_away": "Privacy and formality. There is no passage, so every room is entered from another and the household has nowhere to receive a stranger without admitting them.",
+  "exemplars": [
+    "Fairbanks House, Dedham, c.1637",
+    "Parson Capen House, Topsfield, 1683"
+  ],
+  "sources": [
+    "Cummings, The Framed Houses of Massachusetts Bay",
+    "Glassie, Folk Housing in Middle Virginia"
+  ],
+  "confidence": "high"
+}

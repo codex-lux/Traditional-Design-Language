@@ -1,0 +1,141 @@
+{
+  "id": "panel-seam-and-nailing-hem",
+  "name": "The visible siding seam",
+  "aka": [
+    "the lapped butt joint",
+    "vinyl seam shadow",
+    "the unbacked butt"
+  ],
+  "slots": [
+    "primary_cladding",
+    "secondary_cladding"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "Regular vertical interruptions in the horizontal siding: on vinyl, a lapped overlap every 12 ft 6 in that throws a dark vertical shadow and stacks nearly above itself course after course; on fibre cement, butt joints with a caulk line or a coloured backer strip; on either, a wavy line along the top of each course where the nailing hem shows through. In raking light the wall reads as panels rather than as boards.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Vinyl is extruded in 12 ft or 12 ft 6 in lengths and joined by overlapping about 1 in, so a wall longer than 12 ft has a seam by necessity; the installer is instructed to stagger seams but the practical stagger is limited by offcut waste. Fibre cement comes in 12 ft planks and the manufacturer permits a moderate butt joint with a joint flashing, which is faster than the older practice of a scarfed joint over a stud with a back-primed lap. Nailing hems telegraph because vinyl must be hung loose for thermal movement — a 12 ft 6 in vinyl panel moves about 1/2 in between winter and summer — so it cannot be pulled tight.",
+    "cost_saved": "Longer-length or hand-scarfed joints, joint flashings on every butt and back-priming add roughly $0.70-$1.60 per square foot; on 2,600 sf, $1,800-$4,200."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / primary_cladding / vinyl-or-fibre-cement-clapboard (forbidden)",
+      "statement": "Not a period-material objection so much as a profile one: neither holds the 3/4 in butt thickness or the 1/8 in bed a riven clapboard casts its shadow off."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a wall of boards has vertical joints; a wall of panels has seams",
+      "statement": "The difference is whether the joint is at a random position determined by the board length, or at a repeating position determined by the manufacturing length. The eye finds a repeating vertical rhythm in a horizontal field immediately."
+    }
+  ],
+  "correct_practice": "Vertical joints in lapped siding should be irregular in position, tight, and backed. Period practice: boards 40-48 in long in New England clapboard and 8-16 ft in sawn weatherboard, butted square over a stud with the end grain primed, joints staggered so that no two joints in adjacent courses fall within about 16 in of each other and no joint stacks within four courses. In modern fibre cement, use a metal or polymer joint flashing behind every butt joint, leave the joint uncaulked at 1/8 in, back-prime all cut ends, and randomise joint positions across the wall — the manufacturer's own instruction, routinely ignored. In vinyl, the seam cannot be eliminated; it can only be placed, so put every seam away from the primary approach view and never stack them.",
+  "fixes": {
+    "right": "Wood or fibre-cement boards with backed, staggered, uncaulked butt joints and primed ends, set out so no joint falls in the middle bay of the principal elevation.",
+    "cheap": "Plan the joints on the elevation drawing. This costs nothing: mark every butt joint on the front elevation before ordering, place them behind downpipes, at corner boards, and under the shadow of the porch, and specify a minimum four-course stagger. A wall with the same number of joints, distributed, looks like boards; the same wall with joints stacked looks like panelling.",
+    "dishonest": "Caulking the butt joints and painting over them. Caulk in a butt joint traps water at the end grain, the very place the board absorbs fastest, and it fails in a line within three to five seasons, which produces a joint that is now BOTH visible and open. The manufacturers say not to do it; the trade does it because an open joint looks unfinished at handover."
+  },
+  "detection": "Look for repetition. Photograph the long elevation square-on and look for vertical tonal breaks at a constant spacing near 12 ft 6 in — vinyl's seam pitch — or for joints appearing at the same horizontal position in three or more courses. Second, look along the top edge of the courses in raking light: a wavy top edge with a period of 16 in (the fastener spacing) is the nailing hem oil-canning, and it is unique to hung vinyl and thin metal. Third, at the corner: vinyl seams almost always begin just past the corner post, because the installer starts each course at a corner.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "contemporary-traditional",
+      "why": "A frankly expressed panel system with a designed joint — an open shadow gap, a metal batten, a rhythm chosen by the designer — is a different and legitimate assembly.",
+      "bounds": "The joint must be regular BY DESIGN and aligned with something (window jambs, structural bays), not a leftover of the material length. A designed joint at 4 ft that lines through with the openings is architecture; a leftover joint at 12 ft 6 in is a seam.",
+      "bounds_test": {
+        "expression": "abs(joint_pitch_in - window_bay_pitch_in)",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 2,
+        "note": "A designed joint is regular AND aligned with something — window jambs, structural bays. A designed joint at 4 ft that lines through with the openings is architecture; a leftover joint at 12 ft 6 in that lines through with nothing is a seam."
+      }
+    },
+    {
+      "style": "stick-style",
+      "why": "Stick Style openly divides the wall into panels with applied vertical and horizontal sticks, so vertical interruptions are the point.",
+      "bounds": "The sticks must be real members standing 3/4-1 1/2 in proud, framing complete panels, and must resolve into a grid that relates to the openings — the same test half-timbering has to pass.",
+      "bounds_test": {
+        "expression": "stick_projection_past_siding_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0.75,
+        "note": "The sticks must be real members standing 3/4-1 1/2 in proud, framing complete panels — the same test half-timbering has to pass."
+      },
+      "applies_when": {
+        "slots": [
+          "secondary_cladding"
+        ],
+        "note": "The panel division is the style's argument and must resolve into a grid that relates to the openings."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "clapboard-exposure-drift",
+      "difference": "Exposure is the course dimension; this fault is the vertical joint. They are independent and a house commonly has both."
+    },
+    {
+      "fault": "j-channel-corner",
+      "difference": "The corner-post fault is about how the cladding terminates; this one about how it is joined in the field."
+    }
+  ],
+  "sources": [
+    "NPS Preservation Brief 8: Aluminum and Vinyl Siding on Historic Buildings",
+    "Vinyl Siding Institute installation manual (12 ft 6 in panel length, 1 in overlap, thermal movement allowance)",
+    "James Hardie HardiePlank installation instructions (joint flashing, no caulk at butt joints, back-priming of cut ends)",
+    "kits/georgian-colonial-american.kit.json, primary_cladding"
+  ],
+  "confidence": "high",
+  "tags": [
+    "cladding",
+    "assembly",
+    "vinyl",
+    "fibre-cement"
+  ],
+  "test": {
+    "expression": "min_horizontal_offset_between_butt_joints_in_adjacent_courses_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 16,
+    "note": "Period practice staggers joints so no two in adjacent courses fall within about 16 in of each other. Under that they read as a vertical rhythm in a horizontal field, which the eye finds immediately. Measurable in a square-on photograph of a long elevation against a known dimension such as a siding course."
+  },
+  "secondary_tests": [
+    {
+      "expression": "courses_between_vertically_stacked_joints",
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 4,
+      "note": "No joint stacks within four courses. A joint line continuing through three or more courses is the panel signature and is countable without any scale reference at all."
+    },
+    {
+      "expression": "count_of_vertical_joints_at_a_repeating_pitch / count_of_vertical_joints",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.2,
+      "note": "Vinyl's own giveaway: vertical tonal breaks at a constant spacing near 12 ft 6 in, the extrusion length. Take the fraction of joints falling on a single detected pitch — a wall of boards scatters, a wall of panels does not. Above 0.2 the joints were placed by the material rather than by a person."
+    },
+    {
+      "expression": "top_edge_deviation_amplitude_in",
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.0625,
+      "note": "A wavy top edge with a period near 16 in is the nailing hem oil-canning under thermal movement — a 12 ft 6 in vinyl panel moves about 1/2 in between winter and summer and cannot be pulled tight. Unique to hung vinyl and thin metal."
+    }
+  ],
+  "co_occurs_with": [
+    "clapboard-exposure-drift",
+    "j-channel-corner"
+  ],
+  "severity_in_use": "serious",
+  "severity_trajectory": "Serious on day one visually and serious in fabric by year five. Caulked fibre-cement butt joints trap water at the end grain — the fastest-absorbing part of the board — and the caulk parts in a line within three to five seasons, producing a joint that is now both visible and open. The manufacturers' own instructions call for a joint flashing and no caulk; the trade caulks because an open joint looks unfinished at handover."
+}

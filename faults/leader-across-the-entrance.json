@@ -1,0 +1,193 @@
+{
+  "id": "leader-across-the-entrance",
+  "name": "The downpipe across the front door",
+  "aka": [
+    "the rectangular leader",
+    "the elbow over the porch",
+    "the splash block at the threshold"
+  ],
+  "slots": [
+    "rainwater"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A rectangular corrugated downpipe running down the entrance elevation — often through the middle of a bay, across a belt course, or diagonally over a porch roof on two elbows — and discharging onto a plastic splash block within a few feet of the front door. On a symmetrical facade there is usually one, not two, so the composition is broken asymmetrically.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Leader positions are set by the gutter installer on the day, from the high point of the gutter run and the shortest path to grade, with no drawing. Roof drainage sizing then forces a leader roughly every 30-40 ft of gutter, so a wide front gets one in the middle. Nothing in the process knows where the front door is. Rectangular corrugated is the default stock because it is cheaper to form and ships flat.",
+    "cost_saved": "Routing leaders to the corners of the volume and taking the water underground to daylight costs $400-$1,600 more per house. Round smooth leaders are about $3-$6/lf against $2-$4 for rectangular corrugated."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / rainwater / leader-on-the-entrance-elevation (forbidden)",
+      "statement": "A downpipe in the approach cone. Take the water round the corner in the cornice or accept the drip."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / rainwater / leader_position and leader_section",
+      "statement": "At the corners of the volume, never on the entrance elevation; round section, because rectangular corrugated leaders are twentieth century."
+    },
+    {
+      "kind": "code",
+      "ref": "water is thrown away from the base of the wall, not onto the approach (IRC R401.3)",
+      "statement": "Grade falls 6 in in the first 10 ft — which the period practice of falling grade away from a water table already required, and which a leader discharging onto a splash block at the door directly contradicts."
+    }
+  ],
+  "correct_practice": "Leaders go at the corners of the volume, on the flanks, and preferably at inside corners where two volumes meet, where a vertical pipe is already expected. Slope the gutter to the corners rather than to the middle: a gutter can be fallen 1/16 in per foot in either direction from a high point placed at the centre of the front, which puts both outlets at the corners of a 40 ft facade with 20 ft runs — well within capacity for a 5 in half-round on a typical roof area. Use a round smooth leader, 3 in or 4 in, which is what every pre-twentieth-century leader was and which is also the section that clears debris best. Never cross a belt course, a water table or a window; never run diagonally; never discharge in the approach. Take the discharge into a boot at the base and then underground to daylight or to a drywell at least 10 ft from the wall, and if that is impossible, discharge at the back of a planted bed, never onto the walk. Where the cornice projects 8 in or more and the grade falls, the best answer remains no gutter at all on the entrance elevation, with a stone or gravel drip trench below.",
+  "fixes": {
+    "right": "Round leaders at the corners, underground discharge to daylight, and no leader anywhere in the approach view.",
+    "cheap": "Move it, do not remove it. Relocating one leader from the centre of the front to the corner is a half-hour of gutter labour and about $60 of material, and it is the single largest improvement available to a symmetrical facade for that money. If the leader truly must stay on the front, at least make it round, paint it the BODY colour rather than the trim colour so it disappears into the wall instead of joining the trim family, and run it tight against a corner board or a window jamb rather than in open wall.",
+    "dishonest": "A rain chain in place of the downpipe at the entrance. It looks considered and it puts a concentrated discharge directly at the door, splashing the base of the wall and icing the walk in winter; it is a decorative object that has replaced a functional one at the precise point where function matters most. Also dishonest: painting a rectangular leader to match the brick, which makes a corrugated 2x3 section read as a scar on the masonry rather than as a pipe."
+  },
+  "detection": "Photograph the house from the approach and count vertical pipes in the field of view. Any leader within the approach cone is the fault. Then check symmetry: on a symmetrical front, leaders must be paired at the two corners or absent; a single leader anywhere is diagnostic. Check the section — a rectangular corrugated profile is unmistakable at any resolution, and it is a hard date tell, being a twentieth-century product. Finally follow the bottom: a splash block or an elbow discharging onto the walk, mulch or lawn within 4 ft of the wall is both a composition fault and an IRC R401.3 problem, and the evidence of the second is usually visible as a splash-stained band 12-18 in up the wall and eroded mulch below.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "dutch-urban-gable-house",
+      "why": "Urban canal-house fronts carry leaders on the street elevation because there is no other elevation available, and the leader is a designed lead or copper element with a decorative hopper head.",
+      "bounds": "Requires a party-wall urban condition AND the leader treated as a designed element: a hopper head, a round or moulded section, and a symmetrical or deliberate placement. Necessity plus design, not necessity alone.",
+      "bounds_test": {
+        "expression": "rainwater_hopper_heads_on_leaders / leaders",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Necessity plus design. The hopper head is the element that converts the necessity into an ornament; a plain aluminium pipe in the same position does not qualify."
+      },
+      "applies_when": {
+        "slots": [
+          "street_relationship",
+          "rainwater"
+        ],
+        "note": "Party-wall urban condition where no other elevation is available."
+      }
+    },
+    {
+      "style": "english-georgian-townhouse",
+      "why": "Same reasoning — the lead rainwater head with a date and initials cast into it is a celebrated feature of the type.",
+      "bounds": "As above. The hopper head is the element that converts the necessity into an ornament; a plain aluminium pipe in the same position does not qualify.",
+      "bounds_test": {
+        "expression": "rainwater_hopper_heads_on_leaders / leaders",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "The lead rainwater head with a date and initials cast into it is a celebrated feature of the type, and it is what earns the leader its place on the front."
+      },
+      "applies_when": {
+        "slots": [
+          "street_relationship",
+          "rainwater"
+        ]
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The street elevation is the narrow gable end and drainage arrangements there are constrained.",
+      "bounds": "Leader off the piazza side or at a corner; the entrance on a single house is on the piazza, not the street, so the approach-cone rule follows the actual entrance.",
+      "bounds_test": {
+        "expression": "leaders_within_the_approach_cone",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "The test is unchanged; only the approach moves. The entrance on a single house is on the piazza, not the street, so the approach cone follows the actual entrance."
+      },
+      "applies_when": {
+        "slots": [
+          "entry_sequence",
+          "street_relationship"
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "There are no gutters or leaders at all: water leaves by canales projecting from the parapet, which are intentionally expressive and frequently on the principal elevation.",
+      "bounds": "Canales must be real projecting spouts discharging clear of the wall, spaced deliberately, with the ground below detailed to take the discharge. A canal that dribbles down the wall stains it permanently, which is why the projection is 12-24 in.",
+      "bounds_test": {
+        "expression": "canale_projection_past_wall_face_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 12,
+        "note": "Canales are intentionally expressive and frequently on the principal elevation, but they must project 12-24 in and discharge clear of the wall — a canale that dribbles down the wall stains it permanently, which is exactly why the projection is specified."
+      },
+      "applies_when": {
+        "slots": [
+          "parapet",
+          "rainwater"
+        ],
+        "construction": [
+          "adobe",
+          "rammed-earth"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "k-style-gutter-on-a-classical-cornice",
+      "difference": "Horizontal collector versus vertical leader. Fixing the gutter profile does not fix the leader position and vice versa."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, rainwater parameters (leader_position, leader_section, grade_fall_min)",
+    "International Residential Code R401.3",
+    "SMACNA Architectural Sheet Metal Manual (leader sizing and gutter run lengths)",
+    "NPS Preservation Brief 39: Holding the Line: Controlling Unwanted Moisture"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rainwater",
+    "composition",
+    "approach",
+    "site"
+  ],
+  "test": {
+    "expression": "leaders_within_the_approach_cone",
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "threshold": 0,
+    "note": "Photograph the house from the approach and count vertical pipes in the field of view. Any leader in the approach cone is the fault. On a symmetrical front the stronger form of the test is parity: leaders must be paired at the two corners or absent, so a single leader anywhere on a symmetrical facade is diagnostic on its own."
+  },
+  "secondary_tests": [
+    {
+      "expression": "leader_width_in / leader_depth_in",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "Round section. Every pre-twentieth-century leader was round, and rectangular corrugated at 2x3 or 3x4 is a hard date tell readable at any resolution. A ratio of 1.0 is round; 1.5 is a stock rectangular downpipe."
+    },
+    {
+      "expression": "leader_discharge_distance_from_wall_ft",
+      "direction": "at-least",
+      "units": "ft",
+      "measurable_from": "site-visit",
+      "threshold": 10,
+      "note": "Take the discharge into a boot and underground to daylight or a drywell at least 10 ft from the wall. A splash block within 4 ft is both a composition fault and an IRC R401.3 problem; the evidence of the second is usually visible as a splash-stained band 12-18 in up the wall and eroded mulch below."
+    },
+    {
+      "expression": "leaders_crossing_a_belt_course_or_water_table",
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 0,
+      "note": "Never cross a horizontal, never cross a window, never run diagonally over a porch roof on two elbows. Each crossing is a separate legibility failure and each is countable."
+    }
+  ],
+  "co_occurs_with": [
+    "k-style-gutter-on-a-classical-cornice"
+  ],
+  "severity_in_use": "serious",
+  "deprecated_inheritance": {
+    "statement": "Most colonial houses had no gutters at all: the cornice threw the water clear and the grade took it away, and the kit records no-gutter-drip-to-grade as canonical for 1700-1780.",
+    "why_not_to_inherit": "The period answer depends on two conditions a modern house usually lacks — a cornice projecting 8 in or more (facade-classical's module/14 = 7 3/4 in is the threshold) and a grade that falls away freely. On a house with a 12 in truss overhang, a 5 in fascia-and-crown eave, and a flat lot with a walk at the door, omitting the gutter puts a concentrated drip line on the wall and on the approach, which is worse than a well-placed gutter and produces exactly the splash-line staining the fault describes.",
+    "modern_substitute": "A half-round hung below and behind the corona on concealed brackets with round leaders at the corners of the volume. It keeps the cornice silhouette unbroken, which is what the period answer was really protecting, and it is current conservation practice rather than colonial practice — worth saying so rather than presenting it as authentic."
+  }
+}

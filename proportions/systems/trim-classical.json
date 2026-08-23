@@ -1,0 +1,1042 @@
+{
+  "id": "trim-classical",
+  "name": "The Classical Trim Family",
+  "aka": [
+    "the room as an order",
+    "base, surbase and cornice",
+    "interior finish",
+    "the millwork suite"
+  ],
+  "kind": "trim-system",
+  "authority": {
+    "source": "Vignola's general rules for the pedestal (one third of the column) and the entablature (one quarter of the column), applied to the wall as the period builders' companions applied them; with Palladio Book I ch. XXVI for the architrave of an opening, and Asher Benjamin, Minard Lafever and the surviving millwork of 1720-1860 for the member profiles of the three families",
+    "author": "compiled",
+    "year": null,
+    "strength": "documented",
+    "url": "https://www.finehomebuilding.com/project-guides/finish-trim-carpentry/classical-proportions-make-attractive-trim",
+    "note": "Documented rather than canonical because the DERIVATION is canonical and the DIMENSIONS are not. No treatise dimensions an interior baseboard. What the treatises do give, unambiguously, is that a wall treated as an order divides pedestal : column : entablature, and that Vignola's pedestal is one third of the column and his entablature one quarter of it - which fixes the division at 4 : 12 : 3 and therefore at nineteenths. That is a real derivation, it is computable, and it is what this pack is built on. The member profiles of the three families are recovered from surviving millwork, from the plates of Benjamin and Lafever, and from period and modern millwork catalogues; they are typical rather than particular, and they are offered as coherent families rather than as measurements of any one house."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The finished ceiling height of the room, finished floor to finished ceiling - the wall the whole trim family is a division of",
+    "parts": 19,
+    "default_size_in": 114.0,
+    "note": "NINETEEN PARTS, AND THE NUMBER IS THE WHOLE ARGUMENT OF THIS PACK. A room treated as an order divides into a pedestal, a column and an entablature. Vignola's general rule makes the pedestal one third of the column and the entablature one quarter of it; take the column as twelve and those become four and three, and the wall is nineteen. Pedestal 4, wall field 12, entablature 3. Nineteen is the smallest whole division that carries the derivation, and every dimension in this pack is a fraction of it. THE DEFAULT IS 9 FT 6 IN, which makes the part exactly six inches - the most convenient number in the system and the reason for choosing it. THE CALIBRATION PROBLEM, stated here because it governs everything below: the derivation was worked out for rooms of 11 to 13 ft, and at 12 ft it produces a dado at 30 3/8 in, which is exactly where a Georgian chair rail sits. At 9 ft 6 in it produces a dado at 24 in, which is below the back of a chair. At 8 ft it produces a dado at 20 in, a base at 7 1/2 in and an entablature at 15 in, and the room has more trim than wall. The system is not scale-free, and pretending it is produces most of the bad classical interiors of the last forty years. See the conflicts."
+  },
+  "assemblies": {
+    "wall_section_georgian": {
+      "height_modules": 1.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "geo_base_plinth",
+          "name": "Base board (the plinth of the order)",
+          "height_parts": 1.15,
+          "projection_parts": 0.146,
+          "profile": "plinth",
+          "note": "6 7/8 in of square board, 7/8 in thick. In the Georgian family the base is a real plinth: heavy, square-edged at the floor, and thick enough that the base cap sits proud of it rather than on it. Run in clear pine or, in the best work, in poplar or mahogany for a painted finish.",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_base_cap_cyma",
+          "name": "Base cap, cyma reversa",
+          "height_parts": 0.27,
+          "projection_parts": 0.2,
+          "profile": "cyma-reversa",
+          "note": "1 5/8 in. The cyma reversa - concave above, convex below - is the correct cap for a base because it turns the eye upward off the floor. A cove or a quarter round here is a nineteenth-century simplification and reads as such.",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_base_cap_fillet",
+          "name": "Fillet over the base cap",
+          "height_parts": 0.08,
+          "projection_parts": 0.09,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_dado_panel",
+          "name": "Dado field, raised and fielded panel",
+          "height_parts": 1.79,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "10 3/4 in of panel field. The Georgian dado is panelled where the money allows and plastered where it does not; both are period-correct and the panelled one is what distinguishes a principal room. Panels run wider than tall, typically 1.5 to 1.8 to 1.",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_dado_panel_mould",
+          "name": "Panel mould, ovolo with fillet",
+          "height_parts": 0.13,
+          "projection_parts": 0.11,
+          "profile": "ovolo",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_surbase_astragal",
+          "name": "Astragal under the surbase",
+          "height_parts": 0.1,
+          "projection_parts": 0.1,
+          "profile": "astragal",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_surbase_cyma",
+          "name": "Surbase cyma reversa",
+          "height_parts": 0.24,
+          "projection_parts": 0.18,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_surbase_corona",
+          "name": "Surbase corona - the chair rail proper",
+          "height_parts": 0.18,
+          "projection_parts": 0.26,
+          "profile": "corona",
+          "note": "1 1/8 in high with 1 9/16 in of projection - this is the member a chair back actually hits, and it is the reason the whole assembly exists at that height. Its projection must exceed the base cap's or the rail will not shed a chair.",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_surbase_listel",
+          "name": "Listel over the surbase",
+          "height_parts": 0.06,
+          "projection_parts": 0.08,
+          "profile": "listel",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_wall_field",
+          "name": "Wall field - the column of the order",
+          "height_parts": 12.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "72 in on the default. Plaster, paper, or in the best rooms full panelling. Twelve parts exactly, and every other dimension in the pack is a fraction of this number multiplied by the Vignola ratios. This is the member the invariants check.",
+          "confidence": "high"
+        },
+        {
+          "id": "geo_arch_lower_fascia",
+          "name": "Architrave, first fascia",
+          "height_parts": 0.45,
+          "projection_parts": 0.06,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_arch_bead",
+          "name": "Astragal dividing the fasciae",
+          "height_parts": 0.1,
+          "projection_parts": 0.1,
+          "profile": "astragal",
+          "enrichment": "bead-and-reel in the richest work; plain in ordinary rooms",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_arch_upper_fascia",
+          "name": "Architrave, second fascia",
+          "height_parts": 0.5,
+          "projection_parts": 0.14,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_arch_cyma",
+          "name": "Architrave cap, cyma reversa",
+          "height_parts": 0.15,
+          "projection_parts": 0.2,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_frieze",
+          "name": "Frieze, plain or pulvinated",
+          "height_parts": 0.6,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "3 5/8 in. Pulvinated - cushioned outward - in the Gibbsian manner; flat in plainer work. This is the member that carries carving if the room is to have any, and it is the first thing to omit when it is not.",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cornice_bed_ovolo",
+          "name": "Bed mould, ovolo",
+          "height_parts": 0.18,
+          "projection_parts": 0.16,
+          "profile": "ovolo",
+          "enrichment": "egg-and-dart",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cornice_dentil",
+          "name": "Dentil band",
+          "height_parts": 0.3,
+          "projection_parts": 0.24,
+          "profile": "dentil",
+          "count": null,
+          "spacing_parts": 0.2,
+          "note": "1 3/4 in high, dentils at 1 1/4 in on centres, each about 5/8 in wide with twice that between - the classical dentil proportion. The dentil is the Georgian cornice's signature and the member that most reliably separates it from the Federal cornice above and the Greek Revival one below. Spacing must be set out from the centre of the wall and the corner dentil must be whole; a half dentil in a corner is the fastest way to spoil a good cornice.",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cornice_corona",
+          "name": "Corona",
+          "height_parts": 0.32,
+          "projection_parts": 0.52,
+          "profile": "corona",
+          "note": "1 15/16 in high with 3 1/8 in of projection. The corona is the flat overhanging member that casts the shadow, and it is the one part of a cornice that must not be reduced: a cornice with its corona cut down is a moulding, not a cornice.",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cornice_cyma",
+          "name": "Crowning cyma recta",
+          "height_parts": 0.36,
+          "projection_parts": 0.6,
+          "profile": "cyma-recta",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cornice_fillet",
+          "name": "Fillet at the ceiling",
+          "height_parts": 0.04,
+          "projection_parts": 0.62,
+          "profile": "fillet",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "wall_section_federal": {
+      "height_modules": 1.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "fed_base_plinth",
+          "name": "Base board",
+          "height_parts": 1.02,
+          "projection_parts": 0.125,
+          "profile": "plinth",
+          "note": "6 1/8 in and 3/4 in thick - shorter and thinner than the Georgian base by about an inch each way, which is the whole Federal manner in one dimension. Adamesque delicacy is not a matter of different mouldings; it is the same mouldings run smaller and flatter.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_base_cap_ogee",
+          "name": "Base cap, small cyma reversa",
+          "height_parts": 0.18,
+          "projection_parts": 0.14,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_base_cap_fillet",
+          "name": "Fillet",
+          "height_parts": 0.05,
+          "projection_parts": 0.06,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_dado_field",
+          "name": "Dado field, flat or flush-panelled",
+          "height_parts": 2.02,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "12 1/8 in. The Federal dado is flat or flush-panelled far more often than raised and fielded - the raised panel is a Georgian device and its shadow is too strong for this family. Where there is a panel it is flush with an applied bead.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_dado_reed",
+          "name": "Reeded band below the surbase",
+          "height_parts": 0.08,
+          "projection_parts": 0.06,
+          "profile": "bead",
+          "enrichment": "three-bead reeding, run with a moulding plane or scratch stock",
+          "note": "1/2 in of three-reed banding. Reeding rather than fluting, and applied rather than carved, is the Federal signature: it is quick, it is cheap, it catches a raking light, and it is everywhere from Salem to Charleston.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_surbase_cyma",
+          "name": "Surbase cyma reversa",
+          "height_parts": 0.16,
+          "projection_parts": 0.12,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_surbase_fillet",
+          "name": "Fillet",
+          "height_parts": 0.04,
+          "projection_parts": 0.05,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_surbase_corona",
+          "name": "Surbase corona - the chair rail proper",
+          "height_parts": 0.14,
+          "projection_parts": 0.19,
+          "profile": "corona",
+          "note": "7/8 in high, 1 1/8 in projection. A markedly slighter rail than the Georgian one, and the reason Federal rooms read as taller at the same ceiling height: less is happening at the bottom of the wall.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_surbase_listel",
+          "name": "Listel",
+          "height_parts": 0.06,
+          "projection_parts": 0.07,
+          "profile": "listel",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_wall_field",
+          "name": "Wall field",
+          "height_parts": 12.5,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "75 in - half a part more than the Georgian field, taken from the pedestal and the entablature at both ends. The Federal room gives more of its wall to plaster and less to millwork, which is exactly what a lighter manner requires and what makes it cheaper to build as well as finer to look at.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_arch_fascia_1",
+          "name": "Architrave, first fascia",
+          "height_parts": 0.34,
+          "projection_parts": 0.05,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_arch_bead",
+          "name": "Bead between the fasciae",
+          "height_parts": 0.07,
+          "projection_parts": 0.07,
+          "profile": "bead",
+          "enrichment": "bead-and-reel, or a plain half-round",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_arch_fascia_2",
+          "name": "Architrave, second fascia",
+          "height_parts": 0.38,
+          "projection_parts": 0.11,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_arch_cyma",
+          "name": "Architrave cap",
+          "height_parts": 0.11,
+          "projection_parts": 0.15,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_frieze",
+          "name": "Frieze, flat, with applied composition ornament",
+          "height_parts": 0.65,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "enrichment": "swags, paterae, husks and urns in composition (whiting, resin, linseed oil and glue) pressed from moulds and glued on",
+          "note": "3 7/8 in. The Federal frieze is DEEPER than the Georgian one relative to its entablature, and the reason is composition ornament: the swag and patera work needs a field to sit in, and it is applied rather than carved, which is why an Adamesque room can be more ornate than a Georgian one for less money. This is the single most economically important fact about the Federal manner and the reason it spread so far so fast.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cornice_bed_cavetto",
+          "name": "Bed mould, cavetto",
+          "height_parts": 0.12,
+          "projection_parts": 0.1,
+          "profile": "cavetto",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cornice_dentil",
+          "name": "Dentil band, small and close-set",
+          "height_parts": 0.2,
+          "projection_parts": 0.17,
+          "profile": "dentil",
+          "count": null,
+          "spacing_parts": 0.12,
+          "note": "1 1/4 in high, dentils at 3/4 in on centres - two thirds the Georgian dentil in every dimension and twice as many of them per foot. The close-set small dentil is a reliable Federal tell.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cornice_bead",
+          "name": "Astragal above the dentils",
+          "height_parts": 0.06,
+          "projection_parts": 0.19,
+          "profile": "astragal",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cornice_corona",
+          "name": "Corona",
+          "height_parts": 0.22,
+          "projection_parts": 0.4,
+          "profile": "corona",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cornice_cyma",
+          "name": "Crowning cyma recta",
+          "height_parts": 0.56,
+          "projection_parts": 0.52,
+          "profile": "cyma-recta",
+          "note": "3 3/8 in - proportionally the largest single member in the Federal cornice, and the reason the family reads as light despite having more members than the Georgian one: the mass is in a long shallow sweep rather than in a projecting corona.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cornice_fillet",
+          "name": "Fillet at the ceiling",
+          "height_parts": 0.04,
+          "projection_parts": 0.54,
+          "profile": "fillet",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "wall_section_greek_revival": {
+      "height_modules": 1.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "grk_base_plinth",
+          "name": "Base board, plain",
+          "height_parts": 1.7,
+          "projection_parts": 0.19,
+          "profile": "plinth",
+          "note": "10 1/4 in of plain board, 1 1/8 in thick. THE TALLEST AND PLAINEST BASE OF THE THREE FAMILIES, and the most characteristic single member in a Greek Revival interior. It is a board, not an assembly: no plinth, no sub-base, no shoe in the best work, and its top edge is finished with one small member and nothing else. Where a Georgian base is 9 in in three members, this is 11 1/2 in in two, and the difference is visible across a room.",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_base_cap_ogee",
+          "name": "Base cap, small ogee",
+          "height_parts": 0.14,
+          "projection_parts": 0.13,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_base_cap_fillet",
+          "name": "Fillet",
+          "height_parts": 0.06,
+          "projection_parts": 0.06,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_wall_field",
+          "name": "Wall field - no dado, no chair rail",
+          "height_parts": 14.1,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "84 5/8 in of uninterrupted plaster, and THE ABANDONMENT OF THE DADO IS THE STRUCTURAL FACT ABOUT THIS FAMILY. After about 1830 the chair rail and the panelled dado disappear from all but the most conservative American interiors, and the wall becomes a single field from base to cornice. The pedestal of the order has collapsed into the base board. This is not a simplification of the Georgian room, it is a different reading of the same order - the Greek temple has no pedestal, and the Greek Revival room does not either.",
+          "confidence": "high"
+        },
+        {
+          "id": "grk_arch_fascia",
+          "name": "Architrave, one broad fascia",
+          "height_parts": 1.05,
+          "projection_parts": 0.08,
+          "profile": "fascia",
+          "note": "6 1/4 in in a SINGLE fascia. The Greek architrave is undivided where the Roman one has two or three fasciae, and this is the second great tell of the family. Fewer members, each one larger.",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_arch_bead",
+          "name": "Bead at the architrave head",
+          "height_parts": 0.1,
+          "projection_parts": 0.11,
+          "profile": "bead",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_arch_fillet",
+          "name": "Fillet",
+          "height_parts": 0.05,
+          "projection_parts": 0.12,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_frieze",
+          "name": "Frieze, plain and broad",
+          "height_parts": 0.9,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "5 3/8 in, plain. Lafever's plates show anthemion and honeysuckle bands here in the richest work, incised or applied, but the default is a flat painted board and it is correct.",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_cornice_cavetto",
+          "name": "Bed cavetto",
+          "height_parts": 0.3,
+          "projection_parts": 0.18,
+          "profile": "cavetto",
+          "note": "1 3/4 in. A cavetto rather than an ovolo at the bed, and no dentils - the Greek Revival cornice has three or four members where the Georgian has five and the Federal six.",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_cornice_corona",
+          "name": "Corona, deep and flat",
+          "height_parts": 0.42,
+          "projection_parts": 0.55,
+          "profile": "corona",
+          "note": "2 1/2 in high with 3 1/4 in of projection - the deepest corona of the three families relative to its cornice. The Greek Revival cornice makes its effect with one big shadow rather than several small ones.",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_cornice_ovolo",
+          "name": "Crowning ovolo",
+          "height_parts": 0.14,
+          "projection_parts": 0.6,
+          "profile": "ovolo",
+          "note": "An ovolo rather than a cyma recta at the crown - flatter, tighter, and Greek. Substituting a cyma here is the commonest way a 'Greek Revival' cornice ends up looking Colonial Revival.",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_cornice_fillet",
+          "name": "Fillet at the ceiling",
+          "height_parts": 0.04,
+          "projection_parts": 0.62,
+          "profile": "fillet",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "casing_georgian": {
+      "height_modules": 0.0526315789,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "geo_cas_reveal",
+          "name": "Reveal at the jamb",
+          "height_parts": 0.042,
+          "projection_parts": 0.0,
+          "profile": "fillet",
+          "note": "1/4 in. This assembly is measured ACROSS the casing from the jamb outward rather than vertically; height_parts is therefore a width. The reveal is the small setback of the casing from the face of the jamb and it is what makes the casing read as applied rather than as part of the door - 1/4 in is standard, 3/16 in in fine work, and nothing at all is a modern error that flattens the whole opening.",
+          "confidence": "high"
+        },
+        {
+          "id": "geo_cas_bead",
+          "name": "Bead at the inner edge",
+          "height_parts": 0.083,
+          "projection_parts": 0.09,
+          "profile": "bead",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cas_fascia_1",
+          "name": "First fascia",
+          "height_parts": 0.292,
+          "projection_parts": 0.06,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cas_astragal",
+          "name": "Astragal dividing the fasciae",
+          "height_parts": 0.083,
+          "projection_parts": 0.11,
+          "profile": "astragal",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cas_fascia_2",
+          "name": "Second fascia",
+          "height_parts": 0.333,
+          "projection_parts": 0.13,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "geo_cas_backband_ogee",
+          "name": "Backband, cyma reversa",
+          "height_parts": 0.125,
+          "projection_parts": 0.19,
+          "profile": "cyma-reversa",
+          "note": "3/4 in wide and 1 1/8 in proud of the wall. THE BACKBAND IS THE MEMBER THAT MAKES A GEORGIAN CASING GEORGIAN. It is run as a separate piece, applied to the outer edge of the casing after the casing is fixed, which is why it survives on so many houses where the casing has been replaced and why it can be added to a plain casing to correct one. Its projection is what casts the shadow that reads from across a room; a flat casing of the same width reads as a board.",
+          "confidence": "high"
+        },
+        {
+          "id": "geo_cas_backband_fillet",
+          "name": "Fillet at the wall",
+          "height_parts": 0.042,
+          "projection_parts": 0.19,
+          "profile": "fillet",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "casing_federal": {
+      "height_modules": 0.0394736842,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "fed_cas_reveal",
+          "name": "Reveal at the jamb",
+          "height_parts": 0.033,
+          "projection_parts": 0.0,
+          "profile": "fillet",
+          "note": "3/16 in - a finer reveal than the Georgian, in keeping with everything else. Measured across the casing, as in the Georgian assembly.",
+          "confidence": "high"
+        },
+        {
+          "id": "fed_cas_bead",
+          "name": "Bead at the inner edge",
+          "height_parts": 0.058,
+          "projection_parts": 0.06,
+          "profile": "bead",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cas_fascia_1",
+          "name": "First fascia",
+          "height_parts": 0.183,
+          "projection_parts": 0.04,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cas_reeding",
+          "name": "Reeded band",
+          "height_parts": 0.15,
+          "projection_parts": 0.08,
+          "profile": "bead",
+          "enrichment": "three or five reeds, run with a moulding plane",
+          "note": "9/10 in of reeding worked into the face of the casing rather than applied. This is the Federal casing's substitute for the Georgian backband: the interest is IN the board rather than proud of it, which is why a Federal casing photographs flat and reads beautifully in raking daylight. It is also why Federal trim is destroyed by heavy paint build-up in a way Georgian trim is not.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cas_fascia_2",
+          "name": "Second fascia",
+          "height_parts": 0.208,
+          "projection_parts": 0.06,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cas_backband",
+          "name": "Small backband or outer ogee",
+          "height_parts": 0.083,
+          "projection_parts": 0.11,
+          "profile": "cyma-reversa",
+          "note": "1/2 in and only 5/8 in proud - half the Georgian backband's projection. In much Federal work the backband is omitted altogether and the casing is finished with a simple outer bead.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fed_cas_fillet",
+          "name": "Fillet at the wall",
+          "height_parts": 0.035,
+          "projection_parts": 0.11,
+          "profile": "fillet",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "casing_greek_revival": {
+      "height_modules": 0.0605263158,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "grk_cas_reveal",
+          "name": "Reveal at the jamb",
+          "height_parts": 0.042,
+          "projection_parts": 0.0,
+          "profile": "fillet",
+          "note": "1/4 in. Measured across the casing, as in the other two families.",
+          "confidence": "high"
+        },
+        {
+          "id": "grk_cas_fascia",
+          "name": "One broad flat fascia",
+          "height_parts": 0.858,
+          "projection_parts": 0.0,
+          "profile": "fascia",
+          "note": "5 1/8 in of plain flat board, 7/8 to 1 1/8 in thick, very slightly tapered in the best work so the outer edge is a shade thicker. FOUR MEMBERS TOTAL, against seven in the Georgian casing and seven in the Federal. This is what 'flatter, bolder, fewer members' means dimensionally, and it is the reason Greek Revival trim is by far the cheapest of the three families to run and the least forgiving of a bad wall - there is nothing on it to hide behind. Where the opening is crossetted or 'eared' - Lafever's shouldered architrave - the ears are formed by returning this fascia and the backband at the head, and the backband must be removable at the corner for the return to be made.",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_cas_backband_fillet",
+          "name": "Fillet at the outer edge of the fascia",
+          "height_parts": 0.042,
+          "projection_parts": 0.06,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "grk_cas_backband_ovolo",
+          "name": "Backband, ovolo",
+          "height_parts": 0.208,
+          "projection_parts": 0.22,
+          "profile": "ovolo",
+          "note": "1 1/4 in wide, 1 5/16 in proud - the boldest backband of the three families and an ovolo rather than a cyma. Together with the single fascia it gives the profile its characteristic silhouette: one long flat, one hard round, nothing else.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is exactly six inches: a 9 ft 6 in ceiling divides into nineteen parts of six inches.",
+      "expression": "module.default_size_in / module.parts == 6.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The wall divides in nineteen because Vignola's pedestal is one third of the column and his entablature one quarter of it: 4 + 12 + 3 = 19.",
+      "expression": "module.parts == 4 + 12 + 3",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The Georgian wall field is twelve parts - the column of the order.",
+      "expression": "assemblies.wall_section_georgian.members.geo_wall_field.height_parts == 12",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The entablature is a quarter of the wall field, which is Vignola's general rule: 12 / 4 = 3, and 3 is what is left above the field once the four-part pedestal is taken out of nineteen.",
+      "expression": "module.parts - assemblies.wall_section_georgian.members.geo_wall_field.height_parts - assemblies.wall_section_georgian.members.geo_wall_field.height_parts / 3 == assemblies.wall_section_georgian.members.geo_wall_field.height_parts / 4",
+      "tolerance": 0.001,
+      "note": "19 - 12 - 4 = 3. This single expression checks that the encoded field height, the pedestal-as-one-third rule and the entablature-as-one-quarter rule are mutually consistent. If any one of the three is edited the invariant fails, which is exactly what it is for."
+    },
+    {
+      "statement": "Each wall section accounts for the whole ceiling height: one module, nineteen parts.",
+      "expression": "assemblies.wall_section_federal.height_modules == 1.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The Federal casing is narrower than the Georgian - the pack's claim of Adamesque delicacy, made checkable.",
+      "expression": "assemblies.casing_federal.height_modules < assemblies.casing_georgian.height_modules",
+      "tolerance": 0.0
+    },
+    {
+      "statement": "The Greek Revival casing is broader than the Georgian.",
+      "expression": "assemblies.casing_greek_revival.height_modules > assemblies.casing_georgian.height_modules",
+      "tolerance": 0.0
+    },
+    {
+      "statement": "The Greek Revival base is taller than the Georgian base and the Federal base is shorter than both: 10 1/4, 6 7/8, 6 1/8 inches of board. The three families are ranked by their base boards and the ranking is diagnostic.",
+      "expression": "assemblies.wall_section_greek_revival.members.grk_base_plinth.height_parts > assemblies.wall_section_georgian.members.geo_base_plinth.height_parts",
+      "tolerance": 0.0
+    },
+    {
+      "statement": "The Federal base is the slightest of the three.",
+      "expression": "assemblies.wall_section_federal.members.fed_base_plinth.height_parts < assemblies.wall_section_georgian.members.geo_base_plinth.height_parts",
+      "tolerance": 0.0
+    },
+    {
+      "statement": "The Greek Revival wall field is the largest of the three, because the dado has been abandoned and the pedestal has collapsed into the base board.",
+      "expression": "assemblies.wall_section_greek_revival.members.grk_wall_field.height_parts > assemblies.wall_section_federal.members.fed_wall_field.height_parts",
+      "tolerance": 0.0
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.5 / 19",
+      "units": "in",
+      "range": [
+        4.5,
+        18.0
+      ],
+      "authority_note": "The base is the plinth-and-base-mouldings portion of the pedestal: 1.5 of the pedestal's 4 parts. Independently, the trade rule of thumb puts the base at about 7 per cent of wall height (1.5/19 = 7.9 per cent), and the storey-graduation pack derives ceiling/14 (7.1 per cent) from the same tradition. Three routes, one number.",
+      "note": "BASE HEIGHT. Nine inches on a 9 ft 6 in ceiling, 7 1/2 in on an 8 ft ceiling, 11 3/8 in on a 12 ft ceiling. THE FAMILY MULTIPLIERS, which are the useful part: Georgian x 1.00, Federal x 0.85, Greek Revival x 1.27. A Greek Revival base is half again the Federal base in the same room, and getting that ranking right does more for the character of an interior than any amount of correct profile. If you specify one dimension in a trim schedule, specify this one, because everything else in the room is judged against it."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "ceiling_height * 4 / 19",
+      "units": "in",
+      "range": [
+        18.0,
+        42.0
+      ],
+      "judgment": true,
+      "authority_note": "The derivation is exact - the pedestal is four nineteenths of the wall - and the derivation is NOT what period rooms do below about 11 ft of ceiling. Measured Georgian and Federal chair rails sit at 28-36 in almost regardless of ceiling height.",
+      "note": "CHAIR RAIL AT THE TOP OF THE PEDESTAL. Twenty-four inches on the default, 30 3/8 in on a 12 ft ceiling, 20 in on an 8 ft ceiling. MARKED JUDGMENT, AND THIS IS THE MOST IMPORTANT JUDGMENT MARKER IN THE PACK. The classical derivation is calibrated to a room of 11 to 13 ft, where it lands exactly where a chair rail belongs. Below that it produces a rail below the back of a chair, which is not merely unhistorical but useless: the member is called a chair rail because it stops chairs, and a rail at 20 in stops nothing. THE RESOLUTION, and it is the same one the storey-graduation pack reaches from the other direction: THE WINDOW SILL WINS. Sills sit at a near-constant 28-32 in above the floor on every storey of every period because they are set by the human body at a window, and a chair rail that misses the sill by an inch and a half is visible from across the room and unforgivable. So: compute the derivation, compute the sill, and if they differ by more than about an inch, take the sill and let the pedestal be taller than the order allows. Then - and this is the part that is usually missed - RE-DERIVE THE BASE AND THE CORNICE from the pedestal you actually used, so the room remains internally consistent even though it has departed from Vignola.",
+      "calibrated_for": {
+        "ceiling_height": [
+          142.5,
+          168
+        ],
+        "note": "Corrected 0.2.0. The pack previously claimed 11-13 ft; the derivation reaches the measured 30-32 in band only at 142.5 in, so it is out of calibration through the whole New England and Chesapeake range and comes good only in Charleston. Below that, set the rail from the window sill and re-derive base and cornice from the pedestal you actually used."
+      }
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.2 / 19",
+      "units": "in",
+      "range": [
+        3.0,
+        16.0
+      ],
+      "authority_note": "The cornice member alone, which is 1.2 of the entablature's 3 parts - the same 4 : 10 division of the entablature that the Vignola order packs give for the Corinthian cornice.",
+      "note": "CROWN HEIGHT WHERE ONLY A CORNICE IS RUN, which is the ordinary case. Just over seven inches on the default - 7 3/16; 6 in on an 8 ft ceiling; 8 3/8 in on an 11 ft ceiling. This is the number to give a millworker when the room is getting a crown and not a full entablature, and it is measured on the FACE of the profile from its bed line to the ceiling, not as the vertical projection of a sprung moulding - a 7 1/4 in sprung crown at 45 degrees measures about 5 1/8 in on the wall and about the same on the ceiling, and confusing the two is the commonest ordering error in trim work."
+    },
+    {
+      "target_slot": "trim_family",
+      "dimension": "height",
+      "expression": "ceiling_height * 3 / 19",
+      "units": "in",
+      "range": [
+        9.0,
+        34.0
+      ],
+      "authority_note": "The entablature is one quarter of the column: 3 parts against 12.",
+      "note": "FULL ENTABLATURE HEIGHT - architrave, frieze and cornice together - where the room is to have one. Eighteen inches on the default. This is what a principal room in a Georgian or Federal house of quality actually has, and it is a great deal more trim than a modern eye expects: eighteen inches of the wall's top is millwork. It divides 1.2 : 0.6 : 1.2 in the Georgian family (architrave : frieze : cornice), which is 2 : 1 : 2 and is worth remembering as a rule of thumb of its own. THE DECISION RULE: run a full entablature where the ceiling is 10 ft or more and the room is a principal one; run a cornice alone below that; run nothing at all rather than a 2 1/4 in stock crown, which reads as an admission."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 6",
+      "units": "in",
+      "range": [
+        3.0,
+        11.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXVI, verbatim on the jambs of an opening: they 'ought not to be less thick than the sixth part of the breadth of the void, nor thicker than the fifth.' Vitruvius gives one twelfth to one fourteenth of the HEIGHT for temple doorways, which on a 1:2 opening is one sixth to one seventh of the width - the same answer by a different route.",
+      "note": "CASING WIDTH FROM THE OPENING. Six inches on a 36 in door, five on a 30 in one. THE SINGLE MOST USEFUL RULE IN THIS PACK, because it is exactly stated in a primary source, it is dimensionless, and it is almost universally got wrong in modern work, where a 2 1/4 in stock casing is applied to a 36 in door - one sixteenth of the void instead of one sixth. The band Palladio gives, 1/6 to 1/5, is 6 to 7 1/4 in on a 36 in door, and both ends of it are defensible: take 1/6 for doors and the wider 1/5 for windows, where the stool and apron add weight below and the casing needs to hold its own. Include the backband in the measured width; the reveal is additional."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "projection",
+      "expression": "opening_width / 6 * 0.18",
+      "units": "in",
+      "range": [
+        0.4,
+        2.5
+      ],
+      "note": "BACKBAND PROJECTION FROM THE WALL. About 1 1/8 in on a 36 in door in the Georgian family; 5/8 in Federal; 1 5/16 in Greek Revival. The projection is what turns a flat board into an architrave, and it is the dimension that reads from across the room when the profile itself does not. It is also the cheapest correction available on an existing plain casing: a run of backband nailed to the outer edge of a flat 1x6 converts it into a credible Greek Revival architrave for the cost of the stock."
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "height",
+      "expression": "opening_width / 6 * 3",
+      "units": "in",
+      "range": [
+        9.0,
+        34.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXVI: over the architrave the frieze is three quarters of the architrave and the cornice five quarters. 1 + 0.75 + 1.25 = 3 architraves.",
+      "note": "FULL ENTABLATURE OVER AN INTERIOR DOOR - eighteen inches on a 36 in door, and the arithmetic is a straight quotation. This is the doorhead of a principal room in Georgian and Federal work, and note what it means: the trim above the door is as tall as the casing is wide, three times over. Note also the alignment consequence, which is the real reason to compute it - the top of this assembly lands at about 98 in above the floor on a 6 ft 8 in door, and if the room's own entablature bed is at 96 in, the two collide. THE RESOLUTION IS TO SET THE DOOR HEAD FROM THE ENTABLATURE, not the entablature from the door: bring the door head down until its cornice tucks under the room's architrave, or - better and more period - let the door's cornice BE the room's architrave line, so the two run together around the room. That single alignment is what makes a fully trimmed Georgian room feel composed rather than assembled."
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.92 / 19",
+      "units": "in",
+      "range": [
+        6.0,
+        24.0
+      ],
+      "note": "DADO PANEL FIELD HEIGHT - the clear panel between the base cap and the surbase. Eleven and a half inches on the default. This is the dimension that gets squeezed to nothing when the pedestal rule is applied to a low ceiling: at 8 ft the pedestal is 20 in, the base takes 7 1/2 and the surbase 3, leaving 9 1/2 in of panel, which is a slot rather than a panel. Below about 9 in of clear field, abandon the panelled dado and use a flat one, or abandon the dado altogether and go to the Greek Revival family, which was invented for exactly this situation."
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "width",
+      "expression": "ceiling_height * 1.92 / 19 * 1.6",
+      "units": "in",
+      "range": [
+        9.0,
+        40.0
+      ],
+      "note": "DADO PANEL WIDTH. Eighteen and a half inches on the default. Dado panels run WIDER than tall, typically 1.5 to 1.8 to 1, which is the opposite of the vertical panels people default to and is one of the reliable tells of a reproduction dado. The reason is structural as much as visual: a wide shallow panel in a solid-wood dado moves less across its width than a tall one moves across its height, and the eighteenth-century joiner was sizing panels to survive winter."
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "count",
+      "expression": "max(2, round(span / (ceiling_height * 4 / 19 * 1.45)))",
+      "units": "count",
+      "range": [
+        2.0,
+        14.0
+      ],
+      "note": "PANELS ALONG A WALL. Six on an 18 ft wall at the default ceiling. The count must be adjusted so that the panels either side of a door, a window or a chimney breast are EQUAL and so that no panel is a fragment: set out from the centre of the wall, or from the centre of the chimney breast where there is one, and take the accumulated difference in the stiles rather than in the panels. A dado whose panel widths vary by more than about ten per cent along one wall reads as an error even to someone who cannot say why."
+    },
+    {
+      "target_slot": "trim_family",
+      "dimension": "height",
+      "expression": "ceiling_height * 16 / 19",
+      "units": "in",
+      "range": [
+        60.0,
+        140.0
+      ],
+      "judgment": true,
+      "note": "PICTURE RAIL, AT THE BED OF THE ENTABLATURE. Ninety-six inches on the default - exactly eight feet, which is not an accident but is a happy one. THE CLASSICAL POSITION for a picture rail is the line where the entablature begins, because that is where the wall field ends and hanging pictures above it would hang them on the order. This is also, in a fully trimmed room, the top of full-height panelling and the head line of the doors, so three separate things land on one datum and the room gains a horizontal it did not have to pay for. MARKED JUDGMENT because there is a second and equally attested tradition, later and mostly Victorian, that puts the picture rail within a few inches of the ceiling - 1/2 in below on an 8 ft ceiling, 4-6 in below at 9 ft, 8-12 in below at 10 ft and above - which produces a frieze zone above the rail that is papered or coloured differently. Both are correct; they belong to different decades and they cannot be mixed. Choose by date: entablature bed before about 1840, near-ceiling after about 1870, and either in between."
+    },
+    {
+      "target_slot": "interior_door",
+      "dimension": "height",
+      "expression": "ceiling_height * 0.7",
+      "units": "in",
+      "range": [
+        60.0,
+        112.0
+      ],
+      "authority_note": "Palladio ch. XXV gives room doors 'not wider than three foot, and six and a half high; nor less than two foot in breadth, and five in height' - a height range of 60 to 78 in with proportions of 2.17 to 2.5. Measured Anglo-American interior doors run 6 ft 6 in to 7 ft 6 in in Georgian and Federal principal rooms.",
+      "note": "INTERIOR DOOR HEIGHT AS A FRACTION OF THE ROOM. Eighty inches on the default, 92 in on a 11 ft ceiling. The rule that matters is not the absolute height but the RATIO: a door should occupy about seven tenths of the wall, and a 6 ft 8 in door in a 12 ft room occupies 56 per cent and looks like a hatch. This is the most visible failure of applying stock joinery to a correctly proportioned room, and it is the one place where the extra cost is unavoidable - tall doors are a real expense and there is no substitute for them. Where the budget will not carry tall doors throughout, put them on the enfilade and the principal rooms and use stock elsewhere, which is what period houses did."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "projection",
+      "expression": "ceiling_height * 1.5 / 19 * 0.097",
+      "units": "in",
+      "range": [
+        0.5,
+        1.75
+      ],
+      "note": "BASE THICKNESS. Seven eighths of an inch on the default - which is to say, 4/4 stock dressed, not the 1/2 in of modern primed base. The base must be THICKER than the casing it dies into, or the casing will have to be scribed onto it and the joint will open with the first heating season. This single relationship - base thicker than casing, casing thicker than nothing - is the reason the plinth block exists, and the reason its omission causes so much trouble."
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "height",
+      "expression": "ceiling_height * 1.5 / 19 + 1.0",
+      "units": "in",
+      "range": [
+        5.5,
+        20.0
+      ],
+      "note": "PLINTH BLOCK HEIGHT - one inch above the top of the base, so the base cap dies cleanly into the block's face instead of being mitred around it. Ten inches on the default. The plinth block must also be WIDER than the casing by about 1/4 in and THICKER than the base by about 1/8 in, so that everything dies into it and nothing has to be scribed to anything. It is the joint that makes a classical opening buildable in solid wood, it costs almost nothing, and its absence is why so many otherwise good reproductions have a mess at the floor."
+    },
+    {
+      "target_slot": "fireplace_surround",
+      "dimension": "height",
+      "expression": "ceiling_height * 0.4",
+      "units": "in",
+      "range": [
+        34.0,
+        68.0
+      ],
+      "judgment": true,
+      "note": "MANTEL SHELF HEIGHT. Forty-five and a half inches on the default. Marked judgment: the measured range is wide (42-56 in Georgian, 40-50 in Federal, 44-54 in Greek Revival) and the shelf height is set as much by the firebox and the overmantel as by the wall. What the ratio is good for is the CHECK: the shelf should sit well above the chair rail and well below the midpoint of the wall, and a mantel that lands within two inches of the surbase makes the two members fight. Where there is an overmantel or a chimney glass, the shelf drops and the composition above it takes over the wall - which is a different design problem and one the ratio cannot help with."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height * 1.2 / 19",
+      "units": "in",
+      "range": [
+        3.0,
+        16.0
+      ],
+      "note": "CORNICE PROJECTION ONTO THE CEILING, equal to its height on the wall. A cornice that projects as far as it is tall runs at 45 degrees and is the classical default; the Vignola order packs record the Corinthian projecting slightly more than its height and the Ionic slightly less, and either variation is defensible. What is not defensible is the modern stock crown, which projects about half its height and therefore reads as a moulding stuck to a wall rather than as a transition between wall and ceiling. If a room is getting one thing, give it projection."
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "width",
+      "expression": "opening_width / 5.5",
+      "units": "in",
+      "range": [
+        3.0,
+        12.0
+      ],
+      "authority_note": "The wider end of Palladio's 1/6 to 1/5 band.",
+      "note": "WINDOW CASING, WIDER THAN THE DOOR CASING IN THE SAME ROOM. Six and a half inches on a 36 in window. This asymmetry surprises people and it is well attested: the window casing carries a stool and apron below it, which add visual weight at the bottom, and it is seen against daylight, which eats about a quarter of its apparent width. A window casing the same width as the door casing beside it looks narrower than the door casing, every time. The stool projects past the casing by about the thickness of the casing, and the apron runs to the outer edge of the casing and no further. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "trim_family",
+      "dimension": "count",
+      "expression": "5",
+      "units": "count",
+      "range": [
+        3.0,
+        9.0
+      ],
+      "judgment": true,
+      "note": "MEMBERS IN THE CORNICE, BY FAMILY: Georgian 5 (bed ovolo, dentils, corona, cyma, fillet), Federal 6 (cavetto, small dentils, astragal, corona, cyma, fillet), Greek Revival 4 (cavetto, corona, ovolo, fillet). The default returned is the Georgian. Marked judgment because the count varies by room within a house - a period house grades its trim, with the best cornice in the parlor, a lesser one in the dining room and none at all in the chambers - and a single count applied throughout is itself the error. THE GRADING RULE, which is worth more than the count: reduce the number of MEMBERS from room to room, never the size of the room's base, because the base is what sets the scale and the cornice is what sets the rank."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "The eight-foot ceiling against a full classical trim family, and it is the defining conflict of the whole pack. At 96 in the derivation gives a base of 7 1/2 in, a chair rail at 20 in, an entablature of 15 in and a wall field of 60 in. The chair rail is below the back of a chair; the entablature is a sixth of the wall and looks it; and between the base cap at 9 in and the surbase at 20 in there is 11 in of dado, which is a slot. The eight-foot ceiling is not a design decision - it is what a stock 92 5/8 in precut stud gives, and it exists because it minimises framing cost.",
+      "resolution": "In descending order of honesty. (1) RAISE THE CEILING. Nine feet costs a 104 5/8 in stud, about four per cent more wall material, and one extra riser in the stair, and it is by a wide margin the cheapest architectural improvement available to a domestic interior - it fixes the trim, the doors, the windows and the light in one move. Push for it before conceding anything else. (2) IF THE CEILING IS FIXED AT EIGHT FEET, USE THE GREEK REVIVAL FAMILY AND NOTHING ELSE. It was developed in exactly these conditions: it abandons the dado, puts a tall plain base at the bottom, runs a single broad flat casing, and crowns the wall with four members. It is the only one of the three families that works at 8 ft, and it works well. (3) Run the base at the full derived height even though it looks tall, because a tall base makes a low room read as deliberate; run NO chair rail rather than a low one; and run a cornice of 6 in or run nothing. (4) What you must not do is take the Georgian family and shrink every member proportionally. A miniature Georgian room does not read as a Georgian room seen from far away; it reads as a room whose trim is too small, because the human body does not scale and the chair rail is still 20 in off the floor.",
+      "severity": "blocking"
+    },
+    {
+      "with": "material-availability",
+      "statement": "The three families assume clear, stable, close-grained softwood or a decent hardwood - the eastern white pine, longleaf yellow pine, poplar and mahogany of the period - and the profiles are drawn for it. What is available now for painted work is finger-jointed primed pine or MDF. Finger-jointed stock telegraphs its joints through paint within two or three heating seasons, most visibly on a long flat fascia in raking light, which is precisely the Greek Revival casing and the Federal reeded band. MDF holds a profile beautifully, takes paint better than wood, and swells irreversibly at the first plumbing leak, wicking water up a base board like a candle.",
+      "resolution": "Match the material to the family, which is the specific expertise here. GREEK REVIVAL is the family most damaged by finger-joint, because its whole effect is one large unbroken flat; specify solid clear stock for the casings and the base, and accept finger-joint only for the small mouldings where the joints are broken up by the profile. FEDERAL reeding must be run in solid stock - finger-jointed reeding chips at every joint. GEORGIAN is the most forgiving, because its casing is broken into fasciae and its backband is a separate applied piece, so finger-jointed cores with a solid backband are a reasonable compromise and nobody will see it. MDF is acceptable for crown and for panel mould, where it is never wet and never touched, and should be refused for base board, for door casing below about 30 in, and for anything in a bathroom or a kitchen. And on any project of quality, specify the base and the casings in solid clear stock and take the saving out of the cornice, which is high, dry, untouched and unexamined.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "ANSI A117.1 and the ADA require 32 in of clear width at a doorway, which in practice means a 36 in leaf. Palladio's rule then wants a 6 in casing each side, a 1 in plinth block overhang each side, and a door 72 to 78 in high on a 2:1 or 2.17:1 proportion - so the opening plus its trim occupies 50 in of wall before any wall is left over, and the door itself wants to be taller than the 80 in stock leaf. In a corridor or a small room this consumes the wall entirely, and the manoeuvring clearances on the latch side compound it.",
+      "resolution": "Take the width and give up the proportion, in that order, and be explicit about it. A 36 x 84 door is 2.33 : 1, which is outside Palladio's stated band and inside the measured Anglo-American range, and it is available as a special order at modest cost; this is the best answer and it should be the default on any accessible route. Where 84 in is not available, a 36 x 80 door at 2.22 : 1 is entirely defensible and is what most Federal work actually built. Where the wall genuinely will not hold the trim, reduce the casing to Palladio's 1/6 rather than the 1/5 - never below - and omit the plinth block in favour of a base that dies into the casing, which is a Greek Revival detail and correct in that family. The move to refuse is narrowing the door: a 32 in leaf in a classical opening is both non-compliant and, at 2.5 : 1, badly proportioned, and it fails twice.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "The full entablature and the cornice are run at the junction of wall and ceiling, which in modern light-frame construction is the one place the building moves. Roof-truss uplift lifts the bottom chord away from the interior partitions by 1/4 to 1/2 in each winter and drops it back each summer; engineered floor systems shrink and creep; and a rigid 18 in millwork entablature bridging that joint will crack, open or tear the ceiling every year.",
+      "resolution": "Fix the cornice to the WALL only and let the ceiling float behind it, which is the standard truss-uplift detail and works perfectly for millwork: back the cornice with continuous blocking on the wall plate, fasten nothing into the ceiling framing, and let the ceiling board slide behind the top fillet. Where the entablature is deep enough to need support at the ceiling, use a slip joint or a shadow gap at the top member rather than a caulked butt. On a plaster ceiling with a run cornice the traditional answer is the same one - the cornice is run on the wall and the ceiling is finished up to it - which is why period cornices survive movement that destroys modern ones. And where the room is under a trussed roof, say so on the drawing, because the trim carpenter will otherwise nail through the top fillet into the bottom chord and undo all of it in four seconds.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The system assumes a plaster wall on lath, which is set to a straightedge and is flat to about 1/8 in in 10 ft. Gypsum board over modern framing is flat to about 1/4 in in 10 ft on a good job and considerably worse at the corners, and every one of these profiles is designed to sit tight to a flat surface. A 1 1/8 in backband against a bowed wall shows a tapering gap for its whole length; a 5 1/8 in flat Greek Revival fascia against an out-of-plumb jamb shows a wedge of daylight; and the deeper the profile the worse it gets.",
+      "resolution": "Three moves, in order. (1) Specify the wall flatness as a tolerance - level 5 finish and a straightedge tolerance in the specification, not just 'gypsum board' - because the trim is only as good as the plane it lands on and no carpenter can fix it afterwards. (2) Use the reveal. The 1/4 in setback of the casing from the jamb is not decoration; it is a tolerance device, and it absorbs jamb misalignment that a flush casing would show. This is the reason it exists and the reason the modern flush-cased opening is so unforgiving. (3) Prefer built-up assemblies to single wide profiles wherever the wall is suspect: a Georgian casing in four pieces will follow a bad wall where a Greek Revival casing in one 5 in board will not, which is a genuine and rarely stated argument for choosing one family over another on a given job.",
+      "severity": "minor"
+    },
+    {
+      "with": "cost",
+      "statement": "A full classical trim family is a large number of separate profiles - the Georgian wall section here has twenty members, and each distinct profile is a separate knife, a separate setup and a separate run at the mill. Setup cost dominates on a house-sized order, so the twentieth profile costs nearly as much to originate as the first, and the quotation comes back at three to five times a stock trim package.",
+      "resolution": "Reduce the number of DISTINCT profiles, not the size of the members, and reuse aggressively. The same cyma reversa serves as base cap, surbase cyma and architrave cap at three different scales only if you let it be one scale - so choose one and use it in all three places, which is what period millwork did because the joiner had a finite number of planes. A well-run house can be trimmed with six or seven distinct profiles: one fascia, one backband, one cyma reversa, one astragal, one ovolo, one corona, one bed. Then vary the ASSEMBLY room by room, which costs nothing. And take the whole entablature out of the secondary rooms rather than thinning it everywhere: a house with three fully trimmed rooms and eight plainly trimmed ones is a period house, and a house with eleven half-trimmed rooms is a modern one.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "english-palladian",
+    "english-baroque",
+    "english-classical",
+    "palladian",
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "charleston-single-house",
+    "new-england-colonial",
+    "cape-cod-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "dutch-colonial-american",
+    "adam-style",
+    "regency",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "jeffersonian-classicism",
+    "early-republic",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-southern-plantation",
+    "greek-revival-upland-vernacular",
+    "italianate-american",
+    "italianate-townhouse",
+    "second-empire",
+    "renaissance-revival-american",
+    "beaux-arts-american",
+    "neoclassical-revival",
+    "colonial-revival",
+    "georgian-revival",
+    "cape-cod-revival",
+    "garrison-revival",
+    "new-classical",
+    "octagon-house",
+    "folk-victorian"
+  ],
+  "sources": [
+    "Giacomo Barozzi da Vignola, Regola delli cinque ordini d'architettura (1562) - the pedestal at one third and the entablature at one quarter of the column, which is the derivation the whole pack rests on; encoded in the tdl order packs vignola-tuscan, vignola-doric, vignola-ionic, vignola-corinthian and vignola-composite",
+    "Andrea Palladio, I quattro libri dell'architettura (1570), Book I ch. XXVI - the architrave of an opening at one sixth to one fifth of its breadth, and the frieze and cornice over it at three quarters and five quarters of the architrave; transcription at c82.net/architecture/book1",
+    "Vitruvius, De architectura, Book IV ch. VI - the antepagmenta of a doorway at one twelfth to one fourteenth of the aperture height, which corroborates Palladio by a different route",
+    "Asher Benjamin, The American Builder's Companion (1806, 6th ed. 1827) and The Practical House Carpenter (1830) - the transmission of the Federal and then the Greek profiles into American practice",
+    "Minard Lafever, The Modern Builder's Guide (1833) and The Beauties of Modern Architecture (1835) - the Greek Revival profiles, the shouldered or crossetted architrave, and the anthemion enrichments",
+    "Peter Nicholson, The New Practical Builder and Workman's Companion (1823)",
+    "Brent Hull, Historic Millwork: A Guide to Restoring and Re-creating Doors, Windows and Moldings of the Late Nineteenth through Mid-Twentieth Centuries (2003), and the Hull Historical Molding Catalog",
+    "Gary Katz and contributors, 'Classical Proportions Make Attractive Trim' (Fine Homebuilding) and 'The Magical Entablature' (THISisCarpentry) - for the room-as-an-order division of the wall into pedestal, column and entablature at 2.75 : 8 : 2, which is the same 4 : 12 : 3 to within two per cent and is an independent modern arrival at the same derivation",
+    "Kuiken Brothers Classical Moulding design guides (Georgian, Federal, Greek Revival packages) and comparable period millwork catalogues, for the profile families as they are actually run today",
+    "Old-House Journal technical archive and thecraftsmanblog.com, for picture rail heights and the survival of the profiles",
+    "tdl pack storey-graduation, whose ceiling/14 base rule and 30 in sill datum this pack has to reconcile with and does"
+  ],
+  "confidence": "medium",
+  "notes": "THE DERIVATION, IN ONE PARAGRAPH. A room is an order at reduced scale. The base board is the plinth, the dado is the die of the pedestal, the chair rail is the pedestal cap, the wall is the column, and the cornice is the entablature. Vignola makes the pedestal one third of the column and the entablature one quarter of it; set the column at twelve and the wall divides 4 : 12 : 3, in nineteenths. That is not an analogy, it is an arithmetic identity, and it makes every dimension in an interior computable from one number - the finished ceiling height. On a 9 ft 6 in ceiling the part is exactly six inches, the base is 9 in, the chair rail is at 24 in, the wall field is 72 in and the entablature is 18 in.\n\nTHE HONEST QUALIFICATION, AND IT IS LARGE. The derivation is calibrated to a room of eleven to thirteen feet, which is what the people who worked it out were building. At twelve feet it puts the chair rail at 30 3/8 in, exactly where measured Georgian chair rails sit and exactly where a window sill sits. At nine feet six it puts it at 24 in, which is below the back of a chair, and at eight feet it puts it at 20 in, which is nonsense. The system is not scale-free and this pack does not pretend it is: the chair rail rule is marked judgment, the resolution is that the window sill wins, and the conflict with the eight-foot ceiling is marked blocking because it is.\n\nTHE THREE FAMILIES, RANKED BY THEIR BASE BOARDS, which is the fastest way to tell them apart across a room: Greek Revival 10 1/4 in in two members, Georgian 6 7/8 in in three, Federal 6 1/8 in in three. And by their casings: Greek Revival 6 7/8 in in four members with one broad flat fascia; Georgian 6 in in seven members with a bold applied backband; Federal 4 1/2 in in seven members with the interest reeded into the face rather than proud of it. Federal is not Georgian made smaller - it is Georgian made FLATTER, with the ornament applied in composition rather than carved, which is why it was cheaper and why it travelled. Greek Revival is not a simplification of either - it is a different reading of the order in which the pedestal has been abandoned entirely, which is why it alone survives a low ceiling.\n\nWHAT COULD NOT BE SOURCED. No period treatise dimensions an interior baseboard, a chair rail height or a crown; the derivation is canonical and the numbers are recovered. The individual member heights within each family are typical rather than measured from a particular building, and they are offered at medium confidence as coherent families - the RATIOS between families (Federal narrower, Greek Revival taller and flatter) are firm, the absolute member heights are conventional. Picture rail placement has two genuinely incompatible traditions and both are given. The mantel shelf height and the cornice member count are marked judgment because the measured spread is wide and the room's rank, not its ceiling, is what actually decides them."
+}

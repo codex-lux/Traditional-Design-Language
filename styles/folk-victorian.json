@@ -1,0 +1,210 @@
+{
+  "id": "folk-victorian",
+  "name": "Folk Victorian",
+  "aka": [
+    "Victorian Vernacular",
+    "Carpenter Victorian",
+    "Gingerbread farmhouse",
+    "Cottage Victorian"
+  ],
+  "rank": "style",
+  "member_of": "victorian",
+  "status": "historical",
+  "period": {
+    "origin": 1870,
+    "floruit_start": 1880,
+    "floruit_end": 1910,
+    "decline_end": 1925,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States nationwide",
+      "Deep South",
+      "Midwest",
+      "Great Plains",
+      "Texas",
+      "Appalachia",
+      "Ontario"
+    ],
+    "hearth": "No hearth; the style appears wherever a railroad and a millwork catalogue arrive together",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "3B",
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "american-farmhouse-vernacular",
+      "type": "descends_from",
+      "weight": 0.85,
+      "inherits_kit": true,
+      "note": "The substrate. Plan, massing, framing, roof pitch, chimney position, and room sizes are all inherited unchanged from the folk house; nothing about the massing is Victorian."
+    },
+    {
+      "target": "queen-anne-american",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Real transmission, but of parts only: turned posts, spindle friezes, cut shingles, and sunburst gable panels arrive from the Queen Anne vocabulary by catalogue, stripped of the compositional rules that governed them."
+    },
+    {
+      "target": "italianate-american",
+      "type": "descends_from",
+      "weight": 0.45,
+      "inherits_kit": true,
+      "note": "The earlier catalogue layer: sawn eave brackets, porch brackets, and chamfered posts, which is why the earliest Folk Victorian houses are bracketed rather than spindled."
+    },
+    {
+      "target": "gothic-revival-american",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The oldest layer of applied millwork on the folk house: pierced bargeboard and the single pointed gable sash."
+    }
+  ],
+  "description": {
+    "short": "The ordinary American folk house of the late nineteenth century wearing factory-made Victorian ornament, in which a plain gable-front-and-wing, I-house, or pyramidal cottage receives a spindled porch, sawn brackets, and a decorated gable ordered from a catalogue and delivered by rail.",
+    "long": "Folk Victorian is the most numerous Victorian building type in America and the most consistently patronised in the literature, where it is often filed as a residue, a Queen Anne that could not afford to be one. That reading is exactly backwards. Folk Victorian is not a degraded style; it is a different and clearer phenomenon, and it is the single most important node in this branch for anybody building a kit-of-parts platform, because it is the first mass demonstration of what happens when ornament is fully decoupled from structure, composition, and place, and sold as a separate product.\n\nThe mechanism is exact and datable. Steam-powered lathes, jigsaws, and moulders in the millwork factories of Michigan, Wisconsin, Indiana, and later the Pacific Northwest could turn out porch posts, balusters, spindle friezes, brackets, and cut shingles at a unit cost no local carpenter could approach. The railroad network, which passed 93,000 miles by 1880 and 160,000 by 1890, put nearly every American town within a day of a freight depot. And the illustrated millwork catalogue, from firms such as the Chicago houses that later fed Sears and Montgomery Ward, turned architectural ornament into a mail-order commodity with part numbers and prices. A farmer in Georgia or Kansas could keep the house his father would have built, unchanged in plan, framing, pitch, and hearth position, and buy a front porch that made it modern. That is precisely what several hundred thousand of them did.\n\nThe result is a coherent building type with a hard internal rule that the fashionable styles do not have: the massing stays folk, and the ornament stays on the porch, the cornice, and the gable. There is no tower, no polygonal bay above the first floor, no wraparound, no dominant mass, no texture layering. The wall stays plain and one material. That restraint is not timidity; it is the natural consequence of buying ornament rather than designing a building, and it produces houses that are, at their best, better proportioned than the elaborate Queen Annes down the street, because the folk massing had been refined by two centuries of use while the Queen Anne massing had to be invented fresh by a builder who had seen a picture.\n\nStanding in front of one is a quiet experience and a slightly moving one. The house is a plain gabled box or an L with a steep enough roof to shed snow or rain, sited square to the road, with a porch across the front that is the entire architecture. The spindle frieze catches the light and makes a lace edge along the top of the porch; the turned posts throw thin shadows; the gable has one decorated panel; everything else is siding. On a hot afternoon the porch is where the household actually is. The lesson the type teaches a design system is uncomfortable and worth keeping: the parts these people bought were good parts, correctly proportioned to their job, and the houses work because the parts were confined to the places where a porch and a cornice and a gable had always been. The failures of the period, and of the century since, come from putting purchased parts where nothing had ever been."
+  },
+  "defining_characteristics": [
+    "Massing inherited unchanged from a folk house type: gable-front, gable-front-and-wing, I-house, hall-and-parlor, or pyramidal cottage",
+    "A full-width or L-shaped one-storey porch as the principal architectural event of the building",
+    "Turned or chamfered porch posts with sawn brackets, and usually a spindle frieze or pierced valance at the porch head",
+    "Applied sawn ornament confined to porch, cornice, and gable, all of it factory-produced and catalogue-ordered",
+    "A single wall cladding, generally clapboard or drop siding, unbroken and untextured on every elevation",
+    "Symmetrical or simply organised fenestration, one or two windows per room, with plain surrounds",
+    "No tower, no dominant mass, no wraparound porch, and no upper-storey polygonal bay"
+  ],
+  "diagnostic_tells": [
+    "Simple massing plus fancy porch is the whole diagnosis: if you can describe the footprint in one sentence and the porch takes three, it is Folk Victorian",
+    "The ornament stops where the porch stops; walk to the side elevation and it is a plain farmhouse",
+    "Roof pitch and plan are those of the local vernacular of thirty years earlier, not of any fashionable style",
+    "Compared with Queen Anne: no tower, no bay above the first floor, no texture change, no wall projection, and the ridge is a simple rectangle or L",
+    "Porch posts are turned in a repeating catalogue profile, and the same profile will appear on other houses in the same county because they came off the same order"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-american",
+      "difference": "The definitive pair. Queen Anne requires a dominant mass, two wall textures, wall projections, and an irregular ridge; Folk Victorian forbids all four and keeps a folk footprint. The confusion arises because they share an identical ornament catalogue, so identification must be made from the massing and never from the trim."
+    },
+    {
+      "node": "american-folk-vernacular",
+      "difference": "The undecorated substrate, and a separate family in this taxonomy. Folk Victorian is that family's building with catalogue ornament added; strip the porch and the cornice brackets and what remains is a plain folk house. The distinction is exactly one purchase order."
+    },
+    {
+      "node": "carpenter-gothic",
+      "difference": "The same operation performed a generation earlier with the Gothic catalogue: bargeboards and pointed sash rather than spindles and turned posts. Where both appear, date the house by the porch, which is nearly always the later purchase."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Two systems, deliberately unreconciled. The body is governed by folk framing practice, which is to say by the dimensions a carpenter's tradition had settled on: room sizes of 12 to 16 ft, storey heights of 8 to 10 ft, and pitches set by climate. The ornament is governed by catalogue stock dimensions. The type works because the two never argue, since the ornament is confined to zones the folk house already had.",
+    "typical_ratios": [
+      "Roof pitch 6:12 to 12:12, following local vernacular practice rather than style",
+      "Porch depth 6 to 8 ft, running the full width of the principal elevation or the full length of the L",
+      "Porch post 4x4 to 6x6 nominal, turned with a swell of 5 to 7 in diameter",
+      "Spindle frieze depth 8 to 16 in, spindles 1.25 to 2 in diameter at 3 to 5 in on centre",
+      "Ornament stock thickness 0.75 to 1.25 in throughout; nothing on the building is thicker",
+      "Storey height 8 to 10 ft, notably lower than any fashionable style of the period"
+    ],
+    "bay_rhythm": "Regular and simple, inherited from the folk type: three or five bays on an I-house, two or three on a gable front, one or two per face on a pyramidal cottage. The porch posts establish an independent and usually finer rhythm across the front.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "canonical",
+      "note": "The most common Folk Victorian form in the Midwest and South, with the porch in the reentrant angle."
+    },
+    {
+      "massing": "i-house",
+      "affinity": "canonical",
+      "note": "Two storeys, one room deep, three or five bays, with a full-width spindled porch."
+    },
+    {
+      "massing": "gable-front",
+      "affinity": "common",
+      "note": "The narrow-lot town version, and the most easily catalogued."
+    },
+    {
+      "massing": "pyramidal-cottage",
+      "affinity": "common"
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "possible"
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "atypical",
+      "note": "A genuinely irregular cross-gable composition has left the type; classify as Queen Anne instead."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Massing shall remain a recognised folk type: not more than two primary volumes, a rectangular or L-shaped ridge, no tower, no wraparound porch, and no polygonal bay above the first floor. Any of these converts the building to Queen Anne and it must then satisfy that style's dominant-mass rule."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Applied ornament shall be confined to the porch, the eave and cornice, and the gable field. Wall surfaces between these zones shall carry one cladding material, unbroken and untextured, on every elevation including the rear."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "A porch of 6 to 8 ft depth shall run the full width of the principal elevation, or the full length of both faces of the reentrant angle in an L. A partial or entrance-only porch does not satisfy the type."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "All sawn and turned ornament shall be dimensionally consistent with millwork stock: members not more than 1.25 in thick, spindles not more than 2 in in diameter, and one turned profile used throughout the building. Two different post profiles on one porch is a later replacement, not a design."
+    },
+    {
+      "kind": "cultural",
+      "severity": "advisory",
+      "statement": "Ornament shall be applied only where the folk type already had an element to decorate: a porch, an eave, a gable, a door surround. Introducing an ornamented feature the underlying type never had is the characteristic failure of both the 1890s cheap builder and the modern imitation."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "James and Clara Butler House",
+      "location": "Blakely, Georgia",
+      "year": 1890,
+      "note": "A one-storey side-gabled Georgian-plan cottage with chamfered porch posts, scrollwork, and scrolled bargeboards in the gable ends; the folk plan is entirely intact behind the ornament."
+    },
+    {
+      "name": "Lizzie Garrard House",
+      "location": "Beebe, Arkansas",
+      "year": 1906,
+      "note": "One-and-a-half-storey frame house with a projecting front gable, cut shingles in the gable end, bargeboard, and a wraparound porch with turned posts, balusters, and a delicate spindlework valance."
+    },
+    {
+      "name": "American Gothic House (Dibble House)",
+      "location": "Eldon, Iowa",
+      "year": 1882,
+      "note": "Usually classed as Carpenter Gothic, and cited here as the boundary case and the clearest single illustration of the type's mechanism: a plain folk cottage whose only architecture is a pair of Gothic sash believed to have been ordered from a catalogue."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Alan Gowans, The Comfortable House: North American Suburban Architecture 1890-1930 (1986)",
+    "Henry Glassie, Folk Housing in Middle Virginia (1975)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "vernacular",
+    "catalog-ornament",
+    "railroad",
+    "mass-market",
+    "decoupled-ornament",
+    "most-numerous"
+  ]
+}

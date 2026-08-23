@@ -1,0 +1,37 @@
+{
+  "id": "victorian",
+  "name": "Victorian",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1855,
+    "floruit_end": 1910,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The high era of American picturesque: Second Empire, Stick, Queen Anne, Richardsonian, Shingle, and the Folk Victorian that carried it to every small town.",
+    "long": "The Victorian styles share a method rather than a vocabulary: a dominant mass, a complex silhouette, multiple wall textures, and ornament used to animate surface rather than to articulate structure. What changes between them is which historical wardrobe is drawn on and how much of it.\n\nTwo nodes in this family carry outsized importance. Shingle Style is the taxonomy's best reticulation case — at least three genuine parents, none dominant. Folk Victorian is the mass-market case: vernacular massing plus catalog-ordered spindlework shipped by rail, ornament fully decoupled from structure and geography. Folk Victorian is the nineteenth century rehearsing exactly the problem a kit-of-parts platform now faces."
+  },
+  "defining_characteristics": [
+    "A dominant mass with a deliberately complex silhouette",
+    "Multiple wall textures within a single elevation",
+    "Ornament as surface animation rather than structural articulation",
+    "Catalog and railroad distribution decoupling ornament from place",
+    "Rapid stylistic turnover driven by fashion and by publication"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

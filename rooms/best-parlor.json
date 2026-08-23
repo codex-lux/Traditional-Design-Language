@@ -1,0 +1,262 @@
+{
+  "id": "best-parlor",
+  "name": "Best Parlor",
+  "aka": [
+    "best room",
+    "the good room",
+    "front room (kept shut)",
+    "company room",
+    "state parlour"
+  ],
+  "function_class": "public",
+  "description": "The second and higher-ranked of two parlors in a house that has two, kept shut, unheated and unused except three or four times a year. It is not a larger parlor; it is a different institution. Its defining property is DISUSE - the room's value came from its being preserved, and everything about it, from the drawn blinds to the sheeted furniture to the cold, followed from that. It is the most misunderstood room in the vernacular catalogue because its emptiness is read as waste and it was in fact a deliberate and rational investment.",
+  "history": {
+    "appears": 1730,
+    "declines": 1930,
+    "replaced_by": "the formal living room of the twentieth-century plan, which inherited the disuse without the reason for it",
+    "note": "WHY A HOUSEHOLD WITH FOUR ROOMS WOULD KEEP ONE SHUT. Three reasons, and only the third is about display. (1) FUEL AND LABOUR. In an uninsulated house each heated room costs a fire, and a fire costs wood cut, split, hauled and laid, plus ash carried out, every day. Closing a room saved real work, and the best parlor was the room the household could most afford to close. (2) PRESERVATION OF CAPITAL. The furniture in that room - a suite, a carpet, a mirror - represented a substantial fraction of the household's movable wealth in an economy with little else to hold savings in, and sunlight, smoke and daily use destroyed it. Blinds down, carpet covered, chairs sheeted: this is asset protection, and it is why the room smelled shut. (3) DISPLAY, which mattered on the three or four occasions the room opened: a wedding, a funeral, the minister's visit, Christmas. THE ROOM DIES WHEN ALL THREE REASONS GO AT ONCE, between about 1900 and 1940 - central heating removes the fuel argument, mass-produced furniture and consumer credit remove the capital argument, and the funeral home and the automobile remove the occasions. What is left is a shut room with no reason, which is exactly what mid-century critics found and mocked. The mockery was aimed at the survival, not at the original."
+  },
+  "dimensions": {
+    "area_sf": [
+      160,
+      320
+    ],
+    "width_ft": [
+      12,
+      16
+    ],
+    "length_ft": [
+      14,
+      20
+    ],
+    "proportion": [
+      1.1,
+      1.4
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "THE SAME COFFIN, AND HERE IT IS THE PRIMARY CASE RATHER THAN A SECONDARY ONE. The best parlor's principal scheduled uses were the funeral and the wedding, and of the two the funeral sets the dimension: a coffin at 28 x 80 in on trestles in the centre or the bay, with 30 in of passage on the two long sides and 36 in at the foot, occupies 7 ft 4 in by 12 ft 2 in of clear floor, and the room's own furniture is round the walls outside that. 13 x 16 is the honest floor. The second constraint is the ROUTE: the best parlor is at the front, one door from the hall, one turn from the street door, and the turn must take a 7 ft box carried level - 42 in of hall width minimum and no winder between the room and the door. A best parlor at the back of a plan is a contradiction in terms."
+  },
+  "furniture": [
+    {
+      "item": "parlor suite - sofa and matching chairs",
+      "footprint_in": [
+        72,
+        30
+      ],
+      "clearance_in": 30,
+      "note": "bought as a set and kept as a set; the set-ness is the display"
+    },
+    {
+      "item": "carpet, wall to wall or nearly",
+      "footprint_in": [
+        144,
+        168
+      ],
+      "clearance_in": 0,
+      "note": "the single most expensive object in most nineteenth-century farmhouses and the reason the blinds stayed down - sunlight faded it"
+    },
+    {
+      "item": "parlor organ or upright piano",
+      "footprint_in": [
+        58,
+        26
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "the reed organ is the definitive best-parlor object of 1860-1910: sold door to door on instalments, used a few times a year, and displayed constantly"
+    },
+    {
+      "item": "centre table with the family Bible and the album",
+      "footprint_in": [
+        42,
+        30
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "photographs and mourning pieces on the walls",
+      "footprint_in": [
+        20,
+        3
+      ],
+      "clearance_in": null
+    },
+    {
+      "item": "coffin on trestles",
+      "footprint_in": [
+        28,
+        80
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "the room's design case; see critical_dimension"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "Faces the road, whatever direction the road is - this room's orientation is social and not solar, and it is the clearest case in the catalogue of a room sited to be SEEN INTO rather than to be lit.",
+    "glazing_fraction": [
+      0.1,
+      0.2
+    ],
+    "note": "The room with the most window and the least daylight, because the blinds were kept down. That is not a joke: sunlight fading the carpet and the upholstery was a specific, stated reason for the shutters, and a restored best parlor lit to modern expectations is not a restored room. Two windows on the road elevation, matched and shuttered, doing more work on the outside of the wall than the inside."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "the room exists to be entered by a visitor on arrival, directly and formally, and it is never reached through another room",
+        "relation": "direct-door",
+        "strength": "hard",
+        "exceptions": [
+          "hall-and-parlor plans, where the best room opens off the hall - the working room - because there is no passage; the door between them is off centre because the two rooms are unequal, and forcing it centred destroys the type"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "parlor",
+        "why": "where there are two, the everyday parlour or sitting room is behind and connected by a wide opening, so the pair can be thrown together for the occasions the best room exists for",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "entry-porch",
+        "why": "the best room is on the road front, and the porch is in front of it",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "the room's whole logic is separation from work; the kitchen is at the other end of the house or in an ell, and the best parlor is diagonally as far from it as the plan allows",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "cross-passage",
+        "why": "the parlour separated out of the HIGH end of the hall and stays at the high end; the screens and services are the low end, and a best room beside them has inverted the plan's social axis",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "centre-passage",
+      "hall",
+      "entry-porch"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Shut. The characteristic smell of a best parlor - cold plaster, camphor, old textile - is the product of a room opened four times a year, and it is documented in enough memoirs to count as a design consequence rather than an anecdote.",
+    "heat": "A fireplace or a parlor stove, lit for the occasion and not otherwise. In the stove era the pipe often ran through from the room behind, which meant the best parlor was warmed second-hand by a stove it did not contain - a genuinely clever and very common arrangement.",
+    "electrical": "Late and sparse. This is the last room in a farmhouse to be wired, because it was the last room to be used after dark.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "american-farmhouse-vernacular",
+      "trim_grade": "high",
+      "note": "The canonical case, and the one the phrase 'best room' belongs to. Front corner of the main block, two windows on the road, a store-bought mantel, the best carpet, and a door that was shut."
+    },
+    {
+      "style": "folk-victorian",
+      "trim_grade": "high",
+      "note": "The best parlor at its most fully committed: catalogue trim, an organ, a bay window added for the room's benefit alone, and a house otherwise of four rooms."
+    },
+    {
+      "style": "german-pennsylvania-colonial",
+      "name_in_style": "gute Stube, the good room",
+      "trim_grade": "high",
+      "note": "The Continental version, and it is the room the stove is in - the Stube is by definition the stove room, warmed from the Kuche next door through a wall opening so that no fire is lit in the good room itself. The Anglo best parlor is cold and the Germanic one is the warmest room in the house, which is a real and rarely noticed divergence."
+    },
+    {
+      "style": "new-england-colonial",
+      "name_in_style": "parlour",
+      "trim_grade": "high",
+      "note": "In a hall-and-parlor house this is the smaller of the two rooms and holds the best bed until about 1750. Its being smaller than the working hall is the seventeenth-century arrangement; by 1800 the relation has reversed and the best room is the larger."
+    },
+    {
+      "style": "greek-revival-upland-vernacular",
+      "trim_grade": "middle",
+      "note": "The room the house's whole trim budget goes into - a full architrave on the parlour door and plain boards everywhere else. Recognising this deliberate grading is what makes an upland interior legible; applying one trim grade throughout erases it."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent and explicitly repudiated. The Craftsman argument, made in Stickley's Craftsman magazine month after month, is that a room kept for show is a moral failure; the bungalow's living room is the counter-proposal."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "Absent. A 900 sq ft post-war house cannot afford a closed room and does not pretend to."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent as a separate room; the front room takes the function on the occasions when it is needed and reverts to ordinary use the next day."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "living room",
+      "trim_grade": "middle",
+      "note": "The institution survives without the name. The 1955 front living room with the good furniture and the picture window, used at Christmas, is a best parlor in everything but vocabulary, and the family room exists because it does."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable rooms require 8 per cent glazing and 4 per cent openable area, or mechanical equivalents.",
+      "ref": "IRC R303.1",
+      "conflict": "A room designed to be shut fails the intent of the ventilation requirement while passing its letter, which is a fair summary of the room's whole history."
+    },
+    {
+      "requirement": "Every bedroom needs an emergency escape opening; a best parlor used as an occasional sleeping room does not, unless it is designated a bedroom.",
+      "ref": "IRC R310.1",
+      "conflict": "Relevant in restoration: converting a best parlor to a bedroom triggers the egress window, and an egress unit in a period opening is the fault egress-window-flips-the-proportion."
+    }
+  ],
+  "massing_fit": [
+    "hall-and-parlor",
+    "i-house",
+    "center-passage-single-pile",
+    "gable-front-and-wing",
+    "cross-gable-victorian",
+    "pyramidal-cottage",
+    "double-pen",
+    "foursquare",
+    "four-over-four",
+    "linear-ell-farmhouse",
+    "telescope-house"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "trim_family",
+    "fireplace_surround",
+    "chair_rail",
+    "casing",
+    "floor_material",
+    "hearth_position"
+  ],
+  "faults": [
+    "the-room-nobody-enters",
+    "one-trim-grade-for-every-room",
+    "beadboard-in-the-parlour",
+    "hearth-on-an-interior-wall",
+    "mantel-at-the-wrong-height",
+    "egress-window-flips-the-proportion",
+    "white-trim-on-everything"
+  ],
+  "sources": [
+    "Katherine C. Grier, Culture and Comfort: Parlor Making and Middle-Class Identity, 1850-1930 (1988)",
+    "Henry Glassie, Folk Housing in Middle Virginia (1975), on room hierarchy in the folk plan",
+    "proportions/systems/room-vernacular.json, public_private_gradient rule and its note on the hall-parlor inequality and its reversal",
+    "faults/the-room-nobody-enters.json"
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,211 @@
+{
+  "id": "log-vernacular-american",
+  "name": "American Log Vernacular",
+  "aka": [
+    "log construction",
+    "log cabin",
+    "hewn log house",
+    "Blockbau"
+  ],
+  "rank": "style",
+  "member_of": "american-folk-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1638,
+    "floruit_start": 1730,
+    "floruit_end": 1900,
+    "decline_end": 1940,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 2026,
+        "revival_node": null,
+        "note": "The Adirondack and National Park Service rustic traditions, the Rocky Mountain resort log house, and the modern milled-log kit industry are all revivals of this node's surfaces with none of its span constraints - modern kits use full-round logs of uniform diameter, which the original tradition almost never did outside the Nordic source."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Mid-Atlantic",
+      "Pennsylvania",
+      "Appalachia",
+      "Upland South",
+      "Ohio Valley",
+      "Ozarks",
+      "Old Northwest",
+      "Texas Hill Country"
+    ],
+    "hearth": "the Delaware Valley and southeastern Pennsylvania",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "scandinavian-log-vernacular",
+      "type": "descends_from",
+      "weight": 0.75,
+      "inherits_kit": true,
+      "note": "The Finnish and Swedish settlers of New Sweden on the lower Delaware (from 1638) brought horizontal log construction to North America; the Finns in particular carried a fully developed forest-clearing and log-building culture. This is the earliest documented transmission, though its demographic weight relative to the German channel remains actively debated by Jordan, Kniffen and Glassie."
+    },
+    {
+      "target": "german-fachwerk",
+      "type": "descends_from",
+      "weight": 0.65,
+      "inherits_kit": true,
+      "note": "Stands here for the Germanic building culture of the Palatinate and Silesia, which carried Blockbau horizontal log craft alongside its half-timber framing. The very large Pennsylvania German migration after 1720 is the channel by which log building became the standard American frontier method; the notching vocabulary of the Upland South is substantially German rather than Nordic."
+    },
+    {
+      "target": "german-pennsylvania-colonial",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The immediate American ancestor. The Pennsylvania backcountry is where Nordic and German log practice fused with an Anglo plan vocabulary and then travelled south down the Great Wagon Road into Virginia, Carolina and Tennessee."
+    }
+  ],
+  "description": {
+    "short": "Horizontal hewn-log building as the standard American frontier construction from Pennsylvania to Texas - a Northern European craft transplanted, simplified, and married to Anglo room plans, whose dimensions are set almost entirely by how long a log two people can lift.",
+    "long": "American log building is a construction system that acquired a house grammar, and understanding it in that order explains everything about it. The unit is the pen: a rectangular enclosure of horizontal logs, hewn flat on two faces with a broadaxe, notched at the corners so the courses interlock without a single nail, chinked between the courses with split wood and clay or lime mortar, and roofed with riven shingles on light poles. The pen's dimensions are not chosen; they are dictated. A hewn log of white oak, poplar or chestnut long enough for a wall is heavy, and the practical limit for two to four people with a cant hook and a pair of skid poles is roughly sixteen to twenty feet. That single number generates the entire type family. A house bigger than one pen is not a bigger pen; it is two pens - side by side (double pen), side by side with a gap (dogtrot), stacked (two-storey), or one behind the other (saddlebag with a shared central chimney). Every named Upland South folk house type is a combination of pens, and the combination rules are the style.\n\nThe transmission is genuinely contested and worth stating honestly rather than tidily. Horizontal log construction has no Anglo precedent - English and Welsh settlers built timber frames, and the 'log cabin' as an English colonial form is a nineteenth-century invention of political myth. Two Northern European channels supplied it. The Finns and Swedes of New Sweden on the lower Delaware from 1638 brought a mature Nordic log culture; the C. A. Nothnagle Log House in Gibbstown, New Jersey and the Lower Swedish Cabin at Drexel Hill, Pennsylvania are its claimed survivors, though both carry dates (circa 1638-1700) that are traditional rather than dendrochronologically settled. The far larger channel is German: the Palatine and Rhineland migration into Pennsylvania after 1720 brought Blockbau practice, and it is German notching and German proportions that dominate the Upland South. The Scots-Irish, who did most of the actual settling of Appalachia, learned log building in Pennsylvania from their German neighbours and carried it down the Great Wagon Road; they contributed the plan types, not the technique. Anyone who tells the story with one origin is simplifying.\n\nThe economic logic is brutal and complete. On a forested frontier, timber is the one abundant material and cash is the scarce one. A log pen requires an axe, a froe, a broadaxe, an auger, and labour; it requires no sawmill, no nails, no lime kiln, no glass. It can be raised by a neighbourhood in days. It is also, and this matters for how the type is read, almost always intended as a first house: the Upland South pattern is a log pen followed within a generation by weatherboarding, a frame or brick addition, or an entirely new house with the pen demoted to kitchen. Log building persisted longest exactly where cash never arrived, which is why the surviving concentrations are in the mountains and why the form became a symbol of poverty and then, by a peculiar American inversion, of virtue.\n\nInside a good hewn-log room the experience is of a very still, very dark, very solid space. The walls are eight to ten courses of hewn oak, each course a foot or so deep, and the surfaces are flat and axe-scalloped rather than round; the light comes from one or two small openings and from the fire. Sound is dead - a foot of solid wood absorbs everything - and the temperature swings slowly, which is the actual thermal argument for the material. Overhead the joists are round poles with the bark still on, and the loft above them is reached by a ladder or a boxed corner stair, and is where the children slept. The chinking is the maintenance problem and the visual signature both: a two-inch band of white lime between dark logs, repointed every few years for a century, so that the wall records its own upkeep."
+  },
+  "defining_characteristics": [
+    "Horizontal logs, hewn flat on interior and exterior faces, laid in courses and interlocked at the corners by notching rather than by fasteners",
+    "Corner notching as the structural joint - V-notch, half-dovetail, full dovetail, square or saddle notch - each with a distinct regional and ethnic distribution",
+    "Pen dimensions limited by log length: 16-20 feet on the long wall is the practical maximum",
+    "Growth by pen addition rather than by enlarging the pen: double pen, saddlebag, dogtrot, two-storey, or rear ell",
+    "Chinking and daubing between courses as an integral and continually maintained part of the wall",
+    "Riven shingle or shake roof on light pole rafters or purlins, with no ridge beam required",
+    "Chimney at the gable end, exterior or partly exterior, of stone, or of stick-and-clay in the poorest work"
+  ],
+  "diagnostic_tells": [
+    "Logs hewn flat on two faces rather than left round - the mark of the historic tradition, and the fastest way to distinguish it from a twentieth-century milled-log kit",
+    "Corner notching visible at the pen ends, with log ends projecting a few inches beyond the joint",
+    "Wall length that stops abruptly at 16-20 feet and starts again as a second pen: the type never spans further",
+    "Openings cut after the wall was raised, with sawn jambs pegged to the log ends and no header over the opening",
+    "Loft floor of round pole joists with bark, visible from below in unceiled work"
+  ],
+  "distinguished_from": [
+    {
+      "node": "scandinavian-log-vernacular",
+      "difference": "The Nordic source uses full-round or scribe-fitted logs with tight, chinkless joints, steeper roofs, and often no chinking at all. The American tradition hews the faces flat and relies on chinking - a simplification made because hewing is faster than scribing and clay is free."
+    },
+    {
+      "node": "appalachian-log-house",
+      "difference": "The Appalachian variant is this style's most persistent and best-documented regional expression; the parent node covers the whole continental spread including Pennsylvania, the Ozarks and Texas, where notching vocabularies and roof pitches differ."
+    },
+    {
+      "node": "german-pennsylvania-colonial",
+      "difference": "The Pennsylvania German house is often log but is organised on a Continental three-room Flurkuchenhaus plan with a central chimney and an off-centre door. Where the plan is Anglo - hall, hall-and-parlor, double pen with two front doors - the building belongs here."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Dimensioned by material handling, not by any system of proportion. Log length sets plan width, log diameter sets course height, and the number of courses a crew will lift sets wall height. Everything else follows from the pen.",
+    "typical_ratios": [
+      "Pen 16-20 feet long by 14-18 feet deep; a square-ish pen is the norm and is a consequence of log length in both directions",
+      "Wall height 8-10 log courses, roughly 7-9 feet to the plate per storey",
+      "Log course depth 8-14 inches hewn; hewn wall thickness 6-9 inches",
+      "Chinking gap 1-3 inches",
+      "Roof pitch 8:12 to 12:12 for riven shingles; lower pitches fail with hand-split roofing",
+      "Door opening 30-36 inches wide, 5.5-6.5 feet tall; windows small, often under 3 square feet in early work"
+    ],
+    "bay_rhythm": "There is no bay rhythm. Openings are cut where they are needed, subject to the rule that a notched corner cannot be weakened, so windows and doors sit at least two feet from any corner.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-single-cell",
+      "affinity": "canonical",
+      "note": "The single pen; the irreducible unit from which the rest of the family is built."
+    },
+    {
+      "massing": "double-pen",
+      "affinity": "canonical",
+      "note": "Two equal pens, two front doors, two end chimneys - the standard way to make a bigger house out of a limited log length."
+    },
+    {
+      "massing": "dogtrot",
+      "affinity": "common",
+      "note": "Two pens with an open passage between them; see dogtrot-vernacular."
+    },
+    {
+      "massing": "i-house",
+      "affinity": "common",
+      "note": "Two-storey log I-houses are frequent in the Upland South and are usually weatherboarded early, which is why they are so often misidentified as frame."
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "common"
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "No log wall may exceed 20 feet between notched corners; 16-18 feet is the practical norm. A larger enclosure must be built as a second pen or as a pen plus a framed addition, never as a longer log run.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Corner joints must be notched (V, half-dovetail, full dovetail, square or saddle) and, except in saddle notching, must slope outward to shed water. Butted and spiked corners are outside the tradition and fail at the joint within a generation.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Log faces are hewn flat on interior and exterior; wall thickness 6-9 inches after hewing, chinking gap 1-3 inches, chinking recessed 1/2 to 1 inch behind the log face so water sheds off the log rather than sitting on the joint.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Eave overhang at least 18 inches (24-36 preferred) on all elevations to keep water off the chinking; roof pitch 8:12 to 12:12 where riven shingles or shakes are used. Boxed soffits and clipped eaves destroy the wall.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Openings must stop at least 24 inches short of any notched corner, and their jambs must be pegged or spiked to the cut log ends. Corner windows and full-height glazed walls are structurally impossible in this system.",
+      "severity": "hard"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "C. A. Nothnagle Log House",
+      "location": "Gibbstown, Greenwich Township, Gloucester County, New Jersey",
+      "year": 1643,
+      "note": "Traditionally dated circa 1638-1643 and claimed as the oldest log house in North America. The date is traditional, not dendrochronologically established, and later dates have been argued; the building is nonetheless the standard reference for the New Sweden log transmission."
+    },
+    {
+      "name": "Lower Swedish Cabin",
+      "location": "Creek Road, Drexel Hill, Upper Darby Township, Pennsylvania",
+      "year": 1650,
+      "note": "Likely built between 1640 and 1650 by New Sweden settlers, restored and archaeologically excavated 1989; listed on the National Register 1982. Same dating caveat as Nothnagle."
+    },
+    {
+      "name": "John Oliver Place",
+      "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+      "year": 1822,
+      "note": "Built in the 1820s, replacing a 1818 cabin on the same site; the oldest surviving structure on the Cades Cove loop and a textbook single-pen with an exterior gable-end chimney."
+    },
+    {
+      "name": "Jacob Wolf House",
+      "location": "Norfork, Baxter County, Arkansas",
+      "year": 1829,
+      "note": "A two-storey hewn-log dogtrot built as a courthouse - the oldest standing public structure in Arkansas, and evidence that the system was used well beyond domestic building. National Register 1973."
+    }
+  ],
+  "sources": [
+    "Terry G. Jordan, American Log Buildings: An Old World Heritage (1985)",
+    "Henry Glassie, 'The Types of the Southern Mountain Cabin', in Jan Brunvand, The Study of American Folklore (1968)",
+    "Fred Kniffen and Henry Glassie, 'Building in Wood in the Eastern United States: A Time-Place Perspective', Geographical Review 56 (1966)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "C. A. Weslager, The Log Cabin in America (1969)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "folk",
+    "vernacular",
+    "log",
+    "frontier",
+    "material-determined"
+  ]
+}

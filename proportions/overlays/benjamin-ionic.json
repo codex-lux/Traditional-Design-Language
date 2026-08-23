@@ -1,0 +1,337 @@
+{
+  "id": "benjamin-ionic",
+  "name": "Ionic Order (Asher Benjamin) - overlay on Vignola",
+  "aka": [
+    "American Ionic",
+    "Federal Ionic",
+    "Benjamin's Roman Ionic"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style of building, THIRD EDITION, corrected and enlarged (Boston: R. P. & C. Williams, April 1816), Plates 14, 17, 18, 20, 21, 24, 26-28, 35",
+    "author": "Asher Benjamin",
+    "year": 1816,
+    "strength": "canonical",
+    "url": "https://archive.org/details/americanbuilders00benj_0",
+    "note": "WHICH EDITION AND WHY. This pack encodes the ROMAN Ionic of the American Builder's Companion, 3rd edition, Boston 1816 - the order of the Federal period, and a legitimate delta on Vignola. Benjamin's Ionic of 1830, in The Practical House Carpenter, is a different animal: he gives three examples, the first from the Temple of Minerva Polias at Priene by Stuart and Revett, the second from Chambers, and the third 'one of my own compiling, which is chiefly Greek'. That Grecian Ionic is not an overlay on Vignola and is not encoded here; where a house is Greek Revival rather than Federal, this pack is the wrong one. Benjamin's named source for the 1816 orders is Chambers."
+  },
+  "overlay_of": "vignola-ionic",
+  "module": {
+    "name": "semidiameter of the column at its base, divided into thirty minutes",
+    "parts": 30,
+    "default_size_in": 6.0,
+    "note": "THE MODULE IS A DELTA. Vignola divides the Ionic module into 18 parts; Benjamin, following Chambers, divides the DIAMETER into sixty minutes, so the semidiameter carries thirty. 'Proceed in the same manner to make the scale of minutes for all the other orders.' Every figure here is in minutes. Default 6 in. gives a 12 in. column, at which one minute is one fifth of an inch.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 20
+  },
+  "assemblies": {
+    "subplinth": {
+      "height_modules": 2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "subplinth_block",
+          "name": "Subplinth",
+          "height_parts": 60,
+          "projection_parts": 16,
+          "profile": "plinth",
+          "note": "ADDED ASSEMBLY, no counterpart in Vignola. 'If necessary to execute it on a subplinth, divide the whole height into fifty one equal parts, four of which will be the diameter of the column; make the subplinth one diameter high.' Check: 51/4 = 12 3/4 diameters, which is column 10 plus entablature 1 3/4 plus subplinth 1. Benjamin's arithmetic is exact throughout the Ionic plate. See the benjamin-tuscan overlay for what the subplinth is for.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "pedestal": {
+      "height_modules": 5.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal",
+          "height_parts": 27,
+          "projection_parts": 14,
+          "profile": "plinth",
+          "note": "Total stated twice and consistently: 'the pedestal is two diameters and forty five minutes high' (Plate 14) and 'I have given... the Ionic, two diameters, forty five minutes' (Plate 24). 165 minutes = 5 1/2 modules against Vignola's 6. The three-part division into base, dye and cornice is Benjamin's; the individual heights are figured on Plate 24 only and no reachable scan renders those numerals. Apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_die",
+          "name": "Dye of the pedestal",
+          "height_parts": 118,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "low",
+          "note": "Apportioned. Bounded by Benjamin's two stated rules: the dye should not be much less than a square in height, and the whole pedestal should not exceed one third of the column."
+        },
+        {
+          "id": "ped_cap",
+          "name": "Cornice of the pedestal",
+          "height_parts": 20,
+          "projection_parts": 14,
+          "profile": "cyma-reversa",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 3.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 30,
+          "projection_parts": 6,
+          "profile": "fascia",
+          "note": "THE TOTAL IS THE STORY AND IT IS EXACT. 'To draw the Ionic order. Divide the whole height into forty seven equal parts, four of which are the diameter of the column, just above its base; the column, including base and capital, is ten diameters high; the entablature is one diameter and forty five minutes high.' 47/4 = 11 3/4 diameters = 10 + 1 3/4. So the entablature is 105 minutes = 3 1/2 modules, against Vignola's 4 1/2 - a reduction of nearly a quarter, on a column that is a whole diameter TALLER. The Ionic is where Benjamin's lightening is most extreme: entablature to column 1 : 5.71, against Vignola's 1 : 4. The internal division is figured on Plate 14 only and is apportioned here.",
+          "confidence": "low"
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 30,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "low",
+          "note": "Apportioned. Plain in Benjamin's Ionic plate."
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice, with modillions",
+          "height_parts": 45,
+          "projection_parts": 45,
+          "profile": "modillion",
+          "count": null,
+          "spacing_parts": 15.5,
+          "note": "DELTA OF KIND. Vignola's Ionic cornice carries DENTILS and no modillions. Benjamin's principal Ionic cornice carries MODILLIONS, and he sizes them precisely: 'make the modillions ten, ten and one half, or eleven minutes in front; place them thirty one minutes from centre to centre; always the centre of a modillion exactly over the centre of each column.' Thirty-one minutes on centres is 15 1/2 parts of this pack's 30-part module - a little over half a module, where Vignola's Corinthian modillions run at a full module. He offers the dentil version as the alternative: 'on plate 21 is an Ionic cornice, with dentils, which may be drawn from the same scale as the rest of the order, and used, instead of the modillion cornice.' Cornice height apportioned.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The Ionic column is TEN diameters, not nine.",
+      "expression": "column.height_modules == 20",
+      "tolerance": 0.001,
+      "note": "Benjamin's preface: 'I have given the Tuscan column eight diameters in height... and have regularly progressed, by giving the Doric nine, the Ionic ten, the Corinthian and Composite eleven diameters each. I expect it will be said by some, who rigidly adhere to the proportions of the ancients, that the Tuscan column ought not to be but seven, the Doric eight, the Ionic nine, and the Corinthian and Composite ten diameters each, in height.' One whole diameter added to every order."
+    },
+    {
+      "statement": "The entablature is 7/40 of the column - barely more than half Vignola's quarter, relative to the column.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules * 7 / 40",
+      "tolerance": 0.001,
+      "note": "3 1/2 modules on a 20-module column = 1 : 5.71. Vignola: 4 1/2 on 18 = 1 : 4. In absolute terms Benjamin's Ionic entablature is 3 1/2 modules where Vignola's is 4 1/2 - it has lost a full module while the column gained two. THIS IS THE LARGEST SINGLE PROPORTIONAL DIVERGENCE ANYWHERE IN THESE OVERLAYS."
+    },
+    {
+      "statement": "The pedestal is 11/40 of the column, and Benjamin refuses to call it a rule.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules * 11 / 40",
+      "tolerance": 0.001,
+      "note": "0.275 against Vignola's 0.333. 'With regard to the proportion which their height ought to bear, to that of the columns they are to support, it is by no means fixed; the ancients and moderns too, having in their works varied greatly in this respect, and adapted their proportion to the occasion.'"
+    },
+    {
+      "statement": "The whole height of column and entablature divides into forty-seven, of which four are the diameter.",
+      "expression": "(column.height_modules + assemblies.entablature.height_modules) / 2 * 4 == 47",
+      "tolerance": 0.001,
+      "note": "Benjamin's drawing-board instruction, exact. With a pedestal it is twenty-nine parts of which two are the diameter (14 1/2 D); with a subplinth, fifty-one parts of which four are the diameter (12 3/4 D). All three check."
+    },
+    {
+      "statement": "The entablature is less than one fifth of the column.",
+      "expression": "assemblies.entablature.height_modules < column.height_modules / 5",
+      "tolerance": 0.001,
+      "note": "Vignola holds a quarter for all five orders. Gibbs, after Palladio, drops to a fifth for the three richer orders. Benjamin goes below even that: 3 1/2 modules where a fifth would give 4. The Anglo-American entablature gets lighter with every generation of the book trade."
+    },
+    {
+      "statement": "The subplinth is one diameter high.",
+      "expression": "assemblies.subplinth.height_modules == 2",
+      "tolerance": 0.001
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height * 7 / 40",
+      "units": "in",
+      "range": [
+        14,
+        70
+      ],
+      "authority_note": "THE FEDERAL PORTICO IN ONE NUMBER. A 12 ft Ionic column takes a 25 1/5 in. entablature under Benjamin and a 36 in. one under Vignola - a difference of nearly a foot on the same column. When a Federal portico is compared with an Italian one and described as 'thin' or 'papery', this ratio is what is being seen, and it was a deliberate choice by the man who published the plates.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 10",
+      "units": "in",
+      "range": [
+        7,
+        18
+      ],
+      "authority_note": "Ten diameters, not nine. A 12 ft Ionic column is 14 2/5 in. at the base under Benjamin and 16 in. under Vignola. Combined with the lighter entablature the whole Federal Ionic order stands about 15 percent slimmer than the Roman one at the same height - and Benjamin's justification is load: 'they must be proportioned according to the weight, or apparent weight they are to sustain.' A wooden portico roof over a wooden porch is nearly weightless and the order is allowed to say so.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "column_height * 31 / 600",
+      "units": "in",
+      "range": [
+        5,
+        14
+      ],
+      "authority_note": "MODILLIONS ON AN IONIC CORNICE, WHICH VIGNOLA DOES NOT ALLOW. Thirty-one minutes on centres on a column of 600 minutes, modillion face ten to eleven minutes: 'make the modillions ten, ten and one half, or eleven minutes in front; place them thirty one minutes from centre to centre; always the centre of a modillion exactly over the centre of each column.' The instruction to centre a modillion on every column axis is the one that governs the bay spacing of the whole elevation, and Benjamin repeats it for the Corinthian and Composite: 'The directions given for placing modillions, in the Ionic order, are to be strictly observed in this, and in the Composite order.'",
+      "judgment": false,
+      "note": "Benjamin's own alternative, on Plate 21, is a dentil cornice at the same scale. Where the budget will not carry brackets, take the dentils rather than widening the modillion spacing - the spacing is tied to the columns and cannot be stretched without missing them."
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "projection",
+      "expression": "column_height / 40",
+      "units": "in",
+      "range": [
+        1,
+        8
+      ],
+      "authority_note": "BENJAMIN'S PILASTER PROJECTIONS, WHICH ARE A COST DOCUMENT. 'When pilasters are used alone, as principal in the composition, they should project one quarter of their diameter beyond the walls, which gives them a sufficient boldness... When pilasters are placed behind columns, and very near them, they need not project above one eighth of their diameter, or even less; when they are on a line with columns, their projection is to be regulated by that of the columns; and consequently, it never can be less than a semidiameter.' A quarter of a diameter on a 10-diameter column is column_height/40. He is explicit about why pilasters exist at all: 'They are likewise employed in exterior decorations; sometimes alone, instead of columns, ON ACCOUNT OF THEIR BEING LESS EXPENSIVE.'",
+      "judgment": false,
+      "note": "He also insists on diminishing them - 'It is sometimes customary to execute pilasters without any diminution; diminished pilasters are, however, on many accounts, much preferable' - and gives seven flutes per face, which is what makes a pilaster read as a column rather than as a board."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 40",
+      "units": "in",
+      "range": [
+        2.5,
+        7
+      ],
+      "authority_note": "'To proportion cornices for rooms, give the cornice one fortieth part of the height of the room. If a room is ten feet high, one fortieth will be three inches.' Vignola's Ionic cornice at room scale is ceiling_height * 1.75/18 - 11 2/3 in. in a 10 ft room. Benjamin gives three. The room cornice is the single member on which the Roman order and the American house are furthest apart.",
+      "judgment": false,
+      "note": "One thirtieth - 4 in. in a 10 ft room - when the cornice is stucco and enriched with three ornaments. 'Three embellishments are generally sufficient for any cornice, and one may be in the plancere.'"
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height / 32",
+      "units": "in",
+      "range": [
+        3,
+        10
+      ],
+      "authority_note": "'The projection of cornices, for rooms, ought to be at least one fourth more than their height... About half of the projections ought to be given to the plancere, which will prevent its looking bulky, and give it a light appearance.' Vignola and Gibbs both make projection equal height; Benjamin makes it a quarter more, and up to double where the room is low. Height is what costs money in a room with an 8 ft ceiling; projection is nearly free and does the same optical work.",
+      "judgment": false
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        7
+      ],
+      "authority_note": "One eighth of the DOOR width, 1816. A 36 in. door gives 4 1/2 in. against Vignola's 6 in. Benjamin then caps and floors it by judgment: 9 in. on a 6 ft door 'would be too large, and may be reduced to six and a half, or seven inches', and the same width is carried to the windows of the room whatever their size. By 1830 he had revised to one sixth; use the sixth for Greek Revival and the eighth for Federal.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "profile_height",
+      "expression": "ceiling_height / 30",
+      "units": "in",
+      "range": [
+        2.5,
+        4.5
+      ],
+      "authority_note": "'Divide from the floor to the top of the surbase into ten parts, give one to the height of the surbase' - the moulding is a tenth of the dado it caps. With the dado at a third of the ceiling, as in the Vignola spine, that is ceiling_height/30: a 3 1/5 in. surbase on a 2 ft 8 in. dado, which is Benjamin's own worked example. The base mouldings are drawn from the same scale of parts, so base and surbase are one family rather than two.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "storey_height / 30",
+      "units": "in",
+      "range": [
+        8,
+        26
+      ],
+      "authority_note": "Eave cornice, one thirtieth of the whole height of the building. BIND storey_height TO THE FULL WALL HEIGHT. Tall and narrow takes one fortieth; low and wide takes more than one thirtieth. Benjamin's built check is the Thomas Amory house, Boston: walls 62 ft, cornice 20 in., about one thirty-seventh - and he notes that the drops at the foot of that cornice 'lie on the brick wall, so that the bricks in the interval between the drops are plainly seen, and ought not to be considered as a part of the cornice', which is a nice reminder to measure what you are measuring.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, on Benjamin's own instruction: 'It is sometimes necessary to vary the above proportion.'"
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "width",
+      "expression": "ceiling_height * 3 / 8",
+      "units": "in",
+      "range": [
+        28,
+        60
+      ],
+      "authority_note": "Chambers's rule as Benjamin reports and doubts it: add the depth and the height of the room on the principal floor and take one eighth for the window width. Expression assumes room depth equal to twice the ceiling height; where the depth is known use (depth + ceiling_height)/8. Benjamin: 'I do not believe any certain determined rule can be given for their height and breadth... yet I do not find it to answer in all cases.'",
+      "judgment": true
+    },
+    {
+      "target_slot": "fireplace_surround",
+      "dimension": "projection",
+      "expression": "17",
+      "units": "in",
+      "range": [
+        15,
+        20
+      ],
+      "authority_note": "One of Benjamin's absolute dimensions, from practice: 'The chimney ought not to project into the room more than from fifteen to twenty inches if it can be avoided... Never make the funnel less than twelve inches square, and if there is sufficient room, sixteen inches is a good size where a fireplace is about four feet between the jambs.' No classical source gives a chimney breast projection because a classical source is not designing a New England parlour with a Rumford fireplace in it.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. The number is a maximum set by the room, not a proportion. Benjamin's Plates 49-51 give chimneypiece designs whose architrave, frieze and cornice are proportioned to the opening in the same way as a door."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "BENJAMIN'S ALREADY-REDUCED IONIC IS STILL BEYOND A PRODUCTION BUDGET. A 12 ft Ionic column at ten diameters is 14 2/5 in. at the base, staved and glued, carrying a volute capital that must be made 'out of a solid piece of timber' with the grain horizontal - Benjamin gives a whole plate to making it in wood - under a 25 in. entablature with modillions at 31 minutes on centres, each centred on a column. The contemporary equivalent budget buys a wrapped 8 in. post and a 6 in. crown.",
+      "resolution": "The Ionic capital is the item that decides the question. Buy it, in cast composition or in fibreglass, sized to a shaft you have specified rather than the reverse - Benjamin's own Plate 17 is an argument for prefabrication ('the volute and abacus which may be made out of a solid piece of timber... they may be completely finished before they are put together'). Take the dentil cornice from Plate 21 rather than the modillion one. If the capital cannot be bought at the correct diameter, use the benjamin-tuscan overlay instead; a correct Tuscan is worth more than an approximate Ionic.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Modillions ten to eleven minutes in front at a 6 in. module are 2 in. wide, spaced 6 1/5 in. on centres, and must be centred on the column axes. A modillion at 2 in. with a scrolled profile, a fillet and a bead is at the limit of what survives painting; and the requirement to centre on the columns means any framing error at the column base propagates the length of the eaves.",
+      "resolution": "Set the modillions out from the column centrelines with a story pole before any cornice stock is cut, and treat the end bays as the adjustment. Do not distribute the error evenly - a modillion an inch off its column at one end is invisible; every modillion a quarter inch off is a visible waver. Below about a 2 1/2 in. modillion face, use the dentil cornice.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "Benjamin's pilaster projects one quarter of its diameter - 3 in. on a 12 in. order. Continuous exterior insulation now stands 1 1/2 to 3 in. proud of the sheathing, so a correctly proportioned Federal pilaster is entirely swallowed by the insulation layer, and the entablature above it has nothing to land on.",
+      "resolution": "Furr the whole order out onto the insulation plane as a complete assembly with its own back-band, flashing and drainage, so the pilaster's 3 in. is measured from the finished wall and not from the sheathing. The alternative - reducing the pilaster to a flat panelled strip and letting the entablature carry the order alone - is legitimate and has Federal precedent, but the entablature must then keep its full 3 1/2 modules. Do not thin the entablature to match a shallow pilaster; Benjamin has already spent that reduction.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The Ionic room cornice at one fortieth of the ceiling is 2 2/5 in. in an 8 ft room. Below about 3 in. a run cornice costs the same per foot as a 5 in. one - the labour is in the setting out, the scaffolding and the mitres, not in the stock - so the saving Benjamin's rule appears to offer largely evaporates while the visual return collapses.",
+      "resolution": "In an 8 ft room, either take Benjamin's enriched one thirtieth (3 1/5 in.) and give it his full projection of a quarter more than its height, or omit the cornice entirely and put the money into the door casings, where it will be seen at arm's length. A 2 1/2 in. cornice is the worst of both: it costs a cornice and reads as a shadow line.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "early-republic",
+    "adam-style",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-southern-plantation",
+    "colonial-revival",
+    "neoclassical-revival",
+    "new-urbanist-traditional"
+  ],
+  "sources": [
+    "Asher Benjamin, The American Builder's Companion, 3rd edition (Boston, 1816), Preface pp. iii-iv, pp. 41-42 (Ionic, Plate 14), pp. 44-45 (Ionic capitals, Plates 17-18), pp. 49-51 (pilasters), pp. 52-53 (pedestals), pp. 57-60 (cornices), p. 97 (architraves, base and surbase), pp. 102-103 (planning); archive.org/details/americanbuilders00benj_0",
+    "Asher Benjamin, The Practical House Carpenter (Boston, 1830) - consulted for the Grecian Ionic, which is NOT encoded here, and for the revised trim rules; archive.org/details/architectorprac00benj",
+    "Sir William Chambers, A Treatise on Civil Architecture - Benjamin's named source for the sixty-minute scale, for the descriptive matter on pilasters, and for the window-width rule",
+    "William R. Ware, The American Vignola (1920 printing) - comparison datum only"
+  ],
+  "confidence": "medium",
+  "notes": "BENJAMIN'S ROMAN IONIC AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nEDITION: THE AMERICAN BUILDER'S COMPANION, 3rd EDITION, BOSTON 1816. Benjamin's 1830 Ionic is Greek - compiled chiefly from the Temple of Minerva Polias at Priene - and is not a delta on Vignola at all. This pack is the Federal Ionic and should not be used on a Greek Revival building.\n\nTHE DIVERGENCES.\n\n1. THE COLUMN IS TEN DIAMETERS, NOT NINE. Benjamin adds a diameter to every order and argues for it in his preface on the grounds of apparent load.\n\n2. THE ENTABLATURE IS 3 1/2 MODULES, NOT 4 1/2. This is the single largest proportional divergence in any of the nine overlays in this set. Vignola's Ionic entablature is a quarter of the column; Gibbs's, after Palladio, is a fifth; Benjamin's is one part in five and five sevenths. Absolutely as well as relatively, the American Ionic entablature has lost a whole module while the column has gained two.\n\n3. THE CORNICE CARRIES MODILLIONS. Vignola's Ionic has dentils and no modillions; Benjamin's principal Ionic cornice has modillions at 31 minutes on centres, each centred on a column, with a dentil version offered as the alternative on Plate 21. Gibbs makes exactly the same substitution independently - the modillioned Ionic is the Anglo-American norm and the dentilled Ionic the Italian one.\n\n4. THE PEDESTAL IS 5 1/2 MODULES, NOT 6, and Benjamin explicitly denies that any ratio governs it: 'I have judged it more regular to treat of the pedestal as a separate body; having no more connection with the order, than as an attic, a basement.' He replaces Vignola's rule with two bounds - the dye not less than square, the pedestal not more than a third of the column.\n\n5. THE SUBPLINTH IS ADDED, a plain block one diameter high, standing in for a pedestal on a porch deck.\n\nAND THE TRIM RULES, WHICH ARE ORDER-INDEPENDENT AND ARE THE MOST VALUABLE PART: room cornice one fortieth of the ceiling height with a projection a quarter greater than its height; eave cornice one thirtieth of the wall height with named exceptions; casing one eighth of the door width, held constant across the room; surbase one tenth of the dado; base mouldings from the same scale as the surbase.\n\nWHAT IS WEAK. Benjamin's Ionic totals are stated verbatim and check arithmetically three ways (without pedestal, with pedestal, with subplinth), so column, entablature and pedestal heights carry high confidence. His MEMBERS are on Plates 14, 17, 18 and 24 and no reachable scan renders those numerals; the architrave, frieze, cornice and pedestal subdivisions are apportioned within certain totals and carry confidence low. The modillion figures - ten to eleven minutes in front, thirty-one on centres - are stated in the letterpress and carry confidence medium. The pack confidence is medium on that basis.\n\nONE ARITHMETIC ODDITY, RESOLVED. Benjamin's pedestal instruction for the Ionic reads 'divide the whole height into twenty nine equal parts; two of which are the diameter of the column' - 14 1/2 diameters, which is exactly 10 + 1 3/4 + 2 3/4. It checks. His Corinthian equivalent does not (see the benjamin-corinthian overlay), which is a good sign that the Ionic figures are sound and the Corinthian ones carry a typographical error."
+}

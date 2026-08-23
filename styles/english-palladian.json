@@ -1,0 +1,206 @@
+{
+  "id": "english-palladian",
+  "name": "English Palladian",
+  "aka": [
+    "Neo-Palladian",
+    "Burlingtonian",
+    "Palladianism (British)"
+  ],
+  "rank": "style",
+  "member_of": "english-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1715,
+    "floruit_start": 1720,
+    "floruit_end": 1760,
+    "decline_end": 1790,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1940,
+        "revival_node": "georgian-revival",
+        "note": "Returns as the reference standard for Edwardian and American country-house classicism, largely through the same books that established it in 1715."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland",
+      "Wales"
+    ],
+    "hearth": "Lord Burlington's circle in London and at Chiswick, and the Whig country houses of Norfolk and Yorkshire",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "palladian",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Transmission is textual and graphic rather than by apprenticeship: Giacomo Leoni's English edition of the Quattro Libri from 1716, Isaac Ware's more accurate translation of 1738, and the Palladio and Inigo Jones drawings Burlington bought in Italy in 1719 and published through William Kent in 1727. This is the founding case of pattern-book descent in Britain."
+    },
+    {
+      "target": "english-baroque",
+      "type": "reacts_against",
+      "weight": 0.8,
+      "inherits_kit": false,
+      "note": "Explicit and polemical. Colen Campbell's preface to Vitruvius Britannicus (1715) attacks the 'affected and licentious' Italian moderns by name and proposes Jones and Palladio as the correction. The giant order, the broken pediment and the sculpted skyline are legislated out within fifteen years."
+    },
+    {
+      "target": "english-baroque",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "A reaction still inherits its trades. Campbell, Kent and Burlington built with masons, joiners and plasterers trained on Wren's and Vanbrugh's sites, and the carcass construction of a Palladian house is a Baroque house's carcass."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Claimed rather than descended. The temple portico applied to a dwelling rests on Palladio's belief that ancient houses were fronted like temples, which is now known to be wrong. The style's central motif is therefore an archaeological error, faithfully transmitted."
+    }
+  ],
+  "description": {
+    "short": "A rule-governed classicism imported from Vicenza by book and drawing, in which a temple portico stands on a rusticated basement and every dimension in the building can in principle be justified from a published plate.",
+    "long": "English Palladianism is the first architectural style in Britain to be launched deliberately, in print, as a programme. Three publications appear within a year of each other around 1715: Colen Campbell's Vitruvius Britannicus, Giacomo Leoni's English Palladio, and the political moment of the Hanoverian succession, which gave the Whig aristocracy both power and a motive to distinguish its taste from the Tory-Stuart Baroque. Richard Boyle, third Earl of Burlington, supplied the money, the drawings and the authority; William Kent supplied the interiors and, eventually, the garden that broke the geometry outdoors while the house held it indoors.\n\nThe system is unusually explicit. A rusticated basement of service rooms carries a piano nobile of state rooms, reached by an external stair; a portico or a pedimented centrepiece marks the axis; the wall surface is plain ashlar, and ornament is concentrated in a few licensed places — the aedicule window surrounds of the principal storey, a Venetian window in a projecting bay, a Diocletian window in the attic or wing. Room dimensions are taken from Palladio's list of approved shapes: the circle, the square, the square and a third, the square and a half, the double square and the diagonal of the square. This means that a Palladian plan can be checked, and could be executed by a competent provincial builder from a book without the designer ever visiting the site. That is not a side effect; it is the point. Palladianism is the moment English architecture became transmissible information, and the pattern-book industry that followed — Gibbs, Langley, Swan, Halfpenny, Morris — is its direct commercial consequence.\n\nAgainst the Baroque it is an argument for restraint, correctness and legibility, and it wins so completely that by 1740 a giant order on a house looks provincial. The cost of the victory is that the style is difficult to inhabit. Holkham and Houghton are magnificent and cold; the piano nobile puts the family a full storey above the ground and the servants below it, which is socially exact and practically miserable; and Palladio's Veneto villas, designed for a hot climate with deep loggias and thin walls, needed serious adjustment for a wet one — hence the English preference for the closed portico, the sash window in place of the shutter, and the service basement in place of the barchessa.\n\nWhat a Palladian house does to a body is regulate it. You approach on axis, climb an external stair that raises you deliberately above the ground, pass under a portico whose columns are spaced so that the intercolumniation frames the door, and enter a hall that is very often a cube. Rooms open into one another in enfilade along the front, so that the doors align and you can see through four rooms at once — the alignment is the ornament. Everything is quiet, pale and dimensionally resolved, and after an hour the effect is either serenity or a mild sense of being measured. Both reactions are period-appropriate."
+  },
+  "defining_characteristics": [
+    "A piano nobile of principal rooms raised over a rusticated service basement, reached by an external stair on the principal front",
+    "A temple portico or pedimented centrepiece of a single order, correctly proportioned, replacing the Baroque giant order",
+    "Plain ashlar or fine brick wall surfaces with ornament concentrated at licensed points: the centrepiece, the piano nobile window aedicules, the cornice",
+    "Room dimensions drawn from Palladio's approved set of ratios (1:1, 1:1.33, 1:1.5, 1:1.67, 1:2, and the square's diagonal)",
+    "The Venetian (serliana) window and the Diocletian (thermal) window as the two licensed exotic openings",
+    "Five-part composition where the programme allows: main block, low hyphens, terminal pavilions, with a strict hierarchy of ridge heights",
+    "Low hipped or pedimented roofs behind a parapet, with chimneys grouped and disciplined into the composition"
+  ],
+  "diagnostic_tells": [
+    "A pedimented portico standing on a rusticated basement with an exterior stair — if the entrance is at grade, the house is Georgian rather than Palladian",
+    "Window aedicules (pediment on consoles or pilasters) on the piano nobile only, with the storeys above and below left completely plain — the vertical hierarchy of ornament is the style's signature",
+    "A Venetian window centred in a shallow projecting bay, usually under a relieving arch and often flanked by blind niches",
+    "A Diocletian half-round window in a pavilion or attic, semicircular and divided by two mullions",
+    "Absolute absence of the giant order, the broken pediment, the banded rustication and the sculpted skyline — the presence of any of these dates the design before 1715 or after 1830"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-baroque",
+      "difference": "Correctness against invention. Palladianism restricts itself to what Palladio published; Baroque stretches, bands and breaks the orders for effect. Palladian walls are flat and pale, Baroque walls are modelled and shadowed. A Palladian roof is a low parapeted plane; a Baroque roof is a stage for urns and cupolas."
+    },
+    {
+      "node": "english-georgian",
+      "difference": "Palladianism is the aristocratic and theoretical parent; Georgian is its everyday descendant. Georgian drops the piano nobile and puts the door at grade, drops the portico for a doorcase, and applies the proportional system to a brick box built by a speculator. Almost every Palladian rule survives in Georgian, at a quarter of the cost and none of the ceremony."
+    },
+    {
+      "node": "adam-style",
+      "difference": "Adam keeps the Palladian envelope and attacks the interior. Palladian rooms are rectangular boxes with heavy compartmented ceilings and marble chimneypieces; Adam rooms are apsed, niched and screened, with flat low-relief ornament in delicate colour. At fifty feet the difference is that Adam thins everything — the mouldings, the glazing bars, the ornament."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Palladio's published system, module equal to the lower column diameter (subdivided into 60 minutes), with room plans and sections taken from the Quattro Libri's approved ratios and the whole checkable against a printed plate.",
+    "typical_ratios": [
+      "Room plans restricted to 1:1, 1:1.33, 1:1.5, 1:1.67, 1:2, and the square-diagonal ratio 1:1.414",
+      "Room height in a rectangular room set as the mean of length and breadth (arithmetic, geometric or harmonic) — commonly the arithmetic mean",
+      "Piano nobile storey height 4.5-6.0 m; basement 2.7-3.5 m; attic storey roughly 0.6 of the piano nobile",
+      "Sash proportion 1.8:1 to 2:1 height to width on the piano nobile, reducing to near 1:1 in the attic storey",
+      "Portico intercolumniation 2.25 to 3 diameters (eustyle or systyle); column height 9-10 diameters for Ionic, 9.5-10 for Corinthian",
+      "Main block ridge height to hyphen ridge height not less than 1.5:1"
+    ],
+    "bay_rhythm": "An even metronome of bays across the front with a three- or five-bay centrepiece brought slightly forward and pedimented. Bay widths are equal; the centre is distinguished by ornament and projection, never by wider spacing.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "The definitive form and the one the massing catalog is named for; Holkham extends it to a main block with four corner pavilions."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The compact Palladian villa — Mereworth, Chiswick and Campbell's smaller designs — is a double-pile block with a central hall and stair."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "common",
+      "note": "The portico-plus-flankers composition, which the Americans later take up wholesale for Greek Revival."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "The Palladian palace-fronted terrace, where a whole row is composed as one elevation with a pedimented centre — Wood's Queen Square at Bath is the model."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Every room plan must conform to one of Palladio's approved ratios within 3 percent, and ceiling height must be a stated mean of the room's length and breadth.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "The giant order, banded rustication, broken and swan-neck pediments, and skyline statuary are forbidden. These are precisely the features the style was formed to eliminate.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Window aedicules and enriched surrounds occur on the piano nobile only. Ornamenting a basement or attic window inverts the hierarchy and destroys the composition.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Where a portico is used it must be full height of the piano nobile plus its entablature, free-standing or engaged, and land on the rusticated basement — not on a plinth invented for the purpose.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Hyphens and pavilions must be lower and shallower than the main block, with ridge heights stepping down by at least 25 percent at each stage.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Chiswick House",
+      "location": "Chiswick, London, England",
+      "year": 1729,
+      "note": "Built 1727-29 by Richard Boyle, third Earl of Burlington, for himself, after Palladio's Villa Rotonda and Scamozzi's Rocca Pisana. A manifesto rather than a dwelling: octagonal domed saloon, hexastyle Corinthian portico, and a plan of Palladian ratios throughout."
+    },
+    {
+      "name": "Houghton Hall",
+      "location": "Norfolk, England",
+      "year": 1735,
+      "note": "Built 1722-35 by Colen Campbell and Thomas Ripley, with interiors by William Kent, for Sir Robert Walpole. The Stone Hall is a 40-foot cube — the clearest surviving demonstration of the system applied at full scale."
+    },
+    {
+      "name": "Holkham Hall",
+      "location": "Norfolk, England",
+      "year": 1764,
+      "note": "Built 1734-64 by William Kent and Matthew Brettingham for Thomas Coke, first Earl of Leicester, to a scheme developed with Burlington. Yellow brick, a main block with four corner wings, and the alabaster-columned Marble Hall derived from a Roman basilica."
+    },
+    {
+      "name": "Mereworth Castle",
+      "location": "Kent, England",
+      "year": 1725,
+      "note": "Built 1723-25 by Colen Campbell for John Fane. The closest English copy of the Villa Rotonda, with four porticoes and a central dome whose void conceals the chimney flues."
+    }
+  ],
+  "sources": [
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "Rudolf Wittkower, Palladio and English Palladianism (1974)",
+    "Colen Campbell, Vitruvius Britannicus, 3 vols (1715-25)",
+    "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)",
+    "Mark Girouard, Life in the English Country House (1978)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "pattern-book",
+    "piano-nobile",
+    "proportional-system"
+  ]
+}

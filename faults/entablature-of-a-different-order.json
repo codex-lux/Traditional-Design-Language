@@ -1,0 +1,166 @@
+{
+  "id": "entablature-of-a-different-order",
+  "name": "Doric Frieze On An Ionic Column",
+  "aka": [
+    "the mixed order",
+    "triglyphs over volutes"
+  ],
+  "slots": [
+    "order",
+    "column",
+    "entablature",
+    "modillion_dentil"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "composition",
+  "symptom": "A column of one order carrying an entablature of another. The commonest three: a plain Tuscan or Doric column under a modillioned Corinthian cornice, because the cornice was bought as house trim and the column as a porch part; a fluted Ionic column with volutes under a frieze carrying triglyphs and guttae, which belong only to the Doric; and a Corinthian capital under a bare architrave and no frieze at all. The two halves are each competently made and neither knows the other exists.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The cornice and the column are bought from different suppliers by different trades at different times. The main cornice is ordered as linear feet of composite or PVC moulding from the exterior trim package, sized off the eave detail; the columns come from a column vendor, sized off the porch height; and nobody holds a drawing on which the two appear together. Where a porch entablature exists at all it is usually built by the framing crew out of whatever the cornice package contained, so the cornice profile that happens to be on the truck is the one the column receives.",
+    "cost_saved": "Nothing. It is a coordination failure, not an economy — a Tuscan cornice and a Corinthian cornice cost within 20 per cent of each other in composite, and the Tuscan is usually cheaper. This is a fault that occasionally costs money to commit.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / order / rule",
+      "statement": "One order governs the whole building and every moulding in it is derived from that order's module; where two orders are superimposed the heavier goes below."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-doric / intercolumniation.monotriglyph, assemblies.frieze",
+      "statement": "The triglyph is a Doric member and nothing else. It sits over every column at 1 1/4 diameters on centres and the metopes between are square. It cannot occur in any other order because no other order has the spacing rule that generates it."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "gibbs-ionic / assemblies.cornice modillion band; vignola-corinthian / modillion_dentil.spacing = module * 4/3",
+      "statement": "Modillions belong to the Ionic (in Gibbs), the Corinthian and the Composite. The Tuscan cornice has no bracket of any kind and the Roman Doric has mutules, which are flat inclined blocks with guttae, not scrolled brackets."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an order is a single ratio system, not a kit of parts",
+      "statement": "Each order fixes column height, entablature depth, the internal division of the entablature, the bracket type, the bracket spacing and the intercolumniation together. Take one member from another order and every one of those numbers is now wrong, whether or not anyone can name which."
+    }
+  ],
+  "correct_practice": "Bind one order to the building and derive every member from its module. If the porch is Tuscan, its entablature is 1/4 of the column, has an architrave of one fascia, a plain frieze and a cornice with no brackets. If it is Roman Doric, the frieze carries triglyphs 1/2 diameter wide at 1 1/4 diameters on centres with square metopes 3/4 diameter on a side, and the cornice carries mutules over the triglyphs. If it is Ionic in Gibbs, the entablature is 1/5 of the column, divided 6:6:7, and the cornice carries a modillion band. Where two orders genuinely appear on one building they are SUPERIMPOSED — the heavier below, the lighter above, each complete — and that is a different and legitimate composition. What is never legitimate is one order's column under another order's entablature in the same storey.",
+  "fixes": {
+    "right": "Draw the porch entablature as part of the order and have it run as a separate profile from the main cornice, with the members sized off the column diameter. On a 10 in Ionic shaft in Gibbs that is 18 in of entablature: 6 in architrave, 6 in frieze, 7 in cornice, and the number is not negotiable.",
+    "cheap": "Strip the entablature to a plain architrave, a plain frieze and a simple crown, correctly proportioned, and drop the enrichment entirely. A correctly proportioned Tuscan entablature with no ornament on it is right; a Corinthian modillion cornice on a Tuscan column is wrong at any level of finish. This is usually cheaper than what was going to be built, because modillion stock is the expensive line item.",
+    "dishonest": "Adding the missing order's members to the column to 'balance' the cornice — fluting a Tuscan shaft so it can carry a Corinthian cornice, or applying a leafed collar under a plain capital. The capital names the order and no addition below it changes what the capital says."
+  },
+  "detection": "Two-step check from a photograph of the porch. First name the capital: no ornament and a square abacus with an ovolo is Tuscan; the same with a fillet and a taller neck is Roman Doric; volutes are Ionic; acanthus is Corinthian. Then name the cornice: no brackets is Tuscan; flat inclined blocks with three rows of pegs under the corona is Doric mutules; small square blocks in a row is dentils, which are Ionic and above; scrolled S-shaped brackets are modillions, which are Gibbs Ionic and above. If the frieze carries vertical grooved blocks (triglyphs) and the capital is anything but Doric, the fault is present and unmistakable. Third check, subtler and worth making: count the entablature's fasciae. A Tuscan architrave has one, a Doric two, an Ionic and Corinthian three.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "orders_present_in_one_storey",
+    "threshold": 1,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Count distinct orders identifiable from capital type and from cornice bracket type within a single storey of a single elevation. One is correct. Two in the SAME storey is this fault; two in DIFFERENT storeys, heavier below, is superimposition and is correct."
+  },
+  "severity_by_style": [
+    {
+      "style": "jeffersonian-classicism",
+      "severity": "fatal",
+      "why": "Jefferson's whole practice is the archaeologically correct order taken from Palladio and Fréart plate by plate. A mixed order at Monticello or its descendants destroys the argument."
+    },
+    {
+      "style": "beaux-arts-american",
+      "severity": "fatal",
+      "why": "Academic classicism is judged on exactly this."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Endemic and correctable; the tradition itself was often loose, but the loose examples are the weak ones."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "minor",
+      "why": "The idiom is frankly a catalogue assembly and its charm is partly in the mixing. It still should not carry triglyphs."
+    },
+    {
+      "style": "queen-anne-free-classic",
+      "severity": "minor",
+      "why": "Free Classic means free: the style is defined by classical fragments used decoratively, and strict order discipline would make it something else."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The Charleston piazza carries genuinely superimposed orders on one elevation — Tuscan or Doric below, Ionic above — and this is correct, documented and characteristic. Two orders on one facade is the RULE there, not the fault.",
+      "bounds": "Superimposition only: the two orders must be in different storeys, the heavier below, each complete with its own entablature, and the upper column's lower diameter must not exceed the lower column's upper diameter. Two orders in the same storey is still the fault.",
+      "bounds_test": {
+        "expression": "upper_order_lower_diameter / lower_order_upper_diameter",
+        "threshold": 1.0,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "regions": [
+          "lowcountry",
+          "charleston"
+        ],
+        "slots": [
+          "porch_type",
+          "porch_support",
+          "order"
+        ]
+      }
+    },
+    {
+      "style": "charleston-georgian",
+      "why": "Same piazza tradition on the freestanding Charleston house.",
+      "bounds": "As above: superimposed and storey-separated, never mixed within a storey."
+    },
+    {
+      "style": "english-palladian",
+      "why": "Palladio's own villa fronts superimpose orders on the loggia, and the Anglo-Palladian tradition follows him.",
+      "bounds": "Superimposition, storey-separated, heavier below. Palladio never puts a triglyph frieze on an Ionic column."
+    },
+    {
+      "style": "queen-anne-free-classic",
+      "why": "The Free Classic subtype uses classical members as an ornamental vocabulary rather than as a system, and mixing is part of the manner. A Tuscan column under a dentil cornice under a spindled gable is a documented and correct Free Classic elevation.",
+      "bounds": "Applies to dentils, plain modillions and simple mouldings only. Triglyphs and guttae carry the Doric spacing rule with them and are the one member that cannot be borrowed, because their spacing determines the column spacing.",
+      "applies_when": {
+        "date_range": [
+          1880,
+          1905
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "entablature-off-the-quarter",
+    "capital-and-base-from-different-orders",
+    "modillion-aligned-to-nothing"
+  ],
+  "confused_with": [
+    {
+      "fault": "capital-and-base-from-different-orders",
+      "difference": "That fault is inside the column itself — a Roman Doric capital on an Attic base with a Tuscan shaft. This one is between the column and what sits on it."
+    },
+    {
+      "fault": "entablature-off-the-quarter",
+      "difference": "There the order is consistent and the entablature is the wrong DEPTH. Here the depth may be right and the members belong to another order."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, order.rule",
+    "proportions/orders/vignola-doric.json (triglyph pitch 1 1/4 D, metope square)",
+    "proportions/overlays/gibbs-doric.json (Gibbs substitutes modillions for mutules in his Doric — a documented divergence, and the reason 'Doric never has modillions' is not quite true)",
+    "HABS documentation of Charleston piazzas, superimposed Tuscan over Ionic",
+    "Palladio, I quattro libri, Book II, villa loggias"
+  ],
+  "confidence": "high",
+  "tags": [
+    "order",
+    "entablature",
+    "composition",
+    "coordination"
+  ]
+}

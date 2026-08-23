@@ -1,0 +1,181 @@
+{
+  "id": "clapboard-exposure-drift",
+  "name": "Siding laid to the wrong weather",
+  "aka": [
+    "seven-inch colonial",
+    "the wrong region's exposure"
+  ],
+  "slots": [
+    "primary_cladding"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "Horizontal siding laid at 6 1/2 to 8 in to the weather on a house whose style wants 3 1/4 to 6. The wall has too few, too fat courses; from the street the house looks smaller than it is because the eye uses the course as a ruler, and a New England house sided at 7 in exposure reads as Southern or as modern regardless of its trim.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Course count is labour. Fibre-cement plank is sold in a 8 1/4 in width laid at 7 in exposure as the default SKU; vinyl is sold as 'double 4' or 'double 5' panels. Going from 7 in to 4 1/2 in exposure is a 55 per cent increase in course count, which is a 55 per cent increase in nailing, cutting, and cut-end sealing, on the largest single area of the building. The exposure is chosen by the estimator, not the designer.",
+    "cost_saved": "Roughly $1.10-$2.40 per square foot of wall in labour and material between a 7 in and a 4 1/2 in exposure. On 2,600 sf of wall that is $2,900-$6,200."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / primary_cladding parameters",
+      "statement": "Riven oak clapboards 40-48 in long at 3 1/4 to 4 1/4 in to the weather in New England; sawn pine or poplar weatherboards about 8 in wide at 6 in to the weather with a 1 1/2 in lap in the Mid-Atlantic and South. The numbers are not interchangeable."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "course dimension is the wall's only intrinsic scale reference",
+      "statement": "A wall with no windows in view is still read for size, and the only thing available to read is the course. Get the course wrong and every other dimension on the building is misjudged in the same direction."
+    }
+  ],
+  "correct_practice": "Set the exposure regionally and by material, not by the supplier's default. New England riven or split clapboard: 3 1/4 to 4 1/4 in to the weather, boards 40-48 in long, so the vertical joints are frequent and staggered. Mid-Atlantic, Chesapeake and Low Country sawn weatherboard: about 8 in wide with a 1 1/2 in lap, giving 6 in to the weather. Greek Revival and later 19th-century work runs wider, 5-6 in, and sometimes uses a flush or novelty profile. Then make the exposure fit the storey: divide the wall height from water table to frieze by the intended exposure and adjust the exposure by up to 1/4 in so that a course line lands at the window sill and at the window head. That adjustment is free and it is what a period carpenter did automatically, because he was laying to a story pole.",
+  "fixes": {
+    "right": "Order the exposure you want and lay to a story pole set out from the water table, with course lines landing on the sills and heads.",
+    "cheap": "Where the exposure cannot be reduced, reduce the CONTRAST instead: butt thickness, not width, is what makes a course read. A 3/4 in butt at 6 in exposure looks more period than a 5/16 in butt at 4 1/2 in, because the shadow under each course is what the eye is actually counting. Specify a thick-butt profile in whatever material is being used, and keep the exposure constant to 1/8 in — irregular exposure is far more damaging than a uniformly wrong one.",
+    "dishonest": "A 'double 4' vinyl or a 'double 6' fibre-cement panel that carries two courses per board to fake a smaller exposure. The false course has no butt — it is a pressed groove, typically 1/8 to 3/16 in deep against a real butt of 1/2 to 3/4 in — so at any distance the wall shows alternating strong and weak shadow lines in pairs. This pairing is one of the most reliable vinyl tells in a photograph and it is created entirely by the attempt to look finer."
+  },
+  "detection": "Count courses against a known dimension. A double-hung sash window head to sill is a reliable ruler if the sash proportions are known; simpler, count courses per storey. At a 9 ft ceiling and about 10 ft of storey, a 4 in exposure gives roughly 30 courses per storey, a 6 in exposure gives 20, and a 7 in exposure gives 17. Fewer than 18 courses to a storey on anything claiming to be colonial is the fault. Second test: look for the paired-shadow rhythm of a double-course panel — strong, weak, strong, weak. Third: check whether course lines land on sills and heads. In period work they usually do, because the carpenter set out from a story pole; in production work they never do, because the siding starts at the bottom and runs until it stops.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival and later 19th-century work legitimately runs wider boards, and flush horizontal boarding with no exposure at all — a taut, jointless wall — is a high-style Greek Revival treatment.",
+      "bounds": "Flush boarding is an all-or-nothing choice for the whole volume, and it demands the wide flat corner pilasters and deep entablature that go with it. Wide lapped boards run to 6 in, not 8.",
+      "bounds_test": {
+        "expression": "exposure_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 5,
+        "upper": 6,
+        "note": "Wide lapped boards run to 6 in, not 8. Flush boarding is a separate all-or-nothing choice for the whole volume and demands the wide flat corner pilasters and deep entablature that go with it."
+      },
+      "applies_when": {
+        "date_range": [
+          1825,
+          1865
+        ],
+        "slots": [
+          "primary_cladding"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Not lapped siding at all; the comparison does not apply.",
+      "bounds": "See the shingle fault for its own exposure rule.",
+      "bounds_test": {
+        "expression": "lapped_siding_area / wall_area",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.1,
+        "note": "Not lapped siding at all; the comparison does not apply above a token amount. See shingle-wall-too-regular for the shingle exposure rule."
+      }
+    },
+    {
+      "style": "swiss-chalet",
+      "why": "Alpine work uses wide horizontal boarding — 8-12 in — because it is squared log or heavy plank construction rather than a lapped weatherboard skin.",
+      "bounds": "Requires the corresponding construction: visible corner joinery, thick boards, and a deeply projecting eave. Wide boards with a thin butt and a mitred corner are not this.",
+      "bounds_test": {
+        "expression": "board_thickness_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "Wide boards require the corresponding construction: visible corner joinery, thick boards, and a deeply projecting eave. Wide boards with a thin butt and a mitred corner are not this."
+      },
+      "applies_when": {
+        "construction": [
+          "log",
+          "braced-timber-frame"
+        ]
+      }
+    },
+    {
+      "style": "american-folk-vernacular",
+      "why": "Vernacular work used whatever was milled locally, and exposures vary widely; a 6-7 in exposure on a plain rural house is common and correct.",
+      "bounds": "Legitimate where the house makes no regional or stylistic claim beyond its own. It does not license a 7 in exposure on a house with Georgian trim.",
+      "bounds_test": {
+        "expression": "classical_apparatus_element_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Legitimate where the house makes no regional or stylistic claim beyond its own. It does not license a 7 in exposure on a house with Georgian trim."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "panel-seam-and-nailing-hem",
+      "difference": "That fault is about the joints and the fixing of the material; this one is about the course dimension. A perfectly detailed wood clapboard can be laid at the wrong exposure and a correct exposure can be executed in vinyl with visible seams."
+    }
+  ],
+  "sources": [
+    "Institute of Classical Architecture & Art, Classical Comments: Weatherboards and Clapboards",
+    "kits/georgian-colonial-american.kit.json, primary_cladding parameters",
+    "NPS Preservation Brief 8: Aluminum and Vinyl Siding on Historic Buildings",
+    "James Hardie and Vinyl Siding Institute product literature (standard exposures)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "cladding",
+    "scale",
+    "clapboard",
+    "regional"
+  ],
+  "test": {
+    "expression": "siding_courses_per_storey",
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "threshold": 18,
+    "note": "At a 9 ft ceiling and about 10 ft of storey: a 4 in exposure gives roughly 30 courses, 6 in gives 20, 7 in gives 17. Fewer than 18 to a storey on anything claiming to be colonial is the fault. Directly countable in a photograph with no scale reference, which is what makes it the primary test rather than the exposure dimension itself."
+  },
+  "secondary_tests": [
+    {
+      "expression": "exposure_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 3.25,
+      "upper": 4.25,
+      "note": "New England riven clapboard, boards 40-48 in long. The Mid-Atlantic, Chesapeake and Low Country figure is different and not interchangeable: sawn weatherboard about 8 in wide at 6 in to the weather with a 1 1/2 in lap. A Virginia house sided at 4 in looks Northern and a Massachusetts house at 6 in looks wrong in a way most people cannot name."
+    },
+    {
+      "expression": "butt_thickness_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.5,
+      "note": "Butt thickness, not width, is what makes a course read: the shadow under each course is what the eye is counting. A 3/4 in butt at 6 in exposure looks more period than a 5/16 in butt at 4 1/2 in."
+    },
+    {
+      "expression": "coefficient_of_variation_of_exposure",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.03,
+      "note": "Irregular exposure is far more damaging than a uniformly wrong one. This also catches the double-course panel, which shows alternating strong and weak shadow lines in pairs — a pressed groove at 1/8-3/16 in deep against a real butt at 1/2-3/4 in."
+    }
+  ],
+  "co_occurs_with": [
+    "panel-seam-and-nailing-hem",
+    "j-channel-corner",
+    "corner-board-thinner-than-the-casing"
+  ],
+  "inverted_by": [
+    {
+      "style": "swiss-chalet",
+      "statement": "A fine 4 in exposure is the fault. Alpine work uses wide horizontal boarding of 8-12 in because it is squared log or heavy plank construction, and a thin lapped weatherboard skin contradicts the construction it sits on."
+    },
+    {
+      "style": "greek-revival-american",
+      "statement": "At the high-style end the fault inverts entirely: flush horizontal boarding with NO exposure at all — a taut jointless wall, sometimes scored and sanded to imitate ashlar — is the correct treatment, and a legible clapboard course is the error."
+    }
+  ]
+}

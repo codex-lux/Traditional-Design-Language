@@ -1,0 +1,149 @@
+{
+  "id": "grille-between-the-glass",
+  "name": "The Grille Inside The Sealed Unit",
+  "aka": [
+    "GBG",
+    "internal muntin",
+    "the shadowless bar"
+  ],
+  "slots": [
+    "window_lite_pattern",
+    "glazing_assembly"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "The window appears to be divided into lights, but the divisions are inside the sealed unit, between the two panes. There is no shadow anywhere on the sash face, no bevel, no putty line, and the whole face of the glass is a single unbroken reflective plane. In raking light the grid disappears entirely. It cannot be painted, and when the seal fails the grid is behind the fog.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The internal grille is the cheapest of the three ways to draw a grid on a sealed unit, typically a 5/8 or 3/4 in roll-formed aluminium lattice dropped into the airspace during glazing. It costs the glazier almost nothing, it is invisible to the cleaner, and it survives the warranty. Every window manufacturer offers it as the base grid option and prices the alternatives as upgrades, so the grid line item on a builder's schedule defaults to it.",
+    "cost_saved": "About 20 to 45 USD per unit against a surface-applied exterior grille, and 120 to 400 USD per unit against a true divided light. On a 20-window house, 2,500 to 8,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / glazing_assembly / between-glass-grille",
+      "statement": "Worst of the three: a muntin that casts no shadow at all and cannot be painted."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a muntin is read by its shadow, not by its width",
+      "statement": "A putty-glazed muntin sets the glass about 3/8 in behind the outer face of the bar and is moulded with an ovolo or ogee, so it produces three tonal values at every joint: a lit bevel, a dark shadow, and the glass. An internal grille produces one value and only in direct light."
+    }
+  ],
+  "correct_practice": "If the grid is to exist, it must occupy the outer plane of the glazing. In descending order of correctness: true divided lights with individual panes and putty or bead glazing; simulated divided lights with permanently bonded exterior and interior bars plus a matching shadow bar in the airspace; exterior-only applied bar with a shadow bar. Historic muntin width 7/8 in with the glass set back 3/8 in from the outer face of the bar and the bar moulded, not flat. Where none of these is affordable the correct answer is a single undivided light, not an internal grid.",
+  "fixes": {
+    "right": "True divided lights, or simulated divided lights with bonded bars on both faces and an airspace shadow bar matched in width and colour to the exterior bar.",
+    "cheap": "Delete the grid and specify a clear single light in a correctly proportioned sash with a proper meeting rail. A 2/2 or 1/1 sash in a well-proportioned opening with a real sill and head is a legitimate historical condition for anything after about 1870 and it reads honestly. This costs less than the internal grille it replaces.",
+    "dishonest": "Adding an internal grille to the top sash only, on the theory that no one looks at the bottom. It reproduces the Craftsman and Colonial 6/1 arrangement without the shadow that made either legible, so the top sash now reads as tinted rather than divided."
+  },
+  "detection": "Find the reflection. Photograph or observe the window at an angle where sky or a tree reflects in the glass. If the reflected image runs continuously across the bar without a break or displacement, the grid is inside the unit. Second test: raking light near sunrise or sunset — an exterior bar throws a shadow band onto the glass beside it, an internal grille throws none. Third: look at the grid where it meets the sash stile. An exterior bar dies into the stile with a mitred joint and a visible line; an internal grille stops short of the stile by the width of the edge seal, leaving a suspiciously wide margin of clear glass all around the grid, typically 5/8 to 1 in.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "mid-century-traditional",
+      "why": "Where the grid is being used frankly as a pattern rather than as an imitation of joinery — a 1950s picture window with a thin internal grid — it is at least period-honest to the assembly it sits in.",
+      "bounds": "Only on aluminium or steel sash of the period idiom, and only where no other element on the elevation claims pre-1900 joinery. It remains a fault on any wood or wood-clad sash.",
+      "bounds_test": {
+        "expression": "pre_1900_joinery_claims_on_elevation",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The licence holds only where nothing else on the elevation claims pre-1900 joinery. One putty-glazed sash, one moulded cornice or one classical door surround anywhere on the front and the count goes above zero and the exception lapses."
+      },
+      "applies_when": {
+        "construction": [
+          "aluminium-sash",
+          "steel-sash"
+        ],
+        "date_range": [
+          1945,
+          1975
+        ],
+        "note": "Depends on the sash material, not the style label: the licence is that a thin internal grid is period-honest to a metal sash. It is void on wood or wood-clad sash of any date."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "grille-on-one-face",
+      "difference": "That fault has a bar in the correct outer plane on one side only. This one has no bar in any exposed plane at all, and is the more serious of the two."
+    },
+    {
+      "fault": "flat-grille-no-shadow-line",
+      "difference": "That fault concerns the section of a bar that is correctly located on the outer face. This one concerns a bar that is not on the face at all."
+    }
+  ],
+  "sources": [
+    "Cardinal Glass and Marvin divided-lite product literature",
+    "NPS Preservation Brief 9, the repair of historic wooden windows",
+    "proportions/modules/sash-light.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "muntin",
+    "glazing",
+    "shadow",
+    "endemic"
+  ],
+  "test": {
+    "expression": "clear_glass_margin_between_grid_and_sash_stile_in",
+    "threshold": 0.125,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "THE EXECUTABLE TELL. An internal grille cannot reach the sash because the sealed unit's edge seal is in the way, so it stops 5/8 to 1 in short and leaves a suspiciously wide unbroken margin of glass all the way round the grid. An exterior bar dies into the stile with a mitred joint and leaves no margin at all."
+  },
+  "secondary_tests": [
+    {
+      "expression": "muntin_cast_shadow_width_in / muntin_width_in",
+      "threshold": 0.25,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "An exterior bar throws a hard shadow band onto the glass beside it, roughly a third of its own width, in any daylight from an angle. An internal grille throws none, at any hour. Score 0 in flat light is inconclusive; score 0 in raking light is diagnostic."
+    },
+    {
+      "expression": "reflected_edge_displacement_across_muntin_in",
+      "threshold": 0.05,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The reflection test. Photograph at an angle where a straight edge — a roofline, a kerb — reflects across the bar. An exterior bar interrupts and displaces the reflected line; an internal grille lets it run continuously behind, because the glass is one unbroken plane."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "federal-style",
+      "severity": "fatal",
+      "why": "The style is a muntin-width and cornice-depth judgement at fifty feet. Remove the bar's shadow and there is nothing left to make the judgement on."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit names it as the worst of the three grille conditions: a muntin that casts no shadow at all and cannot be painted."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "minor",
+      "why": "The idiom's window is a contemporary unit by intention and its grids, where used, are few and wide; the loss of a putty-glazed shadow costs it much less than it costs a pre-1850 idiom."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "The division is leaded came in an art-glass panel, not a sash bar, and the question does not arise."
+    }
+  ],
+  "alternative_to": [
+    "grille-on-one-face",
+    "flat-grille-no-shadow-line",
+    "insulated-unit-defeats-the-divided-lite"
+  ],
+  "co_occurs_with": [
+    "muntin-wider-than-its-date",
+    "lite-count-wrong-for-the-date"
+  ]
+}

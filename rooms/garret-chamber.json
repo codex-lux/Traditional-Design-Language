@@ -1,0 +1,240 @@
+{
+  "id": "garret-chamber",
+  "name": "Garret Chamber",
+  "aka": [
+    "attic bedroom",
+    "half-storey chamber",
+    "cockloft chamber",
+    "upper chamber",
+    "the room under the roof"
+  ],
+  "function_class": "sleeping",
+  "description": "A sleeping room inside the roof, with sloping ceilings on two sides and a knee wall. It is the cheapest bedroom a traditional house can produce, because the volume already exists and only the floor, the finish and a dormer have to be paid for, and it is the reason the story-and-a-half type is as common as it is. Whether it works at all is decided by one number that has nothing to do with the room: THE ROOF PITCH.",
+  "history": {
+    "appears": 1620,
+    "declines": null,
+    "note": "The garret is the oldest secondary sleeping space in the Anglo-American house - children, servants, apprentices and the unmarried slept there, unheated, reached by a winder or a ladder stair, and it doubled as the household's store. Its social meaning is unambiguous: the garret chamber is where the people who did not matter slept, and it is directly over the heads of the people who did. Two things changed it. Dormers, which arrive in ordinary building through the eighteenth century, turned an unlit loft into a room. And the STOVE, after about 1830, made the upper storey heatable without a hearth in it, which is when garret chambers stop being cold rooms and start being bedrooms. What did not change is the geometry, which is why the 1690 Cape and the 2026 Cape have the same roof pitch."
+  },
+  "dimensions": {
+    "area_sf": [
+      110,
+      220
+    ],
+    "width_ft": [
+      11,
+      16
+    ],
+    "length_ft": [
+      11,
+      18
+    ],
+    "proportion": [
+      1.0,
+      1.4
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "THE PITCH, THROUGH THE 50 PER CENT RULE. IRC R305.1.1: with a sloping ceiling, at least half of the required floor area must have a 7 ft ceiling, and any floor area under 5 ft of height does not count as floor area at all. Take a 28 ft wide house with a 3 ft knee wall. You need 4 ft of additional rise to reach 7 ft, and the run that buys it is 4 ft divided by the pitch. At 6:12, that is 8 ft in from each knee wall, leaving 28 - 16 = 12 ft at full height, which is 43 per cent - IT FAILS. At 8:12 it is 6 ft in, leaving 16 ft, 57 per cent - it passes. At 10:12 it is 4 ft 10 in, leaving 18 ft 4 in, 65 per cent - comfortable. A GARRET CHAMBER NEEDS ABOUT 8:12 ON A 28 FT HOUSE AND MORE ON A NARROWER ONE, and that single fact explains why Capes, saltboxes and Colonials are steep and why a Ranch is not: the shallow-pitch types never had a habitable roof and never needed one. Raising the knee wall a foot is worth about 1.5 to 2 ft of full-height width and is usually cheaper than steepening the roof, but a knee wall over 4 ft starts to read on the elevation as a taller storey and breaks the type."
+  },
+  "furniture": [
+    {
+      "item": "bed under the slope",
+      "footprint_in": [
+        58,
+        81
+      ],
+      "clearance_in": 24,
+      "note": "A bed is 24 to 30 in high, so it is the ONE piece of furniture that works in the low zone - a full bed pushed under a slope needs only 42 in of head at the far side and 60 at the near, which is exactly what a 3 ft knee wall on an 8:12 gives you 2 to 3 ft in. Putting the bed in the low zone is not a compromise, it is the correct use of the volume, and it is what every surviving garret chamber does."
+    },
+    {
+      "item": "chest of drawers",
+      "footprint_in": [
+        36,
+        20
+      ],
+      "clearance_in": 40,
+      "note": "Needs 54 in of head at its face to open the top drawer without stooping, so it goes on a gable end wall or in the full-height zone. Chests under a slope are the commonest furnishing error in a converted attic."
+    },
+    {
+      "item": "hanging storage under the slope",
+      "footprint_in": [
+        72,
+        24
+      ],
+      "clearance_in": 0,
+      "note": "A rod at 66 in needs 72 in of head over the rod position, which arrives about 4 ft 6 in inboard of a 3 ft knee wall on an 8:12. Between the knee wall and that line is a band 4 ft 6 in wide with 3 to 6 ft of head, and it is perfect for drawers, shoes and low presses and useless for anything else. Use it or lose it: the knee-wall band is 15 to 20 per cent of the floor plate."
+    },
+    {
+      "item": "a standing person",
+      "footprint_in": [
+        24,
+        18
+      ],
+      "clearance_in": 0,
+      "note": "Head strike is the real design constraint and it is not in the code. The 5 ft line is where the code stops counting; the 6 ft 4 in line is where an adult stops ducking. Draw both on the section."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.6,
+    "sides_lit": 1,
+    "orientation": "Whatever the roof gives. The real choice is between a gable window, which gives good light to a narrow band, and a dormer, which gives light where the room actually is.",
+    "glazing_fraction": [
+      0.06,
+      0.12
+    ],
+    "note": "A garret window sits under a deep eave or in a dormer cheek and both cut the effective head, which is why the depth multiplier here is 1.6 rather than 2.25. A GABLE DORMER buys head height only in the middle and buys light in a narrow cone; a SHED DORMER buys head height across the whole opening and is the only device that turns a failing 6:12 garret into a passing one. This is why shed dormers appear on the backs of so many Capes and almost never on the fronts: they solve the geometry and they wreck the elevation. The rule that follows is a good one - shed dormers to the rear, gable dormers to the front, and never a dormer wall, which is a shed dormer that has eaten the whole roof plane and turned a story-and-a-half into a bad two-storey."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "stair-hall",
+        "why": "Reached by a proper stair. A garret chamber reached by a ladder or a pull-down is an attic with a mattress in it, and it fails egress, headroom and the fire code simultaneously.",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "bathroom",
+        "why": "A garret bath is possible only where the plumbing can find a wall - see servicing. Where it can, it goes on the gable end or against the stair, which is the one full-height interior wall the storey has.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "plant-room",
+        "why": "Mechanical equipment in the same roof volume as a sleeping room means either an unconditioned attic containing a bedroom, which is a thermal absurdity, or a conditioned attic containing an air handler beside a bed, which is a noise one. If the mechanicals are in the roof, the roof is a conditioned assembly and the equipment still does not go next to the bed.",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "stair-hall",
+      "landing",
+      "passage"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The room is inside the roof, so the roof assembly's ventilation strategy IS the room's building science. A vented attic (IRC R806.2, 1/150 net free area or 1/300 balanced) cannot coexist with a finished room in the same volume without a continuous air barrier at the slope and a vent channel above it; the alternative is an unvented conditioned assembly (R806.5) with the insulation in the rafter plane, which is the cleaner answer and costs more. Getting this wrong produces ice dams, and a garret chamber is where ice dams come from.",
+    "heat": "Historically none, then a stove pipe from below. Now: this room has the highest surface-to-volume ratio in the house and two of its surfaces are the roof, so it is the hardest room to keep at temperature and it will be the complaint room. Insulate the slope, the knee wall AND the floor behind the knee wall - the triangle behind the knee wall is outside the envelope in most as-built work and it is the single largest heat loss in a story-and-a-half house.",
+    "electrical": "Fixtures in a sloped ceiling are visible from below at a raking angle and a recessed can in a slope is never level with anything. Use surface or pendant fixtures, or light from the knee wall.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "cape-cod-colonial",
+      "name_in_style": "chamber",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "The defining room of the type. A full Cape has two garret chambers off a small landing at the top of the winder stair by the chimney, lit by gable windows and, in later work, by dormers. The 8:12 to 12:12 pitch is not stylistic - it is what makes the chambers exist."
+    },
+    {
+      "style": "saltbox-colonial",
+      "name_in_style": "chamber",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "The chambers are in the front slope only; the long rear catslide is store and lean-to and has no head height at all."
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "name_in_style": "second-floor bedroom",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "The gambrel is the geometric answer to this whole problem: it puts the steep pitch where the head height is needed and the shallow one where it is not, and a gambrel garret is a genuine full storey. That is what the gambrel is FOR, and drawing one with converging slopes destroys it."
+    },
+    {
+      "style": "cape-cod-revival",
+      "name_in_style": "upstairs bedroom",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Where the type is most often broken - a revival Cape at 6:12 with a full shed dormer across the back is a two-storey house pretending. Keep the pitch and the chambers follow."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "garret",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Servants' rooms and store, plain-boarded, unheated except where a stack passes through, reached by the back stair. In a five-bay Georgian the garret is not a bedroom floor and should not be drawn as one."
+    },
+    {
+      "style": "ranch-style",
+      "present": false,
+      "note": "No roof volume. A 4:12 hip over a 26 ft span contains nothing."
+    },
+    {
+      "style": "french-normandy-revival",
+      "name_in_style": "chambre sous comble",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Very steep roofs, 12:12 and up, so the geometry is generous and the dormers are the elevation's principal event rather than a compromise."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Sloped ceilings: 7 ft over at least 50 per cent of the required floor area; area with less than 5 ft of height is not counted toward the required area.",
+      "ref": "IRC R305.1.1",
+      "conflict": "See critical_dimension. This is a roof-pitch rule wearing a room's clothes, and it is the single most useful piece of code arithmetic in this catalogue."
+    },
+    {
+      "requirement": "Emergency escape and rescue opening, 5.7 sq ft net clear, sill not over 44 in.",
+      "ref": "IRC R310",
+      "conflict": "In a garret the sill is measured from the finished floor and the head is limited by the slope, so the egress window very often has to be IN A DORMER, and the dormer therefore has to be at least 3 ft wide in the clear. A 2 ft 6 in decorative dormer over a bedroom is not an egress and the room is not legal."
+    },
+    {
+      "requirement": "Stair headroom 6 ft 8 in measured vertically from the nosing line.",
+      "ref": "IRC R311.7.2",
+      "conflict": "The stair into a garret runs UP into the slope and this is where the headroom is lost. It is the commonest reason a finished attic cannot be permitted, it is discovered after the framing is up, and it is fixed on paper in five minutes by moving the stair one bay toward the ridge."
+    },
+    {
+      "requirement": "Where the roof volume is finished, either vent above a continuous air barrier or build an unvented assembly with the required condensation control.",
+      "ref": "IRC R806.2, R806.5",
+      "conflict": "A finished garret in a vented roof with fibreglass batts stuffed against the sheathing is the standard as-built condition and it is a moisture failure waiting for a cold winter."
+    }
+  ],
+  "massing_fit": [
+    "cape-cod-massing",
+    "saltbox",
+    "gambrel-block",
+    "i-house",
+    "hall-and-parlor",
+    "center-passage-single-pile",
+    "four-over-four",
+    "dogtrot",
+    "double-pen",
+    "telescope-house",
+    "garrison-block",
+    "linear-ell-farmhouse",
+    "pyramidal-cottage",
+    "mansard-block",
+    "charleston-single"
+  ],
+  "slots": [
+    "roof_pitch",
+    "dormer",
+    "ceiling_height_rule",
+    "daylight_strategy",
+    "storage_strategy",
+    "room_adjacency_overrides",
+    "stair_position"
+  ],
+  "faults": [
+    "dormer-wall",
+    "overscaled-dormer",
+    "sunken-dormer",
+    "fat-cheek-dormer",
+    "egress-window-flips-the-proportion",
+    "gambrel-slopes-converging",
+    "stair-at-the-code-minimum",
+    "truss-flattened-pitch"
+  ],
+  "sources": [
+    "IRC R305.1.1, R310, R311.7.2, R806.2, R806.5",
+    "proportions/systems/room-vernacular.json - chamber ceiling and the knee-wall head-height note in the storey-graduation cross-reference",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay 1625-1725 (1979)",
+    "HABS measured sections of Cape and saltbox types"
+  ],
+  "confidence": "high"
+}

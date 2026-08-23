@@ -1,0 +1,159 @@
+{
+  "id": "equal-lite-grid-where-the-period-graduated",
+  "name": "The Uniform Grid",
+  "aka": [
+    "equal lites everywhere",
+    "the symmetrical sash"
+  ],
+  "slots": [
+    "window_lite_pattern",
+    "window_proportion"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "Every light in the sash is the same size, every sash on the house carries the same grid, and the grid is a plain rectangular array. The period arrangement it replaces was almost never uniform: the upper sash carried more or different lights from the lower, the lights of a tall sash were taller than they were wide by a consistent ratio that changed with the sash, and the top course was frequently a different height from those below.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "A grid on a window schedule is specified as two numbers — lights wide by lights high — and the software draws them evenly. There is no field on the order form for an unequal division, and the manufacturer's price is per grid pattern, so any departure from the array is a custom line. The uniform grid is what the notation can express, and notation shapes what gets built.",
+    "cost_saved": "Roughly 50 to 150 USD per unit for a non-standard division, plus the drafting time to specify it."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_lite_pattern.count",
+      "statement": "lights_across and lights_high_per_sash are computed separately from the opening's width and its height, and they do not in general produce a square light or an equal division between sashes."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the light is a rectangle taken from the glasshouse, and its proportion is fixed before the sash is laid out",
+      "statement": "Period lights are consistently taller than wide, in the range 1.15:1 to 1.4:1, because that is how the pane was cut and because a taller light suits a taller sash. A square light is a modern arithmetic artefact."
+    }
+  ],
+  "correct_practice": "Compute lights across from the opening width and lights high from the sash height independently, and accept the unequal result. Check the individual light's proportion: it should be taller than wide, between 1.15:1 and 1.4:1, and consistent across the elevation even when the counts differ. Where the two sashes differ in height, the light counts differ with them — 9/6 and 6/9 are period arrangements, not errors. Where a style divides only one sash, divide only that one: Craftsman runs three or four vertical bars in the upper sash over a single-light lower sash, and this one detail separates it from every neighbour; Colonial Revival runs 6/1 and 8/1 for the same reason of economy at the working sash.",
+  "fixes": {
+    "right": "Lay the grid out from the light dimension. Compute the light size first, then let the counts fall out for each sash separately.",
+    "cheap": "Divide the upper sash only, and let the lower be a single light. This costs less than a full grid, it is documented across four separate style families, and it removes the uniformity problem entirely because there is now nothing to be uniform with.",
+    "dishonest": "Making the lights square to make the grid look regular. A square light is the one proportion no period sash produced and it reads as graph paper."
+  },
+  "detection": "Measure one light's height and width. At or below 1.05:1 the fault is present. Then compare the upper sash grid with the lower on the same window: if they are identical in every window on the house and the house claims a style that divides them differently, the fault is present. Third test: compare the top course of lights with the courses below it in a tall sash — in much period work the top course is shorter, because the sash was laid out from the bottom up and the remainder went to the top.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "georgian-colonial-american",
+      "why": "The Georgian grid genuinely is regular, and its regularity is the point: 12/12 with equal lights across an entire front is the arithmetic of the style. Palladio's own rule that all windows within a storey are equal is being obeyed.",
+      "bounds": "Equality within a storey and within a sash. The upper and lower sash of a Georgian window still commonly differ in count, 12/12 and 9/9 being equal but 12/8 and 9/6 also occurring; and the individual light remains taller than wide.",
+      "bounds_test": {
+        "expression": "individual_light_height_in / individual_light_width_in",
+        "threshold": 1.15,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Equality is licensed BETWEEN lights and never WITHIN one: the individual light remains taller than wide even in the most regular Georgian grid. This is the bound that stops the exception becoming a licence for graph paper."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Rectilinear art glass is a deliberate abstract composition, and where it is regular it is regular by design rather than by default.",
+      "bounds": "The pattern must be a designed geometry with a centre and a border, not a plain array; and it sits in casement bands, not double-hung sash.",
+      "bounds_test": {
+        "expression": "curved_elements_in_the_glazing_pattern",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The pattern must be a designed geometry with a centre and a border and no curves, not a plain array. A rectilinear array with no centre is not this exception."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Margin lights are the maximal case of deliberate inequality and are the style's transmitted signature.",
+      "bounds": "A border of small lights around one large centre light, at principal rooms and the stair, upper sash normally.",
+      "bounds_test": {
+        "expression": "margin_light_width_in / centre_light_width_in",
+        "threshold": 0.3,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "A border around one large centre light, not a grid."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "lite-count-wrong-for-the-date",
+      "difference": "That fault is about the total count against the glass technology. This one is about the arrangement being uniform at any count."
+    }
+  ],
+  "sources": [
+    "proportions/modules/sash-light.json",
+    "Period sash layout practice, measured examples 1720-1900",
+    "styles/craftsman.json constraints"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "lites",
+    "proportion",
+    "grid"
+  ],
+  "test": {
+    "expression": "individual_light_height_in / individual_light_width_in",
+    "threshold": 1.15,
+    "direction": "between",
+    "upper": 1.4,
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Period lights are consistently taller than wide because that is how the pane was cut and because a taller light suits a taller sash. At or below 1.05 the grid is a modern arithmetic artefact — the light has been made square to make the array regular."
+  },
+  "secondary_tests": [
+    {
+      "expression": "distinct_light_proportions_across_the_elevation",
+      "threshold": 1,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "The counts may differ between sashes and between storeys; the light PROPORTION should not. A house whose lights are 1.3:1 downstairs and 1.05:1 upstairs was gridded by pattern number rather than laid out from a pane."
+    },
+    {
+      "expression": "top_course_light_height_in / lower_course_light_height_in",
+      "threshold": 1.0,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "In much period work the sash was laid out from the bottom up and the remainder went to the top, so the top course is shorter. A top course taller than those below it is a drawn grid rather than a built one. Direction is at-most because equality is common and excess is not."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "queen-anne-american",
+      "severity": "fatal",
+      "why": "Deliberate inequality is the style's transmitted signature; a uniform grid removes the one device that identifies it."
+    },
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "Four-over-one or three-over-one, vertical bars in the upper sash only, is the single detail that separates Craftsman from every neighbour in the graph. An equal grid across both sashes erases the identification."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "The Georgian grid genuinely is regular and its regularity is the point; only the square light and the equal upper-and-lower division remain at issue."
+    },
+    {
+      "style": "regency",
+      "severity": "serious",
+      "why": "Margin lights and 3-over-6 arrangements are standard, and flattening them to an array costs the style its glazing signature."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "georgian-colonial-american",
+      "statement": "Here irregularity is the fault. Palladio's rule that all windows within a storey are equal is being obeyed deliberately, and a wilfully unequal grid on a Georgian front breaks the arithmetic the whole facade depends on."
+    }
+  ],
+  "co_occurs_with": [
+    "lite-count-wrong-for-the-date"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "mid-century-traditional",
+  "name": "Mid-Century Traditional",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1930,
+    "floruit_end": 1975,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Minimal Traditional, Ranch, and their relatives — the era when the traditional kit of parts was systematically cost-engineered out of the American house.",
+    "long": "This family is the most important and least examined in the whole taxonomy for anyone building production housing. Minimal Traditional keeps the traditional silhouette and deletes everything else: no overhang, no cornice return, no depth of profile, sash reduced to the cheapest available. It was underwritten by FHA lending standards that rewarded minimum cost per square foot and had no way to value proportion.\n\nThe Ranch that follows is the first American house organized around the automobile, and it inherits an unsolved problem that every traditional style built today still carries: how to put two or three garage doors on a street elevation without destroying it. No historical style answers this, because none had to. It is the single largest gap in the traditional kit of parts and the place where a modern design system has to author something genuinely new rather than retrieve it."
+  },
+  "defining_characteristics": [
+    "Traditional silhouette retained while trim, overhang, and profile depth are deleted",
+    "Financing standards and cost per square foot as the governing design constraint",
+    "The automobile reorganizing plan, lot, and street elevation",
+    "Horizontal single-storey massing on wide suburban lots",
+    "An unresolved garage problem inherited by everything built since"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

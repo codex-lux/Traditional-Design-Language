@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Traditional Design Language — A Phylogeny of Traditional Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#0B1B29; --ground-2:#0F2536; --ground-3:#14304a;
+  --rule:#24455E; --rule-soft:#1A3549;
+  --ink:#EDE7DA; --ink-2:#9FB3C2; --ink-3:#63808F;
+  --copper:#C4734A; --verdigris:#7FB3A3; --brass:#D8B26A; --iron:#C4553A;
+  --t0:#D8B26A; --t1:#7FB3A3; --t2:#8FA8D8; --t3:#C4734A; --t4:#CFA2C4;
+  --display:"Bodoni Moda",'Didot','Bodoni MT',Georgia,serif;
+  --body:"Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow:hidden}
+a{color:var(--verdigris)}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ---------- masthead ---------- */
+header{display:flex;align-items:baseline;gap:22px;padding:14px 22px 12px;border-bottom:1px solid var(--rule);
+  background:linear-gradient(180deg,#0D2032,#0B1B29);position:relative;z-index:5}
+header h1{font-family:var(--display);font-weight:400;font-size:23px;letter-spacing:.01em;margin:0;white-space:nowrap}
+header h1 em{font-style:italic;color:var(--brass)}
+header .sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;color:var(--ink-3);text-transform:uppercase}
+header .spacer{flex:1}
+header .counts{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;white-space:nowrap}
+header .counts b{color:var(--ink-2);font-weight:500}
+
+main{display:flex;height:calc(100vh - 51px)}
+
+/* ---------- left rail ---------- */
+aside.rail{width:236px;flex:0 0 236px;border-right:1px solid var(--rule);padding:16px 16px 40px;overflow-y:auto;
+  background:#0A1826}
+.rail h2{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);
+  margin:22px 0 9px;font-weight:500}
+.rail h2:first-child{margin-top:0}
+#search{width:100%;background:var(--ground-2);border:1px solid var(--rule);color:var(--ink);padding:7px 9px;
+  font-family:var(--mono);font-size:11.5px;border-radius:2px}
+#search:focus{outline:none;border-color:var(--brass)}
+.chk{display:flex;align-items:center;gap:8px;padding:3px 0;cursor:pointer;font-size:12px;color:var(--ink-2);user-select:none}
+.chk:hover{color:var(--ink)}
+.chk input{appearance:none;width:11px;height:11px;border:1px solid var(--rule);background:transparent;border-radius:1px;
+  flex:0 0 11px;cursor:pointer}
+.chk input:checked{background:var(--brass);border-color:var(--brass)}
+.swatch{width:9px;height:9px;flex:0 0 9px;border-radius:50%}
+.edgekey{display:inline-block;width:34px;height:0;border-top-width:1.4px;vertical-align:middle;margin-right:2px}
+.rail .note{font-size:11px;color:var(--ink-3);line-height:1.5;margin:8px 0 0}
+.btn{display:block;width:100%;text-align:left;background:transparent;border:1px solid var(--rule);color:var(--ink-2);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:7px 9px;margin-top:7px;
+  cursor:pointer;border-radius:2px}
+.btn:hover{border-color:var(--brass);color:var(--ink)}
+
+/* ---------- chart ---------- */
+section.chart{flex:1;position:relative;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+#ruler{flex:0 0 46px;border-bottom:1px solid var(--rule);overflow:hidden;background:#0A1826;position:relative}
+#scroller{flex:1;overflow:auto;position:relative}
+#scroller::-webkit-scrollbar{width:10px;height:10px}
+#scroller::-webkit-scrollbar-thumb{background:var(--rule);border-radius:6px}
+#scroller::-webkit-scrollbar-track{background:#0A1826}
+svg{display:block}
+.bar{cursor:pointer}
+.bar rect{rx:1.5}
+.lbl{font-family:var(--body);font-size:10.5px;fill:var(--ink-2);pointer-events:none;dominant-baseline:middle}
+.lbl.variant{font-size:9.8px;fill:var(--ink-3)}
+.hdr-trad{font-family:var(--display);font-size:15px;fill:var(--ink);letter-spacing:.02em}
+.hdr-fam{font-family:var(--mono);font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;fill:var(--ink-3)}
+.gridline{stroke:var(--rule-soft);stroke-width:1}
+.gridline.major{stroke:#2B5170}
+.tick{font-family:var(--mono);font-size:9.5px;fill:var(--ink-3);letter-spacing:.05em}
+.seglabel{font-family:var(--mono);font-size:8px;fill:#4C6E85;letter-spacing:.1em;text-transform:uppercase}
+.dimmed{opacity:.09}
+.edge{fill:none;pointer-events:none}
+#tip{position:fixed;pointer-events:none;z-index:50;background:#08131E;border:1px solid var(--rule);
+  padding:8px 11px;max-width:330px;border-radius:2px;box-shadow:0 8px 30px rgba(0,0,0,.6);opacity:0;transition:opacity .1s}
+#tip .n{font-family:var(--display);font-size:15px;margin-bottom:1px}
+#tip .d{font-family:var(--mono);font-size:10px;color:var(--brass);letter-spacing:.07em;margin-bottom:5px}
+#tip .s{font-size:12px;color:var(--ink-2);line-height:1.45}
+
+/* ---------- detail panel ---------- */
+aside.panel{width:0;flex:0 0 0;border-left:0 solid var(--rule);overflow-y:auto;overflow-x:hidden;background:#0A1826;
+  padding:0 0 60px;position:relative;height:100%;z-index:8;transition:width .24s cubic-bezier(.4,0,.2,1),flex-basis .24s cubic-bezier(.4,0,.2,1);
+  box-shadow:-20px 0 50px rgba(0,0,0,.45)}
+aside.panel.open{width:452px;flex:0 0 452px;border-left-width:1px}
+.panel-inner{opacity:0;transition:opacity .18s .1s}
+aside.panel.open .panel-inner{opacity:1}
+.panel-inner{padding:20px 24px}
+.panel .close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--ink-3);font-size:19px;
+  cursor:pointer;line-height:1;padding:4px}
+.panel .close:hover{color:var(--ink)}
+.p-rank{font-family:var(--mono);font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-3)}
+.p-name{font-family:var(--display);font-size:31px;line-height:1.1;margin:5px 0 3px;font-weight:400}
+.p-aka{font-size:11.5px;color:var(--ink-3);font-style:italic;margin-bottom:12px}
+.p-dates{font-family:var(--mono);font-size:12px;color:var(--brass);letter-spacing:.05em;margin-bottom:2px}
+.p-geo{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.04em}
+.p-short{font-family:var(--display);font-size:16px;line-height:1.45;color:var(--ink);margin:16px 0 4px;font-style:italic}
+.p-long p{font-size:13.2px;line-height:1.65;color:var(--ink-2);margin:0 0 11px}
+h3.sec{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);
+  margin:24px 0 9px;padding-top:12px;border-top:1px solid var(--rule-soft);font-weight:500}
+ul.tight{margin:0;padding-left:16px}
+ul.tight li{font-size:12.6px;color:var(--ink-2);margin-bottom:6px;line-height:1.5}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:4px 10px;font-size:12.4px;color:var(--ink-2)}
+.kv dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);padding-top:3px}
+.pill{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 6px;border:1px solid var(--rule);border-radius:2px;color:var(--ink-3);margin:0 5px 5px 0}
+.pill.canonical{border-color:var(--brass);color:var(--brass)}
+.pill.common{border-color:var(--verdigris);color:var(--verdigris)}
+.pill.forbidden{border-color:var(--iron);color:var(--iron);text-decoration:line-through}
+.lnk{background:none;border:none;padding:0;color:var(--verdigris);font-family:inherit;font-size:12.6px;cursor:pointer;
+  text-align:left;text-decoration:underline;text-decoration-color:rgba(127,179,163,.35);text-underline-offset:2px}
+.lnk:hover{color:var(--brass);text-decoration-color:var(--brass)}
+.edgerow{display:grid;grid-template-columns:104px 1fr;gap:3px 9px;margin-bottom:8px;align-items:start}
+.edgetype{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;padding-top:3px}
+.edgenote{grid-column:2;font-size:11.4px;color:var(--ink-3);line-height:1.45;margin-top:2px}
+.cons{border-left:2px solid var(--rule);padding:2px 0 2px 10px;margin-bottom:10px}
+.cons .k{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.cons .k.hard{color:var(--iron)}
+.cons .t{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.kitgroup{border:1px solid var(--rule-soft);border-radius:2px;margin-bottom:7px;overflow:hidden}
+.kitgroup > summary{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  padding:8px 10px;cursor:pointer;background:var(--ground-2);list-style:none;display:flex;justify-content:space-between}
+.kitgroup > summary::-webkit-details-marker{display:none}
+.kitgroup > summary span{color:var(--ink-3)}
+.kitslots{padding:6px 10px 10px}
+.kitslot{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-size:11.8px;color:var(--ink-2);
+  border-bottom:1px dotted var(--rule-soft)}
+.kitslot:last-child{border-bottom:none}
+.kitslot .st{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#4C6E85}
+.kitpath{font-family:var(--mono);font-size:10.5px;color:var(--brass);background:var(--ground-2);border:1px solid var(--rule);
+  padding:7px 9px;border-radius:2px;margin-bottom:10px;word-break:break-all}
+.empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px;
+  pointer-events:none}
+@media (max-width:1180px){aside.rail{display:none}aside.panel.open{width:100%;flex-basis:100%}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Traditional <em>Design</em> Language</h1>
+  <div class="sub">A phylogeny of traditional architecture</div>
+  <div class="spacer"></div>
+  <div class="counts" id="counts"></div>
+</header>
+<main>
+  <aside class="rail">
+    <h2>Find</h2>
+    <input id="search" placeholder="style, region, tell…" autocomplete="off">
+    <button class="btn" id="clear">Clear selection</button>
+
+    <h2>Traditions</h2>
+    <div id="tradfilters"></div>
+
+    <h2>Lineage edges</h2>
+    <div id="edgefilters"></div>
+    <p class="note">Solid edges carry the kit-of-parts cascade. Dashed and dotted edges do not — a style can quote an ancestor it never descended from.</p>
+
+    <h2>View</h2>
+    <label class="chk"><input type="checkbox" id="showvariants" checked><span>Regional variants</span></label>
+    <label class="chk"><input type="checkbox" id="showlabels" checked><span>Labels</span></label>
+    <button class="btn" id="zoomin">Widen time axis</button>
+    <button class="btn" id="zoomout">Narrow time axis</button>
+
+    <h2>Reading the chart</h2>
+    <p class="note">Each bar is one taxon, drawn across the years it was actively built. The time axis is deliberately non-linear — antiquity is compressed so the last four centuries can breathe. Segment rates are printed on the ruler.</p>
+    <p class="note">A thin ticked line under a bar marks a later revival — the years someone deliberately built the style again after it had stopped.</p>
+    <p class="note">Click any bar to light its full ancestry and descent and open its record.</p>
+  </aside>
+
+  <section class="chart">
+    <div id="ruler"></div>
+    <div id="scroller"><div id="canvas"></div></div>
+  </section>
+
+  <aside class="panel" id="panel">
+    <button class="close" id="closepanel">&times;</button>
+    <div class="panel-inner" id="panelbody"></div>
+  </aside>
+</main>
+<div id="tip"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const N = {}; DATA.nodes.forEach(n=>N[n.id]=n);
+const TRAD = DATA.traditions;
+const TCOLOR = {};
+TRAD.forEach((t,i)=>TCOLOR[t]=getComputedStyle(document.documentElement).getPropertyValue('--t'+i).trim());
+
+/* ---------- non-linear time scale ---------- */
+let ZOOM = 1.6;
+const SEGS = [[-700,300,.10],[300,1000,.06],[1000,1400,.10],[1400,1600,.30],
+              [1600,1750,1.10],[1750,1850,1.90],[1850,1950,2.60],[1950,2035,1.60]];
+function xOf(y){
+  y = Math.max(-700, Math.min(2035, y));
+  let x = 0;
+  for(const [a,b,r] of SEGS){
+    if(y >= b){ x += (b-a)*r; }
+    else { x += Math.max(0,(y-a))*r; break; }
+  }
+  return x*ZOOM + PAD;
+}
+const PAD = 26;
+function width(){ return xOf(2035) + 300; }
+
+/* ---------- rows ---------- */
+const ROWH = 19, HDRT = 34, HDRF = 24;
+function layout(showVariants){
+  let y = 16, out = [];
+  for(const r of DATA.rows){
+    if(r.kind==='node'){
+      const n = N[r.id];
+      if(!showVariants && n.rank==='variant') continue;
+      out.push({...r, y, h:ROWH}); y += ROWH;
+    } else {
+      y += r.kind==='tradition' ? 12 : 6;
+      out.push({...r, y, h: r.kind==='tradition'?HDRT:HDRF});
+      y += r.kind==='tradition'?HDRT:HDRF;
+    }
+  }
+  return {rows:out, height:y+40};
+}
+
+/* ---------- tradition of a node ---------- */
+function tradOf(id){
+  let cur = id, guard = 0;
+  while(cur && guard++ < 8){
+    if(TRAD.includes(cur)) return cur;
+    cur = (N[cur]||{}).member_of;
+  }
+  return TRAD[0];
+}
+DATA.nodes.forEach(n=>n._trad = tradOf(n.id));
+
+/* ---------- state ---------- */
+const state = {
+  selected:null, query:'', variants:true, labels:true,
+  trads:new Set(TRAD),
+  edges:new Set(['descends_from','regional_of','hybridizes_with'])
+};
+const EDGE_STYLE = {
+  descends_from:{w:1.15,dash:'',label:'descends from',color:null},
+  regional_of:{w:.8,dash:'',label:'regional variant of',color:null},
+  hybridizes_with:{w:1.15,dash:'',label:'hybridizes with',color:'var(--verdigris)'},
+  references:{w:1,dash:'4 3',label:'references',color:'var(--copper)'},
+  reacts_against:{w:1,dash:'1 3',label:'reacts against',color:'var(--iron)'},
+  revives:{w:1,dash:'6 2 1 2',label:'revives',color:'var(--brass)'}
+};
+
+/* ---------- ancestry / descent ---------- */
+function upstream(id){
+  const seen=new Set(), stack=[id];
+  while(stack.length){ const c=stack.pop();
+    (N[c]?.lin||[]).forEach(e=>{ if(N[e.target] && !seen.has(e.target)){seen.add(e.target);stack.push(e.target);} });
+  }
+  return seen;
+}
+const CHILDREN = {};
+DATA.nodes.forEach(n=>n.lin.forEach(e=>{ (CHILDREN[e.target] ||= []).push(n.id); }));
+function downstream(id){
+  const seen=new Set(), stack=[id];
+  while(stack.length){ const c=stack.pop();
+    (CHILDREN[c]||[]).forEach(k=>{ if(!seen.has(k)){seen.add(k);stack.push(k);} });
+  }
+  return seen;
+}
+
+/* ---------- render ---------- */
+const canvas = document.getElementById('canvas');
+const ruler  = document.getElementById('ruler');
+const scroller = document.getElementById('scroller');
+const tip = document.getElementById('tip');
+let ROWMAP = {};
+
+function yr(v){ if(v===null||v===undefined) return '?'; return v<0 ? (-v)+' BC' : ''+v; }
+
+function drawRuler(){
+  const w = width();
+  const marks = [-500,1,500,1000,1200,1400,1500,1600,1650,1700,1750,1800,1830,1860,1890,1920,1950,1980,2010];
+  let s = `<svg width="${w}" height="46" id="rulersvg">`;
+  SEGS.forEach(([a,b,r],i)=>{
+    const x1=xOf(a), x2=xOf(b);
+    if(i%2===0) s += `<rect x="${x1}" y="0" width="${x2-x1}" height="46" fill="#0C1E2E"/>`;
+    s += `<text class="seglabel" x="${(x1+x2)/2}" y="41" text-anchor="middle">${r.toFixed(2)} px/yr</text>`;
+    s += `<line class="gridline" x1="${x2}" y1="0" x2="${x2}" y2="46"/>`;
+  });
+  marks.forEach(m=>{
+    const x=xOf(m);
+    s += `<line class="gridline major" x1="${x}" y1="24" x2="${x}" y2="30"/>`;
+    s += `<text class="tick" x="${x}" y="19" text-anchor="middle">${yr(m)}</text>`;
+  });
+  s += `</svg>`;
+  ruler.innerHTML = s;
+}
+
+function matches(n){
+  if(!state.trads.has(n._trad)) return false;
+  if(!state.query) return true;
+  const q = state.query.toLowerCase();
+  return (n.name+' '+n.id+' '+n.aka.join(' ')+' '+n.s+' '+(n.geo.regions||[]).join(' ')+' '+n.dt.join(' ')+' '+n.dc.join(' ')).toLowerCase().includes(q);
+}
+
+function draw(){
+  const {rows, height} = layout(state.variants);
+  ROWMAP = {}; rows.forEach(r=>{ if(r.kind==='node') ROWMAP[r.id]=r; });
+  const w = width();
+  const up = state.selected ? upstream(state.selected) : null;
+  const dn = state.selected ? downstream(state.selected) : null;
+  const lit = id => !state.selected ? true : (id===state.selected || up.has(id) || dn.has(id));
+
+  let g_edges='', g_bars='', g_hdrs='';
+
+  // vertical century rules
+  let g_grid='';
+  for(let y=1500;y<=2000;y+=50){ g_grid += `<line class="gridline" x1="${xOf(y)}" y1="0" x2="${xOf(y)}" y2="${height}"/>`; }
+  [-500,1,1000,1400].forEach(y=>{ g_grid += `<line class="gridline" x1="${xOf(y)}" y1="0" x2="${xOf(y)}" y2="${height}"/>`; });
+
+  // headers
+  rows.filter(r=>r.kind!=='node').forEach(r=>{
+    const n = N[r.id]; if(!n) return;
+    const col = r.kind==='tradition' ? TCOLOR[r.id] : 'var(--ink-3)';
+    if(r.kind==='tradition'){
+      g_hdrs += `<line class="gridline major" x1="0" y1="${r.y-6}" x2="${w}" y2="${r.y-6}"/>`;
+      g_hdrs += `<text class="hdr-trad hdrclick" data-id="${r.id}" style="cursor:pointer" x="8" y="${r.y+18}" fill="${col}">${esc(n.name)}</text>`;
+      let sub = n.s; if(sub.length>118){ sub = sub.slice(0,118); sub = sub.slice(0, sub.lastIndexOf(' ')) + '…'; }
+      g_hdrs += `<text class="hdr-fam" x="${8 + n.name.length*8.6 + 16}" y="${r.y+18}">${esc(sub)}</text>`;
+    } else {
+      g_hdrs += `<text class="hdr-fam hdrclick" data-id="${r.id}" style="cursor:pointer" x="18" y="${r.y+15}">${esc(n.name)}</text>`;
+    }
+  });
+
+  // edges
+  DATA.nodes.forEach(n=>{
+    const rB = ROWMAP[n.id]; if(!rB) return;
+    n.lin.forEach(e=>{
+      if(!state.edges.has(e.type)) return;
+      const rA = ROWMAP[e.target]; if(!rA) return;
+      const a = N[e.target];
+      const st = EDGE_STYLE[e.type] || EDGE_STYLE.descends_from;
+      const on = lit(n.id) && lit(e.target);
+      const col = st.color || TCOLOR[a._trad];
+      const x0 = Math.max(xOf(a.p[0]), Math.min(xOf(n.p[0]), xOf(a.p[1])));
+      const y0 = rA.y + ROWH/2, x1 = xOf(n.p[0]), y1 = rB.y + ROWH/2;
+      const mx = (x0+x1)/2, dx = Math.max(18, Math.abs(x1-x0)*0.4);
+      const d = `M${x0},${y0} C${x0+dx},${y0} ${x1-dx},${y1} ${x1},${y1}`;
+      g_edges += `<path class="edge" d="${d}" stroke="${col}" stroke-width="${st.w}" ${st.dash?`stroke-dasharray="${st.dash}"`:''} opacity="${on? (state.selected?0.85:0.42) : 0.05}"/>`;
+    });
+  });
+
+  // bars
+  rows.filter(r=>r.kind==='node').forEach(r=>{
+    const n = N[r.id];
+    const on = lit(n.id) && matches(n);
+    const col = TCOLOR[n._trad];
+    const x0 = xOf(n.p[0]), x1 = Math.max(x0+3, xOf(n.p[1]));
+    const h = n.rank==='variant' ? 7 : 10;
+    const yb = r.y + (ROWH-h)/2;
+    const op = on ? 1 : 0.09;
+    let bar = `<g class="bar" data-id="${n.id}" opacity="${op}">`;
+    // origin / decline whisker
+    if(n.p[2]!==null && n.p[2]!==undefined && n.p[2] < n.p[0])
+      bar += `<line x1="${xOf(n.p[2])}" y1="${r.y+4}" x2="${x0}" y2="${r.y+4}" stroke="${col}" stroke-width="1" opacity=".35" stroke-dasharray="2 2"/>`;
+    if(n.p[3]!==null && n.p[3]!==undefined && n.p[3] > n.p[1])
+      bar += `<line x1="${x1}" y1="${r.y+4}" x2="${xOf(n.p[3])}" y2="${r.y+4}" stroke="${col}" stroke-width="1" opacity=".35" stroke-dasharray="2 2"/>`;
+    (n.rev||[]).forEach(rp=>{
+      const rx=xOf(rp.start), rw=Math.max(2,xOf(rp.end)-rx), ry=r.y+ROWH-3.5;
+      bar += `<rect x="${rx}" y="${ry}" width="${rw}" height="2" fill="${col}" opacity=".4"/>`;
+      bar += `<line x1="${rx}" y1="${ry-2}" x2="${rx}" y2="${ry+3}" stroke="${col}" stroke-width="1" opacity=".4"/>`;
+      bar += `<line x1="${rx+rw}" y1="${ry-2}" x2="${rx+rw}" y2="${ry+3}" stroke="${col}" stroke-width="1" opacity=".4"/>`;
+    });
+    bar += `<rect x="${x0}" y="${yb}" width="${x1-x0}" height="${h}" fill="${col}" ${n.id===state.selected?'stroke="#fff" stroke-width="1.2"':''}/>`;
+    bar += `<rect x="${x0-4}" y="${r.y}" width="${x1-x0+8}" height="${ROWH}" fill="transparent"/>`;
+    if(state.labels){
+      const labX = x1 + 8;
+      bar += `<text class="lbl ${n.rank}" x="${labX}" y="${r.y+ROWH/2}">${esc(n.name)}</text>`;
+    }
+    bar += `</g>`;
+    g_bars += bar;
+  });
+
+  canvas.innerHTML = `<svg width="${w}" height="${height}">
+    <g>${g_grid}</g><g>${g_hdrs}</g><g>${g_edges}</g><g>${g_bars}</g></svg>`;
+  document.getElementById('counts').innerHTML =
+    `<b>${DATA.nodes.length}</b> taxa &nbsp;·&nbsp; <b>${DATA.nodes.reduce((a,n)=>a+n.lin.length,0)}</b> lineage edges &nbsp;·&nbsp; <b>${DATA.groups.reduce((a,g)=>a+g.slots.length,0)}</b> element slots &nbsp;·&nbsp; <b>${Object.keys(DATA.massings).length}</b> massings &nbsp;·&nbsp; 700 BC – AD 2026`;
+}
+
+function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ---------- interaction ---------- */
+canvas.addEventListener('mousemove', ev=>{
+  const g = ev.target.closest('.bar');
+  if(!g){ tip.style.opacity=0; return; }
+  const n = N[g.dataset.id];
+  tip.innerHTML = `<div class="n">${esc(n.name)}</div><div class="d">${yr(n.p[0])} – ${yr(n.p[1])} · ${esc(n.rank)}</div><div class="s">${esc(n.s)}</div>`;
+  tip.style.opacity = 1;
+  const r = tip.getBoundingClientRect();
+  let x = ev.clientX + 16, y = ev.clientY + 14;
+  if(x + r.width > innerWidth - 12) x = ev.clientX - r.width - 16;
+  if(y + r.height > innerHeight - 12) y = ev.clientY - r.height - 14;
+  tip.style.left = x+'px'; tip.style.top = y+'px';
+});
+canvas.addEventListener('mouseleave', ()=> tip.style.opacity=0);
+canvas.addEventListener('click', ev=>{
+  const hd = ev.target.closest('.hdrclick');
+  if(hd){ state.selected = null; draw(); openPanel(hd.dataset.id); return; }
+  const g = ev.target.closest('.bar');
+  if(!g) return;
+  select(g.dataset.id);
+});
+scroller.addEventListener('scroll', ()=>{ ruler.scrollLeft = scroller.scrollLeft; });
+
+function select(id){
+  state.selected = id;
+  draw();
+  openPanel(id);
+  const r = ROWMAP[id];
+  if(r){
+    const n = N[id];
+    const targetX = Math.max(0, xOf(n.p[0]) - 160);
+    setTimeout(()=> scroller.scrollTo({top: Math.max(0, r.y - scroller.clientHeight/2), left: targetX, behavior:'smooth'}), 260);
+  }
+}
+document.getElementById('closepanel').onclick = ()=>{ state.selected=null; document.getElementById('panel').classList.remove('open'); draw(); };
+document.getElementById('clear').onclick = ()=>{ state.selected=null; document.getElementById('panel').classList.remove('open'); draw(); };
+addEventListener('keydown', e=>{ if(e.key==='Escape'){ state.selected=null; document.getElementById('panel').classList.remove('open'); draw(); }});
+
+/* ---------- panel ---------- */
+function openPanel(id){
+  const n = N[id];
+  const p = document.getElementById('panel'), b = document.getElementById('panelbody');
+  const inbound = [];
+  DATA.nodes.forEach(m=>m.lin.forEach(e=>{ if(e.target===id) inbound.push({id:m.id,type:e.type,note:e.note}); }));
+  const kitPath = (n.rank==='style'||n.rank==='variant') ? `kits/${n.id}.kit.json` : null;
+
+  let h = '';
+  h += `<div class="p-rank">${esc(n.rank)}${n.member_of?` &nbsp;·&nbsp; in ${esc(N[n.member_of]?.name||n.member_of)}`:''}</div>`;
+  h += `<h2 class="p-name">${esc(n.name)}</h2>`;
+  if(n.aka.length) h += `<div class="p-aka">also ${n.aka.map(esc).join(' · ')}</div>`;
+  h += `<div class="p-dates">${yr(n.p[0])} – ${yr(n.p[1])}${n.p[2]&&n.p[2]<n.p[0]?` &nbsp;(from ${yr(n.p[2])})`:''}${n.p[3]&&n.p[3]>n.p[1]?` &nbsp;(lingering to ${yr(n.p[3])})`:''}</div>`;
+  h += `<div class="p-geo">${esc((n.geo.regions||[]).join(' · '))}${n.geo.hearth?` &nbsp;— hearth: ${esc(n.geo.hearth)}`:''}</div>`;
+  if((n.rev||[]).length) h += `<div class="p-geo" style="margin-top:4px;color:var(--verdigris)">revived ${n.rev.map(r=>`${r.start}–${r.end}${r.revival_node?` as ${esc(N[r.revival_node]?.name||r.revival_node)}`:''}`).join(' · ')}</div>`;
+
+  h += `<p class="p-short">${esc(n.s)}</p>`;
+  h += `<div class="p-long">${n.l.split('\n\n').map(x=>`<p>${esc(x)}</p>`).join('')}</div>`;
+
+  if(n.dc.length){ h += `<h3 class="sec">Defining characteristics</h3><ul class="tight">${n.dc.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`; }
+  if(n.dt.length){ h += `<h3 class="sec">Diagnostic tells</h3><ul class="tight">${n.dt.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`; }
+  if(n.df.length){ h += `<h3 class="sec">Not to be confused with</h3>` +
+     n.df.map(d=>{
+        const isM = d.node.startsWith('massing:');
+        const key = isM ? d.node.slice(8) : d.node;
+        const nm = isM ? (DATA.massings[key]?.name||key)+' (massing)' : (N[key]?.name||key);
+        const link = isM ? esc(nm) : `<button class="lnk" style="font-size:12.5px" data-goto="${esc(key)}">${esc(nm)}</button>`;
+        return `<div class="cons"><div class="k" style="color:var(--ink-2)">${link}</div><div class="t">${esc(d.difference)}</div></div>`;
+     }).join(''); }
+
+  if(n.ps && (n.ps.governing_logic||n.ps.symmetry)){
+    h += `<h3 class="sec">Proportional system</h3><dl class="kv">`;
+    if(n.ps.governing_logic) h += `<dt>Governing</dt><dd>${esc(n.ps.governing_logic)}</dd>`;
+    if(n.ps.typical_ratios?.length) h += `<dt>Ratios</dt><dd>${n.ps.typical_ratios.map(esc).join('<br>')}</dd>`;
+    if(n.ps.bay_rhythm) h += `<dt>Bay rhythm</dt><dd>${esc(n.ps.bay_rhythm)}</dd>`;
+    if(n.ps.symmetry) h += `<dt>Symmetry</dt><dd>${esc(n.ps.symmetry)}</dd>`;
+    h += `</dl>`;
+  }
+
+  if(n.lin.length || inbound.length){
+    h += `<h3 class="sec">Lineage</h3>`;
+    n.lin.forEach(e=>{
+      const st = EDGE_STYLE[e.type]||{};
+      h += `<div class="edgerow"><div class="edgetype" style="color:${st.color||TCOLOR[N[e.target]?._trad]||'var(--ink-3)'}">${esc(st.label||e.type)}</div>
+        <div><button class="lnk" data-goto="${e.target}">${esc(N[e.target]?.name||e.target)}</button>${e.inherits_kit?' <span class="pill" style="border-color:var(--brass);color:var(--brass)">inherits kit</span>':''}</div>
+        ${e.note?`<div class="edgenote">${esc(e.note)}</div>`:''}</div>`;
+    });
+    if(inbound.length){
+      h += `<h3 class="sec" style="border-top:none;padding-top:4px;margin-top:14px">Descendants</h3>`;
+      inbound.forEach(e=>{
+        const st = EDGE_STYLE[e.type]||{};
+        h += `<div class="edgerow"><div class="edgetype" style="color:${st.color||'var(--ink-3)'}">${esc(st.label||e.type)}</div>
+          <div><button class="lnk" data-goto="${e.id}">${esc(N[e.id]?.name||e.id)}</button></div></div>`;
+      });
+    }
+  }
+
+  if(n.ma?.length){
+    h += `<h3 class="sec">Massing affinities</h3>`;
+    h += `<p style="font-size:11.5px;color:var(--ink-3);margin:0 0 9px">Massing is not style. The same skeleton can wear a different grammar.</p>`;
+    n.ma.forEach(m=>{
+      const M = DATA.massings[m.massing];
+      h += `<div class="cons"><span class="pill ${esc(m.affinity)}">${esc(m.affinity)}</span>
+        <div class="k" style="color:var(--ink-2);font-family:var(--body);font-size:12.5px;letter-spacing:0;text-transform:none">${esc(M?.name||m.massing)}</div>
+        <div class="t" style="font-size:11.8px;color:var(--ink-3)">${esc(m.note||M?.desc||'')}</div></div>`;
+    });
+  }
+
+  if(n.cn?.length){
+    h += `<h3 class="sec">Assembly constraints</h3>`;
+    n.cn.forEach(c=>{ h += `<div class="cons"><div class="k ${esc(c.severity||'soft')}">${esc(c.kind)} · ${esc(c.severity||'soft')}</div><div class="t">${esc(c.statement)}</div></div>`; });
+  }
+
+  if(kitPath){
+    h += `<h3 class="sec">Kit of parts</h3>`;
+    h += `<div class="kitpath">${esc(kitPath)}</div>`;
+    if(n.casc?.length){
+      h += `<p style="font-size:11.5px;color:var(--ink-3);margin:0 0 10px">Inherits, nearest first: ${n.casc.map(c=>`<button class="lnk" style="font-size:11.5px" data-goto="${c}">${esc(N[c]?.name||c)}</button>`).join(' → ')}</p>`;
+    }
+    DATA.groups.forEach(g=>{
+      h += `<details class="kitgroup"><summary>${esc(g.name)} <span>${g.slots.length} slots · empty</span></summary><div class="kitslots">`;
+      g.slots.forEach(s=>{ h += `<div class="kitslot"><span>${esc(s.name)}</span><span class="st">empty</span></div>`; });
+      h += `</div></details>`;
+    });
+  }
+
+  if(n.ex?.length){
+    h += `<h3 class="sec">Exemplars</h3><ul class="tight">`;
+    n.ex.forEach(e=>{ h += `<li><b style="color:var(--ink)">${esc(e.name)}</b>${e.location?`, ${esc(e.location)}`:''}${e.year?` (${e.year})`:''}${e.note?`<br><span style="color:var(--ink-3);font-size:11.6px">${esc(e.note)}</span>`:''}</li>`; });
+    h += `</ul>`;
+  }
+  if(n.src?.length){ h += `<h3 class="sec">Sources</h3><ul class="tight">${n.src.map(s=>`<li style="font-size:11.8px;color:var(--ink-3)">${esc(s)}</li>`).join('')}</ul>`; }
+  h += `<h3 class="sec">Record</h3><div class="kitpath" style="color:var(--ink-3)">styles/${esc(n.id)}.json &nbsp;·&nbsp; confidence: ${esc(n.conf)}</div>`;
+
+  b.innerHTML = h;
+  b.querySelectorAll('[data-goto]').forEach(el=> el.onclick = ()=> select(el.dataset.goto));
+  p.classList.add('open'); p.scrollTop = 0;
+}
+
+/* ---------- controls ---------- */
+const tf = document.getElementById('tradfilters');
+TRAD.forEach((t,i)=>{
+  const l = document.createElement('label'); l.className='chk';
+  l.innerHTML = `<input type="checkbox" checked data-trad="${t}"><span class="swatch" style="background:var(--t${i})"></span><span>${N[t].name}</span>`;
+  tf.appendChild(l);
+});
+tf.addEventListener('change', e=>{
+  const t = e.target.dataset.trad; if(!t) return;
+  e.target.checked ? state.trads.add(t) : state.trads.delete(t); draw();
+});
+const ef = document.getElementById('edgefilters');
+Object.entries(EDGE_STYLE).forEach(([k,v])=>{
+  const l = document.createElement('label'); l.className='chk';
+  const col = v.color || 'var(--ink-2)';
+  l.innerHTML = `<input type="checkbox" ${state.edges.has(k)?'checked':''} data-edge="${k}">
+    <span class="edgekey" style="border-top-style:${v.dash?(v.dash==='1 3'?'dotted':'dashed'):'solid'};border-top-color:${col}"></span><span>${v.label}</span>`;
+  ef.appendChild(l);
+});
+ef.addEventListener('change', e=>{
+  const k = e.target.dataset.edge; if(!k) return;
+  e.target.checked ? state.edges.add(k) : state.edges.delete(k); draw();
+});
+document.getElementById('search').addEventListener('input', e=>{ state.query = e.target.value.trim(); draw(); });
+document.getElementById('showvariants').addEventListener('change', e=>{ state.variants = e.target.checked; draw(); });
+document.getElementById('showlabels').addEventListener('change', e=>{ state.labels = e.target.checked; draw(); });
+document.getElementById('zoomin').onclick = ()=>{ ZOOM = Math.min(6, ZOOM*1.35); drawRuler(); draw(); };
+document.getElementById('zoomout').onclick = ()=>{ ZOOM = Math.max(.6, ZOOM/1.35); drawRuler(); draw(); };
+
+drawRuler(); draw();
+</script>
+</body>
+</html>

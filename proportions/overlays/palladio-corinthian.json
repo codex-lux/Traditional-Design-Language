@@ -1,0 +1,367 @@
+{
+  "id": "palladio-corinthian",
+  "name": "Palladio's Corinthian Order (overlay on Vignola)",
+  "aka": [
+    "Corinthian of the Quattro Libri",
+    "Corinthian after Ware's Palladio, 1738",
+    "Corinthian, nine and a half diameters"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVII and XIX",
+    "author": "Andrea Palladio",
+    "year": 1570,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011569684",
+    "note": "Figures read from Isaac Ware's English edition of 1738, leaves 34-36, 68-69 and 88 of the Getty scan, cross-checked against the c82.net transcription. Ware's own errata sheet corrects the column height to 'nine modules and an half', which is the reading used here."
+  },
+  "overlay_of": "vignola-corinthian",
+  "module": {
+    "name": "The WHOLE diameter of the column at the bottom of the shaft, divided into sixty minutes",
+    "parts": 60,
+    "default_size_in": 12.0,
+    "note": "Palladio's module in every order but the Doric is the WHOLE diameter in 60 minutes. Vignola's Corinthian module is the SEMIdiameter in 18 parts. A module figure here is therefore HALF the Vignola figure for the same physical dimension, and a part here is 1/60 D against Vignola's 1/36 D: multiply any inherited vignola-corinthian part-value by 10/6 before adding it to anything in this pack. The consequence is sharpest in this order, because the column heights genuinely differ as well: Palladio 9 1/2 diameters, Vignola 10. Nine and a half Palladian modules and twenty Vignolesque modules are NOT the same column.",
+    "diameters": 1.0
+  },
+  "column": {
+    "height_modules": 9.5,
+    "diminution": 0.8461538462,
+    "entasis_begins_at": 0.3333333333,
+    "fluting": {
+      "count": 24,
+      "profile": "twenty-four semicircular flutes separated by fillets",
+      "fillet": true
+    }
+  },
+  "assemblies": {
+    "base": {
+      "height_modules": 0.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth or zocco",
+          "height_parts": 10,
+          "projection_parts": 12,
+          "profile": "plinth",
+          "note": "Ware ch. XVII: 'The Attic is the base to these columns', half a diameter high, with a projecture of a fifth of a diameter (12 minutes) - greater than the sixth Palladio gives the Tuscan and Doric bases. Vignola's Corinthian base is also of Attic form, so here the two authorities agree in kind; what differs is the module, the projecture and the column the base stands under.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_lower_torus",
+          "name": "Lower torus",
+          "height_parts": 7.5,
+          "profile": "torus",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_lower_listel",
+          "name": "Lower listel",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_scotia",
+          "name": "Scotia (cavetto)",
+          "height_parts": 5,
+          "profile": "scotia",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_listel",
+          "name": "Upper listel",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_torus",
+          "name": "Upper torus",
+          "height_parts": 5,
+          "profile": "torus",
+          "note": "The Attic division as Palladio states it in the Doric chapter: plinth a third; of the remaining two thirds a quarter to the upper torus, and of the rest half to the lower torus and half to the cavetto with its listels. Palladio adds in the Corinthian chapter that the base may be given two astragals; that variant is noted and not encoded.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 0.7916666667,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_intavolato",
+          "name": "Intavolato (cyma reversa of the bed mould)",
+          "height_parts": 5.5882352941,
+          "profile": "cyma-reversa",
+          "note": "Ware ch. XVII, verbatim: the cornice is 'divided into eight parts and a half, one of which is given to the intavolato or cima reversa, another to the dentello or dentels, the third to the ovolo, the fourth and fifth to the modiglion, and the remaining three and a half to the corona and gola.' One part is 47.5/8.5 = 5.588 minutes. Palladio's Corinthian cornice therefore carries BOTH dentils and modillions, as Vignola's does; the division between them is what differs.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_dentels",
+          "name": "Dentil band",
+          "height_parts": 5.5882352941,
+          "profile": "dentil",
+          "note": "One of eight and a half parts, i.e. 5.59 minutes = 0.093 D. Vignola gives 6 of 36 parts of the cornice = 0.083 D. Palladio's dentil band is the deeper of the two.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_ovolo",
+          "name": "Ovolo",
+          "height_parts": 5.5882352941,
+          "profile": "ovolo",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_modiglion",
+          "name": "Modillion band",
+          "height_parts": 11.1764705882,
+          "profile": "modillion",
+          "note": "Two of the eight and a half parts. Vignola's modillion band with its cyma and fillet is 7.2 of 36 = 0.10 D; Palladio's is 0.186 D. Palladio's modillion is nearly twice as deep, which is why a Palladian Corinthian eave reads as bracketed and a Vignolesque one as banded.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_corona_and_gola",
+          "name": "Corona with the gola above",
+          "height_parts": 19.5588235294,
+          "profile": "corona",
+          "note": "Three and a half of the eight and a half parts. Palladio does not split corona from gola in the text and the plate's numerals are not legible in the scans reached, so they are carried as one member rather than divided by guess. Palladio adds that the projection of the cornice is equal to its height.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 1.9,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "architrave",
+          "name": "Architrave",
+          "height_parts": 38,
+          "profile": "fascia",
+          "note": "Four of twelve. Ware ch. XVII: the entablature is 'one fifth of the height of the column' and is 'divided into twelve parts, as in the Ionick'. Palladio does not restate the architrave's internal division for the Corinthian; the Ionic division (a fifth to the cimacio, the rest in twelve as 3 : 4 : 5 over three fascias) is the natural reading but is an inference and is therefore NOT encoded as an assembly here.",
+          "confidence": "high"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "height_parts": 28.5,
+          "profile": "flat",
+          "note": "Three of twelve = 0.475 D. Vignola's Corinthian frieze is 1 1/2 modules = 0.75 D. The Palladian frieze is again the member that gives way, by more than a third.",
+          "confidence": "high"
+        },
+        {
+          "id": "cornice",
+          "name": "Cornice",
+          "height_parts": 47.5,
+          "profile": "corona",
+          "note": "Five of twelve = 0.7917 D against Vignola's 2 modules = 1.0 D.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "pedestal": {
+      "height_modules": 2.375,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal with its zocco",
+          "height_parts": 35.625,
+          "profile": "plinth",
+          "note": "Ware ch. XIX, verbatim: 'the pedestal is one fourth of the height of the columns.' A quarter of 9.5 modules is 2.375 modules = 2 3/8 diameters. VIGNOLA'S CORINTHIAN PEDESTAL IS 7 MODULES OF 18 = 3 1/2 DIAMETERS, i.e. 0.35 of his column. Palladio's is 0.25 of his. In a two-storey arcade that is a difference of more than a diameter in the height of the pedestal course. The internal division - base 2, dye 5, cornice 1 of eight - is Chambers's report of Palladio's own practice (Treatise, 1759, p. 83: Palladio and Perrault 'divide its height into eight parts only, giving one of them to the Cornice, two to the Base, and five to the Dye'), not Palladio's own words, and is marked medium.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_dye",
+          "name": "Dye",
+          "height_parts": 89.0625,
+          "profile": "flat",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cornice",
+          "name": "Cornice or cimacia of the pedestal",
+          "height_parts": 17.8125,
+          "profile": "corona",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The Corinthian column is nine modules and a half - nine and a half DIAMETERS - against Vignola's ten. This is the one order in which Palladio's column is genuinely more slender than Vignola's, and the reason is the intercolumniation: Palladio draws the Corinthian systyle at two diameters, and his rule binds a two-diameter bay to a nine-and-a-half-diameter column.",
+      "expression": "column.height_modules == 9.5",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The entablature is a fifth of the column, not a quarter.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 5",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Architrave, frieze and cornice stand as 4 : 3 : 5 of twelve, as in the Ionic.",
+      "expression": "assemblies.entablature.members.architrave.height_parts / assemblies.entablature.members.cornice.height_parts == 4 / 5",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal is a quarter of the column. Vignola's is 0.35 of his.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules / 4",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal divides in eight: two to the base, five to the dye, one to the cornice.",
+      "expression": "assemblies.pedestal.members.ped_dye.height_parts == assemblies.pedestal.height_modules * module.parts * 5 / 8",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The cornice assembly and the cornice member of the entablature agree.",
+      "expression": "assemblies.cornice.height_modules * module.parts == assemblies.entablature.members.cornice.height_parts",
+      "tolerance": 0.01
+    },
+    {
+      "statement": "The whole order with pedestal is 13 modules 45 minutes - 13.775 diameters - against Vignola's 15.5. A Palladian Corinthian storey is more than a diameter and a half lower for the same column diameter.",
+      "expression": "assemblies.pedestal.height_modules + column.height_modules + assemblies.entablature.height_modules == 13.775",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "palladio-corinthian-systyle",
+        "clear_diameters": 2.0,
+        "note": "PALLADIO'S OWN CORINTHIAN SPACING, and the reason the column is 9 1/2 diameters. Book I ch. XIII, verbatim: 'If but two, the height of the columns should be nine diameters and a half.' The order and the bay are one decision. Vignola's Corinthian colonnade is drawn wider and his column is 10 D; the two systems are internally consistent and mutually incompatible."
+      },
+      {
+        "name": "palladio-corinthian-arcade",
+        "clear_diameters": 4.0,
+        "note": "The arched Corinthian on pedestals of a quarter of the column. Figure read from the plate; medium confidence."
+      },
+      {
+        "name": "palladio-corinthian-hall",
+        "clear_diameters": 2.0,
+        "note": "Palladio's Corinthian is above all his interior order: Book II, 'Corinthian halls were made in two manners, either with columns upon pedestals, or with the columns standing on the floor.' The systyle spacing is what a Corinthian hall actually uses, and the pedestal question - present or absent - is the one the room decides."
+      }
+    ],
+    "default": "palladio-corinthian-systyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "column",
+      "dimension": "height",
+      "expression": "9.5",
+      "units": "modules",
+      "note": "Nine and a half diameters. Vignola's Corinthian is ten. This is the only order where the two authorities disagree on the column itself, and it is not a rounding: on a 24 in column it is a 12 in difference in height. Anglo-Palladian Corinthian - Burlington, Kent, Campbell, and through them Jefferson - follows the nine and a half.",
+      "authority_note": "Ware 1738, Book I ch. XVII, with Ware's own errata sheet confirming 'nine modules and an half'."
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 5",
+      "units": "in",
+      "note": "A fifth, not a quarter. Compounded with the shorter column this makes the whole Palladian Corinthian order 11.4 diameters against Vignola's 12.5 - nine per cent lower for the same column diameter.",
+      "authority_note": "Ware 1738, Book I ch. XVII."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "2.375 / 13.775",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.17,
+        0.33
+      ],
+      "note": "JUDGMENT SLOT. The pedestal cap as the dado datum: pedestal 2.375, column 9.5, entablature 1.9, so the cap lands at 0.172 of the whole - about 19 in at a 9 ft ceiling, against 0.21 and 23 in under Vignola. Palladio's lower pedestal makes the classical dado LOWER still, and the gap between the classical datum and the modern 32 to 36 in chair rail correspondingly wider. State the conflict; do not split the difference silently.",
+      "authority_note": "Ware 1738, Book I ch. XIX."
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "height",
+      "expression": "column_height / 5 * (5 / 12) * (2 / 8.5)",
+      "units": "in",
+      "note": "The modillion band, two of the eight and a half parts of the cornice. Palladio's Corinthian cornice runs dentils AND modillions, as Vignola's does, but gives the modillion nearly twice Vignola's depth relative to the diameter.",
+      "authority_note": "Ware 1738, Book I ch. XVII."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 6 * (5 / 12)",
+      "units": "in",
+      "judgment": true,
+      "range": [
+        0.055,
+        0.08
+      ],
+      "note": "JUDGMENT SLOT. The interior cornice under the Palladian reading: entablature a sixth of wall-plus-cornice (because it is a fifth of the column), crown five twelfths of that. 7.5 in at a 9 ft ceiling against Vignola's 8.4. The Corinthian room is the one place where a designer may reasonably override this upward, because a Corinthian hall carries enrichment that a light cornice cannot hold.",
+      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVII; the analogy is not Palladio's."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 9.5 * 2",
+      "units": "in",
+      "note": "Clear span, systyle. Two diameters is a close bay - closer than any Vignolesque Corinthian portico - and it is the price of the nine-and-a-half-diameter column under Palladio's binding rule.",
+      "authority_note": "Ware 1738, Book I ch. XIII."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "height",
+      "expression": "0.75",
+      "units": "ratio",
+      "note": "SUPERIMPOSITION. The Corinthian is Palladio's uppermost order in a three-order front (Doric, Ionic, Corinthian, as at the Palazzo Thiene fronts he records in Book II), and each order is a fourth less than the one below. Vignola gives no such rule.",
+      "authority_note": "Ware 1738, Book I ch. XII and Book II."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "A nine-and-a-half-diameter column is not a manufactured length. Stock columns - wood, GFRC, cast stone, fibreglass - are made at 8, 9 and 10 diameters because those are Vignola's and the American Vignola's figures. Ordering Palladio's Corinthian means either a custom shaft or a stock 10 D shaft cut down, which moves the entasis and ruins it.",
+      "resolution": "If custom shafts are out of reach, use a 9 D stock shaft rather than a cut-down 10 D one: the entasis survives and the error is a half diameter in the right direction. Never shorten a shaft from the bottom to hit a Palladian height - the diminution curve is set from the foot and cutting the foot flattens it.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "The systyle bay - two diameters clear - puts columns closer together than any modern portico framing wants, and the entablature at a fifth of the column gives 20 per cent less depth than Vignola's quarter for insulation, ventilation and the gutter. On a 24 in column the entablature is 45.6 in and the cornice 19 in.",
+      "resolution": "Vent behind the modillions and run the insulation line at the wall, not in the entablature. The close bay is actually an advantage structurally and should not be widened to suit framing modules; widen the portico by adding a bay instead.",
+      "severity": "minor"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The cornice divides into eight and a half parts of 5.588 minutes each. At a 12 in column that is 1.12 in per part, so the intavolato, dentil band and ovolo are each about 1 1/8 in high - each carrying two or three changes of plane. In run plaster this is possible; in painted wood the intavolato loses a third of itself to three coats.",
+      "resolution": "Set the module floor for a full Palladian Corinthian at 12 in (a 24 in column). Below that, consolidate the intavolato into the ovolo and record it, or drop to the Ionic, which has one fewer band in the same depth.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "Palladio's Corinthian pedestal at a quarter of the column is commonly 3 ft to 4 ft in a hall, and where columns on pedestals flank a route the pedestal plinths project into the clear width. Vignola's 0.35 pedestal is worse, but neither was drawn with a 36 in clear path in mind.",
+      "resolution": "Set the columns out from the face of the wall by the full pedestal projection plus 36 in, or use Palladio's second manner - 'the columns standing on the floor' without pedestals - which he gives as an equal alternative for Corinthian halls and which removes the problem entirely.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "palladian",
+    "english-palladian",
+    "italian-renaissance",
+    "renaissance-classical",
+    "english-baroque",
+    "jeffersonian-classicism",
+    "english-georgian-country-house",
+    "english-georgian-townhouse",
+    "federal-style",
+    "neoclassical-revival",
+    "georgian-revival",
+    "colonial-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "Andrea Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVII, XIX",
+    "Andrea Palladio, The Four Books of Architecture, tr. and ed. Isaac Ware, London 1738 (archive.org/details/gri_33125011569684) - Book I, leaves 34-36, 68-69, 88 of the Getty scan, and the errata leaf",
+    "c82.net/architecture/book1 - independent transcription of Ware's Book I",
+    "William Chambers, A Treatise on Civil Architecture, London 1759, p. 83 - for Palladio's eight-part pedestal division",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-corinthian.json"
+  ],
+  "confidence": "high",
+  "notes": "THIS IS THE ORDER WHERE PALLADIO AND VIGNOLA ACTUALLY PART. Everywhere else the column heights agree; here Palladio gives 9 1/2 diameters against Vignola's 10, and he gives a reason that Vignola has no equivalent for: the intercolumniation. Book I ch. XIII binds the two together - a two-diameter bay requires a nine-and-a-half-diameter column - so Palladio's Corinthian is short because it is close-spaced. Vignola's is ten diameters because ten is the next number after nine.\n\nWHAT IS QUOTED AND WHAT IS INFERRED. Quoted from Ware: the column at nine and a half (confirmed by Ware's errata leaf); the entablature at a fifth divided into twelve; the cornice divided into eight and a half parts with the members named in order; the Attic base with a fifth-diameter projecture; the pedestal at a quarter of the column. Inferred and marked as such: the internal division of the Attic base (Palladio's Doric rule carried across, medium); the pedestal's eight-part division (Chambers's report of Palladio's practice, medium); the split of corona from gola (not attempted). NOT inferred: the architrave's internal division. Palladio says the entablature divides 'into twelve parts, as in the Ionick' but does not repeat the architrave's own division, so the Ionic's three graded fascias are a plausible reading and are left as a note rather than encoded.\n\nTHE CAPITAL. Palladio's Corinthian capital is a diameter high plus a sixth more given to the abacus - 7/6 D - which is exactly Vignola's 2 1/3 semidiameter modules. There is no delta and the capital is left to inherit, subject only to the module conversion."
+}

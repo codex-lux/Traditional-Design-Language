@@ -1,0 +1,125 @@
+{
+  "id": "piazza-and-single-house-core",
+  "name": "Piazza and Single House Core",
+  "scale": "core",
+  "confidence": "high",
+  "description": "The Charleston arrangement: one room wide, turned end-on to the street, with stacked open piazzas along the long southern or western flank and a false street door that opens onto the piazza rather than into the house. A climate machine disguised as a plan, and the most inventive threshold sequence in American architecture.",
+  "rooms": [
+    {
+      "room": "piazza",
+      "role": "primary",
+      "count": "1-3",
+      "note": "One per storey, and they are circulation as much as they are outdoor rooms."
+    },
+    {
+      "room": "entry-porch",
+      "role": "connector",
+      "count": "1",
+      "note": "The street door in the garden wall."
+    },
+    {
+      "room": "drawing-room",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "dining-room",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "stair-hall",
+      "role": "connector",
+      "count": "1"
+    },
+    {
+      "room": "bedchamber",
+      "role": "secondary",
+      "count": "n"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "The piazza faces within 45 degrees of southwest, to catch the prevailing summer breeze and shade the long wall. A piazza on the north flank is decoration and defeats the type.",
+      "kind": "daylight",
+      "severity": "hard"
+    },
+    {
+      "statement": "Piazza depth 10 to 14 ft, at least equal to the depth of an interior room. Below 10 ft it fails as a room and becomes a balcony.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "piazza_depth_ft at-least 10"
+    },
+    {
+      "statement": "The street door opens onto the piazza, not into the house. Removing this move destroys the type.",
+      "kind": "sequence",
+      "severity": "hard"
+    },
+    {
+      "statement": "Rooms are single-pile so every one is lit and ventilated from two sides, and openings align through the plan for cross draft.",
+      "kind": "daylight",
+      "severity": "hard"
+    },
+    {
+      "statement": "Principal-floor ceiling not less than 11 ft 6 in. Below that the vertical sash proportion and the stack effect both fail.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "principal_ceiling_ft at-least 11.5"
+    },
+    {
+      "statement": "Superimposed orders on a two-storey piazza: heavier below, lighter above. Identical columns on both levels read as a modern deck.",
+      "kind": "hierarchy",
+      "severity": "hard"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "charleston-single",
+      "fit": "canonical",
+      "position": "the whole type"
+    },
+    {
+      "massing": "gallery-house",
+      "fit": "common"
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "fit": "possible",
+      "note": "The double-house version, four rooms to a floor, still with the piazza."
+    },
+    {
+      "massing": "four-over-four",
+      "fit": "forbidden",
+      "note": "Double-pile defeats the cross ventilation the type exists for."
+    }
+  ],
+  "expansion_logic": "Lengthen to the rear; the kitchen house stays detached in the yard. The type does not grow forward past the piazza line.",
+  "privacy_span": [
+    0,
+    4
+  ],
+  "typical_area_sf": [
+    1400,
+    3500
+  ],
+  "servicing_strategy": "Detached kitchen house in the rear yard, joined by a covered way; the piazza carries circulation so interior corridors are unnecessary.",
+  "circulation_parti": [
+    "side-hall",
+    "gallery"
+  ],
+  "style_variation": [
+    {
+      "style": "charleston-single-house",
+      "note": "The type itself. It wears Georgian, Federal and Greek Revival dress in turn without changing plan, section or orientation, which is what makes it a type rather than a style."
+    },
+    {
+      "style": "charleston-georgian",
+      "note": "The Georgian dress on this core: superimposed Tuscan and Ionic on the piazza, London-quality joinery inside."
+    }
+  ],
+  "sources": [
+    "Poston, The Buildings of Charleston",
+    "Herman, Town House",
+    "Severens, Charleston: Antebellum Architecture and Civic Destiny"
+  ]
+}

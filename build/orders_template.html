@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Orders — Traditional Design Language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,1,400;6..96,500&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#0B1B29; --ground-2:#0F2536; --rule:#24455E; --rule-soft:#1A3549;
+  --ink:#EDE7DA; --ink-2:#9FB3C2; --ink-3:#63808F;
+  --copper:#C4734A; --verdigris:#7FB3A3; --brass:#D8B26A; --iron:#C4553A;
+  --display:"Bodoni Moda",'Didot','Bodoni MT',Georgia,serif;
+  --body:"Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.55;overflow:hidden;-webkit-font-smoothing:antialiased}
+.mono{font-family:var(--mono)}
+header{display:flex;align-items:baseline;gap:20px;padding:13px 22px 11px;border-bottom:1px solid var(--rule);background:linear-gradient(180deg,#0D2032,#0B1B29);z-index:5}
+header h1{font-family:var(--display);font-weight:400;font-size:23px;margin:0;white-space:nowrap}
+header h1 em{font-style:italic;color:var(--brass)}
+header .sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;color:var(--ink-3);text-transform:uppercase}
+header .spacer{flex:1}
+header .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.05em}
+header .meta b{color:var(--brass);font-weight:500}
+main{display:flex;height:calc(100vh - 49px)}
+aside.rail{width:250px;flex:0 0 250px;border-right:1px solid var(--rule);padding:16px 16px 50px;overflow-y:auto;background:#0A1826}
+aside.info{width:430px;flex:0 0 430px;border-left:1px solid var(--rule);padding:0 0 60px;overflow-y:auto;background:#0A1826}
+section.stage{flex:1;min-width:0;position:relative;overflow:auto;background:
+  radial-gradient(ellipse at 50% 0%, #10293C 0%, #0B1B29 70%)}
+h2.rh{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin:20px 0 8px;font-weight:500}
+h2.rh:first-child{margin-top:0}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.seg button{flex:1 1 auto;background:transparent;border:1px solid var(--rule);color:var(--ink-2);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:6px 4px;cursor:pointer;border-radius:2px;min-width:56px}
+.seg button:hover{border-color:var(--brass);color:var(--ink)}
+.seg button.on{background:var(--brass);border-color:var(--brass);color:#0B1B29;font-weight:500}
+.seg button:disabled{opacity:.24;cursor:not-allowed;border-color:var(--rule-soft)}
+.seg button .yr{display:block;font-size:8.5px;opacity:.62;letter-spacing:.04em}
+.fld{display:flex;align-items:center;gap:8px;margin:7px 0}
+.fld label{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);flex:1}
+.fld input[type=number]{width:74px;background:var(--ground-2);border:1px solid var(--rule);color:var(--ink);font-family:var(--mono);font-size:12px;padding:5px 7px;border-radius:2px}
+.fld input:focus{outline:none;border-color:var(--brass)}
+input[type=range]{width:100%;accent-color:var(--brass)}
+.chk{display:flex;align-items:center;gap:8px;padding:3px 0;cursor:pointer;font-size:12px;color:var(--ink-2);user-select:none}
+.chk:hover{color:var(--ink)}
+.chk input{appearance:none;width:11px;height:11px;border:1px solid var(--rule);background:transparent;border-radius:1px;flex:0 0 11px;cursor:pointer}
+.chk input:checked{background:var(--brass);border-color:var(--brass)}
+.note{font-size:11px;color:var(--ink-3);line-height:1.5;margin:8px 0 0}
+svg{display:block}
+.axis{stroke:var(--rule);stroke-width:.7;stroke-dasharray:7 3 1 3}
+.silh{fill:rgba(216,178,106,.10);stroke:var(--brass);stroke-width:1.35;stroke-linejoin:round}
+.silh.ghost{fill:rgba(127,179,163,.05);stroke:var(--verdigris);stroke-width:1.5;stroke-dasharray:5 3;opacity:.95}
+.elev{fill:rgba(216,178,106,.055);stroke:rgba(216,178,106,.42);stroke-width:.9}
+.asmline{stroke:var(--rule-soft);stroke-width:.7}
+.asmband{cursor:pointer}
+.asmband:hover rect.hit{fill:rgba(216,178,106,.07)}
+.asmband.sel rect.hit{fill:rgba(216,178,106,.11)}
+.memline{stroke:rgba(159,179,194,.20);stroke-width:.55}
+.memline.hi{stroke:var(--copper);stroke-width:1.1}
+.lbl{font-family:var(--mono);font-size:8.5px;fill:var(--ink-3);letter-spacing:.03em}
+.lbl.big{font-family:var(--display);font-size:13px;fill:var(--ink);letter-spacing:.02em}
+.lbl.dim{fill:var(--brass);font-size:9px}
+.lbl.mem{font-size:8px;fill:var(--ink-2)}
+.dimline{stroke:var(--brass);stroke-width:.6;opacity:.55}
+#tip{position:fixed;pointer-events:none;z-index:60;background:#08131E;border:1px solid var(--rule);padding:7px 10px;max-width:300px;border-radius:2px;opacity:0;transition:opacity .1s;box-shadow:0 8px 26px rgba(0,0,0,.6)}
+#tip .n{font-family:var(--display);font-size:14px}
+#tip .d{font-family:var(--mono);font-size:10px;color:var(--brass);margin:2px 0 3px}
+#tip .s{font-size:11.5px;color:var(--ink-2);line-height:1.4}
+.panel-inner{padding:18px 22px}
+.p-rank{font-family:var(--mono);font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-3)}
+.p-name{font-family:var(--display);font-size:27px;line-height:1.12;margin:5px 0 4px;font-weight:400}
+.p-src{font-size:11.5px;color:var(--ink-3);font-style:italic;line-height:1.45}
+h3.sec{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin:22px 0 9px;padding-top:11px;border-top:1px solid var(--rule-soft);font-weight:500}
+table.dims{width:100%;border-collapse:collapse;font-size:11.5px}
+table.dims td{padding:3px 0;border-bottom:1px dotted var(--rule-soft);color:var(--ink-2);vertical-align:top}
+table.dims td.v{text-align:right;font-family:var(--mono);color:var(--ink);white-space:nowrap;font-size:11px}
+table.dims tr.asm td{color:var(--brass);font-family:var(--mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;padding-top:9px;border-bottom:1px solid var(--rule-soft)}
+table.dims tr.mem td:first-child{padding-left:10px;font-size:11px}
+.lowc{color:var(--copper);font-size:9px;font-family:var(--mono)}
+.inv{display:flex;gap:8px;font-size:11.5px;color:var(--ink-2);margin-bottom:8px;line-height:1.45}
+.inv .m{font-family:var(--mono);font-size:9px;letter-spacing:.06em;flex:0 0 26px;padding-top:2px}
+.inv .m.ok{color:var(--verdigris)} .inv .m.no{color:var(--iron)}
+.rule{border-left:2px solid var(--rule);padding:2px 0 2px 10px;margin-bottom:9px}
+.rule.judg{border-left-color:var(--copper)}
+.rule .k{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between;gap:8px}
+.rule .k b{color:var(--brass);font-weight:500;font-size:11px;letter-spacing:.02em}
+.rule .x{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:2px}
+.rule .t{font-size:11.5px;color:var(--ink-2);line-height:1.45;margin-top:3px}
+.badge{display:inline-block;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border:1px solid var(--copper);color:var(--copper);border-radius:2px;margin-left:6px}
+.cf{border-left:2px solid var(--iron);padding:2px 0 2px 10px;margin-bottom:10px}
+.cf .k{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--iron)}
+.cf .t{font-size:11.8px;color:var(--ink-2);line-height:1.45}
+.cf .r{font-size:11.5px;color:var(--verdigris);line-height:1.45;margin-top:4px}
+.pillrow{margin-top:6px}
+.pill{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:2px 6px;border:1px solid var(--rule);border-radius:2px;color:var(--ink-3);margin:0 4px 4px 0}
+@media (max-width:1250px){aside.rail{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>The <em>Orders</em></h1>
+  <div class="sub">A parametric system, 1562 – 1830</div>
+  <div class="spacer"></div>
+  <div class="meta" id="meta"></div>
+</header>
+<main>
+  <aside class="rail">
+    <h2 class="rh">Order</h2>
+    <div class="seg" id="orderseg"></div>
+    <h2 class="rh">Authority</h2>
+    <div class="seg" id="authseg"></div>
+    <p class="note" id="authnote"></p>
+    <h2 class="rh">Compare against</h2>
+    <div class="seg" id="ghostseg"></div>
+    <h2 class="rh">Scale</h2>
+    <div class="fld"><label>Column diameter</label><input type="number" id="diam" value="12" min="3" max="72" step="0.5"></div>
+    <input type="range" id="diamr" min="3" max="48" step="0.5" value="12">
+    <div class="fld"><label>Ceiling height</label><input type="number" id="ceil" value="108" min="84" max="192" step="1"></div>
+    <div class="fld"><label>Opening width</label><input type="number" id="open" value="36" min="24" max="96" step="1"></div>
+    <h2 class="rh">Drawing</h2>
+    <div class="fld"><label>Zoom</label><span class="mono" id="zoomv" style="font-size:11px;color:var(--brass)">fit</span></div>
+    <input type="range" id="zoomr" min="1" max="6" step="0.25" value="1">
+    <label class="chk"><input type="checkbox" id="showelev" checked><span>Elevation at left</span></label>
+    <label class="chk"><input type="checkbox" id="showmem" checked><span>Member divisions</span></label>
+    <label class="chk"><input type="checkbox" id="showlabels" checked><span>Member names</span></label>
+    <label class="chk"><input type="checkbox" id="showped" checked><span>Pedestal</span></label>
+    <p class="note">The drawing is generated from the same data the dimensions come from. Nothing here is traced — if a figure is wrong, the picture is wrong in the same way, which is the point.</p>
+    <p class="note" style="color:var(--copper)">Members drawn in a warmer line carry <b>low or medium confidence</b>: the assembly total is Vignola's, the division among mouldings is apportioned. Hover any member.</p>
+  </aside>
+
+  <section class="stage"><div id="canvas"></div></section>
+
+  <aside class="info"><div class="panel-inner" id="info"></div></aside>
+</main>
+<div id="tip"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const P = DATA.packs, SYS = DATA.systems;
+
+/* ---------- state ---------- */
+const S = { order:"corinthian", auth:"vignola", ghost:null, diameter:12, ceiling:108, opening:36,
+            elev:true, mem:true, labels:true, ped:true, selAsm:null, zoom:1 };
+
+/* ---------- engine port ---------- */
+const STACK = ["pedestal","base","shaft","capital","architrave","frieze","cornice"];
+function stackFor(pk){
+  const A = pk.assemblies||{}, out=[];
+  for(const a of ["pedestal","subplinth","base","shaft","capital"]) if(A[a]) out.push(a);
+  if(A.architrave && A.frieze && A.cornice) out.push("architrave","frieze","cornice");
+  else if(A.entablature) out.push("entablature");
+  return out;
+}
+function synthShaft(pk){
+  const A = pk.assemblies||{}, col=(pk.column||{}).height_modules;
+  if(!col || A.shaft) return null;
+  const used = ["base","capital"].reduce((t,a)=>t+(A[a]?(A[a].height_modules||0):0),0);
+  const h = col-used; if(h<=0) return null;
+  return { height_modules:h, sums_check:false, members:[{ id:"shaft_derived",
+    name:"Shaft (derived: column less base and capital)", height_parts:h*pk.module.parts,
+    projection_parts:0, profile:"flat", confidence:"medium",
+    note:"This authority does not publish the shaft as its own assembly. Height derived from the stated column height." }] };
+}
+function packId(a,o){ return `${a}-${o}`; }
+function has(a,o){ return !!P[packId(a,o)]; }
+function moduleFor(pk, diameterIn){ return diameterIn * (pk.diameters || 0.5); }
+
+function dimension(pk, diameterIn, include){
+  const mod = moduleFor(pk, diameterIn), parts = pk.module.parts, partIn = mod/parts;
+  pk = {...pk, assemblies:{...(pk.assemblies||{})}};
+  const syn = synthShaft(pk);               // derive first, so the stack sees it
+  if(syn) pk.assemblies.shaft = syn;
+  let order = (include||stackFor(pk)).filter(a => pk.assemblies[a]);
+  if(syn && order.indexOf("shaft")<0){
+    const i = order.indexOf("capital"); order.splice(i<0?order.length:i, 0, "shaft");
+  }
+  let y = 0; const out = { moduleIn:mod, partIn, parts, assemblies:[], totals:{} };
+  for(const an of order){
+    const a = pk.assemblies[an], ay = y, members = [];
+    // sums_check:false means the members stand SIDE BY SIDE, not stacked — the Doric
+    // triglyph and metope are both the full height of the frieze. Stacking them would
+    // make the order nine inches too tall and draw the frieze twice.
+    const sideBySide = a.sums_check === false;
+    for(const m of (a.members||[])){
+      const h = (m.height_parts||0)*partIn;
+      const y0 = sideBySide ? ay : y;
+      members.push({ id:m.id, name:m.name, profile:m.profile||"flat",
+        heightParts:m.height_parts||0, heightIn:h,
+        projParts:m.projection_parts||0, projIn:(m.projection_parts||0)*partIn,
+        y0, y1:y0+h, count:m.count||null, sideBySide,
+        spacingIn:m.spacing_parts? m.spacing_parts*partIn : null,
+        enrichment:m.enrichment||null, confidence:m.confidence||"high", note:m.note||null });
+      if(!sideBySide) y += h;
+    }
+    if(sideBySide) y = ay + (a.height_modules||0)*mod;
+    out.assemblies.push({ id:an, heightModules:a.height_modules, heightIn:(a.height_modules||0)*mod,
+      summedIn:y-ay, y0:ay, y1:y, members });
+  }
+  out.totals.stackIn = y;
+  const c = pk.column||{};
+  out.totals.diameterIn = diameterIn;
+  if(c.height_modules){
+    out.totals.columnIn = c.height_modules*mod;
+    out.totals.columnD = c.height_modules*(pk.diameters||0.5);
+    if(c.diminution) out.totals.upperDiameterIn = diameterIn*c.diminution;
+  }
+  if(pk.assemblies && pk.assemblies.entablature) out.totals.entablatureIn = pk.assemblies.entablature.height_modules*mod;
+  return out;
+}
+
+const SAFE = "floor ceil round min max abs sqrt pi".split(" ");
+function evalExpr(expr, env){
+  const names = Object.keys(env);
+  const fn = new Function(...names, "floor","ceil","round","min","max","abs","sqrt","pi",
+    `"use strict";return (${expr});`);
+  return fn(...names.map(n=>env[n]), Math.floor, Math.ceil, Math.round, Math.min, Math.max, Math.abs, Math.sqrt, Math.PI);
+}
+function evaluateRules(pk, diameterIn){
+  const mod = moduleFor(pk, diameterIn);
+  const env = { module:mod, part:mod/pk.module.parts,
+    ceiling_height:S.ceiling, opening_width:S.opening, opening_height:80, storey_height:S.ceiling+12,
+    wall_thickness:12, span:240, room_length:288, room_width:192,
+    column_height:(pk.column&&pk.column.height_modules? pk.column.height_modules*mod : 0) };
+  return (pk.derived_rules||[]).map(r=>{
+    let v=null, err=null;
+    try{ v = evalExpr(r.expression, env); }catch(e){ err = e.message; }
+    return {...r, value:v, error:err,
+      inRange: (r.range && typeof v==="number") ? (v>=r.range[0] && v<=r.range[1]) : null};
+  });
+}
+
+/* ---------- formatting ---------- */
+function inches(x){
+  if(x==null || isNaN(x)) return "—";
+  const neg = x<0; x = Math.abs(x);
+  const ft = Math.floor(x/12); let rem = x-ft*12;
+  let whole = Math.floor(rem); let s16 = Math.round((rem-whole)*16);
+  if(s16===16){ whole++; s16=0; }
+  let FT = ft; if(whole===12){ FT++; whole=0; }
+  let f=""; if(s16){ let n=s16,d=16; while(n%2===0){n/=2;d/=2;} f=` ${n}/${d}`; }
+  return (neg?"−":"") + (FT? `${FT}'-`:"") + `${whole}${f}"`;
+}
+function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+</script>
+<script>
+/* ---------- moulding profile geometry ----------
+   Each member runs from the previous member's outer point to its own. The PROFILE
+   decides the shape of that run. Datums differ by assembly and are resolved below —
+   getting them wrong is the difference between a cornice and a staircase. */
+function segTo(p, xa, ya, xb, yb, sx, sy){
+  const h = yb-ya, dx = xb-xa;
+  const A=(x,y)=>`${sx(x).toFixed(2)},${sy(y).toFixed(2)}`;
+  switch(p){
+    case "ovolo": case "quarter-round": case "echinus":
+      return ` Q ${A(xb,ya)} ${A(xb,yb)}`;
+    case "cavetto":
+      return ` Q ${A(xa,yb)} ${A(xb,yb)}`;
+    case "apophyge": case "congé": case "conge":
+      return ` Q ${A(xa,yb)} ${A(xb,yb)}`;
+    case "scotia":
+      return ` C ${A(xa-Math.max(Math.abs(dx),h)*0.55, ya+h*0.25)} ${A(xa-Math.max(Math.abs(dx),h)*0.35, yb-h*0.15)} ${A(xb,yb)}`;
+    case "cyma-recta":
+      return ` C ${A(xa, ya+h*0.58)} ${A(xb, yb-h*0.58)} ${A(xb,yb)}`;
+    case "cyma-reversa": case "ogee":
+      return ` C ${A(xb, ya+h*0.42)} ${A(xa, yb-h*0.42)} ${A(xb,yb)}`;
+    case "astragal": case "bead": case "torus": {
+      const b = Math.max(h*0.62, Math.abs(dx));
+      return ` C ${A(xa+b, ya)} ${A(xa+b, yb)} ${A(xb,yb)}`;
+    }
+    case "bevel":
+      return ` L ${A(xb,yb)}`;
+    case "volute": case "acanthus":
+      return ` C ${A(xa+h*0.35, ya+h*0.2)} ${A(xb-h*0.2, yb-h*0.25)} ${A(xb,yb)}`;
+    default: // fillet, listel, fascia, plinth, corona, abacus, metope, dentil, modillion, mutule, triglyph, flat
+      return ` L ${A(xb,ya)} L ${A(xb,yb)}`;
+  }
+}
+
+const COLUMN_ASM = new Set(["pedestal","base","shaft","capital"]);
+
+function buildGeometry(pk, dim){
+  const D = dim.totals.diameterIn, R = D/2;
+  const dimin = (pk.column && pk.column.diminution) || 1;
+  const Rtop = R*dimin;
+  const baseAsm = dim.assemblies.find(a=>a.id==="base");
+  const plinthProj = baseAsm ? Math.max(0,...baseAsm.members.map(m=>m.projIn)) : R*0.2;
+  const dieNaked = R + plinthProj;
+  const entStart = (pk.column && pk.column.entasis_begins_at) || 1/3;
+
+  const shaftAsm = dim.assemblies.find(a=>a.id==="shaft");
+  const sy0 = shaftAsm? shaftAsm.y0 : 0, sy1 = shaftAsm? shaftAsm.y1 : 1;
+  function colRadiusAt(y){
+    if(!shaftAsm || y<=sy0) return R;
+    if(y>=sy1) return Rtop;
+    const t = (y-sy0)/(sy1-sy0);
+    if(t<=entStart) return R;
+    const u = (t-entStart)/(1-entStart);
+    return R - (R-Rtop)*(u*u*(3-2*u));  // smooth diminution, cylindrical below the third
+  }
+  function datum(asmId, y){
+    if(asmId==="pedestal") return dieNaked;
+    if(asmId==="base" || asmId==="shaft" || asmId==="capital") return colRadiusAt(y);
+    return Rtop;                                    // entablature: naked of the frieze
+  }
+  const pts = [];
+  for(const a of dim.assemblies){
+    const seen = new Set();
+    for(const m of a.members){
+      if(m.sideBySide){ if(seen.has("x")) continue; seen.add("x"); }
+      const isShaftBody = a.id==="shaft" && m.heightIn > (sy1-sy0)*0.6;
+      const x0 = datum(a.id, m.y0) + (isShaftBody?0:m.projIn);
+      const x1 = datum(a.id, m.y1) + (isShaftBody?0:m.projIn);
+      pts.push({ asm:a.id, m, x0, x1, taper:isShaftBody });
+    }
+  }
+  return { pts, R, Rtop, dieNaked, colRadiusAt, entStart, sy0, sy1 };
+}
+
+function silhouettePath(geo, dim, sx, sy){
+  if(!geo.pts.length) return "";
+  let d = `M ${sx(0).toFixed(2)},${sy(0).toFixed(2)}`;
+  let cx = 0, cy = 0;
+  for(const p of geo.pts){
+    if(cx !== p.x0){ d += ` L ${sx(p.x0).toFixed(2)},${sy(cy).toFixed(2)}`; cx = p.x0; }
+    if(p.taper){
+      const t0 = geo.sy0 + (geo.sy1-geo.sy0)*geo.entStart;
+      d += ` L ${sx(geo.R).toFixed(2)},${sy(Math.min(t0,p.m.y1)).toFixed(2)}`;
+      d += ` Q ${sx(geo.R).toFixed(2)},${sy(p.m.y1-(p.m.y1-t0)*0.45).toFixed(2)} ${sx(p.x1).toFixed(2)},${sy(p.m.y1).toFixed(2)}`;
+    } else {
+      d += segTo(p.m.profile, p.x0, p.m.y0, p.x1, p.m.y1, sx, sy);
+    }
+    cx = p.x1; cy = p.m.y1;
+  }
+  d += ` L ${sx(0).toFixed(2)},${sy(cy).toFixed(2)} Z`;
+  return d;
+}
+
+/* ---------- draw ---------- */
+function draw(){
+  const pk = P[packId(S.auth,S.order)];
+  const canvas = document.getElementById("canvas");
+  if(!pk){ canvas.innerHTML = `<div style="padding:60px;color:var(--ink-3);font-family:var(--mono);font-size:12px">This authority does not publish this order.</div>`; return; }
+  const inc = p2 => stackFor(p2).filter(a=> S.ped || (a!=="pedestal" && a!=="subplinth"));
+  const dim = dimension(pk, S.diameter, inc(pk));
+  const total = dim.totals.stackIn || 1;
+
+  const stage = document.querySelector("section.stage");
+  const avail = Math.max(420, stage.clientHeight - 26);
+  const H = Math.round(avail * S.zoom);
+  const k = (H-84)/total;
+  const geo0 = buildGeometry(pk, dim);
+  const maxX = Math.max(...geo0.pts.map(p=>Math.max(p.x0,p.x1)), dim.totals.diameterIn);
+  const CAP = 132;                                   // left gutter for assembly captions
+  const leftW = S.elev ? maxX*k : 0;
+  const OX = CAP + leftW + 26, OY = H-40;
+  const W = Math.max(stage.clientWidth-4, OX + maxX*k + (S.labels? 268 : 80));
+  const sx = x => OX + x*k, sy = y => OY - y*k;
+
+  const geo = geo0;
+  let g = "";
+
+  // vertical axis
+  g += `<line class="axis" x1="${OX}" y1="${sy(-3)}" x2="${OX}" y2="${sy(total+4)}"/>`;
+
+  // assembly bands (hit areas + rules)
+  for(const a of dim.assemblies){
+    const sel = S.selAsm===a.id ? " sel" : "";
+    g += `<g class="asmband${sel}" data-asm="${a.id}">
+      <rect class="hit" x="8" y="${sy(a.y1)}" width="${W-16}" height="${(a.y1-a.y0)*k}" fill="transparent"/>
+      <line class="asmline" x1="${CAP-14}" y1="${sy(a.y0)}" x2="${W-46}" y2="${sy(a.y0)}"/>
+    </g>`;
+  }
+  g += `<line class="asmline" x1="${CAP-14}" y1="${sy(total)}" x2="${W-46}" y2="${sy(total)}"/>`;
+
+  // elevation half (mirrored, quiet)
+  if(S.elev){
+    const dsx = x => OX - x*k;
+    g += `<path class="elev" d="${silhouettePath(geo, dim, dsx, sy)}"/>`;
+    // flutes hint on the shaft
+    const sh = dim.assemblies.find(a=>a.id==="shaft");
+    const fl = pk.column && pk.column.fluting && pk.column.fluting.count;
+    if(sh && fl){
+      const n = Math.min(9, Math.round(fl/2.4));
+      for(let i=1;i<n;i++){
+        const frac = i/n;
+        let dd = "";
+        for(let t=0;t<=10;t++){
+          const yy = sh.y0 + (sh.y1-sh.y0)*(t/10);
+          const r = geo.colRadiusAt(yy)*frac;
+          dd += (t?" L ":"M ") + dsx(r).toFixed(1) + "," + sy(yy).toFixed(1);
+        }
+        g += `<path d="${dd}" fill="none" stroke="rgba(216,178,106,.16)" stroke-width=".7"/>`;
+      }
+    }
+  }
+
+  // the section itself
+  g += `<path class="silh" d="${silhouettePath(geo, dim, sx, sy)}"/>`;
+
+  // ghost comparison
+  if(S.ghost && P[packId(S.ghost,S.order)]){
+    const gp = P[packId(S.ghost,S.order)];
+    const gd = dimension(gp, S.diameter, inc(gp));
+    const gg = buildGeometry(gp, gd);
+    const foot = d2 => { const a = d2.assemblies.find(x=>x.id==="base") || d2.assemblies.find(x=>x.id==="shaft"); return a? a.y0 : 0; };
+    const dy = foot(dim) - foot(gd);                 // align at the foot of the column
+    const gsy = y => sy(y + dy);
+    g += `<path class="silh ghost" d="${silhouettePath(gg, gd, sx, gsy)}"/>`;
+    g += `<line class="dimline" style="stroke:var(--verdigris)" x1="${sx(0)}" y1="${gsy(gd.totals.stackIn)}" x2="${W-46}" y2="${gsy(gd.totals.stackIn)}" stroke-dasharray="4 3"/>`;
+    g += `<text class="lbl" style="fill:var(--verdigris)" x="${W-50}" y="${gsy(gd.totals.stackIn)-5}" text-anchor="end">${esc(gp.name)} — ${inches(gd.totals.stackIn)} overall${gd.totals.columnD?` · ${gd.totals.columnD} D column`:""}</text>`;
+  }
+
+  // member divisions and labels
+  if(S.mem){
+    for(const p of geo.pts){
+      const low = p.m.confidence!=="high";
+      g += `<line class="memline${low?" hi":""}" x1="${sx(0)}" y1="${sy(p.m.y1)}" x2="${sx(Math.max(p.x0,p.x1))+6}" y2="${sy(p.m.y1)}"/>`;
+    }
+  }
+  if(S.labels){
+    let lastY = -1e9;
+    for(let i=geo.pts.length-1;i>=0;i--){
+      const p = geo.pts[i];
+      const yy = sy((p.m.y0+p.m.y1)/2);
+      if(yy - lastY < 10) continue;
+      lastY = yy;
+      const x = sx(Math.max(p.x0,p.x1))+10;
+      const nm = p.m.name.length>34 ? p.m.name.slice(0,33)+"…" : p.m.name;
+      g += `<text class="lbl mem" x="${x}" y="${yy+3}">${esc(nm)}<tspan class="lbl dim">   ${inches(p.m.heightIn)}</tspan></text>`;
+    }
+  }
+
+  // assembly captions on the left
+  for(const a of dim.assemblies){
+    const my = sy((a.y0+a.y1)/2);
+    g += `<text class="lbl big" x="${CAP-22}" y="${my}" text-anchor="end">${a.id[0].toUpperCase()+a.id.slice(1)}</text>`;
+    g += `<text class="lbl dim" x="${CAP-22}" y="${my+13}" text-anchor="end">${(Math.round(a.heightModules*1000)/1000)} M · ${inches(a.heightIn)}</text>`;
+  }
+
+  // overall dimension line
+  g += `<line class="dimline" x1="${W-30}" y1="${sy(0)}" x2="${W-26}" y2="${sy(total)}"/>
+        <line class="dimline" x1="${W-35}" y1="${sy(0)}" x2="${W-25}" y2="${sy(0)}"/>
+        <line class="dimline" x1="${W-35}" y1="${sy(total)}" x2="${W-25}" y2="${sy(total)}"/>
+        <text class="lbl dim" transform="translate(${W-16},${(sy(0)+sy(total))/2}) rotate(-90)" text-anchor="middle">${inches(total)} overall</text>`;
+
+  canvas.innerHTML = `<svg width="${W}" height="${H}" id="ordersvg">${g}</svg>`;
+  wireStage(geo, dim, sx, sy);
+  renderInfo(pk, dim);
+  document.getElementById("meta").innerHTML =
+    `<b>${dim.totals.columnD||"—"}</b> diameter column &nbsp;·&nbsp; module <b>${inches(dim.moduleIn)}</b> in ${dim.parts} parts &nbsp;·&nbsp; one part <b>${inches(dim.partIn)}</b> &nbsp;·&nbsp; overall <b>${inches(total)}</b>`;
+}
+
+function wireStage(geo, dim, sx, sy){
+  const svg = document.getElementById("ordersvg"), tip = document.getElementById("tip");
+  svg.addEventListener("mousemove", ev=>{
+    const r = svg.getBoundingClientRect();
+    const my = ev.clientY - r.top;
+    let hit = null;
+    for(const p of geo.pts){ if(my >= sy(p.m.y1) && my <= sy(p.m.y0)) { hit = p; break; } }
+    if(!hit){ tip.style.opacity=0; return; }
+    const m = hit.m;
+    const cf = m.confidence==="high" ? "" : `<div class="s" style="color:var(--copper);margin-top:4px">${m.confidence} confidence — ${esc(m.note||"apportioned within a stated assembly total")}</div>`;
+    tip.innerHTML = `<div class="n">${esc(m.name)}</div>
+      <div class="d">${m.heightParts}p = ${inches(m.heightIn)} &nbsp;·&nbsp; projection ${inches(m.projIn)}</div>
+      <div class="s">${esc(m.profile)}${m.enrichment?` — ${esc(m.enrichment)}`:""}${m.count?` &nbsp;×${m.count}`:""}</div>${cf}`;
+    tip.style.opacity = 1;
+    const tr = tip.getBoundingClientRect();
+    let x = ev.clientX+16, y = ev.clientY+12;
+    if(x+tr.width > innerWidth-10) x = ev.clientX-tr.width-16;
+    if(y+tr.height > innerHeight-10) y = ev.clientY-tr.height-12;
+    tip.style.left=x+"px"; tip.style.top=y+"px";
+  });
+  svg.addEventListener("mouseleave", ()=> tip.style.opacity=0);
+  svg.querySelectorAll(".asmband").forEach(b=> b.addEventListener("click", ()=>{
+    S.selAsm = S.selAsm===b.dataset.asm ? null : b.dataset.asm; draw();
+  }));
+}
+</script>
+<script>
+/* ---------- info panel ---------- */
+function renderInfo(pk, dim){
+  const el = document.getElementById("info");
+  const rules = evaluateRules(pk, S.diameter);
+  const am = pk.authority_meta||{};
+  let h = "";
+  h += `<div class="p-rank">${esc(pk.authority)} · ${pk.order} · ${esc(pk.confidence)} confidence</div>`;
+  h += `<h2 class="p-name">${esc(pk.name)}</h2>`;
+  h += `<div class="p-src">${esc(am.source||"")}</div>`;
+  if(pk.resolved_from && pk.resolved_from.length>1)
+    h += `<div class="p-src" style="color:var(--verdigris);margin-top:6px">Resolved as an overlay: ${pk.resolved_from.join(" → ")}. Everything this authority does not restate, it inherits.</div>`;
+
+  h += `<h3 class="sec">Dimensions</h3><table class="dims">`;
+  const T = dim.totals;
+  h += `<tr class="asm"><td>Overall</td><td class="v">${inches(T.stackIn)}</td></tr>`;
+  h += `<tr><td>Column</td><td class="v">${inches(T.columnIn)} &nbsp;(${T.columnD} D)</td></tr>`;
+  h += `<tr><td>Lower diameter</td><td class="v">${inches(T.diameterIn)}</td></tr>`;
+  h += `<tr><td>Upper diameter</td><td class="v">${inches(T.upperDiameterIn)}</td></tr>`;
+  if(T.entablatureIn) h += `<tr><td>Entablature</td><td class="v">${inches(T.entablatureIn)}</td></tr>`;
+  for(const a of dim.assemblies){
+    const open = S.selAsm===a.id;
+    const mism = a.summedIn && Math.abs(a.heightIn-a.summedIn)>0.02;
+    h += `<tr class="asm"><td>${a.id}${mism?' <span class="lowc">side by side</span>':''}</td><td class="v">${Math.round(a.heightModules*1000)/1000} M · ${inches(a.heightIn)}</td></tr>`;
+    if(open) for(const m of a.members){
+      h += `<tr class="mem"><td>${esc(m.name)}${m.confidence!=="high"?` <span class="lowc">${m.confidence}</span>`:""}</td><td class="v">${m.heightParts}p · ${inches(m.heightIn)}</td></tr>`;
+    }
+  }
+  h += `</table>`;
+  if(!S.selAsm) h += `<p class="note">Click a band on the drawing to open its members.</p>`;
+
+  if(pk.invariants && pk.invariants.length){
+    h += `<h3 class="sec">What the pack proves about itself</h3>`;
+    for(const i of pk.invariants){
+      h += `<div class="inv"><span class="m ${i.holds?"ok":"no"}">${i.holds?"holds":"FAIL"}</span><span>${esc(i.statement)}</span></div>`;
+    }
+  }
+
+  const judg = rules.filter(r=>r.judgment).length;
+  h += `<h3 class="sec">What the order governs${judg?` <span class="badge">${judg} judgment</span>`:""}</h3>`;
+  h += `<p class="note" style="margin-bottom:12px">Evaluated at a ${inches(S.ceiling)} ceiling and a ${inches(S.opening)} opening. This is the bridge from the order to the kit of parts — trim, wainscot, casing and opening proportion all fall out of one system.</p>`;
+  for(const r of rules){
+    const val = r.error ? `<span style="color:var(--iron)">${esc(r.error)}</span>`
+      : (r.units==="in" && typeof r.value==="number") ? inches(r.value)
+      : (typeof r.value==="number" ? (Math.round(r.value*1000)/1000) : String(r.value));
+    h += `<div class="rule${r.judgment?" judg":""}">
+      <div class="k"><b>${esc(r.target_slot)}${r.dimension?" · "+esc(r.dimension):""}</b><span>${val}${r.units&&r.units!=="in"?" "+esc(r.units):""}</span></div>
+      <div class="x">${esc(r.expression)}${r.range?`   [${r.range[0]}–${r.range[1]}]`:""}${r.inRange===false?`  ⚠ outside range at this scale`:""}</div>
+      ${r.judgment?`<div class="t" style="color:var(--copper)">Judgment slot — the sources do not determine this. ${esc(r.note||"")}</div>`
+        :(r.note?`<div class="t">${esc(r.note)}</div>`:"")}
+      ${r.authority_note?`<div class="t" style="color:var(--ink-3);font-style:italic">${esc(r.authority_note)}</div>`:""}
+    </div>`;
+  }
+
+  if(pk.conflicts && pk.conflicts.length){
+    h += `<h3 class="sec">Where it collides with building today</h3>`;
+    for(const c of pk.conflicts){
+      h += `<div class="cf"><div class="k">${esc(c.with)} · ${esc(c.severity||"material")}</div>
+        <div class="t">${esc(c.statement)}</div>${c.resolution?`<div class="r">${esc(c.resolution)}</div>`:""}</div>`;
+    }
+  }
+
+  if(pk.intercolumniation && pk.intercolumniation.named_spacings && pk.intercolumniation.named_spacings.length){
+    h += `<h3 class="sec">Intercolumniation</h3><table class="dims">`;
+    for(const s of pk.intercolumniation.named_spacings){
+      h += `<tr><td>${esc(s.name)}${s.note?`<div style="color:var(--ink-3);font-size:10.5px;line-height:1.35">${esc(s.note)}</div>`:""}</td>
+            <td class="v">${s.clear_diameters} D<br><span style="color:var(--ink-3)">${inches(s.clear_diameters*S.diameter)}</span></td></tr>`;
+    }
+    h += `</table>`;
+    if(pk.intercolumniation.default) h += `<p class="note">Default: ${esc(pk.intercolumniation.default)}</p>`;
+  }
+
+  if(pk.applies_to && pk.applies_to.length){
+    h += `<h3 class="sec">Bound to</h3><div class="pillrow">`;
+    for(const s of pk.applies_to) h += `<span class="pill">${esc(DATA.styles[s]||s)}</span>`;
+    h += `</div>`;
+  }
+  if(pk.notes) h += `<h3 class="sec">Notes</h3><p class="note" style="font-size:11.8px;white-space:pre-wrap">${esc(pk.notes)}</p>`;
+  if(pk.overlay_notes && pk.overlay_notes.length){
+    h += `<h3 class="sec">Overlay resolution</h3>`;
+    for(const n of pk.overlay_notes) h += `<div class="note" style="font-family:var(--mono);font-size:10px">${esc(n)}</div>`;
+  }
+  h += `<h3 class="sec">Record</h3><div class="note" style="font-family:var(--mono);font-size:10px;color:var(--brass)">proportions/…/${esc(pk.id)}.json &nbsp;·&nbsp; engine ${esc(DATA.engine_version)}</div>`;
+  el.innerHTML = h;
+  el.scrollTop = el.scrollTop;
+}
+
+/* ---------- controls ---------- */
+const ORD = document.getElementById("orderseg"), AUT = document.getElementById("authseg"), GH = document.getElementById("ghostseg");
+function buildControls(){
+  ORD.innerHTML = DATA.orders.map(o=>
+    `<button data-o="${o}" class="${S.order===o?"on":""}" ${has(S.auth,o)?"":"disabled"}>${o.slice(0,4)}</button>`).join("");
+  AUT.innerHTML = DATA.authorities.map(a=>
+    `<button data-a="${a.id}" class="${S.auth===a.id?"on":""}" ${has(a.id,S.order)?"":"disabled"} title="${esc(a.work)}">${esc(a.name)}<span class="yr">${a.year}</span></button>`).join("");
+  GH.innerHTML = `<button data-g="" class="${S.ghost?"":"on"}">none</button>` + DATA.authorities.filter(a=>a.id!==S.auth).map(a=>
+    `<button data-g="${a.id}" class="${S.ghost===a.id?"on":""}" ${has(a.id,S.order)?"":"disabled"}>${esc(a.name)}</button>`).join("");
+  const am = (P[packId(S.auth,S.order)]||{}).authority_meta||{};
+  document.getElementById("authnote").textContent = am.note ? am.note.slice(0,240) : "";
+}
+ORD.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.order=b.dataset.o; S.selAsm=null; buildControls(); draw(); });
+AUT.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.auth=b.dataset.a; if(S.ghost===S.auth) S.ghost=null; buildControls(); draw(); });
+GH.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.ghost=b.dataset.g||null; buildControls(); draw(); });
+function bindNum(id, key, mirror){
+  const el = document.getElementById(id);
+  el.addEventListener("input", ()=>{ const v=parseFloat(el.value); if(!isNaN(v)){ S[key]=v; if(mirror) document.getElementById(mirror).value=v; draw(); } });
+}
+bindNum("diam","diameter","diamr"); bindNum("diamr","diameter","diam");
+bindNum("ceil","ceiling"); bindNum("open","opening");
+document.getElementById("zoomr").addEventListener("input", e=>{
+  S.zoom = parseFloat(e.target.value);
+  document.getElementById("zoomv").textContent = S.zoom===1 ? "fit" : S.zoom.toFixed(2)+"×";
+  draw();
+});
+addEventListener("resize", ()=>draw());
+[["showelev","elev"],["showmem","mem"],["showlabels","labels"],["showped","ped"]].forEach(([id,key])=>{
+  document.getElementById(id).addEventListener("change", e=>{ S[key]=e.target.checked; draw(); });
+});
+buildControls(); draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+{
+  "id": "new-england-colonial",
+  "name": "New England Colonial",
+  "aka": [
+    "First Period",
+    "Post-Medieval English (New England)",
+    "Puritan Colonial"
+  ],
+  "rank": "style",
+  "member_of": "american-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1620,
+    "floruit_start": 1630,
+    "floruit_end": 1730,
+    "decline_end": 1780,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1876,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "The Centennial and the 1877 Longfellow-circle sketching tours of Portsmouth and Marblehead began a revival that never ended; by 1935 it was the default American suburban house."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Massachusetts",
+      "Connecticut",
+      "Rhode Island",
+      "New Hampshire",
+      "Maine",
+      "eastern New York"
+    ],
+    "hearth": "Massachusetts Bay — the Boston–Ipswich–Salem arc and the Connecticut River towns",
+    "climate_zones": [
+      "5A",
+      "6A",
+      "7"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-medieval-timber-frame",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Direct craft transmission. The carpenters who framed the Fairbanks House had served apprenticeships in East Anglia and the West Country; the joinery, the scarf joints, the summer-beam-and-girt system and the chamfer stops are English medieval practice executed in American oak."
+    },
+    {
+      "target": "english-cottage-vernacular",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Plan logic — the single-cell hall and the hall-and-parlor pair — comes from the English yeoman cottage rather than from anything grand."
+    }
+  ],
+  "description": {
+    "short": "The post-medieval English timber house rebuilt in a colder country around a single enormous masonry chimney, stripped of ornament by Puritan taste and by the total absence of a leisured client.",
+    "long": "New England Colonial is what happens when late-medieval English carpentry lands in a climate roughly eight degrees colder than the one it evolved for and has to solve heating before it solves anything else. The answer was the central chimney stack: a masonry mass eight to twelve feet square at the base, occupying the middle of the plan, serving two or three fireplaces plus an oven, and functioning as a thermal flywheel that holds heat through a February night. Everything else in the plan is arranged around that block. The stair is a cramped winder squeezed between the stack and the front door. The rooms are pushed to the corners. The entry is not a hall but a porch — a vestibule barely large enough to close the door behind you before you turn left or right into the heated rooms. The plan is an argument with winter, and the argument is won by mass.\n\nThe materials tell the second half of the story. England was short of oak and long on skilled labour; New England was the reverse. So the frame becomes generous — sills a foot square, summer beams spanning the room, posts flared at the head into gunstock shoulders to receive both the plate and the girt — while the finish becomes plain. Riven oak clapboard, four to five inches to the weather, nailed to studs; roofs of split shingle at forty-five to fifty-five degrees, steep enough for the thatch that was never actually used here and kept because that was the pitch the framing tradition knew. Glass was imported and taxed; windows stayed small, casement, leaded in diamond quarries, and only after about 1700 did the counterweighted double-hung sash arrive with twelve-over-twelve lights. There is no classical ornament to speak of before 1700 because there was no one to pay for it and, in a colony that had abolished bishops, a certain suspicion of anyone who would.\n\nWhat it was negotiating against was not another style but scarcity — of lime, of glass, of nails, of a second generation of trained joiners — and against a settlement pattern that put a house in a clearing rather than on a street. The house therefore has no urban face. It is symmetrical only by accident of the chimney's centrality, and its elevations are wildly unequal: five bays and a doorway on the front, a blank wall of clapboard behind, a gable end that may carry nothing at all.\n\nTo stand in one is to be surprised by how low and how dark it is. Ceilings run six-foot-eight to seven-foot-six under the exposed summer beam, so a modern adult reads the room with the beam at eye level; the space is measured in wood rather than in air. The fire end of the hall is enormous and the far corner is cold. Light comes in small hard patches from windows set high and tight under the plate, and the plastered ceiling between joists, when there is one, throws that light back down with a chalky softness. There is no moulding anywhere except a chamfer and its stop, and the chamfer stop — lamb's-tongue, ogee, taper — is the only decorative decision the carpenter made and therefore the one he made carefully."
+  },
+  "defining_characteristics": [
+    "A single massive central masonry chimney serving back-to-back fireplaces, occupying the middle of the plan and dictating the circulation",
+    "Braced oak post-and-beam frame with summer beam, gunstock posts, and mortise-and-tenon joinery, the frame exposed on the interior",
+    "Steep side-gable roof, 45–55 degrees, of split shingle, with the ridge running the long dimension",
+    "Small openings: leaded casements before c. 1700, twelve-over-twelve double-hung after, set tight under the eave with no frieze between head and cornice",
+    "Riven or sawn clapboard (or shingle in coastal Massachusetts) at 4–5 inch exposure over the frame; no masonry veneer",
+    "Plan grown by accretion from the single-cell hall — hall, then hall-and-parlor, then a rear lean-to — rather than composed",
+    "Ornament confined to the chamfer stop, the drop pendant, and after 1700 a modest entry frame; no classical order anywhere before c. 1710"
+  ],
+  "diagnostic_tells": [
+    "One chimney, in the middle, and it is enormous — if the chimneys are at the gable ends you are looking at a Southern colonial or a post-1740 Georgian house",
+    "Front door opens onto a chimney stack four feet away, not into a passage",
+    "Window heads within a few inches of the eave, with no frieze band; a wide frieze means Georgian influence has arrived",
+    "Casement openings (or the ghost of them in the framing) rather than sash on anything pre-1700",
+    "Second-floor windows visibly shorter than the first-floor windows, and both shorter than a Georgian house would use"
+  ],
+  "distinguished_from": [
+    {
+      "node": "colonial-revival",
+      "difference": "The single most common misidentification in American architecture. A real First Period house is asymmetrical in the rear, has one central chimney, window heads jammed under the eave, a 12:12-or-steeper roof, and no cornice returns before about 1700. A Colonial Revival house has paired end chimneys or none, a symmetrical five-bay front carried through to the back, a 8:12 roof, wide window trim with a backband, shutters that could not close over the opening, an attached garage, and machine-milled dentils. If the mouldings are consistent on all four elevations, it is a revival."
+    },
+    {
+      "node": "georgian-colonial-american",
+      "difference": "Georgian arrives in New England after about 1720 and replaces the central chimney with a center passage and paired interior chimneys, raises the ceilings, regularizes the fenestration front and back, adds a classical frontispiece and a modillion cornice, and lowers the roof to 9:12–11:12. A First Period house that has had a Georgian door and cornice added is a common and legible hybrid — read the chimney, not the trim."
+    },
+    {
+      "node": "english-medieval-timber-frame",
+      "difference": "The English parent shows its frame on the outside with infill panels between studs; New England covers the frame entirely in clapboard because the climate destroys exposed wattle-and-daub and lime infill in a decade of freeze-thaw."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The structural bay of the timber frame, set by the practical span of a hand-hewn summer beam — 16 to 20 feet — and by the plan dimension of the chimney stack.",
+    "typical_ratios": [
+      "Room 16–20 ft square, the frame bay; hall-and-parlor overall 38–42 ft × 18–20 ft",
+      "Ceiling height 6 ft 8 in – 7 ft 6 in under the summer beam, 7 ft 0 in – 8 ft 0 in to the joists",
+      "Chimney stack 8–12 ft square at the base, i.e. roughly one-third of the plan depth",
+      "Window opening 2 ft 6 in – 3 ft 4 in wide × 4 ft 0 in – 5 ft 6 in high, ratio near 1:1.7",
+      "Roof rise:run 1:1 to 1.2:1 (45–50 degrees)"
+    ],
+    "bay_rhythm": "Five bays on the front where the frame permits, but unequal: the door bay is narrow and centred on the chimney, and the flanking pairs are set by post positions, not by division of the facade. Four-bay and three-bay fronts are equally correct.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The irreducible starting point; many surviving houses are a hall that was later doubled."
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "The mature First Period plan: two rooms flanking the stack, entry porch and winder stair between."
+    },
+    {
+      "massing": "saltbox",
+      "affinity": "common",
+      "note": "The lean-to addition, integral or added, is the normal growth move after about 1660."
+    },
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "common",
+      "note": "The one-and-a-half-storey coastal expression."
+    },
+    {
+      "massing": "garrison-block",
+      "affinity": "common",
+      "note": "Two full storeys with a framed overhang."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "atypical",
+      "note": "Only after Georgian influence, at which point the node has changed."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Exactly one chimney, positioned within the plan (not at a gable end), with a base not less than 7 ft × 7 ft and typically 8–12 ft square. A First Period massing with end chimneys is incoherent: the plan diagram depends on the stack occupying the centre."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 10:12 to 14:12 (40–50 degrees). Below 9:12 the massing reads Georgian or later; above 14:12 it reads as a thatch survival not built here."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The head of a second-floor window sits 0–8 in below the underside of the cornice or plate. There is no frieze band. Introducing a frieze of more than 4 in converts the elevation to Georgian."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Sash by period: leaded casement to c. 1700; twelve-over-twelve or twelve-over-eight c. 1700–1750; nine-over-six c. 1740–1770. Six-over-six on a First Period massing is an anachronism of at least fifty years."
+    },
+    {
+      "kind": "climatic",
+      "severity": "soft",
+      "statement": "Clapboard exposure 4–5 in on the weather elevation, up to 6 in elsewhere; shingle at 5–6 in exposure on the coast. Wider exposures read Victorian."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Fairbanks House",
+      "location": "Dedham, Massachusetts",
+      "year": 1637,
+      "note": "The oldest surviving timber-frame dwelling in North America; dendrochronology supports a construction date in the late 1630s. Later lean-tos and wings make it a textbook of accretive growth."
+    },
+    {
+      "name": "Paul Revere House",
+      "location": "North Square, Boston, Massachusetts",
+      "year": 1680,
+      "note": "Urban two-storey house with a framed overhang; the only surviving 17th-century dwelling in downtown Boston."
+    },
+    {
+      "name": "Parson Capen House",
+      "location": "Topsfield, Massachusetts",
+      "year": 1683,
+      "note": "The canonical post-medieval elevation: front and gable overhangs, carved drop pendants, central stack, casement openings."
+    },
+    {
+      "name": "John Whipple House",
+      "location": "Ipswich, Massachusetts",
+      "year": 1677,
+      "note": "Two-phase First Period house; the later block carries the jetty. Ipswich preserves the densest surviving concentration of the type."
+    }
+  ],
+  "sources": [
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625–1725 (1979)",
+    "J. Frederick Kelly, Early Domestic Architecture of Connecticut (1924)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "timber-frame",
+    "central-chimney",
+    "post-medieval",
+    "cold-climate"
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "id": "window-squarer-than-the-style-permits",
+  "name": "The Square Window",
+  "aka": [
+    "the squat sash",
+    "1.5 to 1"
+  ],
+  "slots": [
+    "window_proportion",
+    "window_type"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "The window opening is close to square, or at best 1.5:1. A classical facade needs 1.9:1 to 2.17:1 and a 36 in opening therefore wants a height of 68 to 78 in; the built window is 36 x 54 or 36 x 60. Every other detail may be right and the elevation still reads as a builder house, because the single most legible proportion on the front is wrong.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Manufacturers price windows by united inches and by unit, so a wider, shorter window delivers the same glass area for less money, less structural header and less wall disturbance. Interior planning pushes the same way: a 9 ft plate with an 8 ft ceiling drop, ducts in the joist space and a 30 in sill leaves under 60 in for the window. And the window is drawn on the plan before the elevation exists, so its width is set by the room and its height by whatever is left over.",
+    "cost_saved": "A 36 x 54 unit runs roughly 15 to 25 per cent less than a 36 x 72 in the same line, and the shorter header may drop a size. On a 20-window house, 2,000 to 5,000 USD plus framing."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_proportion.ratio",
+      "statement": "Palladio's window is two squares and a sixth part: a height of 13/6 of the width, 2.1667:1."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / window_proportion.ratio",
+      "statement": "2.1, the measured Anglo-American band from surviving fabric; the editorial band is 1.9 to 2.1."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "new-urbanist-traditional / window_proportion",
+      "statement": "Window openings vertically proportioned between 1:1.8 and 1:2.2."
+    }
+  ],
+  "correct_practice": "Set the height from the storey and the width from the room, in that order, and check the ratio afterwards. Window height = storey height x 0.55, which is 66 in on a 10 ft storey. Window width = room width / 4.5, which is 42 2/3 in in a 16 ft room. Head at ceiling height x 16/19, which is 7 ft 7 in on a 9 ft ceiling. Sill fixed at about 30 in above the floor by the body and by furniture, not adjusted to make the arithmetic work. Resulting ratio must land between 1.9:1 and 2.17:1. If it does not, the storey and the window schedule are in disagreement and the storey is the thing to change: the diagnostic is head datum minus canonical window height, which returns about 12.9 in on a 9 ft ceiling with a 3 ft window and is the system saying the ceiling is too low for the opening the style wants.",
+  "fixes": {
+    "right": "Raise the head to the correct datum and keep the sill at 30 in. On a 9 ft plate this usually means accepting a narrower window rather than a shorter one — the width is the cheaper thing to give up, because a 30 in wide window at 66 in high still reads as a window and a 42 in wide window at 54 in high does not.",
+    "cheap": "Narrow the window and keep the height. Two 30 x 66 units in the room where one 60 x 54 was drawn cost about the same, give the same glass area, and restore both the ratio and the pier. Where the head genuinely cannot rise, use a taller unit with a lower sill only where fall protection permits — under IRC R312.2 a sill under 24 in above the floor and more than 72 in above grade needs an opening control device, which is a 30 USD part and not a reason to squash the window.",
+    "dishonest": "Adding a horizontal grid bar near the top of a squat sash to suggest a transom, or applying a shutter pair to make the assembly read taller overall. Both make the actual opening more conspicuous, because the eye now has a datum to measure it against."
+  },
+  "detection": "One measurement, from any frontal photograph: opening height divided by opening width, taken at the glass line and not at the outside of the casing. Below 1.8 the fault is present on any classical, colonial, Victorian or farmhouse idiom; below 1.5 it is severe. Take the reading at the first floor, where the style's principal window lives. A second, faster read for a model: compare the window's height with the distance from its head to the eave. On a correct facade the window is several times that gap; on a squat facade they approach each other.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Frieze-band attic windows set into the entablature under the eave are horizontal by definition and are the style's single most reliable identifier — no other American style does this.",
+      "bounds": "Confined to the frieze band of a habitable half-storey, no taller than one third of the frieze depth, aligned with the bays below, and never on the principal storey. A frieze window and a dormer must not appear on the same roof.",
+      "bounds_test": {
+        "expression": "frieze_window_height_in / frieze_depth_in",
+        "threshold": 0.333,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The style's own bound. Frieze band only, aligned with the bays below, never on the principal storey."
+      },
+      "applies_when": {
+        "slots": [
+          "special_window",
+          "frieze"
+        ],
+        "note": "Confined to the frieze band of a habitable half-storey."
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Near-square attic and frieze windows under a bracketed eave are period Italianate, frequently paired or in threes and often with cast surrounds.",
+      "bounds": "Attic and frieze positions only. The principal and second storeys of an Italianate house carry the tallest and narrowest windows of any American style, at 2.5:1 and better, and squatness there is the fault at its worst.",
+      "bounds_test": {
+        "expression": "principal_storey_window_height_in / width_in",
+        "threshold": 2.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The licence is for attic and frieze positions ONLY, and it is bought by the principal storeys running at 2.5:1 and better. Where the principal storey is squat the exception is void, because the near-square attic window has nothing to be an exception to."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "Horizontally banded windows are a defining characteristic, and the individual unit in a band is legitimately wider than tall.",
+      "bounds": "The band as a whole must read horizontal and must sit under a continuous head; the individual sash still carries vertical muntins in the upper sash. A single isolated squat window on a Craftsman elevation is not banding and remains this fault.",
+      "bounds_test": {
+        "expression": "window_band_width_in / window_band_height_in",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The BAND must read horizontal, which is what licenses the unit. A single isolated squat window is not banding. The individual sash still carries vertical muntins in the upper sash."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Horizontality is the entire proposition, asserted by continuous banding of casements between a lintel course and a sill course.",
+      "bounds": "Casements in continuous ribbons with the head and sill bands returning around every corner without interruption. A ribbon that stops mid-wall is not this exception.",
+      "bounds_test": {
+        "expression": "continuous_head_and_sill_bands_returning_at_every_corner",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The bands must return around every corner without interruption. A ribbon that stops mid-wall scores below 1 and is not this exception."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Horizontal bands of multiple sash under a single head are a defining characteristic.",
+      "bounds": "Grouped under one head, minimal or no casing, and the group as a whole is horizontal while the individual sash need not be.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The style earns the grouping by giving up all the trim that would otherwise have to negotiate it: casing 3 in maximum, projection 1 in maximum, no corner boards."
+      }
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "why": "Small openings placed by internal need, some of them nearly square, in a deep mass wall.",
+      "bounds": "Reveal not less than 8 in, glazing not more than 18 per cent of wall area on south and west, and the openings irregularly placed. A squat window in a flat 2 in stucco skin is not this exception, it is two faults at once.",
+      "bounds_test": {
+        "expression": "glazing_area_sqft / wall_area_sqft",
+        "threshold": 0.18,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "The style's own cap on south and west elevations unless shaded by an arcade or a 4 ft overhang. Paired with a reveal of not less than 8 in — a squat window in a flat 2 in stucco skin is two faults at once, not an exception."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "adobe",
+          "thick-stucco"
+        ],
+        "note": "Depends on the wall genuinely being or fully expressing mass, with a reveal of not less than 8 in. Void on a thin stucco skin over frame."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "ungraduated-storeys",
+      "difference": "That fault is about the relationship between storeys. This one is about a single opening's own ratio and is present even where every storey matches."
+    },
+    {
+      "fault": "egress-window-flips-the-proportion",
+      "difference": "That fault names the specific code mechanism by which a bedroom window is widened rather than heightened. This is the general condition."
+    }
+  ],
+  "sources": [
+    "Palladio, I quattro libri, Book I ch. XXV-XXVI",
+    "proportions/systems/opening-proportion.json",
+    "proportions/modules/sash-light.json",
+    "IRC R312.2 window fall protection"
+  ],
+  "confidence": "high",
+  "tags": [
+    "proportion",
+    "canonical",
+    "ratio-test"
+  ],
+  "test": {
+    "expression": "window_opening_height_in / window_opening_width_in",
+    "threshold": 1.85,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Palladio gives 13/6 = 2.167; the measured Anglo-American band is 1.9 to 2.1; the New Urbanist constraint sets 1.8 to 2.2. 1.85 is the floor below which no classical, colonial, Victorian or farmhouse idiom survives. Measure at the glass line and not at the outside of the casing, and take the reading at the first floor where the principal window lives. Below 1.5 the fault is severe."
+  },
+  "secondary_tests": [
+    {
+      "expression": "window_head_height_above_floor_in / ceiling_height_in",
+      "threshold": 0.842,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "section",
+      "note": "The head datum, 16/19 of the ceiling height, which is 7 ft 7 in on a 9 ft ceiling. Where the ratio is right and the head is low, the window was shortened from the top and the storey is the thing to change."
+    },
+    {
+      "expression": "sill_height_above_floor_in",
+      "threshold": 24,
+      "direction": "between",
+      "upper": 36,
+      "units": "in",
+      "measurable_from": "section",
+      "note": "The sill is fixed at about 30 in by the body and by furniture and should not be adjusted to make the arithmetic work. 24 in is the floor before IRC R312.2 fall protection engages where the exterior drop exceeds 72 in; 36 in is the ceiling before the sill rises above sightline from a chair."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "italianate-american",
+      "severity": "fatal",
+      "why": "The style carries the tallest and narrowest windows of any American idiom at 2.5:1 and better on the principal storeys; squatness there is the fault at its most damaging."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The facade is arithmetic and the window ratio is its first term."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "Horizontal banding is a defining characteristic and the individual unit in a band is legitimately wider than tall."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Horizontality is the entire proposition; a vertical window is the fault here."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "minor",
+      "why": "Bands of grouped sash under a single head are a defining characteristic and the group carries the reading rather than the unit."
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "severity": "minor",
+      "why": "Small openings placed by internal need, some nearly square, in a deep mass wall."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "prairie-school",
+      "statement": "A vertically proportioned window is the fault. The style's constraint requires heads and sills to die into continuous bands that return around every corner, and a tall punched opening breaks both."
+    },
+    {
+      "style": "craftsman",
+      "statement": "An isolated tall single window on a banded elevation is the fault; the type's window is horizontal and grouped."
+    },
+    {
+      "style": "greek-revival-american",
+      "statement": "In the frieze band the inversion is local: a vertically proportioned window there is the fault, because a frieze window must be no taller than a third of the frieze depth."
+    }
+  ],
+  "co_occurs_with": [
+    "ungraduated-storeys",
+    "broken-head-datum",
+    "pier-narrower-than-the-opening",
+    "egress-window-flips-the-proportion"
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "id": "primary-bedroom",
+  "name": "Primary Bedroom",
+  "aka": [
+    "master bedroom",
+    "principal bedroom",
+    "best chamber",
+    "state bedchamber",
+    "primary suite (with its closet and bath)"
+  ],
+  "function_class": "sleeping",
+  "description": "The household heads' sleeping room, and in current practice the anchor of a three- or four-room suite - bedroom, closet or closets, bathroom, sometimes a sitting area. It is the largest single change to the domestic plan since the parlour died, it happened in about thirty years, and almost nothing in the traditional catalogue anticipates it. The suite is not a bedroom that got bigger; it is a private apartment inserted into a plan that has no rank for it, and most of the faults it generates are gradient faults - a rank-5 apartment reached from a rank-2 hall, or a rank-5 apartment given the best elevation on the house.",
+  "history": {
+    "appears": 1955,
+    "declines": null,
+    "replaced": "best chamber, principal bedchamber",
+    "note": "The name 'master bedroom' appears in American plan books from the 1920s and the suite in its present form - bedroom plus private bath plus walk-in closet as a single expected unit - is post-1955, spreading from custom work into production housing between 1970 and 1990. It has a genuine eighteenth-century ancestor in the APARTMENT: bedchamber, dressing room, closet, sometimes a private stair, arranged in a sequence from most to least public, and that sequence is a far better model for a modern suite than the hotel room it is usually drawn as. The one thing the historical apartment got right and the modern suite gets wrong is that the apartment ran from public to private in a straight line, so a caller could be received at the near end without penetrating the far end; the modern suite is a cul-de-sac with everything at the same rank, which is why a suite that opens off a formal hall is so uncomfortable and why the double doors it is usually given make it worse. Since about 2020 most American practices and the NAHB have moved to 'primary'; both names are in use and the room is the same."
+  },
+  "dimensions": {
+    "area_sf": [
+      220,
+      400
+    ],
+    "width_ft": [
+      13,
+      18
+    ],
+    "length_ft": [
+      15,
+      22
+    ],
+    "proportion": [
+      1.05,
+      1.4
+    ],
+    "ceiling_min_ft": 9,
+    "critical_dimension": "THIRTEEN FEET SIX, from the king bed. A king mattress is 76 by 80 and the bed with frame and headboard is 80 by 86. 76 + 30 + 30 = 136 in is 11 ft 4 in of bare aisle, and this room ALWAYS has furniture on the side walls - a chest, a chair, the closet door, the bath door - so the working width is 76 + 30 + 56 = 162 in, 13 ft 6 in. Length: 86 (bed) + 42 (a genuine passage at the foot, because this is the route between the closet and the bathroom) + 20 (a chest or a bench) = 148 in, 12 ft 4 in, and a room that also holds two chairs needs another 5 ft, which is where 15 to 18 ft comes from. THE OTHER NUMBER, AND THE ONE PEOPLE MISS: the room has three or four doors in it - passage, closet, bathroom, sometimes a second closet - and every one of them swings 32 in into the room and every one of them lands on a wall the bed or a chest wanted. Draw the door swings before the furniture, not after."
+  },
+  "furniture": [
+    {
+      "item": "king bed",
+      "footprint_in": [
+        80,
+        86
+      ],
+      "clearance_in": 30,
+      "note": "Mattress 76 by 80; a California king is 72 by 84, narrower and longer, and fits a narrower room. Two people getting out of a bed on different schedules is the actual programme, so 30 in each side, not 24."
+    },
+    {
+      "item": "nightstands, pair",
+      "footprint_in": [
+        24,
+        18
+      ],
+      "clearance_in": 0
+    },
+    {
+      "item": "chest of drawers or dresser",
+      "footprint_in": [
+        60,
+        20
+      ],
+      "clearance_in": 40
+    },
+    {
+      "item": "bench or blanket chest at the foot",
+      "footprint_in": [
+        54,
+        18
+      ],
+      "clearance_in": 30,
+      "essential": false
+    },
+    {
+      "item": "two chairs and a table",
+      "footprint_in": [
+        72,
+        36
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "The 'sitting area' every brief asks for. It needs about 60 sq ft clear of every aisle, so it adds 5 ft to the room's length and it should be at the WINDOW end, in the light, not in the dark corner it usually gets."
+    },
+    {
+      "item": "television",
+      "footprint_in": [
+        60,
+        4
+      ],
+      "clearance_in": 96,
+      "essential": false,
+      "note": "Comfortable viewing distance is 1.2 to 1.6 times the diagonal, so a 65 in screen wants 8 to 10 ft. In a 13 ft 6 in room the only wall that works is the one opposite the bed, which is the wall the bathroom door is on. This is a real planning conflict and it is worth resolving on paper."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "East or south-east, and this is where the suite most often goes wrong: because it is the largest room it gets given the best elevation, which in most plans is the one with the view or the garden - and a garden elevation is usually south or west, which is the worst possible aspect for a room used at 6 am and at 10 pm. Give the view to a room somebody sits in during the day and give the bedroom the morning.",
+    "glazing_fraction": [
+      0.1,
+      0.16
+    ],
+    "note": "Two window walls, and the second one is what turns the room from a hotel room into a room. But the suite is deep - bedroom plus bath plus closet is 30 to 40 ft of plan depth - and that depth has to come out of the massing somewhere. In a double-pile block it does not fit without a wing, and drawing it into a four-over-four is the commonest reason a traditional plan comes out 46 ft deep and reads as a shed."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "primary-bathroom",
+        "why": "Direct, private, and NOT through the closet alone - a bathroom reachable only through a closet puts the closet's contents in a humid room twice a day and gives you nowhere to go at 3 am without turning on the closet light.",
+        "relation": "direct-door",
+        "strength": "hard"
+      },
+      {
+        "room": "walk-in-closet",
+        "why": "Entered from the bedroom, and best placed as the lock between the bedroom and the bath.",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "nursery",
+        "why": "For the years it matters, the nursery should be the nearest room to this one, and 'nearest' means you can hear a child through a closed door without an intercom - within about 25 ft with no more than one door between.",
+        "relation": "same-floor",
+        "strength": "preferred",
+        "exceptions": [
+          "Houses with a nursery wing and a resident nurse, where the historical answer was deliberately the opposite."
+        ]
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "THE NAMED FAULT. A primary suite door opening off the formal entrance hall puts the most private room in the house on the most public circulation in it, and a pair of doors makes it ceremonial as well. If the suite is on the main floor - which is a legitimate and increasingly common brief, and has an eighteenth-century precedent in the ground-floor chamber - it must be reached from a family passage, a rear stair hall or a short private corridor, never from the room the front door opens into.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      },
+      {
+        "room": "laundry",
+        "why": "Structure-borne noise from a spinning washer. If the laundry is on the bedroom floor - which is right - it goes at the far end of the corridor from this room, over a closet or a bathroom, never over or beside the bed.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "plant-room",
+        "why": "An air handler at 55-65 dBA under a bed head.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "garage",
+        "why": "Suites on the main floor are frequently drawn beside or over the garage because that is where the leftover footprint is. Cold floor, noise at 7 am, and the CO source.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "landing",
+      "back-hall",
+      "passage"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 5,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "No plumbing in the room itself and heavy plumbing immediately beyond it, which is the servicing fact that matters. The suite is a single acoustic and pressure zone with a bathroom in it. Give the bathroom fan a make-up path that is not the bedroom door undercut, or every shower depressurises the room the sleeper is in.",
+    "heat": "Zone the suite separately. It is the room whose set-point differs most from the rest of the house, it is occupied at different hours, and it is usually on a different face.",
+    "electrical": "Switching at both the door and both sides of the bed - a three-way to the ceiling and to each bedside is a $200 rough-in that transforms the room and is left out of most houses.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "best chamber",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Present as a room, absent as a suite. The best chamber sits over the parlour with the highest chamber-floor trim in the house; the closet and the bathroom have to be authored, and they go into the plan's DEPTH, in a thickened spine, never into the five-bay front."
+    },
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "principal apartment",
+      "present": true,
+      "trim_grade": "highest",
+      "note": "Bedchamber, dressing room and closet in sequence, and the sequence is what a modern suite should copy - it runs from semi-public to wholly private in a straight line instead of collecting everything at one rank."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "master bedroom",
+      "present": true,
+      "trim_grade": "high",
+      "note": "Where the suite meets a symmetrical elevation and usually loses. The suite's depth breaks a four-over-four; a rear wing or an ell is the honest answer and it is what the style's own dependency logic already provides."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "master bedroom",
+      "present": true,
+      "trim_grade": "none",
+      "note": "The type where the suite was invented - a single-storey plan has no upstairs to put privacy on, so it has to make privacy horizontally, and the master at the far end of the bedroom limb is the first correct solution to the problem."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "No suite, and the largest bedroom is 12 by 14 with a reach-in closet and the bathroom in the hall. A bungalow with a primary suite in it is a bungalow-shaped house."
+    },
+    {
+      "style": "new-urbanist-traditional",
+      "name_in_style": "primary suite",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Where the conflict is sharpest: a narrow lot and a shallow front setback want a narrow deep plan, and the suite is 30 to 40 ft deep on its own. The suite belongs on the second floor at the rear, over the kitchen, where its depth costs the elevation nothing."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Emergency escape and rescue, minimum area and dimension, and 68 degrees F heating capability, as for any sleeping room.",
+      "ref": "IRC R310, R304, R303.10"
+    },
+    {
+      "requirement": "Where the suite is on the main floor and is the accessible bedroom, a 32 in clear door and a 36 in route become worth designing to even where not required.",
+      "ref": "ANSI A117.1 / ICC 'visitability' provisions",
+      "conflict": "The main-floor primary is very often being bought as an ageing-in-place decision and then drawn with a 30 in bathroom door and a 4 in shower curb, which defeats the whole purpose. If the brief says 'so we can stay here', the door schedule and the shower threshold are the two lines that mean it."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "massed-picturesque",
+    "h-plan-manor",
+    "ranch-linear",
+    "ranch-l",
+    "foursquare",
+    "gambrel-block",
+    "linear-ell-farmhouse",
+    "villa-tower",
+    "mansard-block",
+    "telescope-house",
+    "courtyard-u"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "storage_strategy",
+    "daylight_strategy",
+    "depth_and_pile",
+    "wing_strategy",
+    "ceiling_height_rule"
+  ],
+  "faults": [
+    "primary-suite-off-the-formal-hall",
+    "closet-on-the-exterior-wall",
+    "closet-depth-taken-from-the-room",
+    "room-deeper-than-its-daylight",
+    "co-equal-mass",
+    "stack-with-nowhere-to-land"
+  ],
+  "sources": [
+    "Mark Girouard, Life in the English Country House (1978), for the apartment sequence",
+    "NAHB and AIA Home Design Trends surveys for suite composition and the master/primary naming shift",
+    "faults/primary-suite-off-the-formal-hall.json",
+    "IRC R303.10, R304, R310"
+  ],
+  "confidence": "high"
+}

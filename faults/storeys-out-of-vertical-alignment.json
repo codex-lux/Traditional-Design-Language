@@ -1,0 +1,229 @@
+{
+  "id": "storeys-out-of-vertical-alignment",
+  "name": "Windows That Do Not Stand On Each Other",
+  "aka": [
+    "jamb drift",
+    "the misaligned second storey"
+  ],
+  "slots": [
+    "window_grouping_rule",
+    "window_proportion",
+    "composition_parti"
+  ],
+  "severity": "fatal",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "An upper-storey window is not centred over the opening below it. The offset is usually 6 to 30 in, enough to be unmistakable and not enough to look intentional. It is most often caused by a stair, a chimney chase, a bathroom or a change in the upper plan that the elevation was never asked about.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The two floor plans are drawn as separate documents and coordinated for structure — bearing walls, point loads, plumbing stacks — but not for elevation. The second-floor plan is developed to make bedrooms work, and its window positions follow furniture and closets. Nobody stacks the openings because no drawing shows both storeys at once except the elevation, and the elevation is produced last and treated as a record rather than as an instrument.",
+    "cost_saved": "Nothing directly. What it saves is the redesign of an upper plan, which is real design time; and in a production house the plan is a purchased asset that nobody is permitted to change."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / window_grouping_rule / vertical_alignment",
+      "statement": "Upper-storey windows centred exactly on the openings below."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "colonial-revival / window_grouping_rule",
+      "statement": "Second-storey window jambs must align with first-storey jambs within 2 in of centreline, and head heights must be constant across each storey. Vertical misalignment is the fastest disqualifier in the whole style."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a bay is a vertical thing",
+      "statement": "The facade of a load-bearing building is organised into bays because the loads come down in lines. Once the openings stop stacking, the pier is no longer continuous and the wall stops describing how it stands up, whether or not it is masonry."
+    }
+  ],
+  "correct_practice": "Upper-storey jambs align with lower-storey jambs, or upper openings are centred on lower openings, within 2 in of centreline. Where the upper window is narrower than the lower, centre it. Where the bay count differs between storeys — which is legitimate on a facade with a wider centre bay — the centre lines still coincide. Design the upper plan against the bay module rather than against the furniture: at a 9 ft bay, bedroom walls land on bay lines and the windows follow automatically. Bay count on a principal front is odd, so that there is a centre to enter and a centre to align to.",
+  "fixes": {
+    "right": "Set the bay module first and plan both storeys to it. The bay is max(3, floor((span/module - 1)/2) * 2 + 1) — five bays on a 45 ft front at a 9 ft bay — and both plans get laid out on those lines before rooms are named.",
+    "cheap": "Move the upper window, not the wall. In almost every case the offending upper window can slide 12 to 24 in within its own room at no cost, because bedrooms tolerate a window anywhere in a wall and the framer does not care which stud bay it lands in. This is a drawing change made before framing and it costs nothing; made after framing it costs a header and a patch.",
+    "dishonest": "Adding a false window, a louvred vent or a shuttered blank where the alignment fails, to complete the rhythm. On a masonry front a genuine blind window with real reveals and a real head is a documented device and is honest; a flat panel of siding with a shutter pair on it is not, and reads as a covered-over opening."
+  },
+  "detection": "Drop vertical lines through the jambs of every ground-floor window in a frontal photograph and extend them upward. Every upper opening must be centred between, or aligned to, those lines. Offsets over about 4 in read from the street. A second and faster test for a model: compute the horizontal centre of each opening as a fraction of the elevation width, storey by storey, and compare the two lists; a correct facade produces two lists that match, an incorrect one produces a scatter. Look particularly at the bay containing the stair, which is where the fault almost always is.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "tudor-revival",
+      "why": "Picturesque asymmetry in which no elevation reads as symmetrical, with jettied upper storeys and gables that deliberately do not stack.",
+      "bounds": "The upper storey must be doing something structural-looking — jettying, a gable, a change of material — that explains the offset. Where the upper wall is flush with the lower and the same material, the openings still stack.",
+      "bounds_test": {
+        "expression": "upper_wall_plane_offset_from_lower_in",
+        "threshold": 6,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The upper storey must be doing something structural-looking — jettying, a gable, a change of material — that explains the offset. Where the upper wall is flush with the lower and in the same material, the openings still stack."
+      },
+      "applies_when": {
+        "construction": [
+          "jettied-upper-storey",
+          "half-timbered"
+        ],
+        "note": "Depends on the upper storey visibly overhanging or changing material, not on the style label."
+      }
+    },
+    {
+      "style": "storybook-style",
+      "why": "Irregular window placement executed as designed intent is a defining device.",
+      "bounds": "Must be accompanied by at least two other deliberate irregularities and by hand-made execution; machine-repeated misalignment across a subdivision is not this.",
+      "bounds_test": {
+        "expression": "deliberate_irregularities_on_elevation",
+        "threshold": 3,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Machine-repeated misalignment across a subdivision is not this exception; the irregularity must be hand-made and accompanied by at least two others."
+      }
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "why": "Openings placed by internal need rather than facade rhythm, in a wall thick enough that each opening reads as a separate excavation.",
+      "bounds": "Reveal not less than 8 in, low glazing ratio, and the wall must be, or fully express, mass. This is the exception most often claimed and least often earned.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The wall must be thick enough that each opening reads as a separate excavation. This is the exception most often claimed and least often earned."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "adobe",
+          "thick-stucco"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "The shingle membrane absorbs openings and the style composes by grouping and by roof rather than by bay.",
+      "bounds": "Requires the trimless envelope; where a Shingle Style house has a symmetrical entrance front, that front still aligns.",
+      "bounds_test": {
+        "expression": "window_casing_width_in",
+        "threshold": 3.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Requires the trimless envelope. Where a Shingle Style house has a symmetrical entrance front, that front still aligns."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The street elevation is a gable end with a false door, and the true composition faces the piazza; the street front is not a composed elevation in the Georgian sense.",
+      "bounds": "Applies to the narrow street end only. The piazza elevation is regular.",
+      "bounds_test": {
+        "expression": "street_frontage_ft",
+        "threshold": 28,
+        "direction": "at-most",
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "The type's own cap. The licence attaches to the narrow street END of a single-pile plan; the piazza elevation is regular and gets no licence at all."
+      },
+      "applies_when": {
+        "regions": [
+          "south-carolina-lowcountry"
+        ],
+        "slots": [
+          "composition_parti"
+        ],
+        "note": "Applies to the gable-end street elevation only."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "broken-head-datum",
+      "difference": "Vertical versus horizontal. A head datum fault is within one storey; this is between storeys."
+    },
+    {
+      "fault": "pier-narrower-than-the-opening",
+      "difference": "That is spacing within a storey. Misalignment can occur with perfect piers on both floors."
+    },
+    {
+      "fault": "even-bay-front",
+      "difference": "That fault removes the centre from the composition; this one removes the vertical continuity. A four-bay front can be perfectly stacked and still have no centre to enter."
+    },
+    {
+      "fault": "dormer-off-the-bay",
+      "difference": "The same failure carried into the roof. Where dormers do not sit over the windows below, the bay has stopped being vertical at the top as well as in the middle."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json",
+    "styles/colonial-revival.json constraints",
+    "kits/georgian-colonial-american.kit.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "alignment",
+    "bay",
+    "composition",
+    "endemic"
+  ],
+  "test": {
+    "expression": "max_abs_offset_between_upper_and_lower_opening_centrelines_in",
+    "threshold": 2.0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The Colonial Revival constraint states 2 in of centreline and calls vertical misalignment the fastest disqualifier in the whole style. Drop verticals through the jambs of every ground-floor window and extend them upward; offsets over about 4 in read from the street. Look first at the bay containing the stair, which is where the fault almost always is."
+  },
+  "secondary_tests": [
+    {
+      "expression": "upper_storey_opening_centres_matching_lower / total_upper_storey_openings",
+      "threshold": 1.0,
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The list form, which is what a model should actually compute: express each opening's horizontal centre as a fraction of the elevation width, storey by storey, and compare the two lists. A correct facade produces two matching lists; an incorrect one produces a scatter."
+    },
+    {
+      "expression": "bay_count_on_the_principal_front",
+      "threshold": 3,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "Odd, always, so that there is a centre to enter and a centre to align to. The schema cannot express parity, so this records the floor and the parity requirement lives in the note: bay_count = max(3, floor((span/module - 1)/2) * 2 + 1), which returns 5 on a 45 ft front at a 9 ft bay."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "colonial-revival",
+      "severity": "fatal",
+      "why": "Named in the style's own constraint as the fastest disqualifier in the whole style."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Upper-storey windows centred exactly on the openings below is a measured, not editorial, value in the kit."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "minor",
+      "why": "Picturesque asymmetry with jettied storeys and gables that deliberately do not stack is the style's method."
+    },
+    {
+      "style": "storybook-style",
+      "severity": "not-applicable",
+      "why": "Irregular window placement executed as designed intent is a defining device."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "not-applicable",
+      "why": "The street elevation is a gable end with a false door and is not a composed elevation in the Georgian sense."
+    }
+  ],
+  "co_occurs_with": [
+    "broken-head-datum",
+    "ungraduated-storeys",
+    "pier-narrower-than-the-opening",
+    "even-bay-front",
+    "dormer-off-the-bay"
+  ]
+}

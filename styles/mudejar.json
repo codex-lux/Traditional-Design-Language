@@ -1,0 +1,190 @@
+{
+  "id": "mudejar",
+  "name": "Mudejar",
+  "aka": [
+    "arte mudejar",
+    "Aragonese Mudejar",
+    "Toledan Mudejar"
+  ],
+  "rank": "style",
+  "member_of": "iberian-islamic",
+  "status": "historical",
+  "period": {
+    "origin": 1085,
+    "floruit_start": 1200,
+    "floruit_end": 1550,
+    "decline_end": 1614,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1870,
+        "end": 1930,
+        "revival_node": null,
+        "note": "Neo-Mudejar: adopted in Spain as a national style for bullrings, markets, schools and workers' housing, precisely because it was read as the one genuinely Spanish architecture. Craft revival in brick, but no continuity of the workforce."
+      },
+      {
+        "start": 1915,
+        "end": 1940,
+        "revival_node": "spanish-colonial-revival",
+        "note": "Reaches America mainly through Mexico, where Mudejar carpentry and tile had been standard practice since the 16th century."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Spain",
+      "Portugal"
+    ],
+    "hearth": "Toledo and Aragon (Teruel, Zaragoza, Calatayud)",
+    "climate_zones": [
+      "3B",
+      "4B",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "moorish-andalusian",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "This is the edge that matters. Mudejar is not a Christian imitation of Islamic form; it is Islamic building practice continuing without interruption under changed patronage. The same masons, carpenters, plasterers and tilers, organised in the same guilds and often living in the same quarters, went on working after their cities were taken and were hired by Christian kings, bishops and Jewish communities because they were the best trades available. Modelling this as a 'references' edge would be a category error: nothing is being quoted, because nothing was ever lost."
+    }
+  ],
+  "description": {
+    "short": "Islamic building craft continuing under Christian and Jewish patronage in reconquered Spain — the same brick, plaster, tile and carpentry, applied to churches, synagogues and palaces for four centuries after the political power that produced it was gone.",
+    "long": "Mudejar is the most instructive node in this entire taxonomy, because it is the case that breaks the assumption that a style is a set of intentions held by patrons. The patrons here are Christian kings and bishops. The intentions are Christian. The building types are churches, monasteries, city halls and synagogues. And the architecture is Islamic, unambiguously and technically, because the people who knew how to build were Muslims who stayed — mudajjan, 'those permitted to remain' — and their sons and grandsons, who went on running the same workshops, using the same setting-out squares and the same brick bonds, for four hundred years. When Alfonso VI took Toledo in 1085 he did not import a workforce. He inherited one, and it kept building.\n\nWhat this produces is an architecture that looks like a hybrid but is technically a continuity with new programme requirements. A parish church in Teruel has a nave and an apse and an altar, because it is a church. It is built in brick because Aragon has no good stone and abundant clay, and it is ornamented by corbelling, offsetting and turning whole bricks — dogtooth bands (esquinillas), sunken panels, interlaced blind arcading — because that is what brick ornament is when you cannot afford carving. Its ceiling is an armadura de par y nudillo, a tie-beam and collar truss whose pitch is fixed by a wooden setting-out square (the cartabon) and whose underside is boarded and worked into an interlace of small timbers, because that is how Andalusian carpenters roofed a rectangular room. And its tower is a minaret: a square shaft with an inner stair wrapped around a core, exactly the Almohad type, with a bell in it instead of a muezzin.\n\nThe tradition survives the political conditions that created it by a very long way, and its end is a political act rather than an architectural one. Forced conversion after 1502 in Castile and 1526 in Aragon turned the Mudejares into Moriscos; the expulsions of 1609 to 1614 removed the last of the workforce. Within a generation the brick towers stop being built, the par y nudillo ceiling survives only as a provincial habit, and the tile trade at Triana in Seville reorganises itself around Italian majolica technique. The craft did not evolve into something else; it was deported.\n\nTo stand in a Mudejar interior is to experience a strange doubling. The plan tells you where you are — nave, crossing, chancel, altar — and the surfaces tell you somewhere else entirely. Above your head is a shallow timber trough of interlaced strapwork, gilded and painted, with no rib, no vault, no Gothic ambition at all; around you is a brick wall relieved by blind arcading and, at the level you can touch, glazed tile; and behind the altar the ornament goes non-figural and geometric at exactly the point where a French or Italian church would put a Virgin. It is a Christian building thinking in another language, and it is far more common in Spain than the Gothic that gets photographed."
+  },
+  "defining_characteristics": [
+    "Continuity of workforce and technique from Islamic Spain, applied to Christian and Jewish building programmes",
+    "Brick as the structural and the ornamental material, with decoration generated by offsetting, corbelling and turning whole bricks rather than by carving",
+    "Timber ceilings of the armadura de par y nudillo type — tie-beam and collar trusses, boarded and worked into interlaced strapwork (lazo)",
+    "Glazed tile (azulejo, alicatado) used as a dado, a paving and a band, in geometric non-figural patterns",
+    "The alfiz — a rectangular moulded frame enclosing an arch — as a required device on any opening of consequence",
+    "Towers of Almohad minaret type: square shaft, inner stair around a core, brick ornament in vertical panels",
+    "Carved plaster (yeseria) at door heads, window grilles and chapel arches, in geometric and vegetal patterns without figures",
+    "Latin-Christian plan and programme carried entirely by Islamic construction and surface"
+  ],
+  "diagnostic_tells": [
+    "Brick ornament made of whole bricks set on edge or on point — dogtooth, dentil and interlace bands — with no carved or moulded profile anywhere",
+    "A flat or shallowly pitched boarded timber ceiling with a geometric interlace of small applied timbers, in a building with a Christian plan",
+    "A square brick bell tower with the same panelled elevations on all four faces and no buttresses",
+    "An alfiz frame around a Gothic or round-headed arch — the two vocabularies stacked without any attempt to reconcile them",
+    "Geometric ornament that stops at a frame mid-pattern, in a church"
+  ],
+  "distinguished_from": [
+    {
+      "node": "moorish-andalusian",
+      "difference": "Same craft, different patron and programme. If it is a mosque or a Nasrid palace it is Moorish Andalusian; if it is a church, a synagogue, a convent or a Christian palace built by the same trades after the reconquest of that city, it is Mudejar."
+    },
+    {
+      "node": "spanish-plateresque",
+      "difference": "Plateresque is a Christian, humanist, Italian-derived ornamental system applied by patrons who knew exactly what they were quoting. Mudejar quotes nothing. The two overlap constantly in the same buildings — a Plateresque portada under a Mudejar artesonado ceiling is entirely normal in 16th-century Spain."
+    },
+    {
+      "node": "mexican-colonial",
+      "difference": "Mexico inherits Mudejar carpentry and tile wholesale through Seville, and 16th-century Mexican ceilings are Mudejar in technique. But the plans, the atrio, the open chapel and the labour force are New World, and the tradition there is a descendant rather than the thing itself."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The brick and the cartabon. Ornament is dimensioned in whole brick courses — a course plus joint of roughly 60-70 mm — so every band, offset and blind arch is a whole number of bricks and nothing can be resized without redrawing. Timber roofs are set out with the cartabon, a fixed wooden square that gives the rafter pitch and the collar position for the whole building; the commonest is the cartabon de armadura cuadrada, giving a pitch near 26.5 degrees.",
+    "typical_ratios": [
+      "Brick course plus joint 60-70 mm; ornamental bands 3-9 courses deep",
+      "Par y nudillo roof pitch fixed by the cartabon, commonly 26.5 or 33.7 degrees",
+      "Tower shaft slenderness roughly 1:4 to 1:6, square in plan",
+      "Tile dado 1.2-2.0 m"
+    ],
+    "bay_rhythm": "Vertical panelling on towers — each face divided into two or three tall recessed panels running most of the shaft height, subdivided by horizontal ornament bands. In naves, the rhythm is set by the diaphragm arches carrying the timber roof.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The Mudejar palace and the convent cloister are both fully enclosed courts with single-pile ranges."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three-sided courts in smaller palaces and in the alcazar apartments."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "Urban Toledo and Zaragoza are party-walled brick courtyard houses in continuous blocks."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible",
+      "note": "The Aragonese church tower gives a Mudejar ensemble a dominant vertical shaft, though it stands beside the body rather than growing out of it."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Brick ornament must be generated by whole-brick offsets, rotations and corbels. Carved, moulded or cast brick profiles are prohibited: the entire visual character depends on the ornament being an arrangement of a standard unit.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Timber roofs are par y nudillo — tie beam, rafters and collar as one assembly, with the pitch fixed by a single cartabon for the whole building. The ceiling and the roof are the same object; a suspended ceiling below a separate roof is a different tradition.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Any arched opening of consequence must be enclosed by an alfiz. An arch that floats free on the wall is outside the grammar.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Surface ornament is geometric, vegetal and epigraphic. Figural imagery does not appear in Mudejar work even where the patron and the building are Christian; figures belong to the altarpiece, not to the fabric.",
+      "severity": "soft"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Brick walls 500-700 mm. External openings small and high; large openings face the patio. In Aragon, where winters are hard and summers reach 40 degrees, the thermal mass is doing both jobs and cannot be reduced.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Santa Maria la Blanca",
+      "location": "Toledo, Spain",
+      "year": 1180,
+      "note": "Built c. 1180-1200 as the principal synagogue of Toledo by Mudejar craftsmen for a Jewish congregation under Christian rule; converted to a church in the early 15th century. Horseshoe arcades on octagonal brick piers with carved plaster capitals."
+    },
+    {
+      "name": "Torre de San Martin",
+      "location": "Teruel, Spain",
+      "year": 1316,
+      "note": "1315-1316; brick tower of Almohad minaret type with glazed ceramic inlay. Part of the UNESCO 'Mudejar Architecture of Aragon' inscription."
+    },
+    {
+      "name": "Alcazar of Seville, Palacio del Rey Don Pedro",
+      "location": "Seville, Spain",
+      "year": 1366,
+      "note": "Built 1364-1366 for Pedro I of Castile by craftsmen sent from Toledo and from Nasrid Granada — a Christian king's palace built by Muslim workshops, and the single clearest demonstration of the transmission edge."
+    },
+    {
+      "name": "Casa de Pilatos",
+      "location": "Seville, Spain",
+      "year": 1539,
+      "note": "Begun 1483, largely 1519-1539; Mudejar tile, plaster and artesonado combined with Italian Renaissance marble in one building without any attempt at reconciliation."
+    }
+  ],
+  "sources": [
+    "Borras Gualis, El arte mudejar",
+    "Pavon Maldonado, Arte mudejar: arte islamico en Espana",
+    "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800",
+    "Dodds (ed.), Al-Andalus: The Art of Islamic Spain"
+  ],
+  "confidence": "high",
+  "tags": [
+    "transmission",
+    "brick",
+    "carpentry",
+    "tile",
+    "islamic-craft",
+    "christian-patronage"
+  ]
+}

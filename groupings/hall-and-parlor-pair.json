@@ -1,0 +1,95 @@
+{
+  "id": "hall-and-parlor-pair",
+  "name": "Hall and Parlor Pair",
+  "scale": "pair",
+  "confidence": "high",
+  "description": "Two unequal rooms side by side: the larger for work and reception, the smaller for the best furniture and, often, for sleeping. The first appearance of social gradient in the Anglo house, and the seed from which the centre-passage plan grows by inserting a corridor between the two.",
+  "rooms": [
+    {
+      "room": "hall",
+      "role": "primary",
+      "count": "1",
+      "note": "The larger. Work, cooking, eating, reception."
+    },
+    {
+      "room": "parlor",
+      "role": "secondary",
+      "count": "1",
+      "note": "The smaller and better. Best bed, best furniture."
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "The two rooms are unequal by 15 to 35 percent in area, and the inequality is the point — equal rooms make a double pen, which is a different type with no hierarchy.",
+      "kind": "hierarchy",
+      "severity": "hard",
+      "test": "hall_area / parlor_area between 1.15 and 1.35"
+    },
+    {
+      "statement": "The entrance door is placed by the size difference, not centred on the facade. Forcing a centred door destroys the type and produces a Georgian facade on a pre-Georgian plan.",
+      "kind": "circulation",
+      "severity": "hard"
+    },
+    {
+      "statement": "Each room has its own heat source: paired gable-end chimneys, or a single central stack serving both back to back.",
+      "kind": "servicing",
+      "severity": "strong"
+    },
+    {
+      "statement": "Direct door between the two, with no lobby. A lobby entry is the central-chimney variant and a different grouping.",
+      "kind": "adjacency",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "hall-and-parlor",
+      "fit": "canonical",
+      "position": "the whole footprint"
+    },
+    {
+      "massing": "i-house",
+      "fit": "common",
+      "position": "ground floor, repeated above"
+    },
+    {
+      "massing": "double-pen",
+      "fit": "forbidden",
+      "note": "Double pen is the equal-rooms case and has no hierarchy; that is what makes it a different type."
+    }
+  ],
+  "expansion_logic": "Insert a through-passage between the two rooms and it becomes centre-passage-core, which is the single most consequential move in Anglo-American planning. Or add a rear lean-to and it becomes a saltbox.",
+  "privacy_span": [
+    2,
+    4
+  ],
+  "typical_area_sf": [
+    500,
+    900
+  ],
+  "servicing_strategy": "Paired gable-end stacks, or one central stack with back-to-back fireboxes; the choice decides the roof and the facade.",
+  "circulation_parti": [
+    "hall-and-parlor",
+    "central-chimney-lobby"
+  ],
+  "style_variation": [
+    {
+      "style": "new-england-colonial",
+      "note": "Usually with a central chimney and a lobby entrance, so the pair is entered between the stacks rather than into the hall."
+    },
+    {
+      "style": "tidewater-georgian",
+      "note": "Gable-end chimneys and a direct entry into the hall; the Chesapeake version keeps the two rooms further apart thermally."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Superseded: the whole Georgian project is the passage inserted between these two rooms."
+    }
+  ],
+  "sources": [
+    "Glassie, Folk Housing in Middle Virginia",
+    "Cummings, The Framed Houses of Massachusetts Bay",
+    "Upton and Vlach, Common Places"
+  ]
+}

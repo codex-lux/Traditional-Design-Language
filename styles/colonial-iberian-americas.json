@@ -1,0 +1,38 @@
+{
+  "id": "colonial-iberian-americas",
+  "name": "Colonial Iberian Americas",
+  "rank": "family",
+  "member_of": "iberian-mediterranean",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1520,
+    "floruit_end": 1910,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Mexico",
+      "Central America",
+      "Southwest United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Three centuries of Spanish building in the Americas, where Iberian plans met indigenous labour, adobe, and a continent of new conditions.",
+    "long": "Spanish colonial building in the Americas is a translation problem worked out at scale over three hundred years: European plan diagrams executed by indigenous craftsmen in local materials, under a Church that wanted magnificence and a Crown that would not pay for it.\n\nWhat emerged — massive plain walls, courtyards, arcaded corridors, tile roofs, and ornament concentrated at the portal — is the direct ancestor of the American Southwest's regional architecture, and by way of Mission Revival and Spanish Colonial Revival, of a substantial fraction of everything built in California, Arizona, Texas, and Florida since 1915."
+  },
+  "defining_characteristics": [
+    "European plan diagrams executed in local material by local labour",
+    "Courtyard and arcaded corredor as the organizing spatial devices",
+    "Massive adobe or rubble walls, plain except at the portal",
+    "Low-pitched clay tile roofs and long horizontal parapets",
+    "A genuinely new regional language rather than a diluted European one"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

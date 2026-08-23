@@ -1,0 +1,158 @@
+{
+  "id": "decorative-pair-at-the-entry",
+  "name": "Two Columns Holding Up Nothing",
+  "aka": [
+    "the split-column entry",
+    "the furniture portico",
+    "columns on a doormat"
+  ],
+  "slots": [
+    "column",
+    "porch_support",
+    "porch_type",
+    "entry_sequence"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A pair of round white columns flanking the front door, standing on the stoop, carrying a small gable or a flat hood — or nothing at all. The columns stop 6 to 18 in short of the wall plane, so the roof above them is visibly cantilevered off the wall and the columns touch its underside without engaging it. Often the columns are split fibreglass halves clamped around a 4x4, with a vertical seam visible on the shaft. The whole assembly is 3 to 4 ft deep, has no entablature, and reads as two objects placed on either side of the door rather than as a structure.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The entry roof is framed off the wall as a cantilevered hood, which is cheaper and simpler than a beam and posts and avoids a footing, and the columns are added afterwards as a trim item. Because they are not structural they can be split halves clamped around the existing 4x4 handrail post or around nothing at all, and because they are added last they land wherever the stoop already is — which is inboard of the roof edge. The elevation drawing shows two columns; the framing plan does not know about them.",
+    "cost_saved": "800-2,000 USD against a real one-bay portico with footings, a beam, an entablature and a returned cornice. The split-column trick alone saves 200-400 USD a column against a full shaft, because it can be installed after the roof is on."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_support / column-without-answering-pilaster = forbidden",
+      "statement": "Each free column must be answered by a pilaster on the wall behind. Without it the portico reads as furniture stood in front of the house."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_type / entry-portico, portico_bays = 1",
+      "statement": "Where a portico occurs it is one bay wide, centred, and carries the bound order."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / steps_and_stoop.width = module * 0.8 + part * 4",
+      "statement": "The stoop is the entrance composition plus about 18 in of platform each side — 10 ft 2 in on the default 9 ft bay. A pair of columns standing on a 4 ft stoop cannot be a bay."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a column that is not on the line of the thing it carries is not carrying it",
+      "statement": "The eye reads structure from alignment before it reads it from mass. A column set inboard of the fascia above it announces, unambiguously and at any distance, that something else is holding the roof up."
+    }
+  ],
+  "correct_practice": "A portico is one bay of the order, and the bay is a real bay: columns on the line of the roof edge, an entablature spanning between them with architrave, frieze and cornice, and each free column answered by a pilaster or an engaged half-column on the wall behind, so the entablature runs from the column back into the wall and the portico is part of the building. Depth follows from the order's projection: a Georgian entry portico is 5 to 8 ft deep, which is what a one-bay order at a 9 to 10 ft column height actually produces. Spacing follows the intercolumniation — Vignola's Tuscan colonnade is 2 1/3 diameters clear — so a portico on 12 in columns has them about 2 ft 4 in clear, 3 ft 4 in on centres, and a door that fits between them.",
+  "fixes": {
+    "right": "One bay of the bound order: two full columns on the roof line, two answering pilasters on the wall, a complete entablature between and returning to the wall, on a stoop 18 in wider than the composition each side, with footings.",
+    "cheap": "Delete the columns and keep the hood. A well-detailed bracketed or consoled door hood with no columns at all is correct on a great many houses, is cheaper than the columns it replaces, and does not tell a lie. If the columns must stay, the free move is to bring them OUT to the fascia line and add a flat pilaster board of the same width against the wall behind each one — about 60 USD of trim — which converts two objects into a bay.",
+    "dishonest": "Split half-columns applied to the wall behind, to fake the pilasters. Half a round column applied flat is not a pilaster; a pilaster is a rectangular member with the order's capital in flat relief, and a half-round applied to a flat wall reads as a column that has been sawn, which is worse than nothing."
+  },
+  "detection": "One measurement decides it. In an oblique photograph, drop a vertical from the outer face of the entry roof's fascia and see where it lands relative to the column axis. If the column axis is inboard of the fascia by more than about a third of the shaft diameter, the roof is cantilevered and the columns are decoration. Second check: look at the wall behind each column at the same height. Is there a pilaster, an engaged column, or at least a flat board of the same width? If the entablature or the roof simply dies into siding, the portico is furniture. Third check: look for a vertical seam on the shaft, visible as a hairline or a caulk line running the full height, which is the split-column tell. Fourth: measure the stoop. A stoop no wider than the door plus its casings cannot support a portico reading.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "answering_pilasters_count / free_columns_count",
+    "threshold": 1.0,
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Every free column in a portico must be answered by a pilaster, engaged column or responding pier on the wall behind. This ratio is directly countable from a front-oblique photograph and is the single most reliable discriminator between a portico and two columns standing near a door."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The entrance is the only accented event on the front, and the kit forbids the unanswered column by name. A furniture portico on a Georgian removes the one piece of architecture the elevation has."
+    },
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "The portico is the building."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The temple front is not decomposable into decorative fragments."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "The idiom is explicitly a reduced one and a pair of slender posts at the door is what it actually had in 1940. It should not pretend to be an order."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Post-war ranch entries used decorative iron and thin posts without claiming the classical apparatus; the fault is only present once round classical columns appear."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "minimal-traditional",
+      "why": "The 1935-1950 minimal traditional entry genuinely is a small hood on brackets with slender square or wrought-iron posts, and the reduction is the style's whole economic argument. It never claimed a portico.",
+      "bounds": "The posts must be frankly non-classical — square, wrought iron, or a plain turned rod — and there must be no capital, no base and no entablature. The moment a round shaft with a moulded capital appears, the order has been claimed and must be honoured.",
+      "applies_when": {
+        "date_range": [
+          1935,
+          1955
+        ]
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The Charleston street door is a false door into the piazza, and the piazza columns beyond it stand on the piazza's own line rather than answering anything on the street front. The apparent disconnection is the plan working correctly.",
+      "bounds": "Applies only where the piazza is real, runs the depth of the house on the flank, and the street door genuinely opens onto it. It is not a licence for a decorative column pair on a front elevation.",
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ],
+        "slots": [
+          "porch_type",
+          "entry_sequence"
+        ]
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "The Italianate entrance hood on paired scrolled consoles is carried by the brackets, has no columns and is correct. Where slender colonnettes appear beside an Italianate door they are decorative by convention and the bracket does the visible work.",
+      "bounds": "The consoles must be present, deep and clearly carrying — projection at least half the hood's projection. A hood on nothing with columns beside it is still the fault."
+    }
+  ],
+  "co_occurs_with": [
+    "column-without-answering-pilaster",
+    "cornice-with-no-architrave-or-frieze",
+    "stoop-without-a-landing",
+    "porch-hung-on-the-wall"
+  ],
+  "alternative_to": [
+    "porch-too-shallow-to-inhabit"
+  ],
+  "confused_with": [
+    {
+      "fault": "column-without-answering-pilaster",
+      "difference": "That fault is specifically the missing responding member on the wall, and it occurs on real, structural, correctly placed porticos too. This one is the whole assembly being decorative — misaligned, unentablatured, often split — of which the missing pilaster is one symptom."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That fault is about the entrance losing the competition for attention on the front. Here the entrance is the most elaborated element and the elaboration is a lie."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, porch_support (column-without-answering-pilaster = forbidden), porch_type",
+    "proportions/systems/facade-classical.json, steps_and_stoop.width and door_surround.width",
+    "proportions/orders/vignola-tuscan.json, intercolumniation",
+    "HABS measured drawings of one-bay entry porticos, Chesapeake and New England",
+    "Split-column installation literature (Chadsworth, Turncraft) — the retrofit product and its intended use"
+  ],
+  "confidence": "high",
+  "tags": [
+    "portico",
+    "column",
+    "entrance",
+    "structural-honesty",
+    "endemic"
+  ]
+}

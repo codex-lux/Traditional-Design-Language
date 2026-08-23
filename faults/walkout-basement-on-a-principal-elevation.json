@@ -1,0 +1,155 @@
+{
+  "id": "walkout-basement-on-a-principal-elevation",
+  "name": "The Walkout That Eats The Base",
+  "aka": [
+    "the three-storey front",
+    "the daylight basement",
+    "the exposed foundation storey"
+  ],
+  "slots": [
+    "grade_relationship",
+    "street_relationship"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A house drawn as two storeys standing as three on one side, with a fully exposed basement wall of concrete, block or thin veneer under the principal elevation. A sliding door and a pair of small horizontal windows sit below the first-floor level; the water table either disappears into the ground halfway along or steps down in a series of jogs; and the composition, which had a base, a body and a cornice, now has an extra term at the bottom that nothing else in the elevation acknowledges.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A walkout basement converts unbuildable slope into finished floor at $50-$90 per sq ft against $180-$300 for above-grade construction, so on any lot with a fall it is the cheapest area in the house. It also solves the drainage and the retaining in one move. The decision is made by the site engineer and the builder on a grading plan, weeks before or after the elevations are drawn, and the elevation is then adjusted by extending the wall downward - which is a drafting operation, not a design one.",
+    "cost_saved": "$40,000-$120,000 of finished area on a sloping lot, against a full retaining and regrading exercise that would cost $15,000-$50,000 and yield nothing."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / grade_relationship",
+      "statement": "The house sits on a plinth: the water table stands 24 to 36 in above finished grade on EVERY elevation, and the grade falls away from the wall rather than being banked against it. The 'on every elevation' clause is the hard part on a sloping site and it is why period houses on falling ground get a fully exposed basement on the LOW side rather than a water table that wanders."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / grade_relationship / banked-into-a-slope (permitted) and raised-basement (permitted)",
+      "statement": "Both are permitted forms - but as whole strategies applied to the whole building, with the exposed storey treated as a rusticated or masonry base, not as a fourth condition appearing on one elevation only."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "pennsylvania-bank-house",
+      "statement": "Two exterior doors at two levels, on DIFFERENT elevations. The service level must be enterable without passing through the house - which is precisely the arrangement the modern walkout imitates and gets wrong by putting both on the same face."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a composed elevation has one base and one number of storeys",
+      "statement": "Storey graduation is a series and the base is its first term. Adding an undesigned storey below the base does not extend the series; it puts a foreign element under it, and the eye reads the house as having been jacked up."
+    }
+  ],
+  "correct_practice": "Decide the grade strategy as a single decision for the whole building and carry it through in section, not in elevation. Four coherent strategies exist and all are permitted: a low plinth on a levelled site, with the water table 24 to 36 in above finished grade all the way round; a raised basement, where the exposed storey is a designed masonry base under a piano nobile, its openings composed and subordinate, its material heavier than the wall above, and the entrance stair rising through it - Charleston and the urban Mid-Atlantic do this, and the ground storey should read at about 0.72 of the floor above; a terraced fall, where the site is cut into levels and each level is a designed platform with a retaining wall; and banked into a slope, which is the bank house, where the uphill wall is bermed nearly to the principal floor and the downhill wall is fully exposed as a SERVICE elevation with its own door. What is not coherent is a house that is two storeys on the front and three on the back with no change of material, no change of opening rank, and a water table that follows the ground. If the walkout must occur, put it on the elevation that is not composed, give the exposed storey a different and heavier material, and hold one level datum for the water table on every face.",
+  "fixes": {
+    "right": "Choose a grade strategy for the whole house: raised basement composed as a base, or banked with the exposure on a service elevation, and keep the water table level on every face.",
+    "cheap": "Move the exposure, not the house. Rotating the plan 90 degrees on the lot, or moving it 15 ft along the contour, very often puts the walkout on a flank or the rear rather than under the principal elevation, and on most lots that is a free decision at siting. Where the exposure must stay, treat the exposed storey as a base: parge or veneer it in a heavier material, run a level band at the first-floor line all the way round, and hold the basement openings to a subordinate proportion - no more than 0.6 of the first-floor opening height - which costs $3,000-$7,000 and converts a mistake into a rusticated storey.",
+    "dishonest": "A berm across the front of the exposed wall to bring the grade up. It hides the concrete and creates a drainage problem against the wall, it makes the house look as though it is sinking on one side, and the berm has to stop somewhere - usually in a ragged diagonal beside the walkout door, which is more conspicuous than the wall was."
+  },
+  "detection": "Count storeys from each side of the house and compare. Two at the front and three on a visible flank or rear, with no change of material at the additional storey, is the fault. Second, follow the water table: on a correct sloping-site house it is level and the exposure grows; on this fault it slopes or steps. Third, look at the basement openings - horizontal sliders or hoppers at 24 to 32 in tall, in a wall that is otherwise treated as principal, is the signature, because those are utility windows placed by a plan and not by an elevation.",
+  "test": {
+    "expression": "exposed_foundation_height_on_the_principal_elevation_in",
+    "threshold": 36.0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Height of exposed foundation or basement wall below the first-floor line on the composed elevation. 18-36 in is a base; above about 48 in it is an undesigned storey. Where the exposure is intentional and composed - a raised basement - the test changes to ground_storey_height / principal_storey_height, which should be about 0.72 and never above 0.85."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "The type IS a walkout: the lowest storey is fully exposed on the downhill elevation and bermed on the uphill one, with two entrances at two grades of unequal architectural status. It is the correct answer to a sloping site and the modern walkout is its degraded descendant.",
+      "bounds": "Requires a real cross-slope of at least 1:8 giving a fall of 6 ft or more; the lower storey in 18-30 in of load-bearing stone; the uphill wall bermed to within 12 in of the principal floor with no openings below it; and the two doors on DIFFERENT elevations. A walkout basement on flat ground is not a bank house.",
+      "bounds_test": {
+        "expression": "cross_slope_across_the_building_depth",
+        "threshold": 0.125,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "site-visit"
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "A raised ground storey of 7-9 ft under a piano nobile is the type; the base is the whole storey and its openings are composed.",
+      "bounds": "The ground storey must be markedly lower than the floor above - around 0.72 of it - or the building has two principal floors and no hierarchy."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The English basement under a high stoop is the type: a full exposed storey, rusticated or in a heavier stone, with an areaway and its own service entrance.",
+      "bounds": "Requires the stoop of 6-10 risers, the parlour floor 4-7 ft above the sidewalk, and the basement storey treated as a base in material and in opening rank.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "The principal floor stands 8-12 ft above grade on a full masonry service storey, reached by an exterior stair. The exposure is total and intentional.",
+      "bounds": "Not less than 8 ft on a full masonry storey with the column material changing at the gallery floor. A raised cottage on wooden piers with an enclosed underfloor is a different and lesser building."
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "Where the ground floor is 24-30 in adobe and the upper is thin frame, an exposed lower storey on a sloping site reads as base by material alone.",
+      "bounds": "Requires the wall-plane step-in of 6-12 in at the second-floor line and the genuine mass wall below."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "water-table-that-follows-the-grade",
+      "difference": "That is the horizontal band failing on a sloping site. This is the storey below it appearing on a composed elevation. The first is usually a symptom of the second."
+    },
+    {
+      "fault": "house-without-a-base",
+      "difference": "The opposite failure. That house has no first term; this one has an extra one. Both come from letting the site set the floor level instead of the section."
+    },
+    {
+      "fault": "exposed-concrete-skirt",
+      "difference": "That is about the FINISH of a short band of foundation. This is about a full storey's worth of it appearing where the composition has no place for it."
+    }
+  ],
+  "co_occurs_with": [
+    "water-table-that-follows-the-grade",
+    "exposed-concrete-skirt",
+    "buried-base"
+  ],
+  "alternative_to": [
+    "buried-base"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Strict symmetry and one composed front; an extra storey appearing under one half of the elevation destroys both."
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "severity": "not-applicable",
+      "why": "The exposed lower storey is the type."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The daylight basement is common in the post-war type on sloping lots and the low horizontal composition absorbs it."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json grade_relationship, water_table_above_grade_in, exposed_foundation_in and the 'on every elevation' note",
+    "styles/pennsylvania-bank-house.json hard constraints on cross-slope, berm and two entrances; styles/charleston-single-house.json, styles/italianate-townhouse.json, styles/raised-creole-plantation.json",
+    "proportions/modules/storey-graduation.json foundation_expression.height",
+    "International Residential Code R401.3 (surface drainage), R404 (foundation walls), R310 (basement escape openings)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "grade",
+    "site",
+    "foundation",
+    "composition",
+    "photograph-testable",
+    "endemic"
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "id": "garrison-colonial",
+  "name": "Garrison Colonial",
+  "aka": [
+    "framed overhang house",
+    "jettied house",
+    "overhang house"
+  ],
+  "rank": "variant",
+  "member_of": "new-england-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1650,
+    "floruit_start": 1660,
+    "floruit_end": 1730,
+    "decline_end": 1760,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1930,
+        "end": 1965,
+        "revival_node": "garrison-revival",
+        "note": "A post-war builder type: two-storey box, a token 12–18 in overhang across the front only, and the folk-etymological name that came with it."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Massachusetts",
+      "Connecticut",
+      "Rhode Island",
+      "New Hampshire",
+      "coastal Maine"
+    ],
+    "hearth": "Essex County, Massachusetts and the Connecticut River towns — the wealthier First Period settlements",
+    "climate_zones": [
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "new-england-colonial",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "english-medieval-timber-frame",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The jetty is straightforwardly English. It is a standard device of late-medieval urban timber framing in East Anglia, Kent and the West Country, and the New England carpenters who used it had learned it there."
+    }
+  ],
+  "description": {
+    "short": "A two-storey New England house whose second floor projects on a framed overhang, with carved drop pendants at the posts — an English timber-framing survival that American folklore has misread as a defensive device for three hundred years.",
+    "long": "The overhang needs its story corrected before anything else can be said about the type, because the folk etymology is nearly universal and it is wrong. The jetty — a projection of the second-floor framing eight to twenty inches beyond the wall below — is a late-medieval English carpentry practice with three ordinary explanations, none of them military. Structurally it is the simplest way to land a second-floor girt: you cantilever the joists past the plate and set the upper posts on their ends, which gains floor area upstairs without lengthening the sill and puts the joint in compression where the carpenter wants it. Urbanistically it gained the upper room a foot or two of space over a narrow street or way without encroaching at ground level. Socially, by the time it reached New England it was already an old-fashioned, expensive, visibly skilled detail that a prosperous man could pay for and a poor one could not — which is why it clusters in the wealthiest First Period towns and appears on the houses of ministers, magistrates and merchants.\n\nIt is not a fighting platform. There are no loopholes in a New England jetty; the projection is far too shallow to shoot down through; the drop pendants beneath it are decorative turnings, not gun ports; and the boiling-oil story is a nineteenth-century invention that circulated with the general Romantic reimagining of the colonial frontier. There were genuine garrison houses in seventeenth-century New England — fortified dwellings with heavy horizontal plank or squared-log walls, small high openings, and sometimes a palisade, designated by the town as places of refuge — but those buildings are a different type and they generally did not have jetties. The twentieth-century real-estate label 'Garrison Colonial' fused the two, attaching a military name to a domestic detail. This node uses the received name because the industry does, and corrects the reading.\n\nWhat the type actually is, then, is the display end of the First Period house: two full storeys front and rear (unlike the saltbox, which gives the rear away), a central chimney, a steep 45–55 degree roof, and a jetty across the front, sometimes carried around the gable ends as a second overhang and occasionally a third at the gable peak. Where the overhang is 'hewn' — cut from the solid of the post — it projects only two to six inches and reads as a shadow line. Where it is truly framed, with the second-floor girt bearing on cantilevered joist ends, it projects fourteen to twenty inches and casts a real shadow across the facade at midday, which is the whole point of it.\n\nStanding under one, the effect is oddly protective and entirely visual: a horizontal band of deep shade at the twelve-foot line, four turned pendants hanging from it like punctuation, and above that a second storey whose windows are noticeably smaller than the ones below. It is the closest thing seventeenth-century New England had to a facade."
+  },
+  "defining_characteristics": [
+    "Two full storeys front and rear under a symmetrical side-gable roof — no lean-to reduction of the rear elevation",
+    "A framed overhang (jetty) at the second-floor line projecting 8–20 in on the front, occasionally repeated at the gable ends and at the gable peak",
+    "Carved drop pendants at the exposed post ends beneath the overhang, normally four across the front",
+    "Central chimney stack, as in all First Period New England work",
+    "Second-floor windows measurably smaller than the first-floor windows — 10–20% shorter and often narrower",
+    "Steep roof, 45–55 degrees, with the ridge on the long axis",
+    "Riven or sawn clapboard over the frame, with the overhang fascia and pendants the only worked exterior joinery"
+  ],
+  "diagnostic_tells": [
+    "A continuous shadow line across the facade at the second-floor level, with turned drops at four points",
+    "Where the overhang is hewn rather than framed, the projection is only 2–6 in — look for the shadow, then measure",
+    "Central chimney plus two full storeys plus jetty: the combination occurs nowhere else",
+    "No openings in the overhang soffit — the absence of loopholes is itself the diagnostic against the defensive story",
+    "The gable-end overhang, where present, sits at the attic floor line rather than the second-floor line"
+  ],
+  "distinguished_from": [
+    {
+      "node": "garrison-revival",
+      "difference": "The post-1930 builder type has a shallow 12–18 in overhang across the front only, with no pendants or with applied ones, gable-end or no chimneys, an 8:12 roof, six-over-six or picture windows the same size on both floors, and an attached garage. It also, almost universally, carries the defensive folk etymology in its marketing. The colonial original has a central chimney, a 12:12+ roof, and smaller upper windows."
+    },
+    {
+      "node": "saltbox-colonial",
+      "difference": "Both are two storeys at the front and both often carry a jetty. The saltbox gives up its rear elevation to a single-storey lean-to under a catslide; the garrison keeps two full storeys all round."
+    },
+    {
+      "node": "english-medieval-timber-frame",
+      "difference": "The English parent leaves the frame exposed with infill panels, and jetties often on two or three storeys; New England covers the frame in clapboard, uses one jetty, and stops building them by about 1730."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The frame bay and the cantilever capacity of the second-floor joists; the overhang dimension is set by how far a 7–9 in joist can project without a visible sag.",
+    "typical_ratios": [
+      "Framed overhang 14–20 in; hewn overhang 2–6 in; never more than 24 in",
+      "Main body 38–44 ft × 18–22 ft, two storeys",
+      "First-floor ceiling 7 ft 0 in – 7 ft 8 in; second floor 6 ft 8 in – 7 ft 2 in",
+      "Second-floor window height 80–90% of first-floor",
+      "Drop pendant length 8–14 in, diameter 4–6 in, at post positions only",
+      "Roof rise:run 12:12 to 17:12"
+    ],
+    "bay_rhythm": "Five bays on the front where the frame allows, the door bay narrow and centred on the stack; the pendants mark the post lines and therefore do not coincide with the window rhythm.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "garrison-block",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "The plan under the jetty is the ordinary First Period two-room plan."
+    },
+    {
+      "massing": "saltbox",
+      "affinity": "common",
+      "note": "Very many jettied houses acquired a lean-to and became saltboxes."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "possible",
+      "note": "Jettied half-houses exist, awaiting the second cell that was sometimes never built."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Framed overhang 14–20 in maximum, hewn overhang 2–6 in; never exceed 24 in. The projection is the cantilever of a 7–9 in second-floor joist and cannot be increased without changing the structure to something the tradition never built."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Drop pendants occur only at post positions and only where the overhang is framed — four across a five-bay front. Pendants on a hewn overhang, or spaced to suit the windows, are decoration without structure."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "One central chimney within the plan. Gable-end chimneys with a jetty produce a combination that does not occur in surviving First Period fabric."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Second-floor window height 80–90% of first-floor height. Equal windows on both floors is a revival signature."
+    },
+    {
+      "kind": "cultural",
+      "severity": "advisory",
+      "statement": "Do not model or describe the overhang as defensive. No loopholes, no firing platform, no boiling oil. Where a genuinely fortified frontier garrison house is wanted, the correct assembly is heavy horizontal plank or squared-log walls with small high openings and no jetty."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Parson Capen House",
+      "location": "Topsfield, Massachusetts",
+      "year": 1683,
+      "note": "The canonical example: framed overhangs on the front and both gables, four carved drop pendants, central chimney, casement openings."
+    },
+    {
+      "name": "Stanley-Whitman House",
+      "location": "Farmington, Connecticut",
+      "year": 1720,
+      "note": "Framed overhang projecting 18 in with four drop pendants, two of them original. Long dated to c. 1660 in older literature; documentary evidence now places construction between 1709 and 1720."
+    },
+    {
+      "name": "Paul Revere House",
+      "location": "North Square, Boston, Massachusetts",
+      "year": 1680,
+      "note": "The urban case, where the jetty does the thing it did in England — gains upper-floor area over a narrow street."
+    },
+    {
+      "name": "John Whipple House",
+      "location": "Ipswich, Massachusetts",
+      "year": 1677,
+      "note": "Second-phase block carries the overhang; Ipswich retains the densest surviving group of jettied First Period houses in America."
+    }
+  ],
+  "sources": [
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625–1725 (1979)",
+    "J. Frederick Kelly, Early Domestic Architecture of Connecticut (1924)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Historic Ipswich / Historic Massachusetts, 'Jetties of the New England Post-Medieval Renaissance' (survey of Essex County First Period fabric)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "jetty",
+    "overhang",
+    "pendant",
+    "myth-correction",
+    "first-period"
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "id": "turned-post-out-of-period",
+  "name": "The Turned Post On A House That Never Had One",
+  "aka": [
+    "the spindle porch on a Colonial",
+    "catalogue Victoriana",
+    "the wrong century's lathe"
+  ],
+  "slots": [
+    "porch_support",
+    "ornament_vocabulary",
+    "porch_type"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "anachronism",
+  "symptom": "A turned post — a lathe-run barrel with beads, coves and square blocks top and bottom — carrying a porch on a house whose style predates the power lathe or postdates the taste for it. On a Georgian, Federal or Greek Revival house the turned post is fifty to a hundred years early. On a Craftsman, Prairie or Tudor Revival house it is thirty years late and belongs to the vocabulary those styles were a reaction against. The tell is usually accompanied by sawn brackets and a spindle frieze, all from the same catalogue page.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Turned posts, sawn brackets and spindle friezes are the cheapest ornamental porch components in production, because they are the only ones still made in volume: the market for 'Victorian' porch parts is large enough to support standing tooling and the market for a correct Tuscan column is not. A homeowner or builder replacing a porch searches for porch posts, finds turned posts at a third the price of anything else, and buys them. The porch is also usually a replacement rather than an original, so the decision is made decades after the house and by someone with no drawing.",
+    "cost_saved": "A treated or PVC turned post runs 60-160 USD against 250-700 USD for a Tuscan column and 180-400 USD for a correctly boxed square post. On a six-post porch, 600-3,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_support / turned-post = forbidden",
+      "statement": "Folk Victorian."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_support / chamfered-post = forbidden",
+      "statement": "Vernacular and Gothic Revival. Even the chamfered post, which is closer, is out of the Georgian vocabulary."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "folk-victorian",
+      "statement": "The turned post is a product of the steam-powered lathe and the railroad millwork trade, which puts it after about 1865 in general use and concentrated in 1870-1910. It is the diagnostic member of Folk Victorian and of the spindled Queen Anne."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "an ornamental member dates a building to the industrial process that made it",
+      "statement": "The turned post is not a shape somebody chose; it is what a duplicating lathe produces cheaply, and duplicating lathes reached the American millwork trade in the 1860s. A turned post on a 1740 house is a claim that the house was built with machinery that did not exist."
+    }
+  ],
+  "correct_practice": "Match the support to the style's own vocabulary and its date. Georgian and Federal: a column of the bound order, or a plain square boxed pier — turned and chamfered posts are both forbidden by the kit. Greek Revival: a column of Benjamin's Grecian Doric or Ionic, or a square battered or plain boxed pier in vernacular work, always broad and flat. Gothic Revival and Carpenter Gothic: a chamfered timber post with a sawn bracket, the chamfer stopped with a lamb's-tongue at each end. Italianate: a chamfered or square post with heavy scrolled brackets, or a slender colonnette on a pedestal. Folk Victorian and spindled Queen Anne: the turned post, at a 4 to 5 in barrel, with a spindle frieze and paired brackets — this is where it belongs and where it is excellent. Craftsman: a battered square pier on a masonry base. Colonial Revival: Tuscan or Roman Doric columns, and it is the style's own convention to use them.",
+  "fixes": {
+    "right": "Replace with the style's own support, sized and profiled from its own period.",
+    "cheap": "A plain boxed square post with a simple cap and base is correct on more American styles than any other single answer, costs about the same as a turned post, and is never an anachronism: it is right on Georgian outbuildings, vernacular farmhouses, Greek Revival, Colonial Revival side porches and Craftsman where a masonry pier carries it. Where turned posts are already installed and money is gone, the free move is to STRIP the accompanying ornament — remove the spindle frieze and the sawn brackets — because a plain turned post reads as a generic post while the full catalogue assembly reads as a costume.",
+    "dishonest": "Painting the turned posts to match the trim so they 'disappear'. The silhouette is what dates them and paint does not change a silhouette. Equally dishonest: adding a moulded classical capital to the top of a turned post, which produces a member from two incompatible traditions and dates the house to neither."
+  },
+  "detection": "Look at the post's silhouette against the background in any photograph. A turned post shows a sequence of circular swellings and hollows with square blocks at each end — the square-to-round transition is the giveaway and is visible at a hundred feet. Then date the house from anything else: roof pitch, window lite pattern, cornice type, plan. If the house reads as pre-1850 or post-1900 and the posts read as 1885, the posts are wrong. Second check: are the posts accompanied by a sawn spindle frieze and paired sawn brackets? A complete catalogue assembly on a house with a Georgian door surround or a Craftsman roof is a replacement porch, and dating the porch separately from the house is the correct reading. Third and most useful: look at the CONDITION and the fasteners. Replacement porches are almost always newer, straighter, and attached with visible modern hardware.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "post_style_earliest_date - building_style_latest_date",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "The turned post enters general American use about 1865 and leaves fashion about 1910. Where the building's other evidence dates it outside that window, the post is an anachronism. This is a date-window test rather than a dimensional one and is evaluable from a photograph by any model that can classify both the post and the building."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Forbidden by name. The turned post replaces the one element of the order the front elevation has."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "Greek Revival is defined by broad flat members; the turned post is the opposite of every proposition the style makes."
+    },
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The Craftsman movement's founding argument was against exactly this millwork."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "Same."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Common on porches added to Colonial Revival houses after 1970; the style itself uses Tuscan columns."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "minor",
+      "why": "Vernacular farmhouses genuinely received catalogue porches in the 1880s and 1890s and many of those porches are now historic in their own right. Date the porch, not the house."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "not-applicable",
+      "why": "This is where the turned post lives."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "folk-victorian",
+      "why": "The turned post is the defining member of the style and its thinness is the point. Folk Victorian is precisely the application of mass-produced millwork ornament to otherwise plain vernacular houses, and the catalogue origin is not a defect but the historical fact of the style.",
+      "bounds": "4 to 5 in barrel, square blocks top and bottom, accompanied by a spindle frieze or sawn brackets, on a house of 1870-1910 or on an older vernacular house receiving a porch in that window.",
+      "applies_when": {
+        "date_range": [
+          1865,
+          1915
+        ],
+        "construction": [
+          "wood-frame"
+        ]
+      }
+    },
+    {
+      "style": "queen-anne-spindled",
+      "why": "The spindled subtype is named for exactly this vocabulary.",
+      "bounds": "The full assembly must be present — turned posts, spindle frieze, turned balusters, sawn brackets — because the style is the assembly rather than any one member.",
+      "applies_when": {
+        "date_range": [
+          1875,
+          1905
+        ]
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "A plain vernacular farmhouse of 1840 that received a turned-post porch in 1890 is a correct and extremely common historical layering, and stripping the porch to restore a hypothetical original would destroy fifty years of the building's actual life.",
+      "bounds": "The porch must read as a later addition and be treated as one: its own roof, its own materials, no attempt to blend it into the original trim. What is wrong is a NEW turned-post porch on a restored 1840 house, which is a fabricated layer rather than a real one.",
+      "applies_when": {
+        "date_range": [
+          1865,
+          1915
+        ]
+      }
+    },
+    {
+      "style": "carpenter-gothic",
+      "why": "Carpenter Gothic uses chamfered posts with sawn brackets, and by the 1870s some examples use turned members alongside them; the sawmill vocabulary is genuinely mixed in this style.",
+      "bounds": "The dominant member must remain the chamfered post with a stopped chamfer; turned members are secondary."
+    }
+  ],
+  "co_occurs_with": [
+    "three-periods-on-one-elevation",
+    "baluster-too-thin",
+    "router-scale-ornament"
+  ],
+  "confused_with": [
+    {
+      "fault": "four-by-four-under-a-roof",
+      "difference": "That is about section, this about period. A turned post is usually about the right visual section for a light porch and entirely the wrong century."
+    },
+    {
+      "fault": "swag-and-urn-before-its-date",
+      "difference": "Same anachronism logic applied to a different slot. Read together as the pattern: an element sold by a catalogue outlives the style that produced it and migrates onto everything."
+    },
+    {
+      "fault": "six-panel-door-everywhere",
+      "difference": "Also a catalogue-default anachronism, at the door rather than the porch. The two travel together on the same houses."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, porch_support (turned-post and chamfered-post both forbidden)",
+    "Sears, Roebuck and Co. and Chicago Millwork Supply catalogues, 1890-1920 — turned post and spindle frieze pages",
+    "Virginia and Lee McAlester, A Field Guide to American Houses, on Folk Victorian and the railroad millwork trade",
+    "Old-House Journal technical archive on dating porch millwork"
+  ],
+  "confidence": "high",
+  "tags": [
+    "porch",
+    "post",
+    "anachronism",
+    "catalogue",
+    "millwork"
+  ]
+}

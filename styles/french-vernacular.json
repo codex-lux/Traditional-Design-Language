@@ -1,0 +1,38 @@
+{
+  "id": "french-vernacular",
+  "name": "French Vernacular",
+  "rank": "family",
+  "member_of": "northern-european-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1300,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Normandy",
+      "Brittany",
+      "France"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Norman half-timber, provincial stone farmhouse, and the small manoir — the source material for French Eclectic and Norman Revival in America.",
+    "long": "French regional building spans two very different worlds: the timber-framed, steeply-roofed farmhouses of Normandy, close cousins to English and German framing, and the stone farmhouse and manor of the interior with its hipped roofs, segmental arches, and characteristic round tower housing a stair.\n\nAmerican architects encountered this material directly — many of them served in France in the First World War and came home with sketchbooks. French Eclectic and the Norman cottage of the 1920s are among the very few American revival styles with a first-hand observational basis rather than a photographic one."
+  },
+  "defining_characteristics": [
+    "Steeply pitched hipped or gambrel roofs, often flared at the eave",
+    "Stucco, stone, or half-timber walls with segmental-arched openings",
+    "The round stair tower as a compositional and functional device",
+    "Farm buildings arranged around a court",
+    "Direct observational transmission to America after 1918"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

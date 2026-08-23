@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/grouping.schema.json",
+  "title": "Room Grouping",
+  "version": "0.1.0",
+  "description": "The middle scale, and the one that actually gets designed. Nobody composes a house room by room; they compose it from clusters that have their own internal logic — a hall-and-parlor pair, a service core, a primary suite, a public enfilade, an entry sequence. A grouping is a reusable assembly of rooms with its own adjacency rules, its own servicing strategy, and its own rules for how it attaches to a massing. This is the layer the project brief called room groupings, and it is where a kit of parts becomes a plan.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "description",
+    "rooms",
+    "internal_rules",
+    "attaches_to"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "aka": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scale": {
+      "enum": [
+        "pair",
+        "cluster",
+        "wing",
+        "core",
+        "sequence"
+      ],
+      "description": "pair: two rooms with one relationship. cluster: three to six around a shared logic. core: a servicing or circulation nucleus. wing: a subordinate volume. sequence: an ordered path rather than a shape."
+    },
+    "description": {
+      "type": "string"
+    },
+    "rooms": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "room",
+          "role"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "room": {
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "primary",
+              "secondary",
+              "servant",
+              "connector",
+              "optional"
+            ]
+          },
+          "count": {
+            "type": "string",
+            "description": "e.g. '1', '1-2', 'n' where the grouping repeats"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "internal_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "statement": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "adjacency",
+              "dimension",
+              "circulation",
+              "daylight",
+              "servicing",
+              "acoustic",
+              "sequence",
+              "hierarchy"
+            ]
+          },
+          "severity": {
+            "enum": [
+              "hard",
+              "strong",
+              "preferred"
+            ]
+          },
+          "test": {
+            "type": "string",
+            "description": "Measurable form where one exists."
+          },
+          "exceptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Styles or massings where the rule does not hold. Same discipline as the fault corpus: a rule with no stated exceptions should be genuinely universal, and you should have checked."
+          }
+        }
+      }
+    },
+    "attaches_to": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "massing"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "massing": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string"
+          },
+          "fit": {
+            "enum": [
+              "canonical",
+              "common",
+              "possible",
+              "atypical",
+              "forbidden"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "How the grouping lands in a skeleton. This is the join between the room catalogue and the massing catalogue, and it is what makes the two composable."
+    },
+    "expansion_logic": {
+      "type": "string",
+      "description": "How the grouping grows without breaking — the property formal styles most conspicuously lack."
+    },
+    "privacy_span": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "The privacy ranks this grouping spans, lowest to highest. A grouping that spans 2 to 5 with no buffer is a gradient failure waiting to happen."
+    },
+    "servicing_strategy": {
+      "type": "string"
+    },
+    "style_variation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "style",
+          "note"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "style": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "present": {
+            "type": "boolean",
+            "default": true
+          },
+          "name_in_style": {
+            "type": "string",
+            "description": "What this grouping is called in that style — chambers, offices, the piazza. Naming is where most of the confusion in residential design lives."
+          }
+        }
+      }
+    },
+    "circulation_parti": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "circulation partis this grouping is compatible with"
+    },
+    "typical_area_sf": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "faults": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    }
+  }
+}

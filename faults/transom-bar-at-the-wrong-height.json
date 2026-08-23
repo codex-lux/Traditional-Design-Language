@@ -1,0 +1,186 @@
+{
+  "id": "transom-bar-at-the-wrong-height",
+  "name": "The Transom Bar Off Its Datum",
+  "aka": [
+    "the squeezed transom",
+    "the entrance that breaks the head line"
+  ],
+  "slots": [
+    "transom_sidelight",
+    "entry_door",
+    "door_surround",
+    "window_head_wood"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "The horizontal bar between the door and the light above it sits at a height that agrees with nothing. Either the transom has been squeezed to 6 to 9 in so a stock 6 ft 8 in leaf plus transom fits under an 8 ft plate, or the whole assembly has been stacked upward so that the entrance head rises above the first-floor window head datum and the entrance becomes the one opening on the elevation that does not line up.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The 6 ft 8 in door leaf is the volume size and the 8 ft plate is the volume wall. Between them there is 16 in of wall, minus the header, minus the head casing, which leaves 6 to 9 in of transom. Building the entrance properly means either a 7 ft or 8 ft leaf, or a 9 ft plate, both of which are decisions made months earlier by someone pricing framing lumber.",
+    "cost_saved": "An 8 ft leaf runs 30 to 60 per cent more than a 6 ft 8 in one; going from an 8 ft to a 9 ft ground-floor plate adds roughly 3 to 6 per cent to the shell."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / transom_sidelight.height",
+      "statement": "transom height = module * 0.44, which is 15 3/4 in on a 36 in module."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_head.count",
+      "statement": "One head datum per storey. The entrance assembly's head is part of that datum, not an exception to it."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / entry_door.height",
+      "statement": "door height = storey_height * 2 / 3.5, that is 68 1/2 in on a 10 ft storey and 85 5/8 in on a 12 ft 6 in one. The door should grow with the room, and almost nothing built since 1930 does."
+    }
+  ],
+  "correct_practice": "Set the head of the entrance assembly on the first-floor window head datum — ceiling height x 16/19, which is 7 ft 7 in on a 9 ft ceiling — and then divide downward. Transom height about module x 0.44, roughly 15 to 16 in, and it takes the same number of lights across as the house's windows, four on a 36 in opening at a 9 in module, because it came out of the same box of glass. The door leaf takes what is left, which on a 9 ft ceiling is about 6 ft 8 in and on a 10 ft ceiling about 6 ft 10 in to 7 ft. Where the transom would fall below about 10 in, delete it: a taller door with no transom is a better answer than a normal door with a slot over it. Secondary doors run about 6 per cent shorter than the principal one, so a 6 ft 8 in leaf at the front implies about 6 ft 3 in at the service door — the graduation is real and is worth holding.",
+  "fixes": {
+    "right": "Set the entrance head on the window head datum and use a 7 ft or 8 ft leaf so the transom keeps its full 15 to 16 in.",
+    "cheap": "Delete the transom and raise the door to fill the space. A 6 ft 8 in leaf with an 8 in slot above it is worse than a 7 ft 0 in leaf with no transom, and the taller leaf costs about 60 USD more. If the transom must stay, drop the door instead: a 6 ft 6 in leaf under a 14 in transom holds the datum, and nobody has ever noticed a two-inch-shorter front door.",
+    "dishonest": "Making the transom the full width of the entrance assembly including the sidelights so it reads as taller by being longer. It only draws attention to how thin it is, and it puts a long unsupported horizontal over the whole composition."
+  },
+  "detection": "Extend the first-floor window head line across the entrance in a frontal photograph. The top of the entrance assembly's opening — transom head, not cornice — should land on it. Then measure the transom height against the door width: below 0.30 the transom is squeezed; the target is 0.44. Third, count the lights in the transom and compare with the lights across a window sash: if the transom is undivided while the windows are divided, or divided on a different module, the assembly was bought rather than composed.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "Principal-floor ceilings of 11 to 13 ft with window heads within 18 in of the ceiling put the entrance datum far higher than any northern rule, and the transom over the piazza door is correspondingly tall.",
+      "bounds": "The datum rule still holds within the elevation; only its height changes. Ceilings under 10 ft break the stack ventilation the whole type depends on, so a shortened version is not this exception.",
+      "bounds_test": {
+        "expression": "principal_floor_ceiling_height_in",
+        "threshold": 132,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Minimum 11 ft, 12 to 13 typical, with window heads within 18 in of the ceiling and sash operable top and bottom. Ceilings under 10 ft break the stack ventilation and void the exception; the datum rule still holds within the elevation, only its height changes."
+      },
+      "applies_when": {
+        "regions": [
+          "south-carolina-lowcountry"
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "A transom over every door, interior and exterior, is the type's cooling system rather than a compositional element, and it is proportioned for airflow.",
+      "bounds": "10 ft minimum ceilings, 11 to 12 typical, and the transoms must be operable. A fixed decorative transom in an 8 ft room is not this.",
+      "bounds_test": {
+        "expression": "ceiling_height_in",
+        "threshold": 120,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "note": "10 ft minimum, 11 to 12 typical, and the transoms must be OPERABLE. A fixed decorative transom in an 8 ft room is not this exception."
+      },
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "new-orleans"
+        ],
+        "note": "A hot-humid ventilation type; the transom is a piece of environmental equipment and the licence follows the climate rather than the style label."
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The rectangular transom is generously proportioned and is part of a broad entrance opening that reads as one aperture with the sidelights.",
+      "bounds": "Rectangular, on the head datum, inside a pilastered surround.",
+      "bounds_test": {
+        "expression": "entrance_opening_head_height_in - first_floor_window_head_height_in",
+        "threshold": -2.0,
+        "direction": "between",
+        "upper": 2.0,
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Rectangular, on the head datum, inside a pilastered surround. The licence is on breadth, never on the datum."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "broken-head-datum",
+      "difference": "That fault covers windows generally. This one is the entrance-specific case, where the cause is a stock leaf height rather than a plan-driven sill."
+    },
+    {
+      "fault": "fanlight-before-its-date",
+      "difference": "Height versus shape and date."
+    }
+  ],
+  "sources": [
+    "proportions/systems/opening-proportion.json",
+    "proportions/modules/sash-light.json",
+    "styles/charleston-single-house.json constraints"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "entry",
+    "transom",
+    "datum",
+    "stock-size"
+  ],
+  "test": {
+    "expression": "transom_height_in / door_leaf_width_in",
+    "threshold": 0.35,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The pack gives transom height = module x 0.44, that is 15 3/4 in on a 36 in module. 0.35 is the floor. Below about 10 in absolute, delete the transom: a taller door with none is a better answer than a normal door with a slot over it."
+  },
+  "secondary_tests": [
+    {
+      "expression": "entrance_opening_head_height_in - first_floor_window_head_height_in",
+      "threshold": -2.0,
+      "direction": "between",
+      "upper": 2.0,
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The entrance head sits ON the first-floor window head datum, ceiling height x 16/19, which is 7 ft 7 in on a 9 ft ceiling. Measure to the transom head, not to the cornice of the surround. Extend the window head line across the entrance in a frontal photograph; it should touch."
+    },
+    {
+      "expression": "transom_light_count / window_sash_light_count_across",
+      "threshold": 1.0,
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The transom takes the SAME light module as the windows, because it came out of the same box of glass — four lights across a 36 in opening at a 9 in module. An undivided transom against divided windows, or a transom divided on a different module, means the assembly was bought rather than composed."
+    },
+    {
+      "expression": "secondary_door_height_in / principal_door_height_in",
+      "threshold": 0.94,
+      "direction": "between",
+      "upper": 1.0,
+      "units": "ratio",
+      "measurable_from": "elevation",
+      "note": "The graduation that follows: service and secondary doors run about six per cent shorter than the principal one, so a 6 ft 8 in front leaf implies about 6 ft 3 in at the service door."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "charleston-single-house",
+      "severity": "serious",
+      "why": "Ceilings of 11 to 13 ft put the datum far higher and the transom is correspondingly tall; a squeezed transom on this type also signals that the ceiling has been dropped, which breaks the stack ventilation the section depends on."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "fatal",
+      "why": "Transoms over every door are the cooling system rather than a compositional element, and they must be operable and proportioned for airflow."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The rectangular transom is generously proportioned and part of a broad opening that reads as one aperture with the sidelights."
+    }
+  ],
+  "severity_in_use": "minor",
+  "co_occurs_with": [
+    "broken-head-datum",
+    "door-too-wide-for-its-surround",
+    "every-door-the-same-door"
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "id": "broken-head-datum",
+  "name": "One Window Off The Line",
+  "aka": [
+    "datum drift",
+    "the head that does not align",
+    "the powder-room window"
+  ],
+  "slots": [
+    "window_head_wood",
+    "window_head_masonry",
+    "window_proportion",
+    "window_grouping_rule",
+    "window_sill"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "alignment",
+  "symptom": "Most windows on an elevation share a head height, and one or two do not. The offender is usually a small window serving a bathroom, a stair landing, a pantry or a garage, and it sits 6 to 18 in below the line the rest of the elevation holds. The eye finds it instantly, because a datum is only perceptible while it is unbroken, and one departure destroys the reading that thirteen compliant windows built.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Small windows are placed in plan by the room they serve rather than in elevation by the facade. A bathroom window is set for privacy above a vanity; a stair window is set for the landing; a pantry window is set above a counter. The framer receives these as rough-opening dimensions with a sill height, not a head height, and frames from the sill up. The elevation drawing, if it exists, is produced after the plan and rarely reconciled back into it.",
+    "cost_saved": "Nothing. Framing a window to a head datum costs the same as framing it to a sill height. This is the largest fault in the openings group with no cost driver behind it at all.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_head.count",
+      "statement": "head_datums_per_storey = 1. The hardest rule in the opening pack and the least negotiable."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_sill.count",
+      "statement": "sill_datums_per_storey = 2, or at a push three. Sills are permitted to vary where heads are not, because a head is read against the cornice and a sill is read against the ground."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "neo-eclectic / window_head_wood",
+      "statement": "All window heads on a given storey of a given elevation shall align to one datum; departures permitted only where a change of roof plane or wall plane of not less than 24 in separates them."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "prairie-school / window_head_wood",
+      "statement": "All window heads on a storey must die into a single continuous lintel band and all sills into a single sill band."
+    }
+  ],
+  "correct_practice": "One head datum per storey per elevation, held absolutely. Head height = ceiling height x 16/19, which is 7 ft 7 in on a 9 ft ceiling, or storey height x 0.78. Sills are the adjustable dimension: two sill datums per storey are permitted, three at a stretch, so a bathroom window is shortened from the bottom and its head stays on the line. The consequence is that windows on one storey differ in height and not in head position, which is exactly the arrangement that reads as deliberate. A departure is permitted only where a change of wall plane of at least 24 in or a change of roof plane separates the two zones, because at that point the eye stops comparing them.",
+  "fixes": {
+    "right": "Frame every window on a storey to a single head height and vary the sill. Note the head datum on the framing plan rather than the sill height, which is the drawing change that makes the fault disappear.",
+    "cheap": "Free. Reissue the window schedule with head heights instead of sill heights. The only case that costs anything is where a short window's sill would end up above 48 in, which is rare and can be solved by making the window narrower rather than shorter.",
+    "dishonest": "Adding a shutter, an awning or a decorative head to the offending window so that the assembly's top edge lands on the datum. The glass line is what the eye reads, not the trim, and the trim now advertises where to look."
+  },
+  "detection": "Draw a horizontal line through the top of the glass at any window on a storey and extend it across the whole elevation photograph. Every head must touch it. Departures of more than 2 in are visible from the street; departures of 6 in and more are conspicuous. Then repeat at the sills and count distinct sill lines: three or fewer is correct, six or more indicates that the elevation was never composed. In a photograph the tell is often a small window whose head is low and whose sill is high, so it floats in the middle of a field of wall.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "storybook-style",
+      "why": "Deliberately irregular window head heights are one of the named devices of the idiom, and a strictly aligned elevation is forbidden.",
+      "bounds": "The irregularity must be accompanied by at least two other deliberate irregularities — ridge, eave, wall plane, chimney — and must be legible as design rather than as accident. A single stray bathroom window on an otherwise regular front is not this.",
+      "bounds_test": {
+        "expression": "deliberate_irregularities_on_elevation",
+        "threshold": 3,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The style's own condition: at least three of ridge line, eave line, wall plane, window head heights and chimney profile must be deliberately irregular. A single stray bathroom window on an otherwise regular front scores 1 and is not this exception."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Picturesque asymmetry in which no elevation reads as symmetrical; window bands sit where the rooms put them, at different levels across a front broken by gables and jetties.",
+      "bounds": "Each gable or wall plane is its own composition and holds its own datum internally. Two windows in the same plane and the same storey still align.",
+      "bounds_test": {
+        "expression": "distinct_head_datums_within_one_wall_plane_and_storey",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Each gable or wall plane is its own composition and holds its own datum internally. The picturesque licence operates BETWEEN planes, never within one."
+      },
+      "applies_when": {
+        "slots": [
+          "gable_treatment",
+          "composition_parti"
+        ],
+        "note": "The licence attaches to a change of wall or roof plane of not less than 24 in, which is what makes the eye stop comparing."
+      }
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "why": "Openings placed according to interior need rather than facade rhythm is a defining characteristic of the idiom.",
+      "bounds": "Requires the mass wall, the deep reveal and the low glazing ratio that make the placement read as thickness rather than as carelessness. A thin-skinned stucco house with random heads is not this exception.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 8,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "This is the exception most often claimed and least often earned. It requires the mass wall and the deep reveal that make the placement read as thickness rather than as carelessness."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "adobe",
+          "thick-stucco"
+        ],
+        "note": "Depends on the wall, not the style label."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "The front elevation carries one door and one window and there is no datum to break.",
+      "bounds": "Applies to one- and two-opening fronts only.",
+      "bounds_test": {
+        "expression": "openings_on_the_front_elevation",
+        "threshold": 2,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "One door and one window. Applies to one- and two-opening fronts only."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "storeys-out-of-vertical-alignment",
+      "difference": "Heads versus jambs, horizontal line versus vertical line. Both can be present at once."
+    },
+    {
+      "fault": "garage-head-above-the-window-head",
+      "difference": "That is the specific and most common instance of this fault, with its own cause and its own fix, and it is worth naming separately because the offending opening is 16 ft wide."
+    },
+    {
+      "fault": "dormer-off-the-bay",
+      "difference": "That fault is the same failure of rhythm moved into the roof: dormers at an interval unrelated to the windows below. Both come from an elevation drawn after the plans rather than with them."
+    },
+    {
+      "fault": "chair-rail-that-misses-the-sill",
+      "difference": "That is the interior consequence of the same loose sill discipline — a rail at one height and a stool at another. It is the reason the sill-datum count matters beyond the elevation."
+    }
+  ],
+  "sources": [
+    "proportions/systems/opening-proportion.json",
+    "styles/neo-eclectic.json constraints",
+    "styles/prairie-school.json constraints"
+  ],
+  "confidence": "high",
+  "tags": [
+    "alignment",
+    "datum",
+    "zero-cost-fix",
+    "endemic"
+  ],
+  "test": {
+    "expression": "distinct_head_datums_per_storey_per_elevation",
+    "threshold": 1,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "The hardest rule in the opening pack and the least negotiable. Draw a horizontal through the top of the glass at any window on a storey and extend it across the elevation; every head must touch it. Departures over 2 in are visible from the street; over 6 in they are conspicuous. Count the distinct lines, not the offenders."
+  },
+  "secondary_tests": [
+    {
+      "expression": "distinct_sill_datums_per_storey_per_elevation",
+      "threshold": 3,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "THE COMPANION RULE, and the one that makes the first affordable. Two sill datums per storey are permitted, three at a stretch. Sills are the adjustable dimension because a head is read against the cornice and a sill is read against the ground. Six or more sill lines means the elevation was never composed."
+    },
+    {
+      "expression": "max_head_offset_from_datum_in",
+      "threshold": 2.0,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The tolerance, for the case where the count is 2 because one unit is barely off. Under 2 in it reads as construction; over 6 in it reads as a decision nobody made."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "The style's constraint requires all heads on a storey to die into a single continuous lintel band and all sills into a single sill band, with both returning around every corner. A broken datum is a broken band."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "fatal",
+      "why": "The constraint requires constant head heights across each storey and names vertical misalignment the fastest disqualifier in the whole style."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The constraint asks for one datum per storey and for heads not more than 10 in below the soffit; with no ornament anywhere else, the alignment is carrying the whole elevation."
+    },
+    {
+      "style": "storybook-style",
+      "severity": "not-applicable",
+      "why": "A strictly symmetrical or strictly aligned elevation is forbidden by the style's own constraint."
+    },
+    {
+      "style": "shotgun-house",
+      "severity": "not-applicable",
+      "why": "One door and one window on the front; there is no datum to break."
+    }
+  ],
+  "co_occurs_with": [
+    "storeys-out-of-vertical-alignment",
+    "garage-head-above-the-window-head",
+    "egress-window-flips-the-proportion",
+    "dormer-off-the-bay"
+  ]
+}

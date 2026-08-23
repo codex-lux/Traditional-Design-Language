@@ -1,0 +1,514 @@
+{
+  "id": "five-part-palladian",
+  "name": "Five-Part Palladian",
+  "aka": [
+    "main block with hyphens and dependencies"
+  ],
+  "description": "A dominant central block flanked by subordinate wings joined by low hyphens. Hierarchy made visible, and the best available answer to any function too large, too dirty or too noisy for the house proper — which now includes the car.",
+  "massing": "five-part-palladian",
+  "alternate_massings": [
+    "four-over-four"
+  ],
+  "styles": [
+    "tidewater-georgian",
+    "georgian-colonial-american",
+    "jeffersonian-classicism",
+    "federal-style",
+    "colonial-revival",
+    "georgian-revival",
+    "neoclassical-revival"
+  ],
+  "groupings": [
+    "centre-passage-core",
+    "dependency-and-hyphen",
+    "georgian-service-core",
+    "entry-sequence",
+    "public-enfilade",
+    "primary-suite"
+  ],
+  "circulation_parti": "center-hall",
+  "storeys": 2,
+  "area_range_sf": [
+    3200,
+    9000
+  ],
+  "bedroom_range": [
+    3,
+    6
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Portico",
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "passage",
+        "exterior"
+      ]
+    },
+    {
+      "id": "passage",
+      "type": "centre-passage",
+      "level": 0,
+      "name": "Centre Passage",
+      "exterior_walls": [
+        "S",
+        "N"
+      ],
+      "lit_from": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "porch",
+        "exterior",
+        "drawing",
+        "dining",
+        "stair",
+        "westhyphen",
+        "easthyphen"
+      ]
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Stair Hall",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "passage"
+      ]
+    },
+    {
+      "id": "drawing",
+      "type": "drawing-room",
+      "level": 0,
+      "name": "Drawing Room",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "passage",
+        "dining"
+      ]
+    },
+    {
+      "id": "dining",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Dining Room",
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N",
+        "W"
+      ],
+      "doors": [
+        "passage",
+        "drawing"
+      ]
+    },
+    {
+      "id": "library",
+      "type": "library",
+      "level": 0,
+      "name": "Library",
+      "required": false,
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "passage"
+      ]
+    },
+    {
+      "id": "westhyphen",
+      "type": "back-hall",
+      "level": 0,
+      "name": "West Hyphen",
+      "exterior_walls": [
+        "N",
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "passage",
+        "butlers"
+      ],
+      "note": "Lower and shallower than both elements it joins. A hyphen at full depth is a corridor between two houses."
+    },
+    {
+      "id": "butlers",
+      "type": "butlers-pantry",
+      "level": 0,
+      "name": "Butler's Pantry",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "westhyphen",
+        "kitchen"
+      ],
+      "fixtures": [
+        "sink"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen Dependency",
+      "exterior_walls": [
+        "N",
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "N",
+        "S"
+      ],
+      "doors": [
+        "butlers",
+        "pantry",
+        "breakfast",
+        "powder",
+        "exterior"
+      ],
+      "fixtures": [
+        "sink",
+        "dishwasher"
+      ]
+    },
+    {
+      "id": "pantry",
+      "type": "pantry",
+      "level": 0,
+      "name": "Pantry",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "breakfast",
+      "type": "breakfast-room",
+      "level": 0,
+      "name": "Breakfast Room",
+      "required": false,
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "doors": [
+        "kitchen"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "easthyphen",
+      "type": "back-hall",
+      "level": 0,
+      "name": "East Hyphen",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "passage",
+        "mud"
+      ]
+    },
+    {
+      "id": "mud",
+      "type": "mudroom",
+      "level": 0,
+      "name": "Mud Room",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "easthyphen",
+        "garage",
+        "laundry"
+      ]
+    },
+    {
+      "id": "laundry",
+      "type": "laundry",
+      "level": 0,
+      "name": "Laundry",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "mud"
+      ],
+      "fixtures": [
+        "washer",
+        "sink"
+      ]
+    },
+    {
+      "id": "garage",
+      "type": "garage",
+      "level": 0,
+      "name": "Carriage Dependency",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "E",
+        "S"
+      ],
+      "doors": [
+        "mud",
+        "exterior"
+      ],
+      "note": "The car treated as a service dependency, which the style already knows how to subordinate. Ridge at 60-75 percent of the main block, hyphen 12-20 ft, never on the entrance elevation."
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperpassage"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "upperpassage",
+      "type": "centre-passage",
+      "level": 1,
+      "name": "Upper Passage",
+      "exterior_walls": [
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "landing",
+        "primary",
+        "hallbath",
+        "linen"
+      ],
+      "stacks_over": "passage"
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Principal Chamber",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "upperpassage",
+        "dressing",
+        "primarybath"
+      ],
+      "stacks_over": "drawing"
+    },
+    {
+      "id": "dressing",
+      "type": "walk-in-closet",
+      "level": 1,
+      "name": "Dressing Room",
+      "exterior_walls": [
+        "W"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "primary",
+        "primarybath"
+      ]
+    },
+    {
+      "id": "primarybath",
+      "type": "primary-bathroom",
+      "level": 1,
+      "name": "Principal Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "dressing",
+        "primary"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub",
+        "shower"
+      ],
+      "stacks_over": "butlers"
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Chamber Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperpassage"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "stacks_over": "powder"
+    },
+    {
+      "id": "linen",
+      "type": "linen-press",
+      "level": 1,
+      "name": "Linen Press",
+      "required": false,
+      "doors": [
+        "upperpassage"
+      ]
+    },
+    {
+      "id": "chamber",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperpassage"
+      ]
+    },
+    {
+      "id": "chambercl",
+      "type": "closet",
+      "level": 1,
+      "name": "Closet",
+      "repeats_with_bedrooms": true,
+      "doors": [
+        "chamber"
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "stair",
+      "b": "landing",
+      "relation": "below"
+    },
+    {
+      "a": "landing",
+      "b": "stair",
+      "relation": "above"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "adding-a-link",
+      "widening",
+      "adding-bays"
+    ],
+    "bay_module_ft": 9,
+    "max_bay_count": 7,
+    "note": "The most robust growth rule in the catalogue: every subsequent need becomes another lower, narrower section and the ridge steps down monotonically."
+  },
+  "trades_away": "Compactness and envelope efficiency — this is a great deal of exterior wall for the area enclosed. In exchange it absorbs any programme, subordinates anything ugly, and is the only traditional diagram with a real answer to the garage.",
+  "exemplars": [
+    "Mount Airy, Richmond County, 1764",
+    "Mount Vernon, as extended 1774-87",
+    "Homewood, Baltimore, 1801"
+  ],
+  "sources": [
+    "Waterman, The Dwellings of Colonial America",
+    "Kimball, Domestic Architecture of the American Colonies"
+  ],
+  "confidence": "high"
+}

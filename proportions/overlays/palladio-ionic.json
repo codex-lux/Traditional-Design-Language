@@ -1,0 +1,380 @@
+{
+  "id": "palladio-ionic",
+  "name": "Palladio's Ionic Order (overlay on Vignola)",
+  "aka": [
+    "Ionic of the Quattro Libri",
+    "Ionic after Ware's Palladio, 1738",
+    "Ionic, nine diameters, entablature a fifth"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVI and XIX",
+    "author": "Andrea Palladio",
+    "year": 1570,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011569684",
+    "note": "Figures read from Isaac Ware's English edition of 1738, leaves 34-36, 58-59 and 88 of the Getty scan, cross-checked against the c82.net transcription of Ware's Book I. The entablature division and the cornice division are quoted in Ware's words and are the firmest numbers in this pack."
+  },
+  "overlay_of": "vignola-ionic",
+  "module": {
+    "name": "The WHOLE diameter of the column at the bottom of the shaft, divided into sixty minutes",
+    "parts": 60,
+    "default_size_in": 12.0,
+    "note": "Palladio's module in every order but the Doric is the WHOLE diameter in 60 minutes (Ware 1738, Book I ch. XV). Vignola's Ionic module is the SEMIdiameter in 18 parts. So: (1) a module figure here is half the Vignola figure for the same physical dimension - Palladio's 9-module column and Vignola's 18-module column are both 9 diameters; (2) one Palladian minute is 1/60 D against Vignola's Ionic part of 1/36 D, so Palladio's granularity is two thirds finer; (3) any member inherited from vignola-ionic must have its part-values multiplied by 10/6 = 1.6667 before it can be added to anything here. This is not a formatting difference. It is the difference between two systems of reckoning, and it is the first thing to check when a Palladian drawing will not close.",
+    "diameters": 1.0
+  },
+  "column": {
+    "height_modules": 9,
+    "diminution": 0.8461538462,
+    "entasis_begins_at": 0.3333333333,
+    "fluting": {
+      "count": 24,
+      "profile": "twenty-four semicircular flutes separated by fillets",
+      "fillet": true
+    }
+  },
+  "assemblies": {
+    "base": {
+      "height_modules": 0.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth or zocco",
+          "height_parts": 10,
+          "profile": "plinth",
+          "note": "THE ATTIC BASE, BY PALLADIO'S EXPRESS PREFERENCE. Ware ch. XVI gives Vitruvius's proper Ionic base with its two scotias, then says of the Attic: 'as in many ancient buildings Attic bases are seen placed under the columns of this order, and they please me better so.' The base is 'half a module in thickness' - half a diameter, 30 minutes. Chambers in 1759 reports that Vignola used the Vitruvian Ionic base and calls it imperfect for want of an antique example; note that the vignola-ionic pack in this repository encodes an Attic-form base for Vignola, so the two accounts of Vignola's Ionic base do not agree. That disagreement is recorded here and not resolved; whichever is right, PALLADIO'S base is Attic and this is what a Palladian building has.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_lower_torus",
+          "name": "Lower torus",
+          "height_parts": 7.5,
+          "profile": "torus",
+          "note": "The Attic division as Palladio sets it out in the Doric chapter and repeats here: plinth a third; of the remaining two thirds, a quarter to the upper torus and of the rest half to the lower torus and half to the cavetto with its listels.",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_lower_listel",
+          "name": "Lower listel",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_scotia",
+          "name": "Scotia (cavetto)",
+          "height_parts": 5,
+          "profile": "scotia",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_listel",
+          "name": "Upper listel",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_torus",
+          "name": "Upper torus",
+          "height_parts": 5,
+          "profile": "torus",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 0.6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "arch_fascia_1",
+          "name": "First fascia with its astragal",
+          "height_parts": 7.2,
+          "profile": "fascia",
+          "note": "Ware ch. XVI, verbatim on the architrave: it is 'divided into five parts; of one its cimacio is made, and the remaining four divided into twelve parts, three of which are given to the first fascia and its astragal, four to the second and its astragal, and five to the third.' Three fascias graded 3 : 4 : 5. Vignola's Ionic architrave has only TWO fascias (7 and 9 of 18 parts) with an ovolo between and a cyma reversa cymatium. A member is therefore ADDED here: Palladio's Ionic architrave carries a third fascia and its astragal, and the whole assembly is restated so the stack is unambiguous.",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_fascia_2",
+          "name": "Second fascia with its astragal",
+          "height_parts": 9.6,
+          "profile": "fascia",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_fascia_3",
+          "name": "Third fascia",
+          "height_parts": 12,
+          "profile": "fascia",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_cimacio",
+          "name": "Cimacio of the architrave",
+          "height_parts": 7.2,
+          "profile": "cyma-reversa",
+          "note": "One fifth of the architrave. Vignola's Ionic cymatium with its fillet is 4.5 of 22.5 parts - also a fifth. The two agree on the cymatium and disagree on everything below it.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 0.45,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "height_parts": 27,
+          "profile": "flat",
+          "note": "Three of the twelve parts of the entablature. THIS IS THE LARGEST SINGLE DIVERGENCE IN THE ORDER. Vignola's Ionic frieze is 1 1/2 semidiameter modules = 0.75 D; Palladio's is 0.45 D - forty per cent shallower. A Palladian Ionic entablature is not a Vignolesque one made smaller; it is differently proportioned within itself, with a light frieze under a heavy cornice. Palladio draws the frieze swelled (pulvinated) in some plates and flat in others.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 0.75,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corn_cavetto_and_ovolo",
+          "name": "Cavetto and ovolo of the bed mould",
+          "height_parts": 11.6129032258,
+          "profile": "ovolo",
+          "note": "Ware ch. XVI, verbatim: the cornice is 'divided into seven parts and three fourths; two must be given to the cavetto and ovolo, two to the modiglion, and three and three fourths to the corona and gola or cima.' One of those parts is 45/7.75 = 5.806 minutes. Vignola's Ionic cornice has a DENTIL band and no modillion; Palladio's has a MODILLION and no dentils. That is a member substituted, and it is the fastest way to tell the two Ionics apart.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_modiglion",
+          "name": "Modillion band",
+          "height_parts": 11.6129032258,
+          "profile": "modillion",
+          "note": "Two of the seven and three quarter parts. Vignola puts modillions in the Corinthian only and gives the Ionic dentils; Palladio brings the modillion down into the Ionic. An English Palladian Ionic eave therefore carries modillions, and a Vignolesque one carries dentils, and the two are not interchangeable.",
+          "confidence": "high"
+        },
+        {
+          "id": "corn_corona_and_gola",
+          "name": "Corona with the gola or cima above",
+          "height_parts": 21.7741935484,
+          "profile": "corona",
+          "note": "Three and three quarters of the seven and three quarter parts - very nearly half the whole cornice. Palladio does not subdivide corona from gola in the text; the plate does, and its numerals are not legible in any scan reached, so the two are carried as one member rather than split by guess.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 1.8,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "architrave",
+          "name": "Architrave",
+          "height_parts": 36,
+          "profile": "fascia",
+          "note": "Four of twelve.",
+          "confidence": "high"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "height_parts": 27,
+          "profile": "flat",
+          "note": "Three of twelve.",
+          "confidence": "high"
+        },
+        {
+          "id": "cornice",
+          "name": "Cornice",
+          "height_parts": 45,
+          "profile": "corona",
+          "note": "Five of twelve.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The entablature is a FIFTH of the column, not a quarter. Ware ch. XVI: the architrave, frieze and cornice are 'a fifth part of the height of the column, the whole to be divided into twelve parts'. This is Palladio's central break with Vignola and it applies to the Ionic, Corinthian and Composite alike.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 5",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Architrave, frieze and cornice stand as 4 : 3 : 5 of twelve. Vignola's Ionic stands as 5 : 6 : 7 of eighteen. The frieze is the member that moves.",
+      "expression": "assemblies.entablature.members.frieze.height_parts / assemblies.entablature.members.cornice.height_parts == 3 / 5",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is nine modules, that is nine diameters - the same absolute slenderness as Vignola's eighteen semidiameter modules.",
+      "expression": "column.height_modules == 9",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The module is the whole diameter in sixty minutes.",
+      "expression": "module.parts == 60",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The three entablature assemblies sum to the entablature.",
+      "expression": "assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules == assemblies.entablature.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The whole order - column and entablature, without pedestal - is ten and four fifths diameters, against Vignola's eleven and a quarter. A Palladian Ionic front is four per cent lower for the same column.",
+      "expression": "column.height_modules + assemblies.entablature.height_modules == 10.8",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "palladio-ionic-eustyle",
+        "clear_diameters": 2.25,
+        "note": "PALLADIO'S OWN IONIC SPACING, and the reason his Ionic column is nine diameters and not ten. Book I ch. XIII states the binding rule in one line: 'If two and a quarter, the height of the columns must be nine diameters.' The intercolumniation and the order are one decision, not two. Palladio calls the eustyle 'a beautiful and elegant manner'. Vignola's Ionic colonnade lands on the same 2 1/4 D by drawing rather than by rule."
+      },
+      {
+        "name": "palladio-ionic-arcade",
+        "clear_diameters": 4.5,
+        "note": "Palladio's arched Ionic, in which the pedestal is fixed by the arch and not by the column: 'the height of the pedestal is half the void of the arch' (Book I ch. XIX). The clear-diameter figure is read from the plate and is medium confidence; the pedestal rule is quoted from the text and is firm."
+      },
+      {
+        "name": "palladio-ionic-loggia",
+        "clear_diameters": 2.25,
+        "note": "Palladio publishes the orders inside real buildings. The Ionic is his loggia order above all - Book II gives Ionic loggias at Lisiera, at the master's house at Bagnolo and in the two-storey fronts where the Doric stands below - and there the bay is set by the room behind as much as by the rule. Ware, Book II, records columns 'of the Ionick order, twenty foot long' at one villa and an upper Ionic 'one fourth part less than those of the first' at another. The eustyle is the rule; the villa front is where it is actually negotiated."
+      }
+    ],
+    "default": "palladio-ionic-eustyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 5",
+      "units": "in",
+      "note": "THE DELTA THAT MATTERS MOST. Vignola's one rule is a quarter for every order; Palladio gives a fifth in the Ionic, Corinthian and Composite and keeps the quarter only in the Doric. On a 20 ft column that is a 12 in difference in the depth of the eave. If a building is Palladian and its entablature is a quarter, it is wearing Vignola's clothes.",
+      "authority_note": "Ware 1738, Book I ch. XVI: 'a fifth part of the height of the column'."
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "column_height / 5 * (5 / 12)",
+      "units": "in",
+      "note": "The exterior cornice. Five twelfths of the entablature, which is one twelfth of the column - against Vignola's 7/18 of a quarter = 7/72. In absolute terms Palladio's Ionic cornice is 0.75 D and Vignola's is 0.875 D, so the Palladian cornice is lighter by an eighth of a diameter even though it takes a LARGER share of a smaller entablature.",
+      "authority_note": "Ware 1738, Book I ch. XVI."
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "height",
+      "expression": "column_height / 5 * (2 / 7.75) * (5 / 12)",
+      "units": "in",
+      "note": "MODILLIONS, NOT DENTILS. Palladio's Ionic cornice gives two of its seven and three quarter parts to a modillion band. Vignola gives the Ionic a dentil band and reserves modillions for the Corinthian. An English Palladian Ionic eave with dentils is a Vignolesque eave on a Palladian order.",
+      "authority_note": "Ware 1738, Book I ch. XVI."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 6 * (5 / 12)",
+      "units": "in",
+      "judgment": true,
+      "range": [
+        0.055,
+        0.08
+      ],
+      "note": "JUDGMENT SLOT. The room read as an order. Under Vignola the interior entablature is a fifth of the wall-plus-cornice and the crown is 7/18 of it. Under Palladio the entablature is a SIXTH (a fifth of the column, and the column is five sixths of the whole) and the crown is 5/12 of that. At a 9 ft ceiling: Palladio 7.5 in, Vignola 8.4 in. The Palladian room has a lighter cornice, and that is a real and visible difference between a Burlington interior and a Beaux-Arts one. The range is of ceiling height and is where judgement should live.",
+      "authority_note": "Derived from Ware 1738, Book I ch. XVI by the standard room-as-order analogy; the analogy itself is not Palladio's."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "0.5",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.25,
+        0.5
+      ],
+      "note": "JUDGMENT SLOT, and a genuinely different rule. Palladio does NOT proportion the Ionic pedestal to the column. Book I ch. XIX: 'the height of the pedestal is half the void of the arch.' The datum is the OPENING, not the order. In a room, the Palladian equivalent of a chair rail therefore takes its height from the window or door opening it runs into, at half the clear opening - which is why Palladian dados line through with window aprons and Vignolesque ones do not. The expression is a ratio of the arch or opening void, not of the storey.",
+      "authority_note": "Ware 1738, Book I ch. XIX."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "height",
+      "expression": "0.75",
+      "units": "ratio",
+      "note": "SUPERIMPOSITION. The Ionic over a Doric is a fourth less than the Doric; where Palladio wants a lighter step he uses a fifth less (Ware, Book II). Vignola states no rule for superimposition at all, and this is the rule that produces the Anglo-Palladian two-storey loggia.",
+      "authority_note": "Ware 1738, Book I ch. XII and Book II passim."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 9 * 2.25",
+      "units": "in",
+      "note": "Clear span, eustyle. Under Palladio's rule the spacing and the order are the same decision: 2 1/4 diameters clear REQUIRES a nine-diameter column. If the bay must be wider, the column must get stouter, not merely further apart.",
+      "authority_note": "Ware 1738, Book I ch. XIII."
+    },
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height / 9 * (5.5 / 6.5)",
+      "units": "in",
+      "note": "Upper diameter, for a column up to 15 ft. Palladio tabulates diminution against height (6 1/2 to 5 1/2 under 15 ft; 7 to 6 1/2 from 15 to 20; 8 to 7 from 20 to 30; taller in the same manner) where Vignola fixes 5/6 for everything. For most domestic work Palladio's figure is 0.846 and Vignola's is 0.833 - Palladio's column is very slightly less tapered.",
+      "authority_note": "Ware 1738, Book I ch. XIII."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "energy-code",
+      "statement": "The Palladian entablature is a fifth of the column where Vignola's is a quarter, so at the eave there is twenty per cent less depth to hold insulation, a vent path and a gutter. On a 20 ft Ionic column the entablature falls from 60 in to 48 in, and the cornice from 21 to 18 in.",
+      "resolution": "Take the insulation line inside the wall plane and treat the entablature as a rain screen on outriggers, not as a box to be stuffed. Vent at the frieze, behind the modillion band, where the shadow hides a continuous slot. Do NOT deepen the entablature to a quarter to make room - that is the single change that turns a Palladian front into a generic classical one.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Palladio's Ionic cornice carries modillions where Vignola's carries dentils. A modillion is a bracket with a carved soffit and an acanthus or plain scroll; a dentil is a block. At the same eave length modillions cost roughly three to five times what dentils cost, and they must be set out to land correctly at the corner and on the column axis.",
+      "resolution": "If modillions cannot be afforded, do not substitute dentils and call it Palladian - substitute a plain corona with a bold cyma, which is a defensible simplification of the same cornice, and record the substitution. Set out the modillions from the corner inward and absorb the error at the centre of the bay.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The three-fascia architrave with astragals puts six changes of plane into 36 minutes - at a 12 in column, into 7.2 in of height, with astragals of about 1/4 in. In painted wood that is at the limit; in cast stone the astragals will read as rounded arrises after two mould pulls.",
+      "resolution": "Below a 12 in column, drop to two fascias and keep the cimacio at a fifth of the architrave; the graded 3:4:5 rhythm is what matters and it survives as 4:8 better than it survives as three mushy bands. Say in the submittal that a fascia has been dropped.",
+      "severity": "minor"
+    },
+    {
+      "with": "egress-code",
+      "statement": "Palladio ties the Ionic pedestal to the arch void - half the clear opening - so in an arcaded loggia the pedestal height is whatever the arch makes it, commonly 2 ft 6 in to 3 ft 6 in. Where that pedestal doubles as the guard to a raised loggia it will not reliably meet the 42 in required over a 30 in drop, and where it exceeds 36 in it fouls the arch springing.",
+      "resolution": "Keep the pedestal at the height the arch dictates and take the guard in a separate, set-back metal rail. Raising the pedestal to 42 in throws the arch proportion out at once, because the arch height is measured from the pedestal cap.",
+      "severity": "blocking"
+    }
+  ],
+  "applies_to": [
+    "palladian",
+    "english-palladian",
+    "italian-renaissance",
+    "renaissance-classical",
+    "jeffersonian-classicism",
+    "english-georgian",
+    "english-georgian-country-house",
+    "english-georgian-townhouse",
+    "georgian-colonial-american",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "charleston-georgian",
+    "federal-style",
+    "georgian-revival",
+    "colonial-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "Andrea Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVI, XIX",
+    "Andrea Palladio, The Four Books of Architecture, tr. and ed. Isaac Ware, London 1738 (archive.org/details/gri_33125011569684) - Book I, leaves 34-36, 58-59, 88 of the Getty scan",
+    "c82.net/architecture/book1 - independent transcription of Ware's Book I",
+    "William Chambers, A Treatise on Civil Architecture, London 1759, p. 58 - on the antique Ionic base used by Vignola and on Palladio's swelled friezes",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-ionic.json"
+  ],
+  "confidence": "high",
+  "notes": "THE SKELETON IS QUOTED, NOT RECONSTRUCTED. Column 9 modules; entablature a fifth of the column divided into twelve as 4 : 3 : 5; architrave divided into five with a cimacio of one and the rest into twelve as 3 : 4 : 5; cornice divided into seven and three quarters as 2 (cavetto and ovolo) : 2 (modillion) : 3 3/4 (corona and gola); base Attic, half a diameter, by Palladio's express preference over the Vitruvian Ionic base. All of that is in Ware's words on leaves 58-59 and is high confidence. The internal division of the Attic base and the split of corona from gola are not, and are marked medium.\n\nWHAT IS NOT HERE. The capital. Palladio's Ionic capital is given as a volute CONSTRUCTION - thirteen centres including the eye of the volute, the eye half the diameter of the said eye in bigness - rather than as a stack of dimensioned mouldings, and its overall height cannot be stated honestly from the text alone. It is therefore left to inherit rather than guessed at. If you need the capital, draw the volute from Palladio's construction and take the abacus and echinus depths from the plate; note that Palladio's is the frontal Roman capital with cushions on the flanks, not Scamozzi's four-volute angular capital, which is what most Colonial Revival Ionic actually uses.\n\nTHE THREE DIVERGENCES WORTH REMEMBERING. The entablature at a fifth rather than a quarter. The frieze at 0.45 D rather than 0.75 D, which redistributes the whole entablature. And the modillion in place of the dentil, which changes the eave. Add the module - whole diameter in sixty - and you have four reasons why a number carried across from vignola-ionic without conversion will be wrong."
+}

@@ -1,0 +1,766 @@
+{
+  "id": "vignola-ionic",
+  "name": "Vignola's Ionic Order",
+  "aka": [
+    "Roman Ionic after Vignola",
+    "Ionic of the Regola",
+    "Ionic, nine diameters"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII",
+    "author": "Giacomo Barozzi da Vignola",
+    "year": 1562,
+    "strength": "canonical",
+    "url": "https://archive.org/details/fiveordersofarch00vign",
+    "note": "Figures taken from the 1889 Juglaris and Locke English translation of the Regola and from Esquie's 1930 edition, cross-checked against Ware's American Vignola (1902/1920), which is the form in which this order actually reached American builders."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "Semidiameter of the column at the base of the shaft",
+    "parts": 18,
+    "default_size_in": 6.0,
+    "note": "Vignola divided the module into 12 parts for the Tuscan and Doric and into 18 for the Ionic, Corinthian and Composite, 'because the mouldings are more numerous and more delicate than in the sturdier Orders' (Esquie). Ware calls the 18ths minutes and records that Vignola sometimes uses the quarter minute, i.e. 1/144 of a diameter. The default of 6 in is the module of a 12 in column: one part is then exactly 1/3 in.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 18,
+    "shaft_height_modules": 16.3333333333,
+    "diminution": 0.8333333333,
+    "entasis_begins_at": 0.3333333333,
+    "fluting": {
+      "count": 24,
+      "profile": "semicircular flutes separated by fillets",
+      "fillet": true
+    }
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_plinth",
+          "name": "Plinth of the pedestal base",
+          "height_parts": 5.5,
+          "projection_parts": 33,
+          "profile": "plinth",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_base_cyma",
+          "name": "Cyma reversa of the pedestal base",
+          "height_parts": 3,
+          "projection_parts": 33,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_base_fillet",
+          "name": "Fillet over the pedestal base",
+          "height_parts": 0.5,
+          "projection_parts": 25.5,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_die_fillet_lower",
+          "name": "Lower fillet of the die",
+          "height_parts": 1.5,
+          "projection_parts": 25.5,
+          "profile": "fillet",
+          "note": "Vignola: 'The plinth [die] is 5 moduli high, including two fillets.' The two fillets are inside the 90 parts; their individual height is not given.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_die",
+          "name": "Die (dado)",
+          "height_parts": 87,
+          "projection_parts": 25,
+          "profile": "flat",
+          "note": "Die 2 modules 14 parts wide, i.e. half-width 25 parts (Vignola 1889, plate XIII).",
+          "confidence": "high"
+        },
+        {
+          "id": "ped_die_fillet_upper",
+          "name": "Upper fillet of the die",
+          "height_parts": 1.5,
+          "projection_parts": 25.5,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cap_cyma",
+          "name": "Cyma reversa of the pedestal cap",
+          "height_parts": 4,
+          "projection_parts": 30,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cap_fillet",
+          "name": "Fillet",
+          "height_parts": 0.75,
+          "projection_parts": 31,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cap_corona",
+          "name": "Corona of the pedestal cap",
+          "height_parts": 3.25,
+          "projection_parts": 35,
+          "profile": "corona",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cap_listel",
+          "name": "Listel",
+          "height_parts": 1,
+          "projection_parts": 35,
+          "profile": "listel",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "plinth",
+          "name": "Plinth",
+          "height_parts": 6,
+          "projection_parts": 25,
+          "profile": "plinth",
+          "note": "One third of the base, 1/6 D (Ware). Half-width 25 parts = 18 + Vignola's stated 7 parts of projection, which is also the half-width of the pedestal die.",
+          "confidence": "high"
+        },
+        {
+          "id": "lower_torus",
+          "name": "Lower torus",
+          "height_parts": 4.5,
+          "projection_parts": 24,
+          "profile": "torus",
+          "confidence": "medium"
+        },
+        {
+          "id": "lower_fillet",
+          "name": "Fillet under the scotia",
+          "height_parts": 0.75,
+          "projection_parts": 21,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "scotia",
+          "name": "Scotia",
+          "height_parts": 3,
+          "projection_parts": 20,
+          "profile": "scotia",
+          "confidence": "medium"
+        },
+        {
+          "id": "upper_fillet",
+          "name": "Fillet over the scotia",
+          "height_parts": 0.75,
+          "projection_parts": 21.5,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "upper_torus",
+          "name": "Upper torus",
+          "height_parts": 3,
+          "projection_parts": 23,
+          "profile": "torus",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "shaft": {
+      "height_modules": 16.3333333333,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "shaft_fillet_lower",
+          "name": "Fillet at the foot of the shaft",
+          "height_parts": 1,
+          "projection_parts": 18,
+          "profile": "fillet",
+          "note": "Vignola 1889: the Ionic column base is 1 module high EXCLUSIVE of this fillet (Esquie, plate XXI, fillet D); the fillet belongs to the shaft, as in every order.",
+          "confidence": "high"
+        },
+        {
+          "id": "apophyge_lower",
+          "name": "Apophyge (conge) at the foot",
+          "height_parts": 2,
+          "projection_parts": 18,
+          "profile": "apophyge",
+          "confidence": "medium"
+        },
+        {
+          "id": "shaft",
+          "name": "Shaft proper",
+          "height_parts": 288,
+          "projection_parts": 18,
+          "profile": "flat",
+          "note": "24 semicircular flutes separated by fillets. Diminution 5/6; the lower third is cylindrical and the diminution begins at one third of the shaft height. Vignola's own construction for this order is his second method (Esquie plate XLIV, fig. 2), not the semicircle method used for Tuscan and Doric.",
+          "confidence": "high"
+        },
+        {
+          "id": "astragal_upper",
+          "name": "Astragal (bead) at the neck",
+          "height_parts": 2,
+          "projection_parts": 18,
+          "profile": "astragal",
+          "note": "2 parts (Vignola 1889, plate XIV). Drawn with the capital, but properly the head of the shaft. The centre of the eye of the volute sits on the horizontal through the TOP of this bead.",
+          "confidence": "high"
+        },
+        {
+          "id": "shaft_fillet_upper",
+          "name": "Fillet over the astragal",
+          "height_parts": 1,
+          "projection_parts": 17,
+          "profile": "fillet",
+          "note": "1 part. With the astragal it makes the 3 parts by which Vignola's Ionic capital measures 15 parts drawn but 12 parts of column height.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "capital": {
+      "height_modules": 0.6666666667,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "echinus",
+          "name": "Echinus (quarter-round)",
+          "height_parts": 5,
+          "projection_parts": 22,
+          "profile": "echinus",
+          "enrichment": "egg-and-dart, generally three eggs showing between the volutes, with honeysuckle sprigs filling to the volute",
+          "note": "5 parts high, projecting 7 parts from the side of the upper diameter, i.e. half-width 22 (Vignola 1889, plate XIV). It projects beyond the abacus in the frontal view.",
+          "confidence": "high"
+        },
+        {
+          "id": "volute_gorge",
+          "name": "Gorge of the volute (cavetto)",
+          "height_parts": 3,
+          "projection_parts": 15.5,
+          "profile": "cavetto",
+          "note": "3 parts: the lower half perpendicular, the upper half a quarter circle. Carried round the volute with the fillet above it. This member is the face of the volute channel.",
+          "confidence": "high"
+        },
+        {
+          "id": "volute_fillet",
+          "name": "Fillet of the volute",
+          "height_parts": 1,
+          "projection_parts": 17.5,
+          "profile": "fillet",
+          "confidence": "high"
+        },
+        {
+          "id": "abacus_ogee",
+          "name": "Ogee of the abacus (cyma reversa)",
+          "height_parts": 2,
+          "projection_parts": 18,
+          "profile": "cyma-reversa",
+          "confidence": "high"
+        },
+        {
+          "id": "abacus_fillet",
+          "name": "Fillet of the abacus",
+          "height_parts": 1,
+          "projection_parts": 20,
+          "profile": "abacus",
+          "note": "Half-width 20 parts: the abacus is 1 D across plus 1/18 D each side (Ware; theclassicalorders). Vignola gives its projection as 5 parts from the side of the upper diameter, which is the same figure.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "architrave": {
+      "height_modules": 1.25,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "fascia_1",
+          "name": "First fascia (lower band)",
+          "height_parts": 7,
+          "projection_parts": 0,
+          "profile": "fascia",
+          "note": "Ware: the architrave is divided into five parts each 1/8 D; the two lower fascias are of equal height, each 1/4 D (9 parts) INCLUDING the mouldings that crown the lower one. theclassicalorders makes the upper fascia the wider of the two; Vignola's own figure is not transcribed in any source consulted, so Ware is followed and confidence dropped.",
+          "confidence": "medium"
+        },
+        {
+          "id": "fascia_1_ovolo",
+          "name": "Ovolo crowning the first fascia",
+          "height_parts": 1.5,
+          "projection_parts": 1.25,
+          "profile": "ovolo",
+          "confidence": "medium"
+        },
+        {
+          "id": "fascia_1_fillet",
+          "name": "Fillet",
+          "height_parts": 0.5,
+          "projection_parts": 1.5,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "fascia_2",
+          "name": "Second fascia (upper band)",
+          "height_parts": 9,
+          "projection_parts": 1.5,
+          "profile": "fascia",
+          "confidence": "medium"
+        },
+        {
+          "id": "cymatium",
+          "name": "Cymatium: cyma reversa",
+          "height_parts": 3.5,
+          "projection_parts": 4.5,
+          "profile": "cyma-reversa",
+          "note": "Ware: 'a large Cyma Reversa and Fillet, which take the place of the Doric Tania.'",
+          "confidence": "medium"
+        },
+        {
+          "id": "cymatium_fillet",
+          "name": "Fillet of the cymatium",
+          "height_parts": 1,
+          "projection_parts": 5,
+          "profile": "fillet",
+          "note": "The whole architrave projects 5 parts (Vignola 1889, plate XVI); this fillet carries that projection.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "height_parts": 27,
+          "projection_parts": 0,
+          "profile": "flat",
+          "note": "1 1/2 modules. Plain, or carved with griffins, candelabra and arabesque (Vignola 1889). May be pulvinated, the bulge set out on a 60-degree equilateral triangle.",
+          "enrichment": "optional: griffins, candelabra, arabesque; pulvinated variant",
+          "confidence": "high"
+        }
+      ]
+    },
+    "cornice": {
+      "height_modules": 1.75,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "bed_cyma_reversa",
+          "name": "Cyma reversa of the bed mould",
+          "height_parts": 3.5,
+          "projection_parts": 1.5,
+          "profile": "cyma-reversa",
+          "confidence": "medium"
+        },
+        {
+          "id": "bed_fillet",
+          "name": "Fillet",
+          "height_parts": 0.5,
+          "projection_parts": 2,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "dentil_band",
+          "name": "Dentil band",
+          "height_parts": 6,
+          "projection_parts": 5.5,
+          "profile": "dentil",
+          "count": null,
+          "spacing_parts": 6,
+          "note": "Dentils 1/6 D high (6 parts), 1/9 D wide (4 parts), the interdentil 1/18 D (2 parts), so 1/6 D = 6 parts on centres (Ware). A double dentil turns the corner. Vignola's Ionic intercolumniation of 6 1/2 modules is 19.5 dentil spacings, which does not resolve to a whole dentil on the axis - and Esquie says so explicitly: the Ionic dentils 'do not require so precise a location as the triglyph of the Doric or the modillion of the Corinthian.'",
+          "confidence": "high"
+        },
+        {
+          "id": "dentil_fillet",
+          "name": "Fillet over the dentils",
+          "height_parts": 1.5,
+          "projection_parts": 6.5,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "bed_ovolo",
+          "name": "Ovolo of the bed mould",
+          "height_parts": 3.75,
+          "projection_parts": 9,
+          "profile": "ovolo",
+          "enrichment": "egg-and-dart",
+          "confidence": "medium"
+        },
+        {
+          "id": "bed_ovolo_fillet",
+          "name": "Fillet",
+          "height_parts": 0.5,
+          "projection_parts": 9.5,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "corona",
+          "name": "Corona",
+          "height_parts": 7.25,
+          "projection_parts": 16.5,
+          "profile": "corona",
+          "note": "Undercut with a drip on the soffit.",
+          "confidence": "medium"
+        },
+        {
+          "id": "corona_listel",
+          "name": "Listel over the corona",
+          "height_parts": 0.5,
+          "projection_parts": 17.5,
+          "profile": "listel",
+          "confidence": "medium"
+        },
+        {
+          "id": "cyma_recta",
+          "name": "Cymatium: cyma recta",
+          "height_parts": 6.5,
+          "projection_parts": 29.5,
+          "profile": "cyma-recta",
+          "confidence": "medium"
+        },
+        {
+          "id": "cyma_fillet",
+          "name": "Crowning fillet",
+          "height_parts": 1.5,
+          "projection_parts": 31,
+          "profile": "fillet",
+          "note": "Total projection of the cornice 1 module 13 parts = 31 parts (Vignola 1889, plate XVI), which is within half a part of Ware's general rule that the cornice projects as much as it is high (31.5).",
+          "confidence": "high"
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "architrave",
+          "name": "Architrave",
+          "height_parts": 22.5,
+          "projection_parts": 5,
+          "profile": "fascia",
+          "confidence": "high"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze",
+          "height_parts": 27,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high"
+        },
+        {
+          "id": "cornice",
+          "name": "Cornice",
+          "height_parts": 31.5,
+          "projection_parts": 31,
+          "profile": "corona",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The entablature is one quarter the height of the column, base and capital included. This is Vignola's systematising achievement and the reason the Regola beat every rival: one rule, every order.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules / 4",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal is one third the height of the column, base and capital included. In the Ionic this holds exactly: 6 modules to 18.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules / 3",
+      "tolerance": 0.001,
+      "note": "It does NOT hold exactly in Vignola's Corinthian or Composite, where he draws 7 modules against 20. See those packs."
+    },
+    {
+      "statement": "The column is 18 modules, that is nine diameters.",
+      "expression": "column.height_modules == 18",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Base, shaft and capital make the column.",
+      "expression": "assemblies.base.height_modules + assemblies.shaft.height_modules + assemblies.capital.height_modules == column.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Architrave, frieze and cornice make the entablature.",
+      "expression": "assemblies.architrave.height_modules + assemblies.frieze.height_modules + assemblies.cornice.height_modules == assemblies.entablature.height_modules",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The three members of the Ionic entablature stand as 5 to 6 to 7 (Vignola); in Ware's diameters, 5/8, 6/8 and 7/8 of a diameter.",
+      "expression": "assemblies.architrave.height_modules / assemblies.cornice.height_modules == 5 / 7",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The upper diameter is five sixths of the lower.",
+      "expression": "column.diminution == 5 / 6",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The shaft is cylindrical for its lower third and diminishes above.",
+      "expression": "column.entasis_begins_at == 1 / 3",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal, the column and the entablature stand as 6 : 18 : 4.5, so the pedestal cap - the chair rail of the room-scale order - falls at 0.2105 of the whole height.",
+      "expression": "assemblies.pedestal.height_modules / (assemblies.pedestal.height_modules + column.height_modules + assemblies.entablature.height_modules) == 0.210526",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "pycnostyle",
+        "clear_diameters": 1.5,
+        "note": "Vitruvian, not Vignola's. Vignola gives no named series; the names are carried here because American practice reads them onto him. Ware's American Vignola simplifies the series to 1, 2, 3 and 4 diameters clear."
+      },
+      {
+        "name": "systyle",
+        "clear_diameters": 2.0,
+        "note": "Vitruvian."
+      },
+      {
+        "name": "eustyle",
+        "clear_diameters": 2.25,
+        "note": "Vitruvian. This is the one Vignola's own Ionic colonnade lands on exactly."
+      },
+      {
+        "name": "diastyle",
+        "clear_diameters": 3.0,
+        "note": "Vitruvian."
+      },
+      {
+        "name": "araeostyle",
+        "clear_diameters": 4.0,
+        "note": "Vitruvian; requires a timber architrave. Ware notes the ancients spaced Tuscan columns with wooden architraves as much as seven diameters apart."
+      },
+      {
+        "name": "vignola-ionic-colonnade",
+        "clear_diameters": 2.25,
+        "note": "Vignola's own: 4 1/2 modules clear, 6 1/2 modules on centres (Regola plate XVII). Identical to eustyle. Nineteen and a half dentil spacings fall in the bay, which does not resolve to a dentil on the axis - and does not need to, because the Ionic dentil is not tied to the axis the way the Doric triglyph and the Corinthian modillion are."
+      },
+      {
+        "name": "vignola-ionic-arcade",
+        "clear_diameters": 4.75,
+        "note": "Arched: piers 3 modules, opening 8 1/2 modules, axes 11 1/2 modules apart, arch twice as high as wide. The column is engaged one third of a module into the pier."
+      },
+      {
+        "name": "vignola-ionic-arcade-on-pedestals",
+        "clear_diameters": 6.5,
+        "note": "Arched on pedestals: axes 15 modules, piers 4 modules, opening 11 by 22 modules; total height divided into 28 1/2 parts, of which 6 pedestal, 18 column, 4 1/2 entablature."
+      }
+    ],
+    "default": "vignola-ionic-colonnade"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 4",
+      "units": "in",
+      "note": "The order's one rule, applied at any scale: a full entablature is a quarter of whatever you have called the column. Use it for porticoes and porches, where the column is real.",
+      "authority_note": "Vignola, Regola, plate XVII."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 5 * (7 / 18)",
+      "units": "in",
+      "note": "The room read as an order: wall plus cornice is the whole, the entablature is a fifth of it, and the crown is the cornice member of that entablature - 7 of the 18 parts into which Vignola divides the Ionic entablature. At a 9 ft ceiling this gives 8.4 in, which is a correct high-style Georgian cornice.",
+      "authority_note": "Vignola 4:1 column to entablature; Ionic entablature 5:6:7."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height / 5 * (7 / 18)",
+      "units": "in",
+      "note": "Projection equal to height. Ware states the rule for every order but the Doric, where the projection is greater.",
+      "authority_note": "Ware, The American Vignola, plate II commentary."
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "1 / 14",
+      "units": "ratio",
+      "note": "Of ceiling_height. The logic is the plinth of the order brought to room scale: the base is the part of the wall that takes the kick, and it wants the weight of a plinth rather than the thinness of a stop. At 9 ft this is 7.7 in with a defensible band of 6.75 to 9 in.",
+      "authority_note": "No classical source dimensions an interior baseboard. The plinth analogy is the standing derivation in American practice; the band is honest and the point within it is not.",
+      "range": [
+        0.0625,
+        0.0833
+      ]
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "6 / 28.5",
+      "units": "ratio",
+      "note": "Of the floor-to-cornice height. This is the actual historical derivation and it should be stated plainly: the chair rail is the CAP OF THE PEDESTAL when the order is reduced to room scale. Pedestal 6, column 18, entablature 4.5 makes 28.5, so the pedestal cap lands at 0.21 of the whole - about 23 in at a 9 ft ceiling. Modern furniture and modern expectation put a chair rail at 32 to 36 in, which is 0.30 to 0.33. The two do not agree.",
+      "authority_note": "Vignola, Regola plate XIII: the Ionic pedestal is 6 modules, one third of the column.",
+      "range": [
+        0.21,
+        0.32
+      ],
+      "judgment": true
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "height",
+      "expression": "6 / 28.5",
+      "units": "ratio",
+      "note": "Of the floor-to-cornice height. The wainscot IS the pedestal; its cap is the chair rail and its base is the plinth. If the rail is raised above the classical 0.21 to meet furniture, the wainscot must be raised with it or the two members part company and the wall reads as trim applied to drywall.",
+      "range": [
+        0.21,
+        0.36
+      ],
+      "judgment": true
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "1 / 6",
+      "units": "ratio",
+      "note": "Of opening_width. The casing is an architrave and takes the architrave's profile: for the Ionic, two fascias of equal height crowned by a cyma reversa and fillet, in the proportion 4 : 4 : 1 of the total width. A 3 ft door gets a 6 in casing, a 2 ft 6 in door a 5 in casing - the casing scales with the opening, which is the whole point and the thing production building gets wrong by using one stock casing everywhere.",
+      "range": [
+        0.1429,
+        0.1667
+      ]
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "height",
+      "expression": "opening_width / 2",
+      "units": "in",
+      "note": "Height of the entablature over the door. Vignola's own doorway is twice as high as wide and its entablature is one quarter the height of the door: 2W/4 = W/2. A 3 ft door therefore carries an 18 in entablature.",
+      "authority_note": "Vignola, Regola, doorway of SS. Lorenzo e Damaso (plate XXXI in the 1889 translation)."
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "width",
+      "expression": "1 / 6",
+      "units": "ratio",
+      "note": "Of opening_width, for the architrave band of the surround, matching the interior casing so that the two read as one family.",
+      "range": [
+        0.1429,
+        0.1667
+      ]
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "width",
+      "expression": "1 / 6",
+      "units": "ratio",
+      "note": "Of opening_width. Windows tolerate a lighter architrave than doors because they are read at distance and in multiples; 1/8 is defensible where the rhythm is close, 1/6 where the openings are few and large. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one.",
+      "range": [
+        0.125,
+        0.1667
+      ]
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "height",
+      "expression": "2",
+      "units": "ratio",
+      "note": "Height to width of the sash opening. Vignola gives 2:1 for a doorway and gives nothing at all for a window. The 2:1 carried to windows is convention, not authority; on an upper storey 1.7 is right and on a principal storey 2.2 can be.",
+      "range": [
+        1.7,
+        2.2
+      ],
+      "judgment": true
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "module / 3",
+      "units": "in",
+      "note": "Dentils 6 parts on centres: 4 parts of dentil and 2 of interdentil, the dentil 6 parts high. At the default 6 in module that is a 2 in spacing with a 1 1/3 in dentil - buildable in wood, and the smallest dentil worth cutting.",
+      "authority_note": "Ware: dentil 1/9 D wide, interdentil 1/18 D, 1/6 D on centres."
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "storey_height / 4 * (7 / 18)",
+      "units": "in",
+      "note": "Envelope cornice. Treat the storey as the column, take a quarter of it for the entablature, and give the cornice its 7 of 18. A 10 ft storey yields a 12 in cornice with 12 in of projection - which is why real Georgian eaves are deep and why a 6 in crown on a two-storey elevation always reads thin."
+    },
+    {
+      "target_slot": "frieze",
+      "dimension": "height",
+      "expression": "storey_height / 4 * (6 / 18)",
+      "units": "in",
+      "note": "Envelope frieze, 6 of the 18 parts. In wood construction this is the board that carries the cornice and hides the plate; giving it its classical depth is what stops the eave from looking applied."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "The Ionic capital is the most expensive object in the order per cubic inch: four volutes, an egg-and-dart echinus with honeysuckle sprigs filling to the volute, and a spiral that has to be right in both elevation and section. Carved in wood at any scale over 8 in of module it is a five-figure item per pair.",
+      "resolution": "Cast composition or GFRC capitals from a maker who has the Vignola profile, not a generic 'Ionic'. Check three things before buying: that the eye sits 1 module from the axis and 12 parts below the top of the abacus, that the echinus projects beyond the abacus in the frontal view, and that the volute has three turns. A capital that fails any of those is Scamozzi-adjacent decoration, not this order. If the budget will not carry it, drop to Tuscan rather than buy a bad Ionic.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "At the default 6 in module one part is 1/3 in and the smallest fillets in this order - the volute fillet, the fillet over the astragal, the fillet of the architrave cymatium - are 1/2 to 1 part, that is 1/6 to 1/3 in. Painted millwork tolerance is about 1/16 in and three coats of paint is about 1/32 in. A 1/6 in fillet loses a third of itself to paint.",
+      "resolution": "Set a floor: no fillet below 1/2 in in painted wood, 1/4 in in plaster run in place, 3/8 in in cast stone. Below the floor, consolidate - merge the fillet into the member above it and say so in the submittal rather than drawing a fillet the shop will lose. Equivalently, do not use this order below a 9 in module (an 18 in column) if the fillets are to survive.",
+      "severity": "material"
+    },
+    {
+      "with": "egress-code",
+      "statement": "Vignola's balustrade is 'invariably about 3 feet' and Esquie is explicit that the module is not its unit of measure - the human figure is. The IRC wants 36 in at residential stairs and 42 in at open guards over 30 in of drop; commercial work wants 42 in throughout.",
+      "resolution": "Keep the classical 36 in for the visible balustrade and take the code height in a separate element: a continuous metal rail set back and above, or a taller die at the ends with the balusters unchanged. Stretching the baluster to 42 in destroys its proportion and is the single most common way a good porch is ruined.",
+      "severity": "blocking"
+    },
+    {
+      "with": "energy-code",
+      "statement": "A full Ionic entablature at the eave is 4 1/2 modules deep and its cornice projects a full module and 13 parts. In continuous-insulation assemblies every part of that projection is a thermal bridge and a detailing problem at the air barrier, and the outriggers that carry it have to pass through the control layers.",
+      "resolution": "Carry the cornice on a separate outboard frame hung from the wall with thermally broken clips, and run the air barrier and insulation continuously behind it. Budget for the fact that this costs more than the cornice. Do not shrink the cornice to solve it: a shallow cornice on a correct order is worse than the thermal penalty.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "english-palladian",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "georgian-colonial-american",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "charleston-georgian",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "adam-style",
+    "jeffersonian-classicism",
+    "neoclassical-revival",
+    "beaux-arts-american",
+    "colonial-revival",
+    "georgian-revival",
+    "new-classical",
+    "greek-revival-southern-plantation"
+  ],
+  "sources": [
+    "Vignola, Regola delli cinque ordini d'architettura, Rome 1562",
+    "Vignola, The Five Orders of Architecture, tr. Tommaso Juglaris & Warren Locke, Norwood Press 1889 (archive.org/details/fiveordersofarch00vign) - plates XIII-XXVIII",
+    "Pierre Esquie, The Five Orders of Architecture according to Vignola, 1930 (archive.org/details/pierreesuie) - plates XVIII-XXXIX",
+    "William R. Ware, The American Vignola, part I: The Five Orders, 1902/1920 (archive.org/details/americanvignola01wareuoft; en.wikisource.org/wiki/Page:Ware_-_The_American_Vignola,_1920.djvu)",
+    "Robert Chitham, The Classical Orders of Architecture, 2nd ed. 2005 - used for cross-check of member-level figures where the period plates carry the dimension only as a drawn annotation",
+    "theclassicalorders.com (Martin Brandwein / M. Gunnison Collins), Ionic and Corinthian layout sheets - cross-check only"
+  ],
+  "confidence": "high",
+  "notes": "WHAT THIS PACK ASSERTS AND WHERE IT IS SOFT. The skeleton - module of 18 parts, column 18 modules, entablature 4 1/2, pedestal 6, architrave 22 1/2, frieze 27, cornice 31 1/2, base 18, shaft 294, capital 12 - is Vignola's own, taken from the Regola by way of the 1889 translation and Esquie, and confirmed independently by Ware's diameters (base 1/2 D, capital 1/3 D, architrave 5/8, frieze 6/8, cornice 7/8). Those figures are high confidence and they close arithmetically to the part. The subdivision of the architrave and the cornice into individual mouldings is softer: Ware gives the group totals (architrave in five eighth-diameter divisions, two fascias of 1/4 D each; cornice in halves, the bed mould in four) but Vignola's plate carries the individual mouldings only as drawn annotations that no consulted transcription reproduces. Those members are marked medium and the groups they belong to sum to Ware's stated totals exactly.\n\nTHE CAPITAL. Encoded as Vignola's own frontal Roman capital - volutes on the front and back faces, cushions (pulvinated bolsters) on the flanks. This is NOT Scamozzi's angular capital, in which all four volutes are set diagonally and there are no cushions; Esquie is explicit that Vignola does not give the four-volute solution and that his plate XXIV is Scamozzi's, not Vignola's. Vignola does handle the corner by turning the outer volute of the angle column diagonally (after the angle column of the Temple of Fortuna Virilis), so that the capital balances on the two exposed faces. If you want the Scamozzi capital - and American Colonial Revival almost always does, because it makes every elevation the same - that is a different capital and should be recorded as such.\n\nTHE VOLUTE, AND HOW TO DRAW IT. The cathetus is dropped 1 module (18 parts) from the axis of the column. The centre of the eye lies where that line meets the horizontal through the TOP of the astragal at the neck of the shaft, which is 12 parts below the top of the abacus. The eye is a circle 2 parts in diameter. The volute measures 16 parts overall, 9 above the eye and 7 below (Esquie), or 8 above, 2 of eye and 6 below (1889 translation) - the same 16, decomposed differently. Vignola's construction: inscribe a square in the eye with vertical and horizontal diagonals, bisect the sides with 45-degree lines, and the ends give four centres for the first turn; the second turn is struck from centres one third of the half-diagonal in from the first four, the third turn from one third again. Twelve centres, twelve quadrants, three turns. The inner line of the fillet is struck from a centre one quarter of a half-diagonal nearer the eye, which is what makes the fillet taper. Because the volute hangs 3 parts below the top of the shaft, the capital measures 15 parts drawn but only 12 parts of column height - Vignola says so directly, and it is why the Ionic capital is 1/3 D and not the 5/12 D the drawing appears to show.\n\nTHE BASE - AND THE PLACE WHERE THE SOURCES DIVIDE. Encoded here as the ATTIC BASE: plinth, lower torus, fillet, scotia, fillet, upper torus, 18 parts in total. Vignola's own Ionic base on Regola plate XIII is NOT that. Ware describes it exactly: 'Vignola adopted for his Ionic Order a modification of the Attic Base, substituting for the single large Scotia two small ones, separated by one or two Beads and Fillets and omitting the lower Torus.' Esquie says the same thing from the other side - the base on plate XXI 'is according to Vignola', and 'the Attic base, used by the ancients in some buildings with this Order, is given on Plate XXIV.' Vignola himself then says, on the Attic base plate, that the Attic base 'has been used indiscriminately for all the Orders except the Tuscan, because of its beauty; but it is only appropriate for the Ionic.' So Vignola supplies both and endorses the Attic for this order. The Attic is encoded because it is what he endorses, what Ware and Chitham draw, and what every American builder actually cut. If you want Vignola's own double-scotia profile, the 18-part total and the 6-part plinth are unchanged; only the twelve parts between them are redistributed. The base members are marked medium confidence for this reason.\n\nFLUTING. Twenty-four semicircular flutes separated by fillets, in every source. The fillet width is not agreed: the 1889 translation gives flute 3.534 parts and fillet 1.178, a ratio of 1:3; Esquie gives the fillet as two sevenths of the flute; theclassicalorders gives one quarter. Take one third and note that the difference is a sixteenth of an inch at a 12 in column.\n\nPROJECTION DATUM. For the pedestal, base, shaft and capital assemblies, projection_parts is the HALF-WIDTH measured from the axis of the column; the naked of the shaft at its lower diameter is therefore 18 parts and the naked at its upper diameter 15 parts. For the architrave, frieze and cornice, projection_parts is measured from the NAKED OF THE FRIEZE, which stands 15 parts from the axis - Ware: 'the lower band of the Architrave is made to come in line with the upper face of the shaft.' The two conventions are the ones the sources themselves use and the schema anticipates both. Cross-check: Vignola gives the column base a projection of 7 parts from the side of the column (18+7 = 25) and the pedestal die a width of 2 modules 14 parts (half-width 25). The base sits exactly on the die. The arithmetic closes, which is how we know the datum is read right."
+}

@@ -1,0 +1,185 @@
+{
+  "id": "new-jersey-dutch-gambrel",
+  "name": "New Jersey Dutch Gambrel",
+  "aka": [
+    "Bergen Dutch sandstone house",
+    "Jersey Dutch",
+    "Hackensack Valley stone house"
+  ],
+  "rank": "variant",
+  "member_of": "dutch-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1700,
+    "floruit_start": 1730,
+    "floruit_end": 1820,
+    "decline_end": 1850,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1940,
+        "revival_node": "dutch-colonial-revival",
+        "note": "This is the variant the revival actually copied — and immediately falsified, by replacing the sprung eave with a straight overhang and cutting a full-width shed dormer into the roof."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Bergen County, New Jersey",
+      "Passaic and Hudson counties, New Jersey",
+      "Somerset and Middlesex counties, New Jersey",
+      "Rockland County, New York",
+      "Staten Island, New York"
+    ],
+    "hearth": "the Hackensack and Passaic valleys of Bergen County, on the red sandstone of the Newark Basin",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "dutch-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "flemish-vernacular",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The Bergen population was heavily Flemish and Walloon, and the sprung eave has better parallels in the southern Low Countries than in Holland proper."
+    }
+  ],
+  "description": {
+    "short": "The Bergen County sandstone house: a low gambrel-roofed block whose lower roof slope sweeps out past the wall on a concave curve, shading the front and eventually becoming a porch.",
+    "long": "This is a house made of one geological accident and one roof idea. The accident is the Newark Basin sandstone — a red-brown stone that quarries in beds, dresses easily, and lies directly under the Hackensack and Passaic valleys. Bergen builders used it for everything, and used it with a very particular economy: dressed, squared and coursed on the entrance elevation, coursed rubble on the two ends, and whatever came out of the ground on the back. Walk around one of these houses and the quality of the masonry degrades with each turn. That is not carelessness; it is an exact allocation of skilled labour to the surface that will be seen.\n\nThe roof idea is the gambrel with a sprung eave, and it deserves careful description because almost everything built in its name since 1890 has got it wrong. A Bergen gambrel has a steep lower slope, sixty to seventy-two degrees, and a shallow upper one, eighteen to thirty degrees, which converts a low masonry wall into a full upper storey without building the wall any higher — an enormous economy when the wall is two feet of hand-laid stone. Then the lower slope does not stop at the wall. It continues past it on a concave sweep, projecting eighteen to thirty-six inches, flattening as it goes, so that the eave line is a curve rather than an angle. This throws rain clear of an unrendered stone wall and puts the summer sun off the openings entirely. In the middle of the eighteenth century somebody put posts under the sprung eave and extended it to eight or ten feet, and the full-width Dutch porch was born — the direct ancestor of a habit that would eventually cover the entire United States.\n\nThe plan behind it stays simple and stays Dutch for a long time: one or two rooms deep, gable-end chimneys, no passage, low ceilings at seven and a half to eight and a half feet, a Dutch door with a transom, and after about 1760 a five-bay front with the door in the middle because the neighbours were English. The interior keeps anchor beams and, on early work, jambless hearths.\n\nWhat it feels like is low, broad and sheltering — the opposite of the Hudson Valley house's vertical roof. You approach across a shaded band of ground under the sprung eave; the wall is warm red stone with white mortar; and the roof, which is most of what you see, curves down to meet you at head height and then stops. The Colonial Revival spent forty years trying to reproduce that feeling with a shed dormer and a straight soffit, and never once managed it, because the curve was the whole thing."
+  },
+  "defining_characteristics": [
+    "Gambrel roof with a steep lower slope (60–72 degrees) and a shallow upper slope (18–30 degrees), the break at 55–70% of the half-span",
+    "A sprung (flared) eave: the lower slope continues past the wall face on a concave sweep, projecting 18–36 in, later carried on posts as a full-width porch",
+    "Load-bearing red-brown Newark Basin sandstone, dressed and coursed on the entrance elevation only, rubble elsewhere",
+    "Low wall: plate 7 ft 6 in – 9 ft 0 in above the floor, so the gambrel does the work a second storey would otherwise do",
+    "Chimneys at the gable ends, one or both, serving hearths in each principal room",
+    "Three- or five-bay eave-front elevation with a Dutch door, transom-lit after c. 1760",
+    "No dormers on the original front slope"
+  ],
+  "diagnostic_tells": [
+    "The eave is a curve, not an angle — sight along the roof edge and the concave sweep is unmistakable",
+    "Masonry quality drops with each elevation as you walk around the house",
+    "Gambrel with no dormer at all; if there is a continuous dormer the building postdates 1890",
+    "Red-brown stone with wide white lime joints, laid in courses of unequal height",
+    "The porch, where present, is an extension of the roof plane rather than a separate structure with its own pitch"
+  ],
+  "distinguished_from": [
+    {
+      "node": "dutch-colonial-revival",
+      "difference": "The most instructive pairing in the whole Dutch branch. The revival keeps the gambrel and discards everything that made it work: it cuts a full-width shed dormer into the front slope (which no colonial Jersey Dutch house has), replaces the concave sprung eave with a straight overhanging soffit, frames in wood with a veneer or shingle skin, and imposes symmetry on every elevation. Test the eave profile and the dormer; either one settles it."
+    },
+    {
+      "node": "hudson-valley-dutch",
+      "difference": "Steep straight gable versus gambrel; grey limestone versus red sandstone; a water-shedding sprung eave of 18–24 in versus a sheltering one of 24–36 in that becomes a porch."
+    },
+    {
+      "node": "mid-atlantic-georgian",
+      "difference": "Both are Mid-Atlantic stone houses with five-bay fronts after 1760. The Georgian house has a centre passage, aligned windows on all elevations, a classical door surround and a gable roof at 8:12–10:12; the Jersey Dutch house has a gambrel, a sprung eave, no passage and a plain door under a transom."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The gambrel geometry: the break point is chosen so that the upper floor gains full headroom at the knee wall without raising the masonry.",
+    "typical_ratios": [
+      "Overall 30–46 ft × 22–30 ft; one or two rooms deep",
+      "Lower slope 60–72 degrees; upper slope 18–30 degrees; break at 55–70% of the half-span",
+      "Plate 7 ft 6 in – 9 ft 0 in; ridge 20–24 ft above grade",
+      "Sprung eave projection 24–36 in, sweep radius 4–8 ft; posted porch 8–10 ft deep",
+      "Wall thickness 20–28 in; ceiling 7 ft 6 in – 8 ft 6 in"
+    ],
+    "bay_rhythm": "Three bays early, five after c. 1760, with the door centred once symmetry arrives; window widths equal and piers wider than the openings.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gambrel-block",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "common",
+      "note": "The plan under the gambrel before Anglicization."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "common",
+      "note": "The post-1760 Bergen house with a centre hall behind a Dutch section."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "Growth by adding a kitchen wing along the ridge line."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break at 55–70% of the half-span. The two slopes must differ by at least 30 degrees or the roof reads as a modern barn profile."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The eave must spring — a concave sweep projecting 24–36 in beyond the wall face, with a sweep radius of 4–8 ft. A straight overhang of any depth is not this type."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "No continuous shed dormer on any roof slope. This is the diagnostic marker of Dutch Colonial Revival and is absent from every colonial Bergen house."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Dressed and coursed sandstone confined to the entrance elevation; coursed rubble at the ends; random rubble at the rear. Uniform ashlar on all four sides is a later or wealthier building and reads as such."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Where the sprung eave is posted to form a porch, depth 8–10 ft with posts 8–10 ft on centre; the porch roof is the continued roof plane, not a separate structure with its own pitch."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Steuben House (Zabriskie House)",
+      "location": "Historic New Bridge Landing, River Edge, New Jersey",
+      "year": 1752,
+      "note": "Kinderkamack Ridge sandstone, dressed on the two road-facing sides and coursed rubble elsewhere; enlarged c. 1765 when the fashionable gambrel roof was added."
+    },
+    {
+      "name": "Hopper-Goetschius House",
+      "location": "363 East Saddle River Road, Upper Saddle River, New Jersey",
+      "year": 1739,
+      "note": "Listed on the National Register within the Early Stone Houses of Bergen County multiple property submission — the single best documentary group for this variant."
+    },
+    {
+      "name": "Dyckman Farmhouse",
+      "location": "4881 Broadway, Manhattan, New York",
+      "year": 1784,
+      "note": "Just outside New Jersey but structurally of this family: fieldstone below, frame above, gambrel with a sprung eave carried on posts."
+    }
+  ],
+  "sources": [
+    "Helen Wilkinson Reynolds, Dutch Houses in the Hudson Valley before 1776 (1929)",
+    "Roderic H. Blackburn and Ruth Piwonka, Remembrance of Patria: Dutch Arts and Culture in Colonial America (1988)",
+    "Rosalie Fellows Bailey, Pre-Revolutionary Dutch Houses and Families in Northern New Jersey and Southern New York (1936)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "New Jersey SHPO, Early Stone Houses of Bergen County Multiple Property Documentation Form (1983)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "gambrel",
+    "sandstone",
+    "spring-eave",
+    "porch-origin",
+    "bergen"
+  ]
+}

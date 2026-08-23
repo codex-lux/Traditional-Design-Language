@@ -1,0 +1,1041 @@
+{
+  "style": "english-georgian",
+  "style_name": "English Georgian",
+  "ontology_version": "0.4.0",
+  "kit_version": "0.2.1",
+  "slots": {
+    "composition_parti": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "strict-bilateral-odd-bay",
+          "status": "canonical"
+        },
+        {
+          "id": "side-entrance-terrace",
+          "status": "permitted",
+          "note": "The London terrace case: entrance to one side, but bays still align vertically and the storey graduation is unbroken."
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "The whole point of the style is that the facade is composed before the plan is drawn."
+        },
+        {
+          "id": "even-bay-front",
+          "status": "forbidden",
+          "note": "An even number of bays leaves no centre to enter."
+        }
+      ],
+      "parameters": {
+        "bay_count": {
+          "set": [
+            3,
+            5,
+            7
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "facade_symmetry_tolerance_in": {
+          "value": 2,
+          "unit": "in",
+          "kind": "editorial",
+          "note": "Bay centres either align or they do not; two inches is construction tolerance, not licence."
+        }
+      },
+      "rule": "Strict bilateral symmetry about a centred entrance, an odd number of bays, and a single dominant mass. The English town house accepts a side entrance on a narrow lot without abandoning the vertical alignment of the bays.",
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City"
+      ]
+    },
+    "roof_form": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "roof_pitch": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical"
+        },
+        {
+          "id": "hip",
+          "status": "permitted"
+        },
+        {
+          "id": "mansard",
+          "status": "atypical"
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "An American and Dutch answer, not an English one."
+        }
+      ],
+      "parameters": {
+        "pitch_min": {
+          "value": "7:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "10:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_typical": {
+          "value": "8:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "note": "Lower than the colonial American norm, because slate and lead permit it and because the roof is frequently concealed."
+        },
+        "parapet_conceals_roof": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "note": "The 1707 and 1709 London Building Acts drove the parapet by outlawing the projecting eaves cornice in timber. A code decision that became the defining fact of the London elevation."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Steep by later standards and shallower than the medieval work it replaced: the English Georgian roof is hidden behind a parapet in town and expressed in the country.",
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City",
+        "London Building Act 1709"
+      ]
+    },
+    "roof_material": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "eave_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "rake_condition": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "cornice_return": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "gable_treatment": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "dormer": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "chimney": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "roof_penetration_rules": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "height_proportion": {
+      "group": "massing-and-roof",
+      "binding": "specified",
+      "variants": [],
+      "parameters": {
+        "ground_ceiling_ft": {
+          "range": [
+            9,
+            11
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "principal_ceiling_ft": {
+          "range": [
+            11,
+            14
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "The piano nobile, on the first floor in the English sense."
+        },
+        "chamber_ceiling_ft": {
+          "range": [
+            8.5,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "attic_ceiling_ft": {
+          "range": [
+            7,
+            8.5
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "graduation_ratio": {
+          "value": 0.85,
+          "unit": "ratio",
+          "kind": "editorial",
+          "note": "Each storey about 85 percent of the one below, above the principal floor."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Storeys graduate downward. The principal floor is tallest, the ground floor next, and the attic storey is markedly short — the graduation is what makes the elevation sit down rather than float.",
+      "packs": [
+        {
+          "pack": "storey-graduation",
+          "precedence": 1
+        }
+      ],
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City"
+      ]
+    },
+    "wing_strategy": {
+      "group": "massing-and-roof",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "primary_cladding": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "brick-flemish-bond",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-english-bond",
+          "status": "permitted",
+          "note": "Earlier, and persistent in vernacular and northern work."
+        },
+        {
+          "id": "stone-ashlar",
+          "status": "permitted",
+          "note": "Bath, Edinburgh and the grandest London work."
+        },
+        {
+          "id": "stucco-scored",
+          "status": "permitted",
+          "note": "Later, from about 1780, and Regency thereafter."
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "note": "An American adaptation; English Georgian is masonry."
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "forbidden",
+          "note": "No such assembly existed and it cannot produce a real bond."
+        }
+      ],
+      "parameters": {
+        "brick_course": {
+          "value": 11,
+          "unit": "courses",
+          "kind": "measured",
+          "note": "Four courses to eleven inches, which is the module of everything horizontal."
+        },
+        "gauged_brick_locations": {
+          "set": [
+            "window heads",
+            "entrance surround",
+            "cornice",
+            "string course"
+          ],
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Brick, and the bond carries the date. Flemish bond supersedes English bond in fashionable work from about 1630 and is near universal by 1700; gauged and rubbed brick is reserved for openings and the entrance.",
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City"
+      ]
+    },
+    "secondary_cladding": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "material_change_rule": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "foundation_expression": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "water_table": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "belt_course": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "corner_quoin": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "reveal_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "reveal_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "cornice": {
+      "group": "envelope",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-cornice",
+          "status": "canonical"
+        },
+        {
+          "id": "dentil-cornice",
+          "status": "permitted"
+        },
+        {
+          "id": "mutule-cornice",
+          "status": "permitted"
+        },
+        {
+          "id": "plain-boxed",
+          "status": "atypical"
+        },
+        {
+          "id": "timber-eaves-cornice-in-town",
+          "status": "forbidden",
+          "note": "Prohibited by the London Building Act of 1707 after the fires; a period-correct London house cannot have one."
+        }
+      ],
+      "parameters": {
+        "cornice_projection_ratio": {
+          "value": 1.0,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "Gibbs, Rules for Drawing, 1732",
+          "note": "An entablature-derived cornice projects about its own height. A boxed domestic cornice projects roughly 0.43 of its height; applying either figure to the other condition produces a distinct disaster. See fault cornice-that-is-a-fascia."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A full classical entablature at the eaves in the country; in London, outlawed in timber by the 1707 Act and replaced by a brick or stone cornice behind a parapet.",
+      "packs": [
+        {
+          "pack": "gibbs-ionic",
+          "precedence": 1
+        }
+      ],
+      "code_conflict": [
+        {
+          "period_value": "Timber eaves cornice, country work",
+          "code_requirement": "London Building Act 1707 prohibited projecting timber cornices",
+          "resolution": "Parapet with a brick or stone cornice in town; the timber version is correct only outside the Acts' reach.",
+          "severity": "blocking"
+        }
+      ],
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City",
+        "London Building Act 1707"
+      ]
+    },
+    "frieze": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "parapet": {
+      "group": "envelope",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "rainwater": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "color_strategy": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "window_type": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "double-hung-sash",
+          "status": "canonical"
+        },
+        {
+          "id": "casement-leaded",
+          "status": "forbidden",
+          "note": "Superseded before the period opens; a leaded casement on a Georgian front is a century out."
+        }
+      ],
+      "parameters": {
+        "sash_setback_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured",
+          "note": "The 1709 Act required the frame set back four inches from the face; the 1774 Act required the box concealed entirely behind the reveal. The setback dates the house to a decade."
+        },
+        "glazing_bar_width_in": {
+          "range": [
+            0.625,
+            1.0
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Thinner as the century advances: about an inch in 1700, five eighths by 1800. The single best dating tell available from the street."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The vertically sliding sash, counterweighted in a boxed frame, and its history is legible in how far the box is set back from the face.",
+      "code_conflict": [
+        {
+          "period_value": "Sash box flush with the face before 1709, set back 4 in after, concealed after 1774",
+          "code_requirement": "Modern energy code drives insulated units that will not fit a period box",
+          "resolution": "Slim-profile double glazing in a full-depth box, or single glazing with secondary internal glazing where the elevation matters more than the U-value.",
+          "severity": "material"
+        }
+      ],
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City",
+        "London Building Acts 1709, 1774"
+      ]
+    },
+    "window_proportion": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "window_head_wood": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "window_surround_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "window_surround_wood": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "window_sill": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "window_grouping_rule": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "shutter": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "special_window": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "entry_door": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "door_surround": {
+      "group": "openings",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilasters-and-entablature",
+          "status": "canonical"
+        },
+        {
+          "id": "engaged-columns-and-pediment",
+          "status": "permitted"
+        },
+        {
+          "id": "gibbs-surround",
+          "status": "permitted",
+          "note": "Blocked and rusticated jambs, from Gibbs plate 24 — the detail so widely copied it took his name."
+        },
+        {
+          "id": "fanlight-over",
+          "status": "permitted",
+          "note": "Not before about 1720 in England, and only common after 1750."
+        },
+        {
+          "id": "broken-scroll-pediment",
+          "status": "atypical",
+          "note": "Commoner in American work than in English."
+        }
+      ],
+      "parameters": {
+        "order_height_ratio": {
+          "expr": "opening_height * 1.15",
+          "unit": "in",
+          "kind": "derived",
+          "note": "The surround stands about a sixth taller than the opening it frames.",
+          "pack": "gibbs-ionic"
+        },
+        "entablature_depth": {
+          "expr": "column_height / 5",
+          "unit": "in",
+          "kind": "derived",
+          "note": "Gibbs's fifth, not Vignola's quarter. On a 10 in column that is 18 in rather than 22.5, and a doorhead drawn to Vignola is 25 percent too tall.",
+          "pack": "gibbs-ionic"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The entrance carries the order, and it is very often the only classical apparatus on the house. Gibbs's plates are what a builder actually worked from.",
+      "packs": [
+        {
+          "pack": "gibbs-ionic",
+          "precedence": 1,
+          "note": "The authority an English Georgian builder owned."
+        },
+        {
+          "pack": "gibbs-doric",
+          "precedence": 2
+        }
+      ],
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City"
+      ]
+    },
+    "transom_sidelight": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "secondary_door": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "garage_strategy": {
+      "group": "openings",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "glazing_assembly": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "order": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "column": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "entablature": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "pediment": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "pilaster": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "modillion_dentil": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "balustrade": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "ornament_vocabulary": {
+      "group": "classical-apparatus",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "porch_type": {
+      "group": "threshold",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "porch_depth": {
+      "group": "threshold",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "porch_support": {
+      "group": "threshold",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "porch_rail": {
+      "group": "threshold",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "porch_ceiling": {
+      "group": "threshold",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "steps_and_stoop": {
+      "group": "threshold",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "entry_sequence": {
+      "group": "threshold",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "ceiling_height_rule": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "trim_family": {
+      "group": "interior",
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gibbsian-bolection",
+          "status": "canonical"
+        },
+        {
+          "id": "adamesque-attenuated",
+          "status": "forbidden",
+          "note": "Later; a Federal-weight profile in a Georgian room is fifty years early."
+        }
+      ],
+      "parameters": {
+        "trim_grade_by_room": {
+          "set": [
+            "principal: full entablature",
+            "secondary: cornice and chair rail",
+            "chamber: cornice only",
+            "attic: none"
+          ],
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "One coherent profile family per house, graded room by room: the principal room takes the fullest entablature, the chambers a reduced one, the attic almost none.",
+      "packs": [
+        {
+          "pack": "trim-classical",
+          "precedence": 1,
+          "in_calibration": true,
+          "note": "English principal-floor ceilings of 11-14 ft sit inside the pack's calibrated band, which the American colonial ceilings do not."
+        }
+      ],
+      "sources": [
+        "Gibbs, Rules for Drawing the Several Parts of Architecture, 1732",
+        "Summerson, Georgian London",
+        "Cruickshank and Wyld, London: The Art of Georgian Building",
+        "Ayres, Building the Georgian City"
+      ]
+    },
+    "baseboard": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "casing": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "crown": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "chair_rail": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "wainscot": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "interior_door": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "stair_type": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "newel_balustrade": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "fireplace_surround": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "built_ins": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "floor_material": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "hardware": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "light_fixture_family": {
+      "group": "interior",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "circulation_parti": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "hearth_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "stair_position": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "public_private_gradient": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "room_adjacency_overrides": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "service_zone_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "depth_and_pile": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "daylight_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "storage_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "services_strategy": {
+      "group": "plan-logic",
+      "binding": "open",
+      "status": "empty"
+    },
+    "street_relationship": {
+      "group": "site",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "setback_rule": {
+      "group": "site",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "orientation_rule": {
+      "group": "site",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "outbuilding_types": {
+      "group": "site",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "fence_wall": {
+      "group": "site",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "landscape_idiom": {
+      "group": "site",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    },
+    "grade_relationship": {
+      "group": "site",
+      "binding": "open",
+      "variants": [],
+      "parameters": {},
+      "status": "empty"
+    }
+  }
+}

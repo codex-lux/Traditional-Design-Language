@@ -1,0 +1,141 @@
+{
+  "id": "stack-with-nowhere-to-land",
+  "name": "The Stack With Nowhere To Land",
+  "aka": [
+    "the 3-inch stack in a 2x4 wall",
+    "the offset soil pipe",
+    "the bathroom over the hall"
+  ],
+  "slots": [
+    "services_strategy",
+    "room_adjacency_overrides",
+    "circulation_parti"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A second-floor bathroom sitting over a formal room, a passage or a clear span, so its 3 in waste stack has no wall to come down in. What arrives on the ground floor is a furred-out pilaster in the corner of the dining room, a 6 in thick wall where a 4 1/2 in wall was drawn, a boxed corner in the passage, or a long offset in the floor structure that the framer has drilled for and the engineer has never seen.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Bathroom positions are set by the bedroom layout on the upper floor, and the ground-floor plan is designed for the ground floor, so the two are drawn independently and reconciled by the plumber on site. The arithmetic then bites: a 3 in DWV pipe has an outside diameter of about 3 1/2 in and its hub is nearly 4, so it does not fit in a 2x4 wall at all - a fact that is invisible on every drawing at 1/4 in scale, where a wall is a line. The plumber's options are a furred wall, an offset, or a chase in a room, and all three are decided after the drywall order.",
+    "cost_saved": "Nothing directly - the offsets and fittings cost $300-$900 more than a straight drop. What it saves is a redesign of the upper floor, which is why it survives.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / stacks-in-the-chimney-mass",
+      "statement": "The gable-end stack is already a vertical mass running the full height of the house with no windows in it; plumbing stacks, flues and duct risers go beside it, inside the same chase. It is the only place in a Georgian plan where a vertical service run costs nothing."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / services_strategy / chase_width_beside_stack = 12-18 in",
+      "statement": "Enough for a 4 in stack, a flue liner and a small riser. Asserted from the plumbing, not from the fabric."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC P3005 and P2707 - drainage offsets, cleanouts and fixture connections",
+      "statement": "Offsets in a stack are permitted and are properly fitted and cleaned-out, which is exactly why the plan-level problem is never caught: nothing about a badly landed stack fails inspection. It is legal, it is noisy, and it is permanent."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "wet rooms stack over wet rooms or over walls, never over rooms",
+      "statement": "A vertical service is a piece of the plan with a footprint, and every floor it passes through has to give it the same 12 to 18 in of chase in the same place. If the plan cannot name that place on every floor, it does not have a plumbing strategy."
+    }
+  ],
+  "correct_practice": "Draw the vertical chases on the ground-floor plan before the upper floor is laid out, as objects 12 to 18 in wide, and hold them through every floor. There are only four places they can go and every traditional plan already has them: beside the chimney mass, which is a blind full-height vertical the style has already paid for; in the party wall or the thickness of a masonry wall; in a stacked service core - baths over baths, kitchen under bath, laundry beside stack; or in a purpose-built 2x6 wet wall, which is the minimum that will take a 3 in stack with its hub and still hold insulation. Two dimensions decide the whole thing: a 3 in DWV stack needs a 5 1/2 in wall or a furring, and a 4 in stack needs a genuine chase. Never run a stack in a wall shared with a bedroom head or a formal room, because a 3 in stack passes 40 to 55 dBA of discharge noise through a single layer of gypsum and no amount of insulation in a 2x4 cavity fixes it - a cast-iron stack, mass-loaded vinyl or a double-stud chase does.",
+  "fixes": {
+    "right": "Stack the wet rooms over a named chase beside the chimney mass or in a 2x6 wet wall, drawn on every floor plan from the first sketch.",
+    "cheap": "Move the fixture, not the stack. Shifting a water closet 24 in along a wall to bring it over the wet wall costs nothing at design stage and is the single most effective move available; shifting the whole bathroom one bay is usually free too. Where the stack must land in a room, land it in a corner and make it a full-height pilaster or a cupboard rather than a bulge: a 14 by 14 in boxed corner with a base and a cap reads as a chimney breast or a pier and costs $400-$900, where a 6 in bulge in a flat wall reads as damage.",
+    "dishonest": "Furring the whole wall out to 6 in to hide the offset. It moves one wall of the room 1 1/2 in and leaves the room out of square with its own openings, its cornice returns and its floorboards, and the discrepancy shows at the first window reveal. Worse, it usually gets done on the ground floor of a formal room where the reveal depth is the one thing carrying the wall's apparent thickness."
+  },
+  "detection": "Overlay the upper floor on the lower and mark every fixture. Any water closet, shower or stacked kitchen fixture that does not sit over an interior partition of at least 5 1/2 in, or over another wet room, has no landing. On site the tell is a furred pilaster or a wall that is thicker than its neighbours in a formal room, usually in a corner and usually painted out. Audibly: stand in the ground-floor room and have someone flush upstairs - a stack in an interior 2x4 partition is unmistakable.",
+  "test": {
+    "expression": "upper_floor_wet_fixtures_landing_on_a_wall_of_at_least_5_5_in / upper_floor_wet_fixtures",
+    "threshold": 1.0,
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "plan",
+    "note": "A 3 in DWV stack has an OD near 3 1/2 in and a hub near 4, so it does not fit in a 3 1/2 in stud wall. The test is a plan overlay and takes two minutes; the endemic value on production plans is 0.4 to 0.7."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "italianate-townhouse",
+      "why": "A row house's party wall and rear extension carry the stacks vertically as a matter of course, and the plan is narrow enough that every fixture is near one.",
+      "bounds": "The stack must be in the party wall or in a dedicated furred chase against it, never in the 4 in partition between the hall and the parlour.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "A 500-700 mm mass wall will take a chase cut into its thickness without any of this arithmetic applying, which is one of the quiet advantages of building in mass.",
+      "bounds": "Only in genuine mass construction. A stud wall stuccoed to look thick has the appearance and not the thickness.",
+      "applies_when": {
+        "construction": [
+          "solid-masonry",
+          "adobe",
+          "tapia"
+        ]
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "18-36 in adobe walls take a chase in the thickness for the same reason.",
+      "bounds": "Requires the real wall thickness, which the minimum 10 in reveal at openings will confirm."
+    },
+    {
+      "style": "shotgun-house",
+      "why": "The type is a single file of rooms with the wet rooms added at the rear, so every fixture is against the back wall and the question does not arise.",
+      "bounds": "Growth to the rear only; a bathroom inserted into the middle of the file introduces both this fault and a circulation one."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "duct-soffit-through-the-formal-room",
+      "difference": "Vertical against horizontal. Same driver, same week of the job; this one is caught by a plan overlay and that one by a joist-direction check."
+    },
+    {
+      "fault": "hearth-on-an-interior-wall",
+      "difference": "That fault spends the chimney mass - the one free vertical chase in the plan - on a fireplace that did not need it, which is very often why this fault then has nowhere to go."
+    }
+  ],
+  "co_occurs_with": [
+    "duct-soffit-through-the-formal-room",
+    "hearth-on-an-interior-wall",
+    "plant-room-that-was-never-drawn"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "A furred pilaster in a symmetrical room breaks the symmetry the whole style is about, and it always lands on one side only."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Single storey; most stacks drop directly into the crawl or slab from the fixture wall."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json services_strategy: stacks-in-the-chimney-mass, chase_width_beside_stack",
+    "International Residential Code P3005 (drainage system offsets and cleanouts), P2707, P3103 (vent terminals)",
+    "ASTM D2665 dimensions for 3 in and 4 in PVC DWV pipe and hubs, against nominal 2x4 and 2x6 stud depths",
+    "ASHRAE and manufacturer data on drainage noise transmission through single-layer gypsum partitions"
+  ],
+  "confidence": "high",
+  "tags": [
+    "services",
+    "plumbing",
+    "plan-overlay",
+    "cost-negative",
+    "trade-sequence",
+    "endemic",
+    "teaches"
+  ]
+}

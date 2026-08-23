@@ -1,0 +1,199 @@
+{
+  "id": "english-georgian-country-house",
+  "name": "English Georgian Country House",
+  "aka": [
+    "Georgian country box",
+    "the compact classical house",
+    "Taylor-Paine villa"
+  ],
+  "rank": "variant",
+  "member_of": "english-georgian",
+  "status": "historical",
+  "period": {
+    "origin": 1720,
+    "floruit_start": 1740,
+    "floruit_end": 1800,
+    "decline_end": 1830,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1939,
+        "revival_node": "georgian-revival",
+        "note": "The Edwardian neo-Georgian country house of Lutyens's classical phase, Reginald Blomfield and Detmar Blow, and its American cousin in the Colonial Revival estate."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland",
+      "Wales"
+    ],
+    "hearth": "The prosperous agricultural counties — Norfolk, Yorkshire, the Thames valley — and the offices of John Carr in York, James Paine and Sir Robert Taylor",
+    "climate_zones": [
+      "4A",
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-georgian",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "The free-standing rural expression of the parent style: same proportional system, same sash, same pattern-book detail, released from the party wall and the building acts and given four elevations, a park and a service wing."
+    },
+    {
+      "target": "english-palladian",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Closer to the Palladian source than the town house ever is. The five-part scheme, the pedimented centre, the Venetian window and the piano nobile survive here in reduced and affordable form, transmitted through Gibbs, Ware and Robert Morris's Select Architecture (1755)."
+    }
+  ],
+  "description": {
+    "short": "The compact classical box in a park: five or seven bays, hipped roof, pedimented or slightly advanced centre, service wing pushed to one side, and a plan of resolvable rooms around a hall and stair.",
+    "long": "Between the Palladian palaces of the 1730s and the picturesque villas of the 1800s there is a fifty-year period in which England built several thousand medium-sized classical country houses of remarkable consistency, and this is the type that most people now mean by 'a Georgian house'. It is not a prodigy house. Its client is a country gentleman, a successful lawyer, a Yorkshire clothier or a nabob home from Bengal, with perhaps two to five thousand acres and no ambition to entertain the Court. Its architect is a competent regional professional — John Carr in Yorkshire, James Paine in the Midlands, Sir Robert Taylor around London — or, more often, a builder working from Gibbs and Ware with a gentleman amateur looking over his shoulder.\n\nThe formula is compact and repeatable. A rectangular block, two or two and a half storeys over a low basement, five or seven bays wide and two rooms deep, hipped in slate or lead behind a modest parapet or under a modillion cornice. The centre three bays are advanced 300 to 600 mm and often pedimented; the entrance sits at grade or up a short flight, with a Doric or Ionic doorcase from a plate; a string course marks the first floor; the corners may take rusticated quoins. Inside, an entrance hall on axis leads to a saloon or stair hall behind, with the principal rooms — dining room, drawing room, library — arranged around them in Palladio's approved ratios, and the service accommodation pushed into a basement, a subordinate wing or a detached court linked by a passage. That last decision is the one that separates this type from its Palladian parent: the Georgian country house keeps the symmetry of the main block absolutely and lets the service wing be as asymmetrical as it needs to be, usually screened by trees.\n\nThe conditions were agricultural improvement, enclosure, colonial and mercantile money, and above all a transport system good enough to move Portland stone, Welsh slate and London-trained plasterers into a Yorkshire field. Behind that stood the landscape park. Capability Brown's practice from the 1750s onward removed the formal garden, brought grass up to the walls, and made the house an object standing in an idealised pasture — which is why a Georgian country house is designed to be seen in the round at a quarter of a mile, with four composed elevations and a roofline that resolves from any angle. It is also why the offices are hidden: the park's fiction is that the house is not a place of work.\n\nStanding in front of one on a grey afternoon, what registers is calm and correctness rather than drama. The house sits on the ground rather than rising from it, the graduated storeys settle the composition downward, and the eye finds nothing to argue with. Inside, the plan is legible within four steps of the front door — hall, stair, principal rooms left and right — and the rooms are the right size for their use in a way that later, larger houses rarely manage. That legibility is the type's real achievement, and it is why the same plan is still being drawn, in Surrey and in Connecticut, three hundred years later."
+  },
+  "defining_characteristics": [
+    "A free-standing rectangular double-pile block of five or seven bays, two to two and a half storeys over a semi-basement, composed to be seen in the round",
+    "Absolute bilateral symmetry of the main block, with the entrance centred and the service accommodation displaced into a basement, a subordinate wing or a detached service court",
+    "A centre of three bays advanced 300-600 mm and marked by a pediment, a doorcase, or both, against otherwise plain walling",
+    "Low-pitched hipped roof in slate or lead behind a parapet or under a modillion cornice, with chimneys grouped symmetrically at the ends",
+    "Entrance at or near grade, with the principal rooms on the ground and first floors rather than on a raised piano nobile",
+    "An entrance hall and stair hall on axis, with principal rooms of Palladian ratio disposed around them",
+    "The park setting: grass to the walls, no formal forecourt, and the service court screened by planting"
+  ],
+  "diagnostic_tells": [
+    "Five or seven bays with a three-bay centre advanced by a few hundred millimetres and topped by a pediment — the standard signature, and instantly distinguishable from the flat continuous front of a terrace",
+    "A service wing that is symmetrical about nothing, joined to a main block that is symmetrical about everything",
+    "Storey heights diminishing upward from the ground floor, which is the opposite of the town house's arrangement and identifies the building as rural at a glance",
+    "A Venetian window on the stair landing or in the centre of a side elevation — the one Palladian survival that persists to the end of the century",
+    "Quoins, string course, plinth and modillion cornice as the only wall ornament, with the doorcase carrying the rest"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-georgian-townhouse",
+      "difference": "Free-standing versus party-walled; four composed elevations versus one; entrance centred versus displaced; principal rooms on the ground floor versus the first floor; storey heights diminishing upward versus peaking at the first floor."
+    },
+    {
+      "node": "english-palladian",
+      "difference": "The same grammar without the ceremony or the budget. No portico, no external stair to a piano nobile, no colonnaded hyphens, ashlar replaced by good brick in most counties, and the room ratios followed by habit rather than checked against a plate."
+    },
+    {
+      "node": "regency",
+      "difference": "Regency renders in stucco, bows the front, brings the windows to the floor with iron balconies, and extends the eaves on brackets. The Georgian country house shows its brick or stone and keeps its openings punched neatly in the wall."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Palladian ratios applied through the builders' manuals, with the bay and the storey height as working modules and the orders confined to the doorcase, the cornice and any Venetian window. Composition is governed by the requirement that all four elevations resolve.",
+    "typical_ratios": [
+      "Facade 5 or 7 bays; overall front length to height (ground to cornice) roughly 1.6:1 to 2.2:1",
+      "Storey graduation: ground floor exceeds first by 10-20 percent, second floor 0.7-0.8 of the first, attic 0.5-0.6",
+      "Sash proportion 1.7:1 to 2:1, in 12-over-12 lights before about 1770 and 6-over-6 after",
+      "Centre projection 300-600 mm over three bays; pediment height 0.2-0.25 of its own width",
+      "Roof pitch 25-35 degrees, hipped, with ridge concealed or nearly so from ground level at 30 m distance",
+      "Principal rooms 1:1, 1:1.25, 1:1.33 or 1:1.5 in plan, ceiling heights 3.3-4.0 m on the principal floor",
+      "Service wing ridge at least 25 percent below the main block ridge"
+    ],
+    "bay_rhythm": "An even metronome of equal bays with a three-bay accented centre. Side and rear elevations keep the same bay module and the same window heads, which is why the type reads as a solid rather than as a front with a back.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The double-pile block around a hall and stair is the type's basic figure; the symmetry is generated by the plan."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "canonical",
+      "note": "The main block with hyphens and dependencies, inherited from the Palladian generation and reduced to an affordable scale."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The service and stable court behind or beside the block, deliberately screened from the park front."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "At the smaller end, where a parsonage or a gentleman farmer's house accretes service and farm buildings in a descending line."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "forbidden",
+      "note": "The type is defined by standing free and being seen in the round."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "The main block is strictly symmetrical about the entrance axis on the principal front, including chimney positions. Asymmetry is permitted only in the service wing, which must be visually subordinate and set back.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Ground-floor storey height exceeds the first floor by 10-20 percent, and every storey above diminishes. Sash proportion 1.7:1 to 2:1.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "All four elevations use the same bay module, window head and cornice. A composed front with a plain or randomly fenestrated back is forbidden in a house designed to stand in a park.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Service wing ridge at least 25 percent below the main block ridge, and its eaves line demonstrably lower. A service wing that matches the house in height destroys the hierarchy on which the composition depends.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Wall ornament limited to plinth, string course, quoins and crowning cornice, plus one accented centre. Pilasters or a portico require a Palladian rather than a Georgian classification.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Basildon Park",
+      "location": "Berkshire, England",
+      "year": 1783,
+      "note": "Built 1776-83 by John Carr of York for Sir Francis Sykes, on an East India Company fortune. Bath stone, a pedimented centre with an Ionic portico, and flanking pavilions joined by short links — the type at its most polished."
+    },
+    {
+      "name": "Danson House",
+      "location": "Bexleyheath, London, England",
+      "year": 1766,
+      "note": "Built 1762-66 by Sir Robert Taylor for the slave-trade merchant John Boyd. A compact three-storey villa of near-cubic proportion with canted bays — Taylor's characteristic reduction of the Palladian villa to a suburban scale."
+    },
+    {
+      "name": "Nostell Priory",
+      "location": "West Yorkshire, England",
+      "year": 1750,
+      "note": "Begun 1733 to designs by Colonel James Moyser and executed by James Paine, with later interiors by Robert Adam from 1766. A main block with corner pavilions showing the transition from Palladian scheme to Georgian practice."
+    },
+    {
+      "name": "Hagley Hall",
+      "location": "Worcestershire, England",
+      "year": 1760,
+      "note": "Built 1754-60 by Sanderson Miller, a gentleman amateur, for the first Lord Lyttelton. A four-square block with corner towers and Rococo plasterwork inside, and a good demonstration of how far a well-read amateur could get with pattern books."
+    }
+  ],
+  "sources": [
+    "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)",
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "Mark Girouard, Life in the English Country House (1978)",
+    "Isaac Ware, A Complete Body of Architecture (1756)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "country-house",
+    "park-setting",
+    "pattern-book"
+  ]
+}

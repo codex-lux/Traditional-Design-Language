@@ -1,0 +1,38 @@
+{
+  "id": "nordic-alpine-vernacular",
+  "name": "Nordic & Alpine Vernacular",
+  "rank": "family",
+  "member_of": "northern-european-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1100,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Scandinavia",
+      "Switzerland",
+      "Alps"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Log building and the deep-eaved chalet — timber traditions from regions with long winters, heavy snow, and abundant softwood.",
+    "long": "Horizontal log construction and the Alpine chalet share a logic: solid timber walls, very large roof overhangs, and elaborate carved detail concentrated on the gable and balcony where it can be seen and where the roof protects it.\n\nBoth reach America. Log building arrives with Finnish and Swedish settlers on the Delaware in 1638 and becomes the substrate of Appalachian building. The chalet arrives as a fashion in the 1850s through Downing and the pattern books, and its exposed rafter tails, brackets, and sawn balusters pass directly into the Craftsman bungalow half a century later."
+  },
+  "defining_characteristics": [
+    "Solid horizontal log or heavy timber walls rather than framed cavities",
+    "Very deep roof overhangs sheltering the wall and the balcony",
+    "Carved and sawn ornament concentrated at gable, bargeboard, and rail",
+    "Corner notching and joinery expressed as the primary detail",
+    "Span limited by available log length, setting room size directly"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "id": "driveway-as-the-front-garden",
+  "name": "The Paved Front Garden",
+  "aka": [
+    "the parking court in the front yard",
+    "the 30-foot apron",
+    "the asphalt forecourt"
+  ],
+  "slots": [
+    "landscape_idiom",
+    "street_relationship",
+    "setback_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "scale",
+  "symptom": "More than a third of the ground between the street and the house is paved for cars, and on a three-car house often more than half. The drive arrives at full width from the kerb, flares to 24 or 30 ft at the garage doors, and frequently adds a turnaround or a parking apron beside it. The house's forecourt - the ground its entrance is composed against - is a car park, and the largest single surface in every photograph of the property is asphalt.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Driveway width is set by the number of garage bays and by the manoeuvre, both of which are fixed before the site plan exists: three doors at 9 ft plus piers is about 31 ft of apron, and a car needs 24 to 26 ft of backing space in front of them. On a shallow front setback there is nowhere for that manoeuvre except the front yard, so it goes there. Paving is also the cheapest ground treatment on the site at $4-$9 per sq ft against $12-$30 for planted and edged garden, and it needs no maintenance, so once the geometry demands some of it, the path of least resistance is to pave the rest.",
+    "cost_saved": "$3,000-$9,000 against the same area planted, edged and irrigated, and a rear or side parking court would need 15 to 25 ft more lot width or a deeper lot."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / landscape_idiom / geometric-forecourt (canonical)",
+      "statement": "The landscape near the house is geometric and axial - forecourt, terraces, allee, walled garden in quarters - and it is composed with the elevation rather than around it. A parking apron is not a forecourt; it is the negative of a manoeuvre."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / outbuilding_types / arrangement",
+      "statement": "Outbuildings visible from the approach are composed symmetrically about the axis; outbuildings in the service yard are not composed at all. Vehicle standing is service, and service belongs in the service yard."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "new-urbanist-traditional / garage_strategy",
+      "statement": "No garage doors visible from the street anywhere on the block where an alley serves the lot - which also removes the front drive, the apron and the manoeuvring space at once. The alley is the settlement-scale answer and it is why the fault is rare in pre-1940 fabric."
+    },
+    {
+      "kind": "code",
+      "ref": "municipal front-yard paving and impervious-coverage limits, commonly 40-50 per cent of the front yard and 35-45 per cent of the lot",
+      "statement": "A growing number of ordinances cap front-yard paving explicitly, usually for stormwater reasons rather than compositional ones. Where the cap exists it is the only rule holding the line, and it is set well above what a composed approach can absorb."
+    }
+  ],
+  "correct_practice": "Size the drive for the movement it makes at each point rather than for its widest condition throughout. A single-lane drive is 10 to 12 ft, which is all that is needed from the kerb to within about 20 ft of the garage; the flare to the full apron width happens at the doors and is screened by the garage's own setback. Hold the total paved area in front of the building line to about a quarter of the front yard and never more than a third. Put the manoeuvring space behind the front plane of the main block - beside the house, behind a garden wall, or in a rear court reached down the flank - which is where the carriage drive always went, because the carriage house was at the back of the lot. Where the front yard must carry standing vehicles, define the paved area as a designed court: an edge of kerb, wall or hedge on all sides, a change of material at the entrance axis, and a shape that is a rectangle related to the house rather than a residue of turning circles. And use the historic device that is still the cheapest and best answer on a narrow lot: the ribbon drive, two paved strips 18 to 24 in wide at 4 ft 8 in centres with grass or gravel between, which halves the paved area, halves the runoff, and reads as garden with a track through it rather than as a car park.",
+  "fixes": {
+    "right": "A 10-12 ft drive to a parking court held behind the front plane, with the front ground composed as a forecourt.",
+    "cheap": "Narrow the drive and edge it. Reducing the drive to 10 ft between the kerb and the last 20 ft, and giving it a brick or granite edge with a planted strip either side, removes 200 to 400 sq ft of paving, costs less than the paving it deletes, and converts the frontage from an apron to an approach. Where the apron cannot shrink, put an edge on it: a 42 in hedge or a low wall between the parking area and the walk turns two undifferentiated surfaces into a court and a garden, for $1,500-$4,000.",
+    "dishonest": "Stamping or colouring the concrete in a brick or cobble pattern. The area is unchanged, the pattern is at the wrong scale for the surface it covers, and a 900 sq ft field of stamped herringbone in front of a house draws far more attention to the paving than plain broom-finished concrete would. Permeable pavers answer the stormwater objection honestly and do nothing at all about the compositional one."
+  },
+  "detection": "From an aerial image, measure the paved area between the street and the front building line and divide by the total front-yard area. Above 0.33 is the fault and above 0.5 is severe. From a street photograph the quick reading is the drive's width at the kerb: 18 to 24 ft at the property line means the drive was drawn at apron width all the way out, and a 10 to 12 ft entry means it was drawn as a road. Second tell: whether the paving has an edge. An apron that fades into turf on both sides with a ragged margin of gravel and dead grass was never designed as a surface at all.",
+  "test": {
+    "expression": "paved_area_forward_of_the_building_line / front_yard_area",
+    "threshold": 0.33,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Directly measurable from an aerial image with a scale reference. 0.25 or below reads as a garden with a drive in it; above 0.5 the front yard is a car park. A quicker street-photograph proxy is driveway_width_at_the_property_line_ft, which should be at most 12."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "mexican-hacienda",
+      "why": "The forecourt inside the gate is a working court, hard-surfaced and designed for vehicles and animals, and it always was. A paved court is correct here because it is a room with walls round it.",
+      "bounds": "Requires the walled casco with a controlled gate: the paving is INSIDE an enclosure, which is what makes it a court rather than an apron. Paving outside the wall is not this."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "The ground between the front wall and the sidewalk is an areaway and is entirely paved, because there is no front yard at all.",
+      "bounds": "Requires the front wall on or near the street line and the areaway railing. The paving is 4 to 8 ft deep, not 40.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ]
+      }
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "The building stands on the street line and there is no front ground to pave or plant.",
+      "bounds": "Zero setback held along the frontage.",
+      "applies_when": {
+        "construction": [
+          "zero-lot-line",
+          "street-wall"
+        ]
+      }
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "A farmyard is a large hard-surfaced working area and it is legitimately bigger than the house - but it is a YARD, beside or behind the house, related to the barn and the drive, and the dooryard in front of the house is fenced off from it.",
+      "bounds": "Requires the dooryard enclosure separating the domestic ground from the working one. A suburban lot paved to the front door is the fault wearing farmhouse trim."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "garage-doors-dominate-the-frontage",
+      "difference": "That is an area ratio on the ELEVATION - door width against facade width. This is an area ratio on the GROUND. A house can pass that test with a side-entry garage and still pave three quarters of its front yard for the turning circle."
+    },
+    {
+      "fault": "door-reached-only-from-the-driveway",
+      "difference": "That fault is the absence of a pedestrian route. This is the quantity of paving, and the two are separable: a house can have a fine brick walk crossing a sea of asphalt."
+    },
+    {
+      "fault": "lawn-to-the-front-door",
+      "difference": "Both are failures of the front ground. That one has no edge and this one has too much surface; a house with both has neither a garden nor a court."
+    }
+  ],
+  "co_occurs_with": [
+    "garage-doors-dominate-the-frontage",
+    "garage-forward-of-the-facade",
+    "lawn-to-the-front-door"
+  ],
+  "severity_by_style": [
+    {
+      "style": "new-urbanist-traditional",
+      "severity": "fatal",
+      "why": "The code's whole premise is a rear-lane service pattern; a front parking court defeats the block."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The forecourt is a composed geometric space on the entrance axis, and a manoeuvring apron cannot be one."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The post-war type is organised around the car and a generous front drive is authentic to it."
+    },
+    {
+      "style": "italianate-townhouse",
+      "severity": "not-applicable",
+      "why": "There is no front yard."
+    }
+  ],
+  "severity_trajectory": "Worsens with each added vehicle. The apron is poured once and then extended: a second parking pad at year three, a widened turnaround at year eight, a pad for a trailer or a boat at year twelve, each added at the edge of the last. Paving is the only element on a residential site that reliably grows.",
+  "sources": [
+    "kits/georgian-colonial-american.kit.json landscape_idiom (geometric-forecourt canonical), outbuilding_types arrangement",
+    "styles/new-urbanist-traditional.json garage_strategy constraint on alley-served lots",
+    "Municipal front-yard paving and impervious-surface coverage limits; EPA and state stormwater guidance on residential impervious cover",
+    "AASHTO and residential site-planning standards for driveway widths (single lane 10-12 ft) and passenger-vehicle backing space (24-26 ft)",
+    "Historic carriage-drive and carriage-house arrangements in nineteenth-century American town lots"
+  ],
+  "confidence": "high",
+  "tags": [
+    "site",
+    "landscape",
+    "garage",
+    "paving",
+    "aerial-testable",
+    "endemic"
+  ]
+}

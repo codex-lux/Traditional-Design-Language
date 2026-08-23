@@ -1,0 +1,204 @@
+{
+  "id": "keystone-on-a-steel-lintel",
+  "name": "The Keystone Carrying Nothing",
+  "aka": [
+    "applique keystone",
+    "the foam voussoir",
+    "keystone with no arch"
+  ],
+  "slots": [
+    "window_head_masonry",
+    "window_head_wood",
+    "ornament_vocabulary"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A wedge-shaped keystone sits at the centre of a window head. Either there is no arch under it at all — a flat soldier course or a plain brick coursing runs straight through behind a stuck-on stone — or there is an arch shape in brick with a galvanised steel angle visibly carrying it, its painted edge showing as a dark line at the soffit and a weep every few feet along it. In the worst version the keystone is a cast polyurethane or GFRC piece glued to the veneer, sometimes on a wood-sided wall where no arch is even possible.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Brick veneer over a frame wall is not structural, so every opening is carried on a steel angle bolted to the frame regardless of what the brick above it looks like. Once the load path exists, the brickwork over the opening is pure appearance, and appearance is bought from a catalogue. The keystone becomes an accessory item like a light fixture, ordered by the piece, and it arrives on site with adhesive.",
+    "cost_saved": "A cast keystone is 30 to 90 USD installed against 200 to 600 USD for a gauged or cut-stone one; the difference over a 14-window elevation is 2,000 to 7,000 USD. The steel angle is not optional and saves nothing, because the veneer needs it either way."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "an arch is a set of members in compression and a keystone is the last one placed",
+      "statement": "The keystone exists because the arch has to be closed. It is the only voussoir with no partner, and its width, its taper and its projection all follow from the arch's geometry. Detached from an arch it is a shape with no argument."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_head_masonry.gibbs_rule_head_height_in",
+      "statement": "head assembly height = opening_width / 8, which sets the depth of the head and therefore the length of the keystone."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / window_head_masonry / flat-trim-board-no-crown",
+      "statement": "A head with no cap sheds no water and casts no shadow; the same objection applies to a head that is all cap and no member."
+    }
+  ],
+  "correct_practice": "If there is a keystone there is an arch, and the arch's joints radiate. Keystone width at the extrados about 1.2 to 1.4 times its width at the intrados; length equal to the arch depth, about one module or four brick courses; projection beyond the wall face 1 to 2 in if it projects at all, and in much good work it does not project. Where the wall is veneer on a steel angle, the honest options are to build the head as a flat arch or segmental arch in gauged brick supported on the angle and to let the angle be a concealed shelf — a real detail, since even a load-bearing wall has a relieving arrangement — or to use a plain stone lintel with expressed bearing. Where a Gibbs surround is wanted, its blocks alternate up the jambs as well as across the head, and the keystone is one member of a composed group, not a solo item.",
+  "fixes": {
+    "right": "A gauged brick or cut-stone flat arch with radiating joints and a real keystone of the same material and depth as the voussoirs, cambered at 1 in 96.",
+    "cheap": "Delete the keystone and lay a proper soldier or rowlock head three or four courses deep, or a plain stone lintel. A well-proportioned plain head is correct in more styles than a keystoned one and costs less than the keystone did. This is the fix that gets built.",
+    "dishonest": "A cast keystone plus cast voussoirs to complete the arch. The joints will be moulded rather than laid, the whole assembly will be one colour and one texture where a real arch has nine slightly different bricks, and cast stone weathers as a single unit with a distinctive uniform grey streak that a jointed arch never shows."
+  },
+  "detection": "Follow the mortar joints outward from the keystone. If they are vertical and parallel, there is no arch and the keystone is applique. Look at the soffit of the opening for a steel angle: a painted line 3/16 to 1/4 in thick running the full width, sometimes with rust bleed at the ends and small weep tubes in the joint above it. Check the material: a keystone that matches the mortar colour rather than the brick or the sill is cast. Check whether the piece projects proud of the brick face by more than about 2 in, which is a catalogue characteristic. On a clapboard or fibre-cement wall, any keystone at all is this fault.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "beaux-arts-american",
+      "why": "An exaggerated, deeply projecting keystone rising into the string course above is a legitimate Beaux-Arts device.",
+      "bounds": "The style's own constraint requires the wall to be or fully express cut stone, with arches built of true voussoirs and a minimum 12 in reveal. The exaggeration is licensed only where the construction is real.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 12,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The style's own constraint: the wall must be, or must fully express, cut stone, with a minimum 12 in reveal, jambs returned in the same material as the face, true voussoirs and a rusticated base of not less than one storey. The exaggeration is licensed only where the construction is real."
+      },
+      "applies_when": {
+        "construction": [
+          "cut-stone",
+          "load-bearing-masonry"
+        ],
+        "note": "Depends on the construction, not on the style label. A Beaux-Arts detail on a thin veneer voids it."
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Cast and pressed ornament is native to the style — its ornament is manufactured rather than carved, and a moulded cast-iron or terracotta window hood with a keystone motif is period-correct.",
+      "bounds": "The hood must be a hood — a projecting three-dimensional member with a soffit, returns and a drip — carried on brackets or corbels. A flat applique keystone with no hood is not this.",
+      "bounds_test": {
+        "expression": "window_hood_projection_from_wall_face_in",
+        "threshold": 3.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The hood must be a HOOD — a projecting three-dimensional member with a soffit, returns and a drip, carried on brackets or corbels. A flat applique keystone with no hood scores under 3 in and is not this exception."
+      },
+      "applies_when": {
+        "construction": [
+          "cast-iron",
+          "terracotta",
+          "pressed-metal"
+        ],
+        "date_range": [
+          1839,
+          1890
+        ],
+        "note": "The licence is for manufactured ornament of the period, which is what the style's own ornament was."
+      }
+    },
+    {
+      "style": "second-empire",
+      "why": "Same Italianate substrate: segmental heads with moulded hoods and cast keystone motifs, particularly on dormers.",
+      "bounds": "Same bound: a projecting hood with returns, not a glued shape.",
+      "bounds_test": {
+        "expression": "window_hood_projection_from_wall_face_in",
+        "threshold": 3.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Same bound: a projecting hood with returns, not a glued shape."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "flat-arch-without-camber",
+      "difference": "That fault has a real arch built without its optical correction. This one has no arch."
+    },
+    {
+      "fault": "head-casing-without-a-cap",
+      "difference": "That is the wood equivalent of an under-detailed head; this is an over-detailed one. They are opposite economies and both produce a head that does not work."
+    },
+    {
+      "fault": "arch-that-carries-nothing",
+      "difference": "Near-identical territory approached from opposite ends. That fault names the load path — a steel angle carrying a veneer arch. This one names the ornament — a keystone with no arch under it at all. A veneer arch on an angle with a real radiating keystone is that fault only; a flat soldier course with a glued wedge on it is this one."
+    }
+  ],
+  "sources": [
+    "Brick Industry Association Technical Note 31",
+    "James Gibbs, A Book of Architecture (1728), plates of rusticated surrounds",
+    "Contemporary architectural-accessory manufacturer literature"
+  ],
+  "confidence": "high",
+  "tags": [
+    "masonry",
+    "keystone",
+    "veneer",
+    "applique"
+  ],
+  "test": {
+    "expression": "voussoir_joint_width_at_extrados_in / voussoir_joint_width_at_intrados_in",
+    "threshold": 1.15,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Follow the mortar joints outward from the keystone. Radiating joints, wider at the top, mean an arch; vertical parallel joints mean the keystone is applique. This is the single check that settles the fault from a street photograph and it needs no scale."
+  },
+  "secondary_tests": [
+    {
+      "expression": "keystone_projection_from_wall_face_in",
+      "threshold": 2.0,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "In much good work the keystone does not project at all; where it does, 1 to 2 in. A piece standing more than about 2 in proud of the brick face is a catalogue characteristic and is usually cast rather than cut."
+    },
+    {
+      "expression": "keystone_width_at_extrados_in / keystone_width_at_intrados_in",
+      "threshold": 1.2,
+      "direction": "between",
+      "upper": 1.4,
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A keystone is a voussoir and tapers like one. A parallel-sided wedge, or a piece with no taper at all, was moulded rather than cut."
+    },
+    {
+      "expression": "distinct_brick_tones_within_the_arch",
+      "threshold": 3,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "A laid arch has nine slightly different bricks; a cast unit is one colour, one texture and weathers as a single piece with a uniform grey streak. Colour variance within the head is a surprisingly reliable cast-versus-laid discriminator at photographic resolution."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "beaux-arts-american",
+      "severity": "minor",
+      "why": "An exaggerated deeply projecting keystone rising into the string course is a legitimate device where the wall is or fully expresses cut stone with true voussoirs."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "minor",
+      "why": "Cast and pressed ornament is native to the style; a moulded cast-iron or terracotta hood with a keystone motif is period-correct, provided it is a hood with a soffit and returns."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The style's vocabulary is exclusive and admits no round-headed arches; a keystone of any kind has left the style."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "The constraint forbids applied brackets, shutters and any classical or revival ornament outright."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "fatal",
+      "why": "Ornament is essentially absent by definition: no keystones is stated in the style node."
+    }
+  ],
+  "co_occurs_with": [
+    "flat-arch-without-camber",
+    "arch-that-carries-nothing",
+    "surround-that-lies-about-the-wall",
+    "three-periods-on-one-elevation"
+  ]
+}

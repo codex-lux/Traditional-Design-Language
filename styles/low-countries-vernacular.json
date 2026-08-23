@@ -1,0 +1,38 @@
+{
+  "id": "low-countries-vernacular",
+  "name": "Low Countries Vernacular",
+  "rank": "family",
+  "member_of": "northern-european-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1400,
+    "floruit_end": 1900,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Netherlands",
+      "Belgium",
+      "South Africa"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Dutch and Flemish brick building — the gabled canal house, the farmhouse, and their remarkable export to the Hudson Valley and the Cape of Good Hope.",
+    "long": "The Low Countries developed a brick urbanism of extraordinary discipline: narrow deep lots, party walls, and an elaborated street gable carrying all the architectural expression. On the land, a farmhouse tradition of large roof volumes over combined house and byre.\n\nThe export history is the interesting part. Dutch settlement carried this material to two places with almost nothing else in common — the Hudson and Delaware valleys, where it produced the American Dutch Colonial and its gambrel, and the Cape, where it met French Huguenot craft and Southeast Asian labour to produce Cape Dutch, one of the most distinctive hybrid architectures in the world."
+  },
+  "defining_characteristics": [
+    "Brick as the default material, with the gable as the site of expression",
+    "Narrow deep urban lots with party-wall construction",
+    "Large roof volumes doing significant work in the section",
+    "Whitewashed lime render in the colonial branches",
+    "Export by settlement rather than by treatise"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

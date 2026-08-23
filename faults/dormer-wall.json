@@ -1,0 +1,201 @@
+{
+  "id": "dormer-wall",
+  "name": "The Roof That Became a Storey",
+  "aka": [
+    "the dormer terrace",
+    "attic conversion massing"
+  ],
+  "slots": [
+    "dormer",
+    "roof_form",
+    "height_proportion"
+  ],
+  "severity": "fatal",
+  "severity_by_style": [
+    {
+      "style": "cape-cod-colonial",
+      "severity": "fatal",
+      "why": "There are no front dormers in the type at all."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The roof is one simple solid about one ridge; perforating it abolishes the parti."
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "severity": "not-applicable",
+      "why": "A single full-length shed dormer is the type's definition."
+    },
+    {
+      "style": "second-empire",
+      "severity": "not-applicable",
+      "why": "The mansard storey is a storey and says so."
+    }
+  ],
+  "severity_in_use": "minor",
+  "frequency": "common",
+  "category": "composition",
+  "symptom": "Dormers so numerous and so close together that the strips of roof between them are narrower than the dormers themselves. From the street the eave line is at the first-floor plate, the dormer faces read as a continuous second-storey wall set back a foot and a half, and the roof survives only as triangles of shingle between windows.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The cheapest square footage in a house is under a roof that already exists. Adding a knee wall raises the plate, which is a height-limit and a structural event; adding dormers is neither, and in many jurisdictions a dormer does not count against a wall-height or storey limit at all while a raised plate does. So an ordinance that caps wall height and not roof height converts directly into a wall of dormers.",
+    "cost_saved": "Converting 600 sf of attic to habitable space through dormers runs $100-160 per sf against $200-300 per sf for a full second storey."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / dormer / wall-dormer = forbidden",
+      "statement": "Breaks the eave line, which no Georgian dormer does."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a roof must still read as a roof",
+      "statement": "The proportion of unbroken roof surface to dormer face is what distinguishes a roof with windows in it from a storey with a hat on."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R305.1.1",
+      "statement": "7 ft 0 in over at least 50 per cent of the required floor area in a sloped-ceiling room. Many zoning ordinances cap wall height or storey count without capping roof height, so an ordinance that forbids a raised plate converts directly into a wall of dormers."
+    }
+  ],
+  "correct_practice": "The roof must remain the dominant element. Working rules: the sum of dormer face widths should not exceed 40 per cent of the roof's length; the unbroken roof between two adjacent dormers must be at least as wide as one dormer face; and there must be a continuous run of roof at each end of the building at least one and a half dormer widths long, so the roof form is legible at the corners where the building is seen obliquely. If more accommodation is needed than that allows, build a second storey and say so - a two-storey house with a modest roof is a better building than a one-storey house with a roof full of holes, and it usually costs less per square foot.",
+  "fixes": {
+    "right": "Either a genuine second storey, or fewer and smaller dormers with the balance of the area taken in plan.",
+    "cheap": "Consolidate. Replace five small gable dormers with three, and take the lost area from a single rear shed dormer that nobody sees from the street. The street elevation is restored and the roof area is unchanged.",
+    "dishonest": "Linking the dormers with a continuous shed roof and calling it a shed dormer. That is a storey with a setback, and it should be detailed as one - with its own eave, its own cornice line and its own material - rather than pretending to be a roof."
+  },
+  "test": {
+    "expression": "sum_of_dormer_face_widths_in / building_width_in",
+    "threshold": 0.4,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Over 0.5 the roof has stopped being the dominant element; over 0.65 the dormers have become a storey."
+  },
+  "secondary_tests": [
+    {
+      "expression": "narrowest_roof_gap_between_adjacent_dormers_in / dormer_face_width_in",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The unbroken roof between two dormers must be at least as wide as one dormer face."
+    },
+    {
+      "expression": "roof_run_at_each_end_of_the_building_in / dormer_face_width_in",
+      "threshold": 1.5,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A continuous run of roof at each end, so the roof form is legible at the corners, which is where a house is seen obliquely from a moving car."
+    },
+    {
+      "expression": "count_of_dormer_heads_on_one_continuous_horizontal_line / dormer_count",
+      "threshold": 0.99,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The test that settles it. If a single horizontal line touches the heads of every dormer window and the head of nothing else, the dormers are a storey wearing a hat."
+    }
+  ],
+  "detection": "In a straight-on photograph: sum of dormer widths divided by building width - over 0.5 is the fault; and the narrowest roof gap between adjacent dormers divided by a dormer face width - under 1.0 is the fault. A third test that settles it: if a single horizontal line can be drawn across the elevation touching the heads of every dormer window and the head of nothing else, the dormers have become a storey.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "dutch-colonial-revival",
+      "why": "One continuous shed dormer providing full-height second-floor accommodation is the type, and 'a gambrel with a full-length shed dormer is Dutch Colonial Revival essentially by definition'.",
+      "bounds": "50-75 per cent of the roof length, set back 18-36 in from the wall plane, and one dormer rather than a row - and the gambrel's profile must survive uninterrupted at both gable ends.",
+      "bounds_test": {
+        "expression": "shed_dormer_length_in / roof_length_in",
+        "threshold": 0.5,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 0.75,
+        "note": "One dormer rather than a row, set back 18-36 in from the wall plane, with the gambrel profile surviving uninterrupted at both gable ends."
+      }
+    },
+    {
+      "style": "second-empire",
+      "why": "The mansard storey IS a storey and announces it: the curb cornice below and the deck above make the claim explicit, and the dormers are its windows.",
+      "bounds": "The mansard must run all the way round and be terminated by a bracketed curb cornice. The honesty of the claim is what licenses it.",
+      "bounds_test": {
+        "expression": "dormer_count / bay_count",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The mansard must run all the way round and be terminated by a bracketed curb cornice. The honesty of the claim is what licenses it."
+      }
+    },
+    {
+      "style": "cape-cod-revival",
+      "why": "Rear-slope dormers, including a long shed, are a permissible later addition to the type.",
+      "bounds": "Rear slope only. Front dormers are not part of the type at all.",
+      "bounds_test": {
+        "expression": "count_of_dormers_on_the_street_slope",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Rear slope only. Front dormers are not part of the type."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "The broad roof is meant to absorb large and irregular dormers into one plane.",
+      "bounds": "The largest single roof plane must remain at least 40 per cent of the total roof area.",
+      "bounds_test": {
+        "expression": "largest_single_roof_plane_area / total_roof_area",
+        "threshold": 0.4,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The roof must remain one gathering shape."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "dutch-colonial-revival",
+      "statement": "An unbroken lower slope is the fault. A gambrel that does not carry a long shed dormer providing full-height second-floor accommodation is a gambrel over an attic, which is decoration."
+    },
+    {
+      "style": "second-empire",
+      "statement": "A mansard with too few dormers is the fault; dormer count equals bay count."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "overscaled-dormer",
+      "difference": "One dormer too large for its roof, versus enough dormers to abolish the roof. A house can have correctly proportioned individual dormers and still fail this test."
+    },
+    {
+      "fault": "raised-cape-eave",
+      "difference": "Two solutions to the same commercial problem - habitable area upstairs. One raises the wall, the other perforates the roof."
+    }
+  ],
+  "co_occurs_with": [
+    "overscaled-dormer",
+    "dormer-off-the-bay"
+  ],
+  "alternative_to": [
+    "raised-cape-eave",
+    "gambrel-slopes-converging"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json dormer",
+    "project style nodes: dutch-colonial-revival, second-empire, cape-cod-revival, shingle-style",
+    "IRC R305.1.1"
+  ],
+  "confidence": "high",
+  "tags": [
+    "dormer",
+    "massing",
+    "composition",
+    "roof"
+  ]
+}

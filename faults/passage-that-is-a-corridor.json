@@ -1,0 +1,171 @@
+{
+  "id": "passage-that-is-a-corridor",
+  "name": "The Hall That Is A Corridor",
+  "aka": [
+    "the 42-inch hall",
+    "code-minimum circulation",
+    "the passage taken for area"
+  ],
+  "slots": [
+    "circulation_parti",
+    "public_private_gradient"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A house described as a centre-hall or centre-passage plan whose hall is 3 ft 6 in to 4 ft 6 in wide - a corridor with doors in it. There is nowhere to stand aside, nowhere to put a chair or a case clock, and two people meeting in it have to turn sideways. In the eighteenth-century houses it is copied from, the same space was 10 to 14 ft wide and was furnished, used and sometimes danced in.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Circulation is the only area on a plan that is priced as pure loss: it appears in the square-foot total, it costs the same per foot to build as a bedroom, and it cannot be named in a listing. Every plan review therefore squeezes it, and the code gives a floor to squeeze to - the residential minimum hallway is 36 in - so 42 to 48 in reads as generous. The result is a plan whose parti is named for a room it no longer contains.",
+    "cost_saved": "Narrowing a 32 ft long passage from 12 ft to 4 ft returns about 256 sq ft to the rooms either side: $45,000-$75,000 of saleable area on a production house, which is why this is the least negotiable fault in the corpus."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / circulation_parti / passage_width_ft = 10-14",
+      "statement": "At 10 to 14 ft the passage is wider than most modern bedrooms. It is not a corridor; it was furnished and used as a room."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / circulation_parti.width = part * 6 = 6 ft, range 3-10 ft",
+      "statement": "Measured central passages run 6 to 12 ft: 8-10 ft where the passage is a living space in hot climates, 6-7 ft where it is only circulation. If the design is southern and the passage is 6 ft, the plan has been drawn from a northern precedent."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R311.6 - hallway width not less than 3 ft",
+      "statement": "The code minimum is a life-safety floor, not a design dimension, and a plan that lands on it has been dimensioned by the code rather than by the type."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / circulation_parti / passage_share_of_facade",
+      "statement": "Roughly one third of a five-bay front; one fifth to one quarter of a seven-bay. The passage is a bay of the elevation, not a gap between bays."
+    }
+  ],
+  "correct_practice": "Size the passage from the facade rather than from the code. On a five-bay Georgian front the passage takes about a third of the width - 12 to 14 ft on a 42 to 48 ft front - and on a seven-bay front a fifth to a quarter. Southern vernacular passages run 8 to 12 ft because the passage is a room used in summer; northern vernacular passages run 6 to 7 ft because they are circulation and the heat is precious. The functional test is furnishability: a passage takes a 30 in deep case piece against one wall and still leaves 44 in clear, which puts the floor at 6 ft 2 in for a working minimum and 8 ft before it reads as a room. Below 5 ft the space cannot receive a visitor, which is the single social act the centre passage was invented to perform. Where area is genuinely short, take the width from the passage's LENGTH rather than its breadth - a passage two thirds of the depth opening into a rear stair hall is a documented plan and a corridor is not.",
+  "fixes": {
+    "right": "Draw the passage as a room, at 10-14 ft for a formal plan or 8-12 ft for southern vernacular, and take the area out of the depth of the flanking rooms rather than out of the passage.",
+    "cheap": "Widen the passage at one point rather than along its length. A 4 ft corridor that opens to 9 ft for a 7 ft length at the stair, or at the mid-point where the doors face each other, reads as a hall and costs about 20 sq ft rather than 250. This is what a rear stair hall does in a period plan and it is the fix that actually gets built. Second free move: raise the passage ceiling or give the passage the only cornice in the house, which buys apparent width at zero plan cost.",
+    "dishonest": "Calling a 4 ft corridor a 'gallery' and hanging pictures in it. A gallery is a room you stop in; you cannot stop in 48 inches with a door swinging into it, and hanging art in a space where nobody can stand back three feet is a claim rather than a use."
+  },
+  "detection": "In a plan, divide the passage width by the width of the narrowest room it serves: below about 0.4 the passage is a corridor. In a photograph taken along the hall, look at the door casings: in a true passage the casings on opposite sides do not appear to touch and there is wall between the door and the corner, and a corridor shows continuous casing with no wall face between openings. A third check that works from an elevation alone: on a five-bay front, measure the centre bay's share of the total width - a passage at a third of the frontage shows as a wide central bay, and a corridor plan shows five bays evenly spaced with the door bay no wider than the window bays.",
+  "test": {
+    "expression": "passage_clear_width_ft",
+    "threshold": 8.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "plan",
+    "note": "8 ft for a formal centre-passage plan and 6 ft for a northern vernacular one. The code floor of 3 ft is not a design value. Where only an elevation is available, use passage_bay_width / mean_window_bay_width, which should be at least 1.3."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "southern-federal",
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "greek-revival-upland-vernacular",
+    "american-farmhouse-vernacular",
+    "american-folk-vernacular",
+    "new-urbanist-traditional",
+    "modern-farmhouse-traditional",
+    "jeffersonian-classicism",
+    "palladian"
+  ],
+  "exceptions": [
+    {
+      "style": "new-england-colonial",
+      "why": "The First Period lobby-entrance plan has no passage at all - the front door opens onto the face of a central chimney four feet away, and the two tiny flanking spaces are stairs and turns, not a hall.",
+      "bounds": "Requires the central stack of 7 ft square or more and the winder stair in front of it. A 4 ft corridor beside a gable-end chimney is not a lobby entrance; it is a corridor.",
+      "bounds_test": {
+        "expression": "central_chimney_base_dimension_ft",
+        "threshold": 7.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "plan"
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "The full Cape's entry is a lobby against the stack with a boxed winder stair; the space is 4 to 6 ft square and is not pretending to be a room.",
+      "bounds": "Only where the chimney is central and the house is one-and-a-half storeys. A two-storey Cape Revival with a 4 ft centre corridor is the fault."
+    },
+    {
+      "style": "italianate-townhouse",
+      "why": "A row-house side hall on a 16-25 ft lot cannot be a room; 4 to 5 ft is the historic dimension and the compensation is height, a 10-12 ft ceiling and an arched screen into the stair.",
+      "bounds": "Requires the narrow lot, the raised parlour floor and the compensating ceiling height. A 4 ft hall under an 8 ft ceiling on a 60 ft wide suburban lot has the constraint without the reason.",
+      "applies_when": {
+        "construction": [
+          "party-wall-row"
+        ],
+        "note": "The same licence covers Greek Revival and Federal urban rows."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Deliberately hall-less. A hall added down one side converts the building to a side-hall cottage and is a different type.",
+      "bounds": "Overall width 12-16 ft with no interior hallway at all. This is an exception by absence, not a licence for a narrow one."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "centre-passage-blocked-at-one-end",
+      "difference": "Width against ends. The two faults have the same driver and different geometry, and a plan very often has one or the other but rarely both, because the second one is what you do when the first one was refused."
+    },
+    {
+      "fault": "stair-at-the-front-door",
+      "difference": "That is about where the stair starts within the passage. A 14 ft wide passage with the stair rising immediately inside the door is still a stairwell."
+    },
+    {
+      "fault": "stair-at-the-code-minimum",
+      "difference": "Same driver in the vertical: circulation dimensioned from the code's life-safety floor rather than from the type. The two travel together because one plan review produces both."
+    }
+  ],
+  "co_occurs_with": [
+    "stair-at-the-front-door",
+    "front-door-into-the-living-room"
+  ],
+  "alternative_to": [
+    "centre-passage-blocked-at-one-end"
+  ],
+  "severity_by_style": [
+    {
+      "style": "tidewater-georgian",
+      "severity": "fatal",
+      "why": "In the Chesapeake and the Deep South the passage is a summer room with doors at both ends; at 4 ft it has no function left at all."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The passage is the style's central social invention and a corridor is not a narrow version of it."
+    },
+    {
+      "style": "new-england-georgian",
+      "severity": "serious",
+      "why": "Northern passages are genuinely narrower - 6 to 8 ft is documented - so the gap between correct and endemic is smaller."
+    },
+    {
+      "style": "minimal-traditional",
+      "severity": "minor",
+      "why": "The type is built to a budget and a small hall is authentic to it."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json circulation_parti, passage_width_ft and passage_share_of_facade",
+    "proportions/systems/room-vernacular.json circulation_parti derived rule and note",
+    "International Residential Code R311.6 (hallway width)",
+    "HABS measured plans, Chesapeake centre-passage houses; Virginia Savage McAlester, A Field Guide to American Houses (2nd ed. 2013), plan types"
+  ],
+  "confidence": "high",
+  "tags": [
+    "plan",
+    "circulation",
+    "proportion",
+    "area-pressure",
+    "endemic"
+  ]
+}

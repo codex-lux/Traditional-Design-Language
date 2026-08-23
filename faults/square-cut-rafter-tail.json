@@ -1,0 +1,183 @@
+{
+  "id": "square-cut-rafter-tail",
+  "name": "The Square Tail",
+  "aka": [
+    "framing lumber on display",
+    "the sawn end"
+  ],
+  "slots": [
+    "eave_condition"
+  ],
+  "severity": "serious",
+  "severity_in_use": "minor",
+  "severity_trajectory": "Minor on day one, serious by year eight. Sawn end grain in the open is the fastest-wetting surface on the building: a square-cut tail checks along the grain and the paint film fails at the cut face within five to eight years, so the aesthetic fault becomes the maintenance one. A chamfer that costs twenty seconds per tail also sheds water off the end grain.",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "Exposed rafter tails cut off plumb or square with a circular saw, 1 1/2 in thick, every one identical, with the sawn end grain facing the street. The eave that was supposed to display joinery is displaying framing stock.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The tail is cut by the framer at the moment the rafter goes up, in place, with a circular saw. A shaped tail has to be laid out from a template and band-sawn or jig-sawn on the ground before the rafter is lifted, then sanded and primed on all faces - six to ten minutes a tail against fifteen seconds. On a house with forty tails that is four to six hours of somebody's time in a trade that is priced by the square of roof, not by the piece.",
+    "cost_saved": "$400-900 per house."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "either shape it or hide it",
+      "statement": "A member left in view is a member on display. Sawn end grain in the open is neither a finished detail nor a concealed one, and it weathers faster than any other cut on the building."
+    }
+  ],
+  "correct_practice": "In the styles that expose their tails, the tail is a piece of joinery: 12-20 in of exposed length, an apparent thickness of 3 in or more (usually doubled 2x stock or a 3x member), and a cut face shaped to a profile - a simple 45 degree chamfer, an ogee, a lamb's tongue, or a stepped double taper. The end that faces the street is the only face you see from below, and it is the one detail on the eave that catches light differently from the rafter's sides, which is what makes the row of tails read as a rhythm rather than as a fringe. Where the framing does not run out past the plate, applied false tails scabbed to a continuous fascia are a legitimate and long-standing answer, and give better control of spacing and profile than true tails do.",
+  "fixes": {
+    "right": "Shaped tails, 3 in or more apparent thickness, cut from a template on the ground, primed on six faces before they go up.",
+    "cheap": "A single 45 degree chamfer across the bottom of the sawn end, cut in place with the same saw at the same time. It takes twenty seconds per tail, costs nothing, and converts a rectangle of end grain into two surfaces of different brightness - which is most of what the shaped profile was buying.",
+    "dishonest": "Wrapping the tails in aluminium or PVC. The wrap kills the shadow between tails, doubles the apparent thickness in the worst way, and makes the eave read as a corrugated soffit rather than as structure."
+  },
+  "test": {
+    "expression": "rafter_tail_apparent_thickness_in",
+    "threshold": 3.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Bungalow tails are doubled 2x or 3x stock. A tail measuring exactly 1 1/2 in is framing lumber left in view, and the measurement is available in any zoomed photograph of the eave against the sky."
+  },
+  "secondary_tests": [
+    {
+      "expression": "exposed_tail_length_in",
+      "threshold": 12,
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "upper": 20,
+      "note": "The visible run past the wall face."
+    },
+    {
+      "expression": "count_of_shaped_or_chamfered_faces_on_the_tail_end",
+      "threshold": 1,
+      "direction": "at-least",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "A square sawn end shows one flat rectangle of end grain at one brightness. Any chamfer, ogee or lamb's tongue produces a second surface at a different brightness, which is what makes the row of tails read as a rhythm rather than as a fringe."
+    }
+  ],
+  "detection": "Zoom on the eave. Exposed tails that all end in a flat rectangle of end grain and measure exactly 1 1/2 in thick are framing lumber. Tails at the bungalow standard show 3 in or more of apparent thickness and terminate in a curve or a chamfer that reads as a different tone from the tail's sides. Second cue: check spacing. True structural tails sit at 16 or 24 in on centre because that is the framing; a tail rhythm at some other spacing is applied, which is fine, but a rhythm at 16 in with 1 1/2 in square ends is the framer's default.",
+  "applies_to": [
+    "craftsman",
+    "craftsman-bungalow",
+    "california-bungalow",
+    "arts-and-crafts-american",
+    "american-arts-and-crafts",
+    "swiss-chalet",
+    "mission-revival",
+    "stick-style",
+    "spanish-colonial-american"
+  ],
+  "exceptions": [
+    {
+      "style": "pueblo-revival",
+      "why": "Projecting vigas are round peeled logs cut square across the end, and the flat sawn face is correct - the tradition's expressiveness is in the log's irregularity, not in a worked profile.",
+      "bounds": "They must be round and irregular. A sawn rectangular 2x projecting from a stucco wall is neither a viga nor a rafter tail.",
+      "bounds_test": {
+        "expression": "viga_diameter_in",
+        "threshold": 6,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 12,
+        "note": "Round and irregular. A sawn rectangular 2x projecting from a stucco wall is neither a viga nor a rafter tail."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "stucco-over-frame"
+        ],
+        "note": "The viga is a round peeled log passing through the wall, not a rafter tail applied to it."
+      }
+    },
+    {
+      "style": "new-mexico-adobe",
+      "why": "As above; the viga end is cut off flush or slightly proud and left raw.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "viga_diameter_in",
+        "threshold": 6,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 12,
+        "note": "As above."
+      }
+    },
+    {
+      "style": "log-vernacular-american",
+      "why": "In a hewn tradition every member is axe-worked and square-cut, and a moulded profile would be foreign.",
+      "bounds": "The cut must be an axe or saw cut on a hewn member, not a mill-dressed 2x.",
+      "bounds_test": {
+        "expression": "member_thickness_in",
+        "threshold": 4.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The cut must be an axe or saw cut on a hewn member, not a mill-dressed 2x."
+      }
+    },
+    {
+      "style": "appalachian-log-house",
+      "why": "Same logic.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "member_thickness_in",
+        "threshold": 4.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "As above."
+      }
+    },
+    {
+      "style": "mission-revival",
+      "why": "Rafter tails at 24-32 in on centre under a 24-42 in eave are often left plainly cut, and the coarseness is part of the idiom.",
+      "bounds": "They must be heavy - 3x or 4x stock at wide spacing. The Mission tail earns its plainness by size; a 2x at 16 in on centre does not.",
+      "bounds_test": {
+        "expression": "rafter_tail_apparent_thickness_in",
+        "threshold": 3.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Heavy stock at 24-32 in on centre under a 24-42 in eave. The Mission tail earns its plainness by size; a 2x at 16 in on centre does not."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "georgian-colonial-american",
+      "statement": "An exposed rafter tail of any shape is the fault. The wall must terminate in an entablature, not in the structure that holds the roof up - shaping the tail makes the error more conspicuous, not less."
+    },
+    {
+      "style": "federal-style",
+      "statement": "As above."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "A visible rafter tail is the fault; the clean soffit is the fastest separation from Craftsman."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "bed-mould-omitted",
+      "difference": "Different families entirely. Exposed tails are forbidden in the styles that want a boxed cornice, and a bed mould is foreign to the styles that expose tails - confusing them produces a bracketed eave, which belongs to neither."
+    }
+  ],
+  "sources": [
+    "project style nodes: craftsman, california-bungalow, mission-revival, pueblo-revival",
+    "Gustav Stickley, The Craftsman, plates of bungalow eaves",
+    "period bungalow plan-book eave details, 1905-1925",
+    "NPS Preservation Brief 47 on maintaining exposed wood"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "eave",
+    "rafter-tail",
+    "profile-depth",
+    "craftsman"
+  ]
+}

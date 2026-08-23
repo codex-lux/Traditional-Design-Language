@@ -1,0 +1,249 @@
+{
+  "id": "entry-not-the-most-elaborated-element",
+  "name": "An Entrance That Is Not The Most Important Thing On The Front",
+  "aka": [
+    "the lost front door",
+    "the garage wins",
+    "the gable window wins"
+  ],
+  "slots": [
+    "entry_door",
+    "door_surround",
+    "garage_strategy",
+    "special_window",
+    "entry_sequence"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A stranger cannot find the front door from the street in under two seconds. Something else on the elevation is larger, more central, more ornamented or more forward: a pair of garage doors, a two-storey gable with a half-round window in it, a projecting bay, or a two-storey entry volume whose actual door is a small dark rectangle at the bottom of it. In the worst and most common version, the garage is both the largest element and the closest to the street, and the door is recessed behind it.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Frontage is the expensive dimension on a suburban lot, so the plan is drawn to minimise it, and the garage — 20 to 24 ft of it — is placed on the front because that is where the driveway can reach it. Ornament budget then follows visible area, and the biggest visible area is the garage and the roof. The entrance is a 36 in opening competing with 400 sq ft of door and gable, and it loses on every metric the process actually measures.",
+    "cost_saved": "Turning or detaching a garage costs 15 to 40 ft of extra lot width or 6,000 to 25,000 USD in driveway, site work and wall. This is the most expensive fault in the group to fix properly and the reason it is endemic."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / garage_strategy / front-facing-attached",
+      "statement": "A garage door on the entrance elevation, at any width, for any client, destroys the only accented event on an otherwise unaccented facade."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / door_surround / no-surround",
+      "statement": "A door in a hole. The entrance is the one place a Georgian house always spends money, even the plainest."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / door_surround.width",
+      "statement": "The entrance composition is permitted up to 0.8 of a bay — the largest single allocation any element on the facade receives."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "neo-eclectic / garage_strategy",
+      "statement": "Total garage door width not more than 33 per cent of the street-facing facade; garage door plane set back not less than 4 ft behind the front door plane."
+    }
+  ],
+  "correct_practice": "On any elevation containing the entrance, the entrance is the most elaborated element, and nothing else competes for that role. Practically: the entrance composition occupies up to 0.8 of a bay and is centred on the composition or on a clearly marked subordinate axis; it is the most forward plane on the elevation or is announced by the most forward plane; it carries the highest concentration of profile, ornament and shadow on the building; and no other opening on the elevation exceeds it in width. The gable window is subordinate to it, the garage is behind it or elsewhere, and any two-storey entry volume must contain a two-storey entrance element — a full-height portico or a real order — rather than a small door in a tall wall. Where a style deliberately hides the entrance, it must hide it completely and consistently, not merely fail to emphasise it.",
+  "fixes": {
+    "right": "Turn the garage side-loading or push it behind the house on a hyphen, and spend the recovered elevation on the entrance: a portico or a full surround at 0.8 of a bay with a real entablature at three times the casing width.",
+    "cheap": "Two moves at low cost. First, set the garage door plane back 4 ft behind the front door plane — this is a framing decision that costs a small amount of roof and nothing else, and it changes which element the eye reaches first. Second, spend the entire elevation's ornament budget on the entrance and strip everything else: no shutters, no gable ornament, no arched gable window. A plain front with one elaborated door reads correctly; a uniformly decorated front with a plain door does not. Concentration is free.",
+    "dishonest": "A two-storey entry gable with a Palladian window over the door. It appears to elaborate the entrance and in fact creates a second, larger element directly above it that takes the attention, and it makes the door look smaller by giving it a huge frame it does not fill."
+  },
+  "detection": "Rank the elements of the street elevation by visible area, by forwardness of plane, and by density of ornament. If the entrance is not first on at least two of the three, the fault is present. Concrete measures: entrance composition width as a fraction of the elevation width, which should exceed the garage's fraction; front door plane against garage door plane, where the door should be forward; and count of distinct mouldings within 4 ft of the door against the count anywhere else on the front. A model can use a simpler proxy: locate the largest opening in the elevation. If it is not the entrance or a window in a legitimate hierarchy above it, check further.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "prairie-school",
+      "why": "Suppressed or indirect entry is a defining characteristic — the front door is displaced from the principal elevation and often not visible from the street, and one of the style's own diagnostic tells is that you cannot find the front door from the sidewalk.",
+      "bounds": "The suppression must be total and deliberate: the entry is reached through a screened path, a low terrace or a turn, and the elevation offers no false candidate. A Prairie house with a prominent garage and a hidden door has not suppressed the entry, it has lost it.",
+      "bounds_test": {
+        "expression": "candidate_entrance_elements_visible_from_the_street",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The suppression must be TOTAL and deliberate: the entry is reached through a screened path, a low terrace or a turn, and the elevation offers no false candidate. A Prairie house with a prominent garage and a hidden door has not suppressed the entry, it has lost it."
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The street door is a false door opening onto the piazza, and the true entrance is set at least one bay back along the piazza. The type deliberately gives the street a door that is not the entrance.",
+      "bounds": "The false street door must be present and must be a real door in a real surround; deleting it and entering directly from the sidewalk destroys the type.",
+      "bounds_test": {
+        "expression": "false_street_doors",
+        "threshold": 1,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The false street door must be present and must be a real door in a real surround, opening onto the piazza with the true entrance at least one bay back. Deleting it and entering from the sidewalk destroys the type."
+      },
+      "applies_when": {
+        "regions": [
+          "south-carolina-lowcountry"
+        ]
+      }
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "why": "Ornament is concentrated at a single door, gate or window grille, and that door is frequently a courtyard gate rather than the house door.",
+      "bounds": "The concentration rule still holds — one elaborated opening and no competitor — but it may be the gate. There must be exactly one.",
+      "bounds_test": {
+        "expression": "elaborated_openings_on_the_street_elevation",
+        "threshold": 1,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Ornament is concentrated at a SINGLE door, gate or window grille. There must be exactly one; it may be the courtyard gate rather than the house door, but it may not be two."
+      },
+      "applies_when": {
+        "construction": [
+          "mass-wall",
+          "adobe",
+          "thick-stucco"
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Two identical front doors with no way to tell which is 'the' entrance is a named diagnostic of the type, which has no hall and no principal entrance.",
+      "bounds": "Both doors identical, both full-height casements, no interior corridor. Two different doors, one grander, is not this.",
+      "bounds_test": {
+        "expression": "front_door_width_variance_in",
+        "threshold": 2.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Both doors identical, both full-height casements, no interior corridor. Two different doors, one grander, is not this exception."
+      },
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi"
+        ]
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "The facade is organised by the competing claims of the entry and the garage, and the garage being the largest single element on the street elevation is a named diagnostic tell of the type.",
+      "bounds": "This describes what the type is rather than what it should be. Where a Ranch is being designed rather than recorded, the style's own constraint still asks for the garage door plane 4 ft behind the primary facade plane or a side-loaded garage.",
+      "bounds_test": {
+        "expression": "garage_door_plane_setback_behind_primary_facade_plane_ft",
+        "threshold": 4.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "note": "The style's own constraint still applies. This exception describes what the type IS rather than what it should be, and where a Ranch is being designed rather than recorded the 4 ft setback or a side-loaded garage is required."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "garage-forward-of-the-facade",
+      "difference": "That fault is the specific plane relationship and can be measured in one dimension. This is the hierarchy fault, which can be present with the garage correctly set back if the entrance is still unelaborated."
+    },
+    {
+      "fault": "palladian-window-related-to-nothing",
+      "difference": "That fault is about a single window's dimensional relationship to the elevation. It is frequently the element that wins the hierarchy contest described here."
+    },
+    {
+      "fault": "door-reached-only-from-the-driveway",
+      "difference": "That fault is about the approach — there is no walk from the pavement to the door. It is the plan consequence of the same garage-forward decision and is invisible in an elevation, which is why both are needed."
+    },
+    {
+      "fault": "stoop-without-a-landing",
+      "difference": "That fault is about what happens at the threshold once you have found it. An entrance can dominate the elevation correctly and still open over the top step."
+    }
+  ],
+  "sources": [
+    "proportions/systems/facade-classical.json",
+    "kits/georgian-colonial-american.kit.json",
+    "styles/prairie-school.json",
+    "styles/neo-eclectic.json constraints",
+    "styles/new-urbanist-traditional.json constraints"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry",
+    "hierarchy",
+    "composition",
+    "garage",
+    "endemic"
+  ],
+  "test": {
+    "expression": "entrance_composition_width_in / largest_other_opening_width_in",
+    "threshold": 1.0,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The entrance composition — door, sidelights, pilasters, over the outermost projection — must not be beaten in width by any other opening on the elevation containing it. A 16 ft garage door against a 7 ft entrance scores 0.44. HONEST LIMIT: this catches the area axis only. The ornament-rank axis has no numeric form and is recorded in the secondary tests as a count of mouldings, which is a proxy rather than a measure."
+  },
+  "secondary_tests": [
+    {
+      "expression": "front_door_plane_setback_behind_garage_door_plane_ft",
+      "threshold": 0.0,
+      "direction": "at-most",
+      "units": "ft",
+      "measurable_from": "photograph",
+      "note": "The entrance is the most forward plane on the elevation, or is announced by the most forward plane. Negative or zero is correct; positive means the garage reaches the eye first. Needs an oblique view — a frontal photograph cannot resolve plane depth."
+    },
+    {
+      "expression": "distinct_mouldings_within_4ft_of_the_entrance / max_distinct_mouldings_elsewhere_on_the_elevation",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "PROXY, NOT MEASURE. Ornament rank is the axis this fault is really about and it does not reduce to a number. Counting distinct moulding profiles within 4 ft of the door against the densest concentration anywhere else on the front is the best available approximation and it fails on elevations whose ornament is all in one plane."
+    },
+    {
+      "expression": "largest_opening_on_the_street_elevation_is_the_entrance",
+      "threshold": 1.0,
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "The cheap proxy a model can run first: locate the largest opening in the elevation. If it is not the entrance, or a window in a legitimate hierarchy above it, run the full test."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit calls a garage door on the entrance elevation the one thing it would defend hardest against: it destroys the only accented event on an otherwise unaccented facade."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The pilastered entrance with its transom and sidelights is the single composed event on a deliberately plain front."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Suppressed or indirect entry is a defining characteristic, and one of the style's diagnostic tells is that you cannot find the front door from the sidewalk."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "not-applicable",
+      "why": "The street door is a false door and the true entrance is set back along the piazza; the type deliberately gives the street a door that is not the entrance."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "severity": "not-applicable",
+      "why": "Two identical front doors with no way to tell which is the entrance is a named diagnostic of a type with no hall and no principal entrance."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The facade is organised by the competing claims of entry and garage, and the garage being the largest element is a recorded characteristic of the type as built."
+    }
+  ],
+  "co_occurs_with": [
+    "garage-forward-of-the-facade",
+    "garage-doors-dominate-the-frontage",
+    "door-reached-only-from-the-driveway",
+    "stoop-without-a-landing",
+    "palladian-window-related-to-nothing",
+    "every-door-the-same-door"
+  ]
+}

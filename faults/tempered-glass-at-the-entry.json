@@ -1,0 +1,179 @@
+{
+  "id": "tempered-glass-at-the-entry",
+  "name": "The Rippled Reflection At The Front Door",
+  "aka": [
+    "roller wave",
+    "the wavy sidelight",
+    "tempered distortion"
+  ],
+  "slots": [
+    "glazing_assembly",
+    "transom_sidelight",
+    "entry_door"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "The sidelights and the door glass reflect the street in a series of soft horizontal ripples while the annealed sash beside them reflect it straight. Trees, kerbs and parked cars visibly bend as they cross each pane, in a repeating pattern 4 to 12 in apart. The effect is at its strongest at the entrance, which is the part of the elevation everyone looks at longest.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R308.4 makes safety glazing mandatory in a set of hazardous locations that almost exactly describes an entrance: glazing in doors, glazing within a 24 in arc of a door edge and less than 60 in above the floor, and large panes with a low bottom edge. So the door glass and the sidelights are tempered while the windows a few feet away are not. Tempering means reheating the glass to about 620 degrees Celsius on a roller hearth and quenching it, and the glass sags very slightly between the rollers while it is soft, which leaves a permanent periodic waviness — roller wave — whose pitch is the roller spacing, roughly 100 to 300 mm. ASTM C1048 does not quantify roller wave, so fabricators work to their own limits and the tolerance is effectively whatever the line produces.",
+    "cost_saved": "Tempering adds only 15 to 40 per cent to the glass cost, so nothing is being saved. The alternative — laminated safety glazing, which is annealed and therefore flat — costs more, which is the actual driver."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "the entrance is the most looked-at element on the elevation and therefore takes the least tolerant materials",
+      "statement": "Every other rule in the entry group spends money at the door because that is where attention lands. Optical quality is subject to the same logic and is almost never specified."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R308.4.2 and R308.4.3",
+      "statement": "Glazing in doors, within a 24 in arc of a door edge below 60 in, and panes over 9 sq ft with a bottom edge under 18 in must be safety glazing. Safety glazing may be tempered OR laminated."
+    }
+  ],
+  "correct_practice": "Where the code requires safety glazing at an entrance, specify laminated rather than tempered. Laminated safety glass is two annealed plies with an interlayer: it satisfies R308.4 in full, it is optically flat because it is never heat-treated, it reflects the street straight, and it matches the annealed glass in the windows either side of it. It also performs better acoustically and for security. Where tempering is unavoidable, specify the roller wave direction to run vertically rather than horizontally — the ripples then align with the sidelight's long dimension and are far less legible — and set a peak-to-valley limit in the specification rather than accepting the fabricator's default, since the standard sets none.",
+  "fixes": {
+    "right": "Laminated safety glazing at the door, the sidelights and the transom.",
+    "cheap": "Specify the tempering orientation. Asking the fabricator to run the lite through the furnace in the other direction costs nothing at all and turns a horizontal ripple across a tall narrow sidelight into a vertical one along it, which the eye reads far less. Second free move: divide the sidelight into small lights, since roller wave in a 10 x 14 in pane is imperceptible while the same wave across a 14 x 70 in sheet is obvious. This is one more reason the divided sidelight is the correct answer.",
+    "dishonest": "Obscure or textured glass at the entry to hide the distortion. It removes the reflection along with the problem and replaces a subtle fault with a conspicuous one."
+  },
+  "detection": "Stand at an oblique angle to the entrance so that something with straight lines — a kerb, a fence, a neighbouring roofline — reflects across the sidelight, and watch it as you move. Tempered glass bends the reflected line in a regular repeating pattern; annealed glass does not. Compare directly with the reflection in a window on the same elevation, which will be annealed. In a photograph, the tell is a reflected straight edge that undulates with a period of roughly 4 to 12 in in one pane and runs straight in the next.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "regency",
+      "why": "Cylinder and crown glass of the period is far more distorted than any tempered glass, and reflections in an original Regency or Georgian sash visibly ripple and break. Where a building is genuinely of that fabric, distortion is character.",
+      "bounds": "Applies to historic glass, which distorts irregularly and per-pane; tempered roller wave is regular and periodic, which is why it reads as manufacture rather than as age. Restoration glass reproduces the irregular kind deliberately.",
+      "bounds_test": {
+        "expression": "reflected_undulation_period_in",
+        "threshold": 4.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Historic glass distorts IRREGULARLY and per-pane; tempered roller wave is regular and periodic at 4 to 12 in, which is why it reads as manufacture. Restoration glass reproduces the irregular kind deliberately and scores outside the roller-wave band."
+      },
+      "applies_when": {
+        "construction": [
+          "crown-glass",
+          "cylinder-glass",
+          "restoration-glass"
+        ],
+        "date_range": [
+          1790,
+          1837
+        ],
+        "note": "Depends on the glass, not on the style label; the same licence holds for any genuinely historic or drawn-glass fabric."
+      }
+    },
+    {
+      "style": "georgian-colonial-american",
+      "why": "Same: crown glass has a characteristic irregular waviness and a slight bullion distortion that is part of the period's appearance.",
+      "bounds": "Only where the glass is genuinely crown, cylinder or drawn restoration glass in small lights. In a large modern pane the irregularity has nowhere to hide and reads as a fault.",
+      "bounds_test": {
+        "expression": "individual_light_width_in",
+        "threshold": 12.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Only where the glass is genuinely crown, cylinder or drawn restoration glass in SMALL lights. In a large modern pane the irregularity has nowhere to hide and reads as a fault."
+      },
+      "applies_when": {
+        "construction": [
+          "crown-glass",
+          "cylinder-glass",
+          "restoration-glass"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "low-e-and-the-colour-of-the-glass",
+      "difference": "Distortion versus hue. Distortion shows in reflection at an angle; colour shows in flat light head-on."
+    },
+    {
+      "fault": "sidelights-as-storefront-glass",
+      "difference": "That fault is the reason the pane is big enough for roller wave to be visible; this is the optical consequence."
+    }
+  ],
+  "sources": [
+    "IRC R308.4 safety glazing hazardous locations",
+    "ASTM C1048 heat-strengthened and fully tempered flat glass",
+    "AGNORA and industry technical notes on roller wave, ripple spacing 100-300 mm",
+    "ASTM C1652 measuring optical distortion in flat glass"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "glazing",
+    "tempered",
+    "optics",
+    "entry",
+    "code-driven",
+    "zero-cost-fix"
+  ],
+  "test": {
+    "expression": "laminated_safety_glazed_area_sqft / total_safety_glazed_area_at_the_entrance_sqft",
+    "threshold": 1.0,
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "site-visit",
+    "note": "THE CORRECTNESS CONDITION. IRC R308.4 permits safety glazing to be tempered OR laminated. Laminated is two annealed plies with an interlayer: it satisfies the code in full, it is optically flat because it is never heat-treated, it matches the annealed glass in the windows either side of it, and it performs better acoustically and for security. Read from the glass etch or the submittal, which is why this is a site-visit test."
+  },
+  "secondary_tests": [
+    {
+      "expression": "reflected_straight_line_deviation_in / pane_width_in",
+      "threshold": 0.005,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "THE PHOTOGRAPHIC PROXY, which needs an oblique reflected view. Stand so that a kerb, a fence or a neighbouring roofline reflects across the sidelight and compare with the reflection in a window on the same elevation, which will be annealed. Tempered glass bends the reflected line in a regular repeating pattern; annealed glass does not."
+    },
+    {
+      "expression": "reflected_undulation_period_in",
+      "threshold": 4.0,
+      "direction": "between",
+      "upper": 12.0,
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "Roller wave pitch is the roller spacing of the furnace hearth, roughly 100 to 300 mm. A reflected edge undulating with a period in this band IDENTIFIES the distortion as roller wave rather than as glazing pressure or frame bow. Direction is nominal: this test identifies rather than passes or fails, and it is the confirmation for the deviation test above."
+    },
+    {
+      "expression": "roller_wave_peak_to_valley_in",
+      "threshold": 0.003,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "site-visit",
+      "note": "ASTM C1048 does not quantify roller wave, so fabricators work to their own limits and the tolerance is effectively whatever the line produces. Setting a number in the specification is the only way to get one, and this is a reasonable value to write."
+    }
+  ],
+  "severity_in_use": "not-applicable",
+  "severity_by_style": [
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "The entrance is the composed event and its sidelights are the most looked-at glass on the building."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "Crown glass has its own irregular waviness, so the building is not claiming optical flatness; the fault here is that the tempered ripple is REGULAR, which reads as manufacture rather than as age."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "minor",
+      "why": "Large flat panes are the idiom and no claim to period glass is being made."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "The entry is suppressed and the glass is leaded art glass, which is neither tempered nor read in reflection."
+    }
+  ],
+  "co_occurs_with": [
+    "sidelights-as-storefront-glass",
+    "low-e-and-the-colour-of-the-glass"
+  ]
+}

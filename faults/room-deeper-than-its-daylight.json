@@ -1,0 +1,157 @@
+{
+  "id": "room-deeper-than-its-daylight",
+  "name": "The Room Deeper Than Its Light",
+  "aka": [
+    "the lit strip and the dark cave",
+    "the 24-foot great room",
+    "two-and-a-quarter"
+  ],
+  "slots": [
+    "daylight_strategy",
+    "depth_and_pile",
+    "room_adjacency_overrides"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A room 20 to 26 ft deep from its window wall, with a large expanse of glazing on that wall and nothing on the other three. The front third by the glass is bright and often too bright; the back third needs a lamp at two in the afternoon in June. The occupants describe the room as 'dark' and cannot say why, because the window is enormous.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Engineered lumber removed the constraint that made the room. An I-joist or an open-web truss spans 24 to 30 ft where a sawn joist spanned 14 to 18, so the structural limit that set room depth for four hundred years simply no longer exists, and floor area is cheapest when it is taken in one clear rectangle with the fewest exterior corners. Then the head height goes the other way: the stock header is set at 6 ft 10 7/8 in because that is what the framer's cripple lengths give, so at the same moment the plan got deeper the window head got lower. Nobody chose either.",
+    "cost_saved": "A 26 by 20 ft clear span room costs $8-$14 per sq ft less than the same area divided into two rooms with an exterior corner between them, and the energy code rewards the lower window head with a smaller glazing fraction."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / depth_and_pile.width = storey_height * 0.78 * 2.25, range 12-25 ft",
+      "statement": "Useful daylight from single-sided glazing reaches about 2 to 2.5 times the window head height above the floor, with an absolute cap near 25 ft. This is the most transferable rule in the pack because it is physics rather than custom - it was true in 1650 and it is the same number now."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / daylight_strategy.ratio = 2.25, range 1.8-2.6",
+      "statement": "1.5x head height for good daylight, 2.0x for adequate, 2.5x for the outer limit of useful single-sided daylight. A light ceiling and a high-reflectance rear wall move it up the band; a porch, a deep eave or a dark interior move it down."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / depth_and_pile.width = storey_height * 0.78 * 1.2",
+      "statement": "The second-rank room lit borrowed or end-on carries only about 1.2 times the head height, which is why the back rooms of a double-pile plan are the service rooms and the stairs."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R303.1 - natural light glazing not less than 8 per cent of floor area",
+      "statement": "The code measures glazing AREA and says nothing about its distribution, so a 26 ft deep room with one wall of glass passes comfortably while being unlit through half its depth. This is the clearest case in the corpus of a house being code-minimum and wrong."
+    }
+  ],
+  "correct_practice": "Room depth from a single window wall must not exceed about 2.25 times the height of the window head above the finished floor - 15 ft 9 in at a 7 ft head, 17 ft 6 in at a 7 ft 10 in head, 22 ft 6 in at a 10 ft head. Drop to 1.8 wherever a porch, a deep eave, a verandah or a mature tree lowers the effective head. The corollary is the useful one: RAISE THE HEAD AND YOU BUY DEPTH, one for two and a quarter, so six inches of extra head height is worth over a foot of room, and it is far cheaper than the glass area needed to achieve the same effect by widening. Where the room must be deeper, there are only four honest second sources: a second exterior wall - which is why corner rooms are the best rooms in any old house - a raised head or a transom band, a roof light, or a genuinely tall window at the far end. A deep room with one wall of glass is not a lit room; it is a lit strip and a dark cave, and no lighting design rescues it.",
+  "fixes": {
+    "right": "Hold the depth to 2.25 times the head, or give the room a second window wall by putting it on a corner.",
+    "cheap": "Buy the head rather than the glass. Specifying the window head as a dimension - 7 ft 6 in or 8 ft 0 in above finished floor - instead of letting it fall out of a rough-opening schedule costs one line on the framing plan and a slightly longer jack stud, and it is worth a foot to eighteen inches of daylit depth per six inches gained. A tall narrow window also delivers more usable daylight per square foot of glazing than a short wide one, so this is the rare move that improves the daylight and the energy number at once. Second cheap move: paint the rear third of the ceiling and the back wall at 80 per cent reflectance or better, which is worth roughly half a metre of depth.",
+    "dishonest": "More glass on the same wall. Widening the window, or replacing it with a whole glazed wall, raises the illuminance at the front of the room and changes the back of it very little, because daylight penetration is governed by head height and not by width. The measurable result is worse contrast: a brighter strip beside the same dark rear, which the eye reads as darker than before."
+  },
+  "detection": "On a plan with a section, divide room depth by window head height above the floor. Above 2.5 the fault is certain and above 2.25 it is present. Without a section, use 0.78 of the storey height as the head, which is the storey-graduation figure. From an interior photograph, the tell is contrast rather than darkness: look for lamps switched on in a daytime shot, for a visible fall-off between the middle of the room and the back wall, and for the ceiling changing tone about two thirds of the way in. From an exterior elevation the fault is predictable rather than visible: a very wide house of shallow-looking bays with a single-storey rear glazed wall almost always has one behind it.",
+  "test": {
+    "expression": "room_depth / window_head_height_above_floor",
+    "threshold": 2.25,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "section",
+    "note": "2.25 for a light interior with no external shading; 1.8 where a porch, deep eave or verandah lowers the effective head; 2.5 is the absolute limit and 25 ft the absolute cap regardless of head height. Evaluable from a plan plus a storey height by taking the head at 0.78 of the storey."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "The ranges are single-pile around a court and every room is lit from the court, which is a light source of a different kind: a patio between 0.8 and 1.2 times the height of the enclosing ranges delivers high-angle light to rooms that also have a small high window to the street.",
+      "bounds": "Requires the court within that width band and rooms of one pile only. A courtyard house with a deep range is dark on exactly the same arithmetic - the court does not extend the rule, it supplies a second wall.",
+      "bounds_test": {
+        "expression": "patio_width / enclosing_range_height",
+        "threshold": 0.8,
+        "direction": "between",
+        "upper": 1.2,
+        "units": "ratio",
+        "measurable_from": "plan"
+      }
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "Room depth is capped at the viga span, about 6 m, and every room is entered from the corredor, so the type cannot generate this fault.",
+      "bounds": "Single-pile ranges only. Thickening a range to gain area destroys the ventilation and the light at once."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "An 11 to 13 ft ceiling puts the window head near 10 ft, which licenses a room over 20 ft deep on the same rule. The type buys its depth with height, which is the correct trade.",
+      "bounds": "The head must actually be there: window heads within 18 in of an 11 ft ceiling minimum. A 20 ft deep room under an 8 ft ceiling is the fault whatever the trim says.",
+      "bounds_test": {
+        "expression": "room_depth / window_head_height_above_floor",
+        "threshold": 2.25,
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "section"
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "12-14 ft ceilings and full-height French doors on two walls; the rule is satisfied by height, not suspended.",
+      "bounds": "Openings on two walls of every room remains a hard constraint of the type."
+    },
+    {
+      "style": "prairie-school",
+      "why": "Deliberately varied and sometimes deep interiors, with the compression-and-release section as an explicit device, and continuous ribbons of casements at a single high lintel band raising the effective head across the whole wall.",
+      "bounds": "The lintel band must be continuous and high; deep zones must be circulation or hearth alcoves, not the principal seating or working areas. The 30-48 in eave lowers the effective head and pushes the multiplier toward 1.8."
+    },
+    {
+      "style": "shotgun-house",
+      "why": "The rooms are 12-16 ft across and lit from two side walls with 10-12 ft ceilings; the type is the rule's demonstration rather than its exception, and is listed here because its overall 40 ft depth invites a false positive.",
+      "bounds": "Measure the ROOM, not the house. Any shotgun room deeper than 2.25 times its head has the fault like anything else."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "interior-transom-removed",
+      "difference": "That is the loss of a specific device that made deep back rooms work. This is the geometry that made the device necessary."
+    },
+    {
+      "fault": "single-pile-type-built-double-pile",
+      "difference": "That is a change of plan TYPE, which costs cross-ventilation as well as light. This is a dimension on one room and can occur in any plan."
+    }
+  ],
+  "co_occurs_with": [
+    "open-plan-in-a-room-based-style",
+    "porch-without-the-height-to-pay-for-it"
+  ],
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "The 24-36 in eave and the deep porch already push the multiplier to 1.8, so a Craftsman room fails the test a full three feet shallower than an unshaded one."
+    },
+    {
+      "style": "tidewater-georgian",
+      "severity": "serious",
+      "why": "The single-pile Chesapeake plan exists because of this rule; a deep room in it contradicts the reason the type is shaped as it is."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "severity": "not-applicable",
+      "why": "Single-pile ranges round a court cannot generate the depth."
+    }
+  ],
+  "sources": [
+    "proportions/systems/room-vernacular.json, depth_and_pile and daylight_strategy derived rules and their authority notes",
+    "Advanced Buildings, Daylighting Pattern Guide, Pattern 3: Section Depth (section depths not much more than 2.5x the perimeter window head height; 25 ft absolute cap)",
+    "International Residential Code R303.1 (natural light, 8 per cent of floor area) and R303.2",
+    "proportions/modules/storey-graduation.json for the window head at 0.78 of storey height",
+    "Illuminating Engineering Society, daylight availability and the fall-off of single-sided daylighting with distance from the aperture"
+  ],
+  "confidence": "high",
+  "tags": [
+    "daylight",
+    "depth",
+    "physics",
+    "ratio-test",
+    "endemic",
+    "invisible-from-the-street"
+  ]
+}

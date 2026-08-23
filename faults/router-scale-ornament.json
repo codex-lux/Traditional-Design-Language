@@ -1,0 +1,166 @@
+{
+  "id": "router-scale-ornament",
+  "name": "The Ornament That Betrays The Router",
+  "aka": [
+    "the constant bit radius",
+    "CNC acanthus",
+    "one-size ornament"
+  ],
+  "slots": [
+    "ornament_vocabulary",
+    "modillion_dentil",
+    "door_surround",
+    "balustrade"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "Carved ornament in which every internal corner has the same radius and every element is the same size. Acanthus leaves whose lobes all terminate in a 1/4 in fillet because that is the cutter's radius; a rosette whose petals are separated by grooves of constant width and constant depth; a bracket whose scroll is a spiral of uniform section rather than a volute that tightens; a Greek fret whose corners are rounded. The second and more visible symptom is scale: the same ornament appears on the door surround, on the cornice and on the gable, at the same size, because the file was cut once. Hand ornament is graded — larger where it is further away, smaller where it is close — and machine ornament is not.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "A three-axis CNC router cuts with a rotating bit of fixed diameter, so no internal corner can be sharper than the bit's radius and no undercut is possible at all — the tool cannot reach behind anything. Reducing the bit to sharpen the corners increases cutting time as roughly the square of the reduction, so the shop uses the largest bit the detail tolerates. Separately, once the file exists the marginal cost of another copy is nearly zero and the cost of a second file is high, so a single ornament is repeated at a single size across the building. Both symptoms come from the same economics: the cutting is cheap and the setup is not.",
+    "cost_saved": "CNC-carved ornament runs 20-45 per cent of hand-carved. A hand-carved acanthus capital is 800-2,500 USD; a CNC one 250-600 USD. Repeating one file rather than cutting three saves 400-1,500 USD in programming per additional design."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / ornament_vocabulary / relief",
+      "statement": "Bold and deep, cut rather than applied. Cutting implies a chisel, and a chisel's signature is a sharp internal corner and an undercut."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-corinthian / capital assembly — the acanthus and its construction",
+      "statement": "The Corinthian capital's leaves are drawn and cut as a graded composition: two ranks of leaves of different heights, caulicoli, helices and volutes, each at its own scale. It is not one motif repeated."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "ornament is graded to its distance and its position, and a repeated size denies both",
+      "statement": "Period ornament is sized to be read from where it will be seen: the cornice ornament is larger than the door ornament because it is thirty feet further away, and the ornament at eye level is finer because it is examined. One size across a building means every piece is wrong except by accident."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a tool leaves a signature and the signature is legible",
+      "statement": "A constant internal radius at every corner of an ornament is a statement that a rotating bit of that radius made it. The eye does not name the tool but reads the uniformity as mechanical, which is precisely the quality traditional ornament exists to deny."
+    }
+  ],
+  "correct_practice": "Two rules. First, GRADE THE ORNAMENT to its position: the same motif appears at different sizes at different heights, larger where it is further from the eye. On a two-storey front, the cornice ornament may be half again the size of the door ornament and it will read as the same size from the street, which is the point. Second, VARY THE CORNER. Hand-carved ornament has internal corners of varying sharpness because the carver used different tools for different parts, and it has undercut where a lobe or a leaf tip stands clear of the ground. Where CNC work is used — and it is legitimate and useful — it should be used as a ROUGHING operation followed by hand finishing of the corners and the undercuts, which is how most good architectural carving is actually produced today and costs perhaps 60 per cent of fully hand-carved work. Where no hand finishing is possible, the honest answer is to choose a motif that does not need undercut: a Greek fret, a guilloche, flat fluting, a plain rosette, a Greek Revival anthemion in low flat relief. These are period-correct, they read well, and they are what a router can actually make.",
+  "fixes": {
+    "right": "CNC roughing with hand finishing of internal corners and undercuts, and separate files for each position on the building.",
+    "cheap": "Change the motif rather than the process. A guilloche, a Greek fret, a flat fluted frieze or a simple rosette is correct on a large number of American styles, has no internal corners a router cannot reach and no undercuts to fake, and costs the same to cut as a bad acanthus. This is the same argument as choosing a square baluster over a thin turning: pick the ornament the process can execute honestly. Second free move: if one file must serve the whole building, SCALE it — cut the same geometry at 100, 130 and 160 per cent for the door, the porch cornice and the main cornice. Scaling a file costs nothing and recovers the grading rule entirely.",
+    "dishonest": "Antiquing or distressing the CNC ornament — a glaze in the recesses, a rubbed edge, a deliberately irregular finish — to suggest handwork. The uniformity of the geometry is what betrays it and no finish changes geometry. The distressing also tends to fill the shallow recesses that were the only relief the ornament had."
+  },
+  "detection": "Three checks from a close photograph. (1) INTERNAL RADIUS: find every internal corner in one ornament — where two leaf lobes meet, where a petal joins the centre, where a scroll turns — and compare their radii. All identical means a single bit; varying means a hand. This is the single most reliable test and it works on any reasonably sharp photograph. (2) UNDERCUT: look at the ornament's edge in raking light for a dark line where an element stands clear of the ground. A three-axis router cannot produce one; every element sits on a continuous fillet running back to the ground plane. (3) GRADING: compare the same motif at two positions on the building — the door surround and the cornice. If they are the same size, the ornament was not designed for its position. Fourth check on repeated elements: are they IDENTICAL? Hand-carved repeats differ slightly from each other in a way that is visible when two are photographed side by side; machine repeats are pixel-identical.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "distinct_internal_corner_radii_in_one_ornament",
+    "threshold": 2,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Count distinguishable internal corner radii within a single ornamental element. Hand carving produces several because the carver changes tools; three-axis CNC produces exactly one, the bit's radius. A useful secondary test is grading: ornament_size_at_cornice / ornament_size_at_door should exceed about 1.2 on a two-storey front, and equals 1.0 where one file served the whole building."
+  },
+  "severity_by_style": [
+    {
+      "style": "beaux-arts-american",
+      "severity": "fatal",
+      "why": "The whole point of the tradition is modelled, graded, hand-finished ornament at architectural scale."
+    },
+    {
+      "style": "italian-renaissance-revival",
+      "severity": "serious",
+      "why": "The carved detail carries the style."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The kit's relief rule says cut rather than applied, and a constant-radius cut is barely a cut."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "Greek Revival ornament is flat, bold and geometric, and much of it — frets, anthemia, flat fluting — is exactly what a router makes well. This is the style where machine ornament is least visible and most honest."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "There is no carved ornament to betray; the idiom's decoration is structural expression and flat sawn work."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "No applied ornament."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Greek Revival ornament is deliberately geometric, flat and repeated: the fret, the anthemion, the guilloche and flat fluting are drawn with compass and straightedge, are meant to be regular, and were themselves executed with mechanical aids from the 1830s onward. Uniformity is the manner rather than a betrayal of it.",
+      "bounds": "The motif must be one of the geometric Grecian ones and the ARRIS must be sharp — a Greek fret with rounded corners is still the fault, because the fret's whole content is its right angles. Regularity is licensed; a constant radius at a corner that should be square is not.",
+      "applies_when": {
+        "date_range": [
+          1820,
+          1870
+        ]
+      }
+    },
+    {
+      "style": "folk-victorian",
+      "why": "Sawn ornament — brackets, spindle friezes, gable trusses — is machine work by definition and was cut on a scroll saw or a band saw from a template, identically, hundreds of times. The machine origin is the style's history.",
+      "bounds": "It must be SAWN work, which is flat cut-out ornament in a board, not modelled relief. Sawn ornament has no internal corners to round and no undercut to miss; the machine argument does not extend to a routered acanthus.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ]
+      }
+    },
+    {
+      "style": "stick-style",
+      "why": "The Stick Style's whole ornamental vocabulary is milled and sawn boards applied in patterns, and its regularity is the point.",
+      "bounds": "Flat applied boardwork only."
+    },
+    {
+      "style": "prairie-school",
+      "why": "Prairie ornament — Wright's and Sullivan's — is deliberately geometric and machine-made, and Wright's essay on the machine argues explicitly that the machine should be allowed to make what it makes well.",
+      "bounds": "The geometry must be designed for the machine, with the machine's sharpness exploited rather than its limitations concealed. A routered classical motif is not machine art; it is hand art badly imitated."
+    }
+  ],
+  "co_occurs_with": [
+    "shallow-relief-on-a-bold-order",
+    "dentil-strip-by-the-foot",
+    "broken-pediment-out-of-vocabulary",
+    "three-periods-on-one-elevation"
+  ],
+  "confused_with": [
+    {
+      "fault": "shallow-relief-on-a-bold-order",
+      "difference": "Depth versus tooling and scale. A CNC-carved ornament can be perfectly deep and still betray the bit at every internal corner; a hand-carved one can be too shallow. The two tests are independent and both worth running."
+    },
+    {
+      "fault": "quoin-by-catalogue",
+      "difference": "Same family — a catalogue product whose manufacturing constraint is legible in the finished element — applied at the corner rather than to the ornament."
+    },
+    {
+      "fault": "stamped-pediment-return",
+      "difference": "That is a moulded plastic outline with no relief at all. This assumes real cut relief and reads the tool that cut it."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, ornament_vocabulary.relief",
+    "proportions/orders/vignola-corinthian.json — the capital's graded leaf composition",
+    "NPS Preservation Brief 45 and the technical literature on replicating architectural woodwork",
+    "Frank Lloyd Wright, The Art and Craft of the Machine (1901)",
+    "Architectural carving trade practice: three-axis CNC roughing with hand finishing, and the bit-radius constraint"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "ornament",
+    "material",
+    "machine",
+    "scale",
+    "tooling",
+    "mechanism"
+  ]
+}

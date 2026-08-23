@@ -1,0 +1,225 @@
+{
+  "id": "gothic-revival-american",
+  "name": "Gothic Revival (American)",
+  "aka": [
+    "Rural Gothic",
+    "Pointed Style",
+    "American Gothic Revival"
+  ],
+  "rank": "style",
+  "member_of": "romantic-revivals",
+  "status": "historical",
+  "period": {
+    "origin": 1832,
+    "floruit_start": 1840,
+    "floruit_end": 1870,
+    "decline_end": 1885,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1940,
+        "revival_node": null,
+        "note": "Collegiate and ecclesiastical Gothic continue in masonry under Cram, Goodhue, and Klauder long after the domestic mode dies; that stream is academic and archaeological, not picturesque, and is a different animal from the wooden Rural Gothic."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Great Lakes",
+      "Upper South",
+      "Ontario",
+      "Maritime Canada"
+    ],
+    "hearth": "Hudson Valley, New York",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "gothic-revival-british",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Real transmission, and entirely by print: Loudon's Encyclopaedia of Cottage, Farm and Villa Architecture (1833) reached Davis and Downing directly, and Pugin supplied the moral vocabulary. No craft lineage crossed the Atlantic with it."
+    },
+    {
+      "target": "english-gothic",
+      "type": "references",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "The claimed ancestor. American builders quoted the label, the pointed arch, and the tracery silhouette while building in balloon-framed pine with sawn boards. Nothing about the structural system descends from English Gothic."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "descends_from",
+      "weight": 0.55,
+      "inherits_kit": true,
+      "note": "The actual building practice. The same carpenters, the same pattern-book habit, the same frame, the same millwork suppliers; only the plates changed."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "reacts_against",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "Downing's explicit polemic: the white temple was cold, foreign, aristocratic, and a lie about how Americans lived. The Gothic cottage was to be warm, Christian, domestic, and honest about its irregular plan."
+    },
+    {
+      "target": "english-gothic",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The first American style built for emotional and moral effect rather than for correctness, in which steep gables, bargeboards, and pointed windows were sawn out of pine by machine and sold as an argument about how a family should live.",
+    "long": "American Gothic Revival is a wooden style wearing a stone style's clothes, and its interest begins exactly there. In England the Gothic Revival could plausibly claim descent from surviving medieval fabric; in the United States there was nothing to descend from, so the style arrived as an idea in a book and had to be manufactured. Alexander Jackson Davis built the first serious example at Glen Ellen in 1832 and the canonical one at Lyndhurst in 1838; Andrew Jackson Downing, a nurseryman from Newburgh with no architectural training and an extraordinary prose gift, converted Davis's drawings into a mass-market program through Cottage Residences (1842) and The Architecture of Country Houses (1850). Within a decade the pointed gable and the sawn bargeboard were available to anyone in the country who could read a plate and hire a carpenter.\n\nThe enabling technology is the whole story, and it is worth stating as mechanism rather than as atmosphere. Balloon framing, developed in Chicago in the 1830s, replaced the mortised heavy timber frame with a cage of light sawn studs nailed together; machine-cut nails, cheap from about 1830, made nailing an economical substitute for joinery; the steam-powered scroll saw and the circular saw made a linear foot of pierced and cusped board cost pennies rather than a day of a joiner's life; and the railroad delivered that board, and the sash and the finials, from a mill in Albany to a village in Michigan. Before this convergence, an irregular plan with three unequal gables was punitively expensive, because every additional corner was a set of hand-cut joints. After it, irregularity was nearly free. Gothic Revival is the first style in history to be produced by cheap complexity, and every style downstream of it in this branch inherits that condition.\n\nDowning's argument for all this was frankly moral and should not be softened into taste. He held that a house shapes the character of the people inside it, that the symmetrical classical box expressed a rigidity and a pride foreign to domestic affection, and that a house whose form follows the irregular facts of family life, whose vertical lines lift the eye, and whose veranda mediates between hearth and landscape, would make its inhabitants better. He wrote about the vine on the porch and the bay window in the parlour as instruments of moral improvement, and hundreds of thousands of Americans believed him. This conviction, that architecture forms character, is the load-bearing idea of the entire Victorian century in America, and it is the reason the styles that follow escalate rather than settle.\n\nTo stand before a good Rural Gothic cottage is to be worked on by verticals. Board-and-batten siding runs the eye up the wall without a single horizontal to rest on; the gable pitch is so steep that the roof reads as the dominant fact of the building; the bargeboard hangs from the verge like frozen lace and casts a moving shadow pattern across the wall all afternoon. Inside, the effect inverts. The rooms are low, small-windowed by later standards, and dim, the diamond-paned casement throws a lattice of light across the floor, and the deep veranda that looked so generous from the drive turns the parlour into a cave. It is a style that promises the landscape and then keeps you slightly withdrawn from it, which is a fair summary of what the American picturesque actually wanted."
+  },
+  "defining_characteristics": [
+    "Steeply pitched roof, 12:12 or greater, with the gable as the governing compositional element",
+    "Pointed or lancet openings in the principal gable, and label or drip mouldings over the heads",
+    "Sawn bargeboard or vergeboard applied to the rake, with a pierced repeating pattern",
+    "Vertical board-and-batten siding, or, in masonry examples, an insistently vertical fenestration rhythm",
+    "Irregular, additive plan generated by room use rather than by symmetry, with the elevation following the plan",
+    "Clustered or diagonally set chimney stacks carried well above the ridge",
+    "A veranda or porch treated as a permanent part of the composition rather than as an appendage"
+  ],
+  "diagnostic_tells": [
+    "If the roof pitch is steeper than 12:12 and the siding runs vertically, it is Gothic Revival and not Italianate, which is always low-pitched and horizontally sided",
+    "Bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate",
+    "A pointed window in the gable of an otherwise plain farmhouse is Carpenter Gothic, not Gothic Revival proper; look for whether the plan is irregular",
+    "Label mouldings that stop with square returns rather than continuing as a string course distinguish it from the Tudor Revival of the 1920s",
+    "Gothic Revival chimneys are tall, clustered, and expressive; Greek Revival chimneys are hidden in the gable end"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-american",
+      "difference": "Same carpenters, same frame, opposite argument. Greek Revival is symmetrical, horizontal, white, and low-pitched, with the entablature as the governing line; Gothic Revival is asymmetrical, vertical, coloured in earth tones on Downing's explicit instruction, and governed by the roof."
+    },
+    {
+      "node": "italianate-american",
+      "difference": "Both are Downing products published in the same books, and both use irregular massing, but Italianate is horizontal, low-pitched, round-arched, and bracketed, while Gothic Revival is vertical, steep, pointed, and bargeboarded. The two almost never mix on one building."
+    },
+    {
+      "node": "tudor-revival",
+      "difference": "Tudor Revival (1890-1940) is masonry-minded, uses half-timbering and casement groups, and derives from measured English precedent; American Gothic Revival is wood-minded, uses board-and-batten and sawn ornament, and derives from a printed idea."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Not proportional. The composition is governed by silhouette hierarchy: a dominant gable, subordinate gables of unequal width, and a chimney group that completes the outline against the sky. Downing's own instruction was to judge the design in profile against the landscape before judging any elevation.",
+    "typical_ratios": [
+      "Roof pitch 12:12 to 18:12; below 12:12 the style fails",
+      "Window height to width 2.5:1 to 3.5:1, taller than any preceding American style",
+      "Verge overhang 12 to 24 in, deep enough to shadow the bargeboard",
+      "Principal gable width 1.4 to 2.0 times the width of the largest subordinate gable",
+      "Chimney height above ridge 3 to 6 ft"
+    ],
+    "bay_rhythm": "Irregular and non-repeating. Bays are generated by rooms; a three-gable elevation may have three different bay widths and no two window heads at the same height.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "canonical",
+      "note": "The workhorse of the Downing cottage: a steep gabled block with a lower wing and the veranda in the reentrant angle."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The villa scale, where the plan is genuinely irregular and the section varies."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common"
+    },
+    {
+      "massing": "i-house",
+      "affinity": "common",
+      "note": "The vernacular substrate that receives a central gable and a pointed window and becomes a Gothic Revival farmhouse."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible",
+      "note": "Urban and masonry examples only; the symmetry works against the style."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "atypical",
+      "note": "Gothic Revival needs a silhouette, and a party-wall row denies it one."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Principal roof pitch shall be not less than 12:12. Below this the gable ceases to dominate the composition and the building reads as Carpenter Gothic ornament applied to a folk box."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Bargeboard, where used, shall follow the full length of the rake from eave to apex without interruption, with a verge overhang of 12 to 24 in so that the board is read against shadow. A bargeboard applied only to the upper third of the rake is forbidden."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Where vertical siding is used, boards shall be 8 to 12 in wide with battens 2 to 3 in wide at 12 to 16 in on centre, and the battens shall run unbroken from water table to eave. No horizontal belt course may cross the batten field."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Pointed and lancet heads shall be confined to the principal gable, the entry, and the stair window, and shall not exceed 30 percent of the openings on any elevation. Universal pointed heads produce a church, not a house."
+    },
+    {
+      "kind": "cultural",
+      "severity": "advisory",
+      "statement": "Body colour shall be a landscape tone (fawn, drab, grey, straw) with trim two to three values darker, per Downing's explicit instruction in The Architecture of Country Houses. White is prohibited on the body; Downing regarded it as the principal aesthetic error of the American countryside."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Lyndhurst",
+      "location": "Tarrytown, New York",
+      "year": 1838,
+      "note": "Alexander Jackson Davis for William Paulding, 1838; nearly doubled for George Merritt in 1864-65, also by Davis. Marble, not wood, and therefore atypical, but it is the style's intellectual origin in America."
+    },
+    {
+      "name": "Kingscote",
+      "location": "Newport, Rhode Island",
+      "year": 1839,
+      "note": "Richard Upjohn. A wooden Gothic cottage-villa; the 1880-81 dining room addition by Stanford White for McKim, Mead & White is a separate and later event."
+    },
+    {
+      "name": "Roseland Cottage",
+      "location": "Woodstock, Connecticut",
+      "year": 1846,
+      "note": "Joseph Collins Wells for Henry Chandler Bowen. Board-and-batten, still painted a saturated pink, which is itself evidence for Downing's colour argument."
+    },
+    {
+      "name": "William J. Rotch Gothic Cottage",
+      "location": "New Bedford, Massachusetts",
+      "year": 1846,
+      "note": "A. J. Davis. Published by Downing in The Architecture of Country Houses as Design XXIV, A Cottage-Villa in the Rural Gothic Style, and thereby copied nationwide."
+    }
+  ],
+  "sources": [
+    "Andrew Jackson Downing, The Architecture of Country Houses (1850)",
+    "Andrew Jackson Downing, Cottage Residences (1842)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "William H. Pierson Jr., American Buildings and Their Architects: Technology and the Picturesque (1978)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "picturesque",
+    "romantic",
+    "wood-frame",
+    "pattern-book",
+    "downing"
+  ]
+}

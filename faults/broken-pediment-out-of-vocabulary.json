@@ -1,0 +1,162 @@
+{
+  "id": "broken-pediment-out-of-vocabulary",
+  "name": "The Swan Neck On A Dormer",
+  "aka": [
+    "furniture logic at building scale",
+    "the broken-scroll roof pediment",
+    "the scrolled dormer"
+  ],
+  "slots": [
+    "pediment",
+    "ornament_vocabulary",
+    "dormer",
+    "door_surround"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "anachronism",
+  "symptom": "A broken-scroll or swan-neck pediment — the S-curved raking cornices that curl inward to a pair of rosettes with an urn or a pineapple between them — applied at a scale or in a place the form never occupied. The three common versions: on a dormer, where the scrolls are 8 to 14 in across and cannot be cut with correct section at that size; on a roof gable or a portico, where the form is being used as a piece of architecture rather than as a doorhead; and on a house whose other ornament is Greek Revival, Craftsman or Colonial Revival-plain, where the Baroque scroll is the only Baroque thing present.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Broken-scroll and swan-neck pediments are sold as one-piece moulded units in a size range set by the mould, and the sizes offered are those that fit a door, a window and a dormer, because that is where the market is. The unit is chosen from a page of silhouettes with no indication of where the form belongs. Nothing in the specification process distinguishes a doorhead ornament from a building element, and the moulded unit is the same price whether it goes over a door or a dormer.",
+    "cost_saved": "A moulded broken-pediment unit runs 200-700 USD against 900-3,000 USD for a joined and carved one. The placement error itself saves nothing; a triangular pediment on the same dormer costs less."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pediment / broken-scroll-on-roof = forbidden",
+      "statement": "Baroque furniture logic applied to a building. Broken and scrolled pediments are doorway forms only."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pediment / swan-neck-on-dormer = forbidden",
+      "statement": "A scrolled pediment on a dormer is furniture logic at roof scale, and at that size the scrolls cannot be cut correctly in any case."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pediment / rule",
+      "statement": "A broken or scrolled pediment appears only over a doorway — never on a roof."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a moulding profile has a minimum size below which its section cannot exist",
+      "statement": "A swan-neck cornice is a full cornice profile bent through a compound curve. Below about 20 in of scroll diameter the corona and cymatium have no room to exist and the member becomes a flat sawn board with a curve routed on its edge — which is what every small moulded unit is."
+    }
+  ],
+  "correct_practice": "The broken-scroll and swan-neck pediment is a DOORWAY form. In American work of 1720-1790 it appears over the front door, over an interior doorway, over a chimney breast and on case furniture, and essentially nowhere else. It requires four things to be correct: a full entablature below it at the doorway's own scale; scrolls large enough for the cornice profile to survive the curve, which in practice means an overall pediment width of not less than about 4 ft; a central plinth carrying an urn, a pineapple or a cartouche, because the form exists to frame that object and is incomplete without it; and returns on the horizontal cornice at each end. On a roof, a gable or a dormer the correct forms are triangular and segmental. Where a house wants a scrolled doorhead and cannot afford one, a triangular pediment on consoles is correct, cheaper and stronger.",
+  "fixes": {
+    "right": "A joined and carved broken-scroll pediment over the entrance door only, at not less than 4 ft overall width, with a full entablature below and a turned urn on a plinth between the scrolls.",
+    "cheap": "Move it and shrink the ambition. A triangular pediment on the dormer and a segmental one over the door are both correct, both cheaper, and both available as ordinary stock. Where a scrolled head is wanted at the entrance and the budget is 300 USD, the honest option is a simple flat-topped doorhead on two consoles with a strong crown — a documented, common, entirely correct Georgian arrangement that costs less than the moulded scroll unit.",
+    "dishonest": "Adding an urn to a small moulded scroll unit to complete the composition. It does complete the composition and it makes the scale error worse: the urn is now a 6 in object at the top of a house, and the assembly reads as a mantelpiece nailed to a roof. Equally dishonest: using the scrolled pediment on the door AND on the dormers so it looks intentional, which multiplies the fault by the number of dormers."
+  },
+  "detection": "Two questions from a photograph. (1) Where is it? A scrolled or broken pediment anywhere other than over a door, an interior opening or a chimney breast is out of place. Dormers, gables, porticos and garage doors are all wrong. (2) How big are the scrolls? Measure the diameter of one scroll's outer curve against the width of the opening below. On a correct doorhead the scroll diameter is roughly a quarter to a third of the opening width and is not less than about 12 in in absolute terms; on a moulded dormer unit it is 6 to 10 in and the section has collapsed. Third check, which identifies the moulded unit instantly: look at the scroll in an oblique view. A joined scroll has a corona and a cymatium turning the curve, showing three or four distinct planes; a moulded one is a flat face with a rolled edge. Fourth: is there an urn or cartouche on a plinth in the gap? Its absence means the form is being used as a shape rather than as a frame.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "scroll_outer_diameter_in",
+    "threshold": 12.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Below about 12 in of scroll diameter the cornice profile cannot be carried round the curve and the member degenerates to a sawn board with a routed edge. Pair with the categorical placement test — the form is admissible over a door, an interior opening or a chimney breast, and nowhere else."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Forbidden by name in the kit at roof and dormer, permitted at the doorway. The doorway version is one of the style's finest features."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The Greek Revival rejected the Baroque scroll entirely. A swan-neck on a Greek Revival house is a hundred and twenty years and one whole aesthetic position out of place."
+    },
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The Craftsman movement defined itself against exactly this kind of applied historicist ornament."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "Colonial Revival practice used the scrolled doorhead freely and sometimes at roof scale; the tradition's own excesses are part of its history, though the dormer version remains weak."
+    },
+    {
+      "style": "english-baroque",
+      "severity": "not-applicable",
+      "why": "Broken and scrolled pediments at building scale are native there — on gate piers, doorcases, attic storeys and monuments — and the vocabulary supports them."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "english-baroque",
+      "why": "Vanbrugh, Hawksmoor and Archer use broken and segmental-broken pediments at full building scale, on attic storeys, gate piers and church fronts, and the surrounding vocabulary — giant orders, heavy rustication, deep entablatures — supports them.",
+      "bounds": "The rest of the Baroque apparatus must be present at the same scale: a giant order or heavy rustication, a full entablature, and the pediment's own members at not less than 20 in of scroll diameter. One scroll on an otherwise plain elevation is not Baroque, it is this fault.",
+      "bounds_test": {
+        "expression": "scroll_outer_diameter_in",
+        "threshold": 20.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "churrigueresque",
+      "why": "Iberian and New World Baroque places broken, scrolled and interrupted pediments freely at every scale as part of a saturated ornamental field, and the form is not being borrowed but spoken natively.",
+      "bounds": "Requires the full estípite and retablo vocabulary around it. A single scrolled pediment on a plain stuccoed wall is not Churrigueresque."
+    },
+    {
+      "style": "spanish-plateresque",
+      "why": "Same argument: the broken pediment is one motif in a continuous ornamental surface.",
+      "bounds": "Requires the surrounding relief field."
+    },
+    {
+      "style": "dutch-colonial-american",
+      "why": "The Dutch and Anglo-Dutch tradition puts scrolled and moulded forms on gable ends as parapets, and the Hudson Valley and New Jersey work has documented curvilinear gable treatments.",
+      "bounds": "These are gable PARAPETS in masonry, not pediments: they have no horizontal cornice across the base, no entablature and no tympanum. Where a horizontal cornice appears, a pediment has been claimed and the rule returns.",
+      "applies_when": {
+        "regions": [
+          "hudson-valley",
+          "new-jersey"
+        ],
+        "construction": [
+          "masonry"
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "three-periods-on-one-elevation",
+    "router-scale-ornament",
+    "stamped-pediment-return"
+  ],
+  "confused_with": [
+    {
+      "fault": "pediment-at-roof-pitch",
+      "difference": "That is a geometric fault on a legitimate form. This is a legitimate form in an illegitimate place, or at a size below which it cannot be made."
+    },
+    {
+      "fault": "router-scale-ornament",
+      "difference": "That fault is about carved ornament of any kind reduced to router-cut relief. This one is about a specific form used outside its vocabulary; the two meet in the moulded dormer pediment, which is both."
+    },
+    {
+      "fault": "fanlight-before-its-date",
+      "difference": "Same family — an element used outside the period that produced it — applied to a different member. Read together as the anachronism pattern."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, pediment (broken-scroll-on-roof and swan-neck-on-dormer both forbidden with notes)",
+    "HABS documentation of Georgian doorways, Massachusetts and the Chesapeake",
+    "Fypon and Style Solutions moulded pediment catalogues — published size ranges and their intended openings",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, on doorway frontispieces"
+  ],
+  "confidence": "high",
+  "tags": [
+    "pediment",
+    "anachronism",
+    "scale",
+    "ornament",
+    "catalogue"
+  ]
+}

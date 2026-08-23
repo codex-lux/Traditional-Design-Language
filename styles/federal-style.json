@@ -1,0 +1,212 @@
+{
+  "id": "federal-style",
+  "name": "Federal",
+  "aka": [
+    "Adamesque",
+    "American Neoclassical",
+    "Federalist"
+  ],
+  "rank": "style",
+  "member_of": "early-republic",
+  "status": "historical",
+  "period": {
+    "origin": 1780,
+    "floruit_start": 1785,
+    "floruit_end": 1820,
+    "decline_end": 1835,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1880,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "The fanlight-and-sidelight door surround becomes the single most-copied American ornamental motif, usually enlarged by a third and hung on a house with no Federal proportions behind it."
+      },
+      {
+        "start": 1895,
+        "end": 1940,
+        "revival_node": "georgian-revival",
+        "note": "Academic revival that reads Federal and Georgian as one continuous 'Colonial' and habitually thickens Federal trim back toward Georgian weight."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "New England",
+      "Mid-Atlantic",
+      "Chesapeake",
+      "Lowcountry South",
+      "Ohio Valley"
+    ],
+    "hearth": "Boston and Salem, Massachusetts",
+    "climate_zones": [
+      "3A",
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "georgian-colonial-american",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "Unbroken transmission: the same housewrights, the same framing, the same four-over-four plan. What changed was the book on the bench, not the hand holding the plane."
+    },
+    {
+      "target": "adam-style",
+      "type": "descends_from",
+      "weight": 0.85,
+      "inherits_kit": true,
+      "note": "Federal and Adam are the same impulse on two sides of an ocean and a revolution. Robert and James Adam's Works in Architecture (1773-78) reached American builders through abridgments, imported mantelpieces, and Asher Benjamin's translations of Adam detail into carpenter-buildable mouldings."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "The Adam vocabulary of paterae, swags, husks and grotesques is quoted from Roman domestic decoration (Spalato, Herculaneum) at third hand. No American builder had a line of transmission to it; it arrived as printed plates and composition castings."
+    }
+  ],
+  "description": {
+    "short": "The classicism of the new republic: Georgian bones stripped of their Baroque weight and re-dressed in the thin, linear, attenuated ornament of Robert Adam, built in brick and clapboard from Portsmouth to Savannah between the Peace of Paris and the Missouri Compromise.",
+    "long": "Federal is Georgian with the pressure taken out of it. The plan is the same four-over-four box around a stair hall, the symmetry is the same strict bilateral discipline, the framing is the same braced heavy timber or the same Flemish-bond brick. What changes is the wall's relationship to its own ornament. Georgian ornament projects: bolection mouldings stand proud, door frontispieces advance on engaged columns and carry a broken pediment, quoins turn the corner in relief, muntins are an inch and a quarter of solid wood. Federal ornament recedes into the plane: the door becomes an opening rather than an object, crowned by an elliptical fanlight with lead cames spun into a fan of impossible thinness; mouldings flatten into bands and reeds; the swag and the urn arrive as applied composition castings glued to a flat frieze. The Federal facade is a taut membrane. Nothing on it is more than two inches deep.\n\nThe conditions are precise and they are commercial before they are ideological. The Revolution did not change the building trade; the same carpenters were at work in 1790 that had been at work in 1770, and continuity of craft is why the style has Georgian bones at all. What arrived new was print and money. Robert Adam's neoclassicism, already fashionable in Britain since the 1760s, crossed in books, in imported Coade stone and Wellford composition ornament, and above all in Asher Benjamin's Country Builder's Assistant (1797) and American Builder's Companion (1806), which did the essential translation: they reduced Adam's aristocratic surfaces to plates a New England housewright could execute with a set of moulding planes and no plasterer. The money came from the post-1790 neutral-carrying trade, which made Salem, Portsmouth, Providence, Baltimore and Charleston rich enough to build in brick. The technology cooperated: thinner and cheaper crown glass allowed larger lights and slimmer muntins, so a Federal 6/6 sash could carry glass of 12 by 18 inches behind muntins under seven-eighths of an inch, where a Georgian sash carried 8 by 10 glass behind muntins twice that width. The whole visual difference between the two styles at fifty feet is contained in that one dimension.\n\nWhat it was reacting to is subtler than rebellion. A Federalist merchant in 1795 was building an English fashion at the precise moment his government was defining itself against England, and that contradiction is the most interesting thing about the style. He was not quoting the Republic; he was quoting London's West End. The reaction was against weight, cost, and provincial coarseness rather than against monarchy — Federal is Georgian made lighter, cheaper per square foot of visible richness, and more obviously up to date. Jefferson understood the contradiction perfectly and built the alternative, which is why jeffersonian-classicism exists as a separate node rather than as a Federal sub-variant: he went around England to Rome, while the Federalist merchants went straight to Portland Place. Both were classical; only one was arguing.\n\nStanding in front of one, the eye is given nothing to hold. A Salem or Charleston Federal front presents a plane of brick with punched openings, a thin marble or brownstone stringcourse, and a cornice so shallow it casts a shadow only an inch wide at noon. Storey heights graduate downward — twelve feet, ten, seven — so the building visibly settles rather than floats, and the third-floor windows are squat by design. The whole composition is held together by tension rather than mass, and it fails badly if any single element is thickened. Inside, the compensation arrives: the oval and circular rooms that Bulfinch and the Charleston builders cut into the rectangular box, the cantilevered stair that turns out of sight without visible support, the plaster ceiling of husks and paterae picked out in three colours. A Georgian interior impresses you with the quantity of carved wood. A Federal interior impresses you with the apparent absence of structure."
+  },
+  "defining_characteristics": [
+    "Strict bilateral symmetry inherited intact from Georgian practice, three or five bays, with vertically aligned openings",
+    "Ornament reduced to low relief and applied to a flat wall plane; nothing projects more than two or three inches from the facade",
+    "Elliptical or semicircular fanlight over the entrance, normally with flanking sidelights, set within the wall plane rather than in a projecting frontispiece",
+    "Attenuated proportions: slender columns and pilasters, narrow muntins, shallow cornices, storey heights that graduate downward",
+    "Double-hung 6/6 or 6/9 sash with muntins under seven-eighths of an inch and larger panes than Georgian practice permitted",
+    "Curved and polygonal geometry introduced into the plan (oval rooms, bowed bays, elliptical stair) without disturbing the rectangular exterior box",
+    "Ornamental vocabulary of swags, urns, paterae, husks and reeding, frequently in cast composition rather than carved wood"
+  ],
+  "diagnostic_tells": [
+    "At fifty feet, Federal versus Georgian is a muntin-width and cornice-depth judgement: if the sash grid looks thin and the cornice casts almost no shadow, it is Federal",
+    "Fanlight elliptical rather than semicircular, and set flush in the wall rather than under a projecting pedimented hood",
+    "A shallow curved or polygonal bay pushing out of an otherwise flat rear or garden elevation",
+    "Third-storey windows noticeably shorter than the second, giving the facade a downward graduation Georgian rarely bothers with",
+    "Roof low-pitched or hipped and often hidden behind a balustrade; the Georgian steep gable with heavy dormers has gone quiet"
+  ],
+  "distinguished_from": [
+    {
+      "node": "georgian-colonial-american",
+      "difference": "Same plan and same symmetry; the difference is entirely one of relief and slenderness. Georgian ornament is carved and projecting, Federal ornament is applied and flat. If the door surround is an object standing in front of the wall, it is Georgian; if the door is a hole in the wall with a fan of glass above it, it is Federal."
+    },
+    {
+      "node": "greek-revival-american",
+      "difference": "A proportional inversion before it is an ornamental one. Federal thins everything; Greek Revival thickens everything. Federal has no full-height portico, no heavy entablature, and elliptical rather than rectangular transom lights."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Revival versions enlarge the fanlight and sidelight assembly by a third or more, thicken muntins back to Georgian weight for durability, and combine Federal doorways with massing (gambrel, wide dormered roofs) no Federal builder used. Scale is the tell: a genuine Federal doorway is smaller than you expect."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Classical orders as transmitted through Adam and the American pattern books, but consciously attenuated: the module remains the column diameter while the columns themselves are drawn slenderer than any antique authority permits. Delicacy is a proportional decision, not a decorative one.",
+    "typical_ratios": [
+      "Column and pilaster height 9-11 diameters (Adam-attenuated Ionic and Corinthian), against 7-8 in Georgian practice",
+      "Storey heights graduate downward, second floor 0.80-0.90 of the first, third floor 0.60-0.75 of the first",
+      "Window openings roughly 1:2 width to height; sash muntins 5/8 to 7/8 inch",
+      "Cornice projection 1/25 to 1/30 of facade height; entablature depth under 1/8 of the storey it crowns",
+      "Facade width to height (eave) commonly 1.4:1 to 1.7:1 for a five-bay block"
+    ],
+    "bay_rhythm": "Even three or five bay rhythm with equal interbay spacing; the centre bay is emphasised only by the doorway, never by projection or by a wider bay.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The Georgian double-pile plan carried over unchanged; the style operates on its surfaces."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "Federal is the first American style whose finest surviving work is urban and party-walled: Beacon Hill, Society Hill, Mount Vernon Place."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common"
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "Homewood and Gore Place; the hierarchy is Palladian but the trim is Adam."
+    },
+    {
+      "massing": "charleston-single",
+      "affinity": "possible",
+      "note": "The Lowcountry variant; see charleston-single-house."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Sash must be 6/6 or 6/9 double-hung with muntins no wider than 7/8 inch and glass no smaller than 10 x 14 inches. Muntins at Georgian width (1-1/4 inch and up) collapse the style at any distance beyond fifty feet, regardless of the quality of the rest of the trim.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "No element of the principal facade may project more than 3 inches from the wall plane except the door surround, which is limited to 6 inches. Cornice projection must not exceed 1/25 of facade height, and frieze depth must not exceed 14 inches.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "An elliptical fanlight requires flanking sidelights and a single-storey entrance treatment (flat entablature, small portico, or nothing). A two-storey portico is forbidden; it converts the building to Greek Revival or Neoclassical Revival regardless of trim.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Storey heights must graduate downward: second floor 0.80-0.90 of the first, third floor 0.60-0.75. Equal storey heights read as twentieth-century Colonial Revival.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "Masonry is laid in Flemish bond with joints no wider than 3/8 inch and no quoins. Belt courses are limited to a two-course brick band or a marble stringcourse no more than 4 inches deep. Rusticated or heavily articulated masonry belongs to Georgian or later revivals.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "First Harrison Gray Otis House",
+      "location": "141 Cambridge Street, Boston, Massachusetts",
+      "year": 1796,
+      "note": "Charles Bulfinch. Three-storey brick, five bays, Palladian window over the entrance with a lunette above it; the canonical urban Federal front."
+    },
+    {
+      "name": "Gore Place",
+      "location": "52 Gore Street, Waltham, Massachusetts",
+      "year": 1806,
+      "note": "Five-part plan roughly 190 feet long with bowed oval projections; the most fully realised Federal country house in New England."
+    },
+    {
+      "name": "Nathaniel Russell House",
+      "location": "51 Meeting Street, Charleston, South Carolina",
+      "year": 1808,
+      "note": "Begun 1803. Free-flying cantilevered stair, rectangular, oval and square rooms stacked in one block, full-height polygonal bay on the garden front."
+    },
+    {
+      "name": "Homewood",
+      "location": "3400 North Charles Street, Baltimore, Maryland",
+      "year": 1808,
+      "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian parti with Adamesque detail throughout - the clearest demonstration that Federal is a surface treatment applied to an inherited plan."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+    "Asher Benjamin, The American Builder's Companion (1806)",
+    "Asher Benjamin, The Country Builder's Assistant (1797)",
+    "William H. Pierson Jr., American Buildings and Their Architects: The Colonial and Neoclassical Styles (1970)",
+    "Robert and James Adam, The Works in Architecture of Robert and James Adam (1773-78)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "early-republic",
+    "classical",
+    "adamesque",
+    "attenuated",
+    "pattern-book"
+  ]
+}

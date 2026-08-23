@@ -1,0 +1,136 @@
+{
+  "id": "breakfast-room",
+  "name": "Breakfast Room",
+  "aka": [
+    "morning parlour",
+    "breakfast nook",
+    "dinette"
+  ],
+  "function_class": "dining",
+  "privacy_rank": 3,
+  "confidence": "high",
+  "description": "The informal eating room, defined against the dining room rather than on its own terms: smaller, nearer the kitchen, lit for the morning, and used by the household rather than by guests. When it shrinks to a bench and a table it becomes the nook, which is the same room with the circulation removed.",
+  "history": {
+    "appears": 1780,
+    "declines": null,
+    "note": "A Regency and Federal refinement that became standard in the American plan and then absorbed the dining room's actual function. Most households now eat every meal in it and use the dining room five times a year. That inversion is a programming fact worth putting to a client before either room is drawn."
+  },
+  "dimensions": {
+    "area_sf": [
+      80,
+      180
+    ],
+    "width_ft": [
+      8,
+      13
+    ],
+    "length_ft": [
+      10,
+      16
+    ],
+    "proportion": [
+      1.0,
+      1.5
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "A table for four is 36 x 48; with 36 in pull on all sides that needs 9 ft x 10 ft. A banquette on one side removes 36 in of pull and lets it work at 7 ft, which is why the nook exists and why it cannot then seat six."
+  },
+  "furniture": [
+    {
+      "item": "table, seats 4",
+      "footprint_in": [
+        36,
+        48
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "banquette",
+      "footprint_in": [
+        24,
+        72
+      ],
+      "clearance_in": 18,
+      "essential": false,
+      "note": "Buys 18 in of room depth in exchange for people climbing over each other."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "East. The room's whole argument is morning light, and a north-facing breakfast room has lost its reason to exist.",
+    "glazing_fraction": [
+      0.15,
+      0.3
+    ],
+    "note": "Two-sided light is what distinguishes this room from a corner of the kitchen."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "Direct and open. Any separation defeats the informality that is the room's purpose.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "terrace",
+        "why": "The obvious summer extension, and the reason for a door where the client will otherwise want a window.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [],
+    "entered_from": [
+      "kitchen",
+      "back-hall",
+      "dining-room"
+    ],
+    "never_a_through_room": false
+  },
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Shares the kitchen's, and inherits its cooking smells — a real argument for a door where a client wants none.",
+    "heat": "Perimeter",
+    "electrical": "One pendant over the table, centred on the table and not on the room",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "craftsman",
+      "name_in_style": "Breakfast nook",
+      "note": "Built-in benches and a fixed table, treated as joinery. The nook is a Craftsman invention and it is furniture, not planning."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "Breakfast room",
+      "trim_grade": "middle",
+      "note": "Present as a distinct room with its own trim, subordinate to the dining room."
+    },
+    {
+      "style": "minimal-traditional",
+      "name_in_style": "Dinette",
+      "note": "The room reduced to an alcove and given a marketing name."
+    }
+  ],
+  "code": [],
+  "massing_fit": [
+    "foursquare",
+    "bungalow-linear",
+    "ranch-linear",
+    "gable-front-and-wing",
+    "four-over-four"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "daylight_strategy",
+    "built_ins",
+    "window_grouping_rule"
+  ],
+  "sources": [
+    "Cromley, The Food Axis",
+    "Lancaster, The American Bungalow"
+  ]
+}

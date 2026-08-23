@@ -1,0 +1,123 @@
+{
+  "id": "open-string-without-a-bracket",
+  "name": "The Open String With Nothing On It",
+  "aka": [
+    "the naked cut string",
+    "the doweled baluster",
+    "the missing step end"
+  ],
+  "slots": [
+    "stair_type",
+    "newel_balustrade"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "An open-string stair — the outer string cut to the profile of the steps rather than running as a straight raking board — whose sawtooth is left bare. There is no carved or applied bracket on the string face beneath each tread, the tread end has no return nosing, and the balusters are doweled or pocket-screwed into the top of the tread with a small round collar rather than dovetailed into the tread end. The stair reads as an assembly of parts rather than as a piece of joinery, and the string's staircase profile is a raw cut edge.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The stair is built twice: a rough carpenter frames it as a structure early, so the building has floor-to-floor access during construction, and a finish carpenter clads it later. The step-end bracket and the return nosing belong to the second operation but depend on decisions made in the first — the string must be cut proud, the treads must run long past the string, and the balusters must be planned as dovetails. By the time the finish carpenter arrives the treads have been cut flush and the balusters have nowhere to go but the top face. The doweled baluster is also faster by a factor of five and does not require a matching tread end.",
+    "cost_saved": "Carved or applied step-end brackets run 12 to 45 USD each; return nosings and mitred tread ends add 20 to 40 USD a tread in labour; dovetailed balusters add about 15 USD each over doweled. On a 16-tread flight with three balusters per tread, 1,200 to 3,500 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / stair_type / open-string-with-carved-bracket-ends",
+      "statement": "The canonical variant: open-string with carved and applied bracket ends on the best work. Closed string, three-run with two landings and dog-leg are permitted alternatives; an open string with no bracket is none of them."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / newel_balustrade / step_end_brackets",
+      "statement": "Carved and applied to the open string, one per tread."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the open string exists in order to be decorated",
+      "statement": "A closed string is simpler, stronger and cheaper than an open one — a straight raking board with the treads housed into it. The ONLY reason to cut a string open is to expose the step ends and make something of them. An open string with nothing on it has taken the harder construction and refused its purpose, which is why the omission is more conspicuous here than a missing ornament usually is."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the return nosing conceals the joint the baluster needs",
+      "statement": "In the period assembly the baluster is dovetailed into the END of the tread and the joint is covered by a return nosing mitred round the tread's outer edge. The nosing is therefore not ornament: it is the cover to a structural joint, and deleting it forces the baluster onto the tread's top face where it has a much weaker connection and a visible collar."
+    }
+  ],
+  "correct_practice": "Decide which string you are building and build it fully. CLOSED STRING is a straight raking board 9 to 11 in wide with a moulded cap, the treads and risers housed and wedged into it from behind; it is correct in secondary stairs, in Craftsman work, and in any plain interior, and there is nothing missing when it has no bracket. OPEN STRING is cut to the step profile, the treads run past the string by the depth of a return nosing, the balusters are dovetailed into the tread ends and the joint covered by that nosing mitred round the end, and a carved or applied bracket — a scroll, a fan, an acanthus, or in plainer work a simple stepped moulding — is fixed to the string face under each tread. In Craftsman and Prairie work the equivalent is an open string with the tread ends returned and a plain square bracket or nothing at all, which is consistent because the family's argument is the visible joint rather than the applied carving. The one arrangement to avoid is the hybrid: an open string with flush tread ends and doweled balusters, which has the construction cost of the open string and the appearance of neither.",
+  "fixes": {
+    "right": "Open string with return nosings, dovetailed balusters and applied brackets, coordinated at framing so the treads are cut long.",
+    "cheap": "Build the closed string instead. Where the brackets and nosings will not be paid for, a straight raking closed string with a moulded cap is cheaper than the open string being built badly, is entirely correct in most styles, and removes the fault rather than mitigating it. Where the open string is already cut, an applied bracket in 1/4 in stock — a simple stepped or ogee profile rather than a carving — costs about 4 USD a tread in material and restores most of the effect; period stairs of ordinary rank used exactly such a stepped bracket rather than a carved one.",
+    "dishonest": "A machine-carved resin or MDF bracket applied over a flush tread end with no return nosing. The bracket then sits under a tread that stops at the string, so the profile it is decorating does not exist, and the baluster collar is still visible above. The bracket is the last of the three elements to add, not the first: return nosing, then dovetail, then bracket."
+  },
+  "detection": "Look at the outer end of any tread on an open-string stair, which is visible in almost any photograph taken from the hall. Correct: the tread's nosing turns the corner and runs back along the tread's end for 3 to 5 in, mitred at the corner, and its underside is closed by the bracket. Fault: the tread stops flush with the face of the string and there is a raw cut end. Second, look at the baluster foot: a dovetailed baluster shows no collar and its face is flush with the tread end; a doweled one shows a small turned or square collar sitting on the tread's top face. Third, at the string face below the treads: bracket, moulding, or nothing. Fourth, distinguish honest closed strings — a straight raking board with a cap and no visible tread ends at all is a different and correct assembly, and it must not be flagged.",
+  "test": {
+    "expression": "return_nosing_depth_in",
+    "threshold": 3.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "How far the tread's nosing returns along its outer end. Zero means the tread was cut flush and the whole open-string assembly is incomplete. Applies only where the string is CUT OPEN; a closed string has no tread end to return and the test is inapplicable."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman open string is deliberately plain — tread ends returned, square balusters, and either a simple square bracket or nothing at all on the string face. Applied carving would contradict the family.",
+      "bounds": "The return nosing and the dovetailed or housed baluster are still required; what is licensed is the absence of the CARVED bracket, not the absence of the assembly. And the string itself is usually a plain board with a square edge rather than a moulded cap.",
+      "bounds_test": {
+        "expression": "return_nosing_depth_in",
+        "threshold": 3.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Solid panelled or shingled balustrades with a closed string and no visible step ends are common, and the stair is treated as a piece of wall rather than as a piece of joinery.",
+      "bounds": "Closed string, so the test is inapplicable. The style also uses genuinely plain open strings with no brackets in service positions."
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The family's whole method is broad flat unmoulded surfaces, and a Greek Revival open string often carries a plain flat board or a single incised line rather than a carved bracket.",
+      "bounds": "The tread end must still return and the baluster must still be dovetailed; the flatness is in the bracket's profile, not in the assembly's completeness."
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "The type builds closed-string stairs with plain balustrades throughout and the open string is not part of its vocabulary.",
+      "bounds": "Closed string. An open string in this type is a later alteration and takes the normal rule."
+    },
+    {
+      "style": "folk-victorian",
+      "why": "The type's interior is honestly thin and a plain cut string with a simple stepped moulding rather than a carved bracket is what these houses actually have.",
+      "bounds": "A stepped or scroll-sawn bracket in thin stock is normal and is enough; complete absence with a flush tread end is still the fault, because the return nosing is a joint cover rather than an ornament."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "newel-too-thin",
+      "difference": "The string against the post. Both come from buying a stair as parts, but a closed-string stair can have a perfect newel and vice versa."
+    },
+    {
+      "fault": "return-that-never-returns",
+      "difference": "The exterior relative in name only — that fault is a cornice return; this is a tread return. Both are about a member that must turn a corner and does not."
+    }
+  ],
+  "co_occurs_with": [
+    "newel-too-thin",
+    "stair-at-the-code-minimum"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, stair_type variants and newel_balustrade step_end_brackets",
+    "HABS measured drawings of open-string stairs with applied brackets",
+    "Peter Nicholson, The Carpenter's New Guide (1792), stair construction",
+    "Universal Millwork Catalog (1927), stair parts"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "stair",
+    "open-string",
+    "omission",
+    "joinery"
+  ]
+}

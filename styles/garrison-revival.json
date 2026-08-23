@@ -1,0 +1,195 @@
+{
+  "id": "garrison-revival",
+  "name": "Garrison Revival",
+  "aka": [
+    "Garrison Colonial",
+    "Garrison",
+    "Overhang Colonial"
+  ],
+  "rank": "variant",
+  "member_of": "colonial-revival",
+  "status": "revival",
+  "period": {
+    "origin": 1925,
+    "floruit_start": 1935,
+    "floruit_end": 1970,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "eastern Massachusetts and the Boston suburbs",
+    "climate_zones": [
+      "5A",
+      "6A",
+      "4A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "colonial-revival",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "A massing variant. Kit, openings and entry are the parent style's; only the jettied second storey and the seventeenth-century reference differ."
+    },
+    {
+      "target": "garrison-colonial",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The claimed ancestor: the fortified plank-frame houses of frontier Maine, New Hampshire and Massachusetts, and more loosely the jettied first-period houses of Essex County."
+    },
+    {
+      "target": "new-england-colonial",
+      "type": "references",
+      "weight": 0.8,
+      "note": "Where the drops, pendants, and casement-derived window pattern actually come from - the seventeenth-century English framing tradition as transplanted, not from any garrison."
+    },
+    {
+      "target": "cape-cod-revival",
+      "type": "hybridizes_with",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "Same offices, same builders, same market; Royal Barry Wills's practice produced Capes, saltboxes and garrisons from one drafting room."
+    },
+    {
+      "target": "garrison-colonial",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The mid-century builder's Colonial: a rectangular two-storey box whose upper floor projects 8 to 18 inches over the lower on the front elevation, decorated with turned drops, and derived from a seventeenth-century framing condition that the twentieth century reproduced with no structure behind it.",
+    "long": "Garrison Revival is the clearest case in this branch of a structural detail surviving as pure imagery. The jetty - a second-floor framing overhang - was a genuine feature of English medieval and early New England timber framing, where the second-floor joists cantilever past the first-floor plate and the upper storey posts land on their ends. It appears on Essex County houses of the 1670s and 1680s, sometimes with carved or turned pendants at the corners where the corner posts drop below the framing. The 'garrison house' proper is something else again: a fortified frontier dwelling of thick planks or logs, built in Maine and New Hampshire for defence, which sometimes but not always jettied. American builders of the 1930s conflated the two, named the result Garrison Colonial, and sold it by the hundred thousand.\n\nWhat made it a mid-century staple is that it solves a builder's problem elegantly. A jetty of 9 to 12 inches on the front elevation buys 20 to 30 square feet of second-floor area at almost no cost, gives the facade a shadow line and a horizontal accent that an otherwise plain box badly needs, and reads immediately as Colonial without requiring a portico, a cornice, or any masonry. From the mid-1930s and especially in the postwar suburbs, it became one of the two or three default two-storey builder plans in the Northeast, alongside the Cape and the split-level. The typical example is five bays wide, two rooms deep, with a side-gable roof at 7:12 to 9:12, a centred entrance under a small pedimented hood, 6/6 or 8/8 sash, an end chimney, and an attached garage in a wing.\n\nThe claim being made is the ordinary Colonial Revival claim - settled ancestry, New England descent, respectability - with a small extra note of hardiness. The name says garrison, and the sales copy of the period leaned on it: this is the house of people who held the frontier. That the actual buyers were commuting to an office in Hartford is not a criticism; every style in this branch is doing something similar, and the garrison does it with unusual economy.\n\nThe experience is modest and depends almost entirely on the overhang doing its job. When the jetty is deep enough - 12 inches or more - and carries real drops, the front elevation acquires a horizontal shadow at the second-floor line that organises the whole facade and makes an inexpensive house look composed. When it is 4 inches deep and the drops are plastic, the shadow disappears, the overhang reads as a mistake in the siding, and the house is simply a box. There is very little else to the variant; it is one move, and either it is made properly or it is not made at all."
+  },
+  "defining_characteristics": [
+    "Second storey projecting beyond the first on the front elevation, forming a continuous jetty across the full width",
+    "Two full storeys, rectangular plan, two rooms deep, under a side-gable roof",
+    "Turned or carved pendant drops at the outer ends of the overhang, and often at intermediate points",
+    "Symmetrical five-bay (or near-symmetrical four- or six-bay) front with a centred entrance and a modest pedimented hood or pilastered surround",
+    "Multi-light double-hung sash, 6/6, 8/8 or 8/12, aligned vertically between storeys",
+    "Clapboard or shingle wall, minimal cornice, and an end chimney"
+  ],
+  "diagnostic_tells": [
+    "The overhang appears on the front elevation only and stops at the corners. Genuine seventeenth-century jetties usually turn the corner and continue on the gable ends.",
+    "Drops are turned wooden or cast pendants applied to the soffit; on originals they are the carved lower ends of continuous corner posts and are therefore structurally continuous with the frame above.",
+    "Overhang depth is the whole diagnosis: 8-18 in. reads correctly, 4-6 in. reads as a siding error, over 24 in. is implausible as joist cantilever.",
+    "Everything else on the house is standard Colonial Revival, including the attached garage that dates it after 1935.",
+    "Against the actual garrison house: real garrisons are plank- or log-walled defensive buildings with very small openings, no symmetry, and no classical entry. Nothing about the revival's face is defensive."
+  ],
+  "distinguished_from": [
+    {
+      "node": "garrison-colonial",
+      "difference": "The original is a fortified plank-frame or log dwelling on the seventeenth- and eighteenth-century northern New England frontier, built for defence, with small openings and no symmetry. The revival takes only the overhang - itself borrowed from a different, non-defensive framing tradition - and applies it to a symmetrical Colonial Revival box."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "This is the parent style with a jettied second storey. Remove the overhang and the drops and nothing distinguishes it."
+    },
+    {
+      "node": "new-england-colonial",
+      "difference": "The genuine first-period jettied houses of Essex County have steep 12:12 roofs, casement or very small sash, massive central chimneys, and jetties that turn the corner. The revival has a 7:12-9:12 roof, large double-hung sash, an end chimney, and a front-only overhang."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The jetty depth against the storey height. The overhang must read as a plausible joist cantilever - roughly one third of the joist depth times its span-to-depth allowance - which in practice caps it near 18 in.; everything else follows the parent style's bay-and-catalog logic.",
+    "typical_ratios": [
+      "Overhang 8-18 in., most commonly 9-12 in.",
+      "Drops 5-8 in. in diameter and 8-14 in. long, at the corners and sometimes at 1/3 points",
+      "Storey heights 8'6\"-9'0\" first and second - lower than high-style Colonial Revival, because this is a builder type",
+      "Roof pitch 7:12 to 9:12, side gable, with a 6-12 in. eave overhang",
+      "Footprint 26-30 ft deep by 36-48 ft wide"
+    ],
+    "bay_rhythm": "Five bays at 8'0\"-10'0\" on centre in the symmetrical case; postwar examples frequently run four or six bays with an off-centre door, which is tolerated but weakens the type. Second-storey openings align with those below.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "garrison-block",
+      "affinity": "canonical",
+      "note": "The variant is this massing: a two-storey side-gable box with a front jetty."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The plan below the overhang is a standard centre-passage double pile."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "possible",
+      "note": "Narrow-lot version with the entrance to one side; the overhang still runs the full width."
+    },
+    {
+      "massing": "saltbox",
+      "affinity": "possible",
+      "note": "Where a rear lean-to is added, producing the garrison-saltbox hybrid common in 1950s New England builder catalogs."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Overhang depth 8-18 in., continuous across the full width of the elevation, with the soffit framed and finished as a soffit - not as a siding transition. Overhangs under 6 in. or over 24 in. are forbidden; neither reads as a joist cantilever."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Pendant drops are required at both outer ends of the overhang, turned or carved in wood, 5-8 in. in diameter and 8-14 in. long, aligned with the corner posts. Applied plastic or foam drops void the variant."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Where the overhang returns onto a gable end it must continue for the full depth of that elevation and terminate in a drop; a partial return is forbidden."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Roof pitch 7:12 to 9:12 side gable. Below 6:12 the box loses the proportion that makes the overhang legible; above 10:12 the house reads as a Cape or a first-period reproduction."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width. A two-storey portico is incompatible with a jettied elevation."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Webber House",
+      "location": "Brookline, Massachusetts",
+      "year": 1935,
+      "note": "Harry Morton Ramsay. Second-storey shingled overhang with decorative pendants; a documented architect-designed example of the type at its origin."
+    },
+    {
+      "name": "Royal Barry Wills Associates garrison designs",
+      "location": "Boston, Massachusetts (office)",
+      "year": 1940,
+      "note": "Wills's practice produced garrisons alongside Capes and saltboxes; the drawings are held in the Royal Barry Wills Associates collection at Historic New England. The type's design standards descend from this office."
+    },
+    {
+      "name": "Stanley-Whitman House",
+      "location": "Farmington, Connecticut",
+      "year": 1720,
+      "note": "Not a revival building. Included as the genuine first-period jettied house with a framed overhang and carved drops that the revival imitates - the correct comparison for judging any Garrison Revival overhang."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Royal Barry Wills, Houses for Good Living (1940)",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625-1725 (1979)",
+    "John Milnes Baker, American House Styles: A Concise Guide (1994)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "revival",
+    "variant",
+    "builder-type",
+    "postwar",
+    "jetty",
+    "new-england"
+  ]
+}

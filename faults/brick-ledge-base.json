@@ -1,0 +1,191 @@
+{
+  "id": "brick-ledge-base",
+  "name": "The brick that starts at the ground",
+  "aka": [
+    "the weep-hole datum",
+    "no plinth"
+  ],
+  "slots": [
+    "foundation_expression",
+    "water_table",
+    "construction_type"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "A brick house whose brickwork runs straight into the earth or the mulch with no plinth, no water table and no change of material at the base. The only horizontal near the ground is a line of weep holes or open head joints in the second or third course, and the mulch is usually piled against the wall to hide them.",
+  "cause": {
+    "driver": "code",
+    "explanation": "Anchored veneer is carried on a brick ledge cast into the foundation wall, which code requires to be only a few inches above finished grade (IRC R404.1.6 requires foundation walls to extend not less than 4 in above adjacent finished grade). Flashing and weeps must sit at the ledge. The cheapest way to satisfy all of this is to start the brick as low as the ledge allows and run it up unbroken. There is then nothing to express, because in a veneer there is no wall-thickness change at the base to weather — the wall is 3 5/8 in from the ledge to the eave.",
+    "cost_saved": "A projecting water table and a differentiated base course add roughly $12-$25 per lineal foot of wall, plus a second flashing detail — about $1,200-$2,500 on a typical house."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / water_table / none (forbidden)",
+      "statement": "A brick wall that starts at grade has no plinth and the house appears dropped rather than built."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / foundation_expression.height = part * 2 = 18 in; elevation member 'foundation' = 3.0 parts = 27 in to the bed of the water table",
+      "statement": "The elevation begins below the first floor. A house sitting on grade has lost the bottom term of the series."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "brick-course / water_table.height = module * 2.5 = 27.5 in (ten courses)",
+      "statement": "The water table lands on a whole course."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R404.1.6 and R703.8.6",
+      "statement": "Foundation walls extend not less than 4 in above adjacent finished grade, and weep holes in anchored veneer are spaced not more than 33 in on centre at the flashing. Both are satisfied by starting the brick at the ledge, which is why the code minimum and the correct base pull in opposite directions — the code sets a floor, not a design."
+    }
+  ],
+  "correct_practice": "The wall begins with a base that is visibly different from the wall above and 18-30 in high: in period masonry a coarser bond, a darker or rougher brick, or a stone footing course, capped by a moulded or bevelled water table at 24-36 in above finished grade — ten brick courses at a 2 3/4 in course — projecting about 2 in and returning fully round every elevation including the rear. Grade falls away from it 6 in in the first 10 ft (IRC R401.3), which is both the period practice and the code.",
+  "fixes": {
+    "right": "Start the veneer with a genuinely different base: 8-10 courses of a darker or rougher brick, or a stone or cast-stone plinth, capped with a moulded or chamfered brick course set out 2 in with a through-flashing and weeps at the water table rather than at the ledge — which also moves the weeps up out of the mulch, where they actually work.",
+    "cheap": "Add a single projecting course. One rowlock or chamfered course set out 2 in at the tenth course, run the full way round the volume, costs a few hundred dollars and restores the bottom term of the elevation. Then lower the grade so 18-24 in of wall shows below it. Regrading is nearly free during construction and is the single cheapest correction available on an otherwise correct front.",
+    "dishonest": "A band of manufactured stone at the base with a sloped cap, stopping at the corners. That is the wainscot fault wearing the water table's clothes: it changes material without changing plane in section, and it usually stops where the sightline stops."
+  },
+  "detection": "Find the lowest horizontal line on the wall and ask what it is. If the lowest thing you can see is a mulch line or a row of open head joints, the base is missing. Measure, in brick courses, from the earth to the first projecting horizontal: the target is 8-12 courses (22-33 in) to a water table. Zero courses is the fault. A second, subtler tell: at the corner of the house, does the base line step where the grade falls, or does it stay level? A veneer started at the ledge follows the ledge, which follows the foundation, which usually steps — so a stepped brick base with no water table above it is diagnostic.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "minimal-traditional",
+      "why": "The post-war minimal-traditional house deliberately sits low — 8-12 in of foundation above grade is normal for the type and is part of its ground-hugging economy.",
+      "bounds": "Only where the house makes no other classical claim. The moment a cornice, quoins or a pedimented entry appear, the base is required again, because those elements are the top of a series whose bottom term is missing.",
+      "bounds_test": {
+        "expression": "classical_apparatus_element_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Cornice, quoins, pedimented entry, portico each count as one. A low base is the type's economy only where nothing on the building is the top of a series whose bottom term is missing."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1955
+        ],
+        "note": "Authentic to the post-war type and its 8-12 in slab-on-grade figure."
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Adobe and its revival want a wall that meets the ground with a visible batter and no plinth or trim of any kind — 'no eave, fascia, gutter, corner board, or applied trim anywhere on the exterior'. A water table would be foreign.",
+      "bounds": "The base must actually batter — a measurable widening of 2-6 in over the lowest 24-36 in — and the wall must be rendered continuously into the ground plane. A vertical stucco wall meeting the earth in a straight line is not this exception, it is the fault.",
+      "bounds_test": {
+        "expression": "wall_batter_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 2,
+        "note": "A measurable widening of 2-6 in over the lowest 24-36 in. A vertical stucco wall meeting the earth in a straight line is not this exception, it is the fault."
+      },
+      "applies_when": {
+        "slots": [
+          "foundation_expression"
+        ],
+        "construction": [
+          "adobe",
+          "rammed-earth"
+        ],
+        "note": "The base is expressed by the wall itself, so the wall must actually do it."
+      }
+    },
+    {
+      "style": "new-mexico-adobe",
+      "why": "Same reasoning; the historic answer to the base is a stone or fired-brick footing course kept below or barely above grade, not an expressed plinth.",
+      "bounds": "Where the footing course does show, it should read as a rough footing, not as a moulded classical member.",
+      "bounds_test": {
+        "expression": "wall_batter_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 2,
+        "note": "As above. Where a stone or fired-brick footing course shows, it reads as a rough footing and not as a moulded classical member."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Pier-and-beam vernacular sits on open brick or block piers with a skirt or nothing; there is no continuous wall base to express.",
+      "bounds": "The piers must actually be open or lattice-skirted. A continuous foundation wall dressed to look like piers is a different fault.",
+      "bounds_test": {
+        "expression": "open_pier_width_in / pier_bay_width_in",
+        "direction": "at-most",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "note": "The piers must genuinely be open or lattice-skirted, so voids are at least half the perimeter. A continuous foundation wall dressed to look like piers is a different fault."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "house-without-a-base",
+      "difference": "That fault is about the HEIGHT of the first floor above grade, which is a section and site question. This one is about whether the wall's base is expressed at all, which is an elevation question. A house can float 30 in above grade and still have no water table."
+    },
+    {
+      "fault": "water-table-as-trim-board",
+      "difference": "There the water table exists but does no work; here it is simply absent."
+    }
+  ],
+  "sources": [
+    "International Residential Code R404.1.6, R401.3, R703.8.6 (weep spacing not more than 33 in o.c.)",
+    "Brick Industry Association, Technical Notes 7 (water penetration resistance) and 28",
+    "proportions/systems/facade-classical.json, elevation assembly members 'foundation' and 'water_table'",
+    "kits/georgian-colonial-american.kit.json, water_table"
+  ],
+  "confidence": "high",
+  "tags": [
+    "foundation",
+    "water-table",
+    "base",
+    "veneer"
+  ],
+  "test": {
+    "expression": "brick_courses_from_finished_grade_to_first_projecting_horizontal",
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "threshold": 8,
+    "note": "Ten courses is canonical (27 1/2 in at a 2 3/4 in course); 8-12 is the working band. Zero is the fault, and zero is what a veneer started at the brick ledge gives. Countable directly in a photograph, which makes this one of the few base faults a model can evaluate without a scale reference."
+  },
+  "secondary_tests": [
+    {
+      "expression": "water_table_projection_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 2.0,
+      "note": "One course set out. Without it the courses counted above are just wall."
+    },
+    {
+      "expression": "expressed_base_height_above_grade_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 18,
+      "upper": 30,
+      "note": "The band of coarser material below the water table. Where the count test passes but this fails, the wall has a water table and no base."
+    },
+    {
+      "expression": "visible_weep_openings_below_lowest_projecting_horizontal",
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 0,
+      "note": "Weeps at the ledge sit in the mulch and stop working. Moving the through-flashing up to the water table both fixes the base and fixes the drainage, which is the argument that actually persuades a builder."
+    }
+  ],
+  "co_occurs_with": [
+    "house-without-a-base",
+    "exposed-concrete-skirt",
+    "veneer-reveal-collapse",
+    "water-table-as-trim-board"
+  ],
+  "severity_in_use": "serious",
+  "severity_trajectory": "Minor on handover and serious by year eight. Weeps at the brick ledge sit at or below the mulch line, so they silt up and the veneer's drainage cavity stops draining; the visible consequence is efflorescence and then spalling in the lowest four courses. Raising the flashing and weeps to a water table at ten courses is the same detail doing both jobs."
+}

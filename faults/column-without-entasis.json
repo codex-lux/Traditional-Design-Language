@@ -1,0 +1,189 @@
+{
+  "id": "column-without-entasis",
+  "name": "The Stovepipe",
+  "aka": [
+    "the parallel shaft",
+    "the fibreglass tube",
+    "no diminution"
+  ],
+  "slots": [
+    "column",
+    "order",
+    "porch_support"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A round white column whose shaft is exactly the same diameter at the neck as it is at the foot. The two edges of the shaft are parallel lines in elevation, and where the shaft meets the capital the abacus overhangs by the full width of the capital's projection with nothing tapering up to meet it. From the side the column reads as a length of pipe with a plate on each end. There is no swell in the lower two thirds and no perceptible narrowing above.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "A tapered shaft costs money in every material. In wood it is a stave-built, glued and turned assembly; in fibreglass it is a tapered mould that cannot be pulled from a continuous line and cannot be cut to length at the top; in aluminium and PVC it is impossible, because both are extruded and an extrusion is by definition constant in section. The parallel column exists because it can be cut to any length on site from stock, which is exactly what a framer wants when the deck height comes in an inch off. Tapered columns must be ordered to a finished height six weeks ahead and cannot be trimmed at the top.",
+    "cost_saved": "A 10 ft plain parallel fibreglass or PVC column runs 180-350 USD; the same height turned and tapered with entasis, in wood or moulded FRP, runs 550-1,400 USD. On a six-column porch that is 2,000-6,000 USD, and it also buys the framer the right to cut on site."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / column.diminution = 0.8333, column.entasis_begins_at = 0.3333",
+      "statement": "The shaft diminishes to five sixths of its lower diameter, and the diminution begins at one third of the shaft height, not at the base."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "palladio-tuscan / column.diminution = 0.75",
+      "statement": "Palladio takes the Tuscan down to three quarters — the widest diminution any authority gives, and the reason a Tuscan column looks stouter than its diameter suggests."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / column / diminution = 0.8333, entasis beginning at one third of the shaft",
+      "statement": "The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a vertical member reads as carrying only if it is thicker where the load has accumulated",
+      "statement": "Diminution is not decoration. It is the visible statement that the shaft is in compression and that compression is greatest at the foot. A parallel shaft says nothing about load and therefore reads as cladding round a post, which is usually what it is."
+    }
+  ],
+  "correct_practice": "Every authority in the pack diminishes the shaft. Vignola, Chambers and Gibbs take the upper diameter to 5/6 (0.833) of the lower; Palladio to 11/13 (0.846) in the four upper orders and to 3/4 (0.75) in his Tuscan; Asher Benjamin's Grecian Doric to 0.783. Vignola and Palladio hold the shaft parallel for the lower third and diminish only above it, which is what produces entasis as a perceptible swell; Chambers and Benjamin diminish from the foot in a continuous curve. Both are correct and they look different: the Vignola construction gives a column with a visible belly, the Chambers construction a straight cone. At a 10 in lower diameter the Vignola upper diameter is 8 5/16 in — a difference of 1 11/16 in across the top, which is a full inch of shadow either side and is unmistakable at fifty feet.",
+  "fixes": {
+    "right": "Order stave-built or moulded columns to a finished height, tapered, with the diminution beginning at one third and the upper diameter at 0.833 of the lower. Set the deck and the beam to the column, not the column to the deck.",
+    "cheap": "If the budget only carries a parallel shaft, stop calling it a column and make it a square pier or a chamfered post — both are correct in a great many traditions and neither owes anyone a taper. This costs less than the parallel column it replaces. Where a round shaft is unavoidable, the second-best move is free: take the SMALLEST diameter the load will allow rather than the largest, because the parallel column's failure is most visible at the neck, and a slender parallel column at least does not advertise a 1 11/16 in overhang under the abacus.",
+    "dishonest": "A parallel shaft with a deeper capital and a taller base, on the theory that the eye will read the assembly as tapered. It does the opposite: a heavier capital increases the overhang the shaft fails to meet, and the column reads as a pipe with a hat."
+  },
+  "detection": "Photograph the porch straight on and measure the shaft width in pixels at two heights — just above the base, and just under the astragal at the neck. Divide the second by the first. Any value above 0.95 is a parallel shaft. Correct work lands between 0.75 and 0.87. Second check, which works even in a bad photograph: look at the joint under the capital. On a diminished shaft the astragal and fillet sit on a shaft visibly narrower than the base and the capital's overhang is modest; on a parallel shaft there is a sudden step out to the abacus and the column appears to be wearing something. Third check: the entasis itself is visible as a slight convexity in the silhouette of the shaft's shaded edge against the sky, present from about a third of the height up.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "upper_shaft_diameter / lower_shaft_diameter",
+    "threshold": 0.75,
+    "upper": 0.87,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Measure the shaft, not the capital or the base. The authorities' band is 0.75 (Palladio Tuscan) to 0.846 (Palladio, upper orders); 0.87 allows for foreshortening in a photograph taken from the ground. Above 0.95 the shaft is parallel."
+  },
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The Greek Revival column is the whole building. Benjamin's Grecian Doric diminishes to 0.783 — the most pronounced taper in the pack — and a parallel Greek Doric is not a simplification of the order but a different object."
+    },
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "A two-storey giant order is read entirely as silhouette against the sky. Parallel shafts at that height read as scaffolding."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The order is present but subordinate to the wall; a parallel Tuscan on a one-bay portico is a bad column on a good house."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "minor",
+      "why": "Catalog spindlework never claimed the orders. A parallel turned post is what the mill sold and is period-correct."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "The Craftsman post is square and battered, and its taper is a straight-sided batter of 1 in per foot rather than an entasis. Different rule entirely — see turned-post-out-of-period."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "folk-victorian",
+      "why": "The catalogue turned post is a lathe product with no order behind it. Its profile is a sequence of beads, coves and a plain barrel, and the barrel is parallel because that is what a lathe running a duplicating template produces. The thinness and the parallel barrel are the point of the idiom.",
+      "bounds": "Only where the post is genuinely turned — beaded, coved, with a square block top and bottom — and only at 4 to 5 in barrel diameter. A plain parallel cylinder with a moulded capital is not a turned post and does not get this licence.",
+      "bounds_test": {
+        "expression": "turned_barrel_diameter_in",
+        "threshold": 3.5,
+        "upper": 5.5,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "construction": [
+          "wood-frame"
+        ],
+        "date_range": [
+          1870,
+          1910
+        ],
+        "slots": [
+          "porch_support"
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Gallery colonnettes in Creole and Caribbean work are slender turned or square wooden posts, often genuinely parallel, carrying a light gallery roof. They are a joiner's product, not an order, and the tradition is continuous and documented.",
+      "bounds": "Colonnette diameter 5 to 7 in at a gallery height of 8 to 10 ft, carrying nothing but a light plate and a low-pitch gallery roof. The licence does not extend to a two-storey gallery or to anything carrying a pediment.",
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ],
+        "construction": [
+          "wood-frame",
+          "briquette-entre-poteaux"
+        ]
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style Tuscan columns are deliberately stout, short and crude, and several documented examples are barely diminished at all — the column is being used as a piece of massing, not as an order.",
+      "bounds": "Only in company with the rest of the idiom: a column of 4 to 6 diameters, no pedestal, a plain torus base, and a shingled wall running past it with no corner boards. A 9-diameter parallel shaft is not Shingle Style, it is a stovepipe.",
+      "bounds_test": {
+        "expression": "column_height / lower_shaft_diameter",
+        "threshold": 4.0,
+        "upper": 6.5,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "construction:cast-iron",
+      "why": "Cast-iron columns of the 1840-1900 commercial and gallery tradition are cast in parallel-sided moulds and the tradition accepts it; New Orleans and Mobile galleries are full of them.",
+      "bounds": "The column must actually be iron — visible mould seam, bolted base plate, hollow ring when struck — and must carry the fine cast ornament that only iron can hold. A fibreglass tube painted to look like iron is this fault wearing a costume."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "prairie-school",
+      "statement": "The Prairie pier is deliberately without taper, and adding one is the fault. A battered or diminished pier contradicts the horizontal reading and the slab-like massing."
+    },
+    {
+      "style": "pueblo-revival",
+      "statement": "The adobe post and zapata are batter-free by construction; a turned or entasised shaft would be an imported object."
+    }
+  ],
+  "co_occurs_with": [
+    "capital-and-base-from-different-orders",
+    "column-foot-on-the-deck-board",
+    "column-height-outside-the-authorities"
+  ],
+  "confused_with": [
+    {
+      "fault": "pencil-column",
+      "difference": "That is about the column being too thin for what it carries. This one is about the shaft's section being constant. A column can be correctly proportioned in height and still be a stovepipe, and most fibreglass columns are both."
+    }
+  ],
+  "sources": [
+    "proportions/orders/vignola-tuscan.json, vignola-doric.json, vignola-ionic.json (diminution 0.8333, entasis at 1/3)",
+    "proportions/overlays/palladio-tuscan.json (diminution 0.75), benjamin-doric.json (0.7833, entasis from the foot)",
+    "proportions/overlays/chambers-doric.json (entasis_begins_at 0 — the continuous diminution)",
+    "kits/georgian-colonial-american.kit.json, column",
+    "Asher Benjamin, The Practical House Carpenter (1830), plates on diminishing the column",
+    "HB&G, Chadsworth and Melton column literature — published taper and shaft-diameter schedules for FRP and PVC columns"
+  ],
+  "confidence": "high",
+  "tags": [
+    "column",
+    "entasis",
+    "diminution",
+    "endemic",
+    "diagnostic"
+  ]
+}

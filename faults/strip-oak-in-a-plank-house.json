@@ -1,0 +1,204 @@
+{
+  "id": "strip-oak-in-a-plank-house",
+  "name": "Two And A Quarter Inch Strip Oak",
+  "aka": [
+    "the restored colonial floor",
+    "uniform-width plank",
+    "the micro-bevel line"
+  ],
+  "slots": [
+    "floor_material"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "A house presented as eighteenth or early nineteenth century with floors of 2 1/4 in tongue-and-groove strip oak, blind-nailed, uniform in width, laid in a single direction throughout, and finished in a film-forming polyurethane with a slight sheen. The variants are the same error at different widths: a floor of uniform 8 in boards, which reads as a deck; and an engineered plank whose every board edge carries a machined micro-bevel, so the floor is a field of parallel grooves that catch dust and light.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Narrow strip oak is what the flooring industry was built to make. Side-and-end matching machinery arrived in the 1880s and 1890s and made a kiln-dried, uniformly milled, blind-nailable strip the cheapest stable wood floor available; 2 1/4 in became the volume size because a narrow board moves less across its width and can be laid over an uneven subfloor without cupping. Wide plank went the other way: it needs thicker stock, careful drying, face nailing and a tolerance for movement. The micro-bevel has its own driver — an engineered or prefinished board cannot be sanded flat after laying, so the manufacturer bevels every edge to hide the height differences between boards, which converts a tolerance problem into a permanent visual feature.",
+    "cost_saved": "2 1/4 in red oak strip runs 8 to 14 USD per square foot installed and finished; random-width plank in white pine or oak, 16 to 30 USD, and reclaimed plank 22 to 45. On 2,000 square feet, 16,000 to 60,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / floor_material / strip-oak-2-1-4, status forbidden",
+      "statement": "Post-dates the style by a century and a half and is the commonest single anachronism in a restored colonial interior."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / floor_material / uniform-width-plank, status forbidden",
+      "statement": "A floor of uniform 8 in boards is as wrong as strip oak, differently. RANDOM WIDTH is the operative word."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / floor_material / engineered-plank-with-microbevel, status forbidden",
+      "statement": "The bevel casts a line at every board edge that a face-nailed plank floor does not have."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / floor_material / plank_width_in, range [6,14] and plank_laying",
+      "statement": "Random width, running the long dimension of the room, face-nailed with cut or rose-head nails; board thickness 7/8 to 1 1/4 in; masonry paving in the passage and the service spaces."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "board width is set by the tree and the saw, not by the room",
+      "statement": "A pre-industrial floor is random width because the boards came out of logs of different diameters and were used as they fell. Uniformity of width is therefore a direct signature of industrial milling and cannot be present in a floor laid before it existed. The same argument reads forward: a floor of identical boards in a house claiming a pre-industrial date is making a claim about a supply chain."
+    }
+  ],
+  "correct_practice": "Random-width plank of 6 to 14 in, 7/8 to 1 1/4 in thick, in white pine, heart pine or oak according to region, laid the long way of the room and face-nailed with cut or rose-head nails in two nails per bearing. RANDOM is the operative word and it has a method: mix the widths so that no two adjacent boards match and no width repeats in a visible rhythm, and let the widest boards fall where they will rather than grading them to one side. Run the boards the long dimension of the room, and change direction at a threshold rather than running one direction through the whole house — a period floor is laid room by room over joists that themselves change direction. Finish with oil or wax rather than a film, because a film-forming finish on a wide plank telegraphs every seasonal movement as a cracked line at the joints. In the passage, in the kitchen and in service spaces, brick paving or stone flag is period and is often better. Where a modern floor is genuinely wanted, choose it honestly and detail it consistently rather than choosing a narrow strip and calling it colonial; and where budget forces a manufactured product, take a wide prefinished plank with a SQUARE edge over a narrow one with a bevel, because the bevel is the more visible of the two errors and it is on every board.",
+  "fixes": {
+    "right": "Random-width solid plank, 6 to 14 in, face-nailed, oil or wax finished, direction changing room by room.",
+    "cheap": "Random-width in a cheaper species. White pine plank in random widths costs about the same per square foot as good strip oak and is more correct in most colonial contexts, because pine is what these floors actually were — the oak floor is a Victorian and later preference. Second cheap move, free: where a plank floor is being bought anyway, specify RANDOM widths rather than a single wide one, which costs nothing and is the difference between a period floor and a deck. Third: if the strip floor is already down and staying, stop compounding it — do not add a wide plank in the next room, because a house with two floor types in adjacent rooms of the same rank is worse than one with a consistent wrong floor.",
+    "dishonest": "Distressing. Wire-brushing, hand-scraping, saw-mark texturing and simulated wormholes applied to a 2 1/4 in strip or to a uniform-width engineered board, which adds a surface story to a floor whose geometry is still industrial. The width and the regularity are what date a floor, and no amount of texture changes either. Also dishonest: fake pegs — plugged dowels set at regular intervals over a blind-nailed floor, imitating a face-nailed one. A real face-nailed floor shows the fastener at every joist bearing in a line across the room, and the fake version usually puts pegs only at the board ends, which no floor was ever built with."
+  },
+  "detection": "Measure board width in a photograph against a known reference — a 3 1/4 in outlet plate, a base of known height, a 6 in tile. Then measure the VARIANCE across the field: a period floor shows several distinct widths in one view with no repeating pattern, a strip floor shows one, an engineered plank floor shows one or two. Second, look for the NAILS: a face-nailed plank floor shows two nail heads at every joist bearing, forming a visible grid of dots across the room, and this is the single most diagnostic feature available in a photograph of a floor. Third, look for the BEVEL: a micro-bevelled floor shows a continuous fine dark line at every board edge, present even in flat light, and it is what makes an engineered floor read as a set of separate boards rather than as a surface. Fourth, the direction test: check whether the boards change direction between rooms — a continuous run of one direction through a whole floor plate is a modern laying and is common to strip and engineered floors alike.",
+  "test": {
+    "expression": "distinct_board_widths_in_view",
+    "threshold": 3,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Number of distinguishable board widths in one photograph of the floor. A period random-width floor shows 3 to 6; a strip or uniform plank floor shows 1. Run the absolute check alongside: mean board width should be 6 to 14 in for a colonial floor, and 2 1/4 in strip is a factor of three to six too narrow."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "colonial-revival",
+    "cape-cod-colonial",
+    "new-england-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "dutch-colonial-american",
+    "hudson-valley-dutch",
+    "german-pennsylvania-colonial",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "greek-revival-american",
+    "greek-revival-upland-vernacular",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "charleston-georgian",
+    "log-vernacular-american",
+    "appalachian-log-house",
+    "french-colonial-american",
+    "creole-cottage-vernacular",
+    "spanish-colonial-american",
+    "american-farmhouse-vernacular",
+    "early-republic",
+    "jeffersonian-classicism"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "Narrow strip oak is CORRECT here and is the period floor: quartersawn white oak or vertical-grain fir in 2 1/4 to 3 1/4 in strip was the standard bungalow floor, often with a contrasting border inlaid a few inches from the wall.",
+      "bounds": "Quartersawn or rift oak with visible ray fleck, or vertical-grain fir, in a satin or oil finish — not plainsawn red oak in gloss polyurethane. The border, where present, is a 1 to 3 in band set 4 to 8 in from the wall and is a strong positive signature.",
+      "bounds_test": {
+        "expression": "mean_board_width_in",
+        "threshold": 2.0,
+        "upper": 3.5,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1895,
+          1935
+        ]
+      }
+    },
+    {
+      "style": "colonial-revival",
+      "why": "The Revival itself laid strip oak in most of its houses, so a 1925 Colonial Revival house with a 2 1/4 in oak floor has the floor it was built with, and replacing it with wide plank falsifies the building.",
+      "bounds": "This is a preservation argument about existing fabric, not a design licence for a new house claiming an eighteenth-century date. A new build presenting as a colonial takes the plank rule.",
+      "applies_when": {
+        "date_range": [
+          1890,
+          1950
+        ]
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Narrow quartersawn oak strip with contrasting borders and banding is the period floor and is part of the rectilinear banding of the whole interior.",
+      "bounds": "Quartersawn, with borders relating to the room's plan and to the ceiling banding."
+    },
+    {
+      "style": "second-empire",
+      "why": "Narrow strip and parquet borders arrive during the style's currency and are correct in the later examples.",
+      "bounds": "After about 1870, and usually with a parquet or a banded border in a contrasting species in the principal rooms.",
+      "applies_when": {
+        "date_range": [
+          1865,
+          1900
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Narrow-strip and 3 to 4 in tongue-and-groove pine floors are what these houses have, because the type is largely post-1870 and post-machinery.",
+      "bounds": "Pine rather than oak in most of the surviving stock, and the type's date range is the licence.",
+      "applies_when": {
+        "date_range": [
+          1860,
+          1930
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "butt-hinge-before-its-date",
+      "difference": "The same class of dating error at a different scale. The hinge is seen by a specialist and the floor by everyone, which makes the floor the more consequential of the two."
+    },
+    {
+      "fault": "one-trim-grade-for-every-room",
+      "difference": "A single floor throughout is a related flattening — period houses paved the passage and the service rooms and planked the chambers — but the floor fault is about the board and the trim fault about the schedule."
+    }
+  ],
+  "co_occurs_with": [
+    "butt-hinge-before-its-date",
+    "lever-on-a-period-door"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, floor_material forbidden variants and plank parameters",
+    "NPS Preservation Brief 18: Rehabilitating Interiors in Historic Buildings",
+    "NWFA technical publications on strip flooring manufacture and history",
+    "HABS documentation of surviving eighteenth-century plank floors"
+  ],
+  "confidence": "high",
+  "tags": [
+    "floor",
+    "anachronism",
+    "random-width",
+    "micro-bevel"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The commonest single anachronism in a restored colonial interior, on the largest surface in the room, and visible in every photograph."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "severity": "serious",
+      "why": "Small rooms make the board width proportionally more conspicuous: a 2 1/4 in strip in a 12 ft room reads as a pattern rather than as a floor."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "Quartersawn oak strip of 2 1/4 to 3 1/4 in with an inlaid border IS the period floor of the bungalow."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "minor",
+      "why": "A Revival house of 1925 has the floor it was built with, and replacing it with wide plank falsifies the building rather than correcting it."
+    },
+    {
+      "style": "log-vernacular-american",
+      "severity": "fatal",
+      "why": "A machine-milled uniform floor under hewn logs and exposed joists puts an 1890 industrial product against 1820 hand work in one view, and the contradiction is total."
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "id": "french-baroque",
+  "name": "French Baroque",
+  "aka": [
+    "Style Louis XIV",
+    "French classicism",
+    "Grand Manner",
+    "Baroque classique"
+  ],
+  "rank": "style",
+  "member_of": "continental-baroque-neoclassical",
+  "status": "historical",
+  "period": {
+    "origin": 1615,
+    "floruit_start": 1630,
+    "floruit_end": 1715,
+    "decline_end": 1750,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1852,
+        "end": 1885,
+        "revival_node": "second-empire",
+        "note": "Napoleon III's New Louvre (1852-57) makes the pavilion-and-mansard silhouette an international fashion within a decade."
+      },
+      {
+        "start": 1885,
+        "end": 1930,
+        "revival_node": "beaux-arts-american",
+        "note": "The Grand Manner plan - enfilade, cour d'honneur, axial approach - returned to America through Ecole-trained architects and the City Beautiful movement."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Ile-de-France",
+      "Paris",
+      "France"
+    ],
+    "hearth": "Paris and the Ile-de-France",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "french-renaissance-chateau",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "Continuous professional and craft descent - Lescot to de Brosse to Mansart is an unbroken chain of Paris masons and royal building offices. The corps de logis, the cour d'honneur, the pavilion and the tall roof all survive; what changes is that they are finally brought under proportional control."
+    },
+    {
+      "target": "italian-baroque",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "note": "France explicitly refuses the Roman Baroque's deformed wall. Bernini was brought to Paris in 1665 to design the Louvre east front and his scheme - curved, plastic, Roman - was rejected in favour of Perrault's flat, coupled-column colonnade. That rejection is the founding act of French classicism as a distinct thing."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.4,
+      "note": "The orders, the treatise habit and the palazzo cornice come from Italy, but by the seventeenth century the French are re-deriving them from Vitruvius and from their own measurement rather than from Italian practice - hence Perrault's 1683 Ordonnance, which corrects Vitruvius."
+    }
+  ],
+  "description": {
+    "short": "The French absorption of the classical order into a national manner of flat walls, projecting rectangular pavilions, tall roofs and absolute axial control, invented for and by the seventeenth-century French state.",
+    "long": "French Baroque - the French themselves prefer classicisme - is the point at which France stops importing architecture and starts exporting it. The formal move that defines it is a refusal. Where the Roman Baroque gets its drama by bending the wall, the French get theirs by moving whole rectangular masses forward and back: a central avant-corps, two end pavilions, plain recessed curtain walls between, each block with its own roof and its own crowning. The wall stays flat, the mouldings stay orthogonal, the orders stay correct, and the plasticity is delivered at the scale of the building rather than the scale of the surface. When Bernini came to Paris in 1665 with a scheme for the Louvre full of convex sweeps, he was politely paid off and sent home, and Claude Perrault's flat colonnade of paired Corinthian columns was built instead. Everything French about French architecture for the next two hundred and fifty years is in that decision.\n\nThe conditions are absolutist and bureaucratic. Richelieu and then Colbert built a centralised state that needed architecture as an instrument: the Academie royale d'architecture is founded in 1671, which means for the first time in Europe there is a state body that certifies what correct proportion is and teaches it. Colbert also organised the supply chain - royal quarries, the Gobelins manufactory for furnishings, standardised drawing conventions - so that a building could be designed in Paris and executed in the provinces to specification. Versailles is the fully developed instrument: not a house but a machine for holding several thousand courtiers in visible hierarchical relation to one man, with the plan itself doing the political work through the enfilade, the order of rooms, and the calibrated right of entry to each.\n\nWhat the style reacted against internally was the chaotic verticality of the previous century. Mansart's generation suppresses the turrets, disciplines the dormer, brings the roof down and folds it - the brisee or mansard roof, with a steep lower slope and a shallow upper one, keeping the habitable attic French building needed while cutting the silhouette's height nearly in half. The wall stops being a field of ornamented travees and becomes a proportioned classical elevation with a rusticated ground storey, a piano nobile, and an attic. The vertical travee does not die; it is simply subordinated, which is why French classical facades keep a rhythmic regularity that Italian ones do not need.\n\nApproaching Vaux-le-Vicomte along the axis, the building does something no Italian building does: it gets its effect from being seen whole, at distance, across a controlled void, with the garden reading as the building's continuation rather than as its setting. The centre swells forward and rises into an oval domed salon; the corner pavilions anchor the ends; the slate roofs are dark and enormous and take the whole composition up into a silhouette. Then inside, the shock is horizontal - the enfilade, five or seven doorways aligned exactly on one axis so that you can see through the entire depth of the house at once, the openings framing each other in diminishing rectangles. That single device is the French Baroque's most durable invention. It costs nothing, requires only that the wall openings agree, and it makes a building of ordinary rooms feel like an ordered world."
+  },
+  "defining_characteristics": [
+    "Plasticity by projection of whole rectangular masses - avant-corps and end pavilions - on a wall that remains flat and orthogonal",
+    "Hierarchy of blocks: corps de logis, ailes, pavillons, each a distinct step in height, roof and articulation",
+    "The brisee or mansard roof, steep below and shallow above, preserving the habitable attic while cutting the silhouette",
+    "The enfilade: doorways aligned on a single axis through five to nine rooms, with the axis extended into the garden",
+    "Correct, academically certified orders - frequently a giant order spanning the two principal storeys, or coupled columns",
+    "Rusticated or channelled ground storey supporting a piano nobile and terminated by a full entablature and balustrade",
+    "The building composed with an axial approach, a cour d'honneur and a formal garden as one continuous work"
+  ],
+  "diagnostic_tells": [
+    "Three or five distinct roof masses on one building - end pavilions and a centre, each with its own hipped or mansard roof and its own ridge",
+    "Coupled columns (pairs set half a diameter to a diameter apart) rather than evenly spaced single columns",
+    "A flat wall with a deep shadow line at the centre because the avant-corps steps forward as a block, not because the wall curves",
+    "Segmental-headed or square-headed dormers set into the lower mansard slope with full stone surrounds, evenly spaced",
+    "Tall French windows running to the floor, with the sill line suppressed on the piano nobile"
+  ],
+  "distinguished_from": [
+    {
+      "node": "italian-baroque",
+      "difference": "The Italians curve the wall; the French move blocks. If the plan line of the facade is a straight line broken by rectangular projections, it is French. If the plan line itself bends, it is Italian."
+    },
+    {
+      "node": "french-neoclassical",
+      "difference": "Neoclassicism strips the sculptural relief, suppresses the mansard in favour of a low roof hidden behind a balustrade, leaves the column shafts unfluted or sparsely fluted, and reduces the entablature. Where the Baroque piles up incident at the centre, Neoclassicism holds an even, unaccented plane."
+    },
+    {
+      "node": "second-empire",
+      "difference": "The nineteenth-century revival keeps the pavilion-and-mansard silhouette but multiplies the ornament, uses iron structure and much larger sheets of glass, and applies the mansard to buildings - townhouses, hotels, city halls - that have nothing to do with the Grand Manner plan behind it."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Academically codified orders (Claude Perrault's Ordonnance of 1683; Francois Blondel's Cours d'architecture, 1675-1683) applied to a flat wall, with composition proceeding by hierarchy of rectangular masses. The plan is generated on a dominant axis with cross-axes, and the elevation is an expression of that hierarchy rather than an independent design.",
+    "typical_ratios": [
+      "Giant order spanning the two principal storeys; entablature 1/5 to 1/4 of column height",
+      "Coupled columns set 0.5 to 1.0 lower diameters apart, with the paired unit spaced 3 to 4 diameters from the next pair",
+      "Avant-corps projection 1/8 to 1/6 of its own width; end pavilion projection similar, plus 1 to 2 m of additional height",
+      "Storey heights rez-de-chaussee : piano nobile : attic approximately 1 : 1.15 : 0.6",
+      "Mansard roof: lower slope 65 to 75 degrees, upper slope 20 to 30 degrees, break point at 0.6 to 0.7 of total roof height",
+      "Total roof height 0.35 to 0.5 of the wall height below the cornice - roughly half what the previous century used",
+      "Enfilade doors 0.9 to 1.2 m wide aligned within 25 mm across five to nine rooms",
+      "Cour d'honneur width 1.0 to 1.5 times the corps de logis length; garden principal axis 5 to 20 times the building's depth"
+    ],
+    "bay_rhythm": "1-3-1 or 3-5-3 across a symmetrical front: end pavilions and a centre pavilion, both projecting and both raised, joined by plain recessed curtain bays of uniform spacing. The rhythm does not accelerate as in Italy; it steps.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-u",
+      "affinity": "canonical",
+      "note": "The cour d'honneur between the entree and the corps de logis, with the garden on the opposite face - entre cour et jardin is the defining French diagram."
+    },
+    {
+      "massing": "mansard-block",
+      "affinity": "common",
+      "note": "Mansart's brisee roof gives a full habitable storey inside the roof; the hotel particulier depends on it."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "Corps de logis with subordinate wings and terminal pavilions is the same hierarchy, arrived at independently and executed at far larger scale."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The Place des Vosges (1605-12) and its successors put uniform classical fronts on a continuous party-wall terrace - the French invention of the designed urban square."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "forbidden",
+      "note": "Irregular massing composed for a moving viewpoint negates the axial control that is the point of the style."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "The facade plan line must be straight; projections must be rectangular blocks. Any curvature of the wall surface in plan moves the building out of French classicism and into the Italian Baroque.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Every projecting pavilion must carry its own roof mass, terminated independently. A projecting avant-corps running under a continuous ridge is a nineteenth-century simplification.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Mansard lower slope between 65 and 75 degrees, upper slope between 20 and 30 degrees, with the break at 0.6 to 0.7 of total roof height. Outside that range the roof reads as a Victorian mansard block.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Enfilade door openings must be aligned within 25 mm across the whole run and set at least 400 mm from any internal corner, which constrains room dimensions and wall thicknesses upstream of the plan.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "The principal axis must be extended into the landscape - a court on one side, a formal garden or allee on the other. A French Baroque block set down without its axis is a facade exercise, not the type.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Chateau de Maisons (Maisons-Laffitte)",
+      "location": "Maisons-Laffitte, Yvelines, France",
+      "year": 1630,
+      "note": "Francois Mansart, 1630-1651. The purest statement of the style before Versailles: three pavilions, a flat wall, superimposed correct orders, and stone cut to a tolerance that has never been bettered in France."
+    },
+    {
+      "name": "Chateau de Vaux-le-Vicomte",
+      "location": "Maincy, Seine-et-Marne, France",
+      "year": 1658,
+      "note": "Built 1658-1661 for Nicolas Fouquet; Louis Le Vau architect, Charles Le Brun decorator, Andre Le Notre gardens. The first complete integration of building, interior and landscape on one axis - and the template Louis XIV then took to Versailles by hiring the same three men."
+    },
+    {
+      "name": "Louvre east front (Colonnade)",
+      "location": "Paris, France",
+      "year": 1667,
+      "note": "1667-1674; Claude Perrault with Louis Le Vau and Charles Le Brun, after Bernini's Roman Baroque scheme was rejected in 1665. Coupled Corinthian columns on a rusticated base - the manifesto of the flat French wall."
+    },
+    {
+      "name": "Palace of Versailles, garden front",
+      "location": "Versailles, Yvelines, France",
+      "year": 1678,
+      "note": "Le Vau's envelope 1668-1670, extended by Jules Hardouin-Mansart from 1678; Galerie des Glaces 1678-1684. Roughly 400 m of facade held to a single three-part vertical division."
+    }
+  ],
+  "sources": [
+    "Anthony Blunt, Art and Architecture in France 1500-1700, Pelican History of Art",
+    "Anthony Blunt, Francois Mansart and the Origins of French Classical Architecture (1941)",
+    "Claude Perrault, Ordonnance des cinq especes de colonnes selon la methode des anciens (1683)",
+    "Jean-Marie Perouse de Montclos, Histoire de l'architecture francaise: de la Renaissance a la Revolution (1989)",
+    "Robin Middleton and David Watkin, Neoclassical and 19th Century Architecture (1980)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "french",
+    "baroque",
+    "classicism",
+    "mansard",
+    "axial",
+    "grand-manner"
+  ]
+}

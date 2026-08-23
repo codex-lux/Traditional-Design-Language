@@ -1,0 +1,150 @@
+{
+  "id": "ganged-post",
+  "name": "The Ganged Post",
+  "aka": [
+    "the sistered post",
+    "three 2x4s in a trench coat",
+    "the seam down the middle"
+  ],
+  "slots": [
+    "porch_support",
+    "column"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "assembly",
+  "symptom": "A porch support made of two or three pieces of dimensional lumber nailed or bolted face to face — commonly three 2x4s making a nominal 4 1/2 by 3 1/2 in post, or two 2x6s making a 3 by 5 1/2 in one. The seams show as vertical lines down the post's face, often as open joints after a few seasons. Where the post has been wrapped, the ganging shows instead as a post that is visibly rectangular rather than square, deeper in one direction than the other, so it reads as a slab from one side of the porch and as a stick from the other.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Ganging is how a framer gets a large section from the stock on the truck. Solid 6x6 and 8x8 timbers are a separate order, are heavy, check badly as they dry, and are not carried in quantity; three 2x4s are on every job. Ganging also solves a real structural problem — a built-up post can be assembled around a hold-down or a beam pocket — and it is entirely legitimate as STRUCTURE. What makes it a fault is leaving it visible, and the reason it is left visible is that wrapping is a trim scope that arrives weeks later and is sometimes deleted.",
+    "cost_saved": "20-60 USD a post against a solid timber, plus avoiding the wrap: 45-90 USD a post in trim and labour. On a six-post porch, roughly 400-900 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / porch_support / dimensional-lumber-post = forbidden",
+      "statement": "A 6x6 with a cap. No order, no diminution, no entasis."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a support reads as one member or as none",
+      "statement": "The eye resolves a vertical member as a single object. A seam down its face splits it into two thin objects, which is why a ganged post looks weaker than a solid one of the same section — the visual width is the width of the widest lamination, not the width of the assembly."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a post must be square in section unless it is deliberately not",
+      "statement": "A rectangular post has two different profiles depending on where you stand. On a porch, which is seen obliquely from the street and frontally from the walk, that means the porch's supports change apparent thickness as you approach — a reading no tradition wants except where the rectangle is a deliberate pier."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R507.4 — built-up posts",
+      "statement": "Built-up posts are permitted and are routinely detailed by engineers. Nothing structural is wrong here, which is precisely why the fault survives inspection and lives on the finished building."
+    }
+  ],
+  "correct_practice": "Gang for structure and wrap for appearance, always. A built-up core of two or three 2x members is a perfectly good structural post; it is finished with a four-sided box of 1x or 5/4 stock returning at the corners, with a cap and a base, so the finished section is square and its dimension is set by the height — 6 in to 8 ft, 8 in to 10 ft, 10 to 12 in above that. The wrap is not cladding pretending to be solid timber: boxed posts are the historical norm in American porch work and many nineteenth-century 'solid' posts open up to reveal a smaller core. What is not acceptable is a finished section that is rectangular in a way nothing else on the building explains, or a seam visible on the face. Where the post must be rectangular for structural reasons, orient the wide face to the street and make the rectangle deliberate — 6 by 10 in reads as a pier, 3 by 5 1/2 in reads as an accident.",
+  "fixes": {
+    "right": "Box the built-up core in 5/4 stock with mitred or rabbeted corners, a moulded cap and a plinth base, to a square finished section sized off the height.",
+    "cheap": "Wrap in 1x with butt joints and a simple 1x cap and base — about 45-70 USD a post — and make the finished section square. The seam disappears, the section grows to 6 or 7 in, and the two defects are cured by the same forty-five minutes. If even that is impossible, the free move is to orient every ganged post the same way, so the porch at least reads consistently from any one position.",
+    "dishonest": "Caulking and painting the seams. The joint between two pieces of dimensional lumber moves seasonally by more than any caulk can accommodate and reopens within two seasons, and the caulk line then reads as a dark stripe down the post, which is more visible than the original joint."
+  },
+  "detection": "Look for the vertical seam on the post face in any close photograph — it shows as a hairline, a paint crack, or after a few years an open joint with dirt in it. Then, from an oblique view, compare the post's apparent width to its apparent depth. A square post looks the same from both directions; a ganged one is typically 3 1/2 in one way and 4 1/2 or 5 1/2 the other, and the mismatch is obvious once looked for. Third check: count the nails or the through-bolts. A ganged post carries a regular pattern of fasteners at 12 to 16 in centres down its face, which no solid or boxed post has. Fourth: at the top, a ganged post usually meets the beam with a steel strap or a plate visible on one face.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "post_width / post_depth",
+    "threshold": 0.85,
+    "upper": 1.18,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "A finished porch post should be square within about 15 per cent. Ganged 2x members give 3.5:4.5 (0.78) or 3:5.5 (0.55), both outside the band. Deliberate rectangular piers — Craftsman, Prairie, Greek Revival boxed piers — are outside this test by intent and are covered in exceptions; the discriminator is whether the rectangle is large and consistent or small and incidental."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "Dimensional lumber posts are forbidden outright; a visible seam compounds it."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "The Craftsman pier is frankly built up and often shows its construction, though it is wrapped and battered rather than left as bare studs."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "severity": "minor",
+      "why": "Vernacular porches were repaired with whatever was available and the layering is part of the type."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Posts are shingled or boarded over entirely."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman post is deliberately rectangular where it stands on a rectangular pier, and its construction is honestly built up: the tapered box is assembled from boards over a core and the assembly is not concealed. Expressed construction is the idiom's argument.",
+      "bounds": "The finished post must be BOXED and BATTERED — tapering about 1 in per foot from a 10-14 in base — and any rectangularity must be at pier scale and consistent across the porch. Three bare 2x4s nailed together are not expressed construction, they are unfinished framing.",
+      "bounds_test": {
+        "expression": "post_base_least_dimension_in",
+        "threshold": 9.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The Prairie pier is a broad rectangular slab, deliberately wider one way than the other, to reinforce the horizontal reading.",
+      "bounds": "The rectangle must be pronounced — at least 2:1 — and consistent. A near-square accident is the fault."
+    },
+    {
+      "style": "greek-revival-upland-vernacular",
+      "why": "The vernacular boxed pier is built up from boards over a light core and this is documented period practice throughout the upland South and the Northeast.",
+      "bounds": "It must be BOXED — a four-sided casing with returns and a cap — so the finished member reads as one broad flat pier. Bare ganged framing is not the vernacular tradition, it is the absence of the trim scope.",
+      "applies_when": {
+        "date_range": [
+          1830,
+          1880
+        ],
+        "construction": [
+          "wood-frame"
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "four-by-four-under-a-roof",
+    "porch-ceiling-of-exposed-joists",
+    "rail-without-a-bottom-rail"
+  ],
+  "alternative_to": [
+    "four-by-four-under-a-roof"
+  ],
+  "confused_with": [
+    {
+      "fault": "four-by-four-under-a-roof",
+      "difference": "That is a single small post. This is several small members making a larger one and leaving the joints showing. They are alternative answers to the same problem — how to support a porch roof from the framing package — and rarely appear on the same porch."
+    },
+    {
+      "fault": "panel-seam-and-nailing-hem",
+      "difference": "Same family of fault at the cladding: a manufacturing joint left visible where the tradition expects a continuous surface."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, porch_support",
+    "IRC R507.4 and commentary on built-up posts",
+    "NPS Preservation Brief 45 — historic porch construction, including boxed posts over smaller cores",
+    "HABS measured porch details showing boxed posts"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "porch",
+    "post",
+    "assembly",
+    "seam",
+    "stock-size"
+  ]
+}

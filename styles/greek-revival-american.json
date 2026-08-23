@@ -1,0 +1,239 @@
+{
+  "id": "greek-revival-american",
+  "name": "Greek Revival",
+  "aka": [
+    "American Greek Revival",
+    "National Style",
+    "Grecian"
+  ],
+  "rank": "style",
+  "member_of": "early-republic",
+  "status": "historical",
+  "period": {
+    "origin": 1798,
+    "floruit_start": 1825,
+    "floruit_end": 1860,
+    "decline_end": 1875,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1893,
+        "end": 1945,
+        "revival_node": "neoclassical-revival",
+        "note": "The Columbian Exposition returns the colossal portico to American building, now at institutional and banking scale, in stone or terracotta over steel."
+      },
+      {
+        "start": 1900,
+        "end": 1950,
+        "revival_node": "colonial-revival",
+        "note": "Greek Revival is quietly absorbed into the market category 'Colonial', producing the two-storey pedimented entry porch that is proportionally neither."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "New England",
+      "Mid-Atlantic",
+      "Upstate New York",
+      "Great Lakes",
+      "Ohio Valley",
+      "Upland South",
+      "Deep South",
+      "Gulf South"
+    ],
+    "hearth": "Philadelphia, then upstate New York and the Western Reserve",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "greek-classical",
+      "type": "references",
+      "weight": 1,
+      "inherits_kit": false,
+      "note": "THE canonical reference edge in this taxonomy. No American builder had any line of transmission from Athens: no craftsman, no apprenticeship, no continuous trade, not even a surviving Greek building any of them had seen. What crossed was measured drawings - Stuart and Revett's Antiquities of Athens (1762-1830) - reproduced at fourth hand in carpenters' handbooks. This is quotation of an ancestor the style never descended from, and modelling it as descent would be false."
+    },
+    {
+      "target": "federal-style",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The actual mechanism, and it is embarrassingly literal. Asher Benjamin published The Country Builder's Assistant (1797) and The American Builder's Companion (1806) as Federal manuals, then reissued the same enterprise as The Architect, or Practical House Carpenter (1830) with Grecian plates. Same author, same audience, same trade, same moulding planes - a new set of profiles. Minard Lafever's Modern Builder's Guide (1833) and Beauties of Modern Architecture (1835) completed the retooling. The transmission is the pattern book and the carpenter who owned it."
+    },
+    {
+      "target": "federal-style",
+      "type": "reacts_against",
+      "weight": 0.8,
+      "inherits_kit": false,
+      "note": "And it is a proportional revolt before it is an ornamental one. Federal had thinned American classicism until it was a membrane: 7/8-inch muntins, 4-inch cornices, columns at ten and eleven diameters, ornament glued on as composition castings. Greek Revival answers with mass - baseless Doric at six diameters, an entablature a quarter as deep as the column is tall, trim boards six to twelve inches wide. Adamesque delicacy came to look effete and, worse, English."
+    },
+    {
+      "target": "regency",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The professional channel, distinct from the carpenter channel. Benjamin Henry Latrobe trained in England inside the British Greek Revival and brought it to Philadelphia with the Bank of Pennsylvania (1798-1801); his pupils William Strickland and, through Strickland, Thomas U. Walter carried it into the American profession. Every high-style American Grecian building descends through this line rather than from the handbooks."
+    },
+    {
+      "target": "roman-classical",
+      "type": "reacts_against",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "Explicit in the period literature: Greek is claimed as the purer, earlier, freer source and Roman as its imperial corruption. This is also a quiet argument against Jefferson, whose Roman republic is displaced by an older Greek one."
+    }
+  ],
+  "description": {
+    "short": "The first American national style: a Greek temple, known only from measured drawings and carpenters' handbooks, pressed into service as farmhouse, bank, courthouse and plantation seat across two-thirds of a continent between 1825 and 1860.",
+    "long": "Greek Revival is the node this taxonomy exists to model correctly, because it is the clearest case in the whole of American building where what a style claims and where it comes from are two entirely different things. What it claims is Athens. What it descends from is Asher Benjamin's pattern book, and the descent is documented down to the individual plate. Formally the style is a set of substitutions performed on the Federal house: the elliptical fanlight becomes a rectangular transom; the slender colonnette becomes a baseless Doric column six diameters tall; the four-inch cornice becomes an entablature a quarter as deep as the column is high; the wall's corner boards swell into pilasters; the attic storey is lit through small windows cut into the frieze itself; and the roof is often rotated so its gable faces the street as a pediment. The result is a building that has more in common with a Greek temple in its silhouette than in any other respect, since it is generally made of white-painted pine over a braced frame and heated by cast-iron stoves.\n\nThe distinction between reference and descent is the substance of the node, so state it plainly. No American builder in 1835 had a line of transmission from Greek practice. There was no craft continuity, no apprenticeship lineage, no surviving Greek building on the continent, and until well into the nineteenth century almost no American had seen one in person; Greece itself was under Ottoman rule and effectively closed. What crossed the Atlantic was paper: James Stuart and Nicholas Revett's Antiquities of Athens, published in volumes from 1762, measured on site and engraved - and then abridged, simplified and re-engraved in the handbooks that a rural carpenter could actually afford. The style therefore quotes an ancestor it never descended from. Its real ancestor is the one it was reacting against. Asher Benjamin, who taught two generations of New England housewrights how to build Federal, published The Architect, or Practical House Carpenter in 1830 with the Grecian orders in it, and the same men who had been running Adamesque beads went out and ran Doric mouldings the following season. Minard Lafever's Modern Builder's Guide (1833) and The Beauties of Modern Architecture (1835) did the same for New York and the whole territory its canal system opened. Parallel to the handbooks ran a professional line - Latrobe out of the English Greek Revival, then Strickland, then Walter - which produced the banks and the marble porticoes. Two channels, one style, and neither of them touches Greece.\n\nThe conditions that made it national were political, economic and technological at once, and they arrived together. Politically: the Greek War of Independence (1821-32) made Greece a live cause in American newspapers at the exact moment when a young republic wanted a founding image that was neither English nor royal, and the natural rhetorical move - we are the new Athens - could be built. Economically: the Erie Canal opened in 1825, the Western Reserve and the Old Northwest filled with New England and New York settlers, and the cotton boom capitalised the Lower South, so an enormous quantity of building happened in one generation with money and without inherited local traditions. Technologically: the water-powered sash and blind mill, cheap machine-cut nails, and after 1833 the balloon frame made it possible for a small crew to raise a broad flat-trimmed wooden building fast; wide trim in clear pine was cheap, and white lead paint over it read at a quarter mile as marble. This is the first American style to be genuinely continental, and it is also the first whose spread is explained better by transport infrastructure than by taste.\n\nWhat is it like to stand before one. Weight is the first fact - the reverse of Federal in every dimension. The eave line no longer runs as a thin shadow but sits as a horizontal band a foot and a half deep, and everything under it feels held down. If there is a portico it goes the full height of the block, so the columns commit the whole building rather than decorating its door, and standing between them you are inside a room without walls, on a stone or wood platform raised three or four steps above the grade. The wall itself has almost no incident: broad flat pilasters at the corners, wide plain casings, and a door assembly that is a rectangle inside a rectangle, transom above and sidelights beside, all under a heavy flat entablature. In the frieze, if you look, there are small horizontal windows, and they are the tell that the attic is habitable - the most quietly ingenious detail in the whole American kit, since it lets a full storey exist without disturbing a pediment. Inside, the rooms are taller than Federal rooms and much plainer: heavy symmetrical architraves with corner blocks, deep plain baseboards, black marble mantels of two square posts and a slab. It is a serious, slightly humourless, extremely durable architecture, and the reason it looks like the default image of an American house is that for thirty-five years it very nearly was."
+  },
+  "defining_characteristics": [
+    "Full-height portico, pilastered antae, or a pedimented gable-front used as the governing facade gesture - column height equals the full height of the block it fronts",
+    "Greek orders only: baseless fluted Doric, Greek Ionic, or the Tower-of-the-Winds Corinthian; no Roman arches, no domes, no Composite",
+    "Deep entablature, one quarter to one fifth of column height, carried as a continuous horizontal band around the building",
+    "Low roof pitch (4:12 to 6:12) so that a gable reads as a pediment, with the cornice returning or running level across the gable base",
+    "Rectangular transom over the entrance with flanking sidelights within a pilastered surround; elliptical fanlights eliminated",
+    "Broad, flat, unmoulded trim: corner pilasters, wide window casings, plain frieze board - ornament by profile and mass, not by relief carving",
+    "Frieze-band attic windows where an upper half-storey is habitable"
+  ],
+  "diagnostic_tells": [
+    "Small horizontal windows set into the frieze board directly under the eave: no other American style does this, and it settles the identification instantly",
+    "Greek Revival versus Colonial Revival portico at fifty feet - Greek Revival columns run the full facade height and carry a deep entablature; the Colonial Revival entry porch is one storey against a two-storey wall and has a thin cornice",
+    "Doric columns without bases, sitting directly on the porch deck; a base under a Doric column means Roman, which means Jeffersonian or a later revival",
+    "Door transom rectangular, not elliptical - the single fastest Federal/Greek Revival discriminator on a plain house",
+    "The house turned gable-end to the road, so the pediment faces the traveller; a Federal or Georgian house of the same size faces the road broadside",
+    "Cornice returns clipped short on the gable ends of a vernacular example - the cheapest possible gesture toward a pediment, and everywhere in the Northeast"
+  ],
+  "distinguished_from": [
+    {
+      "node": "federal-style",
+      "difference": "A proportional inversion before an ornamental one. Federal attenuates - columns at 10-11 diameters, cornices at 1/25 of facade height, muntins under 7/8 inch. Greek Revival thickens - columns at 6-7 diameters, entablature at 1/4 to 1/5 of column height, trim boards 6-12 inches wide. If the trim looks heavy and the transom is rectangular, it is Greek Revival even in the absence of a single column."
+    },
+    {
+      "node": "jeffersonian-classicism",
+      "difference": "Both build porticoes, but the vocabularies are mutually exclusive. Jefferson's classicism is Roman: bases under the columns, arches, domes, semicircular windows. Greek Revival forbids all four. Jeffersonian buildings argue from measured Roman antiquity via Palladio; Greek Revival argues from Stuart and Revett and reaches ten thousand carpenters who never heard of either."
+    },
+    {
+      "node": "neoclassical-revival",
+      "difference": "The 1893-1940 revival uses colossal orders on masses of a size no antebellum builder attempted, in stone or terracotta over steel frames, with plate glass and Roman as often as Greek detail. Scale and material give it away; so does the fact that its columns are usually round-tapered mill-made shafts rather than built-up staves."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Greek orders with the module equal to the lower column diameter, taken at second or third hand from Stuart and Revett through Benjamin and Lafever. Because the source is a handbook rather than a building, the proportions are executed accurately at the level of the order and freely at the level of the building - a temple front applied to a domestic plan that owes nothing to Greece.",
+    "typical_ratios": [
+      "Greek Doric column 5.5-7 lower diameters tall (Parthenon Doric is 5.5; American handbook Doric commonly 6-7)",
+      "Greek Ionic 8.5-9.5 diameters; Tower-of-the-Winds Corinthian about 10",
+      "Entablature depth 1/4 to 1/5 of column height - the single most diagnostic ratio in the style",
+      "Entablature subdivision architrave : frieze : cornice approximately 3 : 3 : 2",
+      "Pediment height 1/4.5 to 1/5.5 of its span (roof pitch 4:12 to 6:12)",
+      "Trim board widths: corner pilasters 8-14 inches, window casing 4-6 inches, frieze board 10-20 inches",
+      "Column height equals full facade height of the block it fronts, without exception in canonical work"
+    ],
+    "bay_rhythm": "Even intercolumniation of 2.25-2.75 diameters across the portico, set by the order and then imposed on the wall behind; on gable-front vernacular houses the rhythm is a simple 2 or 3 bay front with a side-hall door in the end bay, and the asymmetry of that door is tolerated because the pediment supplies the symmetry.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "canonical",
+      "note": "The definitive American solution: keep the temple block pure and put the bedrooms and kitchen in lower recessed flankers."
+    },
+    {
+      "massing": "gable-front",
+      "affinity": "canonical",
+      "note": "The style's largest demographic contribution - rotating the ordinary house ninety degrees so its gable becomes a pediment, at no extra cost."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common"
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The inherited Georgian-Federal box, re-trimmed."
+    },
+    {
+      "massing": "i-house",
+      "affinity": "common",
+      "note": "The Upland South and Midwest workhorse under Grecian trim."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "New York, Brooklyn and Philadelphia rows of the 1830s-40s: brownstone or brick fronts with heavy Grecian door enframements."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Portico column height must equal the full height of the facade it fronts, measured from porch deck to the underside of the main entablature. A two-storey block with one-storey columns is not Greek Revival; it is Colonial Revival or a later hybrid. Columns must be 5.5-7 lower diameters for Doric, 8.5-9.5 for Ionic.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Entablature depth must be 1/4 to 1/5 of column height, subdivided architrave : frieze : cornice at approximately 3 : 3 : 2. A cornice thinner than 1/8 of column height reads as Federal or Colonial Revival regardless of the columns below it.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Where an upper half-storey is habitable it must be lit by frieze-band windows set within the entablature, no taller than one third of the frieze depth and aligned with the bays below. Dormers on the principal roof slope are forbidden; a frieze window and a dormer must never appear on the same elevation.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Greek vocabulary is exclusive: no round-headed arches, no domes, no elliptical fanlights, no columns with bases under a Doric order, no Composite capitals. The entrance must be a rectangular opening with a rectangular transom, sidelights optional, inside a pilastered surround.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Main roof pitch 4:12 to 6:12 so that any gable reads as a pediment (height 1/4.5 to 1/5.5 of span). Where no full pediment is built, the cornice must return at least 12 inches onto the gable end. Pitches above 8:12 push the building toward Gothic Revival.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Andalusia",
+      "location": "Bensalem Township, Bucks County, Pennsylvania",
+      "year": 1834,
+      "note": "Thomas Ustick Walter's Doric temple front added to a 1794 house built for John Craig, acquired by Nicholas Biddle c. 1814 and turned to face the Delaware. The manifesto building of the American Greek Revival, by the man who later built the U.S. Capitol dome."
+    },
+    {
+      "name": "Rose Hill Mansion",
+      "location": "Geneva (town of Fayette), Seneca County, New York",
+      "year": 1837,
+      "note": "Hexastyle Ionic portico with fully pedimented gable and Ionic colonnades on the flanking single-storey wings; builders working directly from Lafever's plates. National Historic Landmark."
+    },
+    {
+      "name": "Berry Hill",
+      "location": "3105 River Road, Halifax County, Virginia",
+      "year": 1844,
+      "note": "Begun 1842; architect John Evans Johnson, builder Josiah Dabbs. Octastyle Doric portico with an entablature six and a half feet deep, correctly detailed with triglyphs, metopes and guttae, plus matching tetrastyle Doric dependencies."
+    },
+    {
+      "name": "Oak Alley",
+      "location": "Vacherie, St. James Parish, Louisiana",
+      "year": 1839,
+      "note": "Begun 1837. A peripteral colonnade of 28 stuccoed brick Doric columns on all four sides - the Greek temple hybridised with the Creole gallery house, and structurally a shading device before it is a quotation."
+    }
+  ],
+  "sources": [
+    "Talbot Hamlin, Greek Revival Architecture in America (1944)",
+    "Roger G. Kennedy, Greek Revival America (1989)",
+    "Asher Benjamin, The Architect, or Practical House Carpenter (1830)",
+    "Minard Lafever, The Beauties of Modern Architecture (1835)",
+    "James Stuart and Nicholas Revett, The Antiquities of Athens (1762-1830)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "early-republic",
+    "classical",
+    "greek",
+    "pattern-book",
+    "national-style",
+    "reference-not-descent"
+  ]
+}

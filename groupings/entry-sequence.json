@@ -1,0 +1,133 @@
+{
+  "id": "entry-sequence",
+  "name": "Entry Sequence",
+  "aka": [
+    "threshold sequence",
+    "approach"
+  ],
+  "scale": "sequence",
+  "confidence": "high",
+  "description": "The ordered set of thresholds between the street and the first real room. Phenomenologically it is the most consequential decision in a house and the one most often unmade: a door in a wall is one threshold, and a gate, a walk, a porch, a vestibule and a hall is five. What matters is not the number but that each step is a genuine change of condition — of level, of enclosure, of light, or of direction.",
+  "rooms": [
+    {
+      "room": "entry-porch",
+      "role": "primary",
+      "count": "0-1"
+    },
+    {
+      "room": "vestibule",
+      "role": "connector",
+      "count": "0-1"
+    },
+    {
+      "room": "entrance-hall",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "stair-hall",
+      "role": "secondary",
+      "count": "0-1"
+    },
+    {
+      "room": "terrace",
+      "role": "optional",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "At least two thresholds between the public way and any room with a door that closes. One is a motel.",
+      "kind": "sequence",
+      "severity": "strong",
+      "test": "threshold_count at-least 2"
+    },
+    {
+      "statement": "Each step changes at least one condition: level, enclosure, light, or direction. Three doors in a row on one axis at one level is one threshold repeated, not three thresholds.",
+      "kind": "sequence",
+      "severity": "hard"
+    },
+    {
+      "statement": "The sequence rises. Entering downward reads as a basement whatever the finishes; two to five risers from the walk to the porch floor is the traditional and correct amount.",
+      "kind": "dimension",
+      "severity": "strong",
+      "test": "entry_rise_in between 14 and 42"
+    },
+    {
+      "statement": "A vestibule is a thermal airlock and needs two doors that are never open at once; a vestibule with a single door is a hallway with pretensions.",
+      "kind": "servicing",
+      "severity": "strong"
+    },
+    {
+      "statement": "Nothing in the sequence may be the only route to a service area. A mudroom reached through the formal hall means the formal hall becomes the mudroom.",
+      "kind": "circulation",
+      "severity": "hard"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "four-over-four",
+      "fit": "canonical",
+      "position": "central bay"
+    },
+    {
+      "massing": "charleston-single",
+      "fit": "canonical",
+      "position": "street door into the piazza, then the house door — the classic case of the sequence being turned ninety degrees"
+    },
+    {
+      "massing": "courtyard-full",
+      "fit": "canonical",
+      "position": "zaguan through the street wall into the court"
+    },
+    {
+      "massing": "bungalow-linear",
+      "fit": "common",
+      "position": "porch under the main roof, then directly into the living room — one threshold, and the bungalow accepts that deliberately"
+    },
+    {
+      "massing": "ranch-linear",
+      "fit": "possible",
+      "note": "Usually reduced to a slab and a door; recovering a second threshold is the cheapest single improvement available to the type."
+    }
+  ],
+  "expansion_logic": "Add a gate and a walk at the property line, which costs almost nothing and adds the threshold most modern houses are missing.",
+  "privacy_span": [
+    0,
+    2
+  ],
+  "typical_area_sf": [
+    60,
+    320
+  ],
+  "servicing_strategy": "The vestibule is the thermal break; where there is none, the entrance hall does the job badly and the heating load shows it.",
+  "circulation_parti": [
+    "center-hall",
+    "side-hall",
+    "central-chimney-lobby",
+    "gallery"
+  ],
+  "style_variation": [
+    {
+      "style": "charleston-single-house",
+      "note": "The false street door opening onto the piazza is the most inventive entry sequence in American architecture: you cross from public to private through an outdoor room before reaching a threshold at all."
+    },
+    {
+      "style": "andalusian-spanish-revival",
+      "note": "Gate, zaguan, court, then the room. Four thresholds, and the court is the one doing the work."
+    },
+    {
+      "style": "craftsman",
+      "note": "Deliberately compressed: porch, then the living room. The bungalow's informality is an argument against the sequence, not a failure to build one."
+    },
+    {
+      "style": "ranch-style",
+      "note": "Usually one threshold, and the type's social deadness at the street follows directly."
+    }
+  ],
+  "sources": [
+    "Alexander, A Pattern Language, patterns 110-112",
+    "Poston, The Buildings of Charleston",
+    "Lancaster, The American Bungalow"
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "id": "garage",
+  "name": "Garage",
+  "aka": [
+    "motor house",
+    "car barn",
+    "carport"
+  ],
+  "function_class": "work",
+  "privacy_rank": 3,
+  "confidence": "high",
+  "description": "The room no traditional style has an answer for, because none had to. It is the largest single-function space in most contemporary houses, it wants a 16 to 18 foot opening on the street elevation, and every rule of traditional composition is against it. Everything written here is authored rather than retrieved, and it should be presented to a client as such.",
+  "history": {
+    "appears": 1905,
+    "note": "It begins as a detached outbuilding on the alley — a stable by another name and correctly subordinate. It attaches to the house in the 1930s, faces the street in the 1950s, and by the 1990s the doors are the largest element on the facade. The type moved from the back of the lot to the front of the composition in fifty years and no traditional grammar was updated to receive it. This is the clearest case in the whole corpus where a system must invent rather than retrieve."
+  },
+  "dimensions": {
+    "area_sf": [
+      240,
+      900
+    ],
+    "width_ft": [
+      11,
+      24
+    ],
+    "length_ft": [
+      20,
+      26
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "Door width, which is a composition problem before it is a dimensional one. A 9 ft door is a wide door in a traditional facade; a 16 ft door has no proportional relative anywhere in a traditional house. Two 9 ft doors with a 2 ft pier between them is a better composition than one 16 ft door at the same total width, and costs about the same."
+  },
+  "furniture": [
+    {
+      "item": "car",
+      "footprint_in": [
+        72,
+        192
+      ],
+      "clearance_in": 30,
+      "note": "A full-size pickup is 82 x 250 and is what the client actually owns."
+    },
+    {
+      "item": "refuse bins",
+      "footprint_in": [
+        30,
+        60
+      ],
+      "clearance_in": 12,
+      "essential": true,
+      "note": "Never drawn, always present, and the reason the third bay gets used for storage."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.5,
+    "sides_lit": 1,
+    "orientation": "Any",
+    "glazing_fraction": [
+      0.0,
+      0.1
+    ],
+    "note": "Glazed garage doors are a contemporary convention with no traditional precedent; where light is wanted, a window in the side wall costs less and reads correctly."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "mudroom",
+        "why": "The car-to-house transition needs a dirty room to land in, or the kitchen becomes it.",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "laundry",
+        "why": "Shares the service zone and the drainage.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "A bedroom over or beside a garage is a noise, fume and fire-separation problem in one, and the fire separation is code.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "dining-room",
+        "why": "Nothing in the sequence from car to table should pass through a formal room.",
+        "relation": "not-visible-from",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "mudroom",
+      "back-hall",
+      "exterior"
+    ],
+    "never_a_through_room": false
+  },
+  "servicing": {
+    "plumbing": "light",
+    "ventilation": "Mechanical where attached; a sealed door to the house is required and routinely defeated by a pet flap.",
+    "heat": "None",
+    "electrical": "EV circuit at 50 A is now the default assumption and should be roughed in even where it is not wanted, because retrofitting it means opening the mudroom wall.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "note": "Treat the car as a service dependency, which the style already knows how to subordinate: hyphen of 12 to 20 ft, ridge at 60 to 75% of the main block, and never on the entrance elevation. This is retrieval of the five-part composition rule, and only the numbers are invented."
+    },
+    {
+      "style": "craftsman",
+      "note": "Detached, on the alley, with a hipped roof echoing the house. The bungalow's own precedent is the detached garage and it should be used."
+    },
+    {
+      "style": "ranch-style",
+      "note": "The type where the problem originates. Side-loading or a courtyard L is the only composition that works; a front-loaded three-car ranch has no traditional solution and should be priced as a site problem rather than an elevation one."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "note": "Usually front-loaded with two 9 ft doors and a shed roof over. The convention is not traditional, but the two-door-and-pier version is at least compositionally defensible."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Separation from the dwelling: 1/2 in gypsum on the garage side, self-closing 20-minute door",
+      "ref": "IRC R302.5, R302.6",
+      "conflict": "The self-closing door requirement is real and is removed by owners within a year of occupancy in most houses."
+    }
+  ],
+  "massing_fit": [
+    "ranch-l",
+    "ranch-linear",
+    "gable-front-and-wing",
+    "linear-ell-farmhouse",
+    "courtyard-u",
+    "five-part-palladian"
+  ],
+  "slots": [
+    "garage_strategy",
+    "composition_parti",
+    "street_relationship",
+    "setback_rule",
+    "services_strategy"
+  ],
+  "faults": [
+    "garage-door-dressed-as-a-house-door",
+    "garage-doors-dominate-the-frontage",
+    "garage-forward-of-the-facade",
+    "garage-head-above-the-window-head"
+  ],
+  "sources": [
+    "IRC R302.5",
+    "Jackson, Crabgrass Frontier",
+    "Hess, The Ranch House"
+  ]
+}

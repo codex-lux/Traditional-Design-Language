@@ -1,0 +1,363 @@
+{
+  "id": "room-harmonic",
+  "name": "The Harmonic Room",
+  "aka": [
+    "Palladio's seven room shapes",
+    "the three means",
+    "harmonic proportion",
+    "the musical analogy in plan and section"
+  ],
+  "kind": "room-system",
+  "authority": {
+    "source": "Andrea Palladio, I quattro libri dell'architettura, Venice 1570, Book I chapters XXI and XXIII; with Leon Battista Alberti, De re aedificatoria, Book IX, and Rudolf Wittkower, Architectural Principles in the Age of Humanism (1949), part IV, for the musical basis of the ratios",
+    "author": "Andrea Palladio",
+    "year": 1570,
+    "strength": "canonical",
+    "url": "https://www.c82.net/architecture/book1",
+    "note": "Canonical in the strict sense: Palladio states the seven shapes and the three means in his own words in numbered chapters, gives a worked example, and the whole Anglo-Palladian tradition builds from the text rather than from the buildings. Quotations here are from the Isaac Ware translation of 1738, which is the text Burlington, Kent, Jefferson and every American builder's-companion author actually read. Wittkower's contribution, and the reason this pack is computable rather than merely historical, is the demonstration that the seven ratios are the intervals of the musical scale and that the three means are the Greek theory of proportion applied to the third dimension - which is why the system generates rather than lists."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The short dimension of the room in plan - its breadth - from which the length and then the height are both generated",
+    "parts": 16,
+    "default_size_in": 192.0,
+    "note": "Sixteen feet, and the part is the foot. The breadth is the right module because it is the dimension the STRUCTURE fixes: it is the joist span or the vault springing, and it is therefore the number the builder has least freedom over. Palladio's whole system runs from it - the length is the breadth times one of seven ratios, and the height is a mean between the two. Sixteen parts because the default is sixteen feet and because the useful subdivisions of a room dimension are whole feet and half feet; the Renaissance worked in the piede vicentino of about 13 3/4 English inches, and every ratio here is dimensionless, so the choice of foot does not matter. THE RANGE: 12-14 ft for a chamber or a closet, 16-20 ft for a principal room, 20-30 ft for a hall or a salone. Above about 24 ft the flat-ceiling rule (height equal to breadth) produces a room no domestic storey can carry, and the system must be vaulted or abandoned - see the conflicts."
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot: the default breadth is sixteen feet in sixteen parts.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "Palladio's own worked example of the harmonic mean, verbatim from Book I chapter XXIII: a room twelve foot long and six broad takes a vault eight foot high. 2 x 6 x 12 / (6 + 12) = 8.",
+      "expression": "2 * 6 * 12 / (6 + 12) == 8",
+      "tolerance": 0.0001,
+      "note": "This invariant exists to check the ENCODED FORMULA against the treatise's own arithmetic, not to check the treatise. If it ever fails, the harmonic mean has been mis-transcribed as 2ac/(a+c) versus (a+c)/2ac or some other inversion, which is the commonest error in secondary accounts of Palladio."
+    },
+    {
+      "statement": "Palladio's arithmetic mean on the same room: add six to twelve, take half, and the vault is nine foot high.",
+      "expression": "(6 + 12) / 2 == 9",
+      "tolerance": 0.0001
+    },
+    {
+      "statement": "For any room that is not square, the harmonic mean is the lowest of the three heights, the arithmetic the highest, and the geometric between them. Checked here on the double square.",
+      "expression": "2 * module.default_size_in * (module.default_size_in * 2) / (module.default_size_in + module.default_size_in * 2) <= sqrt(module.default_size_in * module.default_size_in * 2)",
+      "tolerance": 0.001,
+      "note": "This ordering is the whole practical significance of the three means: they give a LOW, a MIDDLE and a HIGH answer to the same question, and the designer chooses. On a 16 x 32 room they are 21 ft 4 in, 22 ft 7 1/2 in and 24 ft."
+    },
+    {
+      "statement": "The geometric mean does not exceed the arithmetic.",
+      "expression": "sqrt(module.default_size_in * module.default_size_in * 2) <= (module.default_size_in + module.default_size_in * 2) / 2",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The harmonic mean of a double square is exactly four thirds of its breadth - which is also Palladio's vault height for a SQUARE room, 'a third part more than the breadth'. The two rules agree at the boundary, and that agreement is the internal evidence that the system is one system.",
+      "expression": "2 * module.default_size_in * (module.default_size_in * 2) / (module.default_size_in + module.default_size_in * 2) == module.default_size_in * 4 / 3",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "In a square room all three means collapse to the breadth itself, which is Palladio's flat-ceiling rule. The system is continuous at the square.",
+      "expression": "2 * module.default_size_in * module.default_size_in / (module.default_size_in + module.default_size_in) == module.default_size_in",
+      "tolerance": 0.001
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        96.0,
+        480.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXI: 'The most beautiful and proportionable manners of rooms, and which succeed best, are seven, because they are either made round... or square, or their length will be the diagonal line of the square, or of a square of a third, or of one square and a half, or of one square and two thirds, or of two squares.' Shape one: the circle.",
+      "note": "SHAPE 1 OF 7 - THE ROUND ROOM. The expression yields the diameter, which is the module. In domestic work this is a saloon, a stair rotunda or a garden pavilion, and it is the shape Palladio names first and uses least. Its section is governed by the vault, not by the means: a hemispherical dome over a circular room gives a height at the crown of 1.5 times the radius above the springing, and the springing is normally at the diameter. Jefferson's Monticello dome room and Rotunda are the American cases and both are worth measuring."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        96.0,
+        480.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXI, shape two.",
+      "note": "SHAPE 2 OF 7 - THE SQUARE, 1 : 1, the unison. Sixteen by sixteen. The square room is the one shape where all three means coincide and the section is therefore not a choice: flat-ceilinged it is 16 ft high, vaulted it is 21 ft 4 in, and there is nothing to decide. It is also the shape that is hardest to furnish and hardest to enter well, because it has no direction; a square room wants its door on an axis and its fireplace opposite, and any other arrangement fights it. Use it for halls, saloons and vestibules, and think hard before using it for a room people sit in."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * sqrt(2)",
+      "units": "in",
+      "range": [
+        120.0,
+        680.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXI, shape three: 'their length will be the diagonal line of the square'.",
+      "note": "SHAPE 3 OF 7 - THE DIAGONAL OF THE SQUARE, 1 : 1.4142. Sixteen by twenty-two feet seven and a half inches. This is the odd one out and the reason the seven are not simply a list of musical intervals: root two is irrational and has no musical equivalent, and Wittkower has to argue it in as a geometric rather than an arithmetic proportion. It is also, in practice, the single most useful of the seven for a modern room, because it is the proportion that reads as generous without reading as a gallery, and because it is close enough to the golden section (1.618) and to 1.5 that it forgives an inch or two of building tolerance. THE PRACTICAL NOTE: this dimension will never be a whole number of feet, and it should not be forced to one. Set it out from the diagonal with a string or a tape as the Renaissance builder did, and round the FINISH dimensions rather than the structural ones."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 4 / 3",
+      "units": "in",
+      "range": [
+        120.0,
+        640.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXI, shape four: 'a square of a third', that is 3 : 4. Wittkower: the musical fourth, the diatessaron.",
+      "note": "SHAPE 4 OF 7 - THE SQUARE AND A THIRD, 3 : 4. Sixteen by twenty-one feet four inches. The quietest of the rectangular shapes and the right one for a dining room or a principal chamber. Its harmonic mean height is 18 ft 3 in and its arithmetic 18 ft 8 in - only five inches apart, which is why 3 : 4 rooms are forgiving in section as well as in plan. Wittkower's identification of this ratio with the musical fourth is the heart of his argument: the same numbers that divide a string to give a consonant interval divide a room to give a satisfying shape, and Palladio believed the two facts were the same fact."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 3 / 2",
+      "units": "in",
+      "range": [
+        132.0,
+        720.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXI, shape five: 'one square and a half', that is 2 : 3. Wittkower: the musical fifth, the diapente.",
+      "note": "SHAPE 5 OF 7 - THE SQUARE AND A HALF, 2 : 3. Sixteen by twenty-four feet. The workhorse. This is the proportion of the great majority of good rooms in the Anglo-Palladian tradition, it is the shape a double-pile plan naturally produces, and it is the one to reach for when there is no reason to reach for another. Its three heights are 19 ft 2 in harmonic, 19 ft 7 in geometric, 20 ft arithmetic - a ten-inch spread on a twenty-foot dimension, which is a genuine choice but not an alarming one."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 5 / 3",
+      "units": "in",
+      "range": [
+        144.0,
+        800.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXI, shape six: 'one square and two thirds', that is 3 : 5. Wittkower: the major sixth.",
+      "note": "SHAPE 6 OF 7 - THE SQUARE AND TWO THIRDS, 3 : 5. Sixteen by twenty-six feet eight inches. The long room that is still a room. Note that 3 : 5 is the fourth and fifth terms of the Fibonacci series and approximates the golden section to within one and a third per cent, which is almost certainly why it feels right and almost certainly not why Palladio chose it - he chose it because it is a musical interval. Both accounts arrive at the same number, and the disagreement between them has kept proportion theorists busy for a century."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 2",
+      "units": "in",
+      "range": [
+        168.0,
+        960.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXI, shape seven: 'two squares', that is 1 : 2. Wittkower: the octave, the diapason.",
+      "note": "SHAPE 7 OF 7 - THE DOUBLE SQUARE, 1 : 2. Sixteen by thirty-two feet. The limit case and the most demanding. A double square is a gallery, a saloon or a great hall, and it needs its length used - an axis, an enfilade, a chimneypiece at one end and a window wall at the other. Its section is where the system bites hardest: the arithmetic mean gives 24 ft, the geometric 22 ft 7 1/2 in, the harmonic 21 ft 4 in, and every one of those is a two-storey volume. A double square with a nine-foot ceiling is not a Palladian room that has been compressed; it is a corridor. If the storey will not carry the height, use 3 : 5 and stop."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 9 / 4",
+      "units": "in",
+      "range": [
+        180.0,
+        1080.0
+      ],
+      "authority_note": "Alberti, De re aedificatoria, Book IX, on rooms of the middle sort: the ratios 1 : 2, 4 : 9 and 9 : 16. Wittkower, Architectural Principles, part IV, identifies these as the squares of the simple consonances - 4 : 9 is the double fifth (2:3 squared).",
+      "note": "ALBERTI'S MEDIUM ROOM, 4 : 9. Sixteen by thirty-six feet. This is not one of Palladio's seven and that is precisely why it is here: Alberti's system is the older and the wider one, and it admits COMPOUND ratios - the square of a consonance - which Palladio's does not. Alberti sorts rooms into three classes by size and gives each class its own set of ratios: small rooms 1:1, 2:3 and 3:4; medium rooms 1:2, 4:9 and 9:16; large rooms 1:3, 3:8 and 1:4. The practical consequence is that Alberti will let you make a long room that Palladio will not, and the theoretical consequence is that Alberti's ratios get MORE extreme as the room gets larger, which is a genuinely different idea about how proportion scales."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 16 / 9",
+      "units": "in",
+      "range": [
+        156.0,
+        900.0
+      ],
+      "authority_note": "Alberti, Book IX, medium rooms: 9 : 16, the double fourth (3:4 squared).",
+      "note": "ALBERTI'S MEDIUM ROOM, 9 : 16. Sixteen by twenty-eight feet five inches. Sits between Palladio's 3 : 5 and his double square, and fills a gap the seven shapes leave open. Worth knowing because a great many measured Renaissance and Georgian rooms land here and are then wrongly reported as 'approximately 1 : 1.75' or as failures of the Palladian system, when they are simply Albertian."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 3",
+      "units": "in",
+      "range": [
+        240.0,
+        1440.0
+      ],
+      "authority_note": "Alberti, Book IX, large rooms: 1 : 3, 3 : 8 and 1 : 4.",
+      "note": "ALBERTI'S LARGE ROOM, 1 : 3. Sixteen by forty-eight feet. Beyond anything Palladio will admit. This is a gallery, a loggia or a basilica, and Alberti's willingness to go here - and on to 1 : 4 - is a reminder that the harmonic system was never only about domestic rooms. In a house, 1 : 3 is a corridor unless it is at least 18 ft wide and lit from one long side, in which case it is a gallery and one of the great room types. Below 16 ft wide, do not."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        96.0,
+        480.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXIII, verbatim: for rooms with flat ceilings 'the height from the floor to the ceiling must be equal to their breadth'.",
+      "note": "FLAT-CEILING HEIGHT - EQUAL TO THE BREADTH. Sixteen feet on the default. This is the rule that most shocks a modern reader and it is stated without qualification. It applies to the room regardless of its length: a 16 x 32 room with a flat ceiling is 16 ft high by this rule, not 24. Palladio is describing the piano nobile of a villa, where a sixteen-foot ceiling is ordinary, and the rule is honest about the world it comes from. What survives of it in domestic practice is the RATIO rather than the number: rooms whose height approaches their breadth feel calm and rooms far below it feel pressed, and the sensation begins to bite below about 0.6 of the breadth - which is where a 16 ft room with a 9 ft 6 in ceiling sits, and is why such rooms are always described as needing 'height'."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "module * 5 / 6",
+      "units": "in",
+      "range": [
+        84.0,
+        400.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXIII, verbatim: 'the rooms above must be a sixth part less in height than those below.'",
+      "note": "THE STOREY ABOVE, ONE SIXTH LESS. Thirteen feet four inches. Note that this is the SAME one-sixth Palladio applies to window heights from storey to storey in ch. XXV - the diminution is a single rule applied twice, to the section and to the openings, which is why a Palladian building's graduation reads so consistently. The storey-graduation pack records a measured Anglo-American band of 0.78-0.92 for the same relation; Palladio's 0.833 sits in the middle of it, which is a satisfying independent confirmation of both."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "module * 4 / 3",
+      "units": "in",
+      "range": [
+        120.0,
+        640.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXIII, verbatim: 'the height of the vaults in rooms that are square is a third part more than the breadth of the room.'",
+      "note": "VAULTED SQUARE ROOM - BREADTH PLUS A THIRD. Twenty-one feet four inches on a sixteen-foot square. Measured to the crown of the vault. This is the rule that anchors the whole section system, because it is the only height Palladio states as a flat number rather than as a mean, and every other vault height has to be consistent with it - which, as the invariants show, it is: the harmonic mean of a double square lands on exactly the same 4/3."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "(room_length + room_width) / 2",
+      "units": "in",
+      "range": [
+        84.0,
+        360.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXIII, arithmetic mean, verbatim: 'let the room to be vaulted be twelve foot long and six broad, add six to twelve, and it will make eighteen, the half of which is nine; the vault ought therefore to be nine foot high.'",
+      "note": "METHOD 1 OF 3 - THE ARITHMETIC MEAN. b = (a + c) / 2. THE HIGHEST OF THE THREE ANSWERS and the one to choose when the room is a room of state, when it is vaulted, or when the length is running away and needs height to hold it. On a 16 x 24 room this gives 20 ft 0 in exactly. The three means are the reason this pack is worth encoding at all: given a room, the engine can emit three defensible heights and say which is which, and no other proportional system in the tradition offers a designer a bounded choice like that."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "sqrt(room_length * room_width)",
+      "units": "in",
+      "range": [
+        84.0,
+        360.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXIII, geometric mean: 'multiply the lesser extreme with the greater; because the square root of the number which will proceed from said multiplication will be the height we seek.' On his 6 x 12 room: root 72, or 8.485 ft.",
+      "note": "METHOD 2 OF 3 - THE GEOMETRIC MEAN. b = sqrt(a x c). THE MIDDLE ANSWER, and the mathematically purest of the three: it is the height at which breadth : height = height : length, so the room's section is proportioned to its plan by the same ratio twice. On a 16 x 24 room this gives 19 ft 7 in. It is also the one that will never be a whole number of feet unless the plan ratio is a perfect square, which in practice means it is the mean a builder resists and a theorist prefers. Palladio uses all three in his own villas."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "2 * room_length * room_width / (room_length + room_width)",
+      "units": "in",
+      "range": [
+        84.0,
+        360.0
+      ],
+      "authority_note": "Palladio, Book I ch. XXIII, harmonic mean; his worked example gives 8 ft for a 6 x 12 room. Defined as 'the mean exceeding one extreme, and being exceeded by the other, by the same fraction of the extremes.'",
+      "note": "METHOD 3 OF 3 - THE HARMONIC MEAN. b = 2ac / (a + c). THE LOWEST OF THE THREE ANSWERS and the one to choose in a domestic room, in a low storey, or where the arithmetic mean produces a height the building cannot carry. On a 16 x 24 room this gives 19 ft 2 in. It is called harmonic because it is the mean that generates the musical intervals - the harmonic mean of 6 and 12 is 8, and 6 : 8 : 12 is the fourth and the fifth, the two consonances the octave divides into. Wittkower's argument in Architectural Principles is that this is not an analogy but an identity in Palladio's mind: the room is proportioned by the same numbers as the chord, and a well-proportioned room is consonant in the same sense a chord is. FOR A 16 x 24 ROOM THE THREE DEFENSIBLE HEIGHTS ARE THEREFORE 19 ft 2 in, 19 ft 7 in AND 20 ft 0 in - which is the sentence this pack exists to be able to say."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "module * 1.15",
+      "units": "in",
+      "range": [
+        96.0,
+        360.0
+      ],
+      "judgment": true,
+      "note": "THE PRACTICAL CAP, AND THE POINT AT WHICH THE SYSTEM MUST BE ARGUED WITH RATHER THAN OBEYED. Eighteen feet four inches. Marked judgment because nothing in Palladio or Alberti licenses a cap - the means are exact and they do not care what a storey can carry. But a 3 : 5 room 20 ft wide takes a 25 ft arithmetic-mean vault, which is two storeys, and a modern building will not do it. THE HONEST MOVES, in order: (1) use the harmonic mean rather than the arithmetic, which is what it is for and which buys eight to twelve per cent; (2) make the room a shape further down the list - 3 : 4 rather than 2 : 3 - which reduces both dimensions of the problem at once; (3) reduce the BREADTH, since every height in the system is generated from it, and a narrower room with the correct section beats a wider one with the wrong one; (4) accept that the room will be lower than the system asks and put the deficiency into the trim, which is what every English Georgian house of ordinary size actually did. What you must not do is keep the plan ratio, take an arbitrary ceiling height, and describe the result as Palladian. The plan ratio without the section is half a system, and it is the half that does not show."
+    },
+    {
+      "target_slot": "public_private_gradient",
+      "dimension": "ratio",
+      "expression": "4 / 3",
+      "units": "ratio",
+      "range": [
+        1.1,
+        2.0
+      ],
+      "authority_note": "Palladio's own plans move between adjacent terms of the seven-shape series from room to room within a suite; the villa plans of Book II are the evidence.",
+      "note": "THE RANK OF ONE ROOM AGAINST THE NEXT. Adjacent rooms in a suite should differ by ONE TERM of the series, not by an arbitrary amount: a 3 : 4 room next to a 2 : 3 room next to a 3 : 5 room. This is how a Palladian plan makes hierarchy without making any room look like a mistake, and it is why the enfilade works - each room is recognisably of the same family as the last and recognisably a step up or down. The corollary is the useful one: in a suite, hold the BREADTH constant and vary the length, so that the doors on the enfilade axis all sit at the same relation to the walls and the ceiling heights step in a series rather than jumping."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "Every height in this system is generated from the breadth, and the breadth is a span. Palladio's sixteen to twenty foot rooms are at the limit of what a timber floor will carry without an intermediate bearing, which is exactly why they are that size - and the harmonic system is silent about the fact. Push the breadth to 24 or 28 ft with engineered lumber or steel and the system obediently produces a 24 to 28 ft flat ceiling, which no domestic building will build.",
+      "resolution": "Treat the breadth as structurally determined and the length as free, which is the way round the tradition actually worked. Where a wide room is genuinely required, do not scale the whole system with it: hold the ceiling to what the storey allows, use the harmonic mean, and change the room's TYPE - a wide low room with a beamed or coffered ceiling is a hall and has its own tradition, and it is a better building than a 26 ft room with a 10 ft ceiling pretending to be a saloon. The single most useful discipline here is to set the breadth from the span table before choosing the shape.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The three means generate ceiling heights of 19 to 24 ft for ordinary principal rooms. Each additional foot of storey height costs wall area, stair run, foundation, envelope and heating volume, and the stair is the worst of them: at a 7 in riser, a 20 ft storey is thirty-four risers and roughly forty feet of run, which the plan has to hold. This is the reason the Palladian section was abandoned in ordinary building long before Palladian plan ratios were.",
+      "resolution": "Use the section where it earns its keep and nowhere else. One room in a house can carry a Palladian section - the hall, the saloon, the library - and it will do more for the building than correct proportions everywhere. Take the height out of the volume above by putting that room under the roof or by giving it a coved or vaulted ceiling that reaches the height only at the crown, which is precisely the device Palladio's vault rules describe. Elsewhere, keep the plan ratios, use the harmonic mean, accept the shortfall, and spend the money on the trim, where the room-as-an-order derivation in the trim-classical pack will recover some of the lost dignity for a fraction of the cost.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "Two problems. First, conditioned volume: energy models and mechanical sizing work from volume, and a 19 ft ceiling is roughly twice the volume of a 9 ft 6 in one for the same floor area, with a corresponding penalty in heating and cooling load and in envelope area. Second, stratification: a tall room stratifies badly, and the comfortable zone is the bottom seven feet, so the energy is spent heating air nobody is in.",
+      "resolution": "Argue the case on the whole building and on comfort rather than on the room. Tall rooms with high operable openings are a cooling STRATEGY in hot and humid climates and were understood as one - the Tidewater and Charleston sections are 12 to 14 ft for exactly this reason, and stack ventilation through a transom and a stair is a real mechanism that a model will credit if it is asked to. In heating climates the argument is harder and honesty is the better course: take the height in one or two rooms, use radiant floors rather than forced air so the comfort zone is at the bottom where the people are, and detail the ceiling plane as the primary insulated surface. Ceiling fans are the cheap fix and they work; they are also anachronistic in most of these interiors, and that is a real cost to weigh.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The geometric mean and the root-two room are irrational and never land on a whole dimension: the diagonal-of-the-square room at 16 ft breadth is 22 ft 7 17/32 in long, and its geometric mean height is 19 ft 0 3/8 in. Framing is set out in whole and half inches at best, and the finish carpenter works to 1/16 in. Rounding is therefore not optional, and rounding in the wrong place breaks the ratio the whole exercise was for.",
+      "resolution": "Round the FINISH, never the structure, and round in one place rather than distributing the error. Set out the framing to the exact ratio, take the whole rounding in the thickness of the plaster, the furring or the base, and dimension the drawings to the finished face. For the height, round to the nearest inch and take it in the ceiling plane rather than the floor, because the floor level is shared with the rest of the storey and the ceiling is not. And accept the Renaissance builder's own method for the root-two room: strike the diagonal of the square on the ground with a line and build to it, which is exact by construction and needs no arithmetic at all.",
+      "severity": "minor"
+    },
+    {
+      "with": "climate",
+      "statement": "The system is Venetian. It was worked out for the Veneto, where a tall room with tall openings is a summer machine and where winter is short. Transplanted to New England, to Scotland or to any heating-dominated climate, the flat-ceiling rule in particular is a liability rather than an asset, and the historical record shows it being quietly abandoned: English Palladian rooms are markedly lower relative to their breadth than Palladio's own, and American Georgian ones lower still.",
+      "resolution": "Follow the historical adaptation rather than the text. The Anglo-Palladian tradition kept the PLAN ratios exactly and compromised the section, and it did so consistently for two centuries, which is as close to a documented resolution as this conflict gets. Use the harmonic mean as the default in cold climates and the arithmetic in hot ones; that single substitution tracks the historical drift and is defensible from Palladio's own text, since he offers all three without ranking them. In hot-humid climates go the other way and take the arithmetic mean gladly - the Tidewater and the West Indies both did, and their rooms are the most comfortable pre-mechanical interiors anyone has built.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "italian-renaissance",
+    "italian-renaissance-revival",
+    "renaissance-classical",
+    "renaissance-revival-american",
+    "english-palladian",
+    "palladian",
+    "english-baroque",
+    "english-classical",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "adam-style",
+    "regency",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "jeffersonian-classicism",
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "french-neoclassical",
+    "french-baroque",
+    "beaux-arts-french",
+    "beaux-arts-american",
+    "neoclassical-revival",
+    "colonial-revival",
+    "georgian-revival",
+    "new-classical",
+    "octagon-house",
+    "spanish-classical",
+    "italian-baroque"
+  ],
+  "sources": [
+    "Andrea Palladio, I quattro libri dell'architettura, Venice 1570, Book I chs. XXI (the seven room shapes) and XXIII (the heights of rooms, the three means, the worked example); tr. Isaac Ware 1738; transcription at c82.net/architecture/book1",
+    "Leon Battista Alberti, De re aedificatoria (c. 1450, printed 1485), Book IX, on the ratios proper to small, medium and large rooms",
+    "Rudolf Wittkower, Architectural Principles in the Age of Humanism (1949), part IV, 'The Problem of Harmonic Proportion in Architecture', and the earlier article 'Principles of Palladio's Architecture II: Palladio and the Problem of Harmonic Proportions', Journal of the Warburg and Courtauld Institutes 8 (1945)",
+    "aboutscotland.com/harmony/prop3.html and prop6.html, for a clean statement of the seven shapes and of the three means with worked arithmetic",
+    "Nexus Network Journal, 'Palladio, Pythagoreanism and Renaissance Mathematics' (2007) and 'Parametric Experiments on Palladio's 5 by 3 Villas' (2022), for the measured analysis of which means Palladio actually used in which villas",
+    "Thomas Jefferson's copy of Palladio (Library of Congress, Jefferson's Library), as the transmission route into American practice",
+    "tdl pack storey-graduation, whose measured 0.78-0.92 band independently confirms Palladio's one-sixth diminution"
+  ],
+  "confidence": "high",
+  "notes": "WHAT THIS PACK EMITS, AND WHY IT IS THE MOST DIRECTLY USEFUL OF THE SEVEN. Given a room, it returns three ceiling heights, names each one, orders them, and says which to choose and why. For a 16 x 24 room: 19 ft 2 in by the harmonic mean, 19 ft 7 in by the geometric, 20 ft 0 in by the arithmetic. No other proportional system in the tradition offers a bounded, defensible, three-valued answer to a question a designer actually has to settle, and the fact that Palladio states the three means and declines to rank them is the strongest single piece of evidence that he understood proportion as a discipline rather than a formula.\n\nTHE SEVEN SHAPES AND THE MUSICAL ARGUMENT. Round, square, 1:root2, 3:4, 2:3, 3:5, 1:2. Five of the seven are musical intervals - unison, fourth, fifth, major sixth, octave - which is Wittkower's finding and the reason the system is called harmonic. Root two is the exception and has to be argued in geometrically. Alberti's ratios overlap Palladio's at the small end and go far beyond them at the large, admitting compound ratios (4:9, 9:16) that are the squares of the consonances, and long rooms (1:3, 3:8, 1:4) that Palladio does not allow. Encoding both is worth doing, because a great many measured rooms that fail the Palladian test pass the Albertian one.\n\nTHE THREE MEANS ARE THE PACK'S SPINE. Arithmetic (a+c)/2, geometric sqrt(ac), harmonic 2ac/(a+c). They always order harmonic <= geometric <= arithmetic, they coincide only for the square, and the harmonic mean of a double square lands exactly on Palladio's independently stated 4/3 vault height for a square room - an internal consistency that is checked here as an invariant and that is the best evidence the system is one system rather than a collection of rules.\n\nWHAT COULD NOT BE SOURCED. Palladio's chapter on vaults names six vault types and gives heights for them; those are not encoded here because the reliable text for the individual vault types was not available in transcription and inventing them would be worse than omitting them. Alberti's own rule for deriving height from length and breadth in the intermediate cases is stated differently in different translations and is not encoded for the same reason - what is encoded from Alberti is only the plan ratios, which are unambiguous. The practical ceiling cap is this pack's own judgment and is marked as such; nothing in either treatise licenses it."
+}

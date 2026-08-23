@@ -1,0 +1,206 @@
+{
+  "id": "cross-passage",
+  "name": "Cross Passage",
+  "aka": [
+    "screens passage",
+    "through passage",
+    "hall passage",
+    "the screens"
+  ],
+  "function_class": "circulation",
+  "description": "A passage running ACROSS the building from the front door to the back door, at the low end of the hall, with the service rooms opening off one side of it and the hall off the other, screened from the hall by a timber partition. It is the ancestor of every subsequent hall, passage and vestibule in the English-speaking tradition, and unlike the centre passage it does not divide the house symmetrically - it slices one end off it, because the thing being separated is not left from right but polite from service.",
+  "history": {
+    "appears": 1180,
+    "declines": 1650,
+    "replaced_by": "the centre passage, which took the same idea and moved it to the middle so that the plan could be symmetrical",
+    "note": "The cross passage is the load-bearing element of the medieval English plan and it exists because ONE ROUTE HAD TO DO TWO JOBS. Food came from the kitchen - detached, because it burned down - across the passage and into the hall through the screens; people came in from the yard by the same door. In the longhouse the same passage separated the family's end from the byre, and cattle walked it. The two service doors in the screens wall, to buttery (drink) and pantry (bread), with a third between them to the kitchen passage, are so consistent from 1250 to 1550 that their number and spacing date a building. The type dies with the medieval household: when the kitchen comes indoors and the hall is floored over, the passage's service half becomes the back stair and its polite half becomes the entrance hall. What survived longest was the ventilation - a Devon or Welsh longhouse's cross passage with both doors open is the same device as a dogtrot, and for the same reason."
+  },
+  "dimensions": {
+    "area_sf": [
+      60,
+      160
+    ],
+    "width_ft": [
+      5,
+      9
+    ],
+    "length_ft": [
+      12,
+      24
+    ],
+    "proportion": [
+      1.8,
+      4.0
+    ],
+    "ceiling_min_ft": 7.5,
+    "critical_dimension": "WIDTH, set by a loaded servant passing another. A person carrying a dish in two hands occupies 30 in of width and cannot turn sideways to pass; two of them need 60 in clear, and the screens' door swings take another 30. Six feet is the working figure and the surviving measured examples cluster at 5 ft 6 in to 7 ft. The other governing dimension is the SCREEN ITSELF, which is not a partition but a draught baffle: it stands 6 to 8 ft high in a hall open to the roof, leaving air to pass over the top while the hall's occupants are shielded from the two doors, and the gap above it is not an unfinished condition - it is the mechanism."
+  },
+  "furniture": [
+    {
+      "item": "the screen",
+      "footprint_in": [
+        180,
+        6
+      ],
+      "clearance_in": 36,
+      "note": "a partition 6 to 8 ft high with two or three door openings, not reaching the roof. The gallery over it in a grand house is a musicians' gallery and it exists because the screen was already there."
+    },
+    {
+      "item": "loaded servant, both hands",
+      "footprint_in": [
+        30,
+        24
+      ],
+      "clearance_in": 30,
+      "note": "the unit that sizes the room"
+    },
+    {
+      "item": "bench against the screen",
+      "footprint_in": [
+        72,
+        18
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "where the household waited"
+    },
+    {
+      "item": "clear route, front door to rear door",
+      "footprint_in": [
+        42,
+        200
+      ],
+      "clearance_in": null
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "Across the building, which means across the prevailing wind, which is why it works as a ventilation device and why it is the direct precedent for the dogtrot and the breezeway.",
+    "glazing_fraction": [
+      0.02,
+      0.1
+    ],
+    "note": "Almost unglazed. Its light comes from the two opposed doorways and, in the surviving record, that was thought sufficient - which it is, because the passage is only 6 ft wide and light from a doorway reaches 2.25 times its head height, about 15 ft, so two opposed doors light a 20 ft passage entirely. This is the cleanest demonstration of the daylight rule in the catalogue: a room whose short dimension is the daylight dimension needs almost no glass at all, and a room whose long dimension faces the light needs a wall of it."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "hall",
+        "why": "the passage is defined by what it screens; a cross passage without a hall on one side of it is just a through corridor",
+        "relation": "shared-wall",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "the passage's service half exists to deliver food from a detached or wing kitchen to the hall without crossing it",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "back-hall",
+        "why": "in the post-medieval survival the passage's service end becomes the back stair and the service crossing",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "best-parlor",
+        "why": "the passage is the low end of the house by definition; the high end - dais, parlour, solar stair - must be at the opposite end of the hall from it, and a plan that puts the best room next to the screens has inverted the building's whole social axis",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "exterior",
+      "entry-porch",
+      "breezeway"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 1,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Two opposed exterior doors on the short axis: the original English cross-ventilation device and the direct ancestor of the dogtrot passage. In a longhouse it also vented the byre away from the house end, which is why the passage sits between them and not at the gable.",
+    "heat": "None. The passage is a cold buffer, and the screen exists to keep the hall's fire from being blown about by it.",
+    "electrical": "n/a historically; in restoration or revival work, wall-mounted only - a ceiling fixture in a passage open to a roof structure has nowhere to go.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-medieval-timber-frame",
+      "trim_grade": "high",
+      "note": "The canonical case. Two or three service doors in the screens with moulded four-centred heads, the spere truss above, and the passage doors opposed at front and back. The number and detailing of the service doors is one of the better dating tools on a surviving hall house."
+    },
+    {
+      "style": "tudor",
+      "trim_grade": "highest",
+      "note": "The screen becomes an architectural set-piece - carved, arcaded, with a gallery over - at exactly the point when the hall itself is ceasing to be used, which is a familiar pattern: the ornament peaks as the function dies."
+    },
+    {
+      "style": "medieval-british",
+      "trim_grade": "plain",
+      "note": "In the longhouse the passage is the division between the house end and the byre end, and its threshold is often the only level change in the building - the byre floor falls away from it for drainage. That fall is the diagnostic."
+    },
+    {
+      "style": "cotswold-vernacular",
+      "trim_grade": "plain",
+      "note": "Survives late in stone houses as a through passage with a plank-and-muntin screen, in buildings that no longer have an open hall - the passage outlives the room it was invented to serve by two hundred years."
+    },
+    {
+      "style": "tudor-revival",
+      "present": false,
+      "note": "Almost never reproduced, because the revival copies the hall's ceiling, its screen and its bay window as ornament and puts a conventional entrance hall and stair behind them. A Tudor Revival house with a genuine cross passage - front door to back door across the low end, service off one side - would be a rare and correct thing."
+    },
+    {
+      "style": "dogtrot-vernacular",
+      "trim_grade": "none",
+      "note": "Not a descendant by transmission but a convergent solution: the same two opposed openings on the short axis for the same reason. The dogtrot's passage is open where the cross passage is enclosed, and the difference is climate, not lineage."
+    },
+    {
+      "style": "german-pennsylvania-colonial",
+      "name_in_style": "Flurkuchenhaus entry",
+      "trim_grade": "plain",
+      "note": "The Continental analogue works differently and is worth setting beside it: the Kuche is the entry room and the passage, with the Stube (stove room) and Kammer off it, so the cooking room is the circulation and there is no screening at all. Anglo and Germanic plan logic diverge exactly here."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Hallways not less than 36 in; exterior doors 32 in clear.",
+      "ref": "IRC R311.6, R311.2",
+      "conflict": "Not a live constraint - surviving cross passages exceed both. The live constraint in restoration is headroom: medieval door heads at 5 ft 8 in to 6 ft 2 in fail the 6 ft 8 in requirement and are almost always grandfathered rather than raised."
+    }
+  ],
+  "massing_fit": [
+    "hall-single-cell",
+    "hall-and-parlor",
+    "h-plan-manor",
+    "dogtrot",
+    "linear-ell-farmhouse",
+    "double-pen"
+  ],
+  "slots": [
+    "circulation_parti",
+    "entry_sequence",
+    "public_private_gradient",
+    "service_zone_strategy",
+    "room_adjacency_overrides",
+    "hearth_position"
+  ],
+  "faults": [
+    "centre-passage-blocked-at-one-end",
+    "service-route-through-the-formal-plan",
+    "thresholds-uncrossed",
+    "passage-that-is-a-corridor"
+  ],
+  "sources": [
+    "Eric Mercer, English Vernacular Houses (RCHME, 1975)",
+    "Margaret Wood, The English Mediaeval House (1965)",
+    "N. W. Alcock and others, Recording Timber-Framed Buildings (CBA, 1996), on spere trusses and screens",
+    "massings/catalog.json: dogtrot, hall-single-cell"
+  ],
+  "confidence": "high"
+}

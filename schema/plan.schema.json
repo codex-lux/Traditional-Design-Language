@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/plan.schema.json",
+  "title": "Plan",
+  "version": "0.1.0",
+  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.",
+  "type": "object",
+  "required": ["id", "name", "style", "levels"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "name": { "type": "string" },
+    "style": { "type": "string", "description": "style node id. Drives which exceptions apply, which constraints are checked, and which kit resolves." },
+    "massing": { "type": "string", "description": "massing id, where the plan is meant to sit in a known skeleton." },
+    "groupings": { "type": "array", "items": { "type": "string" },
+      "description": "Groupings the plan claims to contain. Declaring one asks the validator to check its internal rules." },
+    "context": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "climate_zone": { "type": "string" },
+        "lot_width_ft": { "type": "number" }, "lot_depth_ft": { "type": "number" },
+        "entrance_faces": { "enum": ["N","NE","E","SE","S","SW","W","NW"] },
+        "jurisdiction": { "type": "string", "description": "Code checks are advisory and jurisdictional; naming this makes the caveat explicit." },
+        "date_of_representation": { "type": "integer", "description": "Which year within the style's span the design represents. Sash pattern, hardware and fanlights are all date-conditional." },
+        "budget_tier": { "enum": ["value", "mid", "custom", "unlimited"] }
+      }
+    },
+    "levels": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "required": ["id", "rooms"], "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "index": { "type": "integer", "description": "0 ground, 1 first above, -1 cellar. Used for stacking checks." },
+          "floor_to_ceiling_ft": { "type": "number" },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "type": "object", "required": ["id", "type"], "additionalProperties": false,
+              "properties": {
+                "id": { "type": "string", "description": "unique within the plan" },
+                "type": { "type": "string", "description": "room id from the room catalogue" },
+                "name": { "type": "string" },
+                "width_ft": { "type": "number", "description": "The SHORT dimension. Most room rules key off it." },
+                "length_ft": { "type": "number" },
+                "ceiling_ft": { "type": "number" },
+                "window_head_ft": { "type": "number", "description": "Head height above finished floor. With room depth this decides whether the far end of the room is lit." },
+                "exterior_walls": { "type": "array", "items": { "enum": ["N","NE","E","SE","S","SW","W","NW"] },
+                  "description": "Which walls are on the outside. Counted against the room type's sides_lit requirement." },
+                "windows": { "type": "array", "items": {
+                  "type": "object", "additionalProperties": false,
+                  "properties": { "wall": { "type": "string" }, "width_ft": { "type": "number" },
+                    "height_ft": { "type": "number" }, "count": { "type": "integer" },
+                    "sill_ft": { "type": "number" }, "operable": { "type": "boolean", "default": true },
+                    "egress": { "type": "boolean" } } } },
+                "doors": { "type": "array", "items": {
+                  "type": "object", "required": ["to"], "additionalProperties": false,
+                  "properties": { "to": { "type": "string", "description": "another room id, or 'exterior'" },
+                    "width_ft": { "type": "number" }, "type": { "enum": ["swing","double","pocket","cased-opening","open","garage","bulkhead"] },
+                    "note": { "type": "string" } } },
+                  "description": "Doors imply a direct-door adjacency in both directions; the validator derives the graph from them." },
+                "fixtures": { "type": "array", "items": { "type": "string" },
+                  "description": "Plumbing and equipment present — wc, lavatory, tub, shower, sink, dishwasher, washer, water-heater, furnace. Drives the servicing checks." },
+                "stacks_over": { "type": "string", "description": "room id on the level below, for plumbing and structure." },
+                "note": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "adjacencies": {
+      "type": "array",
+      "description": "Relationships the doors do not express — a shared wall, a sight line, an acoustic separation.",
+      "items": { "type": "object", "required": ["a", "b", "relation"], "additionalProperties": false,
+        "properties": { "a": { "type": "string" }, "b": { "type": "string" },
+          "relation": { "enum": ["direct-door","shared-wall","same-floor","visible-from","acoustically-separated","not-visible-from","above","below"] } } }
+    },
+    "measurements": { "type": "object",
+      "description": "Any additional numbers for the fault corpus to test — elevation dimensions, trim sizes, ratios. Keys must match the fault corpus vocabulary; see tdl_measurement_vocabulary." },
+    "declared": { "type": "object",
+      "description": "Design choices the plan asserts, keyed by element slot id, for checking against the style's forbidden variants. e.g. {\"roof_form\": \"gambrel\", \"shutter\": \"none\"}." },
+    "note": { "type": "string" }
+  }
+}

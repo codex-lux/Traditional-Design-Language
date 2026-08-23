@@ -1,0 +1,193 @@
+{
+  "id": "appalachian-log-house",
+  "name": "Appalachian Log House",
+  "aka": [
+    "mountain cabin",
+    "Southern Mountain cabin",
+    "hewn-log house"
+  ],
+  "rank": "variant",
+  "member_of": "log-vernacular-american",
+  "status": "historical",
+  "period": {
+    "origin": 1760,
+    "floruit_start": 1780,
+    "floruit_end": 1900,
+    "decline_end": 1940,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 2026,
+        "revival_node": null,
+        "note": "Recovered twice: first by the Appalachian craft-revival settlement schools and the CCC-era park reconstructions of the 1930s, then by the second-home log industry, which reproduces the silhouette with milled round logs, cathedral ceilings and window walls that the structural system cannot honestly support."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Appalachia",
+      "Blue Ridge",
+      "Great Smoky Mountains",
+      "Cumberland Plateau",
+      "Upland South",
+      "Ozarks"
+    ],
+    "hearth": "the Great Valley of Virginia and the southern Blue Ridge",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "log-vernacular-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "german-pennsylvania-colonial",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The technique travelled south from the Pennsylvania backcountry down the Great Wagon Road with Scots-Irish and German families between about 1730 and 1780. The notching is German; the plan vocabulary the Scots-Irish applied to it is Anglo."
+    }
+  ],
+  "description": {
+    "short": "The hewn-log single or double pen of the southern mountains: half-dovetail notched oak or chestnut, a stone gable-end chimney, a loft under a steep riven-shingle roof, and an expansion grammar that produced every named Upland South folk house type.",
+    "long": "The Appalachian log house is the most persistent and best-documented expression of American log building, partly because the technique survived here into the twentieth century and partly because the National Park Service preserved several hundred examples when it emptied the Smokies in the 1930s. The canonical form is a single pen roughly eighteen by twenty feet: walls of eight to ten courses of hewn oak, poplar or chestnut, half-dovetail notched at the corners so every joint sheds water outward, chinked with split-wood spalls and clay or lime, floored in riven puncheon or sawn boards, and covered by a steep roof of hand-split shingles on pole rafters. A stone chimney stands at one gable end, usually outside the wall line, and a loft reached by a corner stair or ladder sleeps the children. One door, one or two very small windows. That is the whole house, and for a great many families in 1830 it was the whole house for a lifetime.\n\nWhat makes it a design system rather than a hut is the expansion grammar, which is unusually explicit. Because the pen cannot exceed the length of a log two to four people can lift, every increase in size is a combinatorial move on pens: a second pen against the first with a shared chimney (saddlebag); a second pen with its own end chimney and its own front door (double pen); two pens with an open roofed passage between them (dogtrot); a second storey of logs above the first; a rear shed or ell in frame. Henry Glassie's typology of the southern mountain cabin is essentially a grammar of these moves, and it is directly usable as a generative rule set: given a pen and a family, the possible next states are enumerable. This is the property that makes the node valuable to a kit-of-parts system, and it is why the constraint list here is about spans and notches rather than about mouldings.\n\nThe conditions are those of settlement in a landscape with abundant hardwood, no roads worth the name, no cash and no sawmills. Scots-Irish and German families moving south from Pennsylvania after 1730 into the Great Valley and then into the coves and hollows of the Blue Ridge and the Cumberlands found a place where timber was the only surplus material and where every alternative building system required something they could not obtain. Log building requires an axe, a broadaxe, a froe, an auger and neighbours. It also produced a house that was warm - a nine-inch solid hardwood wall has enough thermal mass to ride out a mountain night on a banked fire - and that could be built between clearing in spring and frost in autumn. The isolation that made the technique necessary is also what kept it alive for a century after the lowlands had gone to frame, and what made it, by the 1890s, a marker of poverty in the eyes of everybody outside the mountains and a marker of self-sufficiency to everybody inside them.\n\nStanding inside one at Cades Cove or Little Greenbrier, the sensory facts are the wall and the silence. The hewn faces carry the scallop of the broadaxe, and low sun rakes across them so the whole surface reads as a shallow relief. The chinking is a bright band between dark courses and it is the only light-coloured thing in the room. Sound goes nowhere. The single window is small enough that on an overcast day the fire is the light source, and the room organises itself around the hearth in a way that no evenly-lit room ever does. Outside, the eave hangs out two or three feet to keep water off the chinking, the chimney stands proud of the gable in field stone laid without mortar above the firebox, and the roof line is steep because riven shingles will not shed at a low pitch. Nothing about the building is decorative and almost every visible feature is the direct expression of a constraint, which is why it survives being photographed so much better than most American architecture."
+  },
+  "defining_characteristics": [
+    "Single or double pen of hewn hardwood logs, half-dovetail or V-notched at the corners, walls 6-9 inches thick after hewing",
+    "Pen dimension 16-20 feet by 14-18 feet, set by log handling limits",
+    "Gable-end chimney of field stone, usually standing outside the wall plane, with a stone or clay-and-stick stack",
+    "Loft over the single ground-floor room, reached by a boxed corner stair or ladder, lit by a small gable opening",
+    "Steep roof (9:12 to 12:12) of riven shakes or shingles on pole rafters or purlins, with deep overhangs protecting the chinking",
+    "Very small window openings, cut after the wall was raised, set well clear of the notched corners",
+    "Growth by pen combination - saddlebag, double pen, dogtrot, two-storey, rear shed - never by lengthening a log wall"
+  ],
+  "diagnostic_tells": [
+    "Half-dovetail notching with the log ends sloping outward and downward - the southern mountain signature, distinct from the square notching of the Ozarks and the V-notch of Pennsylvania",
+    "Chimney standing entirely outside the gable wall, tapering in field stone",
+    "Eave overhang of 24-36 inches on a building with no other refinement whatever",
+    "Openings that stop at least two feet short of every corner",
+    "Round pole joists with bark intact carrying the loft floor"
+  ],
+  "distinguished_from": [
+    {
+      "node": "dogtrot-vernacular",
+      "difference": "The dogtrot is a specific two-pen configuration with an open central passage, and it is common enough in the same region to be modelled separately. A single or contiguous double pen with no open passage belongs here."
+    },
+    {
+      "node": "scandinavian-log-vernacular",
+      "difference": "Nordic work scribes round or squared logs to a tight chinkless fit, uses steeper roofs and often a full second storey of logs. Appalachian work hews two faces flat and relies on a 1-3 inch chinked gap, which is faster and requires less skill - a deliberate simplification, not a degradation."
+    },
+    {
+      "node": "log-vernacular-american",
+      "difference": "The parent node covers the whole continental tradition including Pennsylvania, the Ozarks, Texas and the Old Northwest, whose notching, pitches and plan types differ. This variant is the southern mountain expression specifically."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Entirely material-determined. Log length sets plan dimension, log diameter sets course height, riven-shingle performance sets roof pitch, and the notch sets the corner. There is no applied proportional system and adding one falsifies the type.",
+    "typical_ratios": [
+      "Pen 16-20 feet by 14-18 feet; a near-square plan is normal",
+      "Wall 8-10 courses, 7-9 feet to the plate; log course 8-14 inches",
+      "Hewn wall thickness 6-9 inches; chinking gap 1-3 inches recessed 1/2-1 inch behind the log face",
+      "Roof pitch 9:12 to 12:12; eave overhang 24-36 inches",
+      "Door 30-36 inches wide by 5.5-6.5 feet tall; original windows often under 4 square feet",
+      "Chimney breast 5-7 feet wide at the base, battering to 2-3 feet at the stack"
+    ],
+    "bay_rhythm": "None. Openings are placed by use and by the corner-clearance rule; the apparent front 'symmetry' of a double pen is an artefact of two identical pens, not a compositional decision.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-single-cell",
+      "affinity": "canonical",
+      "note": "The single pen."
+    },
+    {
+      "massing": "double-pen",
+      "affinity": "canonical",
+      "note": "Two equal pens with two front doors and two end chimneys - the standard second stage."
+    },
+    {
+      "massing": "dogtrot",
+      "affinity": "common"
+    },
+    {
+      "massing": "i-house",
+      "affinity": "possible",
+      "note": "Two-storey log I-houses occur where a family prospered without leaving the technique; they are almost always weatherboarded within a generation."
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "possible",
+      "note": "Where the two pens are deliberately unequal, giving the Anglo social gradient in log."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "No log wall may exceed 20 feet between notched corners; 16-18 feet is normal. Larger enclosures must be built as additional pens. This single rule generates every type in the family and must not be relaxed.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Corners must be half-dovetail or V-notched with the joint sloping outward to shed water, log ends projecting 2-6 inches beyond the joint. Square-notched corners require pegging and a deeper eave; saddle notching belongs to round-log work and to a different region.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Roof pitch 9:12 to 12:12 with eave and rake overhangs of at least 24 inches. Riven shingles will not shed below 9:12, and the overhang is what keeps water out of the chinking; a clipped eave destroys the wall within a decade.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Openings must stop at least 24 inches short of any notched corner and must be framed with pegged jambs against cut log ends. Glazed areas larger than about 12 square feet in a single log wall are structurally dishonest to the system.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Chimney at the gable end, outside the wall plane where possible, of laid field stone with a base 5-7 feet wide battering to a 2-3 foot stack. An interior or centred chimney consumes the only room the pen has.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "John Oliver Place",
+      "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+      "year": 1822,
+      "note": "Built in the 1820s on the site of an 1818 cabin; the oldest surviving structure on the Cades Cove loop, a single pen with exterior stone chimney and loft."
+    },
+    {
+      "name": "Walker Sisters Place",
+      "location": "Little Greenbrier, Great Smoky Mountains National Park, Sevier County, Tennessee",
+      "year": 1853,
+      "note": "Hewn logs with half-dovetail notching, stone-and-mud chimneys, and a circa-1838 McFalls cabin dismantled and reassembled as a kitchen wing in the 1870s - the expansion grammar documented in one building. National Register 1976."
+    },
+    {
+      "name": "Carter Shields Cabin",
+      "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+      "year": 1880,
+      "note": "Late nineteenth-century single-pen with a frame addition; useful as evidence that the technique was still current in the mountains sixty years after it had died in the lowlands."
+    }
+  ],
+  "sources": [
+    "Henry Glassie, 'The Types of the Southern Mountain Cabin', in Jan Brunvand, The Study of American Folklore (1968)",
+    "Terry G. Jordan, American Log Buildings: An Old World Heritage (1985)",
+    "Michael Ann Williams, Homeplace: The Social Use and Meaning of the Folk Dwelling in Southwestern North Carolina (1991)",
+    "National Park Service, List of Classified Structures, Great Smoky Mountains National Park",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "folk",
+    "vernacular",
+    "log",
+    "appalachia",
+    "material-determined",
+    "expansion-grammar"
+  ]
+}

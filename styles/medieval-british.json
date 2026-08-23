@@ -1,0 +1,37 @@
+{
+  "id": "medieval-british",
+  "name": "Medieval British",
+  "rank": "family",
+  "member_of": "british-isles",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1066,
+    "floruit_end": 1540,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Wales"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Norman masonry, English Gothic, and the timber-framed hall — the substrate every later British style either extended or rebelled against.",
+    "long": "The medieval inheritance in Britain is structural before it is stylistic: thick walls and round arches from Normandy, the pointed arch and its structural consequences from the twelfth century onward, and a parallel domestic tradition of oak framing that has almost nothing to do with either.\n\nThe domestic line matters most here. The open hall with its screens passage, the jettied upper floor, the cruck and box frame — these persist in ordinary building for centuries after the great churches stop being built, cross the Atlantic in the seventeenth century, and reappear as a fashion in the nineteenth."
+  },
+  "defining_characteristics": [
+    "Load-bearing masonry and oak box framing as two parallel construction cultures",
+    "The hall with screens passage as the governing domestic diagram",
+    "Steep roofs, small openings, and prominent chimney stacks",
+    "Craft transmission by guild and apprenticeship rather than by book"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

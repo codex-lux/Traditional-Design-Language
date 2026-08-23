@@ -1,0 +1,182 @@
+{
+  "id": "blank-wall-to-the-street",
+  "name": "The Blank Wall On The Public Side",
+  "aka": [
+    "the windowless flank",
+    "the garage gable to the street",
+    "the corner-lot back"
+  ],
+  "slots": [
+    "street_relationship",
+    "orientation_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A wall facing a public street with no openings, or with one small obligatory bathroom window placed by the plan and not by the elevation. It is almost always a corner lot's side elevation, a garage flank, or the gable of a house turned to a side street, and it is finished in the cheapest cladding on the building with the trim reduced to corner boards. Somebody walking that street passes forty feet of nothing.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "One elevation on a production house is designed and three are generated. Windows on a side elevation cost $600-$1,400 each, add nothing to a listing photograph taken from the front, and complicate the interior layout, so a plan drawn for an interior lot puts closets, stairs, garages and bathrooms along its flanks. Dropped onto a corner lot, that flank becomes a public elevation and nothing in the process notices, because the elevation that was reviewed was the front one.",
+    "cost_saved": "$3,000-$8,000 in openings, trim and cladding upgrade on a 40 ft flank elevation."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / street_relationship / two-show-fronts",
+      "statement": "Where the house has two approaches it has two fully composed fronts. The two-front condition is a genuinely different building from the one-front condition and it is much more expensive, because the composition rules apply twice with no cheating on the back."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "new-urbanist-traditional and form-based frontage standards",
+      "statement": "Every elevation facing a public street or a public open space is a front and is governed by the frontage standard, typically including a minimum transparency of 15 to 25 per cent for residential frontages."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a street is made by the buildings that face it",
+      "statement": "The public quality of a street is produced by openings: they supply the surveillance, the scale, the rhythm and the evidence of occupation. A blank wall does not merely fail to contribute; it actively removes those things from the length of frontage it occupies."
+    }
+  ],
+  "correct_practice": "Any elevation visible from a public way is a front and is composed as one. The working standard: not less than 15 per cent of the street-facing wall area glazed for a residential elevation, with openings in a legible rhythm related to the principal front's - the same head datum, the same sill datum, the same or a subordinate opening proportion - and no run of blank wall longer than about 20 ft at ground level. Corner lots need the treatment carried around: the water table, the belt course, the frieze and the cornice all return the full depth of the flank, and the cladding does not change at the corner. Where a room genuinely has nothing to give - a garage, a stair, a store - the answer is either to give it a window anyway, which is what every historic urban building did, or to occupy the ground with something built: a garden wall with a gate, a loggia, a projecting bay, a pergola on the wall. What is not acceptable is a blank plane that changes material at the corner, because that announces which elevation was designed.",
+  "fixes": {
+    "right": "Compose the flank as a front: openings at the principal datums, at 15 per cent or more, with the trim assemblies returning the full depth.",
+    "cheap": "Build the ground rather than the wall. A masonry or timber garden wall 5 to 7 ft high, returning from the flank to the side property line with a gate in it, costs $3,000-$8,000, screens the service yard, gives the side street an edge at human scale, and removes the blank wall from view without adding a single window. Where the wall is impossible, blind openings are legitimate and always were: a recessed panel with a proper sill, casing and head, at the same datums as the real windows, is a documented device on party-wall and fire-wall elevations and it reads correctly at forty feet.",
+    "dishonest": "Painting on a pattern, applying shutters to blank wall, or fixing a false window unit with a mirrored or opaque insert. Shutters without an opening between them are the fault plus a second fault; a false sash unit is caught immediately by the absence of any reveal shadow and by the reflection, which is flat and dead where a real window reflects the sky and shows depth."
+  },
+  "detection": "Photograph the elevation square-on and measure glazed area against wall area. Below 10 per cent is the fault on a street-facing wall and below 5 per cent is severe. Second, look at the corner: a change of cladding, a stopped water table, a stopped cornice return or a change in trim width at the corner tells you the flank was not designed. Third, on a corner lot, compare the two elevations' opening datums - a flank whose window heads do not align with the front's has been laid out from the inside.",
+  "test": {
+    "expression": "glazed_area / street_facing_wall_area",
+    "threshold": 0.15,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "For an elevation facing a public street. 0.15 is the working standard and matches the transparency minima in most form-based residential frontage standards; the historic range for a secondary elevation is 0.10-0.18. This test must NOT be applied to the courtyard types, where the inverse rule holds - see inverted_by."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "greek-revival-american",
+    "italianate-american",
+    "italianate-townhouse",
+    "second-empire",
+    "queen-anne-american",
+    "shingle-style",
+    "craftsman",
+    "prairie-school",
+    "tudor-revival",
+    "american-farmhouse-vernacular",
+    "folk-victorian",
+    "new-urbanist-traditional",
+    "modern-farmhouse-traditional",
+    "neo-eclectic",
+    "minimal-traditional",
+    "ranch-style"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The flank opposite the piazza sits at or within 3 ft of the property line and carries no more than token openings - it is a fire wall, a response to the Charleston fires of 1740 and 1778, and modern separation-distance rules reach the same answer.",
+      "bounds": "Blind flank only, on the north or east side, at or near the lot line. The STREET gable is not blind - it carries the false door and its two or three bays - and the piazza flank is fully open.",
+      "applies_when": {
+        "slots": [
+          "street_relationship"
+        ],
+        "regions": [
+          "South Carolina low country"
+        ]
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "The bermed uphill elevation has few or no openings by design because it is holding earth.",
+      "bounds": "Uphill wall only, below the principal floor, and only where the cross-slope is genuine at 1:8 or steeper."
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "The end walls of a linear adobe range are commonly blind, because the openings serve rooms that run along the balcony side.",
+      "bounds": "End walls only; the long facade carries the balcony and its openings."
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Solid-to-void not less than 6:1 on principal elevations, with no opening wider than 6 ft; large glass belongs on courtyard-facing elevations only.",
+      "bounds": "The type's own ratio is about 0.14 void at most, so it sits right at the boundary. What is required is that the wall be modelled - stepped masses, canales, vigas, a portal - rather than a flat plane."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "statement": "The fault here is the opposite: a street elevation with domestic-scale windows in it. The type requires a blind or near-blind street wall with small, high, iron-grilled openings, one controlled entry through a zaguan, and all the light and life turned inward to the court. A picture window onto the street voids the type as decisively as a blank wall voids a Georgian corner."
+    },
+    {
+      "style": "moorish-andalusian",
+      "statement": "Same inversion, and older: the outward-facing wall is a defensive and social boundary, and openings in it are the fault."
+    },
+    {
+      "style": "mexican-hacienda",
+      "statement": "A monumental gateway in a wall that is otherwise entirely blank for a hundred metres is a named diagnostic tell. Punching windows into the casco wall destroys both the enclosure and the gate's authority."
+    },
+    {
+      "style": "mexican-colonial",
+      "statement": "The street wall is continuous and its openings are grilled and few; transparency standards written for Anglo-American frontages are simply the wrong instrument here."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "statement": "In the courtyard variant the fault is an open street elevation: massing is organised around at least one outdoor room, ornament is concentrated at a single entrance against otherwise blank wall, and a minimum 12 ft run of unornamented wall each side of the entrance is required."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "brick-front-vinyl-return",
+      "difference": "That is a change of MATERIAL at the corner. This is an absence of OPENINGS on the flank. They have the same driver - one designed elevation - and very often occur on the same wall, but each has its own fix."
+    },
+    {
+      "fault": "closet-on-the-exterior-wall",
+      "difference": "That fault produces a single blinded bay in a rhythm; this is a whole elevation with no rhythm at all."
+    }
+  ],
+  "co_occurs_with": [
+    "brick-front-vinyl-return",
+    "garage-doors-dominate-the-frontage"
+  ],
+  "severity_by_style": [
+    {
+      "style": "new-urbanist-traditional",
+      "severity": "fatal",
+      "why": "A frontage standard applies to every street-facing elevation, and a blank flank on a corner lot defeats the block's whole premise."
+    },
+    {
+      "style": "italianate-townhouse",
+      "severity": "fatal",
+      "why": "On an end-of-row corner the flank is the most visible wall on the block."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "Long low blank stretches on a side elevation are within the type's ordinary practice."
+    },
+    {
+      "style": "pueblo-revival",
+      "severity": "minor",
+      "why": "The type is at the boundary by its own solid-to-void rule; what matters is that the wall be modelled."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json street_relationship, two-show-fronts and its note on the cost of two composed fronts",
+    "styles/charleston-single-house.json code constraint on the blind flank; styles/andalusian-courtyard-vernacular.json, styles/mexican-hacienda.json, styles/pueblo-revival.json for the inversion",
+    "SmartCode and municipal form-based code frontage standards, residential transparency minima (commonly 15-25 per cent)",
+    "Jane Jacobs, The Death and Life of Great American Cities (1961), on eyes on the street"
+  ],
+  "confidence": "high",
+  "tags": [
+    "site",
+    "street",
+    "transparency",
+    "corner-lot",
+    "photograph-testable",
+    "inverted",
+    "endemic"
+  ]
+}

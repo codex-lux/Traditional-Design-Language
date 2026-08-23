@@ -1,0 +1,135 @@
+{
+  "id": "crown-that-projects-half-its-height",
+  "name": "The Crown That Is Stuck To The Wall",
+  "aka": [
+    "the 3 5/8 stock crown",
+    "the moulding at the ceiling",
+    "half a cornice"
+  ],
+  "slots": [
+    "crown",
+    "trim_family",
+    "ceiling_height_rule"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "profile-depth",
+  "symptom": "A small sprung moulding of 3 to 4 1/2 in face width runs round the top of a 9 or 10 ft room, sitting mostly on the wall and barely reaching onto the ceiling. It reads as a decorative strip applied near the ceiling rather than as a transition between two planes: there is a strong line where it stops on the wall, a weak line where it meets the ceiling, and the ceiling appears to hover. In a large room the same moulding is run at the same size, so the bigger the room the smaller the crown looks.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Crown is sold by face width and installed by a carpenter with a mitre saw whose capacity governs what can be cut nested. A 3 5/8 or 4 1/4 in crown cuts nested in a 10 in slide saw in one pass; anything above about 5 1/2 in must be cut flat with compound angles or coped by hand, which is a different skill and a slower one. Stock crown is also sprung at 38/52 degrees rather than 45/45, because the shallower spring lets the same profile be run from thinner stock. The result is a member designed around a saw and a board rather than around a room, and the projection — which is the dimension that does the work — is whatever falls out.",
+    "cost_saved": "Stock 3 5/8 in crown at 1.60 to 3.50 USD a lineal foot installed against 9 to 20 USD for a built-up four or five member cornice on a nailer. On 400 lineal feet of public rooms, 3,000 to 6,600 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / crown.projection = ceiling_height * 1.2 / 19",
+      "statement": "Cornice projection onto the ceiling EQUAL to its height on the wall. A cornice that projects as far as it is tall runs at 45 degrees and is the classical default; what is not defensible is the modern stock crown, which projects about half its height and therefore reads as a moulding stuck to a wall rather than as a transition between wall and ceiling."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / crown.height = ceiling_height * 1.2 / 19",
+      "statement": "6 in at an 8 ft ceiling, 6 3/4 in at 9 ft, 7 3/16 in at 9 ft 6 in, 8 5/16 in at 11 ft. Measured on the FACE of the profile from its bed line to the ceiling, not as the vertical projection of a sprung moulding."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / trim_family.height = ceiling_height * 3 / 19",
+      "statement": "Run a full entablature where the ceiling is 10 ft or more and the room is a principal one; run a cornice alone below that; run NOTHING AT ALL rather than a 2 1/4 in stock crown, which reads as an admission."
+    }
+  ],
+  "correct_practice": "Two numbers govern and they are independent. SIZE: the crown's height on the wall is ceiling x 1.2/19 — 6 3/4 in at a 9 ft ceiling, 8 5/16 in at 11 ft — and it grows with the room. PROJECTION: the crown must reach onto the ceiling as far as it stands on the wall, which is a 45 degree cornice and is the classical default; the Vignola orders record the Corinthian projecting slightly more than its height and the Ionic slightly less, and either variation is defensible, but half is not. Note the ordering trap in the numbers: a SPRUNG crown of face width F at 45 degrees measures F x 0.707 on the wall and the same on the ceiling, so a 7 1/4 in sprung crown gives about 5 1/8 in each way, and confusing the face width with the wall height is the commonest ordering error in trim work. To reach 6 3/4 in on the wall with a sprung profile you need a 9 1/2 in face, which no ordinary saw will nest — which is precisely why the correct answer is to BUILD UP rather than to buy bigger: a bed moulding on the wall, a flat frieze board, a corona, a cyma and a fillet on a triangular nailer gives full height and full projection out of small stock cut with ordinary tools, and it gives the member count the family requires. And fix the whole assembly to the WALL only, letting the ceiling float behind the top fillet, because roof-truss uplift lifts the bottom chord 1/4 to 1/2 in each winter and a rigid cornice nailed to both planes will tear the ceiling every year.",
+  "fixes": {
+    "right": "A built-up cornice on a continuous triangular nailer — bed, frieze, corona, cyma, fillet in the Georgian family; cavetto, corona, ovolo, fillet in the Greek Revival — sized at ceiling x 1.2/19 with projection equal to height, fixed to the wall plate only.",
+    "cheap": "Add a nailer and a flat board to the crown you already have. Fixing a triangular blocking to the wall plate and running a flat 1x4 corona on top of the existing stock crown, with a small fillet at the ceiling, takes a 3 5/8 in strip to a 7 in three-member cornice with full projection for about 2.20 USD a lineal foot. In the rooms where money runs out, DELETE the crown rather than shrink it — a plainly finished wall-ceiling joint reads as a decision and a 2 1/4 in strip reads as a failure, and the pack says so directly.",
+    "dishonest": "A polyurethane or EPS 'crown' at 5 or 6 in face width. It buys the plan dimension and not the section: every member within the profile is about 1/8 in, the surface is uniform and slightly soft, and in raking light the whole thing reads as one shape rather than as four. It also cannot be built up, because nothing will hold a fastener at the joint. Also dishonest: painting the crown the ceiling colour to make it 'read bigger', which merges it into the ceiling and deletes the member entirely."
+  },
+  "detection": "Photograph a room corner where two walls and the ceiling meet, because that corner shows the crown's section twice. Measure PROJECTION against HEIGHT: mark where the crown leaves the wall and where it meets the ceiling, and compare the two distances from the theoretical corner. Classical: equal, within 10 per cent. Stock: the ceiling leg is roughly half the wall leg, or the other way about with a 52 degree spring. Second, the SHADOW test: a 45 degree cornice with a corona throws a hard dark band under the corona in almost any lighting, because the corona overhangs the members below it; a stock crown throws no band at all, and the absence of that shadow is visible in a photograph taken with a phone in ordinary room light. Third, measure crown height against ceiling height: correct is 0.063 (1.2/19), and a 3 5/8 in crown at 45 degrees stands 2 9/16 in on a 108 in wall, which is 0.024 — a factor of two and a half short.",
+  "test": {
+    "expression": "crown_projection_onto_ceiling_in / crown_height_on_wall_in",
+    "threshold": 0.85,
+    "upper": 1.2,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Directly measurable at any room corner in a photograph. The classical default is 1.0, the Corinthian slightly more, the Ionic slightly less. Stock crown gives 0.5 to 0.6. Run the second test — crown_height_on_wall / ceiling_height, correct value 0.063 — alongside it, because a small crown can be at 45 degrees and still be a third of the size the room wants."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "There is no crown at all in this family and the correct value is zero; a shallow member is not the fault here because no member belongs.",
+      "bounds": "Zero, or a plain square-edged 1x3 or 1x4 laid flat against the ceiling in the minority practice. A flat board has no projection ratio and the test does not apply to it. A sprung cyma in a Craftsman room is a different and larger fault."
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The Greek Revival cornice is four members against the Georgian five and is flatter in profile, with a cavetto rather than a bed ovolo. Its members are broad and plain.",
+      "bounds": "Flatter in PROFILE, not shallower in PROJECTION: the Greek Revival corona still projects 0.55 parts against a total cornice height of 0.9, and the ovolo above it projects 0.6. The projection rule holds unchanged; only the modelling of the curves relaxes.",
+      "bounds_test": {
+        "expression": "crown_projection_onto_ceiling_in / crown_height_on_wall_in",
+        "threshold": 0.85,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "federal-style",
+      "why": "The Federal cornice is the most delicate of the three, with a cavetto bed, small dentils and a fine astragal, and its members are individually slighter than the Georgian.",
+      "bounds": "Slighter members, same overall envelope: the Federal cornice runs six members to the Georgian five and its corona still projects 0.40 parts with the cyma above at 0.52. Federal delicacy is in the SIZE OF EACH MEMBER and the COUNT, never in the total projection."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Interiors are deliberately plain and many rooms have no cornice, the plaster running into the ceiling with a small cove or nothing at all.",
+      "bounds": "A plaster cove of 2 to 4 in radius, run in place, is the licensed member — it has no members to count and its projection equals its height by geometry. An applied wood strip is not this."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom's public rooms often carry a boxed beam or a flat banded soffit instead of a cornice, and the wall-ceiling joint is left square by intention.",
+      "bounds": "Square and bare, or a flat board. The idiom's own failure mode is adding a stock sprung crown to a room whose every other member is a flat board, which is family drift and not this exception."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "sprung-crown-in-a-bungalow",
+      "difference": "That fault is a classical crown in a room that should have none; this is a classical crown too small and too shallow in a room that should have one. Enlarging the crown fixes this one and makes that one worse."
+    },
+    {
+      "fault": "gutter-as-cornice",
+      "difference": "The exterior relative — a member at the top of a wall doing none of the work a cornice does. Same argument about projection, different building face."
+    },
+    {
+      "fault": "one-trim-grade-for-every-room",
+      "difference": "A thin crown in every room is usually the visible result of a budget spread flat rather than graded. Diagnose the schedule before diagnosing the profile."
+    }
+  ],
+  "co_occurs_with": [
+    "one-trim-grade-for-every-room",
+    "the-miniature-order",
+    "trim-from-no-family"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, crown.height and crown.projection derived rules",
+    "proportions/orders/vignola-ionic.json and vignola-corinthian.json, cornice projection",
+    "proportions/systems/trim-classical.json conflicts[structural], truss uplift and the wall-fixed cornice",
+    "Batty Langley, The City and Country Builder's and Workman's Treasury of Designs (1740)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "crown",
+    "cornice",
+    "profile-depth",
+    "projection"
+  ],
+  "inverted_by": [
+    {
+      "style": "craftsman",
+      "statement": "The correct crown height is zero and the fault is the PRESENCE of a sprung profile rather than its shallowness. Enlarging the crown in a bungalow makes the room worse, and this is the clearest case in the interior group where the cure for one style is the disease of another."
+    },
+    {
+      "style": "prairie-school",
+      "statement": "Same inversion: the wall-ceiling joint takes a flat banded board or nothing, and a deeper, better-projecting classical cornice is a larger error than a shallow one."
+    }
+  ]
+}

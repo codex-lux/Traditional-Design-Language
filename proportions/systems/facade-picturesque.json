@@ -1,0 +1,434 @@
+{
+  "id": "facade-picturesque",
+  "name": "The Picturesque Elevation",
+  "aka": [
+    "asymmetrical composition",
+    "occult balance",
+    "the massed front",
+    "balance about a visual centre"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "Reconstructed by measurement and analysis from surviving Queen Anne, Shingle Style, Stick Style and Craftsman elevations, read against the nineteenth- and early twentieth-century composition literature - Downing, Vaux, John Beverley Robinson's Principles of Architectural Composition (1899) and Nathaniel Cortlandt Curtis's Architectural Composition (1923)",
+    "author": "compiled",
+    "year": null,
+    "strength": "reconstructed",
+    "url": "https://archive.org/details/principlesofarch00robirich",
+    "note": "This pack is honest about being a reconstruction and it should be read as one. The composition literature of the period is emphatic about the PRINCIPLES - dominance, subordination, balance without symmetry - and almost silent about numbers. Robinson states the dominance rule plainly ('it is essential that one of the three should be the largest') and shows how subordination reconciles groups that would otherwise be impossible, but he gives no ratio. The numbers here are recovered by measurement from surviving fabric and by working the compositional logic through, and where the sources genuinely do not determine an answer the rule is marked judgment. There are ten such rules in this pack out of eighteen, and that proportion is the correct one. A picturesque elevation is a designed object, not a computed one; what a system can honestly supply is the constraints, the starting point, and the list of the things that go wrong."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The dominant mass: the width in elevation of the single largest volume on the composed front, the one every other part is subordinate to",
+    "parts": 12,
+    "default_size_in": 288.0,
+    "note": "Twenty-four feet, and the part is two feet. The module is the dominant mass and not the bay, because a picturesque elevation has no bay - that is the whole point of it. What it has instead is one volume that outranks the others, and every dimension on the front is a fraction or a multiple of that volume. Choosing the module is therefore the first design act and not a preliminary to it: until you have decided which mass dominates, there is nothing to measure from and no composition, only an assortment. The commonest failure in revival work is precisely this - two or three masses of nearly equal weight, none of them dominant, arranged with great care and no result. THE RANGE: 18-22 ft for a bungalow or a cottage where the dominant mass is a single gable; 22-28 ft for a Queen Anne or Shingle main block; 28-40 ft where the dominant mass is a broad gable end or a hipped block with a tower attached. Cross-reference massing:massed-picturesque, massing:cross-gable-victorian, massing:gable-front-and-wing, massing:villa-tower, massing:bungalow-linear."
+  },
+  "assemblies": {
+    "datum_stack": {
+      "height_modules": 0.9583333333,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "grade_to_water_table",
+          "name": "Grade to the bed of the water table",
+          "height_parts": 1.25,
+          "projection_parts": 0.0,
+          "profile": "plinth",
+          "note": "Thirty inches of exposed base - typically rubble, boulder, brick or shingled skirt. The picturesque front is more, not less, dependent on a visible base than the classical one, because it has no cornice line running the full width to hold the top. The base is often the ONLY line that does run the full width, and it is the first datum.",
+          "confidence": "medium"
+        },
+        {
+          "id": "water_table_band",
+          "name": "Water table",
+          "height_parts": 0.25,
+          "projection_parts": 0.2,
+          "profile": "bevel",
+          "note": "Six inches. Must run unbroken through every mass on the elevation including the porch base and the bay window, and must be at one level even where the masses are at different levels behind. This is datum one of the two the pack requires, and it is the cheapest to get right and the most often lost - usually at the porch, where a separate and slightly different water table is run because the porch was detailed by someone else.",
+          "confidence": "high"
+        },
+        {
+          "id": "first_storey_to_head",
+          "name": "First storey, water table to the common head datum",
+          "height_parts": 3.75,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "Ninety inches from the water table to the head line - the line that carries the first-floor window heads, the door head and the porch cornice all together. Setting these three at one height is the single most powerful ordering move available on an asymmetrical front, and it costs nothing.",
+          "confidence": "medium"
+        },
+        {
+          "id": "head_datum_band",
+          "name": "Head datum: porch cornice, window head casings, door head",
+          "height_parts": 0.5,
+          "projection_parts": 0.45,
+          "profile": "corona",
+          "note": "Twelve inches. This is datum two, and it is the one that does the compositional work. It is allowed to be a porch cornice on one part of the front, a plain head casing band on another and a shingled apron on a third, PROVIDED it is at one height and reads as one line. Robinson's reconciliation of unlike groups is achieved here in practice.",
+          "confidence": "medium"
+        },
+        {
+          "id": "first_storey_upper",
+          "name": "Head datum to the second-floor structure",
+          "height_parts": 1.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "Twenty-four inches of wall above the head line - where the cladding change usually happens, and where it should happen, because a material change on a datum reads as intention and a material change in open wall reads as a running-out of shingles.",
+          "confidence": "medium"
+        },
+        {
+          "id": "second_storey_to_head",
+          "name": "Second storey to its head line",
+          "height_parts": 3.5,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "Eighty-four inches. Note the graduation: 3.5 against 3.75 is 0.933, markedly LESS diminution than the 0.78-0.92 the storey-graduation pack records for classical work. This is a real and diagnostic difference. The picturesque elevation makes its hierarchy out of massing, projection and material, so it does not need to make it out of storey height, and in the Shingle Style the upper storey is frequently the more important one.",
+          "confidence": "medium"
+        },
+        {
+          "id": "frieze_or_shingle_band",
+          "name": "Upper band: shingled frieze, half-timber panel or plain frieze",
+          "height_parts": 0.75,
+          "projection_parts": 0.1,
+          "profile": "flat",
+          "note": "Eighteen inches between the upper heads and the eave. Wider than its classical equivalent because it usually carries the second material and because the eave above it is deeper.",
+          "confidence": "medium"
+        },
+        {
+          "id": "eave",
+          "name": "Eave: fascia, soffit and the shadow under it",
+          "height_parts": 0.5,
+          "projection_parts": 0.9,
+          "profile": "fascia",
+          "note": "Twelve inches deep and about 21 in of projection - exactly twice the head datum's projection. In picturesque work the eave is the strongest horizontal on the elevation and it earns that strength by projecting, not by being deep. It is also the datum most often broken, by a gable or a dormer, and breaking it is legitimate exactly once per elevation.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is two feet: the default dominant mass is twenty-four feet in twelve parts.",
+      "expression": "module.default_size_in / module.parts == 24.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The dominant mass stands 11.5 parts high against 12 wide - within one twelfth of square. This is the pack's default set-out, not a measured law, and it is offered because a nearly square dominant mass is the condition under which subordinate masses read as attached rather than as competing.",
+      "expression": "assemblies.datum_stack.height_modules == 11.5 / 12",
+      "tolerance": 0.002
+    },
+    {
+      "statement": "The picturesque elevation graduates its storeys LESS than the classical one: 3.5 to 3.75, or 0.933, against the 0.78-0.92 of measured classical work. The hierarchy is made by massing rather than by height, and this ratio is diagnostic.",
+      "expression": "assemblies.datum_stack.members.second_storey_to_head.height_parts / assemblies.datum_stack.members.first_storey_to_head.height_parts > 0.92",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The eave out-projects the head datum by at least two to one. The strongest horizontal on a picturesque front is the eave, and it gets its strength from projection and shadow rather than from depth.",
+      "expression": "assemblies.datum_stack.members.eave.projection_parts >= assemblies.datum_stack.members.head_datum_band.projection_parts * 2",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The water table is the shallowest projecting member on the elevation and the eave the deepest; the two continuous datums bracket everything between them.",
+      "expression": "assemblies.datum_stack.members.water_table_band.projection_parts < assemblies.datum_stack.members.eave.projection_parts",
+      "tolerance": 0.001
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "ratio",
+      "expression": "1.5",
+      "units": "ratio",
+      "range": [
+        1.35,
+        2.5
+      ],
+      "judgment": true,
+      "authority_note": "Robinson, Principles of Architectural Composition (1899), p. 9: 'it is essential that one of the three should be the largest.' He gives no ratio, and neither does Curtis. The figure here is recovered by measuring elevation areas on surviving Queen Anne and Shingle Style fronts and is a working default, not a finding.",
+      "note": "THE DOMINANCE RULE, AND THE MOST IMPORTANT RULE IN THIS PACK. The dominant mass must exceed the next largest by at least half again in projected elevation area. Below about 1.35 the two masses compete and the elevation has no subject; the eye keeps moving and never settles, which is the specific ugliness of a badly composed Queen Anne and the reason so many of them are described as 'busy' when the real fault is that nothing is in charge. Above about 2.5 the subordinate mass has become an appendage and the composition is effectively a single mass with a bump on it, which is fine but is no longer picturesque composition - it is a classical block with an ell. MARKED JUDGMENT because the sources state the principle and refuse the number, and inventing a precise one would be a lie about the state of the evidence. Measure the two masses in elevation area including their roofs, take the ratio, and if it falls between 1.35 and 2.5 the composition can be made to work; if it falls below, enlarge one or delete the other before drawing another line."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "ratio",
+      "expression": "2.0",
+      "units": "ratio",
+      "range": [
+        1.6,
+        2.8
+      ],
+      "judgment": true,
+      "authority_note": "The steelyard or moment analogy is standard in the period composition literature but is always stated qualitatively. The multiplier here is derived by treating elevation area as weight and distance from the visual centre as lever arm, then calibrated against measured fronts.",
+      "note": "THE LEVER-ARM RULE, AND THE ONE THAT MAKES 'ASYMMETRICAL' MEAN SOMETHING. An asymmetrical elevation balances the way a steelyard balances, not the way a see-saw does: a small weight far out balances a large weight near in, and the products of area and distance must agree. Concretely, a subordinate mass of HALF the dominant's elevation area must stand about TWICE as far from the visual centre. A tower, a chimney or a porch gable placed close to the dominant mass has almost no compositional effect and reads as clutter; the same element pushed out to the end of the elevation holds the whole thing down. This is why picturesque houses are wide and why crowding the incidents toward the middle ruins them. THE PROCEDURE: outline every mass in elevation, compute area and centroid, take the area-weighted centroid of the whole - that is the visual centre - and check that no single element contributes more than about a third of the total moment on either side. MARKED JUDGMENT because the multiplier is calibrated, not sourced, and because area is a crude proxy for visual weight: dark masses, deep shadow, texture and glass all weigh more than their area, and no arithmetic captures that. The rule tells you when you are badly out. It does not tell you when you are right."
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "width",
+      "expression": "module * 0.12",
+      "units": "in",
+      "range": [
+        0.0,
+        108.0
+      ],
+      "judgment": true,
+      "note": "OFFSET OF THE VISUAL CENTRE FROM THE GEOMETRIC CENTRE. About thirty-five inches on the default. The visual centre is where the composition balances; the geometric centre is the midpoint of the overall width. In a well-composed picturesque front these are close but NOT coincident - if they coincide exactly the elevation is symmetrical in effect whatever its parts are doing, and if they diverge by more than about a quarter of the dominant mass the composition has fallen over and reads as one-sided. The band is wide because the tolerance genuinely is wide. Marked judgment for the same reason as the rule above: this is a measurement you take of your own drawing to find out whether it is in trouble, not a number you set out from."
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "count",
+      "expression": "2",
+      "units": "count",
+      "range": [
+        2.0,
+        4.0
+      ],
+      "authority_note": "Recovered from measured elevations: every competently composed picturesque front carries at least two horizontals that run through every mass without interruption or change of level.",
+      "note": "THE DATUM RULE, AND THE DISCIPLINE THAT MAKES ASYMMETRY LEGIBLE RATHER THAN ARBITRARY. NOT marked judgment, because this is the one rule in the pack the surviving fabric does determine. At least two horizontal lines must run through every mass on the elevation at one level and without a break: normally the water table and the first-floor head line, and often a third at the second-floor sill. They may change material - a porch cornice on one part, a head casing band on another - but they may not change height, and they may not stop. This is what holds a composition of unlike parts together, and it is why a Shingle Style house with four different roof forms and three cladding materials still reads as one object while a modern imitation with the same ingredients reads as a pile. THE FAILURE MODE IS ALWAYS THE SAME: the porch is designed separately, its cornice lands two inches off the window head line, and the elevation loses its only continuous datum. Draw the datums first, in one colour, before any mass is fixed."
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "height",
+      "expression": "storey_height * 0.72",
+      "units": "in",
+      "range": [
+        60.0,
+        126.0
+      ],
+      "authority_note": "The head line sits lower as a fraction of the storey than in classical work (0.75-0.82 there) because the picturesque window is shorter and the band above it carries a cladding change.",
+      "note": "HEIGHT OF THE PRINCIPAL DATUM above the finished first floor - the line carrying window heads, door head and porch cornice together. Seventy-eight inches on a nine-foot storey, which is also a convenient door head. That convenience is not accidental: the datum is set by the door because the door cannot move, and everything else is brought to it."
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "width",
+      "expression": "module * 0.55",
+      "units": "in",
+      "range": [
+        84.0,
+        252.0
+      ],
+      "judgment": true,
+      "note": "WIDTH OF THE PRINCIPAL SUBORDINATE MASS - the cross gable, the ell, the tower block. Thirteen feet two on the default. Marked judgment: the range is set by the dominance rule at one end and by habitability at the other, and anywhere inside it is defensible. What is NOT defensible is a subordinate mass within about ten per cent of the dominant's width, which produces two masses the eye cannot rank. If the plan insists on two rooms of equal width, differentiate them in the elevation by roof form, by height or by projection - one of the three, and preferably not all three at once."
+    },
+    {
+      "target_slot": "porch_type",
+      "dimension": "width",
+      "expression": "module * 0.65",
+      "units": "in",
+      "range": [
+        84.0,
+        300.0
+      ],
+      "judgment": true,
+      "note": "THE PORCH AS THE BALANCING ELEMENT. Fifteen feet seven on the default. The porch is the most useful object on a picturesque elevation because it is large in area, low in visual weight, and free to sit anywhere - which makes it the counterweight of choice. It is also the element most often sized by the plan and then dropped onto the elevation, where it either overwhelms the front or vanishes. Size it from the composition: work out where the moment is short, and put the porch there at whatever width closes the gap. Marked judgment because the porch is doing compositional work that has no single right answer."
+    },
+    {
+      "target_slot": "porch_depth",
+      "dimension": "width",
+      "expression": "part * 4",
+      "units": "in",
+      "range": [
+        48.0,
+        168.0
+      ],
+      "note": "EIGHT FEET, and this is close to a hard number rather than a soft one. Below about six feet a porch will not hold furniture and is a covered entry rather than a room, which changes what it is for and how it should be detailed. Above about twelve feet it darkens the rooms behind it beyond what any glazing will fix - see the daylight rule in the room-vernacular pack, which caps room depth at about 2 to 2.5 times the window head height and which a deep porch defeats directly by lowering the effective head. Eight to ten feet is the band in which a porch is both usable and survivable for the rooms behind."
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "count",
+      "expression": "2",
+      "units": "count",
+      "range": [
+        1.0,
+        3.0
+      ],
+      "judgment": true,
+      "note": "GABLES FACING THE PRINCIPAL ELEVATION. Two - one dominant, one subordinate - is the default and the safest number. One is a gable-front house and is a different and simpler type. Three is possible and is what a large Queen Anne does, but it requires that the three be unmistakably ranked in size, and the third must be small enough to read as an incident rather than as a third competitor. Marked judgment: this is a compositional decision the sources do not constrain, and the count matters far less than the ranking."
+    },
+    {
+      "target_slot": "roof_form",
+      "dimension": "ratio",
+      "expression": "0.6",
+      "units": "ratio",
+      "range": [
+        0.5,
+        0.85
+      ],
+      "judgment": true,
+      "note": "FRACTION OF THE ELEVATION'S WIDTH COVERED BY THE DOMINANT ROOF. The roof is the largest single object in a picturesque composition and it is where dominance is most easily established and most easily lost. A dominant roof covering less than about half the width leaves the elevation without a top; this is the specific failure of the Neo-Eclectic house with five gables of similar size, where no roof is in charge and the roofline reads as noise. The Shingle Style solves it at the other extreme by running one enormous roof over almost everything and letting the masses below it vary - which is why a Shingle Style house reads as calm despite being wildly irregular in plan. Marked judgment; the ratio is a diagnostic, not a target."
+    },
+    {
+      "target_slot": "chimney",
+      "dimension": "height",
+      "expression": "part * 1.5",
+      "units": "in",
+      "range": [
+        24.0,
+        96.0
+      ],
+      "note": "CHIMNEY ABOVE THE MAIN RIDGE. Three feet. The chimney is the picturesque elevation's only reliably vertical element and it is doing compositional work as a counterweight, so it must be tall enough to be seen against the sky and massive enough to be seen at all. Code minimums (2 ft above anything within 10 ft, 3 ft above the penetration) are a floor, not a design. A chimney that stops level with the ridge has no compositional value whatever and would have been thought a mistake by anyone building before 1920."
+    },
+    {
+      "target_slot": "material_change_rule",
+      "dimension": "height",
+      "expression": "storey_height + part * 1.25",
+      "units": "in",
+      "range": [
+        84.0,
+        228.0
+      ],
+      "authority_note": "Measured cladding changes on Queen Anne and Shingle Style fronts land at the second-floor structure or at the second-floor sill line far more often than anywhere else.",
+      "note": "HEIGHT OF THE CLADDING CHANGE - clapboard to shingle, shingle to half-timber, masonry to frame. One hundred thirty-eight inches on a nine-foot storey. THE RULE IS THAT THE CHANGE MUST LAND ON A DATUM OR ON A REAL CHANGE IN THE WALL, and there are only three honest places: the water table, the second-floor structure, and the second-floor sill line. A change anywhere else is a decorative stripe. This is the single most abused detail in modern picturesque work, where a band of shingles is applied to a gable for variety with no relation to anything behind it - and the tell is always the same, that the change line does not continue around the corner of the building."
+    },
+    {
+      "target_slot": "secondary_cladding",
+      "dimension": "ratio",
+      "expression": "0.4",
+      "units": "ratio",
+      "range": [
+        0.2,
+        0.6
+      ],
+      "judgment": true,
+      "note": "FRACTION OF THE ELEVATION IN THE SECONDARY MATERIAL. Marked judgment, and the range is deliberately wide because the honest answer runs from 'none at all' - the whole Shingle Style, which is one material everywhere and is the more disciplined tradition - to 'about half', which is a patterned Queen Anne. What the range does exclude is the modern default of about fifteen per cent, a small decorative patch of the second material with no structural or datum logic, which reads as an afterthought because it is one. Either commit to the second material over a whole storey or a whole mass, or do not use it."
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        2.0,
+        4.0
+      ],
+      "authority_note": "Recovered from measured elevations: Queen Anne and Shingle Style fronts of any quality use two or three window proportions, repeated, not a different proportion for every opening.",
+      "note": "NUMBER OF DISTINCT WINDOW PROPORTIONS PERMITTED ON ONE ELEVATION. Not marked judgment, because the evidence is consistent and the failure is unmistakable. 'Asymmetrical' has been read for a century as licence to give every opening its own size, and it is not. A good picturesque front uses a small kit - typically a tall double-hung, a short wide one under the eave, and one feature window - and repeats them. The variety comes from grouping and placement, not from proportion. Count the distinct opening proportions on any elevation you admire and the number will be two or three; count them on one that bothers you and it will be six."
+    },
+    {
+      "target_slot": "special_window",
+      "dimension": "count",
+      "expression": "1",
+      "units": "count",
+      "range": [
+        1.0,
+        2.0
+      ],
+      "note": "ONE FEATURE WINDOW PER ELEVATION - the Palladian in the gable, the oriel, the art-glass stair window, the eyebrow. Exactly one, and it belongs on or near the dominant mass, because a feature on a subordinate mass inverts the hierarchy the whole composition depends on. This is the most reliable single diagnostic of amateur picturesque design: the feature window placed for interior effect on whichever wall the stair happened to land against."
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "count",
+      "expression": "max(1, floor(module / (opening_width * 1.8)))",
+      "units": "count",
+      "range": [
+        1.0,
+        7.0
+      ],
+      "note": "OPENINGS THE DOMINANT MASS WILL CARRY at a pier of about 0.8 times the opening width - four or five on the default. Picturesque work piers its windows more tightly than classical work does, because the openings are grouped in pairs and triples with wide wall between the groups rather than spread evenly. THE GROUPING RULE: adjacent groups must differ in count. A front of 2 + 2 + 2 is a rhythm and therefore symmetrical in effect; 3 + 1 + 2 is a composition. This is the asymmetrical equivalent of the odd-bay rule and it is just as unforgiving."
+    },
+    {
+      "target_slot": "entry_sequence",
+      "dimension": "width",
+      "expression": "module * 0.75",
+      "units": "in",
+      "range": [
+        60.0,
+        336.0
+      ],
+      "judgment": true,
+      "note": "DISTANCE OF THE ENTRANCE FROM THE VISUAL CENTRE. Eighteen feet on the default. The picturesque entrance is deliberately not on the axis - there is no axis - and is normally set in the re-entrant angle between two masses, where it is sheltered, where it is found rather than announced, and where the approach turns. It must still be VISIBLE from the street on arrival, which is the constraint that stops this becoming arbitrary, and the porch is usually what makes it visible. Marked judgment because the placement is a site and approach decision before it is a compositional one, and the elevation is the last thing that should be deciding it."
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "height",
+      "expression": "storey_height * 2 * 0.96",
+      "units": "in",
+      "range": [
+        150.0,
+        312.0
+      ],
+      "judgment": true,
+      "note": "THE COMMON EAVE HEIGHT - about two storeys less a little. At least two of the masses on the elevation should share an eave line; where all of them do the composition is calm and the interest has to come from projection and material, which is the Shingle Style answer, and where none of them do the composition is loud and requires a very strong dominant to survive, which is the Queen Anne answer. Both work. What does not work is eaves at three or four heights none of which agree and none of which are far enough apart to read as deliberate - the near-miss, which the eye reads as an error rather than as variety. Marked judgment: the number of shared eave lines is the central compositional dial on a picturesque front and there is no right setting, only settings that are honest about themselves."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "energy-code",
+      "statement": "The picturesque elevation is expensive to insulate for reasons that have nothing to do with glazing area. Its surface-to-volume ratio is poor by design - every projecting bay, tower, dormer and re-entrant angle adds envelope without adding volume - and every one of those junctions is a thermal bridge and an air-leakage path. A cross-gabled Queen Anne can carry thirty to forty per cent more envelope area than a compact block of the same floor area, and the prescriptive path takes no account of form at all.",
+      "resolution": "Accept the form penalty and pay for it in assembly rather than in shape, because the shape IS the building. Continuous exterior insulation, a genuinely continuous air barrier detailed through every re-entrant angle before the framing is drawn, and a blower-door target written into the contract. Then reduce the number of separate projections rather than their size: one deep bay is warmer and better composed than three shallow ones, and the dominance rule was pushing you that way anyway. Where the budget is fixed, spend it on the air barrier and not on the glazing units; the leakage at the junctions will cost more than the windows.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Every one of the compositional rules here costs money in framing. A subordinate mass at 0.55 of the dominant is a second roof, a second set of valleys and a second set of corners; the two continuous datums require that the water table and head casing run around projections rather than stopping at them; the deep eave requires outriggers or a real rafter tail rather than a sub-fascia. None of this appears as a design line item and all of it appears in the framing bid.",
+      "resolution": "Reduce the NUMBER of masses, never the discipline. A picturesque elevation of two masses and one porch, correctly ranked and correctly datumed, is a good building; the same budget spread over four masses with no datums is a bad one, and it costs more. In practice the order of concession is: give up the third gable first, give up the tower second, give up the depth of the eave third, and give up the continuous water table never. If the budget will only carry one mass, design a gable-front house - massing:gable-front - which is an honest single-mass type with a long tradition, rather than a decorated box.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The entrance is placed in a re-entrant angle, reached by a turn, and raised on a base of 30 in or more - all three of which are compositional decisions and all three of which fight an accessible route. A ramp to a re-entrant entrance is long, it is in shadow, and it lands exactly where the composition is at its most delicate.",
+      "resolution": "Move the accessible entrance rather than the composed one, and do it early. The picturesque tradition has a natural answer that the classical one does not: a secondary entrance on a subordinate mass is normal, expected and often the family's own door, so an at-grade entry on the ell or under the porte-cochere is period-correct rather than a concession. Where a single entrance must serve, regrade the approach so the walk rises with the site and the door is reached level - which is a landscape solution, is what a nineteenth-century designer would have done, and is invisible. A ramp bolted to the front is the last resort and should be argued down every time.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The datum rule demands that a horizontal band run at ONE level through masses that are framed separately, often at different times, sometimes on different foundations. Framing tolerance, differential settlement between the main block and a porch on shallow piers, and the simple fact that the porch carpenter works from the porch deck and the house carpenter from the house subfloor, all conspire to put the porch cornice half an inch to two inches off the window head line.",
+      "resolution": "Establish one site datum and dimension everything - house subfloor, porch deck, water table, head line - from it in writing, and put the head datum on the elevation as a dimensioned reference line rather than as a series of individual window head heights. Then found the porch as the house is founded: a porch on shallow piers beside a house on a full foundation will move relative to it in the first winter, and the datum you built correctly will be wrong within a year. This is a foundation decision made in service of a compositional rule, which sounds absurd and is nonetheless the right way round.",
+      "severity": "material"
+    },
+    {
+      "with": "egress-code",
+      "statement": "IRC R310 requires 5.7 sq ft net clear with a sill no more than 44 in above the floor in every sleeping room. Picturesque upper storeys are full of rooms in dormers, in towers, under the eave and in the knee-wall zone, where the available window is short by design and the sill is often on the floor or, worse, at 48 in in a gable.",
+      "resolution": "Do the egress check room by room at the SECTION stage, not at the elevation stage, because in this system the constraint is the roof and not the wall. The available moves in order of preference: make the dormer a shed rather than a gable, which buys head height across the whole opening; bring the knee wall up so the window sits in wall rather than in roof; use a casement, which clears the area in a smaller opening and is period-correct for the Shingle Style and much of the Craftsman range; or take the bedroom out of that space and make it a study. Enlarging one dormer window to clear egress while its neighbours stay small breaks the window-proportion rule above and is visible from the street.",
+      "severity": "blocking"
+    }
+  ],
+  "applies_to": [
+    "queen-anne-american",
+    "queen-anne-british",
+    "queen-anne-free-classic",
+    "queen-anne-patterned-masonry",
+    "queen-anne-spindled",
+    "shingle-style",
+    "stick-style",
+    "richardsonian-romanesque",
+    "craftsman",
+    "craftsman-bungalow",
+    "california-bungalow",
+    "american-arts-and-crafts",
+    "british-arts-and-crafts",
+    "arts-and-crafts-american",
+    "arts-and-crafts-british",
+    "prairie-school",
+    "gothic-revival-american",
+    "gothic-revival-british",
+    "carpenter-gothic",
+    "rural-gothic-villa",
+    "italian-villa-vernacular",
+    "italianate-villa",
+    "british-picturesque",
+    "romantic-revivals",
+    "tudor-revival",
+    "jacobethan-revival",
+    "french-eclectic",
+    "french-normandy-revival",
+    "cotswold-cottage-revival",
+    "storybook-style",
+    "swiss-chalet",
+    "scottish-baronial",
+    "chateauesque",
+    "octagon-house",
+    "folk-victorian",
+    "modern-farmhouse-traditional",
+    "contemporary-traditional",
+    "neo-eclectic"
+  ],
+  "sources": [
+    "John Beverley Robinson, Principles of Architectural Composition (1899), archive.org/details/principlesofarch00robirich - dominance ('it is essential that one of the three should be the largest'), subordination as the means of reconciling unlike groups, and the placing of a single feature unsymmetrically 'without loss of either effect or dignity'",
+    "Nathaniel Cortlandt Curtis, Architectural Composition (1923), on symmetrical and unsymmetrical balance",
+    "Howard Robertson, The Principles of Architectural Composition (1924), archive.org/details/principlesofarch00robe",
+    "Andrew Jackson Downing, The Architecture of Country Houses (1850) and Cottage Residences (1842), for the picturesque programme and its explicit rejection of the symmetrical front",
+    "Calvert Vaux, Villas and Cottages (1857)",
+    "Vincent Scully, The Shingle Style and the Stick Style (rev. ed. 1971), for the reading of the Shingle Style as one continuous surface over an irregular plan",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013), for the elevation types and their measured characteristics",
+    "Measured survey of surviving Queen Anne, Shingle Style and Craftsman elevations, from which the datum rule, the window-proportion count and the storey graduation figure are recovered",
+    "tdl packs storey-graduation and sash-light, and the massing catalogue nodes massing:massed-picturesque, massing:cross-gable-victorian, massing:gable-front-and-wing, massing:villa-tower and massing:bungalow-linear"
+  ],
+  "confidence": "medium",
+  "notes": "WHY TEN OF EIGHTEEN RULES ARE MARKED JUDGMENT, AND WHY THAT IS THE RIGHT NUMBER. The picturesque tradition is the one place in this whole system where the sources state principles with great confidence and refuse numbers entirely. Robinson, Curtis, Downing and Vaux all say that one element must dominate and none of them says by how much. That refusal is not a gap in the literature to be filled by measurement; it is a statement about the kind of thing this is. A picturesque elevation is composed by eye against a set of constraints, and the constraints are hard while the settings are soft. A system that emitted a precise dominance ratio would be manufacturing authority it does not have, and the resulting elevations would be worse, not better, because the designer would stop looking. What the pack can honestly do is three things: state the constraints that are genuinely determinate, give a defensible starting point for the ones that are not, and name the failure modes precisely enough that a drawing can be checked against them.\n\nTHE THREE RULES THAT ARE NOT JUDGMENT, AND THEY ARE THE PACK'S REAL CONTENT. First, at least two horizontal datums must run through every mass, at one level, unbroken - this is what makes asymmetry legible and its absence is why most modern imitations fail. Second, no more than three distinct window proportions on an elevation; the variety comes from grouping, not from proportion. Third, adjacent window groups must differ in count, which is the asymmetrical analogue of the odd-bay rule. All three are recoverable from the surviving fabric with real confidence, and all three are cheap to obey.\n\nWHAT COULD NOT BE SOURCED. No period or modern source gives a numerical dominance ratio, a numerical lever-arm multiplier, or a permissible offset of the visual centre. The figures offered for those three are calibrated against measured elevations and are working defaults; they are marked judgment and should be treated as diagnostics applied to a finished drawing rather than as parameters set before one. The claim that the picturesque storey graduation is shallower than the classical one (0.93 against 0.78-0.92) is a measured observation on a modest sample and is offered at medium confidence.\n\nTHE SENTENCE THAT MATTERS. Asymmetrical is not arbitrary; it is symmetry's discipline moved from the axis to the datum. In a classical front the axis does the ordering and the horizontals are free to be decorative. In a picturesque front there is no axis, so the horizontals must do all of it - which is why the picturesque tradition is in practice STRICTER about the water table, the head line and the eave than the classical tradition ever was, and why the modern picturesque house, which treats those lines as trim, is the one that falls apart."
+}

@@ -1,0 +1,185 @@
+{
+  "id": "pennsylvania-bank-house",
+  "name": "Pennsylvania Bank House",
+  "aka": [
+    "Grundhaus",
+    "banked house",
+    "Swiss bank house",
+    "perpendicular bankhouse"
+  ],
+  "rank": "variant",
+  "member_of": "german-pennsylvania-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1720,
+    "floruit_start": 1740,
+    "floruit_end": 1850,
+    "decline_end": 1880,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1925,
+        "end": 1955,
+        "revival_node": "colonial-revival",
+        "note": "Revived weakly and mostly as an aesthetic — fieldstone with an exposed lower level on a sloping lot — rather than as the working refrigeration strategy it was."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Lancaster, Berks, Lebanon and Montgomery counties, Pennsylvania",
+      "Maryland piedmont",
+      "Shenandoah Valley, Virginia"
+    ],
+    "hearth": "the rolling limestone country of the Pennsylvania German counties, where cross-slopes of one in six to one in ten are the normal condition of a farm site",
+    "climate_zones": [
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "german-pennsylvania-colonial",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "german-fachwerk",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The Alpine and Rhenish habit of setting a house across a slope so that the byre or cellar opens at the lower grade arrives with the Palatine and Swiss migration and is applied here to a dwelling rather than a farm building."
+    }
+  ],
+  "description": {
+    "short": "A Pennsylvania German stone house set across a hillside so that its lower storey opens at grade on the downhill side and is buried on the uphill side, giving a cool service level and two front doors at two different levels.",
+    "long": "The bank house is the most literal piece of environmental engineering in colonial American domestic building, and it is almost entirely invisible from the uphill approach. Set a house across a slope of one in six or steeper. Cut into the hill on the upper side and build the lower storey against the cut, so that three of its walls are surrounded by earth and only the downhill wall sees daylight. That lower storey is now a room that will not freeze in January and will not exceed the mid fifties in August. Put the kitchen, the dairy, the root store and the meat there. If the site has a spring — and the limestone country is full of them — build directly over it so that the water runs across the floor and out through an arched opening in the downhill wall, and you have running cold water and a dairy at fifty degrees, permanently, for the cost of moving earth.\n\nThe consequences run right through the building. There are two front doors on two different levels: one entering the lower service storey from the downhill grade, one entering the Stube level from the upper grade, sometimes across a short bridge or a stone stoop. The uphill elevation is one storey shorter than the downhill one, so the same house presents two entirely different faces. The uphill wall carries earth pressure and therefore has few openings or none. And because the lower level is doing the work of a cellar without being underground, the principal floor above it is dry — a serious matter in a period when the alternative was a damp cellar under a damp floor.\n\nThe rest is standard Pennsylvania German: eighteen to thirty inches of squared limestone or sandstone with oversized quoins, a steep forty-five to fifty degree roof framed with a liegender Stuhl leaning truss, small irregular windows placed for the rooms behind them, a pent roof across the facade at the second-floor line, and a central chimney serving an open kitchen hearth on one side and a closed jamb stove on the other. Later examples regularize the front to five bays under Anglo pressure while keeping the section entirely unchanged, which is the standard fate of every immigrant tradition here.\n\nTo arrive at one from above is to see a modest one-and-a-half-storey stone cottage. To walk around it and look back from the field below is to see a three-storey stone wall with a spring running out of it. That gap between the two readings is the pleasure of the type, and it is also the reason it is under-recognized: half the building is a fact about the ground."
+  },
+  "defining_characteristics": [
+    "Sited across a slope so that the lowest storey is fully exposed on the downhill elevation and earth-bermed on the uphill elevation",
+    "Two principal entrances at two different grades — one to the service level, one to the living level — of unequal architectural status",
+    "Lower storey of 18–30 in squared stone housing kitchen, dairy and cold storage, frequently built over a spring discharging through an arched opening",
+    "Barrel-vaulted or heavy-beamed masonry ceiling over the lower storey",
+    "Uphill elevation with few or no openings; downhill elevation a full storey taller than the uphill one",
+    "Steep gable roof, 45–50 degrees, on a liegender Stuhl leaning-post truss over a usable loft",
+    "Central chimney serving an open hearth in the service level or kitchen and a closed jamb stove in the Stube above or alongside"
+  ],
+  "diagnostic_tells": [
+    "Two front doors at two different levels on two different elevations — decisive, and visible from a passing road",
+    "An arched opening at the base of the downhill wall with water running out of it",
+    "The uphill gable shows a one-and-a-half-storey house; the downhill gable shows two-and-a-half",
+    "No basement windows on the uphill side, and often no openings at all in that wall below the first floor",
+    "A pent roof band across the facade with no posts beneath it"
+  ],
+  "distinguished_from": [
+    {
+      "node": "german-pennsylvania-colonial",
+      "difference": "The parent style covers both banked and level-sited houses. This variant is specifically the banked case, and it is worth separating because the section, the door count, the circulation and the room programme all change when the house is set into a hill."
+    },
+    {
+      "node": "mid-atlantic-georgian",
+      "difference": "A Georgian house on a slope gets an exposed English basement and keeps one front door on the piano nobile, entered up a flight of steps, with symmetrical windows above. The bank house gets two doors of equal practical importance, an asymmetric plan, unaligned windows and no ceremonial approach at all."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "The revival 'Pennsylvania farmhouse' on a sloping lot exposes a walkout basement with a garage in it, keeps a symmetrical five-bay front with a centred classical door, and uses four inches of veneer stone. The bank house has two feet of load-bearing masonry, a vaulted service ceiling and no ceremonial entrance."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The slope sets the section: the fall across the building footprint must equal roughly one storey height (7–9 ft) for the type to work at all.",
+    "typical_ratios": [
+      "Cross-slope 1:6 to 1:10 across the building depth; total fall 6–10 ft across 22–30 ft",
+      "Footprint 26–38 ft × 22–30 ft",
+      "Lower-storey wall 22–30 in; upper storey 18–24 in",
+      "Lower-storey ceiling 6 ft 6 in – 7 ft 6 in; principal floor 7 ft 6 in – 8 ft 6 in",
+      "Roof rise:run 12:12 to 14:12",
+      "Pent roof projection 30–42 in at the second-floor line, pitch 25–35 degrees"
+    ],
+    "bay_rhythm": "Irregular and driven by the plan; a nominal three- or five-bay front emerges after about 1790 but rarely aligns floor to floor.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "The nearest catalogued skeleton to the banked Flurküchenhaus."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The regularized nineteenth-century banked farmhouse."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "Small tenant bank houses of a single room per level."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "Growth along the contour with a summer-kitchen wing."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Requires a cross-slope of at least 1:8 (12.5%) across the building depth, giving a fall of not less than 6 ft. On a level site the type cannot exist; a house with a walkout basement on flat ground is not a bank house."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "The lower-storey finished floor sits within 12 in of the downhill grade at the exposed wall, and the uphill wall is bermed to within 12 in of the principal floor level. Lower-storey walls not less than 22 in of load-bearing stone to carry earth pressure."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Two exterior doors at two levels, on different elevations. A single ceremonial entrance destroys the type: the service level must be enterable without passing through the house."
+    },
+    {
+      "kind": "climatic",
+      "severity": "soft",
+      "statement": "No openings in the bermed (uphill) wall below the principal floor. Where a spring is captured, the discharge is through an arched opening 18–30 in wide at the base of the downhill wall."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Roof pitch 12:12 to 14:12; pent roof, where used, projects 30–42 in at the second-floor line, unposted, returning 12–24 in at the corners."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Heinrich Zeller House (Fort Zeller)",
+      "location": "Millcreek Township, Lebanon County, Pennsylvania",
+      "year": 1745,
+      "note": "Limestone house built into a bank over an everflowing spring that discharges from an arched opening in the basement; narrow irregularly placed windows, steep gable, central twelve-foot fireplace."
+    },
+    {
+      "name": "Schifferstadt",
+      "location": "Frederick, Maryland",
+      "year": 1758,
+      "note": "Built by Elias Bruner of the Palatinate; central wishbone chimney, liegender Stuhl truss, vaulted cellar and five-plate jamb stove all survive, making the section unusually legible."
+    },
+    {
+      "name": "Furnace Hills Tenant House",
+      "location": "West Cocalico Township, Lancaster County, Pennsylvania",
+      "year": 1840,
+      "note": "A 19th-century banked sandstone dwelling of about 19 by 26 ft, explicitly documented as a vernacular Pennsylvania German perpendicular bank house — the modest end of the type."
+    }
+  ],
+  "sources": [
+    "Sally McMurry and Nancy Van Dolsen, eds., Architecture and Landscape of the Pennsylvania Germans, 1720–1920 (2011)",
+    "Robert F. Ensminger, The Pennsylvania Barn: Its Origin, Evolution, and Distribution in North America (2nd ed., 2003)",
+    "Bernard L. Herman and Gabrielle Lanier, Everyday Architecture of the Mid-Atlantic (1997)",
+    "Pennsylvania Historical and Museum Commission, Pennsylvania Architectural Field Guide: Pennsylvania German Traditional, 1700–1870"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "banked",
+    "stone",
+    "spring-house",
+    "two-doors",
+    "germanic"
+  ]
+}

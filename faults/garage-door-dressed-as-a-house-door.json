@@ -1,0 +1,185 @@
+{
+  "id": "garage-door-dressed-as-a-house-door",
+  "name": "The Carriage Door That Rolls Up",
+  "aka": [
+    "the panel-and-hardware pastiche",
+    "fake strap hinges on a sectional door"
+  ],
+  "slots": [
+    "garage_strategy"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A sectional overhead garage door is embossed with raised panels, fitted with decorative strap hinges and pull handles at the centre, and sometimes given a row of arched lights across the top section. The hardware is at the vertical centre of a door that has no vertical joint, the strap hinges are on the wrong axis for a door that folds horizontally, and the handles are 8 ft apart on a leaf that does not swing.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Decorative hardware kits and embossed carriage-house panel patterns are the garage door industry's principal upgrade product, sold precisely because a plain door reads as cheap. They are adhesive or self-tapping accessories added at the door, at low cost, and they let a builder answer the objection that the garage looks like a garage without changing anything about the garage.",
+    "cost_saved": "The pastiche costs 150 to 600 USD more than a plain door. Genuine side-hinged or bi-fold carriage doors cost 4,000 to 15,000 USD and need side room, a different operator and more maintenance. The pastiche is bought as a cheap substitute for that, not for a plain door."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "hardware describes motion",
+      "statement": "A strap hinge announces that a leaf swings about a vertical axis at its edge; a centre handle announces that two leaves meet there. A sectional door hinges about four horizontal axes and rises. Applying one door's hardware to another door's motion is the clearest possible case of ornament contradicting construction, and it is legible to anyone who has ever opened a door."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / garage_strategy / cladding_rule",
+      "statement": "Identical to the volume it belongs to, all four sides. The garage's appearance follows from being part of the building, not from being disguised."
+    }
+  ],
+  "correct_practice": "Two honest routes. Either genuine side-hinged or bi-fold carriage doors, which require 2 to 3 ft of clear swing outside or a folding track, a jamb-mounted operator, and a door leaf built as a frame-and-panel or plank assembly with hardware that matches its actual motion. Or a plain sectional door detailed as what it is: a flush or shallow-recessed panel field in a single colour, with the composition made by the opening and its surround rather than by the door face. Where a sectional door is used with a divided panel field, the divisions should be horizontal and should not imitate the stiles and rails of a swinging leaf, and there should be no hardware on the face at all. Glazing, where used, sits in the top section and takes the house's own light module rather than an arched stock pattern.",
+  "fixes": {
+    "right": "Real carriage doors where the swing room exists; otherwise a plain sectional door and a properly detailed opening.",
+    "cheap": "Delete the decorative hardware and keep the panelled door. This costs nothing, removes the entire lie, and leaves a panelled door which is merely unremarkable. Then spend the saved 300 USD on the head casing over the opening, where it will do more. A garage opening with a real head and jambs and a plain door reads far better than a bare opening with a decorated one.",
+    "dishonest": "Adding a second, larger set of decorative hardware at the correct scale for a real carriage door. Scale was never the problem; motion was."
+  },
+  "detection": "Look for horizontal joint lines crossing the panel pattern. A sectional door has three or four full-width breaks; a real carriage door has none. Then look for hardware at those breaks: strap hinges that stop at a horizontal joint, or handles sitting at the centre of a section rather than at a meeting stile. Third: look for a track. Sectional doors show a vertical track inside the reveal, visible in oblique photographs, and their top section is inset from the head. Fourth: arched lights in the top section combined with square-headed windows on the house is a catalogue pattern and never a designed one.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "tudor-revival",
+      "why": "Genuine board-and-strap doors with real strap hinges are correct on a Tudor Revival garage, and the strap hinge is the style's own ironwork.",
+      "bounds": "The doors must actually swing or fold. Straps on a sectional door are the fault in any style.",
+      "bounds_test": {
+        "expression": "swing_or_fold_clearance_outside_the_opening_ft",
+        "threshold": 2.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "The doors must ACTUALLY swing or fold. Straps on a sectional door are the fault in any style, including this one."
+      },
+      "applies_when": {
+        "construction": [
+          "side-hinged-door",
+          "bi-fold-door"
+        ],
+        "note": "Depends on the door's mechanism, not on the style label."
+      }
+    },
+    {
+      "style": "french-normandy-revival",
+      "why": "Real paired swinging doors with iron strap hinges under a segmental head are correct to the idiom and the tradition genuinely used them.",
+      "bounds": "Real swing, real iron, segmental or round head built as an arch.",
+      "bounds_test": {
+        "expression": "swing_or_fold_clearance_outside_the_opening_ft",
+        "threshold": 2.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Real swing, real iron, and a segmental or round head built as an arch rather than moulded into a door face."
+      },
+      "applies_when": {
+        "construction": [
+          "side-hinged-door",
+          "bi-fold-door"
+        ]
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Wrought iron is the style's primary secondary material and a heavy plank door with real ironwork belongs.",
+      "bounds": "Ironwork must be wrought and must correspond to the door's motion; the opening must carry the 6 in minimum reveal.",
+      "bounds_test": {
+        "expression": "garage_opening_reveal_depth_in",
+        "threshold": 6.0,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Ironwork must be wrought and must correspond to the door's motion, and the opening must carry the style's 6 in minimum reveal."
+      },
+      "applies_when": {
+        "construction": [
+          "side-hinged-door",
+          "mass-wall",
+          "thick-stucco"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "six-panel-door-everywhere",
+      "difference": "That fault concerns entrance doors carrying the wrong panel pattern. This one concerns hardware and pattern contradicting the door's mechanism."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "Decorating the garage door is one of the commonest ways to produce that fault, but the hierarchy fault can be present with plain doors."
+    }
+  ],
+  "sources": [
+    "Garage door manufacturer decorative hardware and carriage-house panel literature",
+    "kits/georgian-colonial-american.kit.json garage_strategy"
+  ],
+  "confidence": "high",
+  "tags": [
+    "garage",
+    "hardware",
+    "pastiche",
+    "modern-slot"
+  ],
+  "test": {
+    "expression": "face_mounted_hardware_items_on_a_sectional_door",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Strap hinges, pull handles and ring pulls applied to a door that rises rather than swings. Count anything on the face that describes a motion the door does not have. The correct answer on a sectional door is zero: the composition is made by the opening and its surround, not by the door face."
+  },
+  "secondary_tests": [
+    {
+      "expression": "hardware_items_crossing_a_horizontal_section_joint",
+      "threshold": 0,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "THE DIAGNOSTIC. A sectional door has three or four full-width horizontal breaks; a real carriage door has none. A strap hinge that stops at one of those breaks, or a handle at the centre of a section rather than at a meeting stile, settles the fault from a single photograph."
+    },
+    {
+      "expression": "arched_lights_in_the_top_section_when_house_windows_are_square_headed",
+      "threshold": 0,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "Arched lights in the top section combined with square-headed windows on the house is a catalogue pattern and never a designed one. Glazing, where used, sits in the top section and takes the house's own light module."
+    },
+    {
+      "expression": "swing_or_fold_clearance_outside_the_opening_ft",
+      "threshold": 2.0,
+      "direction": "at-least",
+      "units": "ft",
+      "measurable_from": "plan",
+      "note": "The honest carriage-door route needs 2 to 3 ft of clear swing outside or a folding track and a jamb-mounted operator. Where that clearance does not exist, the only honest answer is a plain sectional door."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "tudor-revival",
+      "severity": "minor",
+      "why": "Genuine board-and-strap doors with real strap hinges are correct here; only the false-motion case remains a fault, and it is a fault in every style."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The kit's cladding rule asks the garage to be identical to the volume it belongs to on all four sides. Its appearance follows from being part of the building, not from being disguised."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "fatal",
+      "why": "Applied brackets, shutters and any classical or revival ornament are forbidden outright."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "Ornament essentially absent is the style's own statement, and the gooseneck barn light over the garage door is already carrying the whole gesture."
+    }
+  ],
+  "co_occurs_with": [
+    "garage-doors-dominate-the-frontage",
+    "one-wide-door-where-two-would-do",
+    "entry-not-the-most-elaborated-element"
+  ]
+}

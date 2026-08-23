@@ -1,0 +1,201 @@
+{
+  "id": "corner-board-thinner-than-the-casing",
+  "name": "The corner board narrower than the window casing",
+  "aka": [
+    "the 1x4 corner",
+    "the thin corner"
+  ],
+  "slots": [
+    "corner_board"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A frame house with real corner boards, but at 3 1/2 in (a 1x4) or 5 1/2 in (a 1x6) on each face, so that the corner is narrower than the trim round the windows next to it. The end bay looks papery; the house seems to have run out of wall at the edges, and the corner reads as a stripe rather than as a stop.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Corner boards come off the same pile as the window casing and the rake board, so they are whatever the trim package width is — nominal 4 or 6 in. A 6-10 in corner board means a 1x8 or 1x10, which is a separate item, wastes more, cups more if it is wood, and costs disproportionately more per foot in cellular PVC. It is also unintuitive: on a drawing at 1/4 in scale a 10 in corner board looks heavy, and it is invariably the first thing an inexperienced hand thins down.",
+    "cost_saved": "About $3-$7 per lineal foot of corner between a 1x4 and a 1x10 in PVC. On four corners of a two-storey house, roughly $500-$1,100."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / corner_board / corner_board_width_in [6, 10]",
+      "statement": "A corner board is measured at 6-10 in on surviving frame work, with the pilaster version at 10-16 in."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / corner_treatment.width, note",
+      "statement": "The corner board must be wider than the casing of the adjacent window and it must be run past it, not butted to it: a corner board narrower than the window casing beside it is the fastest way to make a good front look thin."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / casing.width = opening_width / 6 = 6 in at a 3 ft opening",
+      "statement": "Which sets the floor for the corner board's width on the same wall."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / corner_treatment.width = module / 6 = 18 in — OUT OF CALIBRATION for frame work",
+      "statement": "The pack's own calibrated_for note records that 18 in is right for a masonry quoin and roughly 2x wrong for a 6-10 in corner board. Prefer the measured figure on frame."
+    }
+  ],
+  "correct_practice": "Size the corner board from the trim it must dominate, not from the bay module. The rule is comparative and it is the only rule you need: the corner board is wider than the widest casing on the same wall, and it runs PAST that casing rather than butting to it, so the casing dies into the corner board and not the other way round. In practice that puts it at 6-10 in on frame work — one to two inches wider than a 6 in window casing on a 3 ft opening, and correspondingly wider where the openings are larger. The two faces are made unequal: one board is ripped 3/4 in narrower and the other laps past it, so the corner reads as a single member with a definite width rather than as a mitre. Where the corner is treated as an order, it becomes a pilaster at 10-16 in with a base and a cap that die into the water table and the frieze respectively. Do NOT take the masonry figure: 18 in from the facade pack is a quoin dimension and it is about twice too wide for wood.",
+  "fixes": {
+    "right": "6-10 in boards with a backband where the trim family carries one, unequal faces, run past the window casings, dying into the water table below and the frieze above.",
+    "cheap": "Rip nothing — buy the next width up. Going from 1x6 to 1x8 stock is a $400-$700 change on a whole house and takes the corner from 5 1/2 to 7 1/4 in, which crosses the threshold at which the corner dominates a 6 in casing. If even that is refused, add a backband to the corner board only: 1x2 with a bevelled edge on the outer edge of each face costs $0.90/lf and buys apparent width by adding a second shadow line.",
+    "dishonest": "Painting the corner board a contrasting colour to give it weight. Colour makes it more visible and no wider, and on a house where the trim is already white on a coloured body it does nothing at all. The specific failure mode here is that a graphic emphasis makes the corner more obviously undersized rather than less, because it invites comparison with the casing next to it."
+  },
+  "detection": "One comparison, from a straight-on photograph of any elevation: measure the corner board's face width in pixels and the adjacent window casing's width in pixels. The ratio must be greater than 1.0 and is right at 1.1-1.6. A ratio at or below 1.0 is the fault, and a ratio near exactly 1.0 usually means both came from the same stock. Second check, at the meeting: does the window casing run into the corner board, or does the corner board stop at the casing? If they mitre, or if the corner board is interrupted, the sequence was wrong. Third: look at the two faces at the corner. Equal widths mean a mitre or a butt without lap; unequal widths differing by about 3/4 in mean the corner was built the traditional way.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "No corner board at all is the correct answer; the shingles wrap.",
+      "bounds": "Woven or laced corner required. See the corner-post fault for the full bounds of this licence.",
+      "bounds_test": {
+        "expression": "woven_corner_courses / corner_courses",
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "No corner board at all is correct, and the licence requires a woven corner. See j-channel-corner for the full bounds."
+      },
+      "applies_when": {
+        "slots": [
+          "primary_cladding"
+        ]
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The Greek Revival corner is a broad flat pilaster or anta at 10-16 in and sometimes wider, which is not a violation of this fault but its opposite — the style pushes the corner up rather than down.",
+      "bounds": "It must then carry the full apparatus: a base that lands on the water table and a capital or plain necking that meets the frieze. A wide plain board with nothing at either end is a wide plain board.",
+      "bounds_test": {
+        "expression": "corner_pilaster_face_width_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 10,
+        "upper": 16,
+        "note": "Wider is right here, but it must then carry the full apparatus: a base that lands on the water table and a capital or plain necking that meets the frieze. A wide plain board with nothing at either end is a wide plain board."
+      },
+      "applies_when": {
+        "slots": [
+          "pilaster",
+          "corner_board"
+        ]
+      }
+    },
+    {
+      "style": "folk-victorian",
+      "why": "Modest folk work often runs a 4-5 in corner board and equally modest 3-4 in casings, so the comparative rule is satisfied at a smaller absolute size.",
+      "bounds": "The rule is comparative, so this is not an exception to the rule at all, only to the absolute numbers. The corner must still be wider than the casing.",
+      "bounds_test": {
+        "expression": "corner_board_face_width_in / widest_window_casing_width_in",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "The rule is comparative, so this is not an exception to the rule at all — only to the absolute numbers. A 4-5 in corner over a 3-4 in casing passes."
+      },
+      "applies_when": {
+        "slots": [
+          "trim_family"
+        ]
+      }
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "Deliberate thinness of all trim is the type's economy and its historical character; 3 1/2 in corners with 2 1/2 in casings are authentic to it.",
+      "bounds": "Applies only where the whole trim family is consistently thin. Thin corners with heavy classical entries or a full cornice is the fault, not the type.",
+      "bounds_test": {
+        "expression": "classical_apparatus_element_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Deliberate thinness across the whole trim family is authentic to the type. Thin corners with a heavy classical entry or a full cornice is the fault, not the type."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1955
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "j-channel-corner",
+      "difference": "That is an absence of a board; this is a board of the wrong width. Check first whether the element is proud of the siding — if it is not, you have the other fault."
+    },
+    {
+      "fault": "quoin-by-catalogue",
+      "difference": "The masonry sibling. The two faults have OPPOSITE numbers, which is exactly why the ontology split the slots: 6-10 in for the board, 12-24 in for the quoin. Using either number on the other assembly is a fault in its own right."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, corner_board (corner_board_width_in 6-10, pilaster 10-16)",
+    "proportions/systems/facade-classical.json, corner_treatment.width and its calibrated_for note",
+    "proportions/systems/trim-classical.json, casing.width",
+    "elements/slots.json 0.3.0, corner_board note"
+  ],
+  "confidence": "high",
+  "tags": [
+    "proportion",
+    "corner",
+    "trim",
+    "frame"
+  ],
+  "test": {
+    "expression": "corner_board_face_width_in / widest_window_casing_width_in",
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "threshold": 1.0,
+    "note": "The only rule you need, and it needs no absolute scale: the corner board is wider than the widest casing on the same wall, and right at 1.1-1.6. A ratio at or below 1.0 is the fault; a ratio at almost exactly 1.0 usually means both came off the same pile of stock. Measure both in pixels from a single straight-on elevation photograph."
+  },
+  "secondary_tests": [
+    {
+      "expression": "corner_board_face_width_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 6,
+      "upper": 10,
+      "note": "The measured band on surviving frame work; the pilaster version runs 10-16 in. Do NOT take facade-classical's module/6 = 18 in here — the pack's own calibrated_for note records that figure as a masonry quoin dimension and roughly 2x wrong for wood."
+    },
+    {
+      "expression": "abs(corner_board_face_a_width_in - corner_board_face_b_width_in)",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.5,
+      "upper": 1.25,
+      "note": "Traditionally one board is ripped narrower and the other laps past it by its own thickness, so the two faces differ by about 3/4 in and the corner reads as a single member. Equal faces mean a mitre or an unlapped butt."
+    },
+    {
+      "expression": "corner_board_runs_past_casing",
+      "direction": "equals",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "Sequence test. The casing dies into the corner board, never the reverse; a mitre between them, or an interrupted corner board, means the trim was fixed in the wrong order."
+    }
+  ],
+  "alternative_to": [
+    "j-channel-corner"
+  ],
+  "co_occurs_with": [
+    "architrave-that-is-not-there",
+    "clapboard-exposure-drift"
+  ],
+  "inverted_by": [
+    {
+      "style": "greek-revival-american",
+      "statement": "The fault inverts: the Greek Revival corner is a broad flat pilaster or anta at 10-16 in and sometimes wider, so the style pushes the corner UP rather than down. What fails there is a corner that is wide and carries nothing — a wide plain board with no base landing on the water table and no capital or necking meeting the frieze."
+    }
+  ]
+}

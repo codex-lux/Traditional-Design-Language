@@ -1,0 +1,133 @@
+{
+  "id": "six-eight-door-in-a-tall-room",
+  "name": "The Hatch In The Twelve-Foot Room",
+  "aka": [
+    "the stock leaf in a tall room",
+    "80 inches everywhere",
+    "the door that did not follow the ceiling"
+  ],
+  "slots": [
+    "interior_door",
+    "ceiling_height_rule",
+    "casing"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "A room with a 10, 11 or 12 ft ceiling in which every door leaf is the stock 6 ft 8 in. Above each door head is 40 to 64 in of blank wall — more wall above the door than there is door — and the openings read as hatches punched low in a tall surface. The effect is strongest on an enfilade, where three or four small openings in line make the whole sequence feel like a service corridor. In the opposite and less noticed form, an 8 ft ceiling gets the same 80 in leaf, leaving 16 in above the head, and the room reads as a low box with a door jammed into its top.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The 6 ft 8 in leaf is the deepest stock convention in North American building: it sets the pre-hung jamb, the rough opening, the header height, the hardware bore height, the shipping carton and the truck rack. An 8 ft leaf is a special order at two to four times the price with a four to eight week lead, needs a taller header and often a different framing detail, and weighs enough to want a third hinge and a heavier jamb. The convention is also self-reinforcing on site, because the framing crew sets all the headers at 82 1/2 in before anyone has looked at a door schedule, so by the time the height question is asked the walls are closed.",
+    "cost_saved": "A stock 30 x 80 moulded pre-hung runs 130 to 260 USD; the same door at 96 in in a panelled leaf runs 550 to 1,400 USD, plus framing and jamb. On twelve interior openings, 5,000 to 13,000 USD. This is one of the few interior faults where the cost of correction is real and unavoidable."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / interior_door.height = ceiling_height * 0.7",
+      "statement": "67 in at 8 ft, 75 1/2 in at 9 ft, 84 in at 10 ft, 92 1/2 in at 11 ft, 100 3/4 in at 12 ft. The rule that matters is not the absolute height but the RATIO: a door should occupy about seven tenths of the wall, and a 6 ft 8 in door in a 12 ft room occupies 56 per cent and looks like a hatch."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / interior_door.height = module * 2.17",
+      "statement": "Palladio's maximum room door, within half an inch of the modern 6 ft 8 in stock leaf on a 36 in opening. The convergence is genuine and worth knowing: the stock door is not itself unhistorical. What is modern is the refusal to go above it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / interior_door / height_in",
+      "statement": "ceiling_height * 0.7, with the note that at an 11 ft ceiling the rule wants a 92 in door and a 6 ft 8 in one occupies 61 per cent of the wall."
+    }
+  ],
+  "correct_practice": "Set the leaf height at 0.7 of the finished ceiling and round to an available size: 80 in up to about a 9 ft 6 in ceiling, 84 in from 9 ft 6 in to 10 ft 4 in, 96 in from 10 ft 4 in to 11 ft 8 in, and 108 in above that. Note where the stock leaf is genuinely correct — from about 8 ft 8 in to 9 ft 6 in of ceiling the 80 in door lands inside the band, which covers most ordinary houses, and the fault only bites above and below that. Below 8 ft 8 in the 80 in leaf is proportionally too TALL, and the honest answer there is not a shorter door, which would be absurd, but the recognition that an 8 ft ceiling has no room for a classical wall division at all. Where the budget will not carry tall doors throughout, put them on the enfilade and in the principal rooms and use stock elsewhere, which is exactly what period houses did — the door heights in a Georgian house are graded like everything else, and the chamber door is genuinely shorter than the parlour door. And where the door cannot grow, do not leave the wall above it blank: a transom, a cornice over the door, or the room's own architrave line carried across the head absorbs the excess and turns a hatch into a composed opening.",
+  "fixes": {
+    "right": "Doors sized at 0.7 of ceiling, graded by room rank, with headers set from the door schedule rather than the door schedule set from the headers.",
+    "cheap": "Add a transom. An operable or fixed transom light over a stock 80 in leaf, with a transom bar at 84 to 88 in and glass or a panel above to a head at 0.7 of the ceiling, costs 180 to 400 USD an opening against 700 USD for a tall leaf, brings borrowed light into the passage, and is period-correct in Georgian, Federal, Greek Revival and Italianate work alike. This is the answer the nineteenth century itself reached for tall rooms and it should be the default rather than the compromise. Second cheap move, free at framing: raise the header 4 in and use an 84 in leaf, which is a stock size in most markets at a modest premium and covers ceilings to 10 ft.",
+    "dishonest": "Running a tall casing above a short door with nothing behind it — a blank panel of drywall trimmed to look like an over-door panel, painted the wall colour. It photographs as a detail and reads on approach as a filled opening, because the casing returns onto a flat surface with no reveal and no shadow at the head. If the space above the door is to be occupied it must be occupied by something — a transom, a real panel with real stiles and rails, or a cornice — that has thickness."
+  },
+  "detection": "Measure leaf height against finished ceiling height in a photograph that shows both. Correct band 0.66 to 0.74; a 6 ft 8 in leaf in a 12 ft room gives 0.556 and in an 11 ft room 0.606. The measurement is easy from an image because both the floor line and the ceiling line are usually visible in the same frame as the door. Second test, requiring no ceiling: measure the wall above the door head against the leaf height. Correct is roughly 0.4 or less; the fault gives 0.6 to 0.8, and the visual signature is that the blank band above the door is a substantial fraction of the door itself. Third, on an enfilade, check whether successive door heads align — if they do and all are at 80 in in a tall house, this is a schedule fault rather than a coordination one.",
+  "test": {
+    "expression": "door_leaf_height_in / ceiling_height_in",
+    "threshold": 0.66,
+    "upper": 0.76,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Derivation is 0.70. The 80 in stock leaf satisfies the band only for ceilings between about 105 and 121 in — that is, from 8 ft 9 in to 10 ft 1 in — which is a useful and rarely stated fact: the stock door is correct in the ordinary house and wrong at both ends."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman door is 80 in as a CONSTANT rather than a ratio, and the room absorbs the difference in the frieze above the picture rail. In a classical room the door follows the ceiling because the door is a member of an order; in a Craftsman room the door is a stock manufactured object and the room is arranged around it.",
+      "bounds": "Only where the picture rail is present and set to the top of the head assembly at 87 1/2 in, so the frieze above it is a designed band and not a leftover. At an 8 ft ceiling the frieze is 8 1/2 in and too narrow to read, and the pack's answer there is to omit the picture rail and let the head casing be the room's only datum. The threshold is about 8 ft 4 in.",
+      "bounds_test": {
+        "expression": "ceiling_height_in - door_head_assembly_top_in",
+        "threshold": 14,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The frieze band above the datum. Below about 14 in it reads as a gap rather than a band."
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Ceilings of 11 to 13 ft with ordinary doors is documented practice; the height is climatic and the joinery never followed it.",
+      "bounds": "The type compensates with transoms, which are near-universal above interior doors in the surviving stock and are the reason the arrangement works. A shotgun with 12 ft ceilings, 80 in doors and NO transoms has lost the thing that made it legible.",
+      "applies_when": {
+        "regions": [
+          "Gulf South",
+          "Lower Mississippi Valley"
+        ]
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Low, wide plank doors with heavy hardware under a high beamed ceiling is the idiom, and the vertical proportion of the opening is deliberately squat.",
+      "bounds": "The door must be genuinely wide and heavy — 36 in or more, plank construction, visible strap hinges — and the opening usually carries a deep reveal or an arched head that resolves the wall above. A hollow-core 30 x 80 under a 12 ft ceiling is not this."
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "Same reasoning: heavy plank doors of modest height in tall rooms, with the wall above resolved by a beam or a lintel rather than by the door.",
+      "bounds": "Requires the exposed lintel or beam over the opening. Without it the wall above is simply blank."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "doorhead-that-collides-with-the-cornice",
+      "difference": "Opposite ends of the same arithmetic. This is a door too short for its room; that is a door whose full entablature is too tall for its room. A house can go from one to the other by adding the doorhead, which is why the two must be computed together."
+    },
+    {
+      "fault": "door-too-wide-for-its-surround",
+      "difference": "Width against height. That fault is about a leaf and a surround kit that do not match; this is about the leaf and the room."
+    }
+  ],
+  "co_occurs_with": [
+    "doorhead-that-collides-with-the-cornice",
+    "the-miniature-order",
+    "hollow-core-blank-in-a-panelled-house"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, interior_door.height derived rule",
+    "proportions/systems/opening-proportion.json, Palladio's maximum room door",
+    "Palladio, I quattro libri, Book I ch. XXV",
+    "kits/georgian-colonial-american.kit.json, interior_door"
+  ],
+  "confidence": "high",
+  "tags": [
+    "interior-door",
+    "proportion",
+    "ceiling-height",
+    "stock-size"
+  ],
+  "inverted_by": [
+    {
+      "style": "minimal-traditional",
+      "statement": "In an 8 ft room the 80 in stock leaf occupies 0.83 of the wall and the fault inverts: the door is too TALL for the room, leaving 16 in above the head, and the honest reading is not that the door should be shorter but that an 8 ft ceiling cannot carry a classical wall division at all."
+    },
+    {
+      "style": "ranch-style",
+      "statement": "Same arithmetic. In a 96 in room the ratio is 0.83 against the derived 0.70, and adding a transom — the fix for the tall-room case — makes it worse."
+    }
+  ]
+}

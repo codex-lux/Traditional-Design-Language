@@ -1,0 +1,247 @@
+{
+  "id": "morning-room",
+  "name": "Morning Room",
+  "aka": [
+    "breakfast parlour (when it also ate)",
+    "boudoir (in its private form)",
+    "the lady's room",
+    "garden room"
+  ],
+  "function_class": "living",
+  "description": "A small sitting room used in the first half of the day, facing east or south-east, in which the mistress of the house wrote letters, kept accounts, gave the day's orders to the cook and housekeeper, and received informal callers before the drawing room's afternoon hours began. It is the only room in the domestic catalogue whose NAME IS AN ORIENTATION INSTRUCTION, and a morning room that faces west is a mislabelled sitting room.",
+  "history": {
+    "appears": 1780,
+    "declines": 1930,
+    "replaced_by": "the home office, which does the same work with the same equipment for a different person and has no orientation rule at all",
+    "note": "THE ROOM EXISTS BECAUSE RUNNING A SERVANTED HOUSEHOLD WAS AN ADMINISTRATIVE JOB WITH A FIXED DAILY SCHEDULE. Between about eight and eleven in the morning the mistress interviewed the cook about the day's meals, went through the housekeeper's accounts, wrote the day's letters, and dealt with tradesmen's books. That is two to three hours of desk work every day, and it needed a room with a writing table, good morning light, a fire and a door the servants could be summoned to without crossing the formal plan. Kerr in 1864 treats it as a standard requirement. When domestic service collapses - Britain 1914-1939, America a generation earlier - the job disappears in a decade and the room has nothing to do; it survives in interwar plans as a sunny second sitting room and then as an estate agent's word. THE ORIENTATION RULE IS THE PART WORTH KEEPING: a room used from eight to noon wants the sun that is actually available from eight to noon, which is east to south-east, and this is the only room in the house whose occupancy hours are known in advance closely enough to design the aspect from. The modern equivalent - the desk where the household's administration happens - almost always ends up in the darkest corner of the kitchen."
+  },
+  "dimensions": {
+    "area_sf": [
+      130,
+      260
+    ],
+    "width_ft": [
+      11,
+      15
+    ],
+    "length_ft": [
+      12,
+      19
+    ],
+    "proportion": [
+      1.0,
+      1.35
+    ],
+    "ceiling_min_ft": 9,
+    "critical_dimension": "THE WRITING TABLE IN THE LIGHT, WHICH IS AN 8 FT DIMENSION AND NOT A 3 FT ONE. A writing table is 24 to 30 in deep and 42 to 54 in long; the chair behind it needs 36 in to push back and rise, and the person standing to be spoken to on the other side of it needs 30 in. 30 + 36 + 30 = 96 in = 8 ft, measured across the table, and that is before the seating group. The table goes at the WINDOW and not against a wall, side-on to it, so the light falls across the page from the left for a right-handed writer - which is a rule from the era of pen and ink that is exactly as true for a screen, for the opposite reason: then you wanted no shadow of your own hand, now you want no window behind the camera. The second dimension is the small seating group, at the 10 ft conversation limit, which is what makes this a 12 x 15 room rather than a 9 x 11 study."
+  },
+  "furniture": [
+    {
+      "item": "writing table or davenport",
+      "footprint_in": [
+        48,
+        26
+      ],
+      "clearance_in": 36,
+      "note": "placed at the window side-on, not against a wall - the whole room is organised round this piece"
+    },
+    {
+      "item": "chair at the table",
+      "footprint_in": [
+        20,
+        22
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "two easy chairs and a small sofa",
+      "footprint_in": [
+        60,
+        32
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "work table for sewing or accounts",
+      "footprint_in": [
+        30,
+        20
+      ],
+      "clearance_in": 30,
+      "essential": false
+    },
+    {
+      "item": "bell pull or, later, the house telephone",
+      "footprint_in": [
+        6,
+        3
+      ],
+      "clearance_in": null,
+      "note": "the room's connection to the service floor, and the reason it is not deep in the formal enfilade"
+    },
+    {
+      "item": "plants at the window",
+      "footprint_in": [
+        36,
+        14
+      ],
+      "clearance_in": 0,
+      "essential": false,
+      "note": "the east window and the fernery go together in every nineteenth-century account of this room"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "EAST TO SOUTH-EAST, HARD. The room is used from about eight to noon and that is the only sun available in those hours; a morning room on a west front receives no direct light at all while it is in use and is a north room with a misleading name. Where the plan cannot deliver east, the honest move is to rename the room. Two-sided lighting - east plus south - is the ideal and gives the room sun for its whole occupied period.",
+    "glazing_fraction": [
+      0.18,
+      0.3
+    ],
+    "note": "A morning room is a bright room by design and is one of the few in a traditional plan glazed above the code minimum by intent rather than by accident. It is also the room where the daylight rule and the orientation rule are the same rule: the aspect determines whether there is any light to be 2.25 times the head height of."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "informal callers were received here rather than in the drawing room, so the room must be reachable from the hall without crossing a formal room",
+        "relation": "direct-door",
+        "strength": "strong"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "back-hall",
+        "why": "THE PART THAT IS ALWAYS FORGOTTEN. This is a room where the cook and the housekeeper came to be given the day's orders, so it needs a service approach as well as a family one - a second door, or a position on the plan where a servant can reach it without entering the formal rooms. A morning room with only one door off the drawing room cannot do the job it was invented for.",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "breakfast-room",
+        "why": "the same hours and the same people; in smaller plans they are the same room and the name follows whichever function dominates",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "drawing-room",
+        "why": "the family's day moves from the morning room to the drawing room as the hours move, and the two are usually one door apart on the same front",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "loggia",
+        "why": "the morning room and the garden are the same idea at two hours of the day; a door to a terrace on the east front is the room at its best",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "close enough to summon from, never close enough to smell or hear. Breakfast smells at nine in the morning in the room where the accounts are being done is the specific failure, and it is exactly what happens when the modern equivalent is a desk in the kitchen.",
+        "relation": "acoustically-separated",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "drawing-room",
+      "gallery-corridor",
+      "centre-passage"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Ordinary, but the east window should open: this is a room used before the day heats up and its comfort strategy is a sash and a fire, not a thermostat.",
+    "heat": "Its own fire, lit early. The morning room is the first room in the house to be warmed each day, which is one of the reasons it sits near the service end of the plan rather than at the far end of the enfilade.",
+    "electrical": "Task light at the table plus general. In the modern equivalent this is the room that needs data and power at desk height on TWO walls, because the desk will be moved to the window within a month of moving in.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "trim_grade": "high",
+      "note": "Kerr's standard arrangement: on the east or south-east front, one grade below the drawing room in trim, with a writing table, a small fire and a bell. Frequently the room the family actually preferred."
+    },
+    {
+      "style": "regency",
+      "trim_grade": "high",
+      "note": "Full-height windows to a garden or a conservatory, and the room's boundary with the outside deliberately weakened - the morning room and the conservatory are a Regency pairing."
+    },
+    {
+      "style": "victorian",
+      "name_in_style": "morning room or boudoir",
+      "trim_grade": "high",
+      "note": "In its private form, the boudoir, it moves upstairs beside the mistress's bedroom and becomes a wholly private sitting room; the ground-floor morning room and the first-floor boudoir are two branches of the same room and a large house had both."
+    },
+    {
+      "style": "queen-anne-british",
+      "trim_grade": "high",
+      "note": "Given a bay or an oriel on the east front and treated as the house's light, informal room in the aesthetic taste - white paint, a frieze rail, matting."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "sun room, morning room",
+      "trim_grade": "middle",
+      "note": "Survives into the 1920s as a glazed room off the living room, and by then it has lost the administrative function entirely and kept the aspect. See sunroom, which is where it goes."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent - there is no household administration to house because there is no staff, and the bungalow's whole proposition is that the house is run by the family in the rooms they live in."
+    },
+    {
+      "style": "ranch-style",
+      "present": false,
+      "note": "Absent as a room; the function reappears as the 'planning desk' - a 30 in niche in the kitchen cabinetry, unlit and in the traffic - which is a worse solution to the same problem and the direct ancestor of today's kitchen charging drawer."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable room minimums and 8 per cent glazing.",
+      "ref": "IRC R303.1, R304",
+      "conflict": "Nothing in the code addresses aspect, which is the one property this room is defined by. A code-compliant morning room facing north is legal and pointless."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "five-part-palladian",
+    "h-plan-manor",
+    "side-hall-double-pile",
+    "cross-gable-victorian",
+    "villa-tower",
+    "mansard-block",
+    "foursquare",
+    "courtyard-u",
+    "massed-picturesque"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "orientation_rule",
+    "daylight_strategy",
+    "public_private_gradient",
+    "trim_family",
+    "special_window",
+    "service_zone_strategy"
+  ],
+  "faults": [
+    "plan-flipped-without-the-sun",
+    "the-room-nobody-enters",
+    "one-trim-grade-for-every-room",
+    "room-deeper-than-its-daylight"
+  ],
+  "sources": [
+    "Robert Kerr, The Gentleman's House (1864), on the morning room and its aspect",
+    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981)",
+    "Mark Girouard, Life in the English Country House (1978)",
+    "elements/slots.json, orientation_rule"
+  ],
+  "confidence": "high"
+}

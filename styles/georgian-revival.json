@@ -1,0 +1,212 @@
+{
+  "id": "georgian-revival",
+  "name": "Georgian Revival",
+  "aka": [
+    "Neo-Georgian",
+    "Georgian Colonial Revival",
+    "Williamsburg Georgian"
+  ],
+  "rank": "variant",
+  "member_of": "colonial-revival",
+  "status": "revival",
+  "period": {
+    "origin": 1890,
+    "floruit_start": 1895,
+    "floruit_end": 1945,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Philadelphia, Boston, and Tidewater Virginia",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "3A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "colonial-revival",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The accurate, brick, high-style wing of Colonial Revival. Same offices and same catalogs, held to a stricter standard of precedent."
+    },
+    {
+      "target": "georgian-colonial-american",
+      "type": "revives",
+      "weight": 1.0,
+      "note": "The direct claimed ancestor, and the one this variant actually tries to reproduce rather than merely evoke."
+    },
+    {
+      "target": "english-georgian",
+      "type": "references",
+      "weight": 0.9,
+      "note": "The English source is quoted directly here in a way that plain Colonial Revival avoids - Gibbs surrounds, Wren-Baroque doorcases, and English brick bonds."
+    },
+    {
+      "target": "tidewater-georgian",
+      "type": "references",
+      "weight": 0.8,
+      "note": "Westover, Carter's Grove and Stratford Hall supply the five-part parti, the belt course, and the Flemish-bond brickwork that this variant depends on."
+    },
+    {
+      "target": "adam-style",
+      "type": "references",
+      "weight": 0.5,
+      "note": "Interior register - delicate plaster, attenuated pilasters, elliptical fans - applied inside houses whose exteriors are earlier in reference."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "The academic apparatus that made accuracy possible: measured drawings, the analytique, and offices with libraries."
+    }
+  ],
+  "description": {
+    "short": "The scholarly, usually brick, high-style wing of Colonial Revival, which after about 1915 replaced free invention with measured accuracy drawn from the Georgian houses of Virginia, Philadelphia and England.",
+    "long": "Georgian Revival is what Colonial Revival became when it acquired a library. Where the general style tolerates - even prefers - an oversized entrance and a foursquare body, this variant holds itself to documented precedent: five or seven bays, Flemish-bond brick with glazed headers, a moulded water table, a belt course at the second floor, segmental or flat gauged-brick arches with keystones, a modillioned cornice of correct projection, a hipped or gambrel roof with pedimented dormers, and a doorcase taken from Gibbs or from a specific Virginia house. It is the register in which the Colonial Revival is judged on scholarship rather than on charm.\n\nThe conditions for that shift were documentary and institutional. The Georgian Period portfolios began appearing in the 1890s, the White Pine Series of Architectural Monographs from 1915 supplied measured drawings of specific New England and Mid-Atlantic buildings monthly, and from 1928 the Rockefeller-funded restoration of Colonial Williamsburg by Perry, Shaw & Hepburn produced an authoritative catalog of profiles, brick bonds, hardware and paint colours that spread through the profession within a decade. Simultaneously, university architecture programmes and the growing prestige of the country-house practice - Trumbauer, Delano & Aldrich, Mellor Meigs & Howe - made Georgian the polite default for institutional work as well: dormitories, banks, schools, embassies.\n\nWhat this variant claimed, on behalf of clients who could afford it, was not merely ancestry but discrimination. Anyone could buy a white house with shutters; a Georgian Revival house said that the owner and the architect knew the difference between a Philadelphia doorcase and a Charleston one. This is why it became the American establishment style and why it survives at the top of the market with almost no loss of prestige - it is the only style in this branch whose claim was always partly about knowledge.\n\nIt is a quiet, dense, rather serious thing to stand in front of. The brick is dark and the mortar joints are fine, the water table and belt course give the wall a horizontal grip that clapboard never achieves, and the openings are regular enough that the eye counts them without being asked. The entrance is elaborate but held in - a proper doorcase with a pediment, not a two-storey portico - and the cornice runs across the whole front at one height and turns the corner properly. Inside, the rooms are square, tall and panelled, the stair is generous, and the whole thing is more formal than modern life quite needs, which is a large part of why people keep building it."
+  },
+  "defining_characteristics": [
+    "Masonry primary wall, most often brick in Flemish bond, with a moulded water table and a belt course at the second-floor line",
+    "Strictly symmetrical five- or seven-bay facade with a centred entrance and rigorous vertical alignment between storeys",
+    "Openings with gauged brick flat or segmental arches, or stone lintels with keystones, and 9/9, 12/12, or 6/6 double-hung sash",
+    "A documented doorcase - pilasters or engaged columns with a full entablature and a triangular, segmental, or swan's-neck pediment - scaled to a single door leaf",
+    "Hipped, side-gable, or gambrel roof with pedimented or arched dormers and a modillioned or dentilled cornice of correct classical projection",
+    "Chimneys at the gable ends, paired and expressed as mass, not as flues"
+  ],
+  "diagnostic_tells": [
+    "Flemish bond with glazed or darker headers, a moulded water table, and a belt course together indicate the accurate phase; running bond with no water table indicates general Colonial Revival.",
+    "Sash carries 9 or 12 lights per unit rather than 6, with muntins near 3/4 in. - this variant is where the revival actually tries to match the original's glazing.",
+    "The doorcase is elaborate but never more than about 8 ft wide overall. If the entrance grows into a two-storey portico, the building has become neoclassical-revival.",
+    "Dormers are pedimented or arched with pilastered cheeks, not shed or gabled boxes.",
+    "Against the genuine Georgian original: revival storey heights are still a foot taller, the plan is still two rooms deeper, and there is a garage."
+  ],
+  "distinguished_from": [
+    {
+      "node": "colonial-revival",
+      "difference": "The parent style admits free interpretation, frame construction, foursquare massing, and invented detail, especially before 1915. Georgian Revival is its documented wing: masonry, five- or seven-bay symmetry, correct bonds and profiles, and detail traceable to a specific precedent."
+    },
+    {
+      "node": "georgian-colonial-american",
+      "difference": "The original is smaller, has thinner and more numerous glazing bars, lower ceilings, single-pile or shallow double-pile plans, no corridor circulation on the upper floor, and hand-shaped mouldings. The revival matches its face and not its dimensions."
+    },
+    {
+      "node": "neoclassical-revival",
+      "difference": "Georgian Revival keeps its entrance emphasis to a doorcase and, at most, a one-storey portico. Neoclassical Revival raises a colossal two-storey portico and changes the whole compositional argument from wall to screen."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Documented Georgian practice, checked against published measured drawings. The brick course and the sash light are the working modules: openings are dimensioned in whole brick courses and glazing bars are sized to the original's.",
+    "typical_ratios": [
+      "Five bays by two storeys plus dormered attic; seven bays on large examples",
+      "Storey heights 9'6\"-10'6\" first, 9'0\"-9'6\" second; still taller than eighteenth-century practice but closer than general Colonial Revival",
+      "Window openings 3'2\" x 6'2\" typical, proportion near 1:2, with sash of 9/9 or 12/12",
+      "Belt course 4-8 in. deep, water table 4-6 in. projection, cornice 14-20 in. total depth",
+      "Doorcase 6'0\"-8'0\" overall width for a 3'0\" x 6'8\" leaf; pediment apex not above the second-floor sill line"
+    ],
+    "bay_rhythm": "Even and strict. Five or seven bays at 8'6\"-10'0\" on centre, the centre bay widened only enough to take the doorcase. Every second-storey opening aligns with the one below within an inch.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The reference case: centre passage, two rooms deep, five bays, hipped or side-gable roof."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "The Tidewater parti - centre block, hyphens, and dependencies - on estate sites."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common",
+      "note": "The urban town-house version, three bays with the entrance to one side."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "possible",
+      "note": "The Mid-Atlantic and New England gambrel-roofed Georgian; overlaps dutch-colonial-revival."
+    },
+    {
+      "massing": "garrison-block",
+      "affinity": "forbidden",
+      "note": "The overhang belongs to the seventeenth-century reference, not the Georgian one."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Brickwork must be laid in Flemish or English bond with joints 3/8 in. or finer, a moulded water table at grade and a belt course at the second-floor line, and openings headed with gauged brick flat arches, segmental arches, or stone lintels. Running-bond veneer with no water table is not this variant."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The doorcase must be dimensioned for a single 3'0\" x 6'8\" to 3'0\" x 7'0\" leaf, overall width not exceeding 8'0\", with the pediment apex below the second-floor sill line. Double doors and two-storey porticos are forbidden in this variant."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Sash shall be 9/9 or 12/12 on principal elevations, muntins 5/8-7/8 in., with true divided lights or full-depth simulated bars with an interior spacer. 1/1 and 6/1 sash void the variant."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Cornice total depth 14-20 in. with modillions or dentils spaced to the bay module, carried fully around the building including gable returns of not less than 18 in."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Chimneys must be built at the gable ends, minimum 3'6\" x 2'0\" in plan, rising not less than 2'6\" above the ridge. Interior ridge chimneys and flush metal flues are forbidden."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Whitemarsh Hall",
+      "location": "Wyndmoor, Springfield Township, Pennsylvania",
+      "year": 1921,
+      "note": "Horace Trumbauer for E. T. Stotesbury, 1916-21. Neo-Georgian at Beaux-Arts scale, 147 rooms; demolished 1980 and still the largest American house deliberately destroyed."
+    },
+    {
+      "name": "Governor's Palace (reconstruction)",
+      "location": "Williamsburg, Virginia",
+      "year": 1934,
+      "note": "Perry, Shaw & Hepburn. The reference library for the whole variant: bonds, profiles, hardware, dormers and paint, all published and copied for forty years."
+    },
+    {
+      "name": "Widener Library, Harvard University",
+      "location": "Cambridge, Massachusetts",
+      "year": 1915,
+      "note": "Horace Trumbauer with Julian Abele. The institutional register, and evidence that the variant's brick-and-limestone grammar scales far past the house."
+    },
+    {
+      "name": "Griffith-Sowers House",
+      "location": "Rowan County, near Salisbury, North Carolina",
+      "year": 1932,
+      "note": "Five-bay centre block with connected wings, slate roof; a well-documented ordinary-scale example, NRHP 2009."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "William B. Rhoads, The Colonial Revival (1977)",
+    "The White Pine Series of Architectural Monographs (1915-1940)",
+    "Richard Guy Wilson, The Colonial Revival House (2004)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "variant",
+    "brick",
+    "academic",
+    "establishment-style"
+  ]
+}

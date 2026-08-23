@@ -1,0 +1,176 @@
+{
+  "id": "closet-on-the-exterior-wall",
+  "name": "The Closet That Blinds A Bay",
+  "aka": [
+    "the window in the wardrobe",
+    "the missing second-floor window",
+    "the blinded bay"
+  ],
+  "slots": [
+    "storage_strategy",
+    "daylight_strategy",
+    "room_adjacency_overrides"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "alignment",
+  "symptom": "A second-floor elevation with a window missing from a bay that the rhythm below plainly requires, or - worse and commoner - a window that is still there and is now inside a closet, visible from the street with a blank white surface two feet behind the glass. On the plan, a run of wardrobes has been laid along an exterior wall because it was the longest uninterrupted wall in the room.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The closet is drawn on the upper-floor plan by whoever laid out the bedrooms, and it goes on the longest clear wall. The longest clear wall in a bedroom is nearly always an exterior one, because interior walls are broken by the door and the chimney breast. The upper-floor plan and the front elevation are then drawn by different people or at different times, and the collision is only visible on the elevation - which, on a production set, is generated from the plan rather than governing it.",
+    "cost_saved": "Nothing in construction. It saves a redesign of the bedroom and one deleted window at $600-$1,400 - which is why the window is sometimes deleted rather than moved, and the elevation loses a bay."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / storage_strategy / closet-on-an-exterior-wall = forbidden",
+      "statement": "It blinds a bay. A closet placed against the outside wall either eliminates a window or leaves a window inside a closet, and both are visible from the street."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / storage_strategy / permitted_wall_for_closets",
+      "statement": "Interior partitions and the chimney wall only."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "composition_parti and window_grouping_rule",
+      "statement": "Openings stack vertically and bays are evenly spaced. A missing upper window in an otherwise regular front is the fastest-read fault on a symmetrical elevation, and a formal style cannot absorb it at all."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R303.1 and R310 - light, ventilation and emergency escape from sleeping rooms",
+      "statement": "A closet that swallows the only window on a wall can push a bedroom below its required glazing area or remove its escape opening, and this is one of the few plan faults that a plans examiner will actually catch - which is why it more often appears as a deleted window than a captured one."
+    }
+  ],
+  "correct_practice": "Storage is taken out of the DEPTH of the plan and never out of the bay rhythm. Closets go against interior partitions and against the chimney wall - the residual space beside a gable-end stack, 18 to 30 in deep, is the period answer and is exactly a hanging depth. A hanging closet needs 24 in clear minimum and 26 to 28 in to work properly, which is the constraint that makes this a plan problem rather than a joinery one. Where a room genuinely has no interior wall long enough, the choices in order are: a dressing room between two chambers, which is documented in the largest houses and is the most defensible way to get modern closet volume without a closet; a wall-thickened recess where the construction is solid masonry; the garret, which was always the house's storage; or a detached store, which is the period habit and the one most worth borrowing. If the closet must go on an exterior wall, it goes in the blind portion between two bays and never across one, and the plan must be tested against the elevation before the framing package is released.",
+  "fixes": {
+    "right": "Move the closets to interior partitions and the chimney wall, and take the room's depth rather than its window wall.",
+    "cheap": "Rotate the closet through ninety degrees. A 26 in deep by 6 ft long closet returned off the interior partition beside the door costs the same linear feet of wall and the same doors, and it also makes a small entry recess in the bedroom which improves the room. Where the closet cannot move at all, hold it clear of the bay: stopping the closet 6 in short of the window jamb keeps the whole opening in the room, which is invisible on the plan and decisive on the elevation.",
+    "dishonest": "Leaving the window in the closet and fitting it with a blind or an opaque panel. From the street the bay now reads as a window with something wrong behind it, which is more conspicuous than a blank wall, and in a raking light the difference in reflection between a glazed room and a glazed cupboard is obvious at forty feet."
+  },
+  "detection": "This is a plan fault fully visible in a street photograph, which makes it unusually valuable. Compare upper and lower bay counts and positions: a missing upper window where the lower rhythm demands one, or an upper window that is off the vertical alignment by 12 to 24 in - which is what happens when a window is nudged sideways to clear a wardrobe - is the fault. Second, look at the glass itself: a window into a closet shows a flat pale surface immediately behind the pane with no depth, no reflection of room fittings and no curtain, and in an evening photograph it is the only dark window on a lit elevation.",
+  "test": {
+    "expression": "upper_storey_windows_missing_or_off_alignment_over_a_lower_bay",
+    "threshold": 0.0,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Count bays where the upper opening is absent, or is offset from the lower opening's centreline by more than about 6 in, on an elevation whose parti requires alignment. This is the plan fault that a model can evaluate from a single straight-on photograph."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "colonial-revival",
+    "georgian-revival",
+    "federal-style",
+    "southern-federal",
+    "adam-style",
+    "greek-revival-american",
+    "italianate-american",
+    "italianate-townhouse",
+    "second-empire",
+    "american-farmhouse-vernacular",
+    "garrison-colonial",
+    "dutch-colonial-revival",
+    "cape-cod-revival",
+    "new-urbanist-traditional",
+    "modern-farmhouse-traditional",
+    "minimal-traditional",
+    "folk-victorian"
+  ],
+  "exceptions": [
+    {
+      "style": "tudor-revival",
+      "why": "Picturesque asymmetry means the elevation has no bay rhythm to blind; a blank stretch of wall between grouped casements is normal and a closet can stand behind it.",
+      "bounds": "The blank stretch must be part of a composed asymmetry - a chimney breast, a stair wall, a gable cheek - and not a hole in an otherwise regular run of openings.",
+      "applies_when": {
+        "slots": [
+          "composition_parti"
+        ],
+        "note": "Same licence for any style whose composition_parti is picturesque-asymmetrical."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Freely composed elevations unified by the skin; openings are placed where the plan wants them.",
+      "bounds": "Requires the continuous shingle field and genuinely free composition. A symmetrical Shingle Style front still needs its bays."
+    },
+    {
+      "style": "andalusian-courtyard-vernacular",
+      "why": "The street elevation is deliberately near-blind, so a closet against it costs nothing; the rooms are lit from the court and the small high street window is a ventilation slot, not a light source.",
+      "bounds": "Only against the STREET wall, and the room must keep its full opening to the court. A closet against a court-facing wall is the fault in its severest form, because the court wall is the only light the room has.",
+      "applies_when": {
+        "slots": [
+          "street_relationship"
+        ]
+      }
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The blind flank at or within 3 ft of the lot line is a fire and privacy wall carrying no more than token openings, so it is the correct place for storage.",
+      "bounds": "Blind flank only, never the piazza flank or the street gable."
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "The bermed uphill wall has few or no openings by design and takes storage without cost.",
+      "bounds": "Uphill wall only, below the principal floor level."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "storeys-out-of-vertical-alignment",
+      "difference": "That fault is a general alignment failure on the elevation. This is its commonest single cause, and naming the cause is what makes it fixable - the alignment is broken in the bedroom, not on the front."
+    },
+    {
+      "fault": "closet-depth-taken-from-the-room",
+      "difference": "Both are answers to the same question, 'where does the closet go'. That one takes the room's floor; this one takes its window. They are alternatives and a plan rarely has both in the same bedroom."
+    }
+  ],
+  "co_occurs_with": [
+    "storeys-out-of-vertical-alignment",
+    "even-bay-front"
+  ],
+  "alternative_to": [
+    "closet-depth-taken-from-the-room"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Strict bilateral symmetry about a central entrance; one missing upper bay destroys it and no trim recovers it."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "The regularity is looser but the alignment expectation remains."
+    },
+    {
+      "style": "tudor-revival",
+      "severity": "minor",
+      "why": "There is no rhythm to blind."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "not-applicable",
+      "why": "Openings are freely placed by definition."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json storage_strategy: closet-on-an-exterior-wall forbidden, permitted_wall_for_closets, chimney_flanking_closet_depth, closet_depth_min",
+    "International Residential Code R303.1 (natural light), R310 (emergency escape and rescue openings)",
+    "HABS measured plans showing chimney-flanking closets and dressing rooms between chambers",
+    "elements/slots.json note on storage_strategy, added 0.2.0: styles that predate the closet need an authored answer here"
+  ],
+  "confidence": "high",
+  "tags": [
+    "storage",
+    "closet",
+    "alignment",
+    "photograph-testable",
+    "endemic",
+    "plan-to-elevation"
+  ]
+}

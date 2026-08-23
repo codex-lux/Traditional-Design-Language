@@ -1,0 +1,187 @@
+{
+  "id": "garage-forward-of-the-facade",
+  "name": "The Garage In Front Of The House",
+  "aka": [
+    "the snout house",
+    "garage-forward plan"
+  ],
+  "slots": [
+    "garage_strategy",
+    "street_relationship"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "The garage face projects beyond the plane of the front wall, often by 4 to 10 ft, so the first and nearest element a person on the street sees is a pair of doors. The front door sits in the reentrant corner behind, in shadow, reached by a path that runs alongside the garage wall and across the mouth of the driveway.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Lot width is the most expensive dimension in suburban development, so plans are drawn narrow and deep, and the garage is pushed forward to shorten the driveway and to keep the living rooms at the back where the yard is. Turning-radius geometry reinforces it: a side-loaded garage needs about 24 to 26 ft of manoeuvring width beside the house, which on a 50 ft lot does not exist. The projection also buys interior square footage in the crossing zone above.",
+    "cost_saved": "A side-loaded or detached arrangement typically needs 15 to 25 ft more lot width. At suburban land prices this is 15,000 to 60,000 USD of lot, which is why this fault is a land-economics problem wearing an architectural costume."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / garage_strategy / min_setback_behind_front_plane",
+      "statement": "20 ft behind the front plane. The kit itself flags this number as an assertion rather than a retrieved measurement."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "neo-eclectic / garage_strategy",
+      "statement": "Garage door plane set back not less than 4 ft behind the front door plane; a garage projecting forward of the front door plane is the named snout-house tell."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "new-urbanist-traditional / garage_strategy",
+      "statement": "Where an alley serves the lot, street-facing garage doors are forbidden; where no alley exists, the garage face must be set back not less than 20 ft behind the front facade plane."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "ranch-style / garage_strategy",
+      "statement": "An attached street-facing garage must have its door plane set back not less than 4 ft behind the primary facade plane, otherwise side- or rear-loaded."
+    }
+  ],
+  "correct_practice": "The garage is a dependency and takes a dependency's position. In descending order of correctness: detached and behind, at the style's own dependency distance — 25 ft in the Tidewater Georgian tradition, which is the kitchen dependency's distance borrowed by identifying the car with the kitchen; attached by a hyphen of 12 to 20 ft, with the garage volume at 0.6 to 0.75 of the main block's height; alley-loaded; side-loaded with the door turned off the street; and only then front-facing, set back not less than 20 ft behind the front facade plane. The garage's cladding, trim and roof pitch are identical to the volume it belongs to on all four sides, because a dependency that changes material at the back is a shed.",
+  "fixes": {
+    "right": "Detach or turn the garage. On a lot too narrow to turn it, put it behind the house and reach it down the side.",
+    "cheap": "Set the garage back 4 ft and put a roof over the recess. Four feet is one framing bay, costs a few hundred dollars in roof and wall, and moves the front door in front of the garage door — which is the whole of what the eye is measuring. Add a shallow porch or hood at the entrance so the recess reads as an intentional forecourt rather than as a leftover. This is the single highest-leverage low-cost move available on a production elevation.",
+    "dishonest": "Decorating the garage doors — carriage hardware, arched lights, pergola brackets over the head — to reconcile the viewer to their position. It increases the garage's ornament rank, which makes the hierarchy fault worse while appearing to address it."
+  },
+  "detection": "Compare the plane of the garage door with the plane of the front door in an oblique photograph or on a site plan. If the garage is forward, the fault is present. From a frontal photograph, look for the shadow: a recessed entrance sits in shade under a projecting garage wing at almost every hour, and the front door appears as the darkest area of the elevation. Also check the path — if the walk from the street crosses the driveway or runs along the garage's flank, the plan is garage-forward.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "The attached garage or carport composed as part of the house rather than as an outbuilding is a defining characteristic, and the facade is organised by the competing claims of entry and garage.",
+      "bounds": "Composed as part of the house means sharing the roof plane, the eave line and the cladding, and the style's own constraint still requires the door plane 4 ft behind the primary facade or a side-loaded door. Projecting forward is not licensed even here.",
+      "bounds_test": {
+        "expression": "garage_door_plane_setback_behind_primary_facade_plane_ft",
+        "threshold": 4.0,
+        "direction": "at-least",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "note": "Composed as part of the house means sharing the roof plane, the eave line and the cladding, and the style's own constraint still requires 4 ft of setback or a side-loaded door. Projecting forward is not licensed even here."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1975
+        ],
+        "note": "The licence describes the type as historically built."
+      }
+    },
+    {
+      "style": "mid-century-traditional",
+      "why": "The integrated carport or garage under a continuous low roof is period-correct and the long horizontal roof absorbs it.",
+      "bounds": "Requires the continuous roof and the low eave; an isolated projecting gable-fronted garage is not this.",
+      "bounds_test": {
+        "expression": "roof_eave_continuity_over_house_and_garage",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Requires the continuous low roof and the deep eave. An isolated projecting gable-fronted garage is not this exception."
+      },
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ],
+        "construction": [
+          "continuous-low-roof",
+          "carport"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That is the hierarchy fault, which persists even with the garage correctly recessed if the entrance carries no ornament. This one is the plane relationship alone."
+    },
+    {
+      "fault": "garage-doors-dominate-the-frontage",
+      "difference": "Plane versus area. A recessed garage can still occupy half the frontage."
+    },
+    {
+      "fault": "door-reached-only-from-the-driveway",
+      "difference": "The plan consequence of the same decision: no walk from the public pavement to the door, only a route across the driveway apron. This fault is measurable in elevation, that one only in plan or on site."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json garage_strategy",
+    "styles/new-urbanist-traditional.json constraints",
+    "styles/neo-eclectic.json constraints"
+  ],
+  "confidence": "high",
+  "tags": [
+    "garage",
+    "plane",
+    "composition",
+    "endemic"
+  ],
+  "test": {
+    "expression": "garage_door_plane_setback_behind_front_door_plane_ft",
+    "threshold": 4.0,
+    "direction": "at-least",
+    "units": "ft",
+    "measurable_from": "photograph",
+    "note": "The Neo-Eclectic and Ranch constraints both set 4 ft as the minimum. Needs an OBLIQUE view: a frontal photograph cannot resolve plane depth, though the recessed entrance's permanent shadow is a strong frontal proxy. Negative values are the snout house."
+  },
+  "secondary_tests": [
+    {
+      "expression": "garage_face_setback_behind_front_facade_plane_ft",
+      "threshold": 20.0,
+      "direction": "at-least",
+      "units": "ft",
+      "measurable_from": "plan",
+      "note": "The strict rule, from the New Urbanist constraint and from the kit's own assertion. 4 ft rescues the reading; 20 ft makes the garage a dependency."
+    },
+    {
+      "expression": "detached_garage_distance_from_main_block_ft",
+      "threshold": 25.0,
+      "direction": "at-least",
+      "units": "ft",
+      "measurable_from": "plan",
+      "note": "Where the garage is detached, the style's own dependency distance — retrieved from the Tidewater Georgian service-zone rule by identifying the car with the kitchen dependency, not invented."
+    },
+    {
+      "expression": "garage_volume_ridge_height_in / main_block_ridge_height_in",
+      "threshold": 0.6,
+      "direction": "between",
+      "upper": 0.75,
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A dependency stands at 0.6 to 0.75 of the main block. This is the third-dimension version of the same subordination and it survives even where the plan cannot deliver the setback."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit states it as the one thing it would defend hardest: a garage door on the entrance elevation, at any width, for any client."
+    },
+    {
+      "style": "new-urbanist-traditional",
+      "severity": "fatal",
+      "why": "Street-facing garage doors are forbidden outright on alley-served lots, and 20 ft of setback is required otherwise."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The attached garage composed as part of the house is a defining characteristic; only the forward plane remains at issue and the style's own constraint still forbids it."
+    },
+    {
+      "style": "mid-century-traditional",
+      "severity": "minor",
+      "why": "The integrated carport or garage under a continuous low roof is period-correct and the long horizontal roof absorbs it."
+    }
+  ],
+  "co_occurs_with": [
+    "entry-not-the-most-elaborated-element",
+    "garage-doors-dominate-the-frontage",
+    "door-reached-only-from-the-driveway",
+    "garage-head-above-the-window-head"
+  ]
+}

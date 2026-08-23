@@ -1,0 +1,189 @@
+{
+  "id": "english-medieval-timber-frame",
+  "name": "English Medieval Timber Frame",
+  "aka": [
+    "half-timbering",
+    "black-and-white work",
+    "box frame and cruck",
+    "Wealden house"
+  ],
+  "rank": "style",
+  "member_of": "medieval-british",
+  "status": "historical",
+  "period": {
+    "origin": 1180,
+    "floruit_start": 1350,
+    "floruit_end": 1600,
+    "decline_end": 1700,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1860,
+        "end": 1930,
+        "revival_node": "tudor-revival",
+        "note": "Half-timbering returns as applied decoration over a stud or masonry wall. Almost all Victorian and later 'black-and-white' work is non-structural, and the applied version arrives in America as Tudor Revival."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Wales",
+      "Scottish Borders"
+    ],
+    "hearth": "The wooded lowland belt — Kent and Sussex Weald, East Anglia, the West Midlands, Cheshire and the Welsh Marches",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-gothic",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "The carpenters who framed a manorial hall roof and those who framed a cathedral roof were the same trade working from the same geometry. Moulded arch-braces, cusped wind-braces and crown-post capitals in houses are Gothic details executed by carpenters rather than borrowed from masons."
+    }
+  ],
+  "description": {
+    "short": "The native carpentry tradition of lowland Britain, in which a jointed frame of oak carries the whole building and the wall between the timbers is merely infill.",
+    "long": "This is the tradition that never came from anywhere. Masonry arrived with the Normans; timber framing was already here, continuous from Anglo-Saxon practice, and it simply kept going, absorbing Gothic taste at the level of moulding while never changing its structural logic. Two systems coexist. The cruck frame pairs curved blades rising from ground to ridge, each pair cut from a single tree split in half so the two blades are mirror images — a building conceived as a sequence of arches, dominant in the west and north. The box frame builds a rectilinear cage of sill, post, tie-beam and plate, braced diagonally, and is the ancestor of every later Anglo-American frame. Above both sits the carpented roof: crown-post and collar-purlin in the south-east, arch-braced collar trusses in the west, hammerbeams where money and ambition met.\n\nWhat produced it was oak, and a very particular economy of oak. England had enough timber and not enough cash; a frame could be cut, jointed and numbered in a framing yard, then reared by a village in a day, whereas masonry needed quarries, carts, lime and a season of curing. Because the frame carries everything, the wall panels can be wattle and daub, brick nogging or lath and plaster without altering the structure, which is why the same house may show three different infills from three different centuries. The jetty — an upper floor cantilevered forward on projecting joists — is the tradition's most-argued detail; the honest structural account is that it lets the upper floor joists be shorter and stiffer while gaining floor area, and the honest social account is that it was also showing off, since a jetty costs timber and announces it.\n\nThe fifteenth-century Wealden house is the type's masterpiece and the clearest case of a plan producing a form. An open hall in the centre, two-storeyed bays at each end jettied forward, and one great hipped roof carried across all three on a deep sprocketed eave: from outside, a recessed centre under a continuous overhang, which reads as a single deliberate composition and is in fact a direct expression of the hall-and-crosswing plan. When wall fireplaces and chimney stacks became affordable in the sixteenth century — the 'Great Rebuilding' Hoskins identified between roughly 1570 and 1640 — the open hall was floored over, a stack was inserted in the screens passage, and thousands of these houses acquired the chambers upstairs that they still have.\n\nStanding inside one is unlike any masonry interior. The room is defined by lines rather than surfaces: posts, braces and joists divide the space into a visible cage, and because oak moves as it dries, none of those lines is quite straight. Ceilings are low, sills are high, and the floor gives slightly. There is a strong sense of the building as an assembly of pieces that could in principle be taken apart — which is literally true, and many have been, dismantled and re-erected elsewhere with their carpenters' assembly marks still legible on the joints. That legibility is the tradition's deepest gift to a kit-of-parts system: every joint in a medieval frame was numbered before it was ever raised."
+  },
+  "defining_characteristics": [
+    "A jointed hardwood frame — cruck or box — carrying all vertical and lateral load, with wall panels as non-structural infill",
+    "Mortice-and-tenon joints secured by riven oak pegs; no metal fasteners in the primary frame",
+    "Structural bays of 3.0-5.0 m set by the length of available oak and expressed on the elevation as panel divisions",
+    "A carpented roof designed to be seen — crown-post, arch-braced collar or hammerbeam — over the open hall",
+    "Infill panels of wattle and daub, later brick nogging or plaster, sitting flush or slightly recessed behind the timber face",
+    "Jettied upper floors on projecting joists, with the jetty bressumer moulded and the joist ends exposed or boarded",
+    "Steep roof pitch (48-55 degrees) demanded by thatch, stone slate or plain clay tile"
+  ],
+  "diagnostic_tells": [
+    "Timbers of irregular section and slight curvature, wide panels in the south-east and small close studding in East Anglia — the closer the studs, the wealthier the builder, since close studding is a deliberate waste of oak",
+    "Carpenters' assembly marks (chiselled Roman numerals) at the joints, and empty peg holes where members have been reused from an earlier frame",
+    "A jetty that returns around a corner with a dragon beam set diagonally at 45 degrees — a detail that cannot be faked convincingly and is absent from all applied half-timbering",
+    "Wall panels that are not rectangles: curved braces cutting across the panel field, and quatrefoil or herringbone patterned panels in Cheshire and the Welsh Marches",
+    "A massive brick or stone stack inserted awkwardly into a frame it clearly post-dates, usually in the old screens passage — the signature of the Great Rebuilding"
+  ],
+  "distinguished_from": [
+    {
+      "node": "tudor",
+      "difference": "Tudor is a period and a taste that timber framing passed through, not an alternative to it. Tudor at the great-house scale is brick and stone with four-centred arches and symmetrical gatehouse fronts; timber framing is the underlying carpentry tradition of the same decades at every scale below that."
+    },
+    {
+      "node": "english-cottage-vernacular",
+      "difference": "The cottage tradition is the same carpentry at the bottom of the social scale, and in the west it is often not carpentry at all but cob or rubble. Timber frame proper is a merchant's and yeoman's architecture with a designed frame; the cottage is what is left when the frame budget is a quarter of that."
+    },
+    {
+      "node": "german-fachwerk",
+      "difference": "Parallel rather than derived. Continental Fachwerk uses much closer studding with carved and painted sill beams, wall panels usually smaller and more decorated, and roofs framed with principal rafters and purlins rather than the English crown-post. English work leaves the oak to silver; the black-and-white paint scheme is largely a Victorian addition."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The structural bay of the frame. Everything — panel width, window width, jetty depth, roof truss spacing — is a division of a bay, and the bay is set by the length of sound oak a carpenter could get, roughly 4.5 m at the limit. There is no applied proportional theory of any kind.",
+    "typical_ratios": [
+      "Bay length 3.0-5.0 m; hall of two bays, crosswings of one to two",
+      "Wall panel roughly square in the south-east (1.0-1.4 m), and 1:3 to 1:4 vertical in East Anglian close studding",
+      "Post section 200-300 mm square; tie beam 250-350 mm deep",
+      "Jetty projection 350-600 mm, roughly one third of the floor joist depth times four — never the exaggerated overhang of revival work",
+      "Roof pitch 48-55 degrees; eave height 2.1-2.7 m at the wall plate"
+    ],
+    "bay_rhythm": "Visible and insistent: principal posts every 3.0-5.0 m carry the tie beams and truss, with secondary studs subdividing. Openings are cut within the panel field and never cross a principal post, so window widths are dictated by the frame rather than the other way round.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "h-plan-manor",
+      "affinity": "canonical",
+      "note": "The hall with jettied crosswings at both ends — the Wealden and half-H types are the tradition's central form."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "canonical",
+      "note": "The single-bay open hall, the irreducible unit before crosswings are added."
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "common",
+      "note": "The post-Rebuilding condition, hall and parlour either side of an inserted lobby-entry stack."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "Jettied timber street ranges in Lavenham, Shrewsbury, Chester and York, party-walled and gable-end or eaves-on to the street."
+    },
+    {
+      "massing": "garrison-block",
+      "affinity": "possible",
+      "note": "The jetty is precisely the ancestor of the American garrison overhang, which survived across the Atlantic as a decorative memory after the structural reason had gone."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Timber positions must be structurally derivable: every vertical member reaches a sill or a beam, every brace resolves a corner, and no timber terminates in mid-panel. Applied patterning that does not correspond to a frame is forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Jetty projection 350-600 mm. Below 300 mm the shadow line fails to register; above 750 mm the building reads as twentieth-century Tudor Revival caricature.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Roof pitch not less than 45 degrees, and not less than 50 degrees under thatch. Infill panels must be set behind the timber face so that water is thrown clear of the joint, never proud of it.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Openings are cut within a panel and may not interrupt a principal post or tie beam; window width is therefore a whole number of stud bays.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Where a masonry stack occurs in a frame of pre-1550 character it should read as an insertion — full-height, of different material, breaking the panel grid — because that is what it historically is.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Alfriston Clergy House",
+      "location": "Alfriston, East Sussex, England",
+      "year": 1350,
+      "note": "A fourteenth-century Wealden hall house, thatched, with its open hall and chalk-and-sour-milk floor intact; the first building bought by the National Trust, in 1896."
+    },
+    {
+      "name": "Paycocke's House",
+      "location": "Coggeshall, Essex, England",
+      "year": 1509,
+      "note": "A cloth merchant's house with elaborate close studding, a richly carved jetty bressumer and moulded ceiling beams — timber framing used as conspicuous display of wool wealth."
+    },
+    {
+      "name": "Little Moreton Hall",
+      "location": "Congleton, Cheshire, England",
+      "year": 1504,
+      "note": "North range 1504-08, west range 1546, south range with the Long Gallery c.1560-62. The West Midlands patterned-panel tradition at its most extravagant and least structurally disciplined; the gallery is visibly deforming the frame beneath it."
+    },
+    {
+      "name": "Lavenham Guildhall of Corpus Christi",
+      "location": "Lavenham, Suffolk, England",
+      "year": 1529,
+      "note": "East Anglian close studding at full strength, in a town where the wool trade collapsed early enough that nobody could afford to rebuild in brick."
+    }
+  ],
+  "sources": [
+    "R. W. Brunskill, Timber Building in Britain (1985)",
+    "R. W. Brunskill, Traditional Buildings of Britain (1981)",
+    "Richard Harris, Discovering Timber-Framed Buildings (1978)",
+    "W. G. Hoskins, 'The Rebuilding of Rural England 1570-1640', Past and Present 4 (1953)",
+    "Margaret Wood, The English Mediaeval House (1965)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "vernacular",
+    "timber",
+    "medieval",
+    "structural-expression"
+  ]
+}

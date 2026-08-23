@@ -1,0 +1,218 @@
+{
+  "id": "exposed-concrete-skirt",
+  "name": "The grey band under the siding",
+  "aka": [
+    "the snap-tie skirt",
+    "bare foundation wall",
+    "the eight-inch grey stripe",
+    "the ragged parge line"
+  ],
+  "slots": [
+    "foundation_expression"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "omission",
+  "symptom": "A band of bare grey concrete or concrete block between the earth and the bottom of the siding, 6 to 24 in high, with form-panel seams, snap-tie holes, a chalked stamp and often a fin of squeezed-out concrete along the footing line. It is not a base, it is the top of the foundation that could not be buried, and everyone can see it was not meant to be seen. Where a parge coat has been attempted, it stops in a wavering line a couple of inches above the earth with raw concrete showing below it, and its own thickness forms a shelf that catches soil and splash.",
+  "cause": {
+    "driver": "code",
+    "explanation": "Two code minima create the band and nothing removes it. Foundation walls must extend not less than 4 in above adjacent finished grade (IRC R404.1.6), and wood siding must be held not less than 6 in above the earth (IRC R317.1). The framer therefore sets the mudsill so 8-12 in of concrete shows, and the concrete is the same concrete as the buried part because it was one pour. Parging, veneering or expressing that band is a separate trade that arrives after the siding, so it is the easiest scope to delete when the budget tightens at the end of the job.",
+    "cost_saved": "Parging with a scored or floated cement render costs $6-$11 per square foot; a brick or stone base course $18-$32. On 170 lf of perimeter at 18 in high, roughly $1,500-$8,000 — invariably the last line item cut."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / foundation_expression",
+      "statement": "The foundation shows for 18 to 24 in below the water table, in a material and bond COARSER than the wall above."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / foundation_expression.height = part * 2 = 18 in; elevation member 'foundation' = 3 parts = 27 in",
+      "statement": "The elevation begins below the first floor; a house sitting on grade has lost the bottom term of the series."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the base is either expressed or concealed, and the failure is the middle case",
+      "statement": "Eighteen inches of deliberate stone is a base. Zero inches is a low house. Eight inches of accidental concrete is neither, and it is the only one of the three that looks like a mistake."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R404.1.6, R317.1, R401.3",
+      "statement": "Foundation walls extend not less than 4 in above adjacent finished grade; wood siding is held not less than 6 in above the earth and untreated wood 8 in; grade falls 6 in in the first 10 ft. Between them these produce 8-12 in of visible concrete by default. The code creates the band and says nothing about finishing it, which is the entire mechanism of this fault."
+    }
+  ],
+  "correct_practice": "Decide the base as a design element and give it a material. Either express it — 18-24 in of exposed foundation in a coarser material and bond than the wall above (stone rubble, English-bond brick, or a scored and floated parge), capped by a water table at 24-36 in above grade and returning fully round the volume — or conceal it, by raising the grade to within a few inches of the siding and taking the code clearance in a gravel or paved margin against the wall rather than in a visible band. The height must be the same all the way round the volume even where the grade falls: the water table is level; it is the ground that moves.",
+  "fixes": {
+    "right": "A base course of real material — brick, stone, or cast stone — from footing to water table, in a coarser bond than the wall above, with a projecting weathered cap.",
+    "cheap": "Parge and darken. A cement parge coat, floated smooth or lightly scored, in a colour distinctly darker than the siding above, costs $6-$9/sf and turns an accidental band into an intentional plinth for about $1,300 on a typical house. Three rules separate parging that works from parging that does not: it must be carried 4-6 in BELOW finished grade so no termination line is visible and no raw concrete shows at the earth line; it must be a different colour from both the siding and the concrete, because a grey parge on grey concrete has changed the texture and not the reading; and it should be wood-floated or sponged rather than steel-trowelled, because a slick face reads as concrete whatever colour it is. Combine with regrading to make the exposure a deliberate 18 in rather than a defensive 8.",
+    "dishonest": "Painting the concrete the same colour as the siding to make it disappear. It does not disappear — the texture and the sheen give it away at any distance under 100 ft — and it forfeits the base entirely, so the house now reads as having no bottom term at all. Also dishonest: piling mulch against the wall to cover the band, which buries the siding, voids the code clearance, and is the leading cause of the rot the clearance exists to prevent. And where the parge is scored to imitate stone, scoring it at an 8 x 16 in module is a third dishonesty: that is the concrete-block module behind it, and real coursed ashlar has beds of 8-12 in with faces of 16-30 in in a stretcher bond. A wall of squares 8 high by 16 long is unmistakably block wearing a stone costume."
+  },
+  "detection": "Look for form artefacts. Snap-tie holes at a regular 24-32 in grid, horizontal form-panel seams at 24 or 32 in, and a slight fin or ledge at the footing are all unambiguous and all visible in a photograph at ordinary resolution. Then measure the band's height against a siding course: 8-12 in of grey under a 4-7 in siding exposure is one and a half to two courses. Third, check whether the band's height varies round the building: an expressed foundation is a constant height with the grade falling away; an accidental one follows the ground and pinches to nothing at the high corner. If a parge coat is present, look at its bottom edge for a strip of different colour or texture between the parge and the earth, or a visible ledge with soil resting on it; and if it is scored, measure the rectangles — 1:2 at 8 x 16 in is block, 1:2.5 to 1:3 at 8-12 by 16-30 in with a broken vertical joint could be stone.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "minimal-traditional",
+      "why": "A very low foundation with a minimal exposed band is authentic to the type and part of its post-war economy; 8-12 in above grade is the historic figure the storey-graduation pack records for slab-on-grade work.",
+      "bounds": "Authentic to a type that makes no other classical claim, and the band should still be parged or painted as a deliberate colour, not left as raw concrete with tie holes.",
+      "bounds_test": {
+        "expression": "unfinished_concrete_visible_height_in",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "The low band is authentic to the type; leaving it raw is not. The band must still be parged or painted as a deliberate colour — the height relaxes, the finish does not."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1955
+        ]
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "Same reasoning: the ranch deliberately hugs the ground and does not want a plinth.",
+      "bounds": "The band must still be finished. Ground-hugging is a massing decision; raw concrete is an unfinished surface.",
+      "bounds_test": {
+        "expression": "unfinished_concrete_visible_height_in",
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Ground-hugging is a massing decision; raw concrete is an unfinished surface. Same relaxation and same non-relaxation as above."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "A visible, deliberately rough foundation of river boulder, arroyo stone or clinker brick is definitional — deliberately irregular masonry against regular woodwork.",
+      "bounds": "It must be that masonry, and it must be tall enough to read: 18-30 in, running into the porch piers. A concrete band with a stone pattern stamped into it is a different fault.",
+      "bounds_test": {
+        "expression": "expressed_base_height_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 18,
+        "upper": 30,
+        "note": "River boulder, arroyo stone or clinker brick, tall enough to read and running into the porch piers. A concrete band with a stone pattern stamped into it is a different fault."
+      },
+      "applies_when": {
+        "slots": [
+          "foundation_expression",
+          "porch_support"
+        ]
+      }
+    },
+    {
+      "style": "shotgun-house",
+      "why": "Open brick piers rather than a continuous wall; there is no band.",
+      "bounds": "Piers must be open or lattice-skirted.",
+      "bounds_test": {
+        "expression": "open_pier_void_width / pier_bay_width",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "note": "Piers must genuinely be open or lattice-skirted."
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Scored stucco or parging imitating ashlar over a real masonry base is a legitimate and widespread 19th-century treatment, and Regency and high-style Greek Revival work do the same in render and in scored flush boarding.",
+      "bounds": "Over genuine masonry, set out at a stone module (beds 8-12 in, faces 16-30 in), with the scoring returning round the whole volume. Scoring a parge over concrete block at the block's own module is the fault.",
+      "bounds_test": {
+        "expression": "scored_course_face_length_in",
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 16,
+        "upper": 30,
+        "note": "Scoring must be set out at a stone module — beds 8-12 in, faces 16-30 in, stretcher bond — and must return round the whole volume. A wall of squares 8 high by 16 long is the concrete-block module wearing a stone costume."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "house-without-a-base",
+      "difference": "That fault is about the first floor being too close to the ground; this one is about the exposed band being unfinished. A house can have a generous 30 in of foundation showing and still show it in raw concrete."
+    }
+  ],
+  "sources": [
+    "International Residential Code R404.1.6 (foundation 4 in above finished grade), R317.1 (6 in clearance from earth to siding, 8 in to untreated wood), R401.3 (6 in fall in 10 ft)",
+    "proportions/modules/storey-graduation.json, foundation_expression.height authority note (18-30 in Anglo-American norm; 8-12 in post-war slab)",
+    "proportions/systems/facade-classical.json, elevation member 'foundation'",
+    "kits/georgian-colonial-american.kit.json, foundation_expression",
+    "NPS Preservation Brief 22: The Preservation and Repair of Historic Stucco"
+  ],
+  "confidence": "high",
+  "tags": [
+    "foundation",
+    "base",
+    "omission",
+    "code-driven",
+    "parging"
+  ],
+  "test": {
+    "expression": "unfinished_concrete_visible_height_in",
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 0,
+    "note": "The band is either expressed or concealed, and the failure is the middle case: 18 in of deliberate stone is a base, zero inches is a low house, and 8 in of accidental concrete is neither and is the only one of the three that looks like a mistake. Any visible height of raw formed concrete is the fault; form artefacts make it unambiguous in a photograph."
+  },
+  "secondary_tests": [
+    {
+      "expression": "expressed_base_height_in",
+      "direction": "between",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 18,
+      "upper": 30,
+      "note": "Where the band IS finished, this is what it should measure. The storey-graduation pack's authority note gives 18-30 in as the Anglo-American norm, 36-60 in for raised and flood-adapted types, and 8-12 in for post-war slab-on-grade."
+    },
+    {
+      "expression": "snap_tie_holes_visible",
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 0,
+      "note": "Snap-tie holes at a regular 24-32 in grid, horizontal form-panel seams at 24 or 32 in, and a fin or ledge at the footing are all unambiguous form artefacts and all visible at ordinary photographic resolution. They are the fastest positive identification of the fault."
+    },
+    {
+      "expression": "base_band_height_variation_around_volume_in",
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 2,
+      "note": "An expressed foundation is a constant height with the grade falling away from it; an accidental one follows the ground and pinches to nothing at the high corner. Large variation here also triggers water-table-that-follows-the-grade."
+    },
+    {
+      "expression": "parge_termination_height_above_grade_in",
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0,
+      "note": "Where a parge coat is present it must be carried 4-6 in BELOW finished grade so no termination line shows. The eye locks onto the termination, not the field, so a 2 in strip of exposed concrete does more damage than 18 in of honest concrete would."
+    }
+  ],
+  "co_occurs_with": [
+    "house-without-a-base",
+    "brick-ledge-base",
+    "water-table-that-follows-the-grade"
+  ],
+  "severity_in_use": "minor",
+  "severity_trajectory": "Static as a fabric matter and worsening as a maintenance one: the usual owner response is to pile mulch against the wall to hide the band, which buries the siding, voids the IRC R317.1 clearance the band exists to provide, and produces the rot that clearance was written to prevent. The visual fault is therefore the leading cause of the fabric fault that follows it."
+}

@@ -1,0 +1,156 @@
+{
+  "id": "porch-pitch-unrelated-to-the-roof",
+  "name": "The Porch At A Fifth Pitch",
+  "aka": [
+    "the 3:12 porch on a 10:12 house",
+    "pitch drift at the threshold"
+  ],
+  "slots": [
+    "porch_type",
+    "roof_pitch",
+    "porch_ceiling"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "composition",
+  "symptom": "A porch roof at a pitch that belongs to no family the house contains — typically 2:12 or 3:12 under an 8:12 or 10:12 main roof, occasionally the reverse. On a house that already has a main roof, a garage roof, a dormer and a bay roof, the porch adds a fifth angle, so the elevation contains five slopes and no rhythm. The low porch pitch also brings a material problem with it: at 3:12 an asphalt shingle needs a double underlayment and at 2:12 it cannot be used at all, so either the porch has a different roofing material from the house or it is roofed in shingles below their tested limit.",
+  "cause": {
+    "driver": "code",
+    "explanation": "The porch pitch is set by two constraints and neither is architectural. The upper constraint is the second-floor window sills or the main eave: the porch roof must land below them, which on a two-storey house with a 9 ft first floor leaves about 18 to 30 in of rise. The lower constraint is the porch depth: 8 ft of depth against 24 in of rise is 3:12. The pitch is therefore an arithmetic consequence of the section, computed by the framer on site. Nobody chooses it, and the manufacturer's low-slope requirements are then dealt with by the roofer, separately, after the fact.",
+    "cost_saved": "Nothing directly. Reconciling the pitch usually means either a shallower porch or a higher porch roof intersecting the second-floor windows, and the extra cost of low-slope roofing at 2:12 to 3:12 — double underlayment or a membrane — is 2 to 5 USD a square foot ADDED. This fault generally costs money.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "facade-picturesque / roof pitch family discipline",
+      "statement": "A composed elevation carries one roof pitch, or two in a stated relationship. Each additional unrelated slope subtracts from the coherence of the whole and none of them can be recovered by detailing."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R905.2.2 — asphalt shingle minimum slope",
+      "statement": "Asphalt shingles require a minimum slope of 2:12, and between 2:12 and 4:12 a double layer of underlayment is required. Below 2:12 shingles may not be used at all."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "roof pitch is the highest-signal, lowest-cost style tell on a building",
+      "statement": "The slots ontology says so of the main roof, and it is true at the porch too: a porch is a roof seen at close range from directly beneath, so its pitch is read more accurately than the main roof's."
+    }
+  ],
+  "correct_practice": "The porch roof belongs to the main roof's family. Three admissible relationships. SAME PITCH: the porch is an extension of the main slope or a gable of the same pitch — always correct, and the only option on an engaged porch. TWO THIRDS TO THREE QUARTERS: a gallery or veranda at about two thirds of the main pitch is documented across the Victorian and vernacular traditions and reads as a deliberate lighter structure; on a 10:12 house that is a 6:12 or 7:12 porch. A SWEPT EAVE: the Dutch Colonial and the Creole raised cottage break the main slope to a flatter one over the gallery, and the break is a designed kink with the flatter slope at about half the upper one — this is the one case where a very shallow porch roof is correct, and it is correct precisely because the two slopes are visibly continuous. What is never right is an independent number produced by arithmetic. Where the section will not permit a related pitch, the honest answer is a shallower porch or a flat-roofed porch with a balustrade above it, which is a real Federal and Greek Revival form.",
+  "fixes": {
+    "right": "Set the porch pitch from the main roof at the same pitch or two thirds of it, and resolve the section by making the porch shallower or by raising the porch roof into a shed dormer condition between the second-floor windows.",
+    "cheap": "Make it flat and put a balustrade on it. A flat or 1/4:12 porch roof with a membrane and a period balustrade above is a documented Federal, Greek Revival and Italianate form; it costs about the same as a 3:12 shingled porch once the low-slope underlayment is priced in, it removes the fifth angle from the elevation entirely, and it gives the second storey a usable deck. Second free move: if the pitch must stay shallow, roof the porch in standing-seam metal rather than shingles — at 3:12 metal is correct, cheaper to install on a small area than double-underlaid shingle, and the change of material declares the porch as a distinct light structure, which is the third correct relationship.",
+    "dishonest": "Steepening only the visible front edge of the porch roof with a false fascia or a built-up rake, so the pitch reads steeper from the street than it is. The deception fails from any oblique view and creates a wedge-shaped void behind the fascia that collects water."
+  },
+  "detection": "Measure both angles from a single straight-on or slightly oblique photograph. Take the main roof's rake angle and the porch roof's, and express the porch's as a fraction of the main's. Between 0.6 and 1.0 is a family; below 0.5 is an independent number. Then count the DISTINCT slopes on the whole front elevation — main roof, porch, dormers, garage, bays. More than three is a compositional failure regardless of what any individual angle is. Third check, which finds the material consequence: is the porch roof a different material from the main roof? If the house is shingled and the porch is metal or membrane, either the porch pitch is below the shingle limit or someone made a deliberate and probably good decision — the rest of the detailing will say which.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "porch_roof_pitch / main_roof_pitch",
+    "threshold": 0.6,
+    "upper": 1.0,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Two thirds to equal. A porch roof steeper than the main roof is almost always wrong; a porch roof below about 0.5 has left the family. The swept-eave exception (Dutch Colonial, Creole) goes below this band legitimately and is identifiable by the two slopes being visibly continuous rather than separated by a wall."
+  },
+  "severity_by_style": [
+    {
+      "style": "craftsman",
+      "severity": "fatal",
+      "why": "The porch roof is the main roof, continued. There is no second pitch to get wrong, so a second pitch is itself the failure."
+    },
+    {
+      "style": "dutch-colonial-revival",
+      "severity": "serious",
+      "why": "The style depends on a specific two-slope relationship and an arbitrary third slope destroys it."
+    },
+    {
+      "style": "queen-anne-american",
+      "severity": "minor",
+      "why": "The picturesque composition tolerates and even wants multiple slopes, provided each belongs to a mass rather than to an accident."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The composed front cannot absorb an extra angle; the pediment or the flat-roofed portico with a balustrade are the two correct answers."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "severity": "serious",
+      "why": "The idiom's endemic failure: a steep main gable with a nearly flat shed porch across the front."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "dutch-colonial-revival",
+      "why": "The swept or flared eave is a deliberate break to a much flatter slope over the porch or the wall head, and the flare is the style's signature. The two slopes are continuous — the break happens in the plane of the roof, not at a wall — so the eye reads one roof with a curve in it.",
+      "bounds": "The break must occur IN the roof plane with no wall between the two slopes, and the flatter slope must be no less than about a third of the upper. A separate porch roof springing from a wall below the main eave is not a swept eave.",
+      "bounds_test": {
+        "expression": "lower_slope_pitch / upper_slope_pitch",
+        "threshold": 0.3,
+        "upper": 0.6,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "The Creole double-pitch roof breaks to a flatter gallery slope on both floors, and the break is the type's defining profile.",
+      "bounds": "Continuous in the roof plane, both elevations, and the gallery slope carried on colonnettes rather than on a wall.",
+      "applies_when": {
+        "regions": [
+          "lower-mississippi",
+          "gulf-coast"
+        ]
+      }
+    },
+    {
+      "style": "federal-style",
+      "why": "The flat-roofed portico with a balustrade above it is a correct Federal form and has no pitch at all, so the family test does not apply.",
+      "bounds": "The flat roof must be finished as a deck with a balustrade, not as a bare membrane behind a fascia."
+    },
+    {
+      "style": "italianate-american",
+      "why": "The Italianate porch roof is deliberately very shallow — often 2:12 or flatter — under a low hipped main roof, and the whole style is characterised by low slopes and deep brackets.",
+      "bounds": "The main roof must itself be low — 3:12 to 5:12 — so the porch is shallow relative to a shallow house. A 2:12 Italianate porch under a 10:12 roof is not this exception."
+    }
+  ],
+  "co_occurs_with": [
+    "porch-hung-on-the-wall",
+    "wing-pitch-drift",
+    "pitch-below-material-shed-limit",
+    "truss-flattened-pitch"
+  ],
+  "confused_with": [
+    {
+      "fault": "wing-pitch-drift",
+      "difference": "That fault is a wing's roof drifting from the main roof's pitch. This is the porch's. Same discipline, different element; a house often has both, and the count of distinct slopes is the number that matters."
+    },
+    {
+      "fault": "pitch-below-material-shed-limit",
+      "difference": "That fault is a roof below the slope its material can shed at. This one is about the RELATIONSHIP between two pitches. A porch can be at 3:12 in standing-seam metal, which sheds perfectly well, and still be at an unrelated angle."
+    },
+    {
+      "fault": "porch-hung-on-the-wall",
+      "difference": "Structural and compositional relationship versus angle. They co-occur because both come from the porch leaving the roof package."
+    }
+  ],
+  "sources": [
+    "IRC R905.2.2, asphalt shingle minimum slope and underlayment requirements",
+    "proportions/systems/facade-picturesque.json",
+    "elements/slots.json, roof_pitch note",
+    "HABS documentation of Dutch Colonial swept eaves and Creole double-pitch galleries"
+  ],
+  "confidence": "high",
+  "tags": [
+    "porch",
+    "roof-pitch",
+    "composition",
+    "cost-negative",
+    "endemic"
+  ]
+}

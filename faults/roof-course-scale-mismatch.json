@@ -1,0 +1,205 @@
+{
+  "id": "roof-course-scale-mismatch",
+  "name": "The Roof Out of Scale With Its House",
+  "aka": [
+    "coarse coursing",
+    "the textureless roof"
+  ],
+  "slots": [
+    "roof_material"
+  ],
+  "severity": "minor",
+  "severity_by_style": [
+    {
+      "style": "shingle-style",
+      "severity": "serious",
+      "why": "Uniformity of exposure across wall and roof is a hard rule of the style, not a refinement."
+    },
+    {
+      "style": "cotswold-vernacular",
+      "severity": "serious",
+      "why": "Graduated coursing is the type's whole roof logic."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "minor",
+      "why": "Within the 5-7 in band the difference is a refinement that separates good from very good."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The type has no traditional coursing claim."
+    }
+  ],
+  "frequency": "common",
+  "category": "scale",
+  "symptom": "The roof's course lines are the wrong size for the building they are on: sixteen-inch 'shakes' at a ten-inch exposure on a small cottage, or a five-inch slate exposure on a sixty-foot front, so the roof reads either coarse and under-coursed or fine and busy. The related failure is a ridge, hip or valley detail of a completely different visual weight from the field - a hip cap twice the thickness of a field course.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Exposure is set by the material's warranty schedule and by labour, not by the building. Every extra inch of exposure removes courses and therefore removes both material and time: going from a 5 in to a 7 1/2 in exposure on a wood shingle roof removes a third of the shingles and a third of the nailing. The estimator picks the maximum exposure the warranty allows, which is a number about the material and contains no information about the house.",
+    "cost_saved": "20-35 per cent of the roof's material and labour between the tight and the loose end of a material's permitted exposure range."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_material",
+      "statement": "Shingle length 18-24 in, exposure 5-7 in and not more than one third of the length, width 3-8 in, butt 3/8-3/4 in, side gap 1/8-1/2 in, course stagger not less than 1.5 in (NPS Preservation Brief 19)."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "coursing is a scale device",
+      "statement": "The number of courses between eave and ridge is one of the few things that tells the eye how big a roof is. A roof whose courses cannot be counted at fifty feet has no texture and reads as a coloured plane."
+    }
+  ],
+  "correct_practice": "Read the coursing against the building, not only against the warranty. Wood shingle: 18-24 in long at 5-7 in exposure, never more than one third of the shingle's length, in 3-8 in widths with a minimum 1.5 in stagger between courses. Slate: an 18 x 10 in slate with a 3 in head lap gives a 7.5 in exposure, and smaller slates at tighter courses belong on smaller and steeper roofs - which is why a good slate roof on a cottage is not simply a scaled-down version of one on a mansion. The scale rule: a modest house should show enough courses to read as a texture, roughly 25 to 40 from eave to ridge, while a large house can take larger units and fewer, coarser courses. And the material's units must remain legible as units at the distance from which the building is normally seen.",
+  "fixes": {
+    "right": "Specify the exposure as a dimension on the drawing, chosen from the roof's slope length and the building's size, rather than leaving it to the estimator.",
+    "cheap": "Reduce the exposure by an inch. On slate and wood it costs material in proportion, but on a small roof the absolute number is small and it is the difference between a roof with texture and a roof without. And it is free to get the ridge and hip right: specify that hip and ridge units may not exceed twice a field course's exposure.",
+    "dishonest": "Using an oversized 'designer' shingle to make a small roof look grander. Coarse coursing on a small roof makes the house look smaller, not larger, because the courses are the only unit of measurement the eye has."
+  },
+  "test": {
+    "expression": "course_count_from_eave_to_ridge",
+    "threshold": 25,
+    "direction": "between",
+    "units": "count",
+    "measurable_from": "photograph",
+    "upper": 40,
+    "note": "Directly countable in a photograph of a whole roof plane. A modest house should show enough courses to read as a texture; a great house takes larger units and fewer, coarser courses. A roof whose courses cannot be counted at fifty feet has no texture and reads as a coloured plane."
+  },
+  "secondary_tests": [
+    {
+      "expression": "shingle_exposure_in / shingle_length_in",
+      "threshold": 0.3333,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Not more than one third of the shingle's length to the weather - the NPS Brief 19 rule, which is simultaneously the watertightness rule and the scale rule, and the reason the two cannot be traded against each other."
+    },
+    {
+      "expression": "ridge_or_hip_cap_apparent_exposure_in / field_course_exposure_in",
+      "threshold": 2.0,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A cap more than about twice a field course reads as a different material. This half of the test is free to get right and is almost always got wrong."
+    },
+    {
+      "expression": "count_of_distinct_roofing_materials_within_one_roof_plane",
+      "threshold": 1,
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "note": "Mixing within one plane - two coursings, or a metal accent panel inserted into a shingled slope - announces that the roof is a collection rather than a surface."
+    }
+  ],
+  "detection": "Count courses from eave to ridge in a photograph and divide by the roof's slope length in feet. Wood shingle at a 6 in exposure gives two courses to the foot; slate at 7.5 in gives 1.6; a standing-seam panel gives none, and its ribs give a vertical rhythm instead at 12-20 in. Then compare the ridge and hip detail's apparent thickness against a field course: a cap more than about twice a field course reads as a different material. Finally, look for mixing within one plane - two coursings, or a metal accent panel inserted into a shingled slope, both of which announce that the roof is a collection rather than a surface.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "A 4-6 in exposure held uniform across the ENTIRE building, wall and roof alike, is definitional - deliberately fine and deliberately monotonous, so that the two surfaces read as one skin.",
+      "bounds": "The fineness is only correct if the wall shingles match it exactly. A fine roof over a coarse wall is the fault in a different place.",
+      "bounds_test": {
+        "expression": "wall_shingle_exposure_in / roof_shingle_exposure_in",
+        "threshold": 0.95,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "upper": 1.05,
+        "note": "The fineness is only correct if the wall shingles match it exactly. A fine roof over a coarse wall is the fault in a different place."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "Heavy shakes at a large exposure are correct on a bungalow, because the whole material palette is deliberately coarse - clinker brick, boulder, heavy timber - and the roof is part of that argument.",
+      "bounds": "The coarseness must be consistent with the rest of the palette. A heavy shake roof over smooth machine-lap siding and vinyl windows is not this.",
+      "bounds_test": {
+        "expression": "shingle_exposure_in",
+        "threshold": 7,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The coarseness must be consistent with the rest of the palette - clinker brick, boulder, heavy timber. A heavy shake roof over smooth machine-lap siding and vinyl windows is not this."
+      }
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Barrel tile's scale is set by the tile at 15-18 in, and the roof is meant to read coarse against a smooth plastered wall.",
+      "bounds": "The contrast with the smooth wall is what makes it work; a coarse tile over a coarse wall loses the argument.",
+      "bounds_test": {
+        "expression": "tile_length_in",
+        "threshold": 15,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 18,
+        "note": "The contrast with the smooth plastered wall is what makes it work; a coarse tile over a coarse wall loses the argument."
+      }
+    },
+    {
+      "style": "mission-revival",
+      "why": "Same tile logic.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "tile_length_in",
+        "threshold": 15,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 18,
+        "note": "As above."
+      }
+    },
+    {
+      "style": "cotswold-vernacular",
+      "why": "Stone slates are graduated deliberately - large at the eave, small at the ridge - so a single exposure figure does not describe the roof at all.",
+      "bounds": "The graduation must be continuous and the courses must diminish monotonically; random sizes are not graduation.",
+      "bounds_test": {
+        "expression": "eave_course_length_in / ridge_course_length_in",
+        "threshold": 1.5,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The graduation must be continuous and the courses must diminish monotonically; random sizes are not graduation."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "shingle-style",
+      "statement": "Varying exposure is the fault. 4-6 in held uniform across the ENTIRE building, wall and roof alike, is definitional - deliberately fine and deliberately monotonous, so the two surfaces read as one skin."
+    },
+    {
+      "style": "cotswold-vernacular",
+      "statement": "A uniform exposure is the fault. Stone slates are graduated - large at the eave, small at the ridge - so a single exposure figure does not describe the roof at all."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "faux-slate-architectural-shingle",
+      "difference": "That is a material imitating another. This is a real material at the wrong grain for its building."
+    },
+    {
+      "fault": "ridge-vent-on-a-slate-roof",
+      "difference": "The ridge half of this fault overlaps, but that one is specifically about ventilation driving a foreign ridge material."
+    }
+  ],
+  "co_occurs_with": [
+    "faux-slate-architectural-shingle"
+  ],
+  "sources": [
+    "NPS Preservation Brief 19: The Repair and Replacement of Historic Wooden Shingle Roofs",
+    "NPS Preservation Brief 29: Historic Slate Roofs",
+    "kits/georgian-colonial-american.kit.json roof_material",
+    "project style nodes: shingle-style, cotswold-vernacular"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "roof",
+    "material",
+    "scale",
+    "texture"
+  ]
+}

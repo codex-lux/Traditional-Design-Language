@@ -1,0 +1,425 @@
+{
+  "id": "benjamin-corinthian",
+  "name": "Corinthian Order (Asher Benjamin) - overlay on Vignola",
+  "aka": [
+    "American Corinthian",
+    "Federal Corinthian",
+    "Benjamin's Roman Corinthian"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style of building, THIRD EDITION, corrected and enlarged (Boston: R. P. & C. Williams, April 1816), Plate 15, with Plates 21, 23, 24, 26-28, 35",
+    "author": "Asher Benjamin",
+    "year": 1816,
+    "strength": "canonical",
+    "url": "https://archive.org/details/americanbuilders00benj_0",
+    "note": "THE BEST-SOURCED OF THE FOUR BENJAMIN PACKS. Alone among his five orders, Benjamin sets out the Corinthian member by member in the letterpress: 'the entablature is two diameters high; cornice, forty eight minutes; frieze, forty one; architrave, thirty one; capital, seventy; base, thirty minutes; column, including base and capital, eleven diameters.' Those figures sum exactly and are encoded at high confidence. Edition: American Builder's Companion, 3rd edition, Boston 1816 - the Federal Corinthian, and a genuine delta on Vignola. The Corinthian of The Practical House Carpenter (1830) is discussed against Greek precedent (the monument of Lysicrates, the Stoa and arch of Adrian) and is not encoded here."
+  },
+  "overlay_of": "vignola-corinthian",
+  "module": {
+    "name": "semidiameter of the column at its base, divided into thirty minutes",
+    "parts": 30,
+    "default_size_in": 7.0,
+    "note": "THE MODULE IS A DELTA. Vignola divides the Corinthian module into 18 parts; Benjamin, following Chambers, divides the DIAMETER into sixty minutes, so the semidiameter carries thirty. Every figure here is in minutes. Default 7 in. gives a 14 in. column - the size of a Federal church or bank portico - at which one minute is just under a quarter of an inch.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 22,
+    "shaft_height_modules": 18.666666666666668
+  },
+  "assemblies": {
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth",
+          "height_parts": 15,
+          "projection_parts": 12,
+          "profile": "plinth",
+          "note": "Base total stated verbatim: 'base, thirty minutes' = 1 module, agreeing with Vignola. What differs is which base. Benjamin: 'I have given this order Palladio's Ionic base for the sake of variety; but the Attic base may, with propriety, be used in all the orders, EXCEPT THE TUSCAN.' Vignola gives the Corinthian its own base with two tori, a scotia and two fillets. Individual member heights are figured on Plate 15 only; apportioned here.",
+          "confidence": "low"
+        },
+        {
+          "id": "base_lower_torus",
+          "name": "Lower torus",
+          "height_parts": 5,
+          "projection_parts": 12,
+          "profile": "torus",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "base_lower_fillet",
+          "name": "Fillet under the scotia",
+          "height_parts": 1,
+          "projection_parts": 8,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "base_scotia",
+          "name": "Scotia",
+          "height_parts": 4,
+          "projection_parts": 6,
+          "profile": "scotia",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "base_upper_fillet",
+          "name": "Fillet over the scotia",
+          "height_parts": 1,
+          "projection_parts": 8,
+          "profile": "fillet",
+          "confidence": "low",
+          "note": "Apportioned."
+        },
+        {
+          "id": "base_upper_torus",
+          "name": "Upper torus",
+          "height_parts": 4,
+          "projection_parts": 9,
+          "profile": "torus",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "subplinth": {
+      "height_modules": 2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "subplinth_block",
+          "name": "Subplinth",
+          "height_parts": 60,
+          "projection_parts": 18,
+          "profile": "plinth",
+          "note": "ADDED ASSEMBLY, no counterpart in Vignola. 'If, on a subplinth, divide the whole height into twenty eight parts; give two of them to the diameter of the column, and make the subplinth one diameter of the column in height.' 28/2 = 14 diameters = column 11 + entablature 2 + subplinth 1. Exact.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "pedestal": {
+      "height_modules": 6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal",
+          "height_parts": 30,
+          "projection_parts": 16,
+          "profile": "plinth",
+          "note": "Total stated twice: 'make the pedestal three diameters of the column in height' (Plate 15) and 'I have given... the Corinthian and Composite, three diameters each, in height' (Plate 24). 180 minutes = 6 modules, against Vignola's 7. NOTE AN ARITHMETIC INCONSISTENCY IN THE SOURCE: the same paragraph says 'if a pedestal is to be added, divide the whole height into thirty four equal parts; two of which are the diameter', which gives 17 diameters where column 11 plus entablature 2 plus pedestal 3 gives 16. Every other order in the book checks exactly, and the Composite pedestal instruction (97 parts of 6 = 16 1/6 D) confirms the three-diameter pedestal, so 'thirty four' is taken as a typographical error for thirty two. The three-part division into base, dye and cornice is apportioned.",
+          "confidence": "low"
+        },
+        {
+          "id": "ped_die",
+          "name": "Dye of the pedestal",
+          "height_parts": 130,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "low",
+          "note": "Apportioned. Benjamin's bounds: the dye not much less than a square in height, the pedestal not more than one third of the column. Three diameters on an eleven-diameter column is 0.273 - comfortably inside his own maximum, which is Vignola's fixed figure."
+        },
+        {
+          "id": "ped_cap",
+          "name": "Cornice of the pedestal",
+          "height_parts": 20,
+          "projection_parts": 16,
+          "profile": "cyma-reversa",
+          "confidence": "low",
+          "note": "Apportioned."
+        }
+      ]
+    },
+    "entablature": {
+      "height_modules": 4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ent_architrave",
+          "name": "Architrave",
+          "height_parts": 31,
+          "projection_parts": 7,
+          "profile": "fascia",
+          "note": "STATED VERBATIM: 'architrave, thirty one [minutes]'. 31 + 41 + 48 = 120 = 2 diameters exactly. Vignola's Corinthian architrave is 1 1/2 modules = 45 minutes; Benjamin's is 31 - a reduction of nearly a third, and the largest single member reduction in this pack. The architrave is the member a carpenter can least afford, because it is the deepest continuous run of stock in the whole entablature.",
+          "confidence": "high"
+        },
+        {
+          "id": "ent_frieze",
+          "name": "Frieze",
+          "height_parts": 41,
+          "projection_parts": 0,
+          "profile": "flat",
+          "enrichment": "carved or swelled where the order is enriched; reduced to 36 minutes when left plain",
+          "note": "STATED VERBATIM: 'frieze, forty one' - AND THEN THE COST RULE, in Benjamin's own words and in the same paragraph: 'IF NO ENRICHMENTS ARE USED IN THE FRIEZE, IT MAY BE REDUCED TO THIRTY SIX MINUTES IN HEIGHT.' This is the clearest statement anywhere in the American literature that a member's height is a function of what is carved on it. Carving lightens a surface, so an enriched frieze can be taller; a plain one must be shorter or it reads as a blank band. He says the same thing about mouldings generally: 'When mouldings are ornamented, they may be larger than when plain, as carving lightens them.' Vignola's Corinthian frieze is 1 1/2 modules = 45 minutes.",
+          "confidence": "high"
+        },
+        {
+          "id": "ent_cornice",
+          "name": "Cornice, with modillions and dentils",
+          "height_parts": 48,
+          "projection_parts": 48,
+          "profile": "modillion",
+          "count": null,
+          "spacing_parts": 17.5,
+          "note": "STATED VERBATIM: 'cornice, forty eight'. Vignola's is 2 modules = 60 minutes. Modillions stated too: 'the modillions are thirteen minutes in front, and thirty five from centre to centre. The directions given for placing modillions, in the Ionic order, are to be strictly observed in this' - i.e. the centre of a modillion exactly over the centre of each column. Thirty-five minutes on centres is 17 1/2 parts of this pack's module, against Vignola's Corinthian pitch of one module = 30 minutes. Benjamin's modillions are further apart and narrower. The internal division of the 48 minutes among bed mould, dentils, ovolo, modillion, corona and cymatium is figured on Plate 15 only and is not encoded.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "entablature_plain_frieze": {
+      "height_modules": 3.8333333333333335,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "entpf_architrave",
+          "name": "Architrave",
+          "height_parts": 31,
+          "projection_parts": 7,
+          "profile": "fascia",
+          "confidence": "high",
+          "note": "Unchanged."
+        },
+        {
+          "id": "entpf_frieze",
+          "name": "Frieze, plain",
+          "height_parts": 36,
+          "projection_parts": 0,
+          "profile": "flat",
+          "confidence": "high",
+          "note": "'If no enrichments are used in the frieze, it may be reduced to thirty six minutes in height.' Five minutes off the entablature, taken entirely from the frieze - which is exactly the opposite instruction from the one Benjamin gives for the Tuscan in 1830, where the reduction comes 'in about equal proportions from the frieze and architrave'. The difference is that here the frieze is being reduced BECAUSE it is plain, not because the entablature must fit."
+        },
+        {
+          "id": "entpf_cornice",
+          "name": "Cornice",
+          "height_parts": 48,
+          "projection_parts": 48,
+          "profile": "modillion",
+          "confidence": "high",
+          "note": "Unchanged. The cornice never gives - a rule Benjamin holds in both books and in every order."
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The Corinthian column is ELEVEN diameters, not ten.",
+      "expression": "column.height_modules == 22",
+      "tolerance": 0.001,
+      "note": "'I have given the Tuscan column eight diameters in height... and have regularly progressed, by giving the Doric nine, the Ionic ten, the Corinthian and Composite eleven diameters each.' Benjamin's Corinthian is a diameter taller than Vignola's and two diameters taller than the antique Corinthian of Vitruvius."
+    },
+    {
+      "statement": "The entablature is 2/11 of the column - not one quarter, not one fifth.",
+      "expression": "assemblies.entablature.height_modules == column.height_modules * 2 / 11",
+      "tolerance": 0.001,
+      "note": "4 modules on a 22-module column = 1 : 5.5. Vignola: 5 on 20 = 1 : 4. Gibbs, after Palladio: 1 : 5. Benjamin is lighter than either, and the entablature is 4 modules where Vignola's is 5 - a full module gone in absolute terms while the column gained two."
+    },
+    {
+      "statement": "Architrave, frieze and cornice are 31 : 41 : 48 minutes, summing to two diameters.",
+      "expression": "assemblies.entablature.members.ent_architrave.height_parts + assemblies.entablature.members.ent_frieze.height_parts + assemblies.entablature.members.ent_cornice.height_parts == 120",
+      "tolerance": 0.001,
+      "note": "Stated verbatim and it checks. Vignola's Corinthian is 27 : 27 : 36 of ninety parts, i.e. 3 : 3 : 4, with architrave and frieze equal. Benjamin's is 31 : 41 : 48 - the frieze is a THIRD taller than the architrave. That is a real change of character: the Federal Corinthian entablature is a broad frieze between two thin bands, which is why Federal friezes carry so much applied ornament. There is room for it."
+    },
+    {
+      "statement": "The pedestal is 3/11 of the column, and no ratio is claimed.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules * 3 / 11",
+      "tolerance": 0.001,
+      "note": "0.273 against Vignola's 0.333. Benjamin: 'I have judged it more regular to treat of the pedestal as a separate body; having no more connection with the order, than as an attic, a basement, or any other part with which it may, on some occasions be accompanied.'"
+    },
+    {
+      "statement": "The capital is seventy minutes - two and one third modules, exactly as in Vignola.",
+      "expression": "column.shaft_height_modules + 1 + 70 / 30 == column.height_modules",
+      "tolerance": 0.001,
+      "note": "'capital, seventy; base, thirty minutes.' Seventy minutes is one diameter and one sixth, which is Vignola's 2 1/3 modules and Gibbs's 'one Diameter and one sixth' - all three authorities agree on the Corinthian capital and on nothing else in the order. The consequence is that Benjamin's SHAFT is 18 2/3 modules where Vignola's is 16 2/3: the whole of the added diameter goes into the shaft, which is where attenuation is actually seen."
+    },
+    {
+      "statement": "The whole height on a subplinth divides into twenty-eight, of which two are the diameter.",
+      "expression": "(column.height_modules + assemblies.entablature.height_modules + assemblies.subplinth.height_modules) / 2 * 2 == 28",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The plain-frieze entablature is five minutes shorter, all of it taken from the frieze.",
+      "expression": "assemblies.entablature.height_modules - assemblies.entablature_plain_frieze.height_modules == 5 / 30",
+      "tolerance": 0.001,
+      "note": "'If no enrichments are used in the frieze, it may be reduced to thirty six minutes in height.'"
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "frieze",
+      "dimension": "height",
+      "expression": "column_height * 36 / 660",
+      "units": "in",
+      "range": [
+        6,
+        30
+      ],
+      "authority_note": "THE ENRICHMENT-FOR-HEIGHT TRADE, AND IT IS THE MOST TRANSFERABLE RULE BENJAMIN EVER WROTE. An enriched Corinthian frieze is 41 minutes of a 660-minute column; a plain one is 36. Five minutes - about an eighth - comes off the moment the carving comes off, because 'when mouldings are ornamented, they may be larger than when plain, as carving lightens them.' The corollary is what matters on a production job: IF YOU DELETE THE ORNAMENT YOU MUST ALSO SHRINK THE MEMBER, or the elevation gets heavier as it gets cheaper. This is the exact failure mode of value-engineered traditional work - the ornament is cut and the proportions are left, and the building reads as lumpen rather than as plain.",
+      "judgment": false,
+      "note": "Expression gives the PLAIN frieze. For an enriched frieze use column_height * 41/660."
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height * 2 / 11",
+      "units": "in",
+      "range": [
+        18,
+        90
+      ],
+      "authority_note": "One part in five and a half. A 20 ft Corinthian column takes a 43 3/5 in. entablature under Benjamin and a 60 in. one under Vignola - a foot and a half of difference on a church portico. Benjamin's whole argument is that the American entablature is a light box of boards and does not need to look like a stone architrave carrying a stone roof.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 11",
+      "units": "in",
+      "range": [
+        9,
+        30
+      ],
+      "authority_note": "Eleven diameters. A 20 ft Corinthian column is 21 4/5 in. at the base under Benjamin and 24 in. under Vignola. Note that all of the difference lands in the shaft, because base and capital are the same in both authorities at 30 and 70 minutes - so the visual effect is purely one of slenderness, with the capital unchanged in proportion to the diameter and therefore SMALLER relative to the whole column. That is precisely the Federal look.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "column_height * 35 / 660",
+      "units": "in",
+      "range": [
+        7,
+        24
+      ],
+      "authority_note": "Corinthian modillions, thirteen minutes in front and thirty-five from centre to centre, each centred on a column axis. Vignola's Corinthian pitch is one module - thirty minutes - so Benjamin's modillions sit a sixth further apart and are proportionally narrower relative to their spacing. The whole bay rhythm of the elevation follows from this number, because the modillion must land on the column.",
+      "judgment": false,
+      "note": "Gibbs, from an entirely separate tradition, arrives at seven twelfths of a diameter = thirty-five minutes for the same member. The two authorities agree exactly on Corinthian modillion spacing and disagree on almost everything else - which is a good indication that thirty-five minutes is where the eye actually wants it."
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        2,
+        4
+      ],
+      "authority_note": "'Three embellishments are generally sufficient for any cornice, and one may be in the plancere. They ought never to be too much crowded with ornaments, but always leave a sufficiency of plain space to form a contrast.' A stated number where the classical sources give none, and it is a budget as much as a taste: three enriched members per cornice, one of them on the soffit where the light catches it. Benjamin also fixes the relief: 'Observe that the ornaments be bold, and proportioned to the height of the room; not to make the same mouldings serve for a room of twenty feet high that was modelled for one of ten.'",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Which three is the designer's decision. Benjamin's own default in the Corinthian is eggs and darts on the ovolo, acanthus on the modillion, and a rosette in the soffit panel."
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "ceiling_height / 30",
+      "units": "in",
+      "range": [
+        3,
+        10
+      ],
+      "authority_note": "THE ENRICHED ROOM CORNICE, which is the Corinthian case. 'Their projection may, in some cases, be double their height, and their height, when enriched with three ornaments, about a thirtieth part of the height of the room.' Four inches in a 10 ft room. The plain figure is one fortieth. Vignola's Corinthian cornice at room scale is ceiling_height * 2/20 - twelve inches in the same room, three times as much. Benjamin adds the manufacturing note that makes it possible at all: 'Stucco cornices admit of much greater variety than wooden ones, but nearly the same rules apply to both', and gives six designs on Plate 28 to be cast in plaster of Paris from clay-modelled masters, 'much less expensive, and requires less skill to perform it'.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "ceiling_height / 15",
+      "units": "in",
+      "range": [
+        4,
+        14
+      ],
+      "authority_note": "'Their projection may, in some cases, be double their height' - the enriched Corinthian room cornice is the case where Benjamin allows the maximum. Twice a thirtieth is a fifteenth: 8 in. of projection on a 4 in. cornice in a 10 ft room. 'In some cases where the room is low, the plancere may be laid flat on the ceiling, or even sunk level with it' - the cornice migrates onto the ceiling when the wall will not give it room, which is the single most useful move for a modern 8 ft room and it is in the book.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT, and Benjamin says so: 'Their projection ought, in some measure, to be conformable to the size, as well as their height, to that of the room. This will admit of no exact rule; therefore must, in a great measure, depend on the judgment of the designer.'"
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "opening_width / 8",
+      "units": "in",
+      "range": [
+        4,
+        7
+      ],
+      "authority_note": "One eighth of the door width, 1816, capped at six and a half or seven inches on a wide door and held constant across every opening in the room. Vignola's rule is a sixth. In a Corinthian room the difference matters more than elsewhere, because the casing is the order's architrave brought down to the opening and Benjamin's Corinthian architrave is itself a third shallower than Vignola's - the two reductions are the same decision made twice.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "height",
+      "expression": "storey_height / 30",
+      "units": "in",
+      "range": [
+        10,
+        30
+      ],
+      "authority_note": "Eave cornice, one thirtieth of the whole height of the building, one fortieth for a tall narrow front, more than one thirtieth for a wide one or a block. BIND storey_height TO THE FULL WALL HEIGHT. On a Corinthian building - a church, a bank, a courthouse, which is where this order belongs in America - the cornice will usually be the entablature of the order itself, and the rule is then a check on the order rather than a substitute for it.",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. Benjamin gives a worked example on a building of exactly this class: 'The third story of the porch is proportioned exactly after the Doric order. The cornice to the attic story is about one seventeenth part of the height' - an attic cornice takes a much larger fraction than a main one, because it sits on a much shorter wall."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "profile_height",
+      "expression": "ceiling_height / 30",
+      "units": "in",
+      "range": [
+        2.5,
+        5
+      ],
+      "authority_note": "Surbase at one tenth of the dado it caps, with the dado at a third of the ceiling. 'The same scale, or parts, will draw the base mouldings in proportion to the surbase' - base and surbase are one profile family drawn from one scale, which is the practical meaning of a trim family and the thing most often lost in modern specification, where the base comes from one catalogue page and the chair rail from another.",
+      "judgment": false
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "BENJAMIN'S OWN COST-REDUCED CORINTHIAN IS STILL A PUBLIC-BUILDING ORDER. Eleven diameters, a 70-minute carved capital, modillions at 13 minutes on centres of 35, and an enriched 41-minute frieze. On a 14 in. column that is a 16 in. capital with two ranks of acanthus, and a modillion every 8 in. along the eaves. Nothing about this belongs on a house, and Benjamin knows it - his Corinthian plate is aimed at churches, banks and courthouses, which is where the surviving American examples are.",
+      "resolution": "Take his own reduction first: plain frieze at 36 minutes rather than enriched at 41. Then decide whether the capital can be bought; if it cannot be bought at the right diameter, use the Ionic. The one thing that must not happen is a Corinthian capital of catalogue proportion on a shaft of some other proportion - because base and capital are fixed at 30 and 70 minutes in every authority, an incorrect diameter shows up instantly as a capital that is the wrong size for its column.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "THE DELETION TRAP, AND THIS IS THE COMPARISON WORTH MAKING EXPLICIT. Benjamin's Corinthian has already been cost-reduced once: the entablature is 4 modules where Vignola's is 5, the architrave 31 minutes where Vignola's is 45, the cornice 48 where Vignola's is 60. A contemporary production budget then deletes the modillions, the dentils, the frieze enrichment and the fluting, and keeps the heights - which are heights calibrated FOR carving. The result is a Corinthian entablature that is heavier in effect than Vignola's, on a column that is thinner than Vignola's. It is the worst of both authorities and it is what most speculative 'traditional' porticos actually are.",
+      "resolution": "Apply Benjamin's own rule in both directions. Every ornament deleted must be paid for by a reduction in the member that carried it: no frieze carving, minus five minutes on the frieze; no modillions, take the modillion band's share out of the cornice rather than leaving a blank fascia. Better still, do not build a plain Corinthian at all - the order IS its ornament, and a stripped Corinthian entablature over a stripped Corinthian column is not economy, it is a different and worse order. Use the benjamin-tuscan overlay, which is designed from the start to be plain.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Modillions thirteen minutes in front at a 7 in. module are 3 in. wide, spaced 8 1/6 in. on centres, with a dentil band beneath them at a much finer pitch, and every modillion required to sit on a column axis. Two incommensurable rhythms plus a hard registration constraint, on a run that may be a hundred feet long.",
+      "resolution": "Set the modillions out from the column centrelines with a story pole before cutting any cornice stock and let the dentils run through and die at the corners. Take up all accumulated error in the end bays, not evenly. Benjamin's own instruction - 'always the centre of a modillion exactly over the centre of each column' - is the constraint that cannot be relaxed; the dentil pitch is the one that can.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "Benjamin's Corinthian architrave is 31 minutes - about 7 1/4 in. at a 7 in. module - spanning whatever intercolumniation the design requires. Vignola gives the same member 45 minutes. A third of the depth has been removed from the only part of the entablature that has ever done any work.",
+      "resolution": "The architrave is cladding; put the span in a concealed steel or engineered header sized to the load and to a deflection limit tight enough that no crack opens at the frieze joint - L/600 rather than L/360, because a classical entablature shows deflection at the mitres long before it shows it anywhere else. Do not restore Vignola's depth to make the architrave structural; that undoes the whole American proportion.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "early-republic",
+    "adam-style",
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "neoclassical-revival",
+    "colonial-revival",
+    "beaux-arts-american"
+  ],
+  "sources": [
+    "Asher Benjamin, The American Builder's Companion, 3rd edition (Boston, 1816), Preface pp. iii-iv, p. 42 (Corinthian, Plate 15), p. 43 (Composite, Plate 16), pp. 52-53 (pedestals), pp. 57-60 (cornices and Remarks on Cornices), p. 97 (architraves, base and surbase), and Plates 15, 21, 23, 24, 26-28, 35; archive.org/details/americanbuilders00benj_0",
+    "Asher Benjamin, The Practical House Carpenter (Boston, 1830), Plate XVIII and the Corinthian capital plates - consulted, not encoded; archive.org/details/architectorprac00benj",
+    "Sir William Chambers, A Treatise on Civil Architecture - Benjamin's named source",
+    "William R. Ware, The American Vignola (1920 printing) - comparison datum only"
+  ],
+  "confidence": "high",
+  "notes": "BENJAMIN'S ROMAN CORINTHIAN AS A DELTA ON VIGNOLA. Overlay: everything not stated here is Vignola's.\n\nEDITION: THE AMERICAN BUILDER'S COMPANION, 3rd EDITION, BOSTON 1816.\n\nWHY THIS IS THE STRONGEST BENJAMIN PACK. It is the only order in the book he sets out member by member in words: 'the entablature is two diameters high; cornice, forty eight minutes; frieze, forty one; architrave, thirty one; capital, seventy; base, thirty minutes; column, including base and capital, eleven diameters.' Those six figures sum and cross-check exactly, and they are encoded at high confidence. Everywhere else in Benjamin one is reading totals and apportioning members.\n\nTHE DIVERGENCES.\n\n1. THE COLUMN IS ELEVEN DIAMETERS, NOT TEN. One diameter added, as in every Benjamin order, and ALL OF IT GOES INTO THE SHAFT, because base and capital stay at Vignola's 30 and 70 minutes. Benjamin's Corinthian shaft is 18 2/3 modules where Vignola's is 16 2/3.\n\n2. THE ENTABLATURE IS FOUR MODULES, NOT FIVE. 1 : 5.5 against Vignola's 1 : 4 and Gibbs's 1 : 5.\n\n3. THE INTERNAL DIVISION CHANGES CHARACTER. Vignola: 27 : 27 : 36, architrave and frieze equal. Benjamin: 31 : 41 : 48, the frieze a third taller than the architrave. The Federal Corinthian entablature is a broad frieze between two thin bands - which is exactly why Federal friezes carry so much applied ornament, and why a plain Federal frieze looks empty in a way a plain Roman one does not.\n\n4. THE FRIEZE HEIGHT IS A FUNCTION OF ITS ENRICHMENT. 41 minutes carved, 36 plain, stated by Benjamin in one sentence. No classical source makes this dependency explicit and it is the single most transferable idea in the pack: delete the ornament and you must shrink the member.\n\n5. THE PEDESTAL IS SIX MODULES, NOT SEVEN, and is denied the status of a rule; the base is Palladio's Ionic base rather than Vignola's Corinthian one, with the Attic base permitted in every order but Tuscan; a subplinth of one diameter is offered as an alternative to a pedestal; and the modillions run at 35 minutes on centres against Vignola's 30.\n\nWHAT IS WEAK. The entablature members, the capital and base totals, the pedestal total, the subplinth and the modillion figures are all stated verbatim and carry high confidence. The internal divisions of the base, the pedestal and the 48-minute cornice are figured on Plates 15 and 24 only, which no reachable scan renders legibly; those members are apportioned within certain totals and carry confidence low.\n\nONE SOURCE ERROR, RESOLVED AND FLAGGED. Benjamin's Corinthian pedestal instruction says to divide the whole height into thirty-four parts of which two are the diameter, giving 17 diameters, where column 11 plus entablature 2 plus pedestal 3 gives 16. Every other order in the book checks exactly, and the Composite instruction (97 parts of 6 = 16 1/6 D, which is 11 + 2 1/6 + 3) confirms a three-diameter pedestal. 'Thirty four' is read here as a typographical error for thirty two. The pedestal is encoded at three diameters, which Benjamin also states twice in words."
+}

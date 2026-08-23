@@ -1,0 +1,13 @@
+{
+  "id": "family-georgian",
+  "name": "Family house, Tidewater Georgian",
+  "style": "tidewater-georgian",
+  "target_area_sf": 3200,
+  "bedrooms": 4,
+  "bathrooms": 3.5,
+  "must_have": ["library", "breakfast-room"],
+  "context": { "climate_zone": "3A", "lot_width_ft": 120, "entrance_faces": "S",
+    "jurisdiction": "IRC model text, advisory", "budget_tier": "custom", "garage_bays": 2 },
+  "household": "Two adults, three children, one grandparent visiting often. They eat every meal together and want a room that can be shut.",
+  "candidates": 4
+}

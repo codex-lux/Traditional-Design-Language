@@ -1,0 +1,170 @@
+{
+  "id": "column-height-outside-the-authorities",
+  "name": "The Column No Book Would Draw",
+  "aka": [
+    "the 5-diameter column",
+    "the 14-diameter column",
+    "off the module"
+  ],
+  "slots": [
+    "column",
+    "order",
+    "porch_support"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "A round column with a recognisable classical capital whose height, divided by its diameter at the foot, falls outside the range that any of the five orders in any authority gives. In practice it fails in one of two directions: a squat column of 5 to 6 diameters under a low porch, which reads as a bollard with a hat, or a giant-order column of 12 to 16 diameters on a two-storey portico, which reads as a mast. In both cases the capital and base are catalogue items sized to the shaft diameter, so they look correct in isolation and wrong on the building.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "The column is selected from a manufacturer's grid of shaft diameters against available lengths, and that grid is set by shipping and mould economics rather than by any order. Eight-inch and ten-inch shafts are stocked in 8, 9, 10 and 12 ft; the designer picks the diameter that suits the budget and the length that suits the ceiling, and the ratio between them is nobody's decision. The porch height itself is fixed first — by the second-floor framing on a two-storey portico, or by the head of the door on a one-storey one — and the diameter is then chosen last and cheapest.",
+    "cost_saved": "Roughly 25-40 USD per inch of shaft diameter per column in FRP. Going from an 8 in shaft to the 12 in shaft that a 9 ft height actually wants costs about 150-320 USD a column, so 900-1,900 USD on a six-column porch."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-tuscan / column.height_modules = 14 (7 diameters)",
+      "statement": "The Tuscan column is seven diameters high — the shortest column any authority draws, and the bottom of the entire classical range."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "benjamin-corinthian / column.height_modules = 22 (11 diameters)",
+      "statement": "Asher Benjamin's Corinthian is eleven diameters — the tallest column any authority in the pack draws, and the top of the range."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "vignola-doric 8D, vignola-ionic 9D, vignola-corinthian 10D, palladio-corinthian 9.5D, benjamin-doric 7D",
+      "statement": "The whole classical corpus lives between 7 and 11 diameters, and every order occupies a named band inside it. There is no eighteen-diameter order and no five-diameter one."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the order chooses the diameter; the height is given",
+      "statement": "The height of a portico is fixed by the building. The diameter is therefore the free variable and must be solved for, not chosen from a price list."
+    }
+  ],
+  "correct_practice": "Work backwards. The height is given by the building; divide it by the diameters proper to the order you have bound and take the result as the required shaft diameter. Tuscan 7D, Roman Doric 8D, Ionic 9D, Corinthian and Composite 10D in Vignola; Benjamin's Grecian Doric 7D, his Ionic 10D, his Corinthian 11D; Palladio's Corinthian 9.5D. So a 9 ft (108 in) porch column wants a 15 1/2 in Tuscan, a 13 1/2 in Doric, a 12 in Ionic or a 10 3/4 in Corinthian shaft — and if the budget only carries a 10 in shaft, then the honest answer is that the order is Corinthian, or that the column is not a column. A 20 ft two-storey portico column at Ionic wants a 26 1/2 in shaft, which is why real giant orders are expensive and why almost every modern two-storey portico is wrong.",
+  "fixes": {
+    "right": "Solve the diameter from the height and the bound order, and buy that shaft. Where the required diameter is unaffordable, change the ORDER rather than the diameter: a 108 in height on a 10 in shaft is 10.8 diameters, which is legitimately Corinthian or Benjamin Ionic, so put a Corinthian or a Scamozzi Ionic capital on it and the proportion is correct.",
+    "cheap": "Two free moves. Where the column is too tall for its diameter, put it on a pedestal: the pedestal is one third of the column in Vignola, so a 30 in pedestal under a 78 in column reads as a 78 in column on a base and gives 7.8 diameters at a 10 in shaft, where the same 108 in as one shaft gives 10.8. This is what the eighteenth century did constantly and it costs a plinth. Where the column is too SHORT for its diameter, take the smallest shaft the load allows and give it a taller plinth to eat the surplus height.",
+    "dishonest": "Stretching the capital or the base to make up the shortfall. A capital is one module in the Ionic and one and a sixth diameters in the Corinthian and is not an adjustable member. A stretched Corinthian capital, which is what most oversized cast capitals are, has acanthus leaves the wrong shape and reads as a bad photocopy at any distance."
+  },
+  "detection": "The single measurement that decides it. In a straight-on photograph, measure the shaft's width at the foot and the total height from the top of the plinth to the underside of the abacus, in the same pixel units, and divide. Under 7 or over 11 and the column is outside every authority. Between 7 and 11, check that the number matches the capital: a 7-diameter column with a Corinthian capital is as wrong as a 12-diameter one, because the capital names the order and the order names the ratio. Note that a pedestal is NOT part of the column and must be excluded from the measurement — this is where most casual assessments go wrong.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "column_height / lower_shaft_diameter",
+    "threshold": 7.0,
+    "upper": 11.0,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Column height means plinth top to abacus underside, base and capital included, pedestal excluded. The band is the union of every authority in proportions/: Vignola/Palladio/Chambers Tuscan at 7, Benjamin Corinthian at 11. Tighten to the bound order's own figure where the style is known."
+  },
+  "severity_by_style": [
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "The giant order is the entire architectural argument and it is read as a proportion, not as an object. A 14-diameter giant order has no precedent anywhere."
+    },
+    {
+      "style": "greek-revival-southern-plantation",
+      "severity": "fatal",
+      "why": "The full-height colonnade is the style. Getting the diameter wrong there is getting the building wrong."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Common and correctable; the portico is one incident on a composed front."
+    },
+    {
+      "style": "folk-victorian",
+      "severity": "not-applicable",
+      "why": "The turned post is not a column and has no diameter rule."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "shingle-style",
+      "why": "Stout, short Tuscan columns of 4 to 6 diameters are a deliberate Shingle Style device — McKim, Mead & White and Peabody & Stearns used them as pieces of the mass, and the squatness is the whole gesture. It is a conscious archaism reaching past Vignola to the primitive Tuscan of Vitruvius.",
+      "bounds": "4 to 6.5 diameters, and only with the rest of the idiom present: no pedestal, plain torus base, a shingle field running unbroken past the column, and a wide low porch. One stout column on an otherwise correct Georgian front is not this exception.",
+      "bounds_test": {
+        "expression": "column_height / lower_shaft_diameter",
+        "threshold": 4.0,
+        "upper": 6.5,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1880,
+          1905
+        ],
+        "construction": [
+          "wood-frame"
+        ]
+      }
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "why": "Gallery colonnettes run 11 to 14 diameters and are correct at that slenderness because they are carrying almost nothing: a light plate, a low gallery roof, and no ceiling. The slenderness is structurally honest in wood and is a documented regional signature.",
+      "bounds": "Only where the colonnette is genuinely carrying a light single-storey gallery roof with no room above and no pediment, and only where the whole gallery is of a piece — thin colonnettes, thin rail, no entablature.",
+      "bounds_test": {
+        "expression": "column_height / lower_shaft_diameter",
+        "threshold": 10.0,
+        "upper": 14.0,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "regions": [
+          "gulf-coast",
+          "lower-mississippi",
+          "caribbean"
+        ]
+      }
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "The Monterey balcony post is a slender square or turned wooden post of no order, sized to carry a cantilevered balcony and a shed roof. The slenderness is a Hispanic-Anglo hybrid tradition, not a classical failure.",
+      "bounds": "Square section, no capital, no base beyond a plain block; the moment a moulded classical capital appears the classical rule applies again."
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "greek-revival-upland-vernacular",
+      "statement": "In vernacular upland Greek Revival the square battered pier is correct and a correctly proportioned round column would be the imported error. The fault there is the presence of the order, not its proportion."
+    }
+  ],
+  "co_occurs_with": [
+    "column-without-entasis",
+    "pencil-column",
+    "entablature-off-the-quarter"
+  ],
+  "confused_with": [
+    {
+      "fault": "pencil-column",
+      "difference": "This fault is about the ratio being outside the classical range in either direction. That one is about the column being too slender for the load it is actually carrying, which is a structural reading rather than a canonical one — a 12-diameter column carrying a light gallery roof fails this test and is fine; a 12-diameter column carrying a two-storey pediment fails both."
+    },
+    {
+      "fault": "column-without-entasis",
+      "difference": "Height ratio versus section. Independent faults that travel together because both come off the same catalogue page."
+    }
+  ],
+  "sources": [
+    "proportions/orders/*.json and proportions/overlays/*.json — column.height_modules across Vignola, Palladio, Gibbs, Chambers and Benjamin",
+    "python3 build/proportion_engine.py compare vignola-doric gibbs-doric benjamin-doric --diameter 12",
+    "Vitruvius IV.7 on the Tuscan (the 7-diameter figure Vignola inherits)",
+    "Asher Benjamin, The American Builder's Companion and The Practical House Carpenter"
+  ],
+  "confidence": "high",
+  "tags": [
+    "column",
+    "proportion",
+    "order",
+    "diameter",
+    "catalogue"
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "id": "material-change-with-no-plane-change",
+  "name": "The flush material change",
+  "aka": [
+    "the flat seam",
+    "siding change at a line that is not there"
+  ],
+  "slots": [
+    "material_change_rule",
+    "secondary_cladding"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "Two cladding materials meeting in the same plane on a continuous wall — shingle over clapboard, stucco over stone, board-and-batten over lap siding — with nothing at the joint but a caulk line or a piece of flat 1x. The change is at a height that corresponds to nothing in the section: not a floor, not a plate, not a roof, usually just the point where the elevation looked empty.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "On an elevation drawing, a material change is a hatch boundary and costs nothing to move. In the field it is a flashing detail nobody wants: a real plane change means a horizontal member with a wash, a drip and a kick-out at each end, and a second flashing lap. Caulking two materials together in one plane satisfies the water test at inspection and defers the failure past the warranty period. The height gets set by the elevation's composition rather than by the section because the section is drawn later, by a different person.",
+    "cost_saved": "A properly flashed projecting transition band runs $14-$26 per lineal foot. On a house with 180 lf of transition that is $2,500-$4,700, plus one detail the siding crew has to read."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / material_change_rule",
+      "statement": "Material may change only where the building changes volume or where a projecting horizontal course runs the full way round; it may never change at a storey line that is not expressed by a real projection."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical / material_change_rule.min_belt_projection_in = part * 0.25 = 2.25 in",
+      "statement": "The minimum projection at which a horizontal reads as a real change of wall thickness."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "in a load-bearing wall the material changed where the wall thickness changed",
+      "statement": "The projecting course exists to weather the step. No step, no reason for the course, and no reason for the change."
+    }
+  ],
+  "correct_practice": "A change of cladding on a continuous wall requires a horizontal member that projects not less than 2 1/4 in from the lower face, carries a weathered top (a wash of 15-30 degrees) and a drip on its underside, and runs the full way round every elevation of the volume at one level. The change should coincide with something real in the section — the second-floor structure (about 6 in above the top of the first storey, on the joist zone), a plate line, or a porch roof — because that is where the wall genuinely changes. Where no such line exists, do not change material.",
+  "fixes": {
+    "right": "Build a real transition: a 5/4 or 2x band with a bevelled cap, projecting 2 1/4-3 in, flashed with a metal cap flashing lapping under the upper cladding and over the band, with kick-outs at every termination, returning the full way round the volume at the second-floor structure.",
+    "cheap": "Move the change rather than detail it. If the budget will not carry a projecting band, delete the second material and run one cladding top to bottom — which is free and is the correct answer on most styles anyway — or confine the second material to a gable above a real roof line, where the roof is already the plane change and already flashed. Both cost less than the fault.",
+    "dishonest": "A flat 1x4 or 1x6 'transition board' set in the same plane as the siding with the two materials butted to it. It looks like a detail on a drawing and casts no shadow, so at 30 ft the wall still reads as one plane with a stripe on it. Test: if the board's projection past the LOWER cladding is under about 1 in, it is not a transition, it is a caulk joint with a wider caulk."
+  },
+  "detection": "Find the transition and look for a shadow under it. At any hour with sun on the wall, a real transition throws a continuous dark line 1/2 to 1 1/2 in deep across the whole elevation; a flush change throws none, and the two materials read as a texture change in a single plane. In flat overcast light, use the ends instead: follow the transition to the corner of the building. If it dies into a corner board or simply stops, it is not a transition. Third test, from the section: is the change at a height that matches the top of the first-floor window heads plus a frieze, i.e. plausibly the joist zone? Or is it at some middle height with windows crossing it? A change of material that a window crosses is always wrong.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "Craftsman changes material at the porch-roof line legitimately, and that line already carries a roof, a flashing and a plane change of 12 in or more.",
+      "bounds": "The roof must actually be there. A 'porch line' band on a wall with no porch under it is the fault. Craftsman also changes at the gable plate with a shingled gable above — also legitimate, also a real line.",
+      "bounds_test": {
+        "expression": "roof_projection_at_transition_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 12,
+        "note": "The porch roof must actually be there. A 'porch line' band on a wall with no porch under it fails at zero and is the fault."
+      },
+      "applies_when": {
+        "slots": [
+          "porch_type",
+          "roof_form"
+        ],
+        "note": "Change at the porch-roof line or the gable plate — a real line with a real flashing already on it."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "Shingle Style is the opposite of this fault by intention: it runs ONE material continuously over storey lines and corners and specifically suppresses transitions. Where a Shingle Style house does change — a rock-faced stone ground storey to shingles above — the change is deliberately unarticulated, with the shingles flaring over the stone and no band.",
+      "bounds": "The licence runs only where the upper material is shingle and the lower is a genuine mass base of stone or brick with real thickness. A shingle-over-vinyl change with no band is not this exception. And the flare — a doubled or tripled shingle course at the transition, projecting 1-2 in — is doing the plane change quietly; a dead-flush shingle-to-stone joint is still a fault.",
+      "bounds_test": {
+        "expression": "shingle_flare_projection_at_transition_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "The flare — doubled or tripled butts over 2-3 courses — is doing the plane change quietly. A dead-flush shingle-to-stone joint gives zero and is still a fault; the style suppresses articulation, it does not suppress depth."
+      },
+      "applies_when": {
+        "slots": [
+          "primary_cladding",
+          "secondary_cladding"
+        ],
+        "note": "Licence holds only where the upper material is shingle and the lower is a genuine mass base of stone or brick. Shingle over vinyl with no band is not this exception."
+      }
+    },
+    {
+      "style": "queen-anne-american",
+      "why": "Victorian work stacks textures — clapboard, then a band of fishscale shingle, then patterned work in the gable — and the bands are frequently divided by nothing more than a moulded belt.",
+      "bounds": "The moulded belt IS the projection, and Victorian bands sit at real lines: the second-floor structure, the window-head band, the gable plate. Three textures with no band between any of them is the fault, not the style.",
+      "bounds_test": {
+        "expression": "moulded_belt_projection_between_texture_bands_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "The moulded belt IS the projection. Three textures with no band between any of them fails at zero and is the fault, not the style."
+      }
+    },
+    {
+      "style": "tudor-revival",
+      "why": "Masonry below and timbered stucco above is definitional, and the upper storey commonly jetties, which is a plane change of 4-16 in.",
+      "bounds": "Jetty, drip course or oversail must be present. A flush stucco-over-brick joint on a Tudor Revival wall is the fault in a costume.",
+      "bounds_test": {
+        "expression": "upper_storey_oversail_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.5,
+        "note": "Jetty, drip course or oversail. A flush stucco-over-brick joint on a Tudor Revival wall is the fault in a costume."
+      },
+      "applies_when": {
+        "slots": [
+          "material_change_rule"
+        ],
+        "note": "Horizontal change at one datum, returning on all elevations of the volume."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "brick-front-vinyl-return",
+      "difference": "That fault changes material VERTICALLY at a corner; this one changes HORIZONTALLY at a line. The vertical version is worse because a corner can never justify a change; a horizontal line sometimes can."
+    },
+    {
+      "fault": "wainscot-that-stops",
+      "difference": "The wainscot fault is this fault plus a termination failure: it changes flush AND stops before reaching the ends of the wall."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, material_change_rule",
+    "proportions/systems/facade-classical.json, elevation assembly members belt and water_table",
+    "NPS Preservation Brief 39: Holding the Line: Controlling Unwanted Moisture",
+    "James Hardie and Vinyl Siding Institute installation instructions (transition flashing requirements)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "material-change",
+    "profile-depth",
+    "assembly"
+  ],
+  "test": {
+    "expression": "transition_band_projection_past_lower_cladding_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 2.25,
+    "note": "The facade pack's min_belt_projection: part * 0.25 = 2 1/4 in at a 9 ft bay, the point at which a horizontal reads as a real change of wall thickness. Under about 1 in it is a caulk joint with a wider caulk. Measure against a known dimension in the same image — a clapboard butt is 3/4 in, a brick 2 1/4 in high."
+  },
+  "secondary_tests": [
+    {
+      "expression": "transition_band_length / elevation_length",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "The band must run the full way round every elevation of the volume. Following it to the corner and finding it die into a corner board is the commonest failure of the two."
+    },
+    {
+      "expression": "shadow_depth_under_transition_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 0.5,
+      "note": "With sun on the wall a real transition throws a continuous dark line 1/2 to 1 1/2 in deep. In flat overcast light this test is unavailable and the length test above is the fallback."
+    },
+    {
+      "expression": "window_openings_crossing_the_transition",
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 0,
+      "note": "A change of material that a window crosses is always wrong, because it proves the line was composed on the elevation rather than located from the section."
+    }
+  ],
+  "co_occurs_with": [
+    "brick-front-vinyl-return",
+    "wainscot-that-stops",
+    "batten-on-the-stud-line",
+    "half-timber-that-frames-nothing"
+  ],
+  "severity_in_use": "serious",
+  "severity_trajectory": "Serious on day one visually and progressively serious in fabric. A flush change relies on sealant for water management, and a caulk joint between two dissimilar cladding materials in a horizontal orientation is the most heavily loaded joint on the building; typical service life is 5-10 years, after which the wall behind it wets with no drainage path and no flashing to catch it."
+}

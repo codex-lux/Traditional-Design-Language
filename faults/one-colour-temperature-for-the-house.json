@@ -1,0 +1,122 @@
+{
+  "id": "one-colour-temperature-for-the-house",
+  "name": "Four Thousand Kelvin In A Candlelit Room",
+  "aka": [
+    "the daylight bulb",
+    "mixed kelvin",
+    "the LED that will not dim warm"
+  ],
+  "slots": [
+    "light_fixture_family",
+    "color_strategy"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "One lamp specification applied to the whole house — commonly 3500 or 4000 K at CRI 80 — so the parlour, the kitchen, the garage and the bath are lit by the same colour of light. In the period rooms the effect is specific and diagnosable: the warm-toned finishes turn grey, the mahogany and the oiled oak go flat and slightly green, the off-white trim reads blue against the walls, and the fire in the grate looks orange and out of place. In the mixed version, which is commoner still, the recessed cans are 4000 K, the pendants came with 2700 K lamps in the box, and the two are on in the same room.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "Integrated LED fittings ship at a fixed colour temperature chosen by the manufacturer for the widest market, and 3000 to 4000 K tests best in a showroom, where higher colour temperature reads as brighter and cleaner at the same wattage. Replacement lamps are bought at a hardware store in multipacks by whoever changed the last one, so the specification drifts within a year of occupation regardless of what was installed. And the physics works against the traditional interior: an incandescent lamp dims by cooling its filament, so it goes warmer as it goes down — from 2700 K at full to about 2100 K at 10 per cent — while a standard LED holds its colour temperature all the way down, so a dimmed LED room is a dim room rather than a warm one.",
+    "cost_saved": "Nothing meaningful. A 2700 K high-CRI dim-to-warm LED lamp is 12 to 30 USD against 4 to 9 USD for a standard one; on sixty lamps, 500 to 1,200 USD. The fault is produced by a default, not by a budget."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / light_fixture_family",
+      "statement": "Most eighteenth-century lighting was PORTABLE and therefore not architecture at all — candle sconces, a hanging candle lantern, a chandelier in the best rooms. Candle light is about 1850 K; an oil lamp about 2000 K; a gas mantle about 2200 to 2400 K. The interiors of every style before 1900 were designed, coloured and finished under sources of 1800 to 2400 K."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the finishes were chosen under the light that existed",
+      "statement": "Pigments, stains and woods were selected by people looking at them in candle, oil or early electric light, all of which are strongly weighted to the red end. Prussian blue, verdigris, the ochres and the mahogany reds all behave differently at 2000 K and at 4000 K, and a room's colour scheme is not a property of its paint alone but of the paint and the spectrum together. Changing the light changes the colours that were chosen, which is why period rooms so often look thin under modern lamps."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "colour rendering is a separate axis from colour temperature and matters more",
+      "statement": "CRI, and better R9 specifically, measures how well a source renders saturated colours — R9 is the deep red index, and it is the one most LEDs fail. A 2700 K lamp at CRI 80 with an R9 near zero renders mahogany, red pigments and skin as grey-brown; the same 2700 K at CRI 95 with R9 above 50 renders them correctly. Getting the temperature right and the rendering wrong produces a room that is warm and dead."
+    }
+  ],
+  "correct_practice": "Specify by room and by hierarchy, not by house. THE PRINCIPAL AND PERIOD-DETAILED ROOMS: 2700 K at CRI 90 or better with R9 above 50, on dimmers, and prefer DIM-TO-WARM lamps that drop to 2200 or 1800 K at low output, which reproduces the behaviour of the light the room was designed for and is the single most effective specification available. In a room lit by candle and fire the target at low output is 2000 K or below. SERVICE AND WORK SPACES: 3000 K is defensible in a kitchen or a laundry and 3500 K in a garage or a workshop; going higher buys nothing in a dwelling. WITHIN ONE VOLUME, ONE TEMPERATURE — mixing 2700 and 4000 K in a single room is worse than either alone, because the eye adapts to one and reads the other as coloured, and in an open plan the whole volume counts as one room. Two consequences worth stating. First, the exterior: warm lamps at 2200 to 2700 K read as inhabited from the street and cool ones read as institutional, which is why a house with 4000 K windows looks empty at night. Second, the trim: an off-white or cream trim colour chosen under 2700 K will read blue-grey under 4000 K, so a colour scheme and a lamp specification must be decided together or one of them will be wrong.",
+  "fixes": {
+    "right": "2700 K, CRI 90 plus, R9 above 50, dim-to-warm in the principal rooms, one temperature per volume, specified on the drawings as a lamp schedule.",
+    "cheap": "Relamp. This is the cheapest correction in the whole corpus: 500 to 1,200 USD changes the light of an entire house in an afternoon and requires no trade. Where the fittings are integrated LED and cannot be relamped, change the ones in the principal rooms only and accept mixed temperature BETWEEN rooms, which is far less damaging than mixed temperature within one. Free alternative: put the existing lamps on dimmers and run them at 40 to 60 per cent, which does not warm a standard LED but does reduce the contrast that makes the coolness conspicuous.",
+    "dishonest": "An amber or gold-tinted glass shade over a 4000 K lamp. It shifts the light that passes through the shade and not the light that leaves the aperture, so the fixture glows warm and the room stays cool, and the two disagree in a way the eye finds harder to accept than either alone. Also dishonest: filament-effect 'Edison' lamps at 2200 K and CRI 70, which are the right colour and render everything they touch as muddy — the visible filament is doing the work that the light should be doing."
+  },
+  "detection": "Photograph the room with the lights on and no flash, and look at the WHITE TRIM against the wall. Under 2700 K the trim reads warm or cream; under 4000 K it reads blue-grey and the wall behind it reads more saturated than it is. Second, look for MIXTURE within one frame: two light sources of different colour in one photograph appear as two distinctly coloured pools, and the camera's white balance will resolve one of them and leave the other visibly tinted, which is a reliable indicator even in an amateur photograph. Third, look at wood: mahogany, cherry and oiled oak show their red under a high-R9 source and go grey-brown without it, which is visible in any image of a stair rail or a mantel. Fourth, from outside at night: a house whose windows are blue-white is running 3500 K or above, and this is visible from the street at any distance.",
+  "test": {
+    "expression": "lamp_correlated_colour_temperature_k",
+    "threshold": 2400,
+    "upper": 3000,
+    "direction": "between",
+    "units": "count",
+    "measurable_from": "site-visit",
+    "note": "Kelvin, in the principal and period-detailed rooms; 2700 K is the target and dim-to-warm reaching 2000 to 2200 K at low output is better. Service spaces may run to 3500 K. Run the second and arguably more important test alongside: CRI 90 or better with R9 above 50. Estimable from a photograph by the colour cast on white trim, but only measurable properly on site. UNITS: the value is in kelvin, which the schema's units enum does not carry; 'count' is used as the least misleading placeholder."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "mid-century-traditional",
+      "why": "Cooler light of 3000 to 3500 K, and the fluorescent luminous ceiling in particular, are genuinely of the period, and the interiors — with their cooler palettes, pale woods and larger areas of glass — were designed under it.",
+      "bounds": "Up to about 3500 K, and only where the palette is of the period. The colour rendering argument does not relax: a 3500 K source at CRI 70 was bad light in 1958 and is bad light now.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1980
+        ]
+      },
+      "bounds_test": {
+        "expression": "lamp_correlated_colour_temperature_k",
+        "threshold": 2700,
+        "upper": 3500,
+        "direction": "between",
+        "units": "count",
+        "measurable_from": "site-visit",
+        "note": "Kelvin. Same units gap as the primary test."
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "Same period and the same reasoning, and the type's kitchens and family rooms were lit at 3000 to 4000 K from the start.",
+      "bounds": "Up to 3500 K in the working rooms. The living room still reads better warm."
+    },
+    {
+      "style": "prairie-school",
+      "why": "The style is contemporary with early tungsten and its art glass was designed to be seen with light behind it; the filtered light through leaded glass shifts the effective colour and the sources within the fixtures were warm.",
+      "bounds": "Warm, 2700 K or below, so this is not really an exception — it is included to record that the art glass makes the specification MORE important rather than less, because coloured glass filters what it is given and a cool source through amber glass reads muddy."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom's palette is cool and high-contrast — white and black, pale oak, honed stone — and a slightly cooler source at 3000 K is coherent with it.",
+      "bounds": "3000 K, not 4000, and CRI 90 or better, because the idiom's large white surfaces show poor rendering more than dark ones do. One temperature across the open volume remains the hard rule."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "recessed-can-in-a-plaster-ceiling",
+      "difference": "Colour against position. Both are lighting faults and both are cheap to correct, but this one is corrected in an afternoon and that one requires a ceiling."
+    },
+    {
+      "fault": "white-trim-on-everything",
+      "difference": "The colour of the surface against the colour of the light on it. The two interact directly, and a trim colour chosen under one source and lit by another will read as neither — which is why the paint and the lamp schedule are one decision."
+    }
+  ],
+  "co_occurs_with": [
+    "recessed-can-in-a-plaster-ceiling",
+    "white-trim-on-everything"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, light_fixture_family note on portable period lighting",
+    "IES TM-30 and CIE colour rendering metrics, R9 deep red index",
+    "ENERGY STAR lamp specification, correlated colour temperature and CRI reporting",
+    "NPS Preservation Brief 18: Rehabilitating Interiors in Historic Buildings"
+  ],
+  "confidence": "high",
+  "tags": [
+    "lighting",
+    "colour-temperature",
+    "cri",
+    "cheapest-fix"
+  ]
+}

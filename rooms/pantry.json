@@ -1,0 +1,224 @@
+{
+  "id": "pantry",
+  "name": "Pantry",
+  "aka": [
+    "dry store",
+    "walk-in pantry",
+    "store closet",
+    "larder (loosely and wrongly)",
+    "food store"
+  ],
+  "function_class": "storage",
+  "description": "The store for dry goods, preserved food and the things that do not spoil. It is the survivor. Of the whole eighteenth- and nineteenth-century service department - kitchen, scullery, larder, dairy, still room, pastry room, servants' hall - the pantry is the only room that is still being newly built in 2026, and it is being built more often now than it was in 1960. It is worth understanding exactly why, because the answer is not nostalgia.",
+  "history": {
+    "appears": 1400,
+    "declines": null,
+    "note": "WHY THE PANTRY SURVIVED AND THE LARDER DID NOT. The two rooms are constantly confused and they are not the same. A LARDER (from lardarium, the place for bacon fat) stores RAW AND PERISHABLE food - meat, game, dairy, fat - and it needs cold, dark, ventilation and thermal mass: north wall, stone shelves, an air brick, no sun, no heat, target 45-55 degrees F. A PANTRY (from paneterie, the place for bread) stores DRY AND STABLE food and ambient temperature is fine. The domestic refrigerator does everything a larder did and nothing a pantry does. Kelvinator sold the first practical domestic unit in 1918; by 1944 roughly 85 per cent of American urban households had one, and the larder disappeared inside one generation of that curve. Nothing has ever been invented that replaces a shelf of tinned tomatoes, forty pounds of flour and the Christmas china, and so the pantry has never gone away. It has, if anything, grown: bulk buying, warehouse-club packaging and the modern habit of keeping two weeks of food in the house have made the walk-in pantry a standard feature of new American construction again since about 1995, and the pandemic accelerated it. THE ONE THING PEOPLE GET WRONG IS THE SHELF DEPTH, and it is the difference between a pantry that works and one that is a cave with tins at the back."
+  },
+  "dimensions": {
+    "area_sf": [
+      16,
+      60
+    ],
+    "width_ft": [
+      4,
+      7
+    ],
+    "length_ft": [
+      4,
+      9
+    ],
+    "proportion": [
+      1.0,
+      1.8
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "TWELVE TO SIXTEEN INCHES OF SHELF, AND NOT TWENTY-FOUR. A tin is 4 in deep, a cereal box 8, a bottle 3 1/2, a stand mixer 16. At 12 in every item is one deep and visible; at 16 in you get a second row of small items which is a mild loss; at 24 in - which is what a base-cabinet template gives you and what most walk-in pantries are built at - the back ten inches is archaeology. THE ROOM THEN FOLLOWS: single-sided, 14 (shelf) + 36 (aisle) = 50 in, so a 4 ft 2 in wide pantry. Double-sided, 14 + 36 + 14 = 64 in, 5 ft 4 in, and 5 ft 6 in with the door casing. A 5 ft 6 in by 6 ft walk-in pantry with shelves both sides and one end is 33 sq ft and holds about 55 linear feet of shelf, which is more dry food than a household of five can get through in a month. Bigger is not better; DEEPER is definitely not better."
+  },
+  "furniture": [
+    {
+      "item": "shelf, 14 in deep",
+      "footprint_in": [
+        60,
+        14
+      ],
+      "clearance_in": 0,
+      "note": "Spacing graduated: 18 in at the bottom for sacks and appliances, 14 in for boxes, 10 to 12 in for tins and jars, and a deeper 20 in shelf at the very top for things used twice a year. Adjustable, on a cleat or a standard - fixed shelving in a pantry is wrong within a year."
+    },
+    {
+      "item": "bottom shelf or floor zone for sacks and cases",
+      "footprint_in": [
+        48,
+        20
+      ],
+      "clearance_in": 0,
+      "note": "A case of water is 16 by 10 by 8 and weighs 25 lb; a 25 lb sack of flour is 18 by 12. This zone is why the bottom shelf is 12 to 18 in off the floor and 20 in deep."
+    },
+    {
+      "item": "counter, in a large pantry",
+      "footprint_in": [
+        48,
+        25
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "Turns the pantry into a small scullery and is the right move where there is no scullery: the small appliances live plugged in on it and never come out into the kitchen."
+    },
+    {
+      "item": "door",
+      "footprint_in": [
+        30,
+        30
+      ],
+      "clearance_in": 0,
+      "note": "A 30 in door swinging in eats the aisle of a 4 ft 2 in single-sided pantry entirely. Swing it OUT, or make it a sliding or a pocket door, or lose the shelf behind it. This is the same problem as the powder room and it has the same answer."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.6,
+    "sides_lit": 0,
+    "orientation": "None needed; away from west if there is a choice, because heat degrades stored food faster than anything except damp.",
+    "note": "No window. One fixture at the front, over the standing position, on a door switch - the same rule as a closet and for the same reason: a light at the back of a shelved room silhouettes everything on the shelves. Corrected 0.4.0: the multiplier was below 1.0, which made every pantry with a window fail its own daylight rule."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "WITHIN A PACE OF THE PREP COUNTER. A pantry across the room, round a corner or down a passage is opened once a day instead of eight times, and the household starts keeping a second store of everything on the kitchen counter, which is the observable symptom of a badly placed pantry.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "scullery",
+        "why": "Dry store and rough prep together at the back of the kitchen, sharing one screened door.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "mudroom",
+        "why": "Where the shopping enters. A pantry between the family entry and the kitchen is on the route the groceries already take and halves the carry.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "plant-room",
+        "why": "Heat and a flue. Stored food next to a boiler, a water heater or an air handler's return loses shelf life measurably, and a pantry sharing a wall with a mechanical room is the commonest reason chocolate blooms and oil goes rancid.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      },
+      {
+        "room": "bathroom",
+        "why": "A wet wall behind a food store. If the stack leaks the discovery is by smell, in the flour.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "kitchen",
+      "scullery",
+      "back-hall",
+      "service-corridor"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "A passive vent is worth having and is what distinguishes a good pantry from a cupboard: a low and a high air brick or grille on the same outside wall gives a gentle stack that holds the room a few degrees below the house. Where the pantry is interior, at least give it a door undercut.",
+    "heat": "None wanted. A pantry should be the coolest room off the kitchen, which means it must not be on the west wall, over the boiler, or beside the refrigerator's condenser exhaust - a refrigerator backing onto a pantry wall warms it by several degrees and nobody ever traces it.",
+    "electrical": "One fixture at the front, door-switched, plus receptacles if there is a counter.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "dry store / still room",
+      "present": true,
+      "trim_grade": "none",
+      "note": "One of several stores, each specialised, and locked - the housekeeper kept the keys and that is what a housekeeper was."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "pantry",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Often a passage pantry between kitchen and dining room, doing double duty as a butler's pantry - which is a legitimate compression and the one most worth borrowing for a modern plan of moderate size."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "pantry / built-in dresser",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "A shallow fitted dresser rather than a walk-in room, and it is the type's characteristic move: storage as joinery, glass-fronted above, drawers and bins below, integral with the trim. A flour bin with a tin liner is a real Craftsman fitting."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "name_in_style": "pantry",
+      "present": true,
+      "trim_grade": "none",
+      "note": "With the larder, the milk room and the cellar - a farmhouse held a year of food and its stores were rooms rather than cupboards."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "A wall cabinet. The type has no room to spare and the corner grocery was two blocks away."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "walk-in pantry",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Standard again, and the two things to insist on are shelf depth of 14 in and a door that does not swing into the aisle."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Not habitable space; no light, ventilation or ceiling-height minimum.",
+      "ref": "IRC R303, R305"
+    },
+    {
+      "requirement": "Luminaire type and clearance where the space is a storage closet.",
+      "ref": "NEC 410.16",
+      "conflict": "Applied inconsistently to pantries, which are storage rooms rather than clothes closets, but the good-practice answer is the same: a sealed fixture at the front."
+    }
+  ],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "saltbox",
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "cape-cod-massing",
+    "gambrel-block",
+    "telescope-house",
+    "townhouse-row",
+    "ranch-linear",
+    "ranch-l",
+    "i-house",
+    "massed-picturesque",
+    "charleston-single"
+  ],
+  "slots": [
+    "storage_strategy",
+    "service_zone_strategy",
+    "room_adjacency_overrides",
+    "built_ins",
+    "depth_and_pile"
+  ],
+  "faults": [
+    "closet-depth-taken-from-the-room",
+    "built-in-that-is-furniture",
+    "service-route-through-the-formal-plan"
+  ],
+  "sources": [
+    "US household refrigerator saturation, 1920-1950 (US Census / Bureau of Labor Statistics historical series)",
+    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981)",
+    "NKBA storage guidelines",
+    "proportions/systems/room-vernacular.json - service_zone_strategy"
+  ],
+  "confidence": "high"
+}

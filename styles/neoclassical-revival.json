@@ -1,0 +1,224 @@
+{
+  "id": "neoclassical-revival",
+  "name": "Neoclassical Revival",
+  "aka": [
+    "Neoclassical",
+    "Classical Revival",
+    "Southern Colonial (popular usage)"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "revival",
+  "period": {
+    "origin": 1893,
+    "floruit_start": 1895,
+    "floruit_end": 1950,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "Chicago, by way of the 1893 World's Columbian Exposition",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "4A",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "greek-revival-american",
+      "type": "revives",
+      "weight": 0.9,
+      "note": "The colossal portico had been dormant in domestic work for forty years. Neoclassical Revival puts it back, at a larger scale and on a plan that owes it nothing."
+    },
+    {
+      "target": "roman-classical",
+      "type": "references",
+      "weight": 0.8,
+      "note": "The imperial register - domes, coffering, Corinthian and Composite - reaching the office through Ecole plates rather than through Rome."
+    },
+    {
+      "target": "greek-classical",
+      "type": "references",
+      "weight": 0.7,
+      "note": "Order profiles, especially Ionic and Doric, taken from Stuart and Revett by way of nineteenth-century handbooks."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The actual descent. Same offices, same draughting conventions, same exposition; Neoclassical Revival is Beaux-Arts with the sculpture budget removed."
+    },
+    {
+      "target": "beaux-arts-french",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Ecole des Beaux-Arts composition - axis, parti, the hierarchy of masses - as taught to Americans in Paris and re-taught at MIT, Columbia and Penn."
+    },
+    {
+      "target": "colonial-revival",
+      "type": "hybridizes_with",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "In domestic work the two are continuous: the same catalog trim, the same symmetrical plan, differing chiefly in whether the portico is one storey or two."
+    },
+    {
+      "target": "richardsonian-romanesque",
+      "type": "reacts_against",
+      "weight": 0.6,
+      "note": "The White City was a deliberate repudiation of Richardson's weight and of Victorian polychromy in favour of white, thin, axial classicism."
+    },
+    {
+      "target": "roman-classical",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The academic classicism launched by the 1893 World's Columbian Exposition, in which a colossal columnar portico - two storeys tall, correctly ordered, and almost always structurally unnecessary - becomes the standard American emblem of institutional and personal permanence.",
+    "long": "Neoclassical Revival is the residential fallout of a single event. The 1893 World's Columbian Exposition in Chicago assembled the country's leading offices under Daniel Burnham's coordination and produced the Court of Honor: white, uniform-corniced, colossally colonnaded, and visited by roughly a quarter of the United States population. Within two years the vocabulary was everywhere - banks, courthouses, libraries, railway stations, and, for anyone who could pay for it, houses. The domestic form is straightforward and remarkably stable for fifty years: a symmetrical rectangular block, a low hipped or side-gable roof, a full-height portico of columns rising two storeys to a pediment or a flat entablature, and a correctly detailed order carrying a cornice that runs the whole building.\n\nThe conditions were professional before they were popular. By 1893 American architecture had acquired schools, licensing campaigns, and a generation trained at the Ecole des Beaux-Arts who had learned to compose in plan by axis and hierarchy and to render precedent with authority. Classicism was what that training produced, and the Exposition proved it could be produced at speed and at scale. Behind the profession stood a national argument: a country that had just industrialized past Britain wanted a civic architecture that looked like Rome rather than like a mill town, and the City Beautiful movement carried that argument into every state capital. Behind that stood the buyers - bankers, planters, senators, and the professional class of small cities - for whom a two-storey portico was the cheapest available demonstration that a fortune made in the last twenty years had been made in the last two hundred.\n\nWhat the style claims is permanence, and it claims it with a peculiar honesty about its own thinness. The colossal portico is very rarely doing structural work; it is a screen in front of a conventional balloon-framed or brick-bearing house. In the South especially, where the type became so common that the public renamed it 'Southern Colonial', it was frequently applied to older houses, so that a Greek Revival or even a Federal box acquires a 1910 portico and a new identity. This is not deceit exactly. The portico is understood by everyone involved as a public face rather than a structure, in the same way a suit is understood not to be a body.\n\nThe experience is one of scale ambiguity. From the street the house looks larger than it is, because the giant order sets a module the eye then applies to the whole building. Under the portico the effect reverses: the columns are close together, the ceiling of the portico is often only a painted board soffit, and the front door - normal-sized, with a fanlight - sits at the far end of a shadow far too grand for it. Inside, the ceilings are high and the rooms are conventional. The best examples resolve this by giving the portico real depth, 10 to 14 feet, so it becomes a room; the worst press four columns flat against the wall and leave 4 feet of porch, and the whole composition reads as a stage flat, which is exactly what it is."
+  },
+  "defining_characteristics": [
+    "A full-height entrance portico with columns rising two or more storeys to a pediment or entablature, dominating the primary facade",
+    "A correctly executed classical order - Doric, Ionic, Corinthian, or Composite - with entasis, capital, base, and entablature in academic proportion",
+    "Symmetrical rectangular main block with a low-pitched hipped or side-gable roof and a continuous cornice, often with a balustrade or parapet",
+    "Centred entrance with fanlight and sidelights or a decorated door surround, subordinate to the portico above it",
+    "Regularly spaced double-hung sash aligned vertically between storeys, frequently with a Palladian or lunette window on the axis",
+    "Smooth or lightly rusticated wall surface treated as a plane behind the order rather than as a texture"
+  ],
+  "diagnostic_tells": [
+    "Columns run two full storeys. One-storey columns on an otherwise similar house make it Colonial Revival, not Neoclassical.",
+    "The order is correct - the shaft tapers, the capital is turned or cast to a published profile - where Colonial Revival will accept an untapered box column.",
+    "Roof pitch is low, 4:12 to 6:12, and often invisible behind a balustrade; Greek Revival originals carry a shallow pediment as the roof itself rather than hiding one.",
+    "The cornice runs continuously around the whole building at one height, including the rear, which no Greek Revival or Colonial house bothers to do.",
+    "Portico depth under 6 ft with columns pressed near the wall indicates a late or budget example; 10-14 ft indicates an architect."
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-american",
+      "difference": "The original, 1825-1860, is a temple in its own right: the gable faces front and is the roof, the order is heavy and often Doric, and the entablature is deep. The revival hangs a lighter, usually Ionic or Corinthian, portico on a hipped block whose roof continues behind it."
+    },
+    {
+      "node": "beaux-arts-american",
+      "difference": "Beaux-Arts is richer and wetter - paired columns, rusticated bases, swags, cartouches, sculptural groups, exuberant stone carving. Neoclassical Revival is the same grammar stripped to plain wall and single columns, which is why it could be built in wood in a county seat."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Colonial Revival claims descent from American colonial building and keeps its columns to one storey; Neoclassical Revival claims descent from antiquity and goes to two. In practice the same office built both, often in the same year."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The classical order, module equal to the column diameter at the base, taken from Vignola or from an American handbook derivative. Unlike Colonial Revival, the order genuinely governs: column height, entablature depth, and intercolumniation are all derived from the chosen diameter.",
+    "typical_ratios": [
+      "Ionic shaft height 9 diameters, Corinthian 10, Doric 8, measured including capital and base",
+      "Entablature depth 1/4 to 1/5 of column height; architrave, frieze, cornice in roughly 3:3:4",
+      "Portico columns 18-24 ft tall on a two-storey house, diameter 20-28 in. at the base",
+      "Intercolumniation 2.25 to 3 diameters clear (eustyle to diastyle); wider than 3 reads as slack",
+      "Portico depth 10-14 ft on architect-designed work; below 6 ft the portico ceases to be a space"
+    ],
+    "bay_rhythm": "Four or six columns across the portico with the entrance on the centre line between the middle pair; the wall behind carries five or seven bays at a constant rhythm that ignores the columns, producing the characteristic mismatch between screen and wall.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "canonical",
+      "note": "The full academic case - portico on the centre block, lower wings either side."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The common domestic case: a two-room-deep centre-passage block with a portico applied."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "common",
+      "note": "Grand examples on estate sites, hyphens and dependencies included."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "possible",
+      "note": "Budget version - a hipped cube with a two-storey portico, common in small Southern cities 1905-1925."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "atypical",
+      "note": "The portico wants a symmetrical facade; a side-hall plan fights it."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Columns must be built to a published order. Shaft entasis is required: minimum taper of 1/6 the base diameter over the shaft height, with the taper beginning no lower than 1/3 the shaft height. Untapered cylindrical or box columns are forbidden at colossal scale."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Entablature depth must be between 1/5 and 1/4 of column height and must be carried on the return elevations for at least one bay. An entablature under 1/6 of column height reads as a fascia board and voids the order."
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Portico depth must be a minimum of 8'0\" clear from wall face to column centreline, and preferably 10'0\"-14'0\". A colossal order in front of less than 6'0\" of porch is a stage flat and is forbidden."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Clear intercolumniation between 2.25 and 3.0 column diameters. The centre pair may open to 3.5 diameters to frame the entrance; no other bay may."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Roof pitch 4:12 to 6:12 behind the portico, and where a balustrade is used it must be a minimum 30 in. high with balusters spaced no more than 4 in. clear, so it reads as railing rather than as ornament."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Whitehall (Henry M. Flagler House)",
+      "location": "Palm Beach, Florida",
+      "year": 1902,
+      "note": "Carrere & Hastings. Marble-faced classical block with a colossal entrance portico; the type at its most emphatic and most public."
+    },
+    {
+      "name": "Nemours",
+      "location": "Wilmington, Delaware",
+      "year": 1910,
+      "note": "Carrere & Hastings, Louis XVI classicism on an American plan - the point at which Neoclassical Revival and French academic classicism become the same office practice."
+    },
+    {
+      "name": "Longue Vue House",
+      "location": "New Orleans, Louisiana",
+      "year": 1942,
+      "note": "William and Geoffrey Platt. Late, restrained, and unusually intelligent about siting; demonstrates the style surviving well past its supposed end."
+    },
+    {
+      "name": "Court of Honor, World's Columbian Exposition",
+      "location": "Chicago, Illinois",
+      "year": 1893,
+      "note": "Burnham, Hunt, McKim, Post and others. Temporary, demolished, and the single most consequential built object in this branch of the taxonomy."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)",
+    "Richard Guy Wilson, The American Renaissance 1876-1917 (1979)",
+    "John Milnes Baker, American House Styles: A Concise Guide (1994)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "academic-classicism",
+    "city-beautiful",
+    "colossal-order"
+  ]
+}

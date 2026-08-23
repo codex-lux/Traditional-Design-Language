@@ -1,0 +1,153 @@
+{
+  "id": "interior-transom-removed",
+  "name": "The Restoration That Made The House Darker",
+  "aka": [
+    "the lost borrowed light",
+    "transom infill",
+    "the blocked overdoor"
+  ],
+  "slots": [
+    "daylight_strategy",
+    "room_adjacency_overrides",
+    "depth_and_pile"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "omission",
+  "symptom": "A restored or renovated old house whose interior door heads are now plain, with a patch of new plaster or a run of blocking above them where an operable transom used to be. The back rooms of the plan - the ones with one window or none - are noticeably darker and stiller than the front. The owners say the house 'has always been dark', and the photographic and physical evidence says it was not.",
+  "cause": {
+    "driver": "code",
+    "explanation": "Three separate modern requirements all point at the transom. Fire and smoke separation between a dwelling and an attached garage, between storeys at a stair enclosure, and between dwelling units in a conversion each ask for a rated assembly, and a glazed opening over a door is the first thing a plan reviewer marks. Air conditioning then removes the transom's ventilation argument, because a conditioned house wants a sealed room and a return path through a grille rather than through a hole above a door. Privacy and sound, which the transom always compromised, finish the job. The result is a device removed for four defensible reasons by four people none of whom was thinking about light.",
+    "cost_saved": "$300-$800 per opening to close a transom, against $900-$2,200 to restore or reproduce one with its operating hardware."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "room-vernacular / depth_and_pile.width = storey_height * 0.78 * 1.2",
+      "statement": "When a plan goes double-pile the back room loses its window wall and is lit through a door, a transom, a borrowed light or a single gable-end window, and the depth it can carry collapses to about 1.2 times the head height. The transom over an interior door is not a decorative motif; it is the device that made this room habitable, and removing it in a renovation is why so many restored double-pile houses feel dark in a way the owners cannot account for."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "shotgun-house",
+      "statement": "A transom over every interior door, with operable windows on both side walls of every room. The section is the cooling system."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "borrowed light is light",
+      "statement": "A 24 by 36 in transom at a 7 ft head above a door delivers useful illuminance about 8 to 10 ft into the room beyond, which is the whole depth of a second-rank room. Nothing else in the wall does this, because a door is shut and a wall is opaque."
+    }
+  ],
+  "correct_practice": "Treat the interior transom as structure of the daylight system rather than as trim. Where the historic fabric shows one - and the evidence is a wide head casing, a run of blocking, a ghost line in the plaster, or hinges and a rod in the attic of the trim - restore it operable. Sizes: transom light 12 to 24 in high over a 6 ft 8 in to 7 ft door head, glazed with a single light or a two- or three-light pattern matching the room's sash; hung on a centre pivot or a bottom-hinged hopper with a rod and a catch, because the whole point is that it opens. Where a rated separation genuinely applies - a garage wall, a stair enclosure, a demised party wall - use a rated glazed assembly or wired-look ceramic in a rated frame rather than blocking the opening, which costs more and preserves the room. Where a new transom is being introduced into new work, the rule is that any room deeper than about 1.2 times its head height and lit on one side only needs a second aperture, and a transom is the cheapest one available.",
+  "fixes": {
+    "right": "Reinstate the transom operable, with its rod and catch, glazed to match the room's sash pattern.",
+    "cheap": "Reinstate it fixed. A fixed glazed transom recovers all of the light and none of the ventilation, costs $350-$700, and is reversible; where a rated assembly is required, a 20-minute rated glazed transom unit is $900-$1,600 and is still cheaper than the room being unusable. Where the head height is genuinely gone, a full-height glazed door panel or a sidelight beside the door recovers most of the borrowed light at the wrong height, which is worth having.",
+    "dishonest": "A solid panel painted to look like a transom, or a mirrored one. It restores the elevation of the door and none of its function, and it is the exact move that persuades a later owner the house never had light in that room."
+  },
+  "detection": "Measure the head casing of the interior doors. A door casing that is unusually deep at the head, or a head that sits 12 to 24 in below a cornice with a blank panel between, indicates a filled transom. In an attic or a closet, look for the transom sash itself, which is very often stored on site. In a photograph of a hall, compare the door head height to the ceiling: an eighteenth or nineteenth-century door head at 6 ft 8 in under a 10 ft ceiling almost certainly had something over it. The functional detection is simpler: if a room off a hall has one window or none and reads dark, and the door head is blank, the transom has gone.",
+  "test": {
+    "expression": "second_rank_room_depth / window_head_height_above_floor",
+    "threshold": 1.2,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "section",
+    "note": "The limit for a room lit on one side by a single window, a borrowed light or a transom. Above 1.2 the room needs the transom; the fault is present when the room exceeds it and the transom has been removed."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "charleston-single-house",
+    "federal-style",
+    "southern-federal",
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "italianate-american",
+    "italianate-townhouse",
+    "second-empire",
+    "shotgun-house",
+    "creole-cottage-vernacular",
+    "raised-creole-plantation",
+    "queen-anne-american",
+    "american-farmhouse-vernacular",
+    "folk-victorian",
+    "english-georgian-townhouse"
+  ],
+  "exceptions": [
+    {
+      "style": "new-england-colonial",
+      "why": "First Period interiors have no interior transoms; the rooms are small, the ceilings are 6 ft 8 in to 7 ft 6 in, and there is no head height for one. Adding transoms to a First Period house is the opposite anachronism.",
+      "bounds": "Only where the ceiling is genuinely under about 8 ft. A Georgianised First Period house with 8 ft 6 in ceilings and a passage may well have had them.",
+      "applies_when": {
+        "date_range": [
+          1620,
+          1720
+        ]
+      }
+    },
+    {
+      "style": "cape-cod-colonial",
+      "why": "Same reason: 7 ft to 7 ft 6 in ceilings leave no room over a door.",
+      "bounds": "Ceiling under 8 ft. Above that the type has been stretched and the transom question returns."
+    },
+    {
+      "style": "craftsman",
+      "why": "The Craftsman interior uses a continuous plate rail and a high frieze band rather than transoms, and the wide cased opening does the borrowing instead - the opening between living and dining is a permanent transom the width of the room.",
+      "bounds": "Requires the wide cased openings actually to be there. A Craftsman bungalow with narrow doors and no transoms and no cased openings is dark for the ordinary reason."
+    },
+    {
+      "style": "prairie-school",
+      "why": "The continuous high lintel band of art-glass casements raises the head across every exterior wall, so interior borrowing is not the strategy.",
+      "bounds": "Requires the continuous lintel band returning round every corner without interruption."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "transom-bar-at-the-wrong-height",
+      "difference": "That is an exterior door's transom bar and a proportion fault on the elevation. This is an interior transom and a daylight fault in the plan; they share a word and nothing else."
+    },
+    {
+      "fault": "room-deeper-than-its-daylight",
+      "difference": "That is the geometry. This is the loss of the historical remedy for it, and it is the one that gets committed by people trying to do the right thing."
+    }
+  ],
+  "co_occurs_with": [
+    "room-deeper-than-its-daylight",
+    "single-pile-type-built-double-pile"
+  ],
+  "severity_by_style": [
+    {
+      "style": "shotgun-house",
+      "severity": "fatal",
+      "why": "A transom over every interior door is a hard constraint of the type; without them a 40 ft deep single-file plan has two apertures for five rooms and the section stops working."
+    },
+    {
+      "style": "charleston-single-house",
+      "severity": "serious",
+      "why": "The stack ventilation depends on high openings; a blocked transom traps the hot air the tall room was built to exhaust."
+    },
+    {
+      "style": "new-england-colonial",
+      "severity": "not-applicable",
+      "why": "No head height for a transom to begin with."
+    }
+  ],
+  "severity_trajectory": "Minor at the moment of the work and serious permanently afterwards, because it is very rarely reversed: once the head is plastered flat and a cornice or a fire assembly runs across it, the next owner has no evidence the transom existed and inherits the darkness as a fact about old houses.",
+  "sources": [
+    "proportions/systems/room-vernacular.json, depth_and_pile derived rule for the borrowed-light room and its note",
+    "styles/shotgun-house.json climatic constraint (transom over every interior door)",
+    "NPS Preservation Brief 24, Heating, Ventilating and Cooling Historic Buildings: Problems and Recommendations",
+    "NPS Preservation Brief 3, Improving Energy Efficiency in Historic Buildings, on natural ventilation devices",
+    "International Residential Code R302.5 (dwelling-garage opening protection) and R302.7, the requirements that most often close a transom"
+  ],
+  "confidence": "high",
+  "tags": [
+    "daylight",
+    "restoration",
+    "transom",
+    "borrowed-light",
+    "code-driven",
+    "teaches"
+  ]
+}

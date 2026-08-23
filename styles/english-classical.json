@@ -1,0 +1,38 @@
+{
+  "id": "english-classical",
+  "name": "English Classical",
+  "rank": "family",
+  "member_of": "british-isles",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1620,
+    "floruit_end": 1840,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Two centuries of English classicism, from Jones and Wren through the Palladian, Georgian, Adam, and Regency phases, transmitted worldwide by pattern book.",
+    "long": "This family is the single most consequential body of work in the taxonomy for American residential architecture. It establishes the terms — symmetry, bay rhythm, the double-hung sash, storey graduation, the classical entry surround — that American building has been arguing with for three hundred years.\n\nIts historical significance is also methodological. The English carpenter's guide converted architectural design from a guild secret into a purchasable commodity. Gibbs, Langley, Swan, Salmon, and Halfpenny made it possible for a builder who had never seen a correct Ionic order to execute one. That achievement, and its characteristic failure mode — correct details at wrong scales — is the closest historical analogue to what a design platform now attempts."
+  },
+  "defining_characteristics": [
+    "Strict bilateral symmetry and vertically aligned bays",
+    "Storey heights graduated rather than equal",
+    "The double-hung sash as the governing opening type",
+    "Classical apparatus concentrated at the entry and cornice",
+    "Pattern-book transmission of correct detail to non-architect builders"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

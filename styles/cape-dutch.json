@@ -1,0 +1,209 @@
+{
+  "id": "cape-dutch",
+  "name": "Cape Dutch",
+  "aka": [
+    "Kaaps-Hollands",
+    "Cape Dutch homestead",
+    "Cape gable house"
+  ],
+  "rank": "style",
+  "member_of": "low-countries-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1652,
+    "floruit_start": 1700,
+    "floruit_end": 1830,
+    "decline_end": 1870,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1893,
+        "end": 1940,
+        "revival_node": null,
+        "note": "Cape Dutch Revival, begun when Cecil Rhodes bought Groote Schuur and commissioned Herbert Baker to rebuild it in 1893; subsequently adopted as a settler-national style across South Africa."
+      },
+      {
+        "start": 1960,
+        "end": 2026,
+        "revival_node": null,
+        "note": "Continuous Western Cape wine-estate practice — genuinely living building, not only restoration."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "South Africa",
+      "Western Cape"
+    ],
+    "hearth": "Cape Town, Stellenbosch and the Boland winelands",
+    "climate_zones": [
+      "3C",
+      "3B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "dutch-urban-gable-house",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The gable itself, the joinery, the small-paned casement, the brickwork and the whole idea that the centre of the front wall is where a house makes its statement. Transmitted by VOC servants and free burghers, most of them from Holland, in a single generation."
+    },
+    {
+      "target": "french-provincial-farmhouse",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "About two hundred Huguenots settled at Franschhoek and Drakenstein from 1688, roughly one in six of the free-burgher population. They brought vine and cellar practice, French joinery and panelling, and a rural farmstead habit of a long single-pile logis in a walled werf — which is why the Cape house is a farm building and not a town house."
+    },
+    {
+      "target": "north-german-hall-house",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "A very large share of VOC employees were German, and the enormous reed-thatch roof of a Cape homestead — undressed rafters, no ceiling over the loft, a roof volume larger than the walls beneath it — is Low German and rural Dutch thatching practice, not Amsterdam practice."
+    },
+    {
+      "target": "french-neoclassical",
+      "type": "references",
+      "weight": 0.2,
+      "inherits_kit": false,
+      "note": "The late gables of the 1790s-1810s, and the work of Louis Michel Thibault and the sculptor Anton Anreith, quote Louis XVI neoclassical profiles — concave-convex holbol curves, urns, pediments, fluted pilasters — onto a wall and plan that do not change at all."
+    }
+  ],
+  "description": {
+    "short": "The whitewashed, thatched, centrally gabled homestead of the Cape winelands, produced by Dutch gable practice, Huguenot farm craft and enslaved Cape Malay and African labour meeting a Mediterranean climate at the far end of a shipping route.",
+    "long": "Cape Dutch is the clearest demonstration in this taxonomy that a tree is the wrong data structure for architectural descent. Three transmissions arrive at the same place within forty years and none of them is subordinate to the others. From Holland comes the gable — the conviction that the centre of a front wall should rise into a shaped, moulded, whitewashed screen with a date on it — along with brickmaking, casement joinery and the anchor-plate. From France, after 1688, comes a Huguenot population large enough to reshape the free-burgher economy, bringing viticulture, cellar planning, panelling and a rural habit of long single-pile ranges arranged in a walled yard. And from the Cape itself, and from Batavia, comes the labour and much of the technical intelligence: enslaved craftsmen from the Indonesian archipelago, India and Madagascar, and Khoi and slave labour drawn from across the colony, who did the thatching, the lime-burning, the sun-dried brickmaking, the plaster modelling and, in many documented cases, the carpentry and joinery. The moulded gable is habitually credited to Dutch taste and Anreith's chisel. The people who mixed the lime, modelled the plaster and set the reed were overwhelmingly not Dutch, and any account of the style that leaves them out is not describing the building.\n\nThe climate did the rest. The Boland has hot dry summers, wet north-westerly winters and a wind — the south-easter — that arrives with a force nothing in Holland prepares a builder for. There is no useful building timber in the Western Cape: what forest existed was small, and structural timber was imported at ruinous cost from Batavia and later from Europe. Every consequence follows from that scarcity. Walls are thick sun-dried brick or rubble, lime-plastered and whitewashed annually, because the material is free and the finish is a performance layer against driving rain. Rooms are one room deep, because the roof span is set by what an undressed rafter will do. Roofs are steeply pitched reed thatch cut from the vleis, because it is local and free, and because thatch on a 45 to 50 degree pitch sheds Cape winter rain and insulates against Cape summer heat better than anything else available. And beneath the thatch, by law and by hard experience, sits the brandsolder — a brick-on-timber fire floor over the whole house, because a thatch fire in a dry summer wind is total.\n\nThe plan grows by letters. A single range is a langhuis. Add a rear wing and it is a T; add two and it is a U; close the two wings with a back range and it is an H, and the H-plan Cape homestead is the fully evolved type — a pinwheel of one-room-deep ranges around a small back court, with the front gable centred on the front door and the voorkamer behind it. Around the house, and part of the composition, is the werf: a low whitewashed wall enclosing the wine cellar, the slave quarters, the dovecote, the jonkershuis and the oak avenue. The werf is not a garden. It is the boundary of the working farm and the boundary of the household in the widest colonial sense of that word, and it is the part of the ensemble that most plainly records who lived there and on what terms.\n\nInside, the house is dark, cool, and much simpler than the front suggests. The voorkamer is high and its ceiling is exposed beams carrying a brick brandsolder, so you are looking at a floor rather than a ceiling. Walls are lime-plastered and thick enough that a window is a small bright cave. Floors are peach-pip, brick or later yellowwood. The gable that reads from three hundred metres away as a piece of European rhetoric turns out, from inside, to be a plastered blank — it is a wall the house never sees. That gap between what the front says and what the interior does is the essential Cape Dutch experience, and it is a colonial condition made architectural."
+  },
+  "defining_characteristics": [
+    "A moulded, plastered, whitewashed gable centred on the front door, standing free above the eave line of a thatched roof",
+    "Thick sun-dried brick or rubble walls, lime-plastered and limewashed white, on a raised stoep",
+    "Steeply pitched reed thatch over a brandsolder — a brick-on-timber fire floor spanning the whole plan",
+    "Single-pile ranges only, room depth fixed by the span of undressed imported or local rafters",
+    "Additive letter-plan growth: langhuis to T to U to H, ranges pinwheeling around a small rear court",
+    "Small-paned casements or sash in deep reveals, with external shutters, symmetrically disposed about the central door",
+    "An enclosed werf of outbuildings — cellar, jonkershuis, dovecote, slave quarters — bounded by a low whitewashed wall and read as part of the house"
+  ],
+  "diagnostic_tells": [
+    "Front gable rising clear of a thatched roof, moulded in plaster and usually dated in relief",
+    "Whitewash over a wall whose corners are visibly rounded and soft — plastered earth brick, not stone",
+    "The eave of a thatch roof cut square and level over a stoep supported on plain plastered piers",
+    "Green or dark-painted shutters and joinery against uniform white — the only colour on the building",
+    "A second, plainer gable over the rear or wing door, always subordinate to the front one"
+  ],
+  "distinguished_from": [
+    {
+      "node": "dutch-urban-gable-house",
+      "difference": "The Cape gable is centred on a broad, low, freestanding farm range and is a decorated wall panel above an eave. The Amsterdam gable is the end wall of a tall narrow urban house and contains the attic. One is a farm's face; the other is a merchant's whole building."
+    },
+    {
+      "node": "andalusian-courtyard-vernacular",
+      "difference": "Both are whitewashed, thick-walled and hot-climate. The Cape house faces outward across a werf and puts everything into a front elevation; the Andalusian house faces inward to a patio and gives the street nothing."
+    },
+    {
+      "node": "mexican-hacienda",
+      "difference": "Superficially similar — white walls, working precinct, single-pile ranges. But the hacienda's organising element is a continuous arcaded corredor around a patio, and it has no gable; the Cape house has no arcade and lives entirely off its gable and stoep."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The roof span and the wall. Room depth is fixed by what an undressed rafter will carry over a thatch roof — about 5.5 to 6.5 m clear — so every range is one room deep and the house grows in length and in wings. The front elevation is then set out from the door: the gable is centred on it, the windows are paired either side, and the gable width is roughly one third of the range's length.",
+    "typical_ratios": [
+      "Range depth 5.5-6.5 m clear; wall thickness 450-600 mm",
+      "Thatch pitch 45-50 degrees",
+      "Gable width to front elevation length roughly 1:3",
+      "Gable height above eave 2.5-4 m; stoep height 400-600 mm above the werf"
+    ],
+    "bay_rhythm": "Five to nine openings on the front range, evenly spaced, with the door centred under the gable. The rhythm is even and unaccented — there is no order and no pilaster rhythm, only repetition against a long white wall.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "h-plan-manor",
+      "affinity": "canonical",
+      "note": "The developed Cape homestead is an H: a front range, two wings, and a rear range around a small court. The skeleton is Tudor in the catalog and Cape in this style; that is exactly why massing is separated from style."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The U-plan stage, wings running back from a front range with the fourth side open or closed by a wall."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "The T-plan and the werf ensemble: a chain of single-pile ranges and outbuildings under separate thatched roofs."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "possible",
+      "note": "The original langhuis and the surviving labourers' cottages of the winelands."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "All ranges are single-pile. Clear internal depth must not exceed 6.5 m; a double-pile Cape house is not a Cape house, because the roof cannot be made without an interior bearing wall the type does not have.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Thatch pitch between 45 and 50 degrees. A continuous brandsolder — brick laid on timber beams over the full plan — is required beneath any thatch roof; it is both a fire barrier and the visible ceiling.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "External walls minimum 450 mm, lime-plastered and limewashed. Cement render is prohibited: it traps moisture in an earth wall and destroys it. Openings on the north-west (summer sun and south-easter) elevation limited to about 15 percent of wall area.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "A moulded front gable requires a centred front door directly beneath it and at least one subordinate, plainer gable elsewhere on the house. A single decorative gable with no counterpart reads as scenery.",
+      "severity": "hard"
+    },
+    {
+      "kind": "cultural",
+      "statement": "The homestead is incomplete without its werf: a low limewashed enclosing wall and at least the cellar and one outbuilding. Isolating the manor house from its working precinct misrepresents the type.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Groot Constantia",
+      "location": "Constantia, Cape Town, South Africa",
+      "year": 1685,
+      "note": "Granted to Simon van der Stel 1685; manor house substantially remodelled for Hendrik Cloete in the 1790s, with the wine cellar pediment by Anton Anreith, 1791."
+    },
+    {
+      "name": "Meerlust",
+      "location": "Stellenbosch, South Africa",
+      "year": 1776,
+      "note": "Homestead gable dated 1776; one of the least-altered surviving H-plan werf ensembles."
+    },
+    {
+      "name": "Boschendal Manor House",
+      "location": "Franschhoek, South Africa",
+      "year": 1812,
+      "note": "Built on a Huguenot grant of 1685; the surviving H-plan manor with holbol gables is dated 1812."
+    },
+    {
+      "name": "Groote Schuur",
+      "location": "Rondebosch, Cape Town, South Africa",
+      "year": 1893,
+      "note": "Herbert Baker's rebuilding for Cecil Rhodes — the origin point of the Cape Dutch Revival, and therefore the hinge between the living tradition and its later national use."
+    }
+  ],
+  "sources": [
+    "Fransen & Cook, The Old Buildings of the Cape",
+    "Lewcock, Early Nineteenth Century Architecture in South Africa",
+    "Walton, Homesteads and Villages of South Africa",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "hybrid",
+    "colonial",
+    "thatch",
+    "gable",
+    "whitewash",
+    "southern-hemisphere"
+  ]
+}

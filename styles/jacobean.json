@@ -1,0 +1,197 @@
+{
+  "id": "jacobean",
+  "name": "Jacobean",
+  "aka": [
+    "Jacobean Renaissance",
+    "Artisan Mannerist",
+    "Jacobethan (with Elizabethan)"
+  ],
+  "rank": "style",
+  "member_of": "tudor-jacobean",
+  "status": "historical",
+  "period": {
+    "origin": 1603,
+    "floruit_start": 1605,
+    "floruit_end": 1640,
+    "decline_end": 1670,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1830,
+        "end": 1910,
+        "revival_node": "jacobethan-revival",
+        "note": "Revived as the default English institutional and country-house manner of the nineteenth century, and exported to America as Jacobethan collegiate work."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Wales",
+      "Ireland"
+    ],
+    "hearth": "The Home Counties and East Anglia, where court patronage and Netherlandish craft traditions met",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "elizabethan",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "The same masons and joiners working for the same class under a new king; the break at 1603 is dynastic, not architectural, and the two styles overlap for a decade."
+    },
+    {
+      "target": "flemish-vernacular",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The shaped and scrolled gable and the heavy strapwork cartouche are Low Countries imports, carried by immigrant craftsmen and by Antwerp pattern sheets, and they take root most deeply in East Anglia where the immigrant communities settled."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "Still known only through engravings and through Netherlandish reworkings of them. Inigo Jones's genuinely Palladian Queen's House, begun 1616, stands beside Jacobean work as a foreign object and is not part of this node."
+    }
+  ],
+  "description": {
+    "short": "Elizabethan composition thickened, curved and darkened under James I: shaped Dutch gables, columned porches, heavy strapwork, and interiors of carved oak and pendant plaster.",
+    "long": "Jacobean is a style of consolidation rather than invention. The prodigy-house programme continues — Hatfield, Audley End and Blickling are as large and as ruinously expensive as anything Elizabeth's courtiers built — but the nervous verticality of the 1580s settles into something heavier and more resolved. The silhouette stops being spiky and becomes curved: the Netherlandish shaped gable, with its scrolls and its little segmental or triangular pediment on top, arrives in force and becomes the period's most recognisable move. The frontispiece grows outward from a flat pilaster screen into a real columned porch, often of two orders with paired columns and a strapwork cartouche above.\n\nThe conditions are a peace dividend and a credit boom. James's accession ended the Spanish war and opened a period in which court office, monopolies and land speculation created fortunes rapidly and destroyed them almost as fast — Audley End nearly bankrupted the Earl of Suffolk, who was then convicted of embezzlement, and Hatfield was built by Robert Cecil while he was effectively running the country. Brick becomes the standard material for a great house in the lowland counties, with stone reserved for dressings, quoins and the porch, and the combination of red brick with pale stone dressings is the period's colour signature. Below the great-house level the same vocabulary migrates into what Summerson called Artisan Mannerism: London and provincial craftsmen assembling gables, pediments and pilasters into vigorous, incorrect compositions that carry the tradition to about 1660.\n\nWhat Jacobean was reacting to is subtle: not Elizabethan taste, which it inherits wholesale, but the Elizabethan house's uninhabitability. Plans get more compact, glazing ratios come down from the Hardwick extreme, and the great chamber and gallery are joined by a proliferation of smaller private rooms and closets. The long gallery, top-lit and end-lit, becomes the centre of social life for a class that increasingly stayed indoors, and the dogleg or open-well great stair — broad, wooden, with heavily carved newels carrying obelisks or heraldic beasts — becomes the ceremonial armature of the house.\n\nThe Jacobean interior is the darkest in English domestic architecture and one of the most tactile. Oak panelling covers the walls to a moulded cornice; the plaster ceiling above is a dense field of ribs, pendants and modelled foliage, catching what light there is; the chimneypiece is a two-storey architectural event in coloured marbles and alabaster, with caryatids and strapwork, often the single most expensive object in the house. Rooms are warmer than their Elizabethan predecessors and much gloomier, and the effect of moving from a bright stair window into a panelled great chamber is a deliberate dimming — a compression of light and volume that reads as gravity, which is exactly what a Jacobean magnate wished to project."
+  },
+  "defining_characteristics": [
+    "Shaped and scrolled gables of Netherlandish derivation, usually capped by a small pediment, ranged symmetrically along a front or crowning end pavilions",
+    "A projecting entrance porch of one or two orders with paired columns, a strapwork cartouche or achievement of arms above, and a room over it",
+    "Red brick walling with contrasting pale stone dressings at quoins, mullions, copings and porch",
+    "Mullioned and transomed windows in flush grids, glazing ratio reduced from Elizabethan extremes to roughly 30-45 percent of the elevation",
+    "Symmetrical E-, H- or half-H plan with the long gallery on an upper floor and a compact double-pile core emerging",
+    "A broad open-well or dogleg oak stair with square newels carrying obelisks, finials or heraldic beasts, treated as the ceremonial spine of the house",
+    "Interiors of full-height oak panelling under enriched plaster ceilings with pendants, and multi-storey marble chimneypieces"
+  ],
+  "diagnostic_tells": [
+    "The shaped Dutch gable — concave and convex scrolls stepping up to a pediment — repeated across a front. Elizabethan gables are straight-sided and finialled; Jacobean gables curve",
+    "A columned porch standing proud of the wall plane with a chamber above it, rather than the flat applied frontispiece of Elizabethan work",
+    "Red brick with stone dressings as the default great-house material in the lowlands, where the Elizabethan default was ashlar or coursed stone",
+    "Strapwork that has thickened into deep, fleshy, three-dimensional cartouches and pendants rather than the flat interlaced bands of the 1580s",
+    "Carved newel posts rising well above the handrail and terminating in obelisks or beasts — a detail almost unique to this half-century"
+  ],
+  "distinguished_from": [
+    {
+      "node": "elizabethan",
+      "difference": "Curves versus spikes. Jacobean shapes its gables and projects its porch; Elizabethan crests its parapet and applies a flat frontispiece. Jacobean is more often brick, less glazed, heavier in ornament, and more compact in plan. The two overlap between 1600 and 1615 and cannot always be separated."
+    },
+    {
+      "node": "english-baroque",
+      "difference": "Both are heavy, but Baroque is correct and Jacobean is not. Baroque orders are proportioned to a module and used to model a whole mass; Jacobean orders are approximated from engravings, stacked, and applied to a porch. Baroque roofs are hipped behind balustrades; Jacobean roofs are gabled."
+    },
+    {
+      "node": "dutch-urban-gable-house",
+      "difference": "Shares the shaped gable and often the immigrant craftsmen, but the Dutch type is a narrow urban house whose gable is its whole street facade and whose plan is dictated by a canal-side lot. Jacobean deploys the same gable as a repeated incident along a wide country house front."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Bilateral symmetry about the porch axis, with the orders used approximately and by rule of thumb from Serlio and de Vries plates. The window grid supplies the module; the gable rhythm supplies the metre.",
+    "typical_ratios": [
+      "Mullion light 450-550 mm; windows of two to five lights with one or two transoms",
+      "Glazed to solid ratio 30-45 percent of the principal elevation",
+      "Gable width 3.5-5.5 m, height to the pediment apex roughly 0.6-0.8 of the gable width",
+      "Porch column height 6 to 8 diameters — noticeably stubbier than any canonical order, and a reliable sign of the period",
+      "Storey heights roughly equal, or ground floor exceeding first by no more than 10 percent"
+    ],
+    "bay_rhythm": "Even and repetitive along the front, punctuated by projecting end wings and the central porch. The shaped gables establish a second, slower rhythm above the eaves line which may or may not align with the window bays — where it does not, the mismatch is characteristic rather than a fault.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "h-plan-manor",
+      "affinity": "canonical",
+      "note": "The E-plan with a central porch and the half-H are the standard Jacobean forms; Hatfield and Blickling are both variations on it."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "common",
+      "note": "Retained at the greatest scale, as at Audley End, which had two courts before its eighteenth-century reduction."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "The compact double-pile block appears at the end of the period in Artisan Mannerist work and leads directly into the Restoration house."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "Gabled brick street ranges in London and the provincial towns before the Fire of 1666 removed most of them."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "statement": "Where shaped gables occur they must be repeated in a symmetrical set of at least three, or paired on end pavilions. A single shaped gable on an otherwise plain front is a Victorian move.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The entrance porch projects from the wall plane by not less than 1.2 m and carries a room above it. A flat applied frontispiece belongs to Elizabethan.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Brick walling requires stone or moulded-brick dressings at every opening, quoin and coping; unrelieved brick with no dressings reads as later vernacular.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Windows remain mullioned and transomed with leaded lights. Sash windows are forbidden; where they occur on a real Jacobean house they are an eighteenth-century alteration and should be modelled as such.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Glazing ratio 30-45 percent on principal elevations — above this the building reads Elizabethan, below it Tudor.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Hatfield House",
+      "location": "Hertfordshire, England",
+      "year": 1612,
+      "note": "Built 1607-12 for Robert Cecil, first Earl of Salisbury, with Robert Lyminge as chief craftsman. Brick with stone dressings, a stone-faced centre with a two-order loggia and clock tower, and the finest surviving Jacobean stair."
+    },
+    {
+      "name": "Blickling Hall",
+      "location": "Norfolk, England",
+      "year": 1627,
+      "note": "Built 1616-27 by Robert Lyminge for Sir Henry Hobart. Red brick with shaped gables and corner turrets, and a 37 m long gallery with a Jacobean plaster ceiling of exceptional density."
+    },
+    {
+      "name": "Audley End House",
+      "location": "Saffron Walden, Essex, England",
+      "year": 1614,
+      "note": "Built 1605-14 for Thomas Howard, first Earl of Suffolk, and originally of two great courts; reduced in the eighteenth century to roughly a third of its size. The scale that broke its builder."
+    },
+    {
+      "name": "Chastleton House",
+      "location": "Oxfordshire, England",
+      "year": 1612,
+      "note": "Built 1607-12 for Walter Jones, a wool merchant's grandson. Cotswold limestone rather than brick, with a compact symmetrical plan around a small court, and interiors — panelling, plaster, long gallery barrel ceiling — almost untouched since."
+    }
+  ],
+  "sources": [
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "Malcolm Airs, The Tudor and Jacobean Country House: A Building History (1995)",
+    "Mark Girouard, Life in the English Country House (1978)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)",
+    "Olive Cook, The English Country House: An Art and a Way of Life (1974)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "brick",
+    "shaped-gable",
+    "strapwork",
+    "prodigy-house"
+  ]
+}

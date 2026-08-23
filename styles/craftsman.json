@@ -1,0 +1,211 @@
+{
+  "id": "craftsman",
+  "name": "Craftsman",
+  "aka": [
+    "Craftsman style",
+    "Western Stick",
+    "Craftsman bungalow style (loose usage)"
+  ],
+  "rank": "style",
+  "member_of": "american-arts-and-crafts",
+  "status": "historical",
+  "period": {
+    "origin": 1901,
+    "floruit_start": 1905,
+    "floruit_end": 1925,
+    "decline_end": 1930,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States",
+      "Canada"
+    ],
+    "hearth": "Pasadena and Los Angeles, California, with the transmission apparatus centred on Eastwood, New York",
+    "climate_zones": [
+      "3",
+      "4",
+      "5"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "arts-and-crafts-american",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "Craftsman is the builder-vernacular settlement of the American reform movement: its ideology reduced to a set of executable moves."
+    },
+    {
+      "target": "arts-and-crafts-british",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Parent one of four. Morris supplies the ethic, Voysey the long low roof, the sweeping eave, the roughcast wall, and the horizontal band of casements. The transmission is textual: Stickley's The Craftsman reprinted British theory and British plates beside American plans."
+    },
+    {
+      "target": "swiss-chalet",
+      "type": "hybridizes_with",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "Parent two of four. The Anglo-American chalet fashion of the 1850s-1870s, propagated by Downing and by the picturesque cottage books, is where the exposed purlin, the projecting gable-end beam, and the knee brace enter American practice. Craftsman inherits the chalet's habit of showing the roof's structure at the gable end and drops its jigsawn balustrade."
+    },
+    {
+      "target": "shingle-style",
+      "type": "descends_from",
+      "weight": 0.45,
+      "inherits_kit": true,
+      "note": "Parents three and four arrive together on this edge. The American shingle and bungalow substrate supplies the continuous skin, the wrapping porch, and the hearth-centred open plan; and it is through this Californian and eastern-seaboard channel that Japanese timber architecture reaches the style. The Japanese parent has no node in this graph because it lies outside the traditions modelled here, but it is a true fourth parent: the Centennial Exposition of 1876 and the Ho-o-den at the 1893 Columbian Exposition gave Charles and Henry Greene the exposed and shaped beam end, the layered horizontal roof, the deep sheltering eave, and the treatment of a timber member as an object to be finished on all four faces."
+    },
+    {
+      "target": "queen-anne-american",
+      "type": "reacts_against",
+      "weight": 0.35,
+      "inherits_kit": false,
+      "note": "Explicitly and commercially: Craftsman plan books sold themselves against the 'gingerbread' house their buyers had grown up in."
+    }
+  ],
+  "description": {
+    "short": "The American Arts and Crafts programme reduced to a reproducible builder's grammar of low gable roofs, deep exposed eaves, battered porch piers and hearth-centred open plans, distributed nationally by Gustav Stickley's The Craftsman and by the plan-book and mail-order trade that copied it.",
+    "long": "Craftsman is a four-parent hybrid and unusually legible as one, because each parent contributed a different part of the building. From British Arts and Crafts, and specifically from Voysey by way of the illustrated press, come the long low roof, the sweeping eave, the roughcast or shingled wall treated as a continuous skin, and above all the ethical claim that a house should show how it is made. From the Swiss chalet fashion that ran through Anglo-American picturesque building between the 1850s and the 1870s come the specific members: the exposed purlin running through the gable, the projecting ridge beam, the knee brace under the eave, the gable-end truss displayed as a face. From Japanese timber architecture — encountered by American architects at the Centennial Exposition of 1876 and, decisively for Charles and Henry Greene, at the Ho-o-den of the 1893 World's Columbian Exposition — come the shaped and rounded beam end, the layered horizontal roof planes, the eave deep enough to become a spatial element rather than a trim detail, and the discipline of finishing a timber on all four faces because all four will be seen. From the American Shingle Style and the bungalow tradition already at hand come the plan: an open hearth-centred living room, a wrapping porch, a low horizontal spread, and a single continuous wall surface.\n\nThe transmission mechanism deserves naming precisely, because it is the reason a style invented by a handful of Californian architects for wealthy clients became the default American house within a decade. Gustav Stickley's magazine The Craftsman, published from 1901 to 1916, printed measured floor plans, elevations, and construction details free to subscribers, alongside the reform theory that justified them. Stickley collected the plans as Craftsman Homes (1909) and More Craftsman Homes (1912). The mail-order house companies — Aladdin from 1906, Sears Modern Homes from 1908 — and a shelf of competing plan books by Henry L. Wilson, Radford, and the Los Angeles bungalow publishers then copied the grammar wholesale and sold it as a precut package with the nails counted. What happened next is the single most instructive fact in this branch of the graph: a style built on the principle that ornament must be made by hand at the site was successfully productized, shipped in a boxcar, and assembled by a homeowner. It was the first fully specified traditional kit of parts, and it worked, because the grammar was reducible to a small number of enforceable rules.\n\nWhat Craftsman reacts against is the millwork catalog Queen Anne, and its argument is economic as much as aesthetic: the same money spent on turned spindles and sawn brackets buys, in a Craftsman house, a deeper porch, a bigger fireplace, and better wood. The rhetoric of the plan books is relentless on this point. It is also, quietly, a house designed for a household without servants — the kitchen moves closer to the dining space, the built-in buffet replaces the sideboard, and the back stair disappears.\n\nStanding before one, the first thing to register is the shadow. The eave projects two and a half to three feet, and it does so on the rake as well as the eave, so the whole wall sits in a band of shade with the rafter tails and knee braces reading as dark strokes against it. The porch is not a threshold but a room, seven to nine feet deep, roofed by the main roof continuing down rather than by a shed tacked on beneath it, and carried on piers that visibly widen toward the ground. Inside, the ceiling is low and beamed, the trim is broad and flat and the colour of the wood it is made of, and the fireplace is not a feature of the room but the reason the room is shaped the way it is. The materials change as they go down the wall — shingle to clinker brick to river boulder — and each change happens where something structural changes. Nothing is painted white. Nothing is symmetrical. And nothing on the building is there that is not also doing something."
+  },
+  "defining_characteristics": [
+    "Low-pitched gabled roof, front- or side-facing, with eave and rake overhangs of 24 to 36 inches on all sides",
+    "Structural members left exposed and doing visible work: rafter tails, purlins running through the gable, knee braces, and beam ends",
+    "A porch of habitable depth framed under the primary roof — either the main roof continuing down or a gable subordinate to it — never a shed applied below the eave",
+    "Porch supports as square or battered piers standing on heavy masonry bases of stone, clinker brick, or river rock",
+    "Stacked natural materials expressing base, wall, and gable, with each transition at a structural line",
+    "Horizontally banded windows, characteristically double-hung with a divided upper sash over a single-light lower sash",
+    "Interior organized on a hearth, with beamed ceiling, plate rail, and built-in seating and cabinetry fixing the plan against rearrangement",
+    "One or one and a half storeys, with habitable roof space reached by a dormer rather than a full second floor"
+  ],
+  "diagnostic_tells": [
+    "Four-over-one or three-over-one double-hung sash — vertical muntins in the upper sash only. This single detail separates Craftsman from every neighbour in the graph.",
+    "Battered porch piers: the support is wider at the bottom than at the top, on a base wider still",
+    "Knee braces under the gable overhang, and rafter tails visible along the eave, both structurally continuous",
+    "The porch roof is geometrically part of the main roof, not a separate element pinned to the wall below it",
+    "River boulder, arroyo stone, or over-fired clinker brick used for chimney, porch base, and foundation — deliberately irregular masonry against regular woodwork"
+  ],
+  "distinguished_from": [
+    {
+      "node": "prairie-school",
+      "difference": "Prairie hides its structure behind clean soffits and continuous planes and uses a hipped roof and casement bands; Craftsman displays its structure and uses gables and double-hung sash. Prairie is smooth and abstract, Craftsman is textured and rustic."
+    },
+    {
+      "node": "arts-and-crafts-american",
+      "difference": "The parent node is a movement covering furniture, printing, metalwork, and several architectural expressions including Prairie. Craftsman is one architectural expression of it, the one that became a national builder's vernacular."
+    },
+    {
+      "node": "colonial-revival",
+      "difference": "Colonial Revival is symmetrical, painted, and classically detailed with real orders; Craftsman is asymmetrical, stained, and has no orders at all. Where they meet — a Craftsman body with a classical porch — the building belongs to neither and usually to a builder's catalog."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Two horizontal datums and one structural rhythm. The porch beam sets a low datum, the aligned window and door heads set a high datum, and the exposed rafters declare the framing bay at 16 or 24 inches on centre. Because the system is dimensional rather than ratio-derived, it is directly encodable: the rules are all absolute lengths, which is why the plan-book trade could transmit it without transmitting any theory.",
+    "typical_ratios": [
+      "Roof pitch 3:12 to 6:12",
+      "Eave and rake overhang 24 to 36 in, equal on all four sides",
+      "Porch depth 7 to 9 ft clear; porch width not less than 60 percent of the facade",
+      "Porch pier base width 24 to 36 in, tapering to 12 to 18 in at the beam",
+      "Wall plate 8 ft 6 in to 9 ft 0 in; window and door heads at 6 ft 8 in to 7 ft 0 in on a single datum",
+      "Upper sash divided into three or four vertical lights; lower sash undivided"
+    ],
+    "bay_rhythm": "Openings gathered into groups of two or three between exposed posts, with wide unbroken wall between groups; the group spacing follows the framing bay, not a facade module.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "bungalow-linear",
+      "affinity": "canonical",
+      "note": "The default vessel; the great majority of surviving Craftsman houses are this skeleton."
+    },
+    {
+      "massing": "airplane-bungalow",
+      "affinity": "common",
+      "note": "A single raised sleeping room above the bungalow body, its own low hipped roof floating above the main one."
+    },
+    {
+      "massing": "foursquare",
+      "affinity": "common",
+      "note": "The urban narrow-lot answer; requires special care because the foursquare's verticality fights the style's horizontal reading."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "possible"
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "atypical",
+      "note": "Occurs in transitional houses of 1905-1912 where a builder reskinned a Queen Anne skeleton; the result is legible but rarely coherent."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Eave and rake overhang shall be between 24 and 36 in, and shall be equal on eave and rake within 6 in. An overhang under 18 in disqualifies the node.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "The porch roof must be framed under the primary roof — either as a continuation of the main slope or as a subordinate gable tied into it. A shed roof applied to the wall below the main eave is forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Principal roof pitch between 3:12 and 6:12.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide. Turned columns, fluted columns, and classical capitals are forbidden.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Divided lights occur in the upper sash only; the lower sash is a single light. Muntins are vertical, three or four per upper sash, and not less than 1 1/8 in wide.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Gamble House",
+      "location": "Pasadena, California",
+      "year": 1908,
+      "note": "Greene and Greene, 1908-09. The style's upper limit, where the Japanese parent is most visible in the shaped beam ends and layered roofs."
+    },
+    {
+      "name": "Robert R. Blacker House",
+      "location": "Pasadena, California",
+      "year": 1907,
+      "note": "Greene and Greene. Larger and earlier than the Gamble, with the timber grammar at its most explicitly Japanese."
+    },
+    {
+      "name": "Craftsman Farms (the Log House)",
+      "location": "Parsippany-Troy Hills, New Jersey",
+      "year": 1911,
+      "note": "Gustav Stickley's own house, 1908-1911 — the publisher of the style building outside its Californian idiom."
+    },
+    {
+      "name": "Bungalow Heaven Landmark District",
+      "location": "Pasadena, California",
+      "year": 1900,
+      "note": "More than 800 modest Craftsman houses built c. 1900-1930; designated 1989. The style as it was actually inhabited, at plan-book scale."
+    }
+  ],
+  "sources": [
+    "Gustav Stickley, Craftsman Homes (1909) and More Craftsman Homes (1912)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Clay Lancaster, The American Bungalow, 1880-1930 (1985)",
+    "Robert Winter, The California Bungalow (1980)",
+    "Edward R. Bosley, Greene and Greene (2000)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "four-parent-hybrid",
+    "plan-book",
+    "mail-order",
+    "exposed-structure",
+    "productized-tradition"
+  ]
+}

@@ -1,0 +1,301 @@
+{
+  "id": "cape-central-chimney",
+  "name": "Cape, Central Chimney",
+  "aka": [
+    "lobby-entry Cape",
+    "the full Cape"
+  ],
+  "description": "A low broad box around a masonry stack, entered into a lobby between the chimney and the front door, with a half-storey above. Thermally intelligent before anyone used the word: one mass of masonry heats four rooms and anchors the frame.",
+  "massing": "cape-cod-massing",
+  "alternate_massings": [
+    "saltbox",
+    "gambrel-block"
+  ],
+  "styles": [
+    "cape-cod-colonial",
+    "new-england-colonial",
+    "saltbox-colonial",
+    "cape-cod-revival",
+    "minimal-traditional"
+  ],
+  "groupings": [
+    "keeping-room-hearth-cluster",
+    "hall-and-parlor-pair",
+    "entry-sequence"
+  ],
+  "circulation_parti": "central-chimney-lobby",
+  "storeys": 2,
+  "area_range_sf": [
+    1100,
+    2200
+  ],
+  "bedroom_range": [
+    2,
+    4
+  ],
+  "rooms": [
+    {
+      "id": "lobby",
+      "type": "vestibule",
+      "level": 0,
+      "name": "Entry Lobby",
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "hall",
+        "parlor",
+        "stair",
+        "exterior"
+      ],
+      "note": "The lobby is squeezed between the front door and the stack; it is small by design and it is the whole entry sequence."
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Winder Stair",
+      "doors": [
+        "lobby"
+      ],
+      "note": "Steep and winding beside the stack. The type's known compromise."
+    },
+    {
+      "id": "hall",
+      "type": "living-room",
+      "level": 0,
+      "name": "Hall",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "lobby",
+        "keeping"
+      ]
+    },
+    {
+      "id": "parlor",
+      "type": "parlor",
+      "level": 0,
+      "name": "Parlor",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "lobby"
+      ]
+    },
+    {
+      "id": "keeping",
+      "type": "keeping-room",
+      "level": 0,
+      "name": "Keeping Room",
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "hall",
+        "kitchen"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "keeping",
+        "pantry",
+        "mud"
+      ],
+      "fixtures": [
+        "sink",
+        "dishwasher"
+      ]
+    },
+    {
+      "id": "pantry",
+      "type": "pantry",
+      "level": 0,
+      "name": "Buttery",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "mud",
+      "type": "mudroom",
+      "level": 0,
+      "name": "Mud Room",
+      "exterior_walls": [
+        "W"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "kitchen",
+        "powder",
+        "exterior"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "doors": [
+        "mud"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Stair Head",
+      "doors": [
+        "upperhall"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "upperhall",
+      "type": "gallery-corridor",
+      "level": 1,
+      "name": "Upper Hall",
+      "doors": [
+        "landing",
+        "primary",
+        "hallbath"
+      ]
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Principal Chamber",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "stacks_over": "hall"
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Bath",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "upperhall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "stacks_over": "powder"
+    },
+    {
+      "id": "chamber",
+      "type": "garret-chamber",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "upperhall"
+      ]
+    },
+    {
+      "id": "chambercl",
+      "type": "closet",
+      "level": 1,
+      "name": "Closet",
+      "repeats_with_bedrooms": true,
+      "doors": [
+        "chamber"
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "a": "stair",
+      "b": "landing",
+      "relation": "below"
+    },
+    {
+      "a": "landing",
+      "b": "stair",
+      "relation": "above"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "widening",
+      "adding-a-link"
+    ],
+    "bay_module_ft": 8,
+    "max_bay_count": 5,
+    "note": "Grows in named increments — half, three-quarter, full — by adding bays to one side of the door. Those increments are the type's grammar and skipping them produces a Cape that is nothing in particular."
+  },
+  "trades_away": "Upper-floor headroom and any possibility of a grand room. The eave sits within a foot of the second-floor sill, and raising it to gain headroom produces a different and worse house.",
+  "exemplars": [
+    "Jabez Wilder House, Hingham",
+    "the Cape Cod houses recorded by HABS on the Outer Cape"
+  ],
+  "sources": [
+    "Connally, The Cape Cod House: An Introductory Study",
+    "Cummings, The Framed Houses of Massachusetts Bay"
+  ],
+  "confidence": "high"
+}

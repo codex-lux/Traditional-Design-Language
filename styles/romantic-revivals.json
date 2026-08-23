@@ -1,0 +1,36 @@
+{
+  "id": "romantic-revivals",
+  "name": "Romantic Revivals",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1830,
+    "floruit_end": 1890,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Gothic, Italianate, and their companions — the moment when American architecture abandoned classical symmetry for association, irregularity, and moral argument.",
+    "long": "Andrew Jackson Downing's argument, made in books that sold enormously between 1842 and 1852, was that a house shapes the character of the family inside it, that the classical box was inappropriate to domestic life, and that irregular, picturesque, vine-covered houses in Gothic or Italian dress would produce better people. It is the first fully articulated American theory of domestic architecture, and it is a moral theory.\n\nThe enabling condition was technological. Balloon framing, machine-cut nails, and the steam scroll saw arrived in the 1830s and 1840s and made complex irregular massing and elaborate sawn ornament affordable for the first time in history. Downing supplied the argument; the sawmill supplied the means."
+  },
+  "defining_characteristics": [
+    "Irregular, asymmetrical massing composed for picturesque effect",
+    "Historical association as the source of architectural meaning",
+    "Balloon framing and machine-cut ornament as the enabling technology",
+    "An explicit moral claim that domestic architecture forms character",
+    "Vertical emphasis and steep rooflines replacing the classical horizontal"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

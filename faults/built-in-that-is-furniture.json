@@ -1,0 +1,119 @@
+{
+  "id": "built-in-that-is-furniture",
+  "name": "The Built-In That Is Cabinet Boxes And A Filler Strip",
+  "aka": [
+    "the kitchen cabinet bookcase",
+    "the built-in with a toe kick",
+    "the joinery that misses the datum"
+  ],
+  "slots": [
+    "built_ins",
+    "trim_family",
+    "baseboard"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A run of 'built-in' shelving, a window seat or a bookcase made from stock frameless cabinet carcases set side by side, with a 4 in recessed toe kick at the floor, a 1 to 3 in filler strip scribed to the wall at each end, and a top that stops at 84 or 90 in with a gap to the ceiling closed by a crown moulding. The room's baseboard dies into the filler strip instead of running behind the case; the toe kick is a different plane from the base; and the top lines up with nothing — not the picture rail, not the door head, not the window head, not the wainscot cap.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Cabinet carcases are a commodity in 3 in width increments, made for kitchens, and they are the cheapest way to produce anything that stores things. Everything that distinguishes them from joinery follows from the kitchen: the 4 in recessed toe kick exists so a person can stand at a counter, the frameless construction exists for maximum interior volume, the 84 or 90 in height exists because that is the tall carcase, and the filler strip exists because the boxes are modular and walls are not. None of those reasons apply to a bookcase in a parlour, but the boxes bring their reasons with them. And the installer is a cabinet fitter rather than a joiner, working after the trim, so the case is set against the finished wall and its junctions must be closed with scribes rather than planned.",
+    "cost_saved": "Stock carcases with a face frame and applied trim run 180 to 400 USD a linear foot; site-built or shop-built joinery scribed to the room, 500 to 1,100 USD. On a 12 ft wall, 4,000 to 8,000 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-craftsman / built_ins.width = module * 12 = 42 in",
+      "statement": "The built-in is NOT FURNITURE IN THIS FAMILY, IT IS TRIM: it is made of the same boards, finished at the same time by the same carpenter, and its top lines up with the wainscot cap or the picture rail. That alignment is what makes a Craftsman room read as one construction, and it is the reason a freestanding bookcase in such a room always looks like a visitor."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / built_ins",
+      "statement": "Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where the stack allows, and window seats only where the wall is thick enough to make one — 13 1/2 in of masonry with a 4 to 8 in reveal."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / baseboard.projection, base thicker than the casing",
+      "statement": "The base must be thicker than the members that die into it. A cabinet run set on a recessed toe kick puts a member in FRONT of the base's plane at the floor and a void behind it, so the room's strongest horizontal is interrupted by a shadow gap that belongs to a kitchen."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a built-in is part of the wall and must obey the wall's datums",
+      "statement": "The difference between joinery and furniture is not how it is fixed; it is whether it takes its dimensions from the room. A case that continues the room's base at its bottom, its chair rail or wainscot cap at its middle, and its picture rail or door head at its top is architecture. A case that has its own three dimensions and closes the differences with fillers is furniture that has been screwed to a wall."
+    }
+  ],
+  "correct_practice": "Give the case the room's datums, all three of them. AT THE FLOOR: the room's baseboard runs across the face of the case at the same height, in the same profile, with no recessed toe kick — a bookcase or a cupboard stands on a plinth that is the base, and where a toe recess is genuinely needed for a working piece it should be no more than 2 1/2 in deep and should sit above a plinth rather than instead of one. AT THE MIDDLE: where the room has a chair rail, a wainscot cap or a plate rail, the case's counter, its shelf line or the top of its lower doors coincides with it. AT THE TOP: the case's top or cornice lands on the room's picture rail, its door head assembly, or its cornice bed — in a Craftsman room that is the head casing top at 87 1/2 in, and in a classical room it is the entablature bed at ceiling times 16/19, which is 91 in at a 9 ft ceiling. At the ends: the case is scribed to the wall with its own stile, so there is no filler — the outer stile is made wide enough to be cut, which is a joiner's habit and costs nothing but a drawing. And the case's stiles, rails and mouldings come from the room's trim family: a Craftsman built-in is flat 3/4 in boards butted with a bevelled cap; a classical one has a plinth, a cornice and panels sized like the dado's.",
+  "fixes": {
+    "right": "Shop-built or site-built joinery scribed to the room, taking the base, the middle datum and the head datum from the room's own trim, in the room's own family.",
+    "cheap": "Fix the top and the bottom, keep the boxes. Where stock carcases are already the answer, two moves convert them: FIRST, run the room's actual baseboard across the front of the case, filling the toe recess behind it, which costs 30 USD in material and removes the kitchen shadow gap; SECOND, extend the case to the head datum with a plain panelled or boarded top box, so the case ends on the room's line instead of 84 in — a plywood box with a face frame, 200 to 500 USD. Then replace the end fillers with a wide stile scribed to the wall. Together these are under 1,000 USD on a 12 ft run and they do most of what the joinery would have done.",
+    "dishonest": "A crown moulding across the top of a case that stops short of the ceiling, which announces the gap rather than resolving it, and puts a second cornice in the room competing with the real one at a different height. Also dishonest: applied 'furniture feet' at the ends of a cabinet run to make it read as a piece — half the run is then on feet and half on a toe kick, and the case is neither built in nor freestanding."
+  },
+  "detection": "Three datum checks from one photograph. AT THE FLOOR: does the room's baseboard run across the case's front at full height, or does it stop at the case and a recessed toe kick take over? A visible shadow gap at the bottom of a 'built-in' is the single fastest indicator. AT THE ENDS: is there a plain vertical strip 1 to 3 in wide between the case and the wall, of a different width at each end? That is a filler and it means the case was modular. AT THE TOP: does the case's top coincide with any other horizontal in the room — door head, picture rail, window head, cornice bed — or does it stop at an arbitrary height with a gap above? Fourth, look at the FAMILY: a case in a Craftsman room with a sprung crown, or a case in a classical room with square-edged flat doors, is trim family drift at a large scale, because a built-in is one of the biggest pieces of trim in the house.",
+  "test": {
+    "expression": "min_abs_difference_between_builtin_top_and_room_datums_in",
+    "threshold": 1.5,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Distance from the top of the built-in to the nearest room datum — picture rail, door head assembly top, window head, or cornice bed. Correct is coincidence within about 1 1/2 in; the failure signature is a gap of 4 to 18 in with nothing in it. Run the floor test alongside: baseboard must continue across the case face at full height, and a recessed toe kick deeper than 2 1/2 in fails."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "Nothing is licensed here — the family is the strictest on this point of any in the corpus, since it names the built-in as trim rather than furniture. Recorded as an exception entry only to state the opposite: a Craftsman inglenook seat, colonnade bookcase or sideboard MUST hit the datum, and 42 in is the family's own built-in height.",
+      "bounds": "Top at the picture rail or the wainscot cap, base continuous, same stock and same finish as the room's trim, made by the same carpenter at the same time."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Free-standing painted cupboards, dressers and settles used as if built in, with visible gaps and no scribing, are part of the style's deliberate informality and its collecting habit.",
+      "bounds": "The piece must genuinely be a piece — with its own feet, its own returns and a finished back — standing in the room rather than screwed to it. A modular carcase with a filler strip is not a settle."
+    },
+    {
+      "style": "mid-century-traditional",
+      "why": "The modular storage wall with a recessed base and a floating case is period-correct and the toe recess is a deliberate device to make the mass appear to hover.",
+      "bounds": "The recess must be consistent and evident — 3 to 4 in and continuous across the whole run — and the case should have no applied crown and no filler strips, being made to the room's dimension. The floating base is licensed; the arbitrary top and the fillers are not.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1980
+        ]
+      }
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "why": "The idiom's open shelving and painted cabinetry is genuinely furniture-like, and freestanding-looking pieces in the kitchen and mudroom are part of its vocabulary.",
+      "bounds": "The furniture reading must be complete — legs or a plinth, finished ends, no fillers — rather than a modular run with a decorative panel at one end. And in the rooms with trim, the datums still apply."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "mixed-trim-families-in-one-room",
+      "difference": "A built-in in the wrong family is the largest possible instance of family drift, because the case is bigger than any moulding. Diagnose the family first and the datums second."
+    },
+    {
+      "fault": "mantel-at-the-wrong-height",
+      "difference": "Both are alignment faults on large objects against a wall. Where flanking built-ins and a fireplace occur together, their tops must coincide or clear each other by 6 in, and the mantel is the member that moves."
+    }
+  ],
+  "co_occurs_with": [
+    "mixed-trim-families-in-one-room",
+    "mantel-at-the-wrong-height",
+    "one-trim-grade-for-every-room"
+  ],
+  "sources": [
+    "proportions/systems/trim-craftsman.json, built_ins.width derived rule and its note",
+    "kits/georgian-colonial-american.kit.json, built_ins variants and the note on absence",
+    "Gustav Stickley, Craftsman Homes (1909), built-in plates",
+    "HABS documentation of eighteenth-century corner cupboards and chimney-flanking closets"
+  ],
+  "confidence": "high",
+  "tags": [
+    "built-ins",
+    "datum",
+    "assembly",
+    "trim-family"
+  ]
+}

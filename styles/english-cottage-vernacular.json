@@ -1,0 +1,210 @@
+{
+  "id": "english-cottage-vernacular",
+  "name": "English Cottage Vernacular",
+  "aka": [
+    "thatched cottage",
+    "cob and thatch",
+    "labourer's cottage",
+    "lowland English cottage"
+  ],
+  "rank": "style",
+  "member_of": "british-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1400,
+    "floruit_start": 1550,
+    "floruit_end": 1840,
+    "decline_end": 1900,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1790,
+        "end": 1840,
+        "revival_node": null,
+        "note": "The cottage orne and the model estate hamlet — Nash's Blaise Hamlet of 1811, Acland's Selworthy of 1828 — in which the cottage is composed for the picturesque eye by an architect for the first time."
+      },
+      {
+        "start": 1890,
+        "end": 1939,
+        "revival_node": "arts-and-crafts-british",
+        "note": "Voysey's roughcast and long low eaves, Lutyens's Surrey tile-hanging and Baillie Scott's cottage plans all descend from close study of this tradition."
+      },
+      {
+        "start": 1920,
+        "end": 1945,
+        "revival_node": "storybook-style",
+        "note": "The suburban 'Tudorbethan' and American storybook cottage, which keeps the silhouette and discards every constructional reason for it."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Wales"
+    ],
+    "hearth": "The lowland clay, chalk and cob districts — Devon, Dorset, Somerset, Hampshire, East Anglia and the south Midlands",
+    "climate_zones": [
+      "4A",
+      "4C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-medieval-timber-frame",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The same carpentry tradition at the bottom of the social scale: cruck pairs, low box frames, wattle-and-daub panels and thatched roofs, built by the same village carpenters who framed the yeoman's house."
+    },
+    {
+      "target": "cotswold-vernacular",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": false,
+      "note": "Sibling rather than ancestor. The two are the same building culture — same plan, same social class, same period — differentiated almost entirely by geology, and they meet and blend along the edge of the limestone belt."
+    }
+  ],
+  "description": {
+    "short": "The small house of the English labourer and husbandman: one and a half storeys of cob, rubble or timber frame under deep thatch, built low to the ground with a stack that is the largest thing in it.",
+    "long": "The English cottage is the least designed and most imitated building in the world. Its form is the residue of a set of hard constraints. Walls are whatever the ground provided within a few hundred metres: cob in Devon and Dorset, clay lump in Norfolk, flint and chalk on the downs, rubble in the west, timber frame with daub panels everywhere there was oak. Roofs are thatch, in wheat reed or water reed or combed straw, which demands a pitch of at least 45 and preferably 50 degrees and which insists on being a continuous surface — hence the swept eyebrow dormer, the rounded hip, the catslide down over a rear outshot, and the total absence of valleys and hard edges. Eaves are low, often only two metres above the ground, because a cob wall costs money by the course and because heat rises. Windows are small and few, because glass was expensive and a window tax existed from 1696 to 1851.\n\nThe social history is harsher than the picture suggests. Most surviving cottages are not labourers' houses at all but the houses of husbandmen, small freeholders and craftsmen — the genuinely poor lived in dwellings that have not survived, and the 1834 Poor Law and the nineteenth-century agricultural depression emptied much of the countryside. What did survive was upgraded during the Great Rebuilding of roughly 1570 to 1640, when a chimney stack was inserted into an open one-cell or two-cell house and a floor thrown across at the old wall-plate level, creating the classic lobby-entry plan: front door opening onto the face of the stack, hall to one side, parlour to the other, and a winder stair squeezed behind the fire.\n\nThe cottage was not reacting against anything until other people started looking at it. From the 1790s the picturesque movement turned it into an object of taste, and John Nash's Blaise Hamlet of 1811 — nine cottages arranged around a green, each with a different thatch, a different chimney and a deliberately crooked plan — is the moment the vernacular becomes a style. Everything from Arts and Crafts to the interwar suburb runs through that door. The distinction worth holding is between a cottage that is low because cob is expensive and a cottage that is low because low looks charming; the kit-of-parts consequences are entirely different.\n\nThe interior of a real one is small, dark and warm. The stack occupies perhaps a fifth of the ground floor and radiates for hours after the fire is out; ceilings are 2.0 to 2.2 metres and crossed by chamfered beams you will hit if you are tall; the walls are 450 to 600 mm of cob, limewashed, and every corner in the building is slightly rounded because cob does not do arrises. Windows are deep-set and let in less light than you expect, but the thatch is silent under rain in a way no other roof is, and the whole house holds temperature like a cave. It is a building that was made by the same hands that lived in it, and it feels like it."
+  },
+  "defining_characteristics": [
+    "One to one-and-a-half storeys with a low eaves height of 2.0-2.7 m, the upper rooms partly within the roof",
+    "Walls of locally available mass material — cob, clay lump, flint, chalk, rubble — or of low timber frame with daub panels, finished in limewash",
+    "Thatch, or in later and eastern examples plain clay tile, at a pitch of 45-55 degrees, treated as a continuous unbroken surface",
+    "Eyebrow or swept dormers formed within the thatch, and a catslide carried down over a rear outshot rather than a separate roof",
+    "A single dominant chimney stack — central lobby-entry or gable-end — of brick or stone, disproportionately large relative to the house",
+    "Small side-hung casement windows with leaded lights or timber glazing bars, set in deep reveals with few and irregular openings",
+    "An additive plan that grows by cell, outshot and lean-to rather than by any composed extension"
+  ],
+  "diagnostic_tells": [
+    "No hard edges anywhere: rounded eaves, swept dormers, rolled hips, and wall corners visibly curved because cob will not hold a sharp arris",
+    "Eaves low enough to touch, with the upper-floor windows sitting in the roof rather than in the wall",
+    "A stack that is out of scale with the building, standing well above a low ridge, often with the front door opening directly against its side",
+    "Openings placed by internal need and never in vertical alignment between floors — the opposite of every classical rule",
+    "Wall thickness of 450-600 mm showing at the reveals, with sills deep enough to sit on and window frames set well back"
+  ],
+  "distinguished_from": [
+    {
+      "node": "cotswold-vernacular",
+      "difference": "Geology decides. The Cotswold house has dressed stone mullions, kneelered gables, raised copings and a hard graded stone slate roof; the cottage has soft-edged cob or frame walls, timber casements and thatch. Cotswold work has crisp arrises everywhere the cottage is rounded."
+    },
+    {
+      "node": "english-medieval-timber-frame",
+      "difference": "The timber-frame node is the designed frame of a yeoman or merchant — close studding, jetties, moulded bressumers, a carpented open roof. The cottage uses the same joints with a quarter of the timber, no jetty, no display, and often no frame at all where cob or rubble does the work."
+    },
+    {
+      "node": "storybook-style",
+      "difference": "The twentieth-century imitation exaggerates every feature that was originally a constraint: the sweep of the eaves becomes a wave, the catslide reaches the ground, the chimney becomes a sculpture, and the walls are 150 mm of stud with render. Real cottages are irregular by accretion; storybook cottages are irregular by drawing."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "None applied. Dimensions come from material limits — the bay of a cruck or box frame, the height a cob wall can be raised in a season of lifts, the pitch thatch requires, the span a floor joist will carry — and from the size of the family.",
+    "typical_ratios": [
+      "Bay length 3.0-4.5 m; a cottage is one to three bays plus outshot",
+      "Eaves height 2.0-2.7 m; ridge height 5.5-7.0 m for one and a half storeys",
+      "Roof pitch 45-55 degrees, with 50 degrees typical under long straw or combed wheat reed",
+      "Wall thickness 450-600 mm in cob, 350-500 mm in rubble, 150 mm in a daub-panelled frame",
+      "Window opening 600-1000 mm wide by 700-1200 mm high, in leaded quarries or small timber lights",
+      "Glazed area 4-8 percent of floor area, against 15-20 percent in a Georgian house of the same date",
+      "Thatch depth 300-400 mm at the ridge, giving the eaves their characteristic soft thickness"
+    ],
+    "bay_rhythm": "Irregular. Openings are placed where the room needs light and never aligned between storeys; the only rhythm is the structural bay, which is often invisible from outside.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "The two-cell lobby-entry plan produced by the Great Rebuilding, with the stack backing onto the entry."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "canonical",
+      "note": "The one-cell cottage with a gable-end or corner hearth — the irreducible base of the whole tradition."
+    },
+    {
+      "massing": "saltbox",
+      "affinity": "common",
+      "note": "The catslide over a rear outshot is the English original of which the New England saltbox is the transplanted and formalised descendant."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "common",
+      "note": "The Devon and Dartmoor longhouse, with house and byre in a single range under one roof, sharing a cross passage."
+    },
+    {
+      "massing": "double-pen",
+      "affinity": "possible",
+      "note": "Paired cottages under one roof with separate doors, a common estate and enclosure-era arrangement."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "Roof pitch not less than 45 degrees where thatch is used, and 50 degrees preferred; thatch must run as an unbroken surface with no valleys, no hard verges and no interruption by boxed dormers.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Cob and clay walls require a masonry or rubble plinth at least 450 mm above ground and a generous roof overhang at the eaves — the traditional formula of a good hat and a good pair of boots. Neither is optional.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Lime mortar, lime render and limewash only. Cement render on a cob or rubble wall traps water and will collapse the wall from within.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Eaves height 2.0-2.7 m at the wall plate, and glazed area not more than about 10 percent of floor area. A cottage with tall eaves and large windows is a different building type wearing a thatched hat.",
+      "severity": "soft"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "One chimney stack must dominate the composition, rising at least 1 m above the ridge. Multiple equal stacks belong to a farmhouse or a gentry house, not a cottage.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "The Priest's House",
+      "location": "Muchelney, Somerset, England",
+      "year": 1308,
+      "note": "First recorded in 1308. Local lias stone roughly cut and squared with Ham stone dressings, thatched roof half-hipped to the east with a stepped coped gable west, and wattle-and-daub partitions inside — the small late-medieval house in near-complete survival."
+    },
+    {
+      "name": "Anne Hathaway's Cottage",
+      "location": "Shottery, Warwickshire, England",
+      "year": 1463,
+      "note": "The earliest part dates to 1463 as a single-storey three-room house; the upper part was built between 1610 and 1624. Timber frame with daub panels under long-straw thatch, and a textbook demonstration of the Great Rebuilding raising an open house into two storeys."
+    },
+    {
+      "name": "Selworthy Green",
+      "location": "Selworthy, Somerset, England",
+      "year": 1828,
+      "note": "Rebuilt in 1828 by Sir Thomas Dyke Acland to house the aged of the Holnicote estate, in ochre-tinted limewashed cob under thatch. Composed for the picturesque eye in the manner of Blaise Hamlet, but built with entirely authentic local technique — the honest borderline case between vernacular and revival."
+    },
+    {
+      "name": "Blaise Hamlet",
+      "location": "Henbury, Bristol, England",
+      "year": 1811,
+      "note": "Nine cottages designed by John Nash around a green for John Scandrett Harford's estate pensioners. The moment the vernacular becomes a style, and the origin of every cottage orne and storybook cottage since."
+    }
+  ],
+  "sources": [
+    "R. W. Brunskill, Illustrated Handbook of Vernacular Architecture (1970)",
+    "R. W. Brunskill, Traditional Buildings of Britain (1981)",
+    "Alec Clifton-Taylor, The Pattern of English Building (1962)",
+    "W. G. Hoskins, 'The Rebuilding of Rural England 1570-1640', Past and Present 4 (1953)",
+    "Eric Mercer, English Vernacular Houses (RCHME, 1975)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "vernacular",
+    "thatch",
+    "cob",
+    "mass-wall",
+    "additive-plan"
+  ]
+}

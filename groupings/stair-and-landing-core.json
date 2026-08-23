@@ -1,0 +1,122 @@
+{
+  "id": "stair-and-landing-core",
+  "name": "Stair and Landing Core",
+  "scale": "core",
+  "confidence": "high",
+  "description": "The vertical circulation treated as a room rather than a device. Where a stair is a room you arrive in, the upper floor gets a privacy buffer and the house gets its best window; where it is a fire escape in a slot, both are lost.",
+  "rooms": [
+    {
+      "room": "stair-hall",
+      "role": "primary",
+      "count": "1"
+    },
+    {
+      "room": "landing",
+      "role": "connector",
+      "count": "1-2"
+    },
+    {
+      "room": "gallery-corridor",
+      "role": "connector",
+      "count": "0-1"
+    },
+    {
+      "room": "closet",
+      "role": "servant",
+      "count": "0-1",
+      "note": "Under the stair, and the only genuinely free storage in a house."
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "A window on the half-pace or at the head. A stair lit only from the floors it connects is a shaft.",
+      "kind": "daylight",
+      "severity": "strong",
+      "exceptions": [
+        "townhouse-row",
+        "shotgun-house"
+      ]
+    },
+    {
+      "statement": "Landing depth not less than the stair width. Below that it is a turn, not a landing.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "landing_depth_in at-least stair_width_in"
+    },
+    {
+      "statement": "No bedroom door opens directly onto a landing visible from the hall below.",
+      "kind": "adjacency",
+      "severity": "preferred"
+    },
+    {
+      "statement": "Riser and tread constant through the whole flight, including at landings. A single odd riser is the most common cause of a domestic fall.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "riser_variation_in at-most 0.375"
+    },
+    {
+      "statement": "Where a back stair exists it lands in the service zone, never on the formal landing.",
+      "kind": "circulation",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "four-over-four",
+      "fit": "canonical",
+      "position": "in the passage or a hall off it"
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "fit": "canonical",
+      "position": "the hall, full depth"
+    },
+    {
+      "massing": "foursquare",
+      "fit": "canonical"
+    },
+    {
+      "massing": "cape-cod-massing",
+      "fit": "common",
+      "position": "steep and winding beside the central stack, which is the type's known compromise"
+    },
+    {
+      "massing": "ranch-linear",
+      "fit": "forbidden",
+      "note": "Single storey; where a ranch has a stair it is to a cellar and belongs in the service core."
+    }
+  ],
+  "expansion_logic": "Widen rather than lengthen. A stair hall gains far more from an extra two feet of width than from a longer run.",
+  "privacy_span": [
+    2,
+    4
+  ],
+  "typical_area_sf": [
+    100,
+    400
+  ],
+  "servicing_strategy": "The stack of the house: an opening landing window is the cheapest summer ventilation available, and the stair is the path the air takes.",
+  "circulation_parti": [
+    "center-hall",
+    "side-hall",
+    "double-pile-stair-hall"
+  ],
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "note": "The half-pace window is frequently the most elaborate on the house."
+    },
+    {
+      "style": "craftsman",
+      "note": "Open stringer, landing seat, and the stair often visible from the living room as a piece of joinery."
+    },
+    {
+      "style": "charleston-single-house",
+      "note": "Stair in the narrow dimension, lit from the piazza side."
+    }
+  ],
+  "sources": [
+    "IRC R311.7",
+    "Waterman, The Dwellings of Colonial America"
+  ]
+}

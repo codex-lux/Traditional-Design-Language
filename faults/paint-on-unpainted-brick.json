@@ -1,0 +1,221 @@
+{
+  "id": "paint-on-unpainted-brick",
+  "name": "Paint on a brick that was never painted",
+  "aka": [
+    "the white-brick fashion",
+    "limewash and its imitations",
+    "German schmear"
+  ],
+  "slots": [
+    "color_strategy",
+    "primary_cladding"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "A brick house painted a uniform white, grey or black in a modern acrylic or elastomeric coating. The bond, the header colour variation, the rubbed dressings and the joint pattern all disappear into one plane of colour; the wall's texture survives but its structure does not. Within five to fifteen years, blistering and spalling appear in a band 2-4 ft above grade and under the sills.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Painting brick is the cheapest large-scale transformation available on an existing house, and on new work it converts a cheap utility brick into an apparently expensive uniform surface, which is why it appears on new production housing as often as on remodels. Elastomeric coatings are sold specifically to bridge cracks in masonry and are marketed for exactly this application, with a vapour permeance far below what a mass masonry wall needs.",
+    "cost_saved": "Painting a cheap common brick costs $3-$6/sf and makes it read as a uniform wall, against $10-$18/sf for a better face brick. On a 1,800 sf brick elevation that is $10,000-$20,000 of apparent upgrade for $8,000 of paint — the arithmetic is why it is endemic."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / color_strategy / limewash-on-brick (permitted, Chesapeake)",
+      "statement": "Limewash on brick is a permitted period treatment. Modern impermeable paint is a different material doing a different thing."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a mass masonry wall dries by evaporation through its face",
+      "statement": "A solid brick wall has no cavity and no drainage plane; the water that enters it leaves through the outer face. A coating with a permeance below about 10 perms traps that water behind the face shell, where freeze-thaw detaches it. This is why the failure is always at the base and under the sills, where the wall is wettest."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the bond is the wall's structural diagram and colour is how it is read",
+      "statement": "Flemish bond is legible because headers fire differently from stretchers. A uniform coat of paint deletes the very variation the bond depends on, so a painted Flemish-bond wall reads as a plain wall with a joint grid."
+    }
+  ],
+  "correct_practice": "Do not coat a brick that was designed to be seen, and if a wall must be lightened use a vapour-open mineral coating. Limewash is the historic and technically correct answer: it is a lime-and-water wash of very high permeance that penetrates the surface, weathers by eroding rather than by peeling, varies with the brick's own absorption so the bond stays legible through it, and can be reapplied or allowed to wear off. Potassium-silicate (mineral) paints are the modern equivalent and chemically bond to the substrate. Both keep the wall's permeance above roughly 10-20 perms. Where the brick is genuinely unattractive new work, the honest answers are to change the brick or the mortar — a lime mortar with a different colour and a struck or grapevine joint transforms a wall far more than paint does, and it costs little on new construction. Note that painting is close to irreversible: chemical or abrasive removal from a soft handmade brick destroys the fire skin, which is the hardest and most weather-resistant part of the unit, and the resulting wall absorbs water far faster than it did before it was ever painted.",
+  "fixes": {
+    "right": "Leave it, or limewash it. Limewash costs $2-$4/sf, is reversible by weathering, and lets the bond continue to read.",
+    "cheap": "Change the mortar, not the brick. On new work, specifying a lime-based mortar in a light buff or white with a wider joint (1/2 in rather than 3/8) lightens the whole wall's apparent value by 15-25 per cent at essentially no added cost, because the joint is 18-20 per cent of the wall's surface area. On existing work, cleaning is nearly always the actual need, and the gentlest effective method — low-pressure water and a detergent, per Preservation Brief 1 — costs a fraction of painting.",
+    "dishonest": "Elastomeric or acrylic 'masonry paint' sold as breathable. Read the permeance: most acrylic masonry coatings run 2-8 perms and elastomerics under 2, well below what a solid wall needs, and the word 'breathable' in the marketing is comparative rather than absolute. Also dishonest: the mortar-smear treatments ('German schmear', 'limewash effect') applied in a cementitious skim, which produce the appearance of a weathered limewash in a hard impermeable material and are neither reversible nor vapour-open."
+  },
+  "detection": "Look at the joints and the arrises. A limewashed wall shows the mortar joint as a recess with the wash thinning at the arris of every brick, so the bond stays legible as a pattern of tonal variation; a painted wall shows the joint filled and the arris coated to the same thickness, so the wall reads as a textured plane with lines on it. A painted wall's mortar joints are often slightly PROUD in appearance because the coating bridges them. Second, look for failure: blistering, sheet peeling with brick face attached, and spalling in a band 2-4 ft above grade, below sills, and behind downspouts — the wet zones. Third, look at the header pattern: if the wall is nominally Flemish or English bond but shows no colour variation at all between headers and stretchers, either it has been painted or it is a veneer, and the base failure pattern will tell you which.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-georgian",
+      "why": "Limewash and later stucco over brick is authentic Low Country practice, and painted or washed brick in Charleston is a genuine local tradition with documented 18th and 19th century precedent.",
+      "bounds": "Limewash or lime stucco, both vapour-open. The tradition licenses the appearance, not the modern coating.",
+      "bounds_test": {
+        "expression": "coating_water_vapour_permeance_perms / 10",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "The tradition licenses the appearance, not the modern coating. Limewash or lime stucco, both vapour-open."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ],
+        "regions": [
+          "South Carolina and Georgia low country"
+        ]
+      }
+    },
+    {
+      "style": "georgian-colonial-american",
+      "why": "The kit records limewash on brick as a permitted Chesapeake variant.",
+      "bounds": "Limewash only; the entrance elevation's Flemish bond with glazed headers is the one place where washing over the bond loses the most, and period practice usually washed rear and service elevations rather than the front.",
+      "bounds_test": {
+        "expression": "coating_water_vapour_permeance_perms / 10",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Limewash only. Period practice usually washed rear and service elevations rather than the front, because the entrance elevation's Flemish bond with glazed headers is precisely what a wash costs you."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ],
+        "regions": [
+          "Chesapeake"
+        ]
+      }
+    },
+    {
+      "style": "regency",
+      "why": "Stucco over brick, painted a stone colour, is the type's defining wall treatment and the brick was never meant to be seen.",
+      "bounds": "Lime stucco with a mineral or limewash finish. A cement render on an old brick wall causes the same trapped-moisture failure as paint, at greater expense.",
+      "bounds_test": {
+        "expression": "coating_water_vapour_permeance_perms / 10",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Lime stucco with a mineral or limewash finish. A cement render is the same failure at greater expense."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ]
+      }
+    },
+    {
+      "style": "english-cottage-vernacular",
+      "why": "Limewashed brick and cob is universal in parts of the English west country and is renewed annually.",
+      "bounds": "Limewash, renewed. The renewal is part of the material.",
+      "bounds_test": {
+        "expression": "years_between_limewash_renewals",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 5,
+        "note": "Limewash, renewed. The renewal is part of the material, and a limewashed wall left for twenty years is not a maintenance-free finish, it is an unmaintained one."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "adobe",
+          "rammed-earth"
+        ]
+      }
+    },
+    {
+      "style": "colonial-revival",
+      "why": "Painted brick — usually white — is a genuine Colonial Revival habit from the 1920s onward and is authentic to that style even though it misrepresents the colonial original.",
+      "bounds": "Authentic as Colonial Revival, and it should then be a lime or mineral paint on a solid wall. It is not a claim about the 18th century, and it does not license an elastomeric.",
+      "bounds_test": {
+        "expression": "coating_water_vapour_permeance_perms / 10",
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "Authentic as Colonial Revival, and it should then be a lime or mineral paint on a solid wall. The style licence does not extend to an elastomeric."
+      },
+      "applies_when": {
+        "date_range": [
+          1920,
+          1960
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "flemish-bond-in-a-single-wythe",
+      "difference": "Painting hides the evidence that decides that fault. A painted 'Flemish bond' wall cannot be diagnosed from its header colour, so fall back on the reveal and the arch tests."
+    }
+  ],
+  "sources": [
+    "NPS Preservation Brief 1: Assessing Cleaning and Water-Repellent Treatments for Historic Masonry",
+    "NPS Preservation Brief 2: Repointing Mortar Joints in Historic Masonry Buildings",
+    "kits/georgian-colonial-american.kit.json, color_strategy / limewash-on-brick",
+    "Brick Industry Association, Technical Notes 6A: Colorless Coatings for Brick Masonry"
+  ],
+  "confidence": "high",
+  "tags": [
+    "colour",
+    "masonry",
+    "material",
+    "maintenance"
+  ],
+  "test": {
+    "expression": "mortar_joint_recess_depth_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 0.0625,
+    "note": "Limewash penetrates and thins at the arris of every brick, so the joint stays a recess and the bond stays legible as a pattern of tonal variation. A modern acrylic or elastomeric bridges the joint at uniform thickness, so the joints often read slightly PROUD and the wall becomes a textured plane with lines on it. Measurable from a close photograph in raking light against the brick's own 2 1/4 in height."
+  },
+  "secondary_tests": [
+    {
+      "expression": "abs(mean_luminance_headers - mean_luminance_stretchers) / mean_luminance_stretchers",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.04,
+      "note": "Bond legibility. Headers and stretchers are different faces of the brick and fire differently, and limewash preserves the difference while paint deletes it. If a nominally Flemish or English bond wall shows no tonal variation at all between header and stretcher, either it has been coated or it is a veneer — see flemish-bond-in-a-single-wythe, and use the base failure pattern to tell which."
+    },
+    {
+      "expression": "spalled_or_blistered_area_in_the_lowest_4ft / wall_area_in_the_lowest_4ft",
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.0,
+      "note": "The failure signature and its location. A solid wall dries by evaporation through its outer face; a coating below about 10 perms traps that water behind the face shell and freeze-thaw detaches it. The damage therefore appears in a band 2-4 ft above grade, below sills, and behind downspouts — the wet zones — which is why the pattern is diagnostic rather than random."
+    },
+    {
+      "expression": "coating_water_vapour_permeance_perms / 10",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "Expressed as a ratio because the schema has no permeance unit. Limewash and potassium-silicate mineral paints stay above 10-20 perms; acrylic masonry coatings run 2-8 and elastomerics under 2. The word 'breathable' in the marketing is comparative, not absolute, so read the number."
+    }
+  ],
+  "co_occurs_with": [
+    "flemish-bond-in-a-single-wythe"
+  ],
+  "severity_in_use": "serious",
+  "severity_trajectory": "Minor on day one and serious to fatal between year five and year fifteen, with the fabric damage arriving before anyone reads it as a fault. Worse, it is close to irreversible: chemical or abrasive removal from a soft handmade brick destroys the fire skin, which is the hardest and most weather-resistant part of the unit, so a stripped wall absorbs water faster than it did before it was ever painted. The decision is effectively permanent at the moment it is made.",
+  "inverted_by": [
+    {
+      "style": "regency",
+      "statement": "Exposed brick is the fault. Stucco over brick, painted a stone colour and scored to ashlar, is the type's defining wall treatment and the brick was never meant to be seen — though the coating must still be lime, because a cement render on an old brick wall causes the same trapped-moisture failure as paint at greater expense."
+    },
+    {
+      "style": "cape-dutch",
+      "statement": "Exposed masonry is the fault. Lime plaster and annual limewash over the whole wall is definitional, and the renewal is part of the material rather than a maintenance failure."
+    }
+  ]
+}

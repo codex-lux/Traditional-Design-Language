@@ -1,0 +1,190 @@
+{
+  "id": "rural-gothic-villa",
+  "name": "Rural Gothic Villa",
+  "aka": [
+    "Gothic cottage-villa",
+    "Pointed Style villa",
+    "Downing villa"
+  ],
+  "rank": "variant",
+  "member_of": "gothic-revival-american",
+  "status": "historical",
+  "period": {
+    "origin": 1838,
+    "floruit_start": 1840,
+    "floruit_end": 1870,
+    "decline_end": 1880,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Hudson Valley",
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Newport and coastal New England",
+      "Ontario"
+    ],
+    "hearth": "Hudson Valley, New York",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "gothic-revival-american",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The architect-designed, large-budget expression of the parent, in which the plan is genuinely irregular rather than ornamentally so."
+    },
+    {
+      "target": "gothic-revival-british",
+      "type": "descends_from",
+      "weight": 0.55,
+      "inherits_kit": true,
+      "note": "Direct: Davis and Upjohn worked from Loudon, from Pugin, and from English published villa designs, and Upjohn had trained in England."
+    },
+    {
+      "target": "english-gothic",
+      "type": "references",
+      "weight": 0.45,
+      "inherits_kit": false,
+      "note": "Oriels, tracery, label moulds, and clustered stacks quoted from Tudor and Perpendicular domestic work; the plan and the structure owe nothing to it."
+    }
+  ],
+  "description": {
+    "short": "The full-dress Gothic Revival country house: an architect-composed, genuinely irregular villa of towers, oriels, clustered chimneys and unequal gables, sited to be read in silhouette against trees and sky.",
+    "long": "The Rural Gothic villa is the American picturesque at full budget, and it is where the movement's ideas were worked out before being cheapened for the mass market. Alexander Jackson Davis established the type at Glen Ellen in 1832 and perfected it at Lyndhurst in 1838; Richard Upjohn built the wooden version at Kingscote in 1839; Downing published, praised, and theorised them. The essential move is that the plan is irregular for real reasons, a library wing where the morning light is, a veranda where the river view is, a service ell turned away from the approach, and the elevation is then composed to make that irregularity look inevitable rather than accidental.\n\nIt sits at an interesting technological angle to the rest of this branch. Balloon framing and machine ornament are what made the cheap Carpenter Gothic cottage possible, but the villa often refuses both: Lyndhurst is marble, Kingscote is timber with hand-worked detail, and the ambition of these houses reaches back toward the craft economy the rest of the century was leaving. What the villa does share with its cheaper sibling is total dependence on the pattern book for distribution. Davis drew a few dozen villas; Downing printed them; and within fifteen years there were Rural Gothic villas from Maine to Michigan built by men who had never met either of them. The book, not the guild, is the transmission organ of the entire American picturesque, and that is the historically closest analogue to what a machine-readable design language is attempting.\n\nDowning's moral case is at its most explicit here, and it should be read as a serious position and not as decoration. He held that the villa of a cultivated family ought to express individuality, domestic affection, and a settled relation to its landscape; that a symmetrical facade lies about a household, since no family lives symmetrically; that the veranda is a moral instrument because it mediates between the private hearth and the public sublime of the American landscape; and that a house built on these principles would improve the people in it and, by demonstration, the neighbours around it. He also, more shrewdly, argued that the villa should look as though it had grown, which supplied a permission structure for the additive plan that American families needed anyway.\n\nThe experience is one of continuous rearrangement. There is no single correct view of a Rural Gothic villa; move twenty feet along the drive and a different gable dominates, the tower swings behind a chimney stack, the oriel catches the light. The silhouette is doing all the work, and it was designed to be read at a distance through trees. Come inside and the drama collapses into intimacy: a low entrance hall, a stair with a moulded rail and pierced brackets, a library with a bay looking down the slope, dark woodwork, small panes, and a general sense of being pleasantly and deliberately enclosed. Davis understood that the picturesque house must be exciting outside and quiet inside, and the ones that fail usually fail by reversing that."
+  },
+  "defining_characteristics": [
+    "A genuinely irregular plan, with wings, ells, and bays generated by room use and orientation rather than by facade composition",
+    "Three or more gables of unequal width forming a hierarchical silhouette against the sky",
+    "Steep pitches of 12:12 or greater throughout, with the roof reading as the dominant mass",
+    "Clustered, diagonally set, or moulded chimney stacks carried well above the ridge and composed as part of the outline",
+    "Oriel or bay windows on the principal rooms, with label mouldings and tracery heads",
+    "A veranda, loggia, or cloister of substantial depth attached to at least one principal elevation",
+    "Ornament worked in the building's own material, whether stone, stucco, or timber, rather than sawn and applied"
+  ],
+  "diagnostic_tells": [
+    "The plan is irregular, not merely the ornament. Walk the building; if the footprint has fewer than six external corners it is a Carpenter Gothic cottage wearing villa clothes",
+    "No two gables are the same width; equal gables indicate a builder's composition",
+    "Chimneys are designed objects with expressed flues, octagonal or clustered shafts, and moulded caps",
+    "Tracery has real depth and profile, cut in stone or in thick timber, and casts a modelled shadow rather than a flat one",
+    "There is a designed approach: the drive arrives obliquely so the house is first seen as a corner composition, never head-on"
+  ],
+  "distinguished_from": [
+    {
+      "node": "carpenter-gothic",
+      "difference": "Architect versus builder, irregular plan versus symmetrical body, ornament in the material versus ornament sawn from board. Cost separates them by an order of magnitude and it shows in the depth of every profile."
+    },
+    {
+      "node": "italianate-villa",
+      "difference": "The same clients, architects, and picturesque theory, opposite geometry. The Italianate villa is low-pitched, wide-eaved and bracketed with a square campanile; the Gothic villa is steep, bargeboarded, and towered with an octagonal or buttressed turret."
+    },
+    {
+      "node": "scottish-baronial",
+      "difference": "Baronial derives from actual surviving Scottish tower houses and keeps crow-stepped gables, corbelled bartizans, and conical turrets; the Rural Gothic villa derives from English ecclesiastical and Tudor domestic sources filtered through Loudon and Downing."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Silhouette hierarchy. The design is fixed in outline first, against a horizon: one dominant gable, subordinate gables at distinct widths, tower or chimney group completing the profile. Elevations are resolved afterwards, and are permitted to disagree with one another.",
+    "typical_ratios": [
+      "Roof pitch 12:12 to 18:12",
+      "Dominant gable width 1.4 to 2.2 times the next largest gable; equal widths are a failure",
+      "Tower or turret rising 0.75 to 1.5 storeys above the main ridge",
+      "Chimney stacks 4 to 8 ft above the ridge, with each flue expressed as a separate shaft",
+      "Veranda depth 8 to 12 ft, at least 0.35 of the elevation length it serves"
+    ],
+    "bay_rhythm": "Non-repeating. Openings are placed by room requirement; two windows on one elevation may differ in width, head height, and sill height without fault.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common"
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "common",
+      "note": "In the Gothic case the tower is octagonal, buttressed, or battlemented rather than a square campanile."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "possible",
+      "note": "Where the villa grows a service ell in the New England manner."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "atypical",
+      "note": "Too regular; it produces a Carpenter Gothic house rather than a villa."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The composition shall present not fewer than three gables of distinct width, with the dominant gable at least 1.4 times the width of the next largest. Equal gables are forbidden."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "All principal roof pitches shall be 12:12 or steeper, and every pitch on the building shall be within 2:12 of every other. Mixing a steep front gable with a shallow rear roof is prohibited."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Chimney stacks shall rise not less than 4 ft above the adjacent ridge and shall express each flue as a separate shaft or panel. A flush or capped-off stack destroys the silhouette the type depends on."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "A veranda, loggia, or cloister not less than 8 ft deep shall be attached to at least one principal elevation, covering not less than 35 percent of that elevation's length."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Tracery, label mouldings, and hood moulds shall be worked in the wall material with a minimum relief of 2 in. Flat sawn-board substitutes place the building in the Carpenter Gothic variant instead."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Lyndhurst",
+      "location": "Tarrytown, New York",
+      "year": 1838,
+      "note": "Alexander Jackson Davis, 1838 for William Paulding, greatly enlarged 1864-65 for George Merritt. Tuckahoe marble; the type's defining American statement."
+    },
+    {
+      "name": "Kingscote",
+      "location": "Newport, Rhode Island",
+      "year": 1839,
+      "note": "Richard Upjohn for George Noble Jones. The wooden cottage-villa; later dining room by Stanford White, 1880-81."
+    },
+    {
+      "name": "William J. Rotch Gothic Cottage",
+      "location": "New Bedford, Massachusetts",
+      "year": 1846,
+      "note": "A. J. Davis. Published by Downing as Design XXIV, A Cottage-Villa in the Rural Gothic Style, and thereafter the most copied villa design in America."
+    }
+  ],
+  "sources": [
+    "Andrew Jackson Downing, The Architecture of Country Houses (1850)",
+    "Amelia Peck (ed.), Alexander Jackson Davis, American Architect 1803-1892 (1992)",
+    "William H. Pierson Jr., American Buildings and Their Architects: Technology and the Picturesque (1978)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "picturesque",
+    "architect-designed",
+    "villa",
+    "downing",
+    "silhouette"
+  ]
+}

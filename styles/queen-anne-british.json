@@ -1,0 +1,219 @@
+{
+  "id": "queen-anne-british",
+  "name": "Queen Anne (British)",
+  "aka": [
+    "Queen Anne Revival",
+    "Old English",
+    "Pont Street Dutch",
+    "the Shaw manner"
+  ],
+  "rank": "style",
+  "member_of": "british-picturesque",
+  "status": "historical",
+  "period": {
+    "origin": 1860,
+    "floruit_start": 1870,
+    "floruit_end": 1900,
+    "decline_end": 1914,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 1939,
+        "revival_node": "colonial-revival",
+        "note": "The style's brick-and-white-paint grammar is absorbed into Edwardian neo-Georgian in Britain and into Colonial Revival in America, where its picturesque half becomes the American Queen Anne."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland"
+    ],
+    "hearth": "Kensington, Chelsea and Bedford Park in London, and the Sussex and Surrey Weald for its country work",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "gothic-revival-british",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Direct office descent. Richard Norman Shaw, Philip Webb and William Morris all passed through G. E. Street's Gothic office, and Shaw and Nesfield were trained entirely in Gothic practice. The plan-driven asymmetry, the tall chimneys and the ethic of visible construction come straight from there."
+    },
+    {
+      "target": "gothic-revival-british",
+      "type": "reacts_against",
+      "weight": 0.6,
+      "inherits_kit": false,
+      "note": "And equally a rejection of it. By 1870 High Victorian Gothic looked grim, ecclesiastical and unlivable; Queen Anne answered with red brick, white paint, sunlight, sash windows and secular good humour. The same men made both arguments within a decade."
+    },
+    {
+      "target": "english-baroque",
+      "type": "references",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "The name is a misnomer and everyone involved knew it. What the style actually quotes is the ordinary English brick house of roughly 1660-1720 — the Wren-era vicarage and merchant's house — for its sash windows, its rubbed-brick aprons, its hipped roofs and its white-painted joinery."
+    },
+    {
+      "target": "dutch-urban-gable-house",
+      "type": "hybridizes_with",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "The shaped and scrolled gable, the tall narrow brick front and the moulded brick panel come from the Low Countries by way of the Anglo-Dutch houses of East Anglia and Kent. London's nickname for the result — Pont Street Dutch — is accurate."
+    },
+    {
+      "target": "english-cottage-vernacular",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Shaw's 'Old English' country work — tile-hanging, half-timbered gables, massive brick stacks, long catslide roofs — comes from close on-site study of Wealden farmhouses and cottages, and is the same investigation that produces Arts and Crafts a decade later."
+    }
+  ],
+  "description": {
+    "short": "The red-brick, white-painted, sunlit reaction against High Victorian Gothic: sash windows, shaped gables, tall thin chimneys and a picturesque plan, quoting an English brick vernacular that had nothing to do with Queen Anne.",
+    "long": "Queen Anne is the most cheerful style in British architecture and the most casually misnamed. It has almost no connection to the reign of Anne (1702-14); what its architects were actually after was the plain red-brick English house of the century between the Restoration and the Georgian codification — the sort of thing found in a cathedral close or a market town, with a hipped roof, white-painted sashes, rubbed brick over the windows and a garden. Richard Norman Shaw, W. Eden Nesfield, J. J. Stevenson and Philip Webb assembled that vocabulary in the late 1860s and 1870s and combined it, freely and without embarrassment, with Dutch shaped gables, Flemish moulded brick, sunflower and swag panels in terracotta, oriels, balconies, and — after the 1862 International Exhibition — a strong dose of Japanese detail.\n\nThe conditions were social as much as architectural. A new professional and artistic class — painters, writers, publishers, academics — wanted houses that were comfortable, well-lit, informally planned and inexpensive to run, and had no interest in the moral gloom of the Gothic Revival or the pomp of an Italianate stucco terrace. Shaw's studio-houses in Chelsea and Kensington were designed for exactly these clients, with north-lit double-height studios and rooms of irregular shape and size. Bedford Park in west London, begun in 1875 by Jonathan Carr with E. W. Godwin and then Shaw as architects, took the same idea to a whole suburb: modest brick houses with tile-hung gables, white-painted balconies and existing trees preserved between them. It is the first garden suburb, the direct ancestor of Hampstead, Letchworth and every leafy suburb in the English-speaking world, and it was widely mocked at the time.\n\nWhat it reacted against is unusually easy to name: its own practitioners' previous work. The move from Gothic to Queen Anne is a move from ecclesiastical to domestic, from stone to brick, from dark to light, from moral argument to comfort, and from the pointed arch to the sash window. What it kept from Gothic was the important part — the plan drawn first, the massing following the plan, and construction left visible.\n\nA Queen Anne house is a pleasure to be in, which cannot be said of most Victorian architecture. Brick is warm red and finely jointed, woodwork is white, and the windows are big, small-paned in the upper sash and clear below, so the light is abundant and the view is uninterrupted at eye level. Rooms vary in size and ceiling height as their use requires; there are inglenooks, window seats, and stairs that turn around a landing with a window on it. Outside, the composition is busy but not aggressive: gables of different shapes, a projecting bay, a balcony, tall thin chimneys, and everywhere the contrast of red brick against white paint that the whole English-speaking world has been copying ever since."
+  },
+  "defining_characteristics": [
+    "Red brick, finely jointed, with rubbed and cut brick ornament — aprons, panels, pilasters, sunflower and swag reliefs — and frequently terracotta enrichment",
+    "White-painted joinery throughout: sashes, balconies, balustrades, porches and eaves, in deliberate contrast to the brick",
+    "Sash windows with many small panes in the upper sash and one or two large panes below, often with margin lights and occasionally leaded",
+    "Shaped, scrolled or pedimented Dutch gables, and steep tile roofs with tall, thin, multiple chimney stacks",
+    "Picturesque asymmetrical composition generated by an informally planned interior, with oriels, bays, balconies and recessed porches",
+    "In country work ('Old English'), tile-hanging on upper storeys, half-timbered gables, catslide roofs and massive brick stacks drawn from Wealden farmhouses",
+    "Abundant daylight and a deliberate cheerfulness of colour and detail, in explicit contrast to High Victorian Gothic"
+  ],
+  "diagnostic_tells": [
+    "Red brick with white-painted woodwork as an absolute rule — the colour pairing is the style's fastest identification at any distance",
+    "A sash whose upper leaf is divided into six, eight or more small panes over a single-pane lower leaf: a Victorian window pretending to be a 1700 window and not quite managing it",
+    "Cut and rubbed brick sunflowers, swags and pilaster panels — the sunflower is practically the movement's trademark",
+    "Chimney stacks that are tall, thin and numerous, well out of proportion to the flues they carry, used as vertical accents in the composition",
+    "Tile-hanging on the upper storey over brick below, with the tile courses often shaped into fishscale or club patterns"
+  ],
+  "distinguished_from": [
+    {
+      "node": "gothic-revival-british",
+      "difference": "Same architects, opposite mood. Gothic uses pointed arches, stone, structural polychromy and a moral argument; Queen Anne uses sash windows, red brick, white paint and a joke about the name. If the openings are square-headed with sashes and the woodwork is white, it is Queen Anne."
+    },
+    {
+      "node": "queen-anne-american",
+      "difference": "The American version keeps the asymmetry, the tall chimneys and the wraparound complexity but rebuilds it in balloon-framed timber with spindlework, patterned shingles, corner towers and full-width porches — features Shaw never used. British Queen Anne is a brick style; American Queen Anne is a wood one."
+    },
+    {
+      "node": "english-baroque",
+      "difference": "The quoted source, six generations earlier. A genuine Queen Anne house of 1710 has small-paned sashes top and bottom in a symmetrical facade, no shaped gables, no tile-hanging and no terracotta sunflowers, and its plan is a symmetrical double pile."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "No applied system. Composition is picturesque and plan-driven, with proportion controlled locally: the sash, the gable and the chimney are each proportioned by precedent, and the elevation is assembled from them by eye.",
+    "typical_ratios": [
+      "Sash proportion 1.7:1 to 2.2:1 height to width, upper leaf divided into 6-12 panes over a 1- or 2-pane lower leaf",
+      "Storey heights 3.0-3.6 m at ground, 2.9-3.3 m above — much less graduated than Georgian, since the composition no longer depends on it",
+      "Shaped gable width 3.0-4.5 m, apex height 0.8-1.1 of the gable width",
+      "Roof pitch 45-55 degrees in plain clay tile",
+      "Chimney stack width 450-900 mm, rising 1.5-3 m above the ridge — deliberately over-tall",
+      "Tile-hung upper storey over brick, with the change of material always at a floor level and marked by a slight oversail or a tile course"
+    ],
+    "bay_rhythm": "Irregular by intent. Windows are grouped in twos and threes where rooms need them, with wide blank brick between groups; gables and bays punctuate the front at uneven intervals, and a frontal symmetry, where it occurs, is local rather than overall.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The Shavian country house — Cragside, Grim's Dyke — is a picturesque agglomeration composed for the oblique view."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "canonical",
+      "note": "The Bedford Park house and its countless suburban descendants: intersecting gabled volumes with a tile-hung upper storey."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The Kensington and Chelsea red-brick town house, in a terrace whose units are deliberately unlike one another — the anti-Georgian terrace."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "The smaller Queen Anne rectory or dower house, symmetrical and hipped, quoting the 1700 house directly."
+    },
+    {
+      "massing": "gambrel-block",
+      "affinity": "possible",
+      "note": "Nesfield and Shaw both used the gambrel and the jerkinhead, and it is one of the routes by which the form re-entered American practice."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "statement": "Brick must be red, finely jointed and finished with rubbed or cut brick at openings; external joinery must be painted white or off-white. Breaking the red-and-white pairing removes the style's primary identity.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Windows are square-headed sashes or casements. Pointed arches, tracery, buttresses and structural polychromy are forbidden — those belong to the style this one was formed against.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Where tile-hanging occurs it must begin at a floor level and be carried on a proper oversailing course, never start mid-storey. The material change is a construction event, not a decorative one.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Chimney stacks rise 1.5-3 m above the ridge and are grouped, thin and multiple. A single squat stack cannot carry the composition.",
+      "severity": "soft"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Entry must not be centred on a symmetrical front unless the whole building is a deliberate small-scale quotation of a 1700 house.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Cragside",
+      "location": "Rothbury, Northumberland, England",
+      "year": 1884,
+      "note": "Enlarged 1869-84 by Richard Norman Shaw for the armaments manufacturer William Armstrong. Old English at full stretch — half-timbered gables, immense stacks, a rambling hillside plan — and the first house in the world lit by hydroelectricity."
+    },
+    {
+      "name": "Lowther Lodge",
+      "location": "Kensington Gore, London, England",
+      "year": 1875,
+      "note": "Built 1873-75 by Shaw for William Lowther, now the Royal Geographical Society. Red brick, tall shaped gables, white sashes and rubbed-brick ornament: the style's arrival in the capital."
+    },
+    {
+      "name": "Bedford Park",
+      "location": "Chiswick, London, England",
+      "year": 1880,
+      "note": "Developed from 1875 by Jonathan Carr with E. W. Godwin and then Norman Shaw as architects. The first garden suburb, and the model for the entire Anglo-American leafy suburb that followed."
+    },
+    {
+      "name": "Old Swan House",
+      "location": "Chelsea Embankment, London, England",
+      "year": 1877,
+      "note": "Built 1875-77 by Shaw for the collector Wickham Flower. Three tall oriels on the first floor over a recessed ground storey, small-paned sashes throughout — the most refined statement of the urban manner."
+    }
+  ],
+  "sources": [
+    "Mark Girouard, Sweetness and Light: The 'Queen Anne' Movement 1860-1900 (1977)",
+    "Andrew Saint, Richard Norman Shaw (1976, rev. 2010)",
+    "Mark Girouard, The Victorian Country House (1971, rev. 1979)",
+    "Nikolaus Pevsner et al., The Buildings of England: London volumes",
+    "Margaret Richardson, Architects of the Arts and Crafts Movement (1983)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "picturesque",
+    "red-brick",
+    "white-paint",
+    "garden-suburb",
+    "sash-window"
+  ]
+}

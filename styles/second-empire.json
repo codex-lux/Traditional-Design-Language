@@ -1,0 +1,207 @@
+{
+  "id": "second-empire",
+  "name": "Second Empire",
+  "aka": [
+    "Mansard Style",
+    "French Second Empire",
+    "General Grant Style"
+  ],
+  "rank": "style",
+  "member_of": "victorian",
+  "status": "historical",
+  "period": {
+    "origin": 1855,
+    "floruit_start": 1860,
+    "floruit_end": 1885,
+    "decline_end": 1895,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1965,
+        "end": 2000,
+        "revival_node": null,
+        "note": "The mansard returns as a commercial and apartment device in the late twentieth century, detached from the style entirely and usually applied as a partial screen; the constraint below exists to exclude it."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "United States Northeast",
+      "Mid-Atlantic",
+      "Midwest",
+      "Upper South",
+      "California",
+      "Quebec",
+      "Ontario"
+    ],
+    "hearth": "New York, Boston, and Washington",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italianate-american",
+      "type": "descends_from",
+      "weight": 0.85,
+      "inherits_kit": true,
+      "note": "The decisive edge. In America Second Empire is Italianate with a mansard: same plan, same bracketed cornice, same arched windows, same builders, same catalogues. Hundreds of Italianate houses were literally converted by adding a mansard storey."
+    },
+    {
+      "target": "french-baroque",
+      "type": "references",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "The claimed ancestry. Visconti and Lefuel's New Louvre of 1852-57 under Napoleon III was published worldwide and gave the style its name and its pavilion-plus-mansard formula; no French building practice crossed to America with it."
+    },
+    {
+      "target": "french-renaissance-chateau",
+      "type": "references",
+      "weight": 0.35,
+      "inherits_kit": false,
+      "note": "Through Mansart's seventeenth-century roof form itself, and through the pavilion massing of the chateau, both quoted rather than inherited."
+    },
+    {
+      "target": "renaissance-revival-american",
+      "type": "hybridizes_with",
+      "weight": 0.45,
+      "inherits_kit": true,
+      "note": "Genuine blending in the institutional and urban work: symmetrical palazzo bodies with academic cornices, then crowned by a mansard."
+    }
+  ],
+  "description": {
+    "short": "The mansard-roofed style of the 1860s and 1870s, in which an Italianate body is crowned by a full habitable storey of steep slate roof with dormers, and which was fashionable rather than revivalist because its source was contemporary Paris.",
+    "long": "Second Empire is the only style in this branch that was not a revival. Gothic, Italianate, Renaissance, and Egyptian all claimed a distant ancestor; Second Empire copied what was being built in Paris that decade. Napoleon III's rebuilding of the city and Visconti and Lefuel's New Louvre of 1852-57 were the most publicised construction projects on earth, illustrated in every architectural periodical, and Americans adopted the result as a mark of being current rather than of being cultivated. That distinction shows in where the style went: government buildings, city halls, hotels, and the houses of the newly rich, rather than the country cottages of the Downing programme. Its American nickname, the General Grant style, records exactly how thoroughly it became the official manner of the Reconstruction era.\n\nStructurally, the mansard is a superb piece of engineering opportunism and the reason the style spread so fast. A roof with a near-vertical lower slope converts an attic into a full storey with usable headroom at the perimeter, which under nineteenth-century assessment practice was often taxed and regulated as a roof rather than as a floor. Combine that with the technology already in place, balloon framing that made complex roof geometry cheap, slate delivered by rail from Vermont and Pennsylvania quarries, machine-pressed metal cresting, and mass-produced dormer sash and bracketed cornices, and you have a way to add a whole storey to a house at roof prices. American Second Empire is, at bottom, an economic argument wearing a French hat.\n\nWhat it was reacting to was the picturesque itself, or rather its sentimentality. Downing had died in 1852, and the generation that came up in the 1860s wanted urbanity, worldliness, and visible expense rather than moral instruction from a vine-covered veranda. Second Empire keeps the picturesque tools, the projecting pavilion, the tower, the asymmetrical wing, but it uses them for grandeur rather than for feeling, and it reintroduces symmetry, hierarchy, and the pavilion system that the cottage styles had abandoned. The Victorian conviction that architecture forms character survives, but the character it now proposes to form is civic and ambitious rather than domestic and pious.\n\nThe physical experience is dominated by the roof, which is the point. A mansard is the only roof form that reads simultaneously as a wall and as a crown; because the lower slope is nearly vertical and dormered, the building appears to have one more storey than its cornice admits, and because the slate is patterned in bands of fish-scale and diamond in coloured courses, the top of the building is the most decorated part of it. The silhouette against the sky is emphatic: cresting, finials, and dormer pediments all working at the roofline. Inside, the top floor is the surprise, a set of rooms with sloped ceilings and deep dormer reveals that feel like the best rooms in the house to any child who has ever been given one."
+  },
+  "defining_characteristics": [
+    "A mansard roof, dual-pitched with a steep lower slope of 65 to 80 degrees, forming a full habitable storey on all elevations",
+    "Dormers in the lower slope, one per bay, aligned with the openings below",
+    "A moulded and bracketed cornice at the curb line where wall meets roof, and usually a second cornice at the roof deck",
+    "Italianate substrate: arched or segmental window heads, tall narrow paired windows, quoins, string courses",
+    "Projecting central or end pavilions, frequently with a taller mansard of its own or with a tower",
+    "Decorative slate patterning, iron cresting, and finials at the roof, making the top the most ornamented zone",
+    "Symmetrical or near-symmetrical principal facade, in contrast to the picturesque styles it descends from"
+  ],
+  "diagnostic_tells": [
+    "If it is bracketed and arched and there is a mansard, it is Second Empire; if it is bracketed and arched and there is not, it is Italianate. There is no third possibility",
+    "The mansard runs all the way around; a mansard only on the street front is a twentieth-century commercial device, not this style",
+    "Dormer count equals bay count, and the dormers line up with the windows below",
+    "The tower, where present, has a steeper and taller mansard than the main roof, usually concave or with a distinct convex bell",
+    "Coloured and patterned slate in horizontal bands is nearly diagnostic; no other American style patterns its roof this consistently"
+  ],
+  "distinguished_from": [
+    {
+      "node": "italianate-american",
+      "difference": "The parent and the nearest neighbour. Only the roof differs, but it differs totally: a suppressed low hip that the cornice conceals versus a dominant habitable mansard storey that the cornice supports."
+    },
+    {
+      "node": "chateauesque",
+      "difference": "Chateauesque (1880-1910) is masonry, uses steep hipped roofs with elaborate dormers breaking the cornice line, and works from sixteenth-century Loire precedent. Second Empire is a mansard, contemporary rather than archaeological, and usually wood or brick."
+    },
+    {
+      "node": "renaissance-revival-american",
+      "difference": "Second Empire frequently takes a Renaissance Revival body wholesale. The mansard converts a wall terminated by a cornice into a mass crowned by a roof, which is the opposite compositional intention."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the roof storey and the pavilion hierarchy. The mansard height sets the crown, and the central or end pavilions establish an A-B-A or A-B-C-B-A rhythm inherited from French practice. Below the curb cornice, the Italianate bracket module still governs.",
+    "typical_ratios": [
+      "Mansard lower slope 65 to 80 degrees from horizontal; upper deck slope 2:12 to 4:12",
+      "Mansard storey height 0.8 to 1.0 times the storey below",
+      "Dormer width 0.55 to 0.75 of the bay width; dormer height 0.7 to 0.85 of the mansard lower slope height",
+      "Central pavilion projection 24 to 48 in, width 0.25 to 0.4 of the facade",
+      "Curb cornice projection 18 to 30 in with brackets at 24 to 48 in on centre"
+    ],
+    "bay_rhythm": "Regular and pavilioned. The wall marches in equal bays and is punctuated by a projecting pavilion at the centre, at the ends, or at both, each pavilion taking a taller mansard.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "mansard-block",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "common",
+      "note": "The towered Second Empire villa, with the tower mansard steeper than the main roof."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The mansarded brownstone row; often an Italianate row raised by a storey after the fact."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common"
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "possible",
+      "note": "Late and looser examples, where the mansard has to negotiate an irregular plan."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "The mansard shall be continuous on all elevations of the mass it crowns, including rear and side elevations. A mansard applied to the street front only, or returned less than the full depth of the building, is prohibited."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The lower mansard slope shall be between 65 and 80 degrees from horizontal, and the upper slope shall not exceed 4:12 and shall not be visible from any point at eye height 40 ft from the building."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Dormers shall be provided one per structural bay and shall be centred on the openings of the storey below within 6 in. Dormer count and spacing shall not be varied independently of the fenestration."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "The curb cornice shall carry brackets at 24 to 48 in on centre at the same module as any porch or bay cornice on the building, preserving the Italianate rhythm the style inherits."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Where a tower is used, its mansard shall be steeper than the main mansard by at least 5 degrees and shall rise not less than one full storey above the main curb line, so that the hierarchy of crowns is unambiguous."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Terrace Hill",
+      "location": "Des Moines, Iowa",
+      "year": 1869,
+      "note": "William W. Boyington, 1866-69, for Benjamin F. Allen. Mansard roof, paired narrow windows, bracketed eaves, and a tower; now the Iowa governor's residence."
+    },
+    {
+      "name": "Eisenhower Executive Office Building (State, War and Navy Building)",
+      "location": "Washington, District of Columbia",
+      "year": 1888,
+      "note": "Alfred B. Mullett, 1871-88. Granite, ten acres of floor, and the most complete institutional Second Empire building in the United States."
+    },
+    {
+      "name": "Philadelphia City Hall",
+      "location": "Philadelphia, Pennsylvania",
+      "year": 1901,
+      "note": "John McArthur Jr., 1871-1901. The largest masonry load-bearing building in the country and the late civic apotheosis of the style."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)",
+    "Leland Roth, A Concise History of American Architecture (1979)",
+    "Lawrence Wodehouse, American Architects from the Civil War to the First World War (1976)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "mansard",
+    "fashionable-not-revivalist",
+    "civic",
+    "grant-era",
+    "slate"
+  ]
+}

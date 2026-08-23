@@ -1,0 +1,244 @@
+{
+  "id": "closet",
+  "name": "Closet",
+  "aka": [
+    "reach-in closet",
+    "press",
+    "cupboard",
+    "wardrobe",
+    "clothes press",
+    "hanging closet",
+    "coat closet"
+  ],
+  "function_class": "storage",
+  "description": "A fitted, doored recess two feet deep for hanging clothes. It is the smallest room in the catalogue and the one that does the most damage, because a modern programme needs one in every bedroom plus a coat closet at the entry, a linen closet on the bedroom landing and a pantry off the kitchen, and the usual method of finding them is to shave two feet off the depth of every room until none of the rooms works. A closet is not joinery. It is a piece of the plan with a footprint, a wall thickness and an elevation consequence, and it has to be drawn at the same moment as the rooms it serves.",
+  "history": {
+    "appears": 1840,
+    "declines": null,
+    "replaced": "clothes press, chest, hanging cupboard",
+    "note": "The Anglo-American house before about 1840 had almost no closets, and the reason usually given - that a room with a fitted closet was assessed as a room, or taxed as one - is folklore. The documented instruments were the English hearth tax (1662-89) and the window tax (1696-1851), both of which taxed things visible from outside precisely because a surveyor could not enter the house. The real reason is duller and more consequential: there was almost nothing to put in a closet. A 1750s Virginia probate inventory gives a prosperous man six to eight shirts, two or three suits of clothes, and a cloak. That is one chest and one press. Clothing was expensive, hand-made, individually inventoried, willed by name, and MOVABLE - a clothespress or a chest went with its owner between houses and between generations, and a fitted closet would have immobilised property that people expected to move. Ready-made clothing arrives with the sewing machine (1850s) and with Civil War uniform sizing, wardrobes multiply between 1870 and 1920, and the fitted closet follows the clothes. What made it universal in America was not taste but underwriting: the FHA Minimum Property Standards, from 1936 onward, required a closet in each bedroom as a condition of an insured mortgage, and within fifteen years no builder in the United States shipped a bedroom without one."
+  },
+  "dimensions": {
+    "area_sf": [
+      6,
+      24
+    ],
+    "width_ft": [
+      2,
+      2.33
+    ],
+    "length_ft": [
+      3,
+      8
+    ],
+    "proportion": [
+      1.5,
+      4.0
+    ],
+    "ceiling_min_ft": 7,
+    "critical_dimension": "TWENTY-FOUR INCHES CLEAR, front face of the back wall to the back face of the door. A shirt or a coat on a hanger occupies 22 to 24 in front to back, and the hanger itself is 17 to 18 in wide across the rod. Below 24 in clear the door will not shut on a winter coat; at 22 in it will not shut on a suit jacket. Because the door casing and the jamb eat an inch and a half at the front and the finish eats half an inch at the back, the framed opening between studs has to be 26 in, and a closet drawn at 24 in stud-to-stud is a 22 in closet when it is built. Draw 26 in framed, always."
+  },
+  "furniture": [
+    {
+      "item": "hanging rod, single, with shelf over",
+      "footprint_in": [
+        36,
+        24
+      ],
+      "clearance_in": 0,
+      "note": "Rod centreline 12 in off the back wall, top of rod 66 in for shirts and jackets, 68-70 in for dresses, 72 in for full-length coats. Shelf over at 12-16 in deep with its top at 84 in - which is why a closet in a 7 ft (84 in) room has no shelf, and why the closet, uniquely, wants the taller storey."
+    },
+    {
+      "item": "hanging rod, double-hung",
+      "footprint_in": [
+        36,
+        24
+      ],
+      "clearance_in": 0,
+      "essential": false,
+      "note": "Rods at 42 in and 84 in. Doubles the capacity of the same floor area and needs 88 in of clear height above the floor to the shelf - so it works under an 8 ft ceiling and not under a 7 ft 6 in one. This is the cheapest square foot of storage available anywhere in a house and it is left out of most bedrooms."
+    },
+    {
+      "item": "a single adult's hanging clothes",
+      "footprint_in": [
+        72,
+        24
+      ],
+      "clearance_in": 0,
+      "note": "Five to six linear feet of rod is the working minimum for one adult; ten to twelve is comfortable. A hanger occupies about 1 in on the rod for shirts and 2 in for coats, so 6 ft of rod is roughly forty garments. Two adults in one bedroom therefore need 12 linear feet, which is a 6 ft closet double-hung or a 12 ft closet single-hung, and no amount of shelving substitutes."
+    },
+    {
+      "item": "coat closet at the entry",
+      "footprint_in": [
+        48,
+        26
+      ],
+      "clearance_in": 36,
+      "note": "26 in clear, not 24: outerwear is bulkier than indoor clothing and a closet packed with parkas will not close at 24. 48 in wide serves a household; 36 in serves nobody once there are guests. Wants a full-height hinged door pair rather than a bifold, because a bifold loses the two end bays of rod to its own hardware."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 0,
+    "sides_lit": 0,
+    "orientation": "None. A closet on an exterior wall is a bay of the elevation spent on a cupboard.",
+    "note": "A closet needs no daylight and should never be given a window, but it must be lit - a single fixture at the front of the closet, over the standing position, so the light falls on the faces of the garments and not on their shoulders. A fixture at the back throws every garment into its own shadow. IRC E4003.12 governs what may hang in a clothes closet: no pendant, no exposed lamp, and a minimum clearance from the storage space, which rules out the bare bulb on a chain that half the housing stock has."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "bedroom",
+        "why": "A bedroom closet reached from the passage rather than from the bedroom is a linen closet with a bed near it, and the household will use it as one.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "dressing-room",
+        "why": "Where a dressing room exists the reach-in closets belong in it rather than in the chamber, which frees the chamber's walls for furniture and gives the closets daylight to be sorted by.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "centre-passage",
+        "why": "A closet may not occupy the rear axis of a centre passage. A coat closet or a powder room on the through-axis kills the view from the front door to the garden, which is the single cheapest and most often destroyed effect in a centre-passage plan.",
+        "relation": "not-visible-from",
+        "strength": "hard",
+        "exceptions": [
+          "side-hall-double-pile plans, where there is no rear axis to protect"
+        ]
+      },
+      {
+        "room": "bathroom",
+        "why": "A hanging closet must not share the wet wall. A stack is 40-55 dBA and a closet is a resonator with a hard back and a light door; more to the point, a slow leak inside a closet wall is discovered by smell after the clothes are ruined.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "bedroom",
+      "primary-bedroom",
+      "bedchamber",
+      "dressing-room",
+      "nursery",
+      "entry-hall",
+      "mudroom"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "Closets are the least ventilated volume in a house and the first place mildew appears on a north exterior wall. A louvred door or a 1 in undercut is worth more than any treatment of the wall.",
+    "heat": "None required and none wanted; but a closet on an exterior wall must be inside the insulation and air barrier, and the closet CEILING is where that barrier fails more often than anywhere else in a house - it is framed last, drywalled from a stepladder through a 30 in opening, and never inspected. A thermographic survey of almost any two-storey house shows the closet ceilings first.",
+    "electrical": "One fixture at the front, switched from outside the door. IRC E4003.12 clearances apply.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "closet, or press",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Present only as the residual space beside a gable-end stack - 18 to 30 in deep, which is by accident exactly a hanging depth - with a panelled door in the room's own trim family. Everything else was a movable press. The style node names 'a plan without closets, bathrooms or a garage' as its diagnostic against Colonial Revival, and adding closets to a Georgian plan is the moment it stops being one unless they are taken out of the depth."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "closet",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "The style that invented the problem: an eighteenth-century elevation over a twentieth-century programme. Colonial Revival is where the closet first has to be absorbed, and the 1910-1940 examples do it well - closets flanking the chimney breast, closets in the thickened spine between the front and back chambers - because they were drawn by architects who understood the plan they were quoting."
+    },
+    {
+      "style": "tudor-revival",
+      "name_in_style": "closet",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "The easiest style to closet, because a picturesque parti has no bay rhythm to blind. A blank stretch of wall between grouped casements is normal and a closet can stand behind it."
+    },
+    {
+      "style": "charleston-single-house",
+      "name_in_style": "closet",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "The blind flank at the lot line carries no openings by design and is the correct place for storage - one of the few types where a closet on an exterior wall is right rather than tolerated."
+    },
+    {
+      "style": "new-mexico-adobe",
+      "name_in_style": "nicho, alacena",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "A recess cut in the thickness of an 18 to 36 in adobe wall with a plank door. This is genuinely free storage and it is the only tradition in the catalogue where the wall is thick enough to give it. A stud wall stuccoed to look thick has the appearance and not the thickness."
+    },
+    {
+      "style": "appalachian-log-house",
+      "present": false,
+      "note": "No closets, and no wall that could take one - a log wall cannot be recessed and a partition is a plank screen. Clothing hung on pegs on the wall and lived in a chest. This is the honest baseline against which every other entry here is a later elaboration."
+    },
+    {
+      "style": "english-georgian-country-house",
+      "present": false,
+      "note": "Not a closet but a dressing room, which is a different room with a fireplace and a window in it. The English answer to storage at the top of the market was never a cupboard; see dressing-room."
+    },
+    {
+      "style": "minimal-traditional",
+      "name_in_style": "closet",
+      "present": true,
+      "trim_grade": "none",
+      "note": "The FHA closet in its pure form: one per bedroom, 3 ft wide, one rod, one shelf, a hollow-core slab door, and nothing else. It is the smallest closet that satisfied the Minimum Property Standards and it is the reason the type exists at all."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Luminaires in clothes closets are restricted by type and by clearance from the defined storage space - no incandescent lamp with an exposed bulb, no pendant, and 12 in (surface fluorescent/LED) or 6 in (recessed LED) minimum from the storage space.",
+      "ref": "NEC 410.16 / IRC E4003.12",
+      "conflict": "Universally violated in existing housing by a keyless porcelain lampholder screwed to the closet ceiling. It is also the reason the correct answer - a fixture at the FRONT of the closet, over the person - is both the code answer and the good-practice answer, which is rare."
+    },
+    {
+      "requirement": "A closet is not habitable space and has no ceiling-height minimum, light or ventilation requirement.",
+      "ref": "IRC R305, R303",
+      "conflict": "This is exactly why a closet is the wrong thing to steal a bedroom's floor area with: the code will let you make a bedroom 9 ft 6 in wide and put a 2 ft closet in it, producing a 7 ft 6 in room with a bed in it and no way to walk past the bed. The code counts the closet as part of the room's area in some jurisdictions and not in others, and the ones where it counts produce the worst bedrooms in the country."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "garrison-block",
+    "cape-cod-massing",
+    "gambrel-block",
+    "i-house",
+    "townhouse-row",
+    "ranch-linear",
+    "ranch-l",
+    "split-level",
+    "massed-picturesque"
+  ],
+  "slots": [
+    "storage_strategy",
+    "built_ins",
+    "room_adjacency_overrides",
+    "depth_and_pile",
+    "interior_door",
+    "casing",
+    "baseboard"
+  ],
+  "faults": [
+    "closet-depth-taken-from-the-room",
+    "closet-on-the-exterior-wall",
+    "storeys-out-of-vertical-alignment",
+    "built-in-that-is-furniture",
+    "hollow-core-blank-in-a-panelled-house"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json storage_strategy - chimney-flanking-closet, closet_depth_min, permitted_wall_for_closets, rear_axis_keep_clear",
+    "Federal Housing Administration, Minimum Property Requirements / Minimum Property Standards, 1936 onward, for the closet-per-bedroom requirement",
+    "NEC 410.16 / IRC E4003.12 for closet luminaire clearances",
+    "Probate inventories, Virginia and Massachusetts, 1740-1790, for the size of an eighteenth-century wardrobe",
+    "HABS measured plans showing chimney-flanking closets 18-30 in deep",
+    "faults/closet-depth-taken-from-the-room.json and faults/closet-on-the-exterior-wall.json"
+  ],
+  "confidence": "high"
+}

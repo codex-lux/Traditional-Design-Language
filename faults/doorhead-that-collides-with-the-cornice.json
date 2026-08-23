@@ -1,0 +1,141 @@
+{
+  "id": "doorhead-that-collides-with-the-cornice",
+  "name": "The Doorhead That Runs Into The Cornice",
+  "aka": [
+    "the entablature that will not fit",
+    "two cornices four inches apart",
+    "the squeezed frieze"
+  ],
+  "slots": [
+    "casing",
+    "interior_door",
+    "crown",
+    "trim_family"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "A room designed with both a full entablature over the interior doors and a cornice or entablature at the ceiling, in which the two arrive at nearly the same height and neither can be built as drawn. On site the door's cornice gets cut down, or the room's cornice gets raised into the ceiling, or the two are run four inches apart so the wall between them is a squeezed sliver of frieze with a shadow at the top and the bottom and nothing in between. In the version that gets built most often, the door entablature is simply deleted and the door is left with a plain casing under a fully cornice'd room, so the openings look unfinished in an otherwise finished wall.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "Interior elevations are drawn late or not at all, and the two members are specified by different documents at different times: the door head height comes off the framing plan and the stock leaf, the room cornice comes off a millwork note. Both are individually correct and nobody adds them. The framing crew has already set every header at 82 1/2 in by the time the millwork schedule exists, which fixes the door head and leaves the room's entablature to negotiate with a dimension it cannot change. The arithmetic itself is the trap: the doorhead rule is stated as a multiple of the CASING width and the cornice rule as a fraction of the CEILING height, so the two are dimensioned from different modules and their collision is invisible until both are computed.",
+    "cost_saved": "None. Both members are being bought; the fault is in the coordination. If anything it costs money, because the collision is usually discovered after the cornice nailer is up and one of the two has to be re-made.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / door_surround.height = opening_width / 6 * 3",
+      "statement": "Full entablature over an interior door: 18 in on a 36 in door. The trim above the door is as tall as the casing is wide, three times over. The top of this assembly lands at about 98 in above the floor on a 6 ft 8 in leaf, and if the room's own entablature bed is at 96 in, the two collide."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "trim-classical / trim_family.height = ceiling_height * 16 / 19",
+      "statement": "The bed of the room's entablature, and the picture-rail line: 90 15/16 in at a 9 ft ceiling, 96 in at 9 ft 6 in, 111 3/16 in at 11 ft. This is also the top of full-height panelling and the head line of the doors, so three separate things land on one datum."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "set the smaller member from the larger, never the reverse",
+      "statement": "The room's entablature is a single unbroken horizontal round four walls; the doorhead is a local incident on one of them. Where two members compete for one line, the continuous one wins and the local one is cut to suit."
+    }
+  ],
+  "correct_practice": "Compute both before either is ordered, and set the door head FROM the entablature rather than the entablature from the door. On a 36 in opening the doorhead assembly is 3 x (36/6) = 18 in tall, and the room's entablature bed sits at ceiling x 16/19. Solve for the ceiling that lets both exist: with a leaf at the derived 0.7 of ceiling, 0.7H + 18 <= 0.8421H gives H >= 126.7 in, so A FULL ENTABLATURE OVER A 36 IN DOOR NEEDS A CEILING OF 10 FT 7 IN OR MORE. With a stock 80 in leaf the threshold is 116 1/2 in, or 9 ft 8 1/2 in. Below those heights the fully entablatured doorhead is not available and the honest moves are, in order: reduce the doorhead to an architrave with a cornice cap only (about 8 to 10 in rather than 18); or — better, and more period — LET THE DOOR'S CORNICE BE THE ROOM'S ARCHITRAVE LINE, so that the top of the doorhead and the bed of the room's entablature are the same line and the two members run together around the room. That single alignment is what makes a fully trimmed Georgian room feel composed rather than assembled, and it is why period rooms so often have door heads that look 'too high' to a modern eye: the door was not sized to the person, it was sized to the wall. The Craftsman family reaches the same result by a different route — the head casing assembly tops out at 87 1/2 in and the picture rail is set to that line, so the datum is the doorhead by definition and the collision cannot occur.",
+  "fixes": {
+    "right": "Draw one interior elevation per room type before the framing plan is issued, with the entablature bed, the doorhead top and the picture rail resolved onto a single line, and set the headers from it.",
+    "cheap": "Delete the room's architrave and keep the doorhead. Where the two collide and the ceiling cannot move, run the doorhead assembly at its full 18 in and let its cornice line be the room's only horizontal, finishing the wall-ceiling joint with a plain 4 to 6 in cornice above and no architrave or frieze. This costs less than the full entablature, keeps the member that is at eye level, and reads as a deliberate simplification rather than as a squeeze. Free alternative: run the room's entablature and give the doors a plain architrave with a bold backband and no cornice at all, which is normal Georgian practice in secondary rooms.",
+    "dishonest": "Running both members and separating them with a 3 or 4 in sliver of frieze. It satisfies both schedules and produces a band of wall too narrow to be a frieze and too wide to be a joint, with a shadow above and below it; the room reads as having a mistake in it even to someone who cannot identify which member is wrong. Also dishonest: cutting the doorhead's corona off so the assembly fits, which leaves a cyma with nothing under it — a cornice without a corona is not a shortened cornice, it is a different and wrong profile."
+  },
+  "detection": "Photograph a wall that shows a door and the ceiling in one frame and measure three heights: the top of the door's trim, the bottom of the room's cornice, and the ceiling. Correct: either the two coincide within an inch, or the gap between them is at least 12 in and reads as a band of wall. Fault: a gap of 2 to 8 in. The 2 to 8 in gap is the diagnostic signature and it is unmistakable once looked for. Second test, arithmetic from a plan and a ceiling height: compute 3 x (opening_width / 6) + door_head_height and compare with ceiling x 16/19; a positive difference means the collision is designed in. Third, look for the amputation: a doorhead cornice with a cyma sitting directly on a fascia and no corona between them has been cut down on site.",
+  "test": {
+    "expression": "(entablature_bed_height_in - doorhead_top_in)",
+    "threshold": 12,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Signed clearance between the top of the door trim and the bed of the room's cornice. Values of 0 to plus 1 in are also correct and are the better answer — the two members sharing one line. The failure band is roughly plus 2 to plus 10 in, and any negative value means the assembly cannot be built as drawn. A rare fault where two correct answers sit on either side of a wrong one."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "georgian-revival",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "adam-style",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "colonial-revival",
+    "neoclassical-revival",
+    "new-classical",
+    "palladian",
+    "english-palladian",
+    "jeffersonian-classicism",
+    "beaux-arts-american",
+    "italianate-american",
+    "italianate-townhouse",
+    "regency"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The collision cannot occur because the family defines the datum AS the doorhead: the head casing assembly tops out at 87 1/2 in and the picture rail is set to that line, so the two members are the same member.",
+      "bounds": "Requires the picture rail to be genuinely at the head assembly top rather than at a fraction of the ceiling. Where the two disagree the door head wins — a picture rail installed at a height that does not match the door heads is the family's own named failure mode.",
+      "bounds_test": {
+        "expression": "abs(picture_rail_height_in - doorhead_top_in)",
+        "threshold": 1.0,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The Greek Revival doorhead is a broad flat entablature with a heavy cornice and it deliberately runs high — often within a few inches of the room's own cornice, with the wall between suppressed to almost nothing, so that the door reads as a temple front carried to the ceiling.",
+      "bounds": "The two must MEET, not nearly meet. Where the Greek Revival doorhead runs high its cornice becomes the room's architrave line and there is no wall between; a 4 in strip of plaster in that position is the fault in any family."
+    },
+    {
+      "style": "victorian",
+      "why": "Later nineteenth-century rooms frequently run a picture rail near the ceiling — 4 to 12 in below it — with a papered frieze zone above, so the room's cornice line and the doorhead line are deliberately far apart and there is a large designed band between them.",
+      "bounds": "The band must be large: 12 in or more, treated differently from the wall below, and consistent round the room. The near-ceiling picture rail and the entablature-bed picture rail are two incompatible traditions that cannot be mixed — choose by date, entablature bed before about 1840 and near-ceiling after about 1870.",
+      "applies_when": {
+        "date_range": [
+          1870,
+          1910
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "six-eight-door-in-a-tall-room",
+      "difference": "The other end of the same arithmetic. A stock leaf in a tall room leaves too much wall above the door; the full entablature over the same leaf leaves too little. Both are solved by computing the door head from the room's datum rather than from the framing."
+    },
+    {
+      "fault": "broken-head-datum",
+      "difference": "That fault is heads at different heights across an exterior elevation; this is two members competing for one height on an interior wall."
+    }
+  ],
+  "co_occurs_with": [
+    "six-eight-door-in-a-tall-room",
+    "one-trim-grade-for-every-room"
+  ],
+  "sources": [
+    "proportions/systems/trim-classical.json, door_surround.height and trim_family.height (picture rail) derived rules",
+    "proportions/systems/trim-craftsman.json, door_surround.height and the picture-rail datum",
+    "Asher Benjamin, The American Builder's Companion (1806), doorhead plates",
+    "William Salmon, Palladio Londinensis (1734)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "alignment",
+    "doorhead",
+    "entablature",
+    "datum",
+    "arithmetic"
+  ]
+}

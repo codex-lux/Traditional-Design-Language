@@ -1,0 +1,258 @@
+{
+  "id": "scullery",
+  "name": "Scullery",
+  "aka": [
+    "back kitchen",
+    "prep kitchen",
+    "messy kitchen",
+    "wash-up",
+    "dirty kitchen",
+    "spulkuche"
+  ],
+  "function_class": "service",
+  "description": "The room behind the kitchen where the washing up, the rough preparation and the dirty water happen. It has a deep sink, a stone or tiled floor, open shelving rather than fitted cabinetry, and no pretensions. It is the room in this catalogue with the clearest death and the most interesting resurrection: it vanished with piped hot water and it has come back, since about 2010, under three new names, for a reason that has nothing to do with washing up.",
+  "history": {
+    "appears": 1700,
+    "declines": 1930,
+    "replaced_by": "the fitted kitchen sink and the dishwasher; returning since 2010 as the back kitchen / prep kitchen",
+    "note": "WHY IT EXISTED. A scullery is a consequence of water that has to be carried and heated. Washing up for a household meant hauling water, boiling it in a copper, scouring pots with sand and soda in a shallow stone sink, and disposing of several buckets of greasy water - a wet, cold, filthy operation that produced steam and smell and had to be kept out of the cook's room. It had a stone or fireclay sink (the Belfast sink, with a weir overflow, is the type specimen), a copper or a range boiler, a plate rack, and no soft surface anywhere. WHY IT DIED. Piped hot water at the sink removes the copper and the carrying; general in Anglo-American middle-class houses between about 1900 and 1930. The domestic dishwasher, in production from Hobart/KitchenAid in 1949 and in a majority of American new houses by the mid-1970s, removes the operation itself. The room had no remaining function and it was absorbed into the kitchen or turned into a utility room. WHY IT CAME BACK, AND THIS IS THE POINT. The open-plan kitchen made the kitchen a PUBLIC ROOM, and a public room cannot hold a sink full of roasting tins. What returned is not the scullery's function but its social role: a place to put the mess where guests cannot see it. The names are new - back kitchen in Britain, prep kitchen or messy kitchen in America, and 'butler's pantry' misapplied by builders to a room that has no butler and no china in it - but the room is the same room and it is in the same place. It is one of the clearest cases in the catalogue of a room dying for one reason and returning for another."
+  },
+  "dimensions": {
+    "area_sf": [
+      50,
+      120
+    ],
+    "width_ft": [
+      6,
+      9
+    ],
+    "length_ft": [
+      8,
+      15
+    ],
+    "proportion": [
+      1.2,
+      2.0
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "SIX FEET SIX CLEAR WIDTH, from 24 (counter run) + 42 (aisle) + 12 to 16 (shelf or a second shallow run). A scullery is a ONE-COOK room and it should be narrow: at 8 ft it stops being a corridor of work surfaces and starts wanting an island, which defeats the point. The other dimension that matters is the SINK: a scullery sink is a deep single bowl, 24 to 30 in wide and 9 to 12 in deep, because it takes a roasting tin flat - a 7 in bowl does not, and that single dimension is most of the room's usefulness. And the DOOR: it must be wide enough and offset enough that the room is not visible from the kitchen's public side, which usually means a 32 in door around a return rather than a cased opening on the axis."
+  },
+  "furniture": [
+    {
+      "item": "deep single-bowl sink",
+      "footprint_in": [
+        30,
+        22
+      ],
+      "clearance_in": 36,
+      "note": "Fireclay or stainless, 9-12 in deep, with a high-arc or a bridge tap. 24 in of drainer or counter on one side minimum."
+    },
+    {
+      "item": "second dishwasher",
+      "footprint_in": [
+        24,
+        24
+      ],
+      "clearance_in": 21,
+      "essential": false,
+      "note": "Where the household entertains, the second machine belongs here, not in the show kitchen."
+    },
+    {
+      "item": "open shelving",
+      "footprint_in": [
+        72,
+        14
+      ],
+      "clearance_in": 0,
+      "note": "14 to 16 in deep, painted or bare timber, no doors. Fitted cabinetry in a scullery is a category error - the room's whole virtue is that things can be put down and seen."
+    },
+    {
+      "item": "work counter",
+      "footprint_in": [
+        72,
+        25
+      ],
+      "clearance_in": 42,
+      "note": "Butcher block or stone. This is where the rough prep goes, so it wants to be at 34 to 36 in and it wants to be washable to the wall with no scribed joint."
+    },
+    {
+      "item": "bulk store and small appliances",
+      "footprint_in": [
+        36,
+        24
+      ],
+      "clearance_in": 36,
+      "note": "The room's real modern job: the food processor, the mixer, the air fryer and the coffee machine live here plugged in, which is why it needs a run of counter at 20 in clear under the shelf and four receptacles along it."
+    },
+    {
+      "item": "waste, recycling, compost",
+      "footprint_in": [
+        36,
+        24
+      ],
+      "clearance_in": 30
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.8,
+    "sides_lit": 1,
+    "orientation": "North. A scullery historically faced north for the same reason a dairy did - it is a wet cold-working room and it wants no sun on it - and the modern version is nearly always an interior room, which is why it needs real extract.",
+    "glazing_fraction": [
+      0.05,
+      0.12
+    ],
+    "note": "A high window or a borrowed light over the door is enough and is far better than nothing: a windowless back kitchen with the door shut is where the smell of last night's pans lives. The room sits behind the kitchen and behind the eave line of any rear ell, so the effective head is low."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "Directly, and the door must be offset so the scullery is not on any sightline from the kitchen's social side. This is the whole design of the room: the connection has to be one pace long and completely screened.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "pantry",
+        "why": "Dry store and rough prep belong together behind the kitchen; in the best plans they are one L-shaped back-of-house zone with one door to the kitchen and one to the yard.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "mudroom",
+        "why": "The back door route. Shopping, refuse and vegetables all arrive at the scullery, not at the kitchen, and a scullery with a door to the yard is worth twice one without.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "laundry",
+        "why": "The historical pairing - scullery and wash house shared the copper, the water and the drain, and the modern pairing shares the stack. Two wet rooms on one wall.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "dining-room",
+        "why": "Never visible from a table and never sharing a wall with one. The room exists so that the mess is out of sight; putting it on the dining room's wall moves the noise instead of the sight.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      },
+      {
+        "room": "entrance-hall",
+        "why": "Back of house. If a scullery is visible from the entry the plan's service zone has failed.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "kitchen",
+      "back-hall",
+      "mudroom",
+      "service-corridor"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "An extract fan at 100 cfm minimum even where there is no cooking, because a deep sink and a dishwasher put a great deal of moisture into a small closed room. Where a second cooking surface or a steam oven is fitted, the room needs a real hood on the same terms as the kitchen.",
+    "heat": "Historically none, and the stone floor and north aspect were features. In a modern version keep it cooler than the kitchen by a few degrees and it works better.",
+    "electrical": "A run of four to six receptacles along the appliance counter on their own 20A circuit, because this is where every plugged-in appliance in the house now lives.",
+    "stack_proximity_ft": 8
+  },
+  "style_variation": [
+    {
+      "style": "english-georgian-country-house",
+      "name_in_style": "scullery",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Part of a full service department - kitchen, scullery, larder, pastry room, still room, servants' hall - each a separate room with a separate temperature and a separate function. Stone floor, whitewashed walls, no trim at all."
+    },
+    {
+      "style": "british-vernacular",
+      "name_in_style": "back kitchen",
+      "present": true,
+      "trim_grade": "none",
+      "note": "In an ordinary British terrace or cottage the back kitchen is the working room and the front room is kept for best - the reverse of the American arrangement, and the reason so many British houses have a good room nobody uses."
+    },
+    {
+      "style": "victorian",
+      "name_in_style": "scullery",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Its high point and the moment of its greatest elaboration, immediately before the plumbing that killed it."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Gone. The bungalow kitchen has a single sink with hot and cold, which is precisely what removed the need."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "wash room / back kitchen",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Present in the larger houses as part of the service ell or the dependency, plain-boarded, with a plank or brick floor."
+    },
+    {
+      "style": "contemporary-traditional",
+      "name_in_style": "back kitchen / prep kitchen",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Returning fast and worth getting right rather than letting a builder call it a butler's pantry. It is a working room: open shelves, a deep sink, a washable floor, and a door that shuts."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Mechanical ventilation where there is no operable window; extract ducted outdoors.",
+      "ref": "IRC M1505, R303"
+    },
+    {
+      "requirement": "Where a second cooking appliance is installed, hood and make-up air requirements apply as in the kitchen.",
+      "ref": "IRC M1503",
+      "conflict": "A 'prep kitchen' with a second range is a second kitchen for code purposes and in some jurisdictions for zoning purposes, where a second kitchen implies a second dwelling unit. Worth checking before it is drawn."
+    },
+    {
+      "requirement": "Floor drains, where fitted, require a trap primer or they dry out and admit sewer gas.",
+      "ref": "IRC P3201.2, P2707",
+      "conflict": "A traditional scullery floor drain is an excellent idea and a permanent smell if the trap is not primed - which nobody thinks about because the room is used every day and the drain is used never."
+    }
+  ],
+  "massing_fit": [
+    "linear-ell-farmhouse",
+    "saltbox",
+    "telescope-house",
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "townhouse-row",
+    "charleston-single",
+    "i-house",
+    "ranch-l",
+    "massed-picturesque",
+    "gambrel-block"
+  ],
+  "slots": [
+    "service_zone_strategy",
+    "room_adjacency_overrides",
+    "services_strategy",
+    "storage_strategy",
+    "depth_and_pile",
+    "floor_material"
+  ],
+  "faults": [
+    "service-route-through-the-formal-plan",
+    "stack-with-nowhere-to-land",
+    "built-in-that-is-furniture",
+    "open-plan-in-a-room-based-style"
+  ],
+  "sources": [
+    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981), for the Victorian service department",
+    "Mrs Beeton, Book of Household Management (1861), on the scullery's work",
+    "Hobart / KitchenAid domestic dishwasher, 1949, and US appliance saturation data",
+    "IRC M1503, M1505, P3201.2"
+  ],
+  "confidence": "high"
+}

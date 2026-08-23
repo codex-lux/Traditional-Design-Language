@@ -1,0 +1,145 @@
+{
+  "id": "gambrel-slopes-converging",
+  "name": "The Gambrel That Became a Mansard",
+  "aka": [
+    "the kinked gable",
+    "flattened Dutch"
+  ],
+  "slots": [
+    "roof_form",
+    "roof_pitch"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "proportion",
+  "symptom": "A 'Dutch Colonial' whose lower slope is 12:12 to 15:12 and whose upper slope is 8:12 or 9:12. The break barely registers; from the gable end the profile reads as a gable with a kink in it, or as a clumsy mansard. The second floor inside is cramped at the knee because the lower slope is not steep enough to give headroom near the wall.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "Gambrel trusses are priced by overall depth and by the shipping envelope. Flattening the lower slope reduces the truss depth, removes roughly 12-18 per cent of the roof area and its shingles, and lets the whole roof ship and set in one piece instead of as a piggyback. Separately the break point migrates downward as the designer chases second-floor floor area without raising the ridge, and each of those moves is invisible on the floor plan where the decisions are actually being made.",
+    "cost_saved": "$2,000-5,000 on a 30 x 40 ft house between a true 22:12 lower slope and a 14:12 one, in truss depth, roof area and setting."
+  },
+  "rule_violated": [
+    {
+      "kind": "style-constraint",
+      "ref": "dutch-colonial-revival",
+      "statement": "Gambrel lower slope 20:12 to 24:12, upper slope 6:12 to 9:12, with the break at 55-65 per cent of roof height. Slopes closer than 8:12 apart produce a mansard and void the variant."
+    },
+    {
+      "kind": "style-constraint",
+      "ref": "dutch-colonial-revival",
+      "statement": "The lower slope must genuinely enclose habitable second-floor area: minimum 7 ft 0 in clear headroom at a point 3 ft 0 in horizontally in from the exterior wall plane. A gambrel over an attic is decoration."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / roof_form",
+      "statement": "gambrel_lower_pitch minimum 20:12; gambrel_upper_pitch maximum 9:12 (New England and Hudson Valley)."
+    }
+  ],
+  "correct_practice": "Lower slope 20:12 to 24:12 - that is 59 to 63 degrees, near enough to vertical that it reads as a wall of roof; upper slope 6:12 to 9:12; the two separated by at least 8:12; the break at 55-65 per cent of the total eave-to-ridge height. Set the geometry out from the second-floor plate, not from the ridge: the lower slope must give 7 ft 0 in clear at 3 ft 0 in in from the wall plane, and that single requirement fixes the lower pitch within a couple of increments. The eave kick - a 12-24 in flare beginning 18-30 in up the slope - is what separates an architect's gambrel from a catalogue one, and it costs a sawn outlooker and a bent course of shingles.",
+  "fixes": {
+    "right": "Steepen the lower slope to 20:12 minimum and take the break at 55-65 per cent of the roof height, then add the eave kick.",
+    "cheap": "Hold the ridge height and the eave height where the budget put them and move only the break point up the slope. Raising the break from 45 to 60 per cent of the roof height steepens the lower slope by several increments at no change in roof area, truss depth or shingle quantity - it is a redistribution, not an addition.",
+    "dishonest": "Adding a flared eave and a broken-pediment door surround to a shallow gambrel. The kick is a signal of a steep lower slope; applying it to a shallow one makes the flatness more obvious, not less."
+  },
+  "test": {
+    "expression": "lower_slope_angle_deg - upper_slope_angle_deg",
+    "threshold": 25.0,
+    "direction": "at-least",
+    "units": "deg",
+    "measurable_from": "photograph",
+    "note": "The two slopes must be at least 8:12 apart. Under 25 degrees of difference the roof is a mansard, or a gable with a kink, and the identification fails."
+  },
+  "secondary_tests": [
+    {
+      "expression": "lower_slope_angle_deg",
+      "threshold": 59.0,
+      "direction": "between",
+      "units": "deg",
+      "measurable_from": "photograph",
+      "upper": 63.4,
+      "note": "20:12 to 24:12. Near enough to vertical that the lower slope reads as a wall of roof."
+    },
+    {
+      "expression": "break_height_above_eave_in / total_eave_to_ridge_height_in",
+      "threshold": 0.55,
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "upper": 0.65,
+      "note": "Below 0.5 the roof is top-heavy and reads as a mansard; above 0.7 it is a gable with a kink."
+    },
+    {
+      "expression": "clear_headroom_in_at_36in_from_wall_plane_in",
+      "threshold": 84,
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "section",
+      "note": "The requirement that actually fixes the lower pitch. A gambrel over an attic is decoration."
+    }
+  ],
+  "detection": "From a gable-end photograph, measure both slope angles and take the difference. Under about 25 degrees (8:12) apart is the fault. Then measure the break height as a fraction of eave-to-ridge: below 0.5 the roof is top-heavy and reads as a mansard; above 0.7 it reads as a gable with a kink. Third check: look at the second-floor windows in the lower slope - if their heads are jammed against the break line, the lower slope is too shallow to hold them.",
+  "applies_to": [
+    "dutch-colonial-revival",
+    "dutch-colonial-american",
+    "new-jersey-dutch-gambrel",
+    "hudson-valley-dutch",
+    "georgian-colonial-american",
+    "colonial-revival"
+  ],
+  "exceptions": [
+    {
+      "style": "second-empire",
+      "why": "A mansard is supposed to be nearly vertical over a nearly flat deck - 65 to 80 degrees over 2:12 to 4:12 - and it is not a gambrel that has gone wrong. It should never be corrected toward gambrel proportions.",
+      "bounds": "The mansard must run all the way around the building and be terminated by a curb cornice with brackets at 24-48 in on centre, with dormers in it whose count equals the bay count.",
+      "bounds_test": {
+        "expression": "mansard_lower_slope_angle_deg",
+        "threshold": 65.0,
+        "direction": "between",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "upper": 80.0,
+        "note": "Running all the way round the building, with a bracketed curb cornice and dormer count equal to bay count."
+      }
+    },
+    {
+      "style": "shingle-style",
+      "why": "A shingle-style gambrel is deliberately swept, with the break blurred into a curve and the lower slope carried very low to the ground.",
+      "bounds": "The blurring must be a continuous curve in one shingled plane; two straight slopes at similar angles is still the fault.",
+      "bounds_test": {
+        "expression": "largest_single_roof_plane_area / total_roof_area",
+        "threshold": 0.4,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The blurring must be a continuous curve within one plane; two straight slopes at similar angles is still the fault."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "second-empire",
+      "statement": "Gambrel proportions are the fault. A mansard is 65-80 degrees over a 2:12-4:12 deck, and correcting one toward the other destroys both."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "wing-pitch-drift",
+      "difference": "There the pitches are on different masses. Here they are the two halves of one roof plane, where the difference between them is the whole form."
+    }
+  ],
+  "co_occurs_with": [
+    "dormer-wall"
+  ],
+  "sources": [
+    "project style node dutch-colonial-revival (proportional_system and constraints)",
+    "kits/georgian-colonial-american.kit.json roof_form gambrel parameters",
+    "HABS documentation of Hudson Valley and New Jersey Dutch stone houses"
+  ],
+  "confidence": "high",
+  "tags": [
+    "roof",
+    "gambrel",
+    "form",
+    "proportion"
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "id": "ceremonial-front-door",
+  "name": "The Front Door Nobody Uses",
+  "aka": [
+    "the mudroom is the front door",
+    "the unopened entrance",
+    "the wreath door"
+  ],
+  "slots": [
+    "public_private_gradient",
+    "street_relationship",
+    "circulation_parti"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "sequence",
+  "symptom": "The house has two entrances and the wrong one is designed. The front door is the most elaborated element on the elevation, with a pediment, sidelights and a portico, and it is opened perhaps twenty times a year; the door everyone actually uses is a flat slab from the garage into a mudroom, 32 in wide, with a coat rail and no ceremony at all. Behind the front door is a hall that nothing passes through and a formal room nobody enters.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "The car sets the entrance. Where the garage is attached and the drive is the only approach, the shortest route from the vehicle to the kitchen is through the garage, and no amount of composition on the front elevation competes with twenty feet of rain. The plan then optimises for the route that is used - mudroom, pantry, kitchen - and the front door keeps its ornament because it is a sales feature, so the whole entrance budget is spent on a door the household does not open.",
+    "cost_saved": "Nothing directly. The saving is the covered walk, the second stoop and the site work that would make the front door usable from the drive: $4,000-$15,000."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / public_private_gradient",
+      "statement": "Rank falls front to back. Where the household's own entrance is at the back, the gradient has inverted and the front elevation is describing a sequence that no longer happens."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / street_relationship / approach",
+      "statement": "On the entrance axis, so the front is met square-on. An approach that arrives at the side of the house and enters through a garage is not an approach; it is a delivery."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the entrance is where people enter",
+      "statement": "Every threshold rule in the corpus - the elaboration, the sequence, the three thresholds, the depth of the portico - assumes that the door being described is the door being used. Where it is not, the rules are being applied to a stage property, and the real entrance has no rules applied to it at all."
+    }
+  ],
+  "correct_practice": "Design the entrance people use, and give the ceremonial entrance a reason to be opened. Two honest strategies exist. The first is to make the front door the used door: bring the walk from the drive or the street to the front door under cover, hold the garage back or turn it so the car parks nearer the front than the back, and give the front door a porch deep enough to shelter someone unlocking it - 6 ft minimum. The second is to accept two entrances and design both, which is what the historic types with a service entrance always did: the family entrance gets a proper sequence too - a covered way, a threshold, a room rather than a corridor, a place to sit and take boots off, a window - and the two doors are given clearly different ranks with the formal one still the more elaborate. What is not acceptable is one designed door and one undesigned one, because the house is then spending its whole entrance budget on the twenty per cent of arrivals that are guests.",
+  "fixes": {
+    "right": "Rebuild the approach so the front door is on the route from the car, with a covered walk and a sheltering porch, and let the mudroom be a secondary entrance again.",
+    "cheap": "Design the mudroom as a room instead of a corridor. Giving the used entrance a window, a bench, a hard floor, hooks at two heights, 12 to 20 sq ft of storage and a ceiling that is not a duct soffit costs a few thousand and transforms the arrival that actually happens twelve times a day. Then make the front door usable at the margin: a 5 ft wide walk from the drive apron to the front stoop, in the same material as the drive, costs $800-$2,500 and converts the front door from a fiction into an option.",
+    "dishonest": "Adding more ornament to the front door. Every additional pilaster, fanlight and lantern on a door nobody opens widens the gap between the house's claim and its use, and it is why so many otherwise competent new houses read as showhomes."
+  },
+  "detection": "Look for wear and for evidence of use. In a photograph, an unused front door has an unworn threshold, a pristine mat or none, no worn line in the paint at the handle, seasonal decoration that has not been moved, and often a screen door that is still on its hook. Look at the paths: a front walk that connects to nothing, or ends at the drive apron at an odd angle, means the route is fictional, and a desire path worn across the lawn between the drive and the front step means the opposite. From a plan, check what the front door opens onto - a hall with no daily route through it is the plan-side signature.",
+  "test": {
+    "expression": "daily_circulation_routes_through_the_formal_entry_hall",
+    "threshold": 1.0,
+    "direction": "at-least",
+    "units": "count",
+    "measurable_from": "plan",
+    "note": "Count daily routes - arrival from the usual parking position, stair to kitchen, kitchen to living - that pass through the entrance hall. Zero means the front door and its hall are ceremonial. A photograph-side proxy: whether a continuous made walk connects the usual parking position to the front door."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The street door is a FALSE door in a screen wall and is meant to be opened by visitors onto the piazza; the true entrance is one bay back along the piazza. Two doors of different kinds, both designed, both used, and the ceremonial one is deliberately not the door to the house.",
+      "bounds": "The false door must open onto a real piazza of 8 ft minimum on the south or west flank, and the true door must be at least one bay back along it. Deleting the false door and entering from the sidewalk destroys the type's threshold sequence.",
+      "applies_when": {
+        "slots": [
+          "entry_sequence",
+          "street_relationship"
+        ]
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Suppressed and indirect entry is a defining characteristic: the front door is displaced from the principal elevation and often not visible from the street, and 'you cannot find the front door from the sidewalk' is one of the style's own diagnostic tells.",
+      "bounds": "The door must be designed as a deflected sequence approached at right angles to the direction of arrival, not merely hidden. And it must be the used door - a Prairie house with a suppressed front entrance AND a garage entrance in daily use has the fault like anything else."
+    },
+    {
+      "style": "american-farmhouse-vernacular",
+      "why": "The farmhouse's real entrance has always been the porch in the reentrant corner of the L facing the farm drive, with the formal front door facing the public road and used rarely. This is a documented two-door arrangement, and the working door is the designed one.",
+      "bounds": "The working entrance must be the sheltered one - a porch at least 6 ft deep in the inside corner - and the formal door must face a genuine public road. A garage slab door standing in for the porch is not this.",
+      "applies_when": {
+        "slots": [
+          "porch_type"
+        ],
+        "note": "The porch faces the farm drive rather than the public road, which is the whole point."
+      }
+    },
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "Two exterior doors at two levels on different elevations, of unequal architectural status, is a hard constraint of the type - the service level must be enterable without passing through the house.",
+      "bounds": "Requires the real cross-slope of 1:8 and two genuine grades. A single ceremonial entrance destroys the type; so does a service door with no architecture at all."
+    },
+    {
+      "style": "mexican-hacienda",
+      "why": "The monumental gate in a blank wall is the ceremonial entrance to the precinct, and the casa grande is entered informally from the corredor.",
+      "bounds": "Requires the walled casco with one or two controlled gates; the ceremony is spent on the gate, which is used by everyone."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "door-reached-only-from-the-driveway",
+      "difference": "That fault is about whether a route to the front door physically exists. This one is about whether anyone takes it. A house can have a perfect brick walk from the sidewalk and still be entered exclusively through the garage."
+    },
+    {
+      "fault": "entry-not-the-most-elaborated-element",
+      "difference": "That fault is an elevation failing to rank the entrance. This one is a plan and a site failing to use it, and the two are almost opposites: this house usually over-elaborates its front door."
+    }
+  ],
+  "co_occurs_with": [
+    "door-reached-only-from-the-driveway",
+    "the-room-nobody-enters",
+    "service-route-through-the-formal-plan"
+  ],
+  "alternative_to": [
+    "entry-not-the-most-elaborated-element"
+  ],
+  "severity_trajectory": "Fixed at the moment the drive is poured and worsening slowly afterwards. Within five years the front stoop shows moss and the mat is gone, and the household has stopped thinking of the front door as a door; by then the mudroom has absorbed the coats, the shoes and the deliveries, and the formal hall is storage.",
+  "sources": [
+    "kits/georgian-colonial-american.kit.json public_private_gradient, street_relationship approach",
+    "styles/charleston-single-house.json (false street door), styles/prairie-school.json (suppressed entry), styles/american-farmhouse-vernacular.json (entry in the reentrant corner facing the farm drive)",
+    "Federal Highway Administration and pedestrian-planning literature on desire lines as evidence of actual route use"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry-sequence",
+    "gradient",
+    "site",
+    "garage",
+    "use",
+    "endemic"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "iberian-islamic",
+  "name": "Iberian Islamic",
+  "rank": "family",
+  "member_of": "iberian-mediterranean",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 750,
+    "floruit_end": 1614,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "Al-Andalus",
+      "Spain"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Eight centuries of Islamic building in Iberia and its continuation as Mudejar craft under Christian rule.",
+    "long": "Al-Andalus produced an architecture organized around the courtyard, water, shade, and geometric surface — a set of moves for hot-dry climates that has never been improved on. Its influence on Spanish building did not end with the Reconquest; Muslim craftsmen continued working for Christian patrons for centuries, a tradition called Mudejar.\n\nThat continuity is a transmission edge, not an imitation. The same guilds, the same masons, the same techniques — only the patron changed. It is the clearest case in the taxonomy of a craft tradition outliving the culture that produced it, and a caution against reading architectural lineage off political history."
+  },
+  "defining_characteristics": [
+    "Courtyard and water as the organizing elements of the plan",
+    "Blind or minimally-opened street elevation",
+    "Geometric surface ornament in tile, brick, and carved plaster",
+    "Horseshoe and multifoil arches, intricate timber ceilings",
+    "Craft continuity across a political and religious rupture"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "id": "great-room",
+  "name": "Great Room",
+  "aka": [
+    "gathering room",
+    "hearth room (loosely)",
+    "open-concept living",
+    "the big room"
+  ],
+  "function_class": "living",
+  "description": "One large undivided volume containing the seating, the eating and, usually, the cooking, generally two storeys high at least in part, with the television where the fire used to be and the kitchen island where the high table used to be. It is not a large living room. It is the medieval hall returning after four centuries of subdivision, with the household's servants replaced by the household itself, and it reproduces the hall's virtues and its problems in almost equal measure.",
+  "history": {
+    "appears": 1985,
+    "declines": null,
+    "replaced": "family-room",
+    "note": "THE ARGUMENT THAT THIS IS THE HALL RETURNING IS STRUCTURAL AND NOT RHETORICAL, and it holds on five counts. (1) ONE UNDIVIDED VOLUME containing the household's principal social life. (2) OPEN TO THE ROOF or to a two-storey height, with a gallery or landing overlooking it - which is the minstrels' gallery in every respect but its name. (3) A SINGLE DOMINANT FOCAL OBJECT that the room is oriented to, which was the fire and is now the screen. (4) THE COOKING IN THE ROOM, which is the medieval arrangement and was abandoned for four hundred years for reasons of smoke, grease and status; it returns because the extract hood solved the smoke, and because the person cooking is now a member of the family rather than a servant and therefore must not be shut away. (5) NO SERVANTS, which is the actual driver: the hall was undivided because everyone was in it, the plan subdivided as the family withdrew from the household, and it re-merged when the household shrank to the family again. WHAT ALSO RETURNS IS THE HALL'S PROBLEM: a large hard undivided volume is acoustically unusable for more than one activity at a time, which is why the medieval hall needed a screen and why the great room needs one and does not have one."
+  },
+  "dimensions": {
+    "area_sf": [
+      450,
+      1100
+    ],
+    "width_ft": [
+      18,
+      28
+    ],
+    "length_ft": [
+      24,
+      45
+    ],
+    "proportion": [
+      1.2,
+      2.0
+    ],
+    "ceiling_min_ft": 12,
+    "critical_dimension": "REVERBERATION TIME, AND IT IS THE ONLY ROOM IN THIS CATALOGUE WHOSE CRITICAL DIMENSION IS A VOLUME RATHER THAN A LENGTH. Sabine: RT60 = 0.049 V / (S x a) in feet. A 20 x 24 room at 18 ft has V = 8,640 cf and S = 2,544 sf; with hardwood floor, gypsum walls, glass and a hard ceiling the average absorption coefficient is about 0.10, so RT60 = 0.049 x 8640 / 254 = 1.66 SECONDS. That is a small church. The parlor it replaced - 14 x 17 x 9, carpeted, curtained, upholstered, a = 0.25 - gives V = 2,142, S = 1,034 and RT60 = 0.41 seconds, which is a room you can talk in. THE GREAT ROOM IS FOUR TIMES AS REVERBERANT AS THE ROOM IT REPLACED, and this is the whole explanation of the universal complaint that nobody can hear anybody in one. It is a design failure with a formula, and the fix is absorption at 25 to 30 per cent of the surface area - a rug over most of the floor, lined curtains at every window, upholstered rather than leather seating, and a coffered or beamed ceiling, which is what the medieval hall used and what modern versions omit as an expense. SECOND DIMENSION: 28 FT is the width at which a single volume stops being one room socially, because it exceeds the 10 ft conversation limit twice over; past that, plan it as three zones and mean it."
+  },
+  "furniture": [
+    {
+      "item": "large sectional or two facing sofas",
+      "footprint_in": [
+        120,
+        96
+      ],
+      "clearance_in": 36
+    },
+    {
+      "item": "television, 65 to 85 in",
+      "footprint_in": [
+        75,
+        4
+      ],
+      "clearance_in": 120,
+      "note": "an 85 in set is 74 in wide and wants 9 to 12 ft of viewing distance, which is one of the few honest arguments for the room's size"
+    },
+    {
+      "item": "dining table for eight",
+      "footprint_in": [
+        40,
+        96
+      ],
+      "clearance_in": 54,
+      "note": "if the room contains the dining function it needs the dining room's full clearance envelope - 40 + 108 = 148 in across - inside the great room's floor, not overlapping the seating group's circulation"
+    },
+    {
+      "item": "kitchen island with seating",
+      "footprint_in": [
+        42,
+        96
+      ],
+      "clearance_in": 42,
+      "note": "42 in of aisle on the work side and 44 in behind a seated stool; the island's stool side must not be the room's main route"
+    },
+    {
+      "item": "rug, large",
+      "footprint_in": [
+        144,
+        180
+      ],
+      "clearance_in": 0,
+      "note": "NOT A FURNISHING DECISION. A 12 x 15 rug over a hard floor is roughly 180 sf at an absorption coefficient near 0.25 against the floor's 0.05, which alone takes 15 to 20 per cent off the reverberation time. It is the cheapest acoustic treatment available and it should be in the specification, not in the styling."
+    },
+    {
+      "item": "clear circulation ring",
+      "footprint_in": [
+        42,
+        480
+      ],
+      "clearance_in": null,
+      "note": "a great room has three or four zones and the route between them must go AROUND the seating, not through it; the commonest failure is a route from the mudroom to the stair that crosses the front of the television"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.6,
+    "sides_lit": 2,
+    "orientation": "Usually the rear, and usually with a two-storey glazed gable. Note that a south-facing two-storey glass wall on a 25 ft deep room is a large solar gain - 300 sf of glass at 0.4 SHGC facing south takes about 25,000 Btu/h at noon in January, which is welcome, and a comparable figure in July, which is not. Overhangs sized on the solar altitude are the only fix that works, and the two-storey gable is the hardest possible geometry to shade.",
+    "glazing_fraction": [
+      0.18,
+      0.4
+    ],
+    "note": "THE ONE THING THE GREAT ROOM GETS RIGHT. A two-storey volume raises the window head to 16 or 18 ft, and daylight depth is 2.25 times the head height, so the room is genuinely daylit 35 to 40 ft back - which no single-storey room can be. That is the same mechanism that let a medieval hall be lit across 30 ft, and it is why the multiplier here is set at 2.6 rather than 2.25: the upper glazing throws light onto a light ceiling and the ceiling re-reflects it deep into the plan. It is worth being explicit that this is the great room's one genuine performance advantage over the rooms it replaced, and that it is thrown away whenever the upper glass is omitted to save cost and the volume is kept."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "the great room is defined by containing or opening to the kitchen; separate them and it is a large living room",
+        "relation": "visible-from",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "eat-in-kitchen-area",
+        "why": "the eating function is inside or immediately beside the volume in nearly every version",
+        "relation": "visible-from",
+        "strength": "strong"
+      },
+      {
+        "room": "mudroom",
+        "why": "the family arrives into this zone, and the route should enter at an edge rather than through the middle",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "stair-hall",
+        "why": "in the two-storey version the upper landing overlooks the volume, which is the minstrels' gallery again - and carries the same acoustic consequence, so bedroom doors must not be on it",
+        "relation": "visible-from",
+        "strength": "preferred"
+      },
+      {
+        "room": "loggia",
+        "why": "the great room's scale needs an outdoor extension of comparable size or the terrace outside it reads as a step",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "a two-storey hard volume with a television in it, open to a landing, is the worst acoustic neighbour in the house. THE HISTORIC PRECEDENT IS EXACT: medieval plans put the great chamber over the PARLOUR at the high end, not over or open to the hall, and for the same reason.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "study",
+        "why": "no room requiring concentration can open onto this volume; a door is not enough, it needs a corridor or a closet between",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "entrance-hall",
+        "why": "not a prohibition but a warning: where the front door opens directly into the great room, the house has no threshold at all and every arrival is a public event. Put a hall, an alcove or at minimum a change of ceiling height between them.",
+        "relation": "not-visible-from",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "entrance-hall",
+      "kitchen",
+      "mudroom",
+      "back-hall",
+      "stair-hall"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 2,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The great room shares air with the kitchen, so it needs the kitchen's extract sized for the whole volume: a 600 to 900 cfm hood over an open range in a great room requires make-up air by code above 400 cfm, and the make-up air unit is a piece of equipment about the size of a furnace that appears on nobody's drawings until it is too late to place it. This is the single most common mechanical surprise in an open-plan house.",
+    "heat": "Stratification is the real issue. An 18 ft volume puts 8 to 12 degrees F between floor and ceiling with forced air; underfloor heating removes the problem entirely and is the correct answer, and a ceiling fan is the cheap one. Return-air grilles must be HIGH in this room, not low.",
+    "electrical": "The lighting problem is the same as the acoustic one: a 16 to 18 ft ceiling puts any fixture too far from the task. Light the room from the walls, from the perimeter of the lower ceiling zone and from lamps; downlights from 18 ft produce a lit floor, dark faces and a maintenance problem that requires a lift.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "modern-farmhouse-traditional",
+      "trim_grade": "middle",
+      "note": "The type's defining room: a two-storey gabled volume with exposed trusses or beams, a stone or shiplap chimney breast, a wall of black-framed glass at the gable end, and the kitchen open along one side. Where the trusses are decorative rather than structural, this is the fault half-timber-that-frames-nothing in another material."
+    },
+    {
+      "style": "neo-eclectic",
+      "trim_grade": "plain",
+      "note": "The room's first mass form, from the mid 1980s: a two-storey family room with a palladian window in the gable, a corner fireplace and a plant ledge. It is where the type's acoustic and lighting problems were first mass-produced."
+    },
+    {
+      "style": "shingle-style",
+      "name_in_style": "living hall",
+      "trim_grade": "high",
+      "note": "The honest ancestor, and worth using as the model rather than the 1990s version: a broad low hall with the hearth and the stair in it, wood-lined on all surfaces, which is acoustically far better than a plastered two-storey volume because wood panelling at 0.10 to 0.15 absorption over the whole envelope roughly halves the reverberation time."
+    },
+    {
+      "style": "queen-anne-american",
+      "name_in_style": "living hall",
+      "trim_grade": "highest",
+      "note": "As above, and the direct historical precedent: front door into the room, stair rising out of it, inglenook at the hearth, other rooms opening off it."
+    },
+    {
+      "style": "contemporary-traditional",
+      "trim_grade": "middle",
+      "note": "The current default. Worth stating the design position plainly: if the room is to be a hall, give it the hall's apparatus - a screen or a change of level at the low end, a beamed or coffered ceiling, wall-hung textiles, a heavy rug - because those are what made the original habitable."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Forbidden by the type's whole logic. Georgian symmetry is generated by a plan of discrete rooms of stated proportion around a passage; a great room cannot be inserted without destroying the parti, and the correct move in a Georgian-Revival house is a large room at the rear ell, still a room, still with doors."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent, though it is the closest historic type in spirit. The bungalow's living room opens WIDELY to the dining room through a cased opening with a beam and a pair of piers, which is an open plan with the structure and the acoustics still legible - the great room's better ancestor."
+    },
+    {
+      "style": "prairie-school",
+      "trim_grade": "high",
+      "note": "The nearest genuine precedent for a large flowing volume, and the lesson is in the ceiling: Wright's living spaces are open in plan and TIGHTLY CONTROLLED in section, with the ceiling low at the perimeter and lifted only at the centre. A great room with one uniform 18 ft height has taken the openness and dropped the control that made it work."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Kitchen exhaust above 400 cfm requires make-up air.",
+      "ref": "IRC M1503.6",
+      "conflict": "An open kitchen in a large volume needs a large hood, a large hood needs make-up air, and make-up air needs a tempered supply and a place to put the unit. Nobody costs this at concept stage and it is a five-figure surprise."
+    },
+    {
+      "requirement": "Guards 36 in at any open floor edge more than 30 in above the floor below - the gallery or landing overlooking the volume.",
+      "ref": "IRC R312.1"
+    },
+    {
+      "requirement": "Ceiling height 7 ft minimum over 50 per cent of area; no maximum.",
+      "ref": "IRC R305.1",
+      "conflict": "There is no code limit on volume, which is why the acoustic problem is never caught. Sabine's formula is not in any building code and should be in every brief."
+    },
+    {
+      "requirement": "Energy code: total fenestration area and U-factor limits by climate zone.",
+      "ref": "IECC R402",
+      "conflict": "A two-storey glazed gable frequently pushes the house over its prescriptive glazing area and forces a performance-path calculation, which is where the great room's real energy cost first becomes visible."
+    }
+  ],
+  "massing_fit": [
+    "massed-picturesque",
+    "cross-gable-victorian",
+    "gable-front-and-wing",
+    "ranch-l",
+    "linear-ell-farmhouse",
+    "foursquare",
+    "prairie-cruciform",
+    "bungalow-linear",
+    "telescope-house",
+    "gable-front"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "circulation_parti",
+    "ceiling_height_rule",
+    "public_private_gradient",
+    "fireplace_surround",
+    "daylight_strategy",
+    "services_strategy",
+    "light_fixture_family",
+    "built_ins"
+  ],
+  "faults": [
+    "open-plan-in-a-room-based-style",
+    "half-timber-that-frames-nothing",
+    "recessed-can-in-a-plaster-ceiling",
+    "direct-vent-box-in-a-period-surround",
+    "palladian-window-related-to-nothing",
+    "front-door-into-the-living-room",
+    "duct-soffit-through-the-formal-room",
+    "the-black-window-package"
+  ],
+  "sources": [
+    "Wallace Clement Sabine, Collected Papers on Acoustics (1922), for the reverberation formula",
+    "Vincent Scully, The Shingle Style and the Stick Style (1955), on the living hall as the type's ancestor",
+    "W. G. Hoskins, 'The Rebuilding of Rural England, 1570-1640', for the subdivision this room reverses",
+    "International Residential Code M1503.6 (make-up air); IECC R402",
+    "faults/open-plan-in-a-room-based-style.json"
+  ],
+  "confidence": "high"
+}

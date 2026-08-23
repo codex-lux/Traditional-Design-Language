@@ -1,0 +1,238 @@
+{
+  "id": "breezeway",
+  "name": "Breezeway",
+  "aka": [
+    "dogtrot",
+    "possum trot",
+    "open passage",
+    "hyphen",
+    "link",
+    "connector"
+  ],
+  "function_class": "circulation",
+  "description": "A roofed but unenclosed passage between two parts of a building. It is the only room in the catalogue whose walls are the two things it separates, and it does three jobs at once: it moves air, it keeps fire and smell and heat on one side of a gap, and it gives the house an outdoor room that is shaded, dry and in the middle of everything. In the Upland South it is a dogtrot and it is the house's living room. In a 1955 ranch it is the link between the house and the garage. In a Palladian villa it is a hyphen and has a marble floor. They are the same idea at three social altitudes.",
+  "history": {
+    "appears": 1780,
+    "declines": 1960,
+    "replaced_by": "the attached garage and the conditioned corridor - the breezeway's ventilation job was taken by mechanical cooling and its separation job by a fire-rated wall",
+    "note": "The dogtrot is documented in the Upland South from the late eighteenth century and is best understood as an ADDITIVE type rather than a designed one: a single log pen gets a second pen built a passage-width away under a continuous roof, because building a second pen against the first would mean cutting into a finished wall, and because two pens with a gap can each be lit and vented on three sides. The passage is a by-product of log construction that turned out to be the best room in the house. The venturi argument that is often made for it - that narrowing the flow speeds it up - is real but secondary; the primary effect is simply that the passage is shaded all day and open at both ends, and shaded moving air at 90 degrees F feels like still air at 80. THE MID-CENTURY BREEZEWAY is a separate invention with the same shape: it connects house to garage, and its purpose is to keep car fumes, oil and fire out of the house while giving a covered route from the car. Almost all of them have since been enclosed, which is why so many ranches read as one long lump - the three-part composition of house, link and garage was the type's only compositional idea and enclosing the link erases it."
+  },
+  "dimensions": {
+    "area_sf": [
+      80,
+      300
+    ],
+    "width_ft": [
+      8,
+      16
+    ],
+    "length_ft": [
+      10,
+      24
+    ],
+    "proportion": [
+      1.0,
+      2.0
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "WIDTH ACROSS THE OPENING, AND THE BAND IS 8 TO 12 FT FOR A REASON AT EACH END. Below 8 ft the passage is a corridor and cannot be furnished - a bench at 18 in and a table at 30 in leave nothing. Above about 14 ft the roof over it becomes a structural problem in the log or light-frame construction the type belongs to, and the passage stops reading as a gap between two masses and starts reading as a missing room. Measured dogtrots cluster at 8 to 12 ft, which is also the width of the pens' doors plus a passing route. THE OTHER NUMBER IS THAT BOTH ENDS MUST BE OPEN. A breezeway closed at one end is a covered porch with a roof over it and none of the airflow, and it is exactly the fault centre-passage-blocked-at-one-end in an open type - where the style node makes it fatal rather than serious, because the passage IS the building."
+  },
+  "furniture": [
+    {
+      "item": "bench or settle against a pen wall",
+      "footprint_in": [
+        60,
+        20
+      ],
+      "clearance_in": 36,
+      "note": "the dogtrot was sat in, worked in and slept in during summer; furnishing it is not a modern conceit"
+    },
+    {
+      "item": "work table",
+      "footprint_in": [
+        30,
+        60
+      ],
+      "clearance_in": 30,
+      "essential": false,
+      "note": "shelling, churning, sewing - the passage was the shaded workroom"
+    },
+    {
+      "item": "two chairs",
+      "footprint_in": [
+        22,
+        24
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "clear route end to end",
+      "footprint_in": [
+        42,
+        144
+      ],
+      "clearance_in": null,
+      "note": "and it must stay clear, because the route is also the airflow"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "The passage runs ACROSS the prevailing summer breeze - in the Upland South that means the open ends face roughly south-west and north-east. Get this wrong and the building is two cabins with a gap.",
+    "glazing_fraction": [
+      0.0,
+      0.05
+    ],
+    "note": "Unglazed by definition. The daylight interest is what the passage does for the ROOMS: two pens with a gap between them each get windows and doors on three sides instead of two, which is the whole daylight advantage of the type and the reason it beats a double-pen of the same area. The shading is the trade - the passage's roof and the pen walls each side keep direct sun off the doors, which is what makes the passage cool, and it costs the flanking rooms a little of their east and west light. That is a good trade in a hot climate and a bad one in a cold, which is why the type is where it is."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "hall",
+        "why": "the dogtrot passage exists between two rooms and is meaningless without them; in the historic type the two pens are the hall (working, cooking, eating) and the chamber",
+        "relation": "shared-wall",
+        "strength": "hard",
+        "exceptions": [
+          "the mid-century breezeway, whose two sides are the house and the garage, and the Palladian hyphen, whose two sides are the main block and a dependency"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "the breezeway's separation job is most valuable against the hottest and most dangerous room; the detached or semi-detached kitchen linked by a covered way is the standard Southern arrangement and it is a fire strategy first",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "garage",
+        "why": "the mid-century case, and the argument is identical - fumes and fire on the far side of a gap",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "mudroom",
+        "why": "a breezeway is where the boots come off before the house in the modern version",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "bedchamber",
+        "why": "not a spatial prohibition but a privacy one: the passage is a public outdoor room open at both ends, and a chamber door onto it is a bedroom door onto a semi-public space. The historic type accepts this because the chamber pen's door is the only door it has - which is a limit of the type and not a licence for new work.",
+        "relation": "not-visible-from",
+        "strength": "preferred",
+        "exceptions": [
+          "dogtrot-vernacular itself, where the chamber pen opens onto the trot by necessity and privacy is managed by the pen's own door and by the fact that the household is one family"
+        ]
+      }
+    ],
+    "entered_from": [
+      "exterior",
+      "yard",
+      "garden",
+      "entry-porch"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 1,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The whole point. Two opposed openings on the short axis of the building with a shaded floor between them. Enclosing either end destroys it and converts the building type; enclosing both ends converts a dogtrot into a centre-passage house, which is a legitimate historic alteration and must be recorded as one rather than presented as a restoration.",
+    "heat": "None. The passage is unheated and that is what keeps the two pens' heating independent - each pen has its own gable-end hearth and neither loses heat to the other.",
+    "electrical": "A ceiling fixture and a fan; wet-rated throughout, because a breezeway takes driven rain on both faces.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "dogtrot-vernacular",
+      "name_in_style": "dogtrot, possum trot, breezeway",
+      "trim_grade": "none",
+      "note": "The canonical type. Two log pens under one roof with an 8 to 12 ft open passage, gable-end chimneys, a full-width front porch. The passage must be open at both ends by hard constraint. This is the only style in the catalogue where an unenclosed space is the building's principal room."
+    },
+    {
+      "style": "appalachian-log-house",
+      "trim_grade": "none",
+      "note": "The same arrangement in the uplands, often with the second pen added years after the first and the roof reframed over both - which is why so many surviving examples have two different corner-notching systems in one building."
+    },
+    {
+      "style": "english-palladian",
+      "name_in_style": "hyphen",
+      "trim_grade": "highest",
+      "note": "The five-part scheme's link between the main block and its dependencies. Sometimes an open arcade, more often a glazed passage, and always subordinate in height and in bay rhythm - the fault dependency-that-is-not-subordinate is what happens when it is not."
+    },
+    {
+      "style": "tidewater-georgian",
+      "name_in_style": "hyphen or colonnade",
+      "trim_grade": "high",
+      "note": "Frequently an open colonnaded walk to a detached kitchen, which is the same fire-and-heat argument as the Southern kitchen breezeway wearing classical clothes."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "breezeway",
+      "trim_grade": "plain",
+      "note": "House, link, garage - the type's only three-part composition, and the link is usually 8 to 10 ft and open on both long sides. Almost every one has been glazed in. Restoring the opening is the single most effective thing that can be done to a mid-century ranch elevation."
+    },
+    {
+      "style": "mid-century-traditional",
+      "trim_grade": "plain",
+      "note": "As ranch-style, and the same fate."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "present": false,
+      "note": "Absent, and its absence is instructive: the Creole plan solves the same ventilation problem room by room with paired French doors and a rear loggia rather than with a single passage, and it works better in still air because it does not depend on a pressure difference across the building."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "present": false,
+      "note": "Absent and climatically wrong. New England's equivalent is the connected farmstead - big house, little house, back house, barn - where the links are ENCLOSED, because the thing being managed is snow rather than heat. Same diagram, opposite reason, and it is the best available demonstration that plan form does not carry its own meaning."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Where a breezeway connects a garage to a dwelling, the garage separation requirements apply at the dwelling wall, not at the garage wall.",
+      "ref": "IRC R302.5.1, R302.6",
+      "conflict": "An open breezeway is the cheapest possible compliance with the garage separation rules - there is nothing to rate. Enclose it and the separation, the fire-rated door and the self-closer all arrive at once, along with the conditioned floor area."
+    },
+    {
+      "requirement": "Roofed exterior circulation is not required to be lit, guarded or heated, but where it is the only route to a required exit it must be at least 36 in wide and provide a landing at each door.",
+      "ref": "IRC R311.3, R311.6"
+    }
+  ],
+  "massing_fit": [
+    "dogtrot",
+    "double-pen",
+    "ranch-linear",
+    "ranch-l",
+    "five-part-palladian",
+    "linear-ell-farmhouse",
+    "telescope-house",
+    "gallery-house",
+    "raised-cottage"
+  ],
+  "slots": [
+    "circulation_parti",
+    "wing_strategy",
+    "entry_sequence",
+    "porch_ceiling",
+    "orientation_rule",
+    "service_zone_strategy",
+    "hearth_position"
+  ],
+  "faults": [
+    "centre-passage-blocked-at-one-end",
+    "dependency-that-is-not-subordinate",
+    "co-equal-mass",
+    "porch-too-shallow-to-inhabit",
+    "plan-flipped-without-the-sun"
+  ],
+  "sources": [
+    "styles/dogtrot-vernacular.json, climatic constraint that the passage be open at both ends",
+    "massings/catalog.json: dogtrot, double-pen, five-part-palladian",
+    "Thomas Hubka, Big House, Little House, Back House, Barn (1984), for the enclosed New England counterpart",
+    "faults/centre-passage-blocked-at-one-end.json, severity_by_style entry for dogtrot-vernacular"
+  ],
+  "confidence": "high"
+}

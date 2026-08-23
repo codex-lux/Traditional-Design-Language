@@ -1,0 +1,369 @@
+{
+  "id": "log-module",
+  "name": "The Log Module",
+  "aka": [
+    "the pen",
+    "log length",
+    "the crib",
+    "one-man-and-a-boy span"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Reconstructed by measurement from surviving log pens across the Upland South, the Ozarks, Appalachia, Texas and the Scandinavian and Alpine traditions; principally Jordan's fieldwork and the state folk-architecture surveys",
+    "author": "after Terry G. Jordan-Bychkov and Henry Glassie",
+    "year": 1978,
+    "strength": "reconstructed",
+    "note": "There is no builder's guide for log construction and there never was one, because the craft was transmitted entirely by hand and by watching. Everything here is recovered from the buildings and from the small number of ethnographic surveys that measured them systematically. The central constraint is unusually well attested for a vernacular system, because it is a fact about human beings rather than about a trade: a pen is as big as the log two men can lift and notch, which the Ozark survey puts at twelve to eighteen feet."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One wall log: the length of a hewn or round log that two men can carry, roll up skids and hold while the corner is notched",
+    "parts": 16,
+    "default_size_in": 192.0,
+    "note": "The part is the foot, because logs were cut, reckoned and traded in whole feet and because every derived dimension in a log building — the notch overhang, the door width, the joist bearing, the chimney offset — is a whole or half foot. Sixteen parts because the default log is sixteen feet, which is the middle of the documented band and the commonest single-pen dimension in the Upland South. THE BAND IS TWELVE TO EIGHTEEN FEET and it is a fact about muscle, not about carpentry: below about twelve feet the pen is too small to live in, and above about eighteen a green oak or poplar log of adequate diameter cannot be handled by two men without tackle, which most settlers did not have. Everything else in this pack is downstream of that one number. Note that the module is the LOG, not the room: the room is the log less two corners and two wall thicknesses, and that deduction is large."
+  },
+  "assemblies": {
+    "corner_stack": {
+      "height_modules": 0.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "corner_pier",
+          "name": "Corner pier — dry-laid stone or a squared block",
+          "height_parts": 1.5,
+          "projection_parts": 0.15,
+          "profile": "plinth",
+          "note": "18 in. A log building sits on piers at the four corners and at any intermediate point the sill needs, not on a continuous foundation. The pier does two things: it keeps the sill log out of the ground damp, which is the difference between a building that lasts eighty years and one that lasts eight, and it lets air under the floor. The crawl space is not a defect, it is the reason the sill survives. Where the pier has been replaced by a continuous modern foundation with the sill log at grade, expect the sill to be gone.",
+          "confidence": "high"
+        },
+        {
+          "id": "sill_log",
+          "name": "Sill log — the largest and most rot-resistant log in the building",
+          "height_parts": 1.0,
+          "projection_parts": 0.5,
+          "profile": "flat",
+          "note": "12 in. The sill is oversized and is chosen for species as well as size: black locust, cedar, heart chestnut or heart oak where available, because it is the log that will be attacked first. It carries the floor joists, which are let into its top face with shallow notches, and it takes the full weight of the wall above. Replacing a sill log is the hardest repair in the craft — the whole pen must be jacked — which is why the choice of species here is a hundred-year decision.",
+          "confidence": "high"
+        },
+        {
+          "id": "wall_logs_lower",
+          "name": "Wall logs below the openings — three courses",
+          "height_parts": 2.25,
+          "projection_parts": 0.5,
+          "profile": "flat",
+          "enrichment": "chinked between courses with split wood or stone spalls and daubed with clay, lime and hair",
+          "note": "27 in, three logs at about 9 in of face each. Logs are laid butt-to-tip alternating course by course so that the natural taper cancels and the wall stays level — a wall laid all butts one way will climb an inch a course and be four inches out at the plate. That alternation is visible in the chinking, which varies in width course by course, and it is the fastest way to tell a hand-built pen from a milled kit.",
+          "confidence": "high"
+        },
+        {
+          "id": "wall_logs_at_opening",
+          "name": "Wall logs through the door and window zone — four courses",
+          "height_parts": 2.75,
+          "projection_parts": 0.5,
+          "profile": "flat",
+          "note": "33 in. These logs are cut through after the pen is raised, not built around the opening, and the cut ends are held by a nailed or pegged jamb board that ties the severed courses together. Every opening therefore weakens the wall, which is the governing fact about openings in log construction — see the derived rules.",
+          "confidence": "high"
+        },
+        {
+          "id": "plate_log",
+          "name": "Plate log",
+          "height_parts": 0.5,
+          "projection_parts": 0.5,
+          "profile": "flat",
+          "note": "6 in, often a half log or a hewn timber rather than a round one. The plate carries the rafters or, in the older joist-and-plank roofs, the roof purlins. On the gable walls the wall continues upward in shortening logs to form a log gable, which is the older and better method, or stops at the plate and is framed above, which is the later one — a framed gable on a log pen is a date marker for after about 1840 in most regions.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The default log sits inside the documented 12-18 ft two-man handling band.",
+      "expression": "module.default_size_in >= 144.0 and module.default_size_in <= 216.0",
+      "tolerance": 0.0
+    },
+    {
+      "statement": "The corner stack assembly is a half module — eight feet from pier to plate.",
+      "expression": "assemblies.corner_stack.height_modules * module.parts == 8.0",
+      "tolerance": 0.001
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "width",
+      "expression": "module - part * 2.5",
+      "units": "in",
+      "range": [
+        120.0,
+        192.0
+      ],
+      "authority_note": "Shiloh Museum of Ozark History, from the Arkansas survey: 'the size of the pen depended upon the size of log two men could comfortably handle, usually between 12 and 18 feet in length.' Jordan records the Texas single pen as 'usually about sixteen feet square.'",
+      "note": "THE INTERIOR OF THE PEN. A sixteen-foot log gives a room of about thirteen and a half feet clear: subtract twelve to eighteen inches at each end for the notch overhang and five to seven inches at each side for the wall itself. This is the number that matters and it is the number people forget — 'a sixteen-foot cabin' is a thirteen-foot room, and a thirteen-foot room is why the pen holds one bed, one hearth and a table and nothing else. Cross-reference massing:hall-single-cell and massing:double-pen."
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "projection",
+      "expression": "part * 0.75",
+      "units": "in",
+      "range": [
+        3.0,
+        18.0
+      ],
+      "authority_note": "Notch overhang past the corner varies systematically by notch type: half-dovetail and full dovetail run 2-6 in (the joint locks, so little overhang is needed); V-notch 4-8 in; square notch 6-12 in; saddle notch 8-18 in (the joint relies on the projecting end for its bearing).",
+      "note": "THE CORNER OVERHANG, and it is the diagnostic detail of the whole craft. Nine inches on the default. The notch type is regional and ethnic — half-dovetail through the Upland South and the mid-Atlantic German areas, V-notch in the Cross Timbers and Hill Country, square notch in East Texas, saddle notch on round-log work in pine and cedar — and it is visible from a hundred yards. Dovetailed corners shed water and were the mark of a finished house; saddle-notched round-log corners with long overhangs were the mark of a barn, a slave dwelling, or a first-season shelter. Getting the notch wrong for the region is the log equivalent of getting the bond wrong on brickwork. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "reveal_masonry",
+      "dimension": "width",
+      "expression": "part * 0.55",
+      "units": "in",
+      "range": [
+        5.0,
+        14.0
+      ],
+      "authority_note": "Hewn logs are dressed to a face of 5-8 in through the wall; round logs run 8-14 in at the butt, tapering.",
+      "note": "About 6 1/2 in on the default — a hewn wall. The hewing is not decoration and it is not laziness avoided: a hewn face gives a flat interior wall to plaster or whitewash, a flat exterior to shed water, a consistent thickness that lets the chinking be even, and it removes the sapwood, which is the part that rots. A round-log wall is a faster and cruder building and it says so. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "height",
+      "expression": "part * 0.55 * 0.4",
+      "units": "in",
+      "range": [
+        1.5,
+        5.0
+      ],
+      "note": "Notch depth: about 40 percent of the log thickness, cut from the underside of each log so that water runs out rather than in. Cut deeper than about half and the log is fatally weakened at the point of maximum stress; cut shallower than about a third and the wall racks. This ratio is nearly constant across notch types and across traditions, which is a good sign that it is a real structural rule and not a habit. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "count",
+      "expression": "ceil((part * 7.5) / (part * 0.7))",
+      "units": "count",
+      "range": [
+        7.0,
+        14.0
+      ],
+      "note": "NUMBER OF WALL LOGS from sill to plate: about eleven on the default, at roughly 8 1/2 in of face each. This is the number a builder actually thinks in, because the wall is built by counting logs, not by measuring height — and it is why log buildings come in discrete heights. You cannot have a 7 ft 4 in wall; you can have ten logs or eleven."
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "part * 7.5",
+      "units": "in",
+      "range": [
+        78.0,
+        102.0
+      ],
+      "authority_note": "Ground-floor clear heights in surviving pens run 6 ft 6 in to 8 ft 6 in; the loft runs 5 ft 6 in to 6 ft 6 in at the ridge and is often not full standing height anywhere.",
+      "note": "Seven and a half feet clear on the ground floor. The loft above it is not a storey and should not be drawn as one: it is a half-storey reached by a boxed corner stair or a ladder, lit by a gable window, and used for sleeping and storage. A log building with two full storeys of log is a rare and expensive thing — the second course of pens has to be lifted, which is the hardest part of the work."
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        144.0,
+        216.0
+      ],
+      "authority_note": "The Ozark survey again: the pen was 'an indivisible unit, both in the way it was constructed and in the mind-set of the builder.' Expansion is by adding a pen, never by lengthening one.",
+      "note": "THE CENTRAL CONSEQUENCE OF THE WHOLE SYSTEM. You cannot make a pen bigger. There is no splice in a log wall that will carry load and stay weathertight, so a household that needs more room builds another pen, and the entire folk taxonomy of the Upland South — double pen, saddlebag, dogtrot, four-pen — is a record of that single impossibility. Cross-reference massing:double-pen and massing:dogtrot. This is a much stronger constraint than the timber bay's, because a frame CAN be lengthened by adding a bay to the same roof and a log pen cannot."
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "width",
+      "expression": "module * 2 + part * 0.55",
+      "units": "in",
+      "range": [
+        294.0,
+        438.0
+      ],
+      "note": "DOUBLE PEN AND SADDLEBAG overall width: two pens sharing a wall or a chimney, about 33 ft on the default. In the saddlebag the two pens share a central chimney built between them, which is why the saddlebag exists — it is the cheapest way to heat two rooms — and in the plain double pen they share a wall and have gable-end chimneys. Both are built as two separate pens and then joined; you can usually see the seam. Cross-reference massing:double-pen."
+    },
+    {
+      "target_slot": "circulation_parti",
+      "dimension": "width",
+      "expression": "part * 10",
+      "units": "in",
+      "range": [
+        72.0,
+        168.0
+      ],
+      "authority_note": "Dogtrot passages measure roughly 6-14 ft in surviving examples, most commonly 8-12; the constraint is that the plate and the ridge must span the gap in single sticks, so the passage can never exceed the log module and in practice runs about half to three-quarters of it.",
+      "note": "THE DOGTROT PASSAGE. Ten feet on the default. The dogtrot is not a stylistic invention and not, primarily, a cooling device — it is what you get when you must build two pens, you cannot make one big room, and you would rather roof the gap than roof two separate buildings. The cooling is a discovered benefit that the hot South then leaned into hard, opening both ends and living in the passage in summer. The width is bounded above by the plate log: a passage wider than the module cannot be roofed continuously without a splice, so it does not happen. Cross-reference massing:dogtrot, which records exactly this logic.",
+      "judgment": true
+    },
+    {
+      "target_slot": "hearth_position",
+      "dimension": "width",
+      "expression": "part * 6",
+      "units": "in",
+      "range": [
+        48.0,
+        96.0
+      ],
+      "note": "The chimney is at the gable end, outside the pen, and it is a separate structure of stone or of stick-and-clay leaning against the log wall. Six feet wide at the base. Putting it outside is not decorative: a log building with an interior stack would have to interrupt the wall logs, and interrupting a wall log is the one thing the system cannot afford. This is the structural reason the log tradition has gable-end chimneys and the timber-frame tradition of New England has central ones."
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "width",
+      "expression": "module / 4.5",
+      "units": "in",
+      "range": [
+        24.0,
+        48.0
+      ],
+      "authority_note": "Openings in surviving pens are small — 2 ft to 3 ft 6 in wide — and are almost always confined to one or two per wall.",
+      "note": "MAXIMUM OPENING WIDTH: about 42 in on the default, and less is better. Every opening cuts the wall logs, and a cut log carries nothing across the gap — the load has to arch over through the chinking and the courses above, which they will do over three feet and will not do over eight. This is the hard limit that makes the log house what it is: dark, small-windowed, and unable to have a picture window, a slider or a wide opening between rooms without ceasing to be a log building."
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "ratio",
+      "expression": "1.55",
+      "units": "ratio",
+      "range": [
+        1.3,
+        1.9
+      ],
+      "note": "Squarer than the Anglo-American norm, because the height of the opening is limited by the number of log courses you dare cut and the width is limited by bearing. A 30 x 46 in opening taking a 6/6 sash of small lights is typical of a finished pen after about 1820; before that, and on rough work throughout, the opening is a shuttered hole with no glass in it at all — glass in a log house is a mark of status and of a road to a store."
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "width",
+      "expression": "part * 0.15",
+      "units": "in",
+      "range": [
+        1.0,
+        3.0
+      ],
+      "note": "A nailed or pegged jamb board about 1 3/4 in thick, tying the cut ends of the wall logs together and giving the sash something to hang on. This board is STRUCTURAL and it is the reason the opening does not unzip. There is no architrave, no backband and no casing on the outside of a log wall — the log ends are the casing — and applying a moulded surround to a log building is the commonest single error in log revival work. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "ratio",
+      "expression": "0.83",
+      "units": "ratio",
+      "range": [
+        0.5,
+        1.1
+      ],
+      "note": "10:12 where the loft is used, dropping to 6:12 or 7:12 where it is not and where the roof covering is riven boards or shakes laid on purlins. The rafter length follows the pen depth, so it is the same constrained stick as everything else, and a pen deeper than the module cannot be roofed in single rafters either — a second constraint arriving at the same number from a different direction, which is usually a sign the number is real."
+    },
+    {
+      "target_slot": "porch_depth",
+      "dimension": "width",
+      "expression": "part * 7",
+      "units": "in",
+      "range": [
+        60.0,
+        120.0
+      ],
+      "authority_note": "Shed porches on log houses run 5-10 ft deep, most often 6-8.",
+      "note": "The porch is a light frame structure leaned on the pen, not part of it, and it can therefore be any size the framer likes — it is the first place in a log building where the module stops governing. Seven feet is a usable outdoor room and it is what the surviving examples mostly are. Note that the porch is often the FIRST evidence of sawn framing on an otherwise all-log building, and dating it separately from the pen is standard practice."
+    },
+    {
+      "target_slot": "foundation_expression",
+      "dimension": "height",
+      "expression": "part * 1.5",
+      "units": "in",
+      "range": [
+        8.0,
+        48.0
+      ],
+      "note": "Pier height, 18 in typical. Anything that puts the sill log within about a foot of grade is a mistake that will be paid for in thirty years. In flood-prone and hot-humid regions the piers go to three or four feet and the type shades into the raised cottage."
+    },
+    {
+      "target_slot": "material_change_rule",
+      "dimension": "height",
+      "expression": "part * 8.0",
+      "units": "in",
+      "range": [
+        78.0,
+        120.0
+      ],
+      "note": "THE TRANSITION TO SAWN FRAMING happens at the plate, and then it happens to the whole building. The sequence in the record is consistent: first the roof and gable go to sawn framing (after about 1830-1850 wherever a water-powered sawmill was in reach); then the porch and the rear ell; then the pen itself is weatherboarded over, which hides the log entirely and is why so many apparently frame farmhouses in the Upland South turn out to have a log pen inside; and finally new construction is balloon or braced frame outright, generally by 1880-1900. A log building with weatherboards over it is not a corrupted log building, it is a completed one — the owners were covering the log as soon as they could afford to, because exposed log meant poverty. Modern taste has this exactly backwards and strips the boards off.",
+      "judgment": true
+    },
+    {
+      "target_slot": "stair_position",
+      "dimension": "width",
+      "expression": "part * 2.5",
+      "units": "in",
+      "range": [
+        24.0,
+        40.0
+      ],
+      "note": "A boxed corner stair or an enclosed winder, 30 in wide, in the corner of the pen beside the chimney. It is steep — risers of 9-10 in and treads of 8 — because the pen has thirteen feet of floor and cannot spare eleven of them for a stair run. This is a real conflict with modern code and it is one that a habitable loft cannot avoid; see the conflicts."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "material-availability",
+      "statement": "The system assumes free logs of one species, straight, sound, of similar taper, cut within a few hundred yards of the site. That has not been the case anywhere in North America for a century. What the market offers instead is the milled log-home kit: uniform-profile logs of constant diameter, kiln-dried, machine-cut, often with a tongue-and-groove joint and a routed 'chink line' in place of chinking. Every one of those improvements deletes a diagnostic: constant diameter removes the butt-and-tip alternation and the varying chink width, the machined corner removes the notch, and the routed chink groove removes the daub. The result reads as a log building from a distance and as a product up close, and it reads as a product precisely because it is dimensionally perfect.",
+      "resolution": "Two honest paths and no third. Either build in real hewn or hand-scribed log — reclaimed pens are widely available and being dismantled faster than they are being re-erected, and re-erecting one is both cheaper and far better than milling new — or do not build in log at all and instead build the PLAN in frame, which is exactly the transition the region itself made after 1850. A weatherboarded frame house with a 16 ft pen module, a dogtrot or saddlebag plan, gable-end chimneys and small square windows is a completely authentic Upland South building and it is honest. A milled kit with a fake dogtrot is neither.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "A 6 in hewn log wall is about R-8 as an assembly, against prescriptive requirements of R-20 or R-13-plus-5 in most of the log-building regions. Codes do allow a thermal mass credit for solid log walls and several jurisdictions have log-specific provisions, but the credit does not close a twelve-point gap, and the real problem is not conduction at all — it is air leakage at the chinking, which moves seasonally with the log, and at the notches, which are end grain and open with every wet-dry cycle.",
+      "resolution": "Decide which walls are museum and which are envelope, and be explicit about it in the drawings. The display walls of the display pen stay solid log inside and out and are accepted as an energy penalty on a small fraction of the envelope. Every other wall gets a furred and insulated interior plane, or is a frame wall from the start, and the roof and floor are insulated hard to buy back the wall. This is a performance-path argument and it usually works, because the buildings are small and compact. On chinking specifically: use a modern elastomeric chinking with a backer rod so it moves with the log, not mortar, which will crack in one season and leak for fifty years, and detail the notch ends so water leaves them.",
+      "severity": "blocking"
+    },
+    {
+      "with": "structural",
+      "statement": "A green log wall settles. Radial shrinkage plus joint closure takes three to six inches out of an eight-foot wall over the first two to five years, and it is not uniform — it follows moisture content and load. Anything that spans between the log wall and something that does not settle will fail: window and door frames will be crushed, stair stringers will pull off, plumbing risers will bind, tile will crack, and a kitchen fitted tight to the ceiling will jam.",
+      "resolution": "This is a solved problem in the trade and the solutions are non-negotiable. Every opening gets a slip-jamb buck with two to three inches of compressible space above it, concealed by trim that is fixed to the buck and free of the log. Every post supporting a loft or porch beam gets a screw jack at its foot, adjusted annually for the first five years. Interior partitions get slip tracks at the top. Nothing rigid — no tile, no stone, no full-height cabinet — is fixed to a log wall and a non-settling element at the same time. And on a restoration, expect that all of this settling has already happened and that the building's real dimensions are three inches shorter than its logs are; measure, do not calculate.",
+      "severity": "blocking"
+    },
+    {
+      "with": "egress-code",
+      "statement": "IRC R310's 5.7 sq ft net clear at a 20 in minimum width is a hole roughly 24 by 36 inches, which means cutting through four to five wall logs over a three-foot run. In a pen whose maximum viable opening is about 42 in and whose wall is thirteen and a half feet long, that is a serious structural intervention, and putting two of them in one wall is not viable at all. The stair to the loft compounds it: the boxed corner stair of a real pen has 9-10 in risers and 8 in treads against a code maximum riser of 7 3/4 and a minimum tread of 10, so a code-compliant stair needs about eleven feet of run in a thirteen-foot room.",
+      "resolution": "Put the sleeping rooms where the log is not doing the work. In a loft, that means gable-end walls — which are often framed rather than log after about 1840 anyway — and dormers, which are framed by definition and take an egress window without touching the pen. In a ground-floor pen, put the egress opening at a gable end near the corner where the notch stiffens the wall, and header it properly with a real lintel rather than relying on the courses to arch. For the stair: if the loft is to be habitable, accept that the stair must be a modern one and give it a framed ell or a stair tower rather than trying to fit it in the pen, which is what the historic buildings did as soon as they could afford to. If the loft is storage, a ladder is legal and correct and everyone is happier.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Hewing is roughly a day per log for a skilled broadaxe man and there are about forty-five logs in a single pen. Hand-notched dovetail corners are another half day each at eighty-eight corners for a dogtrot. At any real labour rate a hand-built pen costs several times a frame building of the same footprint, and the crews who can do it are a few dozen nationally.",
+      "resolution": "Buy an existing pen. There are more standing derelict pens in the Upland South and the Ozarks than there are people who want them, they can be numbered, dismantled and re-erected for a fraction of new hand-hewn work, and the result is a real building with real notches and two hundred years of patina that cannot be bought any other way. Where new work is unavoidable, spend the log budget on ONE pen — the one you see and sit in — and frame the rest, which is precisely the historic pattern of a log core with frame additions and is legible as such.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "Chinking and daubing is maintenance, not construction: clay-and-lime daub in a wet climate wants repair every few years, and the notches, being exposed end grain, wick water and are the first thing to rot. The historic answer to this was the porch and the deep eave on the weather side, and eventually the weatherboards — the tradition itself concluded that exposed log was not a durable exterior.",
+      "resolution": "Take the tradition's own answer seriously. Deep eaves — 18 to 30 in, more than a log building's proportions naturally suggest — and a full-width porch on the prevailing weather side. Where the client insists on exposed log in a wet climate, use modern elastomeric chinking, treat the log ends, keep the sill a foot and a half off grade on real piers, and put the maintenance schedule in the closeout documents. And raise, at least once, the option the historic owners took: weatherboard it, and let the log be the thing you know about the house rather than the thing you show.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "appalachian-log-house",
+    "log-vernacular-american",
+    "dogtrot-vernacular",
+    "american-folk-vernacular",
+    "german-pennsylvania-colonial",
+    "greek-revival-upland-vernacular",
+    "scandinavian-log-vernacular",
+    "nordic-alpine-vernacular",
+    "swiss-chalet",
+    "american-farmhouse-vernacular"
+  ],
+  "sources": [
+    "Terry G. Jordan-Bychkov, Texas Log Buildings: A Folk Architecture (1978)",
+    "Terry G. Jordan-Bychkov, American Log Buildings: An Old World Heritage (1985)",
+    "Henry Glassie, Pattern in the Material Folk Culture of the Eastern United States (1968)",
+    "Shiloh Museum of Ozark History, 'Single Pens, Saddlebags, and Dog Trots' — the 12-18 ft two-man log length and the pen as an indivisible unit",
+    "Texas State Historical Association, Handbook of Texas, 'Log Architecture' — the 16 ft square single pen and the regional distribution of half-dovetail, V, square and saddle notching",
+    "Tennessee Encyclopedia, 'Log Construction' and 'Vernacular Log Type Houses'",
+    "HABS documentation of Upland South and Appalachian log dwellings",
+    "tdl massings/catalog.json, entries hall-single-cell, double-pen, dogtrot"
+  ],
+  "confidence": "medium",
+  "notes": "This is the purest of the five packs, in the sense that the whole system descends from a single physical fact with no aesthetic content whatever: two men can carry a log of twelve to eighteen feet, and they cannot carry one of twenty-five. Everything else follows. The room is that length minus its corners. The pen cannot grow, so the household adds pens. Two pens want one chimney, which gives the saddlebag; two pens want separate chimneys and a covered gap, which gives the dogtrot; the gap cannot exceed the plate log, which sets the dogtrot's width. Openings cut the wall logs, so windows are small and few and the interior is dark. The chimney cannot interrupt the wall, so it goes outside at the gable. None of this was designed and all of it is systematic.\n\nThe honest thing to say about the transition to sawn framing is that the tradition did not survive it and did not want to. Every log-building region abandoned log as soon as a sawmill and a road made frame construction possible, and covered the log they already had. The plan types outlasted the material by two or three generations — dogtrot and saddlebag frame houses are common where dogtrot and saddlebag log houses are the ancestors — which means the module survives even where the log does not, and that is the most useful thing in this pack for anyone designing new work."
+}

@@ -1,0 +1,172 @@
+{
+  "id": "door-reached-only-from-the-driveway",
+  "name": "The Front Door You Can Only Reach By Car",
+  "aka": [
+    "no front walk",
+    "the driveway apron entry",
+    "the pedestrian orphan"
+  ],
+  "slots": [
+    "entry_sequence",
+    "street_relationship",
+    "steps_and_stoop",
+    "garage_strategy"
+  ],
+  "severity": "fatal",
+  "frequency": "endemic",
+  "category": "sequence",
+  "symptom": "There is no walk from the public pavement to the front door. The only paved route runs from the driveway apron across to the stoop, so a person arriving on foot must walk up the driveway, cross in front of the garage doors, and turn back toward the house. On many houses there is not even that: the stoop connects to the driveway by a short spur, and the front lawn between the door and the street is unbroken grass. Where a walk to the street does exist it is often 3 ft wide against a 12 ft driveway, so the car's route is four times the width of the person's.",
+  "cause": {
+    "driver": "cost",
+    "explanation": "A front walk is 60 to 120 sq ft of concrete or paving, a separate pour, a separate form, and it is scoped with the landscaping rather than with the house. It also cuts the front lawn in two, which some plan books and some HOA guidelines actively discourage. Meanwhile the driveway is required, is priced into the house, and reaches within 20 ft of the door anyway, so a 15 ft spur from the driveway to the stoop achieves legal and physical access for a quarter of the cost. On a house whose garage faces the street, the drive is also directly in front of the entrance, so the spur is the shortest route by geometry.",
+    "cost_saved": "800-2,500 USD for a proper front walk in concrete, 2,500-7,000 USD in brick or stone, against 300-700 USD for a driveway spur."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entry_sequence / approach_geometry",
+      "statement": "Frontal and axial; the house is met square-on, never obliquely. An approach up a driveway and across the front of a garage is oblique by construction."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / entry_sequence / thresholds",
+      "statement": "The first threshold is the gate or the break in the fence line, ON THE ENTRANCE AXIS. Where no route reaches the street on the axis, the first threshold cannot exist at all."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the entrance's axis is the building's argument, and a route that does not use it denies the argument",
+      "statement": "A symmetrical front with a centred, elaborated door asserts that there is one way in and it is on the centreline. Reaching that door from the side, past the garage, contradicts the assertion the elevation is making — which is why the fault feels wrong even to people who cannot say what is wrong."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a house with no pedestrian route to the street has withdrawn from the street",
+      "statement": "The threshold group is where the social contract of the street is written. A house that can only be approached by car has declined to participate, and it does so regardless of what the elevation says."
+    }
+  ],
+  "correct_practice": "A walk runs from the public pavement to the front door, on the entrance axis where the composition is symmetrical, and it is a real walk: 4 ft wide minimum and 4 ft 6 in to 5 ft where two people should be able to pass, which is the same order of width as the door surround it serves. It meets the pavement at a defined point — a gate, a break in a low wall or hedge, a change of paving, or at minimum a pair of plantings — which is the first of the three thresholds. It may connect to the driveway as well, and should, but the driveway spur is the secondary route and reads as one: narrower, or in a different material, or joining the main walk rather than replacing it. Where the site genuinely has no public pavement, the walk still runs to the point where a visitor would leave the road or a car would stop, and the arrival is still frontal. And the walk is not straight from kerb to door on a large lot: one change of direction converts a single movement into an arrival.",
+  "fixes": {
+    "right": "A 4 ft 6 in walk from the pavement to the stoop on the entrance axis, in a material distinct from the driveway, meeting the street at a defined boundary event.",
+    "cheap": "Build the walk in the cheapest material available and make the boundary event out of planting. A 4 ft concrete walk with a soldier course of brick on each edge costs 900-1,400 USD; two shrubs or a pair of small trees at the street end costs 200 USD and supplies the first threshold. The narrowing trick is free: run the walk at 5 ft near the house and 3 ft 6 in at the street, so the approach widens as it arrives, which is a documented device and makes a short walk feel longer. Where even this is impossible, the free move is to make the DRIVEWAY SPUR frontal: bring it to the stoop straight on, in a different paving from the drive, rather than obliquely across the garage front.",
+    "dishonest": "A stepping-stone path across the lawn. It is not a route in rain, in dark, in snow, with luggage, or with a stroller, so nobody uses it and everyone still walks up the driveway. It supplies the graphic of a walk and none of the function, which makes it worse than nothing because it forecloses the real walk."
+  },
+  "detection": "Look at the ground in any front photograph or aerial image. Trace every paved surface. Is there a continuous paved route from the public pavement or the kerb line to the front stoop that does not pass over the driveway? If not, the fault is present. Second measurement: compare the width of the pedestrian route to the width of the driveway at the point they are closest. A 3 ft walk beside a 12 ft drive is a ratio of 0.25 and states the building's priorities exactly. Third check, from a street photograph: stand on the entrance axis at the kerb and look at the house. Is there anything at all on that line — a gate, a gap in planting, a change of paving, a pair of trees? On the endemic case the entrance axis at the street is unmarked lawn. Fourth, from an aerial: does the walk meet the street, or does it dead-end into the driveway?",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "pedestrian_route_from_street_to_door_exists",
+    "threshold": 1,
+    "direction": "equals",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Binary and evaluable from a front photograph or an aerial: 1 where a continuous paved pedestrian route runs from the public way to the entrance without using the driveway, 0 otherwise. A useful secondary ratio where the route exists is walk_width / driveway_width, which should be at least 0.35 and is commonly 0.25."
+  },
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The frontal axial approach is a stated slot value and the symmetrical front is meaningless approached from the side."
+    },
+    {
+      "style": "new-urbanist-traditional",
+      "severity": "fatal",
+      "why": "The style's whole purpose is the pedestrian street. This fault is its complete negation."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The temple front is an axial object and must be met on axis."
+    },
+    {
+      "style": "craftsman",
+      "severity": "serious",
+      "why": "The Craftsman approach is frontal and rises through the porch; the drive is expected to be at the side or the rear."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "minor",
+      "why": "The ranch consciously reoriented the house toward the car and the rear garden. The absence of a front walk is consistent with the type's position rather than a failure of it."
+    },
+    {
+      "style": "french-eclectic",
+      "severity": "minor",
+      "why": "The motor-court approach is a real tradition where the drive terminates in a defined forecourt at the entrance; the arrival is by car and is composed as such."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "ranch-style",
+      "why": "The post-war ranch deliberately made the car the primary arrival and the rear terrace the primary outdoor room. The front is a facade seen at 25 mph, and a front walk to a street that has no pedestrians is a gesture.",
+      "bounds": "The rejection must be coherent: an attached carport or garage as a designed part of the composition, a real rear terrace, and a front that does not claim an axial classical entrance. The moment a pedimented door surround appears on the front, the axis is claimed and the walk is owed.",
+      "applies_when": {
+        "date_range": [
+          1945,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "french-eclectic",
+      "why": "The motor court is a genuine and old tradition: the drive sweeps to a defined forecourt at the entrance, the arrival is by carriage or car, and the forecourt itself is the first threshold. This is how a great many French and Anglo-French country houses are correctly approached.",
+      "bounds": "The forecourt must be a real composed space — defined by wings, walls, planting or bollards, with a change of paving and a turning circle — and the arrival must still be FRONTAL, terminating on the entrance axis. A driveway that runs past the door to a garage is not a motor court.",
+      "applies_when": {
+        "slots": [
+          "street_relationship",
+          "setback_rule"
+        ],
+        "note": "requires a lot deep enough for a real forecourt, generally 100 ft or more of setback"
+      }
+    },
+    {
+      "style": "french-manoir",
+      "why": "Same motor-court tradition at a larger scale.",
+      "bounds": "As above: a composed forecourt, frontal termination, and a service route separated from it."
+    },
+    {
+      "style": "charleston-single-house",
+      "why": "The Charleston house is entered through a door in the garden wall on the flank, so there is no walk on the front axis and none should be. The route from the street is short, direct and through a gate.",
+      "bounds": "There must be a street gate and a walled garden. The sequence is not shortened, it is rotated.",
+      "applies_when": {
+        "regions": [
+          "charleston",
+          "lowcountry"
+        ]
+      }
+    }
+  ],
+  "co_occurs_with": [
+    "thresholds-uncrossed",
+    "garage-doors-dominate-the-frontage",
+    "garage-forward-of-the-facade",
+    "entry-not-the-most-elaborated-element"
+  ],
+  "confused_with": [
+    {
+      "fault": "thresholds-uncrossed",
+      "difference": "That fault counts the stages in a route that exists. This one is the case where the route itself does not exist. This is the more severe and more specific condition and it guarantees the other."
+    },
+    {
+      "fault": "garage-doors-dominate-the-frontage",
+      "difference": "That is what the garage does to the elevation. This is what it does to the approach. They come from the same site plan — the street-facing attached garage — and they are the two halves of its damage."
+    },
+    {
+      "fault": "entrance-slope-penetration",
+      "difference": "That is roof penetrations above the entrance. Different fault, same underlying inattention to the entrance as the building's most important place."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, entry_sequence.approach_geometry and thresholds",
+    "elements/slots.json, entry_sequence and street_relationship",
+    "Congress for the New Urbanism, Charter and the SmartCode's frontage provisions",
+    "HABS and HALS site documentation of forecourts and front walks"
+  ],
+  "confidence": "high",
+  "tags": [
+    "entry-sequence",
+    "site",
+    "street",
+    "garage",
+    "fatal",
+    "endemic"
+  ]
+}

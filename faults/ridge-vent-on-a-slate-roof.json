@@ -1,0 +1,179 @@
+{
+  "id": "ridge-vent-on-a-slate-roof",
+  "name": "The Ridge That Breathes",
+  "aka": [
+    "shingle-over vent on slate",
+    "the fat ridge"
+  ],
+  "slots": [
+    "roof_penetration_rules",
+    "roof_material"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "On slate or wood shingle the ridge is a designed detail and an asphalt cap on it is a different building material at the building's highest line."
+    },
+    {
+      "style": "gothic-revival-american",
+      "severity": "serious",
+      "why": "Slate ridge combs and crestings are a defining feature; a plastic baffle replaces them."
+    },
+    {
+      "style": "second-empire",
+      "severity": "serious",
+      "why": "Patterned slate in horizontal bands is nearly diagnostic, and the ridge terminates it."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "A plain low-pitched roof has little ridge detail to spoil."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "The hipped ridge is short and largely invisible under a 30-48 in overhang."
+    }
+  ],
+  "severity_in_use": "minor",
+  "severity_trajectory": "Minor on day one and structurally awkward thereafter: an asphalt ridge cap fails at 20-25 years while the slate under it has 60-80 left, so the ridge has to be opened once or twice in the roof's life, and each opening disturbs the top course of slate - a 25-year maintenance event installed into a 100-year roof.",
+  "frequency": "common",
+  "category": "material",
+  "symptom": "A slate, tile or standing-seam roof finished at the ridge with a shingle-over ridge vent - a three-quarter inch raised plastic baffle capped with asphalt ridge shingles - so the ridge of a hundred-year roof is made of a different, thinner, twenty-five-year material. The ridge line is raised, softened, and a different colour from the field, and the vent usually stops six to twelve inches short of each hip, which shows.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R806.2 wants net free ventilating area of 1/150 of the attic area, or 1/300 where between 40 and 50 per cent of it is in the upper portion, and the ridge is the cheapest place in the building to buy the upper half of that requirement. The roofer's stock product is a shingle-over vent, because that is what the supply house carries for the material ninety per cent of roofs are made of. The slate and tile alternatives - a lead or copper vented ridge roll, a saddle ridge in slate, a vented ridge tile - are specialist items with a lead time.",
+    "cost_saved": "$8-15 per lineal foot against $40-120 for a metal or slate ridge. On 50 ft of ridge, $1,500-5,000."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "the ridge is a detail of the roof material",
+      "statement": "Every traditional roofing material has its own ridge, developed from its own geometry. Substituting another material's ridge substitutes another material's geometry, and the geometry is what is visible from the street."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a roof tapers upward",
+      "statement": "The ridge must be thinner than or equal to the field, never thicker. A raised vent baffle reverses the natural taper, which reads at long distance as a soft grey line where there should be a sharp dark one."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R806.2, R806.5",
+      "statement": "1/150 of the vented attic area in net free ventilating area, or 1/300 where 40-50 per cent is in the upper portion - and the ridge is the cheapest place in the building to buy that upper half. R806.5 permits an unvented assembly insulated at the deck, which removes the requirement altogether and is usually cheaper than a specialist slate or lead ridge."
+    }
+  ],
+  "correct_practice": "The ridge belongs to the material. Slate is finished with a saddle ridge - slates lapped over the peak - or a comb ridge, or a lead or copper ridge roll. Clay tile takes half-round ridge tiles bedded in mortar. Standing-seam metal takes a formed ridge cap of the same metal and the same gauge. Wood shingle takes a Boston ridge woven from the same shingles. The visual rule that covers all of them: the ridge is of the roof's own material and its profile is thinner than or equal to the field. Where ventilation is genuinely required under slate or tile, vent at the eave and through concealed slope vents, use a purpose-made vented ridge roll in the roof's own material, or make the roof unvented at the deck under IRC R806.5 and remove the requirement altogether - which on an expensive roof is usually cheaper than the specialist ridge.",
+  "fixes": {
+    "right": "A ridge of the roof's own material, with venting concealed under it or taken elsewhere.",
+    "cheap": "Where the vent must stay, cap it in the roof's own material rather than in asphalt: a lead or copper cover flashing over the baffle costs $20-35 per lineal foot and is correct in profile and colour, which is most of the problem solved.",
+    "dishonest": "Painting the asphalt ridge cap to match the slate. It corrects the colour and leaves the thickness, the texture and the granular surface, and the granules catch light differently from slate at every hour."
+  },
+  "test": {
+    "expression": "ridge_cap_apparent_thickness_in / field_course_apparent_thickness_in",
+    "threshold": 1.0,
+    "direction": "at-most",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The ridge must be thinner than or equal to the field, never thicker. A raised vent baffle reverses the natural upward taper of a roof, which is legible at long distance as a soft grey line where there should be a sharp dark one."
+  },
+  "secondary_tests": [
+    {
+      "expression": "ridge_length_finished_in_the_roofs_own_material_in / total_ridge_length_in",
+      "threshold": 1.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "A granular asphalt cap on a slate, tile or metal field fails this outright; so does a vent that stops 6-12 in short of each hip, which is the commonest install and shows as a change of material at both ends."
+    },
+    {
+      "expression": "attic_net_free_ventilating_area_sqft / attic_area_sqft",
+      "threshold": 0.00333,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "section",
+      "note": "The requirement being satisfied. It is real; the fault is where and in what material it is satisfied."
+    }
+  ],
+  "detection": "Zoom on the ridge. A correct slate or tile ridge is a crisp line with a shadow under an overhanging course; a shingle-over vent shows a straight, slightly raised, matte band of a different colour and texture from the field, usually with its ends stopping short of the hips. On a metal roof a granular ridge cap against a smooth field is unmistakable at any distance. A model can look for a horizontal band at the ridge whose texture statistics differ from the field's.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "construction:composition-shingle-roof",
+      "why": "A shingle-over ridge vent capped in the same hip-and-ridge shingle as the field is the correct detail for that material, and it is not a fault.",
+      "bounds": "It must be capped in the field's own shingle, not in a contrasting accessory colour, and it must run the full ridge rather than stopping short.",
+      "bounds_test": {
+        "expression": "ridge_length_finished_in_the_roofs_own_material_in / total_ridge_length_in",
+        "threshold": 1.0,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Capped in the field's own shingle, not in a contrasting accessory colour, and running the full ridge rather than stopping short."
+      },
+      "applies_when": {
+        "construction": [
+          "composition-shingle",
+          "asphalt-laminate"
+        ],
+        "note": "The licence is a property of the material, not of any style. A shingle-over vent is the correct detail for an asphalt roof and wrong on every other roof there is."
+      }
+    },
+    {
+      "style": "craftsman",
+      "why": "A low-pitched roof with a plain fascia has no ridge detail to spoil, and a vent running the full ridge reads as an intentional line consistent with the style's horizontality.",
+      "bounds": "Full length, and in the roof's own material where the roof is anything other than composition shingle.",
+      "bounds_test": {
+        "expression": "ridge_length_finished_in_the_roofs_own_material_in / total_ridge_length_in",
+        "threshold": 1.0,
+        "direction": "at-least",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "Full length, and in the roof's own material where the roof is anything other than composition shingle."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The hipped roof's ridge is short and largely invisible from grade under a 30-48 in overhang.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 30,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The overhang is what makes the ridge invisible from grade; below 24 in the licence disappears with the identification."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "entrance-slope-penetration",
+      "difference": "That is discrete objects standing on the slope. This is a continuous line at the ridge, and it comes from the same code requirement at the other end of the air path."
+    },
+    {
+      "fault": "roof-course-scale-mismatch",
+      "difference": "That fault is about the size of the courses in the field. This one is about the ridge being a foreign material."
+    }
+  ],
+  "co_occurs_with": [
+    "soffit-vent-through-cornice",
+    "entrance-slope-penetration"
+  ],
+  "sources": [
+    "IRC R806.2, R806.5",
+    "NPS Preservation Brief 29: Historic Slate Roofs",
+    "NPS Preservation Brief 4: Roofing for Historic Buildings",
+    "NRCA Roofing Manual: Steep-slope Roof Systems",
+    "manufacturer literature for lead and copper vented ridge rolls"
+  ],
+  "confidence": "high",
+  "tags": [
+    "roof",
+    "ridge",
+    "material",
+    "ventilation"
+  ]
+}

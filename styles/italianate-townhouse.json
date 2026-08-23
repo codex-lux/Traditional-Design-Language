@@ -1,0 +1,197 @@
+{
+  "id": "italianate-townhouse",
+  "name": "Italianate Townhouse",
+  "aka": [
+    "Brownstone",
+    "Italianate rowhouse",
+    "Anglo-Italianate row"
+  ],
+  "rank": "variant",
+  "member_of": "italianate-american",
+  "status": "historical",
+  "period": {
+    "origin": 1846,
+    "floruit_start": 1850,
+    "floruit_end": 1880,
+    "decline_end": 1890,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "New York City",
+      "Brooklyn",
+      "Philadelphia",
+      "Baltimore",
+      "Boston",
+      "Chicago",
+      "San Francisco",
+      "Montreal"
+    ],
+    "hearth": "Manhattan and Brooklyn",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "3C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italianate-american",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The urban party-wall expression of the parent style; numerically the largest population of Italianate buildings in North America."
+    },
+    {
+      "target": "renaissance-revival-american",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The astylar palazzo facade rules, the diminishing storey heights, and the brownstone technique come directly from the Notman and Trench and Snook generation."
+    },
+    {
+      "target": "greek-revival-american",
+      "type": "descends_from",
+      "weight": 0.45,
+      "inherits_kit": true,
+      "note": "The side-hall double-pile plan, the high stoop, the raised parlour floor, and the basement kitchen are inherited unchanged from the Greek Revival city house."
+    },
+    {
+      "target": "federal-style",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The underlying party-wall row, lot dimension, and vertical section come from the Federal city house and were never redesigned, only redressed."
+    }
+  ],
+  "description": {
+    "short": "The party-wall Italianate city house: a brownstone or brick row with a high stoop, a raised parlour floor of eleven-foot windows, arched heads with heavy hoods, and a bracketed cornice that runs continuously across the whole block.",
+    "long": "The Italianate townhouse is the most-built urban dwelling type in nineteenth-century America and probably the most successful piece of repeatable traditional design the country has produced. The plan is not Italian at all; it is the English and Federal side-hall double-pile row, unchanged since the 1790s, with a stair against the party wall, two parlours in file on the raised main floor, a kitchen in the basement, and bedrooms above. What changed in the 1850s was the dress: the flat Greek Revival lintel became a round or segmental arch with a projecting hood, the plain box cornice grew brackets, and the whole front was faced in the newly cheap chocolate-brown Triassic sandstone that gave the type its universal name.\n\nThe economics are precise and are the reason it worked. Steam-powered saws and planers at the Portland, Connecticut and Newark quarries made dressed brownstone cheap; the railroad and the coastal barge delivered it in quantity; and speculative builders erecting ten or twenty houses at once could order identical stoop rails, identical hoods, identical brackets, and identical newels for the whole run. The result is the specific and undervalued urbanism of the brownstone block: houses that are individually ordinary and collectively magnificent, because a single repeated cornice line and a single repeated stoop rhythm produce a street wall of extraordinary coherence. No architect designed that street. A parts catalogue and a party-wall constraint did.\n\nThis is the clearest nineteenth-century case of a kit of parts producing good urban form, and it is worth being exact about why. Three constraints did the work. The party wall fixed the width. The lot depth and the basement kitchen fixed the section, so every house had the same floor heights and therefore the same cornice line. And the builder bought one set of parts for the whole row, so the ornament was not merely compatible but identical. Coherence was a byproduct of constraint rather than of taste. When later builders relaxed any of the three, and especially when they varied cornice heights house to house, the street immediately stopped working.\n\nStanding on such a block the eye reads a single dark bracketed line running the length of the street, punctuated at even intervals by the stoops projecting into the sidewalk like a row of gangplanks. The stoop is the type's social instrument: it lifts the parlour floor above the street's dirt and gaze, buys a full storey of light for the basement kitchen, and creates the half-public perch that has organised New York street life for a hundred and seventy years. Inside, the sequence is compression and release, a low dark vestibule and then a parlour eleven to fourteen feet tall with windows to the floor, and the depth of the double parlour makes a room longer than most people have ever lived in."
+  },
+  "defining_characteristics": [
+    "Party-wall row construction on a narrow deep lot, typically 16 to 25 ft wide",
+    "High stoop rising to a raised parlour floor over an exposed English basement",
+    "Side-hall double-pile plan with the stair against the party wall and parlours in file",
+    "Round-arched or segmental window heads with projecting moulded hoods or full architrave surrounds on the parlour floor",
+    "Diminishing storey heights above the parlour floor, expressed in window height",
+    "A bracketed cornice running continuously across party walls for the length of the row",
+    "Brownstone, pressed brick, or brick with brownstone trim; a flat unbroken wall plane apart from a shallow bay"
+  ],
+  "diagnostic_tells": [
+    "Arched window heads with hoods on the parlour floor and square heads above: the storey hierarchy is the fastest identification",
+    "The cornice line is continuous across the whole row; a break in cornice height means either a later infill or a different builder",
+    "Stoop of six to ten risers with cast-iron rails and newels, and an areaway with an iron fence at the sidewalk",
+    "Compare with Greek Revival rows: flat lintels, lower stoops, and a plain fascia cornice with no brackets",
+    "Compare with Second Empire rows: identical body, but a visible mansard storey above the cornice"
+  ],
+  "distinguished_from": [
+    {
+      "node": "italianate-villa",
+      "difference": "Same style, opposite urban condition and opposite composition. The townhouse is symmetrical, party-walled, flat-fronted, towerless, and detailed in stone; the villa is asymmetrical, freestanding, towered, and detailed in sawn wood."
+    },
+    {
+      "node": "renaissance-revival-american",
+      "difference": "Heavily overlapping in the city, and many rows are honestly both. The Renaissance Revival row is astylar and academically proportioned with a modillioned cornice; the Italianate row substitutes sawn or moulded brackets and relaxes the proportional discipline."
+    },
+    {
+      "node": "second-empire",
+      "difference": "The mansard is the whole difference. In New York and Brooklyn entire Italianate rows were later given mansard storeys; the body below is unchanged."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Governed by the section, not by the plan. Lot width is fixed by the party wall, so the design problem is entirely vertical: stoop height, parlour height, and the diminishing storeys above, terminated by the cornice. This is why the type repeats so well.",
+    "typical_ratios": [
+      "Lot width 16 to 25 ft, depth of house 40 to 55 ft",
+      "Stoop 6 to 10 risers, lifting the parlour floor 4 to 7 ft above sidewalk",
+      "Parlour floor-to-ceiling 11 to 14 ft, diminishing 10 to 15 percent per storey above",
+      "Parlour window height to width 3:1 to 3.5:1, sill within 12 in of the floor",
+      "Cornice projection 18 to 30 in with brackets at 24 to 36 in on centre",
+      "Facade window area 30 to 40 percent of the elevation; wall always dominant"
+    ],
+    "bay_rhythm": "Two or three bays per house, unequal by design: the entrance bay is narrower than the parlour bays. Across a row, the resulting rhythm is A-B-B / A-B-B repeated, which is what gives a brownstone street its characteristic beat.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "possible",
+      "note": "The wider double-parlour house on a corner lot."
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "forbidden",
+      "note": "There is no elevation on which a tower can stand in a party-wall row."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The main cornice shall be continuous in height, projection, and bracket module across every house in a row, aligning across party walls within 2 in. A row whose cornice line steps house to house has failed the type regardless of the quality of any individual facade."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "The parlour floor shall be raised 4 to 7 ft above sidewalk level on a stoop of 6 to 10 risers, with an exposed basement storey below. A ground-level entrance converts the type into a later English-basement or Renaissance Revival row."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Floor-to-floor heights shall diminish monotonically above the parlour floor by 10 to 15 percent per storey, expressed in the window heights, which shall diminish in the same proportion."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Arched heads with projecting hoods shall be used on the parlour floor only; upper storeys take the same arch profile with a flush moulded surround, or square heads. Hoods on every storey read as coarse."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Facade projection beyond the building line shall not exceed 24 in and shall be limited to a single bay window or oriel. The value of the type is the flatness and continuity of the street wall."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Irad Hawley House (Salmagundi Club), 47 Fifth Avenue",
+      "location": "New York, New York",
+      "year": 1853,
+      "note": "The last surviving single-family Italianate brownstone mansion on lower Fifth Avenue, in continuous use by the Salmagundi Club since 1917."
+    },
+    {
+      "name": "Theodore Roosevelt Birthplace, 28 East 20th Street",
+      "location": "New York, New York",
+      "year": 1848,
+      "note": "Original brownstone of 1848 demolished 1916 and reconstructed 1919-23 by Theodate Pope Riddle from photographs and the surviving adjoining twin; a documented reconstruction rather than an original fabric example, and cited here for the interior sequence."
+    },
+    {
+      "name": "Brooklyn Heights Historic District brownstone rows (Willow, Hicks, and Remsen Streets)",
+      "location": "Brooklyn, New York",
+      "year": 1860,
+      "note": "Speculative Italianate rows of roughly 1850-1870; New York City's first designated historic district, 1965. Cited as a block-scale exemplar because the type's achievement is collective rather than individual."
+    }
+  ],
+  "sources": [
+    "Charles Lockwood, Bricks and Brownstone: The New York Row House 1783-1929 (1972)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Landmarks Preservation Commission, Brooklyn Heights Historic District Designation Report (1965)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "urban",
+    "row",
+    "brownstone",
+    "speculative",
+    "repeatable",
+    "street-wall"
+  ]
+}

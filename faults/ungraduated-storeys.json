@@ -1,0 +1,248 @@
+{
+  "id": "ungraduated-storeys",
+  "name": "Every Storey the Same",
+  "aka": [
+    "the stacked box",
+    "no diminution"
+  ],
+  "slots": [
+    "height_proportion",
+    "window_proportion"
+  ],
+  "severity": "serious",
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "serious",
+      "why": "The graduation is what makes the front sit on the ground rather than float; it is invisible in plan and fatal in elevation."
+    },
+    {
+      "style": "italianate-american",
+      "severity": "fatal",
+      "why": "The style graduates harder than any other - 8 to 15 per cent per storey off an 11-14 ft first floor - so equal storeys destroy it outright."
+    },
+    {
+      "style": "federal-style",
+      "severity": "serious",
+      "why": "As Georgian, and Federal attenuation depends on it."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "minor",
+      "why": "The frieze-band attic makes its own extreme graduation, and the two-storey block below is often nearly equal."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "One or one and a half storeys; there is usually no second full storey to graduate."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "Ceiling heights are differentiated by function rather than by storey."
+    },
+    {
+      "style": "shingle-style",
+      "severity": "minor",
+      "why": "The skin runs across storey lines and suppresses the reading of storeys altogether."
+    }
+  ],
+  "frequency": "endemic",
+  "category": "proportion",
+  "symptom": "First and second storeys the same height, first- and second-floor windows the same unit, and a front that consequently floats. The building has no base and no diminution; it reads as two identical layers stacked, and the cornice sits on top of the upper layer with nothing about the composition explaining why the building stops there.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "Framing lumber arrives as precut studs at 92 5/8, 104 5/8 and 116 5/8 in, and the whole house is framed from one length because a second length is a second delivery, a second stack and a second chance to cut the wrong one. Drywall comes in 8, 9 and 10 ft sheets. Windows are ordered as a single unit type across both floors to reach a volume price break and to reduce the schedule to one line. Every one of those pushes toward identical storeys, and none of them ever appears on a drawing as a decision anyone made.",
+    "cost_saved": "$1,500-4,000 on a 2,500 sf house in ordering, cutting and waste across a single stud length and a single window type."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "storey-graduation -> height_proportion.ratio = 0.85",
+      "statement": "The second storey is 0.85 of the first, storey to storey, including the floor structure; a half storey or attic is 0.62 of the floor below."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "facade-classical invariant",
+      "statement": "The second storey stands to the first as 10.25 to 12, that is 0.854 - inside the 0.78 to 0.92 band."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / height_proportion",
+      "statement": "Window heights follow at 0.82-0.88 measured; 5/6 = 0.833 by Palladio's rule, compounding by storey. The measured band and Palladio's rule agree to within two per cent, which is the reason to trust either."
+    }
+  ],
+  "correct_practice": "Each storey is about 0.85 of the one below it measured floor to floor, and the window heights follow at 0.82-0.88. On a 10 ft first storey that is 10 ft 0 in and 8 ft 6 in, with a dormer or attic window at about 41 in. Italianate graduates harder - an 11 to 14 ft first floor diminishing 8 to 15 per cent per storey. The purpose is structural legibility, not decoration: the graduation is what makes a front sit on the ground rather than float, because the eye reads the heavier, taller element as the supporting one.",
+  "fixes": {
+    "right": "Two stud lengths and two window sizes. A 10 ft first storey and an 8 ft 6 in second, with the second-floor sash one light row shorter.",
+    "cheap": "If the storey heights cannot move, graduate the WINDOWS. Hold both head heights where the ceilings put them and shorten the second-floor sash by one row of lights - 9/6 below and 6/6 above, or a taller and a shorter 6/6. This recovers most of the visual effect for the price of a different window unit, which in a mixed order is often zero, and it is exactly what the pattern books did.",
+    "dishonest": "Shortening the second-floor windows by dropping the HEAD rather than raising the sill. The head heights are the datum that the cornice and the door head belong to; a dropped head produces a band of blank wall under the cornice and reads as a mistake, whereas a raised sill reads as a smaller room, which is what it is."
+  },
+  "test": {
+    "expression": "second_floor_sash_height_in / first_floor_sash_height_in",
+    "threshold": 0.82,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "upper": 0.88,
+    "note": "The measured band, and Palladio's 5/6 = 0.833 sits inside it - they agree to within two per cent, which is the reason to trust either. The fault reads 0.98-1.02. This needs no scale reference because it is a ratio between two objects in the same image."
+  },
+  "secondary_tests": [
+    {
+      "expression": "second_storey_floor_to_floor_in / first_storey_floor_to_floor_in",
+      "threshold": 0.78,
+      "direction": "between",
+      "units": "ratio",
+      "measurable_from": "elevation",
+      "upper": 0.92,
+      "note": "storey-graduation gives 0.85; facade-classical's invariant gives 10.25:12 = 0.854. Read off the water table, belt course and cornice where they exist."
+    },
+    {
+      "expression": "attic_or_half_storey_height_in / storey_below_in",
+      "threshold": 0.62,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "elevation",
+      "note": "The attic ratio, which is what sizes a dormer window at about 41 in on a 10 ft storey."
+    }
+  ],
+  "detection": "In a straight-on photograph, measure the sash height of a first-floor window and of the sash directly above it. A ratio of 0.82-0.88 is correct; 0.98-1.02 is the fault. Second, read the floor-to-floor heights off the water table, belt course and cornice where they exist. Third and fastest, at any distance: if the upper and lower windows are visibly the same unit, the graduation has gone.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "charleston-single-house",
+      "why": "The principal floor is the SECOND floor at 12-13 ft, taller than the ground floor at 10-11 ft, which inverts the rule and is correct: the piano nobile is upstairs, away from the street, the damp and the heat.",
+      "bounds": "The ground storey must read as a base and the storey above the principal floor must diminish again to 10-11 ft. The inversion is between the first two floors only.",
+      "bounds_test": {
+        "expression": "principal_floor_ceiling_ft",
+        "threshold": 12,
+        "direction": "between",
+        "units": "ft",
+        "measurable_from": "photograph",
+        "upper": 13,
+        "note": "The ground storey must read as a base and the storey ABOVE the principal floor must diminish again to 10-11 ft. The inversion is between the first two floors only."
+      },
+      "applies_when": {
+        "regions": [
+          "south-carolina-lowcountry"
+        ],
+        "note": "Depends on the vertical social section and the piazza, not on the style label."
+      }
+    },
+    {
+      "style": "raised-creole-plantation",
+      "why": "Same logic - the principal floor is raised above a service or flood level, and it is the tallest.",
+      "bounds": "The raised base must be expressed as a base: piers, an arcade, or a low service storey with smaller openings.",
+      "bounds_test": {
+        "expression": "count_of_expressed_base_features",
+        "threshold": 1,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The raised base must be expressed as a base: piers, an arcade, or a low service storey with smaller openings."
+      },
+      "applies_when": {
+        "regions": [
+          "lower-mississippi",
+          "gulf-coast"
+        ],
+        "construction": [
+          "raised-basement",
+          "pier-base"
+        ]
+      }
+    },
+    {
+      "style": "greek-revival-american",
+      "why": "The frieze-band attic collapses the top storey into a band of the entablature, which is a graduation so extreme it becomes a different rule.",
+      "bounds": "The storey below must still be full height, and the band must be a frieze with horizontal windows in it, not a knee wall of siding.",
+      "bounds_test": {
+        "expression": "frieze_band_depth_in",
+        "threshold": 10,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 20,
+        "note": "The storey below must still be full height, and the band must be a frieze with horizontal windows in it, not a knee wall of siding."
+      },
+      "applies_when": {
+        "slots": [
+          "frieze",
+          "special_window"
+        ],
+        "note": "Confined to a habitable half-storey lit within the entablature."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Ceiling heights are differentiated by FUNCTION - 6 ft 10 in to 7 ft 4 in at compression, 9 ft 0 in to 10 ft 0 in at release - rather than by storey, so a Prairie house may legitimately have a taller upper volume.",
+      "bounds": "The differentiation must be legible outside as a change in the horizontal banding, not merely felt inside.",
+      "bounds_test": {
+        "expression": "ceiling_height_difference_between_compression_and_release_in",
+        "threshold": 20,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "The differentiation must be legible outside as a change in the horizontal banding, not merely felt inside."
+      }
+    },
+    {
+      "style": "italianate-american",
+      "why": "Graduates MORE, not less: 8-15 per cent per storey off an 11-14 ft first floor.",
+      "bounds": "Not an exception to the rule but an intensification of it.",
+      "bounds_test": {
+        "expression": "per_storey_diminution_percent",
+        "threshold": 8,
+        "direction": "between",
+        "units": "percent",
+        "measurable_from": "photograph",
+        "upper": 15,
+        "note": "Not an exception to the rule but an intensification of it."
+      }
+    }
+  ],
+  "inverted_by": [
+    {
+      "style": "charleston-single-house",
+      "statement": "Downward graduation between the first two storeys is the fault. The principal floor is the SECOND at 12-13 ft over a ground floor of 10-11 ft, because the piano nobile is upstairs away from the street, the damp and the heat."
+    },
+    {
+      "style": "raised-creole-plantation",
+      "statement": "As above - the principal floor is raised above a service or flood level and is the tallest."
+    },
+    {
+      "style": "palladian",
+      "statement": "As above, over a rusticated basement reached by an exterior stair."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "top-heavy-second-storey",
+      "difference": "That is the same axis pushed past zero into inversion. Equal storeys are inert; an inverted pair is actively unstable."
+    },
+    {
+      "fault": "raised-cape-eave",
+      "difference": "That fault is about the height of a single plate on a type whose defining measurement is that plate. This one is about the relation of two full storeys of windows to each other."
+    }
+  ],
+  "co_occurs_with": [
+    "truss-flattened-pitch",
+    "top-heavy-second-storey"
+  ],
+  "sources": [
+    "proportions/modules/storey-graduation.json",
+    "proportions/systems/facade-classical.json",
+    "Andrea Palladio, I quattro libri (1570), Book I on the diminution of storeys",
+    "kits/georgian-colonial-american.kit.json height_proportion",
+    "project style node charleston-single-house"
+  ],
+  "confidence": "high",
+  "tags": [
+    "height",
+    "proportion",
+    "endemic",
+    "stock-size"
+  ]
+}

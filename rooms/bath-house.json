@@ -1,0 +1,255 @@
+{
+  "id": "bath-house",
+  "name": "Bath House",
+  "aka": [
+    "bathhouse",
+    "pool house",
+    "pool bath",
+    "changing house",
+    "sauna",
+    "bastu",
+    "spring house bath"
+  ],
+  "function_class": "sanitary",
+  "description": "A detached or semi-detached structure for washing and changing, reached from outside. Three distinct traditions converge on the same building: the plantation and farm bath house beside a spring or a cistern, where bathing happened away from the dwelling for the same reasons cooking did; the resort and lakeside bath house of 1870-1930, which is a changing room with a verandah; and the Northern European sauna, which arrives in America with Finnish and Scandinavian settlement and is a genuinely different building with a different section. Its living descendant is the pool house, and the one rule that carries across all four is that YOU MUST BE ABLE TO REACH A WC AND A SHOWER FROM OUTSIDE WITHOUT CROSSING A FINISHED FLOOR.",
+  "history": {
+    "appears": 1700,
+    "declines": 1930,
+    "replaced_by": "the indoor bathroom; survives as the pool house",
+    "note": "The detached bath house exists for the same three reasons as the detached kitchen, in the same places, and it usually stood next to it: water had to be carried and heated, the process made a great deal of steam and dirty water, and the fire was a risk. Where there was a spring or a spring house the bath went there, because that is where the water was. The Southern examples are frequently slave-built and slave-served and the labour that carried and heated the water is the reason the building could be inconvenient. It disappears from the American house with piped hot water, on the same schedule as the scullery, between about 1890 and 1930. The SAUNA is a separate lineage and should not be conflated with it: a savusauna or a chimney sauna is a heated-mass building with a stove, benches at two or three levels and no plumbing at all, it arrives with Finnish settlement in the Upper Midwest from the 1860s, and in many Finnish-American homesteads it was the FIRST building put up - people lived in the sauna while they built the house. That is a fact about priorities worth carrying into any brief that treats a sauna as a luxury."
+  },
+  "dimensions": {
+    "area_sf": [
+      80,
+      300
+    ],
+    "width_ft": [
+      8,
+      16
+    ],
+    "length_ft": [
+      10,
+      22
+    ],
+    "proportion": [
+      1.1,
+      1.9
+    ],
+    "ceiling_min_ft": 7.5,
+    "critical_dimension": "THE WET ROUTE. From the water - pool, lake, shower - to the WC and back out, without crossing a floor that minds being wet. Everything else follows from that: a 36 in wide route, a threshold with no step down into finished space, a floor that drains or at minimum tolerates standing water, and a door that a wet person can open. A pool bath that can only be reached through the house is a pool bath nobody uses, and the household will use the pool deck instead. For a SAUNA the critical dimension is different and is vertical: the upper bench must be at or above the top of the stove's rock chamber, which puts it 40 to 44 in above the floor, and the ceiling must be no more than about 84 in above the FLOOR - a tall sauna cannot be heated at the bench because the heat is all above your head. A 7 ft ceiling is the maximum and 6 ft 8 in is better, which is the opposite of every other room in this catalogue."
+  },
+  "furniture": [
+    {
+      "item": "changing bench",
+      "footprint_in": [
+        48,
+        18
+      ],
+      "clearance_in": 30
+    },
+    {
+      "item": "shower, open or enclosed",
+      "footprint_in": [
+        42,
+        42
+      ],
+      "clearance_in": 24,
+      "note": "An outdoor shower needs a drain, a frost-proof valve, and a screen 6 ft high; it is the single most-used fitting in any pool house and the one most often left out."
+    },
+    {
+      "item": "water closet",
+      "footprint_in": [
+        20,
+        28
+      ],
+      "clearance_in": 24
+    },
+    {
+      "item": "sauna benches, two levels",
+      "footprint_in": [
+        72,
+        24
+      ],
+      "clearance_in": 24,
+      "essential": false,
+      "note": "Lower bench 18 in, upper 40-44 in, 24 in deep to sit and 30 to lie. Ceiling not over 84 in. A 6 by 8 sauna seats four."
+    },
+    {
+      "item": "sauna stove and rock chamber",
+      "footprint_in": [
+        24,
+        20
+      ],
+      "clearance_in": 24,
+      "essential": false,
+      "note": "Guarded, with the manufacturer's clearance to combustibles, and a non-combustible floor beneath. A wood-fired stove needs a proper flue, not a vent."
+    },
+    {
+      "item": "towel and clothes hooks",
+      "footprint_in": [
+        36,
+        4
+      ],
+      "clearance_in": 0
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.0,
+    "sides_lit": 2,
+    "orientation": "Toward the water it serves, and away from the house's principal elevation. A bath house is a dependency and it must read as subordinate - lower ridge, smaller bay, simpler order.",
+    "glazing_fraction": [
+      0.08,
+      0.2
+    ],
+    "note": "Generous in a pool house and near-absent in a sauna: a sauna wants one small window at most, because glass is where the heat goes and because the room is used at dusk. The change house and the sauna should therefore be separate volumes if both are wanted, and combining them into one glazed room produces a bad sauna and a hot changing room."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "pool-terrace",
+        "why": "A bath house serves a body of water and stands beside it. Detached from the water it becomes a shed.",
+        "relation": "direct-door",
+        "strength": "strong",
+        "exceptions": [
+          "The spring-house bath, which stands at the water source rather than at the place of use, and the sauna, which stands where the fire risk is acceptable."
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "kitchen-garden",
+        "why": "In the historical arrangement the bath house is part of the working yard, beside the wash house and often sharing its copper and its water supply - which is a real economy and is why the two are so often the same building.",
+        "relation": "same-floor",
+        "strength": "preferred"
+      },
+      {
+        "room": "laundry",
+        "why": "Shared hot water, shared drainage, shared drying yard. Where a modern pool house needs a plant room for the pool equipment, put the two together and screen both.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "A bath house is a dependency on the service or garden side and must not appear on the entrance elevation or inside the approach cone. This is the same rule the catalogue applies to a condenser and to a garage.",
+        "relation": "not-visible-from",
+        "strength": "hard"
+      },
+      {
+        "room": "bedroom",
+        "why": "For a sauna specifically: a wood-fired stove is a combustion appliance with a flue, and putting it against a sleeping room's wall is a fire and a CO decision that a detached building removes entirely. Detached is the historically normal position and it is the safe one.",
+        "relation": "shared-wall",
+        "strength": "strong"
+      }
+    ],
+    "entered_from": [
+      "yard",
+      "garden",
+      "terrace",
+      "court",
+      "covered-way",
+      "breezeway"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "A wet detached building freezes and mildews in alternation. Cross-ventilation and a floor that dries, and in cold climates a plan for winterising - which means either full frost protection and a heat source, or a design that can be drained down in October, and the second is far cheaper and is what the historical buildings did.",
+    "heat": "Frost protection at minimum. A sauna's heat is the building's whole purpose and needs its own combustion air, clearances and flue.",
+    "electrical": "All outdoor-rated and GFCI. A detached building needs its own feeder, a disconnect, and grounding electrode - which is a real cost line and the reason so many pool houses end up on an extension cord.",
+    "stack_proximity_ft": 12
+  },
+  "style_variation": [
+    {
+      "style": "greek-revival-southern-plantation",
+      "name_in_style": "bath house",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Part of the dependency row with the kitchen, the dairy and the smokehouse, plain-finished, and served by enslaved labour that carried and heated the water. Say so."
+    },
+    {
+      "style": "shingle-style",
+      "name_in_style": "bath house",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "The resort type at its best - a long low shingled building on the shore with a verandah and a row of changing rooms, and it is one of the style's most characteristic small buildings."
+    },
+    {
+      "style": "scandinavian-log-vernacular",
+      "name_in_style": "bastu / sauna",
+      "present": true,
+      "trim_grade": "none",
+      "note": "A separate lineage, a separate section and a separate purpose. Squared log, small, low-ceilinged, no plumbing, often the first building on the property."
+    },
+    {
+      "style": "mediterranean-revival",
+      "name_in_style": "pool house / casita",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Where the modern pool house sits most comfortably, because the style already has a vocabulary of loggia, arcade and secondary pavilion to put it in."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "bath house",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Where a spring or a bathing house exists it is a dependency and takes dependency trim - one grade below the main block, never equal to it. A pool house detailed to the same grade as the house is the dependency-that-is-not-subordinate fault."
+    },
+    {
+      "style": "minimal-traditional",
+      "present": false,
+      "note": "No dependencies of any kind. The type's whole logic is one compact block."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "A pool bath or bath house serving a swimming pool is a separate structure requiring its own service, GFCI protection, and equipotential bonding of the pool and any metal within 5 ft of it.",
+      "ref": "NEC Article 680",
+      "conflict": "Article 680 catches out traditional detailing: metal railings, gutters and light fittings within the bonding zone all have to be bonded, and a decorative wrought-iron rail beside a pool is an electrical component before it is an ornament."
+    },
+    {
+      "requirement": "Sauna: clearance to combustibles per the stove listing, a non-combustible hearth, a flue for wood-fired units, and a door that opens outward and has no latch.",
+      "ref": "Manufacturer listing; IRC Chapter 10 for solid-fuel appliances",
+      "conflict": "The outward-opening unlatched door is the one rule people break for the sake of a nice piece of hardware, and it is the rule that exists because a person may need to get out while unwell."
+    },
+    {
+      "requirement": "Where the building is detached, it needs its own frost-protected footing, its own service, and in most jurisdictions its own permit and setback compliance.",
+      "ref": "IRC R403, local zoning",
+      "conflict": "Accessory structure setbacks are frequently tighter than the main dwelling's, and the historically correct position for a dependency - close to the boundary, in the working yard - is often the one zoning forbids."
+    }
+  ],
+  "massing_fit": [
+    "five-part-palladian",
+    "gallery-house",
+    "raised-cottage",
+    "linear-ell-farmhouse",
+    "courtyard-u",
+    "courtyard-full",
+    "charleston-single",
+    "telescope-house",
+    "hall-single-cell",
+    "double-pen"
+  ],
+  "slots": [
+    "outbuilding_types",
+    "service_zone_strategy",
+    "orientation_rule",
+    "landscape_idiom",
+    "services_strategy"
+  ],
+  "faults": [
+    "dependency-that-is-not-subordinate",
+    "condenser-on-the-entrance-elevation",
+    "co-equal-mass",
+    "blank-wall-to-the-street"
+  ],
+  "sources": [
+    "HABS records of Chesapeake and Low Country dependency rows",
+    "Matti Kaups, 'Finnish Log Houses in the Upper Middle West', Journal of Cultural Geography (1983), for the sauna as first building",
+    "NEC Article 680",
+    "Vincent Scully, The Shingle Style and the Stick Style (1955), for the resort bath house"
+  ],
+  "confidence": "medium"
+}

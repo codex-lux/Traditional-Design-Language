@@ -1,0 +1,207 @@
+{
+  "id": "k-style-gutter-on-a-classical-cornice",
+  "name": "The gutter that eats the cornice",
+  "aka": [
+    "ogee gutter on a crown",
+    "the second wrong moulding",
+    "the aluminium cymatium"
+  ],
+  "slots": [
+    "rainwater",
+    "cornice"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A 5 or 6 in K-style aluminium gutter fixed to the face of the fascia, directly over or in place of the cornice's crown moulding. Its ogee front is itself a moulding profile, so the eave now carries two cyma curves of different sizes, different materials and different colours, one in front of the other. In the worst case the gutter is deeper than the crown it covers and the cornice's top member is simply gone.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "Seamless gutter is run last, by a subcontractor with a truck-mounted roll former, who needs a flat vertical fascia to screw a hanger into and gets paid by the foot. Nobody on that visit has seen the cornice drawing. K-style exists because its flat back nails to a fascia and its ogee front was designed in the 1940s to imitate a crown moulding — the profile is a deliberate imitation of the very member it destroys, which is why the collision is so complete.",
+    "cost_saved": "K-style aluminium runs $7-$12 per lineal foot; a half-round hung on concealed brackets behind the corona runs $22-$45/lf in aluminium and $35-$70 in copper. On 200 lf, $3,000-$11,000."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / rainwater / k-style-gutter-on-the-fascia (forbidden)",
+      "statement": "An ogee-profile aluminium gutter reads as a second, wrong crown moulding stuck on the front of a correct one. It is the single most common way a well-detailed cornice is ruined after the fact."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / rainwater",
+      "statement": "Rainwater is taken off the roof without altering the cornice profile."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "one crowning profile per cornice",
+      "statement": "The cymatium is the terminal member of the entablature. Any second profile in front of it competes for the same job and the eye reads the outermost one as the true edge — which means an aluminium gutter, not the cornice, becomes the top of your building."
+    }
+  ],
+  "correct_practice": "Take the water off without touching the cornice's silhouette. Three legitimate answers, in order of preference. (1) No gutter at all, which is what most colonial houses had: this works where the cornice projects far enough to throw the drip clear and the grade falls away, and the threshold is about 8 in of projection — below roughly module/14, or 7 3/4 in on a 9 ft bay, the drip line lands back on the wall and the answer stops working. Pair it with a gravel or stone drip trench and a 6 in fall in the first 10 ft. (2) A half-round gutter hung BELOW AND BEHIND the corona on concealed brackets, so the corona's shadow line is unbroken and the gutter reads as a shadow rather than as a profile; round leaders, not rectangular. (3) A built-in cornice gutter, which is period-correct on the grandest houses and carries its own severe risks — see the lined-gutter fault. What is never acceptable is a moulded gutter profile in front of a moulded cornice.",
+  "fixes": {
+    "right": "Half-round on concealed hangers set behind the corona's drip edge, with round leaders at the corners of the volume.",
+    "cheap": "Where a K-style gutter is already there or the budget will not move, DROP IT. Lower the gutter on standoff brackets so its top edge sits at least 1 1/2 in below the crown's lowest member, and paint it the shadow colour — the colour of the soffit, not of the trim. It costs the same install and it restores the cornice's silhouette, because the eye reads the highest continuous profile as the edge. This is the single highest-value free instruction in the rainwater slot: the gutter is not the problem, the gutter's POSITION is.",
+    "dishonest": "A 'high-back' or 'European' K-style with a fascia extension, sold as a heritage gutter. It is the same ogee face in the same plane; the extension only hides the fascia behind it. Also dishonest: painting the K-style gutter the same white as the trim, which merges it with the cornice and makes the doubled ogee read as one deformed moulding rather than as two — the profile is then unreadable rather than merely wrong."
+  },
+  "detection": "Count the ogees. Zoom on the eave: a correct cornice presents one cyma at the top with a flat corona soffit beneath it; the fault presents two S-curves stacked, usually with a visible joint or colour break between them. Second, look at the rake: a K-style gutter runs only on the horizontal eaves, so at the gable end the true cornice profile is exposed — compare the rake's profile with the eave's, and if the eave is 2-3 in taller and differently shaped, a gutter has been added. Third, look for hanger spikes or screws at 24-32 in on centre in the gutter face, and for the end caps, which no moulding has.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "A Craftsman eave has no crown to destroy — the fascia is plain, deep and unmoulded, and a plain-faced gutter can be integrated into it as a fascia gutter without competing with anything.",
+      "bounds": "Requires a plain-faced gutter (square or half-round), not a K-style ogee. The point is that Craftsman has no cymatium, not that it tolerates a fake one.",
+      "bounds_test": {
+        "expression": "cyma_profiles_at_the_eave",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "The point is that Craftsman has no cymatium, not that it tolerates a fake one. A plain-faced square or half-round gutter integrated into the fascia is fine; a K-style ogee still adds a moulding to a wall that has none."
+      },
+      "applies_when": {
+        "slots": [
+          "eave_condition",
+          "cornice"
+        ]
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "Same reasoning — flat fascia, no classical profile, and a concealed or integrated gutter behind a plain fascia band is correct.",
+      "bounds": "The gutter must be concealed or plain-faced; the fascia band's line must stay unbroken.",
+      "bounds_test": {
+        "expression": "cyma_profiles_at_the_eave",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Concealed or plain-faced gutter, with the fascia band's line unbroken."
+      }
+    },
+    {
+      "style": "ranch-style",
+      "why": "Post-war work was built with K-style gutters from the outset; they are authentic to the type.",
+      "bounds": "Authentic where the eave was never classical. This is a licence about period accuracy, not about profile quality.",
+      "bounds_test": {
+        "expression": "classical_apparatus_element_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "A licence about period accuracy, not about profile quality. It evaporates the moment the house grows a classical cornice."
+      },
+      "applies_when": {
+        "date_range": [
+          1935,
+          1975
+        ]
+      }
+    },
+    {
+      "style": "mid-century-traditional",
+      "why": "As above.",
+      "bounds": "As above.",
+      "bounds_test": {
+        "expression": "classical_apparatus_element_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "As above."
+      },
+      "applies_when": {
+        "date_range": [
+          1940,
+          1975
+        ]
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "cornice-that-is-a-fascia",
+      "difference": "Diagnose the cornice with the gutter mentally removed. If what remains is 8 in of fascia and crown, the cornice was the fault and the gutter is a symptom; if what remains is a full corona and bed mould, the gutter alone is the fault and the fix is cheap."
+    },
+    {
+      "fault": "leader-across-the-entrance",
+      "difference": "Same slot, different member: the gutter is the horizontal collector and the leader is the vertical. A house frequently has both faults and they have separate fixes."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, rainwater variant records",
+    "proportions/systems/facade-classical.json, cornice.projection = module / 14",
+    "NPS Preservation Brief 47: Maintaining the Exterior of Small and Medium Size Historic Buildings",
+    "SMACNA Architectural Sheet Metal Manual (hung gutter profiles, hanger spacing, half-round sizing)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "rainwater",
+    "cornice",
+    "profile-depth",
+    "assembly"
+  ],
+  "test": {
+    "expression": "cyma_profiles_at_the_eave",
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "threshold": 1,
+    "note": "Count the S-curves. A correct cornice presents one cyma at the top over a flat corona soffit; the fault presents two stacked, usually with a joint or a colour break between them, because the K-style's ogee front was designed in the 1940s to imitate the very crown moulding it covers. Countable at ordinary photographic resolution and needing no scale at all."
+  },
+  "secondary_tests": [
+    {
+      "expression": "gutter_top_edge_below_lowest_crown_member_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 1.5,
+      "note": "The cheap fix expressed as a test. The eye reads the HIGHEST continuous profile as the building's edge, so dropping the gutter on standoff brackets until its top sits 1 1/2 in clear below the crown restores the cornice's silhouette at no added install cost. The gutter is not the problem; the gutter's position is."
+    },
+    {
+      "expression": "rake_cornice_height_in / eave_cornice_height_in",
+      "direction": "equals",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 1.0,
+      "note": "A K-style gutter runs only on the horizontal eaves, so the gable rake exposes the true profile. If the eave reads 2-3 in taller and differently shaped than the rake, a gutter has been added to a correct cornice — which also tells you the fix is cheap."
+    },
+    {
+      "expression": "cornice_projection_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "photograph",
+      "threshold": 7.7,
+      "note": "facade-classical's module/14 at a 9 ft bay. This is the threshold at which the no-gutter answer works at all: below about 8 in of projection the drip line lands back on the wall and 'no gutter' stops being an option, which is why period houses with deep cornices could have nothing and shallow modern ones cannot."
+    }
+  ],
+  "alternative_to": [
+    "cornice-gutter-without-a-liner"
+  ],
+  "co_occurs_with": [
+    "cornice-that-is-a-fascia",
+    "leader-across-the-entrance"
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit lists it as forbidden and calls it the single most common way a well-detailed cornice is ruined after the fact."
+    },
+    {
+      "style": "greek-revival-american",
+      "severity": "fatal",
+      "why": "The entablature is the largest element on the elevation and an applied ogee in front of it destroys the one profile the style is carrying."
+    },
+    {
+      "style": "ranch-style",
+      "severity": "not-applicable",
+      "why": "Post-war work was built with K-style gutters from the outset; there is no classical profile to ruin."
+    },
+    {
+      "style": "craftsman",
+      "severity": "minor",
+      "why": "No crown to destroy — the objection reduces to the ogee's own fussiness against a plain deep fascia."
+    }
+  ]
+}

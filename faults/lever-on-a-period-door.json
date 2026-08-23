@@ -1,0 +1,151 @@
+{
+  "id": "lever-on-a-period-door",
+  "name": "The Lever On The Panelled Door",
+  "aka": [
+    "the accessibility handle",
+    "the wrong escutcheon",
+    "the lever that will not fit the stile"
+  ],
+  "slots": [
+    "hardware",
+    "interior_door"
+  ],
+  "severity": "minor",
+  "frequency": "endemic",
+  "category": "anachronism",
+  "symptom": "A lever handle on a rectangular escutcheon plate fitted to a panelled door in a period interior. The lever has no eighteenth or nineteenth century domestic existence in Anglo-American work, and the plate is the wrong shape for the stile: a period escutcheon is either a small round rose or a tall narrow plate that sits within a 4 1/2 to 5 1/2 in stile, and the modern plate is a wide rounded rectangle that overhangs the stile onto the panel mould, where it cannot sit flat.",
+  "cause": {
+    "driver": "code",
+    "explanation": "ANSI A117.1 and the ADA require operable parts to be usable with one hand and without tight grasping, pinching or twisting, which a round knob fails and a lever passes. Where an accessible route or a covered dwelling unit is involved the lever is not a preference, it is a requirement, and in many jurisdictions it has become the residential default whether or not it is required. The escutcheon shape follows the mechanism rather than the door: a modern tubular latch on a 2 3/8 in backset with a return-to-door lever needs a plate of a certain footprint, and that footprint was designed for a flush leaf.",
+    "cost_saved": "None. Period-profile levers and good reproduction hardware cost more than builder-grade levers, and the fault is produced by a requirement plus a default rather than by a budget."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / hardware / mortise-lockset-with-modern-lever, status forbidden",
+      "statement": "A lever handle has no eighteenth-century existence and the escutcheon plate is the wrong shape for a period door stile. Where accessibility requires a lever, use a period-profile lever on a plain rose and SAY PLAINLY THAT IT IS A SUBSTITUTION."
+    },
+    {
+      "kind": "code",
+      "ref": "ANSI A117.1 / ADA 404.2.7, operable parts",
+      "statement": "Door hardware shall be operable with one hand and shall not require tight grasping, pinching or twisting of the wrist. A round knob fails; a lever, a loop handle, a thumb latch with a lever thumbpiece, and a pull all pass."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the escutcheon must fit within the stile",
+      "statement": "A period door stile is 4 1/2 to 5 1/2 in wide and everything fixed to it — knob rose, escutcheon, box lock, latch plate — was sized to sit within that width with a margin, because the stile is the only part of the leaf that will hold a screw. A plate wider than about 3 1/2 in overhangs onto the sticking, sits on two planes, and rocks. The dimensional constraint is older and more binding than the stylistic one."
+    }
+  ],
+  "correct_practice": "Take the accessibility requirement seriously and satisfy it with a period form, because several exist. THE THUMB LATCH ALREADY COMPLIES: a Suffolk or Norfolk latch is operated by pressing a thumb piece with the palm or the heel of the hand and requires no grasping, pinching or twisting at all, and it is the correct hardware for an eighteenth-century interior. So does a plain LOOP or BAIL handle, and so does a simple pull on a passage door. Where a latching mechanism is required and a lever is the answer, use a slim period-profile lever — a plain bar or a spade with a modest return — on a PLAIN ROUND ROSE of 2 to 2 1/2 in rather than a rectangular escutcheon, so that it sits within the stile and reads as a small object rather than as a plate. Specify the backset to suit the stile: a 2 3/8 in backset puts the spindle 2 3/8 in from the edge, near the middle of a 5 in stile, which is where it belongs; a 2 3/4 in backset pushes it onto the sticking. And say plainly on the drawing that the lever is a substitution made for accessibility, which is a better position than pretending it is period or pretending the requirement is optional. Grade the doors: the requirement applies to the accessible route, and the cupboard doors, the closet doors and the doors off it can keep their thumb latches and turn buttons.",
+  "fixes": {
+    "right": "Thumb latches where the mechanism allows, period-profile levers on round roses where a lever is required, backset chosen to centre the spindle in the stile.",
+    "cheap": "Change the rose, not the lever. Most lever sets are available with a round rose as an option at the same price, and moving from a 4 1/2 by 2 3/4 in rectangular escutcheon to a 2 1/4 in round rose removes the overhang onto the panel mould and most of the visual damage for nothing. Second free move: choose the FINISH deliberately — an oil-rubbed bronze or blackened iron lever on a panelled door reads as hardware, and a bright polished chrome or satin nickel one reads as a fixture, at the same price.",
+    "dishonest": "A knob in the principal rooms and levers everywhere else, so the accessible route is the service route. It satisfies the letter of the requirement and inverts the house's hierarchy, putting the compliant hardware where the visitor does not go. Also dishonest: a lever shaped as a miniature turned baluster or a scrolled acanthus, which adds ornament to an anachronism and makes the object more conspicuous rather than less; the correct move is toward plainness."
+  },
+  "detection": "Look at the ESCUTCHEON against the stile in a photograph of a panelled door. Correct: the rose or plate sits wholly within the stile with visible margin on both sides. Fault: the plate overhangs onto the sticking or the panel, which shows as a plate that is not lying flat and a shadow line under one edge. Second, measure plate width against stile width: correct is 0.4 to 0.6, and a value above 0.8 is the fault. Third, the handle type itself: a lever in a house presenting as pre-1900 Anglo-American is an anachronism regardless of the plate, though a defensible one. Fourth, check the backset by measuring from the door edge to the spindle centre: 2 3/8 in centres the spindle on a 5 in stile, 2 3/4 in does not.",
+  "test": {
+    "expression": "escutcheon_width_in / door_stile_width_in",
+    "threshold": 0.35,
+    "upper": 0.65,
+    "direction": "between",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "The dimensional half of the fault, which is the half that has no accessibility defence and is therefore the one to test. A 2 1/4 in round rose on a 5 in stile gives 0.45; a 2 3/4 in rectangular escutcheon on a 4 1/2 in stile gives 0.61 and overhangs at the corners because the plate is also 4 1/2 in tall. The stylistic half — lever versus knob — is a judgment and is properly recorded rather than scored."
+  },
+  "applies_to": [
+    "georgian-colonial-american",
+    "colonial-revival",
+    "federal-style",
+    "adam-style",
+    "greek-revival-american",
+    "italianate-american",
+    "second-empire",
+    "queen-anne-american",
+    "victorian",
+    "folk-victorian",
+    "gothic-revival-american",
+    "carpenter-gothic",
+    "cape-cod-colonial",
+    "new-england-colonial",
+    "dutch-colonial-american",
+    "tidewater-georgian",
+    "mid-atlantic-georgian",
+    "new-england-georgian",
+    "english-georgian",
+    "regency",
+    "craftsman",
+    "craftsman-bungalow",
+    "tudor-revival",
+    "shingle-style"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Arts and Crafts movement produced genuine lever and thumb-latch hardware in hammered copper and wrought iron, and a plain bar lever on a square or rectangular hammered plate is period-correct rather than a substitution.",
+      "bounds": "Hammered or wrought with visible texture, in copper, bronze or blackened iron, and the plate must be sized to a Craftsman stile — which on a three-panel or five-cross-panel door is generously wide at 5 to 6 in, so the plate can legitimately be larger. A smooth cast lever on a stamped plate is not this.",
+      "bounds_test": {
+        "expression": "escutcheon_width_in / door_stile_width_in",
+        "threshold": 0.35,
+        "upper": 0.75,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "british-arts-and-crafts",
+      "why": "Same reasoning, and the British movement produced the more inventive hardware of the two, with long plates and shaped levers by Voysey, Gimson and others.",
+      "bounds": "Long narrow plates that follow the stile rather than crossing it, and genuine forged work."
+    },
+    {
+      "style": "french-eclectic",
+      "why": "The French tradition uses the bec-de-cane lever, which is genuinely period on the Continent from the eighteenth century onward — this is a regional rather than a chronological exception and it is the reason the blanket claim about levers must be stated as Anglo-American.",
+      "bounds": "The lever must be of the French form — a slim curved or spade-shaped bec-de-cane on a small backplate or rose — and the doors should be of French pattern. It does not license a modern lever in a British or American colonial interior.",
+      "applies_when": {
+        "regions": [
+          "France",
+          "Continental Europe"
+        ],
+        "note": "The continental lever and the Anglo-American knob are two traditions, and the corpus should not treat the lever as universally modern."
+      }
+    },
+    {
+      "style": "french-manoir",
+      "why": "Same regional tradition, with long shaped plates and forged levers.",
+      "bounds": "Genuine French forms on French doors."
+    },
+    {
+      "style": "spanish-colonial-revival",
+      "why": "Wrought iron lever and ring latches on plank doors are within the idiom's Iberian sources.",
+      "bounds": "Wrought iron on plank or heavily framed doors, with visible fixings."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "butt-hinge-before-its-date",
+      "difference": "Both are hardware anachronisms, but the hinge has no counter-argument and this one has a strong one. The honest treatment is different: the hinge should be corrected and the lever should be substituted openly."
+    },
+    {
+      "fault": "hollow-core-blank-in-a-panelled-house",
+      "difference": "The handle against the leaf. A lever on a solid panelled door is a defensible substitution; a lever on a hollow blank is the smaller half of a larger problem."
+    }
+  ],
+  "co_occurs_with": [
+    "butt-hinge-before-its-date",
+    "hollow-core-blank-in-a-panelled-house"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, hardware forbidden variants and the substitution note",
+    "ANSI A117.1 and ADA Standards 404.2.7, operable parts",
+    "Donald Streeter on early American latches; Suffolk and Norfolk latch typology",
+    "Craftsman-period hardware catalogues, e.g. the Yale & Towne and Sargent Arts and Crafts lines"
+  ],
+  "confidence": "high",
+  "tags": [
+    "hardware",
+    "accessibility",
+    "anachronism",
+    "escutcheon",
+    "honest-substitution"
+  ]
+}

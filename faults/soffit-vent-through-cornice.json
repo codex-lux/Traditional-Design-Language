@@ -1,0 +1,150 @@
+{
+  "id": "soffit-vent-through-cornice",
+  "name": "The Ventilated Entablature",
+  "aka": [
+    "louvres in the frieze",
+    "the dashed grey line"
+  ],
+  "slots": [
+    "eave_condition",
+    "roof_penetration_rules",
+    "cornice"
+  ],
+  "severity": "serious",
+  "severity_in_use": "minor",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A continuous 2 in white vinyl vent strip, or a run of 3 in round louvred plugs at 32 in centres, running through the soffit of a classical cornice - and in the worst case punched through the frieze board itself, so the entablature is perforated. At forty feet it reads as a grey dashed line running the whole length of the house, at exactly the height where the cornice's shadow should be solid.",
+  "cause": {
+    "driver": "code",
+    "explanation": "IRC R806.2 requires net free ventilating area of 1/150 of the vented attic area, reduced to 1/300 where between 40 and 50 per cent of the ventilation is in the upper portion and the balance is at the eave. On a 1,500 sf attic that is 10 sf of net free area at 1/150 or 5 sf at 1/300, and continuous soffit vent delivers roughly 9 square inches per lineal foot, so something like 80 lf of vent strip has to go somewhere. The inspector checks the number. The vent is specified by the framer, from a table, before anyone has drawn a cornice; and the soffit is the cheapest place to buy the lower half of the requirement.",
+    "cost_saved": "Nothing meaningful. Concealed venting costs $2-5 per lineal foot more. This is a code-driven default, not an economy, which is why it survives on otherwise careful buildings."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "no perforation may occur on a surface that is part of a classical profile",
+      "statement": "The corona projects in order to cast a shadow. A white gridded object inside that shadow lights it up, and the corona's whole function is cancelled by an object costing forty cents a foot."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R806.2",
+      "statement": "Net free ventilating area of 1/150 of the vented attic area, reduced to 1/300 where between 40 and 50 per cent is in the upper portion with the balance at the eave. A continuous soffit vent delivers roughly 9 square inches per lineal foot, so a 1,500 sf attic needs about 80 lf of it and the cornice is the cheapest place to put it."
+    }
+  ],
+  "correct_practice": "Vent behind the cornice, not through its face. In order of preference: (1) a continuous screened slot at the very back of the soffit, tight against the wall and inside the frieze's shadow, invisible from any position at grade; (2) an over-fascia or vented drip-edge product at the roof edge above the crown, concealed by the first shingle course; (3) on a masonry building, a vent course behind the corbelled brick; (4) an unvented roof assembly with insulation at the deck (IRC R806.5), which removes the requirement altogether and is the cleanest answer on any house with a real cornice. Where louvres must appear in a visible soffit, they go one per rafter bay, aligned to the framing, and painted the soffit colour.",
+  "fixes": {
+    "right": "Concealed slot venting at the back of the soffit, or an unvented conditioned roof assembly.",
+    "cheap": "Keep the vent strip and move it: shift it from the middle of the soffit to the back edge against the wall, and paint it the trim colour. Moving it costs nothing at installation and takes it out of the sight line from the street, because a person at grade sees the front two thirds of a soffit and not the last three inches.",
+    "dishonest": "Painting a white vinyl vent strip and calling it concealed while leaving it in the middle of the soffit. Paint kills the brightness and not the grid, and the grid is what the eye picks up at distance."
+  },
+  "test": {
+    "expression": "count_of_perforations_visible_in_the_cornice_soffit_frieze_or_fascia",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "note": "Binary and honest: no perforation may occur on a surface that is part of the classical profile. Photographed obliquely from below, a continuous strip reads as a grey dashed line the length of the building and round louvre plugs read as a repeating disc pattern, usually in a slightly different white."
+  },
+  "secondary_tests": [
+    {
+      "expression": "attic_net_free_ventilating_area_sqft / attic_area_sqft",
+      "threshold": 0.00333,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "section",
+      "note": "1/300 where 40-50 per cent of the ventilation is in the upper portion, otherwise 1/150. The requirement is real and must be met somewhere - the fault is where it is met, not that it is met."
+    }
+  ],
+  "detection": "Photograph the eave from below at an oblique angle. Look for a repeating light-coloured rectangular or circular pattern inside the soffit. Round louvre plugs are the easiest to catch because they are almost always a slightly different white from the soffit around them. At forty feet the continuous strip reads as a dashed grey line the length of the building - a horizontal line the composition did not ask for and cannot absorb, because it sits parallel to and just below the cornice and competes with it.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The soffit is a plain board between exposed tails; a vent in it interrupts no profile.",
+      "bounds": "Vents should still be set one per rafter bay so the rhythm is the framing rhythm rather than an independent one.",
+      "bounds_test": {
+        "expression": "vent_spacing_matches_rafter_bay_in",
+        "threshold": 24,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "One per rafter bay, so the rhythm is the framing rhythm rather than an independent one."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "The soffit is a plain plane and the eave is 30-48 in deep, so a vent near the wall is invisible from grade at any realistic angle.",
+      "bounds": "The continuous fascia band must stay unbroken; nothing may perforate the fascia itself.",
+      "bounds_test": {
+        "expression": "count_of_perforations_visible_in_the_fascia_band",
+        "threshold": 0,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The continuous fascia band must stay unbroken; the soffit may be vented, the fascia may not."
+      }
+    },
+    {
+      "style": "mission-revival",
+      "why": "Venting between exposed rafter tails at 24-32 in on centre is an open condition by nature.",
+      "bounds": "Screened between tails, not a manufactured strip.",
+      "bounds_test": {
+        "expression": "rafter_tail_spacing_in",
+        "threshold": 24,
+        "direction": "between",
+        "units": "in",
+        "measurable_from": "photograph",
+        "upper": 32,
+        "note": "Screened between exposed tails, not a manufactured strip."
+      }
+    },
+    {
+      "style": "minimal-traditional",
+      "why": "The type has no cornice to protect and its eave is 0-12 in; a vent there is consistent with everything else about it.",
+      "bounds": "As with all of this type's licences, only where the rest of the trim keeps faith.",
+      "bounds_test": {
+        "expression": "eave_overhang_in",
+        "threshold": 12,
+        "direction": "at-most",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Only where the rest of the trim keeps faith with the type's economy."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "entrance-slope-penetration",
+      "difference": "That fault is objects standing on the roof plane. This is perforation of the eave assembly itself."
+    },
+    {
+      "fault": "ridge-vent-on-a-slate-roof",
+      "difference": "Same code requirement, other end of the same air path. The two are usually specified together and should be solved together."
+    }
+  ],
+  "co_occurs_with": [
+    "ridge-vent-on-a-slate-roof",
+    "gutter-as-cornice",
+    "bed-mould-omitted"
+  ],
+  "deprecated_inheritance": {
+    "statement": "Historic roofs carried no soffit vents because they did not need them: an uninsulated, air-leaky roof over an unheated attic ventilates itself, and the cornice was therefore unperforated everywhere before about 1950.",
+    "why_not_to_inherit": "Inheriting the unperforated cornice literally, into a tight, insulated, conditioned house, produces winter condensation on the underside of the sheathing and ice damming at the eave. The historic detail is correct only in company with the historic assembly.",
+    "modern_substitute": "Either a concealed slot at the back of the soffit inside the frieze's shadow with an over-fascia vent at the roof edge, or an unvented roof assembly insulated at the deck under IRC R806.5, which removes the requirement altogether and is the cleanest answer on any house with a real cornice."
+  },
+  "sources": [
+    "IRC R806.1, R806.2, R806.3, R806.5 (roof ventilation and unvented assemblies)",
+    "manufacturer literature for continuous soffit vent net-free-area ratings",
+    "kits/georgian-colonial-american.kit.json roof_penetration_rules"
+  ],
+  "confidence": "high",
+  "tags": [
+    "eave",
+    "cornice",
+    "code-conflict",
+    "ventilation"
+  ]
+}

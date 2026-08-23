@@ -1,0 +1,264 @@
+{
+  "id": "family-room",
+  "name": "Family Room",
+  "aka": [
+    "den",
+    "rec room",
+    "rumpus room",
+    "TV room",
+    "the room without a name"
+  ],
+  "function_class": "living",
+  "description": "An informal second social room, at the back of the house beside the kitchen, where the family sits, watches, plays and makes a mess, and where guests are not formally received. It was invented and named in the 1940s, arrived in the general market with the television, and within two decades had become the room the household actually lived in while the living room at the front stood ready for visitors who no longer came.",
+  "history": {
+    "appears": 1945,
+    "declines": 1990,
+    "replaced": "the sitting room and the back parlour, whose function it is",
+    "replaced_by": "the great room, which is this room with the wall to the kitchen removed",
+    "note": "THE NAMING IS DOCUMENTED, WHICH IS RARE. George Nelson and Henry Wright's Tomorrow's House (1945) proposed what they called 'the room without a name' - a hard-wearing informal room for the family's own use, separate from the living room, which they argued had become too precious to live in. The term 'family room' is in general builder use by the early 1950s. TWO THINGS DROVE IT AND ONLY ONE IS USUALLY MENTIONED. The first is television: American set ownership goes from about 9 per cent of households in 1950 to about 87 per cent in 1960, and a television in the living room in 1953 was widely felt to degrade a formal room, so it needed a room of its own. The second is the disappearance of domestic help combined with the arrival of the open kitchen: the mother of a 1955 household was in the kitchen and needed to see the children, so the informal room had to be beside the kitchen and not at the front of the house. THE POSITION IS THE INNOVATION, NOT THE ROOM. A back sitting room is old; a back sitting room open to the kitchen so that cooking and childcare are one activity is new, and it is the move that makes the great room inevitable thirty years later."
+  },
+  "dimensions": {
+    "area_sf": [
+      240,
+      450
+    ],
+    "width_ft": [
+      13.5,
+      19
+    ],
+    "length_ft": [
+      16,
+      26
+    ],
+    "proportion": [
+      1.1,
+      1.6
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "THE VIEWING DISTANCE, AND IT IS NOW THE ROOM'S GOVERNING DIMENSION RATHER THAN THE SEATING GROUP'S. Recommended viewing distance for a modern high-resolution set is 1.5 to 2 times the screen width: a 65 in diagonal is 57 in wide, so 7 ft to 9 ft 6 in from screen to eye. Add the set's 4 in and the sofa's 36 in depth and the room needs 12 ft 6 in to 15 ft between the screen wall and the wall behind the sofa. That is the same 13 ft 6 in the seating group needed anyway, which is why the numbers agree - but the screen SIZE is now the variable, and a 77 in set pushes the requirement to 14 ft 6 in of clear depth. SECOND NUMBER: SEATED EYE HEIGHT IS 42 IN and the screen's centre should be within about 15 degrees of it, which at 9 ft puts the acceptable band of screen centre at 42 to 71 in. Over a mantel with a 54 in shelf the centre lands at 78 to 84 in and the angle is 17 to 20 degrees - past the comfortable limit, and the reason the arrangement feels wrong to people who cannot say why. If both the fire and the set are required, put them on ADJACENT walls and turn the seating to the corner, which is the only arrangement that serves both."
+  },
+  "furniture": [
+    {
+      "item": "sectional sofa",
+      "footprint_in": [
+        110,
+        90
+      ],
+      "clearance_in": 30,
+      "note": "the sectional is this room's characteristic piece and it needs a corner: it turns the seating inward and destroys any wall it touches, which is why a family room with four doors cannot take one"
+    },
+    {
+      "item": "television and console",
+      "footprint_in": [
+        60,
+        18
+      ],
+      "clearance_in": 102
+    },
+    {
+      "item": "coffee table or ottoman",
+      "footprint_in": [
+        48,
+        32
+      ],
+      "clearance_in": 16
+    },
+    {
+      "item": "toy and game storage",
+      "footprint_in": [
+        48,
+        18
+      ],
+      "clearance_in": 30,
+      "note": "the one storage requirement that is always real and never drawn; a family room without 6 to 8 linear feet of closed low storage becomes the room where everything is left"
+    },
+    {
+      "item": "games table",
+      "footprint_in": [
+        42,
+        42
+      ],
+      "clearance_in": 36,
+      "essential": false
+    },
+    {
+      "item": "clear floor for children",
+      "footprint_in": [
+        72,
+        72
+      ],
+      "clearance_in": null,
+      "note": "the room's real programme for its first ten years, and the thing a fitted sectional and a hearth extension jointly eliminate"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "Rear of the house, so it takes whatever the lot gives - which in a north-facing-rear lot means this room is the darkest social room in the house and needs a second source. A south-facing family room with a big screen has the opposite problem: direct sun on a screen is unwatchable and the room needs a shading strategy the plan never includes.",
+    "glazing_fraction": [
+      0.12,
+      0.25
+    ],
+    "note": "The screen and the window are in direct conflict and the conflict has no elegant solution. A screen needs its facing wall dark and needs no window behind it; a room needs daylight. The historic-plan answer transfers: put the glass on the wall the seating BACKS ONTO or on the wall at the seating's side, never opposite the screen and never behind it. Note also that this room is usually at the back of a double-pile plan and therefore in the second rank for daylight, which at 1.2 times head height is 8 to 9 ft of reach - which is why the family room is nearly always the room that gets the sliding door to the terrace. That door is not a lifestyle feature; it is the room's daylight strategy."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "THE WHOLE POINT OF THE ROOM. It exists so that the person cooking and the people using the informal room are in earshot and eyeline of each other, and a family room that is not adjacent to the kitchen is a den or a second living room and should be catalogued as one.",
+        "relation": "visible-from",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "eat-in-kitchen-area",
+        "why": "kitchen, table and family room form one informal zone in every plan after about 1960 and the three should read as a sequence rather than as three doors off a corridor",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "mudroom",
+        "why": "the family arrives through the mudroom into this zone, which is correct - the informal entrance should land in the informal room",
+        "relation": "same-floor",
+        "strength": "preferred"
+      },
+      {
+        "room": "back-hall",
+        "why": "the powder room, the stair and the coats want to be reachable from here without crossing the formal front of the house",
+        "relation": "same-floor",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "this is the loudest room in the house - television, games, children - and a bedroom wall against it is the standard acoustic complaint in single-storey and split-level plans. Put storage, a bathroom or a corridor between, and if the primary suite must be on the same floor, put it on the opposite side of the plan.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "study",
+        "why": "same reason from the other direction: a room for concentration cannot share a wall with the room the television is in",
+        "relation": "acoustically-separated",
+        "strength": "strong"
+      },
+      {
+        "room": "entrance-hall",
+        "why": "if the family room opens onto the formal hall then it IS the living room, and the plan has two living rooms and no family room",
+        "relation": "not-visible-from",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "kitchen",
+      "back-hall",
+      "eat-in-kitchen-area",
+      "gallery-corridor",
+      "centre-passage"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "This room shares air with the kitchen by design, which means it also shares cooking aerosols. A family room open to a kitchen with an under-sized hood - anything below about 400 cfm over a normal range - accumulates grease on its surfaces measurably, and that is the hidden cost of the adjacency the room exists for.",
+    "heat": "Ordinary, but note that a room with a large screen and several bodies has a real internal gain - a large television is 100 to 200 W and four people are about 400 W - and in a well-insulated house it will overheat before the living room does.",
+    "electrical": "The most equipment-dense room in the house. Power and data at the screen wall, at the seating, and at the corner where the console goes; a dedicated circuit; and cable routes drawn at rough-in, because the alternative is a visible trunking that no amount of trim will fix.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "ranch-style",
+      "trim_grade": "plain",
+      "note": "The type where the room was invented in production: at the rear beside the kitchen, panelled in knotty pine or plywood, with a sliding door to a patio and often a step down. The step down is worth noting - it was a way of giving the room a higher ceiling without raising the roof, and it is now an accessibility problem."
+    },
+    {
+      "style": "mid-century-traditional",
+      "trim_grade": "plain",
+      "note": "THE SPLIT-LEVEL VARIANT IS THE TYPE'S ENTIRE REASON FOR EXISTING (see massing:split-level). The split level puts the family room on the half-level below the living room and above the garage, half-buried, with high windows - which is why so many are dark, and why the type is disliked by people who have only seen the dark ones. Raise the head of those windows 12 in and the room changes character completely."
+    },
+    {
+      "style": "neo-eclectic",
+      "trim_grade": "plain",
+      "note": "Carried forward into the 1980s and 1990s plan as a large rear room with a cathedral ceiling, a corner fireplace and a media wall - and then absorbed into the great room. The corner fireplace of this period is the visible sign of the screen-versus-hearth conflict being resolved by giving each an adjacent wall."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "den",
+      "trim_grade": "middle",
+      "note": "Appears from the 1930s as a small panelled room off the living room or the hall, one grade lower in trim, and it is the family room's respectable ancestor in the revival plan."
+    },
+    {
+      "style": "modern-farmhouse-traditional",
+      "present": false,
+      "note": "Absent as a separate room - the type merges it with the kitchen and the eating area into a great room, which is the family room's terminal state."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Anachronistic. The type has one living room by doctrine and adding a family room to a bungalow reproduces exactly the two-room split the bungalow was designed to abolish."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Anachronistic by two centuries. Where a modern Georgian-Revival plan needs one, put it in the rear ell where the service rooms historically were, at a lower trim grade, rather than in the main block - which is what the historic plan would have done with any informal room."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "Absent."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Habitable room minimums; egress not required unless used for sleeping.",
+      "ref": "IRC R304, R310",
+      "conflict": "A basement or half-level family room routinely IS used for sleeping by guests, which triggers the emergency escape opening retroactively in any inspection - and a 5.7 sq ft escape opening in a half-buried wall means a window well, which is the split level's characteristic exterior scar."
+    },
+    {
+      "requirement": "Ceiling height 7 ft minimum over at least 50 per cent of the required area.",
+      "ref": "IRC R305.1",
+      "conflict": "Applies most often here, because this is the room most often put under a low structure - a beam, a stair, or a floor above a step-down."
+    }
+  ],
+  "massing_fit": [
+    "ranch-linear",
+    "ranch-l",
+    "split-level",
+    "foursquare",
+    "four-over-four",
+    "linear-ell-farmhouse",
+    "cross-gable-victorian",
+    "gable-front-and-wing",
+    "telescope-house",
+    "cape-cod-massing",
+    "garrison-block"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "service_zone_strategy",
+    "built_ins",
+    "daylight_strategy",
+    "ceiling_height_rule",
+    "floor_material"
+  ],
+  "faults": [
+    "open-plan-in-a-room-based-style",
+    "room-deeper-than-its-daylight",
+    "direct-vent-box-in-a-period-surround",
+    "recessed-can-in-a-plaster-ceiling",
+    "built-in-that-is-furniture",
+    "the-room-nobody-enters",
+    "one-trim-grade-for-every-room"
+  ],
+  "sources": [
+    "George Nelson and Henry Wright, Tomorrow's House (1945), on 'the room without a name'",
+    "US Census and industry figures on television household penetration, 1950-1960",
+    "Clifford Edward Clark, The American Family Home, 1800-1960 (1986)",
+    "SMPTE / THX seated viewing-distance and viewing-angle recommendations",
+    "massings/catalog.json: split-level"
+  ],
+  "confidence": "high"
+}

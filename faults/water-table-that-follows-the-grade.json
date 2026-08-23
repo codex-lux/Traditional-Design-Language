@@ -1,0 +1,177 @@
+{
+  "id": "water-table-that-follows-the-grade",
+  "name": "The horizontal that follows the ground",
+  "aka": [
+    "the raked water table",
+    "stepping base",
+    "the sloping belt"
+  ],
+  "slots": [
+    "water_table",
+    "foundation_expression",
+    "belt_course"
+  ],
+  "severity": "serious",
+  "frequency": "common",
+  "category": "alignment",
+  "symptom": "On a sloping site, the water table, base band or belt course is not level: it slopes with the grade, or it steps down in many small increments so that it stays a constant height above the earth. The house appears to be sliding downhill. In the stepped version the steps do not land at corners, piers or openings — they land wherever the grade needed them.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "The base band is usually set out from finished grade by the siding or masonry crew, working with a tape from the ground, because grade is what is in front of them and the floor level is inside. Keeping the band level instead means transferring a level line right round the building and accepting that the exposed foundation varies from 12 in at the high corner to 40 in at the low one — which looks alarming during construction and gets 'corrected' by a well-meaning foreman.",
+    "cost_saved": "None. Working to a level line and letting the foundation exposure vary is the same labour. This fault is purely a failure of instruction, which is why it is worth naming."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / foundation_expression",
+      "statement": "It is the same height all the way round the volume even where the grade falls."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / water_table / must_return: true",
+      "statement": "The water table returns fully round every elevation of the volume including the rear — which is only possible if it is level."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a building's horizontals are datums, and a datum is level by definition",
+      "statement": "The horizontal courses of a building are the instrument by which a viewer judges whether the ground is level. Sloping them destroys the instrument and transfers the slope to the building."
+    }
+  ],
+  "correct_practice": "Every horizontal on the building — water table, belt, sill course, frieze, cornice — is dead level and continuous round the volume, and the ground is allowed to do whatever it does. On a falling site the exposed foundation below the water table simply gets taller, which is correct and is where the drama of a hillside house comes from. Where the fall is large enough that the base becomes ungainly at the low end (more than about 5 ft of exposure, or more than roughly half a storey), the answer is to STEP the whole building: break the volume at a cross wall, drop the entire base, water table and floor by a whole number of courses or a whole riser count, and let the step happen at a corner or a re-entrant angle where it can be read as a joint between two volumes. One deliberate step at a corner is architecture; six accidental steps along a wall is a mistake repeated.",
+  "fixes": {
+    "right": "Level lines round the volume, exposure varying with the ground, one deliberate step at a volume break where the fall requires it.",
+    "cheap": "Free — it is a line on a drawing and an instruction to the crew: 'the water table is level at elevation X all the way round; the foundation exposure varies from 14 in to 34 in and that is intended.' Say it on the elevation with a note and a dimension at each corner, because the crew will otherwise measure from the ground.",
+    "dishonest": "Regrading a berm along the low side of the house so that the ground appears to be level with the band. This buys a level reading and creates a positive slope toward the wall, which violates IRC R401.3's 6 in fall in 10 ft and is the classic route to water in the crawl space. It is also visible: a berm that stops at the corner of the house is easier to see than a tall foundation."
+  },
+  "detection": "Draw a horizontal line across the photograph at the water table on one end of the elevation and see whether it stays on the water table at the other end. In a photograph with any perspective, use the window sills of the first storey as the control — sills are set from the floor and are therefore level — and check whether the water table stays parallel to them. If the sill line and the water table converge or diverge across the elevation, the water table is following the grade. In the stepped version, count the steps and look at where they occur: steps at random positions along a plain wall are the fault; a single step at an inside corner or at a change of ridge height is not.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "pennsylvania-bank-house",
+      "why": "The bank house is deliberately cut into the hill, and the ground meets the building at radically different heights on opposite elevations. The MATERIAL may change with the earth line.",
+      "bounds": "The horizontals are still level; it is the amount of stone visible that varies. A bank house with a raked water table is the fault in a hillside costume.",
+      "bounds_test": {
+        "expression": "water_table_deviation_from_horizontal_deg",
+        "direction": "at-most",
+        "units": "deg",
+        "measurable_from": "photograph",
+        "threshold": 0.5,
+        "note": "The horizontals stay level; it is the AMOUNT of stone visible that varies. The test is entirely unchanged — a bank house with a raked water table is the fault in a hillside costume."
+      },
+      "applies_when": {
+        "slots": [
+          "grade_relationship",
+          "foundation_expression"
+        ]
+      }
+    },
+    {
+      "style": "cotswold-vernacular",
+      "why": "Genuinely vernacular hillside cottages built by eye over centuries do have base courses that wander, and settlement has moved them further.",
+      "bounds": "An accumulated historical condition, not a design method. Building a new wandering base course is reproducing damage. The one place this reads as licence rather than error is where the wall itself is rubble and irregular in every dimension.",
+      "bounds_test": {
+        "expression": "wall_plane_deviation_over_8ft_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "This reads as licence only where the wall itself is rubble and irregular in every dimension — an accumulated historical condition, not a design method. Building a new wandering base course on a plumb, straight wall is reproducing damage."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ],
+        "regions": [
+          "Cotswolds"
+        ]
+      }
+    },
+    {
+      "style": "tuscan-vernacular",
+      "why": "Same reasoning: rubble walls on rock, built to the ground.",
+      "bounds": "As above — requires genuinely irregular rubble construction throughout, not a level-built house with a sloped trim board.",
+      "bounds_test": {
+        "expression": "wall_plane_deviation_over_8ft_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "threshold": 1.0,
+        "note": "As above — requires genuinely irregular rubble construction throughout, not a level-built house with a sloped trim board."
+      }
+    },
+    {
+      "style": "monterey-colonial",
+      "why": "A raised or stepped ground storey following a coastal slope occurs in the type.",
+      "bounds": "Steps are whole-volume steps at structural bays, not continuous rakes.",
+      "bounds_test": {
+        "expression": "unplanned_base_steps_count",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 1,
+        "note": "Steps are whole-volume steps at structural bays, not continuous rakes."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "belt-course-at-the-wrong-datum",
+      "difference": "That is a level band at the wrong height; this is a band that is not level at all. The second is worse and easier to see once you know to look."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, foundation_expression and water_table (must_return)",
+    "International Residential Code R401.3",
+    "HABS measured drawings of hillside Mid-Atlantic and Pennsylvania houses",
+    "proportions/systems/facade-classical.json, elevation assembly"
+  ],
+  "confidence": "high",
+  "tags": [
+    "alignment",
+    "water-table",
+    "site",
+    "foundation"
+  ],
+  "test": {
+    "expression": "water_table_deviation_from_horizontal_deg",
+    "direction": "at-most",
+    "units": "deg",
+    "measurable_from": "photograph",
+    "threshold": 0.5,
+    "note": "Every horizontal on the building is dead level and the ground is allowed to do whatever it does. In a photograph with perspective, use the first-storey window sills as the control — sills are set from the floor and are therefore level — and measure whether the water table stays parallel to them across the elevation. Convergence or divergence is the fault."
+  },
+  "secondary_tests": [
+    {
+      "expression": "unplanned_base_steps_count",
+      "direction": "at-most",
+      "units": "count",
+      "measurable_from": "photograph",
+      "threshold": 1,
+      "note": "One deliberate step at a volume break is architecture; six accidental steps along a plain wall is a mistake repeated. Steps must land at a corner, a re-entrant angle or a cross wall, and must drop a whole number of courses or risers."
+    },
+    {
+      "expression": "foundation_exposure_range_around_volume_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "site-visit",
+      "threshold": 0,
+      "note": "Stated deliberately with no upper bound: on a falling site the exposed foundation SHOULD vary, from perhaps 14 in at the high corner to 34 in at the low one, and that variation is where the drama of a hillside house comes from. A constant exposure on a sloping site means the horizontals have been raked."
+    },
+    {
+      "expression": "grade_fall_in_first_10ft_in",
+      "direction": "at-least",
+      "units": "in",
+      "measurable_from": "site-visit",
+      "threshold": 6,
+      "note": "Catches the dishonest fix. Berming the low side to make the ground look level with the band buys a level reading and creates a positive slope toward the wall."
+    }
+  ],
+  "co_occurs_with": [
+    "exposed-concrete-skirt",
+    "house-without-a-base"
+  ],
+  "severity_in_use": "minor"
+}

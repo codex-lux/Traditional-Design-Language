@@ -1,0 +1,210 @@
+{
+  "id": "roman-classical",
+  "name": "Roman Classical",
+  "aka": [
+    "Ancient Roman",
+    "Imperial Roman",
+    "Antique Roman"
+  ],
+  "rank": "style",
+  "member_of": "antique-classical",
+  "status": "historical",
+  "period": {
+    "origin": -200,
+    "floruit_start": -150,
+    "floruit_end": 330,
+    "decline_end": 500,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1420,
+        "end": 1600,
+        "revival_node": "italian-renaissance",
+        "note": "Recovery by measurement of standing ruins and by reading the rediscovered Vitruvius manuscript (Poggio Bracciolini, 1414)."
+      },
+      {
+        "start": 1750,
+        "end": 1850,
+        "revival_node": "french-neoclassical",
+        "note": "Second, archaeologically better-informed recovery driven by the excavation of Herculaneum (1738) and Pompeii (1748) and by Piranesi's polemics."
+      },
+      {
+        "start": 1785,
+        "end": 1830,
+        "revival_node": "jeffersonian-classicism",
+        "note": "Direct American adoption of specific Roman buildings as models for a republic; the Virginia State Capitol is the Maison Carree."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Italy",
+      "Mediterranean basin",
+      "Gaul",
+      "Iberia",
+      "North Africa",
+      "Britain",
+      "Levant"
+    ],
+    "hearth": "Rome and Latium",
+    "climate_zones": [
+      "3A",
+      "3B",
+      "3C",
+      "4A",
+      "4C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "greek-classical",
+      "type": "descends_from",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Direct and self-conscious: Greek craftsmen worked in Rome, Greek buildings were looted and copied, and Vitruvius writes as a transmitter of Greek theory. Rome inherits the orders whole and changes their use rather than their grammar."
+    }
+  ],
+  "description": {
+    "short": "The Greek order system industrialised, freed from structure by the arch and concrete, and turned into an applied grid for articulating walls, vaults and cities across an empire.",
+    "long": "Roman classical architecture takes a system designed for one building type and makes it work for everything: temple, basilica, bath, theatre, aqueduct, warehouse, apartment block, house. The decisive technical change is that the Romans build with the arch, the barrel and groin vault, and above all with opus caementicium - a lime-and-pozzolana concrete poured into brick or rubble facing that behaves as a monolith. Once the wall is doing the work, the column is no longer required to hold anything up. It therefore becomes something new: an articulating device, applied to the face of an arcuated structure to give it scale, hierarchy and rhythm. The Colosseum bay - a pier with a half-column against it, spanned by an arch, repeated eighty times and stacked in three orders - is the single most consequential invention in the history of Western facade design, and every classical elevation from Alberti to McKim is descended from it.\n\nThe conditions are imperial and logistical. Rome had standing armies with engineering corps, an internal market for brick and lime, a road system, slave labour at industrial scale, and a political need to make provincial cities legible as Roman within a generation of conquest. Concrete is what makes that scalable: it does not require a guild of stonecutters, only a supervisor, formwork and an unskilled workforce. The result is a kit of parts in the literal sense - standardised column sizes quarried at Mons Claudianus or Proconnesus and shipped rough, standardised brick dimensions, a canonical set of five orders. Vitruvius, writing under Augustus, is not describing an art; he is writing a specification manual, and the reason the Renaissance could resurrect the whole tradition from a single surviving text is that the text was written to be a specification in the first place.\n\nWhat Rome reacts against is the Greek limitation it inherited. A Greek temple has one interior and it is dark and small; a Greek building is an object to walk around. Rome inverts the priority: the great Roman spaces are interiors, and the exterior of the Pantheon is frankly ugly brick behind a stuck-on Greek porch. Roman architecture also abandons the Greek idea that all four sides matter. The Roman temple sits on a high podium, is approached by a stair only at the front, and is pseudoperipteral - real columns in the porch, engaged half-columns pretending to continue around the flanks. It has one face. This frontality, plus the podium, is precisely what makes the Roman temple adaptable as a facade for a courthouse or a bank two thousand years later, and the Greek temple not.\n\nTo stand inside the Pantheon is to understand what the arch bought. A sphere forty-three metres across is set inside a drum of the same diameter, the coffers of the dome step and diminish so that the surface reads as thinning as it rises, and a single nine-metre oculus admits a hard disc of sunlight that travels measurably across the wall over the course of an hour. There is no direct view of the sky except straight up. The space is not composed of parts you read in sequence, as a Greek temple is; it is one figure apprehended instantly and then slowly disbelieved. Outside, in the streets of Ostia or Pompeii, the same tradition produces something quite different and equally durable: four- and five-storey brick apartment blocks with shops at grade, a continuous street wall, and courtyard houses that turn a blank face outward and lavish everything on an interior peristyle."
+  },
+  "defining_characteristics": [
+    "Arcuated and vaulted structure in concrete or brick-faced concrete, with the orders applied to it rather than carrying it",
+    "The arch order - pier, engaged column or pilaster, entablature, arched opening - as the repeating unit of the facade",
+    "Frontality: a single principal face, a high podium, and access by a frontal stair rather than an all-round stepped base",
+    "Five codified orders including the Roman inventions of Tuscan and Composite, with all Doric variants given a base",
+    "Superimposition of orders in vertical sequence from heaviest below to lightest above",
+    "The interior as the primary architectural subject, with lit, vaulted, axially planned volumes",
+    "Dimensional standardisation of components - column shafts, brick, vault spans - allowing provincial construction by non-specialists"
+  ],
+  "diagnostic_tells": [
+    "Half-columns or pilasters engaged into a wall or pier that is itself doing the structural work - the giveaway that this is Roman and not Greek",
+    "Temple standing on a podium 2 to 4 m high with steps only on the entrance front, and engaged columns down the flanks",
+    "Roman Doric and Tuscan columns have bases; Greek Doric never does",
+    "Coffered vaults and domes, and the Composite capital (Ionic volutes on a Corinthian bell), neither of which exists in Greek work",
+    "Deep porch of two or three column ranks in front, with the cella pushed hard against the rear of the podium"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-classical",
+      "difference": "Greek work is trabeated, peripteral, stands on an all-round crepidoma, has no arches or vaults, and lavishes attention on the exterior. Roman work is arcuated, pseudoperipteral, podium-mounted and frontal, and lavishes attention on the interior."
+    },
+    {
+      "node": "italian-renaissance",
+      "difference": "The Renaissance recovers the Roman vocabulary but not Roman concrete; its vaults are true masonry and its walls are load-bearing, so a Renaissance palazzo is thicker and more inert than the Roman work it imitates. The Renaissance also regularises what Rome did loosely - Roman detailing is far more varied and provincial than the Renaissance codification suggests."
+    },
+    {
+      "node": "norman-romanesque-english",
+      "difference": "Romanesque work reuses the round arch and often literal Roman spolia, but has lost the order as a proportional system: its capitals are cushion, scallop or figurative inventions rather than members of a graduated set, its arcades are dimensioned by the mason's rod rather than by a module, and its walls are thick load-bearing rubble rather than concrete monolith faced with brick."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Vitruvian module = half the lower column diameter, subdivided into 12 or 18 parts. But because the order no longer carries load, the real generator of a Roman elevation is the structural bay of the arcade, with the order laid over it as a grid; the two systems are reconciled by choosing an intercolumniation that suits the required arch span.",
+    "typical_ratios": [
+      "Vitruvian intercolumniations: pycnostyle 1.5D, systyle 2D, eustyle 2.25D (central bay 3D), diastyle 3D, araeostyle 4D",
+      "Column height varies inversely with spacing: about 10 diameters at pycnostyle, 9.5 at eustyle, 8 at araeostyle",
+      "Canonical order heights as later codified by Vignola: Tuscan 7D, Doric 8D, Ionic 9D, Corinthian and Composite 10D",
+      "Entablature approximately 1/4 of column height; pedestal, where used, approximately 1/3",
+      "Tympanum height = 1/9 of the span across the corona (Vitruvius III.5.12)",
+      "Pantheon: interior diameter equals interior height, 43.3 m, so the section is a sphere resting on a cylinder; oculus 8.9 m",
+      "Roman temple plan typically 1:2 (Maison Carree 13.54 x 26.42 m) with the porch occupying roughly one third of the length"
+    ],
+    "bay_rhythm": "Two coexisting rhythms. Trabeated fronts use uniform intercolumniation, often eustyle with a widened central bay. Arcuated fronts use a repeating pier-arch-pier bay, uniform along the whole run and stacked in superimposed orders, with the rhythm broken only at a gate or an axis.",
+    "symmetry": "strict-bilateral"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The domus - atrium and peristyle in sequence, blank to the street, wholly inward-lit."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The villa suburbana and villa maritima open the fourth side to a view or a garden."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "The insula: party-wall blocks of two to five storeys with shops at grade, forming a continuous street wall."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "possible",
+      "note": "Roman practice supplies the podium, the frontal stair and the deep pedimented porch that this skeleton depends on, though Rome applies it to public buildings rather than dwellings."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "possible",
+      "note": "The great maritime villas do compose a dominant block with subordinate flanking ranges, but without the hyphen-and-flanker regularity the name implies."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Any span above roughly 6 m must be arched or vaulted, not lintelled. A flat stone lintel spanning 8 m is not Roman; it is a modern steel beam with stone cladding.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Superimposed orders must ascend from heavier to lighter - Tuscan or Doric below, Ionic next, Corinthian or Composite above. Inverting this order is a hard error.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Where an order is applied to an arcade, the arch springing must align with a horizontal member of the applied order (impost or subordinate entablature), and the arch crown must clear the main entablature soffit by at least 1/2 module.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Temple podium height between 1/5 and 1/3 of the column height; below 1/6 the building loses the frontality that distinguishes it from Greek work.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Domestic Roman exteriors are plain to the point of blankness. Applying temple-front articulation to the street face of a house has no Roman precedent and should be flagged as a Renaissance or later move.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Pantheon",
+      "location": "Rome, Italy",
+      "year": 113,
+      "note": "c. AD 113-125 under Hadrian, reusing Agrippa's inscription. Unreinforced concrete dome of 43.3 m, still the largest ever built."
+    },
+    {
+      "name": "Maison Carree",
+      "location": "Nimes, France",
+      "year": 4,
+      "note": "Dedicated c. AD 4-7 to Gaius and Lucius Caesar. Corinthian hexastyle pseudoperipteral on a 2.85 m podium; the most completely preserved Roman temple and Jefferson's direct model."
+    },
+    {
+      "name": "Colosseum (Flavian Amphitheatre)",
+      "location": "Rome, Italy",
+      "year": 70,
+      "note": "AD 70-80. The canonical superimposed arch order: Tuscan, Ionic, Corinthian, with a Corinthian pilaster attic."
+    },
+    {
+      "name": "House of the Vettii",
+      "location": "Pompeii, Italy",
+      "year": 62,
+      "note": "Final form after the earthquake of AD 62, buried AD 79. The best-preserved atrium-and-peristyle domus."
+    }
+  ],
+  "sources": [
+    "Vitruvius, De architectura",
+    "J. B. Ward-Perkins, Roman Imperial Architecture, Pelican History of Art",
+    "Mark Wilson Jones, Principles of Roman Architecture (2000)",
+    "Frank Sear, Roman Architecture (1982)",
+    "John Summerson, The Classical Language of Architecture (1963)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "arcuated",
+    "orders",
+    "antique",
+    "concrete"
+  ]
+}

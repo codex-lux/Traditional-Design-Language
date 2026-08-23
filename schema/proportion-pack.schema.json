@@ -1,0 +1,478 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/proportion-pack.schema.json",
+  "title": "Proportion Pack",
+  "description": "An EXECUTABLE proportioning system. Not a description of proportion — a function. Given a module and a context, a pack emits a fully dimensioned assembly. The classical orders are a parametric system that predates CAD by two thousand years; this schema encodes them as one. Non-classical packs use the same machinery with a material module (brick course, timber bay, sash light) in place of a column diameter.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "kind",
+    "authority",
+    "module",
+    "confidence"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "aka": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "kind": {
+      "enum": [
+        "order-system",
+        "module-system",
+        "facade-system",
+        "room-system",
+        "trim-system",
+        "opening-system"
+      ],
+      "description": "order-system: a classical order. module-system: a material module governing dimension. facade-system: bay rhythm, storey graduation, solid-to-void. room-system: plan and section ratios. trim-system: the interior profile family. opening-system: window and door proportion."
+    },
+    "authority": {
+      "type": "object",
+      "required": [
+        "source",
+        "strength"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "e.g. 'Vignola, Regola delli cinque ordini d architettura, 1562'"
+        },
+        "author": {
+          "type": "string"
+        },
+        "year": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "strength": {
+          "enum": [
+            "canonical",
+            "documented",
+            "reconstructed",
+            "conventional",
+            "house-rule"
+          ],
+          "description": "canonical: a named treatise everyone builds from. documented: attested in period sources but not codified. reconstructed: derived by measurement from surviving fabric. conventional: current professional practice. house-rule: our own judgement, and marked as such."
+        },
+        "url": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "overlay_of": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "id of the pack this one modifies. An overlay carries only its deltas; everything unstated inherits. Palladio, Chambers, Gibbs and Benjamin are overlays on the Vignola spine."
+    },
+    "module": {
+      "type": "object",
+      "required": [
+        "name",
+        "parts"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "What one module IS: 'semidiameter of the column at its base', 'one brick course including joint', 'one structural bay'."
+        },
+        "parts": {
+          "type": "integer",
+          "description": "Subdivisions of the module. Vignola uses 12 for Tuscan and Doric, 18 for Ionic, Corinthian and Composite."
+        },
+        "default_size_in": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "A sensible default in inches, so the engine can run without being told."
+        },
+        "note": {
+          "type": "string"
+        },
+        "diameters": {
+          "type": "number",
+          "description": "How many lower column diameters one module equals. 0.5 for Vignola's and Chambers's semidiameter, 1.0 for Palladio's whole diameter. Declared rather than inferred, because getting it wrong silently doubles or halves every dimension an overlay inherits."
+        }
+      }
+    },
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "height_modules": {
+          "type": "number",
+          "description": "Full height including base and capital."
+        },
+        "shaft_height_modules": {
+          "type": "number"
+        },
+        "diminution": {
+          "type": "number",
+          "description": "Upper diameter as a fraction of lower. Vignola gives 5/6 for every order."
+        },
+        "entasis_begins_at": {
+          "type": "number",
+          "description": "Fraction of shaft height at which diminution starts. 1/3 in Vignola."
+        },
+        "fluting": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "profile": {
+              "type": "string"
+            },
+            "fillet": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "assemblies": {
+      "type": "object",
+      "description": "Each assembly is a stack of members, bottom to top, dimensioned in PARTS of the module. This is the level at which the pack becomes drawable and checkable.",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "height_modules",
+          "members"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "height_modules": {
+            "type": "number"
+          },
+          "sums_check": {
+            "type": "boolean",
+            "default": true,
+            "description": "If true the validator asserts that member heights sum to height_modules. Set false only for assemblies where a member deliberately overlaps."
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "height_parts"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "height_parts": {
+                  "type": "number"
+                },
+                "projection_parts": {
+                  "type": "number",
+                  "description": "Projection from the naked of the frieze or the column axis datum, in parts."
+                },
+                "profile": {
+                  "enum": [
+                    "fillet",
+                    "listel",
+                    "ovolo",
+                    "quarter-round",
+                    "cavetto",
+                    "cyma-recta",
+                    "cyma-reversa",
+                    "ogee",
+                    "astragal",
+                    "bead",
+                    "torus",
+                    "scotia",
+                    "corona",
+                    "plinth",
+                    "apophyge",
+                    "congé",
+                    "bevel",
+                    "fascia",
+                    "dentil",
+                    "modillion",
+                    "mutule",
+                    "triglyph",
+                    "metope",
+                    "abacus",
+                    "echinus",
+                    "volute",
+                    "acanthus",
+                    "flat",
+                    "other"
+                  ],
+                  "description": "The moulding profile. This is what makes an order drawable and what a millworker actually needs."
+                },
+                "enrichment": {
+                  "type": "string",
+                  "description": "Carved treatment where the profile carries one: egg-and-dart on an ovolo, bead-and-reel on an astragal, water-leaf on a cyma."
+                },
+                "count": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "description": "For repeating members — dentils, modillions, triglyphs."
+                },
+                "spacing_parts": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "note": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "enum": [
+                    "high",
+                    "medium",
+                    "low"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "description": "Relations the pack asserts about itself, checked by the validator. Vignola's whole achievement was reducing the orders to two of these.",
+      "items": {
+        "type": "object",
+        "required": [
+          "statement",
+          "expression"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "statement": {
+            "type": "string"
+          },
+          "expression": {
+            "type": "string",
+            "description": "Evaluable against the pack, e.g. 'entablature.height_modules == column.height_modules / 4'."
+          },
+          "tolerance": {
+            "type": "number",
+            "default": 0.02
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "intercolumniation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "named_spacings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "clear_diameters"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "clear_diameters": {
+                "type": "number"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "default": {
+          "type": "string"
+        }
+      }
+    },
+    "derived_rules": {
+      "type": "array",
+      "description": "The bridge from the order to the kit of parts. This is how a proportioning system governs trim, wainscot, and opening proportion — the thing that makes the pack a grammar rather than a table.",
+      "items": {
+        "type": "object",
+        "required": [
+          "target_slot",
+          "expression"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "target_slot": {
+            "type": "string",
+            "description": "A slot id from elements/slots.json."
+          },
+          "dimension": {
+            "type": "string",
+            "description": "Which dimension of that slot the expression yields: height, width, projection, count."
+          },
+          "expression": {
+            "type": "string",
+            "description": "Formula in named variables the engine binds: module, part, ceiling_height, opening_width, storey_height, column_height."
+          },
+          "units": {
+            "enum": [
+              "in",
+              "parts",
+              "modules",
+              "ratio",
+              "count"
+            ]
+          },
+          "range": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "Acceptable band where the rule is a range rather than a point."
+          },
+          "authority_note": {
+            "type": "string"
+          },
+          "judgment": {
+            "type": "boolean",
+            "default": false,
+            "description": "Marks a JUDGMENT SLOT: the system supplies a starting point and explicitly defers to a human. A rules engine that cannot say what it does not know is not trustworthy."
+          },
+          "note": {
+            "type": "string"
+          },
+          "calibrated_for": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "The context in which this rule was calibrated. Outside it the rule still evaluates and should not be trusted — trim-classical's chair-rail derivation is calibrated for 11-13 ft rooms and puts the rail under the back of a chair at 8 ft.",
+            "properties": {
+              "ceiling_height": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "module": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "diagnostic": {
+            "type": "boolean",
+            "default": false,
+            "description": "True where the rule is designed to FAIL informatively — opening-proportion's sill expression returns a low number to tell you the storey and the window disagree. Without this flag it reads as a rule returning a wrong answer."
+          }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "description": "Where this pack collides with contemporary code, cost, or construction. Modelling these explicitly is the point: this is the expertise that otherwise lives only in a senior architect's head.",
+      "items": {
+        "type": "object",
+        "required": [
+          "with",
+          "statement"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "with": {
+            "enum": [
+              "energy-code",
+              "egress-code",
+              "accessibility-code",
+              "structural",
+              "cost",
+              "material-availability",
+              "climate",
+              "zoning",
+              "construction-tolerance"
+            ]
+          },
+          "statement": {
+            "type": "string"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "What a good architect actually does about it."
+          },
+          "severity": {
+            "enum": [
+              "blocking",
+              "material",
+              "minor"
+            ]
+          }
+        }
+      }
+    },
+    "applies_to": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Style node ids this pack is bound to. The join between the grammar and the dialect."
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

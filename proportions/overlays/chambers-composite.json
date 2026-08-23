@@ -1,0 +1,235 @@
+{
+  "id": "chambers-composite",
+  "name": "Chambers's Composite Order (overlay on Vignola)",
+  "aka": [
+    "Composite of the Treatise",
+    "Composite after Sir William Chambers, 1759",
+    "The Roman order after Scamozzi's arrangement"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "William Chambers, A Treatise on Civil Architecture, London 1759, 'Of the Composite Order' and 'Of Pedestals'; expanded 1791 as A Treatise on the Decorative Part of Civil Architecture",
+    "author": "Sir William Chambers",
+    "year": 1759,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011135288",
+    "note": "Figures read from the Getty scan of the 1759 first edition, pages 32-35, 63, 68 and 82-91. The Composite chapter contains the most explicit statement in the whole Treatise of Chambers's willingness to bend a rule for a stated practical reason - the passage on making the module nine tenths of the semidiameter to avoid fractions - and it is recorded here in full because it shows how he thinks."
+  },
+  "overlay_of": "vignola-composite",
+  "module": {
+    "name": "The semidiameter of the column at the bottom of the shaft, divided into THIRTY minutes",
+    "parts": 30,
+    "default_size_in": 6.0,
+    "note": "Same module as Vignola - the semidiameter - subdivided into thirty minutes instead of eighteen. Module figures transfer from vignola-composite UNCHANGED; PART figures must be multiplied by 30/18 = 1.6667. AND NOTE A DEVICE PECULIAR TO THIS ORDER. Chambers allows the Composite entablature to be reduced from a quarter of the column to two ninths or a fifth, and observes that the reduction can be made to fall on whole numbers by 'making the Module only nine tenths of the semi-diameter' - a working module of 27/30ths - so that the entablature comes out at 'four Modules and a half' instead of a fraction. That is a draughtsman's trick, not a redefinition, and it should never be carried into a drawing without a note on the sheet saying which module is in use. It is recorded here because it is the sort of thing that silently corrupts a set of drawings when one consultant knows it and another does not.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 20,
+    "diminution": 0.8333333333,
+    "entasis_begins_at": 0,
+    "fluting": {
+      "count": 24,
+      "profile": "twenty-four semicircular flutes separated by fillets",
+      "fillet": true
+    }
+  },
+  "assemblies": {
+    "pedestal": {
+      "height_modules": 6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal, with its plinth",
+          "height_parts": 40,
+          "profile": "plinth",
+          "note": "Three tenths of the column - 6 modules - against Vignola's SEVEN (0.35). With the Corinthian, this is the widest pedestal divergence of the five orders, because these are the two orders in which Vignola himself abandons his one-third rule and goes up, while Chambers comes down. Chambers's ground is that the pedestal is a contrivance for raising the order and not a member of it: Vitruvius names pedestals only in the Ionic and gives no proportions, and some architects likened a column on a pedestal to a man on stilts. He accepts one third as the maximum and cites the arch of Constantine's two fifths as the abuse.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_dye",
+          "name": "Dye",
+          "height_parts": 120,
+          "profile": "flat",
+          "note": "Six of nine parts - 'the whole Height be divided into nine parts, one of them may be given to the Height of the Cornice, two to the Base, and the remaining six to the Dye'. For a lower pedestal Chambers offers the eight-part division after Palladio and Perrault: cornice 1, base 2, dye 5. Vignola's Composite pedestal gives the die 97 of 126 parts, 0.77, so Chambers's is markedly the sturdier composition as well as the lower one.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cornice",
+          "name": "Cornice or cap of the pedestal",
+          "height_parts": 20,
+          "profile": "corona",
+          "note": "One ninth, and its projection must exceed the base's so that the base is sheltered by it - Chambers's weathering rule, observed by Scamozzi and, he says, neglected by Palladio.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The module is the semidiameter in thirty minutes, not eighteen.",
+      "expression": "module.parts == 30",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is twenty modules and the entablature five - Vignola's figures. 'The Column is twenty Modules high, and the Entablature five.'",
+      "expression": "column.height_modules == 20",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal is three tenths of the column, against Vignola's 0.35.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules * 3 / 10",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal divides in nine: two to the base, six to the dye, one to the cornice.",
+      "expression": "assemblies.pedestal.members.ped_base.height_parts == assemblies.pedestal.height_modules * module.parts * 2 / 9",
+      "tolerance": 0.01
+    },
+    {
+      "statement": "The diminution begins at the foot of the shaft, by Blondel's conchoid, and is one sixth.",
+      "expression": "column.entasis_begins_at == 0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The whole order with pedestal is 31 modules - 15 1/2 diameters - against Vignola's 32. Chambers's reduction falls entirely on the pedestal.",
+      "expression": "assemblies.pedestal.height_modules + column.height_modules + column.height_modules / 4 == 31",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "chambers-eustyle",
+        "clear_diameters": 2.3333333333,
+        "note": "Chambers's revision of the eustyle from 2 1/4 to 2 1/3 diameters, applied to the Ionic, Corinthian and Composite alike, on the ground that his intervals 'maintain in all of them an equal degree of real solidity'. PALLADIO'S COMPOSITE IS PYCNOSTYLE AT ONE AND A HALF DIAMETERS - a spacing Chambers rejects outright 'on account of their want of space'. The two authorities' Composites are therefore differently spaced by more than three quarters of a diameter per bay, and a Composite colonnade drawn to one and detailed to the other will not close."
+      },
+      {
+        "name": "chambers-diastyle",
+        "clear_diameters": 3.0,
+        "note": "The wider interval Chambers retains, and his limit; the araeostyle he rejects 'for its deficiency in point of strength'."
+      },
+      {
+        "name": "chambers-composite-arcade",
+        "clear_diameters": 4.0,
+        "note": "The arcade pier graded by the character of the order - Chambers's Tuscan pier is four and a half modules and his Corinthian only three and three quarters or four, with the Composite at the light end beside the Corinthian. Vignola holds his piers at three modules without pedestals and four with, regardless of the order. Medium confidence: read from the comparative passage rather than from a plate."
+      }
+    ],
+    "default": "chambers-eustyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "entablature",
+      "dimension": "height",
+      "expression": "column_height / 4",
+      "units": "in",
+      "range": [
+        0.2,
+        0.25
+      ],
+      "note": "THE MOST USEFUL RULE IN THE TREATISE, AND CHAMBERS'S CLEAREST LICENSED DEPARTURE. The Composite entablature is five modules on twenty - a quarter, as Vignola - but 'may be reduced to two ninths of the Column' (0.222) or 'to one fifth' (0.20) where the situation requires, and to keep the reduced figure on whole numbers he suggests taking the module at nine tenths of the semidiameter, which brings the entablature out at four and a half modules exactly. Note what this band contains: PALLADIO'S FIFTH sits at its lower limit. What Palladio makes the rule for his three upper orders, Chambers permits as a reduction on stated occasions. That is the precise distance between the two authorities.",
+      "authority_note": "Chambers, Treatise 1759, p. 68."
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "height",
+      "expression": "column_height / 4 * (2 / 5) * (2 / 8.5)",
+      "units": "in",
+      "judgment": true,
+      "note": "JUDGMENT SLOT. FLAT MODILLIONS, AFTER SCAMOZZI. Chambers on his Composite cornice: it 'is imitated from Scamozzi, and differs from the Corinthian only in the Modillions; which are flat'. Vignola's Composite cornice has DENTILS AND NO MODILLIONS AT ALL; Chambers's has flat modillions and dentils both. That is a member added against the spine and the single most conspicuous difference between the two Composites at the eave. He adds a detailing instruction that is pure craft: the soffit between the dentils 'must be hollowed upwards, behind the little Fillet in Front, as they are in most of the Antiques'. The dimension is a judgement because the band's depth is on the plate, not in the text; the substitution is not.",
+      "authority_note": "Chambers, Treatise 1759, p. 63."
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "judgment": true,
+      "note": "JUDGMENT SLOT: WHOSE COMPOSITE. Chambers states his allegiance plainly - 'I have followed Scamozzi's method; his arrangement appearing to me the most natural' - and details the rest by naming executed precedents rather than by rule: the architrave 'nearly the same with those of Palladio, Vignola, and the Basilica of Antoninus'; the frieze 'enriched with Foliages, in imitation of those at Nero's Frontispiece'; the base 'may either be Attic or Corinthian: they are both beautiful'; and the capital's leaves must not project beyond the top of the shaft, on the evidence of St Carlo in Rome and the Banqueting House in London. The count is the number of enrichment fields a Chambers Composite carries as of right: foliated frieze, flat modillions, and the capital's two ranks of acanthus under the Ionic volute. Which of them to execute is a decision about money and about the room, and Chambers's own advice is to consult 'Nature, and those Buildings, Antient or Modern, in which they have been executed with care and judgement'.",
+      "authority_note": "Chambers, Treatise 1759, pp. 63 and 68."
+    },
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height / 10 * (5 / 6)",
+      "units": "in",
+      "note": "The upper diameter, one sixth diminished, struck from the FOOT of the shaft by Blondel's instrument after the first conchoid of Nicomedes - a curve Chambers identifies in the Pantheon columns and calls 'the most perfect practice hitherto discovered', because a single stroke gives 'both the swelling and the diminution'. Vignola leaves the lower third cylindrical and tapers above it. Same fraction, different shaft.",
+      "authority_note": "Chambers, Treatise 1759, pp. 32-34."
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "width",
+      "expression": "5 / 6",
+      "units": "ratio",
+      "note": "Top width to bottom. Chambers insists on it and notes that pilasters executed without diminution, though found in the antique, forfeit 'one of the greatest beauties'. In a Composite pilaster order the capital must then be set out to the diminished width, with the foot of the leaves inside the top of the shaft.",
+      "authority_note": "Chambers, Treatise 1759, pp. 72-75."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "0.3 / 1.55",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.19,
+        0.33
+      ],
+      "note": "JUDGMENT SLOT. Pedestal 0.3, column 1.0, entablature 0.25: the cap lands at 0.194 of the whole, about 21 in at a 9 ft ceiling, against 0.215 and 23 in under Vignola. Where the entablature is taken at Chambers's reduced fifth the figure rises slightly, to 0.2, which is a reminder that the dado datum moves whenever the entablature does.",
+      "authority_note": "Chambers, Treatise 1759, pp. 83-84."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 10 * (7 / 3)",
+      "units": "in",
+      "note": "Clear span at Chambers's revised eustyle. Set this against Palladio's pycnostyle Composite at one and a half diameters: on a 20 ft column, 56 in of clear span against 36. The same order, the same column height, and a colonnade with half again as many columns in it.",
+      "authority_note": "Chambers, Treatise 1759, p. 89."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "material-availability",
+      "statement": "Chambers's Composite cornice takes flat modillions after Scamozzi and dentils together. Catalogue Composite cornices carry either scrolled modillions (Corinthian-derived) or dentils alone (Vignola-derived); a flat modillion over a dentil band is not a stock section and must be run or cast bespoke.",
+      "resolution": "Run the cornice in place if it is plaster, or have the flat modillion cut as a single repeated block, which is cheap because it is flat - that is precisely why Scamozzi drew it flat. Do not substitute a scrolled modillion: it turns the Composite cornice into a Corinthian one, which is the difference Chambers says is the ONLY difference between them.",
+      "severity": "minor"
+    },
+    {
+      "with": "cost",
+      "statement": "The Composite capital - two ranks of acanthus under an Ionic volute, ovolo and fusarole - is the most expensive capital in the repertoire after the Corinthian, and Chambers's requirement that the foot of the leaves stay within the top of the shaft means it must be carved to the diminished neck rather than bought to a nominal size.",
+      "resolution": "Order capital and shaft together, quoting the NECK diameter. If the budget will not carry a true Composite capital, use Chambers's own permission on the base - 'either Attic or Corinthian: they are both beautiful' - to simplify below, and spend everything on the capital, which is the member that names the order.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The nine-tenths working module Chambers proposes for the reduced entablature is a trap in a modern drawing set. A sheet dimensioned in modules where one consultant reads the module as the semidiameter and another as nine tenths of it will be out by ten per cent everywhere, and the error is invisible because everything is still internally consistent.",
+      "resolution": "Never carry the nine-tenths module into a drawing. Take the reduction in absolute terms - entablature at two ninths or a fifth of the column - and dimension in inches or millimetres at the sheet. State the module and its subdivision in a note on every sheet that carries an order.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "A twenty-module Composite with the entablature reduced to a fifth has only two diameters of entablature over a bay of 2 1/3 diameters clear. In stone that is close to the limit; in the engaged or interior situations where Chambers permits the reduction it is not a problem, but the reduction is routinely borrowed for free-standing porticoes where it is.",
+      "resolution": "Take the reduction only in the situations Chambers names - an engaged order, or interior decoration - and keep the full quarter where the entablature spans. If a free-standing portico needs the shallower entablature for other reasons, carry the load on a concealed beam and say so.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "english-classical",
+    "english-baroque",
+    "adam-style",
+    "regency",
+    "georgian-revival",
+    "neoclassical-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "William Chambers, A Treatise on Civil Architecture, London 1759 (archive.org/details/gri_33125011135288) - pp. 32-35 (diminution), 63 (Composite cornice, architrave, frieze, capital and Scamozzi's arrangement), 68 (column and entablature heights, the reduced entablature and the nine-tenths module, the base), 82-85 (pedestals), 88-91 and 95 (intercolumniations and arcade piers)",
+    "William Chambers, A Treatise on the Decorative Part of Civil Architecture, 3rd ed. London 1791 (archive.org/details/treatiseondecora00cham)",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-composite.json",
+    "Robert Chitham, The Classical Orders of Architecture, 2nd ed. 2005"
+  ],
+  "confidence": "medium",
+  "notes": "WHAT CHAMBERS'S COMPOSITE IS. Vignola's skeleton - twenty modules of column, five of entablature - reckoned in uniform thirtieths, with the shaft curved from the foot, the pedestal at three tenths, the bay at 2 1/3 diameters, the base Attic or Corinthian at the designer's choice, and the cornice taken from Scamozzi with FLAT MODILLIONS added over the dentil band. Chambers's own summary of his allegiance is one sentence: 'I have followed Scamozzi's method; his arrangement appearing to me the most natural.'\n\nTHE ENTABLATURE BAND IS THE THING TO REMEMBER. A quarter normally; two ninths or a fifth where the order is engaged or in interior decoration. That band matters beyond the Composite, because its lower limit is exactly Palladio's standing rule for his three upper orders. Read together with palladio-composite, the two packs locate the whole eighteenth-century argument: Palladio makes a fifth the rule, Vignola makes a quarter the rule, and Chambers - having tabulated both - keeps the quarter and licenses the fifth for named occasions. That is what good judgement between authorities looks like, and it is the reason the Treatise rather than the Regola or the Quattro Libri was the book on the office shelf in 1780.\n\nWHAT IS NOT ASSERTED. Every individual moulding of the cornice, architrave and capital. Chambers details them by naming precedents - the Basilica of Antoninus for the architrave, Nero's Frontispiece for the frieze, St Carlo and the Banqueting House for the capital's leaf projection - rather than by giving dimensions in the prose, and the dimensions on his plates are engraved numerals that the OCR of every scan reached renders as noise. Those members inherit from vignola-composite and must have their PART values multiplied by 1.6667 before they can be used with anything in this pack. The one member-level substitution that IS asserted is the flat modillion, because Chambers states it in words."
+}

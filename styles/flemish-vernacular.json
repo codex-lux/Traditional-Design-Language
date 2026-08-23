@@ -1,0 +1,196 @@
+{
+  "id": "flemish-vernacular",
+  "name": "Flemish Vernacular",
+  "aka": [
+    "Flemish brick vernacular",
+    "langgevelhoeve",
+    "vierkantshoeve",
+    "Brabantine vernacular"
+  ],
+  "rank": "style",
+  "member_of": "low-countries-vernacular",
+  "status": "historical",
+  "period": {
+    "origin": 1200,
+    "floruit_start": 1400,
+    "floruit_end": 1750,
+    "decline_end": 1900,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1870,
+        "end": 1930,
+        "revival_node": null,
+        "note": "Belgian Neo-Flemish Renaissance, adopted as a national style after independence and exported to English seaside and Kentish work as the 'Flemish gable'."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Belgium",
+      "Netherlands",
+      "Northern France"
+    ],
+    "hearth": "Flanders and Brabant",
+    "climate_zones": [
+      "4A",
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "german-fachwerk",
+      "type": "hybridizes_with",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The eastern half of the region — Limburg, the Kempen, the Maasland — builds vakwerk that is structurally continuous with Rhenish Fachwerk. The border is modern; the carpentry is not."
+    },
+    {
+      "target": "italian-renaissance",
+      "type": "references",
+      "weight": 0.25,
+      "inherits_kit": false,
+      "note": "Antwerp Mannerism, and specifically Vredeman de Vries's engraved sheets published there from 1560, quote Italian ornament onto a wholly Flemish wall. The prints, not the buildings, are what travelled."
+    }
+  ],
+  "description": {
+    "short": "The brick, stone-banded and timber-framed building culture of Flanders and Brabant, whose stepped gable, long-facade farmstead and enclosed square farm were the common architecture of the richest agricultural region in medieval Europe.",
+    "long": "Flanders was, from the thirteenth century, the most densely urbanised and most intensively farmed ground north of Italy, and its vernacular is the architecture of that density. The land is flat, wet, treeless in its western half and clay-rich everywhere, which means brick from an early date and brick made locally in small kilns — a hard, small, red-orange brick laid in thick lime mortar. Where good building stone was needed it had to be barged in, principally the white Ledian and Gobertange stones of Brabant, which is why the characteristic Flemish wall is not stone and not plain brick but the two alternating in horizontal bands. The bands are usually explained as decoration. They are more honestly explained as a rationing system: the expensive material goes where it does the most work — sills, jambs, arch voussoirs, string courses at the floor lines — and the pattern is what is left over.\n\nThe rural type is the langgevelhoeve, the long-facade farm: dwelling, byre, stable and barn strung in a single low range under one continuous roof, entered from the long side, the doors and windows falling wherever the internal function put them. Where a farm prospered it did not lengthen indefinitely; it broke into separate ranges and closed them around a yard, producing the vierkantshoeve, the square farm, a walled and gated agricultural courtyard with a single wagon entrance. That progression — one range, then an L, then three sides, then a closed square with a gate — is the whole growth grammar of the Flemish countryside, and it is driven by the same logic in every case: the farmyard is the working floor, and enclosing it protects stock, manure, and tools in a landscape that had been fought over more or less continuously since the fourteenth century.\n\nIn the towns the same building culture produces the stepped gable, the crow-stepped brick screen that Flanders exported over half of northern Europe — to Holland, to Scotland's east coast, to Kent and East Anglia, to the Baltic — largely through the movement of Flemish weavers, masons and merchants under religious and economic pressure. The Flemish stepped gable is heavier than the Dutch one that follows it: fewer and deeper steps, more stone in the wall, more often a real gable ending a real roof rather than a screen in front of one. What the tradition was negotiating with, from the sixteenth century on, was a Renaissance ornament it received as printed pattern rather than as building. Antwerp bought Italy in sheets and applied it to a wall it had no intention of changing.\n\nStanding in a Flemish farm courtyard is a specific and quite un-picturesque experience: you are inside a low, hard, whitewashed or bare-brick enclosure with a beaten or cobbled floor, roofs that come down close over you on all four sides, a single arched gate that frames the only view out, and a dungheap in the middle that was, until living memory, the most valuable thing on the property. The buildings are not composed. They are the walls of a room whose ceiling is the sky."
+  },
+  "defining_characteristics": [
+    "Small hard local brick laid in lime mortar, frequently banded with imported white stone (speklagen) at sills, lintels and floor lines",
+    "Stepped (crow-stepped) gable as the standing urban and farm gable form, with the steps capped in stone or tile",
+    "Long-facade farmstead: dwelling, byre and barn in one continuous low range entered from the long side",
+    "Growth by enclosure — from single range to L to three-sided to a fully closed square farm with one gated wagon entrance",
+    "Timber-framed with brick nogging in the eastern (Limburg, Kempen, Maasland) half of the region; solid brick in the west",
+    "Steep clay-pantile or thatch roof with the eave carried low over the working side",
+    "Functional, not compositional, fenestration on rural buildings: openings occur where the internal use requires them"
+  ],
+  "diagnostic_tells": [
+    "Crow steps with stone or tile capping, on a gable that is genuinely the end of a roof rather than a screen in front of one",
+    "Horizontal white stone banding through red-orange brick — the 'bacon' wall",
+    "A farm reading as a closed rectangle from outside, with one arched gate and no other opening in the outer face",
+    "Pantiles (golfpannen) rather than flat tiles, and a roof that comes down to about head height over the byre side",
+    "In the east, close-spaced vakwerk posts with whitewashed loam panels standing on a brick plinth"
+  ],
+  "distinguished_from": [
+    {
+      "node": "dutch-urban-gable-house",
+      "difference": "The Dutch canal house is a narrow, deep, pile-founded urban object whose gable is a free-standing screen and whose facade leans forward for a hoist. Flemish work is broader, lower, more often rural, heavier in the wall, and its gable is structural."
+    },
+    {
+      "node": "german-fachwerk",
+      "difference": "Where the two overlap in Limburg they are the same craft. West of the Scheldt the Flemish wall is solid brick and the frame disappears entirely, which never happens in the German heartland."
+    },
+    {
+      "node": "english-medieval-timber-frame",
+      "difference": "English framing is oak, wide-panelled or close-studded, and almost never combines with the banded brick-and-stone wall. Flemish brick reached England as an import — the 'Dutch gables' of Kent are Flemish craft, not English development."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The structural bay of the roof, and the brick. Rural ranges are set out in bays of roughly 3.5-4.5 m fixed by the spacing of the roof trusses or the vakwerk posts; the range is a whole number of bays and grows by adding one. In the towns the brick course plus joint (about 60-65 mm) is the real module, and the gable steps are dimensioned in whole courses.",
+    "typical_ratios": [
+      "Farm range depth 5.5-7 m clear, one room or one byre deep",
+      "Gable step rise to tread roughly 1:1, three to seven steps per side",
+      "Roof pitch 45-55 degrees for pantile, 50-60 for thatch",
+      "Closed farm courtyard roughly 1:1 to 1:1.5 in plan, 20-40 m across"
+    ],
+    "bay_rhythm": "Additive and irregular in the countryside — bays are structural, not visual, and openings ignore them. Regular and countable in town, where each floor holds two or three openings and the gable reduces them upward.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "canonical",
+      "note": "The langgevelhoeve is the type specimen: house, byre and barn merged in one range, growing by extension at either end."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The vierkantshoeve — a fully enclosed working farmyard with one gated entry — is where a prosperous Flemish farm ends up."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "The three-sided intermediate stage, before the fourth range or a wall closes the square."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "Urban Flanders builds party-walled brick rows with stepped gables to the street."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The cottier's one-room brick or vakwerk cell, the irreducible unit of the rural landscape."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Timber frame and solid brick are alternatives, not layers. A vakwerk elevation must stand on a fired-brick or stone plinth at least 400 mm above grade, and must not be applied decoratively over a masonry wall.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Stone banding must fall at real structural lines — plinth, sill, lintel, floor level, springing. Bands that float free of those lines read as wallpaper and are prohibited.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Pantile roofs at 45-55 degrees; thatch not below 50. Eaves overhang at least 300 mm, carried lower on the working (byre and midden) side to shelter the doors.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "A closed farm must have exactly one wagon gate; secondary pedestrian doors are cut through a range, never through a second arch in the outer wall.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Crow steps are set out in whole brick courses and must be capped; an uncapped step erodes within a generation and is not a permissible detail.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Vleeshuis (Butchers' Hall)",
+      "location": "Antwerp, Belgium",
+      "year": 1504,
+      "note": "Herman de Waghemakere; the fullest surviving demonstration of the banded brick-and-stone Flemish wall at civic scale."
+    },
+    {
+      "name": "Groot Begijnhof",
+      "location": "Leuven, Belgium",
+      "year": null,
+      "note": "Founded 13th century; the surviving brick and sandstone houses are largely 16th-17th century. UNESCO World Heritage 1998. An intact street-scale sample of Brabantine domestic building."
+    },
+    {
+      "name": "Begijnhof",
+      "location": "Lier, Belgium",
+      "year": null,
+      "note": "Founded 13th century; houses mainly 17th century, with stepped gables and banded walls at cottage scale."
+    },
+    {
+      "name": "Openluchtmuseum Bokrijk",
+      "location": "Genk, Belgium",
+      "year": null,
+      "note": "Relocated and reconstructed Flemish and Limburg farmsteads dating from the 16th to the 19th century, including vakwerk and langgevel types."
+    }
+  ],
+  "sources": [
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World",
+    "Weyns, Volkshuisraad in Vlaanderen",
+    "Bral & Vandevyvere, Bouwen door de eeuwen heen in Vlaanderen (inventory series)",
+    "Rudofsky, Architecture Without Architects"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "brick",
+    "farmstead",
+    "courtyard",
+    "gable",
+    "low-countries"
+  ]
+}

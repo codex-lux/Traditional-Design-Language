@@ -1,0 +1,216 @@
+{
+  "id": "storybook-style",
+  "name": "Storybook Style",
+  "aka": [
+    "Fairytale style",
+    "Hansel and Gretel style",
+    "Provincial Revival",
+    "Disneyesque"
+  ],
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "historical",
+  "period": {
+    "origin": 1921,
+    "floruit_start": 1922,
+    "floruit_end": 1935,
+    "decline_end": 1942,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "Los Angeles, California — specifically the film studio craft shops of Culver City and Hollywood",
+    "climate_zones": [
+      "3B",
+      "3C",
+      "4C"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "cotswold-cottage-revival",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "The immediate parent and the source of the swept eave, the catslide roof, the massive chimney, and the low arched door. Storybook takes each of these and exaggerates it past the point of plausibility, on purpose."
+    },
+    {
+      "target": "tudor-revival",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Supplies the half-timbering, the leaded casement, and the steep multiple gable. In Storybook the timbering ceases to correspond to any frame and becomes drawing."
+    },
+    {
+      "target": "french-eclectic",
+      "type": "hybridizes_with",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "Specifically its Norman register — the round tower with a conical roof, the stone-and-stucco mix, the flared eave and the farmhouse silhouette — which reached America through photographs brought back by servicemen in 1918-19 and through the shelter magazines of the 1920s, and which Storybook takes and exaggerates."
+    },
+    {
+      "target": "english-cottage-vernacular",
+      "type": "references",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "The claimed ancestry, and a precise instance of the references edge. No English cottage practice was transmitted: the actual sources were photographs, illustrated children's books, Arthur Rackham, and the studio plaster shop. What is imitated is a picture of a cottage, not a cottage."
+    },
+    {
+      "target": "tudor-revival",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Named as a reaction in this node's own description: against the archaeological seriousness of the period revivals it grew out of, and against the bungalow's earnest structural honesty."
+    },
+    {
+      "target": "cotswold-cottage-revival",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Named as a reaction in this node's own description: against the archaeological seriousness of the period revivals it grew out of, and against the bungalow's earnest structural honesty."
+    },
+    {
+      "target": "craftsman-bungalow",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Named as a reaction in this node's own description: against the archaeological seriousness of the period revivals it grew out of, and against the bungalow's earnest structural honesty."
+    }
+  ],
+  "description": {
+    "short": "A knowingly theatrical Los Angeles idiom of the 1920s in which the English and Norman cottage was rebuilt in studio plaster with its irregularities deliberately exaggerated — sagging ridges, rolled eaves, oversized chimneys, undersized doors — to make a house that performs a narrative.",
+    "long": "Storybook is the one node in this branch that is not trying to be authentic and does not think it should be. It is an architecture of deliberate caricature, produced by people whose day job was building convincing lies at twenty-four frames a second, and it is best understood as set design that was permitted to become permanent. Harry Oliver, who built the first canonical example, was a Hollywood art director; so were several of his imitators. The techniques are the studio's: lath and plaster shaped by hand to imitate weathered stone or slumping thatch, rolled and steamed shingle courses curled over the eave and around the gable end to fake a thatched roof, timbers distressed with adzes and chains, stucco troweled to look four hundred years old and stained accordingly. The moves are the studio's too: everything is scaled for legibility. The chimney is too large, the door is too small, the ridge sags, the eave undulates, the tower is too short for its cone. Each departure is on the order of ten to twenty percent from convention — enough to register as character, not so much as to read as failure.\n\nWhat produced it is a specific coincidence of place and decade. Los Angeles in the 1920s had the largest concentration of skilled scenic plasterers, carpenters, and painters in the world, a population that had grown from about 577,000 to 1.2 million in ten years, an enormous speculative housing boom, and a cheap and completely plastic wall system — wood frame with wire lath and portland cement stucco — that could be shaped into any profile a modeller could sketch. It also had an audience trained by the movies to read buildings as characters. The parallel stream is quieter and just as important: Hugh Comstock, who was not a builder at all, put up a small cottage in Carmel-by-the-Sea in 1924 to house his wife's rag doll business, followed it with a second in 1925, and inadvertently produced the template for an entire seaside town's identity. The Carmel line is handmade and sincere where the Los Angeles line is professional and theatrical, and the two together define the style's range.\n\nWhat it reacts against is the archaeological seriousness of the Period Revivals it grew out of. Tudor Revival and Cotswold Cottage Revival in the 1920s were policed by shelter magazines and by architects who had measured actual English buildings; Storybook cheerfully abandons the enterprise and admits that the client wants a feeling rather than a fact. It is also, less obviously, a reaction against the bungalow: after twenty years of the honest low horizontal Craftsman house, the market wanted verticality, romance, and a picture.\n\nStanding before one, the effect is immediate and slightly unsettling: nothing is straight, and you become aware of how much of your reading of a house depends on the assumption that lines are level. The eave rolls. The ridge dips at the middle by four to six inches over its length. The wall bulges. The chimney occupies a third of the gable end and is battered and stepped and has more chimney pots than the flues require. The front door is six feet or so tall, board-and-strap with visible iron, set in an arched opening under a catslide roof that drops within seven feet of the ground. Windows are small, leaded, diamond-paned, and placed where a room needed them rather than where the elevation wanted them. Inside, the rooms are ordinary — this is a 1920s speculative house, with a normal plan and normal ceilings, and the enchantment is entirely a surface half an inch thick. That is the honest assessment, and it does not diminish the buildings: they are extremely good at what they set out to do, they are loved by everyone who lives near them, and they demonstrate something a rule-based system should take seriously, which is that deliberate, systematic, bounded deviation from a norm produces charm, while random deviation produces noise."
+  },
+  "defining_characteristics": [
+    "Deliberate distortion of geometry executed as designed intent: sagging ridge, undulating eave, out-of-plumb wall, irregular window placement",
+    "Steeply pitched roof, 12:12 or greater, with eaves rolled, swept, or curled over the rake to simulate thatch",
+    "A chimney oversized in width and height relative to the flue it contains, treated as the principal sculptural event",
+    "Wall surface as plastic material — troweled and modelled stucco, simulated or genuinely distressed masonry, timbering that follows no frame",
+    "Small leaded casements, diamond- or rectangular-paned, placed by internal need and never aligned to a facade datum",
+    "An entry composed as a set piece: low arched opening, board-and-strap door, catslide or hooded roof dropping close to the ground",
+    "Overall composition legible as a single picture from one viewpoint, usually the street corner"
+  ],
+  "diagnostic_tells": [
+    "Shingle courses rolled and curled around the eave and rake edge — the fake-thatch move, and the fastest positive identification",
+    "A roof that sweeps down to within 6 or 7 ft of the ground on one side (catslide) while the opposite eave stays high",
+    "Half-timbering that does not meet at the corners or align across a floor line",
+    "A round or polygonal turret whose conical roof is too tall and too steep for its diameter",
+    "A front door noticeably shorter than a person expects, in an opening arched at the head"
+  ],
+  "distinguished_from": [
+    {
+      "node": "tudor-revival",
+      "difference": "Tudor Revival takes its English sources seriously and gets the timber framing, the brick bonds, and the window proportions right. Storybook knows they are wrong and makes them wronger. If the ridge is level and the timbering resolves at the corners, it is Tudor Revival."
+    },
+    {
+      "node": "cotswold-cottage-revival",
+      "difference": "The Cotswold type is built of real or convincing stone with genuine masonry coursing and restrained irregularity; Storybook simulates the same effects in plaster and pushes them past plausibility."
+    },
+    {
+      "node": "french-normandy-revival",
+      "difference": "Normandy Revival keeps a sober farmhouse composition around its tower and stays symmetrical about it; Storybook uses the tower as one incident in a picturesque agglomeration and abandons any regulating geometry."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "None in the conventional sense — the governing logic is pictorial and theatrical. Elements are scaled for narrative legibility from a single approach viewpoint, and the method is systematic bounded deviation: each element departs from its conventional dimension by roughly 10 to 25 percent, in a consistent direction (doors and windows down, chimneys and roofs up), so the whole composition reads as one exaggeration rather than a set of errors. This is encodable, and it is the only node in the branch where the rule is a rule about breaking rules.",
+    "typical_ratios": [
+      "Principal roof pitch 12:12 to 18:12",
+      "Ridge deliberately deflected 3 to 6 in below level over its length",
+      "Eave line deviating from straight by 2 to 6 in",
+      "Entry door height 6 ft 0 in to 6 ft 6 in — 10 to 15 percent under convention",
+      "Chimney width 1.5 to 2.5 times the width required by its flues, and rising at least 4 ft above the ridge",
+      "Casement lights 6 to 10 in wide, in openings under 3 ft"
+    ],
+    "bay_rhythm": "None. Openings are placed by internal need and by pictorial balance; any perceived rhythm is accidental and should be disrupted.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The agglomerated irregular mass with multiple roof directions is the style's home skeleton."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "affinity": "common",
+      "note": "The commonest speculative version: an ordinary L-plan cottage with the whole apparatus applied to the street-facing gable."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "possible"
+    },
+    {
+      "massing": "villa-tower",
+      "affinity": "possible",
+      "note": "Where a turret is present it converts the massing to this skeleton, usually with the tower shorter than the Italianate original."
+    },
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "atypical",
+      "note": "The regular symmetrical box actively defeats the style; where it occurs the Storybook treatment is a veneer on an unwilling skeleton."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Principal roof pitch not less than 12:12. Below 10:12 the style collapses into ordinary Period Revival.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "A strictly symmetrical principal elevation is forbidden. At least three of the following must be present and deliberately irregular: ridge line, eave line, wall plane, window head heights, chimney profile.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Deviations from level, plumb, and convention shall lie between 5 and 25 percent of the nominal dimension, and shall be consistent in direction across the building. Deviation beyond 25 percent reads as damage rather than character.",
+      "severity": "soft"
+    },
+    {
+      "kind": "structural",
+      "statement": "The principal chimney must be the tallest and most massive element of the composition, not less than 1.5 times the width required by its flues, and must terminate at least 4 ft above the main ridge.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "The idiom is coherent only at cottage scale. Applied to a house of more than roughly 2,500 sq ft or more than two full storeys, the exaggerations invert and read as bombast; use tudor-revival or french-eclectic instead.",
+      "severity": "advisory"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Spadena House (the Witch's House)",
+      "location": "Beverly Hills, California",
+      "year": 1921,
+      "note": "Harry Oliver. Built 1921 in Culver City as offices and dressing rooms for Irvin Willat's film studio, moved to the corner of Walden Drive and Carmelita Avenue in Beverly Hills in 1926. The founding example, and literally a set."
+    },
+    {
+      "name": "Hansel and Gretel Cottages",
+      "location": "Torres Street, Carmel-by-the-Sea, California",
+      "year": 1924,
+      "note": "Hugh Comstock, Hansel completed 1924 and Gretel 1925, built by hand by a man with no building training. The sincere, non-studio branch of the style and the origin of Carmel's cottage identity."
+    },
+    {
+      "name": "Tam O'Shanter Inn",
+      "location": "Los Angeles (Atwater Village), California",
+      "year": 1922,
+      "note": "Harry Oliver again, for the restaurateur Lawrence Frank. A commercial building in the domestic idiom, still operating; the style at its most confident."
+    }
+  ],
+  "sources": [
+    "Arrol Gellner and Douglas Keister, Storybook Style: America's Whimsical Homes of the Twenties (2001)",
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Kevin Starr, Material Dreams: Southern California through the 1920s (1990)",
+    "Los Angeles Conservancy, survey files on the work of Harry Oliver"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "theatrical",
+    "film-industry",
+    "bounded-deviation",
+    "period-revival"
+  ]
+}

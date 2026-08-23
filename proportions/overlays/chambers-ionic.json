@@ -1,0 +1,306 @@
+{
+  "id": "chambers-ionic",
+  "name": "Chambers's Ionic Order (overlay on Vignola)",
+  "aka": [
+    "Ionic of the Treatise",
+    "Ionic after Sir William Chambers, 1759",
+    "The angular-capital Ionic of late Georgian practice"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "William Chambers, A Treatise on Civil Architecture, London 1759, 'Of the Ionic Order' and 'Of Pedestals'; expanded 1791 as A Treatise on the Decorative Part of Civil Architecture",
+    "author": "Sir William Chambers",
+    "year": 1759,
+    "strength": "canonical",
+    "url": "https://archive.org/details/gri_33125011135288",
+    "note": "Figures read from the Getty scan of the 1759 first edition, pages 32-35, 52, 58 and 82-91. Chambers opens the Ionic by noting that 'among the Antients, the form of the Ionic Profile appears to have been more positively determined than that of any other Order' - which is why his departures from Vignola here are about the CAPITAL and the BASE rather than about proportion."
+  },
+  "overlay_of": "vignola-ionic",
+  "module": {
+    "name": "The semidiameter of the column at the bottom of the shaft, divided into THIRTY minutes",
+    "parts": 30,
+    "default_size_in": 6.0,
+    "note": "Same module as Vignola - the semidiameter - subdivided into thirty minutes instead of EIGHTEEN. Module figures transfer from vignola-ionic UNCHANGED; PART figures must be multiplied by 30/18 = 1.6667. Chambers's uniform thirtieth means one minute is 1/60 of a diameter in every order, so an Ionic member can be compared directly with a Doric one - which under Vignola's 12-and-18 split is impossible without conversion. That comparability is the whole purpose of the Treatise: it is the book that tabulates Vitruvius, Palladio, Scamozzi, Serlio, Vignola and the antique against each other, and it could not do so on Vignola's own reckoning.",
+    "diameters": 0.5
+  },
+  "column": {
+    "height_modules": 18,
+    "diminution": 0.8333333333,
+    "entasis_begins_at": 0,
+    "fluting": {
+      "count": 24,
+      "profile": "twenty-four semicircular flutes separated by fillets",
+      "fillet": true
+    }
+  },
+  "assemblies": {
+    "base": {
+      "height_modules": 1,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_plinth",
+          "name": "Plinth",
+          "height_parts": 10,
+          "projection_parts": 20,
+          "profile": "plinth",
+          "note": "CHAMBERS REJECTS THE VITRUVIAN IONIC BASE AND GIVES A REASON OF METHOD: 'I have employed the Attic Base in this Order.' The antique Ionic base described by Vitruvius and used by Vignola and Philibert de l'Orme has, he says, no surviving ancient example, and he treats a form without an executed precedent as imperfect - an argument from evidence rather than from taste, and characteristic of him. RECORD A DISAGREEMENT: the vignola-ionic pack in this repository encodes Vignola's Ionic base in Attic form (plinth, torus, fillet, scotia, fillet, torus). Chambers, writing in 1759 with the Regola in front of him, says Vignola used the two-scotia Vitruvian base. The two accounts cannot both be right and this overlay does not adjudicate; it asserts only what Chambers's own base is.",
+          "confidence": "high"
+        },
+        {
+          "id": "base_lower_torus",
+          "name": "Lower torus",
+          "height_parts": 7.5,
+          "profile": "torus",
+          "note": "One Attic base serves Chambers's Doric, Ionic and Corinthian alike - he says so in the Corinthian chapter: 'The Base is Attic, and its measures the same as in the Doric and Ionic Orders.' Vignola gives a different base to the Doric and the same Attic form to the upper three. Chambers's economy is deliberate: fewer profiles, executed better.",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_lower_fillet",
+          "name": "Fillet under the scotia",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_scotia",
+          "name": "Scotia",
+          "height_parts": 5,
+          "profile": "scotia",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_fillet",
+          "name": "Fillet over the scotia",
+          "height_parts": 1.25,
+          "profile": "fillet",
+          "confidence": "medium"
+        },
+        {
+          "id": "base_upper_torus",
+          "name": "Upper torus",
+          "height_parts": 5,
+          "projection_parts": 16,
+          "profile": "torus",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "frieze": {
+      "height_modules": 1.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "frieze",
+          "name": "Frieze, flat",
+          "height_parts": 45,
+          "profile": "flat",
+          "note": "A SUBSTITUTION MADE ON A STATED GROUND. Chambers holds that swelled - pulvinated - friezes 'never succeed' except at doors and windows, and says so against Palladio, who enriches and swells his. Vignola's Ionic frieze is drawn flat but is conventionally executed pulvinated, and most Colonial Revival Ionic swells it as a matter of course. Chambers's Ionic frieze is FLAT in the order and swelled only in an aedicule. The height is unchanged at 1 1/2 modules; what changes is the section, which is why the assembly is restated rather than left to inherit.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "pedestal": {
+      "height_modules": 5.4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ped_base",
+          "name": "Base of the pedestal, with its plinth",
+          "height_parts": 36,
+          "profile": "plinth",
+          "note": "Three tenths of the column against Vignola's exact third (6 modules). Chambers reports the received rule - 'one third of the Column' - and then draws his own pedestals at 'three tenths of the Height of the respective Columns'. He is explicit that the pedestal is not properly a member of the order at all: Vitruvius mentions pedestals only in the Ionic, and only as part of a temple, without giving proportions, so Chambers treats them 'as separate architectural elements'. Some architects, he notes, likened columns on pedestals to men on stilts.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_dye",
+          "name": "Dye",
+          "height_parts": 108,
+          "profile": "flat",
+          "note": "Six of the nine parts. Vignola's Ionic pedestal gives the die 87 of 108 parts - 0.806 - against Chambers's 0.667: Chambers has a much heavier base and cap and a shorter die. That is a visible difference in an arcade, not a bookkeeping one.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ped_cornice",
+          "name": "Cornice or cap of the pedestal",
+          "height_parts": 18,
+          "profile": "corona",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The module is the semidiameter in thirty minutes - not eighteen. This is the conversion that trips every reader moving between the Regola and the Treatise.",
+      "expression": "module.parts == 30",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The column is eighteen modules and the entablature four and a half - Vignola's figures exactly. Chambers's Ionic differs from Vignola in the capital, the base and the frieze section, not in its proportions.",
+      "expression": "column.height_modules == 18",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal is three tenths of the column, against Vignola's one third.",
+      "expression": "assemblies.pedestal.height_modules == column.height_modules * 3 / 10",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The pedestal divides in nine: two to the base, six to the dye, one to the cornice.",
+      "expression": "assemblies.pedestal.members.ped_cornice.height_parts == assemblies.pedestal.height_modules * module.parts / 9",
+      "tolerance": 0.01
+    },
+    {
+      "statement": "The Attic base is a full module, its plinth a third of it, and the upper torus two thirds of the lower.",
+      "expression": "assemblies.base.members.base_upper_torus.height_parts / assemblies.base.members.base_lower_torus.height_parts == 2 / 3",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The diminution begins at the foot of the shaft; there is no cylindrical lower third.",
+      "expression": "column.entasis_begins_at == 0",
+      "tolerance": 0.001
+    }
+  ],
+  "intercolumniation": {
+    "named_spacings": [
+      {
+        "name": "chambers-eustyle",
+        "clear_diameters": 2.3333333333,
+        "note": "CHAMBERS REVISES VIGNOLA'S EUSTYLE FROM 2 1/4 TO 2 1/3 DIAMETERS, and gives the reason in full: the chosen intervals 'answer perfectly the intention of Vitruvius, preserve the character of each Order, and maintain in all of them an equal degree of real solidity'. The last phrase is the argument - he wants the ratio of column area to bay to be constant across the five orders, which the Vitruvian fixed intervals do not achieve because the columns get thinner as the orders rise. The Ionic is the order where this shows most clearly, because it is the one everybody draws eustyle."
+      },
+      {
+        "name": "chambers-diastyle",
+        "clear_diameters": 3.0,
+        "note": "The wider of the two intervals Chambers retains. Both 'may be employed without distinction in all the Orders, excepting the Doric'."
+      },
+      {
+        "name": "chambers-rejected",
+        "clear_diameters": 1.5,
+        "note": "Recorded to be excluded, not used. Chambers sets aside 'the Pycnostyle and Systyle dispositions, on account of their want of space, and the Araeostyle for its deficiency in point of strength'. Vignola draws no such prohibition and Palladio positively uses the systyle for his Corinthian and the pycnostyle for his Composite. This is a real three-way disagreement and it is the reason a Chambers portico looks calmer than a Palladian one."
+      },
+      {
+        "name": "chambers-ionic-arcade",
+        "clear_diameters": 4.75,
+        "note": "Chambers observes that in Palladio's arcades 'the distance between the Axis of the Columns [is] only eleven Modules and a half, instead of twelve and a half' - the sort of measured comparison that fills the Treatise. His own Ionic arcade pier falls between Vignola's three modules (no pedestal) or four (with) and Palladio's three and three quarters. Medium confidence: read from the comparative passage, not from a plate."
+      }
+    ],
+    "default": "chambers-eustyle"
+  },
+  "derived_rules": [
+    {
+      "target_slot": "column",
+      "dimension": "width",
+      "expression": "column_height / 9 * (5 / 6)",
+      "units": "in",
+      "note": "The upper diameter. One sixth, as in all five of Chambers's orders, but struck from the FOOT of the shaft by Blondel's instrument after the first conchoid of Nicomedes, which performs 'both the swelling and the diminution' at one stroke - a form Chambers says is 'universally allowed to be the most perfect practice hitherto discovered' and which he identifies in the Pantheon columns. Vignola leaves the lower third cylindrical. Same fraction, different curve, and the difference is visible in raking light.",
+      "authority_note": "Chambers, Treatise 1759, pp. 32-34."
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "count",
+      "expression": "4",
+      "units": "count",
+      "judgment": true,
+      "note": "JUDGMENT SLOT: WHICH IONIC CAPITAL. Chambers holds that where the fronts and flanks of a building differ, 'the angular Capital invented by Scamozzi, or rather imitated by him from the Temple of Concord, ought to be employed' - four volutes set diagonally, so that every face reads alike. Vignola gives the frontal Roman capital with volutes on two faces and cushions on the flanks, and turns only the outer volute of the angle column. The count here is the number of volutes: four for Chambers's angular capital, two plus two cushions for Vignola's. This is the single most conspicuous difference between a late Georgian Ionic and a Vignolesque one, and it is a decision, not a dimension - hence judgment.",
+      "authority_note": "Chambers, Treatise 1759, p. 58."
+    },
+    {
+      "target_slot": "frieze",
+      "dimension": "height",
+      "expression": "column_height / 4 * (1 / 3)",
+      "units": "in",
+      "note": "The frieze at a third of the entablature - the Vignolesque proportion, retained - but FLAT. Chambers: swelled friezes 'never succeed' except at doors and windows. If the frieze of an Ionic order is pulvinated, it is not following the Treatise.",
+      "authority_note": "Chambers, Treatise 1759, p. 58."
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "width",
+      "expression": "5 / 6",
+      "units": "ratio",
+      "note": "Top width to bottom width. Chambers on the contrary opinion: 'To assert that Pilasters are not susceptible of diminution shews very little acquaintance either with books of Architecture' or with the antiques, 'in [which] there are several instances thereof'. He does allow that pilasters are sometimes executed without diminution and records it as a custom, not as a rule.",
+      "authority_note": "Chambers, Treatise 1759, pp. 72-75."
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "0.3 / 1.55",
+      "units": "ratio",
+      "judgment": true,
+      "range": [
+        0.19,
+        0.33
+      ],
+      "note": "JUDGMENT SLOT. Pedestal 0.3, column 1.0, entablature 0.25: the pedestal cap lands at 0.194 of the whole, about 21 in at a 9 ft ceiling, against 0.21 and 23 in under Vignola. The classical datum moves DOWN under Chambers, further from the modern 32-36 in expectation. Where both must be satisfied, hold the classical dado cap and add a separate rail; do not compromise between them.",
+      "authority_note": "Chambers, Treatise 1759, pp. 83-84."
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "width",
+      "expression": "column_height / 9 * (7 / 3)",
+      "units": "in",
+      "note": "Clear span at Chambers's revised eustyle of 2 1/3 diameters. On a 9 ft Ionic column that is 28 in against Vignola's 27 - small in one bay, and a full column's width of accumulated difference across a seven-bay front.",
+      "authority_note": "Chambers, Treatise 1759, p. 89."
+    },
+    {
+      "target_slot": "balustrade",
+      "dimension": "height",
+      "expression": "column_height * 3 / 10 * (8 / 9)",
+      "units": "in",
+      "judgment": true,
+      "range": [
+        30,
+        42
+      ],
+      "note": "JUDGMENT SLOT. Where a balustrade runs between pedestals, its top aligns with the pedestal's dye-and-base - eight ninths of Chambers's pedestal - and its height therefore falls out of the order rather than out of the human figure. At ordinary domestic scale this lands between 30 and 36 in. The range is in inches and is where code and proportion have to be reconciled by a person.",
+      "authority_note": "Chambers, Treatise 1759, p. 121, on balustrade dimensions and placement."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "Scamozzi's angular capital, which Chambers prefers wherever front and flank differ, has four diagonal volutes instead of two frontal ones and no cushions. It is the more expensive capital to carve and the cheaper one to buy, because every catalogue 'Ionic' is angular - the trade standardised on it precisely because it makes every elevation the same.",
+      "resolution": "This is the rare case where the cheap option is also the authoritative one for late Georgian work. Buy the angular capital and be right. If the building is Vignolesque or early Palladian, insist on the frontal capital with cushions and expect to pay two to three times as much.",
+      "severity": "minor"
+    },
+    {
+      "with": "energy-code",
+      "statement": "A full Ionic entablature at 4 1/2 modules is 2 1/4 diameters deep at the eave and its cornice projects as far as it is high. Insulating and venting behind it while keeping the corona's drip clear is the standard late-Georgian-revival eave problem, and Chambers's flat frieze removes the one place - the swell of a pulvinated frieze - where a vent slot could hide.",
+      "resolution": "Vent at the soffit of the corona behind the dentils rather than at the frieze, and take the insulation line to the wall plane. Do not swell the frieze to gain a cavity: under Chambers that is wrong in the order and it will not gain more than an inch.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "At the 6 in default module a Chambers minute is 1/5 in. His Attic base fillets at 1.25 minutes are 1/4 in and his dentil interspaces smaller still. Painted joinery tolerance is about 1/16 in and three coats of paint about 1/32 in per face, so a 1/4 in fillet loses a quarter of itself.",
+      "resolution": "Set a floor of 1/2 in for any fillet in painted wood, 1/4 in for run plaster, 3/8 in for cast stone, and consolidate below it. Chambers's uniform thirtieths make this trivial to police across all five orders, which is exactly why he adopted them.",
+      "severity": "minor"
+    },
+    {
+      "with": "structural",
+      "statement": "Chambers rejects the araeostyle 'for its deficiency in point of strength' and caps the bay at three diameters. Modern practice routinely spaces Ionic porticoes at four or more diameters because the architrave is a hidden steel beam and nobody is counting diameters.",
+      "resolution": "If the bay must exceed three diameters, the honest move is to change the order - a Tuscan or Doric carries a wide bay by right - rather than to stretch an Ionic. A four-diameter Ionic reads as thin from the moment the scaffold comes down, and no amount of concealed steel fixes the proportion.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "english-classical",
+    "adam-style",
+    "regency",
+    "federal-style",
+    "georgian-revival",
+    "colonial-revival",
+    "neoclassical-revival",
+    "new-classical"
+  ],
+  "sources": [
+    "William Chambers, A Treatise on Civil Architecture, London 1759 (archive.org/details/gri_33125011135288) - pp. 32-35 (diminution), 52 (Ionic column and entablature heights), 58 (Attic base, angular capital, swelled friezes), 82-85 (pedestals), 88-91 (intercolumniations), 121 (balustrades)",
+    "William Chambers, A Treatise on the Decorative Part of Civil Architecture, 3rd ed. London 1791 (archive.org/details/treatiseondecora00cham)",
+    "Vignola, Regola delli cinque ordini d'architettura, 1562, as encoded in proportions/orders/vignola-ionic.json",
+    "Robert Chitham, The Classical Orders of Architecture, 2nd ed. 2005"
+  ],
+  "confidence": "medium",
+  "notes": "PROPORTIONALLY THIS IS VIGNOLA'S IONIC. Eighteen modules of column, four and a half of entablature, one of base - Chambers states all three and they agree exactly. He opens the chapter by explaining why: 'among the Antients, the form of the Ionic Profile appears to have been more positively determined, than that of any other Order', so there is less to argue about. His departures are therefore about WHICH FORM, not about how big.\n\nTHE THREE DEPARTURES. (1) The Attic base, because the Vitruvian Ionic base that Vignola uses has no executed antique example and Chambers will not follow a form without a precedent. (2) Scamozzi's angular capital wherever fronts and flanks differ, because the frontal capital cannot turn a corner without a contrivance. (3) The flat frieze, because swelled friezes 'never succeed' outside an aedicule - a direct rebuke to Palladio. Add the uniform thirtieth module, the diminution from the foot of the shaft, the pedestal at three tenths and the eustyle revised to 2 1/3 diameters, and the order is fully differentiated from the spine.\n\nWHAT IS NOT ASSERTED. The capital's dimensions and the cornice's individual mouldings. Chambers's Ionic plates are dimensioned in minutes on the engraving, and every scan reached renders those numerals as OCR noise; the Getty scan's text also breaks down in the plate-facing pages of this chapter. Rather than transcribe guesses this overlay restates only what can be quoted from the prose, and the rest inherits from vignola-ionic - remembering that inherited PART values must be multiplied by 1.6667.\n\nWHY THIS MATTERS DOWNSTREAM. Chambers is the authority behind late Georgian and Adam-period professional practice in Britain, and through Adam and the pattern books behind American Federal work. Where a Federal or Adam Ionic is angular-capitalled, flat-friezed and Attic-based, it is following the Treatise; where it is frontal-capitalled with a pulvinated frieze, it is following Vignola or a Colonial Revival catalogue."
+}

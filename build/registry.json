@@ -1,0 +1,20 @@
+{
+  "traditions": ["classical-mediterranean","british-isles","northern-european-vernacular","iberian-mediterranean","north-american"],
+  "families": {
+    "classical-mediterranean": ["antique-classical","renaissance-classical","continental-baroque-neoclassical","mediterranean-vernacular"],
+    "british-isles": ["medieval-british","tudor-jacobean","english-classical","british-picturesque","british-arts-and-crafts","british-vernacular"],
+    "northern-european-vernacular": ["low-countries-vernacular","germanic-vernacular","french-vernacular","nordic-alpine-vernacular"],
+    "iberian-mediterranean": ["iberian-islamic","spanish-classical","iberian-vernacular","colonial-iberian-americas"],
+    "north-american": ["american-colonial","early-republic","romantic-revivals","victorian","eclectic-revivals","american-arts-and-crafts","mid-century-traditional","contemporary-traditional","american-folk-vernacular"]
+  },
+  "styles_and_variants": {
+    "A_classical": ["greek-classical","roman-classical","italian-renaissance","palladian","italian-baroque","french-renaissance-chateau","french-baroque","french-neoclassical","beaux-arts-french","tuscan-vernacular","italian-villa-vernacular"],
+    "B_british": ["norman-romanesque-english","english-gothic","english-medieval-timber-frame","tudor","elizabethan","jacobean","english-baroque","english-palladian","english-georgian","english-georgian-townhouse","english-georgian-country-house","adam-style","regency","cotswold-vernacular","english-cottage-vernacular","scottish-baronial","gothic-revival-british","queen-anne-british","arts-and-crafts-british"],
+    "C_continental_iberian": ["dutch-urban-gable-house","flemish-vernacular","cape-dutch","german-fachwerk","north-german-hall-house","norman-vernacular","french-provincial-farmhouse","french-manoir","swiss-chalet","scandinavian-log-vernacular","moorish-andalusian","mudejar","spanish-plateresque","churrigueresque","andalusian-courtyard-vernacular","mexican-colonial","mexican-hacienda"],
+    "D_american_colonial": ["new-england-colonial","saltbox-colonial","cape-cod-colonial","garrison-colonial","dutch-colonial-american","hudson-valley-dutch","new-jersey-dutch-gambrel","german-pennsylvania-colonial","pennsylvania-bank-house","french-colonial-american","creole-cottage-vernacular","raised-creole-plantation","spanish-colonial-american","new-mexico-adobe","california-mission-colonial","monterey-colonial","georgian-colonial-american","new-england-georgian","mid-atlantic-georgian","tidewater-georgian","charleston-georgian"],
+    "E_early_republic_folk": ["federal-style","new-england-federal","southern-federal","charleston-single-house","jeffersonian-classicism","greek-revival-american","greek-revival-northern","greek-revival-southern-plantation","greek-revival-upland-vernacular","log-vernacular-american","appalachian-log-house","dogtrot-vernacular","shotgun-house","american-farmhouse-vernacular"],
+    "F_romantic_victorian": ["gothic-revival-american","carpenter-gothic","rural-gothic-villa","italianate-american","italianate-villa","italianate-townhouse","renaissance-revival-american","egyptian-revival","octagon-house","second-empire","stick-style","queen-anne-american","queen-anne-spindled","queen-anne-free-classic","queen-anne-patterned-masonry","richardsonian-romanesque","shingle-style","folk-victorian"],
+    "G_eclectic_revivals": ["colonial-revival","georgian-revival","dutch-colonial-revival","cape-cod-revival","garrison-revival","neoclassical-revival","tudor-revival","jacobethan-revival","cotswold-cottage-revival","chateauesque","french-eclectic","french-normandy-revival","italian-renaissance-revival","mediterranean-revival","mission-revival","spanish-colonial-revival","andalusian-spanish-revival","monterey-revival","pueblo-revival","beaux-arts-american"],
+    "H_20c_traditional": ["arts-and-crafts-american","craftsman","craftsman-bungalow","california-bungalow","prairie-school","storybook-style","minimal-traditional","ranch-style","neo-eclectic","new-urbanist-traditional","new-classical","modern-farmhouse-traditional"]
+  }
+}

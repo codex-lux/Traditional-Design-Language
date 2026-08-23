@@ -1,0 +1,134 @@
+{
+  "id": "shutter-panel-scale",
+  "name": "A Leaf Narrower Than Its Own Panels Imply",
+  "aka": [
+    "the compressed shutter panel",
+    "panel count wrong for the leaf"
+  ],
+  "slots": [
+    "shutter"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "scale",
+  "symptom": "The shutter carries a raised-panel or louvre arrangement whose stiles, rails and panel proportions were drawn for a wider leaf. On a 12 in stock leaf the stiles are 2 in and the panel field is 8 in wide against a 12 in tall panel, giving nearly square panels; a correct leaf has stiles of 2 to 2 1/2 in on a 17 1/2 in leaf, a panel field of about 12 1/2 in, and panels that are markedly taller than wide. The leaf looks like a photograph of a shutter that has been squeezed horizontally.",
+  "cause": {
+    "driver": "stock-size",
+    "explanation": "The moulding tool for a shutter family is drawn once at a nominal leaf and then the same relief is scaled or cropped to every width in the range. Because the range does not include the widths that are actually correct, the panel geometry is never right for any real window. The panel count is also wrong for a different reason: a shutter's panels correspond to the panels of the sash behind it — a leaf serving a two-panel-high arrangement takes the divisions the sash asks for, not a fixed catalogue number.",
+    "cost_saved": "Tooling cost across a product line, amortised. Nothing at the individual house."
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "sash-light / shutter.count",
+      "statement": "panel_count_per_leaf derives from the sash division: max(ceil((opening_width * 2.1 / 2 - 5.0 + 0.875)/(module * 0.75 + 0.875)), 2) - 1, which returns 4 at a 36 in opening on a 9 in light module. The leaf is divided by the window, not by the catalogue."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a panel in joinery is taller than it is wide unless it is deliberately a frieze panel",
+      "statement": "A near-square raised panel in a narrow leaf is a joinery impossibility at this scale, because it wastes stock and reads as a plate rather than a panel."
+    }
+  ],
+  "correct_practice": "Derive the internal divisions from the leaf, and the leaf from the opening. Stiles 2 to 2 1/2 in, bottom rail deeper than the top rail by about half again, lock rail at the meeting-rail height of the sash behind so that the closed blind and the sash agree. Panel field height-to-width not less than 1.4:1, typically 1.8:1 to 2.4:1. Panel count on a leaf serving a standard 66 in sash: four, with the lock rail at the sash meeting rail. On louvred leaves the same rule applies to the louvre bank, which is divided by a mid rail at the meeting rail.",
+  "fixes": {
+    "right": "Leaves made to the opening, with stiles, rails and panels laid out from the sash divisions behind them.",
+    "cheap": "Choose a board-and-batten leaf instead of a panelled one. A board-and-batten blind has no panel proportion to get wrong, is correct for vernacular, cottage, French and Spanish work, and is the one shutter type that is genuinely improved by being simple. It also survives a stock width better than a panelled leaf does, because the boards can be ripped.",
+    "dishonest": "Adding a third or fourth panel to a narrow leaf to make the panels read taller. It fixes the panel ratio and destroys the correspondence with the sash, which is the reason the divisions exist."
+  },
+  "detection": "Measure one panel field in the photograph, height against width. Below 1.4:1 the fault is present; near 1:1 it is severe. Second test: find the horizontal division in the leaf and compare its height with the meeting rail of the sash it flanks. If they do not agree within a couple of inches, the leaf was not made for the window. Third: compare the stile width to the leaf width — a stile more than 1/6 of the leaf width indicates a relief drawn for a wider leaf.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "storybook-style",
+      "why": "Deliberate distortion of geometry as designed intent is the type's whole method; shutters with wilfully odd divisions and hand-cut piercings belong to it.",
+      "bounds": "The distortion must be legible as intent — hand-cut, irregular, and matched by at least two other deliberate irregularities on the elevation. A machine-uniform wrong panel across fourteen identical windows is not this.",
+      "bounds_test": {
+        "expression": "deliberate_irregularities_on_elevation",
+        "threshold": 3,
+        "direction": "at-least",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "The licence requires the irregularity to be legible as intent: at least three of ridge line, eave line, wall plane, window head heights and chimney profile must also be deliberately irregular. Machine-uniform wrongness repeated across fourteen identical windows scores 1 and fails."
+      }
+    },
+    {
+      "style": "swiss-chalet",
+      "why": "Board shutters with sawn heart or diamond piercings are the alpine idiom and have no panel geometry at all.",
+      "bounds": "Board-and-batten construction with visible battens and hardware; a moulded panel relief in this idiom remains a fault.",
+      "bounds_test": {
+        "expression": "shutter_panel_fields_per_leaf",
+        "threshold": 0,
+        "direction": "equals",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Board-and-batten construction has no panel fields at all. A moulded panel relief in this idiom scores above zero and remains a fault."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "shutter-half-width-leaf",
+      "difference": "That fault is the outside dimension. This one persists even on a correctly sized leaf if the relief was drawn for a different width."
+    },
+    {
+      "fault": "shutter-louvre-reversed",
+      "difference": "Direction of blades versus proportion of divisions."
+    }
+  ],
+  "sources": [
+    "Nineteenth-century blind and shutter pattern sheets",
+    "proportions/modules/sash-light.json",
+    "Measured surviving panelled blinds, mid-Atlantic"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "shutter",
+    "panel",
+    "scale",
+    "joinery"
+  ],
+  "test": {
+    "expression": "shutter_panel_field_height_in / shutter_panel_field_width_in",
+    "threshold": 1.4,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Period panel fields run 1.8:1 to 2.4:1. Below 1.4:1 the relief was drawn for a wider leaf than the one moulded; near 1:1 it is severe. Measure one panel field, not the leaf."
+  },
+  "secondary_tests": [
+    {
+      "expression": "shutter_stile_width_in / shutter_leaf_width_in",
+      "threshold": 0.167,
+      "direction": "at-most",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Stiles run 2 to 2 1/2 in on a 17 1/2 in leaf, about 1/8 of the leaf. A stile over 1/6 of the leaf width means a relief scaled down from a wider drawing."
+    },
+    {
+      "expression": "abs(shutter_lock_rail_height_in - sash_meeting_rail_height_in)",
+      "threshold": 3.0,
+      "direction": "at-most",
+      "units": "in",
+      "measurable_from": "photograph",
+      "note": "The leaf's horizontal division must agree with the meeting rail of the sash it flanks, because a closed blind and its sash are one assembly. Disagreement over about 3 in means the leaf was not made for the window."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "storybook-style",
+      "severity": "not-applicable",
+      "why": "Deliberate distortion of geometry is the type's method and hand-cut irregular divisions belong to it."
+    },
+    {
+      "style": "swiss-chalet",
+      "severity": "not-applicable",
+      "why": "Board shutters with sawn piercings have no panel geometry to get wrong."
+    }
+  ],
+  "co_occurs_with": [
+    "shutter-half-width-leaf",
+    "shutter-louvre-reversed"
+  ]
+}

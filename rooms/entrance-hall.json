@@ -1,0 +1,281 @@
+{
+  "id": "entrance-hall",
+  "name": "Entrance Hall",
+  "aka": [
+    "front hall",
+    "entry hall",
+    "hall (modern American usage)",
+    "foyer",
+    "the hall"
+  ],
+  "function_class": "threshold",
+  "description": "The room you are in once the front door has shut behind you and before you have been admitted anywhere. Its job is to hold a person, take their coat, and put four or five choices in front of them at once - up, through, left, right - without any of those choices being made for them. It is the only room in the house whose success is measured in the first fifteen seconds and whose failure is felt for the whole visit. The word is a fossil: this room is the medieval hall, reduced over five centuries from the building's principal apartment to its lobby, and it kept the name the whole way down.",
+  "history": {
+    "appears": 1650,
+    "declines": null,
+    "replaced": "the screens end of the medieval hall - the low end by the cross-passage, where callers waited and servants passed",
+    "note": "THE FIVE-CENTURY DEMOTION, which is the single most useful thing to know about the word 'hall'. In 1400 the hall is the house: one volume, open to the roof, everyone in it. Through the fifteenth and sixteenth centuries the family withdraws upward and outward to the great chamber and the parlour, leaving the hall to the servants and to arrival. The chimney and the inserted floor of the Great Rebuilding (Hoskins dates it 1570-1640) cut the hall's height in half. By 1700 what remains at ground level is a room for entering and for the stair. The American centre passage of 1720-1750 is the end state, and the modern 'foyer' - a nineteenth-century French import for a theatre lobby - is a real-estate word for the same 6 x 10 ft of floor. The demotion is worth tracking because it explains why the entrance hall is the room most often given ceremonial treatment and the least floor: it inherited the rank and lost the area."
+  },
+  "dimensions": {
+    "area_sf": [
+      70,
+      300
+    ],
+    "width_ft": [
+      6.5,
+      14
+    ],
+    "length_ft": [
+      10,
+      26
+    ],
+    "proportion": [
+      1.2,
+      2.6
+    ],
+    "ceiling_min_ft": 9,
+    "critical_dimension": "WIDTH, and the number is 6 ft 6 in clear, set by two bodies and a coat. One person putting on a coat occupies 24 in of standing depth plus the 10 in the hung coat projects. A second person passing behind needs 30 in. 10 + 24 + 30 = 64 in, and 78 in is what it takes for that pass to be comfortable rather than a manoeuvre. Anything at 4 ft is a corridor with a chandelier in it. The second number is the DOOR SWING BUDGET: an entrance hall in a centre-passage plan typically carries five or six leaves - front door, two room doors, coat closet, powder room, rear door - and each takes a 3 ft arc of floor that nothing else may occupy. Draw the swings before the furniture; the hall that fails is almost always the one where two arcs overlap the same 9 sq ft."
+  },
+  "furniture": [
+    {
+      "item": "hall table or console",
+      "footprint_in": [
+        42,
+        18
+      ],
+      "clearance_in": 30,
+      "note": "the single most useful object in the house and the one most often omitted: a surface at 30 in to set down what you are carrying while you deal with the coat"
+    },
+    {
+      "item": "mirror over the table",
+      "footprint_in": [
+        30,
+        3
+      ],
+      "clearance_in": null,
+      "note": "centre at 60 to 64 in above the floor; it is a face mirror on the way out, not a room mirror"
+    },
+    {
+      "item": "two hall chairs",
+      "footprint_in": [
+        20,
+        20
+      ],
+      "clearance_in": 18,
+      "essential": false,
+      "note": "the period hall chair is hard, shallow and uncomfortable on purpose - it is for a caller who is waiting, not for a guest who has been received, and the discomfort is the message"
+    },
+    {
+      "item": "coat closet",
+      "footprint_in": [
+        60,
+        26
+      ],
+      "clearance_in": 36,
+      "note": "26 in clear depth minimum: a hanger is 17 in wide plus a coat's bulk. 24 in is the absolute and it rubs. Allow 2 in of rod per coat, so 30 in of rod is fifteen coats and enough for a party."
+    },
+    {
+      "item": "umbrella stand",
+      "footprint_in": [
+        14,
+        14
+      ],
+      "clearance_in": 0,
+      "essential": false
+    },
+    {
+      "item": "clear arrival floor",
+      "footprint_in": [
+        60,
+        60
+      ],
+      "clearance_in": null,
+      "note": "a 5 ft square of nothing inside the door where two or three people can stand while greeting. This is what is missing from every hall that 'feels tight' at its stated area."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 1.7,
+    "sides_lit": 1,
+    "orientation": "Follows the front door and has no say. The consequence is that a north-facing entrance hall is dim at every hour and needs its transom, its sidelights and its rear axis all working; a south-facing one needs none of them and gets them anyway.",
+    "glazing_fraction": [
+      0.08,
+      0.25
+    ],
+    "note": "The entrance hall is a borrowed-light room - lit through the door's fanlight and sidelights, through a stair window on the half-landing, and along the axis to a rear door or window. The 1.7 multiplier is the second-rank figure from the room-vernacular pack, and it is why an unlit hall reads as gloomy at 12 ft from the door however wide it is. The three historical fixes are all still the right ones: a transom and sidelights at the door (which is what fanlights are FOR - they are not ornament, they are the hall's only reliable daylight), a window on the stair landing dropping light down the well, and an opening on the through axis at the far end. Take away all three, as a production plan does when it puts a closet on the axis and a solid door at the front, and no quantity of recessed downlights makes the room feel lit, because what is missing is a view of the outside and not lumens."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "stair-hall",
+        "why": "the principal stair must be reached from the entrance without passing through an inhabited room; where the two are one room, that room is the stair hall and is catalogued separately",
+        "relation": "direct-door",
+        "strength": "hard",
+        "exceptions": [
+          "cape-cod-colonial and other central-chimney lobby plans, where the stair is IN the entry lobby and there is no separate hall",
+          "single-storey types - creole-cottage, shotgun, ranch-linear, pyramidal-cottage - where there is no stair to reach"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "parlor",
+        "why": "the reception pair: the hall holds the caller and the parlor receives them, and the decision between the two is the whole social point of having both",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "dining-room",
+        "why": "guests arrive and go in to dinner; a route from the front door to the dining room that passes through the living room means every dinner party crosses the family's seating",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "powder-room",
+        "why": "guests need a WC they can reach without entering the family's floor, but the door must be off a turn or an alcove, never facing the front door or the dining room",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "centre-passage",
+        "why": "where the plan has a passage the hall is its front end, and the axis must continue to a rear opening",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "kitchen",
+        "why": "a kitchen open to the arrival volume means every visitor arrives into the smell, the noise and the state of the kitchen, and there is nowhere to put a caller you do not want to admit",
+        "relation": "not-visible-from",
+        "strength": "preferred",
+        "exceptions": [
+          "ranch-style and modern open plans accept it deliberately; the honest reading is that those plans have no entrance hall at all, and the fault to check is front-door-into-the-living-room"
+        ]
+      }
+    ],
+    "entered_from": [
+      "entry-porch",
+      "vestibule",
+      "exterior",
+      "loggia",
+      "piazza"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 1,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The stack effect starts here: in a two-storey house the entrance hall and the stair form one vertical volume, and every cubic foot of cold air the front door admits is drawn up it. This is why a hall with a full-height stair and no vestibule is the coldest place in the house at ankle height.",
+    "heat": "One source, sized for the door losses rather than the floor area - historically the hall stove or a radiator under the stair window; a hall with no heat source of its own steals from the rooms either side and makes them cold.",
+    "electrical": "A hanging fixture centred on the room and NOT on the door, plus a switched lamp on the hall table. Three-way switching to the upper landing is non-negotiable.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "passage",
+      "trim_grade": "highest",
+      "note": "10 to 14 ft wide, full depth of the house, front door and rear door on one centreline with a transom over each. The hall is the most elaborately trimmed room in the house because it is the only one everyone sees, and its dado, cornice and door architraves are the datum the rest of the interior is graded against."
+    },
+    {
+      "style": "italianate-townhouse",
+      "trim_grade": "high",
+      "note": "A side hall, 6 to 8 ft wide, running the full depth beside the parlours to the stair, with the plaster arch on brackets partway down that divides arrival from stair. That arch is the row house's substitute for the vestibule's inner door."
+    },
+    {
+      "style": "queen-anne-american",
+      "name_in_style": "living hall",
+      "trim_grade": "highest",
+      "note": "THE INVERSION. The 1880s living hall is not a lobby but the house's principal room - inglenook, fireplace, built-in bench, the stair rising out of it as furniture, the front door opening straight into it. It is the medieval hall coming back, briefly, three-quarters of the way through the demotion, and it is the direct ancestor of the great room. Where a Queen Anne has a living hall it should be catalogued as a hall, not as this room."
+    },
+    {
+      "style": "shingle-style",
+      "name_in_style": "living hall",
+      "trim_grade": "high",
+      "note": "As Queen Anne but calmer: a broad low hall with the stair and the hearth in it, the whole ground floor opening off it through wide cased openings rather than doors."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "present": false,
+      "note": "Absent. The front door opens into the living room, and the coat closet is beside it. This is the fault front-door-into-the-living-room in every style that has a hall and is correct practice in this one."
+    },
+    {
+      "style": "creole-cottage-vernacular",
+      "present": false,
+      "note": "Absent by hard constraint. Four front openings, no centred door, no lobby - the gallery does the receiving and each room is entered from outside."
+    },
+    {
+      "style": "charleston-single-house",
+      "trim_grade": "high",
+      "note": "Present but reached sideways: the street door is on the piazza screen, and the house's own door opens off the piazza one bay back into a side hall. The privacy sequence gains a step - street, piazza, hall - and the hall itself is narrower because the piazza has already done the buffering."
+    },
+    {
+      "style": "colonial-revival",
+      "trim_grade": "highest",
+      "note": "The hall is the revival's showpiece and is usually wider and shallower than its Georgian model, because the plan behind it is double-pile and shallow. Watch for the fault of a 14 ft wide hall that dead-ends at a closet at 22 ft."
+    },
+    {
+      "style": "ranch-style",
+      "trim_grade": "plain",
+      "note": "A 5 x 7 ft entry tile, a coat closet, and an immediate release into the living room. The type genuinely has no hall, and dressing this square of tile with a chandelier and a two-storey volume is the neo-eclectic move that produced the modern foyer."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Means of egress door, 32 in clear minimum, opening onto a landing.",
+      "ref": "IRC R311.2"
+    },
+    {
+      "requirement": "Smoke alarm interconnection: an alarm is required in the immediate vicinity of the bedrooms and on each storey including basements, and a hall is where the storey-level device lands.",
+      "ref": "IRC R314.3",
+      "conflict": "The alarm wants the ceiling centre of the hall, which is also where the fixture and the stair well are. Coordinate at the reflected ceiling stage or it ends up 14 in from the medallion."
+    }
+  ],
+  "massing_fit": [
+    "center-passage-single-pile",
+    "four-over-four",
+    "i-house",
+    "side-hall-double-pile",
+    "foursquare",
+    "garrison-block",
+    "townhouse-row",
+    "cross-gable-victorian",
+    "mansard-block",
+    "five-part-palladian",
+    "gable-front-and-wing",
+    "charleston-single",
+    "h-plan-manor",
+    "telescope-house"
+  ],
+  "slots": [
+    "entry_sequence",
+    "circulation_parti",
+    "public_private_gradient",
+    "stair_position",
+    "room_adjacency_overrides",
+    "transom_sidelight",
+    "entry_door",
+    "casing",
+    "chair_rail",
+    "floor_material"
+  ],
+  "faults": [
+    "centre-passage-blocked-at-one-end",
+    "passage-that-is-a-corridor",
+    "stair-at-the-front-door",
+    "front-door-into-the-living-room",
+    "ceremonial-front-door",
+    "entry-not-the-most-elaborated-element",
+    "thresholds-uncrossed",
+    "one-trim-grade-for-every-room",
+    "powder-room-on-the-dining-room",
+    "closet-depth-taken-from-the-room"
+  ],
+  "sources": [
+    "W. G. Hoskins, 'The Rebuilding of Rural England, 1570-1640', Past and Present 4 (1953)",
+    "Dell Upton, 'Vernacular Domestic Architecture in Eighteenth-Century Virginia', Winterthur Portfolio 17 (1982)",
+    "faults/centre-passage-blocked-at-one-end.json",
+    "proportions/systems/room-vernacular.json, depth_and_pile second-rank borrowed-light rule"
+  ],
+  "confidence": "high"
+}

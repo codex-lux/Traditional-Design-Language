@@ -1,0 +1,128 @@
+{
+  "id": "surround-that-is-not-the-firebox",
+  "name": "The Surround That Does Not Fit The Fire",
+  "aka": [
+    "the filler strip mantel",
+    "the drywall reveal at the firebox",
+    "the missing hearth"
+  ],
+  "slots": [
+    "fireplace_surround",
+    "floor_material"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A mantel bought at one opening size fitted to a firebox of another, with the difference made up by a band of slip material, drywall returned into the opening, or an oversized marble slip cut to whatever was left. In the common form the surround's opening is 4 to 8 in wider and taller than the firebox, so a strip of tile or stone frames the fire and the mantel frames the strip, and the composition has two frames doing one job. Below, the hearth is a shallow tile band 8 to 12 in deep, or is flush with the floor, or is absent entirely, so the fire opening sits directly on the carpet line.",
+  "cause": {
+    "driver": "catalog-default",
+    "explanation": "The mantel and the firebox are two different purchases made at two different times by two different trades. The firebox — a metal box, a masonry throat, or a direct-vent unit — is set by the mason or the mechanical contractor at framing, sized by heat output and flue; the mantel is chosen from a catalogue months later by the owner, in one of three or four stock opening sizes chosen to cover the widest range of units. Neither party has an elevation. The slip strip exists to absorb the difference and is priced as a trim item, so the discrepancy has a line in the budget and never becomes anyone's problem. The hearth is squeezed by flooring: a raised or projecting hearth interrupts the finish floor and complicates the transition, so the cheapest answer is a flush tile band as shallow as the code allows.",
+    "cost_saved": "A stock mantel is 400 to 1,200 USD against 2,500 to 9,000 USD for one made to the opening; the slip strip costs 150 to 500 USD and absorbs the mismatch. A full projecting hearth in stone is 900 to 3,000 USD against 300 USD of flush tile."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fireplace_surround / surround_width_in, range [5, 9]",
+      "statement": "The surround band is 5 to 9 in wide, measured from the firebox opening outward. That band IS the surround, and it must start at the fire — anything between the fire and the surround is a second frame the composition did not ask for."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fireplace_surround / firebox_width_in [36,60] and firebox_height_in [30,40]",
+      "statement": "The period firebox is 36 to 60 in wide and 30 to 40 in high — wider than tall, at about 1.3 to 1.6 to 1. A modern metal box at 36 by 26 or a direct-vent unit at 42 by 20 sits outside that band and a surround designed for the period proportion will not fit it."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / fireplace_surround / hearth",
+      "statement": "Stone or brick, projecting 18 to 24 in into the room."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R1001.10",
+      "statement": "Hearth extension: for fireplace openings smaller than 6 square feet, at least 16 in in front and 8 in beyond each side of the opening; for openings of 6 square feet or more, at least 20 in in front and 12 in beyond each side. So the code minimum on a 42 by 30 in opening is 16 in of projection, and the period figure of 18 to 24 in exceeds it — which means a period-correct hearth is compliant and a compliant hearth is often not period-correct."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a surround surrounds something",
+      "statement": "The whole logic of a chimneypiece is that a frame is placed on the aperture of a fire. If the frame's opening is not the fire's opening, the object has become a piece of applied furniture standing near a hole in a wall, and nothing about its proportions can be right, because every one of them was derived from the aperture."
+    }
+  ],
+  "correct_practice": "Size the surround to the firebox, and choose the firebox before the mantel. The surround band is 5 to 9 in wide measured outward from the fire opening, and it starts AT the opening — where a non-combustible slip is required by code or by construction, that slip is 3 to 4 in and reads as the innermost member of the surround, not as a separate frame. The period firebox runs 36 to 60 in wide by 30 to 40 in high, wider than tall at 1.3 to 1.6 to 1; a modern unit that is much wider and much shorter cannot take a period surround without distortion and should be given a different one. The clearance rules set the outer limit and are worth knowing before the drawing: combustible trim within 12 in of the fireplace opening must not project more than 1/8 in for each inch of clearance, so a mantel shelf projecting 6 in must be at least 12 in above the top of the opening — which is not a suggestion but the reason so many stock mantels have shallow shelves. THE HEARTH: 18 to 24 in of projecting stone or brick, and at least 16 in by code on a small opening or 20 in on one of 6 square feet or more, extending 8 or 12 in past each side. The projecting hearth is not decoration: it is the reason the floor in front of a fire survives, it is where the tools and the fender go, and its absence is the single most visible sign that a fireplace was designed as an appliance rather than as a hearth.",
+  "fixes": {
+    "right": "Firebox chosen first, surround made to its opening with a 5 to 9 in band and a 3 to 4 in slip, on a projecting stone or brick hearth of 18 to 24 in.",
+    "cheap": "Close the gap with the slip, not with the drywall. Where a stock mantel is already bought and its opening is larger than the firebox, take the difference in a single wider stone or tile slip — one material, one plane, mitred at the corners, running from the fire to the mantel with no intervening frame — rather than in a strip of returned drywall or a second band of a different material. This costs 200 to 600 USD and turns two frames into one. Then extend the hearth: a projecting stone hearth added over an existing flush one, 20 in deep with a bullnose front edge, is 700 to 1,400 USD and is the single change that most improves a modern fireplace.",
+    "dishonest": "Painting the drywall return black so the gap reads as part of the fire opening. It works when the fire is lit and reads as a grubby recess when it is not, and it puts a combustible surface where the code and common sense both want a non-combustible one. Also dishonest: a hearth of the same tile as the floor, flush and continuous, on the argument that it is 'cleaner' — the hearth's projection and its change of material are what tell you where the fire is, and a flush hearth of the same material is functionally an unmarked one."
+  },
+  "detection": "Photograph the fireplace square-on and count the FRAMES between the fire and the wall. Correct: one — a slip and a surround reading as a single band of 5 to 9 in. Fault: two or more distinct bands of different materials or planes. Second, measure the surround band's width against the firebox width: correct is roughly 0.12 to 0.22 of the opening width; a band under 4 in is thin and a visible intermediate strip means the mantel and the box disagree. Third, measure the firebox opening's own proportion: period is 1.3 to 1.6 wide to tall, and a unit at 2.0 or above is a modern linear appliance wearing a period frame. Fourth, the HEARTH, which is the easiest test of all: look at the floor in front of the fire and measure the projection against the opening height. Correct is 16 in minimum and 18 to 24 in in period work; a band under 12 in fails both the code and the eye, and no hearth at all is unmistakable in any photograph.",
+  "test": {
+    "expression": "hearth_projection_in",
+    "threshold": 16.0,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "IRC R1001.10 minimum for an opening under 6 square feet; 20 in where the opening is 6 sf or more. The period band is 18 to 24 in. Run the surround test alongside: (surround_band_width_in / firebox_width_in) should fall between 0.12 and 0.22 with no intervening frame."
+  },
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "craftsman",
+      "why": "The Craftsman fireplace is a broad low mass of brick or tile with a deep shelf over it rather than a framed opening with a surround, and the field of brick around the fire may run 24 to 48 in — far beyond the classical 5 to 9 in band — because it is a wall rather than a frame.",
+      "bounds": "The field must be ONE material in ONE plane, continuous from the fire to the shelf and often to the ceiling, with no intermediate slip and no change of material. That is the opposite of the fault, which is several bands. The hearth in this family is a raised brick or tile platform, often 6 to 16 in above the floor and 20 to 30 in deep, and is a seat as much as a hearth.",
+      "bounds_test": {
+        "expression": "materials_between_firebox_and_shelf",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph"
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "The corner kiva fireplace has no surround at all — the plastered adobe form is continuous from the floor into the wall and the opening is a rounded arch cut in it.",
+      "bounds": "Continuous plaster, no applied frame, no shelf, and a raised banco or a plastered hearth apron. Any applied wooden mantel on a kiva form is a different object."
+    },
+    {
+      "style": "tudor-revival",
+      "why": "A carved stone or brick chimneypiece with a Tudor-arched opening puts the arch itself at the fire and the surround band varies in width around it by geometry.",
+      "bounds": "The arch must be at the fire — the surround's opening IS the firebox opening — and the varying band is the consequence of the arch, not of a mismatch. A rectangular firebox behind a Tudor arch with a filler above the springing is exactly the fault."
+    },
+    {
+      "style": "shingle-style",
+      "why": "Rough rock-faced stone fireplaces with a heavy timber lintel and no frame at all, the stone continuous from the hearth to the ceiling, are a Richardson-derived signature.",
+      "bounds": "One material, one plane, no applied surround, and a substantial raised or projecting stone hearth. Same test as Craftsman."
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "chimney-breast-shallower-than-its-firebox",
+      "difference": "The frame against the mass behind it. This fault is about the surround's opening not matching the fire's; that one is about the wall not being deep enough to contain the fire at all. A house can have a perfectly fitted surround on a chimney breast that is 6 in deep."
+    },
+    {
+      "fault": "direct-vent-box-in-a-period-surround",
+      "difference": "That fault is about the KIND of appliance behind the frame; this is about its DIMENSIONS. A masonry firebox can be mismatched to its mantel and a direct-vent unit can be perfectly fitted to one and still be wrong."
+    },
+    {
+      "fault": "mantel-at-the-wrong-height",
+      "difference": "The shelf against the room; this is the frame against the fire. Independent decisions with independent tests."
+    }
+  ],
+  "co_occurs_with": [
+    "direct-vent-box-in-a-period-surround",
+    "chimney-breast-shallower-than-its-firebox",
+    "mantel-at-the-wrong-height"
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, fireplace_surround firebox and hearth parameters",
+    "IRC R1001.10 hearth extension dimensions and R1001.11 fireplace clearance to combustibles",
+    "Count Rumford, Of Chimney Fireplaces (1796), firebox proportion",
+    "HABS measured drawings of eighteenth-century chimneypieces"
+  ],
+  "confidence": "high",
+  "tags": [
+    "fireplace",
+    "hearth",
+    "assembly",
+    "code"
+  ]
+}

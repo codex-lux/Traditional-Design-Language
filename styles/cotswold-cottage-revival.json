@@ -1,0 +1,212 @@
+{
+  "id": "cotswold-cottage-revival",
+  "name": "Cotswold Cottage Revival",
+  "aka": [
+    "Cotswold Cottage",
+    "English Cottage",
+    "Storybook Cottage (loosely)",
+    "Ann Hathaway Cottage style"
+  ],
+  "rank": "variant",
+  "member_of": "tudor-revival",
+  "status": "revival",
+  "period": {
+    "origin": 1915,
+    "floruit_start": 1920,
+    "floruit_end": 1940,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "Philadelphia's Chestnut Hill; Kansas City; Detroit's Palmer Woods",
+    "climate_zones": [
+      "4A",
+      "5A",
+      "6A",
+      "4B"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "tudor-revival",
+      "type": "regional_of",
+      "weight": 1.0,
+      "inherits_kit": true,
+      "note": "The small, all-masonry, cottage-scaled wing of the parent style. Shares the kit but drops the half-timbering that the parent depends on."
+    },
+    {
+      "target": "cotswold-vernacular",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The claimed ancestor: the limestone villages of Gloucestershire and Oxfordshire, with graduated stone slate roofs, steep pitches and thick walls."
+    },
+    {
+      "target": "english-cottage-vernacular",
+      "type": "references",
+      "weight": 0.9,
+      "note": "The broader thatched and half-timbered cottage register - the catslide roof, the eyebrow dormer, and the sagging ridge that American builders imitated with sawn rafters."
+    },
+    {
+      "target": "arts-and-crafts-british",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The real transmission. Voysey, Baillie Scott and Ernest Gimson had already reduced the Cotswold cottage to a designable set of moves, and American architects learned it from them, not from Gloucestershire."
+    },
+    {
+      "target": "arts-and-crafts-american",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The craft ethic, the taste for handled surface, and the client base that would pay for irregular stonework."
+    },
+    {
+      "target": "cotswold-vernacular",
+      "type": "revives",
+      "weight": 0.9,
+      "inherits_kit": false,
+      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+    }
+  ],
+  "description": {
+    "short": "The small, all-stone or stone-and-stucco wing of the English revival, imitating the Gloucestershire cottage: very steep roofs with rolled or swept eaves, a massive chimney on the entrance facade, tiny casements, and an arched door under a catslide.",
+    "long": "Cotswold Cottage Revival is Tudor Revival reduced to a house rather than a manor, and reduced with more care than that description suggests. Its necessary elements are a steeply pitched roof, 12:12 or steeper, in slate or in wood shingle laid to imitate stone slate, with the courses graduated - larger at the eave, smaller at the ridge - and the eaves rolled, swept, or clipped around the corners in imitation of thatch; a massive chimney placed on the front elevation, often flanking or even framing the entrance; walls of irregular coursed stone or of stucco over stone; casement windows in small groups with leaded or diamond glazing; and a low, arched, plank door recessed under a projecting bay or a catslide roof that runs down to head height.\n\nThe conditions were specific and mostly Philadelphian. A group of practices in Chestnut Hill and the Main Line - Mellor, Meigs & Howe, Robert Rodes McGoodwin, Edmund Gilchrist, H. Louis Duhring - spent the 1910s and 1920s working out an American version of English and Norman cottage building on real sites with real stone, and the Wissahickon schist of the Philadelphia region turned out to be a nearly perfect substitute for Cotswold limestone. McGoodwin's French Village at Chestnut Hill, built 1925-28, is the fullest demonstration. Their work was published continuously, and by the late 1920s the vocabulary had reached builders in Kansas City, Detroit, Chicago and Los Angeles, usually in a thinner form.\n\nWhat the buyer was claiming was not lineage and not scholarship but retreat. This is the one variant in the branch whose imagery is explicitly anti-monumental: a small, old, hand-made building in a garden, deliberately modest, deliberately English, and deliberately not the house of a magnate. It arrives at exactly the moment when the American professional class was moving out of cities that had become large and loud, and its charm is not incidental to it - the style was sold as charm, and the best examples earn it.\n\nWhat you notice standing in front of one is that nothing is straight. The eave rolls; the ridge sags slightly; the stone courses vary; the chimney leans out at its base and steps back twice as it rises; the door is not on centre and the window beside it is smaller than the one above. All of this is designed irregularity, executed by masons paid to do it, and its success is entirely a matter of restraint - two or three deviations read as age, six read as whimsy, and past that point the building becomes Storybook, which was a real and different Californian style. Inside, the rooms are small, the ceilings are low and often beamed, the windows are deep-set, and the fireplace is enormous relative to the room, which is precisely the effect the whole exercise is aiming at."
+  },
+  "defining_characteristics": [
+    "Steeply pitched roof, 12:12 or steeper, in slate, stone slate, or shingle laid to imitate it, with graduated courses",
+    "Rolled, swept, or clipped eaves and rakes, softening every roof edge in imitation of thatch or stone slate",
+    "Massive chimney on the entrance facade, frequently adjacent to or framing the front door",
+    "Walls of irregular coursed stone, or stucco over masonry, without applied half-timbering",
+    "Small casement windows in groups of two or three with leaded, diamond, or small rectangular glazing",
+    "Low arched or plank entrance door, recessed, under a catslide roof, a projecting gable, or a hood",
+    "Small overall footprint and a deliberately irregular, cottage-scaled massing"
+  ],
+  "diagnostic_tells": [
+    "Rolled eaves. If the roof edge curves around the corner or over a dormer rather than terminating in a straight fascia, this is the variant.",
+    "The chimney is on the front and it is disproportionately large - often 1/4 to 1/3 of the elevation's width.",
+    "No half-timbering. Its presence returns the building to the parent Tudor Revival.",
+    "A catslide - one roof plane running much further down than the other, often to below head height - over the entrance or a side wing.",
+    "Against the genuine Cotswold original: real Cotswold cottages have level dripstones, square-cut mullions, stone slate roofs of enormous weight requiring 55-degree pitches, no dormer eyebrows, and are almost never picturesque on purpose. The revival adds the picturesque and subtracts the weight."
+  ],
+  "distinguished_from": [
+    {
+      "node": "tudor-revival",
+      "difference": "The parent style is larger, taller, and depends on applied half-timbering over masonry and on grouped bands of double-hung or steel casement windows. This variant is small, all-masonry, has rolled eaves and a front chimney, and never uses timbering."
+    },
+    {
+      "node": "cotswold-vernacular",
+      "difference": "The original is a load-bearing limestone building 18-24 in. thick with a stone slate roof weighing 15-25 lb per square foot, tiny openings, and irregularity that results from centuries of repair. The revival is usually veneer or thin masonry with a light roof, larger glazing, and irregularity that was drawn."
+    },
+    {
+      "node": "french-normandy-revival",
+      "difference": "The Norman variant adds a round entrance tower with a conical roof, uses steeper and taller wall dormers, and mixes brick, stone and stucco with half-timbering. The Cotswold variant is lower, all-stone, tower-less, and defined by rolled eaves."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Roof geometry and apparent wall mass at a domestic scale. The roof is the dominant proportional figure and typically occupies half or more of the elevation height; wall thickness is expressed at reveals to make a small building feel heavy.",
+    "typical_ratios": [
+      "Roof pitch 12:12 to 18:12; roof height eave to ridge 0.9 to 1.4 times the wall height below it",
+      "Eave roll radius 6-12 in.; rake and eave carried around corners without a break",
+      "Chimney width 1/4 to 1/3 of the elevation it stands on, projecting 12-18 in. from the wall",
+      "Casement leaf 14-20 in. wide by 36-48 in. high; groups of two or three under one head",
+      "Wall reveal 6-10 in. at openings; door head 6'4\"-6'10\", deliberately low"
+    ],
+    "bay_rhythm": "None. Openings are placed by internal need and by picturesque judgement, in twos and threes, with wide blank stone between. Any repeating rhythm defeats the variant's whole premise.",
+    "symmetry": "picturesque-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "An irregular accumulation of small gabled volumes with a dominant front chimney."
+    },
+    {
+      "massing": "cross-gable-victorian",
+      "affinity": "common",
+      "note": "The suburban builder version - a simple block with one steep front gable and a rolled eave."
+    },
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "possible",
+      "note": "Where the cottage is reduced to a rectangular one-and-a-half-storey box; rare and usually weak."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "atypical",
+      "note": "The plan-form belongs to jacobethan-revival; at this scale it is inappropriate."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch not less than 12:12 on all principal planes, with the roof occupying not less than 45 percent of the elevation height. Eaves and rakes must be rolled, swept, or clipped with a radius of 6-12 in. and carried continuously around external corners; a straight fascia and a square rake void the variant."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "A masonry chimney must be expressed on the entrance elevation, occupying between 1/4 and 1/3 of that elevation's width, projecting not less than 12 in. from the wall, and rising not less than 3'0\" above the ridge."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Applied half-timbering is forbidden. Wall material is irregular coursed stone, or stucco over masonry, or the two combined; the material change must occur at a chimney, a corner, or a wing junction, never mid-plane."
+    },
+    {
+      "kind": "structural",
+      "severity": "soft",
+      "statement": "Wall thickness expressed with a minimum 6 in. reveal at all openings, with stone or wood lintels visible over doors and principal windows. Windows are casements with true divided lights, leaves 14-20 in. wide."
+    },
+    {
+      "kind": "proportional",
+      "severity": "advisory",
+      "statement": "Limit deliberate irregularities to three per elevation - for example a swept eave, a stepped chimney, and a catslide. Beyond that the building reads as Storybook rather than as a cottage, which is a different style."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "French Village",
+      "location": "Chestnut Hill / Mount Airy, Philadelphia, Pennsylvania",
+      "year": 1928,
+      "note": "Robert Rodes McGoodwin, 1925-28, for Dr. George Woodward. A complete development in Wissahickon schist; the fullest American realisation of the English and Norman cottage idea."
+    },
+    {
+      "name": "Woodward development houses, Chestnut Hill",
+      "location": "Chestnut Hill, Philadelphia, Pennsylvania",
+      "year": 1920,
+      "note": "H. Louis Duhring Jr., with Edmund B. Gilchrist and McGoodwin, built roughly 180 houses for George Woodward between 1910 and 1930, dozens of them explicitly Cotswold in register. The Quadruple Houses on Benezet and Nippon Streets (from 1910) are the best documented."
+    },
+    {
+      "name": "Sulgrave Manor house, 200 West Willow Grove Avenue",
+      "location": "Chestnut Hill, Philadelphia, Pennsylvania",
+      "year": 1927,
+      "note": "H. Louis Duhring Jr. for George Woodward, incorporating interiors from the Sulgrave Manor replica shown at the 1926 Sesquicentennial Exposition."
+    },
+    {
+      "name": "Cotswold Cottage, Greenfield Village",
+      "location": "Dearborn, Michigan",
+      "year": 1930,
+      "note": "Not a revival building: a genuine c. 1620 Cotswold cottage from Chedworth, Gloucestershire, dismantled and re-erected by Henry Ford in 1929-30. The reference object against which any revival example should be judged."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "Robert A. M. Stern, ed., The Anglo-American Suburb (1981)",
+    "William Morrison, The Main Line: Country Houses of Philadelphia's Storied Suburb, 1870-1930 (2002)",
+    "David R. Contosta, Suburb in the City: Chestnut Hill, Philadelphia, 1850-1990 (1992)",
+    "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969, rev. 1992)"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "revival",
+    "variant",
+    "cottage",
+    "stone",
+    "philadelphia-school",
+    "picturesque"
+  ]
+}

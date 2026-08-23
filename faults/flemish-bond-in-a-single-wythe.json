@@ -1,0 +1,186 @@
+{
+  "id": "flemish-bond-in-a-single-wythe",
+  "name": "Flemish bond that cannot exist",
+  "aka": [
+    "snap-header bond",
+    "the glued half-brick",
+    "false Flemish veneer"
+  ],
+  "slots": [
+    "construction_type",
+    "primary_cladding"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "material",
+  "symptom": "A wall laid up in Flemish bond — alternating header and stretcher in every course — on a house whose wall is a single 3 5/8 in brick veneer over a stud frame. The bond is a picture of a wall that is not there: every 'header' is a brick cut in half and stood on end against the sheathing, bonding nothing to nothing.",
+  "cause": {
+    "driver": "material-substitution",
+    "explanation": "Anchored brick veneer became the default masonry assembly after about 1950 because it moves the structure into the studs, the insulation into the cavity, and the mason off the critical path. The bond pattern survived the change of assembly because it is what the client recognises as 'Georgian brick'. The mason is given snap headers — half bricks — in the same pallet as the stretchers, and lays the same picture at a fifth of the labour of a real through-bonded wall.",
+    "cost_saved": "A two-wythe through-bonded 13.5 in wall is roughly 2.4x the brick, 2x the mason-hours and a structural wall design; on a 2,500 sf house the delta is $60,000-$110,000 (2026 US), plus the loss of cavity insulation depth."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / construction_type / masonry-veneer-over-frame (forbidden)",
+      "statement": "A single 3 5/8 in wythe cannot be laid in Flemish or English bond, because both are through-bonds defined by headers passing into the wall's depth."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "a bond pattern is a diagram of how the wall is tied through its thickness",
+      "statement": "Where the wall has no thickness to tie through, the pattern is decoration and the eye eventually reads it as such."
+    },
+    {
+      "kind": "code",
+      "ref": "IRC R703.8",
+      "statement": "Anchored masonry veneer is a nominal 4 in (3 5/8 in actual) single wythe on a 1 in air space with ties at not more than 32 in horizontally and 25 in vertically. The code describes a cladding; the bond pattern describes a wall. A house can be fully compliant and the bond still impossible."
+    }
+  ],
+  "correct_practice": "Match the bond to the wall you are actually building. A through-bond — Flemish, English, English garden wall, Chesapeake glazed-header Flemish — requires not less than two wythes with headers passing into the back-up, which is 13.5 in of brick at a 2 1/4 in brick and a 1/2 in bed joint. A single-wythe veneer is honestly laid in running bond, which is what a single-wythe wall has always been laid in, and which is period-correct on a great deal of 19th-century work. If the client wants Flemish, either build the wall or accept running bond and put the money into the reveal, the water table and the arches, where the same budget buys far more mass-reading.",
+  "fixes": {
+    "right": "Build a real two-wythe wall (13.5 in) with header courses that are whole bricks passing through, or a cavity wall with a structural inner wythe and a header-bonded outer wythe tied at genuine header positions; then Flemish bond is a description and not a picture.",
+    "cheap": "Lay the veneer in running bond, and spend the saved snap-header labour on a 4 in reveal (furred jambs) and a projecting water table. Running-bond brick with a deep reveal reads as a heavier wall than Flemish-bond brick set flush; depth beats pattern at every viewing distance beyond about 15 ft.",
+    "dishonest": "Using full-size bricks cut lengthwise into 'header faces' so the header and stretcher faces are visually identical in colour and texture. This defeats the giveaway rather than the fault. Period headers were a different face of the same brick — often darker, rougher, sometimes deliberately glazed — and the slight colour break between header and stretcher is exactly what makes real Flemish bond legible at 40 ft. A perfectly uniform Flemish bond is already telling you it is fake."
+  },
+  "detection": "Look at the header faces in raking light and in colour. In a real through-bond the header is the END of a brick and the stretcher is its SIDE: different face, different firing exposure, so headers usually read a half-tone different and their vertical joints are slightly wider or narrower than the stretcher joints above and below. In a veneer, headers and stretchers are the same face of the same brick and the wall is chromatically flat. Second test: find the head of a window. In a solid wall the reveal is 4-8 in deep and the bond visibly turns the corner into the jamb, with headers appearing on the reveal face. In a veneer the jamb is 1 in of brick and a piece of trim, and the bond simply stops. Third: count wythes at any opening without a stone or steel lintel — there will not be one, because a single wythe cannot span.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "georgian-colonial-american",
+      "why": "'False Flemish' — a Flemish face laid over a running-bond or rowlock back-up in a genuinely solid wall — is a documented period economy in 18th and 19th century work, on rear and side elevations especially. The wall is still solid and still carries; only the frequency of true through-headers is reduced.",
+      "bounds": "Only where the wall is genuinely load-bearing and not less than two wythes. False headers over a stud frame are not covered by this: the period economy reduced bonding within a solid wall, it did not invent a wall.",
+      "bounds_test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "section",
+        "threshold": 13.5,
+        "note": "False Flemish is a reduction in the frequency of true through-headers WITHIN a solid wall. The wall-thickness floor is unchanged; that is the whole content of the bound."
+      },
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ],
+        "note": "The period economy reduced bonding within a solid wall. It did not invent a wall, so it cannot be claimed over a frame."
+      }
+    },
+    {
+      "style": "charleston-georgian",
+      "why": "Stuccoed and limewashed brickwork was common, and where the finish coat conceals the bond entirely the bond pattern is not a claim being made.",
+      "bounds": "Applies only where the render is real lime stucco carried over the whole elevation. Scoring a stucco to imitate Flemish bond re-commits the fault in a second material.",
+      "applies_when": {
+        "construction": [
+          "solid-masonry-two-wythe",
+          "solid-masonry-three-wythe"
+        ],
+        "slots": [
+          "primary_cladding"
+        ],
+        "note": "Licence holds only where primary_cladding is a real lime stucco carried over the whole elevation, concealing the bond entirely. Scoring the stucco to imitate Flemish bond re-commits the fault in a second material."
+      },
+      "bounds_test": {
+        "expression": "scored_or_modelled_bond_lines_in_the_render",
+        "direction": "at-most",
+        "threshold": 0,
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "Zero. A render that conceals the bond makes no claim and is the whole basis of the licence; scoring the stucco to imitate Flemish bond re-commits the fault in a second material, and each scored bond line is a claim the wall cannot support."
+      }
+    },
+    {
+      "style": "contemporary-traditional",
+      "why": "A frankly modern building may use brick as an acknowledged skin, in running or stack bond, with a shadow gap or a metal reveal at its edges declaring it a panel.",
+      "bounds": "The licence depends on the skin declaring itself. It evaporates the moment quoins, jack arches or a water table are added, because those are claims about mass.",
+      "bounds_test": {
+        "expression": "mass_gesture_count_on_wall",
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "threshold": 0,
+        "note": "Quoins, jack arches, keystones and water tables each count as one. The skin's licence to be a skin evaporates at the first claim about mass."
+      },
+      "applies_when": {
+        "construction": [
+          "masonry-veneer-over-frame"
+        ],
+        "note": "Requires a declared edge — a shadow gap or a metal reveal — at every termination of the skin."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "veneer-reveal-collapse",
+      "difference": "That fault is about the depth at the opening; this one is about the pattern on the field of the wall. A house can have a correct 4 in reveal furred into a veneer and still lay a bond its wall cannot support, and vice versa."
+    },
+    {
+      "fault": "quoin-as-veneer-return",
+      "difference": "Same root cause — a mass gesture on a skin — but the quoin fault is at the corner and is geometrically detectable (the return dimension), where this one is detectable only in the face pattern."
+    }
+  ],
+  "sources": [
+    "Brick Industry Association, Technical Notes 30: Bonds and Patterns in Brickwork",
+    "Brick Industry Association, Technical Notes 28: Anchored Brick Veneer, Wood Frame Construction",
+    "International Residential Code, R703.8 (anchored masonry veneer: 2 5/8 in minimum nominal thickness, 1 in air space, tie spacing)",
+    "kits/georgian-colonial-american.kit.json, construction_type and primary_cladding variant records",
+    "proportions/modules/brick-course.json"
+  ],
+  "confidence": "high",
+  "tags": [
+    "material-honesty",
+    "veneer",
+    "bond",
+    "masonry"
+  ],
+  "test": {
+    "expression": "wall_thickness_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "section",
+    "threshold": 13.5,
+    "note": "Two wythes with a real through-bond. Below this a header cannot pass into the wall's depth and the bond is a picture. The decisive test, but it needs a section or a jamb you can put a tape into."
+  },
+  "secondary_tests": [
+    {
+      "expression": "jamb_reveal_depth_in / brick_stretcher_length_in",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.5,
+      "note": "Nominal stretcher 8 in. In a solid wall the bond turns into the reveal and headers appear on the jamb face; a ratio under 0.15 means the reveal is a veneer edge and no bond can be turning into it. This is the photograph-available proxy for the wall-thickness test."
+    },
+    {
+      "expression": "abs(mean_luminance_headers - mean_luminance_stretchers) / mean_luminance_stretchers",
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "threshold": 0.04,
+      "note": "A header is the END of a brick and a stretcher its SIDE — different faces, different firing exposure, so real Flemish bond shows a measurable tonal break between the two, often far larger where the headers are glazed. Snap headers are the same face of the same brick and the wall is chromatically flat. Fails on painted or limewashed brick; see paint-on-unpainted-brick."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "Flemish bond with glazed headers IS the entrance elevation's signature; a fake one destroys the style reading outright."
+    },
+    {
+      "style": "tidewater-georgian",
+      "severity": "fatal",
+      "why": "As above, and the Chesapeake glazed header is the specific regional tell being counterfeited."
+    },
+    {
+      "style": "contemporary-traditional",
+      "severity": "minor",
+      "why": "Where the skin declares itself, the bond is acknowledged decoration and the claim is not being made."
+    }
+  ],
+  "co_occurs_with": [
+    "veneer-reveal-collapse",
+    "arch-that-carries-nothing",
+    "brick-ledge-base",
+    "quoin-as-veneer-return"
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "id": "cape-cod-colonial",
+  "name": "Cape Cod Colonial",
+  "aka": [
+    "Cape",
+    "half Cape",
+    "three-quarter Cape",
+    "full Cape",
+    "Cape Cod cottage"
+  ],
+  "rank": "variant",
+  "member_of": "new-england-colonial",
+  "status": "historical",
+  "period": {
+    "origin": 1675,
+    "floruit_start": 1700,
+    "floruit_end": 1850,
+    "decline_end": 1880,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1920,
+        "end": 1960,
+        "revival_node": "cape-cod-revival",
+        "note": "Royal Barry Wills, who founded his Boston practice in 1925, made the Cape the single most-built American house form of the post-war years; the FHA minimum house of 1946–55 is essentially a Cape."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "Cape Cod and the Islands",
+      "eastern Massachusetts",
+      "coastal Maine and New Hampshire",
+      "Rhode Island",
+      "Connecticut shore"
+    ],
+    "hearth": "Cape Cod and the outer Massachusetts coast, where the wind is the governing design load",
+    "climate_zones": [
+      "5A",
+      "6A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "new-england-colonial",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "english-cottage-vernacular",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The one-and-a-half-storey cottage with a low plate and a loft in the roof is the English yeoman cottage, simplified and stiffened against the North Atlantic."
+    }
+  ],
+  "description": {
+    "short": "A one-and-a-half-storey, low-eaved, central-chimney cottage built to present as little surface as possible to the wind, and grown one bay at a time as a family could afford it.",
+    "long": "The Cape is the most economical house New England ever produced, and every one of its features is a consequence of that. There is no second storey, so there is no second plate, no second floor frame and no stair worth the name — just a steep winder beside the chimney to a loft under the rafters. The eave sits eight to nine and a half feet above the floor, which puts the head of the first-floor window within a foot of the cornice and leaves nothing for a frieze. The roof runs forty to forty-five degrees, steep enough to shed snow and to make the loft habitable, shallow enough that it does not act as a sail. And the whole building hunkers: no raised basement, no water table of consequence, no projections, no overhangs beyond a four-to-six-inch rake. On the outer Cape, where the sand offers nothing to anchor to and the wind comes off open water, a house shaped like this is a house that is still there in a hundred years.\n\nWhat makes the Cape genuinely interesting as a kit of parts is that it is a growth grammar rather than a single form, and the grammar is legible on the facade. A quarter Cape has a door and one window. A half Cape has a door at one end and two windows beside it. A three-quarter Cape adds a single window on the other side of the door. A full Cape has two windows each side of a centred door. Families built the half and added to it as money and children arrived, moving the door or reframing it toward the centre. The chimney stays put through all of this, which means that in a half or three-quarter Cape the chimney is not centred on the facade — and that off-centre stack is the honest signature of an unfinished growth sequence, not a mistake.\n\nThe name is not local. Timothy Dwight, president of Yale, coined 'Cape Cod house' after travelling the peninsula in 1800; the description was published posthumously in his Travels in New England and New York (1821–22). The people who built them called them houses.\n\nInside, the Cape is small, warm and unexpectedly good. Two rooms flank the stack on the ground floor with the entry porch between; ceilings run seven feet; the loft above is reached by the winder and lit by gable windows only. The rooms are square, the fireplaces are close, and everything is within a few steps of everything else. There is a reason the twentieth century could not leave it alone: the plan is close to irreducible, and a family of four fits into eight hundred square feet of it without friction."
+  },
+  "defining_characteristics": [
+    "One to one-and-a-half storeys with no full second floor; the upper rooms are within the roof volume",
+    "Eave 8 ft 0 in – 9 ft 6 in above finished floor, with the first-floor window head within 14 in of the cornice and no frieze",
+    "Central chimney on the ridge (full Cape) or off-centre where the house is a half or three-quarter Cape",
+    "Side-gable roof, 40–45 degrees, of wood shingle, with a shallow rake and no soffit overhang beyond about 6 in",
+    "Facade organized by the quarter / half / three-quarter / full growth grammar, with the door offset until the plan is complete",
+    "Wall of clapboard or, on the outer Cape, unpainted white-cedar shingle laid at 5–6 in exposure",
+    "No dormers, no porch, no projections; the gable ends are blind or carry one small window each"
+  ],
+  "diagnostic_tells": [
+    "Window heads almost touching the cornice — the single most reliable Cape tell, and the one the revival always gets wrong",
+    "A door that is not centred, with a chimney that is not centred either but in a different place",
+    "The entire house reads as roof: the wall is roughly one-third of the elevation height, the roof two-thirds",
+    "Rake trim of 4–6 in with a plain 6–12 in return at the corner, not a full modillion cornice return",
+    "No basement showing above grade; the sill sits within 18 in of the ground"
+  ],
+  "distinguished_from": [
+    {
+      "node": "cape-cod-revival",
+      "difference": "The revival raises the eave to clear a full-height second-floor knee wall, adds a row of gabled or shed dormers on the front slope, uses an 8:12 to 10:12 pitch, gives the house a centred door with sidelights and a symmetrical five-bay front regardless of the plan behind it, and attaches a garage. Original Capes have no front dormers. If there are dormers on the street elevation, it is a twentieth-century house."
+    },
+    {
+      "node": "saltbox-colonial",
+      "difference": "The saltbox is two full storeys at the front with an asymmetric roof; the Cape is one-and-a-half storeys with a symmetrical one. A Cape can have a rear lean-to and remain a Cape."
+    },
+    {
+      "node": "minimal-traditional",
+      "difference": "The 1935–50 minimal-traditional house shares the low eave and small footprint but has a shallower roof (4:12–6:12), no central chimney, a side or end chimney if any, and picture or paired windows."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The chimney stack plus two flanking rooms of a single frame bay each, with the roof sized to make the loft usable at the ridge.",
+    "typical_ratios": [
+      "Full Cape 32–38 ft wide × 26–30 ft deep; half Cape 20–24 ft wide",
+      "Eave 8 ft 0 in – 9 ft 6 in; ridge 18–22 ft above grade",
+      "Wall:roof height ratio on the front elevation about 1:2",
+      "Ground-floor ceiling 6 ft 10 in – 7 ft 6 in; loft 6 ft 0 in – 7 ft 0 in at the ridge",
+      "Roof rise:run 9:12 to 12:12",
+      "Window opening 2 ft 8 in – 3 ft 2 in × 4 ft 4 in – 5 ft 0 in"
+    ],
+    "bay_rhythm": "One, two, three or four windows plus a door, in the growth sequence quarter–half–three-quarter–full. The rhythm is a record of household economics, not a composition.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "cape-cod-massing",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "common",
+      "note": "The full Cape plan: two rooms flanking the stack."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The half Cape, one room and a stack."
+    },
+    {
+      "massing": "saltbox",
+      "affinity": "possible",
+      "note": "A Cape with a rear lean-to; the front eave stays low."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Eave height 8 ft 0 in to 9 ft 6 in above finished first floor, and the head of the first-floor window not more than 14 in below the underside of the cornice. This single rule separates every real Cape from every revival Cape."
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "No dormers on the front (street) roof slope. Rear-slope dormers are a permissible later addition; front dormers are not part of the type."
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "Roof pitch 9:12 to 12:12. Below 8:12 the loft is unusable and the house reads as minimal-traditional; above 12:12 it reads as a First Period two-storey house cut down."
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Rake and eave trim not more than 6 in wide, returning 6–12 in at the corner. Full modillion cornices and deep returns belong to Georgian work."
+    },
+    {
+      "kind": "climatic",
+      "severity": "soft",
+      "statement": "Roof and wall overhangs kept under 8 in on exposed coastal sites; shingle exposure 5–6 in; sill within 18 in of grade."
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Atwood-Higgins House",
+      "location": "Bound Brook Island, Wellfleet, Massachusetts",
+      "year": 1730,
+      "note": "Built c. 1730 as a half house and expanded to a full Cape in the late 18th or early 19th century — the growth grammar preserved in one building. Now within Cape Cod National Seashore."
+    },
+    {
+      "name": "Jabez Wilder House",
+      "location": "Main Street, Hingham, Massachusetts",
+      "year": 1690,
+      "note": "Documented by HABS; a bow-roof ('rainbow roof') Cape, the coastal variant in which the rafters are given a slight convex curve. Date is traditional and not independently confirmed."
+    },
+    {
+      "name": "Dillingham House",
+      "location": "Sandwich, Massachusetts",
+      "year": 1650,
+      "note": "Among the earliest Cape-form dwellings on the peninsula; substantially enlarged in the 18th century, so the original half-house core must be read through later fabric."
+    }
+  ],
+  "sources": [
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay, 1625–1725 (1979)",
+    "J. Frederick Kelly, Early Domestic Architecture of Connecticut (1924)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)",
+    "Ernest Allen Connally, 'The Cape Cod House: An Introductory Study', Journal of the Society of Architectural Historians 19 (1960)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "low-eave",
+    "growth-grammar",
+    "coastal",
+    "central-chimney"
+  ]
+}

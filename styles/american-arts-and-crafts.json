@@ -1,0 +1,36 @@
+{
+  "id": "american-arts-and-crafts",
+  "name": "American Arts and Crafts",
+  "rank": "family",
+  "member_of": "north-american",
+  "status": "historical",
+  "period": {
+    "origin": null,
+    "floruit_start": 1900,
+    "floruit_end": 1935,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "Craftsman, bungalow, and Prairie — the American translation of the British reform argument into a mass-market house that millions actually bought.",
+    "long": "Britain produced the philosophy and a few hundred houses for wealthy clients. America produced hundreds of thousands of houses and shipped them by catalog. Gustav Stickley's *The Craftsman* magazine ran from 1901 to 1916 and distributed plans directly to readers; Sears, Aladdin, and dozens of plan services did the rest.\n\nThe result is the only moment in American history when a reform movement grounded in material honesty and craft became the default choice of ordinary buyers. It ended for economic reasons — the bungalow's exposed structure and heavy timber were expensive, and the Depression killed it — not because anyone argued it down."
+  },
+  "defining_characteristics": [
+    "Structure expressed rather than concealed: rafter tails, brackets, beams, joinery",
+    "Low horizontal massing with very deep eave overhangs",
+    "The porch under the primary roof as an outdoor room",
+    "Open planning around a hearth, replacing the formal parlor",
+    "Mass distribution by magazine and mail-order catalog"
+  ],
+  "confidence": "high",
+  "tags": [
+    "container"
+  ]
+}

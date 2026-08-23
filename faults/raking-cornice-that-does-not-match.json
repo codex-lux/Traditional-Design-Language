@@ -1,0 +1,160 @@
+{
+  "id": "raking-cornice-that-does-not-match",
+  "name": "The Raking Cornice That Is Not The Cornice",
+  "aka": [
+    "the mismatched rake",
+    "crown on the level, none on the rake",
+    "the compound-cut dodge"
+  ],
+  "slots": [
+    "pediment",
+    "entablature",
+    "rake_condition",
+    "cornice_return"
+  ],
+  "severity": "serious",
+  "frequency": "endemic",
+  "category": "assembly",
+  "symptom": "A pediment whose sloping cornice is made of different members from its horizontal one. The horizontal cornice below the tympanum carries bed mould, corona and crown; the raking cornices carry a fascia and a crown, or a fascia alone, so the two meet at the corner with two or three members dying into nothing. In the commoner and quieter version, the horizontal cornice carries dentils or modillions and the raking one does not, or carries them at a different spacing. The apex is often the tell: two rakes of different depths meeting in a mitre that does not close.",
+  "cause": {
+    "driver": "trade-sequence",
+    "explanation": "A raking cornice is a genuine geometry problem. A crown moulding running up a slope must be cut on a compound angle and, more subtly, its SECTION must change: a moulding sprung at 38/52 on the level presents a different profile when tilted to the rake, so the raking member has to be a different moulding, cut from stock at a different spring angle, or the profiles will not match where they meet. Period joiners solved this by running the raking crown from a wider stock and adjusting the spring; the modern crew cuts the same stock at a compound angle, discovers the mitre will not close, and removes members until it does.",
+    "cost_saved": "300-900 USD per pediment in labour and in the wider raking stock. On a pedimented portico with two rake runs and two returns, roughly 600-1,800 USD."
+  },
+  "rule_violated": [
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pediment / raking_cornice",
+      "statement": "The full cornice profile raked, with the corona level and the bed mould raked."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "georgian-colonial-american / pediment / rule",
+      "statement": "A pediment's raking cornice carries the same profile as the level one."
+    },
+    {
+      "kind": "pack-rule",
+      "ref": "benjamin-doric / notes on the Grecian raking cornice, Plate 34 fig. 1",
+      "statement": "Benjamin: 'the Grecians never employed either mutules, dentils or modillions in the cornices of the sloping sides of their pediments', and he gives a separate raking cornice for that reason — a detail almost universally got wrong in modern Greek Revival work."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "the pediment asserts that the entablature has been lifted, not replaced",
+      "statement": "A pediment is the same entablature turned upward. If the raking member is a different assembly, the pediment stops being a continuation of the entablature and becomes a triangle drawn on top of it."
+    }
+  ],
+  "correct_practice": "The raking cornice carries the same members as the horizontal one, with two documented refinements. First, the CORONA STAYS LEVEL in section while the bed mould rakes: the corona's soffit and its fascia remain horizontal planes tilted along the slope, which is what allows the raking and level coronas to meet correctly at the corner, and it is why the raking cornice appears deeper than the level one on the drawing. Second, and this is the detail almost nobody builds, the enriched members do NOT rake in Greek work: Benjamin states that the Greeks never carried mutules, dentils or modillions up the raking cornice and gives a separate raking profile on his Plate 34. So a correct Greek Revival pediment has a dentil or mutule band on its horizontal cornice and a plain raking cornice above — which looks like an error to anyone who has not read Benjamin and is the correct answer. Roman and Anglo-Palladian work does carry dentils up the rake, at the same spacing, set out so a whole member lands at the apex and at each corner.",
+  "fixes": {
+    "right": "Run the raking cornice in the same members from wider stock at an adjusted spring angle, keeping the corona level in section, and set out any enriched band so whole members land at the apex and at the corners.",
+    "cheap": "Match the two cornices by SUBTRACTION rather than addition. If the raking cornice cannot carry the full profile, simplify BOTH to the members that can be raked — bed mould, corona and crown, no dentils, no modillions — so the pediment is consistent and plain. A plain pediment whose rake and level agree is right; an enriched horizontal cornice with a plain rake is wrong, and the fix costs less than the fault. Free move at the apex: kill the mitre by running a small vertical apex block, which is period-correct on plainer work and removes the compound cut altogether.",
+    "dishonest": "Adding a moulded plastic 'raking crown' or a pre-mitred apex block to close the joint while leaving the members mismatched. The joint closes and the profiles still disagree, which is the visible failure. Equally dishonest: caulking and painting the apex, which is what most pediments show under close inspection and what makes them read as one grey lump at the top."
+  },
+  "detection": "Photograph the pediment straight on and look at the two lower corners, where the raking cornice meets the horizontal one. Count the members in each and compare. Three checks in order of speed. (1) Member count: if the horizontal cornice shows a dentil band, a corona and a crown, and the rake shows a fascia and a crown, they do not match. (2) Depth: measure the perpendicular depth of the raking cornice and of the horizontal one. Correct work makes the raking cornice APPEAR slightly deeper because the corona remains level; if the rake is visibly SHALLOWER, members have been dropped. (3) Apex: look for a clean mitre with continuous profiles crossing it, versus a caulked joint, a filler block, or two members of different depths meeting. Fourth, for Greek Revival specifically, an enriched raking cornice is itself the error — check whether the dentils stop at the corner, which is correct, or continue up the rake, which is not.",
+  "applies_to": [
+    "universal"
+  ],
+  "test": {
+    "expression": "raking_cornice_member_count / horizontal_cornice_member_count",
+    "threshold": 1.0,
+    "direction": "equals",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "Count distinct mouldings visible in each cornice at the lower corner of the pediment. They must agree. The one documented exception is Greek work, where dentils, mutules and modillions are correctly ABSENT from the rake and present on the level — so a ratio below 1 on a Greek Revival building with an otherwise correct Greek vocabulary is the exception rather than the fault."
+  },
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "serious",
+      "why": "The style has its own inverted rule here and both getting it wrong and getting it 'right' by the general rule produce errors. Worth knowing rather than guessing."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "severity": "fatal",
+      "why": "The kit states the rule directly and the pediment is the entrance's crown."
+    },
+    {
+      "style": "neoclassical-revival",
+      "severity": "fatal",
+      "why": "The giant pediment is read entirely in silhouette and profile."
+    },
+    {
+      "style": "colonial-revival",
+      "severity": "serious",
+      "why": "Endemic; the compound cut is the reason."
+    },
+    {
+      "style": "craftsman",
+      "severity": "not-applicable",
+      "why": "No cornice, no pediment."
+    }
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "Benjamin is explicit: the Greeks never used mutules, dentils or modillions in the raking cornices of pediments, and he publishes a separate raking cornice profile for that reason. A Greek Revival pediment whose horizontal cornice carries enrichment and whose rake does not is CORRECT, and matching them would be the error.",
+      "bounds": "Only the enriched band may differ. The bed mould, corona and crown must still match, and the raking version of each must be the same profile at an adjusted spring. The licence is to drop dentils, mutules and modillions from the rake, not to drop the cornice.",
+      "bounds_test": {
+        "expression": "raking_cornice_member_count / horizontal_cornice_member_count",
+        "threshold": 0.6,
+        "upper": 1.0,
+        "direction": "between",
+        "units": "ratio",
+        "measurable_from": "photograph"
+      },
+      "applies_when": {
+        "date_range": [
+          1820,
+          1870
+        ]
+      }
+    },
+    {
+      "style": "greek-classical",
+      "why": "The antique source of the rule.",
+      "bounds": "As above."
+    },
+    {
+      "style": "greek-revival-upland-vernacular",
+      "why": "Vernacular Greek Revival reduces both cornices to broad flat boards, and a board raked is the same board. The match is achieved by having almost nothing to match.",
+      "bounds": "Both must be equally plain. The reduction has to be symmetrical: a moulded level cornice with a plain board rake is the fault whatever the style."
+    },
+    {
+      "style": "shingle-style",
+      "why": "No cornice exists on either the level or the rake; the shingle field turns the corner and the eave is cut tight.",
+      "bounds": "Total suppression on both."
+    }
+  ],
+  "co_occurs_with": [
+    "pediment-at-roof-pitch",
+    "pork-chop-return",
+    "cornice-with-no-architrave-or-frieze"
+  ],
+  "confused_with": [
+    {
+      "fault": "pork-chop-return",
+      "difference": "That is the failure at the FOOT of a rake on an ordinary gable, where the eave and rake meet and a block closes the gap. This is the failure along the length of a rake inside a real pediment. Same underlying geometry problem — the compound cut — with two different evasions."
+    },
+    {
+      "fault": "flush-rake",
+      "difference": "That is a rake with no projection at all. This assumes projection and measures whether the members agree."
+    },
+    {
+      "fault": "pediment-at-roof-pitch",
+      "difference": "Angle versus members."
+    }
+  ],
+  "sources": [
+    "kits/georgian-colonial-american.kit.json, pediment.raking_cornice",
+    "proportions/overlays/benjamin-doric.json — the note on Grecian raking cornices and Plate 34 fig. 1",
+    "Asher Benjamin, The Practical House Carpenter (1830), plates on raking mouldings and the construction of the raking cornice",
+    "HABS measured drawings of pedimented porticos, New England and the Chesapeake"
+  ],
+  "confidence": "high",
+  "tags": [
+    "pediment",
+    "raking-cornice",
+    "assembly",
+    "geometry",
+    "mechanism"
+  ]
+}

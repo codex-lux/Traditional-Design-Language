@@ -1,0 +1,173 @@
+{
+  "id": "flat-arch-without-camber",
+  "name": "The Flat Arch That Is Actually Flat",
+  "aka": [
+    "the sagging lintel",
+    "no camber",
+    "the dead-level jack arch"
+  ],
+  "slots": [
+    "window_head_masonry"
+  ],
+  "severity": "minor",
+  "frequency": "common",
+  "category": "profile-depth",
+  "symptom": "A gauged or jack arch over a masonry opening is set dead level on its soffit. Within a few years, and often immediately, it reads as sagging in the middle, because the eye reads a long horizontal line above a void as bowing downward even when it is straight. On a wide opening the effect is pronounced; on a 6 ft opening it is the difference between an arch that looks confident and one that looks tired.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "A flat arch is drawn as a rectangle in every drawing package and dimensioned to a level soffit, because the camber is a fraction of an inch and would not survive a dimension string. The mason then works to a level string line, which is the correct instinct for every other course in the wall. The camber is a piece of craft knowledge that lives in the setting-out and not in the documents, so it disappears the moment the work is drawn rather than laid out on a rod.",
+    "cost_saved": "None. A cambered template costs the same as a level one. The camber is lost to notation, not to money.",
+    "cost_negative": true
+  },
+  "rule_violated": [
+    {
+      "kind": "pack-rule",
+      "ref": "opening-proportion / window_head_masonry.flat_arch_camber_in",
+      "statement": "camber = opening_width / 96, which is 3/8 in on a 36 in opening and 3/4 in on a 6 ft one. A flat arch is not flat: it is cambered so it does not read as sagging."
+    },
+    {
+      "kind": "first-principle",
+      "ref": "optical correction precedes structural expression",
+      "statement": "The same correction that makes a stylobate crown and an entasis swell applies at every long horizontal read against a void. The correction is not decoration; without it the element reports a failure that has not occurred."
+    }
+  ],
+  "correct_practice": "Rise the soffit of a flat arch by opening width / 96 at the centre, about 1 in 96 or 0.6 degrees, struck from a very long radius or set out as a shallow segment. The skewback should be set at about 60 degrees for a gauged arch and the joints must radiate from a common centre, which means the voussoirs are tapered and the joints are not parallel — a jack arch with parallel joints is a lintel with lines drawn on it. Where the arch is segmental instead, rise = opening width / 8, that is 4 1/2 in on a 36 in opening. Arch depth about one module — four brick courses — so the arch reads as a member and not as a soldier course.",
+  "fixes": {
+    "right": "Camber the soffit at 1 in 96 and radiate the joints from a struck centre. Set out full size on a rod before laying.",
+    "cheap": "If the arch must be laid level, deepen it: an arch four or five courses deep reads as substantial enough that the eye stops looking for the sag. Alternatively use a segmental arch, whose rise is unmistakable and which is cheaper to build than a gauged flat arch anyway.",
+    "dishonest": "A precast or cut-stone lintel scored with false joint lines. The joints will be parallel rather than radiating, which is the giveaway, and the piece will show a single continuous shrinkage or weathering pattern across what is meant to be nine separate stones."
+  },
+  "detection": "Sight along the soffit of the arch in a rectified frontal photograph and compare its centre with its ends: a correct arch is 3/8 to 3/4 in higher in the middle, which at typical photograph resolution is one or two pixels of the opening width — about 1 per cent. Easier and more diagnostic: look at the joints. Radiating joints, wider at the top than at the soffit, mean a real arch; parallel vertical joints mean a soldier course or a scored lintel. Third: check the depth against the brick courses. A one-course-deep soldier over a 6 ft opening is not an arch.",
+  "applies_to": [
+    "universal"
+  ],
+  "exceptions": [
+    {
+      "style": "greek-revival-american",
+      "why": "The style deliberately uses a plain rectangular stone lintel with no arch action expressed at all, and a Greek Revival head is honestly a beam.",
+      "bounds": "It must be a stone or timber lintel and must look like one: a single member, full width, with visible bearing at each end and no false joints. A brick soldier course pretending to be a lintel is not this.",
+      "bounds_test": {
+        "expression": "lintel_pieces_across_the_opening",
+        "threshold": 1,
+        "direction": "at-most",
+        "units": "count",
+        "measurable_from": "photograph",
+        "note": "It must be a stone or timber lintel and must look like one: a single member, full width, with visible bearing at each end and no false joints. A brick soldier course pretending to be a lintel scores above 1 and is not this."
+      },
+      "applies_when": {
+        "construction": [
+          "stone-lintel",
+          "timber-lintel"
+        ],
+        "note": "Depends on the head genuinely being a beam."
+      }
+    },
+    {
+      "style": "prairie-school",
+      "why": "A continuous lintel course running unbroken around the building is the point; individual arches would break it.",
+      "bounds": "The course must be continuous and must return around every corner.",
+      "bounds_test": {
+        "expression": "continuous_head_and_sill_bands_returning_at_every_corner",
+        "threshold": 1.0,
+        "direction": "equals",
+        "units": "ratio",
+        "measurable_from": "photograph",
+        "note": "The course must be continuous and must return around every corner."
+      }
+    },
+    {
+      "style": "pueblo-revival",
+      "why": "Openings are headed by timber lintels in a mud-plastered wall and no arch exists in the tradition.",
+      "bounds": "Timber lintel expressed or concealed in stucco, with a minimum 10 in reveal. No arched or keystoned head anywhere on the building.",
+      "bounds_test": {
+        "expression": "window_reveal_depth_in",
+        "threshold": 10,
+        "direction": "at-least",
+        "units": "in",
+        "measurable_from": "photograph",
+        "note": "Timber lintel expressed or concealed in stucco with a minimum 10 in reveal, and no arched or keystoned head anywhere on the building."
+      },
+      "applies_when": {
+        "construction": [
+          "adobe",
+          "mass-wall"
+        ],
+        "note": "Depends on the wall expressing thickness; a 2 in stucco skin over frame voids it."
+      }
+    }
+  ],
+  "confused_with": [
+    {
+      "fault": "keystone-on-a-steel-lintel",
+      "difference": "That fault is about an arch that is not carrying anything. This one is about an arch that is carrying and does not look like it."
+    },
+    {
+      "fault": "arch-that-carries-nothing",
+      "difference": "That fault is an arch shape over a veneer whose span is carried by a steel angle. This one is a real arch, or a real lintel, built without its optical correction. The joint-radiation test distinguishes them: that fault often has radiating joints and no load, this one has load and no camber."
+    }
+  ],
+  "sources": [
+    "proportions/systems/opening-proportion.json",
+    "Brick Industry Association Technical Note 31, brick masonry arches",
+    "Measured gauged arches, mid-Atlantic and Tidewater 1700-1800"
+  ],
+  "confidence": "high",
+  "tags": [
+    "masonry",
+    "arch",
+    "optical-correction",
+    "zero-cost-fix"
+  ],
+  "test": {
+    "expression": "voussoir_joint_width_at_extrados_in / voussoir_joint_width_at_intrados_in",
+    "threshold": 1.15,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "THE PHOTOGRAPHIC TEST, and not the one the fault is named for. Radiating joints, wider at the top than at the soffit, mean a real arch; parallel joints mean a soldier course or a scored lintel. The camber itself is about 1 per cent of the opening width and is at or below the resolution of a street photograph, so this is the check that can actually be run."
+  },
+  "secondary_tests": [
+    {
+      "expression": "arch_soffit_camber_in / opening_width_in",
+      "threshold": 0.0104,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "elevation",
+      "note": "The rule itself: camber = opening_width / 96, that is 3/8 in on a 36 in opening and 3/4 in on a 6 ft one, about 1 in 96 or 0.6 degrees. HONEST LIMIT: at 1 per cent of the opening this is one or two pixels in a typical elevation photograph and needs a rectified drawing or a string line on site."
+    },
+    {
+      "expression": "arch_depth_in / brick_course_height_in",
+      "threshold": 3.0,
+      "direction": "at-least",
+      "units": "ratio",
+      "measurable_from": "photograph",
+      "note": "Arch depth about one module, four courses. A one-course soldier over a 6 ft opening is not an arch, and depth is the variable that lets a level-laid arch stop reading as a sag."
+    }
+  ],
+  "severity_by_style": [
+    {
+      "style": "greek-revival-american",
+      "severity": "not-applicable",
+      "why": "The style uses a plain rectangular stone or timber lintel with no arch action expressed, and a Greek Revival head is honestly a beam."
+    },
+    {
+      "style": "prairie-school",
+      "severity": "not-applicable",
+      "why": "A continuous lintel course runs unbroken around the building; individual arches would break it."
+    },
+    {
+      "style": "pueblo-revival",
+      "severity": "not-applicable",
+      "why": "Timber lintels in a mud-plastered wall; no arch exists in the tradition."
+    },
+    {
+      "style": "beaux-arts-american",
+      "severity": "serious",
+      "why": "Where the wall is or fully expresses cut stone with true voussoirs, the optical correction is expected and its absence reads as a failure of the stonework."
+    }
+  ],
+  "co_occurs_with": [
+    "keystone-on-a-steel-lintel",
+    "arch-that-carries-nothing"
+  ]
+}

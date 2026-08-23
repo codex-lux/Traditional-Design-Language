@@ -1,0 +1,276 @@
+{
+  "id": "bedroom",
+  "name": "Bedroom",
+  "aka": [
+    "secondary bedroom",
+    "guest room",
+    "children's room",
+    "chamber (loosely)"
+  ],
+  "function_class": "sleeping",
+  "description": "A room for sleeping, upstairs, private, and furnished as a set. It is the commonest room in the housing stock and the most consistently undersized, because its dimensions are set by an appraiser counting bedrooms rather than by a bed. The arithmetic is not difficult and it is almost never done.",
+  "history": {
+    "appears": 1840,
+    "declines": null,
+    "replaced": "bedchamber",
+    "note": "The bedroom in the modern sense - a room used only for sleeping, on a private floor, one per person or per pair - is a Victorian invention and it is the visible half of a larger reorganisation: the separation of the house into a public floor and a private one, which is also what produces the front hall, the back stair and the servants' zone. Its later history is a story of multiplication rather than change. The median new American house had two bedrooms in 1950, three by 1970 and three-and-a-half or four from 1990, while household size fell from 3.4 to 2.5 people, so the number of bedrooms per person has roughly doubled in seventy years and the size of each has not improved. That is the fact behind most bad plans in this catalogue: the programme demands four bedrooms out of a frontage that will comfortably carry three."
+  },
+  "dimensions": {
+    "area_sf": [
+      130,
+      220
+    ],
+    "width_ft": [
+      11,
+      14
+    ],
+    "length_ft": [
+      12,
+      16
+    ],
+    "proportion": [
+      1.0,
+      1.35
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "A QUEEN MATTRESS IS 60 BY 80 AND THE ROOM FOLLOWS FROM IT. With a frame and a headboard the bed occupies about 64 by 86. You need 24 in clear to walk beside a bed and to make it, 30 in to be comfortable, and 36 in on the side you get out of. Bed head against the room's width: 60 + 24 + 24 = 108 in, a 9 ft 0 in clear width, and that is the ABSOLUTE floor - it is a room with a bed, two nightstands inside the aisles, and nothing else, and every other piece of furniture and every door swing has to land on the two end walls. The moment a 20 in chest, a closet door swinging 32 in, or a bedroom door swinging 32 in has to land on a SIDE wall, the width goes to 60 + 24 + 44 = 128 in, and 11 ft 0 in is the real minimum for a queen bedroom. A 10 ft bedroom is a fault dressed as a room: it dimensions correctly, it passes every code check, and it can only be furnished one way, with the bed jammed against a side wall so that one person climbs over the other. The depth follows: 86 (bed) + 36 (passing at the foot) + 20 (chest) = 142 in, 11 ft 10 in, so 12 ft 0 in. ELEVEN BY TWELVE, and a 132 sq ft bedroom is not a large bedroom, it is the smallest one that works."
+  },
+  "furniture": [
+    {
+      "item": "queen bed",
+      "footprint_in": [
+        64,
+        86
+      ],
+      "clearance_in": 24,
+      "note": "Mattress 60 by 80; frame and headboard add 4 and 6. 24 in clear on three sides is the making-the-bed minimum, 30 is comfortable, 36 on the side you get out of."
+    },
+    {
+      "item": "full bed (a secondary or child's room)",
+      "footprint_in": [
+        58,
+        81
+      ],
+      "clearance_in": 24,
+      "note": "Mattress 54 by 75. A full bed brings the absolute minimum width to 54 + 48 = 102 in, 8 ft 6 in, and the practical minimum to 10 ft 0 in - which is why a 10 ft bedroom that fails for a queen succeeds for a full, and why it should be drawn and labelled as a full-bed room rather than sold as a queen one."
+    },
+    {
+      "item": "twin beds, pair",
+      "footprint_in": [
+        100,
+        80
+      ],
+      "clearance_in": 24,
+      "note": "Two 38 by 75 mattresses with 24 in between them: 38 + 24 + 38 = 100 in across, plus 24 at each outer side = 148 in, 12 ft 4 in. A shared children's room is WIDER than a queen room, not narrower, and this is the most commonly missed dimension in a family house."
+    },
+    {
+      "item": "nightstand",
+      "footprint_in": [
+        22,
+        18
+      ],
+      "clearance_in": 0,
+      "note": "Sits within the 24 in bedside aisle, so it costs no extra width - but only if the aisle is 24 and not 20."
+    },
+    {
+      "item": "chest of drawers",
+      "footprint_in": [
+        36,
+        20
+      ],
+      "clearance_in": 40,
+      "note": "A drawer extends 18-20 in and a person stands 18 in behind it. 40 in of clear floor in front, not 36."
+    },
+    {
+      "item": "desk (any bedroom occupied by anyone under twenty-five)",
+      "footprint_in": [
+        48,
+        24
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "Now effectively essential and almost never drawn. It needs 6 ft of wall, and the only walls a bedroom has spare are the ones the closet and the door are not on."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 1,
+    "orientation": "East. A bedroom wants morning light and does not want a western afternoon, which is the hardest room in the house to cool and the one most likely to have the smallest cooling load calculated for it. In a hot climate a west bedroom needs either a shading device that is part of the architecture or a different room.",
+    "glazing_fraction": [
+      0.1,
+      0.15
+    ],
+    "note": "One window wall is enough for a room 12 to 14 ft deep at an 80 in head. Two is better and gives cross-ventilation. The daylight rule bites in the ordinary case where a bedroom is 16 ft deep with one window: the far third of the room is where the bed goes, in the dark, which is fine for sleeping and hopeless for anything else the room is now expected to do."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "closet",
+        "why": "A bedroom without a closet is not a bedroom in law in most American jurisdictions and is not one in practice anywhere. Draw the closet with the room.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "bathroom",
+        "why": "Within about 20 ft and on the same floor, and the route must not cross a public space. A bathroom reached by crossing a stair landing that is open to the entry hall below is a bathroom you cross in a towel in front of visitors.",
+        "relation": "same-floor",
+        "strength": "strong"
+      },
+      {
+        "room": "sleeping-porch",
+        "why": "Where the type carries one, the sleeping porch is an annexe to a chamber and is entered only from it - it has no door to the public circulation and therefore costs no corridor.",
+        "relation": "direct-door",
+        "strength": "preferred",
+        "exceptions": [
+          "Absent from all post-1940 types; see sleeping-porch for why it died twice."
+        ]
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "laundry",
+        "why": "A washer's spin cycle is 70-75 dBA and it is a vibrating mass bolted to nothing, transmitting structure-borne noise through the floor frame that no amount of insulation in the partition touches. A laundry sharing a wall or a floor with a bed is the commonest acoustic fault on a second-floor-laundry plan.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "plant-room",
+        "why": "An air handler is 55-65 dBA at 3 ft and runs at 3 am. Never share a wall with a bed head and never place equipment directly above a bedroom ceiling.",
+        "relation": "acoustically-separated",
+        "strength": "hard"
+      },
+      {
+        "room": "garage",
+        "why": "A bedroom over a garage is cold, is above an unconditioned slab and a leaky door, and requires the full R302.6 separation plus a carbon monoxide alarm. It is buildable and it is always the worst bedroom in the house. Where it cannot be avoided, insulate and air-seal the floor assembly as an exterior surface, because it is one.",
+        "relation": "shared-wall",
+        "strength": "preferred"
+      },
+      {
+        "room": "entrance-hall",
+        "why": "A bedroom door opening off the formal entry puts a rank-4 room onto a rank-2 space. The gradient is the plan's spine and this is the commonest way of scrambling it.",
+        "relation": "not-visible-from",
+        "strength": "hard",
+        "exceptions": [
+          "Ground-floor guest chambers in eighteenth-century plans, where the chamber is a semi-public room; the rule is modern because the room's rank is modern."
+        ]
+      }
+    ],
+    "entered_from": [
+      "passage",
+      "stair-hall",
+      "landing"
+    ],
+    "never_a_through_room": true
+  },
+  "privacy_rank": 4,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "IRC-required whole-house ventilation reaches bedrooms last and they are where CO2 rises fastest - a closed bedroom with two people reaches 1,800-2,500 ppm by morning at typical infiltration rates. A transfer path under or over the door is not optional in a tight house.",
+    "heat": "Bedrooms are the rooms most often over-heated and under-cooled by the same duct run, because the load is on the west face and the run is sized from floor area. Zone the sleeping floor separately if nothing else in the house is zoned.",
+    "electrical": "AFCI protection on all outlets; a switched receptacle or a ceiling box; a receptacle within reach of each side of the bed, which requires knowing where the bed goes, which requires having drawn it.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "colonial-revival",
+      "name_in_style": "bedroom",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "Where the modern bedroom programme is first fitted into a Georgian elevation, and where the closet problem is invented. The good 1910-1940 examples take the closets out of the depth, in a thickened spine between the front and back rooms; the bad ones take them out of the front wall."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "bedroom",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "10 by 12, one 3 ft closet, a picture rail and no crown. Small, and unapologetic about it, and the type is honest in a way the 1990s four-bedroom colonial is not."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "bedroom",
+      "present": true,
+      "trim_grade": "none",
+      "note": "The bedroom wing off a single corridor, all rooms on one side or two, and the type's real innovation is that the sleeping zone is a separate LIMB of the plan rather than a separate floor. That is worth borrowing and rarely is."
+    },
+    {
+      "style": "tudor-revival",
+      "name_in_style": "bedroom",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Frequently under a slope with a dormer, and the type absorbs the resulting irregularity better than any other because there is no bay rhythm to keep."
+    },
+    {
+      "style": "shotgun-house",
+      "present": false,
+      "note": "There are no bedrooms, only rooms, and they are in a file with no corridor: you walk through the front room to reach the second and through the second to reach the third. A bedroom inserted into the middle of a shotgun introduces both a circulation fault and a plumbing one."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Emergency escape and rescue opening in every sleeping room: 5.7 sq ft net clear, 24 in clear height, 20 in clear width, sill 44 in maximum above floor.",
+      "ref": "IRC R310.1",
+      "conflict": "Net clear is the OPENING, not the unit, so a double-hung must be about 3 ft 0 in by 4 ft 6 in to make 5.7 sq ft in its lower sash. The lazy answer widens the window and flattens its proportion; the right answer raises the head and keeps the width, which the daylight rule also wants."
+    },
+    {
+      "requirement": "Minimum 70 sq ft floor area and no horizontal dimension less than 7 ft.",
+      "ref": "IRC R304",
+      "conflict": "Seventy square feet is a 7 by 10 room. It is legal, it is a bedroom for appraisal purposes, and it will not take a full bed with clearances. The code minimum here is roughly half the honest one and is routinely mistaken for a target."
+    },
+    {
+      "requirement": "Heating capable of maintaining 68 degrees F at 3 ft above the floor.",
+      "ref": "IRC R303.10",
+      "conflict": "The reason an unheated garret chamber or a genuine sleeping porch cannot be labelled a bedroom on a modern permit set, however historically correct it is."
+    },
+    {
+      "requirement": "Sloped ceilings: at least 50 per cent of the required floor area must have a 7 ft ceiling, and floor area with less than 5 ft of height is not counted at all.",
+      "ref": "IRC R305.1.1",
+      "conflict": "This is the rule that decides whether a story-and-a-half bedroom is legal, and it is a ROOF PITCH question - see garret-chamber for the arithmetic."
+    }
+  ],
+  "massing_fit": [
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "garrison-block",
+    "cape-cod-massing",
+    "gambrel-block",
+    "i-house",
+    "saltbox",
+    "cross-gable-victorian",
+    "massed-picturesque",
+    "mansard-block",
+    "ranch-linear",
+    "ranch-l",
+    "split-level",
+    "townhouse-row",
+    "bungalow-linear",
+    "airplane-bungalow",
+    "telescope-house"
+  ],
+  "slots": [
+    "room_adjacency_overrides",
+    "public_private_gradient",
+    "storage_strategy",
+    "daylight_strategy",
+    "depth_and_pile",
+    "ceiling_height_rule",
+    "window_proportion"
+  ],
+  "faults": [
+    "closet-depth-taken-from-the-room",
+    "closet-on-the-exterior-wall",
+    "egress-window-flips-the-proportion",
+    "room-deeper-than-its-daylight",
+    "primary-suite-off-the-formal-hall",
+    "storeys-out-of-vertical-alignment"
+  ],
+  "sources": [
+    "US Census Bureau, Characteristics of New Housing, bedroom counts 1950-2020",
+    "IRC R303.10, R304, R305.1.1, R310.1",
+    "Panero and Zelnik, Human Dimension and Interior Space (1979), for bedside and drawer clearances",
+    "proportions/systems/room-vernacular.json"
+  ],
+  "confidence": "high"
+}

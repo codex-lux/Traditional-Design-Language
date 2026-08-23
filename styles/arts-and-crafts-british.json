@@ -1,0 +1,222 @@
+{
+  "id": "arts-and-crafts-british",
+  "name": "Arts and Crafts (British)",
+  "aka": [
+    "English Domestic Revival",
+    "the Free Style",
+    "Voysey manner",
+    "Vernacular Revival"
+  ],
+  "rank": "style",
+  "member_of": "british-arts-and-crafts",
+  "status": "living",
+  "period": {
+    "origin": 1859,
+    "floruit_start": 1880,
+    "floruit_end": 1914,
+    "decline_end": 1939,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1970,
+        "end": 2026,
+        "revival_node": null,
+        "note": "A continuous minority practice in British house-building, and the reference point for most serious contemporary work in regional materials."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Wales",
+      "Ireland"
+    ],
+    "hearth": "The Surrey and Sussex Weald, the Lake District, and the Cotswolds around Sapperton",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "gothic-revival-british",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Office descent and doctrinal descent together. Philip Webb and William Morris met in G. E. Street's Gothic office in 1856; Pugin's principles — nothing unnecessary, ornament as enrichment of real construction — pass through Ruskin into the movement's core, and the plan-driven asymmetry comes with them."
+    },
+    {
+      "target": "gothic-revival-british",
+      "type": "reacts_against",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "And a rejection of the same style's method. Arts and Crafts keeps the ethics and discards the archaeology: no pointed arches, no tracery, no ecclesiastical quotation, no structural polychromy. Morris's founding of the SPAB in 1877 was an attack on the Gothic Revival's habit of 'restoring' medieval buildings out of existence."
+    },
+    {
+      "target": "english-cottage-vernacular",
+      "type": "descends_from",
+      "weight": 0.7,
+      "inherits_kit": true,
+      "note": "Study on site rather than quotation from books. Webb, Shaw, Lutyens and Voysey measured and sketched Wealden and Surrey farmhouses, and took from them the long roof, the low eaves, the catslide, the tile-hanging and the dominant stack."
+    },
+    {
+      "target": "cotswold-vernacular",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The Sapperton group — Ernest Gimson and the Barnsley brothers from 1893 — learned Cotswold masonry and stone-slating from men still practising it, and this is one of the very few revivals to reacquire a living craft rather than reproduce an appearance."
+    },
+    {
+      "target": "queen-anne-british",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "inherits_kit": false,
+      "note": "Overlapping personnel and overlapping decades. Shaw's Old English and the Bedford Park houses are the immediate context; Arts and Crafts cools the palette, removes the ornament and lengthens the horizontals."
+    }
+  ],
+  "description": {
+    "short": "A house built from the materials of its own county, planned from the inside out around a hall and a hearth, and detailed so that every visible thing is doing structural work — the last coherent traditional style in Britain, and the one that stopped quoting.",
+    "long": "Arts and Crafts is the point at which the English revival tradition stops copying periods and starts studying construction. Its founding building is Red House at Bexleyheath, designed by Philip Webb for William Morris in 1859: red brick left unrendered, a steeply pitched red tile roof, sash and casement windows of different shapes placed where the rooms wanted them, and no style label available to describe it. What Webb had done was take the Gothic Revival's demand that the plan generate the form and apply it to a house with no ecclesiastical pretensions whatever. Everything that follows — Shaw's Old English, Webb's Standen, Voysey's white roughcast houses, Baillie Scott's halls, Lutyens's Surrey manor houses with Gertrude Jekyll's gardens, Gimson's Cotswold work — is an elaboration of that move.\n\nThe intellectual conditions are Ruskin and Morris. Ruskin's chapter on the nature of Gothic in The Stones of Venice, published in 1853 argued that the roughness of medieval work was evidence of a free workman's mind, and that machine-perfect ornament records a degraded life; Morris founded his firm in 1861 to act on it, and the Art Workers' Guild (1884) and the Arts and Crafts Exhibition Society (1887, which gave the movement its name) institutionalised the argument. The economic conditions were less romantic: the railway had made national materials cheap, and using local stone, local brick and local tile was becoming a deliberate and slightly expensive choice rather than the default. This is the first style in Britain in which regional material is a decision.\n\nThe formal result is unusually consistent across very different architects. Massing goes long and low, with big unbroken roof planes and eaves brought down toward the ground; walls are of one material honestly used — roughcast over stone or brick, local stone, brick, or tile-hanging above brick; windows are casements with leaded lights, grouped into horizontal bands under stone or oak mullions, so that the wall reads as a solid punctuated by a ribbon rather than as a grid of holes; chimneys are large and structurally frank; and the plan is organised around a hall with an inglenook, with rooms of different sizes and heights disposed for sun and view rather than for symmetry. Ornament, where it exists, is craft ornament: a carved beam, a wrought hinge, a leaded pattern, a fireplace tile.\n\nTo be in one of these houses is to notice how much of the design is aimed at the body rather than the eye. The eaves come down low enough to make the entrance feel sheltered; the inglenook is a room within a room, with a bench, a window and a fire; window seats are cut into thick walls; ceilings drop in circulation spaces and rise in the hall. Light is handled carefully and often sparingly, so a long low room ends in a bright bay. The whole effect is of a building that has been thought through in section as well as plan, by someone who imagined living in it. That is the tradition's real bequest, and it is why almost every good small house built in Britain since has been, at some level, an Arts and Crafts house."
+  },
+  "defining_characteristics": [
+    "Truth to materials: one honest local material per mass, left as itself — roughcast, local stone, brick, tile-hanging, oak — with no imitation of another material anywhere",
+    "The plan generated from the inside out around a hall and hearth, with rooms sized and placed for use, sun and view rather than for external symmetry",
+    "Long, low massing with large unbroken roof planes at 45-55 degrees and eaves carried down close to the ground, often to first-floor sill level",
+    "Casement windows with leaded lights, grouped into horizontal bands under continuous stone or oak mullions and a shared lintel",
+    "Massive, structurally frank chimney stacks, frequently expressed as buttressing masses on the elevation",
+    "Ornament limited to craft enrichment of real construction — carved beam ends, wrought ironwork, leaded glass, tile and plaster — and never applied as a period quotation",
+    "House and garden designed as one composition, with terraces, walls, steps and planting continuing the plan outdoors"
+  ],
+  "diagnostic_tells": [
+    "Horizontal bands of small leaded casements under one long lintel — the exact inverse of the Georgian vertical punched opening, and instantly readable at distance",
+    "Eaves brought down unusually low, often with a sweeping catslide over an entrance or an outshot, so the roof dominates the elevation",
+    "Battered (sloping) buttresses and chimney bases, with roughcast render carried over them in one continuous white or cream surface — the Voysey signature",
+    "A chimney stack that is the largest single element of the composition and is placed where the fire is, not where the elevation wants it",
+    "No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell"
+  ],
+  "distinguished_from": [
+    {
+      "node": "queen-anne-british",
+      "difference": "Queen Anne quotes 1700 in red brick and white paint with sashes, shaped gables, terracotta sunflowers and cheerful eclecticism. Arts and Crafts stops quoting: casements instead of sashes, roughcast or local stone instead of red brick, ornament removed, horizontals lengthened, palette cooled."
+    },
+    {
+      "node": "arts-and-crafts-american",
+      "difference": "The American branch, arriving through Gustav Stickley's The Craftsman from 1901 and the Greene brothers, translates the movement into timber: exposed rafter tails, shingle, deep porches, Japanese-influenced joinery, open plan. British work is masonry-minded, more enclosed, and keeps distinct rooms."
+    },
+    {
+      "node": "tudor-revival",
+      "difference": "Tudor Revival applies half-timbering, four-centred arches and leaded diamond panes as costume over a conventional plan. Arts and Crafts uses the same regional sources structurally and refuses the period signals; a Voysey house has no half-timbering at all."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "No applied system. Proportion is derived from construction and from the body: the span of a beam, the depth of an inglenook, the height at which an eave feels sheltering, the sill height for a window seat. Composition is balanced by mass, not by axis, and is designed in section as much as in elevation.",
+    "typical_ratios": [
+      "Roof pitch 45-55 degrees; roof plane frequently occupying 40-55 percent of the elevation's total height",
+      "Eaves height 2.4-4.0 m, often below first-floor head height, with 450-750 mm overhang",
+      "Window band proportion horizontal overall (2:1 to 5:1 wide to high) built from individual lights of 350-450 mm by 700-1100 mm",
+      "Leaded quarries 100-150 mm across, rectangular rather than diamond in the stricter work",
+      "Wall thickness 400-600 mm, giving window seats of 350-500 mm depth",
+      "Chimney stack width 900-1800 mm, rising 1-1.5 m above the ridge",
+      "Batter on buttresses and stack bases 1:10 to 1:6",
+      "Ceiling heights deliberately varied: 2.3-2.6 m in passages and low rooms, 3.5-6.0 m in the hall"
+    ],
+    "bay_rhythm": "Grouped and irregular. Windows cluster into horizontal ribbons where a room needs light and disappear entirely where it does not, so long stretches of blank wall alternate with continuous glazing. There is no repeating bay and no vertical alignment requirement.",
+    "symmetry": "balanced-asymmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "massed-picturesque",
+      "affinity": "canonical",
+      "note": "The composed but irregular agglomeration — Standen, Cragside's later phases, Lutyens's Surrey houses — built up from a plan rather than drawn as a picture."
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "affinity": "canonical",
+      "note": "The long low range with subordinate service wings stepping down, taken directly from farmstead precedent and the natural form for the style."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "The hall-with-wings figure returns, sometimes opened into a butterfly plan (Prior, Lutyens) to catch sun on both flanks."
+    },
+    {
+      "massing": "bungalow-linear",
+      "affinity": "possible",
+      "note": "The single-storey house with rooms opening to a garden, and the point at which the British movement feeds directly into the American and colonial bungalow."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "atypical",
+      "note": "A symmetrical double-pile box contradicts the plan-driven method, though Lutyens's later classical phase deliberately returns to it."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Every visible material must be doing the job it appears to do. Applied half-timbering, veneer stone, false beams and imitation finishes are forbidden outright — this is the movement's founding rule.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "One primary wall material per mass, changing only at a floor level or a change of volume, and then with a proper structural transition (oversail, tile course, plinth).",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Windows are casements grouped into horizontal bands under a common lintel and mullion line. Isolated vertical punched openings in a regular grid belong to the classical stream, not here.",
+      "severity": "hard"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Eaves height not more than 4.0 m on the principal elevation, with the roof reading as a dominant plane. A tall wall under a small roof inverts the style.",
+      "severity": "soft"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Primary materials should be sourced from the building's own region; the choice of local material over national material is a defining act of the style, not a preference.",
+      "severity": "soft"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Red House",
+      "location": "Bexleyheath, London, England",
+      "year": 1860,
+      "note": "Built 1859-60 by Philip Webb for William Morris. Unrendered red brick, steep red tile roof, windows placed by plan rather than by elevation — the movement's founding building and the first English house of its century with no style label."
+    },
+    {
+      "name": "Standen",
+      "location": "East Grinstead, West Sussex, England",
+      "year": 1894,
+      "note": "Built 1892-94 by Philip Webb for the solicitor James Beale, with Morris and Co. interiors. Local sandstone, brick, tile-hanging and weatherboarding used in distinct masses, and a plan wrapped around the sun and the view."
+    },
+    {
+      "name": "Broadleys",
+      "location": "Windermere, Cumbria, England",
+      "year": 1899,
+      "note": "Built 1898-99 by C. F. A. Voysey for Arthur Currer Briggs. Roughcast walls with battered buttresses, low sweeping eaves, and three great bow windows facing the lake — Voysey's manner at its most complete."
+    },
+    {
+      "name": "Blackwell",
+      "location": "Bowness-on-Windermere, Cumbria, England",
+      "year": 1900,
+      "note": "Built 1898-1900 by M. H. Baillie Scott for Sir Edward Holt. A double-height hall with inglenook and minstrels' gallery, and one of the most intact Arts and Crafts interiors anywhere."
+    }
+  ],
+  "sources": [
+    "Peter Davey, Arts and Crafts Architecture (1980, rev. 1995)",
+    "Mark Girouard, Sweetness and Light: The 'Queen Anne' Movement 1860-1900 (1977)",
+    "Alan Crawford, C. R. Ashbee: Architect, Designer and Romantic Socialist (1985)",
+    "Margaret Richardson, Architects of the Arts and Crafts Movement (1983)",
+    "Nikolaus Pevsner, Pioneers of Modern Design (1936, rev. eds.)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "vernacular-revival",
+    "truth-to-materials",
+    "plan-driven",
+    "craft",
+    "regional-material"
+  ]
+}

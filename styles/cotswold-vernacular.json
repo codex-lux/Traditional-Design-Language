@@ -1,0 +1,202 @@
+{
+  "id": "cotswold-vernacular",
+  "name": "Cotswold Vernacular",
+  "aka": [
+    "Cotswold stone tradition",
+    "Cotswold Perpendicular survival",
+    "Cotswold masonry vernacular"
+  ],
+  "rank": "style",
+  "member_of": "british-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 1380,
+    "floruit_start": 1550,
+    "floruit_end": 1730,
+    "decline_end": 1860,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1890,
+        "end": 1939,
+        "revival_node": "arts-and-crafts-british",
+        "note": "Gimson and the Barnsleys settled at Sapperton from 1893 and learned the tradition from working Cotswold masons and wallers — one of the very few revivals that reacquired a craft rather than copying a look."
+      },
+      {
+        "start": 1920,
+        "end": 1945,
+        "revival_node": "cotswold-cottage-revival",
+        "note": "Exported to America and the English suburbs as the storybook cottage, with cement-rendered walls and swept synthetic 'thatch' or false-graded slate."
+      }
+    ]
+  },
+  "geography": {
+    "regions": [
+      "England"
+    ],
+    "hearth": "The Jurassic oolitic limestone belt of Gloucestershire, west Oxfordshire, north Wiltshire and south Worcestershire",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "english-gothic",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "Direct craft survival. The mullion, the hood mould and the Perpendicular window head are still being cut by Cotswold masons in 1700, two centuries after the style ended everywhere else. The wool churches — Northleach, Chipping Campden, Cirencester — are the source, and the masons who built them worked on the houses next."
+    },
+    {
+      "target": "tudor",
+      "type": "descends_from",
+      "weight": 0.4,
+      "inherits_kit": true,
+      "note": "The four-centred doorhead, the label mould and the gabled manor front reach the Cotswold builder through the Tudor gentry house and are then repeated, unchanged, for a hundred and fifty years."
+    }
+  ],
+  "description": {
+    "short": "A limestone building culture in which walls, roof, gutters, gateposts and field boundaries all come out of the same quarry, and a Perpendicular Gothic window detail survives in working use until the eighteenth century.",
+    "long": "The Cotswolds sit on a belt of Jurassic oolitic limestone that is soft enough to cut with a saw when freshly quarried and hardens on exposure, and which splits along its bedding planes into thin flat slabs. Both properties matter. The first gave a whole district cheap dressed stone for mullions, jambs, kneelers and copings; the second gave it a roofing material — the Cotswold stone slate, quarried at Stonesfield and elsewhere and traditionally split by leaving the 'pendle' out over winter to let frost do the work. Almost every characteristic of the tradition follows from these two facts. Because stone slates are heavy and small, the roof must be pitched steeply, generally 50 to 55 degrees, and the slates must be graded — large courses at the eaves, diminishing to small at the ridge — which is both structurally sensible and the single most beautiful thing about a Cotswold roof.\n\nThe economy that paid for it was wool. Between roughly 1350 and 1550 the Cotswold fleece was the best in Europe, and the money went into churches, market halls, clothiers' houses and rows of weavers' cottages. When the trade declined, the district became poor and stayed poor, which is why so much survives: nobody could afford to rebuild in brick during the eighteenth century, and nobody had a reason to demolish in the nineteenth. The result is a landscape of buildings in one material, weathering to one range of colours — honey and gold in the north around Broadway and Stanton, greyer and cooler to the south around Tetbury.\n\nThe tradition is not reacting against anything; it is simply continuing. What makes it architecturally serious is its conservatism. A Cotswold house of 1680 still has ovolo-moulded stone mullions, a hood mould over the window, a steeply gabled dormer rising through the eaves with its face flush with the wall below, kneelers at the foot of each gable and a coping raised above the roof plane with a ball or ogee finial. That is a Perpendicular vocabulary being used, correctly and without irony, a century and a half after the Renaissance reached England. When Ernest Gimson and the Barnsley brothers moved to Sapperton in the 1890s they were not reviving a dead style; they were apprenticing themselves to masons who were still building this way, and it is that continuity which gives the Cotswold contribution to Arts and Crafts its unusual authority.\n\nThe experience is of weight and of light behaving oddly. Walls are 500 to 700 mm thick, so windows sit in deep reveals and rooms are dim near the walls and bright at the openings; the stone's surface is granular enough that in low sun the whole wall seems to hold light rather than reflect it. There are no eaves to speak of — the verge is closed with a coping laid tight over the slates — so the building has a hard, clean edge against the sky, and the mass reads as carved from a single block. Inside, the stone is cold to the hand at any season, and the deep window seat cut into the reveal is the warmest place in the room, which is exactly where anyone who lives in one of these houses will be found sitting."
+  },
+  "defining_characteristics": [
+    "Walls of coursed or random oolitic limestone rubble, 500-700 mm thick, in lime mortar, with dressed ashlar reserved for mullions, jambs, lintels, quoins, kneelers and copings",
+    "Roofs of Cotswold stone slate, graded from large courses at the eaves to small at the ridge, at a pitch of 48-55 degrees",
+    "Stone-mullioned windows, ovolo- or cavetto-moulded, of two to five lights, with a hood mould or drip over the head and iron casements with leaded lights",
+    "Gabled dormers rising through the eaves with their faces flush with the wall below, so that they read as gables of the wall rather than as boxes on the roof",
+    "Gables finished with kneelers at the foot and a coping raised above the roof plane, frequently with a ball, ogee or finial at the apex",
+    "Massive stone chimney stacks, generally on the gable ends, with moulded caps and rising well above the ridge",
+    "Little or no eaves overhang, and no barge boards: the roof edge is closed with stone and the mass reads as unbroken"
+  ],
+  "diagnostic_tells": [
+    "Graded stone slates diminishing course by course from eaves to ridge — visible from a hundred metres and impossible to fake convincingly with a uniform slate",
+    "Wall dormers whose front face is continuous with the wall below, breaking the eaves line, rather than dormers set back on the roof slope",
+    "Kneeler stones at the base of every gable and a coping standing proud of the slates, so gables have a raised stone edge instead of a timber barge board",
+    "Ovolo-moulded stone mullions with a hood mould above, still in use on buildings of 1680 and later — a Perpendicular detail running two centuries past its own period",
+    "Everything in the district is the same stone: house, boundary wall, gatepost, barn, church, and the dry stone field walls running up the hill behind"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-cottage-vernacular",
+      "difference": "Same social level, different geology. The lowland cottage is timber frame, cob or clay lump under thatch, with low eaves, small casements in shallow wooden frames and a soft, swept silhouette. The Cotswold house is stone with dressed stone openings under a hard graded slate roof, and it has crisp edges everywhere the cottage has rounded ones."
+    },
+    {
+      "node": "cotswold-cottage-revival",
+      "difference": "The revival takes the picture and drops the geology: cement render or thin stone veneer over frame, uniform machine-cut slates or swept composition shingles imitating graded stone, dormers set back on the slope, and wall thicknesses of 150 mm where the original has 600."
+    },
+    {
+      "node": "arts-and-crafts-british",
+      "difference": "Overlapping but not identical. Arts and Crafts is a self-conscious movement with named architects, an ethic and a national reach; Cotswold vernacular is an anonymous regional building practice. The Sapperton group is where the two genuinely meet, and their work should be classified by intent rather than by appearance."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Material logic, not applied proportion. Wall thickness is set by rubble construction, roof pitch by the size and weight of the stone slate, opening width by the span of an available stone lintel, and window subdivision by the mullion light. Nothing is drawn; everything is set out on site.",
+    "typical_ratios": [
+      "Roof pitch 48-55 degrees, with 50 degrees the practical norm for stone slate",
+      "Wall thickness 500-700 mm, giving reveals of 250-450 mm at openings",
+      "Mullion light 300-450 mm wide by 600-900 mm high, in leaded quarries of roughly 100 x 150 mm",
+      "Window overall proportion horizontal: a three-light window is typically 1.5:1 to 2:1 wide to high",
+      "Storey height 2.1-2.6 m at ground, 1.9-2.3 m above, with an eaves height of 4.0-5.0 m for two storeys",
+      "Chimney height above ridge 0.9-1.5 m; stack width 900-1400 mm",
+      "Stone slate courses graded from 550-600 mm at the eaves to 150 mm at the ridge"
+    ],
+    "bay_rhythm": "Additive and irregular. Openings are placed where rooms need them, and a facade acquires symmetry only when a gentry client asked for it — which in the Cotswolds happens from about 1620 and produces the characteristic gabled, near-symmetrical manor front.",
+    "symmetry": "additive-vernacular"
+  },
+  "massing_affinities": [
+    {
+      "massing": "hall-and-parlor",
+      "affinity": "canonical",
+      "note": "The two-cell house with a lobby-entry stack, the standard yeoman and weaver's plan through the whole period."
+    },
+    {
+      "massing": "h-plan-manor",
+      "affinity": "common",
+      "note": "The gabled Cotswold manor — Owlpen, Snowshill, Chastleton — is an E- or half-H plan in stone."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "Weavers' terraces such as Arlington Row, party-walled and continuous along the street or the stream."
+    },
+    {
+      "massing": "telescope-house",
+      "affinity": "possible",
+      "note": "Descending ranges from house to byre are common in the smaller upland farmsteads."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "possible",
+      "note": "The one-cell cottage, usually later subdivided or extended."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "statement": "Roof pitch not less than 48 degrees where stone slate is used, and the structure must be sized for a dead load of roughly 100-140 kg per square metre — three to four times a modern tile roof.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Slate courses must be graded from large at the eaves to small at the ridge. A uniform course size destroys the roof and with it the whole reading of the building.",
+      "severity": "hard"
+    },
+    {
+      "kind": "structural",
+      "statement": "Openings are spanned by a stone lintel or a relieving arch and are therefore limited to roughly 1.8 m clear; wider openings must be subdivided by structural mullions, not by glazing bars.",
+      "severity": "hard"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "No barge boards and no eaves overhang beyond about 75 mm. Gables are closed with kneelers and a raised coping; verges are bedded in mortar.",
+      "severity": "hard"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Lime mortar and limewash only. Cement pointing and impermeable render trap moisture in a rubble wall and will spall the stone within a generation.",
+      "severity": "hard"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Arlington Row",
+      "location": "Bibury, Gloucestershire, England",
+      "year": 1380,
+      "note": "Built as a monastic wool store in 1380 and converted to weavers' cottages in the late seventeenth century. A party-walled terrace of steeply pitched graded stone slate roofs and wall dormers, the type's most photographed statement."
+    },
+    {
+      "name": "Chipping Campden Market Hall",
+      "location": "Chipping Campden, Gloucestershire, England",
+      "year": 1627,
+      "note": "Built in 1627 by Sir Baptist Hicks for the sale of cheese, butter and poultry. An open arcaded hall of local stone with a graded slate roof and gabled bays — the district's civic vocabulary in its clearest form."
+    },
+    {
+      "name": "Owlpen Manor",
+      "location": "Uley, Gloucestershire, England",
+      "year": 1616,
+      "note": "A gabled Cotswold manor developed between roughly 1450 and 1616 around a medieval hall, with mullioned and transomed windows, kneelered gables and a Great Chamber — the vernacular reaching gentry scale without changing its details."
+    },
+    {
+      "name": "Snowshill Manor",
+      "location": "Snowshill, Gloucestershire, England",
+      "year": 1500,
+      "note": "A late medieval and Tudor manor house whose principal facade was refronted around 1720 in Cotswold stone with sash windows — a useful demonstration of how the tradition absorbed Georgian fashion without changing material or roof."
+    }
+  ],
+  "sources": [
+    "R. W. Brunskill, Traditional Buildings of Britain (1981)",
+    "Alec Clifton-Taylor, The Pattern of English Building (1962)",
+    "Edwin Gunn and others, Cotswold Stone Houses (Ancient Monuments Society and later editions)",
+    "Nikolaus Pevsner and David Verey, The Buildings of England: Gloucestershire (Cotswolds volume)",
+    "Mary Greensted, The Arts and Crafts Movement in the Cotswolds (1993)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "vernacular",
+    "limestone",
+    "stone-slate",
+    "gothic-survival",
+    "regional-geology"
+  ]
+}

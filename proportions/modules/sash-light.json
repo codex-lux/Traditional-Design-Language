@@ -1,0 +1,420 @@
+{
+  "id": "sash-light",
+  "name": "The Sash Light",
+  "aka": [
+    "the pane",
+    "the light",
+    "glass module",
+    "the lite"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Period glasshouse price lists and glaziers' sizes (crown and cylinder), read against measured surviving sash; NPS Preservation Brief 9 and state historic-resource window guidance for muntin and rail dimensions",
+    "year": null,
+    "strength": "documented",
+    "url": "https://www.nps.gov/tps/how-to-preserve/briefs/9-wooden-windows.htm",
+    "note": "This is the best-documented of the vernacular modules, because glass was a traded commodity sold by the box in listed sizes, and the price lists survive. The New England Crown Glass Company's 1828 sheet, the Boston and Pittsburgh lists, and the standard glaziers' sizes of the 19th century give the module directly. What was never written down is the rule connecting the available glass to the number of divisions in a given opening — that rule is recovered here from the arithmetic of the sash itself, and it is the reason this pack exists."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One light of glass: the largest single pane the period's glasshouse could reliably supply, free of bullion and defect, at a price an ordinary builder would pay — stated as its governing (larger) dimension",
+    "parts": 9,
+    "default_size_in": 9.0,
+    "note": "The part is the inch, because glass was cut, sold and priced in whole inches: 6x8, 7x9, 8x10, 9x12, 10x14, 12x18 are the standard boxed sizes, and a glazier's list is a list of whole-inch rectangles. Nine inches is the mid-18th-century Anglo-American figure — the 7x9 and 8x10 lights that New Hampshire, Massachusetts and Virginia sash are full of. The whole system runs off this one number, and moving it moves everything: MAXIMUM AVAILABLE LIGHT BY PERIOD (governing dimension, ordinary domestic grade, not the exceptional): before 1700, 6-8 in (crown, and quarries in leaded casements before that); 1700-1760, 8-10 in; 1760-1800, 9-12 in; 1800-1840, 12-18 in (cylinder glass displacing crown); 1840-1870, 18-30 in; 1870-1900, 30-48 in (large cylinder and polished plate); after 1900, effectively unlimited (machine-drawn cylinder, then float). A crown table was 4-6 ft across with a bullion in the middle, so the useful rectangles came off the annulus and were small; a cylinder was about 10 in in diameter and 4-5 ft long, so it gave a bigger and squarer sheet — and that single change in blowing technique is why the 12/12 window becomes a 6/6 window."
+  },
+  "assemblies": {
+    "sash_section": {
+      "height_modules": 3.7638889,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "bottom_rail",
+          "name": "Bottom rail",
+          "height_parts": 3.0,
+          "projection_parts": 1.375,
+          "profile": "flat",
+          "note": "3 in. The bottom rail is always the deepest member of the sash and always deeper than the top rail — it takes the sash lift, the lock rail load and the standing water. A sash with equal top and bottom rails reads as a modern unit at fifty feet, and it is one of the two or three fastest ways to spot a wrong window. Projection given as the sash thickness: 1 3/8 in is the standard for sash up to about 12 sq ft; 1 3/4 in above that.",
+          "confidence": "high"
+        },
+        {
+          "id": "light_1",
+          "name": "First light course (glass)",
+          "height_parts": 6.75,
+          "projection_parts": 0.125,
+          "profile": "flat",
+          "note": "Glass, set in a rebate about 3/8 in deep and back-puttied. On the default module the light comes out 6 3/4 in high by about 8 1/4 in wide — wider than tall, which is characteristic of 12-light sash and surprises people who expect vertical panes. The vertical pane arrives with cylinder glass and the 6/6 sash.",
+          "confidence": "high"
+        },
+        {
+          "id": "muntin_1",
+          "name": "Horizontal muntin",
+          "height_parts": 0.875,
+          "projection_parts": 1.375,
+          "profile": "ovolo",
+          "enrichment": "ovolo with fillet on the room face, flat putty rebate outside — the 18th-century profile; an ogee or 'sharp gothic' section replaces it after about 1840",
+          "note": "7/8 in face width. The muntin is the pack's most sensitive dimension: see the derived rule. It is shallow relative to its width in the 18th century and grows deeper and narrower through the 19th as glass gets bigger and sash get heavier.",
+          "confidence": "high"
+        },
+        {
+          "id": "light_2",
+          "name": "Second light course (glass)",
+          "height_parts": 6.75,
+          "projection_parts": 0.125,
+          "profile": "flat",
+          "confidence": "high"
+        },
+        {
+          "id": "muntin_2",
+          "name": "Horizontal muntin",
+          "height_parts": 0.875,
+          "projection_parts": 1.375,
+          "profile": "ovolo",
+          "confidence": "high"
+        },
+        {
+          "id": "light_3",
+          "name": "Third light course (glass)",
+          "height_parts": 6.75,
+          "projection_parts": 0.125,
+          "profile": "flat",
+          "confidence": "high"
+        },
+        {
+          "id": "muntin_3",
+          "name": "Horizontal muntin",
+          "height_parts": 0.875,
+          "projection_parts": 1.375,
+          "profile": "ovolo",
+          "confidence": "high"
+        },
+        {
+          "id": "light_4",
+          "name": "Fourth light course (glass)",
+          "height_parts": 6.75,
+          "projection_parts": 0.125,
+          "profile": "flat",
+          "confidence": "high"
+        },
+        {
+          "id": "meeting_rail",
+          "name": "Meeting rail (top rail of the lower sash)",
+          "height_parts": 1.25,
+          "projection_parts": 1.375,
+          "profile": "bevel",
+          "note": "1 1/4 in, bevelled where it meets its opposite number so the two sash draw tight. The meeting rail is the thinnest member in the whole assembly and it sits at eye level; making it a modern 2 1/4 in lock rail is the second of the fast tells. On the elevation the two meeting rails together should read as a single line no thicker than about 2 1/2 in.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one inch — the unit glass was sold and cut in.",
+      "expression": "module.default_size_in / module.parts == 1.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The sash section sums to a whole number of light courses plus rails and muntins.",
+      "expression": "assemblies.sash_section.height_modules * module.parts == 33.875",
+      "tolerance": 0.01
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "count",
+      "expression": "ceil((opening_width - 5.5 + 0.875) / (module + 0.875))",
+      "units": "count",
+      "range": [
+        1.0,
+        5.0
+      ],
+      "authority_note": "Derived from the sash arithmetic: clear glazed width = opening width less two 2 in stiles and about 1 1/2 in of jamb, pulley stile and parting-bead clearance; the number of lights is the smallest integer that keeps each light within the glass available.",
+      "note": "LIGHTS ACROSS. This is the first half of the rule this whole pack exists for. The historic builder did not choose a light pattern; he chose the fewest divisions the glasshouse would let him get away with, because glass was the expensive part and muntins were the cheap part. On a 32 in opening: with 1740 glass (module 9) you get 3 across; with 1830 glass (module 14) you get 2; with 1875 glass (module 30) you get 1. Run it backwards and it dates the window."
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "count",
+      "expression": "ceil((opening_width * 2.1 / 2 - 5.0 + 0.875) / (module * 0.75 + 0.875))",
+      "units": "count",
+      "range": [
+        1.0,
+        6.0
+      ],
+      "authority_note": "Same arithmetic vertically: each sash is about half the opening height, less a 2 in top rail and a 3 in bottom rail. The 0.75 factor on the module reflects that early lights are cut wider than tall — a crown table yields more usable area in shallow rectangles, and a smaller pane was cheaper to replace when it broke.",
+      "note": "LIGHTS HIGH PER SASH. Combined with the rule above this emits the pattern: 3 across x 4 high = 12/12 on 1740 glass; 2 x 3 = 6/6 on 1830 glass; 1 x 2 = 2/2 on 1870 glass; 1 x 1 after 1890. THIS IS THE PACK'S PRIMARY OUTPUT. Note the boundary sensitivity — at module values right on the changeover (about 17-19 in, the 1850s) the ceiling function flips between 4/4 and 6/6, which is genuinely what the historical record shows for that decade: both were being installed at once."
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "count",
+      "expression": "ceil((opening_width - 5.5 + 0.875) / (module + 0.875)) * ceil((opening_width * 2.1 / 2 - 5.0 + 0.875) / (module * 0.75 + 0.875)) * 2",
+      "units": "count",
+      "range": [
+        2.0,
+        48.0
+      ],
+      "note": "TOTAL LIGHTS IN THE WINDOW. Period documents describe a window by its total light count — a 6/9 was called a fifteen-light window — so this is the number to quote to a joiner and the number to look for in an inventory or an insurance survey."
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "count",
+      "expression": "max(ceil((opening_width * 2.1 / 2 - 5.0 + 0.875) / (module * 0.75 + 0.875)) - 1, 1)",
+      "units": "count",
+      "range": [
+        1.0,
+        5.0
+      ],
+      "authority_note": "Attested in surviving 1780-1820 sash across New England and the mid-Atlantic: 9/6, 12/8, 6/3 and 8/12 all have unequal sash.",
+      "note": "LIGHTS HIGH IN THE LOWER SASH, where the upper sash is fixed. This is where 9/6 comes from, and it is not a design gesture. Before counterbalance weights became general (after about 1790) the upper sash was commonly fixed and the lower one was the operable one, propped or pegged. The fixed sash was made taller and the operable one shorter, because the sash you have to lift should be light and the opening you get should be at head height. When counterweights arrive the two sash equalise and 9/6 gives way to 6/6 — a technological date marker disguised as a stylistic one. Do not put 9/6 on a house after about 1830, and do not put 6/6 on one before about 1780. The max() floor exists because once the glass will make a whole sash there is no light course left to remove, and 1/1 has no unequal-sash form."
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "ratio",
+      "expression": "2.1",
+      "units": "ratio",
+      "range": [
+        1.85,
+        2.6
+      ],
+      "authority_note": "Anglo-American double-hung openings: 1.9-2.2 in the 18th century, 2.0-2.3 Federal and Greek Revival, 2.2-2.6 Italianate and Second Empire, back to 2.0-2.4 for late 1/1 work.",
+      "note": "Height over width of the rough opening. The band widens as the sash divides less: once the glass will make a whole sash you can stretch the opening, and the 19th century does. But the ratio is a consequence of the light count, not a free choice — check it after running the light rules, and if it lands outside the band the light count or the opening width is wrong."
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "width",
+      "expression": "(opening_width - 5.5 - (ceil((opening_width - 5.5 + 0.875) / (module + 0.875)) - 1) * 0.875) / ceil((opening_width - 5.5 + 0.875) / (module + 0.875))",
+      "units": "in",
+      "range": [
+        5.0,
+        40.0
+      ],
+      "note": "THE RESULTING LIGHT WIDTH. Run this and round to the nearest whole inch, then adjust the opening width by the residual — because glass was sold in whole-inch sizes and a joiner ordering 8 1/4 in lights would have been laughed at. This back-check is the step that makes the whole system close, and it is the step that gets skipped: it is why so many reproduction windows have panes of 8.37 in."
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "width",
+      "expression": "0.875",
+      "units": "in",
+      "range": [
+        0.5,
+        1.375
+      ],
+      "authority_note": "MUNTIN FACE WIDTH BY PERIOD: 1700-1760, 1 1/8 to 1 3/8 in, heavy and shallow; 1760-1800, 7/8 to 1 1/8 in; 1800-1840, 5/8 to 7/8 in, the Federal thinning, achieved by making the muntin deeper rather than wider; 1840-1880, 1/2 to 3/4 in with a sharp ogee section; 1880-1930, 3/4 to 1 in as Colonial Revival deliberately coarsens it again. New Hampshire Division of Historical Resources records 18th-century muntins 'over an inch in width' and 'relatively shallow in relation to their width'.",
+      "note": "The muntin width dates a window more reliably than the light count does, because light counts were revived and muntin sections mostly were not. It is also the dimension that modern glazing destroys: see the conflicts. If you specify one number in a window schedule, specify this one."
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "projection",
+      "expression": "1.375",
+      "units": "in",
+      "range": [
+        1.0625,
+        1.75
+      ],
+      "authority_note": "1 3/8 in sash thickness is the standard for ordinary domestic sash; 1 3/4 in for sash over about 12 sq ft; 1 1/16 in survives in some early and in storm sash.",
+      "note": "Sash and muntin depth. The 18th-century muntin is wide and shallow; the Federal muntin is narrow and deep, which is HOW it got narrow without getting weak. A muntin drawn 5/8 in wide and 7/8 in deep is a Federal muntin. A muntin drawn 5/8 in wide and 5/8 in deep is a stick that will not hold glass."
+    },
+    {
+      "target_slot": "window_type",
+      "dimension": "width",
+      "expression": "2.0",
+      "units": "in",
+      "range": [
+        1.75,
+        2.5
+      ],
+      "note": "Sash stile width, both sides. Together with the 2 in top rail, 3 in bottom rail and 1 1/4 in meeting rail this is the whole sash frame, and all four numbers are near-constant from 1700 to 1900 — they are set by mortise-and-tenon joinery in softwood, not by fashion. Modern sash inflate every one of them, which is why a modern window with the correct light count still reads wrong: the glass area is right and the wood is 40 percent too fat."
+    },
+    {
+      "target_slot": "window_sill",
+      "dimension": "projection",
+      "expression": "module * 0.25",
+      "units": "in",
+      "range": [
+        1.5,
+        3.0
+      ],
+      "note": "Sill projection past the cladding, sloped about 1 in 6 (roughly 10 degrees) and with a drip. Two and a quarter inches on the default. In a frame wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one."
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "width",
+      "expression": "module * 0.55",
+      "units": "in",
+      "range": [
+        3.5,
+        6.5
+      ],
+      "authority_note": "Anglo-American exterior window casings run 4-5 in in the 18th century, 4-6 in Federal and Greek Revival with a backband, 5-8 in Italianate with a moulded architrave.",
+      "note": "About 5 in on the default. The relation to the light is not coincidental: the casing and the light were both cut from the same stock of standard sizes, and a casing about half a light wide is what the eye reads as correct. It also means the casing gets wider as the glass gets bigger, which is exactly what happens between 1750 and 1870. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "shutter",
+      "dimension": "width",
+      "expression": "(opening_width - 1.0) / 2",
+      "units": "in",
+      "range": [
+        10.0,
+        24.0
+      ],
+      "note": "Each leaf is half the opening less the meeting clearance, so that the pair actually covers the window when closed. This is the single most-violated rule in traditional building: shutters that are 12 in wide beside a 36 in window are decoration nailed to a wall, and they announce themselves at any distance because the proportion of leaf to opening is wrong by a factor of nearly two. If the budget will not carry full-width operable shutters, use none — a shutterless facade is historically ordinary and a mis-sized shutter is not."
+    },
+    {
+      "target_slot": "shutter",
+      "dimension": "count",
+      "expression": "max(ceil((opening_width * 2.1 / 2 - 5.0 + 0.875) / (module * 0.75 + 0.875)) - 2, 1)",
+      "units": "count",
+      "range": [
+        1.0,
+        4.0
+      ],
+      "note": "Panel count in a panelled (raised-panel) shutter leaf, which follows the sash division roughly but not exactly: a 12/12 window gets a two- or three-panel leaf, a 6/6 gets two. Louvred shutters replace panelled ones through the 19th century and follow the meeting rail with a mid-rail rather than following the lights at all.",
+      "judgment": true
+    },
+    {
+      "target_slot": "transom_sidelight",
+      "dimension": "count",
+      "expression": "ceil((opening_width - 5.5 + 0.875) / (module + 0.875))",
+      "units": "count",
+      "range": [
+        1.0,
+        4.0
+      ],
+      "note": "Sidelights and door transoms take the SAME light module as the windows, because they came out of the same box of glass and the same joiner's shop. A doorway with 6 in lights beside windows with 12 in lights is impossible on any building that was glazed at one time. This is a strong internal-consistency check across an elevation and it catches a great many revival errors."
+    },
+    {
+      "target_slot": "special_window",
+      "dimension": "count",
+      "expression": "ceil((opening_width - 5.5 + 0.875) / (module + 0.875)) * 2 + 1",
+      "units": "count",
+      "range": [
+        3.0,
+        13.0
+      ],
+      "note": "Radiating lights in a semicircular fanlight over the entrance, an odd number so that one light lands on the axis. A fanlight is where a period builder spent his best glass and his thinnest lead or muntin work, and its lights are usually SMALLER than the window lights, not larger — it is the one place the module is deliberately broken, for effect and because the pieces are wedge-shaped offcuts.",
+      "judgment": true
+    },
+    {
+      "target_slot": "daylight_strategy",
+      "dimension": "ratio",
+      "expression": "0.10",
+      "units": "ratio",
+      "range": [
+        0.06,
+        0.22
+      ],
+      "authority_note": "Glass area as a fraction of floor area: 6-10 percent in the 17th and early 18th centuries when glass was a luxury import, 10-14 percent Georgian and Federal, 15-22 percent by 1900.",
+      "note": "The glazing ratio is the honest measure of how rich the building is, and it moved steadily with the price of glass. A 1720 house with 18 percent glazing is not a 1720 house. This ratio is also the one the energy code now regulates from the other direction, which is the central collision of the modern traditional project."
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "storey_height * 0.78",
+      "units": "in",
+      "range": [
+        76.0,
+        120.0
+      ],
+      "note": "The head of the window sits at about 0.75-0.82 of the storey height, which leaves 12-20 in of frieze between head and ceiling for the cornice and the curtain box. Set the head datum first and let the sill fall where the light count puts it — the head is the line the eye reads across an elevation, and heads at a common datum with sills at varying heights looks correct, while the reverse looks like a mistake. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "width",
+      "expression": "opening_width * 1.4",
+      "units": "in",
+      "range": [
+        24.0,
+        96.0
+      ],
+      "authority_note": "Pier width between openings on Anglo-American fronts runs 1.2 to 2.0 times the opening width; below about 1.0 the wall reads as a colonnade of windows and above about 2.5 the openings read as isolated.",
+      "note": "Solid between openings. In a frame building the real constraint is the post (see the timber-bay pack); in a masonry building it is the abutment the arch needs. Either way, the number that looks right is a wall pier about 1.2 to 1.6 times the opening width, and it is remarkably stable across three centuries and both materials."
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "egress-code",
+      "statement": "IRC R310 requires an emergency escape opening in every sleeping room with 5.7 sq ft net clear (5.0 at grade floor), a minimum clear height of 24 in, a minimum clear width of 20 in, and a sill no more than 44 in above the floor. In a double-hung window the net clear opening is the LOWER SASH ONLY, and where the upper sash is fixed — which is the whole point of a 9/6 — it is the lower sash only and always. A period-correct 9/6 at a 30 in opening width has a lower sash about 26 x 24 in clear: 4.3 sq ft. It fails, and it fails by 25 percent.",
+      "resolution": "Do not widen the window; that changes the light count and destroys the pattern. Add height instead. Going from 9/6 to 12/8 — one more light course in each sash, same light size, same muntin, same width — takes the lower sash from about 24 in to about 31 in of clear height and takes the opening to 5.6 sq ft, and going to 12/9 clears it outright. The elevation gains a taller window, which is period-plausible on a principal room, and loses nothing. Three other real options, in order of preference: put the bedrooms where the code allows an alternate (a sprinklered house, or a room with a door to a deck or exterior stair); use a period-correct casement or a French casement in the rooms that need it, which is correct for pre-1720 and for many regional traditions and clears egress easily; or specify a lower sash whose meeting rail releases (a 'tilt-and-lift' or a removable-stop sash), which some restoration millwork shops will build. What you must not do is put one oversized 1/1 unit in each bedroom of an otherwise 12/12 house — the code officer is satisfied and the building is ruined.",
+      "severity": "blocking"
+    },
+    {
+      "with": "energy-code",
+      "statement": "Two collisions at once. First, area: prescriptive fenestration limits (commonly 15 percent of conditioned floor area, with U-factor and SHGC maxima by climate zone) sit right on top of the 10-22 percent glazing ratios of the historic range, and an Italianate or a late Victorian is simply over. Second, and worse, assembly: a true divided lite needs a glazing pocket. A single-glazed light sits in a 3/8 in rebate; a standard 3/4 in insulating glass unit needs a rebate over an inch and a muntin at least 1 1/8 to 1 1/4 in wide to carry it and to hide the spacer. That is a 1720 muntin. Put it on an 1830 house whose muntins should be 5/8 in and you have coarsened every window on the building by nearly a factor of two — and the same glass unit in a 12-light sash gives you twelve edge-seals per sash, twelve spacer shadows, and a thermally worse window than a 6-light one.",
+      "resolution": "The honest hierarchy, best to worst, and it is not the same as the cost hierarchy. (1) RETAIN AND REPAIR the original single-glazed sash and add a well-fitted storm — interior for appearance, exterior for weather. This is NPS Preservation Brief 9's position, it reaches a whole-window U-factor around 0.35-0.45, it is usually the cheapest option once you count the sash you did not buy, and it is the only one where the muntin stays the right size. (2) NEW TRUE DIVIDED LITE SASH with a thin glazing unit — vacuum-insulated glass at about 1/4 in, or a slimline 3/8 in IGU with a warm-edge spacer. These carry the period muntin width and are the right answer on a new building that must be period-correct; they cost real money. (3) TDL with a conventional 3/4 in IGU, accepting a wider muntin — only acceptable on a style whose muntins were genuinely wide (pre-1760, or Colonial Revival), never on Federal or Greek Revival. (4) SDL WITH BOTH interior and exterior applied muntins AND a matching internal spacer bar aligned to them. From twenty feet this reads; from five it does not; without the internal spacer it does not read from anywhere, because the muntin has no shadow behind it and the window looks like a screen. (5) SDL exterior only. (6) Grilles between the glass, or snap-in grilles: these are not substitutes for divided lites, they are pictures of divided lites, and on a building that matters they should be refused rather than negotiated. For the area problem, use the performance or total-UA path rather than the prescriptive tables — a traditional building's compact form, mass and modest window-to-wall ratio on three elevations usually buys the glazing on the fourth.",
+      "severity": "material"
+    },
+    {
+      "with": "material-availability",
+      "statement": "Crown and cylinder glass have not been made commercially since the early 20th century. The distortion, the slight colour, the reflective ripple and the occasional bullion are a large part of what a historic window looks like at a raking angle, and modern float glass has none of it. Restoration glass — hand-drawn or machine-drawn cylinder from a handful of European works — reproduces some of it at four to ten times float cost, and the light-distortion character differs by grade.",
+      "resolution": "Spend it where it is seen and skip it where it is not. Restoration glass on the entrance elevation and on any window seen against the light from a principal room; float elsewhere. And never mix grades within a single sash — a repaired 12-light sash with three replacement panes of float in it will show those three panes forever. Match within the sash first, within the elevation second, within the building third.",
+      "severity": "minor"
+    },
+    {
+      "with": "cost",
+      "statement": "A true divided lite wood sash with a thin insulating unit runs three to six times a stock double-hung of the same size, and the multiplier grows with the light count because the labour is per light. A 12/12 window is roughly twice the joinery of a 6/6 and four times a 1/1. On a house with thirty windows this is not a detail line, it is a schedule item that can carry a kitchen.",
+      "resolution": "Grade the elevation, exactly as the period did with brick and with glass itself. The front and the two flanks get the correct light pattern and the correct muntin; the rear and the service ell take a simpler pattern with the same muntin section and the same glass, which is historically normal — period houses routinely have finer sash on the front. And reduce the light count by moving DATE rather than by moving quality: if the budget will only carry 6/6, then design a Federal or Greek Revival house rather than a Georgian one, and get a coherent building instead of a compromised one.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Simulated divided lites depend on the internal spacer bar aligning with the applied muntins on both faces. Manufacturing tolerance on that alignment is typically plus or minus 1/16 in, and the muntin is 5/8 to 7/8 in wide — so a 1/16 in misalignment is a visible 10 percent offset, and it happens on some units in every order. It is also invisible on the shop drawing and unmistakable on the wall.",
+      "resolution": "If SDL is the decision, require the spacer alignment as a specified tolerance, require a mock-up unit approved on site in raking light before the order is released, and reserve the right to reject units on alignment. Also insist the spacer be dark — a bright aluminium spacer behind a dark muntin reads as a light stripe down the middle of every muntin and defeats the whole exercise. If the manufacturer will not accept an alignment tolerance in writing, go back to TDL or go to storms over single glazing.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "new-england-colonial",
+    "cape-cod-colonial",
+    "saltbox-colonial",
+    "garrison-colonial",
+    "georgian-colonial-american",
+    "new-england-georgian",
+    "mid-atlantic-georgian",
+    "tidewater-georgian",
+    "charleston-georgian",
+    "english-georgian",
+    "english-georgian-townhouse",
+    "english-georgian-country-house",
+    "adam-style",
+    "regency",
+    "federal-style",
+    "new-england-federal",
+    "southern-federal",
+    "jeffersonian-classicism",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-southern-plantation",
+    "greek-revival-upland-vernacular",
+    "gothic-revival-american",
+    "italianate-american",
+    "italianate-townhouse",
+    "italianate-villa",
+    "second-empire",
+    "folk-victorian",
+    "queen-anne-american",
+    "queen-anne-free-classic",
+    "shingle-style",
+    "stick-style",
+    "charleston-single-house",
+    "american-farmhouse-vernacular",
+    "colonial-revival",
+    "georgian-revival",
+    "cape-cod-revival",
+    "craftsman",
+    "craftsman-bungalow",
+    "minimal-traditional"
+  ],
+  "sources": [
+    "National Park Service, Preservation Brief 9: The Repair of Historic Wooden Windows",
+    "New Hampshire Division of Historical Resources, guidance on historic window sashes (muntin widths, 7x9 and 8x10 lights, glazing putty)",
+    "Historic New England, 'A History of Window Glass' — crown tables 4-6 ft diameter, cylinders about 10 in diameter by 4-5 ft",
+    "Prices Current of Crown Window Glass, New England Crown Glass Company, Boston, 1 August 1828 (Historic New England collections)",
+    "Historic Preservation Education Foundation, 'Windows Through Time: the 19th Century' — 12x18 lights by the 1820s, the 1850s-60s move to 2/2 and 4/4",
+    "Peter Nicholson, The Carpenter's New Guide and The New Practical Builder, on sash and muntin sections",
+    "Asher Benjamin, The American Builder's Companion (1806 and later editions), sash and window details",
+    "International Residential Code R310, Emergency Escape and Rescue Openings",
+    "Old-House Journal / Old House Online, 'Lights Divided, Truly and Otherwise' — the TDL/SDL substitution hierarchy"
+  ],
+  "confidence": "high",
+  "notes": "The claim this pack makes is that light count is not a style choice. It is an arithmetic consequence of one number — the largest pane the glasshouse could supply on the date the building was glazed — acting on the opening the builder wanted. That is why 12/12 gives way to 9/6 to 6/6 to 4/4 to 2/2 to 1/1 in a strict sequence everywhere in the Anglo-American world within a couple of decades of each other, in styles that otherwise share nothing: it is not a fashion moving through architecture, it is a technology moving through the glass trade and architecture reporting it. Two practical uses follow. Diagnostically, run the rules backwards from the light count and you get the date the sash were made, which is often not the date of the house — a Georgian house with 2/2 sash was reglazed in 1875, and that is a fact about the building, not an error to be corrected. Prescriptively, choose the date first and the light pattern falls out, and if the pattern you wanted does not fall out then you have chosen the wrong date, the wrong opening size, or both. The single most common error this pack catches is 6/6 on a pre-1780 building, and the second most common is a correct light count carried on 20th-century muntins."
+}

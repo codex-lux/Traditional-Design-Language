@@ -1,0 +1,332 @@
+{
+  "id": "kitchen",
+  "name": "Kitchen",
+  "aka": [
+    "cook room",
+    "the hall (17th c.)",
+    "keeping room (loosely)",
+    "cookhouse",
+    "the kitchen"
+  ],
+  "function_class": "service",
+  "description": "The room food is cooked in, and since about 1975 the room the household actually lives in. That double duty is the central fact about designing one now and it is a genuinely new problem: for three hundred years the kitchen was either the only room (the seventeenth-century hall) or the servants' room (the eighteenth- and nineteenth-century service wing), and in both cases nobody was trying to make it a parlour. The modern kitchen is a public room with a 15,000 BTU appliance and a rubbish bin in it, and every difficulty it produces - the noise, the smell, the mess that has nowhere to go, the sightline from the sofa to the sink - comes from that one contradiction.",
+  "history": {
+    "appears": 1600,
+    "declines": null,
+    "replaced": "the open hearth in the hall",
+    "note": "THE KITCHEN MOVED THREE TIMES AND THE THIRD MOVE IS THE ONE PEOPLE FORGET. (1) In the seventeenth-century Anglo-American house the cooking hearth is in the HALL, the principal room, and there is no separate kitchen; the fireplace is 5 to 7 ft wide because it is an appliance. (2) Through the eighteenth century the kitchen separates - into a rear ell, a lean-to, a basement, or a detached building - and becomes a servants' room, which is where it stays for two hundred years. Its position is governed by fire, heat and smell, and its social position is governed by who worked in it. (3) Between about 1950 and 1985 it comes back into the centre of the house, and the reason is the disappearance of the servant: the woman of the household is now the cook, she is not willing to be shut in a back room away from her children and her guests, and the wall between the kitchen and the family room comes down. That is what the open plan actually is - not a modernist aesthetic but a labour arrangement made visible - and it explains why it is so hard to reverse and why traditional plans fight it. THE FOURTH MOVE, IN PROGRESS, is the partial retreat: the return of the scullery under the name back kitchen or prep kitchen, since about 2010, which exists because the open kitchen is a public room and a public room needs somewhere to put the mess. The scullery came back because the kitchen became a parlour."
+  },
+  "dimensions": {
+    "area_sf": [
+      120,
+      340
+    ],
+    "width_ft": [
+      10,
+      17
+    ],
+    "length_ft": [
+      12,
+      22
+    ],
+    "proportion": [
+      1.05,
+      1.8
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "THE AISLE, AND THEN THE LANDINGS. A run of base cabinet is 24 in deep with a 25 1/2 in top. A one-cook aisle is 42 in, a two-cook aisle is 48. So a galley is 24 + 42 + 24 = 90 in, 7 ft 6 in clear, and a two-cook galley is 8 ft 0 in. AN ISLAND KITCHEN IS THE ARITHMETIC EVERY BRIEF ASKS FOR AND ALMOST NOBODY DOES: 24 (run) + 42 (aisle) + 27 (island, 24 cabinet plus a 3 in overhang) + 42 (aisle) + 24 (run) = 159 in, 13 ft 3 in of CLEAR width - and if the island has seating on one face the overhang goes to 15 in and the walkway behind a seated stool needs 44, which takes it to 15 ft 6 in. A kitchen 12 ft wide cannot have an island and no amount of drawing makes it fit. THE LANDINGS ARE THE SECOND SET AND THEY DECIDE WHETHER THE ROOM WORKS: 15 in of counter on EACH side of a cooking surface (12 in on one side is the code-of-practice floor and it is a burn hazard), 15 in beside a refrigerator on its handle side, 24 in on one side of the sink and 18 on the other, and 21 in of clear floor in front of a dishwasher plus the 24 in its door occupies when open."
+  },
+  "furniture": [
+    {
+      "item": "range, 30 in",
+      "footprint_in": [
+        30,
+        27
+      ],
+      "clearance_in": 15,
+      "note": "15 in of landing each side, so a range needs 60 in of wall minimum and wants 72. A 36 in or 48 in range wants 66 and 78. NEVER at the end of a run and never against a side wall - a range with a wall on one side has no landing there and the wall gets scorched."
+    },
+    {
+      "item": "refrigerator, 36 in",
+      "footprint_in": [
+        36,
+        30
+      ],
+      "clearance_in": 15,
+      "note": "30 in deep with the door, 36 with the handle; counter-depth units are 24-27 and cost the household 4-6 cu ft. 15 in of landing on the handle side, and 36 in of clear floor in front because the door swings 24 in and you stand behind it. A refrigerator at the end of a run beside a doorway blocks the doorway every time it is opened."
+    },
+    {
+      "item": "sink, 30-33 in",
+      "footprint_in": [
+        33,
+        22
+      ],
+      "clearance_in": 24,
+      "note": "24 in of counter on one side and 18 on the other. Under a window is the traditional position and it is still right, for the same reason it always was: you stand there longest."
+    },
+    {
+      "item": "dishwasher, 24 in",
+      "footprint_in": [
+        24,
+        24
+      ],
+      "clearance_in": 21,
+      "note": "Within 36 in of the nearest edge of the sink bowl. Its door occupies 24 in of floor when open and it must not block the aisle to the range or the route out of the room, which in a galley it always does - which is the real argument for the island."
+    },
+    {
+      "item": "island",
+      "footprint_in": [
+        84,
+        27
+      ],
+      "clearance_in": 42,
+      "note": "Minimum useful island is 7 ft by 27 in; below that it is a table. 42 in aisle on every working face, 44 behind a seated stool, and 24 in of width per stool with a 15 in overhang at 36 in counter height or 12 in at 42 in bar height."
+    },
+    {
+      "item": "table, kitchen",
+      "footprint_in": [
+        36,
+        60
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "36 in from the table edge to a wall to get a chair out and sit; 44 in if someone walks behind. The kitchen table is the oldest fitting in the room and the one an island replaces at a real cost - you cannot do homework at an island."
+    },
+    {
+      "item": "waste and recycling",
+      "footprint_in": [
+        30,
+        24
+      ],
+      "clearance_in": 30,
+      "note": "The single most consistently omitted item in kitchen design. Three streams now, 30 in of cabinet, and it has to be within a pace of the prep counter or it will live on the floor."
+    },
+    {
+      "item": "a place to put the shopping down",
+      "footprint_in": [
+        36,
+        25
+      ],
+      "clearance_in": 36,
+      "note": "Between the door the shopping comes in by and the refrigerator. Never drawn, always needed - see mudroom."
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.25,
+    "sides_lit": 2,
+    "orientation": "EAST for the morning, and this is one of the oldest orientation rules in domestic building. A kitchen faces the morning because that is when it is worked in, and it avoids a west aspect because the afternoon sun on a room already producing 5,000 to 10,000 BTU/h of appliance heat is a cooling load nobody calculates. The other historic reason - keeping food cool - moved to the larder and then to the refrigerator.",
+    "glazing_fraction": [
+      0.1,
+      0.18
+    ],
+    "note": "Two sides lit, and the reason is that a kitchen's working surfaces are against the walls, so a single window wall puts the cook's own shadow on every counter that is not under it. The best-lit kitchens have a window over the sink and a second source at 90 degrees. The deep open-plan kitchen with one wall of glass at the far end is the room-deeper-than-its-daylight fault in its commonest modern form."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "pantry",
+        "why": "Dry goods within a pace of the prep counter. A pantry across a room is a pantry used weekly instead of daily.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "dining-room",
+        "why": "Directly, or through one intervening service room. Food travels hot and the route must not cross the entry sequence or a public circulation - a plated dinner carried through the entrance hall is the service-route-through-the-formal-plan fault.",
+        "relation": "direct-door",
+        "strength": "hard",
+        "exceptions": [
+          "The detached kitchen, where a covered way is the route and the food arrives cool - which is what warming cupboards and dish covers were for.",
+          "Charleston single houses and other types where the kitchen is a separate dependency."
+        ],
+        "via": [
+          "butlers-pantry",
+          "pantry",
+          "scullery",
+          "eat-in-kitchen-area"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "mudroom",
+        "why": "THE SHOPPING ROUTE. In every modern house the groceries come in from the drive, and the distance from that door to the refrigerator is walked twice a week with both hands full for the life of the building. Nobody draws it and everybody feels it.",
+        "relation": "direct-door",
+        "strength": "strong"
+      },
+      {
+        "room": "scullery",
+        "why": "The back kitchen behind the front one - the returning arrangement, and the correct one for an open-plan kitchen that also has to be a room people sit in.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      },
+      {
+        "room": "kitchen-garden",
+        "why": "A door to the working yard or the garden. The kitchen is the room with the most traffic to the outside of any in the house and it usually has none.",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "entrance-hall",
+        "why": "The kitchen must not be visible from the front door, and the kitchen's service route must not cross the entry sequence. Both rules are broken constantly in open plans and the second is worse than the first.",
+        "relation": "not-visible-from",
+        "strength": "strong",
+        "exceptions": [
+          "Vernacular single-cell and hall-and-parlor types, where the front door opens into the room with the fire in it because there is only one room."
+        ]
+      },
+      {
+        "room": "bedroom",
+        "why": "Directly under or beside a bedroom: cooking odour rises, the extract runs at 400 cfm, and the refrigerator cycles all night. Where the plan forces it, the extract duct must not run through the bedroom's ceiling.",
+        "relation": "acoustically-separated",
+        "strength": "preferred"
+      },
+      {
+        "room": "water-closet",
+        "why": "No direct door from a WC into a food preparation room. British byelaw practice required a ventilated lobby and it is still the right detail.",
+        "relation": "direct-door",
+        "strength": "hard"
+      }
+    ],
+    "entered_from": [
+      "back-hall",
+      "passage",
+      "mudroom",
+      "dining-room",
+      "breezeway",
+      "covered-way",
+      "hall"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "heavy",
+    "ventilation": "THE NUMBER THAT DECIDES THE ROOM. A 30 in domestic range wants 250-400 cfm of extract and a 36-48 in professional-style range wants 600-1,200. IRC M1503 requires the hood to be ducted to the outside, and IRC M1503.6 / R303.4 require MAKE-UP AIR where the exhaust exceeds 400 cfm - a powered damper, an interlock and an intake, which is a $1,500-3,000 item that appears on no early drawing. Above 400 cfm in a tight house you are depressurising the building, and if there is any atmospheric combustion appliance - a water heater, a fireplace, a wood stove - you are back-drafting it. Two consequences for the plan: the range should be on or near an EXTERIOR WALL so the duct run is short and rigid, and if the client wants a 48 in range in an island, the duct has to go down through the floor and out, which is a joist-direction decision made before the framing package.",
+    "heat": "The kitchen is a heat source, not a heat sink. It is over-served by any duct system sized on floor area and it should be on its own damper or its own zone.",
+    "electrical": "Two 20A small-appliance circuits minimum, a dedicated circuit for the dishwasher, the disposal, the microwave and the refrigerator, 240V for an electric range, GFCI on every counter receptacle, and receptacles at no more than 4 ft apart along the counter with none more than 24 in from the end of a run. Under-cabinet lighting is worth more than any ceiling fitting.",
+    "stack_proximity_ft": 8
+  },
+  "style_variation": [
+    {
+      "style": "new-england-colonial",
+      "name_in_style": "kitchen / the hall",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "In the first-period house the cooking hearth is in the hall and is 5 to 7 ft wide with a bake oven in the back or the side cheek. A 6 ft opening needs a chimney breast 9 to 10 ft wide, which on a 14 ft wall leaves almost nothing either side - that is why first-period halls are wider than their successors."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "name_in_style": "kitchen",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "In the rear ell, the lean-to, the basement, or a detached dependency, and never in the main block's formal range. Plain trim, unpanelled, a plank or brick floor. A Georgian house with a 300 sq ft open kitchen at the centre of the plan is a Georgian elevation on a contemporary plan and the kit should say so rather than pretend."
+    },
+    {
+      "style": "tidewater-georgian",
+      "name_in_style": "kitchen (detached)",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Detached, in the dependency row. See detached-kitchen for why the South kept it a century longer than the North."
+    },
+    {
+      "style": "craftsman-bungalow",
+      "name_in_style": "kitchen",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "Small, 10 by 12, with a built-in dresser, a breakfast nook and a pass-through to the dining room, and it is one of the earliest kitchens designed as an EFFICIENT WORKPLACE rather than a servants' room - the Christine Frederick / Boston Cooking School scientific-management moment. The bungalow kitchen is the ancestor of the work triangle."
+    },
+    {
+      "style": "colonial-revival",
+      "name_in_style": "kitchen",
+      "present": true,
+      "trim_grade": "middle",
+      "note": "The style with the hardest problem: an eighteenth-century elevation and a twenty-first-century kitchen programme. The honest answer is the one the style already owns - put it in a subordinate rear wing with its own lower ridge and its own fenestration, which is where it always was, rather than expanding the main block to swallow it."
+    },
+    {
+      "style": "ranch-style",
+      "name_in_style": "kitchen",
+      "present": true,
+      "trim_grade": "none",
+      "note": "Where the kitchen first opens to a family room, in the 1950s, and the type deserves the credit and the blame."
+    },
+    {
+      "style": "charleston-single-house",
+      "name_in_style": "kitchen building",
+      "present": true,
+      "trim_grade": "plain",
+      "note": "A separate building at the rear of the lot with the cook's quarters above, connected by the piazza or a covered way. The main house had no kitchen at all until the twentieth century."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Range hood ducted to the outdoors; make-up air required where exhaust capacity exceeds 400 cfm.",
+      "ref": "IRC M1503, M1503.6, R303.4",
+      "conflict": "The rule most often discovered at inspection and least often designed for. A recirculating hood is legal in many situations and removes grease and nothing else - it does not remove moisture, and a kitchen without real extract puts 2 to 3 pints of water per meal into the house."
+    },
+    {
+      "requirement": "Counter receptacles: no point along the counter more than 24 in from a receptacle; GFCI protection; two 20A small-appliance branch circuits.",
+      "ref": "NEC 210.52(C), 210.8",
+      "conflict": "A long unbroken island or a stone backsplash makes compliant placement awkward and produces the pop-up floor receptacle, which is a trip hazard and a water trap. Design the receptacle positions with the elevation, not after it."
+    },
+    {
+      "requirement": "Clearance above a cooking surface to combustible cabinetry: 30 in unprotected, or per the hood listing.",
+      "ref": "IRC M1901, appliance listings",
+      "conflict": "An 8 ft ceiling with a 36 in counter, a 30 in clearance and a 12 in hood leaves 18 in of chimney - which is why hood chimneys in 8 ft rooms always look stunted, and why a kitchen wants 9 ft."
+    },
+    {
+      "requirement": "No direct opening from a room containing a water closet into a food preparation room in some jurisdictions.",
+      "ref": "Historical byelaws; UK Approved Document G",
+      "conflict": "Not an IRC requirement, and American plans open a powder room into a breakfast room routinely."
+    }
+  ],
+  "massing_fit": [
+    "hall-single-cell",
+    "hall-and-parlor",
+    "saltbox",
+    "linear-ell-farmhouse",
+    "telescope-house",
+    "four-over-four",
+    "side-hall-double-pile",
+    "foursquare",
+    "cape-cod-massing",
+    "gambrel-block",
+    "ranch-linear",
+    "ranch-l",
+    "charleston-single",
+    "creole-cottage",
+    "raised-cottage",
+    "i-house",
+    "massed-picturesque",
+    "townhouse-row",
+    "dogtrot"
+  ],
+  "slots": [
+    "service_zone_strategy",
+    "room_adjacency_overrides",
+    "services_strategy",
+    "hearth_position",
+    "storage_strategy",
+    "daylight_strategy",
+    "built_ins",
+    "floor_material"
+  ],
+  "faults": [
+    "service-route-through-the-formal-plan",
+    "room-deeper-than-its-daylight",
+    "stack-with-nowhere-to-land",
+    "duct-soffit-through-the-formal-room",
+    "open-plan-in-a-room-based-style",
+    "built-in-that-is-furniture",
+    "recessed-can-in-a-plaster-ceiling"
+  ],
+  "sources": [
+    "IRC M1503, M1901, R303.4; NEC 210.8, 210.52(C)",
+    "NKBA Kitchen Planning Guidelines, for landing, aisle and clearance dimensions",
+    "Christine Frederick, The New Housekeeping: Efficiency Studies in Home Management (1913)",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay (1979), for the first-period cooking hearth",
+    "proportions/systems/room-vernacular.json - service_zone_strategy width at module * 0.8"
+  ],
+  "confidence": "high"
+}
