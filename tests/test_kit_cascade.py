@@ -91,6 +91,56 @@ class TestRuleAppend:
         assert out["rule"] == "Only clause."
 
 
+class TestDateConditionalResolution:
+    """OQ 22: applies_when.date_range existed and was populated (49 dated
+    variant records corpus-wide) but nothing selected on it -- a resolved
+    kit had to present every option at once rather than what applies at a
+    stated date. WP-1.3 added resolve_kit.py's --date parameter and the
+    in_period()/filter_variants_by_date() functions it's built on."""
+
+    def test_in_period_true_for_undated_variant_regardless_of_date(self, resolve_kit_module):
+        assert resolve_kit_module.in_period({"id": "x"}, 1745) is True
+
+    def test_in_period_respects_date_range_inclusive_bounds(self, resolve_kit_module):
+        v = {"id": "x", "applies_when": {"date_range": [1700, 1750]}}
+        assert resolve_kit_module.in_period(v, 1700) is True   # inclusive lower bound
+        assert resolve_kit_module.in_period(v, 1750) is True   # inclusive upper bound
+        assert resolve_kit_module.in_period(v, 1699) is False
+        assert resolve_kit_module.in_period(v, 1751) is False
+
+    def test_in_period_none_date_means_no_filtering(self, resolve_kit_module):
+        v = {"id": "x", "applies_when": {"date_range": [1700, 1750]}}
+        assert resolve_kit_module.in_period(v, None) is True
+
+    def test_filter_never_silently_drops_the_excluded_variants(self, resolve_kit_module):
+        variants = [
+            {"id": "early", "applies_when": {"date_range": [1700, 1750]}},
+            {"id": "late", "applies_when": {"date_range": [1750, 1800]}},
+            {"id": "undated"},
+        ]
+        kept, dropped = resolve_kit_module.filter_variants_by_date(variants, 1745)
+        assert {v["id"] for v in kept} == {"early", "undated"}
+        assert {v["id"] for v in dropped} == {"late"}
+
+    def test_tidewater_window_head_masonry_real_case_flips_across_1750(self, resolve_kit_module):
+        """tidewater-georgian.window_head_masonry has segmental-gauged-arch
+        (1700-1750) and gauged-flat-arch (1750-1800) -- the corpus's own
+        example of the change of arch form around 1750 being a dating tell,
+        not a taste choice (kits/tidewater-georgian.kit.json's own note)."""
+        graph = resolve_kit_module.load_graph()
+        chain = resolve_kit_module.chain_for(graph, "tidewater-georgian")
+        slots, _ = resolve_kit_module.resolve_slots(graph, chain)
+        variants = slots["window_head_masonry"]["variants"]
+
+        kept_1745, dropped_1745 = resolve_kit_module.filter_variants_by_date(variants, 1745)
+        assert "segmental-gauged-arch" in {v["id"] for v in kept_1745}
+        assert "gauged-flat-arch" in {v["id"] for v in dropped_1745}
+
+        kept_1780, dropped_1780 = resolve_kit_module.filter_variants_by_date(variants, 1780)
+        assert "gauged-flat-arch" in {v["id"] for v in kept_1780}
+        assert "segmental-gauged-arch" in {v["id"] for v in dropped_1780}
+
+
 class TestCheckKitsCatchesDanglingReplace:
     def test_replace_targeting_undefined_id_is_an_error(self):
         """A one-character difference in a variant op's target id turns a

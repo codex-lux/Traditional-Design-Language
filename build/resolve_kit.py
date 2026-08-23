@@ -35,6 +35,10 @@ Usage:
     python3 build/resolve_kit.py tidewater-georgian --group openings --verbose
     python3 build/resolve_kit.py tidewater-georgian --slot chair_rail --verbose
     python3 build/resolve_kit.py tidewater-georgian --json
+    python3 build/resolve_kit.py tidewater-georgian --slot window_head_masonry --date 1745
+        # date-conditional resolution (docs/open-questions.md #22): narrows every
+        # slot's variant list to what applies_when.date_range permits at that year.
+        # Nothing excluded is silently dropped -- what got left out is always shown.
 """
 import json, os, sys, argparse, collections, copy
 
@@ -354,15 +358,43 @@ def short(v, n):
     return s if len(s) <= n else s[: n - 1] + "…"
 
 
-def variant_summary(rec, n=46):
+def in_period(variant, date):
+    """Whether a variant record applies at the given year (docs/open-questions.md
+    #22). A variant with no `applies_when.date_range` applies at any date, by
+    the same "absence is not a restriction" reading the rest of the schema
+    uses. `date=None` means no filtering is in effect -- always True, which is
+    also the pre-0.2.2 behaviour every existing caller keeps by default."""
+    if date is None:
+        return True
+    dr = (variant.get("applies_when") or {}).get("date_range")
+    if not dr:
+        return True
+    start, end = dr
+    return start <= date <= end
+
+
+def filter_variants_by_date(variants, date):
+    """(in_period, out_of_period) — never silently drops the excluded ones;
+    callers are expected to say what got left out, not just what's left."""
+    if date is None:
+        return list(variants), []
+    kept = [v for v in variants if in_period(v, date)]
+    dropped = [v for v in variants if not in_period(v, date)]
+    return kept, dropped
+
+
+def variant_summary(rec, n=46, date=None):
     vs = rec.get("variants") or []
-    if not vs:
+    vs, dropped = filter_variants_by_date(vs, date)
+    if not vs and not dropped:
         return ""
     can = [v["id"] for v in vs if v["status"] == "canonical"]
     perm = [v["id"] for v in vs if v["status"] == "permitted"]
     forb = [v for v in vs if v["status"] == "forbidden"]
     head = ", ".join(can or perm)
     tail = "  (-%d forbidden)" % len(forb) if forb else ""
+    if date is not None and dropped:
+        tail += "  [%d out of period @%s]" % (len(dropped), date)
     return short(head, n - len(tail)) + tail
 
 
@@ -379,6 +411,11 @@ def main():
     ap.add_argument("--group")
     ap.add_argument("--slot")
     ap.add_argument("--verbose", action="store_true")
+    ap.add_argument("--date", type=int,
+                    help="a year: narrow every slot's variant list to what applies_when.date_range "
+                         "actually permits at that date, rather than presenting all of them at once "
+                         "(docs/open-questions.md #22). Nothing excluded is silently dropped -- the "
+                         "count and ids of what got left out are always shown.")
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
@@ -392,23 +429,26 @@ def main():
     pack_slots, pack_errors = eval_packs(packs, ctx, a.module)
 
     if a.json:
-        payload = {"style": a.style, "chain": chain, "context": ctx,
+        payload = {"style": a.style, "chain": chain, "context": ctx, "date": a.date,
                    "proportion_packs": packs, "slots": {}, "pack_derived": pack_slots,
                    "pack_errors": pack_errors, "extends_savings": savings}
         for sid, rec in slots.items():
             r = dict(rec)
             r["parameters_evaluated"] = eval_parameters(rec, ctx)
             r["pack_choice"] = choose_pack(rec, pack_slots.get(sid, []), ctx)
+            if a.date is not None and rec.get("variants"):
+                r["variants"] = [{**v, "in_period": in_period(v, a.date)} for v in rec["variants"]]
             payload["slots"][sid] = r
         print(json.dumps(payload, indent=2, ensure_ascii=False, default=str))
         return
 
     node = graph["nodes"][a.style]
     print("\n%s  [%s]" % (node["name"], a.style))
-    print("evaluated at ceiling %s, storey %s, opening %s, span %s%s"
+    print("evaluated at ceiling %s, storey %s, opening %s, span %s%s%s"
           % (pe._fmt_in(ctx["ceiling_height"]), pe._fmt_in(ctx["storey_height"]),
              pe._fmt_in(ctx["opening_width"]), pe._fmt_in(ctx["span"]),
-             ", order module %s" % pe._fmt_in(a.module) if a.module else ""))
+             ", order module %s" % pe._fmt_in(a.module) if a.module else "",
+             ", date %s" % a.date if a.date is not None else ""))
 
     print("\nCASCADE  (nearest first)")
     for i, nid in enumerate(chain):
@@ -448,11 +488,15 @@ def main():
                 print("  %-9s %s" % (f, rec[f]))
         if rec.get("determined_by"):
             print("  determined_by  %s" % ", ".join(rec["determined_by"]))
-        for v in rec.get("variants") or []:
+        slot_variants, dropped_variants = filter_variants_by_date(rec.get("variants") or [], a.date)
+        for v in slot_variants:
             aw = ("  when %s" % json.dumps(v["applies_when"])) if v.get("applies_when") else ""
             print("    [%-9s] %-42s%s" % (v["status"], v["id"], aw))
             if a.verbose and v.get("note"):
                 print("                  %s" % short(v["note"], 110))
+        if a.date is not None and dropped_variants:
+            print("    -- %d out of period at %s: %s"
+                  % (len(dropped_variants), a.date, ", ".join(v["id"] for v in dropped_variants)))
         if params:
             print("  parameters")
             for k, v in params.items():
@@ -523,7 +567,7 @@ def main():
             elif rec["binding"] == "forbidden":
                 detail = short(rec.get("rule") or "", 46)
             else:
-                detail = variant_summary(rec)
+                detail = variant_summary(rec, date=a.date)
                 if not detail:
                     params = eval_parameters(rec, ctx)
                     keys = list(params)[:3]
