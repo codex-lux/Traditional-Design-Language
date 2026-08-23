@@ -170,6 +170,29 @@ def render(plan, path, scale=7.0):
                 dw = 3.0*scale/2
                 if horiz: s.append(f'<line class="dr" x1="{X(px)-dw:.1f}" y1="{Y(py):.1f}" x2="{X(px)+dw:.1f}" y2="{Y(py):.1f}"/>')
                 else: s.append(f'<line class="dr" x1="{X(px):.1f}" y1="{Y(py)-dw:.1f}" x2="{X(px):.1f}" y2="{Y(py)+dw:.1f}"/>')
+                # WP-2.2: render door swings -- a quarter-circle leaf sweep, hinged at one end
+                # of the opening, into whichever of the two rooms sits on the far side (`b`,
+                # i.e. `t`/the door's own "to" room, for a consistent convention). Radius is
+                # the door's own drawn width (2*dw); direction is read off the two rooms'
+                # centres, not assumed, so it swings the right way whichever side b is on.
+                swing_r = 2 * dw          # NOT named `r` -- the outer loop variable is `r` (the room)
+                if horiz:
+                    a_cy = a["y_ft"] + a["depth_ft"] / 2
+                    b_cy = b["y_ft"] + b["depth_ft"] / 2
+                    up = b_cy > a_cy       # b is north of a -> swing toward model-north -> screen-up
+                    hx, hy = X(px) - dw, Y(py)
+                    ex, ey = hx, hy + (-swing_r if up else swing_r)
+                    sweep = 0 if up else 1
+                else:
+                    a_cx = a["x_ft"] + a["width_ft"] / 2
+                    b_cx = b["x_ft"] + b["width_ft"] / 2
+                    right = b_cx > a_cx    # b is east of a
+                    hx, hy = X(px), Y(py) - dw
+                    ex, ey = hx + (swing_r if right else -swing_r), hy
+                    sweep = 1 if right else 0
+                s.append(f'<path d="M {hx:.1f} {hy:.1f} A {swing_r:.1f} {swing_r:.1f} 0 0 {sweep} {ex:.1f} {ey:.1f}" '
+                         f'fill="none" stroke="{PAL["ink3"]}" stroke-width="0.6" stroke-dasharray="2 2"/>')
+                s.append(f'<line x1="{hx:.1f}" y1="{hy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" stroke="{PAL["ink3"]}" stroke-width="0.6"/>')
         # scale bar
         s.append(f'<line class="pt" x1="{X(0):.1f}" y1="{Y(0)+22:.1f}" x2="{X(10):.1f}" y2="{Y(0)+22:.1f}" stroke="{PAL["brass"]}"/>')
         s.append(f'<text class="dm" x="{X(0):.1f}" y="{Y(0)+34:.1f}">10 ft</text>')

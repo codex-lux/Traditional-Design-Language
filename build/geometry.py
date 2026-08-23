@@ -213,6 +213,150 @@ def touching(a, b, tol=0.35):
     oy = min(ay + ah, by + bh) - max(ay, by)
     return (ox > tol and oy > -tol) or (oy > tol and ox > -tol)
 
+# ---------------------------------------------------------------- WP-2.2 compositional scoring
+# entrance_faces (brief/plan context, 8-point compass) mapped down to this file's 4-wall model
+# (N/S/E/W is all exterior_score/window placement ever used) -- a diagonal entrance is honoured
+# by either of its two adjacent cardinals, not forced onto one arbitrarily.
+_ENTRANCE_WALLS = {
+    "N": {"N"}, "S": {"S"}, "E": {"E"}, "W": {"W"},
+    "NE": {"N", "E"}, "SE": {"S", "E"}, "SW": {"S", "W"}, "NW": {"N", "W"},
+}
+_OPPOSITE = {"N": "S", "S": "N", "E": "W", "W": "E"}
+
+def entrance_walls(plan):
+    ef = (plan.get("context") or {}).get("entrance_faces")
+    return _ENTRANCE_WALLS.get(ef, set())
+
+def _touches_wall(rect, wall, W, H, tol=0.6):
+    x, y, w, h = rect
+    if wall == "S": return y <= tol
+    if wall == "N": return y + h >= H - tol
+    if wall == "W": return x <= tol
+    if wall == "E": return x + w >= W - tol
+    return False
+
+def _dist_from_walls(rect, walls, W, H):
+    """How far a room's near edge sits from the given wall set, in feet -- 0 if it touches one
+    of them. Used to test the ceremonial sequence gets spatially deeper, not just door-connected."""
+    x, y, w, h = rect
+    best = None
+    for wall in walls:
+        d = {"S": y, "N": H - (y + h), "W": x, "E": W - (x + w)}[wall]
+        best = d if best is None else min(best, d)
+    return max(0.0, best) if best is not None else 0.0
+
+def entrance_score(rects, rooms, W, H, ewalls):
+    """WP-2.2: the entry-porch (function_class 'threshold') and whatever it opens into
+    (typically an entrance-hall or centre-passage, function_class 'circulation') must sit on
+    the entrance front. This is the specific bug PLAN-OF-ACTION.md names -- 'the current
+    rendered Tidewater plan puts the portico inside the footprint' -- and it is weighted heavily
+    enough (on the scale fatal-tier findings use elsewhere: compose.py's own SEV_W gives a
+    fatal 100) that no candidate with the porch off the entrance wall can win against one that
+    has it right, across the 250-candidate search."""
+    if not ewalls: return 0.0
+    s = 0.0
+    byid = {r["id"]: r for r in rooms}
+    for r in rooms:
+        if r["id"] not in rects: continue
+        fc = C["rooms"].get(r["type"], {}).get("function_class")
+        if fc != "threshold": continue
+        rect = rects[r["id"]]
+        if not any(_touches_wall(rect, w, W, H) for w in ewalls):
+            s += 100.0
+        # whatever this threshold room opens into should also reach the entrance front,
+        # directly or by being the room that receives the sequence (a hall, not a closet).
+        for d in (r.get("doors") or []):
+            t = d["to"]
+            if t not in rects or t not in byid: continue
+            tfc = C["rooms"].get(byid[t]["type"], {}).get("function_class")
+            if tfc != "circulation": continue
+            if not any(_touches_wall(rects[t], w, W, H) for w in ewalls):
+                s += 40.0
+    return s
+
+def principal_and_service_score(rects, rooms, W, H, ewalls):
+    """WP-2.2: principal rooms (drawing-room, parlor, living-room, dining-room -- function_class
+    public/living/dining) want the entrance front; service rooms (kitchen, pantry, laundry,
+    mudroom -- function_class service/work) want the wall opposite it. Soft, unlike
+    entrance_score -- not every principal room can reach the front of a real house, and this is
+    a preference the search should trade off against area and adjacency, not a rejection."""
+    if not ewalls: return 0.0
+    rear = {_OPPOSITE[w] for w in ewalls if w in _OPPOSITE}
+    s = 0.0
+    for r in rooms:
+        if r["id"] not in rects: continue
+        fc = C["rooms"].get(r["type"], {}).get("function_class")
+        rect = rects[r["id"]]
+        if fc in ("public", "living", "dining"):
+            if not any(_touches_wall(rect, w, W, H) for w in ewalls): s += 3.5
+        elif fc in ("service", "work"):
+            if not any(_touches_wall(rect, w, W, H) for w in rear): s += 2.0
+            if any(_touches_wall(rect, w, W, H) for w in ewalls): s += 3.0  # service ON the front is worse than merely not-rear
+    return s
+
+def ceremonial_score(rects, rooms, W, H, ewalls):
+    """WP-2.2: 'the ceremonial sequence approach -> porch -> passage -> principal room is a
+    path of increasing privacy rank with no backtracking.' Checked geometrically, not just by
+    the door graph (which the parti already fixed at compose time and this solver cannot
+    change): a principal room reached through a threshold room should sit spatially DEEPER
+    into the plan (farther from the entrance wall) than the threshold room it passes through,
+    door hop by door hop, for exactly the hops privacy_rank actually rises. Scoped to the direct
+    porch-to-hall-to-principal-room chain PLAN-OF-ACTION.md's own acceptance example names, not
+    an arbitrary-length whole-plan traversal -- see docs/geometry.md for what that would take."""
+    if not ewalls: return 0.0
+    byid = {r["id"]: r for r in rooms}
+    s = 0.0
+    for r in rooms:
+        if r["id"] not in rects: continue
+        rank = C["rooms"].get(r["type"], {}).get("privacy_rank")
+        if rank is None: continue
+        d_here = _dist_from_walls(rects[r["id"]], ewalls, W, H)
+        for door in (r.get("doors") or []):
+            t = door["to"]
+            if t not in rects or t not in byid: continue
+            trank = C["rooms"].get(byid[t]["type"], {}).get("privacy_rank")
+            if trank is None or trank <= rank: continue        # only check rank-increasing hops
+            d_there = _dist_from_walls(rects[t], ewalls, W, H)
+            if d_there < d_here - 0.6:                          # backtrack: the deeper room is nearer the street
+                s += 6.0 * (trank - rank)
+    return s
+
+def centre_hall_symmetry_score(rects, rooms, W, H, tol_frac=0.18):
+    """WP-2.2: 'on a centre-hall parti the plan is symmetric about the passage to a stated
+    tolerance.' Gated on the same spanning-circulation-room test the bay-grid slicer already
+    uses for a centre passage (spanning() in this file) -- only a plan that actually has one is
+    a centre-hall parti at all. For each room on one side of the spanning room's centreline,
+    reward a same-type room roughly mirrored to the other side within tol_frac of the
+    footprint's own width; a lone (unmirrored) room pays a small, not punitive, penalty --
+    plenty of correct centre-hall plans have one asymmetric service room."""
+    sp = spanning(rooms, "y") or spanning(rooms, "x")
+    if not sp or sp["id"] not in rects: return 0.0
+    sx, sy, sw, sh = rects[sp["id"]]
+    axis_x = sw < sh  # a passage spanning north-south splits the plan left/right (mirror in x)
+    centre = sx + sw / 2 if axis_x else sy + sh / 2
+    tol = (W if axis_x else H) * tol_frac
+    others = [r for r in rooms if r["id"] != sp["id"] and r["id"] in rects]
+    used = set()
+    s = 0.0
+    for r in others:
+        if r["id"] in used: continue
+        rx, ry, rw, rh = rects[r["id"]]
+        rc = rx + rw / 2 if axis_x else ry + rh / 2
+        best, bd = None, None
+        for o in others:
+            if o["id"] == r["id"] or o["id"] in used or o["type"] != r["type"]: continue
+            ox, oy, ow, oh = rects[o["id"]]
+            oc = ox + ow / 2 if axis_x else oy + oh / 2
+            # a mirror pair sits on opposite sides of the centreline at roughly equal distance
+            if (rc - centre) * (oc - centre) >= 0: continue
+            d = abs(abs(rc - centre) - abs(oc - centre))
+            if bd is None or d < bd: best, bd = o, d
+        if best and bd <= tol:
+            used.add(r["id"]); used.add(best["id"])
+        else:
+            s += 1.5
+    return s
+
 # ---------------------------------------------------------------- joint scoring
 def vertical_score(g, u, groundrooms, upperrooms, plan):
     """The reason both levels are solved together: bearing lines, stacks, and the stair."""
@@ -317,15 +461,27 @@ def solve(plan, parti=None, candidates=250, seed=7):
     W = round(bays * bay, 2); H = round(need / W, 2)
     slack = (W * H) - max(a0, au)
 
+    # WP-2.2: composition_parti (the style's kit) and entrance_faces (the plan's own context)
+    # feed the compositional scoring terms below. composition_parti is read for completeness
+    # and future use, per PLAN-OF-ACTION.md's task list -- as of this package no style's kit
+    # actually specifies it (status: empty everywhere), so nothing here branches on its value
+    # yet; entrance_faces is what every term below actually keys off, and it is already on
+    # every plan this solver has ever been run against (context.entrance_faces).
+    composition_parti = ((C["kits"].get(plan.get("style") or "") or {}).get("slots") or {}).get("composition_parti")
+    ewalls = entrance_walls(plan)
+
     best = None
     for _ in range(candidates):
         gr, grelax = {}, []
         slice_rect(copy.deepcopy(prep[0]), 0, 0, W, H, bay, tol, rng, gr, grelax)
-        sg = level_score(gr, prep[0]) + exterior_score(gr, prep[0], W, H) + adjacency_score(gr, prep[0], levels[0]["rooms"])
+        sg = (level_score(gr, prep[0]) + exterior_score(gr, prep[0], W, H) + adjacency_score(gr, prep[0], levels[0]["rooms"])
+              + entrance_score(gr, prep[0], W, H, ewalls) + principal_and_service_score(gr, prep[0], W, H, ewalls)
+              + ceremonial_score(gr, prep[0], W, H, ewalls) + centre_hall_symmetry_score(gr, prep[0], W, H))
         ur, urelax = {}, []
         if prep.get(1):
             slice_rect(copy.deepcopy(prep[1]), 0, 0, W, H, bay, tol, rng, ur, urelax)
-            su = level_score(ur, prep[1]) + exterior_score(ur, prep[1], W, H) + adjacency_score(ur, prep[1], levels[1]["rooms"])
+            su = (level_score(ur, prep[1]) + exterior_score(ur, prep[1], W, H) + adjacency_score(ur, prep[1], levels[1]["rooms"])
+                  + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
         tot = sg + su + vs + 1.5 * len(grelax + urelax)
