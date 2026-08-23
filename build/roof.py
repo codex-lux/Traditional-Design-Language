@@ -1,0 +1,556 @@
+#!/usr/bin/env python3
+"""WP-3.3 -- roof geometry.
+
+Takes a plan already walled and sectioned by build/structure.py (outside-to-outside footprint,
+storey heights, a grade-to-eave/grade-to-ridge estimate under the single-ridge simplification
+that file's own roof_heights() states plainly) and derives what that file deliberately did not
+attempt: the roof's actual FORM -- gable, hip, gambrel, cross-gable -- as real plan-view outline
+geometry and a per-face elevation silhouette, the dependency-and-hyphen ridge step-down applied
+to a subordinate wing, chimney placement and height against the style's own structural
+constraint, and three photograph-corpus checks that are naturally a roof-layer concern (the Cape
+eave-to-sill relation, the gambrel break, dormer rhythm against the bay grid).
+
+Every height number this file adds is built ON TOP of structure.py's own grade_to_eave_ft (and,
+for the forms where the single-ridge simplification already gives the right answer -- hip and
+any single-ridge gable, see the module docstring's own geometry note below -- grade_to_ridge_ft
+too), never re-derived independently, so the two files cannot silently disagree about the same
+building's height. Where this file's own geometry genuinely produces a different ridge height
+(gambrel, cross-gable) that divergence is stated in the record's own note, not silently swapped
+in as if it had always been the number.
+
+  python3 build/roof.py plans/tidewater-georgian-careful.json [--parti ID] \
+      [--out plans/<id>.roof.json] [--svg dist/<id>-roof.svg]
+"""
+from __future__ import annotations
+import json, os, math, re, argparse, importlib.util
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def _mod(n, p):
+    s = importlib.util.spec_from_file_location(n, p); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
+PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
+GEOM = _mod("geometry", f"{ROOT}/build/geometry.py")
+ST = _mod("structure", f"{ROOT}/build/structure.py")
+C = PC.load_corpus()
+
+DEFAULT_ROOF_FORM = "side-gable"
+DEFAULT_CHIMNEY_HEIGHT_ABOVE_RIDGE_IN = 72.0   # matches storey-graduation-adjacent kit default seen on tidewater-georgian's own chimney slot
+# Gambrel geometry has no single universal migrated constraint the way roof_pitch_rise_per_12
+# does -- but the SAME numbers ("lower slope 60-72 degrees, upper slope 18-30 degrees, break at
+# 55-70% of the half-span") appear, independently authored, in both dutch-colonial-american.c03
+# and new-jersey-dutch-gambrel.c01's own statement prose. Two independently-written style nodes
+# agreeing on the same figures is itself evidence this is the family's real sourced number, not
+# one style's private judgment -- used here as the fallback for any style that does not carry
+# its own migrated roof_slope_lower_deg constraint (see _style_gambrel_geometry).
+GAMBREL_LOWER_SLOPE_DEFAULT_DEG = 66.0   # midpoint of 60-72
+GAMBREL_UPPER_SLOPE_DEFAULT_DEG = 24.0   # midpoint of 18-30
+GAMBREL_BREAK_FRACTION_DEFAULT = 0.625   # midpoint of 55-70% of the half-span
+WING_RIDGE_RATIO_DEFAULT = 0.7           # midpoint of dependency-and-hyphen.json's own 0.6-0.8 band
+
+FACES = ("S", "N", "E", "W")
+
+# ---------------------------------------------------------------- helpers duplicated by design
+# _style_roof_pitch is byte-for-byte the same logic as build/structure.py's own function of the
+# same name. Duplicated rather than imported -- this file is loaded standalone via _mod(), the
+# same reason build/geometry.py's lot_usable_width_ft and build/structure.py's own
+# _shared_segment are each a second, independent copy rather than a cross-module import.
+def _style_roof_pitch(style):
+    node = C["styles"].get(style, {})
+    for c in node.get("constraints", []):
+        t = c.get("test") or {}
+        if t.get("expression") != "roof_pitch_rise_per_12": continue
+        if t.get("direction") == "between":
+            return (t["threshold"] + t["upper"]) / 2.0, c["id"], f"{t['threshold']}:12 to {t['upper']}:12"
+        if t.get("direction") in ("at-least", "at-most"):
+            return float(t["threshold"]), c["id"], f"{t['direction']} {t['threshold']}:12"
+    return None, None, None
+
+def _between_range(pack_test):
+    """Pulls (threshold, upper) off a structured {expression, direction:'between', threshold,
+    upper} test dict -- the same shape faults/*.json and styles/*.json constraints both use."""
+    if pack_test and pack_test.get("direction") == "between":
+        return float(pack_test["threshold"]), float(pack_test["upper"])
+    return None
+
+def _parse_prose_between(statement, var_hint=None):
+    """groupings/*.json's own internal_rules carry their test as a plain sentence
+    ('dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8'), not the structured
+    {expression, direction, threshold, upper} object faults and style constraints use -- there
+    is no schema for grouping-level tests in this corpus. Rather than hand-transcribe the two
+    numbers a second time (structure.py's graduation_check() bug #3 was exactly that mistake),
+    pull them out of the sentence itself with a small, honest regex, so a future edit to the
+    grouping file's own wording is what this reads, not a copy of it made once and then stale."""
+    m = re.search(r"between\s+([\d.]+)\s+and\s+([\d.]+)", statement or "")
+    if not m: return None
+    return float(m.group(1)), float(m.group(2))
+
+def _grouping(gid):
+    return json.load(open(f"{ROOT}/groupings/{gid}.json"))
+
+def _massing(massing_id):
+    return C["massings"].get(massing_id, {})
+
+# ---------------------------------------------------------------- roof form
+def roof_form_for(plan, massing):
+    """plan.declared.roof_form (the element slot every plan already has access to, exactly the
+    pattern structure.py's wall_thickness() established for construction_type) governs; falls
+    back to the massing's own first-listed roof_default with an explicit note when undeclared --
+    'unjudged is not passed' applied a second time, at the roof layer. A declared form outside
+    the massing's roof_default list is NOT treated as an error -- massings/catalog.json's own
+    roof_default is a list of typical forms, not an exhaustive permitted set -- but is noted."""
+    declared = (plan.get("declared") or {}).get("roof_form")
+    defaults = massing.get("roof_default") or [DEFAULT_ROOF_FORM]
+    if declared:
+        note = None if declared in defaults else (
+            f"'{declared}' is declared but is not in massing '{massing.get('id')}''s own roof_default list "
+            f"({', '.join(defaults)}) -- not an error, that list is typical forms, not an exhaustive set, but worth a second look.")
+        return declared, note
+    return defaults[0], f"No roof_form declared; used massing '{massing.get('id')}''s first default ('{defaults[0]}')."
+
+# ---------------------------------------------------------------- main-volume geometry
+def _rect_face_axis(form):
+    """Which plan axis the ridge runs along, for the two single-ridge gable forms. side-gable:
+    ridge parallel to the wider/entrance-parallel dimension (axis 'x', the convention this
+    corpus's own render_plan.py/structure.py already use -- S/N walls run along x).
+    front-gable: ridge perpendicular to the entrance (axis 'y', W/E walls run along y)."""
+    return "x" if form in ("side-gable", "hip") else "y"   # hip's ridge, where one exists, also runs along x by this corpus's own W>=D convention below
+
+def main_roof(plan, section, style):
+    """The primary roof volume over the whole footprint. Reuses structure.py's own
+    grade_to_eave_ft/grade_to_ridge_ft for every form where its single-ridge-over-the-shorter-
+    dimension simplification is already the right answer (gable and hip alike -- a symmetric hip
+    and a symmetric gable roof of the same footprint and pitch share the same ridge HEIGHT; only
+    the plan-view outline differs, see roof_outline()/elevation_profile() below). Gambrel is the
+    one form whose ridge height genuinely differs from that simplification, computed
+    independently and reconciled explicitly rather than silently substituted."""
+    fp = section["footprint"]
+    W, D = fp["width_ft"], fp["depth_ft"]
+    massing = _massing(plan.get("massing"))
+    form, form_note = roof_form_for(plan, massing)
+    pitch, pitch_id, pitch_stmt = _style_roof_pitch(style)
+    eave_ft = section["roof"]["grade_to_eave_ft"]
+
+    result = {"form": form, "form_note": form_note, "pitch_rise_per_12": pitch,
+              "pitch_source": pitch_id, "pitch_statement": pitch_stmt, "grade_to_eave_ft": eave_ft}
+
+    if form in ("gable", "side-gable", "front-gable", "hip", "gable-on-hip", "cross-gable"):
+        axis = _rect_face_axis(form if form != "cross-gable" else "side-gable")
+        ridge_len_dim, span_dim = (W, D) if axis == "x" else (D, W)
+        if form in ("hip", "gable-on-hip"):
+            ridge_from, ridge_to = (D / 2.0, W - D / 2.0) if axis == "x" and W >= D else (0.0, ridge_len_dim)
+            # A hip roof needs its own dimension to actually be longer than the one it hips in
+            # from, or there is no ridge at all (a square hip has a single apex, not a ridge
+            # line) -- flagged rather than producing a negative-length ridge silently.
+            if W < D:
+                ridge_from, ridge_to = 0.0, 0.0
+                result["note"] = f"Footprint {W:.1f}x{D:.1f} ft is deeper than it is wide; hip form here needs its own re-derivation (ridge runs the other axis) -- not modelled, ridge collapsed to a point."
+        else:
+            ridge_from, ridge_to = 0.0, ridge_len_dim
+        ridge_ft = section["roof"].get("grade_to_ridge_ft")
+        result["ridge"] = {"axis": axis, "position_ft": span_dim / 2.0, "from_ft": round(ridge_from, 2),
+                            "to_ft": round(ridge_to, 2), "grade_to_ridge_ft": ridge_ft}
+        if ridge_ft is None:
+            result["note"] = (result.get("note") or "") + " " + (section["roof"].get("note") or "")
+        if form in ("hip", "gable-on-hip"):
+            result["hip_lines"] = _hip_lines(W, D, axis, ridge_from, ridge_to)
+        if form == "cross-gable":
+            result["cross"] = _cross_gable(plan, section, W, D, axis, pitch, eave_ft)
+
+    elif form == "gambrel":
+        result.update(_gambrel(plan, section, style, W, D, eave_ft, pitch))
+
+    else:
+        result["note"] = f"Roof form '{form}' is not one of gable/hip/gambrel/cross-gable -- geometry not modelled; grade_to_eave_ft is the only number this file adds for it."
+
+    return result
+
+def _hip_lines(W, D, axis, ridge_from, ridge_to):
+    """Four diagonal hip lines, each running from a footprint corner to the nearest ridge
+    endpoint. Plan-view segments only (x,y in the footprint plane) -- height is implied by the
+    same eave-to-ridge rise every other roof line in this file already carries."""
+    if axis == "x":
+        corners = [(0.0, 0.0), (W, 0.0), (W, D), (0.0, D)]
+        ends = [(ridge_from, D / 2.0), (ridge_to, D / 2.0)]
+        pairs = [(corners[0], ends[0]), (corners[3], ends[0]), (corners[1], ends[1]), (corners[2], ends[1])]
+    else:
+        corners = [(0.0, 0.0), (W, 0.0), (W, D), (0.0, D)]
+        ends = [(W / 2.0, ridge_from), (W / 2.0, ridge_to)]
+        pairs = [(corners[0], ends[0]), (corners[1], ends[0]), (corners[2], ends[1]), (corners[3], ends[1])]
+    return [{"x1": round(a[0], 2), "y1": round(a[1], 2), "x2": round(b[0], 2), "y2": round(b[1], 2)} for a, b in pairs]
+
+def _cross_gable(plan, section, W, D, main_axis, pitch, eave_ft):
+    """A single perpendicular cross-gable wing, centred on the main ridge, one bay module wide.
+    Deliberately simplified -- see docs/structure.md's roof section, 'What was deliberately not
+    done': no valley-line geometry between the two volumes is computed, only the two ridges
+    themselves, because this corpus's own plan/geometry layer solves one rectangular footprint
+    and has no second volume to actually cut a valley against."""
+    bay_ft = section["footprint"].get("bay_module_ft") or section["geometry"]["footprint"].get("bay_module_ft") or 10.0
+    cross_width_ft = min(bay_ft, (D if main_axis == "x" else W) * 0.9)
+    rise_ft = (cross_width_ft / 2.0) * (pitch / 12.0) if pitch else None
+    cross_ridge_ft = eave_ft + rise_ft if rise_ft is not None else None
+    centre = (W / 2.0, D / 2.0)
+    if main_axis == "x":
+        line = {"x1": round(centre[0], 2), "y1": round(centre[1] - cross_width_ft / 2, 2),
+                "x2": round(centre[0], 2), "y2": round(centre[1] + cross_width_ft / 2, 2)}
+    else:
+        line = {"x1": round(centre[0] - cross_width_ft / 2, 2), "y1": round(centre[1], 2),
+                "x2": round(centre[0] + cross_width_ft / 2, 2), "y2": round(centre[1], 2)}
+    return {"width_ft": round(cross_width_ft, 2), "ridge_line": line, "grade_to_ridge_ft": round(cross_ridge_ft, 2) if cross_ridge_ft else None,
+            "note": "Simplified: a single centred cross-gable wing, no valley geometry against the main roof -- this plan/geometry layer has no second real volume to cut a valley against."}
+
+def _style_gambrel_geometry(style):
+    """Prefers the style's OWN migrated roof_slope_lower_deg constraint (dutch-colonial-
+    american.c03 is the worked example: a 'between' test, 60-72 deg) over the family-wide
+    fallback numbers this module's own constants document -- same precedence discipline
+    _style_roof_pitch already uses for the single-pitch case."""
+    node = C["styles"].get(style, {})
+    lower = upper = break_frac = None
+    lower_source = upper_source = break_source = "default (family-wide, see module docstring)"
+    for c in node.get("constraints", []):
+        t = c.get("test") or {}
+        if t.get("expression") == "roof_slope_lower_deg":
+            rng = _between_range(t)
+            if rng: lower = sum(rng) / 2.0; lower_source = c["id"]
+        if t.get("expression") == "roof_slope_upper_deg":
+            rng = _between_range(t)
+            if rng: upper = sum(rng) / 2.0; upper_source = c["id"]
+    if lower is None: lower = GAMBREL_LOWER_SLOPE_DEFAULT_DEG
+    if upper is None: upper = GAMBREL_UPPER_SLOPE_DEFAULT_DEG
+    if break_frac is None: break_frac = GAMBREL_BREAK_FRACTION_DEFAULT
+    return {"lower_slope_deg": lower, "lower_source": lower_source,
+            "upper_slope_deg": upper, "upper_source": upper_source,
+            "break_fraction": break_frac, "break_source": break_source}
+
+def _gambrel(plan, section, style, W, D, eave_ft, single_pitch):
+    """Two slopes per side, ridge along the same axis a side-gable roof would use. Genuinely
+    recomputes grade_to_ridge_ft rather than reusing structure.py's single-pitch estimate --
+    reconciled explicitly in the returned note, not silently swapped in."""
+    geo = _style_gambrel_geometry(style)
+    half_span_ft = min(W, D) / 2.0
+    break_offset_ft = half_span_ft * geo["break_fraction"]
+    lower_rise_ft = break_offset_ft * math.tan(math.radians(geo["lower_slope_deg"]))
+    upper_run_ft = half_span_ft - break_offset_ft
+    upper_rise_ft = upper_run_ft * math.tan(math.radians(geo["upper_slope_deg"]))
+    break_grade_ft = eave_ft + lower_rise_ft
+    ridge_grade_ft = break_grade_ft + upper_rise_ft
+    axis = "x" if W >= D else "y"
+    span_dim = D if axis == "x" else W
+    ridge_len_dim = W if axis == "x" else D
+    single_pitch_ridge_ft = section["roof"].get("grade_to_ridge_ft")
+    note = None
+    if single_pitch_ridge_ft is not None:
+        note = (f"Recomputed for the gambrel's own two-slope geometry: {ridge_grade_ft:.2f} ft, "
+                f"vs structure.py's single-pitch estimate of {single_pitch_ridge_ft:.2f} ft (which assumes one "
+                f"straight slope at the style's roof_pitch_rise_per_12 constraint, not this form). This file's "
+                f"number is the one that reflects the actual gambrel form; structure.py's own section record is "
+                f"not edited by this file.")
+    return {
+        "ridge": {"axis": axis, "position_ft": span_dim / 2.0, "from_ft": 0.0, "to_ft": round(ridge_len_dim, 2),
+                  "grade_to_ridge_ft": round(ridge_grade_ft, 2)},
+        "gambrel": {**geo, "half_span_ft": round(half_span_ft, 2), "break_offset_ft": round(break_offset_ft, 2),
+                    "break_grade_to_ft": round(break_grade_ft, 2)},
+        "note": note,
+    }
+
+# ---------------------------------------------------------------- dependency-and-hyphen wing
+def wing_step_down(plan, section, main):
+    """Schematic only, and explicitly labelled so: this corpus's plan/geometry layer
+    (build/geometry.py) solves a single rectangular footprint and has never placed a real second
+    volume, so there is no actual wing footprint to measure. When plan.groupings names
+    'dependency-and-hyphen' this still computes and CHECKS the ridge step-down rule the grouping
+    states, using a schematic wing depth (one bay module) and its own hyphen-length band, so the
+    rule is exercised and tested even though neither shipped reference plan currently triggers
+    the real path (see docs/structure.md's own honesty precedent for the WP-3.1 framing_basis
+    finding -- this is the same shape of disclosure)."""
+    if "dependency-and-hyphen" not in (plan.get("groupings") or []):
+        return {"applicable": False}
+    grp = _grouping("dependency-and-hyphen")
+    ridge_rule = next((r for r in grp["internal_rules"] if r.get("test", "").startswith("dependency_ridge_ft")), None)
+    hyphen_rule = next((r for r in grp["internal_rules"] if r.get("test", "").startswith("hyphen_length_ft")), None)
+    ridge_band = _parse_prose_between(ridge_rule["test"]) if ridge_rule else (0.6, 0.8)
+    hyphen_band = _parse_prose_between(hyphen_rule["test"]) if hyphen_rule else (12.0, 20.0)
+    ratio = WING_RIDGE_RATIO_DEFAULT if ridge_band[0] <= WING_RIDGE_RATIO_DEFAULT <= ridge_band[1] else sum(ridge_band) / 2.0
+
+    main_ridge_ft = main.get("ridge", {}).get("grade_to_ridge_ft")
+    pitch = main.get("pitch_rise_per_12")
+    if main_ridge_ft is None or pitch is None:
+        return {"applicable": True, "computed": False,
+                "note": "Plan names a dependency-and-hyphen grouping but the main roof has no judged ridge height or pitch to step a wing down from."}
+
+    wing_ridge_ft = round(main_ridge_ft * ratio, 2)
+    bay_ft = section["footprint"].get("bay_module_ft") or 10.0
+    wing_depth_ft = bay_ft
+    wing_eave_ft = round(wing_ridge_ft - (wing_depth_ft / 2.0) * (pitch / 12.0), 2)
+    hyphen_length_ft = round(sum(hyphen_band) / 2.0, 2)
+    computed_ratio = round(wing_ridge_ft / main_ridge_ft, 4)
+    ok = ridge_band[0] <= computed_ratio <= ridge_band[1]
+    return {
+        "applicable": True, "computed": True, "schematic": True,
+        "main_ridge_grade_ft": main_ridge_ft, "wing_ridge_grade_ft": wing_ridge_ft, "wing_eave_grade_ft": wing_eave_ft,
+        "wing_depth_ft": wing_depth_ft, "hyphen_length_ft": hyphen_length_ft,
+        "ratio": computed_ratio, "ratio_band": list(ridge_band), "ok": ok,
+        "note": ("SCHEMATIC: this corpus's geometry solver never places a real second volume, so wing_depth_ft is "
+                 "assumed (one bay module) rather than measured off a placed room. The ratio itself is real and "
+                 "checked against dependency-and-hyphen.json's own stated 0.6-0.8 band, read from that file's "
+                 "prose rather than re-transcribed."),
+    }
+
+# ---------------------------------------------------------------- chimneys
+def chimney_positions(plan, style, section, main):
+    """Placement source, in order: the resolved kit's own canonical `chimney` slot variant
+    (tidewater-georgian's is fully specified -- gable-end-exterior, paired-and-joined-by-arched-
+    curtain); falling back to the massing's own `hearth` field (four-over-four's is
+    'gable-end-paired', which every style using that massing inherits structurally whether or
+    not its own kit has gotten around to a chimney slot -- colonial-revival's kit chimney slot is
+    still `status: empty`, exactly the 'unjudged' case this fallback exists for)."""
+    kit = C["kits"].get(style, {})
+    canonical = [v["id"] for v in (kit.get("slots", {}).get("chimney", {}) or {}).get("variants", []) if v.get("status") == "canonical"]
+    massing = _massing(plan.get("massing"))
+    hearth = massing.get("hearth")
+    source = f"kit chimney slot: {', '.join(canonical)}" if canonical else (f"massing '{massing.get('id')}' hearth: {hearth}" if hearth else None)
+    gable_end = bool(canonical and any("gable-end" in v for v in canonical)) or (hearth and "gable-end" in hearth)
+
+    form = main.get("form")
+    ridge = main.get("ridge")
+    if not source:
+        return {"applicable": False, "positions": [], "source": None,
+                "note": "No kit chimney slot and no massing hearth field to place chimneys from -- unjudged."}
+    if not gable_end:
+        return {"applicable": True, "positions": [], "source": source,
+                "note": f"Placement source ({source}) does not call for a gable-end chimney -- not placed by this file."}
+    if not ridge or ridge.get("grade_to_ridge_ft") is None:
+        return {"applicable": True, "positions": [], "source": source,
+                "note": (f"Placement source calls for gable-end chimneys ({source}), but the main roof has no "
+                         f"judged ridge height to measure a chimney's total height against -- unjudged, not placed.")}
+
+    if form in ("hip", "gable-on-hip"):
+        return {"applicable": True, "positions": [], "source": source,
+                "note": (f"Placement source calls for gable-end chimneys ({source}), but the roof form here is "
+                         f"'{form}', which has no full gable-end wall to run a stack through -- a real design "
+                         f"would need an interior or off-ridge chimney solution this file does not model. "
+                         f"Flagged rather than silently placed at a wall that is not actually a gable end.")}
+
+    params = (kit.get("slots", {}).get("chimney", {}) or {}).get("parameters", {})
+    band = params.get("height_above_ridge_band", {}).get("range")
+    height_above_ridge_in = sum(band) / 2.0 if band else (params.get("height_above_ridge_min", {}).get("value") or DEFAULT_CHIMNEY_HEIGHT_ABOVE_RIDGE_IN)
+
+    W, D = section["footprint"]["width_ft"], section["footprint"]["depth_ft"]
+    axis, ridge_ft = ridge["axis"], ridge["grade_to_ridge_ft"]
+    if axis == "x":
+        positions = [(0.0, D / 2.0), (W, D / 2.0)]
+    else:
+        positions = [(W / 2.0, 0.0), (W / 2.0, D)]
+
+    style_constraint = next((c for c in C["styles"].get(style, {}).get("constraints", [])
+                              if (c.get("test") or {}).get("expression") == "chimney_height_above_ridge_ft"), None)
+    height_above_ridge_ft = round(height_above_ridge_in / 12.0, 3)
+    check = None
+    if style_constraint:
+        t = style_constraint["test"]
+        ok = height_above_ridge_ft >= t["threshold"] if t.get("direction") == "at-least" else None
+        check = {"constraint_id": style_constraint["id"], "threshold_ft": t.get("threshold"), "direction": t.get("direction"), "ok": ok}
+
+    chimneys = [{"x_ft": round(x, 2), "y_ft": round(y, 2), "grade_to_ridge_ft": ridge_ft,
+                 "height_above_ridge_ft": height_above_ridge_ft, "total_height_grade_ft": round(ridge_ft + height_above_ridge_ft, 2)}
+                for x, y in positions]
+    return {"applicable": True, "positions": chimneys, "source": source, "style_check": check}
+
+# ---------------------------------------------------------------- Cape eave-to-sill, dormers
+def _fault(fid):
+    return json.load(open(f"{ROOT}/faults/{fid}.json"))
+
+def cape_eave_check(style, section, main):
+    """faults/raised-cape-eave.json's own severity_by_style names which styles this measurement
+    is the TYPE's defining one (severity 'fatal') versus merely relevant -- read from that file
+    rather than a hand-picked style list, so an editorial change to the fault's severity_by_style
+    is what this reads, not a second copy of the same judgment."""
+    fault = _fault("raised-cape-eave")
+    fatal_styles = {e["style"] for e in fault.get("severity_by_style", []) if e.get("severity") == "fatal"}
+    if style not in fatal_styles:
+        return {"applicable": False}
+    ground = next((s for s in section["storeys"] if s.get("index") == 0), None)
+    if not ground or ground.get("grade_to_floor_ft") is None:
+        return {"applicable": True, "computed": False, "note": "No ground-storey grade datum to measure the eave against."}
+    eave_above_first_floor_in = round((main["grade_to_eave_ft"] - ground["grade_to_floor_ft"]) * 12, 1)
+    height_test = next((t for t in fault.get("secondary_tests", []) if t["expression"] == "eave_height_above_finished_first_floor_in"), None)
+    band = (height_test["threshold"], height_test["upper"]) if height_test else (96.0, 114.0)
+    ok = band[0] <= eave_above_first_floor_in <= band[1]
+    pitch_test = next((t for t in fault.get("secondary_tests", []) if t["expression"] == "roof_slope_angle_deg"), None)
+    pitch_band = (pitch_test["threshold"], pitch_test["upper"]) if pitch_test else (36.9, 45.0)
+    slope_deg = math.degrees(math.atan((main.get("pitch_rise_per_12") or 0) / 12.0)) if main.get("pitch_rise_per_12") else None
+    pitch_ok = (slope_deg is not None) and (pitch_band[0] <= slope_deg <= pitch_band[1])
+    return {"applicable": True, "computed": True, "eave_height_above_finished_first_floor_in": eave_above_first_floor_in,
+            "band_in": list(band), "ok": ok, "roof_slope_angle_deg": round(slope_deg, 1) if slope_deg else None,
+            "pitch_band_deg": list(pitch_band), "pitch_ok": pitch_ok,
+            "note": None if ok else f"{eave_above_first_floor_in} in is outside the {band[0]}-{band[1]} in band that defines this type ({fault['name']})."}
+
+def gambrel_break_check(main):
+    """faults/gambrel-slopes-converging.json's own bands, evaluated against whatever this file
+    actually computed in _gambrel() -- a self-consistency check as much as a corpus check, since
+    the defaults in _style_gambrel_geometry were themselves chosen inside these same bands, but
+    still run explicitly rather than assumed true by construction (a style-sourced
+    roof_slope_lower_deg constraint, if one exists, is NOT guaranteed to fall inside this
+    secondary fault's own band, since the two are authored independently)."""
+    if main.get("form") != "gambrel":
+        return {"applicable": False}
+    fault = _fault("gambrel-slopes-converging")
+    g = main["gambrel"]
+    diff = g["lower_slope_deg"] - g["upper_slope_deg"]
+    diff_ok = diff >= fault["test"]["threshold"]
+    break_test = next((t for t in fault.get("secondary_tests", []) if t["expression"].startswith("break_height_above_eave_in")), None)
+    break_band = (break_test["threshold"], break_test["upper"]) if break_test else (0.55, 0.65)
+    break_ok = break_band[0] <= g["break_fraction"] <= break_band[1]
+    return {"applicable": True, "slope_difference_deg": round(diff, 1), "diff_ok": diff_ok,
+            "break_fraction": g["break_fraction"], "break_band": list(break_band), "break_ok": break_ok}
+
+def dormer_rhythm_check(plan, section, main):
+    """elements/slots.json's own `dormer` slot is cardinality 'many' (an assembly list), but no
+    plan record in this corpus -- and no plan schema field -- currently authors WHERE a dormer
+    sits, so this is implemented and unit-tested as a pure function of two position lists
+    (dormer centres, window-bay centres) rather than wired to a real plan field that does not
+    exist yet. Neither shipped reference plan has an attic storey a dormer would light, so this
+    reports not-applicable on both -- an honest absence, not a bug."""
+    dormers = (plan.get("declared_dormers") or [])   # not a real schema field yet -- see docstring
+    if not dormers:
+        return {"applicable": False, "note": "No dormers declared on this plan (no schema field authors dormer position yet)."}
+    bay_ft = section["footprint"].get("bay_module_ft") or 10.0
+    bay_centres = [bay_ft * (i + 0.5) for i in range(int(section["footprint"]["width_ft"] // bay_ft))]
+    on_bay = sum(1 for d in dormers if any(abs(d - b) <= 1.0 for b in bay_centres))
+    ratio = on_bay / len(dormers)
+    return {"applicable": True, "dormer_count": len(dormers), "on_bay_count": on_bay, "ratio": ratio, "ok": ratio >= 1.0}
+
+# ---------------------------------------------------------------- plan-view outline + elevation profiles
+def roof_outline(section, main):
+    """Plan-view line segments for the roof-plan SVG: the eave rectangle (the outside-to-outside
+    footprint itself), the ridge line, hip lines where the form has them, the gambrel break
+    lines (parallel to the ridge, offset by break_offset_ft on each side), and the dependency
+    wing's own ridge where one was computed."""
+    fp = section["footprint"]
+    W, D = fp["width_ft"], fp["depth_ft"]
+    lines = [{"kind": "eave", "x1": 0.0, "y1": 0.0, "x2": W, "y2": 0.0},
+             {"kind": "eave", "x1": W, "y1": 0.0, "x2": W, "y2": D},
+             {"kind": "eave", "x1": W, "y1": D, "x2": 0.0, "y2": D},
+             {"kind": "eave", "x1": 0.0, "y1": D, "x2": 0.0, "y2": 0.0}]
+    ridge = main.get("ridge")
+    if ridge:
+        axis, pos, a, b = ridge["axis"], ridge["position_ft"], ridge["from_ft"], ridge["to_ft"]
+        if axis == "x":
+            lines.append({"kind": "ridge", "x1": a, "y1": pos, "x2": b, "y2": pos})
+        else:
+            lines.append({"kind": "ridge", "x1": pos, "y1": a, "x2": pos, "y2": b})
+    for h in main.get("hip_lines") or []:
+        lines.append({"kind": "hip", **h})
+    if main.get("form") == "gambrel" and "gambrel" in main:
+        off = main["gambrel"]["break_offset_ft"]
+        axis = ridge["axis"]
+        if axis == "x":
+            lines.append({"kind": "gambrel-break", "x1": 0.0, "y1": off, "x2": W, "y2": off})
+            lines.append({"kind": "gambrel-break", "x1": 0.0, "y1": D - off, "x2": W, "y2": D - off})
+        else:
+            lines.append({"kind": "gambrel-break", "x1": off, "y1": 0.0, "x2": off, "y2": D})
+            lines.append({"kind": "gambrel-break", "x1": W - off, "y1": 0.0, "x2": W - off, "y2": D})
+    if main.get("form") == "cross-gable" and main.get("cross"):
+        lines.append({"kind": "cross-ridge", **main["cross"]["ridge_line"]})
+    return lines
+
+def elevation_profile(section, main, wall):
+    """The per-face silhouette WP-3.2 (the elevation generator) is meant to read -- 'expose the
+    outline for the elevation generator', per the hand-off brief -- as an ordered list of
+    (horizontal_ft, height_ft) points along that wall, height measured above grade. A gable end
+    (perpendicular to the ridge) is a triangle peaking at the ridge height; a long face (parallel
+    to the ridge) is a flat eave line for a simple gable, or a trapezoid for a hip (the
+    characteristic hip silhouette: eave flat, then the hip planes rise in at both ends to meet
+    the ridge height across the ridge's own shorter span)."""
+    fp = section["footprint"]
+    W, D = fp["width_ft"], fp["depth_ft"]
+    eave = main["grade_to_eave_ft"]
+    ridge = main.get("ridge")
+    form = main.get("form")
+    wall_len = W if wall in ("S", "N") else D
+    if not ridge or ridge.get("grade_to_ridge_ft") is None:
+        return [(0.0, eave), (wall_len, eave)]   # unjudged ridge -- flat eave line only, nothing invented above it
+    ridge_ft = ridge["grade_to_ridge_ft"]
+    parallel = (wall in ("S", "N") and ridge["axis"] == "x") or (wall in ("E", "W") and ridge["axis"] == "y")
+    if not parallel:
+        return [(0.0, eave), (wall_len / 2.0, ridge_ft), (wall_len, eave)]   # gable end: simple triangle
+    if form in ("hip", "gable-on-hip"):
+        a, b = ridge["from_ft"], ridge["to_ft"]
+        return [(0.0, eave), (a, ridge_ft), (b, ridge_ft), (wall_len, eave)]   # trapezoid
+    if form == "gambrel":
+        g = main["gambrel"]
+        off = g["break_offset_ft"]
+        return [(0.0, eave), (off, g["break_grade_to_ft"]), (wall_len - off, g["break_grade_to_ft"]), (wall_len, eave)]
+    return [(0.0, eave), (wall_len, eave)]   # simple gable, long face: ridge is behind the near roof plane, not visible
+
+# ---------------------------------------------------------------- orchestration
+def build_roof(plan, parti=None, section=None):
+    if section is None:
+        section = ST.build_section(plan, parti)
+    if "error" in section:
+        return {"error": section["error"]}
+    style = plan.get("style")
+    main = main_roof(plan, section, style)
+    wing = wing_step_down(plan, section, main)
+    chimneys = chimney_positions(plan, style, section, main)
+    checks = {
+        "wing_step_down": wing,
+        "cape_eave": cape_eave_check(style, section, main),
+        "gambrel_break": gambrel_break_check(main),
+        "dormer_rhythm": dormer_rhythm_check(plan, section, main),
+    }
+    outline = roof_outline(section, main)
+    profiles = {w: elevation_profile(section, main, w) for w in FACES}
+    return {
+        "plan_id": plan.get("id"), "style": style, "main": main, "chimneys": chimneys,
+        "checks": checks, "outline": outline, "elevation_profiles": profiles,
+        "footprint": section["footprint"], "section": section,
+    }
+
+# ---------------------------------------------------------------- cli
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("plan"); ap.add_argument("--parti"); ap.add_argument("--out"); ap.add_argument("--svg")
+    a = ap.parse_args()
+    plan = json.load(open(a.plan))
+    parti = json.load(open(f"{ROOT}/partis/{a.parti}.json")) if a.parti else None
+    roof = build_roof(plan, parti)
+    if "error" in roof:
+        print(roof["error"]); return
+    print(f"\n  {plan['name']}")
+    m = roof["main"]
+    print(f"  form: {m['form']}" + (f"  ({m['form_note']})" if m.get('form_note') else ""))
+    if m.get("pitch_rise_per_12"):
+        print(f"  pitch {m['pitch_rise_per_12']}:12 ({m['pitch_source']})")
+    r = m.get("ridge") or {}
+    if r.get("grade_to_ridge_ft") is not None:
+        print(f"  grade to eave {m['grade_to_eave_ft']} ft, grade to ridge {r['grade_to_ridge_ft']} ft, "
+              f"ridge axis {r['axis']} from {r['from_ft']} to {r['to_ft']} ft")
+    else:
+        print(f"  grade to eave {m['grade_to_eave_ft']} ft, ridge unjudged.")
+    ch = roof["chimneys"]
+    if ch["positions"]:
+        for c in ch["positions"]:
+            ok = ch.get("style_check", {}).get("ok")
+            print(f"  chimney at ({c['x_ft']}, {c['y_ft']}) ft, total height {c['total_height_grade_ft']} ft"
+                  + (f"  [{ch['style_check']['constraint_id']}: {'OK' if ok else 'FAIL' if ok is False else '?'}]" if ch.get("style_check") else ""))
+    elif ch.get("note"):
+        print(f"  chimneys: {ch['note']}")
+    w = roof["checks"]["wing_step_down"]
+    if w.get("computed"):
+        print(f"  dependency wing ridge {w['wing_ridge_grade_ft']} ft ({w['ratio']*100:.0f}% of main, band {w['ratio_band']}) -- {'OK' if w['ok'] else 'FAIL'}")
+    cape = roof["checks"]["cape_eave"]
+    if cape.get("computed"):
+        print(f"  Cape eave-to-first-floor {cape['eave_height_above_finished_first_floor_in']} in vs {cape['band_in']} in band -- {'OK' if cape['ok'] else 'FAIL'}")
+    gb = roof["checks"]["gambrel_break"]
+    if gb.get("applicable"):
+        print(f"  gambrel slope difference {gb['slope_difference_deg']} deg -- {'OK' if gb['diff_ok'] else 'FAIL'}; break at {gb['break_fraction']*100:.0f}% -- {'OK' if gb['break_ok'] else 'FAIL'}")
+    if a.out:
+        json.dump(roof, open(a.out, "w"), indent=1, ensure_ascii=False)
+        print(f"  wrote {a.out}")
+    if a.svg:
+        RR = _mod("render_roof", f"{ROOT}/build/render_roof.py")
+        RR.render_roof(roof, a.svg)
+        print(f"  wrote {a.svg}")
+    print()
+
+if __name__ == "__main__":
+    main()

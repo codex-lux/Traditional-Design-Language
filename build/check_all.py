@@ -29,6 +29,8 @@ CHECKS = [
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),
     ("structure.py", ["plans/spec-builder-colonial.json"]),
     ("structure.py", ["plans/tidewater-georgian-careful.json"]),
+    ("roof.py", ["plans/spec-builder-colonial.json"]),
+    ("roof.py", ["plans/tidewater-georgian-careful.json"]),
     ("compose.py", ["briefs/family-georgian.json"]),
     ("build.py", []),
 ]

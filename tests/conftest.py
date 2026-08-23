@@ -80,6 +80,18 @@ def render_section_module():
     return render_section
 
 
+@pytest.fixture(scope="session")
+def roof_module():
+    import roof
+    return roof
+
+
+@pytest.fixture(scope="session")
+def render_roof_module():
+    import render_roof
+    return render_roof
+
+
 def load_style(style_id):
     with open(os.path.join(ROOT, "styles", f"{style_id}.json")) as f:
         return json.load(f)
