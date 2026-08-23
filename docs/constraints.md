@@ -1,0 +1,73 @@
+# Style constraints — the executable rule language
+
+660 constraints on 164 style nodes were prose with a `kind` and a `severity`: real assembly rules, numbered and dated, but not yet a language a validator, a composer or a geometry solver could evaluate. WP-1.1 gave them one, and migrated a worked example — 140 constraints across the 28 nodes of the `english-classical` and `american-colonial` families — to prove the shape before the remaining ~25 families follow the same pattern.
+
+## The ruling: reuse the fault corpus's `test`, don't invent a second one
+
+The fault corpus already has a `test` object — `expression` / `threshold` / `direction` / `measurable_from` — built to answer exactly one question: can this be evaluated from what's actually in front of you, and by what rule. A style constraint needs the same question answered. Open question 24 ruled for reuse over invention, extended two ways:
+
+A **`one-of` direction**, for constraints that assert a categorical or enumerable fact rather than a numeric bound — an odd bay count, a forbidden chimney position, a roof form. The fault schema didn't need this; a fault is usually a measurement past a threshold, where a constraint is as often "must be one of these three things" as "must be at least this much."
+
+A **`scope` field** — `plan` / `elevation` / `site` / `section` / `judgment` — naming what kind of record could in principle supply the variables a constraint's test needs. This is the same discipline as a judgment slot (decision-not-to-undo #6, from the alphabet layer), carried up to constraints: a `scope: judgment` constraint has no `test` at all, and is listed for hand review rather than silently passed or given an invented threshold. 34 of the worked example's 140 constraints are `scope: judgment` — not a gap to be embarrassed about, but the honest state for a rule the sources state qualitatively and the corpus should not pretend to measure.
+
+One inversion to hold in mind moving between the two schemas: a fault's `test` describes when the fault is **present** (something has gone wrong). A constraint's `test` describes when the constraint is **satisfied** (the rule holds). `direction: at-least` means opposite things depending which schema you're reading.
+
+The prose `statement` is never edited to fit a test. If a test can only formalise part of a statement — the common case, since these are often compound sentences with two or three numeric or categorical clauses folded into one rule — the test covers the part it can, and the rest stays prose, with a `note` on the test explaining what was left out and why. This is `PLAN-OF-ACTION.md`'s "prose constraints stay" rule, applied constraint by constraint rather than declared once and forgotten.
+
+## The shape
+
+`schema/constraint.schema.json` is the standalone schema for one migrated constraint: required `id` / `kind` / `severity` / `statement` / `scope`, optional `deprecated_in_favour_of`, optional `test`. It is deliberately **not** `$ref`'d from `schema/style-node.schema.json` — no schema file in this repository cross-references another, and `build/validate.py` calls `jsonschema.validate()` with no resolver configured, so a cross-file `$ref` would be silently unreliable rather than caught. `style-node.schema.json`'s own `constraints.items.test` stays loosely typed for that reason; `build/check_constraints.py` is what actually validates a migrated constraint's `test` against the full schema.
+
+A constraint's `id` follows the same stability rule as everything else in this corpus: `<style-id>.c01`, `.c02`, ... in statement order, never renumbered, never reused. If a migrated constraint is later found wrong, the fix is a new id and `deprecated_in_favour_of` on the old one, not an edit in place.
+
+```json
+{
+  "kind": "proportional",
+  "statement": "The front elevation must have an odd number of bays (3, 5 or 7) with the entrance in the centre bay. An even-bay Georgian front is a contradiction: there is no centre to enter.",
+  "severity": "hard",
+  "id": "georgian-colonial-american.c01",
+  "scope": "plan",
+  "test": {
+    "expression": "bay_count",
+    "direction": "one-of",
+    "set": ["3", "5", "7"],
+    "measurable_from": "plan"
+  }
+}
+```
+
+## The vocabulary
+
+A `test.expression` may reference only names defined in `build/constraint_vocabulary.py` — the same discipline the fault corpus already holds itself to, so a formalised rule can only speak about quantities a plan, an elevation, a site or a section could actually supply, never an invented one. `build/check_constraints.py` checks every migrated expression against it and warns (not errors — a batch agent's report is where a genuine gap belongs, for the schema owner to reconcile) on anything unrecognised.
+
+The vocabulary started at 30 entries, seeded before migration began. Authoring the worked example against real constraint text — not designing in the abstract — grew it to 68: some concepts recurred immediately and validated themselves (`roof_pitch_rise_per_12`, `chimney_position`, `shutter_leaf_to_sash_ratio`, all already in the corpus's fault-derived vocabulary, carried straight over), and some were genuinely missing and had to be named for the first time — a roof stated in degrees rather than rise-per-12, a gambrel or gallery roof's two slopes, a gallery/piazza/corredor/lean-to's shared "depth from wall face to outer support" measurement, whether an interior corridor exists at all. Every addition exists because at least one real constraint statement in the worked example needed it, most because two or more did — the discipline the vocabulary's own docstring asks of a migration-batch agent (list a gap, don't invent one silently) applied to the schema owner's own latitude to extend it.
+
+Whether 68 entries settles or keeps growing roughly linearly with each remaining family is itself worth watching once the next batch runs — a vocabulary of 150+ variables by the time all 27 families are migrated would be a legitimate finding about how much irreducible variation this style corpus actually encodes, not obviously a problem to fix. Recorded as a note for whoever picks up the next migration batch, not yet an open question, because one data point from two families isn't enough to say which way it goes.
+
+## What migration actually produced, constraint by constraint
+
+The worked example's 140 constraints split 106 tested, 34 `scope: judgment`. Reading through them by pattern rather than by count:
+
+**Clean, one clause, one test.** The majority — a sash proportion between two ratios, a roof pitch in rise-per-12, a wall thickness range, an odd bay count as a `one-of` set. These are what the rule language was built for and they cost nothing to formalise honestly.
+
+**Compound statements, one test plus prose.** A large minority state two or three numeric or categorical facts in one sentence — "ground-floor storey height must exceed the first floor by 10-20 percent, and each storey above must diminish" tests the ground-to-first pair and leaves the general upper-storey rule as prose, because the vocabulary has no way to express "and every subsequent pair too" as a single expression. Every one of these carries a `test.note` naming exactly what got left out and why, rather than quietly testing only part of a rule and implying the whole thing is covered.
+
+**Genuine disjunctions, tested at the safe bound where one exists, judgment where none does.** `spanish-colonial-american`'s roof-pitch constraint reads as an "either flat, or 3:12 to 5:12 tile" disjunction, but the statement also gives an unconditional ceiling — "pitches above 6:12 are foreign to the tradition" — that covers both branches without a false accept, so it tests cleanly at `at-most 6`. `creole-cottage-vernacular`'s shelter clause ("either a posted galerie not less than 6ft deep... or an abat-vent projecting 30–48in...") has no such shared bound; testing either branch alone would flag a valid building built the other way as a violation, so it stays `scope: judgment` rather than guess.
+
+**One case of a deliberately loose but exact test.** `mid-atlantic-georgian`'s wall-thickness constraint gives two material-specific ranges — 18–24in stone, 13–18in brick — that happen to be contiguous with no gap between them. Testing the union (13–24in) is not a compromise here; every value in that range is valid under at least one of the two materials, so nothing passes that the statement would actually reject. The test's note says this explicitly, and says what it can't tell you: which material's own range was actually used.
+
+**One case of an honest, flagged imprecision.** `spanish-colonial-american`'s wall-slenderness constraint gives adobe a 10x height-to-thickness ceiling and unreinforced rubble a stricter 8x. Unlike the mid-atlantic case, these ranges aren't contiguous in a way that makes their union exact — a rubble wall at 9x would pass a test written to the looser adobe bound while still violating its own material's real limit. There was no schema-honest way to make this one test exact, so it tests at the looser bound and says so in its note, rather than silently absorbing an error the corpus can't actually catch this way.
+
+**`scope: judgment`, and why.** Four recurring reasons account for all 34: a per-room universal claim ("every habitable room must have openings on two walls") that no single named variable can express; a purely qualitative or comparative claim with no number in it at all ("ceiling, carpet, chimneypiece and joinery... must share one ornamental vocabulary"); a date-conditional rule blocked on open question 22, which has no resolution mechanism yet (sash-pattern-by-period constraints across the whole Georgian-colonial cluster); and a genuine disjunction with no safe shared bound, as above.
+
+## Two style-specific patterns worth naming for the next migration batch
+
+**Position, not steepness.** A handful of styles describe two roof planes on the same building — a gambrel's lower and upper slopes, a galerie or gallery roof's main-body and shelter-roof pitches. `roof_slope_lower_deg` and `roof_slope_upper_deg` name these by position (nearer the eave vs. nearer the ridge), deliberately not by which one happens to be steeper — a gambrel's lower slope is the steep one, a French Colonial gallery roof's lower slope is the shallow one, and the position-based name holds for both. A front-vs-rear asymmetric roof (a saltbox) is a different shape again — both planes touch the ridge, neither is "lower" in this sense — and got the generic `roof_slope_deg` for its front pitch rather than being forced into the stacked-plane pair.
+
+**Reuse across a lineage validates a variable; a single use doesn't disqualify one.** `gallery_depth_ft` covers a Louisiana galerie, a Charleston piazza, a Spanish corredor, and a Dutch sprung-eave porch — one measurement, four regional names, because that is what it is. `chimney_position` (already in the vocabulary from the fault corpus) tests cleanly across both Dutch Colonial variants. Where a concept only came up once in this worked example — Monterey's balcony-rail baluster spacing, Garrison's pendant placement — it was left as prose rather than promoted to a one-off vocabulary entry; a second family that needs the same thing is what earns it a name.
+
+## What's not done
+
+Migration has run on 140 of the corpus's 660 constraints — the worked example, not the whole corpus. The remaining ~25 families follow `PLAN-OF-ACTION.md`'s per-family hand-off brief: same schema, same vocabulary (extending it only where a genuine gap turns up, reported rather than invented), same discipline of `scope: judgment` over a misleading test. `build/migrate_constraints_wp1_1.py` is not a reusable migration tool — it's this run's own hand-authored data, checked in so the migration is auditable and reproducible if a source statement is corrected later. A future batch should write its own, the way a batch agent would.
+
+Two structural gaps stay open regardless of how much more of the corpus gets migrated. Open question 22 (no date-conditional resolution) blocks every sash-pattern-by-period and similar constraint from testing cleanly — there are enough of these across the Georgian-colonial cluster alone that resolving OQ 22 would probably convert a double-digit number of `scope: judgment` constraints into tested ones. And `build/check_constraints.py`'s validator reads constraints; nothing downstream — `plan_check.py`, `compose.py`, `geometry.py` — evaluates them yet. That's WP-1.2, and it depends on this landing first.

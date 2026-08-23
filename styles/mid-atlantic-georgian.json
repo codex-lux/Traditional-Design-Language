@@ -132,27 +132,73 @@
     {
       "kind": "structural",
       "statement": "The wall is load-bearing masonry — 18–24 in of coursed stone or 13–18 in of brick — with openings expressing the full reveal depth. Frame construction with masonry veneer is a different building and shows it at every jamb.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mid-atlantic-georgian.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 13,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Union of the two material-specific ranges (18-24in stone, 13-18in brick), which are contiguous at 18in with no gap. This tests thickness-is-consistent-with-at-least-one-material; it cannot by itself tell which material's own range was actually used."
+      }
     },
     {
       "kind": "proportional",
       "statement": "A belt course at the second-floor line, projecting 1.5–2.5 in and 6–9 in deep, running the full width of the facade. This is the region's non-negotiable horizontal, and its absence pushes the elevation toward the Chesapeake.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mid-atlantic-georgian.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "belt_course_projection_in",
+        "direction": "between",
+        "threshold": 1.5,
+        "upper": 2.5,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the belt course's projection. Its depth (6-9in) is the statement's other dimension and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Roof pitch 8:12 to 10:12, with chimneys at or within the gable end walls. Interior chimneys set inboard of the ridge belong to New England.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mid-atlantic-georgian.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 8,
+        "upper": 10,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "The chimney-position clause in the same statement is already covered by chimney_position elsewhere in this family and stays prose here."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Window heads are masonry: flat gauged brick arches with a 4–6 in rise and a 6–9 in keystone, or dressed stone lintels. A wood architrave head on a stone or brick wall is incorrect.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mid-atlantic-georgian.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_rise_in",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 6,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the gauged-brick-arch branch. The dressed-stone-lintel alternative has no numeric claim and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Pent roof only on work before c. 1770: 30–42 in projection at the second-floor line, 25–35 degree pitch, unposted, returning 12–24 in at the corners. Sash 9/6 to c. 1765, 6/6 after; shutter leaf width equals half the clear opening.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "mid-atlantic-georgian.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

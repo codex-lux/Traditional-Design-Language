@@ -146,27 +146,70 @@
     {
       "kind": "proportional",
       "statement": "Sash proportion between 1.6:1 and 2:1 height to width. Anything squarer reads as a modern opening with muntins applied; anything taller belongs to a piano nobile.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "sash_proportion_ratio",
+        "direction": "between",
+        "threshold": 1.6,
+        "upper": 2.0,
+        "units": "ratio",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "statement": "Ground-floor storey height must exceed the first floor by 10-20 percent, and each storey above must diminish. Equal storey heights are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 20,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "States the ground-to-first-floor pair. 'Every storey above diminishes' is the same variable applied storey-pair by storey-pair further up and stays prose beyond the first pair."
+      }
     },
     {
       "kind": "structural",
       "statement": "Window frames set back not less than 100 mm from the external face of the wall, following the London Act of 1709. A frame flush with the cladding face is the single commonest failure of modern Georgian work.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_setback_in",
+        "direction": "at-least",
+        "threshold": 100,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "London Building Act of 1709."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Openings must align vertically between storeys without exception, and the solid-to-void ratio must not fall below 1:1. Wall dominates glass.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "void_to_solid_ratio",
+        "direction": "at-most",
+        "threshold": 1,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the solid-dominates-void clause. 'Openings must align vertically between storeys without exception' has no numeric tolerance stated and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Applied ornament is confined to the doorcase, the crowning cornice or parapet, the window heads and, in grander work, a string course. Pilasters, quoins and pediments elsewhere on the wall require justification from a specific plate.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-georgian.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -125,27 +125,60 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Framed overhang 14–20 in maximum, hewn overhang 2–6 in; never exceed 24 in. The projection is the cantilever of a 7–9 in second-floor joist and cannot be increased without changing the structure to something the tradition never built."
+      "statement": "Framed overhang 14–20 in maximum, hewn overhang 2–6 in; never exceed 24 in. The projection is the cantilever of a 7–9 in second-floor joist and cannot be increased without changing the structure to something the tradition never built.",
+      "id": "garrison-colonial.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "jetty_overhang_in",
+        "direction": "at-most",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the statement's absolute ceiling ('never exceed 24 in'), which covers both the framed (14-20in) and hewn (2-6in) sub-cases without needing to know which construction method is used."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Drop pendants occur only at post positions and only where the overhang is framed — four across a five-bay front. Pendants on a hewn overhang, or spaced to suit the windows, are decoration without structure."
+      "statement": "Drop pendants occur only at post positions and only where the overhang is framed — four across a five-bay front. Pendants on a hewn overhang, or spaced to suit the windows, are decoration without structure.",
+      "id": "garrison-colonial.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "One central chimney within the plan. Gable-end chimneys with a jetty produce a combination that does not occur in surviving First Period fabric."
+      "statement": "One central chimney within the plan. Gable-end chimneys with a jetty produce a combination that does not occur in surviving First Period fabric.",
+      "id": "garrison-colonial.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "chimney_count",
+        "direction": "equals",
+        "threshold": 1,
+        "units": "count",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Second-floor window height 80–90% of first-floor height. Equal windows on both floors is a revival signature."
+      "statement": "Second-floor window height 80–90% of first-floor height. Equal windows on both floors is a revival signature.",
+      "id": "garrison-colonial.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_height_ratio_floors",
+        "direction": "between",
+        "threshold": 0.8,
+        "upper": 0.9,
+        "units": "ratio",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "Do not model or describe the overhang as defensive. No loopholes, no firing platform, no boiling oil. Where a genuinely fortified frontier garrison house is wanted, the correct assembly is heavy horizontal plank or squared-log walls with small high openings and no jetty."
+      "statement": "Do not model or describe the overhang as defensive. No loopholes, no firing platform, no boiling oil. Where a genuinely fortified frontier garrison house is wanted, the correct assembly is heavy horizontal plank or squared-log walls with small high openings and no jetty.",
+      "id": "garrison-colonial.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -132,27 +132,78 @@
     {
       "kind": "climatic",
       "severity": "hard",
-      "statement": "No interior corridor in the principal floor plan. Every habitable room must have exterior openings on two opposite or adjacent walls for cross-ventilation."
+      "statement": "No interior corridor in the principal floor plan. Every habitable room must have exterior openings on two opposite or adjacent walls for cross-ventilation.",
+      "id": "french-colonial-american.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "corridor_present",
+        "direction": "one-of",
+        "set": [
+          "no"
+        ],
+        "measurable_from": "plan",
+        "note": "Tests the no-corridor clause. 'Every habitable room must have exterior openings on two walls' is a per-room universal claim the vocabulary has no single variable for and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Galerie depth not less than 8 ft measured from wall face to column centreline; below 6 ft it stops shading the wall at midday and becomes decoration."
+      "statement": "Galerie depth not less than 8 ft measured from wall face to column centreline; below 6 ft it stops shading the wall at midday and becomes decoration.",
+      "id": "french-colonial-american.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "The main roof and the galerie roof meet at a pitch break at the exterior wall plane: 40–50 degrees above, 20–30 degrees over the gallery. A single continuous slope from ridge to gallery eave is a later Anglo simplification."
+      "statement": "The main roof and the galerie roof meet at a pitch break at the exterior wall plane: 40–50 degrees above, 20–30 degrees over the gallery. A single continuous slope from ridge to gallery eave is a later Anglo simplification.",
+      "id": "french-colonial-american.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_upper_deg",
+        "direction": "between",
+        "threshold": 40,
+        "upper": 50,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the main-roof (ridge-side) pitch. The gallery-roof (eave-side) pitch, 20-30deg, is the same statement's second slope and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "severity": "soft",
-      "statement": "Finished floor raised not less than 18 in above grade on piers; in flood-prone parishes, above the base flood elevation. Slab-on-grade is incompatible with the type."
+      "statement": "Finished floor raised not less than 18 in above grade on piers; in flood-prone parishes, above the base flood elevation. Slab-on-grade is incompatible with the type.",
+      "id": "french-colonial-american.c04",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "at-least",
+        "threshold": 18,
+        "units": "in",
+        "measurable_from": "section"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Openings are French casement doors, two leaves, 5 ft 6 in – 7 ft 0 in wide overall and full ceiling height less 12–18 in, with exterior louvred blinds whose leaf width equals half the opening."
+      "statement": "Openings are French casement doors, two leaves, 5 ft 6 in – 7 ft 0 in wide overall and full ceiling height less 12–18 in, with exterior louvred blinds whose leaf width equals half the opening.",
+      "id": "french-colonial-american.c05",
+      "scope": "plan",
+      "test": {
+        "expression": "door_opening_width_ft",
+        "direction": "between",
+        "threshold": 5.5,
+        "upper": 7.0,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the door width clause. Height (full ceiling less 12-18in) and the louvred-blind leaf-width-equals-half-opening clause stay prose."
+      }
     }
   ],
   "exemplars": [

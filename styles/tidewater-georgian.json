@@ -131,27 +131,79 @@
     {
       "kind": "structural",
       "statement": "Chimneys at the gable ends, interior-end or exterior, rising not less than 6 ft above the ridge. Interior chimneys set inboard of the ridge are a New England device and are wrong here on both stylistic and climatic grounds.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tidewater-georgian.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "The interior-end-or-exterior position clause is categorical and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Roof pitch 7:12 to 9:12. Above 10:12 the elevation reads Northern; below 6:12 it reads Federal or Greek Revival.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tidewater-georgian.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 7,
+        "upper": 9,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "climatic",
       "statement": "Centre passage 10–14 ft wide with exterior doors at both ends, aligned on axis and both operable. This is a ventilation device, not a hallway; narrowing it below 9 ft defeats it.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tidewater-georgian.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "centre_passage_width_ft",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 14,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "structural",
       "statement": "Flemish bond on the entrance elevation, glazed headers optional but regionally characteristic; English or common bond elsewhere; moulded or bevelled water table 24–36 in above grade; segmental gauged arches with a 3–5 in rise before c. 1750, flat cambered arches after.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tidewater-georgian.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "water_table_height_in",
+        "direction": "between",
+        "threshold": 24,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the water table height. Bond pattern and the date-conditional arch-rise clause (OQ 22) stay prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Kitchen and service functions in detached dependencies not less than 25 ft from the main block, not in an attached ell. Where formalized, hyphens 12–20 ft long and dependencies at 60–75% of the main block height.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "tidewater-georgian.c05",
+      "scope": "plan",
+      "test": {
+        "expression": "service_zone_position",
+        "direction": "one-of",
+        "set": [
+          "detached-dependency"
+        ],
+        "measurable_from": "plan",
+        "note": "Tests the categorical placement claim via the existing service_zone_position enum. Distance (25ft+) and hyphen-length figures stay prose."
+      }
     }
   ],
   "exemplars": [

@@ -10,12 +10,12 @@ One doc per layer, in stack order — bottom (the alphabet) to top (the platform
 | 4 | Grammar — proportion packs | [`proportion.md`](proportion.md) | 36 packs as functions not tables; Vignola spine, authority overlays as deltas; module normalisation. |
 | 5 | Bindings — kits | [`inheritance.md`](inheritance.md) | The kit-of-parts cascade: how `descends_from`/`regional_of` resolve a style to a directory of slot bindings, `extends` vs restatement, provenance. |
 | 6 | Solecisms — fault corpus | [`faults.md`](faults.md) | 209 named errors, element-first with style as a facet via `exceptions`; cause, three-tier fixes, two severity axes, executable `test`. |
-| 7 | Constraints (style-level, executable) | [`constraints.md`](constraints.md) *(added in WP-1.1)* | The rule language for the 660 style constraints — extends the fault `test` pattern with `scope` and a named variable vocabulary; which constraints are evaluable and from where. |
+| 7 | Constraints (style-level, executable) | [`constraints.md`](constraints.md) | The rule language for the corpus's 660 style constraints — extends the fault `test` pattern with `scope` and a named variable vocabulary; which constraints are evaluable and from where. Migration itself is in progress: 140 done (the `english-classical` + `american-colonial` worked example), ~520 remaining across the other families. |
 | 8 | Critic — plan validator | [`plans.md`](plans.md) | The plan schema and `plan_check.py`: six layers (rooms, adjacency/privacy, groupings, faults, code, style), "unjudged is not passed." |
 | 9 | Generator — composer | [`compose.md`](compose.md) | Template-seeded, validator-scored; N contrasting candidates, never one; decision logs and trade-aways. |
 | 10 | Generator — geometry | [`geometry.md`](geometry.md) | Bay-grid placement with counted relaxations, both levels solved jointly; what it satisfies vs. what it composes. |
 | 11 | Evidence — images | [`assets.md`](assets.md) | Records authored before files exist; `license` never `unknown`; good/bad pairs. |
-| 12 | Governance | [`open-questions.md`](open-questions.md) | 25 numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
+| 12 | Governance | [`open-questions.md`](open-questions.md) | 27 numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
 | — | Reports | [`reports/`](reports/) | One file per completed work package from the Plan of Action — `reports/<wp-id>-<slug>.md` — what was built, what was found, what was deliberately not done, and any new open question it raised. |
 
 Docs that don't exist yet, because their layer doesn't exist yet — added as each work package lands (see `../CHANGELOG.md` and `../PLAN-OF-ACTION.md`):
@@ -26,4 +26,4 @@ Docs that don't exist yet, because their layer doesn't exist yet — added as ea
 
 ## Regenerating things instead of hand-editing them
 
-Two files in this repository are meant to be generated, not typed: the counts block at the top of `../README.md` (`python3 build/gen_readme_counts.py`) and, once WP-0.3 lands, the check-suite entry point (`build/check_all.py` / `make check`). If you find yourself fixing a number by hand in either place, fix the generator instead — that's the whole reason the 23 Aug review found the numbers drifted in the first place.
+Two files in this repository are meant to be generated, not typed: the counts block at the top of `../README.md` (`python3 build/gen_readme_counts.py`) and the check-suite entry point (`build/check_all.py` / `make check`, which also runs `pytest tests/`). If you find yourself fixing a number by hand in either place, fix the generator instead — that's the whole reason the 23 Aug review found the numbers drifted in the first place.

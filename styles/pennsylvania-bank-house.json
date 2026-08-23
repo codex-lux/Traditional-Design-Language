@@ -125,27 +125,62 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Requires a cross-slope of at least 1:8 (12.5%) across the building depth, giving a fall of not less than 6 ft. On a level site the type cannot exist; a house with a walkout basement on flat ground is not a bank house."
+      "statement": "Requires a cross-slope of at least 1:8 (12.5%) across the building depth, giving a fall of not less than 6 ft. On a level site the type cannot exist; a house with a walkout basement on flat ground is not a bank house.",
+      "id": "pennsylvania-bank-house.c01",
+      "scope": "site",
+      "test": {
+        "expression": "cross_slope_pct",
+        "direction": "at-least",
+        "threshold": 12.5,
+        "units": "percent",
+        "measurable_from": "site",
+        "note": "1:8. The fall figure (not less than 6ft) restates the same requirement over the building's actual depth and stays prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "The lower-storey finished floor sits within 12 in of the downhill grade at the exposed wall, and the uphill wall is bermed to within 12 in of the principal floor level. Lower-storey walls not less than 22 in of load-bearing stone to carry earth pressure."
+      "statement": "The lower-storey finished floor sits within 12 in of the downhill grade at the exposed wall, and the uphill wall is bermed to within 12 in of the principal floor level. Lower-storey walls not less than 22 in of load-bearing stone to carry earth pressure.",
+      "id": "pennsylvania-bank-house.c02",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 22,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the lower-storey wall thickness, the cleanest single claim in a compound statement. The two grade-relationship clauses (finished floor within 12in of downhill grade; uphill wall bermed within 12in of principal floor) stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Two exterior doors at two levels, on different elevations. A single ceremonial entrance destroys the type: the service level must be enterable without passing through the house."
+      "statement": "Two exterior doors at two levels, on different elevations. A single ceremonial entrance destroys the type: the service level must be enterable without passing through the house.",
+      "id": "pennsylvania-bank-house.c03",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "severity": "soft",
-      "statement": "No openings in the bermed (uphill) wall below the principal floor. Where a spring is captured, the discharge is through an arched opening 18–30 in wide at the base of the downhill wall."
+      "statement": "No openings in the bermed (uphill) wall below the principal floor. Where a spring is captured, the discharge is through an arched opening 18–30 in wide at the base of the downhill wall.",
+      "id": "pennsylvania-bank-house.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Roof pitch 12:12 to 14:12; pent roof, where used, projects 30–42 in at the second-floor line, unposted, returning 12–24 in at the corners."
+      "statement": "Roof pitch 12:12 to 14:12; pent roof, where used, projects 30–42 in at the second-floor line, unposted, returning 12–24 in at the corners.",
+      "id": "pennsylvania-bank-house.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 14,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "The pent roof clause restates the same feature already tested on german-pennsylvania-colonial and stays prose here."
+      }
     }
   ],
   "exemplars": [

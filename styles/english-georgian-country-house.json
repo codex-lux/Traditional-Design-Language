@@ -133,27 +133,53 @@
     {
       "kind": "proportional",
       "statement": "The main block is strictly symmetrical about the entrance axis on the principal front, including chimney positions. Asymmetry is permitted only in the service wing, which must be visually subordinate and set back.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-country-house.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Ground-floor storey height exceeds the first floor by 10-20 percent, and every storey above diminishes. Sash proportion 1.7:1 to 2:1.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-country-house.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 20,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Same variable and test as english-georgian's storey-height constraint -- this variant restates the parent's rule. The sash-proportion clause (1.7:1-2:1) in the same statement stays prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "All four elevations use the same bay module, window head and cornice. A composed front with a plain or randomly fenestrated back is forbidden in a house designed to stand in a park.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-country-house.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Service wing ridge at least 25 percent below the main block ridge, and its eaves line demonstrably lower. A service wing that matches the house in height destroys the hierarchy on which the composition depends.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-country-house.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "wing_height_deficit_pct",
+        "direction": "at-least",
+        "threshold": 25,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Wall ornament limited to plinth, string course, quoins and crowning cornice, plus one accented centre. Pilasters or a portico require a Palladian rather than a Georgian classification.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-georgian-country-house.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

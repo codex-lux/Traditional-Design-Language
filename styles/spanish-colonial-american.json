@@ -154,27 +154,68 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Mass wall height shall not exceed ten times its thickness for adobe, or eight times for unreinforced rubble, without buttressing. This is the rule that keeps the plan single-storey and the openings small."
+      "statement": "Mass wall height shall not exceed ten times its thickness for adobe, or eight times for unreinforced rubble, without buttressing. This is the rule that keeps the plan single-storey and the openings small.",
+      "id": "spanish-colonial-american.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_height_to_thickness_ratio",
+        "direction": "at-most",
+        "threshold": 10,
+        "units": "ratio",
+        "measurable_from": "section",
+        "note": "Tests the looser (adobe, 10x) bound. Unreinforced rubble's stricter 8x limit is the statement's other case -- a rubble wall between 8x and 10x passes this test while still being able to violate its own material's real limit. Flagged as a known imprecision rather than silently resolved."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Room clear span limited to the beam length: 12–18 ft for vigas or hand-hewn timbers. Any room wider than 18 ft requires an intermediate support and reads as a later intervention."
+      "statement": "Room clear span limited to the beam length: 12–18 ft for vigas or hand-hewn timbers. Any room wider than 18 ft requires an intermediate support and reads as a later intervention.",
+      "id": "spanish-colonial-american.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "room_clear_span_ft",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 18,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "climatic",
       "severity": "hard",
-      "statement": "Total window and door area not more than 15% of exterior wall area, with reveals showing the full wall depth. Punched openings in a thin plane are the revival's tell, not the original's."
+      "statement": "Total window and door area not more than 15% of exterior wall area, with reveals showing the full wall depth. Punched openings in a thin plane are the revival's tell, not the original's.",
+      "id": "spanish-colonial-american.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 15,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch either flat (1/4 in per ft to canales, behind a parapet 12–24 in high) or 3:12–5:12 under half-round clay tile. Pitches above 6:12 are foreign to the tradition."
+      "statement": "Roof pitch either flat (1/4 in per ft to canales, behind a parapet 12–24 in high) or 3:12–5:12 under half-round clay tile. Pitches above 6:12 are foreign to the tradition.",
+      "id": "spanish-colonial-american.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-most",
+        "threshold": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "The statement is a disjunction (flat, or 3:12-5:12 tile) but also gives a single unconditional ceiling ('pitches above 6:12 are foreign') that covers both branches safely -- flat is 0, the pitched range tops out at 5 -- so this is the one clean test, not a union guess."
+      }
     },
     {
       "kind": "cultural",
       "severity": "soft",
-      "statement": "Carved, moulded or coloured ornament is permitted at exactly one location per building — the principal doorway or the campanario. Distributed ornament converts the building into a revival."
+      "statement": "Carved, moulded or coloured ornament is permitted at exactly one location per building — the principal doorway or the campanario. Distributed ornament converts the building into a revival.",
+      "id": "spanish-colonial-american.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

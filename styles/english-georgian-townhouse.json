@@ -129,27 +129,62 @@
     {
       "kind": "code",
       "statement": "Facades in brick, stone or stucco only; no timber-fronted elevation, and no projecting timber eaves cornice. Rainwater is taken behind a parapet into a concealed gutter, following the London Act of 1707.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-townhouse.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Window frames set back not less than 100 mm from the external wall face, per the Act of 1709; sash boxes concealed within the reveal.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-townhouse.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_setback_in",
+        "direction": "at-least",
+        "threshold": 100,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "London Building Act of 1709."
+      }
     },
     {
       "kind": "proportional",
       "statement": "First-floor storey height must exceed the ground floor by 5-20 percent, and first-floor windows must be the tallest on the elevation. Applying the country-house graduation to a terrace produces a facade that looks top-heavy and wrong.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-townhouse.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "between",
+        "threshold": 5,
+        "upper": 20,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Here the differential runs the other direction from the usual ground>first hierarchy -- first floor is the tallest, piano-nobile-like storey of a London terrace. Same variable, applied to the first-over-ground pair."
+      }
     },
     {
       "kind": "structural",
       "statement": "Party walls carried up through the roof as a fire break, and no window on a party wall elevation. Plan depth not to exceed 12.5 m without a light well or closet-wing set-back.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-townhouse.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "plan_depth_ft",
+        "direction": "at-most",
+        "threshold": 12.5,
+        "units": "m",
+        "measurable_from": "plan",
+        "note": "Source states the figure in metres directly. The fire-break party wall and no-window-on-party-wall clauses in the same statement are categorical, not numeric, and stay prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Cornice or parapet line, floor levels, material and railing pattern must be continuous across the terrace. Individual expression is confined to the doorcase, fanlight and door colour.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-georgian-townhouse.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

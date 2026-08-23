@@ -4963,27 +4963,73 @@
         {
           "kind": "structural",
           "statement": "The wall is load-bearing masonry — 18–24 in of coursed stone or 13–18 in of brick — with openings expressing the full reveal depth. Frame construction with masonry veneer is a different building and shows it at every jamb.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "mid-atlantic-georgian.c01",
+          "scope": "section",
+          "test": {
+            "expression": "wall_thickness_in",
+            "direction": "between",
+            "threshold": 13,
+            "upper": 24,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "Union of the two material-specific ranges (18-24in stone, 13-18in brick), which are contiguous at 18in with no gap. This tests thickness-is-consistent-with-at-least-one-material; it cannot by itself tell which material's own range was actually used."
+          }
         },
         {
           "kind": "proportional",
           "statement": "A belt course at the second-floor line, projecting 1.5–2.5 in and 6–9 in deep, running the full width of the facade. This is the region's non-negotiable horizontal, and its absence pushes the elevation toward the Chesapeake.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "mid-atlantic-georgian.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "belt_course_projection_in",
+            "direction": "between",
+            "threshold": 1.5,
+            "upper": 2.5,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the belt course's projection. Its depth (6-9in) is the statement's other dimension and stays prose."
+          }
         },
         {
           "kind": "proportional",
           "statement": "Roof pitch 8:12 to 10:12, with chimneys at or within the gable end walls. Interior chimneys set inboard of the ridge belong to New England.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "mid-atlantic-georgian.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 8,
+            "upper": 10,
+            "units": "rise_in_12",
+            "measurable_from": "elevation",
+            "note": "The chimney-position clause in the same statement is already covered by chimney_position elsewhere in this family and stays prose here."
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Window heads are masonry: flat gauged brick arches with a 4–6 in rise and a 6–9 in keystone, or dressed stone lintels. A wood architrave head on a stone or brick wall is incorrect.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "mid-atlantic-georgian.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_head_rise_in",
+            "direction": "between",
+            "threshold": 4,
+            "upper": 6,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the gauged-brick-arch branch. The dressed-stone-lintel alternative has no numeric claim and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Pent roof only on work before c. 1770: 30–42 in projection at the second-floor line, 25–35 degree pitch, unposted, returning 12–24 in at the corners. Sash 9/6 to c. 1765, 6/6 after; shutter leaf width equals half the clear opening.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "mid-atlantic-georgian.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -5198,27 +5244,79 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Chimneys interior, paired, set 5–12 ft in from the gable end walls and flanking the ridge. Exterior gable-end chimneys are a Southern device and are climatically wrong here — they lose the stack's stored heat to the outside."
+          "statement": "Chimneys interior, paired, set 5–12 ft in from the gable end walls and flanking the ridge. Exterior gable-end chimneys are a Southern device and are climatically wrong here — they lose the stack's stored heat to the outside.",
+          "id": "new-england-georgian.c01",
+          "scope": "plan",
+          "test": {
+            "expression": "chimney_inset_ft",
+            "direction": "between",
+            "threshold": 5,
+            "upper": 12,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Roof pitch 9:12 to 11:12. Below 8:12 the house reads Chesapeake or Federal; above 12:12 it reads First Period."
+          "statement": "Roof pitch 9:12 to 11:12. Below 8:12 the house reads Chesapeake or Federal; above 12:12 it reads First Period.",
+          "id": "new-england-georgian.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 9,
+            "upper": 11,
+            "units": "rise_in_12",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Cornice returns 12–24 in deep across the gable, carrying the full cornice profile including modillions or dentils. A clipped triangular return is a twentieth-century economy and is forbidden."
+          "statement": "Cornice returns 12–24 in deep across the gable, carrying the full cornice profile including modillions or dentils. A clipped triangular return is a twentieth-century economy and is forbidden.",
+          "id": "new-england-georgian.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "cornice_projection_in",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 24,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "The cornice return, reusing the existing cornice_projection_in variable for this depth dimension."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "Window heads are flat wood architraves 5–6 in wide with a crown moulding. Keystones, gauged brick arches and stone lintels belong to the masonry variants and must not appear on a clapboard wall."
+          "statement": "Window heads are flat wood architraves 5–6 in wide with a crown moulding. Keystones, gauged brick arches and stone lintels belong to the masonry variants and must not appear on a clapboard wall.",
+          "id": "new-england-georgian.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_head_width_in",
+            "direction": "between",
+            "threshold": 5,
+            "upper": 6,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the wood architrave width. 'Must not appear on a clapboard wall' (masonry heads forbidden) is the statement's categorical clause and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "soft",
-          "statement": "Sash 12/12 to c. 1750, 9/6 c. 1740–1770, 6/6 after c. 1765. Shutter leaf width equals half the clear opening. No fanlight or sidelights before c. 1780."
+          "statement": "Sash 12/12 to c. 1750, 9/6 c. 1740–1770, 6/6 after c. 1765. Shutter leaf width equals half the clear opening. No fanlight or sidelights before c. 1780.",
+          "id": "new-england-georgian.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "shutter_leaf_to_sash_ratio",
+            "direction": "equals",
+            "threshold": 0.5,
+            "units": "ratio",
+            "measurable_from": "elevation",
+            "note": "The sash-by-date and fanlight-date clauses in the same statement are date-conditional (OQ 22, unresolved) and stay prose."
+          }
         }
       ],
       "exemplars": [
@@ -6729,27 +6827,78 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Wall not less than 20 in of coursed load-bearing stone; window and door reveals must express the full wall depth. Stone veneer over frame produces a different building and reads as such at every opening."
+          "statement": "Wall not less than 20 in of coursed load-bearing stone; window and door reveals must express the full wall depth. Stone veneer over frame produces a different building and reads as such at every opening.",
+          "id": "hudson-valley-dutch.c01",
+          "scope": "section",
+          "test": {
+            "expression": "wall_thickness_in",
+            "direction": "at-least",
+            "threshold": 20,
+            "units": "in",
+            "measurable_from": "section"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Wall plate 7 ft 0 in to 9 ft 0 in above the finished floor, and roof pitch 12:12 to 17:12. If the plate rises or the pitch drops, the roof stops dominating and the type dissolves."
+          "statement": "Wall plate 7 ft 0 in to 9 ft 0 in above the finished floor, and roof pitch 12:12 to 17:12. If the plate rises or the pitch drops, the roof stops dominating and the type dissolves.",
+          "id": "hudson-valley-dutch.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 17,
+            "units": "rise_in_12",
+            "measurable_from": "elevation",
+            "note": "Tests the roof pitch clause. Wall plate height (7-9ft) is the same statement's other numeric claim, already tested on the parent dutch-colonial-american node, and stays prose here."
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Chimneys at or within the gable end walls. A central stack is a New England device and is incompatible with the open one- or two-room Dutch plan."
+          "statement": "Chimneys at or within the gable end walls. A central stack is a New England device and is incompatible with the open one- or two-room Dutch plan.",
+          "id": "hudson-valley-dutch.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "chimney_position",
+            "direction": "one-of",
+            "set": [
+              "gable-end-interior",
+              "gable-end-exterior"
+            ],
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Spring eave, where used, projects 18–24 in on a concave sweep, not as a straight overhang, and only on work of c. 1700 or later. Below 12 in it does no work; a straight soffit is not a spring eave."
+          "statement": "Spring eave, where used, projects 18–24 in on a concave sweep, not as a straight overhang, and only on work of c. 1700 or later. Below 12 in it does no work; a straight soffit is not a spring eave.",
+          "id": "hudson-valley-dutch.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "eave_projection_in",
+            "direction": "between",
+            "threshold": 18,
+            "upper": 24,
+            "units": "in",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "soft",
-          "statement": "Openings: leaded casement with iron pintles to c. 1720; nine-over-nine or nine-over-six sash thereafter. Total glazed area under 10% of wall area. Dormers, where present at all, are small individual gabled ones, never continuous."
+          "statement": "Openings: leaded casement with iron pintles to c. 1720; nine-over-nine or nine-over-six sash thereafter. Total glazed area under 10% of wall area. Dormers, where present at all, are small individual gabled ones, never continuous.",
+          "id": "hudson-valley-dutch.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "glazed_area_pct_wall",
+            "direction": "at-most",
+            "threshold": 10,
+            "units": "percent",
+            "measurable_from": "elevation",
+            "note": "Tests the glazed-area clause. The sash/casement-by-date clause is date-conditional (OQ 22, no date-conditional resolution exists yet) and stays prose."
+          }
         }
       ],
       "exemplars": [
@@ -7158,27 +7307,70 @@
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Arcade geometry: square masonry piers 2 ft 6 in – 4 ft wide carrying semicircular arches whose clear opening is 1.5 to 2.5 times the pier width. Slender piers or columns with capitals convert the arcade into a revival and are structurally impossible in adobe."
+          "statement": "Arcade geometry: square masonry piers 2 ft 6 in – 4 ft wide carrying semicircular arches whose clear opening is 1.5 to 2.5 times the pier width. Slender piers or columns with capitals convert the arcade into a revival and are structurally impossible in adobe.",
+          "id": "california-mission-colonial.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "pier_width_in",
+            "direction": "between",
+            "threshold": 30,
+            "upper": 48,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "2ft6in-4ft converted to inches. The arch-opening-to-pier-width ratio (1.5-2.5x) is the statement's other numeric claim and stays prose."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Roof pitch 3:12 to 5:12 under half-round clay tile, with an eave projection of 12–20 in and no gutter. Pitches above 6:12 are foreign to the tradition."
+          "statement": "Roof pitch 3:12 to 5:12 under half-round clay tile, with an eave projection of 12–20 in and no gutter. Pitches above 6:12 are foreign to the tradition.",
+          "id": "california-mission-colonial.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 3,
+            "upper": 5,
+            "units": "rise_in_12",
+            "measurable_from": "elevation",
+            "note": "Eave projection (12-20in) is the statement's other numeric claim and stays prose."
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Adobe or rubble wall not less than 24 in in the ranges; where wall height exceeds eight times thickness, external buttresses are required at not more than 15 ft on centre."
+          "statement": "Adobe or rubble wall not less than 24 in in the ranges; where wall height exceeds eight times thickness, external buttresses are required at not more than 15 ft on centre.",
+          "id": "california-mission-colonial.c03",
+          "scope": "section",
+          "test": {
+            "expression": "wall_thickness_in",
+            "direction": "at-least",
+            "threshold": 24,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "The conditional buttress-spacing clause stays prose."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Corredor depth not less than 10 ft. Below that it stops functioning as circulation and shade and becomes a covered walk."
+          "statement": "Corredor depth not less than 10 ft. Below that it stops functioning as circulation and shade and becomes a covered walk.",
+          "id": "california-mission-colonial.c04",
+          "scope": "plan",
+          "test": {
+            "expression": "gallery_depth_ft",
+            "direction": "at-least",
+            "threshold": 10,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "cultural",
           "severity": "soft",
-          "statement": "Carved or moulded ornament permitted only at the church portada and the campanario. Distributing ornament across the ranges converts the complex into Spanish Colonial Revival."
+          "statement": "Carved or moulded ornament permitted only at the church portada and the campanario. Distributing ornament across the ranges converts the complex into Spanish Colonial Revival.",
+          "id": "california-mission-colonial.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -7701,27 +7893,78 @@
         {
           "kind": "climatic",
           "severity": "hard",
-          "statement": "No interior corridor in the principal floor plan. Every habitable room must have exterior openings on two opposite or adjacent walls for cross-ventilation."
+          "statement": "No interior corridor in the principal floor plan. Every habitable room must have exterior openings on two opposite or adjacent walls for cross-ventilation.",
+          "id": "french-colonial-american.c01",
+          "scope": "plan",
+          "test": {
+            "expression": "corridor_present",
+            "direction": "one-of",
+            "set": [
+              "no"
+            ],
+            "measurable_from": "plan",
+            "note": "Tests the no-corridor clause. 'Every habitable room must have exterior openings on two walls' is a per-room universal claim the vocabulary has no single variable for and stays prose."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Galerie depth not less than 8 ft measured from wall face to column centreline; below 6 ft it stops shading the wall at midday and becomes decoration."
+          "statement": "Galerie depth not less than 8 ft measured from wall face to column centreline; below 6 ft it stops shading the wall at midday and becomes decoration.",
+          "id": "french-colonial-american.c02",
+          "scope": "plan",
+          "test": {
+            "expression": "gallery_depth_ft",
+            "direction": "at-least",
+            "threshold": 8,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "The main roof and the galerie roof meet at a pitch break at the exterior wall plane: 40–50 degrees above, 20–30 degrees over the gallery. A single continuous slope from ridge to gallery eave is a later Anglo simplification."
+          "statement": "The main roof and the galerie roof meet at a pitch break at the exterior wall plane: 40–50 degrees above, 20–30 degrees over the gallery. A single continuous slope from ridge to gallery eave is a later Anglo simplification.",
+          "id": "french-colonial-american.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_slope_upper_deg",
+            "direction": "between",
+            "threshold": 40,
+            "upper": 50,
+            "units": "deg",
+            "measurable_from": "elevation",
+            "note": "Tests the main-roof (ridge-side) pitch. The gallery-roof (eave-side) pitch, 20-30deg, is the same statement's second slope and stays prose."
+          }
         },
         {
           "kind": "climatic",
           "severity": "soft",
-          "statement": "Finished floor raised not less than 18 in above grade on piers; in flood-prone parishes, above the base flood elevation. Slab-on-grade is incompatible with the type."
+          "statement": "Finished floor raised not less than 18 in above grade on piers; in flood-prone parishes, above the base flood elevation. Slab-on-grade is incompatible with the type.",
+          "id": "french-colonial-american.c04",
+          "scope": "section",
+          "test": {
+            "expression": "floor_height_above_grade_in",
+            "direction": "at-least",
+            "threshold": 18,
+            "units": "in",
+            "measurable_from": "section"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Openings are French casement doors, two leaves, 5 ft 6 in – 7 ft 0 in wide overall and full ceiling height less 12–18 in, with exterior louvred blinds whose leaf width equals half the opening."
+          "statement": "Openings are French casement doors, two leaves, 5 ft 6 in – 7 ft 0 in wide overall and full ceiling height less 12–18 in, with exterior louvred blinds whose leaf width equals half the opening.",
+          "id": "french-colonial-american.c05",
+          "scope": "plan",
+          "test": {
+            "expression": "door_opening_width_ft",
+            "direction": "between",
+            "threshold": 5.5,
+            "upper": 7.0,
+            "units": "ft",
+            "measurable_from": "plan",
+            "note": "Tests the door width clause. Height (full ceiling less 12-18in) and the louvred-blind leaf-width-equals-half-opening clause stay prose."
+          }
         }
       ],
       "exemplars": [
@@ -7929,27 +8172,72 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade, at a depth of 5–7 ft. A posted upper gallery is either Hispanic-tradition or revival, and in either case is not this type."
+          "statement": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade, at a depth of 5–7 ft. A posted upper gallery is either Hispanic-tradition or revival, and in either case is not this type.",
+          "id": "monterey-colonial.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "balcony_depth_ft",
+            "direction": "between",
+            "threshold": 5,
+            "upper": 7,
+            "units": "ft",
+            "measurable_from": "elevation",
+            "note": "The no-posts-to-grade clause is categorical and stays prose."
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Ground-storey wall not less than 24 in of adobe or equivalent mass masonry, with the upper-storey wall plane set back 6–12 in. Uniform wall thickness top to bottom removes the hybrid and produces a revival."
+          "statement": "Ground-storey wall not less than 24 in of adobe or equivalent mass masonry, with the upper-storey wall plane set back 6–12 in. Uniform wall thickness top to bottom removes the hybrid and produces a revival.",
+          "id": "monterey-colonial.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "wall_setback_upper_storey_in",
+            "direction": "between",
+            "threshold": 6,
+            "upper": 12,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Ground-storey wall thickness (not less than 24in adobe) is the statement's other numeric claim and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "Roof is a hip at 4:12 to 5:12 in wood shingle. Clay tile is a twentieth-century revival substitution; gable roofs belong to the revival, not to the 1830s original."
+          "statement": "Roof is a hip at 4:12 to 5:12 in wood shingle. Clay tile is a twentieth-century revival substitution; gable roofs belong to the revival, not to the 1830s original.",
+          "id": "monterey-colonial.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 4,
+            "upper": 5,
+            "units": "rise_in_12",
+            "measurable_from": "elevation",
+            "note": "The hip-not-gable and wood-shingle-not-clay-tile clauses are categorical and stay prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "soft",
-          "statement": "Openings are double-hung six-over-six sash in milled architrave trim 4–5 in wide, punched through a reveal expressing the full adobe wall depth. Casements and grilles belong to the earlier Hispanic layer."
+          "statement": "Openings are double-hung six-over-six sash in milled architrave trim 4–5 in wide, punched through a reveal expressing the full adobe wall depth. Casements and grilles belong to the earlier Hispanic layer.",
+          "id": "monterey-colonial.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_head_width_in",
+            "direction": "between",
+            "threshold": 4,
+            "upper": 5,
+            "units": "in",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Balcony rail of plain square balusters 1.5–2 in at 4–5 in on centre, 30–34 in high, with no turning, scrollwork or classical profile. Turned balusters are a revival marker."
+          "statement": "Balcony rail of plain square balusters 1.5–2 in at 4–5 in on centre, 30–34 in high, with no turning, scrollwork or classical profile. Turned balusters are a revival marker.",
+          "id": "monterey-colonial.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -8359,27 +8647,79 @@
         {
           "kind": "climatic",
           "severity": "hard",
-          "statement": "Principal floor not less than 8 ft above grade on a full masonry service storey (absolute minimum 6 ft), reached by an exterior stair. A raised cottage on wooden piers with an enclosed underfloor is a different and lesser building."
+          "statement": "Principal floor not less than 8 ft above grade on a full masonry service storey (absolute minimum 6 ft), reached by an exterior stair. A raised cottage on wooden piers with an enclosed underfloor is a different and lesser building.",
+          "id": "raised-creole-plantation.c01",
+          "scope": "section",
+          "test": {
+            "expression": "floor_height_above_grade_in",
+            "direction": "at-least",
+            "threshold": 72,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "8ft is the stated target but 6ft (72in) is the constraint's actual hard floor ('absolute minimum 6 ft') -- tested at the true minimum."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Gallery depth 8–14 ft on the principal elevation. Below 8 ft the gallery stops shading the wall and stops functioning as a room."
+          "statement": "Gallery depth 8–14 ft on the principal elevation. Below 8 ft the gallery stops shading the wall and stops functioning as a room.",
+          "id": "raised-creole-plantation.c02",
+          "scope": "plan",
+          "test": {
+            "expression": "gallery_depth_ft",
+            "direction": "between",
+            "threshold": 8,
+            "upper": 14,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Column material and slenderness must change at the gallery floor line: masonry pier 16–24 in square below, wooden colonnette 6–9 in above. A single continuous order top to bottom converts the building into a Greek Revival plantation house."
+          "statement": "Column material and slenderness must change at the gallery floor line: masonry pier 16–24 in square below, wooden colonnette 6–9 in above. A single continuous order top to bottom converts the building into a Greek Revival plantation house.",
+          "id": "raised-creole-plantation.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "pier_width_in",
+            "direction": "between",
+            "threshold": 16,
+            "upper": 24,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the masonry pier (below the gallery floor line). The wooden colonnette above (6-9in) is the statement's other member size and stays prose."
+          }
         },
         {
           "kind": "climatic",
           "severity": "hard",
-          "statement": "No interior corridor on the principal floor; every principal room opens onto the gallery through French casement doors, and every room has openings on two walls."
+          "statement": "No interior corridor on the principal floor; every principal room opens onto the gallery through French casement doors, and every room has openings on two walls.",
+          "id": "raised-creole-plantation.c04",
+          "scope": "plan",
+          "test": {
+            "expression": "corridor_present",
+            "direction": "one-of",
+            "set": [
+              "no"
+            ],
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Roof pitch break required at the gallery: 40–50 degrees over the body, 20–30 degrees over the gallery. Dormers, where used, sit in the main slope with their faces set back behind the gallery line."
+          "statement": "Roof pitch break required at the gallery: 40–50 degrees over the body, 20–30 degrees over the gallery. Dormers, where used, sit in the main slope with their faces set back behind the gallery line.",
+          "id": "raised-creole-plantation.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_slope_upper_deg",
+            "direction": "between",
+            "threshold": 40,
+            "upper": 50,
+            "units": "deg",
+            "measurable_from": "elevation",
+            "note": "Same convention as french-colonial-american: tests the main-body (ridge-side) pitch, not the gallery pitch."
+          }
         }
       ],
       "exemplars": [
@@ -10590,27 +10930,70 @@
         {
           "kind": "proportional",
           "statement": "Sash proportion between 1.6:1 and 2:1 height to width. Anything squarer reads as a modern opening with muntins applied; anything taller belongs to a piano nobile.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "sash_proportion_ratio",
+            "direction": "between",
+            "threshold": 1.6,
+            "upper": 2.0,
+            "units": "ratio",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "statement": "Ground-floor storey height must exceed the first floor by 10-20 percent, and each storey above must diminish. Equal storey heights are forbidden.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "storey_height_diminish_pct",
+            "direction": "between",
+            "threshold": 10,
+            "upper": 20,
+            "units": "percent",
+            "measurable_from": "elevation",
+            "note": "States the ground-to-first-floor pair. 'Every storey above diminishes' is the same variable applied storey-pair by storey-pair further up and stays prose beyond the first pair."
+          }
         },
         {
           "kind": "structural",
           "statement": "Window frames set back not less than 100 mm from the external face of the wall, following the London Act of 1709. A frame flush with the cladding face is the single commonest failure of modern Georgian work.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_setback_in",
+            "direction": "at-least",
+            "threshold": 100,
+            "units": "mm",
+            "measurable_from": "elevation",
+            "note": "London Building Act of 1709."
+          }
         },
         {
           "kind": "proportional",
           "statement": "Openings must align vertically between storeys without exception, and the solid-to-void ratio must not fall below 1:1. Wall dominates glass.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "void_to_solid_ratio",
+            "direction": "at-most",
+            "threshold": 1,
+            "units": "ratio",
+            "measurable_from": "elevation",
+            "note": "Tests the solid-dominates-void clause. 'Openings must align vertically between storeys without exception' has no numeric tolerance stated and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Applied ornament is confined to the doorcase, the crowning cornice or parapet, the window heads and, in grander work, a string course. Pilasters, quoins and pediments elsewhere on the wall require justification from a specific plate.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "english-georgian.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -12114,27 +12497,71 @@
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break at 55–70% of the half-span. The two slopes must differ by at least 30 degrees or the roof reads as a modern barn profile."
+          "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break at 55–70% of the half-span. The two slopes must differ by at least 30 degrees or the roof reads as a modern barn profile.",
+          "id": "new-jersey-dutch-gambrel.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_slope_lower_deg - roof_slope_upper_deg",
+            "direction": "at-least",
+            "threshold": 30,
+            "units": "deg",
+            "measurable_from": "elevation",
+            "note": "This variant states the differentiation itself as the enforceable rule ('must differ by at least 30 degrees'), unlike the parent dutch-colonial-american's softer version -- so the difference expression is the more faithful test here, not the raw range."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "The eave must spring — a concave sweep projecting 24–36 in beyond the wall face, with a sweep radius of 4–8 ft. A straight overhang of any depth is not this type."
+          "statement": "The eave must spring — a concave sweep projecting 24–36 in beyond the wall face, with a sweep radius of 4–8 ft. A straight overhang of any depth is not this type.",
+          "id": "new-jersey-dutch-gambrel.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "eave_projection_in",
+            "direction": "between",
+            "threshold": 24,
+            "upper": 36,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "The sweep radius (4-8ft) is the same statement's other numeric claim and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "No continuous shed dormer on any roof slope. This is the diagnostic marker of Dutch Colonial Revival and is absent from every colonial Bergen house."
+          "statement": "No continuous shed dormer on any roof slope. This is the diagnostic marker of Dutch Colonial Revival and is absent from every colonial Bergen house.",
+          "id": "new-jersey-dutch-gambrel.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "continuous_shed_dormer_present",
+            "direction": "one-of",
+            "set": [
+              "no"
+            ],
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "structural",
           "severity": "soft",
-          "statement": "Dressed and coursed sandstone confined to the entrance elevation; coursed rubble at the ends; random rubble at the rear. Uniform ashlar on all four sides is a later or wealthier building and reads as such."
+          "statement": "Dressed and coursed sandstone confined to the entrance elevation; coursed rubble at the ends; random rubble at the rear. Uniform ashlar on all four sides is a later or wealthier building and reads as such.",
+          "id": "new-jersey-dutch-gambrel.c04",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Where the sprung eave is posted to form a porch, depth 8–10 ft with posts 8–10 ft on centre; the porch roof is the continued roof plane, not a separate structure with its own pitch."
+          "statement": "Where the sprung eave is posted to form a porch, depth 8–10 ft with posts 8–10 ft on centre; the porch roof is the continued roof plane, not a separate structure with its own pitch.",
+          "id": "new-jersey-dutch-gambrel.c05",
+          "scope": "plan",
+          "test": {
+            "expression": "gallery_depth_ft",
+            "direction": "between",
+            "threshold": 8,
+            "upper": 10,
+            "units": "ft",
+            "measurable_from": "plan",
+            "note": "A posted porch under the sprung eave is the same depth concept as a galerie/piazza."
+          }
         }
       ],
       "exemplars": [
@@ -13107,27 +13534,79 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Chimneys sit at or within the gable end walls. A single central stack is a New England device and destroys the Dutch plan, which depends on an open one- or two-room volume."
+          "statement": "Chimneys sit at or within the gable end walls. A single central stack is a New England device and destroys the Dutch plan, which depends on an open one- or two-room volume.",
+          "id": "dutch-colonial-american.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "chimney_position",
+            "direction": "one-of",
+            "set": [
+              "gable-end-interior",
+              "gable-end-exterior"
+            ],
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Wall plate 7 ft 0 in – 9 ft 0 in above the finished floor. If the plate rises above 10 ft the roof stops governing the elevation and the building reads Georgian."
+          "statement": "Wall plate 7 ft 0 in – 9 ft 0 in above the finished floor. If the plate rises above 10 ft the roof stops governing the elevation and the building reads Georgian.",
+          "id": "dutch-colonial-american.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "wall_plate_height_ft",
+            "direction": "between",
+            "threshold": 7,
+            "upper": 9,
+            "units": "ft",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break point at 55–70% of the half-span. A gambrel whose two slopes differ by less than 30 degrees reads as a twentieth-century barn-roof house."
+          "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break point at 55–70% of the half-span. A gambrel whose two slopes differ by less than 30 degrees reads as a twentieth-century barn-roof house.",
+          "id": "dutch-colonial-american.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_slope_lower_deg",
+            "direction": "between",
+            "threshold": 60,
+            "upper": 72,
+            "units": "deg",
+            "measurable_from": "elevation",
+            "note": "Tests the lower (eave-side) gambrel slope. The upper slope (18-30deg) and the break point (55-70% of half-span) are the same statement's other numeric claims and stay prose -- one test per constraint."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "Full-width shed dormers are forbidden. They are the diagnostic signature of Dutch Colonial Revival, not of any colonial Dutch building."
+          "statement": "Full-width shed dormers are forbidden. They are the diagnostic signature of Dutch Colonial Revival, not of any colonial Dutch building.",
+          "id": "dutch-colonial-american.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "continuous_shed_dormer_present",
+            "direction": "one-of",
+            "set": [
+              "no"
+            ],
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "structural",
           "severity": "soft",
-          "statement": "Load-bearing stone walls 20–30 in thick, laid in lime mortar with wide joints; dressed and coursed on the entrance elevation, rubble elsewhere. Thin stone veneer over frame is a different building."
+          "statement": "Load-bearing stone walls 20–30 in thick, laid in lime mortar with wide joints; dressed and coursed on the entrance elevation, rubble elsewhere. Thin stone veneer over frame is a different building.",
+          "id": "dutch-colonial-american.c05",
+          "scope": "section",
+          "test": {
+            "expression": "wall_thickness_in",
+            "direction": "between",
+            "threshold": 20,
+            "upper": 30,
+            "units": "in",
+            "measurable_from": "section"
+          }
         }
       ],
       "exemplars": [
@@ -14929,27 +15408,53 @@
         {
           "kind": "proportional",
           "statement": "The main block is strictly symmetrical about the entrance axis on the principal front, including chimney positions. Asymmetry is permitted only in the service wing, which must be visually subordinate and set back.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-country-house.c01",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Ground-floor storey height exceeds the first floor by 10-20 percent, and every storey above diminishes. Sash proportion 1.7:1 to 2:1.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-country-house.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "storey_height_diminish_pct",
+            "direction": "between",
+            "threshold": 10,
+            "upper": 20,
+            "units": "percent",
+            "measurable_from": "elevation",
+            "note": "Same variable and test as english-georgian's storey-height constraint -- this variant restates the parent's rule. The sash-proportion clause (1.7:1-2:1) in the same statement stays prose."
+          }
         },
         {
           "kind": "structural",
           "statement": "All four elevations use the same bay module, window head and cornice. A composed front with a plain or randomly fenestrated back is forbidden in a house designed to stand in a park.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-country-house.c03",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Service wing ridge at least 25 percent below the main block ridge, and its eaves line demonstrably lower. A service wing that matches the house in height destroys the hierarchy on which the composition depends.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-country-house.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "wing_height_deficit_pct",
+            "direction": "at-least",
+            "threshold": 25,
+            "units": "percent",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Wall ornament limited to plinth, string course, quoins and crowning cornice, plus one accented centre. Pilasters or a portico require a Palladian rather than a Georgian classification.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "english-georgian-country-house.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -15500,27 +16005,63 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "The chimney mass sits on the partition between kitchen and stove-room, serving an open hearth on one side and a closed stove aperture on the other. Moving it to the gable ends dissolves the plan type."
+          "statement": "The chimney mass sits on the partition between kitchen and stove-room, serving an open hearth on one side and a closed stove aperture on the other. Moving it to the gable ends dissolves the plan type.",
+          "id": "german-pennsylvania-colonial.c01",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Roof pitch 10:12 to 12:12 (40–50 degrees). Pennsylvania German work does not go below 9:12; a 6:12 roof on fieldstone is a twentieth-century invention."
+          "statement": "Roof pitch 10:12 to 12:12 (40–50 degrees). Pennsylvania German work does not go below 9:12; a 6:12 roof on fieldstone is a twentieth-century invention.",
+          "id": "german-pennsylvania-colonial.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 10,
+            "upper": 12,
+            "units": "rise_in_12",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Pent roof, where used, projects 30–42 in at the second-floor line at a pitch of 25–35 degrees, is unsupported by posts, and returns 12–24 in around the corner. It is a pre-1780 feature; on later work it reads as revival."
+          "statement": "Pent roof, where used, projects 30–42 in at the second-floor line at a pitch of 25–35 degrees, is unsupported by posts, and returns 12–24 in around the corner. It is a pre-1780 feature; on later work it reads as revival.",
+          "id": "german-pennsylvania-colonial.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "eave_projection_in",
+            "direction": "between",
+            "threshold": 30,
+            "upper": 42,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the pent roof's projection. Pitch (25-35deg) and corner return (12-24in) are the statement's other numeric claims and stay prose."
+          }
         },
         {
           "kind": "structural",
           "severity": "soft",
-          "statement": "Load-bearing wall 18–30 in of squared stone, with quoins 1.5 to 2.5 times the height of the field coursing. Window and door reveals must show the full wall depth; a flush jamb reveals a veneer."
+          "statement": "Load-bearing wall 18–30 in of squared stone, with quoins 1.5 to 2.5 times the height of the field coursing. Window and door reveals must show the full wall depth; a flush jamb reveals a veneer.",
+          "id": "german-pennsylvania-colonial.c04",
+          "scope": "section",
+          "test": {
+            "expression": "wall_thickness_in",
+            "direction": "between",
+            "threshold": 18,
+            "upper": 30,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "Tests the wall thickness. The quoin-to-coursing size ratio is a niche one-off comparison and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "soft",
-          "statement": "Openings by period: small casements with iron hardware to c. 1760; nine-over-six sash c. 1760–1800; six-over-six after. Glazed area under 8% of wall area before 1770, under 12% after."
+          "statement": "Openings by period: small casements with iron hardware to c. 1760; nine-over-six sash c. 1760–1800; six-over-six after. Glazed area under 8% of wall area before 1770, under 12% after.",
+          "id": "german-pennsylvania-colonial.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -19280,27 +19821,76 @@
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Eave height 8 ft 0 in to 9 ft 6 in above finished first floor, and the head of the first-floor window not more than 14 in below the underside of the cornice. This single rule separates every real Cape from every revival Cape."
+          "statement": "Eave height 8 ft 0 in to 9 ft 6 in above finished first floor, and the head of the first-floor window not more than 14 in below the underside of the cornice. This single rule separates every real Cape from every revival Cape.",
+          "id": "cape-cod-colonial.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_head_to_cornice_offset_in",
+            "direction": "at-most",
+            "threshold": 14,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the window-head-to-cornice clause. Eave height (8ft-9ft6in) is the statement's other numeric claim and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "No dormers on the front (street) roof slope. Rear-slope dormers are a permissible later addition; front dormers are not part of the type."
+          "statement": "No dormers on the front (street) roof slope. Rear-slope dormers are a permissible later addition; front dormers are not part of the type.",
+          "id": "cape-cod-colonial.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "front_slope_dormer_count",
+            "direction": "equals",
+            "threshold": 0,
+            "units": "count",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Roof pitch 9:12 to 12:12. Below 8:12 the loft is unusable and the house reads as minimal-traditional; above 12:12 it reads as a First Period two-storey house cut down."
+          "statement": "Roof pitch 9:12 to 12:12. Below 8:12 the loft is unusable and the house reads as minimal-traditional; above 12:12 it reads as a First Period two-storey house cut down.",
+          "id": "cape-cod-colonial.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 9,
+            "upper": 12,
+            "units": "rise_in_12",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Rake and eave trim not more than 6 in wide, returning 6–12 in at the corner. Full modillion cornices and deep returns belong to Georgian work."
+          "statement": "Rake and eave trim not more than 6 in wide, returning 6–12 in at the corner. Full modillion cornices and deep returns belong to Georgian work.",
+          "id": "cape-cod-colonial.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "rake_trim_width_in",
+            "direction": "at-most",
+            "threshold": 6,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "The corner-return dimension (6-12in) is the statement's other numeric claim and stays prose."
+          }
         },
         {
           "kind": "climatic",
           "severity": "soft",
-          "statement": "Roof and wall overhangs kept under 8 in on exposed coastal sites; shingle exposure 5–6 in; sill within 18 in of grade."
+          "statement": "Roof and wall overhangs kept under 8 in on exposed coastal sites; shingle exposure 5–6 in; sill within 18 in of grade.",
+          "id": "cape-cod-colonial.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "eave_projection_in",
+            "direction": "at-most",
+            "threshold": 8,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the overhang clause. Shingle exposure and sill height are the statement's other numeric claims and stay prose."
+          }
         }
       ],
       "exemplars": [
@@ -21854,27 +22444,61 @@
         {
           "kind": "proportional",
           "statement": "Interior ornament relief must not exceed 20 mm projection. Deep, heavily modelled enrichment belongs to Palladian or Baroque work and reads as the wrong century immediately.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "adam-style.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "ornament_relief_in",
+            "direction": "at-most",
+            "threshold": 20,
+            "units": "mm",
+            "measurable_from": "elevation",
+            "note": "Source states the figure in millimetres; the vocabulary variable is named _in by convention but its unit here is the units field, mm, not inches."
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Ceiling, carpet, chimneypiece and joinery in a principal room must share one ornamental vocabulary. Mixing Adam plasterwork with a heavier moulding family is the standard failure mode of revival work.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "adam-style.c02",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Glazing bars not thicker than 20 mm, and cornice and architrave profiles reduced by roughly a third from mid-Georgian section. Adam is Georgian thinned; if it is not thinner it is not Adam.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "adam-style.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "glazing_bar_width_in",
+            "direction": "at-most",
+            "threshold": 20,
+            "units": "mm",
+            "measurable_from": "elevation",
+            "note": "Tests the glazing-bar clause only. The second clause -- cornice/architrave profiles reduced by roughly a third from mid-Georgian section -- has no recorded mid-Georgian baseline value to compare against in this corpus, so it stays prose."
+          }
         },
         {
           "kind": "cultural",
           "statement": "At least one principal room in the sequence must be shaped — apsed, oval, circular or screened — or the movement doctrine that defines the style is absent.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "adam-style.c04",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "External modelling by advance and recess of 300-600 mm at the centre or ends, without changing bay spacing.",
-          "severity": "advisory"
+          "severity": "advisory",
+          "id": "adam-style.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "wall_plane_advance_recess_in",
+            "direction": "between",
+            "threshold": 300,
+            "upper": 600,
+            "units": "mm",
+            "measurable_from": "elevation"
+          }
         }
       ],
       "exemplars": [
@@ -23082,27 +23706,53 @@
         {
           "kind": "proportional",
           "statement": "Where a giant order is used it must run a whole number of storeys and land on a continuous plinth or rusticated basement; it may not stop mid-storey or die into a string course.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-baroque.c01",
+          "scope": "judgment"
         },
         {
           "kind": "structural",
           "statement": "Roofs are hipped and concealed behind a parapet or balustrade on principal elevations. A visible gable end on a Baroque front is forbidden.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-baroque.c02",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Sash proportion 1.8:1 to 2.1:1 height to width, with glazing bars not thinner than 25 mm. Thin bars date the window to after 1780 and break the period.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-baroque.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "sash_proportion_ratio",
+            "direction": "between",
+            "threshold": 1.8,
+            "upper": 2.1,
+            "units": "ratio",
+            "measurable_from": "elevation",
+            "note": "Tests the sash proportion. The glazing-bar clause (not thinner than 25mm) is a second numeric claim in the same statement and stays prose-only here -- one test per constraint."
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Rustication, if used, must be continuous around all faces of the mass it belongs to, including returns; rustication applied to a front elevation only is the commonest modern failure of the style.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-baroque.c04",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Main block ridge or parapet height must exceed flanking wings by at least 30 percent; the hierarchy is the composition.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "english-baroque.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "wing_height_deficit_pct",
+            "direction": "at-least",
+            "threshold": 30,
+            "units": "percent",
+            "measurable_from": "elevation"
+          }
         }
       ],
       "exemplars": [
@@ -23907,27 +24557,71 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Adobe wall thickness 24–36 in, with wall height not exceeding ten times thickness. Openings not exceeding 12% of wall area, with reveals expressing the full wall depth."
+          "statement": "Adobe wall thickness 24–36 in, with wall height not exceeding ten times thickness. Openings not exceeding 12% of wall area, with reveals expressing the full wall depth.",
+          "id": "new-mexico-adobe.c01",
+          "scope": "section",
+          "test": {
+            "expression": "wall_thickness_in",
+            "direction": "between",
+            "threshold": 24,
+            "upper": 36,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "Tests thickness. Wall-height-to-thickness ratio (not exceeding 10x) and glazed area (not exceeding 12%) each have their own variable, already exercised elsewhere in this family, and stay prose here -- one test per constraint."
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Room clear span limited to 16 ft — the practical viga length. Any wider room requires an intermediate bearing and is not of the tradition."
+          "statement": "Room clear span limited to 16 ft — the practical viga length. Any wider room requires an intermediate bearing and is not of the tradition.",
+          "id": "new-mexico-adobe.c02",
+          "scope": "plan",
+          "test": {
+            "expression": "room_clear_span_ft",
+            "direction": "at-most",
+            "threshold": 16,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "No pitched roof, no gable, no eave. The roof is flat behind a parapet of 12–24 in, drained at 1/4 in per ft through not fewer than one canale per roof plane, projecting 12–18 in beyond the wall face."
+          "statement": "No pitched roof, no gable, no eave. The roof is flat behind a parapet of 12–24 in, drained at 1/4 in per ft through not fewer than one canale per roof plane, projecting 12–18 in beyond the wall face.",
+          "id": "new-mexico-adobe.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "parapet_height_in",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 24,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "The no-pitch/no-gable/no-eave clauses are categorical and stay prose; canale drainage rate and projection are the statement's other numeric claims and also stay prose."
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Finish in mud plaster or lime wash only. Cement stucco on historic adobe traps moisture at the interface and destroys the wall from within; it is a preservation failure as well as a stylistic one."
+          "statement": "Finish in mud plaster or lime wash only. Cement stucco on historic adobe traps moisture at the interface and destroys the wall from within; it is a preservation failure as well as a stylistic one.",
+          "id": "new-mexico-adobe.c04",
+          "scope": "judgment"
         },
         {
           "kind": "co-occurrence",
           "severity": "soft",
-          "statement": "Vigas project 12–24 in beyond the wall face and must actually carry the roof. Non-structural applied viga ends are the single clearest marker of Pueblo Revival."
+          "statement": "Vigas project 12–24 in beyond the wall face and must actually carry the roof. Non-structural applied viga ends are the single clearest marker of Pueblo Revival.",
+          "id": "new-mexico-adobe.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "eave_projection_in",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 24,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Vigas are functionally the same kind of structural roof-member overhang the variable already covers elsewhere. 'Must actually carry the roof' is a structural-truth claim no plan measurement alone confirms and stays prose."
+          }
         }
       ],
       "exemplars": [
@@ -24395,27 +25089,79 @@
         {
           "kind": "structural",
           "statement": "Chimneys at the gable ends, interior-end or exterior, rising not less than 6 ft above the ridge. Interior chimneys set inboard of the ridge are a New England device and are wrong here on both stylistic and climatic grounds.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "tidewater-georgian.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "chimney_height_above_ridge_ft",
+            "direction": "at-least",
+            "threshold": 6,
+            "units": "ft",
+            "measurable_from": "elevation",
+            "note": "The interior-end-or-exterior position clause is categorical and stays prose."
+          }
         },
         {
           "kind": "proportional",
           "statement": "Roof pitch 7:12 to 9:12. Above 10:12 the elevation reads Northern; below 6:12 it reads Federal or Greek Revival.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "tidewater-georgian.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 7,
+            "upper": 9,
+            "units": "rise_in_12",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "climatic",
           "statement": "Centre passage 10–14 ft wide with exterior doors at both ends, aligned on axis and both operable. This is a ventilation device, not a hallway; narrowing it below 9 ft defeats it.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "tidewater-georgian.c03",
+          "scope": "plan",
+          "test": {
+            "expression": "centre_passage_width_ft",
+            "direction": "between",
+            "threshold": 10,
+            "upper": 14,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "structural",
           "statement": "Flemish bond on the entrance elevation, glazed headers optional but regionally characteristic; English or common bond elsewhere; moulded or bevelled water table 24–36 in above grade; segmental gauged arches with a 3–5 in rise before c. 1750, flat cambered arches after.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "tidewater-georgian.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "water_table_height_in",
+            "direction": "between",
+            "threshold": 24,
+            "upper": 36,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the water table height. Bond pattern and the date-conditional arch-rise clause (OQ 22) stay prose."
+          }
         },
         {
           "kind": "cultural",
           "statement": "Kitchen and service functions in detached dependencies not less than 25 ft from the main block, not in an attached ell. Where formalized, hyphens 12–20 ft long and dependencies at 60–75% of the main block height.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "tidewater-georgian.c05",
+          "scope": "plan",
+          "test": {
+            "expression": "service_zone_position",
+            "direction": "one-of",
+            "set": [
+              "detached-dependency"
+            ],
+            "measurable_from": "plan",
+            "note": "Tests the categorical placement claim via the existing service_zone_position enum. Distance (25ft+) and hyphen-length figures stay prose."
+          }
         }
       ],
       "exemplars": [
@@ -27579,27 +28325,44 @@
         {
           "kind": "proportional",
           "statement": "Every room plan must conform to one of Palladio's approved ratios within 3 percent, and ceiling height must be a stated mean of the room's length and breadth.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-palladian.c01",
+          "scope": "judgment"
         },
         {
           "kind": "co-occurrence",
           "statement": "The giant order, banded rustication, broken and swan-neck pediments, and skyline statuary are forbidden. These are precisely the features the style was formed to eliminate.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-palladian.c02",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Window aedicules and enriched surrounds occur on the piano nobile only. Ornamenting a basement or attic window inverts the hierarchy and destroys the composition.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-palladian.c03",
+          "scope": "judgment"
         },
         {
           "kind": "structural",
           "statement": "Where a portico is used it must be full height of the piano nobile plus its entablature, free-standing or engaged, and land on the rusticated basement — not on a plinth invented for the purpose.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-palladian.c04",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Hyphens and pavilions must be lower and shallower than the main block, with ridge heights stepping down by at least 25 percent at each stage.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "english-palladian.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "wing_height_deficit_pct",
+            "direction": "at-least",
+            "threshold": 25,
+            "units": "percent",
+            "measurable_from": "elevation"
+          }
         }
       ],
       "exemplars": [
@@ -28384,27 +29147,60 @@
         {
           "kind": "climatic",
           "statement": "The piazza must face within 45 degrees of southwest to catch the prevailing summer breeze and shade the long wall. A piazza on the north flank is decoration and defeats the type.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "charleston-georgian.c01",
+          "scope": "site",
+          "test": {
+            "expression": "abs(piazza_bearing_deg - 225)",
+            "direction": "at-most",
+            "threshold": 45,
+            "units": "deg",
+            "measurable_from": "site",
+            "note": "225 degrees is due southwest; the expression is the angular distance from it."
+          }
         },
         {
           "kind": "proportional",
           "statement": "Principal-floor ceiling height not less than 11'-6'. Below that the vertical proportion of the sash and the stack effect both fail, and the interior reads as a Northern house with Southern trim.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "charleston-georgian.c02",
+          "scope": "section",
+          "test": {
+            "expression": "ceiling_height_ground_in",
+            "direction": "at-least",
+            "threshold": 138,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "11ft6in converted to inches exactly (138in)."
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Piazza columns must carry a correct entablature and use superimposed orders where two storeys occur — heavier order below, lighter above. Identical columns on both levels read as a modern deck.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "charleston-georgian.c03",
+          "scope": "judgment"
         },
         {
           "kind": "structural",
           "statement": "Piazza depth minimum 10 feet, roof structurally continuous with or clearly subordinate to the main roof, never a shed applied to a finished wall.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "charleston-georgian.c04",
+          "scope": "plan",
+          "test": {
+            "expression": "gallery_depth_ft",
+            "direction": "at-least",
+            "threshold": 10,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "cultural",
           "statement": "Openings must align front to back through the plan to permit cross draft; a blocked enfilade of openings removes the reason the section is shaped this way.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "charleston-georgian.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -31059,27 +31855,69 @@
         {
           "kind": "climatic",
           "severity": "hard",
-          "statement": "No interior corridor. Each of the two front rooms has its own exterior door on the front elevation, and every habitable room has openings on two walls."
+          "statement": "No interior corridor. Each of the two front rooms has its own exterior door on the front elevation, and every habitable room has openings on two walls.",
+          "id": "creole-cottage-vernacular.c01",
+          "scope": "plan",
+          "test": {
+            "expression": "corridor_present",
+            "direction": "one-of",
+            "set": [
+              "no"
+            ],
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Ceiling height not less than 11 ft on the principal floor; openings are full-height French casement doors reaching to within 12–18 in of the ceiling. An 8 ft ceiling defeats the stack ventilation the whole type depends on."
+          "statement": "Ceiling height not less than 11 ft on the principal floor; openings are full-height French casement doors reaching to within 12–18 in of the ceiling. An 8 ft ceiling defeats the stack ventilation the whole type depends on.",
+          "id": "creole-cottage-vernacular.c02",
+          "scope": "section",
+          "test": {
+            "expression": "ceiling_height_ground_in",
+            "direction": "at-least",
+            "threshold": 132,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "11ft converted to inches exactly (132in) to match the vocabulary variable's unit."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Front shelter is either a posted galerie not less than 6 ft deep with a roof pitch break at the wall plane, or an abat-vent projecting 30–48 in on brackets or rods with no posts to grade. A 4 ft posted stoop is neither and belongs to no phase of the type."
+          "statement": "Front shelter is either a posted galerie not less than 6 ft deep with a roof pitch break at the wall plane, or an abat-vent projecting 30–48 in on brackets or rods with no posts to grade. A 4 ft posted stoop is neither and belongs to no phase of the type.",
+          "id": "creole-cottage-vernacular.c03",
+          "scope": "judgment"
         },
         {
           "kind": "structural",
           "severity": "soft",
-          "statement": "Finished floor 12–36 in above grade on brick piers; chimneys internal on the partition between paired rooms, never on the exterior gable wall."
+          "statement": "Finished floor 12–36 in above grade on brick piers; chimneys internal on the partition between paired rooms, never on the exterior gable wall.",
+          "id": "creole-cottage-vernacular.c04",
+          "scope": "section",
+          "test": {
+            "expression": "floor_height_above_grade_in",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 36,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "The chimney-position clause in the same statement is categorical and stays prose."
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Exterior louvred blinds on every opening, leaf width equal to half the clear opening so that a closed pair exactly covers it, hung on strap hinges with holdbacks."
+          "statement": "Exterior louvred blinds on every opening, leaf width equal to half the clear opening so that a closed pair exactly covers it, hung on strap hinges with holdbacks.",
+          "id": "creole-cottage-vernacular.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "shutter_leaf_to_sash_ratio",
+            "direction": "equals",
+            "threshold": 0.5,
+            "units": "ratio",
+            "measurable_from": "elevation"
+          }
         }
       ],
       "exemplars": [
@@ -31481,27 +32319,78 @@
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Rear eave height 6 ft 6 in to 8 ft 6 in above finished grade. Above 10 ft the catslide is cosmetic and the type is not present."
+          "statement": "Rear eave height 6 ft 6 in to 8 ft 6 in above finished grade. Above 10 ft the catslide is cosmetic and the type is not present.",
+          "id": "saltbox-colonial.c01",
+          "scope": "section",
+          "test": {
+            "expression": "eave_height_ft",
+            "direction": "between",
+            "threshold": 6.5,
+            "upper": 8.5,
+            "units": "ft",
+            "measurable_from": "section"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Front roof slope 45–52 degrees. Where the rear slope is broken it runs 38–45 degrees; where integral it matches the front exactly. A rear slope shallower than 35 degrees will not clear a usable lean-to ceiling."
+          "statement": "Front roof slope 45–52 degrees. Where the rear slope is broken it runs 38–45 degrees; where integral it matches the front exactly. A rear slope shallower than 35 degrees will not clear a usable lean-to ceiling.",
+          "id": "saltbox-colonial.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_slope_deg",
+            "direction": "between",
+            "threshold": 45,
+            "upper": 52,
+            "units": "deg",
+            "measurable_from": "elevation",
+            "note": "Tests the front slope. The rear/catslide slope (38-45deg when broken, or matching the front when integral) is the statement's other, conditional claim and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "No dormers on the rear catslide. The slope exists to shed weather and hold heat; puncturing it is the revival's habit, not the colonial one."
+          "statement": "No dormers on the rear catslide. The slope exists to shed weather and hold heat; puncturing it is the revival's habit, not the colonial one.",
+          "id": "saltbox-colonial.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "rear_slope_dormer_count",
+            "direction": "equals",
+            "threshold": 0,
+            "units": "count",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "structural",
           "severity": "soft",
-          "statement": "Lean-to depth 10–14 ft — the practical reach of a single rafter run past the plate. Beyond 14 ft the rear eave drops below head height at the door."
+          "statement": "Lean-to depth 10–14 ft — the practical reach of a single rafter run past the plate. Beyond 14 ft the rear eave drops below head height at the door.",
+          "id": "saltbox-colonial.c04",
+          "scope": "plan",
+          "test": {
+            "expression": "gallery_depth_ft",
+            "direction": "between",
+            "threshold": 10,
+            "upper": 14,
+            "units": "ft",
+            "measurable_from": "plan",
+            "note": "Reuses the general shed/lean-to depth concept."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "soft",
-          "statement": "Sash 12/12 or 12/8 before c. 1750, 9/6 thereafter, with heads within 8 in of the front eave and no frieze band."
+          "statement": "Sash 12/12 or 12/8 before c. 1750, 9/6 thereafter, with heads within 8 in of the front eave and no frieze band.",
+          "id": "saltbox-colonial.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_head_to_cornice_offset_in",
+            "direction": "at-most",
+            "threshold": 8,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the head-to-eave clause. The date-conditional sash pattern (12/12 or 12/8 before c.1750, 9/6 after) is OQ 22 territory and stays prose."
+          }
         }
       ],
       "exemplars": [
@@ -31707,27 +32596,68 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Mass wall height shall not exceed ten times its thickness for adobe, or eight times for unreinforced rubble, without buttressing. This is the rule that keeps the plan single-storey and the openings small."
+          "statement": "Mass wall height shall not exceed ten times its thickness for adobe, or eight times for unreinforced rubble, without buttressing. This is the rule that keeps the plan single-storey and the openings small.",
+          "id": "spanish-colonial-american.c01",
+          "scope": "section",
+          "test": {
+            "expression": "wall_height_to_thickness_ratio",
+            "direction": "at-most",
+            "threshold": 10,
+            "units": "ratio",
+            "measurable_from": "section",
+            "note": "Tests the looser (adobe, 10x) bound. Unreinforced rubble's stricter 8x limit is the statement's other case -- a rubble wall between 8x and 10x passes this test while still being able to violate its own material's real limit. Flagged as a known imprecision rather than silently resolved."
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Room clear span limited to the beam length: 12–18 ft for vigas or hand-hewn timbers. Any room wider than 18 ft requires an intermediate support and reads as a later intervention."
+          "statement": "Room clear span limited to the beam length: 12–18 ft for vigas or hand-hewn timbers. Any room wider than 18 ft requires an intermediate support and reads as a later intervention.",
+          "id": "spanish-colonial-american.c02",
+          "scope": "plan",
+          "test": {
+            "expression": "room_clear_span_ft",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 18,
+            "units": "ft",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "climatic",
           "severity": "hard",
-          "statement": "Total window and door area not more than 15% of exterior wall area, with reveals showing the full wall depth. Punched openings in a thin plane are the revival's tell, not the original's."
+          "statement": "Total window and door area not more than 15% of exterior wall area, with reveals showing the full wall depth. Punched openings in a thin plane are the revival's tell, not the original's.",
+          "id": "spanish-colonial-american.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "glazed_area_pct_wall",
+            "direction": "at-most",
+            "threshold": 15,
+            "units": "percent",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Roof pitch either flat (1/4 in per ft to canales, behind a parapet 12–24 in high) or 3:12–5:12 under half-round clay tile. Pitches above 6:12 are foreign to the tradition."
+          "statement": "Roof pitch either flat (1/4 in per ft to canales, behind a parapet 12–24 in high) or 3:12–5:12 under half-round clay tile. Pitches above 6:12 are foreign to the tradition.",
+          "id": "spanish-colonial-american.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "at-most",
+            "threshold": 6,
+            "units": "rise_in_12",
+            "measurable_from": "elevation",
+            "note": "The statement is a disjunction (flat, or 3:12-5:12 tile) but also gives a single unconditional ceiling ('pitches above 6:12 are foreign') that covers both branches safely -- flat is 0, the pitched range tops out at 5 -- so this is the one clean test, not a union guess."
+          }
         },
         {
           "kind": "cultural",
           "severity": "soft",
-          "statement": "Carved, moulded or coloured ornament is permitted at exactly one location per building — the principal doorway or the campanario. Distributed ornament converts the building into a revival."
+          "statement": "Carved, moulded or coloured ornament is permitted at exactly one location per building — the principal doorway or the campanario. Distributed ornament converts the building into a revival.",
+          "id": "spanish-colonial-american.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -33380,27 +34310,72 @@
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "The front elevation must have an odd number of bays (3, 5 or 7) with the entrance in the centre bay. An even-bay Georgian front is a contradiction: there is no centre to enter."
+          "statement": "The front elevation must have an odd number of bays (3, 5 or 7) with the entrance in the centre bay. An even-bay Georgian front is a contradiction: there is no centre to enter.",
+          "id": "georgian-colonial-american.c01",
+          "scope": "plan",
+          "test": {
+            "expression": "bay_count",
+            "direction": "one-of",
+            "set": [
+              "3",
+              "5",
+              "7"
+            ],
+            "measurable_from": "plan",
+            "note": "The centred-entrance clause is the vocabulary's own documented corollary of an odd bay count (entrance_bay_index == (bay_count+1)/2) rather than a second independent test."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Roof pitch 8:12 to 10:12. Below 7:12 the cornice loses its relationship to the roof and the house reads Federal or later; above 11:12 it reads First Period."
+          "statement": "Roof pitch 8:12 to 10:12. Below 7:12 the cornice loses its relationship to the roof and the house reads Federal or later; above 11:12 it reads First Period.",
+          "id": "georgian-colonial-american.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 8,
+            "upper": 10,
+            "units": "rise_in_12",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "Sash lights by date: 12/12 or 12/8 to c. 1750; 9/6 c. 1740–1770; 6/6 from c. 1765. Fanlights and sidelights do not appear before c. 1780 and are a Federal marker, not a Georgian one."
+          "statement": "Sash lights by date: 12/12 or 12/8 to c. 1750; 9/6 c. 1740–1770; 6/6 from c. 1765. Fanlights and sidelights do not appear before c. 1780 and are a Federal marker, not a Georgian one.",
+          "id": "georgian-colonial-american.c03",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Shutter leaf width equals half the clear opening width so that a closed pair exactly covers the window, and shutter height equals the sash height. Anything narrower is applied decoration."
+          "statement": "Shutter leaf width equals half the clear opening width so that a closed pair exactly covers the window, and shutter height equals the sash height. Anything narrower is applied decoration.",
+          "id": "georgian-colonial-american.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "shutter_leaf_to_sash_ratio",
+            "direction": "equals",
+            "threshold": 0.5,
+            "units": "ratio",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "structural",
           "severity": "soft",
-          "statement": "Brick laid in Flemish bond on the entrance elevation (with glazed headers in the Chesapeake), common or English bond elsewhere; water table 24–36 in above grade; flat or segmental gauged arches over openings with a 4–6 in rise."
+          "statement": "Brick laid in Flemish bond on the entrance elevation (with glazed headers in the Chesapeake), common or English bond elsewhere; water table 24–36 in above grade; flat or segmental gauged arches over openings with a 4–6 in rise.",
+          "id": "georgian-colonial-american.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "water_table_height_in",
+            "direction": "between",
+            "threshold": 24,
+            "upper": 36,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the water table height. Brick bond pattern and gauged-arch rise (4-6in) are the same statement's other clauses and stay prose."
+          }
         }
       ],
       "exemplars": [
@@ -34190,27 +35165,60 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Framed overhang 14–20 in maximum, hewn overhang 2–6 in; never exceed 24 in. The projection is the cantilever of a 7–9 in second-floor joist and cannot be increased without changing the structure to something the tradition never built."
+          "statement": "Framed overhang 14–20 in maximum, hewn overhang 2–6 in; never exceed 24 in. The projection is the cantilever of a 7–9 in second-floor joist and cannot be increased without changing the structure to something the tradition never built.",
+          "id": "garrison-colonial.c01",
+          "scope": "elevation",
+          "test": {
+            "expression": "jetty_overhang_in",
+            "direction": "at-most",
+            "threshold": 24,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the statement's absolute ceiling ('never exceed 24 in'), which covers both the framed (14-20in) and hewn (2-6in) sub-cases without needing to know which construction method is used."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "Drop pendants occur only at post positions and only where the overhang is framed — four across a five-bay front. Pendants on a hewn overhang, or spaced to suit the windows, are decoration without structure."
+          "statement": "Drop pendants occur only at post positions and only where the overhang is framed — four across a five-bay front. Pendants on a hewn overhang, or spaced to suit the windows, are decoration without structure.",
+          "id": "garrison-colonial.c02",
+          "scope": "judgment"
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "One central chimney within the plan. Gable-end chimneys with a jetty produce a combination that does not occur in surviving First Period fabric."
+          "statement": "One central chimney within the plan. Gable-end chimneys with a jetty produce a combination that does not occur in surviving First Period fabric.",
+          "id": "garrison-colonial.c03",
+          "scope": "plan",
+          "test": {
+            "expression": "chimney_count",
+            "direction": "equals",
+            "threshold": 1,
+            "units": "count",
+            "measurable_from": "plan"
+          }
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Second-floor window height 80–90% of first-floor height. Equal windows on both floors is a revival signature."
+          "statement": "Second-floor window height 80–90% of first-floor height. Equal windows on both floors is a revival signature.",
+          "id": "garrison-colonial.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_height_ratio_floors",
+            "direction": "between",
+            "threshold": 0.8,
+            "upper": 0.9,
+            "units": "ratio",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "cultural",
           "severity": "advisory",
-          "statement": "Do not model or describe the overhang as defensive. No loopholes, no firing platform, no boiling oil. Where a genuinely fortified frontier garrison house is wanted, the correct assembly is heavy horizontal plank or squared-log walls with small high openings and no jetty."
+          "statement": "Do not model or describe the overhang as defensive. No loopholes, no firing platform, no boiling oil. Where a genuinely fortified frontier garrison house is wanted, the correct assembly is heavy horizontal plank or squared-log walls with small high openings and no jetty.",
+          "id": "garrison-colonial.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -34401,27 +35409,62 @@
         {
           "kind": "code",
           "statement": "Facades in brick, stone or stucco only; no timber-fronted elevation, and no projecting timber eaves cornice. Rainwater is taken behind a parapet into a concealed gutter, following the London Act of 1707.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-townhouse.c01",
+          "scope": "judgment"
         },
         {
           "kind": "structural",
           "statement": "Window frames set back not less than 100 mm from the external wall face, per the Act of 1709; sash boxes concealed within the reveal.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-townhouse.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_setback_in",
+            "direction": "at-least",
+            "threshold": 100,
+            "units": "mm",
+            "measurable_from": "elevation",
+            "note": "London Building Act of 1709."
+          }
         },
         {
           "kind": "proportional",
           "statement": "First-floor storey height must exceed the ground floor by 5-20 percent, and first-floor windows must be the tallest on the elevation. Applying the country-house graduation to a terrace produces a facade that looks top-heavy and wrong.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-townhouse.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "storey_height_diminish_pct",
+            "direction": "between",
+            "threshold": 5,
+            "upper": 20,
+            "units": "percent",
+            "measurable_from": "elevation",
+            "note": "Here the differential runs the other direction from the usual ground>first hierarchy -- first floor is the tallest, piano-nobile-like storey of a London terrace. Same variable, applied to the first-over-ground pair."
+          }
         },
         {
           "kind": "structural",
           "statement": "Party walls carried up through the roof as a fire break, and no window on a party wall elevation. Plan depth not to exceed 12.5 m without a light well or closet-wing set-back.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-townhouse.c04",
+          "scope": "plan",
+          "test": {
+            "expression": "plan_depth_ft",
+            "direction": "at-most",
+            "threshold": 12.5,
+            "units": "m",
+            "measurable_from": "plan",
+            "note": "Source states the figure in metres directly. The fire-break party wall and no-window-on-party-wall clauses in the same statement are categorical, not numeric, and stay prose."
+          }
         },
         {
           "kind": "cultural",
           "statement": "Cornice or parapet line, floor levels, material and railing pattern must be continuous across the terrace. Individual expression is confined to the doorcase, fanlight and door colour.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "english-georgian-townhouse.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -34642,27 +35685,62 @@
         {
           "kind": "co-occurrence",
           "statement": "Stucco must be continuous over all visible elevations of a rendered mass, with ruled ashlar lining confined to the ground storey where a rusticated base is intended. Stucco on the front with bare brick returns is forbidden.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "regency.c01",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "statement": "Principal-floor windows extend to within 150 mm of the finished floor and open onto a balcony or veranda not less than 900 mm deep. A floor-length window with no balcony is a hazard and a period error.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "regency.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "balcony_depth_ft",
+            "direction": "at-least",
+            "threshold": 900,
+            "units": "mm",
+            "measurable_from": "elevation",
+            "note": "Tests the balcony/veranda depth clause. The window-to-floor gap (within 150mm) is the same statement's other numeric claim and stays prose."
+          }
         },
         {
           "kind": "proportional",
           "statement": "Glazing bars 12-18 mm. Heavier bars date the work to before 1780; the thin bar is what makes a Regency window read as a sheet of light.",
-          "severity": "hard"
+          "severity": "hard",
+          "id": "regency.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "glazing_bar_width_in",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 18,
+            "units": "mm",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "structural",
           "statement": "Where wide eaves are used they project 450-750 mm on visible brackets or a plain soffit, and the roof pitch stays between 22 and 30 degrees in slate. A steep roof under wide eaves belongs to the Italianate, forty years later.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "regency.c04",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_slope_deg",
+            "direction": "between",
+            "threshold": 22,
+            "upper": 30,
+            "units": "deg",
+            "measurable_from": "elevation",
+            "note": "The eave-projection figure (450-750mm) stated in the same clause applies only 'where wide eaves are used' and is conditional, so it stays prose rather than being folded into this test."
+          }
         },
         {
           "kind": "co-occurrence",
           "statement": "Greek and Roman detail may not be mixed on one elevation. Exotic modes — Indian, Egyptian, Chinese, Gothic — are permitted but must be complete within a room or a whole building, never blended.",
-          "severity": "soft"
+          "severity": "soft",
+          "id": "regency.c05",
+          "scope": "judgment"
         }
       ],
       "exemplars": [
@@ -34874,27 +35952,62 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Requires a cross-slope of at least 1:8 (12.5%) across the building depth, giving a fall of not less than 6 ft. On a level site the type cannot exist; a house with a walkout basement on flat ground is not a bank house."
+          "statement": "Requires a cross-slope of at least 1:8 (12.5%) across the building depth, giving a fall of not less than 6 ft. On a level site the type cannot exist; a house with a walkout basement on flat ground is not a bank house.",
+          "id": "pennsylvania-bank-house.c01",
+          "scope": "site",
+          "test": {
+            "expression": "cross_slope_pct",
+            "direction": "at-least",
+            "threshold": 12.5,
+            "units": "percent",
+            "measurable_from": "site",
+            "note": "1:8. The fall figure (not less than 6ft) restates the same requirement over the building's actual depth and stays prose."
+          }
         },
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "The lower-storey finished floor sits within 12 in of the downhill grade at the exposed wall, and the uphill wall is bermed to within 12 in of the principal floor level. Lower-storey walls not less than 22 in of load-bearing stone to carry earth pressure."
+          "statement": "The lower-storey finished floor sits within 12 in of the downhill grade at the exposed wall, and the uphill wall is bermed to within 12 in of the principal floor level. Lower-storey walls not less than 22 in of load-bearing stone to carry earth pressure.",
+          "id": "pennsylvania-bank-house.c02",
+          "scope": "section",
+          "test": {
+            "expression": "wall_thickness_in",
+            "direction": "at-least",
+            "threshold": 22,
+            "units": "in",
+            "measurable_from": "section",
+            "note": "Tests the lower-storey wall thickness, the cleanest single claim in a compound statement. The two grade-relationship clauses (finished floor within 12in of downhill grade; uphill wall bermed within 12in of principal floor) stay prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "hard",
-          "statement": "Two exterior doors at two levels, on different elevations. A single ceremonial entrance destroys the type: the service level must be enterable without passing through the house."
+          "statement": "Two exterior doors at two levels, on different elevations. A single ceremonial entrance destroys the type: the service level must be enterable without passing through the house.",
+          "id": "pennsylvania-bank-house.c03",
+          "scope": "judgment"
         },
         {
           "kind": "climatic",
           "severity": "soft",
-          "statement": "No openings in the bermed (uphill) wall below the principal floor. Where a spring is captured, the discharge is through an arched opening 18–30 in wide at the base of the downhill wall."
+          "statement": "No openings in the bermed (uphill) wall below the principal floor. Where a spring is captured, the discharge is through an arched opening 18–30 in wide at the base of the downhill wall.",
+          "id": "pennsylvania-bank-house.c04",
+          "scope": "judgment"
         },
         {
           "kind": "proportional",
           "severity": "soft",
-          "statement": "Roof pitch 12:12 to 14:12; pent roof, where used, projects 30–42 in at the second-floor line, unposted, returning 12–24 in at the corners."
+          "statement": "Roof pitch 12:12 to 14:12; pent roof, where used, projects 30–42 in at the second-floor line, unposted, returning 12–24 in at the corners.",
+          "id": "pennsylvania-bank-house.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 12,
+            "upper": 14,
+            "units": "rise_in_12",
+            "measurable_from": "elevation",
+            "note": "The pent roof clause restates the same feature already tested on german-pennsylvania-colonial and stays prose here."
+          }
         }
       ],
       "exemplars": [
@@ -35097,27 +36210,71 @@
         {
           "kind": "structural",
           "severity": "hard",
-          "statement": "Exactly one chimney, positioned within the plan (not at a gable end), with a base not less than 7 ft × 7 ft and typically 8–12 ft square. A First Period massing with end chimneys is incoherent: the plan diagram depends on the stack occupying the centre."
+          "statement": "Exactly one chimney, positioned within the plan (not at a gable end), with a base not less than 7 ft × 7 ft and typically 8–12 ft square. A First Period massing with end chimneys is incoherent: the plan diagram depends on the stack occupying the centre.",
+          "id": "new-england-colonial.c01",
+          "scope": "plan",
+          "test": {
+            "expression": "chimney_count",
+            "direction": "equals",
+            "threshold": 1,
+            "units": "count",
+            "measurable_from": "plan",
+            "note": "Tests the count. Base size (7x7ft minimum, typically 8-12ft square) is a two-dimensional claim the vocabulary has no single variable for and stays prose."
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "Roof pitch 10:12 to 14:12 (40–50 degrees). Below 9:12 the massing reads Georgian or later; above 14:12 it reads as a thatch survival not built here."
+          "statement": "Roof pitch 10:12 to 14:12 (40–50 degrees). Below 9:12 the massing reads Georgian or later; above 14:12 it reads as a thatch survival not built here.",
+          "id": "new-england-colonial.c02",
+          "scope": "elevation",
+          "test": {
+            "expression": "roof_pitch_rise_per_12",
+            "direction": "between",
+            "threshold": 10,
+            "upper": 14,
+            "units": "rise_in_12",
+            "measurable_from": "elevation"
+          }
         },
         {
           "kind": "proportional",
           "severity": "hard",
-          "statement": "The head of a second-floor window sits 0–8 in below the underside of the cornice or plate. There is no frieze band. Introducing a frieze of more than 4 in converts the elevation to Georgian."
+          "statement": "The head of a second-floor window sits 0–8 in below the underside of the cornice or plate. There is no frieze band. Introducing a frieze of more than 4 in converts the elevation to Georgian.",
+          "id": "new-england-colonial.c03",
+          "scope": "elevation",
+          "test": {
+            "expression": "window_head_to_cornice_offset_in",
+            "direction": "between",
+            "threshold": 0,
+            "upper": 8,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "The no-frieze-band clause (a frieze over 4in converts the elevation to Georgian) is the same statement's other claim and stays prose."
+          }
         },
         {
           "kind": "co-occurrence",
           "severity": "soft",
-          "statement": "Sash by period: leaded casement to c. 1700; twelve-over-twelve or twelve-over-eight c. 1700–1750; nine-over-six c. 1740–1770. Six-over-six on a First Period massing is an anachronism of at least fifty years."
+          "statement": "Sash by period: leaded casement to c. 1700; twelve-over-twelve or twelve-over-eight c. 1700–1750; nine-over-six c. 1740–1770. Six-over-six on a First Period massing is an anachronism of at least fifty years.",
+          "id": "new-england-colonial.c04",
+          "scope": "judgment"
         },
         {
           "kind": "climatic",
           "severity": "soft",
-          "statement": "Clapboard exposure 4–5 in on the weather elevation, up to 6 in elsewhere; shingle at 5–6 in exposure on the coast. Wider exposures read Victorian."
+          "statement": "Clapboard exposure 4–5 in on the weather elevation, up to 6 in elsewhere; shingle at 5–6 in exposure on the coast. Wider exposures read Victorian.",
+          "id": "new-england-colonial.c05",
+          "scope": "elevation",
+          "test": {
+            "expression": "clapboard_exposure_in",
+            "direction": "between",
+            "threshold": 4,
+            "upper": 5,
+            "units": "in",
+            "measurable_from": "elevation",
+            "note": "Tests the weather-elevation clapboard exposure. The up-to-6in-elsewhere and coastal shingle-exposure clauses stay prose."
+          }
         }
       ],
       "exemplars": [

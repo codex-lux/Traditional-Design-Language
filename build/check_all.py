@@ -21,6 +21,7 @@ CHECKS = [
     ("check_modules.py", []),
     ("check_systems.py", []),
     ("check_kits.py", []),
+    ("check_constraints.py", []),
     ("check_faults.py", []),
     ("check_rooms.py", []),
     ("proportion_engine.py", ["selftest"]),

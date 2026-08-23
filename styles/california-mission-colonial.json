@@ -130,27 +130,70 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Arcade geometry: square masonry piers 2 ft 6 in – 4 ft wide carrying semicircular arches whose clear opening is 1.5 to 2.5 times the pier width. Slender piers or columns with capitals convert the arcade into a revival and are structurally impossible in adobe."
+      "statement": "Arcade geometry: square masonry piers 2 ft 6 in – 4 ft wide carrying semicircular arches whose clear opening is 1.5 to 2.5 times the pier width. Slender piers or columns with capitals convert the arcade into a revival and are structurally impossible in adobe.",
+      "id": "california-mission-colonial.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "pier_width_in",
+        "direction": "between",
+        "threshold": 30,
+        "upper": 48,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "2ft6in-4ft converted to inches. The arch-opening-to-pier-width ratio (1.5-2.5x) is the statement's other numeric claim and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch 3:12 to 5:12 under half-round clay tile, with an eave projection of 12–20 in and no gutter. Pitches above 6:12 are foreign to the tradition."
+      "statement": "Roof pitch 3:12 to 5:12 under half-round clay tile, with an eave projection of 12–20 in and no gutter. Pitches above 6:12 are foreign to the tradition.",
+      "id": "california-mission-colonial.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Eave projection (12-20in) is the statement's other numeric claim and stays prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Adobe or rubble wall not less than 24 in in the ranges; where wall height exceeds eight times thickness, external buttresses are required at not more than 15 ft on centre."
+      "statement": "Adobe or rubble wall not less than 24 in in the ranges; where wall height exceeds eight times thickness, external buttresses are required at not more than 15 ft on centre.",
+      "id": "california-mission-colonial.c03",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "The conditional buttress-spacing clause stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Corredor depth not less than 10 ft. Below that it stops functioning as circulation and shade and becomes a covered walk."
+      "statement": "Corredor depth not less than 10 ft. Below that it stops functioning as circulation and shade and becomes a covered walk.",
+      "id": "california-mission-colonial.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 10,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "cultural",
       "severity": "soft",
-      "statement": "Carved or moulded ornament permitted only at the church portada and the campanario. Distributing ornament across the ranges converts the complex into Spanish Colonial Revival."
+      "statement": "Carved or moulded ornament permitted only at the church portada and the campanario. Distributing ornament across the ranges converts the complex into Spanish Colonial Revival.",
+      "id": "california-mission-colonial.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

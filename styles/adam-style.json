@@ -152,27 +152,61 @@
     {
       "kind": "proportional",
       "statement": "Interior ornament relief must not exceed 20 mm projection. Deep, heavily modelled enrichment belongs to Palladian or Baroque work and reads as the wrong century immediately.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "adam-style.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "ornament_relief_in",
+        "direction": "at-most",
+        "threshold": 20,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Source states the figure in millimetres; the vocabulary variable is named _in by convention but its unit here is the units field, mm, not inches."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Ceiling, carpet, chimneypiece and joinery in a principal room must share one ornamental vocabulary. Mixing Adam plasterwork with a heavier moulding family is the standard failure mode of revival work.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "adam-style.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Glazing bars not thicker than 20 mm, and cornice and architrave profiles reduced by roughly a third from mid-Georgian section. Adam is Georgian thinned; if it is not thinner it is not Adam.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "adam-style.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazing_bar_width_in",
+        "direction": "at-most",
+        "threshold": 20,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the glazing-bar clause only. The second clause -- cornice/architrave profiles reduced by roughly a third from mid-Georgian section -- has no recorded mid-Georgian baseline value to compare against in this corpus, so it stays prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "At least one principal room in the sequence must be shaped — apsed, oval, circular or screened — or the movement doctrine that defines the style is absent.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "adam-style.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "External modelling by advance and recess of 300-600 mm at the centre or ends, without changing bay spacing.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "adam-style.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "between",
+        "threshold": 300,
+        "upper": 600,
+        "units": "mm",
+        "measurable_from": "elevation"
+      }
     }
   ],
   "exemplars": [

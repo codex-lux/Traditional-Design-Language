@@ -124,27 +124,78 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Rear eave height 6 ft 6 in to 8 ft 6 in above finished grade. Above 10 ft the catslide is cosmetic and the type is not present."
+      "statement": "Rear eave height 6 ft 6 in to 8 ft 6 in above finished grade. Above 10 ft the catslide is cosmetic and the type is not present.",
+      "id": "saltbox-colonial.c01",
+      "scope": "section",
+      "test": {
+        "expression": "eave_height_ft",
+        "direction": "between",
+        "threshold": 6.5,
+        "upper": 8.5,
+        "units": "ft",
+        "measurable_from": "section"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Front roof slope 45–52 degrees. Where the rear slope is broken it runs 38–45 degrees; where integral it matches the front exactly. A rear slope shallower than 35 degrees will not clear a usable lean-to ceiling."
+      "statement": "Front roof slope 45–52 degrees. Where the rear slope is broken it runs 38–45 degrees; where integral it matches the front exactly. A rear slope shallower than 35 degrees will not clear a usable lean-to ceiling.",
+      "id": "saltbox-colonial.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 45,
+        "upper": 52,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the front slope. The rear/catslide slope (38-45deg when broken, or matching the front when integral) is the statement's other, conditional claim and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "No dormers on the rear catslide. The slope exists to shed weather and hold heat; puncturing it is the revival's habit, not the colonial one."
+      "statement": "No dormers on the rear catslide. The slope exists to shed weather and hold heat; puncturing it is the revival's habit, not the colonial one.",
+      "id": "saltbox-colonial.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "rear_slope_dormer_count",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "count",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Lean-to depth 10–14 ft — the practical reach of a single rafter run past the plate. Beyond 14 ft the rear eave drops below head height at the door."
+      "statement": "Lean-to depth 10–14 ft — the practical reach of a single rafter run past the plate. Beyond 14 ft the rear eave drops below head height at the door.",
+      "id": "saltbox-colonial.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 14,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Reuses the general shed/lean-to depth concept."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Sash 12/12 or 12/8 before c. 1750, 9/6 thereafter, with heads within 8 in of the front eave and no frieze band."
+      "statement": "Sash 12/12 or 12/8 before c. 1750, 9/6 thereafter, with heads within 8 in of the front eave and no frieze band.",
+      "id": "saltbox-colonial.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_to_cornice_offset_in",
+        "direction": "at-most",
+        "threshold": 8,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the head-to-eave clause. The date-conditional sash pattern (12/12 or 12/8 before c.1750, 9/6 after) is OQ 22 territory and stays prose."
+      }
     }
   ],
   "exemplars": [

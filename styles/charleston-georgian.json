@@ -135,27 +135,60 @@
     {
       "kind": "climatic",
       "statement": "The piazza must face within 45 degrees of southwest to catch the prevailing summer breeze and shade the long wall. A piazza on the north flank is decoration and defeats the type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-georgian.c01",
+      "scope": "site",
+      "test": {
+        "expression": "abs(piazza_bearing_deg - 225)",
+        "direction": "at-most",
+        "threshold": 45,
+        "units": "deg",
+        "measurable_from": "site",
+        "note": "225 degrees is due southwest; the expression is the angular distance from it."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Principal-floor ceiling height not less than 11'-6'. Below that the vertical proportion of the sash and the stack effect both fail, and the interior reads as a Northern house with Southern trim.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-georgian.c02",
+      "scope": "section",
+      "test": {
+        "expression": "ceiling_height_ground_in",
+        "direction": "at-least",
+        "threshold": 138,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "11ft6in converted to inches exactly (138in)."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Piazza columns must carry a correct entablature and use superimposed orders where two storeys occur — heavier order below, lighter above. Identical columns on both levels read as a modern deck.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-georgian.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Piazza depth minimum 10 feet, roof structurally continuous with or clearly subordinate to the main roof, never a shed applied to a finished wall.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-georgian.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 10,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "cultural",
       "statement": "Openings must align front to back through the plan to permit cross draft; a blocked enfilade of openings removes the reason the section is shaped this way.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "charleston-georgian.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

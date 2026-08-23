@@ -138,27 +138,71 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Exactly one chimney, positioned within the plan (not at a gable end), with a base not less than 7 ft × 7 ft and typically 8–12 ft square. A First Period massing with end chimneys is incoherent: the plan diagram depends on the stack occupying the centre."
+      "statement": "Exactly one chimney, positioned within the plan (not at a gable end), with a base not less than 7 ft × 7 ft and typically 8–12 ft square. A First Period massing with end chimneys is incoherent: the plan diagram depends on the stack occupying the centre.",
+      "id": "new-england-colonial.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "chimney_count",
+        "direction": "equals",
+        "threshold": 1,
+        "units": "count",
+        "measurable_from": "plan",
+        "note": "Tests the count. Base size (7x7ft minimum, typically 8-12ft square) is a two-dimensional claim the vocabulary has no single variable for and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch 10:12 to 14:12 (40–50 degrees). Below 9:12 the massing reads Georgian or later; above 14:12 it reads as a thatch survival not built here."
+      "statement": "Roof pitch 10:12 to 14:12 (40–50 degrees). Below 9:12 the massing reads Georgian or later; above 14:12 it reads as a thatch survival not built here.",
+      "id": "new-england-colonial.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 14,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The head of a second-floor window sits 0–8 in below the underside of the cornice or plate. There is no frieze band. Introducing a frieze of more than 4 in converts the elevation to Georgian."
+      "statement": "The head of a second-floor window sits 0–8 in below the underside of the cornice or plate. There is no frieze band. Introducing a frieze of more than 4 in converts the elevation to Georgian.",
+      "id": "new-england-colonial.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_to_cornice_offset_in",
+        "direction": "between",
+        "threshold": 0,
+        "upper": 8,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The no-frieze-band clause (a frieze over 4in converts the elevation to Georgian) is the same statement's other claim and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Sash by period: leaded casement to c. 1700; twelve-over-twelve or twelve-over-eight c. 1700–1750; nine-over-six c. 1740–1770. Six-over-six on a First Period massing is an anachronism of at least fifty years."
+      "statement": "Sash by period: leaded casement to c. 1700; twelve-over-twelve or twelve-over-eight c. 1700–1750; nine-over-six c. 1740–1770. Six-over-six on a First Period massing is an anachronism of at least fifty years.",
+      "id": "new-england-colonial.c04",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "severity": "soft",
-      "statement": "Clapboard exposure 4–5 in on the weather elevation, up to 6 in elsewhere; shingle at 5–6 in exposure on the coast. Wider exposures read Victorian."
+      "statement": "Clapboard exposure 4–5 in on the weather elevation, up to 6 in elsewhere; shingle at 5–6 in exposure on the coast. Wider exposures read Victorian.",
+      "id": "new-england-colonial.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "clapboard_exposure_in",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 5,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the weather-elevation clapboard exposure. The up-to-6in-elsewhere and coastal shingle-exposure clauses stay prose."
+      }
     }
   ],
   "exemplars": [

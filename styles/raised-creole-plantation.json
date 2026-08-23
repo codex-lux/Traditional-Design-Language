@@ -125,27 +125,79 @@
     {
       "kind": "climatic",
       "severity": "hard",
-      "statement": "Principal floor not less than 8 ft above grade on a full masonry service storey (absolute minimum 6 ft), reached by an exterior stair. A raised cottage on wooden piers with an enclosed underfloor is a different and lesser building."
+      "statement": "Principal floor not less than 8 ft above grade on a full masonry service storey (absolute minimum 6 ft), reached by an exterior stair. A raised cottage on wooden piers with an enclosed underfloor is a different and lesser building.",
+      "id": "raised-creole-plantation.c01",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "at-least",
+        "threshold": 72,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "8ft is the stated target but 6ft (72in) is the constraint's actual hard floor ('absolute minimum 6 ft') -- tested at the true minimum."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Gallery depth 8–14 ft on the principal elevation. Below 8 ft the gallery stops shading the wall and stops functioning as a room."
+      "statement": "Gallery depth 8–14 ft on the principal elevation. Below 8 ft the gallery stops shading the wall and stops functioning as a room.",
+      "id": "raised-creole-plantation.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "between",
+        "threshold": 8,
+        "upper": 14,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Column material and slenderness must change at the gallery floor line: masonry pier 16–24 in square below, wooden colonnette 6–9 in above. A single continuous order top to bottom converts the building into a Greek Revival plantation house."
+      "statement": "Column material and slenderness must change at the gallery floor line: masonry pier 16–24 in square below, wooden colonnette 6–9 in above. A single continuous order top to bottom converts the building into a Greek Revival plantation house.",
+      "id": "raised-creole-plantation.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "pier_width_in",
+        "direction": "between",
+        "threshold": 16,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the masonry pier (below the gallery floor line). The wooden colonnette above (6-9in) is the statement's other member size and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "severity": "hard",
-      "statement": "No interior corridor on the principal floor; every principal room opens onto the gallery through French casement doors, and every room has openings on two walls."
+      "statement": "No interior corridor on the principal floor; every principal room opens onto the gallery through French casement doors, and every room has openings on two walls.",
+      "id": "raised-creole-plantation.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "corridor_present",
+        "direction": "one-of",
+        "set": [
+          "no"
+        ],
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Roof pitch break required at the gallery: 40–50 degrees over the body, 20–30 degrees over the gallery. Dormers, where used, sit in the main slope with their faces set back behind the gallery line."
+      "statement": "Roof pitch break required at the gallery: 40–50 degrees over the body, 20–30 degrees over the gallery. Dormers, where used, sit in the main slope with their faces set back behind the gallery line.",
+      "id": "raised-creole-plantation.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_upper_deg",
+        "direction": "between",
+        "threshold": 40,
+        "upper": 50,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Same convention as french-colonial-american: tests the main-body (ridge-side) pitch, not the gallery pitch."
+      }
     }
   ],
   "exemplars": [

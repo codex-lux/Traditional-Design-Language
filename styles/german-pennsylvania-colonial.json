@@ -145,27 +145,63 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "The chimney mass sits on the partition between kitchen and stove-room, serving an open hearth on one side and a closed stove aperture on the other. Moving it to the gable ends dissolves the plan type."
+      "statement": "The chimney mass sits on the partition between kitchen and stove-room, serving an open hearth on one side and a closed stove aperture on the other. Moving it to the gable ends dissolves the plan type.",
+      "id": "german-pennsylvania-colonial.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch 10:12 to 12:12 (40–50 degrees). Pennsylvania German work does not go below 9:12; a 6:12 roof on fieldstone is a twentieth-century invention."
+      "statement": "Roof pitch 10:12 to 12:12 (40–50 degrees). Pennsylvania German work does not go below 9:12; a 6:12 roof on fieldstone is a twentieth-century invention.",
+      "id": "german-pennsylvania-colonial.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Pent roof, where used, projects 30–42 in at the second-floor line at a pitch of 25–35 degrees, is unsupported by posts, and returns 12–24 in around the corner. It is a pre-1780 feature; on later work it reads as revival."
+      "statement": "Pent roof, where used, projects 30–42 in at the second-floor line at a pitch of 25–35 degrees, is unsupported by posts, and returns 12–24 in around the corner. It is a pre-1780 feature; on later work it reads as revival.",
+      "id": "german-pennsylvania-colonial.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 30,
+        "upper": 42,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the pent roof's projection. Pitch (25-35deg) and corner return (12-24in) are the statement's other numeric claims and stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Load-bearing wall 18–30 in of squared stone, with quoins 1.5 to 2.5 times the height of the field coursing. Window and door reveals must show the full wall depth; a flush jamb reveals a veneer."
+      "statement": "Load-bearing wall 18–30 in of squared stone, with quoins 1.5 to 2.5 times the height of the field coursing. Window and door reveals must show the full wall depth; a flush jamb reveals a veneer.",
+      "id": "german-pennsylvania-colonial.c04",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 18,
+        "upper": 30,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the wall thickness. The quoin-to-coursing size ratio is a niche one-off comparison and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Openings by period: small casements with iron hardware to c. 1760; nine-over-six sash c. 1760–1800; six-over-six after. Glazed area under 8% of wall area before 1770, under 12% after."
+      "statement": "Openings by period: small casements with iron hardware to c. 1760; nine-over-six sash c. 1760–1800; six-over-six after. Glazed area under 8% of wall area before 1770, under 12% after.",
+      "id": "german-pennsylvania-colonial.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

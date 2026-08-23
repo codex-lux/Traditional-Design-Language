@@ -152,27 +152,62 @@
     {
       "kind": "co-occurrence",
       "statement": "Stucco must be continuous over all visible elevations of a rendered mass, with ruled ashlar lining confined to the ground storey where a rusticated base is intended. Stucco on the front with bare brick returns is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "regency.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Principal-floor windows extend to within 150 mm of the finished floor and open onto a balcony or veranda not less than 900 mm deep. A floor-length window with no balcony is a hazard and a period error.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "regency.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "balcony_depth_ft",
+        "direction": "at-least",
+        "threshold": 900,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the balcony/veranda depth clause. The window-to-floor gap (within 150mm) is the same statement's other numeric claim and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Glazing bars 12-18 mm. Heavier bars date the work to before 1780; the thin bar is what makes a Regency window read as a sheet of light.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "regency.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazing_bar_width_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 18,
+        "units": "mm",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "structural",
       "statement": "Where wide eaves are used they project 450-750 mm on visible brackets or a plain soffit, and the roof pitch stays between 22 and 30 degrees in slate. A steep roof under wide eaves belongs to the Italianate, forty years later.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "regency.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 22,
+        "upper": 30,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "The eave-projection figure (450-750mm) stated in the same clause applies only 'where wide eaves are used' and is conditional, so it stays prose rather than being folded into this test."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Greek and Roman detail may not be mixed on one elevation. Exotic modes — Indian, Egyptian, Chinese, Gothic — are permitted but must be complete within a room or a whole building, never blended.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "regency.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

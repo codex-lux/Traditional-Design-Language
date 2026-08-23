@@ -56,6 +56,23 @@ def resolve_kit_module():
     return resolve_kit
 
 
+@pytest.fixture(scope="session")
+def check_constraints_module():
+    import check_constraints
+    return check_constraints
+
+
+@pytest.fixture(scope="session")
+def constraint_vocabulary_module():
+    import constraint_vocabulary
+    return constraint_vocabulary
+
+
+def load_style(style_id):
+    with open(os.path.join(ROOT, "styles", f"{style_id}.json")) as f:
+        return json.load(f)
+
+
 def load_plan(name):
     with open(os.path.join(ROOT, "plans", f"{name}.json")) as f:
         return json.load(f)

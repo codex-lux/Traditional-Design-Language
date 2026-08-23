@@ -133,27 +133,71 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Adobe wall thickness 24–36 in, with wall height not exceeding ten times thickness. Openings not exceeding 12% of wall area, with reveals expressing the full wall depth."
+      "statement": "Adobe wall thickness 24–36 in, with wall height not exceeding ten times thickness. Openings not exceeding 12% of wall area, with reveals expressing the full wall depth.",
+      "id": "new-mexico-adobe.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 24,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests thickness. Wall-height-to-thickness ratio (not exceeding 10x) and glazed area (not exceeding 12%) each have their own variable, already exercised elsewhere in this family, and stay prose here -- one test per constraint."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Room clear span limited to 16 ft — the practical viga length. Any wider room requires an intermediate bearing and is not of the tradition."
+      "statement": "Room clear span limited to 16 ft — the practical viga length. Any wider room requires an intermediate bearing and is not of the tradition.",
+      "id": "new-mexico-adobe.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "room_clear_span_ft",
+        "direction": "at-most",
+        "threshold": 16,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "No pitched roof, no gable, no eave. The roof is flat behind a parapet of 12–24 in, drained at 1/4 in per ft through not fewer than one canale per roof plane, projecting 12–18 in beyond the wall face."
+      "statement": "No pitched roof, no gable, no eave. The roof is flat behind a parapet of 12–24 in, drained at 1/4 in per ft through not fewer than one canale per roof plane, projecting 12–18 in beyond the wall face.",
+      "id": "new-mexico-adobe.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "parapet_height_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The no-pitch/no-gable/no-eave clauses are categorical and stay prose; canale drainage rate and projection are the statement's other numeric claims and also stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Finish in mud plaster or lime wash only. Cement stucco on historic adobe traps moisture at the interface and destroys the wall from within; it is a preservation failure as well as a stylistic one."
+      "statement": "Finish in mud plaster or lime wash only. Cement stucco on historic adobe traps moisture at the interface and destroys the wall from within; it is a preservation failure as well as a stylistic one.",
+      "id": "new-mexico-adobe.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Vigas project 12–24 in beyond the wall face and must actually carry the roof. Non-structural applied viga ends are the single clearest marker of Pueblo Revival."
+      "statement": "Vigas project 12–24 in beyond the wall face and must actually carry the roof. Non-structural applied viga ends are the single clearest marker of Pueblo Revival.",
+      "id": "new-mexico-adobe.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Vigas are functionally the same kind of structural roof-member overhang the variable already covers elsewhere. 'Must actually carry the roof' is a structural-truth claim no plan measurement alone confirms and stays prose."
+      }
     }
   ],
   "exemplars": [

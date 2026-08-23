@@ -129,27 +129,78 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Wall not less than 20 in of coursed load-bearing stone; window and door reveals must express the full wall depth. Stone veneer over frame produces a different building and reads as such at every opening."
+      "statement": "Wall not less than 20 in of coursed load-bearing stone; window and door reveals must express the full wall depth. Stone veneer over frame produces a different building and reads as such at every opening.",
+      "id": "hudson-valley-dutch.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 20,
+        "units": "in",
+        "measurable_from": "section"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Wall plate 7 ft 0 in to 9 ft 0 in above the finished floor, and roof pitch 12:12 to 17:12. If the plate rises or the pitch drops, the roof stops dominating and the type dissolves."
+      "statement": "Wall plate 7 ft 0 in to 9 ft 0 in above the finished floor, and roof pitch 12:12 to 17:12. If the plate rises or the pitch drops, the roof stops dominating and the type dissolves.",
+      "id": "hudson-valley-dutch.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 17,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch clause. Wall plate height (7-9ft) is the same statement's other numeric claim, already tested on the parent dutch-colonial-american node, and stays prose here."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Chimneys at or within the gable end walls. A central stack is a New England device and is incompatible with the open one- or two-room Dutch plan."
+      "statement": "Chimneys at or within the gable end walls. A central stack is a New England device and is incompatible with the open one- or two-room Dutch plan.",
+      "id": "hudson-valley-dutch.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_position",
+        "direction": "one-of",
+        "set": [
+          "gable-end-interior",
+          "gable-end-exterior"
+        ],
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Spring eave, where used, projects 18–24 in on a concave sweep, not as a straight overhang, and only on work of c. 1700 or later. Below 12 in it does no work; a straight soffit is not a spring eave."
+      "statement": "Spring eave, where used, projects 18–24 in on a concave sweep, not as a straight overhang, and only on work of c. 1700 or later. Below 12 in it does no work; a straight soffit is not a spring eave.",
+      "id": "hudson-valley-dutch.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 18,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Openings: leaded casement with iron pintles to c. 1720; nine-over-nine or nine-over-six sash thereafter. Total glazed area under 10% of wall area. Dormers, where present at all, are small individual gabled ones, never continuous."
+      "statement": "Openings: leaded casement with iron pintles to c. 1720; nine-over-nine or nine-over-six sash thereafter. Total glazed area under 10% of wall area. Dormers, where present at all, are small individual gabled ones, never continuous.",
+      "id": "hudson-valley-dutch.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 10,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the glazed-area clause. The sash/casement-by-date clause is date-conditional (OQ 22, no date-conditional resolution exists yet) and stays prose."
+      }
     }
   ],
   "exemplars": [

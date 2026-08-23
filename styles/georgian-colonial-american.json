@@ -150,27 +150,72 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The front elevation must have an odd number of bays (3, 5 or 7) with the entrance in the centre bay. An even-bay Georgian front is a contradiction: there is no centre to enter."
+      "statement": "The front elevation must have an odd number of bays (3, 5 or 7) with the entrance in the centre bay. An even-bay Georgian front is a contradiction: there is no centre to enter.",
+      "id": "georgian-colonial-american.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "bay_count",
+        "direction": "one-of",
+        "set": [
+          "3",
+          "5",
+          "7"
+        ],
+        "measurable_from": "plan",
+        "note": "The centred-entrance clause is the vocabulary's own documented corollary of an odd bay count (entrance_bay_index == (bay_count+1)/2) rather than a second independent test."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch 8:12 to 10:12. Below 7:12 the cornice loses its relationship to the roof and the house reads Federal or later; above 11:12 it reads First Period."
+      "statement": "Roof pitch 8:12 to 10:12. Below 7:12 the cornice loses its relationship to the roof and the house reads Federal or later; above 11:12 it reads First Period.",
+      "id": "georgian-colonial-american.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 8,
+        "upper": 10,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Sash lights by date: 12/12 or 12/8 to c. 1750; 9/6 c. 1740–1770; 6/6 from c. 1765. Fanlights and sidelights do not appear before c. 1780 and are a Federal marker, not a Georgian one."
+      "statement": "Sash lights by date: 12/12 or 12/8 to c. 1750; 9/6 c. 1740–1770; 6/6 from c. 1765. Fanlights and sidelights do not appear before c. 1780 and are a Federal marker, not a Georgian one.",
+      "id": "georgian-colonial-american.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Shutter leaf width equals half the clear opening width so that a closed pair exactly covers the window, and shutter height equals the sash height. Anything narrower is applied decoration."
+      "statement": "Shutter leaf width equals half the clear opening width so that a closed pair exactly covers the window, and shutter height equals the sash height. Anything narrower is applied decoration.",
+      "id": "georgian-colonial-american.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "equals",
+        "threshold": 0.5,
+        "units": "ratio",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Brick laid in Flemish bond on the entrance elevation (with glazed headers in the Chesapeake), common or English bond elsewhere; water table 24–36 in above grade; flat or segmental gauged arches over openings with a 4–6 in rise."
+      "statement": "Brick laid in Flemish bond on the entrance elevation (with glazed headers in the Chesapeake), common or English bond elsewhere; water table 24–36 in above grade; flat or segmental gauged arches over openings with a 4–6 in rise.",
+      "id": "georgian-colonial-american.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "water_table_height_in",
+        "direction": "between",
+        "threshold": 24,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the water table height. Brick bond pattern and gauged-arch rise (4-6in) are the same statement's other clauses and stay prose."
+      }
     }
   ],
   "exemplars": [

@@ -130,27 +130,79 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Chimneys interior, paired, set 5–12 ft in from the gable end walls and flanking the ridge. Exterior gable-end chimneys are a Southern device and are climatically wrong here — they lose the stack's stored heat to the outside."
+      "statement": "Chimneys interior, paired, set 5–12 ft in from the gable end walls and flanking the ridge. Exterior gable-end chimneys are a Southern device and are climatically wrong here — they lose the stack's stored heat to the outside.",
+      "id": "new-england-georgian.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "chimney_inset_ft",
+        "direction": "between",
+        "threshold": 5,
+        "upper": 12,
+        "units": "ft",
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch 9:12 to 11:12. Below 8:12 the house reads Chesapeake or Federal; above 12:12 it reads First Period."
+      "statement": "Roof pitch 9:12 to 11:12. Below 8:12 the house reads Chesapeake or Federal; above 12:12 it reads First Period.",
+      "id": "new-england-georgian.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 9,
+        "upper": 11,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Cornice returns 12–24 in deep across the gable, carrying the full cornice profile including modillions or dentils. A clipped triangular return is a twentieth-century economy and is forbidden."
+      "statement": "Cornice returns 12–24 in deep across the gable, carrying the full cornice profile including modillions or dentils. A clipped triangular return is a twentieth-century economy and is forbidden.",
+      "id": "new-england-georgian.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "cornice_projection_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The cornice return, reusing the existing cornice_projection_in variable for this depth dimension."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Window heads are flat wood architraves 5–6 in wide with a crown moulding. Keystones, gauged brick arches and stone lintels belong to the masonry variants and must not appear on a clapboard wall."
+      "statement": "Window heads are flat wood architraves 5–6 in wide with a crown moulding. Keystones, gauged brick arches and stone lintels belong to the masonry variants and must not appear on a clapboard wall.",
+      "id": "new-england-georgian.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_width_in",
+        "direction": "between",
+        "threshold": 5,
+        "upper": 6,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the wood architrave width. 'Must not appear on a clapboard wall' (masonry heads forbidden) is the statement's categorical clause and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Sash 12/12 to c. 1750, 9/6 c. 1740–1770, 6/6 after c. 1765. Shutter leaf width equals half the clear opening. No fanlight or sidelights before c. 1780."
+      "statement": "Sash 12/12 to c. 1750, 9/6 c. 1740–1770, 6/6 after c. 1765. Shutter leaf width equals half the clear opening. No fanlight or sidelights before c. 1780.",
+      "id": "new-england-georgian.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "equals",
+        "threshold": 0.5,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "The sash-by-date and fanlight-date clauses in the same statement are date-conditional (OQ 22, unresolved) and stay prose."
+      }
     }
   ],
   "exemplars": [

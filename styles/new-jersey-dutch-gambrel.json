@@ -124,27 +124,71 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break at 55–70% of the half-span. The two slopes must differ by at least 30 degrees or the roof reads as a modern barn profile."
+      "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break at 55–70% of the half-span. The two slopes must differ by at least 30 degrees or the roof reads as a modern barn profile.",
+      "id": "new-jersey-dutch-gambrel.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_lower_deg - roof_slope_upper_deg",
+        "direction": "at-least",
+        "threshold": 30,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "This variant states the differentiation itself as the enforceable rule ('must differ by at least 30 degrees'), unlike the parent dutch-colonial-american's softer version -- so the difference expression is the more faithful test here, not the raw range."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The eave must spring — a concave sweep projecting 24–36 in beyond the wall face, with a sweep radius of 4–8 ft. A straight overhang of any depth is not this type."
+      "statement": "The eave must spring — a concave sweep projecting 24–36 in beyond the wall face, with a sweep radius of 4–8 ft. A straight overhang of any depth is not this type.",
+      "id": "new-jersey-dutch-gambrel.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 24,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The sweep radius (4-8ft) is the same statement's other numeric claim and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "No continuous shed dormer on any roof slope. This is the diagnostic marker of Dutch Colonial Revival and is absent from every colonial Bergen house."
+      "statement": "No continuous shed dormer on any roof slope. This is the diagnostic marker of Dutch Colonial Revival and is absent from every colonial Bergen house.",
+      "id": "new-jersey-dutch-gambrel.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "continuous_shed_dormer_present",
+        "direction": "one-of",
+        "set": [
+          "no"
+        ],
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Dressed and coursed sandstone confined to the entrance elevation; coursed rubble at the ends; random rubble at the rear. Uniform ashlar on all four sides is a later or wealthier building and reads as such."
+      "statement": "Dressed and coursed sandstone confined to the entrance elevation; coursed rubble at the ends; random rubble at the rear. Uniform ashlar on all four sides is a later or wealthier building and reads as such.",
+      "id": "new-jersey-dutch-gambrel.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Where the sprung eave is posted to form a porch, depth 8–10 ft with posts 8–10 ft on centre; the porch roof is the continued roof plane, not a separate structure with its own pitch."
+      "statement": "Where the sprung eave is posted to form a porch, depth 8–10 ft with posts 8–10 ft on centre; the porch roof is the continued roof plane, not a separate structure with its own pitch.",
+      "id": "new-jersey-dutch-gambrel.c05",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "between",
+        "threshold": 8,
+        "upper": 10,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "A posted porch under the sprung eave is the same depth concept as a galerie/piazza."
+      }
     }
   ],
   "exemplars": [

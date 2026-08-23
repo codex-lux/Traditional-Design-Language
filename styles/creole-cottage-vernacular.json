@@ -125,27 +125,69 @@
     {
       "kind": "climatic",
       "severity": "hard",
-      "statement": "No interior corridor. Each of the two front rooms has its own exterior door on the front elevation, and every habitable room has openings on two walls."
+      "statement": "No interior corridor. Each of the two front rooms has its own exterior door on the front elevation, and every habitable room has openings on two walls.",
+      "id": "creole-cottage-vernacular.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "corridor_present",
+        "direction": "one-of",
+        "set": [
+          "no"
+        ],
+        "measurable_from": "plan"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Ceiling height not less than 11 ft on the principal floor; openings are full-height French casement doors reaching to within 12–18 in of the ceiling. An 8 ft ceiling defeats the stack ventilation the whole type depends on."
+      "statement": "Ceiling height not less than 11 ft on the principal floor; openings are full-height French casement doors reaching to within 12–18 in of the ceiling. An 8 ft ceiling defeats the stack ventilation the whole type depends on.",
+      "id": "creole-cottage-vernacular.c02",
+      "scope": "section",
+      "test": {
+        "expression": "ceiling_height_ground_in",
+        "direction": "at-least",
+        "threshold": 132,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "11ft converted to inches exactly (132in) to match the vocabulary variable's unit."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Front shelter is either a posted galerie not less than 6 ft deep with a roof pitch break at the wall plane, or an abat-vent projecting 30–48 in on brackets or rods with no posts to grade. A 4 ft posted stoop is neither and belongs to no phase of the type."
+      "statement": "Front shelter is either a posted galerie not less than 6 ft deep with a roof pitch break at the wall plane, or an abat-vent projecting 30–48 in on brackets or rods with no posts to grade. A 4 ft posted stoop is neither and belongs to no phase of the type.",
+      "id": "creole-cottage-vernacular.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Finished floor 12–36 in above grade on brick piers; chimneys internal on the partition between paired rooms, never on the exterior gable wall."
+      "statement": "Finished floor 12–36 in above grade on brick piers; chimneys internal on the partition between paired rooms, never on the exterior gable wall.",
+      "id": "creole-cottage-vernacular.c04",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "The chimney-position clause in the same statement is categorical and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Exterior louvred blinds on every opening, leaf width equal to half the clear opening so that a closed pair exactly covers it, hung on strap hinges with holdbacks."
+      "statement": "Exterior louvred blinds on every opening, leaf width equal to half the clear opening so that a closed pair exactly covers it, hung on strap hinges with holdbacks.",
+      "id": "creole-cottage-vernacular.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "equals",
+        "threshold": 0.5,
+        "units": "ratio",
+        "measurable_from": "elevation"
+      }
     }
   ],
   "exemplars": [

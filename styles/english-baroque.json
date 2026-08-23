@@ -145,27 +145,53 @@
     {
       "kind": "proportional",
       "statement": "Where a giant order is used it must run a whole number of storeys and land on a continuous plinth or rusticated basement; it may not stop mid-storey or die into a string course.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-baroque.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Roofs are hipped and concealed behind a parapet or balustrade on principal elevations. A visible gable end on a Baroque front is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-baroque.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Sash proportion 1.8:1 to 2.1:1 height to width, with glazing bars not thinner than 25 mm. Thin bars date the window to after 1780 and break the period.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-baroque.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "sash_proportion_ratio",
+        "direction": "between",
+        "threshold": 1.8,
+        "upper": 2.1,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the sash proportion. The glazing-bar clause (not thinner than 25mm) is a second numeric claim in the same statement and stays prose-only here -- one test per constraint."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Rustication, if used, must be continuous around all faces of the mass it belongs to, including returns; rustication applied to a front elevation only is the commonest modern failure of the style.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-baroque.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Main block ridge or parapet height must exceed flanking wings by at least 30 percent; the hierarchy is the composition.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-baroque.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "wing_height_deficit_pct",
+        "direction": "at-least",
+        "threshold": 30,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     }
   ],
   "exemplars": [

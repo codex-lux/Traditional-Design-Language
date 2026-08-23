@@ -127,27 +127,76 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Eave height 8 ft 0 in to 9 ft 6 in above finished first floor, and the head of the first-floor window not more than 14 in below the underside of the cornice. This single rule separates every real Cape from every revival Cape."
+      "statement": "Eave height 8 ft 0 in to 9 ft 6 in above finished first floor, and the head of the first-floor window not more than 14 in below the underside of the cornice. This single rule separates every real Cape from every revival Cape.",
+      "id": "cape-cod-colonial.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_to_cornice_offset_in",
+        "direction": "at-most",
+        "threshold": 14,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the window-head-to-cornice clause. Eave height (8ft-9ft6in) is the statement's other numeric claim and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "No dormers on the front (street) roof slope. Rear-slope dormers are a permissible later addition; front dormers are not part of the type."
+      "statement": "No dormers on the front (street) roof slope. Rear-slope dormers are a permissible later addition; front dormers are not part of the type.",
+      "id": "cape-cod-colonial.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "front_slope_dormer_count",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "count",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch 9:12 to 12:12. Below 8:12 the loft is unusable and the house reads as minimal-traditional; above 12:12 it reads as a First Period two-storey house cut down."
+      "statement": "Roof pitch 9:12 to 12:12. Below 8:12 the loft is unusable and the house reads as minimal-traditional; above 12:12 it reads as a First Period two-storey house cut down.",
+      "id": "cape-cod-colonial.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 9,
+        "upper": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Rake and eave trim not more than 6 in wide, returning 6–12 in at the corner. Full modillion cornices and deep returns belong to Georgian work."
+      "statement": "Rake and eave trim not more than 6 in wide, returning 6–12 in at the corner. Full modillion cornices and deep returns belong to Georgian work.",
+      "id": "cape-cod-colonial.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "rake_trim_width_in",
+        "direction": "at-most",
+        "threshold": 6,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The corner-return dimension (6-12in) is the statement's other numeric claim and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "severity": "soft",
-      "statement": "Roof and wall overhangs kept under 8 in on exposed coastal sites; shingle exposure 5–6 in; sill within 18 in of grade."
+      "statement": "Roof and wall overhangs kept under 8 in on exposed coastal sites; shingle exposure 5–6 in; sill within 18 in of grade.",
+      "id": "cape-cod-colonial.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-most",
+        "threshold": 8,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the overhang clause. Shingle exposure and sill height are the statement's other numeric claims and stay prose."
+      }
     }
   ],
   "exemplars": [

@@ -132,27 +132,79 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Chimneys sit at or within the gable end walls. A single central stack is a New England device and destroys the Dutch plan, which depends on an open one- or two-room volume."
+      "statement": "Chimneys sit at or within the gable end walls. A single central stack is a New England device and destroys the Dutch plan, which depends on an open one- or two-room volume.",
+      "id": "dutch-colonial-american.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_position",
+        "direction": "one-of",
+        "set": [
+          "gable-end-interior",
+          "gable-end-exterior"
+        ],
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Wall plate 7 ft 0 in – 9 ft 0 in above the finished floor. If the plate rises above 10 ft the roof stops governing the elevation and the building reads Georgian."
+      "statement": "Wall plate 7 ft 0 in – 9 ft 0 in above the finished floor. If the plate rises above 10 ft the roof stops governing the elevation and the building reads Georgian.",
+      "id": "dutch-colonial-american.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plate_height_ft",
+        "direction": "between",
+        "threshold": 7,
+        "upper": 9,
+        "units": "ft",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break point at 55–70% of the half-span. A gambrel whose two slopes differ by less than 30 degrees reads as a twentieth-century barn-roof house."
+      "statement": "Gambrel geometry: lower slope 60–72 degrees, upper slope 18–30 degrees, break point at 55–70% of the half-span. A gambrel whose two slopes differ by less than 30 degrees reads as a twentieth-century barn-roof house.",
+      "id": "dutch-colonial-american.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_lower_deg",
+        "direction": "between",
+        "threshold": 60,
+        "upper": 72,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the lower (eave-side) gambrel slope. The upper slope (18-30deg) and the break point (55-70% of half-span) are the same statement's other numeric claims and stay prose -- one test per constraint."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Full-width shed dormers are forbidden. They are the diagnostic signature of Dutch Colonial Revival, not of any colonial Dutch building."
+      "statement": "Full-width shed dormers are forbidden. They are the diagnostic signature of Dutch Colonial Revival, not of any colonial Dutch building.",
+      "id": "dutch-colonial-american.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "continuous_shed_dormer_present",
+        "direction": "one-of",
+        "set": [
+          "no"
+        ],
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Load-bearing stone walls 20–30 in thick, laid in lime mortar with wide joints; dressed and coursed on the entrance elevation, rubble elsewhere. Thin stone veneer over frame is a different building."
+      "statement": "Load-bearing stone walls 20–30 in thick, laid in lime mortar with wide joints; dressed and coursed on the entrance elevation, rubble elsewhere. Thin stone veneer over frame is a different building.",
+      "id": "dutch-colonial-american.c05",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 20,
+        "upper": 30,
+        "units": "in",
+        "measurable_from": "section"
+      }
     }
   ],
   "exemplars": [

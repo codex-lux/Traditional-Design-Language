@@ -140,27 +140,44 @@
     {
       "kind": "proportional",
       "statement": "Every room plan must conform to one of Palladio's approved ratios within 3 percent, and ceiling height must be a stated mean of the room's length and breadth.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-palladian.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "The giant order, banded rustication, broken and swan-neck pediments, and skyline statuary are forbidden. These are precisely the features the style was formed to eliminate.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-palladian.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Window aedicules and enriched surrounds occur on the piano nobile only. Ornamenting a basement or attic window inverts the hierarchy and destroys the composition.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-palladian.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Where a portico is used it must be full height of the piano nobile plus its entablature, free-standing or engaged, and land on the rusticated basement — not on a plinth invented for the purpose.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-palladian.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Hyphens and pavilions must be lower and shallower than the main block, with ridge heights stepping down by at least 25 percent at each stage.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-palladian.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "wing_height_deficit_pct",
+        "direction": "at-least",
+        "threshold": 25,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     }
   ],
   "exemplars": [
