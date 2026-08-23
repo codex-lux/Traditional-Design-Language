@@ -1,7 +1,7 @@
 {
   "style": "georgian-colonial-american",
   "style_name": "Georgian Colonial American",
-  "ontology_version": "0.4.0",
+  "ontology_version": "0.5.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -1222,6 +1222,16 @@
       "status": "drafted",
       "confidence": "high",
       "note": "This slot is the discriminator that half the envelope and opening group now depends on: primary_cladding, wall_thickness_expression, window_head, window_surround and cornice all carry applies_when.construction values that were previously prose. It is also the slot most likely to be argued with by a builder, and that argument is now about one field instead of five."
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "primary_cladding": {
       "group": "envelope",

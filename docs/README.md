@@ -5,7 +5,7 @@ One doc per layer, in stack order — bottom (the alphabet) to top (the platform
 | # | Layer | Doc | What it covers |
 |---|---|---|---|
 | 1 | Alphabet — style graph | [`model.md`](model.md) | Ranks, the two inheritance hierarchies (`member_of` vs `lineage`), edge semantics (`descends_from` / `references` / `regional_of` / `reacts_against` / `revives`), why the cascade only follows the first two. |
-| 2 | Alphabet — element ontology & massing | *(no standalone doc yet — see `../README.md` §2 and `../elements/slots.json`, `../massings/catalog.json` directly)* | 93 universal slots in 8 groups; 40 massings, each with `expansion_logic`. |
+| 2 | Alphabet — element ontology & massing | *(no standalone doc yet — see `../README.md` §2 and `../elements/slots.json`, `../massings/catalog.json` directly)* | 95 universal slots in 8 groups; 40 massings, each with `expansion_logic`. |
 | 3 | Alphabet — rooms & groupings | [`rooms.md`](rooms.md) | 58 room types (furniture, clearances, adjacency, privacy gradient, daylight); 16 groupings and `attaches_to`. |
 | 4 | Grammar — proportion packs | [`proportion.md`](proportion.md) | 36 packs as functions not tables; Vignola spine, authority overlays as deltas; module normalisation. |
 | 5 | Bindings — kits | [`inheritance.md`](inheritance.md) | The kit-of-parts cascade: how `descends_from`/`regional_of` resolve a style to a directory of slot bindings, `extends` vs restatement, provenance. |

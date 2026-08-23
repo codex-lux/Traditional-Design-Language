@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 93 element slots · 40 massings · 58 rooms · 16 groupings · 36 executable proportion packs · 209 named faults · 322 specified images · 12 partis · 23 MCP tools**
+**164 taxa · 476 lineage edges · 95 element slots · 40 massings · 58 rooms · 16 groupings · 36 executable proportion packs · 209 named faults · 322 specified images · 12 partis · 23 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->
@@ -25,7 +25,7 @@ Nodes relate to each other in two independent ways, and the separation is the po
 - `lineage` — a directed acyclic graph with typed edges. This is actual descent, and nodes routinely have several parents.
 
 **2. The element ontology** (`elements/slots.json`) and **massing catalog** (`massings/catalog.json`)
-93 universal slots in 8 groups, plus 40 style-independent volumetric skeletons, every one carrying `expansion_logic` — how the type grows without breaking. These are orthogonal to the style graph. A style does not *own* a cornice; it *specifies* one. Adding a style should never require adding a slot — if it does, the ontology was incomplete, not the style exotic.
+95 universal slots in 8 groups, plus 40 style-independent volumetric skeletons, every one carrying `expansion_logic` — how the type grows without breaking. These are orthogonal to the style graph. A style does not *own* a cornice; it *specifies* one. Adding a style should never require adding a slot — if it does, the ontology was incomplete, not the style exotic.
 
 **3. The grammar** (`proportions/`, `build/proportion_engine.py`) — see `docs/proportion.md`
 Element slots are the alphabet; a proportion pack is the syntax. 36 packs, and they are **functions, not tables**: give one a module and a context and it emits a fully dimensioned assembly, member by member, with profiles. Vignola's five orders are the spine; Palladio, Gibbs, Chambers and Benjamin are overlays carrying only their deltas. Brick course, timber bay, sash light, storey graduation and log are the non-classical equivalents, because most traditional buildings were proportioned from a material module and not from a column.
@@ -35,15 +35,15 @@ python3 build/proportion_engine.py compare vignola-doric gibbs-doric benjamin-do
 ```
 
 **4. The kit directories** (`kits/`)
-One file per style and variant (132 total), materializing all 93 slots, ready to populate. This is the folder structure the project development work hangs off — `kits/tidewater-georgian.kit.json` is the address a design conversation resolves to once a client picks a style. As of this writing 3 of 132 are populated; the other 129 are real, versioned skeletons at every slot's default `binding: "open"`, not stubs.
+One file per style and variant (132 total), materializing all 95 slots, ready to populate. This is the folder structure the project development work hangs off — `kits/tidewater-georgian.kit.json` is the address a design conversation resolves to once a client picks a style. As of this writing 3 of 132 are populated; the other 129 are real, versioned skeletons at every slot's default `binding: "open"`, not stubs.
 
-**Georgian Colonial is filled end to end** as the depth-first proof: 88 of 93 slots specified or forbidden, 417 variant records of which **119 are `forbidden`**, 417 typed parameters (172 `editorial`, 14 `invented`), 33 slots with proportion-pack precedence, 5 code conflicts, 4 slots marked `invented` because no precedent exists. Tidewater Georgian is then written as a 24-parameter override and English Georgian as an 8-parameter override, each resolving the rest from the parent — `build/resolve_kit.py` prints the provenance with a source column.
+**Georgian Colonial is filled end to end** as the depth-first proof: 88 of 95 slots specified or forbidden (95 as of WP-1.3's `wall_thickness_masonry`/`wall_thickness_frame` split — both open, unfilled, on every kit including this one), 417 variant records of which **119 are `forbidden`**, 417 typed parameters (172 `editorial`, 14 `invented`), 33 slots with proportion-pack precedence, 5 code conflicts, 4 slots marked `invented` because no precedent exists. Tidewater Georgian is then written as a 24-parameter override and English Georgian as an 8-parameter override, each resolving the rest from the parent — `build/resolve_kit.py` prints the provenance with a source column.
 
 **5. Rooms and groupings** (`rooms/`, `groupings/`) — see `docs/rooms.md`
 58 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 16 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
 
 **6. The fault corpus** (`faults/`) — see `docs/faults.md`
-209 named errors, **element-first**: they hang off slots, not styles, because the half-width shutter is wrong on every house that has shutters. All 93 slots covered. 846 style exceptions, 496 with numeric bounds — because a Georgian five-foot portico is a fatal fault by Craftsman rules and correct by its own. Every fault carries a `test`, so the corpus is executable: give it measurements from a photograph and it tells you which faults are present, which are clear, and which it could not judge.
+209 named errors, **element-first**: they hang off slots, not styles, because the half-width shutter is wrong on every house that has shutters. 93 of 95 slots covered — the two newest (`wall_thickness_masonry`/`wall_thickness_frame`, added in WP-1.3) have no fault authored against them yet. 846 style exceptions, 496 with numeric bounds — because a Georgian five-foot portico is a fatal fault by Craftsman rules and correct by its own. Every fault carries a `test`, so the corpus is executable: give it measurements from a photograph and it tells you which faults are present, which are clear, and which it could not judge.
 
 Exactly one of 209 faults has `driver: ignorance`. The rest are stock sizes, trade sequences, catalog defaults and code minima — and 32 of them cost money to get wrong.
 

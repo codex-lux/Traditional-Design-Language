@@ -4,7 +4,7 @@
 
 ## Element-first, style as a facet
 
-Faults hang off **slots**, not styles. The half-width shutter is wrong on every house that has shutters, and authoring it 164 times would hide the pattern rather than reveal it. All 93 slots carry at least one fault.
+Faults hang off **slots**, not styles. The half-width shutter is wrong on every house that has shutters, and authoring it 164 times would hide the pattern rather than reveal it. 93 of 95 slots carry at least one fault — `wall_thickness_masonry` and `wall_thickness_frame` (added in WP-1.3, 23 Aug 2026) are the two not yet covered.
 
 Style enters twice, and the second way matters more:
 

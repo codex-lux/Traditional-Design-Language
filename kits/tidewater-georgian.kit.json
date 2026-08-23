@@ -1,7 +1,7 @@
 {
   "style": "tidewater-georgian",
   "style_name": "Tidewater Georgian",
-  "ontology_version": "0.4.0",
+  "ontology_version": "0.5.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -233,6 +233,16 @@
       "confidence": "high",
       "note": "Specified rather than extends because the parent's list is genuinely a different distribution: braced timber frame is canonical there and merely permitted here, and solid masonry is the reverse. Three op:replace records would have said the same thing less clearly.",
       "status": "drafted"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "primary_cladding": {
       "group": "envelope",

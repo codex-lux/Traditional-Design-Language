@@ -1,6 +1,6 @@
 {
   "$comment": "The element ontology is ORTHOGONAL to the style graph. Slots are universal; a style is a set of bindings and constraints on these slots. Georgian does not own a cornice — it specifies one. Adding a style must never require adding a slot; if it does, the ontology was incomplete, not the style exotic.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "groups": [
     {
       "id": "massing-and-roof",
@@ -167,6 +167,22 @@
           "note": "Added in 0.2.0. The ontology recorded appearance and not construction, so nothing could state whether Flemish bond was physically possible or was half-bricks glued to a backup. Nearly every honest-material question resolves here."
         },
         {
+          "id": "wall_thickness_masonry",
+          "name": "Wall thickness, masonry",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "units": "in",
+          "note": "Split in 0.5.0 (docs/open-questions.md #12), the fourth and last of the same trade-conflation family as window_head, corner_treatment and window_surround (window_head_masonry/window_head_wood, corner_quoin/corner_board, window_surround_masonry/window_surround_wood, all split in 0.3.0) -- it had simply never been added as its own slot at all, under any name, before now. A solid-masonry or masonry-veneer wall's thickness is load-bearing geometry or a fixed veneer-plus-cavity-plus-backup buildup: 13-18 in for a two-wythe brick bearing wall, 18-30+ in for coursed stone, a veneer wall's own figure driven by code minimum cavity and backup rather than by any proportional module. Discriminate with construction_type."
+        },
+        {
+          "id": "wall_thickness_frame",
+          "name": "Wall thickness, frame",
+          "cardinality": "one",
+          "value_type": "parametric",
+          "units": "in",
+          "note": "Split in 0.5.0 (docs/open-questions.md #12), paired with wall_thickness_masonry. A framed wall's overall thickness is stud depth plus sheathing plus cladding plus interior finish -- typically 6-10 in for a 2x4 or 2x6 wall with modern insulation and siding -- and is a code and energy-code question, not a proportional one. The opposite assembly reaching a comparable overall dimension by a wholly different logic, the same relationship reveal_masonry/reveal_frame already models."
+        },
+        {
           "id": "primary_cladding",
           "name": "Primary cladding",
           "cardinality": "one",
@@ -267,13 +283,17 @@
           "id": "cornice",
           "name": "Main cornice",
           "cardinality": "one",
-          "value_type": "profile"
+          "value_type": "profile",
+          "derives_from_module": "entablature",
+          "note": "Added in 0.5.0 (docs/open-questions.md #13). The entablature's own cornice component when a full classical apparatus is bound (`entablature` in Classical Apparatus) -- and it, `frieze`, `modillion_dentil`, `crown` and `chair_rail` are the same object at different scales, three of them literally the same run. This cross-reference is not a regrouping: every one of the six keeps its own id and every existing kit binding stays valid. Where no `entablature` is bound at all -- the common case, since most vernacular envelope-only Georgian work states cornice and frieze directly without a full engaged order -- `cornice` is the de facto standalone module source the other four should still agree with."
         },
         {
           "id": "frieze",
           "name": "Frieze",
           "cardinality": "one",
-          "value_type": "profile"
+          "value_type": "profile",
+          "derives_from_module": "entablature",
+          "note": "Added in 0.5.0 (docs/open-questions.md #13). Sits directly below `cornice` in the same entablature run; see `cornice`'s note for how this cross-reference resolves when no `entablature` is bound."
         },
         {
           "id": "parapet",
@@ -510,7 +530,8 @@
           "id": "entablature",
           "name": "Entablature",
           "cardinality": "one",
-          "value_type": "assembly"
+          "value_type": "assembly",
+          "note": "Added in 0.5.0 (docs/open-questions.md #13): the root of a six-slot cross-reference family, not a regrouping. When bound, this IS the module source `cornice`, `frieze`, `modillion_dentil` (Envelope / Classical Apparatus), `crown` and `chair_rail` (Interior) should agree with -- see `cornice`'s note. This slot itself has no `derives_from_module`; it derives from the proportion pack's order, not from another slot."
         },
         {
           "id": "pediment",
@@ -535,7 +556,9 @@
           "id": "modillion_dentil",
           "name": "Modillion / dentil course",
           "cardinality": "one",
-          "value_type": "profile"
+          "value_type": "profile",
+          "derives_from_module": "entablature",
+          "note": "Added in 0.5.0 (docs/open-questions.md #13). A coursework detail within the cornice band; see `cornice`'s note for how this cross-reference resolves when no `entablature` is bound."
         },
         {
           "id": "balustrade",
@@ -653,12 +676,16 @@
           "id": "crown",
           "name": "Crown / cornice",
           "cardinality": "one",
-          "value_type": "profile"
+          "value_type": "profile",
+          "derives_from_module": "entablature",
+          "note": "Added in 0.5.0 (docs/open-questions.md #13). In high-style interior work this is the same run as the exterior cornice at a smaller scale, not an independently invented moulding; see `cornice`'s note for how this cross-reference resolves when no `entablature` is bound."
         },
         {
           "id": "chair_rail",
           "name": "Chair rail",
           "cardinality": "one",
+          "derives_from_module": "entablature",
+          "note": "Added in 0.5.0 (docs/open-questions.md #13, the ruling's own named example). Its module should derive from the same run as the exterior cornice rather than being independently invented; see `cornice`'s note for how this cross-reference resolves when no `entablature` is bound.",
           "value_type": "profile"
         },
         {

@@ -7,10 +7,24 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sch = json.load(open(f"{ROOT}/schema/style-node.schema.json"))
 massings = {m["id"] for m in json.load(open(f"{ROOT}/massings/catalog.json"))}
 slots = set()
+slot_records = {}
 for g in json.load(open(f"{ROOT}/elements/slots.json"))["groups"]:
-    for s in g["slots"]: slots.add(s["id"])
+    for s in g["slots"]:
+        slots.add(s["id"])
+        slot_records[s["id"]] = s
 
 nodes, errs, warns = {}, [], []
+
+# derives_from_module referential integrity (docs/open-questions.md #13): every
+# reference must point at a real slot, and not at itself.
+for sid, s in slot_records.items():
+    dfm = s.get("derives_from_module")
+    if dfm is None:
+        continue
+    if dfm not in slots:
+        errs.append(f"slot {sid}: derives_from_module '{dfm}' does not exist")
+    elif dfm == sid:
+        errs.append(f"slot {sid}: derives_from_module cannot reference itself")
 files = sorted(glob.glob(f"{ROOT}/styles/*.json"))
 for f in files:
     base = os.path.basename(f)[:-5]

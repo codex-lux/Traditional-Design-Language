@@ -1,7 +1,7 @@
 {
   "style": "english-georgian",
   "style_name": "English Georgian",
-  "ontology_version": "0.4.0",
+  "ontology_version": "0.5.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -244,6 +244,16 @@
       "status": "empty"
     },
     "construction_type": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_masonry": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "wall_thickness_frame": {
       "group": "envelope",
       "binding": "open",
       "status": "empty"
