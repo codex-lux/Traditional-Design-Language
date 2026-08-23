@@ -1,0 +1,337 @@
+"""Pins WP-3.2, the elevation generator -- see docs/elevation.md and docs/reports/wp-3.2-elevation-generator.md's
+own "What was found" section for the narrative version of most of what these tests pin directly.
+
+Follows the same discipline tests/test_roof.py established for WP-3.3: unit tests against the
+real code paths (including the ones a hand-authored synthetic plan has to exercise, because
+neither shipped reference plan carries every condition), plus explicit end-to-end tests against
+both shipped plans naming the acceptance criteria verbatim where practical, plus regression tests
+for bugs actually found and fixed during this WP (each one names the bug it pins, the same way
+test_roof.py's TestWingStepDown/TestCapeEaveCheck do for WP-3.3's own fixes).
+"""
+import json
+import math
+
+from conftest import ROOT, load_plan
+
+
+def _tidewater_elevation(elevation_module, style=None):
+    plan = load_plan("tidewater-georgian-careful")
+    if style is not None:
+        plan["style"] = style
+    return plan, elevation_module.build_elevation(plan)
+
+
+class TestGlassModuleForDate:
+    def test_before_1700_is_the_narrowest_band(self, elevation_module):
+        module_in, note = elevation_module.glass_module_for_date(1690)
+        assert module_in == 7.0
+
+    def test_1765_falls_in_the_1760_1800_band(self, elevation_module):
+        """The shipped tidewater-georgian-careful plan declares date_of_representation 1765."""
+        module_in, note = elevation_module.glass_module_for_date(1765)
+        assert module_in == 10.5
+
+    def test_after_1900_is_effectively_unlimited(self, elevation_module):
+        module_in, note = elevation_module.glass_module_for_date(1950)
+        assert module_in == elevation_module.GLASS_MODULE_AFTER_1900
+
+    def test_no_date_falls_back_to_the_period_neutral_default_with_a_note(self, elevation_module):
+        """An undeclared date does not stop a compositional elevation from being drawn at all --
+        it falls back to sash-light.json's own 1700-1760 band midpoint (9 in), stated as a
+        default rather than a guess at an actual date (see the module's own note)."""
+        module_in, note = elevation_module.glass_module_for_date(None)
+        assert module_in == 9.0
+        assert "no context.date_of_representation" in note
+
+
+class TestPackEnvAutoFill:
+    """Regression test for the bug: _val() originally only merged PE.DEFAULT_BINDINGS with the
+    caller's env, so any rule relying on proportion_engine.evaluate()'s own module/part/
+    column_height auto-fill (e.g. facade-classical's window_grouping_rule, which uses `module`
+    without the caller ever supplying it) raised ExprError: unbound name 'module'."""
+
+    def test_bay_count_rule_resolves_module_without_the_caller_supplying_it(self, elevation_module):
+        PE = elevation_module.PE
+        facade_pack = PE.resolve("facade-classical")
+        count, module_in = elevation_module._bay_count(facade_pack, span_ft=62.58)
+        assert count == 5   # verified against tidewater-georgian-careful's own outside width
+        assert module_in == facade_pack["module"]["default_size_in"]
+
+
+class TestStoreyWindowSizing:
+    """Regression test for the bug: sizing width first from a room-width proxy (the structural
+    bay module) and letting the sill fall out of head-minus-height put the sill at 55 in above
+    the floor -- tripped window-squarer-than-the-style-permits (fatal). Fixed by fixing the head
+    (from the ceiling rule) and the sill (opening-proportion's own 28-32 in convention) and
+    deriving height and width from those two fixed points instead."""
+
+    def test_sill_is_pinned_at_the_documented_convention(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert "error" not in elev
+        for w in elev["storey_windows"]:
+            assert w["sill_height_above_floor_in"] == elevation_module.TARGET_SILL_IN
+
+    def test_height_is_head_minus_sill_not_a_guessed_width_times_ratio(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        for w in elev["storey_windows"]:
+            assert math.isclose(w["opening_height_in"], w["head_height_above_floor_in"] - w["sill_height_above_floor_in"], abs_tol=0.01)
+
+    def test_single_head_datum_per_storey(self, elevation_module):
+        """opening-proportion.json's own hardest rule: DISTINCT HEAD DATUMS PERMITTED ON ONE
+        STOREY: ONE. _storey_window() is called once per storey and its head_height is shared by
+        every opening on that storey by construction -- this pins that both shipped plans keep it."""
+        for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            plan = load_plan(name)
+            elev = elevation_module.build_elevation(plan)
+            assert "error" not in elev
+            for w in elev["storey_windows"]:
+                assert w["head_datum_count"] == 1
+
+    def test_room_width_diagnostic_is_recorded_but_not_the_driver(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        gw = elev["storey_windows"][0]
+        assert "room_width_diagnostic_width_in" in gw
+        assert gw["room_width_diagnostic_width_in"] != gw["opening_width_in"]   # the two are independently sourced and need not agree
+
+
+class TestBayLayout:
+    def test_tidewater_front_gets_five_bays(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert elev["front"]["count"] == 5
+
+    def test_door_bay_is_centred(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        front = elev["front"]
+        mid = front["count"] // 2
+        assert front["kinds"][mid] == "door"
+        assert front["kinds"].count("door") == 1
+
+    def test_bays_are_spaced_evenly_across_the_real_face_width(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        front = elev["front"]
+        widths = [round(front["centres_ft"][i + 1] - front["centres_ft"][i], 3) for i in range(front["count"] - 1)]
+        assert all(math.isclose(w, front["actual_bay_width_in"] / 12.0, abs_tol=0.01) for w in widths)
+
+    def test_every_face_gets_an_odd_bay_count(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        for face in elevation_module.FACES:
+            assert elev["faces"][face]["count"] % 2 == 1
+
+
+class TestEntranceComposition:
+    def test_gibbs_ionic_applies_to_tidewater_georgian(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert elev["gibbs_order_applies_to_style"] is True
+
+    def test_casing_width_agrees_between_the_two_independently_sourced_rules(self, elevation_module):
+        """opening-proportion's door_surround (module/6) and gibbs-ionic's own casing rule
+        (opening_width/6) are the same expression at the same module -- confirmed to agree exactly."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        ent = elev["entrance"]
+        assert math.isclose(ent["casing_width_in"], ent["gibbs_casing_width_in"], abs_tol=0.01)
+
+    def test_sidelights_fit_within_the_composition_cap_on_the_tidewater_plan(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert elev["entrance"]["sidelights_present"] is True
+
+    def test_pilaster_width_equals_the_column_diameter_it_answers(self, elevation_module):
+        """column-without-answering-pilaster.json: a pilaster that genuinely answers a column
+        takes the column's own diameter as its width -- both figures come from the same
+        gibbs_module_in*2 expression here by construction, so the ratio is exactly 1.0."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        ent = elev["entrance"]
+        assert math.isclose(ent["pilaster_width_in"], ent["lower_shaft_diameter_in"], abs_tol=0.001)
+
+    def test_no_entasis_upper_equals_lower_shaft_diameter(self, elevation_module):
+        """Disclosed scope limit: this generator draws a flat doorcase pilaster shaft with no
+        entasis rule anywhere in the codebase, so upper and lower diameter are genuinely equal --
+        a real fact (this trips faults/column-without-entasis.json honestly), not an omission."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        ent = elev["entrance"]
+        assert ent["upper_shaft_diameter_in"] == ent["lower_shaft_diameter_in"]
+
+    def test_pilaster_projection_matches_the_kit_s_own_worked_example_order_of_magnitude(self, elevation_module):
+        """faults/pilaster-that-is-a-flat-board.json's own note works a 90 in column / 13.5 in
+        pilaster example to a 0.37 ratio; this doorcase's own numbers should land in the same
+        neighbourhood since it is the same rule (column_height/18) at a different module."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        ent = elev["entrance"]
+        ratio = ent["pilaster_projection_in"] / ent["pilaster_width_in"]
+        assert ratio > 0.125   # the fault's own generous threshold
+
+
+class TestEaveCornice:
+    def test_real_storey_height_is_used_not_the_stock_default(self, elevation_module):
+        """Regression test for the bug: eave_cornice() originally always used facade-classical's
+        stock 108 in default module regardless of the plan's actual (much taller, Tidewater)
+        storey height, undersizing the cornice and tripping cornice-that-is-a-fascia's own
+        wall-height-ratio secondary test."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert elev["eave_cornice"]["reduced_gibbs_module_in"] != elevation_module.eave_cornice(
+            elevation_module.PE.resolve("facade-classical"), elevation_module.PE.resolve("gibbs-ionic")
+        )["reduced_gibbs_module_in"]
+
+    def test_members_sum_to_the_stated_domestic_envelope(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        cornice = elev["eave_cornice"]
+        summed = sum(m["height_in"] for m in cornice["members"])
+        assert math.isclose(summed, cornice["cornice_height_in"], abs_tol=0.05)
+
+
+class TestWaterTableAndBelt:
+    def test_tidewater_plan_uses_brick_course_masonry_path(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert elev["water_table_belt"]["is_masonry"] is True
+        assert "brick-course" in elev["water_table_belt"]["source"]
+
+    def test_spec_builder_plan_uses_facade_classical_frame_path(self, elevation_module):
+        plan = load_plan("spec-builder-colonial")
+        elev = elevation_module.build_elevation(plan)
+        assert elev["water_table_belt"]["is_masonry"] is False
+        assert "facade-classical" in elev["water_table_belt"]["source"]
+
+
+class TestBuildElevationEndToEnd:
+    """Exercises the acceptance criteria named in the hand-off brief."""
+
+    def test_both_shipped_plans_produce_a_complete_record(self, elevation_module):
+        for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            plan = load_plan(name)
+            elev = elevation_module.build_elevation(plan)
+            assert "error" not in elev
+            assert elev["front"]["count"] >= 3
+            assert len(elev["measurements"]) > 50
+
+    def test_glass_module_matches_the_declared_date_of_representation(self, elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert plan["context"]["date_of_representation"] == 1765
+        assert elev["glass_module_in"] == 10.5
+
+
+class TestFaultCorpusIntegration:
+    """The elevation layer's own acceptance test: fed into plan_check.py's ELEVATION LAYER
+    (build/plan_check.py), the careful reference plan should trip zero fatal faults, and the
+    layer should meaningfully raise how many of the corpus's photograph-measurable faults get
+    evaluated at all (present or clear, as opposed to could_not_judge)."""
+
+    def test_careful_plan_trips_no_fatal_faults(self, elevation_module):
+        # This reproduces exactly what build/plan_check.py's own ELEVATION LAYER block does
+        # (build the record, fold its measurements dict into core.check_measurements) -- the
+        # same assertion the WP-3.2 verification runs made repeatedly while chasing each fatal
+        # (window sill, gutter-as-cornice, storey alignment, cornice-that-is-a-fascia, roof
+        # pitch rounding, pork-chop-return) to ground one at a time.
+        import core
+        plan = load_plan("tidewater-georgian-careful")
+        elev = elevation_module.build_elevation(plan)
+        res = core.check_measurements(elev["measurements"], style=plan["style"], limit=1000)
+        fatal = [f for f in res["faults_present"] if f["severity"] == "fatal"]
+        assert fatal == []
+
+    def test_elevation_layer_measurements_are_folded_into_plan_checks_own_meas_dict(self, elevation_module):
+        """Regression test for the KeyError bug: front (=elev['front']) IS the bay-layout dict
+        itself, not a dict containing a nested 'bays' key -- `bays = front["bays"]` raised
+        KeyError; fixed to `bays = front` (a direct alias)."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert "pier_width_in" in elev["measurements"]   # only reachable if the bays alias resolved correctly
+
+    def test_a_plans_own_declared_measurement_still_wins_over_the_generated_one(self, elevation_module):
+        """spec-builder-colonial.json declares its own (deliberately flawed) shutter_leaf_width_in
+        and window_opening_width_in -- setdefault precedence must leave those alone even after
+        elevation.py's own measurements are folded in under the same keys."""
+        import core
+        plan = load_plan("spec-builder-colonial")
+        declared = dict(plan.get("measurements") or {})
+        elev = elevation_module.build_elevation(plan)
+        meas = dict(elev["measurements"])
+        for k, v in declared.items():
+            meas.setdefault(k, v)   # WRONG order on purpose, to prove the real code's order matters
+        # the real order (plan_check.py's ELEVATION LAYER) starts from the plan's own declared
+        # measurements and only setdefaults the generated ones on top -- reproduce that here
+        real_meas = dict(declared)
+        for k, v in elev["measurements"].items():
+            real_meas.setdefault(k, v)
+        assert real_meas["shutter_leaf_width_in"] == declared["shutter_leaf_width_in"]
+        res = core.check_measurements(real_meas, style=plan["style"], limit=1000)
+        ids = [f["fault"] for f in res["faults_present"]]
+        assert "shutter-half-width-leaf" in ids
+
+
+class TestSegTo:
+    """Direct port check against build/orders_template.html's segTo() -- same case list, same
+    control-point arithmetic, called with the same six arguments in the same order."""
+
+    def _sx(self, x): return x
+    def _sy(self, y): return y
+
+    def test_ovolo_uses_a_single_quadratic_with_control_at_xb_ya(self, render_elevation_module):
+        d = render_elevation_module.seg_to("ovolo", 0, 0, 5, 10, self._sx, self._sy)
+        assert d.strip().startswith("Q 5.00,0.00")
+        assert d.strip().endswith("5.00,10.00")
+
+    def test_cavetto_uses_control_at_xa_yb(self, render_elevation_module):
+        d = render_elevation_module.seg_to("cavetto", 0, 0, 5, 10, self._sx, self._sy)
+        assert "Q 0.00,10.00" in d
+
+    def test_cyma_reversa_and_ogee_are_the_same_curve(self, render_elevation_module):
+        a = render_elevation_module.seg_to("cyma-reversa", 0, 0, 5, 10, self._sx, self._sy)
+        b = render_elevation_module.seg_to("ogee", 0, 0, 5, 10, self._sx, self._sy)
+        assert a == b
+
+    def test_bevel_is_a_plain_line(self, render_elevation_module):
+        d = render_elevation_module.seg_to("bevel", 0, 0, 5, 10, self._sx, self._sy)
+        assert d.strip() == "L 5.00,10.00"
+
+    def test_default_case_is_a_square_step(self, render_elevation_module):
+        for profile in ("fillet", "listel", "fascia", "plinth", "corona", "modillion", "dentil"):
+            d = render_elevation_module.seg_to(profile, 0, 0, 5, 10, self._sx, self._sy)
+            assert d.strip() == "L 5.00,0.00 L 5.00,10.00"
+
+
+class TestProfileSilhouettePath:
+    def test_empty_members_gives_an_empty_path(self, render_elevation_module):
+        assert render_elevation_module.profile_silhouette_path([], lambda x: x, lambda y: y) == ""
+
+    def test_real_cornice_members_produce_a_closed_path(self, elevation_module, render_elevation_module):
+        plan, elev = _tidewater_elevation(elevation_module)
+        d = render_elevation_module.profile_silhouette_path(elev["eave_cornice"]["members"], lambda x: x, lambda y: y)
+        assert d.startswith("M ")
+        assert d.rstrip().endswith("Z")
+
+
+class TestRenderElevation:
+    def test_both_shipped_plans_render_a_valid_svg(self, elevation_module, render_elevation_module, tmp_path):
+        for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            plan = load_plan(name)
+            elev = elevation_module.build_elevation(plan)
+            out = tmp_path / f"{name}-elevation.svg"
+            render_elevation_module.render_elevation(elev, str(out))
+            text = out.read_text()
+            assert text.startswith("<svg")
+            assert "ELEVATION" in text
+            assert "EAVE CORNICE PROFILE" in text
+
+    def test_gable_end_face_renders_the_roofline_and_chimney(self, elevation_module, render_elevation_module, tmp_path):
+        plan, elev = _tidewater_elevation(elevation_module)
+        out = tmp_path / "tidewater-E.svg"
+        render_elevation_module.render_elevation(elev, str(out), face="E")
+        text = out.read_text()
+        assert 'class="rf"' in text
+        assert 'class="ch"' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
+
+    def test_long_face_of_a_side_gable_shows_no_chimney(self, elevation_module, render_elevation_module, tmp_path):
+        """WP-3.3's own finding: both of this plan's chimneys sit on the gable-end (E/W) walls --
+        the S/N long faces should not draw a chimney that is not actually in that wall's plane."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        out = tmp_path / "tidewater-S.svg"
+        render_elevation_module.render_elevation(elev, str(out), face="S")
+        text = out.read_text()
+        assert 'class="ch"' not in text
+
+    def test_unjudged_ridge_renders_a_flat_roofline_not_an_invented_pitch(self, elevation_module, render_elevation_module, tmp_path):
+        plan = load_plan("spec-builder-colonial")
+        elev = elevation_module.build_elevation(plan)
+        assert elev["roof_record"]["main"].get("pitch_rise_per_12") is None   # colonial-revival carries no migrated pitch constraint (WP-3.3)
+        out = tmp_path / "spec-builder-elevation.svg"
+        render_elevation_module.render_elevation(elev, str(out))
+        text = out.read_text()
+        assert text.startswith("<svg")

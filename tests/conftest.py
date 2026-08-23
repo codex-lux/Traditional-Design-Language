@@ -92,6 +92,18 @@ def render_roof_module():
     return render_roof
 
 
+@pytest.fixture(scope="session")
+def elevation_module():
+    import elevation
+    return elevation
+
+
+@pytest.fixture(scope="session")
+def render_elevation_module():
+    import render_elevation
+    return render_elevation
+
+
 def load_style(style_id):
     with open(os.path.join(ROOT, "styles", f"{style_id}.json")) as f:
         return json.load(f)

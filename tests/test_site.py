@@ -203,10 +203,14 @@ class TestComposerHonoursLotWidth:
         assert townhouse[0]["footprint"]["footprint_ft"][0] == 24
 
     def test_wide_lot_is_unconstrained_exactly_as_before_this_package(self, compose_module):
-        """family-georgian's own brief already carries a 120 ft lot -- confirms this package
-        did not change behaviour when the lot was never the binding constraint."""
+        """family-georgian's own brief already carries a 120 ft lot -- confirms the lot-width
+        package did not change behaviour when the lot was never the binding constraint (no
+        candidate is dropped as lot-infeasible). Which parti ranks first is a SEPARATE question
+        this test does not pin -- WP-3.2's elevation layer changed that answer for reasons that
+        have nothing to do with lot width (see tests/test_composer.py's own module docstring for
+        the trace); re-pinning it here would duplicate that test and tie an unrelated finding to
+        the wrong package."""
         result = compose_module.compose(_brief("family-georgian"))
-        assert result["candidates"][0]["parti_name"] == "Centre Passage, Single Pile"
         assert not result.get("dropped_lot_infeasible")
 
 

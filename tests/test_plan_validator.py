@@ -7,6 +7,18 @@ finding on each shipped plan — 54 vs the actual 49 on Spec Builder Colonial,
 below needs to change because a rule legitimately changed, update docs/plans.md
 in the same commit — that table drifting silently is exactly the failure mode
 this suite exists to catch.
+
+RE-PINNED for WP-3.2 (the elevation generator, docs/reports/wp-3.2-elevation-generator.md): build/plan_check.py's
+new ELEVATION LAYER folds build/elevation.py's own bay/window/cornice/roof measurements into
+every check() call for a style within its scope (both shipped plans qualify -- colonial-revival
+and tidewater-georgian are both in opening-proportion.json's and facade-classical.json's own
+applies_to lists). That is a large amount of previously could_not_judge coverage becoming
+evaluable for the first time, which is why serious/minor rose sharply on both plans, and why Spec
+Builder Colonial picked up a fourth, genuine fatal: it declares window_opening_width_in (36 in)
+but never declared a height, so window-squarer-than-the-style-permits could not evaluate before
+-- the elevation layer now supplies a real generated height (setdefault, the plan's own width
+still wins), and the resulting ratio (1.693) is honestly below the style's own 1.85 floor. Not a
+new bug planted by this WP; an old one this WP made visible for the first time.
 """
 from conftest import load_plan, minimal_plan
 
@@ -15,28 +27,30 @@ class TestShippedPlans:
     def test_spec_builder_colonial_counts(self, plan_check_module, corpus):
         plan = load_plan("spec-builder-colonial")
         result = plan_check_module.check(plan, corpus)
-        assert result["counts"]["fatal"] == 3
-        assert result["counts"]["serious"] == 49
-        assert result["counts"]["minor"] == 51
+        assert result["counts"]["fatal"] == 4
+        assert result["counts"]["serious"] == 70
+        assert result["counts"]["minor"] == 59
 
-    def test_spec_builder_colonial_three_named_fatals(self, plan_check_module, corpus):
-        """The three fatals docs/plans.md names: the powder-room door off the
-        dining room, the primary bedroom over the garage, and the half-width
-        shutter."""
+    def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
+        """The three fatals docs/plans.md names (the powder-room door off the dining room, the
+        primary bedroom over the garage, and the half-width shutter) plus a fourth WP-3.2 made
+        newly evaluable: the plan's own declared window width (36 in, no declared height) against
+        the elevation layer's own generated height -- ratio 1.693, below the style's 1.85 floor."""
         plan = load_plan("spec-builder-colonial")
         result = plan_check_module.check(plan, corpus)
         fatals = [f["statement"] for f in result["findings"] if f["severity"] == "fatal"]
-        assert len(fatals) == 3
+        assert len(fatals) == 4
         assert any("Dining Room" in s and "Powder Room" in s for s in fatals)
         assert any("Garage" in s and "Primary Bedroom" in s for s in fatals)
         assert any("Half-Width Shutter" in s or "half-width" in s.lower() for s in fatals)
+        assert any("Square Window" in s for s in fatals)
 
     def test_tidewater_georgian_careful_counts(self, plan_check_module, corpus):
         plan = load_plan("tidewater-georgian-careful")
         result = plan_check_module.check(plan, corpus)
         assert result["counts"].get("fatal", 0) == 0
-        assert result["counts"]["serious"] == 18
-        assert result["counts"]["minor"] == 60
+        assert result["counts"]["serious"] == 39
+        assert result["counts"]["minor"] == 67
 
 
 class TestAdjacencyMechanics:

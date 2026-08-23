@@ -480,6 +480,20 @@ def check(plan, C=None, strict=False):
     if rooms:
         first = next(iter(rooms.values()))
         if first.get("ceiling_ft"): meas.setdefault("ceiling_height_in", first["ceiling_ft"] * 12)
+    # ELEVATION LAYER (WP-3.2): build/elevation.py's own measurements dict is folded in here,
+    # under the SAME setdefault precedence as everything else above -- a plan's own declared
+    # measurements always win over what the generator derived. Wrapped: a plan that structure.py
+    # or geometry.py cannot solve (an incomplete draft, say) should not take the whole validator
+    # down with it; it just gets no elevation-derived measurements, same as "unjudged is not
+    # passed" everywhere else in this corpus.
+    try:
+        EL = _load("elevation", f"{ROOT}/build/elevation.py")
+        elev = EL.build_elevation(plan)
+        if "error" not in elev:
+            for k, v in elev.get("measurements", {}).items():
+                meas.setdefault(k, v)
+    except Exception:
+        pass
     fr = core.check_measurements(meas, style=style) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
     for x in fr.get("faults_present", []):
         F.add(x["severity"] if x["severity"] in SEV_ORDER else "serious", "fault",
