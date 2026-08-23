@@ -152,27 +152,46 @@
     {
       "kind": "co-occurrence",
       "statement": "Brick must be red, finely jointed and finished with rubbed or cut brick at openings; external joinery must be painted white or off-white. Breaking the red-and-white pairing removes the style's primary identity.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "queen-anne-british.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Windows are square-headed sashes or casements. Pointed arches, tracery, buttresses and structural polychromy are forbidden — those belong to the style this one was formed against.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "queen-anne-british.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Where tile-hanging occurs it must begin at a floor level and be carried on a proper oversailing course, never start mid-storey. The material change is a construction event, not a decorative one.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "queen-anne-british.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Chimney stacks rise 1.5-3 m above the ridge and are grouped, thin and multiple. A single squat stack cannot carry the composition.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "queen-anne-british.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "between",
+        "threshold": 4.9,
+        "upper": 9.8,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Converted from the source's 1.5-3 m (not a corpus unit) to ft to match chimney_height_above_ridge_ft. 'Grouped, thin and multiple' stays prose -- no vocabulary variable for chimney grouping or stack thinness."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Entry must not be centred on a symmetrical front unless the whole building is a deliberate small-scale quotation of a 1700 house.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "queen-anne-british.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

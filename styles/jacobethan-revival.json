@@ -148,27 +148,53 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "All gables on principal elevations must be parapeted: the wall carries a minimum 12 in. past the roof plane and is capped with coping not less than 6 in. thick. Raking eaves and bargeboards are forbidden in this variant."
+      "statement": "All gables on principal elevations must be parapeted: the wall carries a minimum 12 in. past the roof plane and is capped with coping not less than 6 in. thick. Raking eaves and bargeboards are forbidden in this variant.",
+      "id": "jacobethan-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "parapet_height_in",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the minimum wall-past-roof-plane rise. Coping thickness (>=6in, no matching vocabulary variable) and the prohibition on raking eaves/bargeboards stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Applied half-timbering is forbidden. The variant is defined by its absence; a single timbered panel returns the building to tudor-revival."
+      "statement": "Applied half-timbering is forbidden. The variant is defined by its absence; a single timbered panel returns the building to tudor-revival.",
+      "id": "jacobethan-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Principal windows must be mullioned and transomed in stone or cast stone, mullions 4-6 in. wide, lights 18-24 in. wide, with a minimum of three lights per opening on principal rooms. Single punched windows with wood casings void the variant."
+      "statement": "Principal windows must be mullioned and transomed in stone or cast stone, mullions 4-6 in. wide, lights 18-24 in. wide, with a minimum of three lights per opening on principal rooms. Single punched windows with wood casings void the variant.",
+      "id": "jacobethan-revival.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Entrance on the centre line of the composition, within an ornamented porch or frontispiece not exceeding 1.5 bay widths, with a four-centred or flat arch under a label moulding."
+      "statement": "Entrance on the centre line of the composition, within an ornamented porch or frontispiece not exceeding 1.5 bay widths, with a four-centred or flat arch under a label moulding.",
+      "id": "jacobethan-revival.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Chimney stacks clustered in groups of two to four shafts, minimum 18 in. square each, rising not less than 4'0\" above the adjacent ridge. Single plain stacks are permitted only on service ranges."
+      "statement": "Chimney stacks clustered in groups of two to four shafts, minimum 18 in. square each, rising not less than 4'0\" above the adjacent ridge. Single plain stacks are permitted only on service ranges.",
+      "id": "jacobethan-revival.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 4,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Shaft count per cluster (two to four) and individual shaft cross-section (18in square) have no matching vocabulary variable and stay prose."
+      }
     }
   ],
   "exemplars": [

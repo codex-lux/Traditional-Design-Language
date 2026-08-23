@@ -131,27 +131,53 @@
     {
       "kind": "co-occurrence",
       "statement": "Where shaped gables occur they must be repeated in a symmetrical set of at least three, or paired on end pavilions. A single shaped gable on an otherwise plain front is a Victorian move.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "jacobean.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The entrance porch projects from the wall plane by not less than 1.2 m and carries a room above it. A flat applied frontispiece belongs to Elizabethan.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "jacobean.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "at-least",
+        "threshold": 47.2,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Converted from the source's 1.2 m to in. Tests the porch-projection minimum. 'Carries a room above it' is a plan/programmatic fact, not a projection dimension, and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Brick walling requires stone or moulded-brick dressings at every opening, quoin and coping; unrelieved brick with no dressings reads as later vernacular.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "jacobean.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Windows remain mullioned and transomed with leaded lights. Sash windows are forbidden; where they occur on a real Jacobean house they are an eighteenth-century alteration and should be modelled as such.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "jacobean.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Glazing ratio 30-45 percent on principal elevations — above this the building reads Elizabethan, below it Tudor.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "jacobean.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "between",
+        "threshold": 30,
+        "upper": 45,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     }
   ],
   "exemplars": [

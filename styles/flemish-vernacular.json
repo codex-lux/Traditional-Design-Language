@@ -130,27 +130,53 @@
     {
       "kind": "structural",
       "statement": "Timber frame and solid brick are alternatives, not layers. A vakwerk elevation must stand on a fired-brick or stone plinth at least 400 mm above grade, and must not be applied decoratively over a masonry wall.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "flemish-vernacular.c01",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "at-least",
+        "threshold": 15.7,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Converted from the source's 400 mm to in. Tests the plinth-height minimum only. 'Timber frame and solid brick are alternatives, not layers' / 'must not be applied decoratively over a masonry wall' is a construction-method prohibition with no matching vocabulary variable and stays prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Stone banding must fall at real structural lines — plinth, sill, lintel, floor level, springing. Bands that float free of those lines read as wallpaper and are prohibited.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "flemish-vernacular.c02",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Pantile roofs at 45-55 degrees; thatch not below 50. Eaves overhang at least 300 mm, carried lower on the working (byre and midden) side to shelter the doors.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "flemish-vernacular.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-least",
+        "threshold": 11.8,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Converted from the source's 300 mm to in. Tests the eave-overhang minimum, which is unconditional. Roof pitch is a material-conditioned disjunction (pantile 45-55 deg, thatch not below 50 deg) with no safe shared bound -- testing at the looser bound would pass a 70 deg pantile roof the statement forbids -- so it stays prose, as does 'carried lower on the working side'."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "A closed farm must have exactly one wagon gate; secondary pedestrian doors are cut through a range, never through a second arch in the outer wall.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "flemish-vernacular.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Crow steps are set out in whole brick courses and must be capped; an uncapped step erodes within a generation and is not a permissible detail.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "flemish-vernacular.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

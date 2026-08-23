@@ -132,27 +132,45 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "All principal exterior walls shall batter inward between 1:12 and 1:20 from base to cornice. A plumb-walled building with Egyptian ornament is not Egyptian Revival."
+      "statement": "All principal exterior walls shall batter inward between 1:12 and 1:20 from base to cornice. A plumb-walled building with Egyptian ornament is not Egyptian Revival.",
+      "id": "egyptian-revival.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Every terminating horizontal edge shall be composed as torus roll below cavetto cornice, in that order and without intervening classical mouldings. Dentils, modillions, and egg-and-dart are forbidden anywhere on the building."
+      "statement": "Every terminating horizontal edge shall be composed as torus roll below cavetto cornice, in that order and without intervening classical mouldings. Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+      "id": "egyptian-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "No arches. All openings shall be spanned by lintels. A single round or pointed arch voids the identification."
+      "statement": "No arches. All openings shall be spanned by lintels. A single round or pointed arch voids the identification.",
+      "id": "egyptian-revival.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_rise_in",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "A zero-rise head over every opening is the geometric signature of a flat lintel span with no arch, so the statement's own 'no arches, all openings spanned by lintels' is captured using the existing arch-rise variable at zero rather than an arch-presence boolean the vocabulary doesn't have."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Column shaft height shall be between 4 and 5.5 base diameters, with intercolumniation between 1.5 and 2.5 diameters. Shafts shall be reed-bundle or palm form and shall never carry classical fluting or entasis."
+      "statement": "Column shaft height shall be between 4 and 5.5 base diameters, with intercolumniation between 1.5 and 2.5 diameters. Shafts shall be reed-bundle or palm form and shall never carry classical fluting or entasis.",
+      "id": "egyptian-revival.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "The winged sun disk shall appear once per elevation, in the cavetto directly over the principal entry. Repeating it along a frieze is a twentieth-century cinema convention, not a nineteenth-century one."
+      "statement": "The winged sun disk shall appear once per elevation, in the cavetto directly over the principal entry. Repeating it along a frieze is a twentieth-century cinema convention, not a nineteenth-century one.",
+      "id": "egyptian-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

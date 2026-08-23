@@ -143,27 +143,70 @@
     {
       "kind": "climatic",
       "statement": "Roof pitch not less than 45 degrees where thatch is used, and 50 degrees preferred; thatch must run as an unbroken surface with no valleys, no hard verges and no interruption by boxed dormers.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-cottage-vernacular.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "at-least",
+        "threshold": 45,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the hard 45-degree minimum. The 50-degree preferred figure is advisory, not the hard bound, and the unbroken-surface/no-valleys/no-hard-verges/no-dormer requirements are categorical and stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Cob and clay walls require a masonry or rubble plinth at least 450 mm above ground and a generous roof overhang at the eaves — the traditional formula of a good hat and a good pair of boots. Neither is optional.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-cottage-vernacular.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "water_table_height_in",
+        "direction": "at-least",
+        "threshold": 450,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the plinth-height clause ('boots'). The eaves-overhang clause ('hat') gives no number -- 'generous' is not a stated threshold -- and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Lime mortar, lime render and limewash only. Cement render on a cob or rubble wall traps water and will collapse the wall from within.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-cottage-vernacular.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Eaves height 2.0-2.7 m at the wall plate, and glazed area not more than about 10 percent of floor area. A cottage with tall eaves and large windows is a different building type wearing a thatched hat.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-cottage-vernacular.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plate_height_ft",
+        "direction": "between",
+        "threshold": 2.0,
+        "upper": 2.7,
+        "units": "m",
+        "measurable_from": "elevation",
+        "note": "Tests the eaves-height clause. The glazed-area clause (not more than 10 percent of FLOOR area) has no matching vocabulary variable -- glazed_area_pct_wall exists but is glazed area over WALL area, a different denominator -- and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "One chimney stack must dominate the composition, rising at least 1 m above the ridge. Multiple equal stacks belong to a farmhouse or a gentry house, not a cottage.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-cottage-vernacular.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "m",
+        "measurable_from": "elevation",
+        "note": "Tests the ridge-clearance clause for the dominant stack. The single-dominant-stack-versus-multiple-equal-stacks comparison stays prose."
+      }
     }
   ],
   "exemplars": [

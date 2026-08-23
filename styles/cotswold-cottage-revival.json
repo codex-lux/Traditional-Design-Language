@@ -144,27 +144,61 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch not less than 12:12 on all principal planes, with the roof occupying not less than 45 percent of the elevation height. Eaves and rakes must be rolled, swept, or clipped with a radius of 6-12 in. and carried continuously around external corners; a straight fascia and a square rake void the variant."
+      "statement": "Roof pitch not less than 12:12 on all principal planes, with the roof occupying not less than 45 percent of the elevation height. Eaves and rakes must be rolled, swept, or clipped with a radius of 6-12 in. and carried continuously around external corners; a straight fascia and a square rake void the variant.",
+      "id": "cotswold-cottage-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch floor. 'Roof occupying not less than 45 percent of the elevation height' and the eave/rake sweep radius (6-12in) have no matching vocabulary variable and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "A masonry chimney must be expressed on the entrance elevation, occupying between 1/4 and 1/3 of that elevation's width, projecting not less than 12 in. from the wall, and rising not less than 3'0\" above the ridge."
+      "statement": "A masonry chimney must be expressed on the entrance elevation, occupying between 1/4 and 1/3 of that elevation's width, projecting not less than 12 in. from the wall, and rising not less than 3'0\" above the ridge.",
+      "id": "cotswold-cottage-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 3,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the ridge-rise minimum. Chimney width as a fraction of the entrance elevation (1/4-1/3, no matching vocabulary variable) and wall projection (>=12in, matching wall_plane_advance_recess_in but not tested here) stay prose -- one test per constraint."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Applied half-timbering is forbidden. Wall material is irregular coursed stone, or stucco over masonry, or the two combined; the material change must occur at a chimney, a corner, or a wing junction, never mid-plane."
+      "statement": "Applied half-timbering is forbidden. Wall material is irregular coursed stone, or stucco over masonry, or the two combined; the material change must occur at a chimney, a corner, or a wing junction, never mid-plane.",
+      "id": "cotswold-cottage-revival.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Wall thickness expressed with a minimum 6 in. reveal at all openings, with stone or wood lintels visible over doors and principal windows. Windows are casements with true divided lights, leaves 14-20 in. wide."
+      "statement": "Wall thickness expressed with a minimum 6 in. reveal at all openings, with stone or wood lintels visible over doors and principal windows. Windows are casements with true divided lights, leaves 14-20 in. wide.",
+      "id": "cotswold-cottage-revival.c04",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Lintel material (stone or wood) is qualitative. Casement leaf width (14-20in) has no matching vocabulary variable -- a casement-leaf-width variable is missing -- and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "advisory",
-      "statement": "Limit deliberate irregularities to three per elevation - for example a swept eave, a stepped chimney, and a catslide. Beyond that the building reads as Storybook rather than as a cottage, which is a different style."
+      "statement": "Limit deliberate irregularities to three per elevation - for example a swept eave, a stepped chimney, and a catslide. Beyond that the building reads as Storybook rather than as a cottage, which is a different style.",
+      "id": "cotswold-cottage-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

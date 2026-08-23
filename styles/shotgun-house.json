@@ -134,27 +134,62 @@
     {
       "kind": "structural",
       "statement": "All door openings must align on a single longitudinal axis within 3 inches, front door to rear door. Offsetting an interior door breaks the ventilation path that is the type's entire environmental strategy.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "shotgun-house.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Overall width 12-16 feet, one room wide throughout, with no interior hallway. A hall added down one side converts the building to a side-hall cottage and is a different type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "shotgun-house.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "facade_width_ft",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 16,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the overall width range (12-16ft) via facade_width_ft, the narrow gable end that addresses the street. 'No interior hallway' is also cleanly testable via corridor_present = 'no' but is left as prose here since the schema allows one test per constraint."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Ceiling height minimum 10 feet (11-12 typical), with a transom over every interior door and operable windows on both side walls of every room. The section is the cooling system.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "shotgun-house.c03",
+      "scope": "section",
+      "test": {
+        "expression": "ceiling_height_ground_in",
+        "direction": "at-least",
+        "threshold": 120,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the 10ft minimum ceiling height. The interior-door-transom requirement and the two-side operable-window rule are left as prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Full-width front porch of at least 5 feet depth (6-8 preferred), raised 18-36 inches above grade. The porch is the house's only social space and its only public face; a shotgun without one is incomplete rather than merely plain.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "shotgun-house.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 5,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the minimum full-width porch depth (5ft) via gallery_depth_ft. The raised-floor height above grade (18-36in, testable via floor_height_above_grade_in) is left as prose here since the schema allows one test per constraint."
+      }
     },
     {
       "kind": "structural",
       "statement": "Growth is to the rear only. A camelback second storey must begin at least two rooms back from the front wall so the street elevation remains single-storey; a full second storey over the front rooms destroys the type.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "shotgun-house.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

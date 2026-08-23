@@ -132,27 +132,54 @@
     {
       "kind": "climatic",
       "statement": "At 36-38 degrees north, court width must be between 0.6 and 1.0 times the height of the enclosing ranges. Wider and the court floor bakes through the afternoon; narrower and it becomes a lightwell that admits no winter sun.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "moorish-andalusian.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "court_width_ft / facade_height_ft",
+        "direction": "between",
+        "threshold": 0.6,
+        "upper": 1.0,
+        "units": "ratio",
+        "measurable_from": "plan",
+        "note": "Reuses facade_height_ft as a stand-in for 'height of the enclosing ranges' -- the height of the walls that face onto the court is the same wall height the elevation record already states for this building, flagged here as a reuse rather than a purpose-built variable."
+      }
     },
     {
       "kind": "climatic",
       "statement": "External walls of tapia or brick, 600-900 mm minimum. Openings in the outer street wall not to exceed 5 percent of its area and to be set high, above head height from the street.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "moorish-andalusian.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 5,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the street-wall opening-area ceiling. Wall thickness (600-900 mm minimum, maps to wall_thickness_in) and the opening-height requirement ('set high, above head height') are further facts in the same sentence, left as prose for the single-test limit."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Surface ornament must be stratified: tile below roughly 2 m, carved plaster above, timber ceiling, with a horizontal band at each transition. A single material or pattern running floor to ceiling is prohibited.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "moorish-andalusian.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The horseshoe arch must continue its curve below the springing line by a quarter to a third of its radius. Less than that and it is a round arch with a stylistic pretension.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "moorish-andalusian.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Water is required on the principal axis of any court of consequence, still or moving. A dry court is a yard.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "moorish-andalusian.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -144,27 +144,70 @@
     {
       "kind": "proportional",
       "statement": "Eave and rake overhang shall be between 24 and 36 in, and shall be equal on eave and rake within 6 in. An overhang under 18 in disqualifies the node.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "craftsman.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 24,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the overhang range. The eave-to-rake equality tolerance (within 6 in) has no comparator vocabulary variable and stays prose; the 'under 18 in disqualifies' clause is subsumed by (and looser than) the tested lower bound of 24 in."
+      }
     },
     {
       "kind": "structural",
       "statement": "The porch roof must be framed under the primary roof — either as a continuation of the main slope or as a subordinate gable tied into it. A shed roof applied to the wall below the main eave is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "craftsman.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Principal roof pitch between 3:12 and 6:12.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "craftsman.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide. Turned columns, fluted columns, and classical capitals are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "craftsman.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "pier_width_in",
+        "direction": "at-least",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the masonry base width. The prohibition on turned/fluted columns and classical capitals is a categorical list and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Divided lights occur in the upper sash only; the lower sash is a single light. Muntins are vertical, three or four per upper sash, and not less than 1 1/8 in wide.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "craftsman.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazing_bar_width_in",
+        "direction": "at-least",
+        "threshold": 1.125,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the minimum muntin width. The sash light pattern (divided upper sash only, three or four vertical muntins, single-light lower sash) is a categorical description with no fixed pattern id to test against and stays prose."
+      }
     }
   ],
   "exemplars": [

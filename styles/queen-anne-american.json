@@ -162,27 +162,60 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "One mass shall dominate the composition, exceeding every other mass by at least 50 percent in either height above eave or plan area. A composition of equal masses is not Queen Anne; it is Stick Style or an incoherent accumulation."
+      "statement": "One mass shall dominate the composition, exceeding every other mass by at least 50 percent in either height above eave or plan area. A composition of equal masses is not Queen Anne; it is Stick Style or an incoherent accumulation.",
+      "id": "queen-anne-american.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Not fewer than two distinct wall textures shall appear on each principal elevation, and each texture change shall occur at a horizontal belt course, water table, or storey line. A texture change at a vertical joint or mid-panel is prohibited."
+      "statement": "Not fewer than two distinct wall textures shall appear on each principal elevation, and each texture change shall occur at a horizontal belt course, water table, or storey line. A texture change at a vertical joint or mid-panel is prohibited.",
+      "id": "queen-anne-american.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "A porch not less than 7 ft deep shall wrap at least one external corner of the building, continuing not less than 8 ft along the returning elevation."
+      "statement": "A porch not less than 7 ft deep shall wrap at least one external corner of the building, continuing not less than 8 ft along the returning elevation.",
+      "id": "queen-anne-american.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 7,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the stated porch depth. The wrap-around requirement (turns the corner, continues >=8 ft along the returning elevation) is a linear-extent-along-a-second-elevation fact distinct from gallery_depth_ft's wall-to-outer-support depth measurement, and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Every principal elevation shall carry at least one projection of not less than 18 in: a bay, oriel, tower, or projecting gable. A flat unbroken principal elevation fails the style."
+      "statement": "Every principal elevation shall carry at least one projection of not less than 18 in: a bay, oriel, tower, or projecting gable. A flat unbroken principal elevation fails the style.",
+      "id": "queen-anne-american.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "at-least",
+        "threshold": 18,
+        "units": "in",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Principal roof pitch shall be 9:12 or greater and the ridge shall be non-rectangular in plan. A simple rectangular hip or gable with applied ornament is Folk Victorian, not Queen Anne."
+      "statement": "Principal roof pitch shall be 9:12 or greater and the ridge shall be non-rectangular in plan. A simple rectangular hip or gable with applied ornament is Folk Victorian, not Queen Anne.",
+      "id": "queen-anne-american.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 9,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch clause. 'The ridge shall be non-rectangular in plan' is a plan-shape fact with no matching vocabulary variable and stays prose."
+      }
     }
   ],
   "exemplars": [

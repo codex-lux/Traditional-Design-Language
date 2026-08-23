@@ -136,27 +136,61 @@
     {
       "kind": "structural",
       "statement": "No clear span above 5.0 m without either a masonry vault or an intermediate wall. Wide open-plan rooms are structurally impossible in the type and destroy its plan logic.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tuscan-vernacular.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "room_clear_span_ft",
+        "direction": "at-most",
+        "threshold": 5.0,
+        "units": "m",
+        "measurable_from": "plan",
+        "note": "Tests the general clear-span ceiling. The 'without either a masonry vault or an intermediate wall' exception is a conditional escape clause with no matching vocabulary variable and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Aperture area must not exceed 12 percent of any wall area, and reveals must be at least 350 mm deep. The type's summer performance depends on small openings in high-mass walls; large glazing converts it into a greenhouse.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tuscan-vernacular.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 12,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the aperture-area ceiling. 'Reveals must be at least 350 mm deep' (maps to reveal_depth_in, section scope) is a second numeric fact in the same sentence, left as prose for the single-test limit."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Roof pitch between 4:12 and 6:12. Steeper reads as northern European; shallower will not shed water under coppi-and-embrici tile laid dry.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tuscan-vernacular.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Openings must not be forced into a symmetrical rhythm. Vertical alignment between storeys is permitted only where a structural pier requires it; imposed symmetry converts the building into a villa.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "tuscan-vernacular.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Brick appears only at arches, quoins, window and door heads, and eaves courses. Brick used as a general facing material is a later or urban condition, not this one.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "tuscan-vernacular.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

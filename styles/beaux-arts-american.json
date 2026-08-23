@@ -145,27 +145,62 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Orders must be executed to a published canon with entasis, correct capital, base and entablature. Entablature depth 1/5 to 1/4 of column height, cornice projection not less than the entablature depth. An order without a full entablature is void."
+      "statement": "Orders must be executed to a published canon with entasis, correct capital, base and entablature. Entablature depth 1/5 to 1/4 of column height, cornice projection not less than the entablature depth. An order without a full entablature is void.",
+      "id": "beaux-arts-american.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "entablature_depth_ratio",
+        "direction": "between",
+        "threshold": 0.2,
+        "upper": 0.25,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "1/5 to 1/4 of column height. Entasis, correct capital/base, and the cornice-projection-not-less-than-entablature-depth clause stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Wall must be, or must fully express, cut stone: minimum 12 in. reveal at openings, jambs returned in the same material as the face, arches with true voussoirs and keystones, and a rusticated base of not less than one full storey with joints 3/4 to 1-1/2 in. deep."
+      "statement": "Wall must be, or must fully express, cut stone: minimum 12 in. reveal at openings, jambs returned in the same material as the face, arches with true voussoirs and keystones, and a rusticated base of not less than one full storey with joints 3/4 to 1-1/2 in. deep.",
+      "id": "beaux-arts-american.c02",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the minimum reveal depth at openings. Jamb material match, true voussoirs/keystones at arches, and the rusticated base (one full storey, joints 3/4-1-1/2in deep -- no matching vocabulary variable for joint depth) stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The primary facade must be modelled in depth: end and centre pavilions advanced not less than 18 in. from the intermediate wall plane. A flat facade with applied ornament is Neoclassical Revival, not Beaux-Arts."
+      "statement": "The primary facade must be modelled in depth: end and centre pavilions advanced not less than 18 in. from the intermediate wall plane. A flat facade with applied ornament is Neoclassical Revival, not Beaux-Arts.",
+      "id": "beaux-arts-american.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "at-least",
+        "threshold": 18,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the pavilion-advance minimum. 'A flat facade with applied ornament is Neoclassical Revival, not Beaux-Arts' is definitional prose, not a second numeric claim."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "The composition must terminate above the cornice - balustrade, attic storey, or sculptural group - to a height of not less than 1/8 of the wall height. A cornice that simply stops leaves the style unfinished."
+      "statement": "The composition must terminate above the cornice - balustrade, attic storey, or sculptural group - to a height of not less than 1/8 of the wall height. A cornice that simply stops leaves the style unfinished.",
+      "id": "beaux-arts-american.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "Do not attempt below roughly 10,000 sq ft or in any material other than stone, terra cotta, or full-thickness cast masonry. Every reduction available - flat wall, single columns, no sculpture, wood construction - produces Neoclassical Revival, which is a legitimate style; a reduced Beaux-Arts is not."
+      "statement": "Do not attempt below roughly 10,000 sq ft or in any material other than stone, terra cotta, or full-thickness cast masonry. Every reduction available - flat wall, single columns, no sculpture, wood construction - produces Neoclassical Revival, which is a legitimate style; a reduced Beaux-Arts is not.",
+      "id": "beaux-arts-american.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

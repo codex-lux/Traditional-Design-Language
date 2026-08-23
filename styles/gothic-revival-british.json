@@ -153,27 +153,45 @@
     {
       "kind": "structural",
       "statement": "Every arch is pointed and every pointed opening must be structurally plausible — a real arch with voussoirs or a real relieving arch above a lintel. Applied pointed trim over a square opening is precisely what Pugin's True Principles forbids.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "gothic-revival-british.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Buttresses may occur only where thrust exists — at an arcade, a vault or a tall gable wall. Decorative buttresses on a two-storey wall are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "gothic-revival-british.c02",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Polychromy must be in the material — different bricks or stones bonded into the wall — never painted or rendered on. This is the one rule High Victorian architects never broke.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "gothic-revival-british.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Roof pitch not less than 45 degrees, and the entrance must not be centred on a symmetrical front. Plan generates elevation, not the reverse.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "gothic-revival-british.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "at-least",
+        "threshold": 45,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch floor. 'The entrance must not be centred on a symmetrical front' is a categorical exclusion (not-equal) with no direction the vocabulary supports, and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "gothic-revival-british.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

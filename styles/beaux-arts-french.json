@@ -152,27 +152,45 @@
     {
       "kind": "proportional",
       "statement": "Every elevation must resolve into base, shaft and attic with distinct horizontal terminations. An undifferentiated wall of repeated identical storeys is not Beaux-Arts, whatever ornament is applied to it.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "beaux-arts-french.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Sculpture and enrichment must be concentrated at compositional accents - entrance, centrepiece, corners, skyline - and the connecting bays must be comparatively plain. Even distribution of ornament destroys the hierarchy that carries the composition.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "beaux-arts-french.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Wall thickness must be sufficient to accommodate poche: minimum 600 mm at the principal storeys where stairs, flues or closets are absorbed, and reveals of at least 200 mm at every window so that openings read as cut into mass.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "beaux-arts-french.c03",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 600,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the minimum wall thickness for poche. The window reveal minimum (200 mm, expressible via reveal_depth_in) is a second independent numeric clause and is left as prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Ornament scale must be calibrated to viewing distance: members read from across a boulevard (25-40 m) should be at least 1/40 of the facade height in their principal dimension. Domestic-scale enrichment on a civic facade reads as thin.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "beaux-arts-french.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Caractere: the order and level of enrichment must match the programme. Corinthian and Composite with full sculpture for theatres, exhibition and ceremonial buildings; Doric or Tuscan with restrained enrichment for markets, barracks, warehouses and utilitarian programmes.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "beaux-arts-french.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

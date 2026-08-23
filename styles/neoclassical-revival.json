@@ -159,27 +159,72 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Columns must be built to a published order. Shaft entasis is required: minimum taper of 1/6 the base diameter over the shaft height, with the taper beginning no lower than 1/3 the shaft height. Untapered cylindrical or box columns are forbidden at colossal scale."
+      "statement": "Columns must be built to a published order. Shaft entasis is required: minimum taper of 1/6 the base diameter over the shaft height, with the taper beginning no lower than 1/3 the shaft height. Untapered cylindrical or box columns are forbidden at colossal scale.",
+      "id": "neoclassical-revival.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Entablature depth must be between 1/5 and 1/4 of column height and must be carried on the return elevations for at least one bay. An entablature under 1/6 of column height reads as a fascia board and voids the order."
+      "statement": "Entablature depth must be between 1/5 and 1/4 of column height and must be carried on the return elevations for at least one bay. An entablature under 1/6 of column height reads as a fascia board and voids the order.",
+      "id": "neoclassical-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "entablature_depth_ratio",
+        "direction": "between",
+        "threshold": 0.2,
+        "upper": 0.25,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "1/5 to 1/4 of column height. The return-elevation-carry and under-1/6-reads-as-fascia clauses stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Portico depth must be a minimum of 8'0\" clear from wall face to column centreline, and preferably 10'0\"-14'0\". A colossal order in front of less than 6'0\" of porch is a stage flat and is forbidden."
+      "statement": "Portico depth must be a minimum of 8'0\" clear from wall face to column centreline, and preferably 10'0\"-14'0\". A colossal order in front of less than 6'0\" of porch is a stage flat and is forbidden.",
+      "id": "neoclassical-revival.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "A colossal-order portico's depth from wall face to column centreline is the same wall-face-to-outer-support-line measurement as a galerie or gallery, so gallery_depth_ft applies. Tests the absolute 8'0\" clear-minimum floor; the preferred 10'0\"-14'0\" range and the <6'0\" stage-flat threshold restate the same measurement and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Clear intercolumniation between 2.25 and 3.0 column diameters. The centre pair may open to 3.5 diameters to frame the entrance; no other bay may."
+      "statement": "Clear intercolumniation between 2.25 and 3.0 column diameters. The centre pair may open to 3.5 diameters to frame the entrance; no other bay may.",
+      "id": "neoclassical-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "intercolumniation_diameters",
+        "direction": "between",
+        "threshold": 2.25,
+        "upper": 3.0,
+        "units": "diameters",
+        "measurable_from": "elevation",
+        "note": "Tests the general-bay range. The centre-pair-may-open-to-3.5 exception stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Roof pitch 4:12 to 6:12 behind the portico, and where a balustrade is used it must be a minimum 30 in. high with balusters spaced no more than 4 in. clear, so it reads as railing rather than as ornament."
+      "statement": "Roof pitch 4:12 to 6:12 behind the portico, and where a balustrade is used it must be a minimum 30 in. high with balusters spaced no more than 4 in. clear, so it reads as railing rather than as ornament.",
+      "id": "neoclassical-revival.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Balustrade height (>=30in) and baluster clear spacing (<=4in) have no matching vocabulary variable and stay prose."
+      }
     }
   ],
   "exemplars": [

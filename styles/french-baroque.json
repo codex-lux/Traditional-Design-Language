@@ -144,27 +144,46 @@
     {
       "kind": "proportional",
       "statement": "The facade plan line must be straight; projections must be rectangular blocks. Any curvature of the wall surface in plan moves the building out of French classicism and into the Italian Baroque.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-baroque.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Every projecting pavilion must carry its own roof mass, terminated independently. A projecting avant-corps running under a continuous ridge is a nineteenth-century simplification.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-baroque.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Mansard lower slope between 65 and 75 degrees, upper slope between 20 and 30 degrees, with the break at 0.6 to 0.7 of total roof height. Outside that range the roof reads as a Victorian mansard block.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-baroque.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_lower_deg",
+        "direction": "between",
+        "threshold": 65,
+        "upper": 75,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the lower mansard slope. The upper slope (20-30 degrees, expressible via roof_slope_upper_deg) and the break-point fraction (0.6-0.7 of total roof height) are additional independent numeric clauses and stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Enfilade door openings must be aligned within 25 mm across the whole run and set at least 400 mm from any internal corner, which constrains room dimensions and wall thicknesses upstream of the plan.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "french-baroque.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "The principal axis must be extended into the landscape - a court on one side, a formal garden or allee on the other. A French Baroque block set down without its axis is a facade exercise, not the type.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "french-baroque.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

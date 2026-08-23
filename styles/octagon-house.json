@@ -124,27 +124,46 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "The plan shall be a regular octagon with all eight sides equal within 5 percent, side length between 12 and 20 ft. Irregular or elongated octagons forfeit the wall-economy argument that is the type's only justification."
+      "statement": "The plan shall be a regular octagon with all eight sides equal within 5 percent, side length between 12 and 20 ft. Irregular or elongated octagons forfeit the wall-economy argument that is the type's only justification.",
+      "id": "octagon-house.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "A central core, being either the principal stair or a stack of flues, shall be provided and shall serve all storeys. Without it the eight-hip roof has nothing to bear on and the plan has no organising element."
+      "statement": "A central core, being either the principal stair or a stack of flues, shall be provided and shall serve all storeys. Without it the eight-hip roof has nothing to bear on and the plan has no organising element.",
+      "id": "octagon-house.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "No single room shall occupy more than three of the eight sides, and each principal room shall have openings on at least two faces. This is what buys the cross-light and cross-ventilation the type exists for."
+      "statement": "No single room shall occupy more than three of the eight sides, and each principal room shall have openings on at least two faces. This is what buys the cross-light and cross-ventilation the type exists for.",
+      "id": "octagon-house.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "A veranda shall run continuously across not fewer than five faces at a uniform depth of 7 to 10 ft, breaking only at the entrance face."
+      "statement": "A veranda shall run continuously across not fewer than five faces at a uniform depth of 7 to 10 ft, breaking only at the entrance face.",
+      "id": "octagon-house.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "between",
+        "threshold": 7,
+        "upper": 10,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the veranda-depth range. Coverage across not fewer than five of the octagon's eight faces, breaking only at the entrance, is a face-count-coverage fact with no matching variable and stays prose."
+      }
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "Additions are prohibited on the primary figure. Where more space is required, build a detached or breezeway-linked wing; extending one face of the octagon destroys the type."
+      "statement": "Additions are prohibited on the primary figure. Where more space is required, build a detached or breezeway-linked wing; extending one face of the octagon destroys the type.",
+      "id": "octagon-house.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

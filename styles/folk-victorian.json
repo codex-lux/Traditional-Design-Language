@@ -149,27 +149,46 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Massing shall remain a recognised folk type: not more than two primary volumes, a rectangular or L-shaped ridge, no tower, no wraparound porch, and no polygonal bay above the first floor. Any of these converts the building to Queen Anne and it must then satisfy that style's dominant-mass rule."
+      "statement": "Massing shall remain a recognised folk type: not more than two primary volumes, a rectangular or L-shaped ridge, no tower, no wraparound porch, and no polygonal bay above the first floor. Any of these converts the building to Queen Anne and it must then satisfy that style's dominant-mass rule.",
+      "id": "folk-victorian.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Applied ornament shall be confined to the porch, the eave and cornice, and the gable field. Wall surfaces between these zones shall carry one cladding material, unbroken and untextured, on every elevation including the rear."
+      "statement": "Applied ornament shall be confined to the porch, the eave and cornice, and the gable field. Wall surfaces between these zones shall carry one cladding material, unbroken and untextured, on every elevation including the rear.",
+      "id": "folk-victorian.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "A porch of 6 to 8 ft depth shall run the full width of the principal elevation, or the full length of both faces of the reentrant angle in an L. A partial or entrance-only porch does not satisfy the type."
+      "statement": "A porch of 6 to 8 ft depth shall run the full width of the principal elevation, or the full length of both faces of the reentrant angle in an L. A partial or entrance-only porch does not satisfy the type.",
+      "id": "folk-victorian.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "between",
+        "threshold": 6,
+        "upper": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the stated porch-depth range (gallery_depth_ft's own note names 'posted porch' as one of the measurements it covers). Whether the porch runs the full principal-elevation width, or the full length of both L reentrant-angle faces, is a plan-extent fact with no matching vocabulary variable and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "All sawn and turned ornament shall be dimensionally consistent with millwork stock: members not more than 1.25 in thick, spindles not more than 2 in in diameter, and one turned profile used throughout the building. Two different post profiles on one porch is a later replacement, not a design."
+      "statement": "All sawn and turned ornament shall be dimensionally consistent with millwork stock: members not more than 1.25 in thick, spindles not more than 2 in in diameter, and one turned profile used throughout the building. Two different post profiles on one porch is a later replacement, not a design.",
+      "id": "folk-victorian.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "Ornament shall be applied only where the folk type already had an element to decorate: a porch, an eave, a gable, a door surround. Introducing an ornamented feature the underlying type never had is the characteristic failure of both the 1890s cheap builder and the modern imitation."
+      "statement": "Ornament shall be applied only where the folk type already had an element to decorate: a porch, an eave, a gable, a door surround. Introducing an ornamented feature the underlying type never had is the characteristic failure of both the 1890s cheap builder and the modern imitation.",
+      "id": "folk-victorian.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

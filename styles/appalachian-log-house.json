@@ -131,27 +131,64 @@
     {
       "kind": "structural",
       "statement": "No log wall may exceed 20 feet between notched corners; 16-18 feet is normal. Larger enclosures must be built as additional pens. This single rule generates every type in the family and must not be relaxed.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "appalachian-log-house.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "log_wall_run_ft",
+        "direction": "at-most",
+        "threshold": 20,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the hard 20 ft ceiling. The 16-18 ft normal-range and 'built as additional pens' guidance stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Corners must be half-dovetail or V-notched with the joint sloping outward to shed water, log ends projecting 2-6 inches beyond the joint. Square-notched corners require pegging and a deeper eave; saddle notching belongs to round-log work and to a different region.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "appalachian-log-house.c02",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Roof pitch 9:12 to 12:12 with eave and rake overhangs of at least 24 inches. Riven shingles will not shed below 9:12, and the overhang is what keeps water out of the chinking; a clipped eave destroys the wall within a decade.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "appalachian-log-house.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 9,
+        "upper": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the 9:12-12:12 roof-pitch range. Eave/rake overhang (at least 24in) is also cleanly testable via eave_projection_in but is left as prose here since the schema allows one test per constraint."
+      }
     },
     {
       "kind": "structural",
       "statement": "Openings must stop at least 24 inches short of any notched corner and must be framed with pegged jambs against cut log ends. Glazed areas larger than about 12 square feet in a single log wall are structurally dishonest to the system.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "appalachian-log-house.c04",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Chimney at the gable end, outside the wall plane where possible, of laid field stone with a base 5-7 feet wide battering to a 2-3 foot stack. An interior or centred chimney consumes the only room the pen has.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "appalachian-log-house.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_position",
+        "direction": "one-of",
+        "set": [
+          "gable-end-exterior"
+        ],
+        "units": "enum",
+        "measurable_from": "elevation",
+        "note": "Tests the gable-end-exterior chimney position ('where possible' softens this to a preference, reflected in the constraint's soft severity rather than in the test). Chimney base/stack width dimensions (5-7ft base, 2-3ft stack) have no vocabulary variable and stay prose."
+      }
     }
   ],
   "exemplars": [

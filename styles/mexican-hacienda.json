@@ -150,27 +150,62 @@
     {
       "kind": "structural",
       "statement": "Adobe or rubble walls 700-1000 mm at the base, carried on a stone or fired-brick socle at least 1.2 m high. Rain splash and rising damp destroy an adobe wall from the bottom; the socle is not optional and must read as a different material.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-hacienda.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 700,
+        "upper": 1000,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the base wall-thickness range. The socle requirement ('carried on a stone or fired-brick socle at least 1.2 m high') is a second numeric fact in the same sentence -- it maps to water_table_height_in (at-least 1200 mm) but a single test object can only cover one clause; left as prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Room depth must not exceed the viga span, about 6 m clear. Every range is single-pile and every room is entered from the corredor. Thickening a range to gain area destroys the ventilation and the circulation at once.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-hacienda.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "room_clear_span_ft",
+        "direction": "at-most",
+        "threshold": 6,
+        "units": "m",
+        "measurable_from": "plan",
+        "note": "Tests the viga-span depth ceiling. 'Every range is single-pile and every room is entered from the corredor' is a categorical plan-organisation rule, not a single numeric expression, and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "The corredor must be at least 2.5 m deep and must be continuous along the ranges it serves; it is the circulation as well as the shade. A discontinuous arcade forces internal corridors the type does not have.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-hacienda.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 2.5,
+        "units": "m",
+        "measurable_from": "plan",
+        "note": "Tests the minimum corredor depth. 'Must be continuous along the ranges it serves' has no matching vocabulary variable (corridor_present tests whether an interior corridor exists at all, a different concept) and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "The casco is a walled precinct with one or two controlled gates and must include, at minimum, the casa grande, the chapel and at least one production building. A freestanding casa grande without its working precinct is not a hacienda.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-hacienda.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "The ornament budget goes to the gate and to the chapel. Carving, vaulting and twin belfries belong to the chapel; the casa grande asserts itself by height and by the order of its arcade.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "mexican-hacienda.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

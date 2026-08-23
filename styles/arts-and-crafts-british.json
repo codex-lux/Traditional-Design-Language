@@ -155,27 +155,45 @@
     {
       "kind": "structural",
       "statement": "Every visible material must be doing the job it appears to do. Applied half-timbering, veneer stone, false beams and imitation finishes are forbidden outright — this is the movement's founding rule.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "arts-and-crafts-british.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "One primary wall material per mass, changing only at a floor level or a change of volume, and then with a proper structural transition (oversail, tile course, plinth).",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "arts-and-crafts-british.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Windows are casements grouped into horizontal bands under a common lintel and mullion line. Isolated vertical punched openings in a regular grid belong to the classical stream, not here.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "arts-and-crafts-british.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Eaves height not more than 4.0 m on the principal elevation, with the roof reading as a dominant plane. A tall wall under a small roof inverts the style.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "arts-and-crafts-british.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_height_ft",
+        "direction": "at-most",
+        "threshold": 4.0,
+        "units": "m",
+        "measurable_from": "elevation",
+        "note": "Tests the eaves-height ceiling. 'The roof reading as a dominant plane' is qualitative and stays prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Primary materials should be sourced from the building's own region; the choice of local material over national material is a defining act of the style, not a preference.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "arts-and-crafts-british.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

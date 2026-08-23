@@ -147,27 +147,54 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "The mansard shall be continuous on all elevations of the mass it crowns, including rear and side elevations. A mansard applied to the street front only, or returned less than the full depth of the building, is prohibited."
+      "statement": "The mansard shall be continuous on all elevations of the mass it crowns, including rear and side elevations. A mansard applied to the street front only, or returned less than the full depth of the building, is prohibited.",
+      "id": "second-empire.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The lower mansard slope shall be between 65 and 80 degrees from horizontal, and the upper slope shall not exceed 4:12 and shall not be visible from any point at eye height 40 ft from the building."
+      "statement": "The lower mansard slope shall be between 65 and 80 degrees from horizontal, and the upper slope shall not exceed 4:12 and shall not be visible from any point at eye height 40 ft from the building.",
+      "id": "second-empire.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_lower_deg",
+        "direction": "between",
+        "threshold": 65,
+        "upper": 80,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the lower mansard slope, the pair-position match for roof_slope_lower_deg/roof_slope_upper_deg. The upper slope is stated in rise-per-12 (not degrees, so roof_slope_upper_deg's degree units don't apply without an unstated conversion) and the 40 ft eye-height visibility condition has no matching variable -- both stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Dormers shall be provided one per structural bay and shall be centred on the openings of the storey below within 6 in. Dormer count and spacing shall not be varied independently of the fenestration."
+      "statement": "Dormers shall be provided one per structural bay and shall be centred on the openings of the storey below within 6 in. Dormer count and spacing shall not be varied independently of the fenestration.",
+      "id": "second-empire.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "front_slope_dormer_count - bay_count",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "count",
+        "measurable_from": "plan",
+        "note": "Tests 'one dormer per structural bay' as dormer count minus bay count equalling zero. The further requirement that each dormer centre on the opening below within 6 in has no matching vocabulary variable (opening_vertical_alignment_in is a vertical storey-to-storey measure, not a dormer-to-window horizontal one) and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "The curb cornice shall carry brackets at 24 to 48 in on centre at the same module as any porch or bay cornice on the building, preserving the Italianate rhythm the style inherits."
+      "statement": "The curb cornice shall carry brackets at 24 to 48 in on centre at the same module as any porch or bay cornice on the building, preserving the Italianate rhythm the style inherits.",
+      "id": "second-empire.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Where a tower is used, its mansard shall be steeper than the main mansard by at least 5 degrees and shall rise not less than one full storey above the main curb line, so that the hierarchy of crowns is unambiguous."
+      "statement": "Where a tower is used, its mansard shall be steeper than the main mansard by at least 5 degrees and shall rise not less than one full storey above the main curb line, so that the hierarchy of crowns is unambiguous.",
+      "id": "second-empire.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

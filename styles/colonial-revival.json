@@ -160,27 +160,69 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The entry surround must be dimensioned for a door leaf of 3'0\" x 6'8\" to 3'0\" x 7'0\". Flanking pilasters not wider than 8 in.; a broken or swan's-neck pediment not wider than 6'0\" overall; sidelights not wider than 12 in. each. A surround set out for an 8'0\" leaf reads as commercial and voids the style."
+      "statement": "The entry surround must be dimensioned for a door leaf of 3'0\" x 6'8\" to 3'0\" x 7'0\". Flanking pilasters not wider than 8 in.; a broken or swan's-neck pediment not wider than 6'0\" overall; sidelights not wider than 12 in. each. A surround set out for an 8'0\" leaf reads as commercial and voids the style.",
+      "id": "colonial-revival.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "door_opening_width_ft",
+        "direction": "equals",
+        "threshold": 3,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the door leaf width, which the statement states as a fixed 3'0\" (unlike the leaf height, which is a 6'8\"-7'0\" range). Pilaster width (<=8in), pediment overall width (<=6'0\", no matching vocabulary variable -- an entry-surround-width variable distinct from door_opening_width_ft is missing), and sidelight width (<=12in each) all lack vocabulary variables and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Shutters, where used, must each equal half the sash width and the full sash height, be hung on offset pintles with functioning holdbacks, and be capable of closing over the opening. Panels narrower than half the opening, or fixed flat to the wall, are forbidden."
+      "statement": "Shutters, where used, must each equal half the sash width and the full sash height, be hung on offset pintles with functioning holdbacks, and be capable of closing over the opening. Panels narrower than half the opening, or fixed flat to the wall, are forbidden.",
+      "id": "colonial-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "equals",
+        "threshold": 0.5,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Hardware (offset pintles, holdbacks) and functional closability are qualitative and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Second-storey window jambs must align with first-storey jambs within 2 in. of centreline, and head heights must be constant across each storey. Vertical misalignment is the fastest disqualifier in the whole style."
+      "statement": "Second-storey window jambs must align with first-storey jambs within 2 in. of centreline, and head heights must be constant across each storey. Vertical misalignment is the fastest disqualifier in the whole style.",
+      "id": "colonial-revival.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "opening_vertical_alignment_in",
+        "direction": "at-most",
+        "threshold": 2,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "'Head heights must be constant across each storey' is the statement's other clause and has no numeric tolerance stated; stays prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "A cornice return is permitted only where the eave carries a full classical cornice of at least 10 in. projection continuing around the corner. A return applied to a bare fascia is forbidden."
+      "statement": "A cornice return is permitted only where the eave carries a full classical cornice of at least 10 in. projection continuing around the corner. A return applied to a bare fascia is forbidden.",
+      "id": "colonial-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "cornice_projection_in",
+        "direction": "at-least",
+        "threshold": 10,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The conditional logic ('a return is permitted only where...') is a permission rule, not a second numeric fact, and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "No garage door on the symmetrical primary facade. Place the garage on a subordinate wing whose face is set back at least 8'0\" from the main block and whose ridge is at least 2'0\" below the main ridge."
+      "statement": "No garage door on the symmetrical primary facade. Place the garage on a subordinate wing whose face is set back at least 8'0\" from the main block and whose ridge is at least 2'0\" below the main ridge.",
+      "id": "colonial-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

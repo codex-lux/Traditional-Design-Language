@@ -113,27 +113,52 @@
     {
       "kind": "structural",
       "statement": "Every arched opening is semicircular with rise equal to half the span. Segmental, stilted, four-centred and pointed heads are forbidden; a single pointed arch reclassifies the building as Transitional.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "norman-romanesque-english.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Principal masonry walls not less than 900 mm thick, and openings must express that thickness with reveals splayed at 30-45 degrees. A thin wall with a round-headed opening is a stage set.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "norman-romanesque-english.c02",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 900,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the minimum wall thickness. The reveal-splay-angle clause (30-45deg) is the statement's other numeric claim and stays prose -- no vocabulary variable expresses a reveal splay angle."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Ashlar is permitted only at quoins, jambs, voussoirs, string courses, shafts and fireplace hoods; field walling must be coursed rubble. Continuous fine ashlar over a whole elevation reads as Georgian regardless of the arch profile.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "norman-romanesque-english.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Glazed area not to exceed roughly 8 percent of the elevation. Beyond that the wall stops reading as mass and the style collapses.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "norman-romanesque-english.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 8,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "structural",
       "statement": "Domestic entry at first-floor level by an external stair, with the undercroft either blind or given only slit openings.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "norman-romanesque-english.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

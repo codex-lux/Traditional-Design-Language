@@ -139,27 +139,45 @@
     {
       "kind": "proportional",
       "statement": "If the wall curves in plan, the entablature must curve with it as a continuous member; a straight entablature over a curved wall is a hard error.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-baroque.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Column projection must increase monotonically toward the axis within a bay - pilaster, then half, then three-quarter, then free-standing. Random alternation of planes is not Baroque layering, it is noise.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-baroque.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Bay widths must narrow toward the centre by 10 to 25 percent per step. An even bay rhythm with Baroque ornament applied is Mannerist or revivalist, not Baroque.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-baroque.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Oval and curved-wall plans require masonry or reinforced construction with wall thickness of at least 1/10 the clear span; the geometry is not achievable in light frame without losing the depth of reveal that makes it read.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "italian-baroque.c04",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in / (room_clear_span_ft * 12)",
+        "direction": "at-least",
+        "threshold": 0.1,
+        "units": "ratio",
+        "measurable_from": "section",
+        "note": "Combines a section reading (wall_thickness_in) with a plan reading (room_clear_span_ft, converted to inches) to test the 1/10-of-span slenderness floor. 'Not achievable in light frame without losing the depth of reveal' is prose commentary on the same rule, not a second fact."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Broken pediments must be broken FOR something - a cartouche, a statue, a window admitting light. An empty break is a decorative tic, not a Baroque device.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "italian-baroque.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

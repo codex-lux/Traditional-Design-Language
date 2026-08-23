@@ -147,27 +147,55 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The principal elevation shall be bilaterally symmetrical about the entrance axis. No projecting bay, tower, or wing may break the symmetry of the street front."
+      "statement": "The principal elevation shall be bilaterally symmetrical about the entrance axis. No projecting bay, tower, or wing may break the symmetry of the street front.",
+      "id": "renaissance-revival-american.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Floor-to-floor heights shall diminish monotonically upward, with each storey between 78 and 88 percent of the one below and the piano nobile at least 1.15 times the storey above it."
+      "statement": "Floor-to-floor heights shall diminish monotonically upward, with each storey between 78 and 88 percent of the one below and the piano nobile at least 1.15 times the storey above it.",
+      "id": "renaissance-revival-american.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 22,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Statement gives each storey as 78-88 percent of the one below; re-expressed here as the equivalent diminish-percentage (100 minus that range = 12-22 percent) to match storey_height_diminish_pct's own convention (docs/constraints.md's english-georgian.c02 precedent). The separate 'piano nobile at least 1.15x the storey above it' comparison stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The crowning cornice shall project between 1/12 and 1/16 of the total facade height and shall run unbroken across the full width of the facade, including across party walls in a row."
+      "statement": "The crowning cornice shall project between 1/12 and 1/16 of the total facade height and shall run unbroken across the full width of the facade, including across party walls in a row.",
+      "id": "renaissance-revival-american.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "(cornice_projection_in / 12) / facade_height_ft",
+        "direction": "between",
+        "threshold": 0.0625,
+        "upper": 0.0833,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the stated 1/16-to-1/12-of-facade-height cornice projection as a ratio (cornice_projection_in converted to feet by the /12 unit constant, over facade_height_ft). 'Runs unbroken across the full width, including across party walls in a row' has no matching variable and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Window head treatment shall change at each storey and shall be uniform within a storey. Where alternating pediments are used, the alternation shall begin and end with the same type so the row reads as closed."
+      "statement": "Window head treatment shall change at each storey and shall be uniform within a storey. Where alternating pediments are used, the alternation shall begin and end with the same type so the row reads as closed.",
+      "id": "renaissance-revival-american.c04",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Quoins, where used, shall run the full height of the corner from water table to cornice in an unbroken alternating rhythm with long faces of 18 to 30 in. Partial-height or purely decorative quoining is prohibited."
+      "statement": "Quoins, where used, shall run the full height of the corner from water table to cornice in an unbroken alternating rhythm with long faces of 18 to 30 in. Partial-height or purely decorative quoining is prohibited.",
+      "id": "renaissance-revival-american.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

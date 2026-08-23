@@ -125,6 +125,44 @@ VOCABULARY = {
     "eave_height_ft": {"units": "ft", "scope": "section", "note": "Grade to eave/cornice line, distinct from facade_height_ft (grade to ridge)."},
     "floor_height_above_grade_in": {"units": "in", "scope": "section", "note": "Height of the finished floor above grade, typically on piers or a raised masonry storey."},
     "wall_height_to_thickness_ratio": {"units": "ratio", "scope": "section", "note": "A mass wall's slenderness -- height divided by thickness -- for unreinforced adobe or rubble construction, where it is the governing structural limit rather than an engineered calculation."},
+
+    # ---- added migrating the remaining 25 families (23 Aug 2026) -- each entry below was
+    # requested independently by at least two batches/families migrating unrelated style
+    # nodes, the same "second family that needs it earns it a name" bar docs/constraints.md
+    # sets for reuse. Batches that hit these gaps during migration correctly fell back to
+    # scope: judgment rather than guessing a name -- these variables exist now so a *later*
+    # pass can convert those specific constraints to tested; adding the name here does not,
+    # by itself, retroactively test anything already migrated.
+    "column_height_diameters": {"units": "ratio", "scope": "elevation",
+                                 "note": "A classical column's shaft height expressed in its own lower diameters -- the order's own native proportional unit (Vignola/Gibbs/Benjamin all state column height this way, not in feet). The single most-requested gap across the Greek Revival, Jeffersonian, Beaux-Arts and Renaissance-classical families migrated after the worked example -- none of those families' hard column-proportion rules could be tested without it."},
+    "entablature_depth_ratio": {"units": "ratio", "scope": "elevation",
+                                 "note": "An entablature's total depth as a fraction of the column height it sits on -- the companion figure to column_height_diameters for the same order-proportion rules."},
+    "intercolumniation_diameters": {"units": "ratio", "scope": "elevation",
+                                     "note": "Clear spacing between column axes, expressed in lower column diameters -- Vitruvius/Vignola's own unit for colonnade spacing (pycnostyle/systyle/eustyle/diastyle/araeostyle)."},
+    "clear_span_ft": {"units": "ft", "scope": "plan",
+                       "note": "Generic clear span between structural supports (column axes, an arcade's piers, a wall opening) -- deliberately distinct from room_clear_span_ft, which is specifically a *room's* span as limited by an available beam or viga length. Use this one for a structural-bay or opening span that is not describing a room."},
+    "arch_rise_to_span_ratio": {"units": "ratio", "scope": "elevation",
+                                 "note": "An arch's rise divided by its own span -- distinct from window_head_rise_in, which is an absolute camber dimension for a shallow gauged/segmental masonry arch, not a full round or horseshoe arch's own rise:span proportion. Requested independently by Tudor-Jacobean and Renaissance-classical (rise = half span) and by the Iberian-Islamic/Mediterranean families (horseshoe arches continuing below the springing line)."},
+    "wall_material_count": {"units": "count", "scope": "elevation",
+                             "note": "Number of distinct cladding materials visible on one elevation or mass -- the variable a 'no more than N materials' or 'one primary material' rule needs. Distinct from material_change_rule's qualitative co-occurrence check (the existing corpus slot) in that this is a plain count."},
+    "ornament_area_pct_wall": {"units": "percent", "scope": "elevation",
+                                "note": "Applied ornament (a portada, a shaped-gable field, a patterned band) as a percentage of the elevation or wall-field area it decorates -- distinct from ornament_relief_in, which is the ornament's own projection depth off the wall, not its coverage area. Requested independently by Tudor-Jacobean, British Picturesque and Spanish Classical (Churrigueresque/Plateresque) for near-identical 'ornament limited/required to cover roughly N percent' rules."},
+    "gable_count": {"units": "count", "scope": "elevation",
+                     "note": "Number of gables (principal or subordinate) visible on one elevation. Requested independently by Jacobean ('a symmetrical set of at least three shaped gables'), Cape Dutch ('at least one subordinate gable') and Neo-eclectic ('no gable may exceed the dominant gable's width') -- a plain count the vocabulary had no way to express at all."},
+    "floor_area_sqft": {"units": "sqft", "scope": "plan",
+                         "note": "Gross or a named room's floor area in square feet -- absent from the vocabulary entirely until this pass, despite being needed by rules in three unrelated families (a bungalow's minimum unheated-room area, a Minimal Traditional house's FHA-minimum floor area, a Craftsman Bungalow's overall size ceiling)."},
+    "log_wall_run_ft": {"units": "ft", "scope": "plan",
+                         "note": "Length of an unsupported log wall between notched corners -- distinct from facade_width_ft (a whole elevation's width, which misrepresents a multi-pen plan with cross-walls). The generative rule of the whole log-construction family ('no log wall may exceed N feet, the practical limit of a hewable log') appears near-verbatim in Appalachian, Scandinavian and Swiss log vernacular styles across two unrelated family trunks, and was untestable in every one of them before this entry."},
+    "chimney_width_in": {"units": "in", "scope": "elevation",
+                          "note": "A chimney stack's own width/breadth, as distinct from chimney_height_above_ridge_ft (how far it rises) and chimney_inset_ft (how far it sits from a gable end). Needed for a 'rise at least N times its own width' proportion rule (Tudor) and a 'wider than any other vertical element' dominance rule (Prairie School)."},
+    "window_head_alignment_in": {"units": "in", "scope": "elevation",
+                                  "note": "Worst-case offset between window/door heads at the SAME storey across one elevation, aligned to a common datum line -- distinct from opening_vertical_alignment_in, which is storey-to-storey alignment (a storey's openings against the storey above or below), not same-storey cross-elevation alignment. Requested independently by two unrelated batches for the identical concept."},
+    "court_width_ft": {"units": "ft", "scope": "plan",
+                        "note": "Clear width of an internal courtyard or patio, wall face to wall face -- distinct from lot_width_ft (the site, not an internal court). Needed for a court's own width-to-enclosing-height proportion rule, requested independently by an Iberian vernacular courtyard style and a Moorish/Andalusian style in an unrelated family."},
+    "garage_door_width_ft": {"units": "ft", "scope": "elevation",
+                              "note": "Width of a garage door opening on the elevation it appears on. Named here because WP-4.3 (a dedicated future work package, PLAN-OF-ACTION.md) exists specifically to give every contemporary buildable variant a garage strategy -- this and garage_setback_ft are the two measurements that package's constraints will need, surfaced early by three contemporary-traditional and mid-century-traditional styles whose migrated constraints already state numeric garage rules."},
+    "garage_setback_ft": {"units": "ft", "scope": "elevation",
+                           "note": "How far a garage door's own plane sits behind (or forward of) the front facade/entrance door's plane -- distinct from window_setback_in, which is a window frame's depth behind the wall face, not one building element's setback from another. See garage_door_width_ft's note on WP-4.3."},
 }
 
 

@@ -146,27 +146,69 @@
     {
       "kind": "proportional",
       "statement": "Principal gable pitch not less than 6:12, and 10:12 preferred. Below 8:12 the mass reads as a shed and the quoted vernacular silhouette is lost.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "modern-farmhouse-traditional.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the hard 6:12 floor. '10:12 preferred' and 'below 8:12 reads as a shed' are softer descriptive guidance beyond the hard floor and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner. Zero-overhang boxed rakes are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "modern-farmhouse-traditional.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the eave-overhang floor. Rake overhang (8in) is the statement's other numeric claim and stays prose -- no vocabulary variable distinctly expresses rake-overhang projection depth (rake_trim_width_in is the rake trim board's face width, a different measurement). The returned/moulded gable-corner termination is categorical and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Window heads shall sit not more than 10 in below the soffit or frieze line, and shall align to one datum per storey. Where the plate exceeds 9 ft, either raise the head or introduce a transom to close the gap.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "modern-farmhouse-traditional.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_to_cornice_offset_in",
+        "direction": "at-most",
+        "threshold": 10,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the head-to-soffit/frieze offset ceiling. 'Align to one datum per storey' has no vocabulary variable for same-storey cross-elevation head alignment (opening_vertical_alignment_in is storey-to-storey, a different comparison) and stays prose, as does the plate-exceeds-9ft transom clause."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Board-and-batten battens at 16 or 24 in on centre aligned to the framing, minimum 1x2 nominal with not less than 3/4 in projection. Battens at 12 in centres or with projection under 1/2 in read as stripes rather than as boarding.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "modern-farmhouse-traditional.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "A covered space may be described as a porch only at 8 ft or more of clear depth across not less than 40 percent of the facade. Shallower entry roofs are hoods and must be detailed as such.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "modern-farmhouse-traditional.c05",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the clear-depth floor. The 40-percent-of-facade-width clause has no matching porch-width variable (gallery_depth_ft is depth only) and stays prose."
+      }
     }
   ],
   "exemplars": [

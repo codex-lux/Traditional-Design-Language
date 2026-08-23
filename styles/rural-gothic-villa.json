@@ -130,27 +130,69 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The composition shall present not fewer than three gables of distinct width, with the dominant gable at least 1.4 times the width of the next largest. Equal gables are forbidden."
+      "statement": "The composition shall present not fewer than three gables of distinct width, with the dominant gable at least 1.4 times the width of the next largest. Equal gables are forbidden.",
+      "id": "rural-gothic-villa.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "All principal roof pitches shall be 12:12 or steeper, and every pitch on the building shall be within 2:12 of every other. Mixing a steep front gable with a shallow rear roof is prohibited."
+      "statement": "All principal roof pitches shall be 12:12 or steeper, and every pitch on the building shall be within 2:12 of every other. Mixing a steep front gable with a shallow rear roof is prohibited.",
+      "id": "rural-gothic-villa.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch floor. 'Every pitch on the building within 2:12 of every other' is a spread-among-an-arbitrary-number-of-roof-planes fact -- the vocabulary's roof_slope_lower_deg/upper_deg only names a single two-plane roof's pair, not a general variance check -- and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Chimney stacks shall rise not less than 4 ft above the adjacent ridge and shall express each flue as a separate shaft or panel. A flush or capped-off stack destroys the silhouette the type depends on."
+      "statement": "Chimney stacks shall rise not less than 4 ft above the adjacent ridge and shall express each flue as a separate shaft or panel. A flush or capped-off stack destroys the silhouette the type depends on.",
+      "id": "rural-gothic-villa.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 4,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the chimney-height minimum. 'Each flue expressed as a separate shaft or panel' has no matching variable and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "A veranda, loggia, or cloister not less than 8 ft deep shall be attached to at least one principal elevation, covering not less than 35 percent of that elevation's length."
+      "statement": "A veranda, loggia, or cloister not less than 8 ft deep shall be attached to at least one principal elevation, covering not less than 35 percent of that elevation's length.",
+      "id": "rural-gothic-villa.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the veranda/loggia/cloister depth minimum. The requirement that it cover not less than 35 percent of that elevation's length is a coverage-percent fact with no matching variable and stays prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Tracery, label mouldings, and hood moulds shall be worked in the wall material with a minimum relief of 2 in. Flat sawn-board substitutes place the building in the Carpenter Gothic variant instead."
+      "statement": "Tracery, label mouldings, and hood moulds shall be worked in the wall material with a minimum relief of 2 in. Flat sawn-board substitutes place the building in the Carpenter Gothic variant instead.",
+      "id": "rural-gothic-villa.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "ornament_relief_in",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the relief minimum. 'Worked in the wall material' versus a flat sawn-board substitute is a material-category fact with no matching variable and stays prose."
+      }
     }
   ],
   "exemplars": [

@@ -138,27 +138,54 @@
     {
       "kind": "structural",
       "statement": "Principal ranges are single-pile, clear depth not exceeding 7 m. A double-pile manoir requires an internal bearing wall and an internal stair, at which point it has become a chateau or a later house.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-manoir.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "plan_depth_ft",
+        "direction": "at-most",
+        "threshold": 7,
+        "units": "m",
+        "measurable_from": "plan",
+        "note": "Source states clear depth in metres; kept as stated (matching the precedent in english-georgian-townhouse.c04). The double-pile/bearing-wall/stair reclassification clause is categorical and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "The stair turret must project into the courtyard or a reentrant angle, never from the outer face, and must rise above the eave of the range it serves. A stair turret on the entrance front is a revival invention.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-manoir.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Croisee windows are divided by a stone mullion and transom, the transom at roughly two-thirds of the opening height. Removing the mullion to gain glass area destroys the proportion the whole elevation depends on.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-manoir.c03",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Roof pitch 50-60 degrees in slate or flat tile. Dormers must be wall dormers rising through the eave line and carried on the wall below; dormers sitting on the roof slope belong to a later and different tradition.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-manoir.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 50,
+        "upper": 60,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Dormer type (wall dormer rising through the eave line, carried on the wall below) is categorical and stays prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "A manoir is defined by its ensemble. A freestanding logis without a gate, a chapel, a dovecote or a working range is a large house; the type requires the enclosure and at least two ancillary buildings.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "french-manoir.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

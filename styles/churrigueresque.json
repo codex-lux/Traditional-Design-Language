@@ -146,27 +146,45 @@
     {
       "kind": "co-occurrence",
       "statement": "The estipite is definitional. A facade of this ornamental density using a normal column or a solomonic (barley-sugar) shaft is Salomonico Baroque, an earlier and different phase, not Churrigueresque.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "churrigueresque.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "The ornamented portada must be a bounded field against plain wall occupying no more than about a quarter of the elevation. Extending the ornament across the whole facade destroys the contrast the style is built on.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "churrigueresque.c02",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "No straight uninterrupted entablature or cornice may cross the portada. Every horizontal is broken and returned at each vertical member.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "churrigueresque.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The portada is applied dressed stone or moulded plaster on brick, carried on the wall behind, rarely more than 600 mm deep. In seismic regions the field wall must be buttressed and the church kept low; ornament is not permitted to drive the structure.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "churrigueresque.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "ornament_relief_in",
+        "direction": "at-most",
+        "threshold": 600,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the applied-portada-depth ceiling. The seismic buttressing/low-church clause is conditional and stays prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Ornament belongs to the west front, the transept portal, the sacristy and the retablo. Nave walls, flanks and cloister ranges stay plain; a uniformly ornamented building is a revival misreading.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "churrigueresque.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

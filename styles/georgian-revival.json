@@ -146,27 +146,72 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Brickwork must be laid in Flemish or English bond with joints 3/8 in. or finer, a moulded water table at grade and a belt course at the second-floor line, and openings headed with gauged brick flat arches, segmental arches, or stone lintels. Running-bond veneer with no water table is not this variant."
+      "statement": "Brickwork must be laid in Flemish or English bond with joints 3/8 in. or finer, a moulded water table at grade and a belt course at the second-floor line, and openings headed with gauged brick flat arches, segmental arches, or stone lintels. Running-bond veneer with no water table is not this variant.",
+      "id": "georgian-revival.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The doorcase must be dimensioned for a single 3'0\" x 6'8\" to 3'0\" x 7'0\" leaf, overall width not exceeding 8'0\", with the pediment apex below the second-floor sill line. Double doors and two-storey porticos are forbidden in this variant."
+      "statement": "The doorcase must be dimensioned for a single 3'0\" x 6'8\" to 3'0\" x 7'0\" leaf, overall width not exceeding 8'0\", with the pediment apex below the second-floor sill line. Double doors and two-storey porticos are forbidden in this variant.",
+      "id": "georgian-revival.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "door_opening_width_ft",
+        "direction": "equals",
+        "threshold": 3,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the door leaf width, stated as a fixed 3'0\". Leaf height range (6'8\"-7'0\"), overall doorcase width (<=8'0\", no matching vocabulary variable -- an entry-surround-width variable distinct from door_opening_width_ft is missing), and the pediment-apex-below-sill-line clause stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Sash shall be 9/9 or 12/12 on principal elevations, muntins 5/8-7/8 in., with true divided lights or full-depth simulated bars with an interior spacer. 1/1 and 6/1 sash void the variant."
+      "statement": "Sash shall be 9/9 or 12/12 on principal elevations, muntins 5/8-7/8 in., with true divided lights or full-depth simulated bars with an interior spacer. 1/1 and 6/1 sash void the variant.",
+      "id": "georgian-revival.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "sash_light_pattern",
+        "direction": "one-of",
+        "set": [
+          "9/9",
+          "12/12"
+        ],
+        "measurable_from": "elevation",
+        "note": "Muntin width (5/8-7/8in, matching glazing_bar_width_in but not tested here) and the true-divided-lights-or-full-depth-simulated-bars construction clause stay prose -- one test per constraint."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Cornice total depth 14-20 in. with modillions or dentils spaced to the bay module, carried fully around the building including gable returns of not less than 18 in."
+      "statement": "Cornice total depth 14-20 in. with modillions or dentils spaced to the bay module, carried fully around the building including gable returns of not less than 18 in.",
+      "id": "georgian-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "cornice_projection_in",
+        "direction": "between",
+        "threshold": 14,
+        "upper": 20,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Modillion/dentil spacing to the bay module and the gable-return minimum (18in, no matching vocabulary variable) stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Chimneys must be built at the gable ends, minimum 3'6\" x 2'0\" in plan, rising not less than 2'6\" above the ridge. Interior ridge chimneys and flush metal flues are forbidden."
+      "statement": "Chimneys must be built at the gable ends, minimum 3'6\" x 2'0\" in plan, rising not less than 2'6\" above the ridge. Interior ridge chimneys and flush metal flues are forbidden.",
+      "id": "georgian-revival.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 2.5,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Chimney position (gable-end, expressible via chimney_position but not tested here) and the 3'6\"x2'0\" plan footprint (no matching vocabulary variable) stay prose -- one test per constraint."
+      }
     }
   ],
   "exemplars": [

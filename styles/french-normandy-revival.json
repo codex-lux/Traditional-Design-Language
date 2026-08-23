@@ -148,27 +148,54 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "A round or polygonal tower, minimum 9'0\" in diameter, capped with a conical roof at 18:12 or steeper, must be present at the junction of two wings and must contain either the entrance or a stair. A tower applied flat to a facade, or one narrower than 9'0\", voids the variant."
+      "statement": "A round or polygonal tower, minimum 9'0\" in diameter, capped with a conical roof at 18:12 or steeper, must be present at the junction of two wings and must contain either the entrance or a stair. A tower applied flat to a facade, or one narrower than 9'0\", voids the variant.",
+      "id": "french-normandy-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 18,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the tower's own conical roof pitch. Tower diameter (min 9'0\" -- no matching vocabulary variable, tower_diameter_ft is missing) and 'must contain either the entrance or a stair' stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Main roof pitch 12:12 to 16:12, constant within 1:12 across all faces, hipped. The tower roof must exceed the main roof pitch by not less than 4:12."
+      "statement": "Main roof pitch 12:12 to 16:12, constant within 1:12 across all faces, hipped. The tower roof must exceed the main roof pitch by not less than 4:12.",
+      "id": "french-normandy-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 16,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the main roof pitch range. 'Constant within 1:12 across all faces, hipped' and 'the tower roof must exceed the main roof pitch by not less than 4:12' (no separate tower-roof-pitch variable exists to compute the cross-roof differential against) stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Where half-timbering is used it must describe a plausible frame under the parent Tudor rule: continuous verticals from sill to plate, horizontals terminating at posts, braces at 45 degrees or steeper, members 5-8 in. wide projecting not less than 1 in. from the infill plane."
+      "statement": "Where half-timbering is used it must describe a plausible frame under the parent Tudor rule: continuous verticals from sill to plate, horizontals terminating at posts, braces at 45 degrees or steeper, members 5-8 in. wide projecting not less than 1 in. from the infill plane.",
+      "id": "french-normandy-revival.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Vertical material changes must occur at a floor line, a water table, or a jetty, with a minimum 4 in. horizontal offset. Stone below and stucco above stopping mid-storey is forbidden."
+      "statement": "Vertical material changes must occur at a floor line, a water table, or a jetty, with a minimum 4 in. horizontal offset. Stone below and stucco above stopping mid-storey is forbidden.",
+      "id": "french-normandy-revival.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Windows shall be casements with true divided or leaded lights, leaves 16-22 in. wide, grouped in twos and threes. Double-hung sash on principal elevations is forbidden."
+      "statement": "Windows shall be casements with true divided or leaded lights, leaves 16-22 in. wide, grouped in twos and threes. Double-hung sash on principal elevations is forbidden.",
+      "id": "french-normandy-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

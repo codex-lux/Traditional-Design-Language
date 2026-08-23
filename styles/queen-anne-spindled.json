@@ -134,27 +134,37 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "The porch shall carry turned posts and a spindle frieze or pierced valance running its full length, with spindles 1.5 to 2.5 in in diameter at 3 to 5 in on centre and a frieze depth of 10 to 18 in. A porch without a frieze does not satisfy this subtype."
+      "statement": "The porch shall carry turned posts and a spindle frieze or pierced valance running its full length, with spindles 1.5 to 2.5 in in diameter at 3 to 5 in on centre and a frieze depth of 10 to 18 in. A porch without a frieze does not satisfy this subtype.",
+      "id": "queen-anne-spindled.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Classical elements are prohibited: no column with entasis or classical capital, no dentil or modillion cornice, no Palladian or Venetian window. Any of these places the building in the free classic subtype."
+      "statement": "Classical elements are prohibited: no column with entasis or classical capital, no dentil or modillion cornice, no Palladian or Venetian window. Any of these places the building in the free classic subtype.",
+      "id": "queen-anne-spindled.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Not fewer than one principal gable shall be filled with patterned cut shingles over not less than 60 percent of its field, with the texture change from the wall below occurring at a belt course or storey line."
+      "statement": "Not fewer than one principal gable shall be filled with patterned cut shingles over not less than 60 percent of its field, with the texture change from the wall below occurring at a belt course or storey line.",
+      "id": "queen-anne-spindled.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "One turned profile shall be used for all posts on a building and one for all balusters. Mixing catalogue profiles within a single porch is prohibited."
+      "statement": "One turned profile shall be used for all posts on a building and one for all balusters. Mixing catalogue profiles within a single porch is prohibited.",
+      "id": "queen-anne-spindled.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "A sawn bracket or knee brace of 12 to 24 in on the diagonal shall occur at the head of every porch post, on both faces at corners."
+      "statement": "A sawn bracket or knee brace of 12 to 24 in on the diagonal shall occur at the head of every porch post, on both faces at corners.",
+      "id": "queen-anne-spindled.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

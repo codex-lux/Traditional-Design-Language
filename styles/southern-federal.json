@@ -152,27 +152,62 @@
     {
       "kind": "climatic",
       "statement": "A central passage must be open at both ends with operable doors, and no room may be more than 20 feet deep without a second exterior wall. Filling in behind the passage to make a double-pile plan removes the variant's climatic reason for existing and must be a deliberate, argued decision.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "southern-federal.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "plan_depth_ft",
+        "direction": "at-most",
+        "threshold": 20,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the 20ft maximum via plan_depth_ft, standing in for per-room depth on the assumption of the single-pile plan the variant depends on (room depth approximately equals overall plan depth minus the passage in a true single-pile). The passage-operable-at-both-ends clause is left as prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Principal-storey ceiling height 10-13 feet, with window heads within 12-18 inches of the ceiling. Ceilings under 9 feet convert the building to a Northern Federal proportion regardless of trim.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "southern-federal.c02",
+      "scope": "section",
+      "test": {
+        "expression": "ceiling_height_ground_in",
+        "direction": "between",
+        "threshold": 120,
+        "upper": 156,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the 10-13ft ceiling-height range. The window-head-to-ceiling offset clause (12-18in) is left as prose -- window_head_to_cornice_offset_in measures head-to-exterior-cornice, a different reference line, not head-to-interior-ceiling."
+      }
     },
     {
       "kind": "structural",
       "statement": "Flanking dependency ridges must sit at least 4 feet below the main ridge, and hyphens must be lower and shallower than both elements they join. Equal-height wings destroy the hierarchy that the parti exists to express.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "southern-federal.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Brick laid in Flemish bond with joints no wider than 3/8 inch; where a water table or belt course occurs it projects no more than 2 inches. Exterior-end chimney stacks must stand clear of the gable wall by at least 4 inches at the shoulder.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "southern-federal.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "belt_course_projection_in",
+        "direction": "at-most",
+        "threshold": 2,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the belt-course/water-table projection cap (2in). Flemish-bond joint width (3/8in) and the exterior-end-chimney standoff distance (4in) have no matching vocabulary variables -- chimney_inset_ft measures the opposite case, an interior chimney's inset from the gable, not an exterior chimney's standoff -- and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "A porch is permitted and encouraged as a shading device, but a Federal porch is one storey and carried on colonnettes no more than 8 inches in diameter. A full-height two-storey portico converts the building to Greek Revival or Neoclassical.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "southern-federal.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

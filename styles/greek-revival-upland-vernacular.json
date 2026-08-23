@@ -139,27 +139,63 @@
     {
       "kind": "proportional",
       "statement": "A continuous frieze board of at least 10 inches (14-16 on a two-storey house) must run under the eave on all elevations, with corner pilaster boards no less than 10 inches wide. Below these widths the classical reading collapses and the building is simply a plain farmhouse.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-upland-vernacular.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "rake_trim_width_in",
+        "direction": "at-least",
+        "threshold": 10,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the frieze/eave trim board width floor (10in minimum; 14-16in on a two-storey house is a further refinement left as prose). Corner pilaster board width (also 10in minimum) has no separate vocabulary variable and stays prose too."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Entrance must be a rectangular opening with a rectangular transom, sidelights optional, inside flat pilasters carrying a flat entablature at least 12 inches deep. Elliptical fanlights, arched openings and applied Adamesque ornament are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-upland-vernacular.c02",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Where a central passage is used it must be operable at both ends and the main block must remain single-pile (16-20 feet deep). Doubling the depth without adding cross-ventilation converts a working summer plan into a dark box.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-upland-vernacular.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "plan_depth_ft",
+        "direction": "between",
+        "threshold": 16,
+        "upper": 20,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the single-pile depth range (16-20ft). The passage-operable-at-both-ends clause is left as prose -- no vocabulary variable expresses passage door operability."
+      }
     },
     {
       "kind": "structural",
       "statement": "Free-standing classical columns are out of character; porch supports are square or chamfered posts 4x4 to 6x6, chamfer stopped 12-18 inches from deck and soffit. If columns are wanted, the building belongs to a different variant.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "greek-revival-upland-vernacular.c04",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Where a log core is encased, the weatherboard must be furred out to a consistent plane and window jambs detailed for a wall 8-12 inches thick; the deep reveal is a legitimate and legible feature, not a defect to be concealed.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "greek-revival-upland-vernacular.c05",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 8,
+        "upper": 12,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the wall-thickness range where a log core is encased. The furring-consistency requirement is left as prose."
+      }
     }
   ],
   "exemplars": [

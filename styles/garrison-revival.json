@@ -134,27 +134,55 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Overhang depth 8-18 in., continuous across the full width of the elevation, with the soffit framed and finished as a soffit - not as a siding transition. Overhangs under 6 in. or over 24 in. are forbidden; neither reads as a joist cantilever."
+      "statement": "Overhang depth 8-18 in., continuous across the full width of the elevation, with the soffit framed and finished as a soffit - not as a siding transition. Overhangs under 6 in. or over 24 in. are forbidden; neither reads as a joist cantilever.",
+      "id": "garrison-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "jetty_overhang_in",
+        "direction": "between",
+        "threshold": 8,
+        "upper": 18,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the overhang depth range. Continuity across the full elevation width, soffit framing/finish, and the wider outer bounds (under 6in / over 24in forbidden) stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Pendant drops are required at both outer ends of the overhang, turned or carved in wood, 5-8 in. in diameter and 8-14 in. long, aligned with the corner posts. Applied plastic or foam drops void the variant."
+      "statement": "Pendant drops are required at both outer ends of the overhang, turned or carved in wood, 5-8 in. in diameter and 8-14 in. long, aligned with the corner posts. Applied plastic or foam drops void the variant.",
+      "id": "garrison-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Where the overhang returns onto a gable end it must continue for the full depth of that elevation and terminate in a drop; a partial return is forbidden."
+      "statement": "Where the overhang returns onto a gable end it must continue for the full depth of that elevation and terminate in a drop; a partial return is forbidden.",
+      "id": "garrison-revival.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Roof pitch 7:12 to 9:12 side gable. Below 6:12 the box loses the proportion that makes the overhang legible; above 10:12 the house reads as a Cape or a first-period reproduction."
+      "statement": "Roof pitch 7:12 to 9:12 side gable. Below 6:12 the box loses the proportion that makes the overhang legible; above 10:12 the house reads as a Cape or a first-period reproduction.",
+      "id": "garrison-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 7,
+        "upper": 9,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch range. The explanatory bounds below 6:12 / above 10:12 restate the same variable and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width. A two-storey portico is incompatible with a jettied elevation."
+      "statement": "Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width. A two-storey portico is incompatible with a jettied elevation.",
+      "id": "garrison-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

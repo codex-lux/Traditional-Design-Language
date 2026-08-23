@@ -132,27 +132,46 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Not fewer than two masonry materials or brick colours shall appear on each principal elevation, with every change occurring on a horizontal course line. A vertical or diagonal material change is prohibited."
+      "statement": "Not fewer than two masonry materials or brick colours shall appear on each principal elevation, with every change occurring on a horizontal course line. A vertical or diagonal material change is prohibited.",
+      "id": "queen-anne-patterned-masonry.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "All ornament shall be moulded, rubbed, gauged, carved, or cast in the wall material itself. Applied sawn or turned wooden ornament is prohibited on masonry elevations; a spindled porch places the building in the spindlework subtype."
+      "statement": "All ornament shall be moulded, rubbed, gauged, carved, or cast in the wall material itself. Applied sawn or turned wooden ornament is prohibited on masonry elevations; a spindled porch places the building in the spindlework subtype.",
+      "id": "queen-anne-patterned-masonry.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Chimney stacks shall rise 4 to 8 ft above the adjacent ridge and shall carry a corbelled or panelled cap projecting 3 to 6 in. In this subtype the chimney is a primary compositional element and may not be suppressed."
+      "statement": "Chimney stacks shall rise 4 to 8 ft above the adjacent ridge and shall carry a corbelled or panelled cap projecting 3 to 6 in. In this subtype the chimney is a primary compositional element and may not be suppressed.",
+      "id": "queen-anne-patterned-masonry.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 8,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the chimney-height-above-ridge range. The cap's corbelled/panelled form and its 3-6 in projection have no matching vocabulary variable (no chimney-cap-projection concept) and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Ornamental panels of moulded brick or terra cotta shall occupy not more than 25 percent of any elevation and shall be concentrated in frieze, spandrel, and gable positions."
+      "statement": "Ornamental panels of moulded brick or terra cotta shall occupy not more than 25 percent of any elevation and shall be concentrated in frieze, spandrel, and gable positions.",
+      "id": "queen-anne-patterned-masonry.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Arches shall be segmental or flat with rubbed voussoirs. A full semicircular arch springing from a squat column moves the building toward Richardsonian Romanesque and should be classified there."
+      "statement": "Arches shall be segmental or flat with rubbed voussoirs. A full semicircular arch springing from a squat column moves the building toward Richardsonian Romanesque and should be classified there.",
+      "id": "queen-anne-patterned-masonry.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

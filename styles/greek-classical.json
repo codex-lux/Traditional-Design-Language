@@ -118,27 +118,55 @@
     {
       "kind": "proportional",
       "statement": "Pediment slope must fall between 12 and 17 degrees (tympanum height 1/7 to 1/9 of span). Above 20 degrees the profile reads Roman or Renaissance; above 30 degrees it reads as a domestic gable with a pediment drawn on it.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-classical.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 17,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "A Greek pediment's rake continues the roof's own pitch, so roof_slope_deg tests it directly. The parenthetical tympanum-height-to-span ratio is a restatement of the same slope in a different form, not additional information, and the descriptive thresholds above 20 and 30 degrees are commentary rather than a separate rule."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "A Doric column may not be given a moulded base. Doric shaft meets stylobate directly; if a base is required by the design, the order must change to Ionic or the reference must change to Roman.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-classical.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Clear span between column axes must not exceed roughly 6 m without introducing an arch, which is outside the style. Intercolumniation between 1.2 and 1.7 lower diameters of clear space.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-classical.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "intercolumniation_diameters",
+        "direction": "between",
+        "threshold": 1.2,
+        "upper": 1.7,
+        "units": "diameters",
+        "measurable_from": "elevation",
+        "note": "Tests the intercolumniation clause. The 'clear span must not exceed roughly 6 m without an arch' clause stays prose (a conditional construction-method rule, not a bound on a single variable)."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Entasis: the shaft diminishes only above roughly the lower third of its height, with total diminution of 1/6 to 1/5 of the lower diameter and a maximum swell of 1.5 to 2 percent over the straight-line taper.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "greek-classical.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "If a Doric frieze is used, corner contraction is mandatory; an uncontracted corner with a half-metope is a revivalist error, not a Greek option.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-classical.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

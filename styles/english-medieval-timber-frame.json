@@ -123,27 +123,54 @@
     {
       "kind": "structural",
       "statement": "Timber positions must be structurally derivable: every vertical member reaches a sill or a beam, every brace resolves a corner, and no timber terminates in mid-panel. Applied patterning that does not correspond to a frame is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-medieval-timber-frame.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Jetty projection 350-600 mm. Below 300 mm the shadow line fails to register; above 750 mm the building reads as twentieth-century Tudor Revival caricature.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-medieval-timber-frame.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "jetty_overhang_in",
+        "direction": "between",
+        "threshold": 350,
+        "upper": 600,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "300mm and 750mm are the statement's illustrative failure points, not additional bounds -- the stated range is 350-600mm."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Roof pitch not less than 45 degrees, and not less than 50 degrees under thatch. Infill panels must be set behind the timber face so that water is thrown clear of the joint, never proud of it.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-medieval-timber-frame.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "at-least",
+        "threshold": 45,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the universal floor (45deg). Thatch's stricter 50deg floor is material-conditional and stays prose, as does the infill-panel weathering clause."
+      }
     },
     {
       "kind": "structural",
       "statement": "Openings are cut within a panel and may not interrupt a principal post or tie beam; window width is therefore a whole number of stud bays.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-medieval-timber-frame.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Where a masonry stack occurs in a frame of pre-1550 character it should read as an insertion — full-height, of different material, breaking the panel grid — because that is what it historically is.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "english-medieval-timber-frame.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

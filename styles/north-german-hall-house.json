@@ -126,27 +126,54 @@
     {
       "kind": "structural",
       "statement": "Bay (Fach) spacing 2.2-2.8 m on centre, fixed by the transverse beams over the aisle posts. Overall length must be a whole number of bays; growth is by adding a bay at the hearth end, never by stretching a bay.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "north-german-hall-house.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The Diele must run unbroken from the Grootdor to the Flett. No cross wall, no stair and no partition may interrupt it; the type dies the moment one does.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "north-german-hall-house.c02",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Reed thatch at 45-50 degrees, carried over the byre aisles to an eave 1.5-2.0 m above grade. The low eave is structural, thermal and functional — it protects the framed wall, buries the byre in the roof, and cannot be raised without producing a different building.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "north-german-hall-house.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_height_ft",
+        "direction": "between",
+        "threshold": 1.5,
+        "upper": 2.0,
+        "units": "m",
+        "measurable_from": "elevation",
+        "note": "Tests the low-eave-height clause, the constraint's own emphasis. The reed-thatch pitch range (45-50 degrees) stated in the same sentence stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "No masonry chimney in the original type. Introducing one, or a smoke hood, converts the building to the 19th-century reformed plan and requires the byre to be separated out.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "north-german-hall-house.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "chimney_count",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "count",
+        "measurable_from": "plan",
+        "note": "Tests the no-masonry-chimney rule as chimney_count == 0. The smoke-hood alternative and the reformed-plan consequence are conditional prose, not part of the count test."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Carving, lettering and finials belong exclusively to the entrance gable. Ornamenting the long flanks is not a stylistic error but a misreading of the type.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "north-german-hall-house.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

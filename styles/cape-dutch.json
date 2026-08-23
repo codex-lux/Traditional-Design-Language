@@ -142,27 +142,70 @@
     {
       "kind": "structural",
       "statement": "All ranges are single-pile. Clear internal depth must not exceed 6.5 m; a double-pile Cape house is not a Cape house, because the roof cannot be made without an interior bearing wall the type does not have.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cape-dutch.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "plan_depth_ft",
+        "direction": "at-most",
+        "threshold": 21.3,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Converted from the source's 6.5 m to ft. Tests the internal-depth ceiling that makes a single-pile section possible; 'all ranges are single-pile' itself (depth_and_pile, categorical) is the same rule's consequence and is left as prose rather than tested a second way."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Thatch pitch between 45 and 50 degrees. A continuous brandsolder — brick laid on timber beams over the full plan — is required beneath any thatch roof; it is both a fire barrier and the visible ceiling.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cape-dutch.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 45,
+        "upper": 50,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the thatch-pitch range. The brandsolder requirement (a fire-barrier/ceiling assembly beneath the thatch) is a construction-method fact with no matching vocabulary variable and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "External walls minimum 450 mm, lime-plastered and limewashed. Cement render is prohibited: it traps moisture in an earth wall and destroys it. Openings on the north-west (summer sun and south-easter) elevation limited to about 15 percent of wall area.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cape-dutch.c03",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 17.7,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Converted from the source's 450 mm to in. Tests the wall-thickness minimum only. 'Cement render is prohibited' (a material prohibition) and 'openings on the north-west elevation limited to about 15 percent of wall area' (glazed_area_pct_wall has no per-orientation variant) both stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "A moulded front gable requires a centred front door directly beneath it and at least one subordinate, plainer gable elsewhere on the house. A single decorative gable with no counterpart reads as scenery.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cape-dutch.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "gable_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "measurable_from": "elevation",
+        "note": "Reads 'a moulded front gable plus at least one subordinate gable' as a minimum total of two. The centred-front-door-under-the-front-gable alignment clause stays prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "The homestead is incomplete without its werf: a low limewashed enclosing wall and at least the cellar and one outbuilding. Isolating the manor house from its working precinct misrepresents the type.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "cape-dutch.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

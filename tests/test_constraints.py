@@ -1,7 +1,12 @@
 """Pins WP-1.1's constraint rule language: the schema, the vocabulary checker,
-and the worked-example migration (english-classical + american-colonial,
-140 constraints across 28 nodes). See docs/constraints.md and
-docs/reports/wp-1.1-constraint-rule-language.md.
+and the migration itself. The worked example (english-classical + american-
+colonial, 140 constraints across 28 nodes) proved the shape; the remaining 25
+families were then migrated in one batched pass (23 Aug 2026, 8 parallel
+batches by family), bringing the corpus to 660 migrated constraints across
+132 nodes -- every style/variant node that carries a `constraints` array at
+all. See docs/constraints.md and docs/reports/wp-1.1-constraint-rule-language.md
+for the worked example, and docs/reports/wp-1.1-remaining-families-migration.md
+for the full-corpus pass.
 """
 import json
 import os
@@ -37,17 +42,27 @@ def test_migrated_constraint_conforms_to_schema():
     assert proc.returncode == 0 and "OK" in proc.stdout, proc.stdout + proc.stderr
 
 
-def test_worked_example_migration_counts(check_constraints_module, capsys):
-    """The english-classical + american-colonial worked example migrated
-    exactly 140 constraints (28 nodes x 5 each): 106 with a test, 34 honestly
-    scope: judgment. A drift here means a node's constraint count changed, or
-    the migration script/data fell out of sync with it -- either is worth
-    noticing, not silently passing."""
+def test_full_corpus_migration_counts(check_constraints_module, capsys):
+    """UPDATED 23 Aug 2026 when the remaining 25 families were migrated in one
+    batched pass: the corpus-wide total is now 660 migrated constraints across
+    132 nodes (every style/variant that carries a `constraints` array at all),
+    365 with a test and 295 honestly scope: judgment (55%/45%) -- a markedly
+    higher judgment fraction than the 140-constraint worked example's 24%,
+    because the worked example's two families (English Classical, American
+    Colonial) happen to be dimension-heavy relative to the corpus as a whole;
+    several of the newly-migrated families (Tudor-Jacobean, Renaissance-
+    classical, the Beaux-Arts/French Baroque cluster) are dominated by
+    compositional/hierarchical rules with no number in them at all. See
+    docs/reports/wp-1.1-remaining-families-migration.md for the family-by-
+    family breakdown and the vocabulary gaps the batches found. A drift here
+    means a node's constraint count changed, or the corpus fell out of sync
+    with what check_constraints.py reports -- either is worth noticing, not
+    silently passing."""
     sys.argv = ["check_constraints.py"]
     check_constraints_module.main()
     out = capsys.readouterr().out
-    assert "140 migrated constraint(s) across 28 node(s)" in out
-    assert "tested: 106   judgment: 34" in out
+    assert "660 migrated constraint(s) across 132 node(s)" in out
+    assert "tested: 365   judgment: 295" in out
 
 
 def test_expression_checker_flags_unknown_variable(constraint_vocabulary_module):

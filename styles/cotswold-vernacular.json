@@ -135,27 +135,61 @@
     {
       "kind": "structural",
       "statement": "Roof pitch not less than 48 degrees where stone slate is used, and the structure must be sized for a dead load of roughly 100-140 kg per square metre — three to four times a modern tile roof.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cotswold-vernacular.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "at-least",
+        "threshold": 48,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch clause. The dead-load figure (100-140 kg/m2) has no matching structural-load variable in the vocabulary and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Slate courses must be graded from large at the eaves to small at the ridge. A uniform course size destroys the roof and with it the whole reading of the building.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cotswold-vernacular.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Openings are spanned by a stone lintel or a relieving arch and are therefore limited to roughly 1.8 m clear; wider openings must be subdivided by structural mullions, not by glazing bars.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cotswold-vernacular.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "clear_span_ft",
+        "direction": "at-most",
+        "threshold": 5.9,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "1.8 m converted to 5.9 ft ('roughly 1.8 m' in the source). The requirement to subdivide wider openings with structural mullions stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "No barge boards and no eaves overhang beyond about 75 mm. Gables are closed with kneelers and a raised coping; verges are bedded in mortar.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cotswold-vernacular.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-most",
+        "threshold": 75,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the eaves-overhang ceiling. The no-barge-boards rule and the kneeler/coping/mortar-bedded-verge detailing are categorical and stay prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Lime mortar and limewash only. Cement pointing and impermeable render trap moisture in a rubble wall and will spall the stone within a generation.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "cotswold-vernacular.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

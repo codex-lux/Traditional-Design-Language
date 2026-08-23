@@ -139,27 +139,53 @@
     {
       "kind": "structural",
       "statement": "No log wall may exceed about 9 m without an intersecting cross-wall to lock the corners. Plan dimensions are bounded by log length; the type grows by stacking storeys or adding a separate building, never by lengthening a wall.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "swiss-chalet.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "log_wall_run_ft",
+        "direction": "at-most",
+        "threshold": 29.5,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "9 m converted to 29.5 ft ('about 9 m' in the source -- an approximate stated ceiling, not an invented one)."
+      }
     },
     {
       "kind": "structural",
       "statement": "A settlement gap of 2-4 percent of wall height must be provided above every door and window head and at every point where a rigid element passes through the log wall. Log walls shrink across the grain; ignoring this splits frames and cracks chimneys within five years.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "swiss-chalet.c02",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Gable overhang not less than 1.2 m, eave overhang not less than 0.8 m. The overhang exists to keep water and direct sun off the log wall; reducing it to a conventional 300 mm eave destroys the wall.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "swiss-chalet.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-least",
+        "threshold": 0.8,
+        "units": "m",
+        "measurable_from": "elevation",
+        "note": "Tests the eave-overhang clause, the vocabulary term that names it exactly. The gable-overhang minimum (1.2m) stated in the same sentence is a distinct measurement the vocabulary does not separate from eave overhang and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "The log storey must sit on a masonry base or on the uphill grade, never on the ground. Roof pitch 18-25 degrees where the precipitation is snow, 35-45 where it is rain — pitch follows precipitation type, not altitude.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "swiss-chalet.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Ornament belongs on the bargeboard, the gallery balustrade, the purlin ends and the inscription band. The log wall itself stays plain; carving or applied trim on the log courses is outside the tradition.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "swiss-chalet.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

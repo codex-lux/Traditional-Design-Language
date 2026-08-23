@@ -139,27 +139,53 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Exterior walls shall be load-bearing masonry of not less than 16 in nominal thickness at the ground storey, with window reveals of 12 to 24 in. Thin stone veneer over a frame wall is prohibited; the style is entirely an argument about wall thickness."
+      "statement": "Exterior walls shall be load-bearing masonry of not less than 16 in nominal thickness at the ground storey, with window reveals of 12 to 24 in. Thin stone veneer over a frame wall is prohibited; the style is entirely an argument about wall thickness.",
+      "id": "richardsonian-romanesque.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 16,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the wall-thickness minimum, the clause the statement itself calls the governing one ('the style is entirely an argument about wall thickness'). The paired window-reveal range (12-24 in, reveal_depth_in) is a second numeric fact the schema's single test object can't also carry, and stays prose alongside the thin-veneer-over-frame prohibition."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Principal arches shall be semicircular. Pointed, segmental, and elliptical arches are forbidden at the entrance. Where columns support an arch, shaft height shall not exceed 3.5 base diameters."
+      "statement": "Principal arches shall be semicircular. Pointed, segmental, and elliptical arches are forbidden at the entrance. Where columns support an arch, shaft height shall not exceed 3.5 base diameters.",
+      "id": "richardsonian-romanesque.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Openings shall occupy not more than 35 percent of the area of any elevation, and shall be grouped rather than evenly distributed."
+      "statement": "Openings shall occupy not more than 35 percent of the area of any elevation, and shall be grouped rather than evenly distributed.",
+      "id": "richardsonian-romanesque.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 35,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the opening-area ceiling. 'Grouped rather than evenly distributed' is a spatial-distribution fact with no matching vocabulary variable and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "One wall material shall run from water table to eave on every elevation. Texture, colour, and coursing may vary within the material; a change of material at a storey line is prohibited."
+      "statement": "One wall material shall run from water table to eave on every elevation. Texture, colour, and coursing may vary within the material; a change of material at a storey line is prohibited.",
+      "id": "richardsonian-romanesque.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Carved ornament shall be confined to capitals, the entrance arch, and not more than two continuous bands per elevation, and shall total not more than 8 percent of the elevation area."
+      "statement": "Carved ornament shall be confined to capitals, the entrance arch, and not more than two continuous bands per elevation, and shall total not more than 8 percent of the elevation area.",
+      "id": "richardsonian-romanesque.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

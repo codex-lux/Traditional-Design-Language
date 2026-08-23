@@ -133,27 +133,70 @@
     {
       "kind": "climatic",
       "statement": "The piazza must be on the south or west flank, minimum 8 feet deep (10-12 preferred), running the full length of the house. A piazza on the north or east flank, or shallower than 8 feet, fails as both shade device and outdoor room and voids the type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-single-house.c01",
+      "scope": "site",
+      "test": {
+        "expression": "piazza_bearing_deg",
+        "direction": "between",
+        "threshold": 180,
+        "upper": 270,
+        "units": "deg",
+        "measurable_from": "site",
+        "note": "Tests piazza orientation as 'within 45 degrees of southwest' (south-through-west, 180-270 degrees) per the statement's 'south or west flank' -- the canonical use case constraint_vocabulary.py's own note names for piazza_bearing_deg. The minimum piazza depth (8ft, 10-12 preferred) is also cleanly testable via gallery_depth_ft but is left as prose here since the schema allows one test per constraint."
+      }
     },
     {
       "kind": "structural",
       "statement": "Street frontage must not exceed 28 feet and the plan must remain single-pile: one room on each side of the stair passage, room depth 16-20 feet, with operable windows on two opposite walls of every principal room.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-single-house.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "facade_width_ft",
+        "direction": "at-most",
+        "threshold": 28,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests street frontage width (28ft maximum) via facade_width_ft -- the narrow gable end that addresses the street. Room depth (16-20ft) and the cross-ventilation clause are left as prose since the schema allows one test per constraint."
+      }
     },
     {
       "kind": "cultural",
       "statement": "The street door must be a false door opening onto the piazza, with the true entrance set at least one bay back along the piazza. Deleting the false door and entering the house directly from the sidewalk destroys the type's threshold sequence and its privacy logic.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-single-house.c03",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Principal-floor ceiling height minimum 11 feet (12-13 typical) with window heads within 18 inches of the ceiling, and sash operable top and bottom. Ceilings under 10 feet break the stack ventilation the section depends on.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "charleston-single-house.c04",
+      "scope": "section",
+      "test": {
+        "expression": "ceiling_height_ground_in",
+        "direction": "at-least",
+        "threshold": 132,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the 11ft minimum principal-floor ceiling height. Window-head-to-ceiling offset (18in maximum) and the top-and-bottom operable sash requirement are left as prose."
+      }
     },
     {
       "kind": "code",
       "statement": "The flank opposite the piazza sits at or within 3 feet of the property line and carries no more than token openings - it is a fire wall, a response to the Charleston fires of 1740 and 1778, and modern separation-distance rules reach the same answer.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "charleston-single-house.c05",
+      "scope": "site",
+      "test": {
+        "expression": "setback_side_ft",
+        "direction": "at-most",
+        "threshold": 3,
+        "units": "ft",
+        "measurable_from": "site",
+        "note": "Tests the property-line clearance on the flank opposite the piazza. The 'no more than token openings' clause is left as prose."
+      }
     }
   ],
   "exemplars": [

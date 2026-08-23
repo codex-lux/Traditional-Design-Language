@@ -138,27 +138,61 @@
     {
       "kind": "proportional",
       "statement": "The balcony must run the full width of the principal elevation and be not less than 6 feet deep. A centred or partial balcony, or one under 6 feet, converts the house into an ordinary two-storey stucco box with a decorative appendage.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "monterey-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "balcony_depth_ft",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "'Must run the full width of the principal elevation' has no matching vocabulary variable (no balcony-width variable exists to compare against facade_width_ft) and stays prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "The balcony must be sheltered by the main roof or by a continuous integral roof, never by a separate applied canopy.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "monterey-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Where a material change occurs between storeys it must fall exactly at the balcony floor line and continue around any return. A material change that stops at an outside corner is the characteristic production-housing failure.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "monterey-revival.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Shutters, where used, must be sized to cover the full opening and hung on real hardware. Half-width shutters are more conspicuous on this style than on most, because the sash is the only Anglo element carrying the hybrid argument.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "monterey-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "equals",
+        "threshold": 1.0,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Unlike the family's usual half-width-pair rule (shutter_leaf_to_sash_ratio = 0.5, e.g. colonial-revival, dutch-colonial-revival), Monterey Revival's shutters must each cover the full opening on their own -- the statement itself calls out this reversal. 'Hung on real hardware' is qualitative and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Principal balcony elevation should face within 60 degrees of south or west, where the shading it provides is worth its cost.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "monterey-revival.c05",
+      "scope": "site",
+      "test": {
+        "expression": "min(abs(piazza_bearing_deg - 180), abs(piazza_bearing_deg - 270))",
+        "direction": "at-most",
+        "threshold": 60,
+        "units": "deg",
+        "measurable_from": "site",
+        "note": "A genuine disjunction ('within 60 degrees of south or west') tested at its safe shared bound: the angular distance to the nearer of the two target bearings, reusing piazza_bearing_deg for the balcony's facing direction."
+      }
     }
   ],
   "exemplars": [

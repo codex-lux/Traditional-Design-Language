@@ -148,27 +148,62 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Wall thickness must be expressed at every opening with a minimum 6 in. reveal from the outer stucco face to the window or door frame, achieved by a returned or splayed jamb. Windows set flush to a thin stucco skin void the style regardless of any other detail."
+      "statement": "Wall thickness must be expressed at every opening with a minimum 6 in. reveal from the outer stucco face to the window or door frame, achieved by a returned or splayed jamb. Windows set flush to a thin stucco skin void the style regardless of any other detail.",
+      "id": "mediterranean-revival.c01",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Jamb construction method (returned or splayed) is qualitative and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Roof pitch 3:12 to 5:12 in clay tile, hipped, with eave overhang not exceeding 18 in. and no exposed dimensional rafter tails. Gables facing a principal elevation are forbidden; that move belongs to spanish-colonial-revival."
+      "statement": "Roof pitch 3:12 to 5:12 in clay tile, hipped, with eave overhang not exceeding 18 in. and no exposed dimensional rafter tails. Gables facing a principal elevation are forbidden; that move belongs to spanish-colonial-revival.",
+      "id": "mediterranean-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch range. Eave overhang (<=18in, matching eave_projection_in but not tested here), hipped form, exposed-rafter-tail prohibition, and the front-gable prohibition stay prose -- one test per constraint."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "At least one covered outdoor room - loggia, arcade, or gallery - of not less than 200 sq ft and not less than 8'0\" clear depth must open off a principal interior room. A Mediterranean Revival house without one is incomplete."
+      "statement": "At least one covered outdoor room - loggia, arcade, or gallery - of not less than 200 sq ft and not less than 8'0\" clear depth must open off a principal interior room. A Mediterranean Revival house without one is incomplete.",
+      "id": "mediterranean-revival.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the clear depth minimum. The 200 sq ft area minimum (no matching vocabulary variable -- the corpus has no building- or room-area variable at all) and 'must open off a principal interior room' stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Arcade piers between 1/3 and 1/2 of the clear span in width; arches semicircular or segmental with the springing not below 2/3 of the total opening height. Flattened arches spanning more than 9 ft read as commercial."
+      "statement": "Arcade piers between 1/3 and 1/2 of the clear span in width; arches semicircular or segmental with the springing not below 2/3 of the total opening height. Flattened arches spanning more than 9 ft read as commercial.",
+      "id": "mediterranean-revival.c04",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "severity": "soft",
-      "statement": "Native to IECC zones 1-3. Above zone 4, unvented low-slope tile roofs and uninsulated mass-wall reveals fail; either build the mass genuinely or do not use the style."
+      "statement": "Native to IECC zones 1-3. Above zone 4, unvented low-slope tile roofs and uninsulated mass-wall reveals fail; either build the mass genuinely or do not use the style.",
+      "id": "mediterranean-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

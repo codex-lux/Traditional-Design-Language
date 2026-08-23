@@ -133,27 +133,53 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "All ornament shall be sawn or turned from wood and shall project not more than 3 in from its ground plane. Cast stone, carved stone, terra cotta, and moulded masonry ornament are forbidden in this variant."
+      "statement": "All ornament shall be sawn or turned from wood and shall project not more than 3 in from its ground plane. Cast stone, carved stone, terra cotta, and moulded masonry ornament are forbidden in this variant.",
+      "id": "carpenter-gothic.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "ornament_relief_in",
+        "direction": "at-most",
+        "threshold": 3,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the projection ceiling. 'Sawn or turned from wood' and the forbidden cast-stone/carved-stone/terra-cotta/moulded-masonry materials are a material-category fact with no matching vocabulary variable and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Principal gable pitch shall be not less than 12:12, and the bargeboard shall run the full rake with a verge overhang of 12 to 24 in so it is read against shadow."
+      "statement": "Principal gable pitch shall be not less than 12:12, and the bargeboard shall run the full rake with a verge overhang of 12 to 24 in so it is read against shadow.",
+      "id": "carpenter-gothic.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the gable-pitch minimum. The bargeboard's full-rake run and 12-24 in verge overhang are a separate numeric/qualitative fact the schema's single test object can't also carry, and stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Where board-and-batten is used, boards shall be 8 to 12 in wide with 2 to 3 in battens at 12 to 16 in on centre, running unbroken from water table to eave on every elevation that receives them. Mixing board-and-batten and clapboard on one elevation is prohibited."
+      "statement": "Where board-and-batten is used, boards shall be 8 to 12 in wide with 2 to 3 in battens at 12 to 16 in on centre, running unbroken from water table to eave on every elevation that receives them. Mixing board-and-batten and clapboard on one elevation is prohibited.",
+      "id": "carpenter-gothic.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Pointed or ogee window heads shall be limited to the principal gable, the entrance, and the stair, and to not more than three openings per building. Beyond that the house reads as a chapel."
+      "statement": "Pointed or ogee window heads shall be limited to the principal gable, the entrance, and the stair, and to not more than three openings per building. Beyond that the house reads as a chapel.",
+      "id": "carpenter-gothic.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "advisory",
-      "statement": "Bargeboard pattern repeat shall not exceed 24 in, and the same pattern shall be used on every gable of the building. Two different bargeboard patterns on one house is a twentieth-century restoration error."
+      "statement": "Bargeboard pattern repeat shall not exceed 24 in, and the same pattern shall be used on every gable of the building. Two different bargeboard patterns on one house is a twentieth-century restoration error.",
+      "id": "carpenter-gothic.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

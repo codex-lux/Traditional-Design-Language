@@ -151,27 +151,64 @@
     {
       "kind": "proportional",
       "statement": "Roof pitch between 3:12 and 5:12, hipped, with an eave overhang of 600-1200 mm on brackets. A steep roof, a narrow eave, or an eave without brackets each individually break the type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-villa-vernacular.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch range. The eave-overhang range (600-1200 mm, maps to eave_projection_in) and 'hipped'/'on brackets' are further facts in the same sentence, left as prose for the single-test limit."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "The tower must be off the centre line and must exceed the block's eave height by at least 30 percent. A tower centred on the facade converts the composition into a symmetrical villa; a tower below 1.2 times the eave height reads as a stair bulkhead.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-villa-vernacular.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "All arches semicircular: rise = half span within 3 percent. Segmental and elliptical arches belong to the working farm; pointed and Tudor arches are outside the tradition entirely.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-villa-vernacular.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "arch_rise_to_span_ratio",
+        "direction": "between",
+        "threshold": 0.47,
+        "upper": 0.53,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Rise = half span within 3 percent, read as +/-3 percentage points around 0.5. Which arch forms belong to the working farm vs. are excluded entirely stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "No pediment and no applied order on the exterior. Columns occur only in the loggia arcade, and there they are unfluted Tuscan or Doric carrying an impost, not an entablature.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "italian-villa-vernacular.c04",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "The loggia must face between south-east and south-west in the northern hemisphere and must be at least 2.4 m deep so that the summer sun is excluded from the wall behind it while winter sun reaches the back wall.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "italian-villa-vernacular.c05",
+      "scope": "site",
+      "test": {
+        "expression": "piazza_bearing_deg",
+        "direction": "between",
+        "threshold": 135,
+        "upper": 225,
+        "units": "deg",
+        "measurable_from": "site",
+        "note": "Tests the south-east-to-south-west orientation band (135-225 degrees, 0=north). The 2.4 m minimum depth (maps to gallery_depth_ft) is a second numeric fact in the same sentence, left as prose for the single-test limit."
+      }
     }
   ],
   "exemplars": [

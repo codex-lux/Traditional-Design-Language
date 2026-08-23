@@ -152,27 +152,61 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Principal roof pitch not less than 12:12 and constant within 1:12 across all faces. No front-facing gable may occupy more than 25 percent of the primary elevation width; a dominant front gable voids the style."
+      "statement": "Principal roof pitch not less than 12:12 and constant within 1:12 across all faces. No front-facing gable may occupy more than 25 percent of the primary elevation width; a dominant front gable voids the style.",
+      "id": "french-eclectic.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch floor. 'Constant within 1:12 across all faces' and the front-gable-width cap (<=25% of primary elevation width, no matching vocabulary variable) stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Dormers of the principal rank must be wall dormers whose cheeks continue the wall material and whose sills sit at or below the eave line. Roof-set dormers set entirely above the eave are permitted only as secondary attic lights."
+      "statement": "Dormers of the principal rank must be wall dormers whose cheeks continue the wall material and whose sills sit at or below the eave line. Roof-set dormers set entirely above the eave are permitted only as secondary attic lights.",
+      "id": "french-eclectic.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Where an eave flare is used, the flare shall extend 18-30 in. up the slope with a rafter-angle reduction of 15-25 degrees, and shall be carried continuously around all hips. A flare on the front elevation only is forbidden."
+      "statement": "Where an eave flare is used, the flare shall extend 18-30 in. up the slope with a rafter-angle reduction of 15-25 degrees, and shall be carried continuously around all hips. A flare on the front elevation only is forbidden.",
+      "id": "french-eclectic.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Masonry or stucco walls must express thickness: minimum 5 in. reveal at window and door jambs, with quoins, water table, or a returned surround. Flush-set windows in a thin veneer wall read as builder-grade and break the style."
+      "statement": "Masonry or stucco walls must express thickness: minimum 5 in. reveal at window and door jambs, with quoins, water table, or a returned surround. Flush-set windows in a thin veneer wall read as builder-grade and break the style.",
+      "id": "french-eclectic.c04",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 5,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "The quoins/water-table/returned-surround alternatives are categorical with no set threshold stated and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Windows shall be casements with true divided lights, minimum leaf proportion 1:2.5. Where shutters are used they must be board-and-batten or louvred, sized to cover the full opening, and hung on strap hinges with tiebacks."
+      "statement": "Windows shall be casements with true divided lights, minimum leaf proportion 1:2.5. Where shutters are used they must be board-and-batten or louvred, sized to cover the full opening, and hung on strap hinges with tiebacks.",
+      "id": "french-eclectic.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "sash_proportion_ratio",
+        "direction": "at-least",
+        "threshold": 2.5,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the minimum casement-leaf height:width proportion (reusing the corpus's general opening-proportion variable for a casement leaf rather than a double-hung sash). Shutter material and hardware (board-and-batten or louvred, strap hinges, tiebacks) stay prose."
+      }
     }
   ],
   "exemplars": [

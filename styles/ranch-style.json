@@ -139,27 +139,70 @@
     {
       "kind": "co-occurrence",
       "statement": "An attached garage facing the street must have its door plane set back not less than 4 ft behind the primary facade plane; otherwise the garage must be side-loaded, rear-loaded, or alley-served. A garage face forward of the front door is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "ranch-style.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "garage_setback_ft",
+        "direction": "at-least",
+        "threshold": 4,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the attached-street-facing case's 4 ft setback. The side-loaded/rear-loaded/alley-served alternative stays prose (a genuine disjunction; testing setback alone would wrongly fail a legitimately side-loaded garage)."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Total garage door width shall not exceed 33 percent of the street-facing facade width.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "ranch-style.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "garage_door_width_ft / facade_width_ft",
+        "direction": "at-most",
+        "threshold": 0.33,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": ""
+      }
     },
     {
       "kind": "proportional",
       "statement": "Roof pitch 3:12 to 5:12 with eave and rake overhang between 18 and 36 in. Overhang under 12 in disqualifies the node; a pitch over 6:12 makes the horizontal reading impossible.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "ranch-style.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch clause. Eave and rake overhang (18-36in) is the statement's other numeric claim and stays prose; the under-12in and over-6:12 figures are illustrative disqualifiers beyond the stated range, not additional bounds."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Facade width not less than twice the wall plate height, single storey throughout the street-facing mass.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "ranch-style.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "facade_width_ft - 2 * wall_plate_height_ft",
+        "direction": "at-least",
+        "threshold": 0,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the width-to-wall-plate-height proportion. 'Single storey throughout the street-facing mass' is separately expressible via the existing storey_count variable as one-of [\"1\"] but only one test object is permitted per constraint, so it stays prose here."
+      }
     },
     {
       "kind": "climatic",
       "statement": "The low-pitch, wide-eave, slab-on-grade assembly is native to IECC zones 2 through 5. In zones 6 and 7 the pitch must rise toward 5:12, ice-dam detailing is required at the wide eave, and the slab must be replaced by a frost-protected foundation.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "ranch-style.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

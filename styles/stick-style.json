@@ -138,27 +138,55 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Stickwork shall be continuous: a horizontal band at every floor line and at the eave, vertical members at every corner and at each side of every opening group, and a diagonal or truss member in every gable field. Stickwork applied to the principal elevation only is prohibited."
+      "statement": "Stickwork shall be continuous: a horizontal band at every floor line and at the eave, vertical members at every corner and at each side of every opening group, and a diagonal or truss member in every gable field. Stickwork applied to the principal elevation only is prohibited.",
+      "id": "stick-style.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "All stickwork members shall be flat sawn boards 1x4 to 1x6 nominal, standing 3/4 to 1 in proud of the wall plane. No stickwork member may be turned, scrolled, chamfered on a curve, or otherwise non-rectilinear."
+      "statement": "All stickwork members shall be flat sawn boards 1x4 to 1x6 nominal, standing 3/4 to 1 in proud of the wall plane. No stickwork member may be turned, scrolled, chamfered on a curve, or otherwise non-rectilinear.",
+      "id": "stick-style.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "ornament_relief_in",
+        "direction": "between",
+        "threshold": 0.75,
+        "upper": 1,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Reuses ornament_relief_in for stickwork's proud-of-the-wall-plane projection. The 1x4-1x6 nominal board width and the ban on turned/scrolled/curved members are cladding-dimension and member-shape facts with no matching variables and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Wall cladding shall change texture only at a stickwork band, and not more than two textures may occur on any one elevation. A texture change in the middle of a panel field is prohibited."
+      "statement": "Wall cladding shall change texture only at a stickwork band, and not more than two textures may occur on any one elevation. A texture change in the middle of a panel field is prohibited.",
+      "id": "stick-style.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Eave overhang shall be 18 to 36 in and shall be carried on visible brackets, purlin ends, or rafter tails at 24 to 48 in on centre. A boxed eave with no visible support contradicts the style's entire premise."
+      "statement": "Eave overhang shall be 18 to 36 in and shall be carried on visible brackets, purlin ends, or rafter tails at 24 to 48 in on centre. A boxed eave with no visible support contradicts the style's entire premise.",
+      "id": "stick-style.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 18,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the eave-overhang range. The 24-48 in bracket/purlin/rafter-tail spacing has no matching variable and stays prose, along with the 'visible support, no boxed eave' clause."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "No single mass shall exceed any other by more than 30 percent in height or plan area. Stick Style composition is a balance of comparable gables; a dominant mass produces a Queen Anne house."
+      "statement": "No single mass shall exceed any other by more than 30 percent in height or plan area. Stick Style composition is a balance of comparable gables; a dominant mass produces a Queen Anne house.",
+      "id": "stick-style.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -157,27 +157,53 @@
     {
       "kind": "proportional",
       "statement": "Principal roof pitch not less than 12:12. Below 10:12 the style collapses into ordinary Period Revival.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "storybook-style.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "'Below 10:12 the style collapses into ordinary Period Revival' is the same variable's explanatory floor and stays prose (the enforced threshold is the stated 12:12, not the explanatory 10:12)."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "A strictly symmetrical principal elevation is forbidden. At least three of the following must be present and deliberately irregular: ridge line, eave line, wall plane, window head heights, chimney profile.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "storybook-style.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Deviations from level, plumb, and convention shall lie between 5 and 25 percent of the nominal dimension, and shall be consistent in direction across the building. Deviation beyond 25 percent reads as damage rather than character.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "storybook-style.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The principal chimney must be the tallest and most massive element of the composition, not less than 1.5 times the width required by its flues, and must terminate at least 4 ft above the main ridge.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "storybook-style.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 4,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "'Tallest and most massive element of the composition' is a comparative claim and the flue-width multiplier (1.5x, no matching vocabulary variable for flue width) has no numeric support here; both stay prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "The idiom is coherent only at cottage scale. Applied to a house of more than roughly 2,500 sq ft or more than two full storeys, the exaggerations invert and read as bombast; use tudor-revival or french-eclectic instead.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "storybook-style.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

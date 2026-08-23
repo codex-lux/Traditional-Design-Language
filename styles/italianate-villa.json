@@ -140,27 +140,63 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Where a tower is used it shall stand at the reentrant angle of the plan and shall rise not less than one full storey above the main cornice, with its own bracketed eave at the same bracket module as the main building."
+      "statement": "Where a tower is used it shall stand at the reentrant angle of the plan and shall rise not less than one full storey above the main cornice, with its own bracketed eave at the same bracket module as the main building.",
+      "id": "italianate-villa.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "The tower shall be occupied at every level by a stair, hall, or room. Hollow decorative towers are prohibited."
+      "statement": "The tower shall be occupied at every level by a stair, hall, or room. Hollow decorative towers are prohibited.",
+      "id": "italianate-villa.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Bracket spacing shall be constant, between 24 and 48 in on centre, and shall be carried across every mass of the building including tower and wing without change of module. Eave projection 24 to 36 in."
+      "statement": "Bracket spacing shall be constant, between 24 and 48 in on centre, and shall be carried across every mass of the building including tower and wing without change of module. Eave projection 24 to 36 in.",
+      "id": "italianate-villa.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 24,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the eave-projection clause (the statement's second sentence). Bracket spacing (24-48 in on centre, constant across every mass) has no matching bracket-spacing variable and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "All roof pitches shall be between 3:12 and 5:12. No mansard, no gable steeper than 5:12, and no visible ridge from a viewpoint 40 ft from the facade at eye height."
+      "statement": "All roof pitches shall be between 3:12 and 5:12. No mansard, no gable steeper than 5:12, and no visible ridge from a viewpoint 40 ft from the facade at eye height.",
+      "id": "italianate-villa.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch range. 'No mansard' (a roof-form prohibition) and 'no visible ridge from a 40 ft eye-height viewpoint' have no matching variables and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "A veranda not less than 8 ft deep shall serve the principal elevation, and its cornice shall carry brackets at the main module or at exactly half the main module."
+      "statement": "A veranda not less than 8 ft deep shall serve the principal elevation, and its cornice shall carry brackets at the main module or at exactly half the main module.",
+      "id": "italianate-villa.c05",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the veranda-depth minimum. The bracket-module-matching clause has no matching bracket-spacing variable and stays prose."
+      }
     }
   ],
   "exemplars": [

@@ -162,27 +162,62 @@
     {
       "kind": "code",
       "statement": "Where an alley serves the lot, garages must be alley-loaded and street-facing garage doors are forbidden. Where no alley exists, the garage face must be set back not less than 20 ft behind the front facade plane, or be side-loaded.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-urbanist-traditional.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Front porch not less than 8 ft clear depth and not less than 60 percent of the facade width, at a front setback of 10 to 20 ft.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-urbanist-traditional.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the clear-depth floor. The 60-percent-of-facade-width clause has no matching porch-width variable (gallery_depth_ft is depth only) and stays prose; the 10-20ft front setback is separately expressible via the existing setback_front_ft variable but only one test object is permitted per constraint, so it also stays prose here."
+      }
     },
     {
       "kind": "code",
       "statement": "The principal facade must occupy not less than 70 percent of the lot width at the build-to line; gaps must be closed by a fence, wall, or hedge of not less than 3 ft continuing the line.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-urbanist-traditional.c03",
+      "scope": "site",
+      "test": {
+        "expression": "facade_width_ft / lot_width_ft",
+        "direction": "at-least",
+        "threshold": 0.7,
+        "units": "ratio",
+        "measurable_from": "site",
+        "note": "Tests the build-to-line coverage ratio. The fence/wall/hedge gap-closure requirement (minimum 3ft) is the statement's other clause and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Window openings vertically proportioned between 1:1.8 and 1:2.2, with all heads on a storey aligned to a single datum. Ground storey transparency on the principal frontage not less than 30 percent.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-urbanist-traditional.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "sash_proportion_ratio",
+        "direction": "between",
+        "threshold": 1.8,
+        "upper": 2.2,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the window-proportion range. 'All heads on a storey aligned to a single datum' has no vocabulary variable for same-storey cross-elevation head alignment (opening_vertical_alignment_in is storey-to-storey, a different comparison) and stays prose, as does ground-storey transparency (30 percent) -- glazed_area_pct_wall exists but is not scoped to a single storey."
+      }
     },
     {
       "kind": "cultural",
       "statement": "One regional stylistic vocabulary per building, applied to all elevations including alley and side. Mixing grammars on a single building, or changing material at an outside corner, is forbidden.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "new-urbanist-traditional.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

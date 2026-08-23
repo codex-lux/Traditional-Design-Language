@@ -171,27 +171,63 @@
     {
       "kind": "proportional",
       "statement": "Portico column height must equal the full height of the facade it fronts, measured from porch deck to the underside of the main entablature. A two-storey block with one-storey columns is not Greek Revival; it is Colonial Revival or a later hybrid. Columns must be 5.5-7 lower diameters for Doric, 8.5-9.5 for Ionic.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-american.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Entablature depth must be 1/4 to 1/5 of column height, subdivided architrave : frieze : cornice at approximately 3 : 3 : 2. A cornice thinner than 1/8 of column height reads as Federal or Colonial Revival regardless of the columns below it.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-american.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "entablature_depth_ratio",
+        "direction": "between",
+        "threshold": 0.2,
+        "upper": 0.25,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "1/4 to 1/5 of column height. The 3:3:2 architrave:frieze:cornice subdivision and the under-1/8-reads-as-Federal clause stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Where an upper half-storey is habitable it must be lit by frieze-band windows set within the entablature, no taller than one third of the frieze depth and aligned with the bays below. Dormers on the principal roof slope are forbidden; a frieze window and a dormer must never appear on the same elevation.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-american.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "front_slope_dormer_count",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "count",
+        "measurable_from": "elevation",
+        "note": "Tests the 'dormers forbidden on the principal roof slope' clause. Frieze-band window height relative to frieze depth (max one third), bay alignment, and the frieze-window/dormer mutual exclusion on one elevation are left as prose -- no vocabulary variable expresses frieze depth or per-elevation window/dormer co-occurrence."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Greek vocabulary is exclusive: no round-headed arches, no domes, no elliptical fanlights, no columns with bases under a Doric order, no Composite capitals. The entrance must be a rectangular opening with a rectangular transom, sidelights optional, inside a pilastered surround.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-american.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Main roof pitch 4:12 to 6:12 so that any gable reads as a pediment (height 1/4.5 to 1/5.5 of span). Where no full pediment is built, the cornice must return at least 12 inches onto the gable end. Pitches above 8:12 push the building toward Gothic Revival.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "greek-revival-american.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the 4:12-6:12 roof-pitch range. The pediment-height ratio and the 12in cornice-return-length rule (for a house with no full pediment) have no matching vocabulary variables and stay prose."
+      }
     }
   ],
   "exemplars": [

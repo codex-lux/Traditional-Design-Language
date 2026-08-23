@@ -170,27 +170,53 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Applied half-timbering must describe a structurally plausible frame. Every vertical member must run continuously from a sill or plate to a plate above; every horizontal must terminate at a post; braces must run corner to corner at 45 degrees or steeper; no member may cross a window head without a continuous lintel member above it. Free-floating decorative boards are forbidden."
+      "statement": "Applied half-timbering must describe a structurally plausible frame. Every vertical member must run continuously from a sill or plate to a plate above; every horizontal must terminate at a post; braces must run corner to corner at 45 degrees or steeper; no member may cross a window head without a continuous lintel member above it. Free-floating decorative boards are forbidden.",
+      "id": "tudor-revival.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Timbering members shall be no less than 5 in. and no more than 10 in. in face width, with a minimum 1 in. projection from the stucco plane, and shall be spaced 16-30 in. clear between verticals. Wider spacing or thinner boards reads as trim rather than as frame."
+      "statement": "Timbering members shall be no less than 5 in. and no more than 10 in. in face width, with a minimum 1 in. projection from the stucco plane, and shall be spaced 16-30 in. clear between verticals. Wider spacing or thinner boards reads as trim rather than as frame.",
+      "id": "tudor-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Main roof pitch not less than 10:12. Where a subordinate cross-gable is introduced its pitch must equal or exceed the main roof pitch. Any Tudor Revival roof below 10:12 is void."
+      "statement": "Main roof pitch not less than 10:12. Where a subordinate cross-gable is introduced its pitch must equal or exceed the main roof pitch. Any Tudor Revival roof below 10:12 is void.",
+      "id": "tudor-revival.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 10,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "'Where a subordinate cross-gable is introduced its pitch must equal or exceed the main roof pitch' is a relational rule between two roof planes with no distinct cross-gable-pitch variable to compare against and stays prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Where masonry meets stucco on a wall plane, the material change must occur at a floor line or at a projecting jetty, with a minimum 4 in. horizontal offset or a water table. A material change stopping in mid-storey without an offset is forbidden."
+      "statement": "Where masonry meets stucco on a wall plane, the material change must occur at a floor line or at a projecting jetty, with a minimum 4 in. horizontal offset or a water table. A material change stopping in mid-storey without an offset is forbidden.",
+      "id": "tudor-revival.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "The principal chimney must be expressed on an elevation visible from the approach, be no less than 3'0\" wide in plan, and project at least 12 in. from the wall face. A Tudor Revival house with a flush or concealed flue is incoherent."
+      "statement": "The principal chimney must be expressed on an elevation visible from the approach, be no less than 3'0\" wide in plan, and project at least 12 in. from the wall face. A Tudor Revival house with a flush or concealed flue is incoherent.",
+      "id": "tudor-revival.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the chimney's projection from the wall face, reusing the corpus's general wall-plane-projection variable for a chimney breast. The 3'0\" minimum plan width (no matching vocabulary variable) and 'expressed on an elevation visible from the approach' stay prose."
+      }
     }
   ],
   "exemplars": [

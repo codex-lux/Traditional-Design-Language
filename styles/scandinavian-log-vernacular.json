@@ -132,27 +132,53 @@
     {
       "kind": "structural",
       "statement": "No log wall may exceed about 9 m without an intersecting cross-wall to lock its corners. The building grows by adding pens, storeys or separate buildings; a wall cannot simply be made longer.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "scandinavian-log-vernacular.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "log_wall_run_ft",
+        "direction": "at-most",
+        "threshold": 29.5,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "9 m converted to 29.5 ft ('about 9 m' in the source -- an approximate stated ceiling, not an invented one)."
+      }
     },
     {
       "kind": "structural",
       "statement": "A settlement allowance of 3-5 percent of wall height is required above every door and window head, and no rigid element — post, chimney, stair stringer — may be fixed through the log wall without a slip joint. This is the single commonest failure in modern reproductions.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "scandinavian-log-vernacular.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The sill log must sit on stone pads or a dry-laid stone footing at least 300 mm clear of grade, and is treated as a sacrificial course to be replaced. A log wall bearing directly on soil or on a continuous impermeable slab will fail from the bottom.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "scandinavian-log-vernacular.c03",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "at-least",
+        "threshold": 300,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the 300mm clearance above grade. That the sill sits on stone pads/footing specifically (rather than any raised base) and is treated as sacrificial are left as prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Sod roofs require a pitch of 22-30 degrees over birch bark, with an edge log or board to retain the turf; below 22 degrees the roof stays saturated and above 30 the turf creeps. Split-shingle roofs go to 35-45 degrees.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "scandinavian-log-vernacular.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Paint is post-1700 and belongs to the whole farm cluster or to none of it. A red-painted main house among unpainted outbuildings is a modern arrangement, not a traditional one.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "scandinavian-log-vernacular.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

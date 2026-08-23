@@ -129,27 +129,54 @@
     {
       "kind": "climatic",
       "statement": "This assembly — 3:12 to 5:12 pitch, unlined deep eaves, single-wall or minimally insulated walls, unheated rooms — is native to IECC zones 2B, 3B and 3C only. In zones 5 and above the pitch must rise to 4:12-6:12, the eave shorten to 24-36 in, and the outdoor rooms be glazed, at which point the node becomes craftsman-bungalow.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "california-bungalow.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch range this node is native to. The IECC-zone gating and the zone-5-and-above conversion to craftsman-bungalow are conditional/descriptive rather than a bound on this node's own values, and there is no climate-zone vocabulary variable -- both stay prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Eave and rake overhang not less than 30 in; porch depth not less than 8 ft clear.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "california-bungalow.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-least",
+        "threshold": 30,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the eave/rake overhang. Porch depth (not less than 8 ft, expressible via gallery_depth_ft) is a second independent numeric clause and is left as prose rather than combined into this test."
+      }
     },
     {
       "kind": "structural",
       "statement": "Masonry at porch base, chimney, and foundation must be a locally rough material laid with raked joints; smooth-faced manufactured veneer with returns of less than 24 in is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "california-bungalow.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Rafter tails, purlin ends, and beam ends must be cut to a declared profile and finished on the end grain; square sawn-off ends are permitted only on secondary structures.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "california-bungalow.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "At least one unheated or open room — sleeping porch, screened porch, pergola-covered terrace of not less than 80 sq ft — must be present in the plan.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "california-bungalow.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -147,27 +147,37 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Porch supports shall be classical columns of correct proportion, shaft height 7 to 9 diameters, used singly or in groups of two or three on a pedestal or solid balustrade. Turned spindlework, pierced valances, and lathe-turned posts are prohibited anywhere on the building."
+      "statement": "Porch supports shall be classical columns of correct proportion, shaft height 7 to 9 diameters, used singly or in groups of two or three on a pedestal or solid balustrade. Turned spindlework, pierced valances, and lathe-turned posts are prohibited anywhere on the building.",
+      "id": "queen-anne-free-classic.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The principal massing shall remain asymmetrical with one dominant mass exceeding every other by at least 50 percent, and the ridge shall be non-rectangular in plan. A symmetrical facade with classical trim is Colonial Revival and shall be classified there."
+      "statement": "The principal massing shall remain asymmetrical with one dominant mass exceeding every other by at least 50 percent, and the ridge shall be non-rectangular in plan. A symmetrical facade with classical trim is Colonial Revival and shall be classified there.",
+      "id": "queen-anne-free-classic.c02",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Where a dentil or modillion cornice is used it shall run continuously at the eave and shall return on the gable rake. A dentil course that stops at the corner is prohibited."
+      "statement": "Where a dentil or modillion cornice is used it shall run continuously at the eave and shall return on the gable rake. A dentil course that stops at the corner is prohibited.",
+      "id": "queen-anne-free-classic.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Not more than one Palladian, Venetian, or cottage window shall appear on the building, placed in the principal gable or at the stair. Repetition of the motif destroys its hierarchical function."
+      "statement": "Not more than one Palladian, Venetian, or cottage window shall appear on the building, placed in the principal gable or at the stair. Repetition of the motif destroys its hierarchical function.",
+      "id": "queen-anne-free-classic.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Wall texture change, where used, shall occur at a moulded belt course rather than at a plain butt joint, in keeping with the classical detailing of the rest of the building."
+      "statement": "Wall texture change, where used, shall occur at a moulded belt course rather than at a plain butt joint, in keeping with the classical detailing of the rest of the building.",
+      "id": "queen-anne-free-classic.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

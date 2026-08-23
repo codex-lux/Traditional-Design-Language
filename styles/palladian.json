@@ -151,27 +151,45 @@
     {
       "kind": "proportional",
       "statement": "Every principal room must take its plan proportion from the approved set (1:1, 1:1.414, 3:4, 2:3, 3:5, 1:2, or circular) within 3 percent, and its ceiling height from the arithmetic, geometric or harmonic mean of its own width and length.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "palladian.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Flanking wings must be subordinate in BOTH height and order - lower eave line and a simpler order than the centre. Equal wings destroy the hierarchy that defines the composition.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "palladian.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Pediment tympanum height between 1/5 and 1/4 of span (approximately 22 to 27 degrees). Shallower reads as antique quotation; steeper reads as a domestic gable with trim on it.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "palladian.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The piano nobile must be raised at least 1.2 m above grade on a plain or rusticated base, with external steps. A Palladian portico landing at grade is a nineteenth-century compression, not the type.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "palladian.c04",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "at-least",
+        "threshold": 47.2,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Converted from the source's 1.2 m to in. Tests the piano-nobile-height minimum. 'On a plain or rusticated base, with external steps' is a construction/material detail and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Use the serliana at most once per elevation and only on axis or as a terminal event. Repeating it as a standard window is a Georgian and Colonial Revival habit, not a Palladian one.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "palladian.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

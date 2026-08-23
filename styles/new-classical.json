@@ -155,27 +155,61 @@
     {
       "kind": "proportional",
       "statement": "All facade dimensions shall be derived from one declared module. The module and the chosen order must be recorded with the design; elements not derivable from it are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-classical.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Window and door openings shall be recessed not less than 4 in from the wall face in masonry, and not less than 2 in in wood construction. Flush-mounted windows are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-classical.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_setback_in",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the looser of the two material-conditional floors (2in, wood construction); masonry's stricter 4in floor is not caught by this test, mirroring the flagged-imprecision pattern used for spanish-colonial-american's wall-slenderness constraint -- there is no schema-honest way to make this one test exact without a material variable."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Principal cornice projection not less than 1/24 of the wall height it terminates, and in no case less than 8 in.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-classical.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "cornice_projection_in - max(facade_height_ft * 12 / 24, 8)",
+        "direction": "at-least",
+        "threshold": 0,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Combines both of the statement's clauses exactly: cornice_projection_in must be at least 1/24 of facade_height_ft (converted to inches) AND at least 8in absolute, expressed via max() so neither clause is silently dropped."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "One order per elevation. Where orders are superimposed they must ascend in canonical sequence (Tuscan or Doric below, Ionic, then Corinthian or Composite above) and diminish in diameter upward.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-classical.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Hollow extruded trim, veneer with returns under 24 in, shutters narrower than the sash they flank, and snap-in muntins without exterior profile are forbidden throughout.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "new-classical.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "at-least",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the veneer-return clause only. 'Hollow extruded trim', 'shutters narrower than the sash they flank' (ambiguous against shutter_leaf_to_sash_ratio, which is calibrated to a paired-leaf-covers-half-opening convention rather than a single full-width shutter panel), and 'snap-in muntins without exterior profile' are categorical/qualitative and stay prose."
+      }
     }
   ],
   "exemplars": [

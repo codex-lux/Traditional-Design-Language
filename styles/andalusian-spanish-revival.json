@@ -147,27 +147,61 @@
     {
       "kind": "proportional",
       "statement": "Window reveal depth not less than 8 inches. A flush window in a stucco wall destroys the expression of mass on which the entire idiom depends, and is the single most common failure in contemporary versions.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-spanish-revival.c01",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "in",
+        "measurable_from": "section"
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Not more than one elaborated ornamental event per elevation — a carved surround, a tiled stair, an iron balcony. Two or more and the composition becomes the parent style, not this variant.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-spanish-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Glazing on south and west elevations not to exceed 18% of wall area unless shaded by an arcade or deep overhang of not less than 4 feet.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-spanish-revival.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 18,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the 18% glazing cap. The shading exception (unshaded, or shaded by an arcade or an overhang of not less than 4 feet) is a conditional escape clause with no vocabulary support for combining a percentage test with an alternate-compliance-path and stays prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Roof pitch 3:12 to 5:12 with barrel or two-piece mission tile; eave overhang 0 to 12 inches, terminating in a plastered edge or a shaped rafter tail. Composition shingle and a fascia-and-gutter edge void the type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-spanish-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch range. Eave overhang (0-12in) and the required barrel/two-piece mission tile roofing material are the statement's other clauses and stay prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "The courtyard must be reachable only through a controlled gate or zaguan, and must be enclosed on at least three sides. A patio open to the street is a different building.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "andalusian-spanish-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

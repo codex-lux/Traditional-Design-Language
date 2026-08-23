@@ -125,27 +125,53 @@
     {
       "kind": "structural",
       "statement": "Arch heads are pointed. Where a depressed head is used it must be a true four-centred arch struck from four centres, not a flattened ellipse, and it belongs only to work after roughly 1400.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-gothic.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "A traceried window requires a hood mould or a weathered label above it. Tracery set flush in a wall with no drip is a modern detail and will fail in a British rain.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-gothic.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Entry to a hall is through a screens passage at the low end, never centrally on the long side and never at the dais end. This is the load-bearing rule of the whole domestic plan.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "english-gothic.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Hall wall-plate height not less than the hall's clear width; a hall wider than it is tall is a room, not a hall.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-gothic.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plate_height_ft - room_clear_span_ft",
+        "direction": "at-least",
+        "threshold": 0,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests 'wall-plate height not less than the hall's clear width' using room_clear_span_ft as the hall's clear-span measurement -- an open medieval hall roof is exactly the beam/truss-clear-span case that variable describes. Direction at-least with threshold 0 expresses the difference must be non-negative."
+      }
     },
     {
       "kind": "structural",
       "statement": "Roof pitch not less than 45 degrees, and 50-55 degrees where the covering is stone slate or thatch; the open roof must be framed to be seen from below.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "english-gothic.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "at-least",
+        "threshold": 45,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the universal floor (45deg). The stricter 50-55deg floor for stone slate or thatch is material-conditional and stays prose; 'framed to be seen from below' is qualitative and stays prose."
+      }
     }
   ],
   "exemplars": [

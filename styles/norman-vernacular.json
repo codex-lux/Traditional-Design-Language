@@ -128,27 +128,61 @@
     {
       "kind": "structural",
       "statement": "The bottom sill must rest on a stone or brick soubassement of at least 400 mm above finished grade, with a drip or oversail. Clay ground plus an oak sill at grade is a ten-year building.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "norman-vernacular.c01",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "at-least",
+        "threshold": 400,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the soubassement height floor. The drip/oversail detailing clause is qualitative and stays prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Stud spacing 0.5-0.8 m; torchis panels must not exceed about 0.6 m clear width. Openings are formed by omitting whole studs and framing the resulting gap — an opening cannot be cut through a stud.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "norman-vernacular.c02",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Roof pitch not less than 50 degrees for thatch or 45 for flat tile; overhang at least 350 mm at eave and 250 mm at verge. The rain-bearing westerly elevation should be slate- or shingle-hung, or given a wider overhang.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "norman-vernacular.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "at-least",
+        "threshold": 45,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the looser of the two material-conditional floors (45deg for flat tile); thatch's stricter 50deg floor is not caught by this test, mirroring the flagged-imprecision pattern used for spanish-colonial-american's wall-slenderness constraint -- there is no schema-honest way to make this one test exact without a material variable. Eave/verge overhang (350mm/250mm) and the westerly-elevation weathering clause are the statement's other claims and stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Single-pile only: clear range depth not to exceed 6 m. Depth is added by a second detached building in the enclosure, not by thickening the range.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "norman-vernacular.c04",
+      "scope": "plan",
+      "test": {
+        "expression": "plan_depth_ft",
+        "direction": "at-most",
+        "threshold": 6,
+        "units": "m",
+        "measurable_from": "plan",
+        "note": "Source states clear range depth in metres; kept as stated. 'Depth is added by a second detached building' is qualitative and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Torchis panels and brick nogging belong to different centuries and must not be mixed on one elevation. Where a building has both, the brick marks a later rebuilt wall and should read as such.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "norman-vernacular.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

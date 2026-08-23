@@ -139,27 +139,54 @@
     {
       "kind": "proportional",
       "statement": "Principal roof hipped at 3:12 to 4:12 with eave overhang not less than 30 in on every side. A gabled principal roof or an overhang under 24 in disqualifies the node.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "prairie-school.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 4,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch range. The eave overhang minimum (30 in, expressible via eave_projection_in), the hipped-not-gabled requirement (no roof-form vocabulary variable), and the 24 in disqualification threshold are left as prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Exposed rafter tails, knee braces, applied brackets, shutters, and any classical or revival ornament are forbidden. The eave soffit is a continuous closed plane.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "prairie-school.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "All window heads on a storey must die into a single continuous lintel band, and all sills into a single sill band; the bands must return around every corner without interruption.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "prairie-school.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "The primary entry may not be centred on the principal street elevation, and should be approached at right angles to the direction of arrival.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "prairie-school.c04",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The chimney mass must exceed the width of any other vertical element by at least 50 percent and must terminate above the highest roof plane.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "prairie-school.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 0,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests only that the chimney terminates above the highest roof plane (height above ridge > 0). The '50 percent wider than any other vertical element' clause needs a chimney-width variable not in the vocabulary and stays prose."
+      }
     }
   ],
   "exemplars": [

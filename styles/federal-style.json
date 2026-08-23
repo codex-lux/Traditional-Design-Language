@@ -145,27 +145,70 @@
     {
       "kind": "proportional",
       "statement": "Sash must be 6/6 or 6/9 double-hung with muntins no wider than 7/8 inch and glass no smaller than 10 x 14 inches. Muntins at Georgian width (1-1/4 inch and up) collapse the style at any distance beyond fifty feet, regardless of the quality of the rest of the trim.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "federal-style.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazing_bar_width_in",
+        "direction": "at-most",
+        "threshold": 0.875,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the muntin-width ceiling (7/8in). Sash light pattern (6/6 or 6/9) and minimum glass pane size (10x14in) are left as prose -- sash_light_pattern is categorical and no vocabulary variable expresses glass pane dimensions."
+      }
     },
     {
       "kind": "proportional",
       "statement": "No element of the principal facade may project more than 3 inches from the wall plane except the door surround, which is limited to 6 inches. Cornice projection must not exceed 1/25 of facade height, and frieze depth must not exceed 14 inches.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "federal-style.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "cornice_projection_in / (facade_height_ft * 12)",
+        "direction": "at-most",
+        "threshold": 0.04,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the cornice-to-facade-height ratio (1/25). The general 3in projection cap with its 6in door-surround exception has no safe shared bound to test generically -- testing at 3in would false-reject a legitimate door surround, testing at 6in would false-accept other ornament between 3 and 6in -- and the 14in frieze-depth cap has no matching vocabulary variable; both stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "An elliptical fanlight requires flanking sidelights and a single-storey entrance treatment (flat entablature, small portico, or nothing). A two-storey portico is forbidden; it converts the building to Greek Revival or Neoclassical Revival regardless of trim.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "federal-style.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Storey heights must graduate downward: second floor 0.80-0.90 of the first, third floor 0.60-0.75. Equal storey heights read as twentieth-century Colonial Revival.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "federal-style.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 20,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the second-floor-to-first-floor diminishing pair (10-20 percent, i.e. ratio 0.80-0.90). The third-floor pair (0.60-0.75, i.e. 25-40 percent) is the same variable applied to a further storey pair and stays prose, per the english-georgian precedent."
+      }
     },
     {
       "kind": "structural",
       "statement": "Masonry is laid in Flemish bond with joints no wider than 3/8 inch and no quoins. Belt courses are limited to a two-course brick band or a marble stringcourse no more than 4 inches deep. Rusticated or heavily articulated masonry belongs to Georgian or later revivals.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "federal-style.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "belt_course_projection_in",
+        "direction": "at-most",
+        "threshold": 4,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the stringcourse/belt-course depth cap. Flemish bond, joint width (3/8in), the no-quoins rule, and the two-course-brick-band alternative form are left as prose -- no vocabulary variable expresses brick joint width or bond pattern."
+      }
     }
   ],
   "exemplars": [

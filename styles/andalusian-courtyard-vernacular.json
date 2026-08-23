@@ -147,27 +147,55 @@
     {
       "kind": "climatic",
       "statement": "Patio width between 0.8 and 1.2 times the height of the enclosing ranges, and between 3.5 and 7 m across, at 36-38 degrees north. Outside that band it stops working: wider and it is an unshaded yard, narrower and it is a lightwell with no usable floor.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "court_width_ft",
+        "direction": "between",
+        "threshold": 11.5,
+        "upper": 23.0,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "3.5-7 m converted to 11.5-23 ft. The 0.8-1.2x-enclosing-range-height ratio clause stays prose (no enclosing-range-height variable exists independent of facade_height_ft, which would be a stretch for a courtyard's own surrounding walls)."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Walls 500-700 mm of brick, rubble or tapia, lime-rendered and limewashed. Cement render is prohibited — it traps moisture in a mass wall and destroys both the wall and the vapour-open behaviour the whitewash provides.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c02",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 500,
+        "upper": 700,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the wall-thickness range. The material specification (brick, rubble or tapia), the lime-render/limewash finish, and the cement-render prohibition are categorical and stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "One controlled entry only, through a zaguan, with a heavy door at the street and a cancela at the court. A second street entrance, or a court entered directly off the pavement, breaks the type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c03",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Roofs are canal tile at 20-30 degrees or flat azotea. Deep projecting eaves are not used and should not be added; shading is done by the court, not by the roof.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "andalusian-courtyard-vernacular.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "The court must carry planting and water. A paved, unplanted, dry patio is a lightwell, and the difference is not decorative — the evaporative cooling is a functional requirement of the type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

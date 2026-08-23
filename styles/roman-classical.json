@@ -143,27 +143,37 @@
     {
       "kind": "structural",
       "statement": "Any span above roughly 6 m must be arched or vaulted, not lintelled. A flat stone lintel spanning 8 m is not Roman; it is a modern steel beam with stone cladding.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "roman-classical.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Superimposed orders must ascend from heavier to lighter - Tuscan or Doric below, Ionic next, Corinthian or Composite above. Inverting this order is a hard error.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "roman-classical.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Where an order is applied to an arcade, the arch springing must align with a horizontal member of the applied order (impost or subordinate entablature), and the arch crown must clear the main entablature soffit by at least 1/2 module.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "roman-classical.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Temple podium height between 1/5 and 1/3 of the column height; below 1/6 the building loses the frontality that distinguishes it from Greek work.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "roman-classical.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Domestic Roman exteriors are plain to the point of blankness. Applying temple-front articulation to the street face of a house has no Roman precedent and should be flagged as a Renaissance or later move.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "roman-classical.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

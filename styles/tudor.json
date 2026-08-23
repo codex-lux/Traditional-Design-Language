@@ -130,27 +130,62 @@
     {
       "kind": "structural",
       "statement": "Depressed arches must be true four-centred arches in voussoirs with the rise between 1:3 and 1:4 of the span. A flattened ellipse, a segmental arch, or a moulded one-piece head is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tudor.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "arch_rise_to_span_ratio",
+        "direction": "between",
+        "threshold": 0.25,
+        "upper": 0.333,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "1:4 to 1:3 rise:span. The requirement that the arch be a true four-centred arch in voussoirs (not a flattened ellipse, segmental arch or moulded head) stays prose -- no arch-form-shape variable exists."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Classical orders may not be used structurally. Renaissance ornament is permitted only as inset panels, roundels or cresting on an otherwise Gothic surface, and may not exceed roughly 5 percent of the elevation.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tudor.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "ornament_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 5,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the 5 percent coverage ceiling. Where classical ornament may appear (inset panels, roundels, cresting only, never structural) stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Windows are divided by stone or oak mullions into lights of 400-500 mm with leaded glazing; no sash windows and no single-pane openings. Where a window exceeds about 1.4 m in height it takes a transom.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "tudor.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Chimney stacks must rise at least 1.5 times their own width above the ridge and be moulded or shafted. A flush or clipped stack destroys the roofscape on which the style depends.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "tudor.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft*12/chimney_width_in",
+        "direction": "at-least",
+        "threshold": 1.5,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Chimney rise expressed in inches over its own width, both in inches, to test the stated 1.5x ratio. 'Moulded or shafted' stays prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Battlements, turrets and moats are permitted as display only where the composition is clearly non-defensive; arrow loops, machicolation and portcullis grooves are forbidden as false archaeology.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "tudor.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

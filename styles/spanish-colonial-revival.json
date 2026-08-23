@@ -167,27 +167,54 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Roof pitch 3:12 to 5:12 in clay barrel or mission tile, with eave overhang not exceeding 12 in. and no exposed dimensional rafter tails. Adjacent roof planes on the primary elevation must differ in eave or ridge height by not less than 2'0\"."
+      "statement": "Roof pitch 3:12 to 5:12 in clay barrel or mission tile, with eave overhang not exceeding 12 in. and no exposed dimensional rafter tails. Adjacent roof planes on the primary elevation must differ in eave or ridge height by not less than 2'0\".",
+      "id": "spanish-colonial-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Eave overhang (<=12in, matching eave_projection_in but not tested here), tile material, and the adjacent-roof-planes-differ-by->=2'0\" clause (no matching vocabulary variable for a cross-roof-plane height differential) stay prose -- one test per constraint."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Wall thickness must be expressed at every opening with a minimum 6 in. reveal from stucco face to frame, jambs returned or splayed in stucco with no applied wood casing. Flush windows in a thin stucco skin void the style."
+      "statement": "Wall thickness must be expressed at every opening with a minimum 6 in. reveal from stucco face to frame, jambs returned or splayed in stucco with no applied wood casing. Flush windows in a thin stucco skin void the style.",
+      "id": "spanish-colonial-revival.c02",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Jamb finishing method (returned or splayed, no applied wood casing) is qualitative and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Ornament must be concentrated. Not more than two elevations may carry worked ornament, and the principal entrance surround must be the single most elaborate element on the building, with a minimum 12'0\" run of unornamented wall on each side of it."
+      "statement": "Ornament must be concentrated. Not more than two elevations may carry worked ornament, and the principal entrance surround must be the single most elaborate element on the building, with a minimum 12'0\" run of unornamented wall on each side of it.",
+      "id": "spanish-colonial-revival.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Wrought iron is required somewhere on the primary elevation - grille, balconette, gate, or lantern bracket - in members not less than 1/2 in. square. Cast aluminium substitutes are forbidden."
+      "statement": "Wrought iron is required somewhere on the primary elevation - grille, balconette, gate, or lantern bracket - in members not less than 1/2 in. square. Cast aluminium substitutes are forbidden.",
+      "id": "spanish-colonial-revival.c04",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "severity": "soft",
-      "statement": "Native to IECC zones 1-3B. Flat parapet-drained roofs, deep unflashed reveals and low-slope tile all fail under freeze-thaw; north of zone 4 the assemblies must be genuinely redetailed rather than imitated."
+      "statement": "Native to IECC zones 1-3B. Flat parapet-drained roofs, deep unflashed reveals and low-slope tile all fail under freeze-thaw; north of zone 4 the assemblies must be genuinely redetailed rather than imitated.",
+      "id": "spanish-colonial-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -133,27 +133,54 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Gambrel lower slope 20:12 to 24:12, upper slope 6:12 to 9:12, with the break at 55-65 percent of roof height. Slopes closer than 8:12 apart produce a mansard and void the variant."
+      "statement": "Gambrel lower slope 20:12 to 24:12, upper slope 6:12 to 9:12, with the break at 55-65 percent of roof height. Slopes closer than 8:12 apart produce a mansard and void the variant.",
+      "id": "dutch-colonial-revival.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "The lower slope must genuinely enclose habitable second-floor area: minimum 7'0\" clear headroom at a point 3'0\" horizontally in from the exterior wall plane. A gambrel over an attic is decoration."
+      "statement": "The lower slope must genuinely enclose habitable second-floor area: minimum 7'0\" clear headroom at a point 3'0\" horizontally in from the exterior wall plane. A gambrel over an attic is decoration.",
+      "id": "dutch-colonial-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "A full-length shed dormer face must be set back not less than 18 in. from the wall plane below and its ridge must sit not less than 24 in. below the main ridge. A dormer flush with the wall converts the roof to a clipped gable."
+      "statement": "A full-length shed dormer face must be set back not less than 18 in. from the wall plane below and its ridge must sit not less than 24 in. below the main ridge. A dormer flush with the wall converts the roof to a clipped gable.",
+      "id": "dutch-colonial-revival.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Where an eave kick is used it must project 12-24 in. past the wall, flare continuously across the full elevation, and return at the gable ends. A kick on the front only is forbidden."
+      "statement": "Where an eave kick is used it must project 12-24 in. past the wall, flare continuously across the full elevation, and return at the gable ends. A kick on the front only is forbidden.",
+      "id": "dutch-colonial-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the kick's horizontal projection past the wall. Continuity across the full elevation and the return at gable ends are qualitative and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Shutters, where used, follow the parent style's rule: half the sash width each, full sash height, on offset pintles with holdbacks. Shutters are not permitted on dormer windows."
+      "statement": "Shutters, where used, follow the parent style's rule: half the sash width each, full sash height, on offset pintles with holdbacks. Shutters are not permitted on dormer windows.",
+      "id": "dutch-colonial-revival.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "equals",
+        "threshold": 0.5,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Hardware (offset pintles, holdbacks) and the dormer-window prohibition are qualitative and stay prose."
+      }
     }
   ],
   "exemplars": [

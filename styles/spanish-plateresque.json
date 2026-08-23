@@ -137,27 +137,46 @@
     {
       "kind": "proportional",
       "statement": "Ornament must be confined to a bounded field with a hard frame. At least 60 percent of any principal elevation must remain plain ashlar. Distributing the ornament destroys the style outright.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "spanish-plateresque.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Columns and pilasters frame registers; they must not carry a continuous entablature across the facade. If a real order regulates the whole wall, the building has become Italian Renaissance or Herreran, not Plateresque.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "spanish-plateresque.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The portada is applied dressed stone carried on the wall behind, typically 300-600 mm deep. It is not a structural frontispiece and must not be modelled as one.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "spanish-plateresque.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "ornament_relief_in",
+        "direction": "between",
+        "threshold": 300,
+        "upper": 600,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the applied-portada-depth range, the same reading as churrigueresque.c04. 'Not a structural frontispiece and must not be modelled as one' stays prose."
+      }
     },
     {
       "kind": "cultural",
       "statement": "Heraldry is required and must anchor the composition, normally in the upper register. A Plateresque portada with no arms is missing the reason it was paid for.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "spanish-plateresque.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Where the interior carpentry is Mudejar — artesonado, par y nudillo, tile dado — it must be allowed to remain so. Coffering a Plateresque building in the Italian manner is a common revival error and a historical falsification.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "spanish-plateresque.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

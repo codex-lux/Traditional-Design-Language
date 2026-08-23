@@ -160,27 +160,77 @@
     {
       "kind": "co-occurrence",
       "statement": "A masonry veneer must be applied to all elevations of the mass it clads, or terminate at an inside corner or a change of plane of not less than 24 in. A return of less than 24 in onto a side elevation is forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "neo-eclectic.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "at-least",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The statement's disjunction (veneer to all elevations, or terminate at an inside corner, or a plane change) is covered by its own unconditional floor -- any terminating plane change must be at least 24in -- so testing that floor doesn't falsely accept a case the statement would reject, matching the safe-shared-bound pattern."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Decorative shutters shall each be not less than 45 percent of the width of the window opening, shall be hinged at the jamb, and are forbidden on ganged, arched, bay, and non-rectangular windows.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "neo-eclectic.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "at-least",
+        "threshold": 0.45,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Hinge position and the omission-from-ganged/arched/bay/non-rectangular-window rule are categorical and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "All window heads on a given storey of a given elevation shall align to one datum. Departures are permitted only where a change of roof plane or a change of wall plane of not less than 24 in separates them.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "neo-eclectic.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_alignment_in",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the zero-tolerance datum rule. The roof/wall-plane-change exception (departures permitted only where a change of not less than 24 in separates them) stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Maximum three gables per principal elevation. The dominant gable must exceed the next largest by not less than 25 percent in width, and secondary gables must be subordinate in ridge height.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "neo-eclectic.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "gable_count",
+        "direction": "at-most",
+        "threshold": 3,
+        "units": "count",
+        "measurable_from": "elevation",
+        "note": "Tests the maximum-three-gables ceiling. The dominant-gable width-excess and subordinate-ridge-height clauses stay prose (no width-comparison or ridge-hierarchy variable exists)."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Total garage door width not more than 33 percent of the street-facing facade; garage door plane set back not less than 4 ft behind the front door plane; three-car garages must be split or turned.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "neo-eclectic.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "garage_setback_ft",
+        "direction": "at-least",
+        "threshold": 4,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the 4 ft setback-behind-front-door-plane clause. The 33 percent door-width ceiling and the three-car-split requirement stay prose."
+      }
     }
   ],
   "exemplars": [

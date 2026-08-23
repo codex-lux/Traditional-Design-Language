@@ -153,27 +153,63 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "At least one curvilinear, scalloped, or stepped parapet must rise a minimum of 3'0\" above the adjacent eave or roof line, capped with tile or a shaped coping. Without it the building is not Mission Revival."
+      "statement": "At least one curvilinear, scalloped, or stepped parapet must rise a minimum of 3'0\" above the adjacent eave or roof line, capped with tile or a shaped coping. Without it the building is not Mission Revival.",
+      "id": "mission-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "parapet_height_in",
+        "direction": "at-least",
+        "threshold": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Parapet shape (curvilinear, scalloped, or stepped) and coping material are categorical/qualitative and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Applied ornament is limited to: parapet coping, one quatrefoil or circular window, tile vents, and a simple moulded string at the parapet base. Carved or cast entrance surrounds, twisted columns, and Churrigueresque relief are forbidden - they convert the building to spanish-colonial-revival."
+      "statement": "Applied ornament is limited to: parapet coping, one quatrefoil or circular window, tile vents, and a simple moulded string at the parapet base. Carved or cast entrance surrounds, twisted columns, and Churrigueresque relief are forbidden - they convert the building to spanish-colonial-revival.",
+      "id": "mission-revival.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Arcade piers 18-30 in. wide with clear spans of 6'0\"-9'0\" and semicircular arches springing at not less than 7'0\" above the porch floor. Slender turned or classical columns are forbidden; the arcade must read as wall pierced, not as posts."
+      "statement": "Arcade piers 18-30 in. wide with clear spans of 6'0\"-9'0\" and semicircular arches springing at not less than 7'0\" above the porch floor. Slender turned or classical columns are forbidden; the arcade must read as wall pierced, not as posts.",
+      "id": "mission-revival.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "pier_width_in",
+        "direction": "between",
+        "threshold": 18,
+        "upper": 30,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Clear span (6'0\"-9'0\", no matching vocabulary variable -- an arcade-clear-span variable distinct from room_clear_span_ft is missing) and springing height (>=7'0\") stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Stucco must run in one continuous plane from grade to parapet with no belt course, quoin, water table, or cornice. Any horizontal articulation of the wall breaks the style."
+      "statement": "Stucco must run in one continuous plane from grade to parapet with no belt course, quoin, water table, or cornice. Any horizontal articulation of the wall breaks the style.",
+      "id": "mission-revival.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Roof pitch 3:12 to 5:12 in clay tile, with eave overhang 24-42 in. on exposed rafter tails where the eave is expressed at all. Asphalt shingle is forbidden."
+      "statement": "Roof pitch 3:12 to 5:12 in clay tile, with eave overhang 24-42 in. on exposed rafter tails where the eave is expressed at all. Asphalt shingle is forbidden.",
+      "id": "mission-revival.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Eave overhang (24-42in, matching eave_projection_in but not tested here) and the asphalt-shingle prohibition stay prose -- one test per constraint."
+      }
     }
   ],
   "exemplars": [

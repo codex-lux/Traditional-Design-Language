@@ -134,27 +134,78 @@
     {
       "kind": "structural",
       "statement": "Exposed rafter tails must correspond to actual rafters at 16 to 24 in on centre and project 24 to 36 in beyond the wall plane. Decorative tails applied to a boxed eave are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "arts-and-crafts-american.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 24,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the projection beyond the wall plane. The 16-24in on-centre rafter spacing has no vocabulary variable (rafter spacing is not named) and stays prose, as does the prohibition on decorative (non-structural) tails."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Principal roof pitch between 4:12 and 6:12. Pitches above 8:12 belong to the Tudor and Storybook families and break the horizontal reading.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "arts-and-crafts-american.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden. Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "arts-and-crafts-american.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "pier_width_in",
+        "direction": "at-least",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the masonry base width. The prohibition on applied classical orders (columns, pedimented surrounds, dentil courses) is a categorical list with no vocabulary variable enumerating forbidden ornament and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "All window and door heads on a given storey align to one datum, tolerance zero. Transoms and clerestories may sit above that datum only where the wall plate is raised for the whole bay.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "arts-and-crafts-american.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_alignment_in",
+        "direction": "equals",
+        "threshold": 0,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the zero-tolerance datum rule. The transom/clerestory exception (permitted above the datum only where the wall plate is raised for the whole bay) stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "No more than three wall materials per elevation, each change occurring at a structural line (water table, belt, plate) and returning fully around any corner it meets.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "arts-and-crafts-american.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_material_count",
+        "direction": "at-most",
+        "threshold": 3,
+        "units": "count",
+        "measurable_from": "elevation",
+        "note": "Tests the material-count ceiling. Where changes must occur (a structural line) and the corner-return requirement stay prose."
+      }
     }
   ],
   "exemplars": [

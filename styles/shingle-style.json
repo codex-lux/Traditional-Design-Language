@@ -166,27 +166,53 @@
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "The shingle field shall be continuous across every storey line, corner, and change of plane on all elevations. No corner board, water table, belt course, frieze board, or storey band may interrupt it. This single rule is what separates the style from Queen Anne and it admits no exceptions."
+      "statement": "The shingle field shall be continuous across every storey line, corner, and change of plane on all elevations. No corner board, water table, belt course, frieze board, or storey band may interrupt it. This single rule is what separates the style from Queen Anne and it admits no exceptions.",
+      "id": "shingle-style.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Eave overhang shall not exceed 12 in and rake overhang shall not exceed 10 in, and both shall be closed tight to the wall plane with no exposed brackets, rafter tails, or purlin ends."
+      "statement": "Eave overhang shall not exceed 12 in and rake overhang shall not exceed 10 in, and both shall be closed tight to the wall plane with no exposed brackets, rafter tails, or purlin ends.",
+      "id": "shingle-style.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-most",
+        "threshold": 12,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the eave-overhang ceiling. Rake overhang (<=10 in, a separate stated figure) has no dedicated variable distinct from eave_projection_in and stays prose, along with the 'closed tight to the wall plane, no exposed brackets/rafter tails/purlin ends' clause."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Window and door casing shall not exceed 3 in in width and shall not project more than 1 in from the shingle plane. Projecting hoods, crowns, pedimented heads, and moulded sills are prohibited."
+      "statement": "Window and door casing shall not exceed 3 in in width and shall not project more than 1 in from the shingle plane. Projecting hoods, crowns, pedimented heads, and moulded sills are prohibited.",
+      "id": "shingle-style.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_width_in",
+        "direction": "at-most",
+        "threshold": 3,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the casing-width ceiling. The casing's own projection (<=1 in from the shingle plane) has no matching vocabulary variable and stays prose, along with the prohibited-hood/crown/pediment/sill list."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Shingle exposure shall be uniform at 4 to 6 in over the entire building. Decorative butt patterning, where used at all, shall not exceed 10 percent of total wall area and shall occur only within a single gable field."
+      "statement": "Shingle exposure shall be uniform at 4 to 6 in over the entire building. Decorative butt patterning, where used at all, shall not exceed 10 percent of total wall area and shall occur only within a single gable field.",
+      "id": "shingle-style.c04",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Where a masonry base is used it shall be rock-faced, shall terminate at or below the first-floor window sill line, and shall be the only material change permitted on the elevation."
+      "statement": "Where a masonry base is used it shall be rock-faced, shall terminate at or below the first-floor window sill line, and shall be the only material change permitted on the elevation.",
+      "id": "shingle-style.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

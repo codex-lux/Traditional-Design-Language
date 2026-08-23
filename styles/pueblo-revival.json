@@ -163,27 +163,71 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Roof must be flat or near-flat, maximum 1/4 in. per foot to internal or canale drainage, concealed behind a parapet 18-30 in. above the roof deck whose top line varies by at least 4 in. over its length. Any pitched roof visible from a principal elevation voids the style."
+      "statement": "Roof must be flat or near-flat, maximum 1/4 in. per foot to internal or canale drainage, concealed behind a parapet 18-30 in. above the roof deck whose top line varies by at least 4 in. over its length. Any pitched roof visible from a principal elevation voids the style.",
+      "id": "pueblo-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "parapet_height_in",
+        "direction": "between",
+        "threshold": 18,
+        "upper": 30,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the parapet height range concealing the roof. Roof drainage slope (max 1/4in per foot) and the required >=4in variation in the parapet top line over its length (an irregularity requirement, no matching vocabulary variable) stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Vigas, where expressed, must be round peeled logs 8-12 in. in diameter projecting 12-24 in. beyond the wall face at 24-36 in. on centre, and must occur only where a roof or ceiling structure could plausibly bear on that wall. Vigas on a gable end, on a parapet above a roof, or on an elevation with no floor behind it are forbidden."
+      "statement": "Vigas, where expressed, must be round peeled logs 8-12 in. in diameter projecting 12-24 in. beyond the wall face at 24-36 in. on centre, and must occur only where a roof or ceiling structure could plausibly bear on that wall. Vigas on a gable end, on a parapet above a roof, or on an elevation with no floor behind it are forbidden.",
+      "id": "pueblo-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the viga projection beyond the wall face (this variable's own docstring names viga ends explicitly). Viga diameter (8-12in) and spacing (24-36in o.c.) have no matching vocabulary variable; the plausible-bearing-location clause is qualitative. Both stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Wall thickness must be expressed with a minimum 10 in. reveal at all openings, jambs and heads returned in stucco, corners and parapet arrises radiused not less than 3 in. No eave, fascia, gutter, downspout, corner bead line, or applied trim may appear on the exterior."
+      "statement": "Wall thickness must be expressed with a minimum 10 in. reveal at all openings, jambs and heads returned in stucco, corners and parapet arrises radiused not less than 3 in. No eave, fascia, gutter, downspout, corner bead line, or applied trim may appear on the exterior.",
+      "id": "pueblo-revival.c03",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 10,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Corner/parapet arris radius (>=3in, no matching vocabulary variable) and the prohibition on eave, fascia, gutter, downspout, corner bead, and applied trim stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Solid-to-void ratio not less than 6:1 on principal elevations, with no single opening wider than 6'0\". Large glass areas belong on courtyard-facing elevations only."
+      "statement": "Solid-to-void ratio not less than 6:1 on principal elevations, with no single opening wider than 6'0\". Large glass areas belong on courtyard-facing elevations only.",
+      "id": "pueblo-revival.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "void_to_solid_ratio",
+        "direction": "at-most",
+        "threshold": 0.1667,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the 6:1 solid-to-void floor as void/solid <= 1/6 (~0.1667), the same convention as void_to_solid_ratio's other corpus uses. The single-opening width cap (<=6'0\", no matching vocabulary variable) stays prose."
+      }
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "This style quotes the built forms of living Puebloan communities. Where a project is sited in or adjacent to Native land, or is intended to represent Native culture, the design should be developed with the relevant community rather than from the published Santa Fe vocabulary."
+      "statement": "This style quotes the built forms of living Puebloan communities. Where a project is sited in or adjacent to Native land, or is intended to represent Native culture, the design should be developed with the relevant community rather than from the published Santa Fe vocabulary.",
+      "id": "pueblo-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

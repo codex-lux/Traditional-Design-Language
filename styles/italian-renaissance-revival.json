@@ -155,27 +155,70 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Storey heights must diminish upward. Second-storey clear height not more than 90 percent of the first, third not more than 85 percent of the second. Equal storey heights place the building in Colonial or Neoclassical Revival."
+      "statement": "Storey heights must diminish upward. Second-storey clear height not more than 90 percent of the first, third not more than 85 percent of the second. Equal storey heights place the building in Colonial or Neoclassical Revival.",
+      "id": "italian-renaissance-revival.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "at-least",
+        "threshold": 10,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the second-to-first storey diminishment (clear height <=90% of the first, i.e. >=10% reduction). The third-to-second pair (<=85%, >=15% reduction) is the same variable applied one storey pair further up and stays prose, per the corpus's established multi-storey-diminishment pattern."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Cornice projection not less than 1/16 of total wall height and not less than 24 in. on any two-storey example, carried on modillions or brackets spaced 12-24 in. on centre. A cornice under 12 in. voids the style."
+      "statement": "Cornice projection not less than 1/16 of total wall height and not less than 24 in. on any two-storey example, carried on modillions or brackets spaced 12-24 in. on centre. A cornice under 12 in. voids the style.",
+      "id": "italian-renaissance-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "cornice_projection_in",
+        "direction": "at-least",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the absolute 24in floor for a two-storey example. The proportional alternative (not less than 1/16 of total wall height) and bracket/modillion spacing (12-24in o.c.) stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Roof pitch 3:12 to 5:12, clay tile only, with no gable facing any principal elevation. Asphalt shingle, or any pitch above 6:12, is forbidden."
+      "statement": "Roof pitch 3:12 to 5:12, clay tile only, with no gable facing any principal elevation. Asphalt shingle, or any pitch above 6:12, is forbidden.",
+      "id": "italian-renaissance-revival.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Material (clay tile only) and 'no gable facing any principal elevation' stay prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "Masonry walls must express thickness at openings with a minimum 6 in. reveal, and arches must be true arches with visible voussoirs or a moulded archivolt - not flat headers behind a stucco curve."
+      "statement": "Masonry walls must express thickness at openings with a minimum 6 in. reveal, and arches must be true arches with visible voussoirs or a moulded archivolt - not flat headers behind a stucco curve.",
+      "id": "italian-renaissance-revival.c04",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Arch construction (true voussoirs/archivolt vs. a flat header behind a stucco curve) is qualitative and stays prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "No projecting portico or free-standing column in front of the wall plane. Where an order is used it must be engaged as a pilaster with a projection not exceeding 1/6 of its width."
+      "statement": "No projecting portico or free-standing column in front of the wall plane. Where an order is used it must be engaged as a pilaster with a projection not exceeding 1/6 of its width.",
+      "id": "italian-renaissance-revival.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -137,27 +137,62 @@
     {
       "kind": "structural",
       "statement": "Every infill panel must be framed on all four sides by timber, and every brace must terminate in a joint at both ends. A timber that dies into a panel is ornament, not frame, and is prohibited.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "german-fachwerk.c01",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "The bottom sill must sit on a masonry or fired-brick plinth at least 300 mm above finished grade, with a drip. Timber in contact with earth is the single commonest cause of loss in surviving frames.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "german-fachwerk.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "water_table_height_in",
+        "direction": "at-least",
+        "threshold": 300,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the plinth-height clause. 'With a drip' (a detail requirement) stays prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Jetty projection between 200 and 400 mm per storey, carried on the ends of the floor beams of the storey below. A jetty greater than about 400 mm requires a bracket (Knagge) at every beam end.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "german-fachwerk.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "jetty_overhang_in",
+        "direction": "between",
+        "threshold": 200,
+        "upper": 400,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the 200-400mm jetty range. The >400mm bracket (Knagge) requirement is a conditional follow-on rule and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Roof pitch not less than 45 degrees for tile or slate. Eave overhang at least 400 mm to keep driving rain off the daub panels; the gable verge at least 250 mm.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "german-fachwerk.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "at-least",
+        "threshold": 45,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch clause. Two further numeric clauses in the same sentence -- eave overhang at least 400mm and gable verge at least 250mm -- are distinct overhang measurements the vocabulary does not separate from each other and stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Carving, colour and lettering belong on the sill beam, the corner posts, the brackets and the door frame. The infill panels stay plain. Ornamenting the panel rather than the timber inverts the whole logic of the wall.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "german-fachwerk.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

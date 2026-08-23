@@ -152,27 +152,62 @@
     {
       "kind": "proportional",
       "statement": "Colonnade columns must run the full height of the block (both storeys), 6-7 diameters for Doric and 8.5-9.5 for Ionic, carrying an entablature 1/4 to 1/5 of column height. A one-storey porch on a two-storey house is a different and lesser type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-southern-plantation.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "entablature_depth_ratio",
+        "direction": "between",
+        "threshold": 0.2,
+        "upper": 0.25,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "1/4 to 1/5 of column height, order-independent. The order-specific column-diameter ranges (6-7 for Doric, 8.5-9.5 for Ionic) stay prose since which order applies isn't itself a tested variable."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Gallery depth minimum 8 feet (10-12 typical), sufficient to shade the full window height on the principal facade at the summer solstice for the building's latitude. A colonnade shallower than 8 feet is ornament, not a climate device, and the plan behind it must then be re-justified.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-southern-plantation.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the 8ft minimum gallery depth. The solstice-shading sufficiency claim (which depends on latitude and sun angle) and the 'ornament vs climate device' re-justification clause are left as prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Principal-floor ceiling height minimum 12 feet, with openings on two opposite walls of every principal room and a through-passage operable at both ends. Windows on the gallery elevations must be floor-length or triple-hung so they function as doors.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "greek-revival-southern-plantation.c03",
+      "scope": "section",
+      "test": {
+        "expression": "ceiling_height_ground_in",
+        "direction": "at-least",
+        "threshold": 144,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the 12ft principal-floor ceiling-height minimum. The cross-ventilation clause (openings on two opposite walls), the operable through-passage, and the floor-length/triple-hung window requirement on gallery elevations are left as prose -- no vocabulary variable captures per-room opening placement or sash type."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Greek vocabulary is exclusive: no arches, no domes, no bases under Doric columns, no elliptical fanlights. A belvedere or monitor is permitted and should be detailed with the same entablature profile as the main order.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "greek-revival-southern-plantation.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Kitchen and service functions belong in detached dependencies or a rear ell, never in the main block. Any contemporary reconstruction of this variant should record in its documentation that the type's scale was made possible by enslaved labour; the historical record is part of the kit.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "greek-revival-southern-plantation.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

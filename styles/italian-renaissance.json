@@ -140,27 +140,62 @@
     {
       "kind": "proportional",
       "statement": "Storey heights must diminish upward by at least 8 percent per storey above the piano nobile. Equal-height storeys make the composition float and read as revival or as modern floor plate.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-renaissance.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "All arches are semicircular: rise = half span, within 2 percent. Segmental, elliptical, pointed and flat arches are outside the style except in service openings below the piano nobile.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-renaissance.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "arch_rise_to_span_ratio",
+        "direction": "between",
+        "threshold": 0.48,
+        "upper": 0.52,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Rise = half span within 2 percent, read as +/-2 percentage points around 0.5. Which arch forms are excluded (segmental, elliptical, pointed, flat except at service openings) stays prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Crowning cornice must project between 1/12 and 1/16 of the total facade height, and its projection must be at least equal to its own vertical dimension, so that it throws the whole wall into shadow.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-renaissance.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "cornice_projection_in / (facade_height_ft * 12)",
+        "direction": "between",
+        "threshold": 0.0625,
+        "upper": 0.0833,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the projection-to-facade-height ratio (1/16-1/12). 'Its projection must be at least equal to its own vertical dimension' needs a cornice-vertical-dimension variable -- only cornice_projection_in exists, not a separate cornice depth/height -- and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Rustication may change only at a string course or a storey line, never within a storey and never partway across an elevation.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "italian-renaissance.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "No pedimented projecting portico on a domestic front; the temple front is reserved for churches until Palladio.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "italian-renaissance.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

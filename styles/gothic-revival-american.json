@@ -158,27 +158,53 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Principal roof pitch shall be not less than 12:12. Below this the gable ceases to dominate the composition and the building reads as Carpenter Gothic ornament applied to a folk box."
+      "statement": "Principal roof pitch shall be not less than 12:12. Below this the gable ceases to dominate the composition and the building reads as Carpenter Gothic ornament applied to a folk box.",
+      "id": "gothic-revival-american.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 12,
+        "units": "rise_in_12",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Bargeboard, where used, shall follow the full length of the rake from eave to apex without interruption, with a verge overhang of 12 to 24 in so that the board is read against shadow. A bargeboard applied only to the upper third of the rake is forbidden."
+      "statement": "Bargeboard, where used, shall follow the full length of the rake from eave to apex without interruption, with a verge overhang of 12 to 24 in so that the board is read against shadow. A bargeboard applied only to the upper third of the rake is forbidden.",
+      "id": "gothic-revival-american.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Reuses eave_projection_in for the bargeboard's verge overhang (the only overhang figure this statement states, and the same 'overhang beyond the wall face' concept the variable's own note already extends to a pent roof and viga ends). The full-length-of-rake-without-interruption clause has no matching variable and stays prose."
+      }
     },
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Where vertical siding is used, boards shall be 8 to 12 in wide with battens 2 to 3 in wide at 12 to 16 in on centre, and the battens shall run unbroken from water table to eave. No horizontal belt course may cross the batten field."
+      "statement": "Where vertical siding is used, boards shall be 8 to 12 in wide with battens 2 to 3 in wide at 12 to 16 in on centre, and the battens shall run unbroken from water table to eave. No horizontal belt course may cross the batten field.",
+      "id": "gothic-revival-american.c03",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Pointed and lancet heads shall be confined to the principal gable, the entry, and the stair window, and shall not exceed 30 percent of the openings on any elevation. Universal pointed heads produce a church, not a house."
+      "statement": "Pointed and lancet heads shall be confined to the principal gable, the entry, and the stair window, and shall not exceed 30 percent of the openings on any elevation. Universal pointed heads produce a church, not a house.",
+      "id": "gothic-revival-american.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "Body colour shall be a landscape tone (fawn, drab, grey, straw) with trim two to three values darker, per Downing's explicit instruction in The Architecture of Country Houses. White is prohibited on the body; Downing regarded it as the principal aesthetic error of the American countryside."
+      "statement": "Body colour shall be a landscape tone (fawn, drab, grey, straw) with trim two to three values darker, per Downing's explicit instruction in The Architecture of Country Houses. White is prohibited on the body; Downing regarded it as the principal aesthetic error of the American countryside.",
+      "id": "gothic-revival-american.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

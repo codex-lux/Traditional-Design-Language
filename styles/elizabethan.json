@@ -130,27 +130,45 @@
     {
       "kind": "proportional",
       "statement": "Principal elevations must be at least 40 percent glazed, in a mullion-and-transom grid of 400-550 mm lights. A solid-walled elevation with punched openings is not Elizabethan whatever its ornament.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "elizabethan.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-least",
+        "threshold": 40,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the glazing-percentage floor. The mullion-and-transom light size (400-550 mm) has no matching vocabulary variable -- glazing_bar_width_in is muntin sight-width, not individual light size -- and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Classical orders occur only on the entrance frontispiece and only as superimposed applied storeys; they may not run across a whole elevation, carry a roof, or form a portico.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "elizabethan.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Facade symmetry about the entrance axis is absolute on the principal front, including chimney and turret placement. Side elevations may relax.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "elizabethan.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Roof pitch is low or concealed behind a balustraded or strapwork parapet; a dominant visible roof slope belongs to Tudor or to the vernacular, not here.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "elizabethan.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Skyline incident — turrets, banqueting rooms, cresting, chimney piers — must be symmetrically disposed and structurally reachable. Decorative turrets with no interior are a Victorian habit.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "elizabethan.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

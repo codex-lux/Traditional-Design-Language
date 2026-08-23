@@ -135,27 +135,63 @@
     {
       "kind": "climatic",
       "statement": "In the Rhone valley and Provence, the north-west elevation must be effectively closed: openings not to exceed 5 percent of its wall area, none at ground level, and no principal entrance. Principal openings and outdoor living space face south to south-east.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-provincial-farmhouse.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 5,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the north-west elevation's glazed-area ceiling. 'None at ground level', 'no principal entrance', and the south/south-east orientation of principal openings are the statement's other clauses and stay prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Canal tile roofs at 25-35 degrees; below 22 degrees wind-driven rain lifts under the tile. The eave must be a corbelled genoise of at least two tile courses, projecting a minimum of 200 mm; a fascia-and-gutter eave is prohibited on southern work.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-provincial-farmhouse.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 25,
+        "upper": 35,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch clause. The genoise eave (minimum two courses, 200mm projection) is the statement's other numeric claim and stays prose; the 22-degree figure is an illustrative failure point below the stated range, not an additional bound."
+      }
     },
     {
       "kind": "structural",
       "statement": "Rubble masonry walls 500-700 mm thick. Openings not wider than 1.2 m without a stone relieving arch or a full-bearing timber lintel; a wide opening in a rubble wall requires dressed stone jambs.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-provincial-farmhouse.c03",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 500,
+        "upper": 700,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the wall-thickness range. The 1.2m opening-width-without-relieving-arch clause is the statement's other numeric claim and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Every opening carries an external shutter, hinged to the masonry reveal. Shutters are the primary environmental control; a mas with fixed glazing and no shutters is a facade, not a building.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-provincial-farmhouse.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Ornament is essentially absent. Where money was spent it went into dressed stone at the door surround and into the number of genoise courses, not into applied decoration.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "french-provincial-farmhouse.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

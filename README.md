@@ -48,7 +48,7 @@ One file per style and variant (132 total), materializing all 95 slots, ready to
 Exactly one of 209 faults has `driver: ignorance`. The rest are stock sizes, trade sequences, catalog defaults and code minima — and 32 of them cost money to get wrong.
 
 **7. The plan validator** (`schema/plan.schema.json`, `build/plan_check.py`, `plans/`) — see `docs/plans.md`
-The critic, built before the composer, because a composer needs a fitness function and this is it. Reads a hand-authorable plan record and checks it across five layers — rooms, adjacency and privacy, groupings, faults, code and style. Two worked examples ship with it: a deliberately ordinary production Colonial (3 fatal) and the same corpus applied carefully (0 fatal).
+The critic, built before the composer, because a composer needs a fitness function and this is it. Reads a hand-authorable plan record and checks it across five layers — rooms, adjacency and privacy, groupings, faults, code and style. Two worked examples ship with it: a deliberately ordinary production Colonial (4 fatal) and the same corpus applied carefully (0 fatal). The style layer's 660 constraints (`schema/constraint.schema.json`, `docs/constraints.md`) are now fully migrated — every constraint on every node that carries one has an id, a scope, and either a `test` (365, 55%) or an honest `scope: judgment` (295) — so a hard constraint's presence, clearance, or unjudged status is reported the same way a fault's is, never silently passed.
 
 **8. The composer** (`schema/brief.schema.json`, `partis/`, `build/compose.py`, `briefs/`) — see `docs/compose.md`
 Seeds from 12 canonical partis native to the style, sizes every room from the room catalogue, repairs against the validator until it stops improving, and returns four contrasting candidates ranked by fatal findings then style fidelity — each with what it trades away and a log of every assumption it made.
@@ -135,7 +135,6 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
 
 - **Compositional constraints in the geometry solver.** It satisfies adjacency; it does not compose an elevation. The entrance is not reliably on the entrance front and the ceremonial sequence is not yet a constraint — both are already stated in `composition_parti` and the style constraints, and neither is read.
 - **The remaining 129 kits.** Georgian Colonial, Tidewater Georgian and English Georgian are filled; everything else is a real, versioned skeleton with every slot at `binding: "open"`. The point of doing one properly first was to break the schema before filling 129 files against a broken one, and it worked — the exercise produced kit schema 0.2.1 and seven new slots.
-- **Formalized constraints.** Constraints are prose with a `kind` and a `severity`, written to be enforceable, but not yet a rule language.
 - **Date-conditional resolution.** `applies_when.date_range` exists and is populated; nothing selects on it yet.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.
 

@@ -166,27 +166,70 @@
     {
       "kind": "proportional",
       "statement": "Wing and ell ridges must step down monotonically from the main block by at least 3 feet each, and each attached volume must be set back from the plane of the one before it. Equal ridge heights or a flush front plane produce a building with two fronts and no hierarchy - the defining failure of contemporary imitations.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "american-farmhouse-vernacular.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Trim budget is capped and must read as a budget: corner boards 4-6 inches, fascia 6-8 inches, window casing 4-5 inches, with no continuous frieze and no pilasters. Applied ornament is limited to a single location - porch, gable peak, or door - not distributed across all three.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "american-farmhouse-vernacular.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "rake_trim_width_in",
+        "direction": "between",
+        "threshold": 6,
+        "upper": 8,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the fascia width range (6-8in), deliberately much narrower than greek-revival-upland-vernacular's frieze-board floor (10in+) using the same rake_trim_width_in variable -- exactly the trim-budget distinction the two nodes are drawing. Corner-board width (4-6in), window-casing width (4-5in) and the single-ornament-location rule are left as prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Entry belongs in the reentrant corner of an L-plan, sheltered by a porch at least 6 feet deep. Placing the door in the gable front of an L produces two competing front doors and no entry hierarchy.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "american-farmhouse-vernacular.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the minimum porch depth (6ft) via gallery_depth_ft, reused per its documented generic porch/gallery-depth definition. The reentrant-corner entry-placement rule is categorical and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Window-to-wall ratio on principal elevations should not exceed 18 percent; the historic range is 10-15 percent. The type's proportional character depends on wall dominating opening, and its thermal performance depends on the same thing.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "american-farmhouse-vernacular.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 18,
+        "units": "percent",
+        "measurable_from": "elevation"
+      }
     },
     {
       "kind": "structural",
       "statement": "Sash is 6/6 or 2/2 double-hung with muntins 7/8 to 1-1/8 inch; 2/2 only after about 1870, when cheap large glass reached rural suppliers. Single large fixed lights and undivided sash are out of period.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "american-farmhouse-vernacular.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazing_bar_width_in",
+        "direction": "between",
+        "threshold": 0.875,
+        "upper": 1.125,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the muntin-width range. Sash light pattern (6/6 vs 2/2) and its date-conditional rule (2/2 only after c.1870) are left as prose -- the date condition is blocked on open question 22, which has no constraint-side resolution mechanism yet."
+      }
     }
   ],
   "exemplars": [

@@ -158,27 +158,54 @@
     {
       "kind": "proportional",
       "statement": "Orders must be executed at correct antique proportion: Roman Doric at 8 lower diameters, Ionic at 9, Corinthian at 10, with entablature depth 1/4 to 1/5 of column height. Attenuated columns above 10 diameters convert the building to Federal.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "jeffersonian-classicism.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "entablature_depth_ratio",
+        "direction": "between",
+        "threshold": 0.2,
+        "upper": 0.25,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "1/4 to 1/5 of column height, order-independent. The order-specific diameter figures (Doric 8, Ionic 9, Corinthian 10) and the above-10-diameters-reads-as-Federal ceiling stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Round-headed arches, domes and semicircular (Diocletian) windows are permitted and characteristic; the Greek baseless Doric column and the frieze-band attic window are forbidden. Roman and Greek vocabularies must not be mixed on one building.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "jeffersonian-classicism.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Roof pitch must not exceed 4:12 and must be concealed behind a balustrade, Chinese railing or parapet at least 3 feet high. Dormers on a principal elevation are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "jeffersonian-classicism.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-most",
+        "threshold": 4,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the 4:12 roof-pitch ceiling. The concealment requirement (balustrade/railing/parapet at least 3ft high, testable via parapet_height_in) and the no-dormers-on-a-principal-elevation clause (testable via front_slope_dormer_count = 0) are also cleanly expressible but left as prose here since the schema allows one test per constraint."
+      }
     },
     {
       "kind": "structural",
       "statement": "Service dependencies must be terraced, sunk below the principal floor level, or run out as low L-wings whose roofs form usable terraces, so that the main block reads as a single volume. A visible two-storey service wing breaks the parti.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "jeffersonian-classicism.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "Material palette is fixed: red brick in Flemish bond with white-painted trim and, where used, stuccoed or sanded-paint columns imitating stone. Painted brick, stone facing, or contrasting trim colours fall outside the style.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "jeffersonian-classicism.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

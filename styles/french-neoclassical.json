@@ -145,27 +145,63 @@
     {
       "kind": "proportional",
       "statement": "The roof must not be visible from a normal standing viewpoint at the building line. Pitch 5:12 to 8:12, hipped, concealed behind a balustrade or blocking course at least 1/16 the wall height.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-neoclassical.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 5,
+        "upper": 8,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch range. 'Not visible from a normal standing viewpoint' is qualitative, and the balustrade/blocking-course height (at least 1/16 the wall height, expressible via parapet_height_in and facade_height_ft) is a second independent clause -- both stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "A pediment may appear only where a real roof or a real portico is behind it. Applying a pediment over a flat-roofed projection is the exact practice Laugier's critique was aimed at.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-neoclassical.c02",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Plain wall must dominate: aperture area must not exceed 25 percent of any principal elevation, and every opening must be separated from the next by at least its own width.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-neoclassical.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 25,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the aperture-area ceiling. 'Every opening separated from the next by at least its own width' is a relative, self-referential rule with no fixed vocabulary threshold and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Ornament is banded, not scattered. Enrichment may occur only in continuous horizontal bands (frieze, string, sill course) or within a single framed panel; free-floating swags and cartouches on open wall belong to the Baroque.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "french-neoclassical.c04",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Where free-standing columns are used internally, they must carry the vault or floor above them and be spaced at 2.25 to 3 diameters. Decorative free-standing columns supporting nothing invert the style's founding argument.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "french-neoclassical.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "intercolumniation_diameters",
+        "direction": "between",
+        "threshold": 2.25,
+        "upper": 3.0,
+        "units": "diameters",
+        "measurable_from": "elevation",
+        "note": "Tests the spacing clause. That the columns must carry a real vault or floor above them (not be decorative) stays prose -- no structural-load-bearing variable exists."
+      }
     }
   ],
   "exemplars": [

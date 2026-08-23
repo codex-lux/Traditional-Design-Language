@@ -154,27 +154,62 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Eave projection shall be between 18 and 36 in measured from the wall face, and brackets shall be spaced between 24 and 48 in on centre and shall be paired at every external corner. A bracket spacing greater than 48 in reads as ornament rather than as rhythm and fails the style."
+      "statement": "Eave projection shall be between 18 and 36 in measured from the wall face, and brackets shall be spaced between 24 and 48 in on centre and shall be paired at every external corner. A bracket spacing greater than 48 in reads as ornament rather than as rhythm and fails the style.",
+      "id": "italianate-american.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "between",
+        "threshold": 18,
+        "upper": 36,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the eave-projection range. Bracket spacing (24-48 in on centre) and the paired-at-corners requirement have no matching bracket-spacing variable and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Principal roof pitch shall not exceed 5:12. The roof must be substantially concealed by the cornice when viewed from a point 40 ft from the facade at eye height."
+      "statement": "Principal roof pitch shall not exceed 5:12. The roof must be substantially concealed by the cornice when viewed from a point 40 ft from the facade at eye height.",
+      "id": "italianate-american.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-most",
+        "threshold": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch ceiling. The 40 ft eye-height cornice-concealment condition is a visibility fact with no matching variable and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "Window heads on any single elevation shall be of one family only: round-arched, segmental, or flat with a moulded hood. Mixing round and pointed heads on one building is forbidden."
+      "statement": "Window heads on any single elevation shall be of one family only: round-arched, segmental, or flat with a moulded hood. Mixing round and pointed heads on one building is forbidden.",
+      "id": "italianate-american.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "severity": "soft",
-      "statement": "A tower or campanile shall be provided only where a stair, a hall, or a room occupies it at every level. A tower that is a hollow ornament is prohibited; this is the single most common failure in modern Italianate work."
+      "statement": "A tower or campanile shall be provided only where a stair, a hall, or a room occupies it at every level. A tower that is a hollow ornament is prohibited; this is the single most common failure in modern Italianate work.",
+      "id": "italianate-american.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Porch depth shall be not less than 7 ft where a veranda is used, and the porch cornice shall carry brackets at the same spacing as the main eave, or at exactly half that spacing."
+      "statement": "Porch depth shall be not less than 7 ft where a veranda is used, and the porch cornice shall carry brackets at the same spacing as the main eave, or at exactly half that spacing.",
+      "id": "italianate-american.c05",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 7,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the veranda-depth minimum. The porch-cornice-bracket-spacing-matching-the-main-eave (or exactly half) clause has no matching bracket-spacing variable and stays prose."
+      }
     }
   ],
   "exemplars": [

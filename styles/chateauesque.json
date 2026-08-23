@@ -142,27 +142,69 @@
     {
       "kind": "structural",
       "severity": "hard",
-      "statement": "Wall construction must be, or must convincingly express, load-bearing masonry: minimum 16 in. apparent wall thickness at window reveals, jambs returned in the same stone as the face, and heads carried on real arches or lintels. Thin-set veneer with 1 in. reveals voids the style."
+      "statement": "Wall construction must be, or must convincingly express, load-bearing masonry: minimum 16 in. apparent wall thickness at window reveals, jambs returned in the same stone as the face, and heads carried on real arches or lintels. Thin-set veneer with 1 in. reveals voids the style.",
+      "id": "chateauesque.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 16,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the apparent wall thickness minimum. Jamb-material matching and real-arch/lintel head construction are qualitative and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Principal roof pitch not less than 14:12. Roof height from eave to ridge not less than 0.8 times the height of the storey immediately below. A Chateauesque composition with a shallow roof does not exist."
+      "statement": "Principal roof pitch not less than 14:12. Roof height from eave to ridge not less than 0.8 times the height of the storey immediately below. A Chateauesque composition with a shallow roof does not exist.",
+      "id": "chateauesque.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "at-least",
+        "threshold": 14,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch floor. 'Roof height from eave to ridge not less than 0.8 times the storey height below' has no matching vocabulary variable (no absolute storey-height variable exists to form the ratio) and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "hard",
-      "statement": "At least two wall dormers must break the cornice line and rise a minimum of half a storey above it, with their stone surrounds continuous from the window sill below the cornice to the dormer pediment above. Roof-set dormers that begin above the eave are forbidden as the primary dormer type."
+      "statement": "At least two wall dormers must break the cornice line and rise a minimum of half a storey above it, with their stone surrounds continuous from the window sill below the cornice to the dormer pediment above. Roof-set dormers that begin above the eave are forbidden as the primary dormer type.",
+      "id": "chateauesque.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "front_slope_dormer_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "measurable_from": "elevation",
+        "note": "Tests the minimum wall-dormer count. 'Rise a minimum of half a storey above the cornice' and stone-surround continuity are qualitative and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Chimney stacks a minimum of 4'0\" x 2'6\" in plan, rising at least 4'0\" above the adjacent ridge, with corbelled or panelled shafts. Flush metal flues are forbidden."
+      "statement": "Chimney stacks a minimum of 4'0\" x 2'6\" in plan, rising at least 4'0\" above the adjacent ridge, with corbelled or panelled shafts. Flush metal flues are forbidden.",
+      "id": "chateauesque.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_height_above_ridge_ft",
+        "direction": "at-least",
+        "threshold": 4,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the ridge-rise minimum. The 4'0\"x2'6\" plan footprint (no matching vocabulary variable) and corbelled/panelled shaft treatment stay prose."
+      }
     },
     {
       "kind": "cultural",
       "severity": "advisory",
-      "statement": "Do not apply this style below roughly 8,000 sq ft or outside masonry construction. Every economy available to the other revivals in this family - veneer, cast ornament, catalog trim, shallow roof - destroys it, and the reduced version is Queen Anne with a turret."
+      "statement": "Do not apply this style below roughly 8,000 sq ft or outside masonry construction. Every economy available to the other revivals in this family - veneer, cast ornament, catalog trim, shallow roof - destroys it, and the reduced version is Queen Anne with a turret.",
+      "id": "chateauesque.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

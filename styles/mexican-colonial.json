@@ -164,27 +164,53 @@
     {
       "kind": "structural",
       "statement": "Adobe or rubble walls 600-1000 mm minimum. In seismic zones a two-storey building requires the patio arcade to act as a continuous stiffening ring, and no unbraced wall may run more than about 12 m without a buttress or cross-wall.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-colonial.c01",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "at-least",
+        "threshold": 600,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the stated minimum ('600-1000 mm minimum' reads as a minimum, not a between-range -- 1000 mm is the typical upper figure, not a stated cap). The seismic patio-arcade stiffening-ring requirement and the 12 m unbraced-wall-run limit are separate structural facts in the same statement with no matching vocabulary variable (no named 'unbraced wall run length'); left as prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "On the altiplano above roughly 1800 m, roofs are flat azotea with parapets and stone canales; in the tierra caliente and on the Gulf and Pacific coasts, clay tile at 20-30 degrees with an overhang of at least 700 mm. Mixing the two on one building is a revival error.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-colonial.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Room depth must not exceed the viga span, about 6 m clear. Ranges are single-pile and the building grows by adding courts, never by thickening a range.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-colonial.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "room_clear_span_ft",
+        "direction": "at-most",
+        "threshold": 6,
+        "units": "m",
+        "measurable_from": "plan",
+        "note": "Tests the viga-span depth ceiling. 'Ranges are single-pile and the building grows by adding courts, never by thickening a range' is a compositional/growth rule, not a single numeric expression, and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Ornament is confined to the portada, the window and door surrounds and the cornice. The field wall between them stays plain tezontle, ashlar or lime plaster; an evenly ornamented elevation misreads the tradition.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "mexican-colonial.c04",
+      "scope": "judgment"
     },
     {
       "kind": "cultural",
       "statement": "At religious sites the church stands within a walled atrio, set back from the street, with a processional route around it. Placing a colonial-type church on the street line removes the element that most distinguishes New Spain from Spain.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "mexican-colonial.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

@@ -134,27 +134,45 @@
     {
       "kind": "structural",
       "statement": "Bartizans and turrets must be corbelled out on a visible course of projecting stones. A turret sitting on a bracket, a cantilevered slab, or nothing at all is the commonest and most immediately visible failure of the style.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "scottish-baronial.c01",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Ornament is confined to the wall head — corbel table, parapet, dormer heads, chimney caps. The lower two storeys must remain plain walling. Distributing ornament evenly up the elevation destroys the composition.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "scottish-baronial.c02",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "Pointed arches, tracery and English bargeboards are forbidden; openings are square-headed or, rarely, semicircular. Gables are crow-stepped or plainly coped, never boarded.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "scottish-baronial.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Glazed area not to exceed roughly 16 percent of elevation, and the dominant tower must rise at least one full storey above the main ridge.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "scottish-baronial.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 16,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the glazed-area ceiling. 'The dominant tower must rise at least one full storey above the main ridge' stays prose -- no vocabulary variable compares a tower's height to the main ridge."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Harl or dense squared rubble in lime mortar, detailed for driven rain: deep reveals, weathered copes, and no exposed horizontal ledges. Cement harl on a rubble wall fails in this climate faster than anywhere else in Britain.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "scottish-baronial.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

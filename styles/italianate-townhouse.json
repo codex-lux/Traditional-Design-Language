@@ -136,27 +136,63 @@
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The main cornice shall be continuous in height, projection, and bracket module across every house in a row, aligning across party walls within 2 in. A row whose cornice line steps house to house has failed the type regardless of the quality of any individual facade."
+      "statement": "The main cornice shall be continuous in height, projection, and bracket module across every house in a row, aligning across party walls within 2 in. A row whose cornice line steps house to house has failed the type regardless of the quality of any individual facade.",
+      "id": "italianate-townhouse.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "The parlour floor shall be raised 4 to 7 ft above sidewalk level on a stoop of 6 to 10 risers, with an exposed basement storey below. A ground-level entrance converts the type into a later English-basement or Renaissance Revival row."
+      "statement": "The parlour floor shall be raised 4 to 7 ft above sidewalk level on a stoop of 6 to 10 risers, with an exposed basement storey below. A ground-level entrance converts the type into a later English-basement or Renaissance Revival row.",
+      "id": "italianate-townhouse.c02",
+      "scope": "section",
+      "test": {
+        "expression": "floor_height_above_grade_in",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 7,
+        "units": "ft",
+        "measurable_from": "section",
+        "note": "Tests the parlour-floor-above-sidewalk height range (units left in ft to match the statement, as elsewhere in the corpus). The stoop's 6-10 riser count and the exposed-basement-storey clause have no matching variables and stay prose."
+      }
     },
     {
       "kind": "proportional",
       "severity": "hard",
-      "statement": "Floor-to-floor heights shall diminish monotonically above the parlour floor by 10 to 15 percent per storey, expressed in the window heights, which shall diminish in the same proportion."
+      "statement": "Floor-to-floor heights shall diminish monotonically above the parlour floor by 10 to 15 percent per storey, expressed in the window heights, which shall diminish in the same proportion.",
+      "id": "italianate-townhouse.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_height_diminish_pct",
+        "direction": "between",
+        "threshold": 10,
+        "upper": 15,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "States the diminishment for the storey immediately above the parlour floor. 'Monotonically' extended to every subsequent storey-pair, and the parallel window-height-diminishment clause, stay prose -- the same coverage the english-georgian.c02 precedent uses for this variable."
+      }
     },
     {
       "kind": "co-occurrence",
       "severity": "soft",
-      "statement": "Arched heads with projecting hoods shall be used on the parlour floor only; upper storeys take the same arch profile with a flush moulded surround, or square heads. Hoods on every storey read as coarse."
+      "statement": "Arched heads with projecting hoods shall be used on the parlour floor only; upper storeys take the same arch profile with a flush moulded surround, or square heads. Hoods on every storey read as coarse.",
+      "id": "italianate-townhouse.c04",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "severity": "soft",
-      "statement": "Facade projection beyond the building line shall not exceed 24 in and shall be limited to a single bay window or oriel. The value of the type is the flatness and continuity of the street wall."
+      "statement": "Facade projection beyond the building line shall not exceed 24 in and shall be limited to a single bay window or oriel. The value of the type is the flatness and continuity of the street wall.",
+      "id": "italianate-townhouse.c05",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_plane_advance_recess_in",
+        "direction": "at-most",
+        "threshold": 24,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the projection ceiling. The restriction to a single bay window or oriel (as opposed to multiple projections) has no matching count/type variable and stays prose."
+      }
     }
   ],
   "exemplars": [

@@ -119,27 +119,63 @@
     {
       "kind": "proportional",
       "statement": "Front porch depth not less than 7 ft clear and width not less than 60 percent of the facade, framed under the primary roof.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "craftsman-bungalow.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 7,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the porch depth. Porch width as a percentage of the facade has no vocabulary variable for porch width itself, and 'framed under the primary roof' is categorical -- both stay prose."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Eave and rake overhang 24 to 36 in; roof pitch 4:12 to 6:12. Below 18 in of overhang the node degrades to minimal-traditional.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "craftsman-bungalow.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch range. The eave/rake overhang range (24-36 in, expressible via eave_projection_in) and the 18 in degrade-to-minimal-traditional threshold are a second independent numeric clause and stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Conditioned floor area 800 to 1,600 sq ft on one to one and a half storeys. A full second storey disqualifies the node and moves it to the foursquare massing under the parent style.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "craftsman-bungalow.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "storey_count",
+        "direction": "between",
+        "threshold": 1,
+        "upper": 1.5,
+        "units": "count",
+        "measurable_from": "elevation",
+        "note": "Tests the storey-count bound. Conditioned floor area (800-1,600 sq ft) has no vocabulary variable -- there is no floor-area measure in build/constraint_vocabulary.py -- and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Dormers must be set back not less than 24 in from the eave line and must not exceed 60 percent of the roof plane's width.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "craftsman-bungalow.c04",
+      "scope": "judgment"
     },
     {
       "kind": "co-occurrence",
       "statement": "The hearth and its flanking built-ins must occupy a full wall of the principal living room; if the plan has no hearth wall the node is a bungalow in massing only.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "craftsman-bungalow.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

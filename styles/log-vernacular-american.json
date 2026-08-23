@@ -144,27 +144,62 @@
     {
       "kind": "structural",
       "statement": "No log wall may exceed 20 feet between notched corners; 16-18 feet is the practical norm. A larger enclosure must be built as a second pen or as a pen plus a framed addition, never as a longer log run.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "log-vernacular-american.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "log_wall_run_ft",
+        "direction": "at-most",
+        "threshold": 20,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the hard 20 ft ceiling; the 16-18 ft practical-norm figure and the second-pen guidance stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "Corner joints must be notched (V, half-dovetail, full dovetail, square or saddle) and, except in saddle notching, must slope outward to shed water. Butted and spiked corners are outside the tradition and fail at the joint within a generation.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "log-vernacular-american.c02",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Log faces are hewn flat on interior and exterior; wall thickness 6-9 inches after hewing, chinking gap 1-3 inches, chinking recessed 1/2 to 1 inch behind the log face so water sheds off the log rather than sitting on the joint.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "log-vernacular-american.c03",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 6,
+        "upper": 9,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the hewn wall-thickness range. Chinking gap (1-3in) and chinking recess depth (1/2-1in) are left as prose -- no vocabulary variable expresses either."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Eave overhang at least 18 inches (24-36 preferred) on all elevations to keep water off the chinking; roof pitch 8:12 to 12:12 where riven shingles or shakes are used. Boxed soffits and clipped eaves destroy the wall.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "log-vernacular-american.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-least",
+        "threshold": 18,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Tests the 18in minimum eave overhang. Roof pitch (8:12-12:12, where riven shingles/shakes are used) is also cleanly testable via roof_pitch_rise_per_12 but is left as prose here since the schema allows one test per constraint."
+      }
     },
     {
       "kind": "structural",
       "statement": "Openings must stop at least 24 inches short of any notched corner, and their jambs must be pegged or spiked to the cut log ends. Corner windows and full-height glazed walls are structurally impossible in this system.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "log-vernacular-american.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

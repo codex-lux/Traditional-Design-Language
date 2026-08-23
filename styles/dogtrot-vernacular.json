@@ -129,27 +129,54 @@
     {
       "kind": "climatic",
       "statement": "The passage must be open at both ends, unheated, and unglazed. Screening is tolerable; enclosing it converts the building to a center-passage house and must be recorded as such rather than described as a dogtrot.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "dogtrot-vernacular.c01",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Passage width 8-12 feet and never greater than the width of a single pen (typically 0.5-0.7 of it). A passage as wide as or wider than a pen dissolves the composition into two separate buildings under a carport.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "dogtrot-vernacular.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "centre_passage_width_ft",
+        "direction": "between",
+        "threshold": 8,
+        "upper": 12,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the passage width range (8-12ft). The 'never wider than the pen it separates' relative clause is left as prose -- no vocabulary variable expresses pen width."
+      }
     },
     {
       "kind": "structural",
       "statement": "One continuous unbroken ridge must run over both pens and the passage, with the passage floor continuous and at the same level as the pen floors. A break in the ridge, or a stepped floor, destroys the reading of a single house.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "dogtrot-vernacular.c03",
+      "scope": "judgment"
     },
     {
       "kind": "structural",
       "statement": "Each pen is limited to 16-20 feet between notched corners and carries its own gable-end chimney. A central chimney is impossible in this plan and a single chimney serving both pens indicates a saddlebag, which is a different type.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "dogtrot-vernacular.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "chimney_position",
+        "direction": "one-of",
+        "set": ["gable-end-interior", "gable-end-exterior", "paired-exterior"],
+        "units": "enum",
+        "measurable_from": "elevation",
+        "note": "Tests that chimney_position excludes interior-central, capturing 'a central chimney is impossible in this plan'. The per-pen span limit (16-20ft between notched corners) has no matching vocabulary variable and stays prose."
+      }
     },
     {
       "kind": "climatic",
       "statement": "Orient the passage axis to the prevailing summer breeze - generally south to southwest in the Upland South - and keep it shaded at both ends. The passage is a cooling device before it is a circulation space, and a badly oriented one is merely a hole in the house.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "dogtrot-vernacular.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

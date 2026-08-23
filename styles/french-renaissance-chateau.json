@@ -139,27 +139,54 @@
     {
       "kind": "proportional",
       "statement": "Roof pitch must be between 55 and 70 degrees, and roof height must be at least 0.7 of the wall height. A roof below 45 degrees is a later French classical building.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-renaissance-chateau.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 55,
+        "upper": 70,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "Tests the pitch range. The roof-height-to-wall-height ratio (at least 0.7) is a second independent clause with no single named 'roof height' variable to pair against wall height cleanly, and the 45-degree threshold is subsumed by the tested lower bound -- both stay prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Dormers must align on the travee axes below and match their count; a dormer floating between two windows is a hard error.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-renaissance-chateau.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "front_slope_dormer_count / bay_count",
+        "direction": "equals",
+        "threshold": 1,
+        "units": "ratio",
+        "measurable_from": "plan",
+        "note": "Tests that dormer count matches the travee (bay) count. Positional alignment of each dormer on its own travee axis has no offset variable in the vocabulary and stays prose."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Where corner towers or turrets are used they must be cylindrical or polygonal with their own conical or pyramidal roof carried down independently of the main roof; a turret sharing the main eave line reads as a bay window, not a tower.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "french-renaissance-chateau.c03",
+      "scope": "judgment"
     },
     {
       "kind": "proportional",
       "statement": "Applied pilaster orders must not be given a full projecting entablature that interrupts a travee. In this style the horizontal system yields to the vertical one; where it does not, the building has crossed into seventeenth-century classicism.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "french-renaissance-chateau.c04",
+      "scope": "judgment"
     },
     {
       "kind": "climatic",
       "statement": "Steep slate or flat-tile roofs with the attic occupied require adequate eaves drainage and a habitable dormer at each travee. The type is native to cool, wet, snow-bearing climates (IECC 4A-6A) and reads as costume anywhere warmer.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "french-renaissance-chateau.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [

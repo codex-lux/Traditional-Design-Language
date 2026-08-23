@@ -140,27 +140,70 @@
     {
       "kind": "proportional",
       "statement": "Eave and rake overhang shall not exceed 12 in. Where overhang exceeds 12 in the node is misassigned; classify as cape-cod-revival, colonial-revival, or ranch-style.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "minimal-traditional.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "eave_projection_in",
+        "direction": "at-most",
+        "threshold": 12,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "The statement gives one shared 12in ceiling for both eave and rake overhang; eave_projection_in stands in for the general overhang measurement since no separate rake-overhang variable exists in the vocabulary."
+      }
     },
     {
       "kind": "proportional",
       "statement": "Conditioned floor area 750 to 1,400 sq ft; roof pitch 4:12 to 6:12; one or one and a half storeys only.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "minimal-traditional.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 6,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof-pitch clause. Conditioned floor area (750-1,400 sq ft) has no vocabulary variable (missing: floor_area_sqft) and stays prose; storey count ('one or one and a half storeys only') is separately expressible via the existing storey_count variable as one-of [\"1\",\"1.5\"] but only one test object is permitted per constraint, so it also stays prose here."
+      }
     },
     {
       "kind": "co-occurrence",
       "statement": "Decorative shutters, where used, must each be not less than 45 percent of the width of the window opening they flank, hinged at the jamb, and must be omitted entirely from ganged, bay, and non-rectangular windows. Half-width shutters are the single most common failure of this style's descendants and are forbidden.",
-      "severity": "hard"
+      "severity": "hard",
+      "id": "minimal-traditional.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "shutter_leaf_to_sash_ratio",
+        "direction": "at-least",
+        "threshold": 0.45,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "Tests the minimum leaf-width ratio. Hinge position and the omission-from-ganged/bay/non-rectangular-window rule are categorical and stay prose."
+      }
     },
     {
       "kind": "structural",
       "statement": "No full- or partial-width habitable porch. Entry cover projection not more than 3 ft; where a deeper covered space is wanted the node is not minimal-traditional.",
-      "severity": "soft"
+      "severity": "soft",
+      "id": "minimal-traditional.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-most",
+        "threshold": 3,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "Tests the entry-cover projection ceiling. 'No full- or partial-width habitable porch' is a qualitative prohibition and stays prose."
+      }
     },
     {
       "kind": "code",
       "statement": "Room dimensions follow FHA Minimum Property Requirements as a historical floor: principal bedroom not less than 9 ft 6 in by 11 ft 0 in, secondary bedroom not less than 8 ft 0 in by 10 ft 0 in, minimum one full bath.",
-      "severity": "advisory"
+      "severity": "advisory",
+      "id": "minimal-traditional.c05",
+      "scope": "judgment"
     }
   ],
   "exemplars": [
