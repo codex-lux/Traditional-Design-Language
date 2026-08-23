@@ -132,6 +132,22 @@ def merge_extends(base, delta, base_src, delta_src):
         elif k in base:
             prov["inherited_fields"].append(k)
 
+    # rule_append (kit schema 0.2.1, docs/open-questions.md #16): the one restatement
+    # case `extends` didn't cover, because `rule` is a single string and a child adding
+    # a clause had to replace the whole sentence or leave the resolved rule silent about
+    # its own change. Joined onto whatever `rule` this merge step resolved to (inherited,
+    # or freshly replaced above if the same delta unusually set both) as an additional
+    # sentence, with the join recorded in _rule_append so provenance output can show
+    # which ancestor contributed which clause.
+    if delta.get("rule_append"):
+        base_rule = out.get("rule") or ""
+        appended = delta["rule_append"]
+        out["rule"] = (base_rule + " " + appended).strip() if base_rule else appended
+        joins = list(out.get("_rule_append") or [])
+        joins.append({"from": delta_src, "appended": appended, "joined_after": base_rule})
+        out["_rule_append"] = joins
+        prov["rule_appended_from"] = delta_src
+
     notes = list(base.get("_inherited_notes") or [])
     if base.get("note"):
         notes.append({"from": base_src, "note": base["note"]})
@@ -455,6 +471,8 @@ def main():
                           "  when " + json.dumps(v["applies_when"]) if v.get("applies_when") else ""))
         if rec.get("rule"):
             print("  rule      %s" % rec["rule"])
+            for ap in rec.get("_rule_append") or []:
+                print("            (+ clause from %s: \"%s\")" % (ap["from"], short(ap["appended"], 90)))
         for cc in rec.get("code_conflict") or []:
             print("  CODE CONFLICT [%s]  period: %s" % (cc.get("severity"), cc["period_value"]))
             print("      requires: %s (%s)" % (cc["code_requirement"], cc.get("code_ref", "-")))
@@ -518,6 +536,8 @@ def main():
                 flags += " CODE"
             if rec.get("_dangling_extends"):
                 flags += " DANGLING"
+            if rec.get("_rule_append"):
+                flags += " APPEND"
             print("  %-26s %-10s %-34s %s%s" % (sid, b, short(src, 34), detail, flags))
             if a.verbose:
                 params = eval_parameters(rec, ctx)
@@ -527,6 +547,8 @@ def main():
                               val["expr"][:38], val.get("pack")))
                 if rec.get("rule"):
                     print("      rule: %s" % rec["rule"])
+                    for ap in rec.get("_rule_append") or []:
+                        print("            (+ clause from %s)" % ap["from"])
 
     by_src = collections.Counter()
     for rec in slots.values():

@@ -1179,7 +1179,7 @@
           "kind": "measured"
         }
       },
-      "note": "The parent's four regional strategy parameters inherit, including this variant's own — which is a small oddity worth naming: the parent already carries strategy_tidewater as a region-scoped parameter, so the same fact is now stated twice, once as an applies_when parameter on the parent and once as a variant status here. 0.2.0 gives two mechanisms for regional conditionality and no guidance on which to use.",
+      "note": "Reconciled 23 Aug 2026 (docs/open-questions.md #17): this variant used to restate the same 25-80 ft detached-dependency fact the parent also carried as an applies_when.regions parameter (strategy_tidewater) -- two mechanisms stating one thing. The parent parameter is now removed; this kit binding, on the variant node that exists because Tidewater diverges enough to deserve its own identity, is the sole statement of the fact. See docs/inheritance.md for the general guidance this follows.",
       "status": "drafted"
     },
     "depth_and_pile": {

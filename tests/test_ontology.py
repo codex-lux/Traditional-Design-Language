@@ -84,6 +84,26 @@ def test_validate_rejects_bad_derives_from_module():
             f.write(backup)
 
 
+def test_service_zone_strategy_tidewater_fact_stated_once():
+    """OQ 17: the parent used to carry strategy_tidewater as an
+    applies_when.regions parameter AND the tidewater-georgian variant node
+    restated the same 25-80ft fact via its own kit binding -- two mechanisms,
+    one fact. Reconciled in WP-1.3 per the new guidance in
+    docs/inheritance.md: since the variant node already exists (with its own
+    identity), it's the sole statement; the parent's parameter is removed."""
+    parent = json.load(open(os.path.join(ROOT, "kits", "georgian-colonial-american.kit.json")))
+    parent_params = parent["slots"]["service_zone_strategy"]["parameters"]
+    assert "strategy_tidewater" not in parent_params
+    # the three regions with no variant node binding this slot are untouched
+    for still_present in ("strategy_new_england", "strategy_mid_atlantic", "strategy_low_country"):
+        assert still_present in parent_params
+
+    variant = json.load(open(os.path.join(ROOT, "kits", "tidewater-georgian.kit.json")))
+    variant_slot = variant["slots"]["service_zone_strategy"]
+    assert variant_slot["binding"] == "extends"
+    assert variant_slot["parameters"]["detached_typical_distance"]["range"] == [25, 80]
+
+
 def test_validate_rejects_self_referential_derives_from_module():
     path = os.path.join(ROOT, "elements", "slots.json")
     backup = open(path).read()

@@ -7031,16 +7031,6 @@
             ]
           }
         },
-        "strategy_tidewater": {
-          "value": "detached, 25-80 ft, formalized into a five-part composition at the top of the range",
-          "unit": "none",
-          "kind": "measured",
-          "applies_when": {
-            "regions": [
-              "Chesapeake"
-            ]
-          }
-        },
         "strategy_low_country": {
           "value": "detached in the rear yard, linked by a covered way, plus a basement service floor",
           "unit": "none",
@@ -7055,7 +7045,7 @@
       "rule": "Service is removed from the main block — detached, hyphenated or in the basement — and it has its own circulation which does not cross the formal plan except at the passage.",
       "status": "drafted",
       "confidence": "high",
-      "note": "The detachment was fire control and heat control before it was social, and in the South it was both. The modern kit inherits the FORM of this rule with none of its content: nobody will put a kitchen 25 ft away from the house, so the detached dependency becomes a garage, a guest suite or a pool house, and the kitchen comes into the rear of the main block where the style has no vocabulary for it. That substitution is defensible but it is a substitution and should be recorded as one."
+      "note": "The detachment was fire control and heat control before it was social, and in the South it was both. The modern kit inherits the FORM of this rule with none of its content: nobody will put a kitchen 25 ft away from the house, so the detached dependency becomes a garage, a guest suite or a pool house, and the kitchen comes into the rear of the main block where the style has no vocabulary for it. That substitution is defensible but it is a substitution and should be recorded as one. Reconciled 23 Aug 2026 (docs/open-questions.md #17, docs/inheritance.md): the strategy_tidewater applies_when.regions parameter that duplicated tidewater-georgian is removed from here -- that variant node exists precisely because Tidewater diverges enough to deserve its own identity (massing, exemplars, name), so its own kit binding is now the sole statement of the fact, not a second mechanism restating what the variant already states. strategy_new_england/strategy_mid_atlantic/strategy_low_country are unaffected: none of their corresponding variant nodes currently binds this slot, so applies_when.regions remains the correct mechanism for those three, per the same ruling."
     },
     "depth_and_pile": {
       "group": "plan-logic",
