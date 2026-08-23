@@ -34,7 +34,7 @@ The three fatals on the first are the powder-room door off the dining room, the 
 
 **Code** — IRC model text, **advisory and jurisdictional**, never a permit review. Labelled as such in every run.
 
-**Style** — declared choices checked against the resolved kit's forbidden variants, plus the style's own hard constraints listed for hand review.
+**Style** — declared choices checked against the resolved kit's forbidden variants. A constraint that has been migrated to `schema/constraint.schema.json`'s `test` object (WP-1.1/WP-1.2, 140 of ~660 as of 23 Aug 2026 — see `docs/constraints.md`) is actually evaluated: `plan.measurements`, plus a small set of values `plan_check.derive_constraint_vars` reads directly off unambiguous plan structure (storey count, ground-floor room count and ceiling height, a `centre-passage` room's width), feed `core._eval_test`. A passing constraint is silent; a failing one is a finding at a severity `CONSTRAINT_SEV` maps from the constraint's own hard/soft/advisory (hard → serious, soft → minor, advisory → advisory — a wrong roof pitch is not grounds to fail the whole plan the way a duplicate room id is); a constraint whose variables aren't available is an `info` finding naming what's missing, never silently passed. `result["constraint_summary"]` gives the present/clear/unjudged counts. The remaining ~520 unmigrated constraints, and any `scope: judgment` constraint, keep the pre-WP-1.2 behaviour: a hard one is listed for hand review, nothing else is asserted about it.
 
 ## Absence is not failure
 

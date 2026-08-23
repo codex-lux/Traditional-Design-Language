@@ -13,6 +13,12 @@ import json, os, glob, re, sys, argparse, importlib.util
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SEV_ORDER = ["fatal", "serious", "minor", "advisory", "info"]
 STRENGTH_SEV = {"hard": "fatal", "strong": "serious", "preferred": "minor"}
+# Constraint severity (hard/soft/advisory, schema/constraint.schema.json) uses a different
+# vocabulary than room-adjacency STRENGTH_SEV; mapped to match the STYLE layer's own existing
+# choice of "serious" for a forbidden-slot violation, not room-adjacency's "fatal" for hard --
+# a single wrong roof pitch is a serious style violation, not grounds to fail the whole plan
+# the way a duplicate room id is.
+CONSTRAINT_SEV = {"hard": "serious", "soft": "minor", "advisory": "advisory"}
 
 def _load(name, path):
     spec = importlib.util.spec_from_file_location(name, path)
@@ -65,6 +71,35 @@ def style_chain(style_id, C):
 def excepted(rule, chain):
     return bool(set(rule.get("exceptions") or []) & chain)
 
+def derive_constraint_vars(plan):
+    """Narrow, conservative auto-derivation of a handful of constraint-vocabulary variables
+    (build/constraint_vocabulary.py) directly from unambiguous plan structure.
+
+    Deliberately small. Everything else a constraint's test.expression might reference has
+    to come from an explicit plan.measurements entry, or the constraint stays unjudged --
+    'unjudged is not passed' applies to constraints exactly as it already does to slots and
+    faults elsewhere in this validator. Adding a derivation here is a real claim that the
+    value is unambiguous from plan structure alone; when it isn't, leave it out."""
+    v = {}
+    levels = plan.get("levels") or []
+    if levels:
+        v["storey_count"] = len(levels)
+        ground_idx = min(lv.get("index", 0) for lv in levels)
+        ground_lv = next(lv for lv in levels if lv.get("index", 0) == ground_idx)
+        ground_rooms = ground_lv.get("rooms", [])
+        v["room_count_ground_floor"] = len(ground_rooms)
+        gc = ground_lv.get("floor_to_ceiling_ft") or next(
+            (r.get("ceiling_ft") for r in ground_rooms if r.get("ceiling_ft")), None)
+        if gc:
+            v["ceiling_height_ground_in"] = gc * 12
+        cp = next((r for r in ground_rooms if r.get("type") == "centre-passage"), None)
+        if cp and cp.get("width_ft") and cp.get("length_ft"):
+            v["centre_passage_width_ft"] = min(cp["width_ft"], cp["length_ft"])
+    ctx = plan.get("context") or {}
+    if ctx.get("lot_width_ft") is not None: v["lot_width_ft"] = ctx["lot_width_ft"]
+    if ctx.get("lot_depth_ft") is not None: v["lot_depth_ft"] = ctx["lot_depth_ft"]
+    return v
+
 class Findings:
     def __init__(self): self.items = []
     def add(self, severity, layer, statement, **kw):
@@ -76,6 +111,7 @@ class Findings:
 # ---------------------------------------------------------------- the checker
 def check(plan, C=None, strict=False):
     C = C or load_corpus()
+    core = _load("tdlcore", f"{ROOT}/mcp_server/core.py")
     F = Findings()
     seen_pairs = set()
     style = plan.get("style")
@@ -367,6 +403,7 @@ def check(plan, C=None, strict=False):
 
     # ============================================================ STYLE LAYER
     st = C["styles"].get(style)
+    constraint_summary = {"present": 0, "clear": 0, "unjudged": 0}
     if st:
         kit = C["kits"].get(style, {}).get("slots", {})
         for slot_id, choice in (plan.get("declared") or {}).items():
@@ -379,9 +416,45 @@ def check(plan, C=None, strict=False):
                 if v.get("id") == choice and v.get("status") == "forbidden":
                     F.add("serious", "style", f"'{choice}' is a forbidden variant of {C['slots'][slot_id]['name'].lower()} in {style}.",
                           rule=slot_id, fix=v.get("note"))
+        cvars = derive_constraint_vars(plan)
+        # plan.measurements takes precedence over a derived value, mirroring the fault layer's
+        # own practice a few dozen lines below: a number the plan record actually states beats
+        # an inference from room geometry.
+        c_namespace = {**cvars, **dict(plan.get("measurements") or {})}
         for c in st.get("constraints", []):
-            if c.get("severity") == "hard":
-                F.add("info", "style", f"Check by hand: {c['statement']}", rule=f"{style}.{c['kind']}")
+            if c.get("deprecated_in_favour_of"):
+                continue
+            test = c.get("test")
+            if not test:
+                # No formalised test -- either scope: judgment (schema/constraint.schema.json
+                # forbids a test there), or this constraint just hasn't been migrated yet
+                # (WP-1.1 migrated 140 of ~660). Unchanged from pre-WP-1.2 behaviour: only a
+                # hard constraint gets a check-by-hand note, so the ~520 still-prose constraints
+                # produce exactly the findings they always did.
+                if c.get("severity") == "hard":
+                    # rule is the constraint's own id when it has one (every migrated constraint
+                    # does); falls back to style.kind for the pre-migration shape some styles'
+                    # constraints may still be in, where no stable per-constraint id exists yet.
+                    F.add("info", "style", f"Check by hand: {c['statement']}", rule=c.get("id") or f"{style}.{c['kind']}")
+                continue
+            r = core._eval_test(test, c_namespace)
+            if not r or r["status"] != "evaluated":
+                constraint_summary["unjudged"] += 1
+                missing = r.get("missing") if r else None
+                F.add("info", "style",
+                      f"Cannot evaluate {c['id']} ({c['kind']}): {c['statement']}"
+                      + (f" [needs {', '.join(missing)}]" if missing else ""),
+                      rule=c["id"])
+                continue
+            if r["passes"]:
+                constraint_summary["clear"] += 1
+            else:
+                constraint_summary["present"] += 1
+                sev = CONSTRAINT_SEV.get(c.get("severity", "hard"), "serious")
+                units = f" {r['units']}" if r.get("units") else ""
+                F.add(sev, "style",
+                      f"{c['statement']} (measured {r['value']}{units}, required {r['required']}{units}).",
+                      rule=c["id"], fix=test.get("note"))
         if plan.get("massing"):
             aff = next((m for m in st.get("massing_affinities", []) if m["massing"] == plan["massing"]), None)
             if aff and aff["affinity"] == "forbidden":
@@ -390,7 +463,6 @@ def check(plan, C=None, strict=False):
                 F.add("minor", "style", f"{st['name']} records no affinity for the massing '{plan['massing']}'.", rule="massing")
 
     # ============================================================ FAULT LAYER
-    core = _load("tdlcore", f"{ROOT}/mcp_server/core.py")
     meas = dict(plan.get("measurements") or {})
     for rid, r in rooms.items():                                  # derive what the plan can supply
         w, l = r.get("width_ft"), r.get("length_ft")
@@ -408,7 +480,7 @@ def check(plan, C=None, strict=False):
     counts = {}
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
     return {"plan": plan["id"], "style": style, "rooms": len(rooms),
-            "counts": counts, "fault_summary": fr.get("summary"),
+            "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
             "findings": F.sorted(),
             "note": ("Style exceptions are honoured throughout — a rule a style legitimately breaks is not reported. "
                      "Code findings are advisory. Anything the fault corpus could not judge is unknown, not passed.")}

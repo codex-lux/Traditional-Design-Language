@@ -396,12 +396,18 @@ def _eval_test(t, measurements):
     except Exception as e:
         return {"status": "error", "detail": str(e)}
     d, th, up = t.get("direction"), t.get("threshold"), t.get("upper")
+    # 'one-of' exists only on the constraint schema (schema/constraint.schema.json), not the
+    # fault schema -- a fault test always fails this lookup harmlessly, since no fault ever
+    # sets direction: one-of. Kept in the same shared evaluator rather than forked so faults
+    # and style constraints (build/plan_check.py) share one safety-checked eval path.
     ok = {"at-least": lambda: val >= th, "at-most": lambda: val <= th,
           "equals": lambda: abs(val - th) < 1e-6,
-          "between": lambda: th <= val <= (up if up is not None else th)}.get(d, lambda: None)()
+          "between": lambda: th <= val <= (up if up is not None else th),
+          "one-of": lambda: str(val) in (t.get("set") or [])}.get(d, lambda: None)()
+    required = f"one-of {t.get('set')}" if d == "one-of" else (
+        f"{d} {th}" + (f" and {up}" if d == "between" and up is not None else ""))
     return {"status": "evaluated", "value": round(val, 4) if isinstance(val, float) else val,
-            "required": f"{d} {th}" + (f" and {up}" if d == "between" and up is not None else ""),
-            "passes": ok, "units": t.get("units")}
+            "required": required, "passes": ok, "units": t.get("units")}
 
 def check_measurements(measurements, style=None, slot=None, include_needed=True, limit=40):
     """Evaluate every applicable fault test against a dict of measurements.

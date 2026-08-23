@@ -219,3 +219,93 @@ class TestCompleteness:
         assert completeness, "expected at least one completeness finding on the spec-builder plan"
         assert all(f["severity"] == "minor" for f in completeness), \
             "completeness findings must never outrank a genuine defect by default (non-strict mode)"
+
+
+class TestConstraintEvaluation:
+    """WP-1.2: the STYLE LAYER now evaluates a migrated constraint's `test` object against
+    plan.measurements (plus a small set of values derived from unambiguous plan structure,
+    see plan_check.derive_constraint_vars) instead of only ever saying 'check by hand'.
+
+    All exercised against georgian-colonial-american, whose 5 constraints (styles/
+    georgian-colonial-american.json) are real WP-1.1 migration output: c01 bay_count
+    one-of, c02 roof_pitch_rise_per_12 between 8-10 (hard), c03 no test (scope: judgment),
+    c04 shutter_leaf_to_sash_ratio equals 0.5, c05 water_table_height_in between 24-36
+    (soft) -- not synthetic fixtures.
+    """
+
+    def _plan(self, measurements=None):
+        p = minimal_plan([])
+        p["measurements"] = measurements or {}
+        return p
+
+    def test_constraint_summary_present_in_result(self, plan_check_module, corpus):
+        result = plan_check_module.check(self._plan(), corpus)
+        assert "constraint_summary" in result
+        assert set(result["constraint_summary"]) == {"present", "clear", "unjudged"}
+
+    def test_no_measurements_leaves_testable_constraints_unjudged(self, plan_check_module, corpus):
+        result = plan_check_module.check(self._plan(), corpus)
+        # c01, c02, c04, c05 all have a test and none of their variables are derivable from an
+        # empty room list -- 'unjudged is not passed' means none of these may show as clear.
+        assert result["constraint_summary"]["unjudged"] == 4
+        assert result["constraint_summary"]["clear"] == 0
+        assert result["constraint_summary"]["present"] == 0
+        unjudged_msgs = [f["statement"] for f in result["findings"]
+                          if f["layer"] == "style" and f["statement"].startswith("Cannot evaluate")]
+        assert len(unjudged_msgs) == 4
+
+    def test_hard_constraint_without_test_still_gets_check_by_hand(self, plan_check_module, corpus):
+        """c03 (scope: judgment) has no test object at all -- pre-WP-1.2 behaviour for this
+        case must be unchanged."""
+        result = plan_check_module.check(self._plan(), corpus)
+        hits = [f for f in result["findings"] if f.get("rule") == "georgian-colonial-american.c03"]
+        assert len(hits) == 1
+        assert hits[0]["severity"] == "info"
+        assert hits[0]["statement"].startswith("Check by hand:")
+
+    def test_hard_constraint_passes_within_range(self, plan_check_module, corpus):
+        result = plan_check_module.check(self._plan({"roof_pitch_rise_per_12": 9}), corpus)
+        hits = [f for f in result["findings"] if f.get("rule") == "georgian-colonial-american.c02"]
+        assert hits == [], f"9:12 is within c02's 8-10 band and should clear silently, got: {hits}"
+        assert result["constraint_summary"]["clear"] >= 1
+
+    def test_hard_constraint_fails_outside_range_as_serious(self, plan_check_module, corpus):
+        result = plan_check_module.check(self._plan({"roof_pitch_rise_per_12": 6}), corpus)
+        hits = [f for f in result["findings"] if f.get("rule") == "georgian-colonial-american.c02"]
+        assert len(hits) == 1
+        assert hits[0]["severity"] == "serious"
+        assert "8 and 10" in hits[0]["statement"] or "between 8" in hits[0]["statement"]
+        assert result["constraint_summary"]["present"] >= 1
+
+    def test_soft_constraint_maps_to_minor_not_serious(self, plan_check_module, corpus):
+        """c05 is severity: soft. CONSTRAINT_SEV maps soft -> minor, distinct from the hard ->
+        serious mapping c02 exercises above."""
+        result = plan_check_module.check(self._plan({"water_table_height_in": 40}), corpus)
+        hits = [f for f in result["findings"] if f.get("rule") == "georgian-colonial-american.c05"]
+        assert len(hits) == 1
+        assert hits[0]["severity"] == "minor"
+
+    def test_one_of_constraint_evaluates(self, plan_check_module, corpus):
+        result = plan_check_module.check(self._plan({"bay_count": 4}), corpus)
+        hits = [f for f in result["findings"] if f.get("rule") == "georgian-colonial-american.c01"]
+        assert len(hits) == 1 and hits[0]["severity"] == "serious"
+        result_ok = plan_check_module.check(self._plan({"bay_count": 5}), corpus)
+        assert not [f for f in result_ok["findings"] if f.get("rule") == "georgian-colonial-american.c01"]
+
+    def test_centre_passage_width_is_derived_from_plan_structure(self, plan_check_module, corpus):
+        """tidewater-georgian.c03 needs centre_passage_width_ft, which derive_constraint_vars
+        reads directly off a ground-floor room of type centre-passage -- no plan.measurements
+        entry required, unlike every other case in this class."""
+        plan = load_plan("tidewater-georgian-careful")
+        result = plan_check_module.check(plan, corpus)
+        hits = [f for f in result["findings"] if f.get("rule") == "tidewater-georgian.c03"]
+        assert hits == [], f"the shipped plan's 12ft passage is within c03's 10-14ft band: {hits}"
+        assert result["constraint_summary"]["clear"] >= 1
+
+    def test_derive_constraint_vars_ground_floor_only(self, plan_check_module):
+        plan = load_plan("tidewater-georgian-careful")
+        v = plan_check_module.derive_constraint_vars(plan)
+        assert v["storey_count"] == 2
+        assert v["centre_passage_width_ft"] == 12
+        assert v["room_count_ground_floor"] == 14
+        assert v["ceiling_height_ground_in"] == 132  # 11 ft ground-floor ceiling
