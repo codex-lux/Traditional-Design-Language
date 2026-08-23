@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "constraint.schema.json",
+  "title": "Style constraint",
+  "description": "One enforceable rule of assembly on a style node. Ruling of 23 Aug 2026 (docs/open-questions.md #24): reuses the fault corpus's `test` object pattern (schema/fault.schema.json) rather than inventing a separate rule language, extended with a `one-of` direction for enumerable/categorical rules and a `scope` field so the validator, composer and geometry solver can each ask 'which of this style's hard constraints can I actually evaluate from what I have.' The human-readable `statement` is kept beside the `test` in every case -- the test is a formalisation of the statement, not a replacement (PLAN-OF-ACTION.md section 1, 'Prose constraints stay').",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "severity", "statement", "scope"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+\\.c[0-9]{2,3}$",
+      "description": "Stable, never reused. <style-id>.c01, c02, ... in the order the constraints appear on the node. If a constraint is later found wrong, add a corrected one with a new id and mark this one deprecated_in_favour_of -- do not renumber or delete."
+    },
+    "kind": {
+      "enum": ["proportional", "structural", "co-occurrence", "climatic", "cultural", "code"],
+      "description": "Unchanged from the pre-existing constraint shape."
+    },
+    "severity": {
+      "enum": ["hard", "soft", "advisory"],
+      "description": "Unchanged from the pre-existing constraint shape."
+    },
+    "statement": {
+      "type": "string",
+      "description": "The human-readable rule, verbatim. Never edited to fit a test -- if the test can only formalise part of the statement, the test covers that part and the rest stays prose."
+    },
+    "scope": {
+      "enum": ["plan", "elevation", "site", "section", "judgment"],
+      "description": "What kind of record could supply the variables this constraint needs. 'judgment' means the sources do not determine this numerically -- decision not to undo #6, extended from slots to constraints: a judgment-scope constraint has no `test` and is listed for hand review, never silently passed or invented a threshold for."
+    },
+    "deprecated_in_favour_of": {
+      "type": "string",
+      "description": "Set only when this id has been superseded. The id itself is never reused or deleted."
+    },
+    "test": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Present only when scope is not 'judgment' and the statement itself supplies a number or an enumerable set. Absent (not empty) otherwise -- absence is not a formalisation failure to hide, it is the honest state.",
+      "required": ["expression", "direction", "measurable_from"],
+      "properties": {
+        "expression": {
+          "type": "string",
+          "description": "References one or more named variables from build/constraint_vocabulary.py. e.g. 'bay_count' or 'facade_width_ft / facade_height_ft'."
+        },
+        "direction": {
+          "enum": ["at-least", "at-most", "equals", "between", "one-of"],
+          "description": "The condition for the constraint being SATISFIED (unlike the fault schema, where the test object describes when a fault is PRESENT -- inverted here because a constraint states what must be true, a fault states what must not be). 'between' uses threshold as the lower bound and `upper` as the upper bound. 'one-of' uses `set` instead of `threshold`."
+        },
+        "threshold": {
+          "type": "number",
+          "description": "Required for at-least / at-most / equals / between (as the lower bound). Omitted for one-of."
+        },
+        "upper": {
+          "type": "number",
+          "description": "Second bound when direction is 'between'."
+        },
+        "set": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "The permitted values when direction is 'one-of'. e.g. [\"3\", \"5\", \"7\"] for an odd-bay-count rule, or a set of enum ids for a categorical slot value."
+        },
+        "units": {
+          "type": "string",
+          "description": "Free-form but should match a unit already in use elsewhere in the corpus (in, ft, deg, rise_in_12, count, ratio, percent, courses) unless the vocabulary variable's own unit makes this redundant."
+        },
+        "measurable_from": {
+          "enum": ["plan", "elevation", "site", "section", "photograph"],
+          "description": "Named the same as the fault schema's field of the same purpose, deliberately -- what a model or a person looking at this kind of record could actually evaluate the expression from. Independent of `scope`: scope says what KIND of record supplies the variables in principle; measurable_from says what's needed to actually read them off in practice (a plan-scope constraint might still only be readable from a rendered elevation, not the raw room list)."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

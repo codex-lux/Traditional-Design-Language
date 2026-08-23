@@ -360,6 +360,11 @@
         ],
         "additionalProperties": false,
         "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+\\.c[0-9]{2,3}$",
+            "description": "Present once migrated (docs/open-questions.md #24). <style-id>.c01, c02, ... Stable, never reused; see schema/constraint.schema.json for the full shape this mirrors."
+          },
           "kind": {
             "enum": [
               "co-occurrence",
@@ -380,10 +385,21 @@
               "advisory"
             ],
             "default": "soft"
+          },
+          "scope": {
+            "enum": ["plan", "elevation", "site", "section", "judgment"],
+            "description": "Present once migrated. See schema/constraint.schema.json."
+          },
+          "deprecated_in_favour_of": {
+            "type": "string"
+          },
+          "test": {
+            "type": "object",
+            "description": "Present once migrated and only when scope != judgment and the statement supplies a number or enumerable set. Full shape validated separately by build/check_constraints.py against schema/constraint.schema.json — kept loose here (not $ref'd cross-file, to match this project's existing convention of self-contained schema files) so a style node can still be checked standalone."
           }
         }
       },
-      "description": "Assembly rules. Hard constraints are what keep the generator from producing incoherent houses."
+      "description": "Assembly rules. Hard constraints are what keep the generator from producing incoherent houses. `id` and `scope` are present once a constraint has been migrated to the executable rule language (WP-1.1); constraints not yet migrated are still valid records without them — migration is in progress across the corpus, not a hard cutover."
     },
     "exemplars": {
       "type": "array",
