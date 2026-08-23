@@ -216,5 +216,26 @@
     "spring-house",
     "two-doors",
     "germanic"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "brick-course",
+      "role": "primary",
+      "authority": "brick-course",
+      "note": "Inherits the parent style's stone construction directly and is explicitly named in brick-course's own applies_to. The lower (banked) storey wall is specified at not less than 22 in of load-bearing stone to carry earth pressure — the pack's reveal_masonry rule (wall thickness in whole wythes) applies exactly, and its window_head_masonry segmental/flat-arch rules govern the few, deliberately placed openings in the exposed downhill wall.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "pennsylvania-bank-house is named directly in the pack's own applies_to. The banked plan is, if anything, more function-constrained than the parent's: room size follows the slope, the spring and the stove wall, never a ratio.",
+      "precedence": 2
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Bound cautiously, as an analogy rather than a direct fit. storey-graduation's own 'GROUND STOREY UNDER A PIANO NOBILE' rule (a markedly lower storey below the principal floor, ratio about 0.72) describes the same geometric shape this variant's own typical_ratios record — a lower-storey ceiling of 6'6\"-7'6\" against a principal floor of 7'6\"-8'6\" — even though the reason for the height difference is entirely different: the pack's rule is about architectural hierarchy under a piano nobile, while the bank house's lower storey is a working refrigeration cellar set by the cross-slope, not by design ambition. The ratio is offered as a usable starting point for the section, not as evidence the two traditions share a rationale. No pack among the 36 models hillside/bank siting directly, which is the more honest statement of this variant's real governing geometry.",
+      "precedence": 3
+    }
   ]
 }

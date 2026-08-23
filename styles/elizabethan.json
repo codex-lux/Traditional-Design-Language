@@ -210,5 +210,19 @@
     "glass",
     "strapwork",
     "symmetry"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "elizabethan is named directly in timber-bay's applies_to. The prodigy houses themselves (Hardwick, Wollaton, Longleat) are stone, but the bay module still governs the great mass of lesser Elizabethan gentry building, which remained timber-framed at this date, and it governs the roof and floor carpentry even at the great houses. No order pack is bound here despite the style's own text describing superimposed classical orders on the entrance frontispiece: proportional_system is explicit that the orders were used 'by rule of thumb' from engraved plates 'not from any theory of proportion,' so a Vignola-derived pack would attribute a precision (a real module, real entasis, a sourced entablature ratio) that the style's own masons did not have and did not intend. This is a deliberate exclusion, matching the corpus-wide guidance that no order pack belongs on this node.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding (not in applies_to). Scoped narrowly to the subsidiary chambers off the state apartments, not to the great chamber, long gallery or hall — those are governed by this style's own figured ratios (storey heights increasing upward, gallery 1:6 to 1:8) and are far outside the pack's ordinary-room scale. The chamber-and-service-room band the pack records (9-14 ft) is a reasonable approximation for the smaller private rooms this style's own text notes were multiplying by the 1590s.",
+      "precedence": 2
+    }
   ]
 }

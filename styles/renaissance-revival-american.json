@@ -231,5 +231,51 @@
     "masonry",
     "urban",
     "cast-iron"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "palladio-composite",
+      "role": "primary",
+      "authority": "palladio-composite",
+      "note": "Confirmed in the pack's own applies_to, and the node's own text supports the choice directly - Palladio is named as the quoted model ('the Florentine and Roman palazzo is the quoted model'), and this is the branch's most literally classical node, the one place in the Romantic Revivals family where an order genuinely governs the moulding apparatus rather than merely decorating it. Governs the enrichment of the window aedicules, the door surround, and the crowning cornice's modillion/dentil profile - NOT a literal colonnade or portico, since the node's own defining_characteristics state the composition is astylar: 'no columns, no portico, no pediment on the facade as a whole.' The order supplies the profile family for what IS built (cornice, surrounds) without ever being expressed as a freestanding column.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-corinthian",
+      "role": "secondary",
+      "authority": "vignola-corinthian",
+      "note": "Confirmed in the pack's own applies_to. The plainer alternative register for the same astylar moulding apparatus - a bank or a smaller merchant's house pitched at Corinthian rather than Composite richness. Bound as the base Vignola order rather than an overlay because no Palladio, Gibbs or Chambers Corinthian overlay in this library extends its own applies_to to renaissance-revival-american; only the Composite overlay does, which is itself evidence for grading Composite as the more richly documented register of the two.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to, and the node's own hard constraint (c01) restates the pack's governing rule almost exactly: the principal elevation must be bilaterally symmetrical about the entrance axis, with no projecting bay, tower or wing permitted to break it - the one Romantic Revivals node besides italianate-townhouse to bind this pack rather than facade-picturesque.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Confirmed in the pack's own applies_to, and the node's own hard constraint c02 gives the exact numbers this pack generalises: each storey between 78 and 88 percent of the one below, with the piano nobile at least 1.15 times the storey above it. The node's own proportional_system calls this 'the only style in this branch that is' genuinely proportional in the storey-height sense, which this pack is built to encode.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the storey-differentiated window head treatment the node's own c04 requires - pedimented or entablatured openings at the piano nobile, square heads above - and the door sizing beneath whatever surround the primary order supplies.",
+      "precedence": 5
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Confirmed in the pack's own applies_to. The double parlour behind the brownstone front is described in the node's own text as running fourteen-foot ceilings and eleven-foot windows to the floor - well inside this pack's calibrated range - and its pedestal:field:entablature division is the direct interior counterpart of the astylar exterior order bound above.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to, and the node's own text makes the strongest possible claim for it: 'the governing dimension is the storey height of the piano nobile... the system is transmissible in a single table' - Palladio's own harmonic-proportion language, restated almost verbatim as the style's proportional_system.",
+      "precedence": 7
+    }
   ]
 }

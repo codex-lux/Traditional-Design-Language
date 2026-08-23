@@ -236,5 +236,25 @@
     "plan-driven",
     "craft",
     "regional-material"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "arts-and-crafts-british is named directly in facade-picturesque's applies_to. governing_logic states 'No applied system... Composition is balanced by mass, not by axis, and is designed in section as much as in elevation,' and symmetry is recorded as 'balanced-asymmetrical' — the pack's dominant-mass and continuous-datum logic is the closest formal description available of what Webb, Voysey and Lutyens were actually doing, even though the pack's own sources postdate the movement's founding building (Red House, 1859) by decades.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "arts-and-crafts-british and british-arts-and-crafts are both named directly in trim-craftsman's applies_to, which is a deliberate crossover: this pack is sourced from American bungalow millwork catalogues, and no purpose-built British Arts and Crafts trim pack exists in this library. The underlying logic transfers cleanly — 'this system is not derived from the orders... the module is a board,' which matches c01 (every visible material must be doing the job it appears to do) exactly, and both traditions descend from the same Pugin-via-Ruskin refusal of applied classical trim. Caveat: British practice runs oak rather than fir, favours exposed structural members (a carved beam end, a wrought hinge) over the catalogue's flat-stock casing family, and Voysey's own joinery is often plainer still. Use the pack for its structural-honesty logic and its butted-not-mitred discipline; do not import its specific American stock-board dimensions uncritically.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding (not in applies_to). Justified by direct lineage: this style descends_from english-cottage-vernacular (weight 0.7) and cotswold-vernacular (weight 0.6), both of which are room-vernacular's own source material, and Webb and Voysey are recorded as having 'measured and sketched Wealden and Surrey farmhouses' directly. The daylight-depth rule and the varied ceiling-height logic both suit a movement whose houses are 'designed in section as much as in elevation' — though the double-height hall, where present, exceeds the pack's ordinary-room scale and should be read against its own text instead.",
+      "precedence": 3
+    }
   ]
 }

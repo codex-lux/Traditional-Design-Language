@@ -221,5 +221,71 @@
     "country-house",
     "park-setting",
     "pattern-book"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "role": "primary",
+      "authority": "gibbs-ionic",
+      "note": "This node's own lineage note names the transmission explicitly -- 'the five-part scheme, the pedimented centre, the Venetian window and the piano nobile survive here in reduced and affordable form, transmitted through Gibbs, Ware and Robert Morris's Select Architecture (1755)' -- and Ware's Complete Body of Architecture (1756) is in its sources list directly. This is the one node in the trunk where Gibbs is bound not against the American-export reading but on the strength of its own stated documentary lineage: the doorcase, cornice and Ionic or Doric portico of a Carr or Paine house are drawn from exactly the plates the American colonies also owned, at the same date, for the same reason.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "The plainer order of the subordinate wing and the service court -- graded below the Ionic of the main block's pedimented centre exactly as the node's own hard constraint c04 requires the service wing to be subordinate in height.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the centre-of-three-bays advanced 300-600 mm and the requirement, tested by this node's own hard constraint c03, that all four elevations share one bay module, window head and cornice -- the park-house discipline of being 'seen in the round' that a terrace or a townhouse never has to meet.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the sash ratio (1.7:1 to 2:1) and the storey-diminishing window heights this node's hard constraint c02 restates from the trunk style, applied here to a facade entered at grade rather than up an external stair.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "12-over-12 lights before about 1770, 6-over-6 after, per this node's own typical_ratios -- the same dating ladder as the trunk style, running the full length of the type's 1720-1830 span.",
+      "precedence": 5
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Ground floor exceeding first by 10-20 percent, second floor 0.7-0.8, attic 0.5-0.6 -- restated verbatim from the trunk style in this node's own hard constraint c02, and the diagnostic this node names as identifying a house as rural 'at a glance' against the townhouse's inverted arrangement.",
+      "precedence": 6
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "Bound optional rather than primary, matching the node's own account: 'ashlar replaced by good brick in most counties' -- the type is built in whichever local material the county affords, Bath stone at Basildon Park, brick everywhere the stone is not local.",
+      "precedence": 7
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The entrance-hall-and-stair-hall sequence this node describes, with principal rooms of Palladian ratio disposed around them at full Georgian moulding richness -- the country house's larger rooms and taller ceilings (3.3-4.0 m against the trunk style's 3.0-3.6 m) sit within this pack's calibrated range rather than at its edge.",
+      "precedence": 8
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Governs the principal rooms this node states directly as 1:1, 1:1.25, 1:1.33 or 1:1.5 in plan -- the Palladian ratio set followed, per the node's own description, 'by habit rather than checked against a plate,' which is exactly the difference between this node and its Palladian parent.",
+      "precedence": 9
+    },
+    {
+      "pack": "palladio-ionic",
+      "role": "optional",
+      "authority": "palladio-ionic",
+      "note": "The Palladian residue this node names as making it 'closer to the Palladian source than the town house ever is': the Venetian window on the stair landing or side elevation, the persisting piano-nobile echo in a house entered at grade. Bound low and optional -- this is a surviving motif inherited from english-palladian, not the governing order of the main elevation, which stays Gibbs's.",
+      "precedence": 10
+    }
   ]
 }

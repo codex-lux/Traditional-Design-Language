@@ -246,5 +246,51 @@
     "pattern-book-return",
     "profile-depth",
     "icaa"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "palladio-doric",
+      "role": "primary",
+      "authority": "palladio-doric",
+      "note": "Palladio is named directly in the node's own sources as 'still the movement's working reference,' and its lineage weights palladian descent highest of the whole edge list (0.55). Doric bound primary/civic register: constraint c04 requires superimposed orders to ascend 'Tuscan or Doric below, Ionic, then Corinthian or Composite above,' and the movement's own flagship civic exemplar (Schermerhorn Symphony Center, 'a full Doric peristyle and correct entablature at civic scale') is Doric. Palladio's overlay rather than Vignola's because the node's sources list is explicit and singular on this point -- unlike georgian-colonial-american, whose Gibbs choice had to be justified from inventory evidence, this node states its own primary text outright.",
+      "precedence": 1
+    },
+    {
+      "pack": "palladio-corinthian",
+      "role": "secondary",
+      "authority": "palladio-corinthian",
+      "note": "The paired upper order in the same c04 superimposition sequence ('Corinthian or Composite above'), and the register the node's own typical_ratios reach for at the top of their column-height range (up to 10 diameters, the Corinthian figure this pack's own module gives). Bound secondary to carry the grander domestic and high-rise register the exemplar 15 Central Park West occupies ('limestone-clad, base-shaft-cap... proof that the system survives the change of building type and the change of structural material') where the civic Doric register alone would not reach.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in this pack's own applies_to. Constraint c01 ('All facade dimensions shall be derived from one declared module... elements not derivable from it are forbidden') is this pack's bay-module arithmetic stated as the node's own governing law rather than as a convention, and the canonical massing affinity five-part-palladian is this pack's odd-bay, double-square composition at its most literal. Bound below the two order packs because, per the node's own governing_logic, the order supplies the module the facade divides from -- 'choose the order, take its column height from the storey, and let the bay follow the intercolumniation' is this pack's own instruction and it is New Classical's actual stated working method.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in this pack's own applies_to. Constraint c02 (window/door reveal not less than 4 in in masonry, 2 in in wood; flush-mounted windows forbidden) restates this pack's reveal logic as a hard rule, and the node's own diagnostic_tells ('Window reveal depth of four inches or more in masonry -- a shadow at the edge of every opening') is this pack's whole argument about expressed wall thickness stated as the style's signature tell.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Confirmed in this pack's own applies_to. The node's diagnostic_tells ('Correct entablature subdivision, with architrave, frieze, and cornice in canonical proportion rather than as three arbitrary bands') and its distinguished_from entry against neo-eclectic ('Measure the projection of the cornice: under two inches, it is quotation') are this pack's room-as-an-order derivation and cornice-projection rules read outward onto the whole building rather than confined to the interior wall. Bound as the interior system and the source of the cornice-depth diagnostic that separates this node from both neo-eclectic and colonial-revival.",
+      "precedence": 5
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in this pack's own applies_to, and about as direct a match as exists anywhere in this assignment: the node's long description frames the orders as 'the first parametric system with inheritance,' which is this pack's own argument in different words, and the node's sources list Palladio's Quattro Libri as the movement's working reference -- the exact treatise this pack transcribes. The node's own typical_ratios ('Principal storey 1.2 to 1.4 times the storey above it') restates this pack's storey-diminution logic directly.",
+      "precedence": 6
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Confirmed in this pack's own applies_to. The node's own typical_ratios ('storey heights diminishing upward' per defining_characteristics; 'Principal storey 1.2 to 1.4 times the storey above it') sit just outside the upper edge of this pack's measured second-storey-over-first band (0.78-0.92, i.e. the inverse of 1.09-1.28), which is itself consistent rather than contradictory: a living practice reasserting the historical convention slightly more strictly than the surviving Georgian and Federal fabric this pack measures against.",
+      "precedence": 7
+    }
   ]
 }

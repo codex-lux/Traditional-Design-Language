@@ -248,5 +248,71 @@
     "roman",
     "ideological",
     "octagon"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "palladio-ionic",
+      "role": "primary",
+      "authority": "palladio-ionic",
+      "note": "PALLADIO OVER GIBBS OR BENJAMIN, AND THIS IS THE LOAD-BEARING CHOICE FOR THE WHOLE NODE. The style's own lineage explicitly makes Palladio -- via the English editions Jefferson called his 'bible' -- his source, and just as explicitly separates that from the Tidewater Georgian craft channel his masons and joiners actually came out of ('descends_from tidewater-georgian... Virginia brickmasons... trained in the Tidewater Georgian trade built every Jeffersonian building'). Both gibbs-ionic and benjamin-ionic are architecturally present in this corpus and gibbs-ionic is even listed in this node's own applies_to cross-reference, but binding either here would blur exactly the distinction the style file draws against english-georgian ('rude, mis-shapen piles') -- Jefferson's DESIGN authority is Palladio-as-transcriber-of-Rome, not the pattern-book tradition his craftsmen executed to. The fit is also numerically exact: this pack's column is 9 Palladian modules, i.e. 9 diameters, matching the style's own stated 'Ionic 9' precisely -- and it is the order of the Virginia Capitol, where Jefferson substituted a Scamozzian Ionic for the Maison Carree's original Corinthian because Virginia workmen could cut it.",
+      "precedence": 1
+    },
+    {
+      "pack": "palladio-doric",
+      "role": "secondary",
+      "authority": "palladio-doric",
+      "note": "The style's own stated 'Roman Doric 8 diameters' matches this pack's column exactly (16 semidiameter-modules = 8 diameters, identical to vignola-doric's figure since Palladio's Doric differs from Vignola's only in entasis and fluting, not in overall height). Demonstrated at the University of Virginia's Academical Village, where Doric is one of the ten orders the pavilions use as teaching specimens.",
+      "precedence": 2
+    },
+    {
+      "pack": "palladio-corinthian",
+      "role": "secondary",
+      "authority": "palladio-corinthian",
+      "note": "A THIRD ORDER IS BOUND HERE, UNLIKE ANY OTHER NODE IN THIS BATCH, because Jefferson's own practice genuinely deployed three correct Roman orders side by side as a stated pedagogical program at the University of Virginia, and because Corinthian was the Capitol's ORIGINAL order before Jefferson's Ionic substitution. Flagged honestly: the style states 'Corinthian 10' diameters but this pack's Palladian Corinthian column is 9.5 -- a half-diameter short of an exact match, the closest the corpus's 36 packs get, and left as a visible discrepancy rather than rounded away.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "JUDGMENT CALL, STATED AS SUCH. None of the pack's three named families (wall_section_georgian / _federal / _greek_revival) is a clean fit for interiors built to correct antique weight rather than to any of those three American traditions. wall_section_georgian is bound as the closer analogue -- full relief, carved, NOT the flattened Federal composition-ornament family Jefferson explicitly rejected ('Federal thins the orders for elegance; Jefferson insisted on correct entasis and correct entablature depth because correctness was the point') -- but this is an approximation the pack was not built for, not a documented fit.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs door and window sizing generally, beneath constraint c02's hard co-occurrence rule: round-headed arches, domes and semicircular Diocletian windows are permitted and characteristic, while the Greek baseless Doric and frieze-band attic window are forbidden outright -- Roman and Greek vocabularies must never mix on one building. No pack among the 36 encodes Diocletian/lunette window geometry specifically; that stays prose in the style file, a genuine gap.",
+      "precedence": 5
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The glazing module, bound but genuinely minor here -- the style file names no sash pattern or muntin width at all among its diagnostic tells, unlike federal-style or new-england-federal, because triple-sash windows and skylights (Monticello, Poplar Forest) carry more of Jefferson's fenestration argument than muntin count does.",
+      "precedence": 6
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the temple-front portico and the bay rhythm its intercolumniation sets for the wall behind (2.25-2.5 diameters, Palladian eustyle, per the style's own proportional_system) -- and this is arguably the single most apt use of this pack in the whole batch, since georgian-colonial-american's own binding of it cites 'Palladio Book I chs. XXI-XXVI' as its authority, and here that authority is not once-removed through Gibbs but the building's actual named source.",
+      "precedence": 7
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Governs the literal floor-to-floor ratios but does not model Jefferson's real trick -- the suppressed second storey, mezzanine windows tucked directly under the entablature so a demonstrably two-storey house 'reads as one storey' from outside (the style's own leading diagnostic tell). That is visual concealment, not proportional diminution, and no pack among the 36 addresses it; a genuine gap distinct from the ordinary storey-height coverage this pack does provide.",
+      "precedence": 8
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Bound for the cubic and near-cubic rooms the style states directly -- Poplar Forest's dining room is 20 x 20 x 20 ft -- which is exactly this pack's harmonic-ratio domain. It does NOT model the octagon-on-a-square construction that is Jefferson's own specific and most distinctive room-generating figure (Poplar Forest's plan, the Rotunda's flanking rooms); no pack among the 36 encodes octagonal room geometry by name, so the general harmonic-ratio machinery is the closest available fit and the octagon itself stays prose. A genuine, acknowledged gap.",
+      "precedence": 9
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "The material palette is fixed rather than optional at the level of the building (constraint c05: red brick in Flemish bond with white-painted or stuccoed trim; painted brick, stone facing or contrasting trim colours fall outside the style), but the pack itself is bound at the same optional role the rest of this batch uses for masonry modules, consistent with the corpus's own applies_to cross-reference for this node.",
+      "precedence": 10
+    }
   ]
 }

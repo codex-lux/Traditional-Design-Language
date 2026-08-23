@@ -220,5 +220,19 @@
     "farm-cluster",
     "ancestor-of-american-log",
     "sod-roof"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "log-module",
+      "role": "primary",
+      "note": "Explicitly listed in the pack's applies_to, and its own sources cite Scandinavian log building directly. The pack's 12-18 ft two-man handling band is exactly the constraint this node's own text gives as the reason no log wall exceeds 6-9 m, and the pack's wing_strategy rule — a household that needs more room builds another pen, never lengthens one — is precisely the mechanism this node describes for why a Norwegian tun disperses into many small single-purpose buildings rather than growing as one house.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Explicitly listed in the pack's applies_to. The arestue/parstuga interior — small, low, lit from two or three small windows, warmed by one hearth or corner fireplace serving a bounded floor area — matches this pack's span/hearth/daylight-limited room model closely; log-module's own ceiling_height_rule and window_grouping_rule are this pack's wall-construction complement.",
+      "precedence": 2
+    }
   ]
 }

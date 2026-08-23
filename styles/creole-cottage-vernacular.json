@@ -224,5 +224,19 @@
     "cabinet-loggia",
     "briquette-entre-poteaux",
     "hot-humid"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "primary",
+      "note": "creole-cottage-vernacular is named directly in the pack's own applies_to. The four-room square plan — no corridor, every room cross-ventilated, size set by breeze reach rather than ratio — is exactly this pack's own subject; its 'THE SQUARE CELL' rule (module by module, a base unit added and extended rather than proportioned, after Glassie's structural analysis of Virginia folk housing) describes this cottage's own room-by-room additive logic closely, even though Glassie's own fieldwork was Virginia rather than Louisiana.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "As with the parent style: French casement doors 5'6\"-6'6\" wide sit within opening-proportion's wide-leaf band where its 2:1 ratio is native rather than forced, and the pack's door-from-storey rule (storey/3.5) is a reasonable proportional starting point for an 11-13 ft ceiling. Preferred over sash-light for the same reason as the parent style: these are doors, not sash windows, and sash-light's glass-supply arithmetic has nothing to derive from here.",
+      "precedence": 2
+    }
   ]
 }

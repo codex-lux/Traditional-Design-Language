@@ -250,5 +250,20 @@
     "mail-order",
     "exposed-structure",
     "productized-tradition"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "The exterior composer for a style whose own proportional_system is 'two horizontal datums and one structural rhythm' -- porch beam, aligned head height, exposed framing bay -- which is this pack's datum_stack assembly by another name, and whose roof_form rule (the dominant roof must cover at least half the elevation's width, or 'no roof is in charge') is the mechanism behind this node's own hard constraint that the porch roof must be framed under the primary roof rather than applied beneath the eave (c02). Given role 'primary' because, unlike the classical styles in this corpus, Craftsman's module really is compositional -- the low dominant roof, the eave shadow -- rather than a fixed board size; the board size is trim-craftsman's business and belongs to the interior.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "authority": "trim-craftsman",
+      "note": "The interior millwork system this style actually built to: the pack's own sources are Craftsman's own transmission apparatus (Stickley's Craftsman Homes, the Universal Millwork Catalog, the Sears and Aladdin trim schedules), so binding it here is closer to citing the style's primary sources than to applying an analogous system. Governs the picture rail as the room's datum, the three-board casing family (1x4 leg, 1x6 head, 1x8 base), and the explicit prohibition on a mitred casing or a sprung classical crown that the movement was founded to object to.",
+      "precedence": 2
+    }
   ]
 }

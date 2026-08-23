@@ -200,5 +200,25 @@
     "catalog-ornament",
     "eastlake-misnomer",
     "most-common-subtype"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Explicit in this pack's applies_to. This is the plainest fit of any Queen Anne variant: the node retains the parent's dominant-mass, wrapping-porch, and texture-change rules without modification, so the pack's dominance rule, datum rule and porch-sizing rule all apply directly, with the porch depth range (7-10 ft, this node) sitting inside the pack's own porch_type derivation.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "JUDGMENT BINDING. This pack's applies_to lists queen-anne-american and queen-anne-free-classic but not this sibling variant explicitly, which reads as an omission rather than a deliberate exclusion: spindled Queen Anne is contemporaneous (1878-1908) and shares the same glass supply as the parent style, so the same 1/1 or 2/2 late-cylinder-glass reasoning applies.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING, for the same reasoning given on the parent queen-anne-american node: balloon-framed, un-treatised rooms governed by span and daylight rather than by proportion. No change from the parent's reasoning is needed since spindlework versus classical trim is a porch and gable question and has no bearing on room shape.",
+      "precedence": 3
+    }
   ]
 }

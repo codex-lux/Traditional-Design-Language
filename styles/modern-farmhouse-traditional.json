@@ -238,5 +238,20 @@
     "photographic-composition",
     "production-builder",
     "measurable-failure-modes"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in this pack's own applies_to. The node's defining_characteristics ('Simple dominant gable forms with minimal cross-gabling and a legible single roof hierarchy') is this pack's dominance rule intact, and its canonical massing (linear-ell-farmhouse -- 'the ell gives a secondary mass without requiring a stacked gable') is a dominant-block-plus-subordinate-ell composition of exactly the kind this pack's wing_strategy and dominance rules describe. Bound primary/facade with the deviation stated plainly, because the node itself states it with unusual precision -- pitch as built 6:12-8:12 against the pack's picturesque-vernacular expectation and the node's own named 10:12-12:12 source; eave as built 0-8 in against this pack's own default eave projection of about 21 in; window head as built 12-24 in below soffit against a 6-10 in vernacular source. This is the same relationship this pack has to american-farmhouse-vernacular one link up the lineage, except here the node's own long description supplies the deviation table itself ('Recording the as-built and the source dimensions side by side... is the most useful thing this node can carry'), so the binding is confirmed by the node's own text rather than merely inferred.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "authority": "trim-craftsman",
+      "note": "Confirmed in this pack's own applies_to, and a materially closer fit here than on its ancestor american-farmhouse-vernacular (where it is bound optional and only for the 1900-1920 tail). Constraint c04 -- board-and-batten battens at 16 or 24 in on centre aligned to the framing, minimum 1x2 nominal, not less than 3/4 in projection -- is this pack's flat-stock, board-series logic almost exactly: a batten sized against the framing module is precisely how this pack's whole family is generated ('the base is a one-by-eight because a one-by-eight is a board'). Unlike american-farmhouse-vernacular, this node has no surviving classical-order-derived trim tradition competing with it -- defining_characteristics state 'ornament essentially absent: no shutters, no keystones, no applied classical elements, no material changes at an outside corner' -- so this is the primary and effectively only trim system genuinely present, bound at role interior (this schema's slot for a governing trim family) rather than optional.",
+      "precedence": 2
+    }
   ]
 }

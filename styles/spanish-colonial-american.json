@@ -258,5 +258,13 @@
     "courtyard",
     "hot-dry",
     "borderlands"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The one pack in this corpus whose physical logic actually matches this tradition: its span constraint -- room breadth capped by the available beam, 14-18 ft in the pack's own measured band -- is very nearly a restatement of this node's own governing_logic ('the clear span of the available roof beam sets room width absolutely'), and its 12-18 ft room clear span constraint (c02) sits inside the pack's band almost exactly. The pack's hearth and daylight constraints fit less precisely -- there is no single central hearth heating the house the way there is in New England, and the small deep-set opening here limits light by depth of reveal rather than by the pack's single-window-wall model -- but the outcome the pack predicts (narrow, elongated, span-limited rooms strung rather than stacked) is exactly this node's own recorded room shape. Nothing else in this corpus binds. No pack in this corpus governs the load-bearing mass wall itself -- its height-to-thickness ratio (this node's own hard constraint c01, 1:8 to 1:10), the portal or corredor's post-and-beam proportion, or the small, deep-set, barred-rather-than-glazed opening. That is a genuine absence, not an oversight in this binding: none of the 36 available packs -- the two facade systems, the material modules (brick-course, log-module, sash-light, storey-graduation, timber-bay) or the two opening systems -- was built against fired-brick coursing, log-cabin notching, sawn-timber framing or a Palladian treatise proportion, and none of those is the physics of a load-bearing earth or rubble wall. A dedicated mass-wall/adobe module and a portal/arcade system are both missing from the corpus.",
+      "precedence": 1
+    }
   ]
 }

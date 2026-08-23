@@ -271,5 +271,56 @@
     "pattern-book",
     "national-style",
     "reference-not-descent"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-doric",
+      "role": "primary",
+      "authority": "benjamin-doric",
+      "note": "The single most consequential choice in this batch. Benjamin's Doric of The Practical House Carpenter (Boston, 1830), Example No. 3, is encoded as a STANDALONE order with overlay_of deliberately null, not as a delta on Vignola -- Benjamin says so himself in his preface, quoted in the pack: the Doric is the one order where 'the Greek and Roman creeds' are irreconcilable, so treating it as a Vignola overlay 'would be fiction' (docs/open-questions.md item 11). This pack's column stands 14 semidiameter-modules, i.e. 7 diameters -- the upper end of the style's own stated 'Greek Doric column 5.5-7 lower diameters' -- and it is architecturally the right choice specifically because this is Greek Revival, not Federal: Benjamin's OTHER 1816 Roman Doric (9 diameters, in the American Builder's Companion) is a legitimate delta on Vignola but is explicitly not what built this style, per the pack's own authority note.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "note": "A DELIBERATE SUBSTITUTION, STATED PLAINLY. This corpus gives Benjamin's Doric standalone Greek-order treatment but not his Ionic or Corinthian -- his 1816 Ionic and Corinthian overlays are the Federal-era Roman orders and their own authority notes say outright that 'where a house is Greek Revival rather than Federal, this pack is the wrong one.' No Benjamin or dedicated Greek Ionic pack exists in this corpus, so plain Vignola is bound here as an honest general-reasoning stand-in rather than a fabricated Grecian citation: Vignola's Ionic column runs 9 diameters, which happens to fall inside the style's own stated Greek Ionic range of 8.5-9.5, so the proportions hold even though the source is Roman rather than Greek. Bound at all because the style names Greek Ionic as a legitimate alternate order alongside baseless Doric (defining_characteristics) and because greek-revival-southern-plantation's exemplars use it directly.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Bind the wall_section_greek_revival / casing_greek_revival family -- the cleanest, most direct fit in this whole batch. The pack's own comparison names the diagnostic: Greek Revival's baseboard runs 10 1/4 in in only two members (against Georgian's 6 7/8 in in three and Federal's 6 1/8 in in three) because 'the pedestal has been abandoned entirely,' which is exactly the heavier, plainer, corner-blocked interior the style file itself describes -- 'heavy symmetrical architraves with corner blocks, deep plain baseboards, black marble mantels of two square posts and a slab.'",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the entrance void beneath constraint c04's hard exclusion: rectangular transom only, no elliptical fanlight, sidelights optional, all inside a pilastered surround -- the single fastest Federal/Greek Revival discriminator the style names for itself. Ranked ahead of sash-light here, the reverse of the Federal ordering, because the diagnostic weight in this style sits on transom shape and frieze-window placement, not on muntin width.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Still governs the window module and muntin coordination, but it is demoted relative to opening-proportion because Greek Revival, unlike Federal, does not stake its identity on sash pattern -- the style file's own diagnostic_tells list frieze windows, transom shape and portico proportion, and never mentions muntin count.",
+      "precedence": 5
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the full-height portico composition and the bay rhythm the portico sets for the wall behind it (intercolumniation 2.25-2.75 diameters, per the style's own proportional_system). On the gable-front vernacular form the pack's odd-bay-count logic gives way to the style's own tolerated asymmetric side-hall door, which the pediment is stated to resolve compositionally rather than by bay symmetry.",
+      "precedence": 6
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Bound, but its usual Georgian/Federal job -- diminishing upper-storey window height so the eye reads a hierarchy -- is largely absent here: Greek Revival unifies the whole facade height behind one continuous entablature rather than stepping it down, and the style's own typical_ratios give no diminution ratio at all (unlike federal-style's explicit 0.80-0.90 / 0.60-0.75). Bound chiefly for the ceiling-height figure, which this pack's own authority note names directly ('Greek Revival 10-12 ft'), and for the frieze-band attic storey, where a habitable half-storey is lit through the entablature rather than through a dormer (constraint c03).",
+      "precedence": 7
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Bound for rooms that are 'taller than Federal rooms and much plainer' but still formally proportioned by a pattern-book carpenter rather than accumulated by habit -- the style's own description language. Benjamin-corinthian and benjamin-tuscan were both considered for a third bound order (the style names a Tower-of-the-Winds Corinthian as a legitimate third Greek order) and deliberately not bound at this parent level, to keep the same primary/secondary discipline georgian-colonial-american uses; the Corinthian is promoted instead on greek-revival-southern-plantation, where the style text and the corpus's own applies_to cross-reference both name it explicitly.",
+      "precedence": 8
+    }
   ]
 }

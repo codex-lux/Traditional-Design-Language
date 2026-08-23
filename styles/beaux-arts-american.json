@@ -243,5 +243,51 @@
     "ecole-des-beaux-arts",
     "city-beautiful",
     "load-bearing-masonry"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-composite",
+      "role": "primary",
+      "authority": "vignola-composite",
+      "note": "The style's own lineage record names this order directly: 'Imperial scale, the triumphal arch motif, coffered vaults and the Composite order, mediated through Ecole restoration studies of Roman ruins' (lineage edge to roman-classical, weight 0.8). Composite is also the richest of the five and the one whose Ionic-volute-over-Corinthian-acanthus capital reads correctly at the coupled, monumental scale the constraints demand (entablature 1/5-1/4 of column height, cornice projection not less than entablature depth). Bound plain Vignola rather than an overlay because vignola-composite's own applies_to already names beaux-arts-american, whereas none of the Chambers or Gibbs overlays extend this far into the eclectic-revivals branch - Chambers stops at the English Georgian family and Gibbs at colonial domestic work. A plain, unmediated classical reading is also the more honest one for a style whose module is 'one column diameter' with no intervening English pattern-book filter.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-corinthian",
+      "role": "secondary",
+      "authority": "vignola-corinthian",
+      "note": "The domestic register, for the Newport houses rather than the civic ones: the Petit Trianon (Marble House) and the Grand Trianon (Rosecliff) that Hunt and White quoted directly are both Corinthian-ordered buildings, and vignola-corinthian's own applies_to list already names beaux-arts-american alongside beaux-arts-french. Grade the two orders by programme rather than by rank the way the Georgian template grades Ionic over Doric: Composite for the coupled monumental order and the triumphal-arch register, Corinthian for the single-family mansion quoting a French royal model.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Confirmed in the pack's own applies_to. The ceremonial stair hall and principal rooms are the one place in this whole batch where trim-classical's derivation - the wall read as pedestal:column:entablature - is not a compromise but an understatement, since real Beaux-Arts interiors ran marble, bronze and run-in-place plaster rather than painted millwork. Bind the family for the proportional discipline it encodes and expect every profile to be executed richer than the pack's own painted-joinery defaults.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the void before the order and the stone surround are applied to it - door height taken from the storey, the head datum discipline - though a Beaux-Arts opening is frequently a full aedicule or an arched Roman opening rather than the plain Palladian rectangle the pack defaults to; treat the derived ratios as the starting rectangle the surround is then built onto.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. Governs the elevation as a composition, but a Beaux-Arts front pushes every one of its numbers to the permissive edge of the band: the centre bay is not merely widened but advanced as a full pavilion (constraint c03, 18 in minimum), the cornice is not the boxed domestic member the pack's default describes but a full entablature-derived cornice at monumental scale, and the composition typically adds a balustraded attic the pack does not itself model (constraint c04). Bind it for the bay-count and solid-to-void discipline and let the order packs and the style's own constraints carry what it understates.",
+      "precedence": 5
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Confirmed in the pack's own applies_to. Governs the vertical diminution the style's proportional_system states directly - base:principal storey:attic roughly 1:2:0.7 - which is steeper than the pack's own domestic default (0.85 then 0.80 compounding) and closer to its outer range; a Beaux-Arts attic storey is genuinely subordinate, not merely shorter.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to. The Ecole plan method is Palladian room-shape discipline turned into a whole-building organising principle - axis, hierarchy, poche, marche - so this pack governs the individual rooms (16-22 ft principal-room clear height per the style's own proportional_system) while the plan-level hierarchy itself is outside what any proportion pack in this corpus models.",
+      "precedence": 7
+    }
   ]
 }

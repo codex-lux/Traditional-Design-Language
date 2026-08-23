@@ -233,5 +233,19 @@
     "farmstead",
     "mediterranean",
     "france"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Explicitly listed in the pack's applies_to. This node's own text is close to a restatement of the pack's central finding: rooms are shaped by orientation, storage function and 'the room it lights' rather than by composition, and the ground floor is explicitly given to production (cave, cuverie, byre) rather than living — matching the pack's service_zone_strategy rule almost exactly.",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "Judgment bind: this node is not listed in the pack's applies_to, and it covers several regional constructions of which only the Bressan and Alsatian variants are genuinely timber-framed. Bound narrowly for those: this node's own structural bay (4.5-5.5 m / 15-18 ft, fixed by a floor beam or purlin span between cross-walls) sits inside the pack's documented 16-20 ft bay band almost exactly, and the pack's wing_strategy rule (an ell narrower and lower than the main frame) matches the additive growth by bays and ells described here. Does not apply to the Provencal or Breton stone variants, which have no frame.",
+      "precedence": 2
+    }
   ]
 }

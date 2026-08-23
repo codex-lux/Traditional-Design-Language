@@ -232,5 +232,58 @@
     "villa",
     "treatise",
     "temple-front"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "palladio-ionic",
+      "role": "primary",
+      "authority": "palladio-ionic",
+      "note": "Confirmed in the pack's own applies_to. Palladio's own book is the source, so this is close to zero-derivation. The style's own proportional_system names the portico order as 'Ionic or Corinthian,' Ionic first, and the named exemplar Villa Barbaro at Maser carries 'an Ionic temple front over a working farm.'",
+      "precedence": 1
+    },
+    {
+      "pack": "palladio-corinthian",
+      "role": "secondary",
+      "authority": "palladio-corinthian",
+      "note": "Confirmed in the pack's own applies_to. The alternate, richer portico order this style's own proportional_system names alongside Ionic, for the more ceremonial fronts.",
+      "precedence": 2
+    },
+    {
+      "pack": "palladio-doric",
+      "role": "optional",
+      "authority": "palladio-doric",
+      "note": "Confirmed in the pack's own applies_to. Bound for the barchesse and flanking wings specifically: c02 makes it a hard constraint that wings be subordinate in BOTH height and order to the centre, and Doric is the plain order that sits under an Ionic or Corinthian portico without competing with it.",
+      "precedence": 3
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. Governs the plain, uniform wing bays outward from the dominant centre that this style's own bay_rhythm describes.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to, and by the same author as the order packs above.",
+      "precedence": 5
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to. This is the pack's own founding text: room-harmonic's worked example (a 12x6 room taking an 8 ft vault by the harmonic mean) is quoted verbatim from Palladio Book I ch. XXIII, and this style's own proportional_system states the identical governing_logic -- 'the plan is generated from a closed list of room ratios... the section a function of the plan.' The single tightest pack-to-node match in this entire batch.",
+      "precedence": 6
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Confirmed in the pack's own applies_to. Governs the vertical relation of the raised piano nobile to the plinth-like service basement below it (c04's 1.2 m minimum), though the pack's own domestic-Georgian calibration describes a gentler diminution than the more emphatic base/piano-nobile contrast this style actually builds.",
+      "precedence": 7
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Confirmed in the pack's own applies_to. Governs the interior wall as pedestal:field:entablature, the same general-rule division (Vignola's pedestal at one third, entablature at one quarter of the column) this style's orders and its plan-derived room heights both assume.",
+      "precedence": 8
+    }
   ]
 }

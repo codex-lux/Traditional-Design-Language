@@ -229,5 +229,50 @@
     "speculative",
     "repeatable",
     "street-wall"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to, and the node's own hard constraint (c01) states the case for it directly: the main cornice must be continuous in height, projection and bracket module across every house in a row, aligning within 2 in across party walls - a street-scale discipline this pack's single-bay module and pier-width rules are built to enforce. This is the one Italianate node in the batch whose composition is genuinely classical-regular rather than picturesque, which is why it binds this pack instead of facade-picturesque.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the glass-light module of the arched parlour-floor sash and the diminishing square-headed sash above it, tied to the same 10-15 percent diminution the node's own c03 requires.",
+      "precedence": 2
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the door and the storey-based sizing rule beneath the parlour-floor arched surround, which per the node's own diagnostic tells receives 'projecting moulded hoods or full architrave surrounds' while upper storeys drop to a flush surround or a square head - the storey-differentiated treatment this pack's head-datum-per-storey discipline expects.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Confirmed in the pack's own applies_to, and a direct numeric match to the node's own hard constraint c03: 'floor-to-floor heights shall diminish monotonically above the parlour floor by 10 to 15 percent per storey.' The section, not the plan, is the whole design problem here - the pack's storey module is the type's real governing dimension.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Confirmed in the pack's own applies_to. Governs the double-parlour interior - the pack's pedestal:field:entablature wall division fits a parlour floor of 11-14 ft ceilings (the node's own figure) directly, and the row's shared millwork order (one set of parts bought for the whole speculative row, per the node's own long description) is exactly the kind of coherent, repeatable classical trim family this pack encodes.",
+      "precedence": 5
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "Confirmed in the pack's own applies_to. Bound optional because the type's defining material is brownstone ashlar, which this pack does not govern; it applies on the pressed-brick or brick-with-brownstone-trim examples the node's own defining_characteristics also allow, where the coursing module sets window-head and belt-course lines the way it does on any American brick front of the period.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding: not in the pack's own applies_to. The double parlour is a long fixed-width room set by the party wall rather than a room chosen to a harmonic shape, and the node's own governing_logic is explicit that 'lot width is fixed by the party wall, so the design problem is entirely vertical' - a measured, constraint-derived room in exactly the sense this pack (rather than room-harmonic's chosen ratios) records.",
+      "precedence": 7
+    }
   ]
 }

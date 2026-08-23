@@ -248,5 +248,14 @@
     "walled-precinct",
     "agricultural",
     "mexico"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "authority": "room-vernacular",
+      "note": "The node's own governing_logic states 'The arcade bay and the viga span... Nothing is derived from an order, and no elevation is composed as a whole - the composition is a plan,' with range depth fixed at 5-6 m clear by the viga span - almost the pack's own 14-18 ft measured room-breadth band restated in Mexican terms. mexican-hacienda is named directly in room-vernacular's applies_to. facade-picturesque was considered and rejected: the hacienda's bay_rhythm is explicitly 'relentlessly even' with 'any attempt to accent, group or break it' working against the building, which contradicts facade-picturesque's dominance-and-grouping logic outright, and the node is not in that pack's applies_to either. No order pack applies - there is no order in the composition, only a repeated arcade bay.",
+      "precedence": 1
+    }
   ]
 }

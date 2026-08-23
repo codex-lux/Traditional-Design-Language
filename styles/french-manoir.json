@@ -227,5 +227,19 @@
     "ensemble",
     "france",
     "late-medieval"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment bind: french-manoir is not itself listed in room-vernacular's applies_to, but its family container french-vernacular is. The salle and the single-pile rooms strung off the stair turret are span-limited exactly as the pack describes — 'every principal room lit and ventilated from two faces' because a single-pile section cannot be built any deeper — and this node's own constraint (french-manoir.c01, depth not exceeding 7 m) is the same joist/roof-span ceiling the pack's depth_and_pile rule encodes.",
+      "precedence": 1
+    },
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Judgment bind: french-manoir itself is not listed, but its two direct architectural descendants — chateauesque and french-normandy-revival, both named in this node's own revival_periods — are, and this node states outright that its symmetry is 'balanced-asymmetrical' with the stair turret 'placed by circulation, not by composition,' the identical dominant-mass-plus-subordinate-accent logic the pack's dominance and lever-arm rules formalise. Used narrowly for that compositional logic; the pack's own numeric dominance ratio and datum-band figures are calibrated to 19th-century American eclectic fronts and should be treated as a diagnostic to check a drawing against, not a historical rule for this medieval type.",
+      "precedence": 2
+    }
   ]
 }

@@ -261,5 +261,27 @@
     "failure-modes",
     "decoupled-grammar",
     "garage-problem"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in this pack's own applies_to. This is the genuinely diagnostic binding in the whole assignment: the node's own hard constraints appear to be this pack's derived rules restated as enforcement against the style's own named failures. Constraint c04 (maximum three gables per elevation, dominant gable must exceed the next largest by not less than 25 percent) is this pack's dominance rule (module-area ratio floor of 1.35, 'below about 1.35 the two masses compete and the elevation has no subject') applied to gable count instead of elevation area; constraint c03 (one head datum per storey, departures only at a real plane change of 24 in or more) is this pack's datum rule stated as a zero-tolerance test. The node does not merely resemble this pack's subject matter, it appears to encode the pack's own dominance and datum rules as the corrective against the exact failure the long description names ('gable proliferation... none dominant, so the eye cannot find a primary roof'). Bound primary/facade accordingly, and consistent with the distinguished_from entry against new-urbanist-traditional: 'the code reads as an itemized prohibition of neo-eclectic practice.'",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-classical",
+      "role": "optional",
+      "authority": "trim-classical",
+      "note": "JUDGMENT BINDING: not in this pack's own applies_to list, and deliberately so -- the node exists to document that this pack's system is quoted rather than run. The long description and the typical_ratios both name the failure with the same figure: 'Trim profile projection 1/4 to 3/4 in, against 3 to 6 in in the sources quoted.' trim-classical is that source -- its casing-width rule (opening_width/6, six inches on a 36 in door) and backband projection are the 3-6 in figures the node cites as what Neo-Eclectic fails to deliver. Bound optional and at low precedence specifically so this node's package carries the named source of comparison rather than a governing system: the pack describes what the style is failing to be, not what it is.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "optional",
+      "authority": "sash-light",
+      "note": "JUDGMENT BINDING: not in this pack's own applies_to list. Bound because constraint c02 -- decorative shutters not less than 45 percent of sash width, hinged at the jamb, forbidden on ganged/arched/bay/non-rectangular windows -- quotes this pack's own shutter rule (leaf width = half the opening, less meeting clearance) as a prohibition against the exact failure the long description names: 'shutters half the width of the sash they nominally cover... applied to ganged, arched, or bay windows they could never have closed over.' As with trim-classical above, bound at low precedence as the named source of the violated rule rather than as a governing system for this node's own built fabric.",
+      "precedence": 3
+    }
   ]
 }

@@ -222,5 +222,56 @@
     "northern",
     "settlement-architecture",
     "carpenter-classical"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-doric",
+      "role": "primary",
+      "authority": "benjamin-doric",
+      "note": "Same choice and same reasoning as the parent style: Benjamin's Practical House Carpenter (1830) Grecian Doric, encoded standalone because Benjamin's own preface names the Doric as the one order where Greek and Roman practice cannot be reconciled by delta. Andalusia -- Thomas Ustick Walter's Doric temple front, this variant's own exemplar -- is the professional high-style pole against which the carpenter-built version is explicitly measured in the style's own exemplar note.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "note": "Bound for the same reason as on the parent style -- no dedicated Greek Ionic pack exists in this corpus, so plain Vignola (9 diameters, inside the style's stated 8.5-9.5 Greek Ionic range) stands in honestly rather than inventing a Grecian citation. Directly supported by this variant's own named exemplar: Rose Hill Mansion's hexastyle Ionic portico, 'builders working directly from Lafever's plates.'",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The wall_section_greek_revival / casing_greek_revival family, run in dimensional pine rather than the plaster or masonry the numbers were worked out against -- consistent with this variant's own governing_logic, which states the order's proportions 'survive but its material logic does not' when executed in built-up staved columns.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the rectangular-transom entrance in its pilastered surround (constraint c02, the frieze/dormer exclusion) -- ranked ahead of sash-light for the same reason as the parent style: the diagnostic weight sits on transom shape and frieze windows, not muntin count.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The window-glazing module, demoted below opening-proportion for the same reason it is on the parent style -- this variant's diagnostic_tells list clipped cornice returns, frieze-band windows and pilaster board widths, never sash pattern.",
+      "precedence": 5
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the temple-front and gable-front composition and the portico's bay-setting intercolumniation (2.25-2.75 diameters). Where columns are absent, the pack's composed-elevation logic still applies to the continuous corner-pilaster-and-entablature assembly the style requires to run unbroken around the building (constraint c01's columnless alternative: total eave assembly at least 18 in on a two-storey house).",
+      "precedence": 6
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Bound chiefly for the ceiling-height figure and the frieze-window habitable-attic case, as on the parent style; ordinary window-height diminution between floors is not this variant's mechanism. The pack does not model the wing-versus-main-block ridge offset this variant's own constraint (c03: wing ridge 3-6 ft below the main ridge, front plane recessed at least 2 ft) requires for the upright-and-wing silhouette -- that hierarchy is a massing/plan relationship, not a storey relationship, and no pack among the 36 covers it. A genuine, acknowledged gap.",
+      "precedence": 7
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Not listed in this pack's own applies_to cross-reference (which names greek-revival-american and greek-revival-southern-plantation but not this variant), and bound here anyway on architectural grounds stated plainly: this variant's interiors are pattern-book carpenter work off Lafever's and Benjamin's plates -- 'heavy symmetrical door architraves and corner blocks' -- not the accumulated, undesigned rooms room-vernacular covers, which is reserved here for greek-revival-upland-vernacular where the plan genuinely predates the style.",
+      "precedence": 8
+    }
   ]
 }

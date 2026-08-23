@@ -246,5 +246,38 @@
     "gambrel",
     "stone",
     "new-netherland"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "Supplies the base module of the whole rural tradition. The style's own governing_logic names it directly: the H-bent frame bay repeated along the ridge at 8-12 ft on centre. Even after the frame retreats into masonry on the Hudson Valley stone houses, the bent-spacing rhythm survives as the room module (18-22 ft), which is why the pack is bound here rather than replaced by a masonry-only system. Bound at the style's own 8-12 ft bay rather than the pack's documented 16-20 ft English box-frame band; no source explains why the Dutch H-bent runs shorter than the English bay, and that gap is worth stating rather than silently reconciling. dutch-colonial-american is named directly in timber-bay's own applies_to.",
+      "precedence": 1
+    },
+    {
+      "pack": "brick-course",
+      "role": "secondary",
+      "authority": "brick-course",
+      "note": "Governs the masonry houses, which are over half the surviving fabric by the style's own account of walls following the geology (Hudson Valley limestone, Hackensack red sandstone). Its corner_quoin and reveal_masonry rules (wall thickness in whole wythes) apply directly to a 20-30 in load-bearing wall, and its front-elevation/flank grading is the same hierarchy the style itself describes: dressed and coursed at the entrance, rubble on the other three sides. Bound secondary rather than primary because the earliest frame-and-plaster settlement work, before the geology was exploited, sits outside its scope, and because rubble stone coursing is looser than the pack's rod-based rigor assumes. dutch-colonial-american is named directly in brick-course's own applies_to.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The hall-and-parlor and single-cell plans are additive and function-constrained rooms exactly as this pack describes, not treatise-proportioned ones — the style's own text records no ratio ambition anywhere in the plan. dutch-colonial-american is named directly in the pack's own applies_to.",
+      "precedence": 3
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Governs the dated glazing sequence the style's own defining_characteristics name outright — casement to nine-over-nine sash — using the same glasshouse-supply arithmetic as any other Anglo-American tradition, since Dutch builders bought glass on the same market. Bound for its light-count and muntin-dating logic only: the measured window openings this family actually built (see the Hudson Valley sibling's own typical_ratios, roughly 1.4-1.7:1) run markedly squarer than sash-light's own 1.85-2.6 measured band or opening-proportion's Palladian 2.17:1, and that divergence is stated rather than absorbed. opening-proportion was considered and rejected for this reason.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "optional",
+      "note": "Governs only the Anglicized late phase the style's own text names directly: 'By 1750 a Bergen County house has a Dutch frame, a Dutch eave, and a Georgian five-bay front with a centre door.' Bound optional and low because most of the period this node covers (1625-1750) is explicitly additive-vernacular with an off-centre door, and the pack's odd-bay/single-entrance-hierarchy invariants only start to hold once English fashion has taken over the elevation while the Dutch section underneath is unchanged.",
+      "precedence": 5
+    }
   ]
 }

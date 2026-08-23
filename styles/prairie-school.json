@@ -222,5 +222,20 @@
     "horizontal-datum-system",
     "magazine-transmitted",
     "chicago"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "This pack's own datum-band mechanism -- 'at least two horizontal lines must run through every mass on the elevation at one level and without a break... normally the water table and the first-floor head line' -- is Prairie's own stated governing logic restated almost word for word: this node's own hard constraint (c03) that every window head must die into one continuous lintel band and every sill into one continuous sill band, returning unbroken around every corner, is this pack's datum rule with a fourth band (the fascia) added on top. Given role 'primary' because Prairie genuinely has a module in this sense, even though it has none in the classical sense: the horizontal band, not a mass, is what everything is sized against. The dominant-mass and lever-arm rules are read here with the chimney -- this node's own 'tallest, heaviest element of the composition,' see c05 -- standing in for the picturesque tradition's dominant gable, an adaptation the pack's own wide, explicitly-judgment-marked tolerance bands accommodate.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "optional",
+      "authority": "trim-craftsman",
+      "note": "Bound optional and low, with a real caveat the node itself supports: this node's own diagnostic tells state that Prairie suppresses structural evidence Craftsman displays, and its distinguished_from entry against craftsman is explicit that Prairie's soffit is clean where Craftsman's shows rafter tails and knee braces -- so this pack's exterior vocabulary (rafter tails, knee braces, exposed structure) does not belong here at all. What plausibly does is the interior catalog-millwork descendant: the 'Prairie box' foursquare that carried the style to most of the country by plan-book (a common massing affinity here) was very often built and trimmed by the same regional lumberyards that supplied Craftsman bungalows next door. It does NOT describe Wright's own architect-designed interiors, whose bespoke geometric oak trim and art-glass-derived ornament are a real gap in this pack set: no pack here owns a first-principles, non-catalog Prairie interior system, and none should be invented for one.",
+      "precedence": 2
+    }
   ]
 }

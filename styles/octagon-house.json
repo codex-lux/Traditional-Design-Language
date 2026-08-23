@@ -200,5 +200,31 @@
     "fowler",
     "failed-type",
     "cautionary"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to, and the one pack in the whole library that shares this style's actual intellectual method: both are closed-form geometric arguments rather than accumulated custom. Fowler's octagon and Palladio's seven room shapes are both derived from a single module by rule rather than measured from what building stock happens to contain, which is exactly the property the node's own text singles out ('the design is closed-form, which is both its appeal and its limitation'). Governs the individual room, with the important caveat the node's own text states plainly: the eight-sided plan delivers its saved area as triangular residues in the corners that neither this pack nor any rectangular room-shape system models.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the storey-based sizing of the one or two openings per face; the node's own bay_rhythm ('one or two openings per face, identically placed on every face') is a stricter, rotationally-repeated version of this pack's ordinary rhythm.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to, though it governs the applied dress rather than the plan: the node's own text is explicit that the octagon 'supplies no ornamental vocabulary of its own' and that nearly every surviving example borrows its cornice, brackets and cupola wholesale from Italianate. Bound for that borrowed elevation treatment, not for the underlying geometry, which is strict-bilateral and eightfold-rotational rather than picturesque in the pack's own sense.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Confirmed in the pack's own applies_to. The earlier and plainer octagons carry Greek Revival millwork directly ('the actual carpentry, trim profiles, and door and window stock of the earlier octagons are straight Greek Revival millwork,' per the node's own lineage record), which this pack covers; the later Italianate-bracketed examples are dressed by whatever trim the borrowed style itself supplies.",
+      "precedence": 4
+    }
   ]
 }

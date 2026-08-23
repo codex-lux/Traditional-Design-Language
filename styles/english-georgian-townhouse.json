@@ -227,5 +227,64 @@
     "party-wall",
     "regulated",
     "speculative-building"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "role": "primary",
+      "authority": "gibbs-ionic",
+      "note": "Bound here, not at the trunk style, for a reason specific to this variant rather than to Gibbs's colonial export: the 'Gibbs surround' -- alternating rusticated blocks around an opening -- is an ENGLISH device, first given currency on Gibbs's own window architraves at St Martin-in-the-Fields (1722-26), and it is exactly the licensed doorcase indulgence this node names as the terrace's one point of individual expression. Where the American template binds Gibbs for the book colonial builders owned, this node binds him for the surround he invented and that London, Dublin and Edinburgh speculators used on their own streets before it ever crossed the Atlantic.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "The plainer doorcase of the fourth-rate and lower third-rate house, where the budget does not run to a fanlight-and-pilasters frontispiece; Doric is graded below Ionic exactly as in the trunk style.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the street WALL rather than the individual house -- this node's own governing_logic states the unit of composition is the terrace, not the house -- so the pack's cornice-line, floor-level and material continuity rules apply across the whole run per the node's hard constraint c05, and a single facade's departure from its neighbours is the failure this pack exists to catch here.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the sash ratio, but INVERTED from the country-house default: this node's own hard constraint c03 sets the first floor, not the ground floor, as the tallest storey and its windows as the tallest on the elevation -- the piano-nobile-like drawing-room floor this node's long description explains at length. Apply the pack's ratio logic to the first-over-ground pair, not ground-over-first.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Carries the same inversion at measured scale: 2:1 to 2.4:1 at the first floor against 1.6:1 to 1.9:1 at ground and second, per this node's own typical_ratios -- the tallest panes are one flight up, not at the door.",
+      "precedence": 5
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "RE-ANCHORED, following the tidewater-georgian precedent for a different divergence: the storey this node graduates UP to before graduating down is the first floor (3.3-3.9 m, the tallest in the section), not the ground floor (3.0-3.4 m) the pack assumes by default. Basement (2.4-2.7 m), ground, first, second (2.7-3.0 m) and garret (2.3-2.6 m) form a five-tier social section rather than the country house's four-tier decorative one, and the peak sits one storey up.",
+      "precedence": 6
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Governs the drawing-room chair rail and cornice on the principal (first) floor at full Georgian richness, diminishing toward the plainer ground-floor dining room and the bare bedroom and garret floors above -- the vertical social section expressed in trim as much as in window height.",
+      "precedence": 7
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Constrained by the narrow lot this node's own plan_depth_ft constraint (c04) tests: front and back rooms lit only from the two short ends, a closet wing into the yard, and a plan depth capped at 12.5 m without a light well -- the Georgian ratio set is still the governing logic, but it is solved for a shape the free-standing country house never has to face.",
+      "precedence": 8
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "The party wall this node's own hard constraint c04 requires -- one and a half bricks (330 mm) minimum, carried up through the roof as a fire break -- and the coursing behind the regulated brick or stucco facade the 1667 and 1774 Acts controlled.",
+      "precedence": 9
+    }
   ]
 }

@@ -243,5 +243,37 @@
     "central-chimney",
     "post-medieval",
     "cold-climate"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "The generative module of the whole type: this is a house framed to a bay, not designed to a proportion, and the plan, the chimney position, the window rhythm and the roof all follow from one 16-20 ft structural dimension (Cummings' survey of Massachusetts Bay frames is the primary evidence for the figure). The central stack alone occupies over half a bay in plan -- this pack's hearth_position rule (module x 0.55) lands at 8'-10', matching this node's own recorded chimney base of '8-12 ft square, roughly one-third of the plan depth' almost exactly -- which is why the frame needs a narrow third bay to hold the stack and why the front door sits hard against it rather than opening onto a passage: there is nowhere else for the door to go. No facade-system pack is bound on this node, deliberately: facade-classical's module is a uniform bay chosen by design, and this node's own bay_rhythm record states plainly that its bays 'are set by post positions, not by division of the facade' and that three- and four-bay fronts are 'equally correct' -- the direct opposite of facade-classical's odd-bay rule. The bay arithmetic bound here, not a facade system, is what actually generates this elevation.",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "Roof pitch and eave follow the frame rather than a style choice. A common-rafter roof over an 18-20 ft bay at 45-50 degrees gives about a 13 ft rafter -- close to the longest stick that pairs conveniently with a joist cut from the same tree -- which is this node's own 10:12-14:12 constraint (c02) read from the framing side. The eave is flush or nearly so (this pack's default is 6 in or less, 'often nothing'), because a 17th-century rafter foot lands ON the plate rather than past it; the boxed cornice arrives in the 18th century as applied joinery, not as part of the frame, and its appearance is one of the better date markers available on a First Period house. Storey graduation is correspondingly weak: this pack's own height_proportion rule for a box frame is 0.88 and is explicitly marked judgment, against the 0.78-0.92 band storey-graduation records for classically composed work, because a First Period post is a single hewn stick and the carpenter took the length the tree gave rather than proportioning one storey against another.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The dating system for the openings, and the one genuinely diagnostic pack in this binding. This node's own co-occurrence constraint (c04) is this pack's content stated in prose -- leaded casement to c. 1700, then twelve-over-twelve or twelve-over-eight to c. 1750, nine-over-six to c. 1770 -- and sash-light derives that same sequence from the glasshouse's own maximum pane size by decade, with the muntin (heavy, 1 1/8-1 3/8 in before 1760) and the glazing ratio (6-10% of floor area, the luxury-import band) that go with it. A leaded diamond-quarry casement is what this pack predicts before 1700, ahead of the point where its light-count arithmetic even applies.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Bound for one rule and one rule only, and it is the pack's strongest: 'the windows... ought to be all equal in the same order or story' -- a single head datum per storey, without exception. That is exactly this node's own hard constraint (c03), that the second-floor head sits 0-8 in below the plate with no frieze -- a head-datum rule before it is anything else. The pack's canonical 13:6 (2.167:1) window ratio does NOT govern here: this node's own measured openings run nearer 1:1.7 (height over width), outside even sash-light's 1.85-2.6 measured band, because the First Period window is set by the casement and the frame bay rather than by a treatise proportion. Where the two disagree, this node's own recorded ratio and sash-light's period dimensions govern, not this pack's default figure.",
+      "precedence": 4
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The physics that generates the plan. Room breadth is capped by the summer beam's span (14-18 ft here, against this pack's 14 ft default), room area is capped by what one fireplace will warm (250-320 sq ft -- which is why the hall, holding the cooking hearth, is the widest room in the house and the parlor is smaller), and Glassie's square-base-unit reading of the vernacular plan -- additive, generated, not proportioned to a chosen ratio -- is exactly this node's own account of a house 'grown by accretion from the single-cell hall... rather than composed.' room-harmonic, the treatise counterpart, is not bound: there is no evidence any First Period builder proportioned a room to a ratio, and this node's own record confirms it.",
+      "precedence": 5
+    }
   ]
 }

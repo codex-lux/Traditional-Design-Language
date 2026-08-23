@@ -253,5 +253,63 @@
     "brick",
     "academic",
     "establishment-style"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "role": "primary",
+      "authority": "gibbs-ionic",
+      "note": "Explicitly listed in this pack's applies_to, and the node's own description names the source directly: 'a doorcase taken from Gibbs or from a specific Virginia house.' Unlike colonial-revival, this variant's own proportional_system states the order is checked 'against documented Georgian practice, checked against published measured drawings' -- the full computational rigor of the parent georgian-colonial-american node applies here, not the looser catalog reading bound on plain colonial-revival.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "Explicitly listed. The everyday order for secondary doorways and the plainer examples of the variant.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Explicitly listed. Governs the strict five- or seven-bay composition the node's own constraints require, including the odd-bay rule and the ranking of water table, belt course and cornice that the node's own defining_characteristics name individually.",
+      "precedence": 5
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Explicitly listed. The node's own hard constraint c02 (doorcase for a single 3'0\" x 6'8\"-7'0\" leaf, overall width not exceeding 8'0\", pediment apex below the second-floor sill) restates this pack's door_surround and entry_door slots directly.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Explicitly listed. The node's own hard constraint c03 (9/9 or 12/12 on principal elevations, muntins 5/8-7/8 in.) is this pack's light-count and muntin logic verbatim -- this variant is, per its own diagnostic tells, 'where the revival actually tries to match the original's glazing.'",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Explicitly listed. Storey heights 9'6\"-10'6\" first, 9'0\"-9'6\" second per the node's own typical_ratios -- still taller than the eighteenth-century original but closer to it than plain colonial-revival, exactly the graduated relationship this pack records.",
+      "precedence": 6
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Explicitly listed. The interior register the node's own description names directly -- 'panelled, tall, more formal than modern life quite needs.'",
+      "precedence": 7
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "note": "Explicitly listed, and effectively governing rather than truly optional here: the node's own hard constraint c01 requires Flemish or English bond with a moulded water table and belt course, which is this module pack's whole subject. Kept under the 'optional' role label used elsewhere in this branch for the masonry module, but its precedence is high because the bond IS the diagnostic that separates this variant from plain colonial-revival, per the node's own diagnostic tells.",
+      "precedence": 8
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Explicitly listed. The node's own description -- 'the rooms are square, tall and panelled' -- and its academic, measured-drawing-driven design process match this treatise-based room system directly.",
+      "precedence": 9
+    }
   ]
 }

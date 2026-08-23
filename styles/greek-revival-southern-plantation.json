@@ -251,5 +251,56 @@
     "colonnade",
     "climate-driven",
     "slavery"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-doric",
+      "role": "primary",
+      "authority": "benjamin-doric",
+      "note": "Berry Hill's octastyle portico is 'correctly detailed with triglyphs, metopes and guttae' at 7-diameter proportions per this pack, and Oak Alley's 28 stuccoed brick columns are the same order at plantation scale -- both named exemplars of this variant. Standalone Greek Doric per Benjamin's own 1830 preface, encoded outside the Vignola-overlay system for the reason docs/open-questions.md item 11 gives: the Doric is the one order Benjamin says Greek and Roman practice cannot reconcile.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "note": "This is the one Greek Revival node in the batch where the corpus's own applies_to cross-reference names vignola-ionic directly, not just an architectural inference -- Greek Ionic is one of this variant's three named orders (defining_characteristics: 'baseless Doric, Greek Ionic, Tower-of-the-Winds Corinthian'). No dedicated Benjamin/Greek Ionic pack exists in this corpus, so plain Vignola stands in; its 9-diameter column sits inside the style's own stated 8.5-9.5 range.",
+      "precedence": 2
+    },
+    {
+      "pack": "vignola-corinthian",
+      "role": "secondary",
+      "note": "The third named order -- 'Tower-of-the-Winds Corinthian about 10' diameters per the parent style's typical_ratios -- and, like vignola-ionic, this is the one Greek Revival variant whose applies_to cross-reference actually lists it. Bound here rather than at the parent or the Northern variant because this is the only one of the three Greek Revival nodes in this batch where the style's own text names all three Greek orders explicitly rather than defaulting to Doric-with-occasional-Ionic.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The wall_section_greek_revival / casing_greek_revival family, for the 'plainly trimmed... heavy Grecian architraves' interiors behind the colonnade -- the same family as the rest of the Greek Revival cluster, executed here in stuccoed brick, built-up wood or plastered timber per the style's own material list.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the width:height ratio the style states directly (1:2.8 to 1:3.5 for floor-length openings) and the rectangular-transom entrance (constraint c04). It does NOT capture the triple-hung or jib mechanism that lets these openings 'function as doors' onto the gallery (constraint c03) -- no vocabulary in any of the 36 packs expresses sash-as-door operability, which is a genuine gap distinct from the ordinary opening-proportion coverage.",
+      "precedence": 5
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the colossal colonnade's composition and the bay spacing it sets for the wall behind (9-14 ft on centre, per the style's own ratios), continuing at the same spacing around the flanks in peripteral examples like Oak Alley. The pack does not model gallery depth as a shading function of solar geometry (constraint c02's 8 ft minimum, sized to the site's latitude) -- that is a climatic calculation outside any of the 36 packs' scope, carried as prose in the style file's own test.",
+      "precedence": 6
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Genuinely useful here where it is not for the other two Greek Revival nodes: this variant's own ratios (principal floor 12-14 ft, upper floor 11-13 ft) are a real diminishing pair, roughly 0.85-0.93, close to this pack's core 0.85 second-storey rule -- unlike the Northern and parent nodes, where the entablature runs level across an undifferentiated block.",
+      "precedence": 7
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Listed directly in this pack's applies_to cross-reference. Bound for rooms that are 'enormous, plainly trimmed' but still composed to the 11-14 ft ceiling heights and passage proportions the style states as hard constraints, not accumulated vernacular space.",
+      "precedence": 8
+    }
   ]
 }

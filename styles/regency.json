@@ -250,5 +250,57 @@
     "ironwork",
     "resort",
     "picturesque-classical"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Bound as the top-governing pack in place of an order, because this node's own governing_logic says so directly: 'Georgian proportional habits, loosened and lightened, with Greek orders used as motifs rather than as a generative module.' No order pack is bound primary or secondary on this node -- see the chambers-doric entry below for why. What actually generates a Regency elevation is the composition itself: the retained Georgian bay and pier discipline, now loosened to admit a bow or a canted front at the centre of a villa or the end of a terrace, and at the largest scale (Nash's Regent's Park terraces) a whole row composed as one palace-fronted scenographic object.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the diagnostic proportion this node's own hard constraint c02 tests: principal-floor windows extending to within 150 mm of the finished floor, opening onto a balcony or veranda not less than 900 mm deep. A floor-length window with no balcony is, in this node's own words, 'a hazard and a period error' -- the constraint the pack exists to catch here.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Carries the thinnest glazing bars anywhere in this trunk -- 12-18 mm, against Adam's 16-20 and core Georgian's 25-32 -- per this node's own hard constraint c03, sometimes with margin lights and occasionally coloured glass at the edges of the main panes.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Retained but loosened from the trunk style's own figures: ground floor exceeds first by 10-15 percent here against Georgian's 10-20, second floor at 0.65-0.75 of the first against Georgian's 0.7-0.8 -- a shallower diminution consistent with a style that is softening every Georgian rule rather than replacing it.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Governs the family the node's own distinguished_from entry describes as reduced nearly to a diagram: 'a Regency architrave is often a plain flat band with a single incised line' -- Adam thins the Georgian moulding, Regency deletes most of what is left of it, but it is still this family and not a different one; there is no separate Greek-linear trim pack in this corpus.",
+      "precedence": 5
+    },
+    {
+      "pack": "chambers-doric",
+      "role": "optional",
+      "authority": "chambers-doric",
+      "note": "NOT the style's real order, and bound only as the nearest available analogue -- flagged as a genuine gap. This node's own typical_ratios give exactly one order-specific figure, 'Greek Doric column height 6-7 diameters, baseless,' and its diagnostic_tells name 'a Greek Doric porch with baseless, unfluted or partly fluted columns and a plain entablature' as the single most reliable signature next to the iron balcony. That is Stuart and Revett's Grecian Doric after the Antiquities of Athens (1762), which this node's own lineage cites directly -- a different order-family entirely from the five Roman orders Vignola, Chambers, Gibbs and Palladio all overlay in this corpus. None of the 36 available packs encodes a Greek order. Chambers's Roman Doric is bound at low precedence and optional role only as the nearest available Roman-tradition cornice/proportion reference where a Regency design needs one; it should not be read as the porch order itself.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "The ratio system is retained, but this node's own long description states plainly what changes: 'the drawing room and the garden become continuous' through the floor-length window, so the room's proportion is increasingly negotiated against the opening onto the balcony rather than resolved as a closed box the way the Georgian trunk states it.",
+      "precedence": 7
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "The structural module survives entirely hidden: 'almost everything structural is inherited -- the brick carcass... but... the brick is covered in stucco, ruled and lined to imitate ashlar.' The coursing this pack governs is real and still sets the wall's dimensions; it is simply never seen.",
+      "precedence": 8
+    }
   ]
 }

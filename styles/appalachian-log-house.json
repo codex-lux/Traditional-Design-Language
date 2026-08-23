@@ -226,5 +226,14 @@
     "appalachia",
     "material-determined",
     "expansion-grammar"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "log-module",
+      "role": "primary",
+      "authority": "log-module",
+      "note": "The style's single generative fact -- no log wall exceeds 20 ft between notched corners -- is this pack's own module, and the node's own hard constraint (c01) restates it almost verbatim. Every other proportion in the house is a derived_rule of this one pack keyed to the half-dovetail/V-notch southern-mountain data specifically: pen dimension (log length less notch overhang and wall thickness), wall-log count to the plate, notch overhang and depth by type, gable-end chimney width, dogtrot passage width where present, and porch depth. Bound alone, with no facade, opening or trim pack: the node's own proportional_system says plainly that there is no applied proportional system here and that adding one falsifies the type, and log-module's own window_surround_wood rule states outright that 'there is no architrave, no backband and no casing on the outside of a log wall... applying a moulded surround is the commonest single error in log revival work' -- which makes binding opening-proportion or sash-light actively wrong here rather than merely unnecessary.",
+      "precedence": 1
+    }
   ]
 }

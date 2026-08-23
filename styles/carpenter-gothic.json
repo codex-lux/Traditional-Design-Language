@@ -215,5 +215,25 @@
     "catalog",
     "wood-frame",
     "mass-market"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. Governs the composed elevation as a hierarchy of masses even though Carpenter Gothic is usually a builder's symmetrical box rather than a genuinely irregular villa plan: the two-storey gable-front body is the single dominant mass, and the central gable rising through the eave line (the style's own commonest American composition, per its diagnostic tells) is the one subordinate accent the pack's mass hierarchy needs to register. Read this pack's numbers at the plain end of its range - the composition here is a builder's box wearing ornament, not an architect's irregular massing.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Judgment binding: carpenter-gothic itself is not in this pack's own applies_to list, only its parent gothic-revival-american is. Bound anyway because the style's own lineage record states the door and window stock 'comes straight from the Greek Revival carpenter's kit; only the sawn ornament is new,' and the diagnostic tell is explicit - 'pointed sash in the gable but square-headed sash everywhere else: the owner bought one Gothic window.' That everywhere-else sash is an ordinary Greek-Revival-kit double-hung window and this pack's glass-light module governs it correctly. It does not govern the pointed or ogee gable sash itself, which is a real gap in the library (see report).",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding: not in the pack's own applies_to. The style's own description could not be plainer about it - 'the rooms are the ordinary rooms of an ordinary farmhouse,' low-ceilinged and small-windowed by later standards. This is exactly the reconstructed 14 ft joist-span room the pack records, not a treatise-derived harmonic shape; room-harmonic would misdescribe a style whose whole point is that the ornament is bought and the house underneath it is unchanged.",
+      "precedence": 3
+    }
   ]
 }

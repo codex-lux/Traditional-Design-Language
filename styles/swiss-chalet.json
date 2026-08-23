@@ -227,5 +227,25 @@
     "overhang",
     "gallery",
     "ancestor-of-craftsman"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "log-module",
+      "role": "primary",
+      "note": "Explicitly listed in the pack's applies_to and directly documented among the pack's own sources. Blockbau is the identical construction system the pack derives from — wall length bounded by log length (6-9 m), a settlement gap required above every opening, gable-end-only chimneys — and this node's own constraints (c01-c04) restate the same limits in the same units.",
+      "precedence": 1
+    },
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Explicitly listed in the pack's applies_to. The chalet's gable face is a genuinely composed asymmetrical-about-a-datum elevation in the pack's own sense: a dominant gable mass carrying the gallery (Lauben), stepped purlin overhang and inscription band, with a continuous water-table and head datum running through it — the two-datum discipline the pack states as its one firmly evidenced (non-judgment) rule. massing:gallery-house, cross-referenced by the pack's own module note, is one of this node's own canonical massing affinities.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment bind: this node is not individually listed in room-vernacular's applies_to, but its family container nordic-alpine-vernacular is, and the Stube — small, low-ceilinged (under 2.5 m), lit from one banded wall of small ganged windows, warmed by one masonry stove — is squarely the span/hearth/daylight-limited room this pack models. Note that the elaborate bracket, gallery-balustrade and stepped-purlin-end ornament vocabulary this node describes as the building's whole decorative content is not captured by this or any of the 36 packs (see gaps).",
+      "precedence": 3
+    }
   ]
 }

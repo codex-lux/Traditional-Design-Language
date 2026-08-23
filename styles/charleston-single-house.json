@@ -241,5 +241,38 @@
     "urban",
     "piazza",
     "type-not-style"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the one thing every dress the type wears agrees on: tall principal-floor windows with heads carried close to the ceiling to exhaust hot air, and doors sized from the storey rather than from a stock schedule. The node's own hard constraint (c04, 11 ft minimum ceiling with heads within 18 in of it) is this pack's window_head_wood rule (head at ceiling height x 16/19) applied to an unusually tall Lowcountry storey. Bound because the type is genuinely classically detailed at the piazza and the entrance, not merely vernacular wearing borrowed trim: Charleston's direct trade with Britain put real pattern-book proportion into this plan from the 1730s on, which is exactly why the node was reclassified from a Federal variant to a folk-vernacular type rather than dropped from the classical family altogether.",
+      "precedence": 1
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Cited by the pack itself as a worked example: its piano-nobile rule ('ground storey under a piano nobile... English Georgian townhouses, Charleston single houses, raised Creole and raised cottage types') names this massing directly, and its climate conflict entry states outright that 'Charleston Georgian and New England Georgian have the same trim and sections a foot and a half apart' -- the reason to set ceiling height from climate before style. Governs the ground-floor service storey under the piazza where present and the diminishing floor-to-floor heights (13/11/10-11 ft per the node's own typical_ratios) that make the piazza-side elevation read as three storeys graduating rather than three storeys stacked.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The single house wears three different sash across its 170-year building span -- 12/12-to-9/6 Georgian giving way to thin Federal muntins with elliptical fanlights, then Greek Revival 6/6 -- and this pack is what derives the light pattern from the date rather than from taste, exactly as its own notes describe the sequence running everywhere in the Anglo-American world within a couple of decades of the glass technology, independent of style. Bound secondary to opening-proportion because the rectangle (proportion, head datum) is fixed by the type's climate logic first, and the light count is a period-dress question second.",
+      "precedence": 3
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Bound narrowly, for the piazza flank only, where the node's own typical_ratios describe a genuinely classical bay discipline -- five even bays, columns at 8-10 ft centres, the true entrance occupying the second bay -- that this pack's odd-bay and pier-width arithmetic was built to check. NOT bound for the street gable, which is two or three bays with an off-centre or absent entrance and a false door onto the piazza: that composition is climate- and privacy-driven, not classical, and forcing facade-classical's centred-entrance logic onto it would misdescribe the type's most distinctive move.",
+      "precedence": 4
+    },
+    {
+      "pack": "vignola-tuscan",
+      "role": "secondary",
+      "authority": "vignola-tuscan",
+      "note": "The piazza order, held at the base pack rather than committed to a specific historical overlay, because the node's own description gives the type three different period dresses for the same columns -- 'heavier piazza columns (Doric or Tuscan at 7-8 diameters)' under Georgian trim, thinning to 'slender Tuscan or Ionic' under Federal -- and Tuscan is the one constant across both. Binding a Gibbs or Palladio overlay here would assert a specific pattern-book commitment the type's own century and a half of continuous building does not support; the base Vignola proportion is the honest choice until a specific building's date and dress are known. Bound secondary and low precedence: the piazza's climate function (see opening-proportion, storey-graduation) generates the type, and the order dresses it rather than governing it.",
+      "precedence": 5
+    }
   ]
 }

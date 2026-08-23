@@ -225,5 +225,44 @@
     "mass-market",
     "decoupled-ornament",
     "most-numerous"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Folk Victorian is explicitly in this pack's applies_to, but the node's own constraints (c01, c02) narrow what it is licensed to do here: no dominant-mass hierarchy, no wall projection, no texture layering. What carries over is the datum discipline — the two continuous horizontals (water table, head line) that hold a plain gabled box and its porch together as one composition — and the porch-as-counterweight logic, since the porch is 'the entire architecture' of this type. The dominance rule, the wing-strategy rule and the multi-texture rules in this pack are effectively inert on a Folk Victorian body and should not be invoked; only the datum and porch-sizing rules do real work.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "The node states plain surrounds and one or two windows per room on an inherited folk plan — this is the classical opening-proportion pack's territory (single head datum per storey, sill constant) applied modestly, not facade-picturesque's grouped picturesque openings, since the wall between the porch and the eave is explicitly described as unbroken and untextured with regular fenestration.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Explicit in this pack's applies_to. Folk Victorian sash date to 1870-1925 and would run 2/2 or 1/1 by the sash-light pack's own chronology (large panes available after 1870), which is consistent with the type's plain, catalog-glazed windows.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Folk Victorian is listed in both trim-craftsman's and trim-classical's applies_to, and the two are mutually exclusive at this role per the corpus rule. Trim-craftsman is chosen: the node's own substrate is american-farmhouse-vernacular, a plain-framed carpenter's house, and its ornament philosophy — factory-turned parts confined to a few zones, everywhere else left plain — is the same economic logic trim-craftsman is built from (a board is a board; the room does not generate the trim). Trim-classical's room-as-an-order derivation, calibrated to an 11-13 ft parlor with a full pedestal and entablature, has no purchase on an 8-10 ft farmhouse room with no dado. This is a judgment choice between two applies_to-sanctioned options, not a default.",
+      "precedence": 4
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Explicit in this pack's applies_to, and it is the correct system on its own terms: the node states plan, framing, roof pitch, chimney position, and room sizes are 'all inherited unchanged from the folk house,' which is exactly the span-hearth-daylight-constrained room this pack describes, not a treatise-proportioned one.",
+      "precedence": 5
+    },
+    {
+      "pack": "benjamin-doric",
+      "role": "optional",
+      "authority": "benjamin-doric",
+      "note": "JUDGMENT BINDING, though the pack's own applies_to already lists folk-victorian. Bound optional and last because it covers only the minority of Folk Victorian porches whose posts are chamfered rather than turned — a chamfered square post is a simplified, carpenter-built stand-in for a Doric column, and Benjamin's 1816 Companion is the American pattern book that vernacular builders of this generation actually had in hand. It does not cover the majority spindled-and-bracketed porch, which has no order at all and no dedicated pack in this library (see report gaps).",
+      "precedence": 6
+    }
   ]
 }

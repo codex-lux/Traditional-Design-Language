@@ -251,5 +251,19 @@
     "california",
     "railroad",
     "stucco"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Anticipated in the pack's own applies_to list, which already names mission-revival directly. This style's floruit (1893-1920) fully overlaps the Craftsman movement's, the two shared clients, carpenters and mail-order catalogues on the West Coast, and this style's own governing_logic ('no order and no module') rules out any trim family derived from a classical entablature -- which is exactly what distinguishes trim-craftsman from trim-classical in the first place. Bind for interior door and window casing, base and picture-rail logic only. This style's exterior is explicitly 'stucco... unbroken by belt course, quoin, or cornice' (c04), so nothing in this pack's exterior-adjacent members should be read as licensing applied exterior trim of any kind.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Not in the pack's own applies_to list, and bound here on general rather than documented grounds: the daylight-depth rule is stated by the pack itself as physics rather than period custom, and it governs the plain, minimally glazed rooms behind this style's arcaded porch (solid:void 5:1 or greater, 'the wall is meant to dominate') the same way it governs any single-loaded room. Bind narrowly for that rule; the hearth-count and frontage arithmetic do not describe a foursquare hipped stucco cube with an arcaded porch and no chimney-driven plan logic.",
+      "precedence": 2
+    }
   ]
 }

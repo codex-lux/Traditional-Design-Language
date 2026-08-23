@@ -252,5 +252,64 @@
     "brick",
     "sash-window",
     "urban"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "chambers-ionic",
+      "role": "primary",
+      "authority": "chambers-ionic",
+      "note": "Bound at the trunk-style level in preference to Gibbs, deliberately. Gibbs's Book of Architecture (1728) is real and cited in this node's own sources, but its documented reach in this corpus is overwhelmingly through its EXPORT -- it is the book American Georgian owns and derives its own gibbs-ionic/gibbs-doric binding from. Chambers's Treatise on Civil Architecture (1759) is the later, more systematic and more purely metropolitan authority: Chambers was Comptroller of the King's Works and taught proportion at the newly founded Royal Academy from 1768, spanning the same decades (1760s-1800) in which most of England's surviving high-Georgian fabric -- Bedford Square, Charlotte Square -- was actually built. Binding Chambers here keeps the trunk style's own module distinct from its American descendant's, and lets the two English-Georgian variant nodes carry the Gibbs-derived thread of the lineage instead, where the record is more specific.",
+      "precedence": 1
+    },
+    {
+      "pack": "chambers-doric",
+      "role": "secondary",
+      "authority": "chambers-doric",
+      "note": "The everyday order: porches, secondary doorcases, and the plainer end of the 3-5-7 bay range the node's own defining characteristics describe. Graded below Ionic exactly as the American template grades Gibbs's two orders -- rank governs choice of order here as there.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The interior moulding family behind the chair rail, cornice and six-panel door this node names throughout. Its wall-section assembly and nineteen-part division apply directly; bind this family only, not the Federal or Greek Revival sections in the same pack, which belong to later and different styles even where they share a Georgian ancestor.",
+      "precedence": 3
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Dates the glazing bars this node calls out explicitly -- 'thinning progressively from about 32 mm around 1720 to 16 mm by 1800' -- and carries the muntin section and the deep-reveal setback the London Acts required. The measured counterpart to opening-proportion below.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the sash ratio (1.6:1 to 2:1), the vertical alignment of openings between storeys 'without exception', and the 100 mm minimum window setback the 1709 London Building Act imposed and this node's own hard constraint c03 tests directly.",
+      "precedence": 5
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the even Georgian metronome -- identical bay width and spacing, the centre marked only by the door -- and the solid-to-void discipline (wall must dominate glass, ratio not below 1:1) that the node's own hard constraint c04 tests.",
+      "precedence": 6
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Governs the diminishing storey heights this node names as its central diagnostic tell: ground floor exceeding first by 10-20 percent, second floor 0.7-0.8 of the first, attic 0.5-0.6 -- the graduation that 'makes the whole elevation appear to sit down on the pavement rather than float,' and whose absence (equal storey heights) the node calls 'the fastest way to spot a fake.'",
+      "precedence": 7
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "The Flemish-bond wall and the gauged flat brick arch this node names; bound optional at the trunk level because the style also builds in ashlar in the stone counties, and promoted to primary in the brick-specific American descendants.",
+      "precedence": 8
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Governs the resolvable room ratios (1:1, 1:1.25, 1:1.33, 1:1.5, 1:2) and the ceiling heights (3.0-3.6 m) this node's own proportional_system states directly, generated from the plan outward rather than fitted behind the facade.",
+      "precedence": 9
+    }
   ]
 }

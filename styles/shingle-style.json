@@ -250,5 +250,31 @@
     "american-original",
     "living-hall",
     "still-built"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Explicit in this pack's applies_to. The node's own proportional_system says plainly 'there is no module and no bay system... the design is controlled by keeping one material unbroken over an irregular volume,' which is close to a paraphrase of this pack's own self-description of itself as a system of constraints and starting points rather than a computed module. The pack's belt_course datum-count rule (at least two continuous horizontals) is the formal version of the node's own hard constraint (c01) that the shingle field itself must run continuous across every storey line and corner — in Shingle Style the shingle field largely replaces the trim-based datums the pack otherwise describes.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Explicit in this pack's applies_to. Governs the light count and muntin section of the horizontal window bands the node calls for (multi-light upper sash over single-light lower is a documented late-19th-century pattern this pack's diminishing-muntin-width rule tracks); the node's own casing-width ceiling (2-3 in, or omitted) is carried by this pack's window_surround_wood rule at the narrow end of its range.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Explicit in this pack's applies_to, and it is a strong fit: the node's hard constraint (c03) that casing shall not exceed 3 in and shall not project more than 1 in, with no hoods, crowns or pediments, describes trim-craftsman's flat-stock, minimally-profiled family far better than trim-classical's room-as-an-order pedestal-and-entablature system, which this node's suppressed-trim ethos explicitly rejects.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound because the node's own text states there is no module governing the design and the interior priority is spatial flow through the living hall rather than fixed ratios, which rules out room-harmonic's treatise proportions as firmly as the exterior rules out a bay system. The fit is approximate — architect-designed Newport houses were not vernacular cottages — but the physical constraints (joist span, daylight depth) still bound wood-frame construction regardless of who designed it, and no better system exists in this library for a non-treatise-proportioned room.",
+      "precedence": 4
+    }
   ]
 }

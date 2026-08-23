@@ -245,5 +245,50 @@
     "mass-produced-ornament",
     "pattern-book",
     "most-built"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Judgment binding: the pack's own applies_to names the italianate-villa child directly but not this parent style. Bound anyway because the parent's own proportional_system states its symmetry as 'balanced-asymmetrical' and its bay_rhythm as 'a constant bracket rhythm laid over a possibly irregular plan' - this pack's dominant-mass-with-subordinate-accents method, with the bracket line standing in for the accent hierarchy. The style's other child, italianate-townhouse, instead binds facade-classical directly, since the party wall forces the symmetrical half of what this parent's own text says the style 'works... as readily' on either register of.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the glass-light module of the tall narrow round-arched sash that is the style's most consistent diagnostic tell across all three registers (villa, townhouse, farmhouse).",
+      "precedence": 2
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the void before the arched or segmental head and hood are applied to it - door and window sizing taken from the storey - though the round or segmental arch itself, and the frequent paired-window treatment the style's own diagnostic tells single out, are beyond what the pack's default rectangle models and are carried by the style's own constraints instead (c01, c03).",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Confirmed in the pack's own applies_to, and a close numeric match: the style's own typical_ratios give 'first-floor ceiling 11 to 14 ft, diminishing 8 to 15 percent per storey above,' which sits inside this pack's general diminution model without needing the wider allowance the style's academically-diminished Renaissance Revival cousin requires.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Confirmed in the pack's own applies_to, but bound at its plainest register: the style's own lineage record is explicit that although the palazzo cornice and the arcaded window are quoted from italian-renaissance, 'the Renaissance proportional system is not carried over at all.' Read this pack as supplying the general wall-as-pedestal-field-entablature division rather than a specific order's fully worked profile family - the style's real ornament is the sawn bracket, which this pack does not model (see report).",
+      "precedence": 5
+    },
+    {
+      "pack": "vignola-tuscan",
+      "role": "optional",
+      "authority": "vignola-tuscan",
+      "note": "Confirmed in the pack's own applies_to, and the style's own aka list ('Tuscan Villa Style') invites it directly - but bound low and optional rather than as a governing order, because the style's own diagnostic tells are explicit that porch posts are 'cast-iron or wooden... with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis.' Where this pack is used at all it should govern incidental elements at the plain end of the classical apparatus - a quoined corner, a door surround - never the porch, which the style's own text rules out.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding, chosen over room-harmonic for the same reason trim-classical is bound at its plainest register above: the style's own lineage record states the Renaissance proportional system was not carried over, and its own interior description (via the villa child's text) is of loose, generous, additive space - 'the plan is generous and slightly loose' - rather than rooms set out to Palladian ratios.",
+      "precedence": 7
+    }
   ]
 }

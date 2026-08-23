@@ -260,5 +260,51 @@
     "palazzo",
     "terra-cotta",
     "urban"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-corinthian",
+      "role": "primary",
+      "authority": "vignola-corinthian",
+      "note": "Confirmed in the pack's own applies_to, which names italian-renaissance-revival directly alongside beaux-arts-american. Bound plain rather than as a Chambers, Gibbs or Palladio overlay, per the batch guidance's steer toward whichever base reading is genuinely period-correct: the style's own diagnostic tells insist the order, 'where present, is engaged as pilasters within the wall plane' rather than free-standing or porticoed, and pilaster orders on the piano nobile of an American palazzo (Villard Houses, the Boston Public Library) are the register Corinthian or Composite pilasters occupy in the real Roman and Florentine palazzi this style claims as ancestor. Corinthian rather than Composite because the style is explicitly the 'sober alternative' to Beaux-Arts display (see distinguished_from) and Corinthian is the lighter, less imperial of the two rich orders.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-doric",
+      "role": "secondary",
+      "authority": "vignola-doric",
+      "note": "JUDGMENT BINDING: not confirmed in vignola-doric's own applies_to for this specific node, but general and typological rather than fabricated - the stacked-order palazzo convention (sturdy order at the rusticated ground storey, lighter and richer orders rising) is the ordinary Renaissance grammar Serlio and Alberti both describe and every American Beaux-Arts-trained office inherited. The style's own defining_characteristics call for a ground storey 'heavier - rusticated, arcaded, or both' under a lighter principal storey above; Doric is the order the rest of this corpus consistently assigns to the heaviest, plainest register (see the Georgian template's own doric-for-the-everyday-order note), which is the honest general reasoning this pairing rests on.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. Governs bay count and solid-to-void, though the style's own hard constraint that storey heights must diminish (c01, second not more than 90 percent of the first) is stricter than facade-classical's own default graduation and is better read through storey-graduation below.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Covers the rectangular openings of the upper storeys directly; the round-arched ground-storey openings and arcaded loggia the style's defining_characteristics call for are a further elaboration this pack does not itself model and are covered qualitatively by the style's own constraint c04 (true arches, minimum 6 in reveal).",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "JUDGMENT BINDING: this specific id is absent from trim-classical's own applies_to list, though the sibling id renaissance-revival-american is present there - almost certainly a curation gap rather than a deliberate exclusion, since nothing about this style's interiors (stacked orders, string courses, a wall read as a classical order) argues against the family and everything argues for it over trim-craftsman, which is not in contention here at all.",
+      "precedence": 5
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "JUDGMENT BINDING: this specific id is likewise absent from storey-graduation's own applies_to list (again, renaissance-revival-american is present but not this id), yet the style's own proportional_system states the diminution almost as a paraphrase of the pack's own derived rules - 'Storey heights descending roughly 1.0 : 0.85 : 0.7 from ground to third' against the pack's 0.85-then-0.80 compounding, which resolves to 0.85 : 0.68. The two are close enough that this is a documented near-match, not a fabricated one, and the small numeric gap (0.7 stated vs 0.68 derived) is worth carrying forward rather than silently reconciling.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to.",
+      "precedence": 7
+    }
   ]
 }

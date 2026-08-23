@@ -247,5 +247,25 @@
     "wood-frame",
     "pattern-book",
     "downing"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. This is the style whose own governing_logic states plainly that it is 'not proportional' but governed by silhouette hierarchy - a dominant gable, subordinate gables of unequal width, a chimney group completing the outline - which is exactly this pack's dominant-mass-and-subordinate-accents method, read at the picturesque end of its range rather than the near-symmetrical end that governs its Italianate sibling.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the glass-light module and muntin section of the style's ordinary sash - the square-headed openings that make up the majority of any elevation, per the style's own constraint that pointed and lancet heads shall not exceed 30 percent of the openings on any elevation (c04). It does not reach the pointed, lancet or diamond-lattice-casement openings that carry the style's real identity, which fall outside every pack in this library - see report.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding: not in the pack's own applies_to. The style spans a carpenter's cottage and an architect's villa, but its own interior description reads as ordinary and constrained rather than harmonically proportioned in either register - 'the rooms are low, small-windowed by later standards, and dim.' Bound at the parent because both children (carpenter-gothic and rural-gothic-villa) independently resolve to the same pack rather than to room-harmonic; see their own notes for the reasoning specific to each.",
+      "precedence": 3
+    }
   ]
 }

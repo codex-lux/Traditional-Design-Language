@@ -239,5 +239,20 @@
     "truss",
     "slab-on-grade",
     "production-housing"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "JUDGMENT BINDING: ranch-style is not in this pack's own applies_to list, but the node's own governing_logic states the elevation's only real discipline in language that restates this pack's central rules almost exactly -- 'no vertical hierarchy survives at all... where a ranch elevation looks well proportioned it is because someone controlled three things by eye: the ridge line, the head datum, and the position of the garage' is this pack's dominance-and-datum logic, with the attached garage standing in as the subordinate mass the composition must rank against the main linear block and the picture window standing in as the pack's one-feature-per-elevation rule. The node's stated eave (18-36 in) also sits close to this pack's own default eave projection (about 21 in, twice the head-datum band's projection) rather than to any classical cornice figure. Bound at moderate confidence given the applies_to gap -- offered as the best-fitting available description of a discipline the node names but the pack library does not otherwise capture, not as a documented source for this specific style.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "optional",
+      "authority": "trim-craftsman",
+      "note": "The node's craftsman lineage (weight 0.25 -- 'the single-storey habit, the low horizontal spread, the indoor-outdoor terrace relationship, and the informality of the plan are bungalow inheritances carried through Californian practice without interruption') is real but modest, and the node's own text never specifies interior trim dimensions. Bound optional and low as the directionally correct family -- flat stock, no order-derived logic, survives a low plate -- rather than as a documented feature of this node; many built ranches in fact ran no applied interior trim at all, which no pack in this library represents since even this one's floor assumes some casing.",
+      "precedence": 2
+    }
   ]
 }

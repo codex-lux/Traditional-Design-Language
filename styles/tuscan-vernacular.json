@@ -228,5 +228,14 @@
     "mezzadria",
     "high-mass",
     "additive"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "authority": "room-vernacular",
+      "note": "The node's own proportional_system could almost be this pack's abstract restated for Tuscany: 'None imposed. The generator is the clear span of a locally available chestnut or oak beam, which fixes the room width... Growth is by repetition of the cell, not by subdivision of a whole.' That is the exact intersection of span, hearth and daylight room-vernacular is built from, and tuscan-vernacular is named directly in its applies_to. No other pack in the library applies: massing_affinities explicitly marks massed-picturesque 'forbidden' ('the irregularity is a byproduct of accretion, never a composition'), the lineage note states the order system 'is not inherited at all', and the facade has, in the node's own words, 'no composed facade at all' - so no facade or order pack is bound.",
+      "precedence": 1
+    }
   ]
 }

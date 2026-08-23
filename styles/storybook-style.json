@@ -238,5 +238,25 @@
     "film-industry",
     "bounded-deviation",
     "period-revival"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Explicitly listed in this pack's applies_to, and an unusually direct fit: the node's own proportional_system states its governing logic is 'systematic bounded deviation' from a norm, which is precisely how this pack frames its own ten judgment-marked rules -- constraints stated as hard bands with the exact number left to the designer's eye. The node's own hard constraint c02 (at least three of ridge/eave/wall-plane/window-heads/chimney deliberately irregular) is this pack's dominance-and-datum discipline pushed past its ordinary tolerance on purpose, which the node states outright is the point.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Explicitly listed. The node's own description is direct that the interior carries none of the style's claim -- 'the rooms are ordinary... this is a 1920s speculative house, with a normal plan and normal ceilings, and the enchantment is entirely a surface half an inch thick' -- which is exactly the ordinary Los Angeles bungalow-era catalog trim this pack records, ordered from the same millwork suppliers as any other 1920s spec house of the region.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING: storybook-style is not in this pack's applies_to list. Bound on the strength of the node's own description quoted above -- an ordinary plan and ceiling height behind the theatrical surface -- which is squarely this pack's 'what rooms actually measure' domain rather than room-harmonic's designed Palladian one. Bound at low precedence and deliberately thin: the node's own text is explicit that the room is not where this style's claim is made, and no proportional system should be dressed up as governing what the node itself calls ordinary.",
+      "precedence": 3
+    }
   ]
 }

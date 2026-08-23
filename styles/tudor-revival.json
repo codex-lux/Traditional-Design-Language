@@ -258,5 +258,25 @@
     "suburban",
     "masonry-veneer",
     "anglophile"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Explicitly listed in this pack's applies_to. The node's own proportional_system states directly that there is 'no classical module' and that the roof geometry and the gable triangle govern -- exactly this pack's domain of a dominant mass, subordinate masses ranked against it, and datums that hold an asymmetrical front together. The node's own bay_rhythm ('additive rather than rhythmic... any facade that produces an even, repeating bay spacing has left the style') is this pack's window-grouping-by-count rule stated in the node's own words.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Explicitly listed. Governs the interior register the node's own description names -- a 'beamed or trussed ceiling,' exposed structure treated honestly -- which is this pack's carpentry-derived, exposed-joinery family rather than the orders-derived classical one; the two packs are the deliberate contrast the trim-craftsman pack states of itself. The exterior half-timbering itself is fully governed by the node's own hard constraints (c01, c02) and is not restated here.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING: tudor-revival is not in this pack's applies_to list, but two of its strongest lineage references are -- english-medieval-timber-frame (weight 0.9, 'the half-timbered wall is quoted from genuine box-frame construction') and cotswold-vernacular (weight 0.6) -- and the node's own description of compression-and-release planning inherited from British Arts and Crafts practice (Shaw, Voysey, Lutyens, Baillie Scott) matches this pack's constrained, daylight-and-hearth-limited room far better than room-harmonic's Palladian one, which no source cited on this node ever invokes.",
+      "precedence": 3
+    }
   ]
 }

@@ -251,5 +251,70 @@
     "adamesque",
     "attenuated",
     "pattern-book"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-ionic",
+      "role": "primary",
+      "authority": "benjamin-ionic",
+      "note": "The order that supplies the module for the attenuated Federal apparatus. Benjamin over Gibbs or Chambers directly because Benjamin's American Builder's Companion, 3rd ed. (Boston, 1816) is the documented Federal-era successor to Gibbs's role in the Georgian generation -- the pattern book that actually retooled New England and Chesapeake housewrights after 1797 -- and because the fit is exact rather than approximate: this pack's column stands 20 semidiameter-modules tall, i.e. 10 diameters, which lands squarely inside the style's own stated range of '9-11 diameters (Adam-attenuated Ionic and Corinthian)'. Gibbs's Ionic, correct for Georgian at 7-8 diameters, would rebuild a Georgian house with Federal ornament glued on -- exactly the failure mode the style's own distinguished_from clause warns against.",
+      "precedence": 1
+    },
+    {
+      "pack": "benjamin-corinthian",
+      "role": "secondary",
+      "authority": "benjamin-corinthian",
+      "note": "The style's own typical_ratios name Ionic AND Corinthian in one breath as the two Adam-attenuated orders of Federal practice, so both are bound rather than one. This is also the best-sourced of the four Benjamin overlays: alone among his five orders he sets the Corinthian out member by member in the letterpress of the 1816 American Builder's Companion -- 'the entablature is two diameters high; cornice, forty eight minutes; frieze, forty one; architrave, thirty one; capital, seventy; base, thirty minutes; column, including base and capital, eleven diameters' -- figures that sum exactly and are encoded at high confidence rather than apportioned.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Bind the wall_section_federal / casing_federal family specifically, not the Georgian or Greek Revival sections in the same pack. The pack's own comparison states it plainly: Federal's baseboard is 6 1/8 in in three members against Georgian's 6 7/8 in, and its casing is 4 1/2 in in seven members 'with the interest reeded into the face rather than proud of it' -- Federal is not Georgian made smaller, it is Georgian made flatter, with composition ornament standing in for carved wood, which is the entire proportional argument of this style.",
+      "precedence": 3
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The module that dates a Federal building and the fastest fifty-foot tell the style names for itself: 6/6 or 6/9 sash, muntins under 7/8 in (constraint c01, hard), glass up to 12 x 18 in behind them -- twice the glass area a Georgian sash of the same date carried behind muntins twice as wide. Ranked ahead of opening-proportion for the same reason it is in the Georgian kit: where the two disagree on the window ratio, the measured light module wins.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the void itself -- door and window sizing from the storey, head datum discipline per storey -- beneath the elliptical fanlight and sidelight assembly that constraint c03 lays on top as a co-occurrence rule (fanlight requires flanking sidelights and a single-storey entrance treatment; a two-storey portico is forbidden and converts the building to Greek Revival). The fanlight's own elliptical geometry is not expressed by any of the 36 packs and is carried entirely as prose in the style file -- a genuine, acknowledged gap rather than an omission.",
+      "precedence": 5
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs bay count, pier width and the elevation's overall proportion exactly as it does for Georgian, but every dimension it yields must be read through Federal's own hard ceiling: no element may project more than 3 in from the wall plane (6 in at the door surround), and cornice projection is capped at 1/25 of facade height (constraint c02). The pack composes the elevation; the style file overrides its depth.",
+      "precedence": 6
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "A near-verbatim match. The style's own hard constraint (c04) states second floor 0.80-0.90 of the first and third floor 0.60-0.75, which is this pack's compounding rule (0.85 then 0.80, yielding a third storey at 0.68 of the first) almost to the decimal. Federal reads correctly only when this diminution is visible in the windows, per the pack's own 'the window follows the storey' rule -- and the style's third-storey windows being 'noticeably shorter than the second' is listed as a diagnostic tell in its own right.",
+      "precedence": 7
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Bound for the oval, circular and polygonal rooms Bulfinch and the Charleston builders cut into the rectangular Georgian box -- Gore Place's bowed oval projections, the Nathaniel Russell House's oval drawing room. These are still classically proportioned interiors, composed rather than accumulated, which is exactly this pack's domain; it is not bound for anything the plan does not compose (garrets, service rooms).",
+      "precedence": 8
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "Bound optional at the parent level because the style spans both the seaport brick fronts (Beacon Hill, Salem's Chestnut Street, Baltimore) and the far more common rural clapboard house. It is promoted to primary construction on southern-federal, where Flemish-bond brick is the prestige wall, and demoted below timber-bay on new-england-federal, where clear white pine is the more characteristic and more interesting fabric per the style's own description.",
+      "precedence": 9
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "Bound optional and low for the same reason as on georgian-colonial-american: a Federal house is designed from a drawing, not from a frame, so the bay no longer sets the plan. It is promoted above brick-course on new-england-federal, where the frame clapboard house is the majority fabric.",
+      "precedence": 10
+    }
   ]
 }

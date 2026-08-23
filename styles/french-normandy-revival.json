@@ -232,5 +232,25 @@
     "tower",
     "half-timber",
     "interwar"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. The style's own proportional_system names the tower explicitly as 'the compositional pivot: its diameter and height set the scale against which the two wings are judged' - a textbook statement of the picturesque dominant-mass logic, and the tower's conical roof at 18:12-24:12 against a main roof of 12:12-16:12 is close kin to facade-picturesque's own gable_treatment and roof_form derived_rules. No classical order anywhere in the defining characteristics or constraints; unlike chateauesque and beaux-arts-american, this variant's own lineage carries no Beaux-Arts weight (its Ecole descent is inherited only at second hand through the french-eclectic parent) and no order is bound here for that reason.",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "The variant's own hard constraint (c03) requires that half-timbering, where used, 'describe a plausible frame under the parent Tudor rule: continuous verticals from sill to plate, horizontals terminating at posts, braces at 45 degrees or steeper' - a real structural-frame logic, not applied decoration, which is exactly what timber-bay's bay-and-post reconstruction encodes. Genuine gap flagged honestly: timber-bay's own applies_to list does not yet name this node (it names norman-vernacular, german-fachwerk, tudor, elizabethan and jacobean, but not this revival or its parent french-eclectic) - bound anyway because the fit is structurally direct and the omission reads as an oversight in the pack's applies_to curation rather than a deliberate exclusion.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "The lineage record carries real weight here: 'arts-and-crafts-british, descends_from, weight 0.6 - informal planning and the deliberate composition of irregular groups' and a hybridizes_with edge to tudor-revival at weight 0.7, which is itself bound to trim-craftsman in this corpus (see tudor-revival's own applies_to entry on that pack). Chosen over trim-classical because nothing in this variant's defining characteristics, diagnostic tells or constraints calls for a classical order or an entablature-derived interior - the register is rustic timber and stone throughout, at both the Chestnut Hill (restrained) and Berkeley (theatrical) ends the style's own description names.",
+      "precedence": 3
+    }
   ]
 }

@@ -254,5 +254,13 @@
     "tezontle",
     "new-spain",
     "seismic"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING - mexican-colonial is not itself in room-vernacular's applies_to, but its own hard constraint c03 is nearly a restatement of the pack's core logic: 'Room depth must not exceed the viga span, about 6 m clear. Ranges are single-pile and the building grows by adding courts, never by thickening a range' - span-limited breadth and single-pile daylight depth are exactly what room-vernacular encodes, and 6 m (about 19-20 ft) sits at the outer edge of the pack's own 14-18 ft measured band, which is itself dominated by the same climate and material logic. The node's two closest kin are both explicitly in the pack's applies_to: andalusian-courtyard-vernacular, its direct antecedent ('the domestic type... is not a monumental import but the ordinary Andalusian house'), and mexican-hacienda, its direct rural descendant ('same walls, same vigas, same patio, same carpentry, same trades'). The binding is scoped to the ordinary courtyard house and convento range, not to the portada, which the node's own text says is governed by an inherited Plateresque ornamental panel rather than by any order or room system.",
+      "precedence": 1
+    }
   ]
 }

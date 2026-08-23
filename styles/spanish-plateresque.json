@@ -218,5 +218,20 @@
     "renaissance",
     "spain",
     "portada"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-tuscan",
+      "role": "optional",
+      "authority": "vignola-tuscan",
+      "note": "Judgment binding, bound narrowly. spanish-plateresque is not in vignola-tuscan's own applies_to, and this style's own proportional_system is explicit that the portada is retablo, 'not order' -- so this is NOT bound for the ornamental panel, which no order pack in the library should be forced onto. It covers only the patio arcade's column shafts: this style's own typical_ratios give 'patio arcade column slenderness 7-9 diameters,' which brackets Vignola's Tuscan column at 7 diameters closely. It does not cover the capitals, which this style's own text calls 'basket or Corinthianising' inventions rather than correct Tuscan capitals -- shaft proportion only.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Judgment binding, same reasoning and same doubt as the equivalent binding on churrigueresque. Not in room-harmonic's own applies_to, but its parent family 'spanish-classical' is. This style's own text gives slightly more support than churrigueresque's does: the proportional_system states outright that the plain wall's 'openings are placed by the rooms behind them,' i.e. the building genuinely has ordinary rooms following an ordinary logic independent of the portada -- this pack is offered as the best available (not a good) account of what that ordinary logic might be, for a style contemporary with the early Italian Renaissance whose vocabulary it explicitly imports (lineage edge to italian-renaissance, weight 0.4).",
+      "precedence": 2
+    }
   ]
 }

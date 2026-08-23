@@ -226,5 +226,13 @@
     "ornament",
     "retablo",
     "new-spain"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Judgment binding, bound narrowly and with real doubt. churrigueresque is not in room-harmonic's own applies_to, but its parent family 'spanish-classical' is, which is the only signal pointing this way at all. This style's own proportional_system states flatly that 'there is no classical module' and that the estipite is 'a column that has stopped being a column' -- so this pack is NOT bound for the portada, the church interior, or anything the ornamental programme touches. It is offered only as a weak, last-resort covering for the secular institutional rooms (cells, refectory, sacristy antechambers) of the convento, colegio and seminario that carry this style's canonical courtyard-full massing, on the theory that those ordinary rooms were sized by the period's general domestic habit rather than by the ornamental system next door. This is the thinnest binding in the whole batch and should be read as such.",
+      "precedence": 1
+    }
   ]
 }

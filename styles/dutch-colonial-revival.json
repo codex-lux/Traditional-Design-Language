@@ -222,5 +222,57 @@
     "gambrel",
     "catalog-house",
     "suburban"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "role": "primary",
+      "authority": "gibbs-ionic",
+      "note": "JUDGMENT BINDING: dutch-colonial-revival is not in gibbs-ionic's own applies_to list. Bound because the node's own lineage states plainly that it is 'a roof-defined variant. Everything below the eave is standard Colonial Revival,' and colonial-revival itself binds gibbs-ionic as primary for the classical entry vocabulary. The gambrel is the whole distinction; the entrance, where classical, follows the parent style's Gibbs-derived surround.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "JUDGMENT BINDING, inherited from colonial-revival on the same 'kit is the parent style's' basis as the primary order above.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "JUDGMENT BINDING: not in the pack's applies_to list, but the node's own bay_rhythm is explicit -- 'even, three or five bays at 9'0\"-11'0\" on centre, with the entrance centred in the classic case' -- which is this pack's own arithmetic, inherited unchanged from colonial-revival for everything below the eave. Symmetry is recorded as 'near-symmetrical' rather than strict-bilateral, reflecting that the narrow-lot version sets the entrance to one side.",
+      "precedence": 5
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "JUDGMENT BINDING, inherited: the node's own constraint c05 states the shutter rule follows 'the parent style's rule' verbatim, which is this pack's territory (shutter leaf = half the sash width), and the whole opening vocabulary below the eave is stated to be unchanged from colonial-revival.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "JUDGMENT BINDING, inherited for the same reason: sash below the eave is ordinary Colonial Revival double-hung multi-light work, per the node's own defining_characteristics.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "JUDGMENT BINDING, inherited: interior trim is not addressed separately in the node's own text, and 'everything below the eave is standard Colonial Revival' is read here to include the interior finish family as well as the wall.",
+      "precedence": 6
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "JUDGMENT BINDING: dutch-colonial-american, the claimed historical ancestor, IS in this pack's applies_to list directly, and the node's own description states the type's economic logic in framing terms -- 'a gambrel encloses roughly 15 to 20 percent more usable floor area within the same roof volume than a simple gable of comparable ridge height.' The gambrel's own geometry (lower/upper slope, break point, eave kick) is fully specified by the node's own constraints and needs no separate pack; this binding covers only the underlying wall bay.",
+      "precedence": 7
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "JUDGMENT BINDING, inherited: the plan below the roof is 'a standard centre-passage double pile' per the node's own massing_affinities, identical to the colonial-revival plan that binds room-harmonic. Not room-vernacular, despite dutch-colonial-american's presence in that pack's applies_to list, because the node is explicit that the plan is NOT the vernacular original's -- it 'imposes a symmetrical centre-passage plan' the original never had.",
+      "precedence": 8
+    }
   ]
 }

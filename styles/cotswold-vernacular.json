@@ -232,5 +232,19 @@
     "stone-slate",
     "gothic-survival",
     "regional-geology"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "cotswold-vernacular is named directly in room-vernacular's applies_to. governing_logic states plainly that dimensions here come from 'material logic, not applied proportion,' which is exactly what room-vernacular reconstructs from measured Anglo-American and British vernacular fabric rather than from a treatise: room breadth capped by joist span, area by hearth reach, depth by daylight. The daylight-depth cap is especially apt here given the deep-set windows the pack's own text describes ('windows sit in deep reveals and rooms are dim near the walls').",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "cotswold-vernacular is named directly in timber-bay's applies_to, which is worth flagging as slightly counter-intuitive: this is a masonry wall tradition (500-700 mm coursed limestone rubble), not a framed one, so the bay module does not set the wall the way it does at english-medieval-timber-frame. It is bound anyway, low and optional, because the roof and floor carpentry inside a Cotswold house — common rafters, floor joists — is still cut and spaced by the same oak-bay logic as its timber-framed neighbours, and the pack's own applies_to already reflects that. Wall material and coursing are governed by the style's own text, not by this pack.",
+      "precedence": 2
+    }
   ]
 }

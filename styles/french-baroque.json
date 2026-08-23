@@ -227,5 +227,39 @@
     "mansard",
     "axial",
     "grand-manner"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-corinthian",
+      "role": "primary",
+      "authority": "vignola-corinthian",
+      "note": "Judgment binding: french-baroque is not in vignola-corinthian's own applies_to. Bound as primary anyway because the style's own named manifesto exemplar is explicit about the order -- the Louvre east front is 'coupled Corinthian columns on a rusticated base... the manifesto of the flat French wall,' Perrault's own Ordonnance built to correct Vitruvius rather than to follow Vignola, but Corinthian is the order in both.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-composite",
+      "role": "secondary",
+      "authority": "vignola-composite",
+      "note": "Confirmed in the pack's own applies_to. The richest of the five, for the giant-order register the style's own proportional_system describes spanning the two principal storeys at Versailles and Vaux-le-Vicomte.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to. Governs the individual room; the enfilade's alignment discipline (c04) is the thing this pack does not reach, since it governs a single room's shape and height, not a sequence of rooms agreeing on axis.",
+      "precedence": 3
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Judgment binding: not in facade-classical's own applies_to. Bound narrowly for the 'plain recessed curtain bays of uniform spacing' this style's own bay_rhythm names between the projecting pavilions -- not for the pavilion projection itself, which is a stepped-mass composition (c01, c02) that no pack in this library models; the order packs and this style's own constraints carry that part.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Judgment binding: not in this pack's own applies_to. Bound narrowly for the enfilade door -- this style's own typical_ratios give doors '0.9 to 1.2 m wide,' which brackets Palladio's own 3 ft (0.91 m) default almost exactly. Does NOT cover the style's tall floor-length French window (fenetre a la francaise, sill line suppressed on the piano nobile), which is a genuine local departure this pack's sill-datum assumptions do not model -- flagged rather than forced.",
+      "precedence": 5
+    }
   ]
 }

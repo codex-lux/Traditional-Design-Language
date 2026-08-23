@@ -216,5 +216,54 @@
     "orders",
     "antique",
     "concrete"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-tuscan",
+      "role": "primary",
+      "authority": "vignola-tuscan",
+      "note": "Judgment binding: roman-classical is the antique source, so no pack's own applies_to names it -- the applies_to lists on all five order packs enumerate revival and descendant styles only. Bound anyway because Tuscan is named in this style's own defining_characteristics as one of 'the Roman inventions of Tuscan and Composite,' and it is the ground-storey order of the style's own paradigm case, the Colosseum, whose four-storey superimposition (Tuscan, Ionic, Corinthian, Corinthian-pilaster attic) is exactly the ascending sequence c02 makes a hard constraint.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-doric",
+      "role": "secondary",
+      "authority": "vignola-doric",
+      "note": "Judgment binding, same reasoning as vignola-tuscan above. Bound because Roman Doric is explicitly distinguished from Greek in this style's own diagnostic_tells -- 'Roman Doric and Tuscan columns have bases; Greek Doric never does' -- so a based Doric is correct HERE in a way it is not for greek-classical. An alternative or intermediate base-storey register alongside Tuscan.",
+      "precedence": 2
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "authority": "vignola-ionic",
+      "note": "Judgment binding. The middle register of the Colosseum's superimposed triad, and of Vitruvian intercolumniation practice generally (pycnostyle through araeostyle), which this style's own proportional_system states directly.",
+      "precedence": 3
+    },
+    {
+      "pack": "vignola-corinthian",
+      "role": "secondary",
+      "authority": "vignola-corinthian",
+      "note": "Judgment binding. Both of this style's own named exemplars are Corinthian: the Pantheon's porch and the Maison Carree, 'Corinthian hexastyle pseudoperipteral.' The upper, richest register of the superimposition sequence c02 requires.",
+      "precedence": 4
+    },
+    {
+      "pack": "vignola-composite",
+      "role": "optional",
+      "authority": "vignola-composite",
+      "note": "Judgment binding. Composite is the second Roman invention this style's defining_characteristics names outright, and vignola-composite's own authority note cites the Arch of Titus as its ancient case -- a genuinely Roman monument, not a Renaissance intermediary. Bound optional rather than secondary because Roman practice uses it selectively (triumphal arches, attic storeys) rather than as a standing register the way Corinthian or Ionic are used.",
+      "precedence": 5
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Judgment binding: roman-classical is not in this pack's applies_to, but the pack's own authority cites 'Vitruvius, De architectura Book IV ch. VI, for the Doric and Ionic doorway' directly -- a strand of genuinely Roman source material inside an otherwise Palladian pack, and the pack's own note records that Vitruvius's door ratio (2.18:1) and Palladio's (2.17:1) are checked against each other as an invariant. Governs the domus doorway and the Roman temple's single cella door; does not reach the deliberately different frontality of the podium-mounted temple facade itself.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Judgment binding, bound with real caveats. room-harmonic's own authority note credits Wittkower's demonstration that the seven room ratios recover 'the Greek theory of proportion' as transmitted through Vitruvius -- so the system's own intellectual lineage runs back through this style, even though the pack itself was written by Palladio in 1570. It covers the atrium-and-peristyle domus and the insula at best, at the scale of an ordinary room; it does not reach, and makes no claim to reach, the engineered interiors that are this style's real invention -- the Pantheon's sphere-in-a-cylinder or the great vaulted baths, which no pack in this library models.",
+      "precedence": 7
+    }
   ]
 }

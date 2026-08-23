@@ -220,5 +220,34 @@
     "curved-wall",
     "counter-reformation",
     "urbanism"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-composite",
+      "role": "primary",
+      "authority": "vignola-composite",
+      "note": "Judgment binding: italian-baroque is not in vignola-composite's own applies_to. Bound anyway because this style's own proportional_system states the order 'is retained exactly as Vignola codified it' while only the wall around it deforms -- module fixed, surface dynamic. Composite is the richest of the five and the natural register for the giant order at San Carlo alle Quattro Fontane and Sant'Andrea al Quirinale, matching the brief's own steer toward a richer, more ornamented order for this style.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-tuscan",
+      "role": "secondary",
+      "authority": "vignola-tuscan",
+      "note": "Judgment binding. Named directly: the Piazza San Pietro colonnade is 'two quadrant colonnades of four ranks of Tuscan columns' in this style's own exemplar note. Bernini's Doric-plain register for shaping urban void rather than enclosing a room.",
+      "precedence": 2
+    },
+    {
+      "pack": "vignola-corinthian",
+      "role": "optional",
+      "authority": "vignola-corinthian",
+      "note": "Judgment binding. An alternate giant-order register, less ornate than Composite, for the church and palazzo fronts where the sculptural intensity is carried by broken pediments and multi-plane column projection (c02) rather than by the capital itself.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to. Wittkower's own study, which is room-harmonic's authority, is substantially a study of Italian High Renaissance and Baroque interiors, so the fit is closer here than the pack's Palladian phrasing suggests -- though it governs the individual room, not the oval, triangle-and-circle plan geometry that generates the whole building, which is outside anything a room-proportion pack in this library models.",
+      "precedence": 4
+    }
   ]
 }

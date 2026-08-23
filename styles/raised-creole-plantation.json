@@ -240,5 +240,19 @@
     "colonnette",
     "no-corridor",
     "flood-adapted"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "storey-graduation",
+      "role": "primary",
+      "note": "raised-creole-plantation is named directly in storey-graduation's own applies_to, and the pack's own 'GROUND STOREY UNDER A PIANO NOBILE' rule names 'raised Creole and raised cottage types' by name as one of its three worked cases — the single most directly-attested binding in this whole batch. The rule's inversion (ground storey markedly lower than the principal floor above it, ratio about 0.72) is exactly this variant's own section: an 8-10 ft masonry service storey under a 12-14 ft principal floor, reached by an exterior stair rather than an internal one.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "raised-creole-plantation is named directly in the pack's own applies_to. Every opening is a French door, 'all the way round' per the style's own diagnostic tells, at full ceiling height less 12-18 in on a 12-14 ft ceiling — again within the wide-leaf band where the pack's 2:1 canonical ratio applies without adjustment, unlike a narrow Anglo-American door.",
+      "precedence": 2
+    }
   ]
 }

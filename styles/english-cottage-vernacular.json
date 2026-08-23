@@ -249,5 +249,19 @@
     "cob",
     "mass-wall",
     "additive-plan"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "english-cottage-vernacular is named directly in room-vernacular's applies_to, and the fit is close to definitive: governing_logic states 'None applied. Dimensions come from material limits,' which is precisely room-vernacular's reconstruction method, and the style's own low ceiling figures (2.0-2.2 m) and small, irregular openings track the pack's daylight-limited room closely. This is one of the source vernacular traditions the pack itself was reconstructed from.",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "english-cottage-vernacular is named directly in timber-bay's applies_to. Bound higher than the equivalent binding on cotswold-vernacular because this tradition genuinely is a timber-frame wall system in most of its range ('timber frame with daub panels everywhere there was oak'), not a masonry one — the bay module sets both the frame and, through the room-vernacular deduction, the room it encloses. Where the wall is cob, clay lump or flint rather than frame, this pack governs only the roof carpentry, as at cotswold-vernacular.",
+      "precedence": 2
+    }
   ]
 }

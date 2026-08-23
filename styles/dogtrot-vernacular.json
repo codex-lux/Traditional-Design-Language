@@ -214,5 +214,14 @@
     "climate-machine",
     "breezeway",
     "upland-south"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "log-module",
+      "role": "primary",
+      "authority": "log-module",
+      "note": "The type IS a derived_rule of this pack, almost too neatly to need restating: log-module's circulation_parti rule computes a ten-foot passage bounded above by the plate log -- 'a passage wider than the module cannot be roofed continuously without a splice, so it does not happen' -- which is exactly this node's own hard constraint (c02, passage never as wide as the pen it separates) and its own governing_logic ('the passage is dimensioned by airflow and by the width a single roof structure can span between two pens'). Pen dimension, per-pen gable-end chimney, notch geometry and roof pitch all inherit unchanged from the single-pen tradition per the node's own lineage note, so no second pack is needed for them. Bound alone for the same reason as appalachian-log-house: the type has no applied proportional system. Its later frame-built examples -- the node notes dogtrots 'were built in frame well into the twentieth century' -- still carry log-module's dimensions, because, per the pack's own closing note, 'the module survives even where the log does not': the plan outlived the material by two or three generations, so log-module remains the right pack to bind even on a frame dogtrot.",
+      "precedence": 1
+    }
   ]
 }

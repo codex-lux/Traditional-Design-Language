@@ -233,5 +233,45 @@
     "giant-order",
     "rustication",
     "mass-and-shadow"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-corinthian",
+      "role": "primary",
+      "authority": "vignola-corinthian",
+      "note": "The giant order at its most consequential: Blenheim's own exemplar note here records a 'giant Corinthian order' on the nation's war-trophy house. Vignola rather than any of the overlay authorities, because none of the three -- Chambers 1759, Gibbs's own 1728/1732, Palladio via Ware 1738 -- existed, or existed in England, when Wren, Hawksmoor and Vanbrugh were working (floruit 1690-1730); the standing English order-book of their generation was Vignola's Regola of 1562, known in translation since the mid-seventeenth century and the source none of the three architects, none of whom had been to Italy, had any reason to depart from when reaching for a module. This is also the node's own stated logic: 'the classical orders... used correctly but freely, which is precisely the licence Palladianism withdrew' -- a free stretching of Vignola's rule, not a rule of its own.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "The everyday order of the type this node calls out explicitly as its domestic legacy: 'the ordinary Restoration and Queen Anne house... a compact double-pile brick box with hipped roof, dormers, modillion cornice'. Bound here for Gibbs's own biography rather than his later export: Gibbs trained in Rome under Carlo Fontana, and his early masterpiece St Mary-le-Strand (1714-17) is genuinely Baroque -- this is Gibbs as a participant in this style's own moment, before A Book of Architecture (1728) turned him into the pattern-book author the American colonies would inherit. The giant order never appears on the ordinary house; this is its separate, smaller-order world.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Governs the interior mouldings of the ordinary house and, with real strain, the double-height hall and dramatised stair the node names as 'the interior climax'. The pack's own calibration is for rooms of 11-13 ft; a Baroque great hall rising two or three storeys through a top-lit void is well outside that range, and its cornice and entablature should be drawn at the room's own height rather than at the pack's default -- the same caution the Georgian template raises for rooms under 9 ft 6 in, mirrored here at the opposite extreme.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the void beneath the style's real subject, which is what surrounds it: deep reveals, exaggerated keystones 'enlarged out of all proportion and often carried up into the string course above', and segmental- or flat-arched heads keyed boldly enough to read as mass rather than as an opening's frame.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the composed elevation, but the bay rhythm it enforces must be read as this node's own hierarchical A-B-B-A-B-B-A -- a dominant centre of three to five bays with subordinate flanking bays and terminal pavilions, bay spacing widening at the centre -- rather than the even Georgian metronome the pack assumes by default. The giant order and the extended forecourt-and-wings composition (Blenheim, Castle Howard) are what the pack's water-table and cornice-projection rules are being asked to organise at an unusually large scale.",
+      "precedence": 5
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Bound for the double-height entrance hall and the dramatised top-lit stair void that the node names as the style's interior climax -- a room proportioned to impress rather than to the resolvable domestic ratios of the Georgian sequence that follows it.",
+      "precedence": 6
+    }
   ]
 }

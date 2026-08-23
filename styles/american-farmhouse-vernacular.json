@@ -273,5 +273,39 @@
     "millwork",
     "substrate",
     "modern-farmhouse-source"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "The type's own hard constraint -- wing and ell ridges must step down monotonically by at least 3 ft, with each volume set back from the plane before it, 'the defining failure of contemporary imitations' -- is this pack's dominance-and-subordination rule stated independently and reached the same way: a subordinate mass must read as subordinate, in height, in setback, or both, or the composition has no argument. Bound too for the datum rule: the water table and head-casing line are the only lines this plain a building has to hold it together across the wing and the ell, and losing them is exactly how a correctly-massed farmhouse still reads as a pile of boxes. Not bound for its order-derived vocabulary (belt-course mouldings, a shaped cornice) -- the farmhouse has none.",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "Governs the single-pile depth -- the type's defining plan trait, carried into the twentieth century after every wealthier neighbour had gone double-pile -- and the wing/ell logic directly: an ell is a shorter, lower frame leaning on the main block's rear plate exactly as the pack's wing_strategy rule describes, and its corollary that a rear addition drawn at the main block's full depth 'is a 20th-century move and it destroys the type' is precisely the diagnostic the node's own distinguished_from entry gives for the 'modern farmhouse' imitation (wing ridges level with the main block). Used here as a planning grid rather than a literal structural bent: most surviving farmhouses are balloon- or platform-framed, not heavy-timber, but the bay discipline the pack argues for surviving the change in technique is exactly what this type's partitions and window centrelines still show.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The farmhouse's small, additive rooms -- 8.5-9.5 ft ceilings, single-pile depth kept well into the twentieth century for two-side daylight and ventilation -- are exactly what this pack reconstructs from measured Anglo-American vernacular fabric, and its room-count rule (hall-and-parlor, double-pen, center-passage and i-house as the small number of ways a room breadth tiles a frontage) explains this node's own massing affinities directly. Preferred over room-harmonic because nothing about this type is proportioned to a treatise ratio; its rooms are constrained by span, hearth reach and daylight exactly as the pack describes.",
+      "precedence": 3
+    },
+    {
+      "pack": "log-module",
+      "role": "optional",
+      "authority": "log-module",
+      "note": "Bound optional, not primary, because log construction is regional and generational rather than universal to the type: in the Upland South, the Midwest and the Plains the farmhouse 'frequently replaces or encases a log pen' per the node's own lineage entry (weight 0.4), inheriting the pen's single-pile rooms and gable-end chimneys directly, while in New England and the Mid-Atlantic the type is frame from the start. Promote to primary on any regional child node that is documented log-under-weatherboard.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "optional",
+      "authority": "trim-craftsman",
+      "note": "Bound optional and only for the type's late tail (c. 1900-1920), where the same rural lumberyards and mail-order catalogs that supplied Craftsman bungalow trim also supplied farmhouse trim packages, and the flat-stock, indifferent-to-opening-size logic genuinely describes a plain 4-5 in farmhouse window casing about as well as it describes a bungalow one. It does NOT describe the type's more central and much longer-lived trim logic -- a Greek Revival entablature thinned to a fascia and pilasters shrunk to corner boards -- which the node's own hard constraint (c02) states as a budget rather than a system. No pack in this set owns that thinning-of-an-order-until-only-the-budget-survives logic; it is a real gap, worth naming for WP-4.6.",
+      "precedence": 5
+    }
   ]
 }

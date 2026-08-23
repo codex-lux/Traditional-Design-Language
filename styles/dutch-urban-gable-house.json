@@ -220,5 +220,20 @@
     "gable",
     "merchant",
     "northern-europe"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "brick-course",
+      "role": "primary",
+      "authority": "brick-course",
+      "note": "Explicitly listed in the pack's applies_to. The canal house is exactly the coursed, exposed-brick, party-wall building the pack governs: anchor plates (muurankers) at every floor line, a party wall carried above the roof plane matching this node's own parapet minimum (dutch-urban-gable-house.c02), and a facade width capped by an unsupported floor-beam span (dutch-urban-gable-house.c01) that mirrors the pack's own wall-thickness/bond logic for what a wythe count can carry.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment bind: this node is not itself listed in room-vernacular's applies_to, but its family container low-countries-vernacular is, and this node's own text describes a genuinely daylight- and span-limited room type — a shallow bright front room, a dark middle lit by nothing, a stair pinned against one party wall — that the pack's depth-and-pile and second-rank borrowed-light room rules describe directly.",
+      "precedence": 2
+    }
   ]
 }

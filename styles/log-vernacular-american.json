@@ -242,5 +242,20 @@
     "log",
     "frontier",
     "material-determined"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "log-module",
+      "role": "primary",
+      "authority": "log-module",
+      "note": "Same relationship as its Appalachian variant, at the parent style's continental scope: pen dimension, notch geometry (V, half-dovetail, full-dovetail, square and saddle, each with its own regional and ethnic distribution), wall thickness after hewing, chinking, roof pitch and the whole combinatorial expansion grammar -- double pen, dogtrot, saddlebag, two-storey, rear ell -- are all derived_rules of this one module, and the node's own hard constraint (c01) restates the pack's 20 ft ceiling directly.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Bound secondary, at low precedence, for the wider massing range this parent style covers beyond the single- and double-pen combinatorics that log-module alone fully specifies: the hall-and-parlor affinity (common here) is a genuinely unequal two-room type whose social logic -- the parlor overtaking the hall in status through the eighteenth century, hence the off-centre door -- is room-vernacular's public_private_gradient rule and has no equivalent in log-module. Also carries the loft/chamber ceiling-height figure (7 ft 6 in) for the documented two-storey log I-houses. Not given a higher role: log-module's own interior-of-the-pen dimension is the more specific and better-attested number for this style's core single-pen and double-pen forms, and where the two packs disagree log-module should win.",
+      "precedence": 2
+    }
   ]
 }

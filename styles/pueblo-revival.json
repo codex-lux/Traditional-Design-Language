@@ -271,5 +271,19 @@
     "invented-tradition",
     "regulated-style",
     "appropriation"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The strongest fit in this whole binding pass. This style's own proportional_system states that 'the practical clear span of a peeled log - 14 to 18 ft - set room sizes', against room-vernacular's own module of a 14 ft joist-span-limited room breadth in an 11-18 ft measured range -- the same physical constraint (a beam's practical span) recovered independently by two different routes. This style's symmetry is recorded as 'additive-vernacular', and room-vernacular's own notes single out Glassie's finding that the vernacular builder 'worked from a square base unit and generated the house by adding, halving and extending it' -- the identical generative logic behind the placita house's single-file room ranges. The direct ancestor new-mexico-adobe is itself listed in the pack's own applies_to. Bind for the module, the daylight-depth rule, and the additive room-count logic; do not carry over the hearth-width rule, since a corner fireplace heats a Pueblo Revival room differently than the cooking-hearth-reach logic that shaped the Anglo-American vernacular record this pack is built from.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Anticipated in the pack's own applies_to list, which already names pueblo-revival directly. This style's c03 forbids essentially all exterior applied trim outright ('no eave, fascia, gutter, downspout, corner bead line, or applied trim may appear on the exterior'), so this binding governs interior door and window casing only, and even there most Pueblo Revival interiors sit close to the pack's own 'plainest work' floor of two members rather than its full three-member assembly. Flat stock and a butted joint are the only trim vocabulary consistent with a style that has no order and, per its own governing_logic, no framing module to derive one from either.",
+      "precedence": 2
+    }
   ]
 }

@@ -248,5 +248,64 @@
     "interior-driven",
     "total-design",
     "low-relief-ornament"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "chambers-ionic",
+      "role": "primary",
+      "authority": "chambers-ionic",
+      "note": "The Georgian/Chambers Ionic is the shell order Adam remodels rather than replaces, and the retained baseline his own numbers are stated against: 'columns attenuated to 10-11 diameters where the canonical Ionic is 9'. This node's own proportional_system quotes that delta directly, but the attenuated order itself -- the actual entasis, capital and entablature of a column drawn a full diameter thinner than any published seventeenth- or eighteenth-century treatise permits -- is not one of this corpus's 36 packs. THE GAP: there is no dedicated Adam overlay. What is bound is the Chambers baseline (chosen over Gibbs because Chambers 1759 is Adam's own exact professional generation and rival -- both taught proportion in London in the 1760s-70s -- where Gibbs 1728-32 belongs to the generation Adam's own preface attacks) and the 10-11 diameter figure is carried as a judgment on top of it, not as an encoded member.",
+      "precedence": 1
+    },
+    {
+      "pack": "chambers-corinthian",
+      "role": "secondary",
+      "authority": "chambers-corinthian",
+      "note": "The order of Adam's grandest rooms -- the type is a rich-order screen or colonnade dividing a shaped space without enclosing it, of which Kedleston's alabaster-columned Marble Hall is the best-documented example in this node's own exemplars. Bound secondary and not primary because Adam's own preface treats Corinthian richness as the exception rather than the default register; most of his screens (Syon's Ante-Room among them) are the lighter Ionic.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the retained Georgian metronome -- equal bays, vertical alignment, plain wall between doorcase and cornice -- to which Adam adds only shallow advance-and-recess modelling (300-600 mm at the centre or ends) without changing bay spacing. This is the 'movement' doctrine applied to a wall that is otherwise disciplined by the same rules as english-georgian.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the sash void and the door; unchanged in ratio from Georgian practice (1.7:1 to 2:1) but crowned, after about 1770, by a radiating spider-web fanlight far finer in section than a mid-Georgian fan -- the exterior signature this node names as its fastest diagnostic tell.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Carries the glazing-bar figure the constraint tests directly: not thicker than 20 mm, against 25-32 mm in early Georgian work -- Adam thinned even the sash before Regency thinned it further to 12-18 mm.",
+      "precedence": 5
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Bound as the base family Adam's plasterers cut down from, not as a literal profile match. The pack's Georgian members run 5-15 mm deep is roughly Vignola-Chambers scale; Adam's constraint caps relief at 20 mm and the style's whole vocabulary -- fans, paterae, husk swags, low-relief drawing rather than modelled shadow -- is a different design language layered on the same wall divisions this pack derives. THE SECOND GAP: no 'trim-adam' pack exists among the 36, so the flattening itself (roughly a third off Palladian-Chambers section) is carried as the node's own stated ratio and not as an encoded profile family.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Supplies the base ratio set (1:1, 1:1.5, and the rest) that Adam's room SEQUENCE varies rather than abandons -- an apsed or oval room is still proportioned by a stated relation of length, breadth and height before it is shaped. THE THIRD GAP: the actual shaping doctrine -- apse, niche, columnar screen, the alternation of rectangular and curved rooms that IS the 'movement' argument -- has no corresponding system among the 36 packs. This entry governs the underlying ratio only; the shaping is unencoded and is this node's most significant real gap.",
+      "precedence": 7
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Retained without material change on the mostly-Georgian exterior: Adam almost never built a new shell where an existing one could be remodelled, so the storey-height diminution this pack governs is inherited fabric more often than new design.",
+      "precedence": 8
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "The retained Georgian brick carcass, where Adam is building new rather than remodelling an existing Jacobean or Elizabethan shell (as at Syon and Osterley, both of which are older cores). Low precedence because Adam's own design attention is almost entirely indoors.",
+      "precedence": 9
+    }
   ]
 }

@@ -242,5 +242,38 @@
     "anchor-beam",
     "spring-eave",
     "steep-gable"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "The bent-spacing rhythm is explicitly what survives the shift from frame to masonry, per the style's own long description: 'What survives from the frame is the room — a bent-spacing rhythm of eighteen to twenty-two feet — and the anchor beams themselves, which continue to be built into stone houses purely as floor framing.' hudson-valley-dutch is named directly in timber-bay's own applies_to. The historic 18-22 ft room sits close enough to the pack's documented 16-20 ft English depth_and_pile band to use its rule directly, even though the framing culture it derives from (English box framing) is not the one that produced this variant's anchor-beam bents.",
+      "precedence": 1
+    },
+    {
+      "pack": "brick-course",
+      "role": "secondary",
+      "authority": "brick-course",
+      "note": "This is the stone-house variant proper — 20-30 in coursed limestone or sandstone, dressed and coursed on the entrance elevation, rubble on the other three — exactly the front/flank grading brick-course's own conflicts section describes for Westover and Carter's Grove. Bound at higher weight than the parent style's own binding because masonry is this variant's near-universal walling, not merely common. Where the openings are not dressed, read the pack's window_head_masonry rules as an upper bound on regularity rather than a description of what was built. hudson-valley-dutch is named directly in the pack's own applies_to.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "hudson-valley-dutch is named directly in the pack's own applies_to. The hall-and-parlor plan with gable hearths and no passage is the pack's own paradigm case of a room sized by span, hearth reach and daylight rather than by ratio.",
+      "precedence": 3
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The style's own text gives the dated sequence directly — leaded casement to c. 1720, nine-over-nine or nine-over-six thereafter — which is exactly sash-light's light-count-from-glass-supply logic, and dates the surviving sash independently of the house. Bound for the light-count and muntin arithmetic only: this variant's own typical_ratios give window openings of roughly 1.4-1.7:1, well under sash-light's 1.85-2.6 measured Anglo-American band, and that divergence should be read as a real difference in vernacular Hudson Valley window shape rather than corrected toward the pack's figure.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "optional",
+      "note": "This variant's own text places Georgian symmetry later and more reluctantly than its Jersey sibling: post-1750 Anglicization is listed only as 'possible' in the massing affinities, and the variant's own proportional_system still calls its bay rhythm 'additive and unequal... until Georgian symmetry arrives after 1750.' Bound optional and at low precedence for that late minority of Anglicized Hudson Valley houses only.",
+      "precedence": 5
+    }
   ]
 }

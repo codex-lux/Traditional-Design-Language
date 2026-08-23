@@ -228,5 +228,31 @@
     "balcony",
     "california",
     "revival-of-a-revival"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "This style's own defining_characteristics list 'double-hung sash with operable shutters, panelled entry door, and trim drawn from Anglo-American rather than Spanish practice' outright, and its lineage records hybridizes_with colonial-revival at weight 0.6 with inherits_kit true. Bound for the door and window rectangle logic on that explicit, in-file textual basis -- this is the one node in the cluster where an Anglo classical-derived opening system is not a stretch but the style's own stated borrowing. Governs the sash and door proportions only; the balcony itself, which is this style's real governing datum, is not modeled by this or any pack in the corpus.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Bound specifically for the shutter rule, which this style's own c04 tests with shutter_leaf_to_sash_ratio = 1.0 -- note that this REVERSES the family's usual half-width-pair convention (0.5, as bound on georgian-colonial-american) and the constraint's own note flags the reversal explicitly: each shutter leaf must cover the full opening on its own, 'because the sash is the only Anglo element carrying the hybrid argument.' That is this style's most specific, most sourced proportional claim, and it maps onto this pack's vocabulary exactly.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "A judgment call, not a documented one. This style hybridizes_with colonial-revival (weight 0.6, inherits_kit true), and trim-classical's own applies_to list already names colonial-revival directly -- so the chain from this style to this pack runs through one inherited-kit lineage edge rather than through a source specific to Monterey Revival's own interiors. Bind at low precedence for the panelled door and shuttered double-hung sash this style borrows wholesale from Colonial Revival millwork; do not extend it to the ground floor, which is stuccoed Spanish mass and takes no wood trim family at all.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The pack's own applies_to list names monterey-colonial directly -- the actual 1830s original this style revives (lineage edge type 'revives', weight 1). Bound for the gallery-house logic: the full-width balcony is 'a gallery raised to the second storey and reduced to one face' (this style's own massing_affinities note), and the upstairs rooms it shades are governed by the same daylight-depth mechanics as any single-loaded gallery room, at the pack's lower 1.8x multiplier because the balcony's own roof lowers the effective head the way a porch does elsewhere in the pack.",
+      "precedence": 4
+    }
   ]
 }

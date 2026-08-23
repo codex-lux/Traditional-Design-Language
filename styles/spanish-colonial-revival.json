@@ -258,5 +258,19 @@
     "exposition-launched",
     "stucco",
     "courtyard"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "This style states its own bay rhythm as 'deliberately irregular... vertical alignment between storeys is neither expected nor desirable' and its own massing_affinities record massed-picturesque as 'common... where volumes step and turn to describe apparent accretion' -- precisely the dominant-mass-plus-subordinate-masses composition facade-picturesque was built to check. Bind the same general invariants as on andalusian-spanish-revival (dominance ratio, lever-arm balance, two continuous datums, window-proportion-count cap, window-grouping-rule) for the same reason, and exclude the pack's datum_stack member heights, which assume a shingled or clapboarded wood-frame wall this style does not have. This style's own entrance-ornament rule (c03: not more than two elevations carry worked ornament, the principal surround the single most elaborate element on the building, with 12 ft of blank wall on each side) IS this style's own dominance rule, stated in its own vocabulary, and should be read as controlling over the bound pack wherever the two might seem to disagree.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Bound for the daylight-depth rule, on the same reasoning as andalusian-spanish-revival: the courtyard-organized plan, with its single-pile ranges opening onto a patio, is exactly the condition the pack's daylight physics describes, and that physics is period-agnostic by the pack's own account. Do not carry over the hearth-reach, joist-span or frontage-driven room-count rules -- none of the three physical constraints those rules recover from Anglo-American vernacular fabric (span, hearth, and the folk-house catalogue built from tiling a frontage with rooms) describes a stucco courtyard house organized around a patio rather than a passage.",
+      "precedence": 2
+    }
   ]
 }

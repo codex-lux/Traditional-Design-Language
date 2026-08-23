@@ -248,5 +248,19 @@
     "gable",
     "whitewash",
     "southern-hemisphere"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Explicitly listed in the pack's applies_to. The voorkamer — one room deep, lit through thick lime-plastered reveals, roofed by a brandsolder fire-floor over exposed beams — is the daylight- and span-limited vernacular room this pack describes, and its single-pile constraint (cape-dutch.c01, depth not exceeding 6.5 m) is the same physical limit — what an undressed rafter will carry — that generates the pack's own depth_and_pile rule.",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "Judgment bind, though this node id is itself listed in the pack's applies_to. Cape Dutch walls are masonry, not a timber frame, so the pack does not govern wall construction here — but its depth_and_pile rule (single-pile depth 192-264 in / 16-22 ft) matches this node's own stated range depth of 5.5-6.5 m (18-21 ft) closely, because both are the same underlying constraint restated: a room cannot be deeper than the span an available roof member will carry without an interior bearing wall. Bound narrowly for that depth-governing logic, not for framing. brick-course was checked and rejected: Cape Dutch walls are lime-plastered and limewashed sun-dried brick or rubble, and the coursing brick-course models (exposed bond, moulded water-table courses, gauged arches) is invisible under a plastered finish and does not apply.",
+      "precedence": 2
+    }
   ]
 }

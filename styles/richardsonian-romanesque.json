@@ -222,5 +222,32 @@
     "beaux-arts-plan",
     "urban",
     "one-man-style"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Explicit in this pack's applies_to, but its governing role is narrower here than on the wooden Victorian styles: the node's own proportional_system says the elevation is 'governed by mass and by the arch,' with hierarchy made by grouped-vs-blank wall (A-BBB-A) rather than by the pack's dominant-mass-vs-subordinate-mass logic in the usual sense. What transfers cleanly is the datum discipline (the pack's continuous-horizontal rule, which matches this node's wall material running unbroken water-table to eave) and the one-feature-window logic. The dominance ratio and wing-strategy rules are a poor fit for a single-block masonry mass and should be read loosely if at all.",
+      "precedence": 1
+    },
+    {
+      "pack": "brick-course",
+      "role": "massing",
+      "authority": "brick-course",
+      "note": "Explicit in this pack's applies_to. Governs the ashlar coursing scale (8-14 in course height per the node vs. the pack's whole-course arithmetic), the water table, and the general discipline that every horizontal is a whole number of courses off one datum — genuinely applicable to load-bearing stone as well as brick, since the pack's coursing logic is generic to coursed masonry. It does NOT cover the style's defining semicircular entrance arch: brick-course's arch rules are segmental and flat-jack-arch derivations, and this node requires full semicircular arches (c02) springing from squat columns, which is a real gap — see report.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound low and secondary because the style's few, deeply recessed, grouped windows (20-35 percent opening area) are still real double-hung sash of the 1872-1905 period and would carry the same late-cylinder/plate-glass light counts as the rest of the corpus's Victorian nodes; but the pack's window-head and casing rules are calibrated to wood-frame construction and are secondary here to brick-course's masonry-specific window_head_masonry rule for the actual opening geometry.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound over room-vernacular because the node explicitly credits 'Beaux-Arts parti discipline' organizing the plan beneath the Romanesque forms, and Richardson is documented as the second American to study at the Ecole des Beaux-Arts — a formally trained, hierarchically composed plan is closer to this pack's rank-and-suite logic (adjacent rooms differing by one term of the series, breadth held constant across a suite) than to room-vernacular's structurally-constrained folk room. No specific source ties Richardson's own room dimensions to Palladio's ratios, and this binding should be read as 'the closest available system for a formally planned room,' not as a documented fact about Richardson's practice.",
+      "precedence": 4
+    }
   ]
 }

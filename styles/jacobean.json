@@ -219,5 +219,26 @@
     "shaped-gable",
     "strapwork",
     "prodigy-house"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "jacobean is named directly in timber-bay's applies_to. As with elizabethan, it governs the roof and floor carpentry and the smaller-house frame even though the great prodigy houses (Hatfield, Blickling, Audley End) are brick with stone dressings.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-tuscan",
+      "role": "optional",
+      "authority": "vignola-tuscan",
+      "note": "A cautious, low-precedence judgment binding, and the one order-pack binding in this entire British-traditions batch. jacobean sits at the genuine cusp: unlike elizabethan and tudor, this style's porch is real Renaissance ornament with real structural presence (c02: projects at least 1.2 m and carries a room above), not a flat applied frontispiece or an inset roundel, and its own text records real (if approximate) column proportions — 'porch column height 6 to 8 diameters.' Vignola's Tuscan, the plainest of the five canonical orders at seven diameters, is the nearest canonical reference point to that range and is the order this pack's own notes call 'the American default... whatever the pattern book calls them.' The binding is deliberately weak: distinguished_from english-baroque states outright that 'Jacobean orders are approximated from engravings, stacked, and applied to a porch' and are NOT proportioned to a module the way a correct order is, and the style's own figure (6-8D) sits at or below Vignola's canonical minimum, confirming the mismatch. Use this pack only as a rough comparative check on porch column scale — never as a governing derivation for the entablature, capital or pedestal, which should be drawn from the style's own approximate, Serlio-and-de-Vries-derived figures instead.",
+      "precedence": 4
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding (not in applies_to). A somewhat better fit than at elizabethan: this style's own text records a shift toward 'a proliferation of smaller private rooms and closets' as the great chamber and gallery stop being the whole of social life, which tracks room-vernacular's ordinary-room band more closely than Elizabethan's state-room scale does. Still scoped away from the hall, gallery and great chamber, which remain governed by this style's own figured ratios.",
+      "precedence": 3
+    }
   ]
 }

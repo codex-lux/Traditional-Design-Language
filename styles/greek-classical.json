@@ -208,5 +208,21 @@
     "trabeated",
     "orders",
     "antique"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-doric",
+      "role": "primary",
+      "authority": "benjamin-doric",
+      "note": "The only order-system in the library that is actually baseless, which matters here because c02 makes a moulded Doric base a hard error and Vignola's Doric (and every overlay built on it) has one. Benjamin's own applies_to list names greek-classical directly, and his 1830 preface states the reason in his own words: the Doric is 'the one order' where Greek and Roman 'differ essentially,' and what is encoded here is drawn from Stuart and Revett's measured Temple of Theseus rather than from Vignola. That said, it is not a scholarly Attic encoding: Benjamin's own recommended Example No. 3 is a nineteenth-century American wood-construction compromise, not the archaeological figures. Column height is 7 diameters including the capital against this style's own stated Doric range of 4 to 6.5 diameters (Parthenon 5.48); entasis begins at the foot rather than at the lower third this style's c04 specifies; the annulets are changed to 'Roman character' because Benjamin judged the Greek ones 'too small and indistinct'; mutules are halved from one-per-metope-and-triglyph to one-per-triglyph-only. It is the closest thing in the library to a baseless Greek Doric, and it is still a Federal-Boston-carpentry object standing in for a fifth-century-BC Athenian one.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "authority": "vignola-ionic",
+      "note": "Judgment binding: greek-classical is not in vignola-ionic's own applies_to. Bound anyway because this style's own proportional_system states Ionic column height as 9 to 9.5 diameters, and Vignola's Ionic (later codified from Roman practice but tracking a genuinely Ionic lineage) sits at almost exactly 9 diameters -- the two figures were not reconciled on purpose, they simply agree. Unlike Doric, a moulded base is not a Greek/Roman fault line for Ionic -- the Erechtheion's own columns are based -- so vignola-ionic's base does not trip a hard constraint the way vignola-doric would. It remains a Roman-transmitted reading (Vignola 1562) rather than a direct encoding of the Erechtheion or the Temple of Apollo Epikourios, and no pack in the library encodes either building specifically.",
+      "precedence": 2
+    }
   ]
 }

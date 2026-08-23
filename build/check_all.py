@@ -22,6 +22,7 @@ CHECKS = [
     ("check_systems.py", []),
     ("check_kits.py", []),
     ("check_constraints.py", []),
+    ("check_pack_bindings.py", ["--strict"]),
     ("check_faults.py", []),
     ("check_rooms.py", []),
     ("proportion_engine.py", ["selftest"]),

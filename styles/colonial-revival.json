@@ -265,5 +265,69 @@
     "suburban",
     "catalog-trim",
     "national-identity"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "role": "primary",
+      "authority": "gibbs-ionic",
+      "note": "Gibbs is the direct source: the node's own lineage records georgian-colonial-american as the claimed ancestor at weight 1.0, and Gibbs's A Book of Architecture is the specific text McKim, Mead, Bigelow and White were sketching from on their 1877 New England tour and that the White Pine Series and Colonial Williamsburg later disciplined into a documented catalog. IMPORTANT CAVEAT the node's own proportional_system states directly: unlike georgian-colonial-american, here 'the order is taken from a millwork catalog rather than derived from a module... proportion is checked by eye against published plates rather than computed.' Bound as primary because it still supplies the vocabulary for the entrance and cornice, but its governing rigor is real only in the post-1915 phase; pre-1915 work applies it freely and at exaggerated scale, per the node's own diagnostic tells.",
+      "precedence": 1
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "The plainer everyday order, for the eave cornice and the many side-hall and foursquare examples that never carry a full Ionic frontispiece. Bound at the same reduced rigor as the primary order above.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the composed elevation: the odd-bay rule the style keeps even where it invents freely, the ranking of horizontals, and the double-square check. The node's own constraint c03 (vertical alignment of storeys) and c04 (cornice returns require a full running cornice) are this pack's territory directly.",
+      "precedence": 5
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "The door and window rectangle, and specifically the single-head-datum rule that the node's own hard constraint c03 restates as 'the fastest disqualifier in the whole style.' The node's c01 (entry surround dimensioned for a 3'0\" x 6'8\"-7'0\" leaf, pilasters not wider than 8 in) is this pack's door_surround and entry_door slots read almost verbatim.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Governs the measured glazing pattern the node's diagnostic tells hinge on: 6/6, 8/8 or 6/1 sash with muntins 7/8 in. or wider, against the 9/9 or 12/12 with 5/8 in. muntins of the genuine original -- that comparison is exactly this pack's business.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "The node's own typical_ratios state storey heights 'roughly a foot more per floor than eighteenth-century practice' (9'0\"-10'0\" first, 8'6\"-9'0\" second) -- a real but looser graduation than the parent style's, which this pack records as a band rather than a fixed ratio.",
+      "precedence": 6
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The interior wall-section family, run in the same profile family as the parent Georgian style but off a machine shaper rather than a hand plane -- the node's own description is explicit that the trim is 'thinner and crisper than any hand-planed original, because it came off a shaper in Grand Rapids.'",
+      "precedence": 7
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "note": "Primary on the masonry examples (the node's own exemplar, the Dr. Glenn R. Frye House, is two-storey stone) and absent on the far more numerous frame-and-clapboard ones, exactly as on georgian-colonial-american. Bound optional for that reason.",
+      "precedence": 8
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "The node's own bay_rhythm states the diagnosis directly: bays run 9'0\"-11'0\" on centre against the 7'0\"-8'0\" of hand-hewn eighteenth-century framing, 'which is why revival facades read as slack where originals read as taut.' Bound low and optional because the style, unlike cape-cod-revival, does not try to reproduce the historical bay -- it is recorded here as the diagnostic of the very slackness the style is built from.",
+      "precedence": 10
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "The node's own description states the plan is 'modern' -- a real entry hall, a stair that turns -- composed by a Beaux-Arts-trained office rather than accumulated, which is exactly the harmonic room-system's domain. Applies to the principal rooms of the high-style and post-1915 examples; the smaller catalog houses are proportioned more loosely, as the style's own 'checked by eye' proportional_system statement concedes.",
+      "precedence": 9
+    }
   ]
 }

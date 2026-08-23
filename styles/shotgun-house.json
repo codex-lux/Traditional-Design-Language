@@ -228,5 +228,19 @@
     "urban",
     "climate-driven",
     "acknowledged-gap"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The closest available match for the shotgun's 11-14 ft enfilade rooms and 10-12 ft stack-ventilation ceilings, offered with an explicit caveat rather than as a clean fit: room-vernacular's module is reconstructed from Anglo-American measured fabric, and this node's own lineage entry flags the shotgun's real plan ancestry -- a documented West African (Yoruba) and Haitian antecedent -- as an 'ACKNOWLEDGED GAP' in this taxonomy with no target node of its own. The physical constraints room-vernacular reconstructs (joist span, daylight depth, a hearth or stove's reach) are constraints of physics rather than of any one building culture, so the numbers plausibly transfer even though the plan-generating logic does not. What does NOT transfer is the room_adjacency_overrides rule's direction: the shotgun's rooms are strung front-to-back along the depth of a one-room-wide lot rather than tiled across a frontage, the reverse of every Anglo type the pack was built from.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "optional",
+      "note": "Bound narrowly, for one thing only: the type's hard constraint that every interior door carries an operable transom (c03) is exactly the ventilation-transom device this pack's window-head notes describe, and its transom_sidelight rule -- that a transom must take the same light module as the windows it is glazed with, 'because they came out of the same box of glass and the same joiner's shop' -- is a free internal-consistency check across the street gable's one or two openings and the interior transom run. Not bound for light-count dating: the type's ornamental era (Italianate and Eastlake catalog millwork, mostly 1880s-1890s) is already carried by the node's own description and constraints, and forcing a divided-light pattern onto what were commonly large 1/1 or 2/2 panes by that date would misdate the building.",
+      "precedence": 2
+    }
   ]
 }

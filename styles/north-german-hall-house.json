@@ -215,5 +215,19 @@
     "thatch",
     "timber-frame",
     "germanic"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "Explicitly listed in the pack's applies_to; the hall house is built in Fachwerk and its own lineage entry states the two share jointing and bay module entirely. The bay (Fach, ~2.5 m) fixing house length by whole-bay addition at the hearth end is the same generative logic the pack describes for growth by adding a bay rather than stretching one. Caveat, as with german-fachwerk: the pack's 16-20 ft default bay is calibrated to Anglo-American framing and is roughly double the hall house's own ~8 ft Fach; treat it as governing the building's growth-by-bay logic, not a literal transplanted dimension.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Applies only to the Flett end of the hall — the heated living space with its built-in beds — where the daylight- and hearth-reach logic this pack encodes is genuinely at work. The Diele (threshing floor) and Kubbungen (byre aisles) are not rooms in this pack's sense and are governed instead by this node's own agricultural-process constraints; the binding is deliberately scoped to the one part of the building the pack actually describes.",
+      "precedence": 2
+    }
   ]
 }

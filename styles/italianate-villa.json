@@ -232,5 +232,44 @@
     "bracketed",
     "freestanding",
     "villa"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. The node's own governing_logic states it directly: 'governed by the tower and the eave... a constant bracket rhythm laid over an irregular plan' - the dominant-mass-with-subordinate-accents method this pack encodes, with the campanile in the reentrant angle as the accent every other mass subordinates to.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the glass-light module of the tall round-arched, frequently paired sash the node's own diagnostic tells single out as giving the style 'a two-light rhythm no other style of the period uses so consistently.'",
+      "precedence": 2
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the storey-based sizing of the void beneath the arched hood; the paired-window treatment and the round or segmental head itself are carried by the node's own constraints (c03, diagnostic tells) rather than by this pack's default single rectangle.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Confirmed in the pack's own applies_to. Governs the vertical hierarchy the tower sets up - '1.0 to 1.5 storeys above the main cornice' per the node's own typical_ratios - and the first-floor-to-upper-floor diminution across the two arms of the L.",
+      "precedence": 4
+    },
+    {
+      "pack": "vignola-tuscan",
+      "role": "optional",
+      "authority": "vignola-tuscan",
+      "note": "Confirmed in the pack's own applies_to, and the node's own aka list carries 'Tuscan Villa' directly. Bound low and optional for the same reason as its parent italianate-american: the veranda posts are described as 'chamfered or turned posts... a pierced valance,' not literal Tuscan columns, so this pack should be read as supplying the plainest register of the classical apparatus for incidental masonry trim (quoins, a door surround) rather than as governing the porch or the tower.",
+      "precedence": 5
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding: not in the pack's own applies_to. The node's own interior description - 'the plan is generous and slightly loose... double doors between the front and back parlours to make one long room for occasions' - is additive and practical rather than harmonically proportioned, and the parent style's lineage record states outright that the Renaissance proportional system was not carried over into any Italianate register.",
+      "precedence": 6
+    }
   ]
 }

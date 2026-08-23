@@ -238,5 +238,19 @@
     "hot-dry",
     "santa-barbara",
     "restraint"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "This style's own governing_logic is explicitly non-classical ('No classical module. Governed by wall mass, opening-to-wall ratio, and the proportion of the courtyard') and its symmetry is recorded as 'balanced-asymmetrical' -- the same species of composition facade-picturesque was built to check. Bind only the pack's general compositional invariants: the dominance rule (one mass must clearly outrank the others), the lever-arm/moment rule for balancing a subordinate wing or gate against the main range, the two-continuous-datum rule, and the window-proportion-count and window-grouping rules (2-3 opening proportions at most, adjacent groups differing in count) -- all of which read as a formal restatement, in a different vocabulary, of this style's own c02 constraint (not more than one elaborated ornamental event per elevation) and its 'irregular and interior-driven' bay rhythm. Do NOT apply the pack's datum_stack assembly -- water table as an exposed 'rubble, boulder, brick or shingled skirt', a clapboard-to-shingle material change at the second-floor sill -- because that stack is calibrated to wood-frame, shingled and clapboarded Anglo-American construction and describes nothing about a continuous lime-washed stucco mass with hand-troweled, deliberately imperfect arrises. The style's own real governing numbers -- reveal depth 8-14in, glazing capped at 18% of sun-exposed wall -- are not modeled by this or any pack in the corpus.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Bound for the daylight-depth rule alone, which the pack itself calls 'physics rather than custom... true in 1650, true now.' This style's defining single-pile ranges 'wrapping the court, lit and ventilated from two sides' are exactly the condition the rule describes (max depth ~2 to 2.25x window head height from one window wall), doubled by having a window wall on each side; the style's own courtyard-width rule (>=1.5x the height of the tallest enclosing range, so winter sun reaches the floor at 34 degrees latitude) is the same kind of physically-derived constraint the pack specializes in, applied to the court instead of the room. Do not carry over the pack's hearth-reach or joist-span derivations, or its room-count-from-frontage arithmetic -- this is a masonry/stucco courtyard house with no chimney-count logic and no timber bay to tile against.",
+      "precedence": 2
+    }
   ]
 }

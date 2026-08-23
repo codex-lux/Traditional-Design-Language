@@ -265,5 +265,51 @@
     "academic-classicism",
     "city-beautiful",
     "colossal-order"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-ionic",
+      "role": "primary",
+      "authority": "benjamin-ionic",
+      "note": "Explicitly listed in this pack's applies_to. Chosen over Gibbs or Chambers because the node's own lineage names greek-revival-american as the style it revives directly (weight 0.9, 'the colossal portico had been dormant in domestic work for forty years... put back, at a larger scale'), and Asher Benjamin's American pattern books are the documented Greek-Revival-era 'handbook derivative' the node's own proportional_system names as an alternative to Vignola direct. Ionic because the node's own description states the domestic portico is 'usually Ionic or Corinthian.'",
+      "precedence": 1
+    },
+    {
+      "pack": "benjamin-corinthian",
+      "role": "secondary",
+      "authority": "benjamin-corinthian",
+      "note": "Explicitly listed. For the grander, more emphatic examples the node's own exemplars show -- Whitehall, Nemours -- where the node's own typical_ratios give the Corinthian shaft at 10 diameters against the Ionic's 9.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Explicitly listed. Governs the symmetrical rectangular block and cornice the node's own defining_characteristics describe as 'continuous... including the rear, which no Greek Revival or Colonial house bothers to do.'",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Explicitly listed. Governs the door, sidelight and Palladian/lunette window the node's own defining_characteristics name; the portico's colossal order and its own entasis, entablature-depth and intercolumniation are the node's own hard constraints (c01, c02, c04) and are not restated by this opening pack, which owns the wall openings rather than the freestanding order.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Explicitly listed. Governs the wall behind the screen, where the node's own description notes 'the wall behind carries five or seven bays at a constant rhythm that ignores the columns' -- the storey graduation of that wall is independent of, and this pack's domain distinct from, the colossal order's own module.",
+      "precedence": 5
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Explicitly listed. The interior register behind the portico -- the node's own description states ceilings are high and rooms conventional, dressed in the same academic classical trim family as the parent Beaux-Arts-American lineage.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Explicitly listed. Matches the academic, Ecole-trained design process the node's own lineage (beaux-arts-american, weight 1.0) describes directly.",
+      "precedence": 7
+    }
   ]
 }

@@ -224,5 +224,19 @@
     "dispersed-farmstead",
     "normandy",
     "maritime"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "Explicitly listed in the pack's applies_to. This node's own single-pile depth constraint (norman-vernacular.c04, clear range depth not exceeding 6 m) sits almost exactly inside the pack's depth_and_pile range (192-264 in / 16-22 ft), because both are the same underlying rule: a single-pile room cannot be deeper than one joist/rafter span. Caveat: the pack's own bay module (16-20 ft, bent-to-bent) is not the close-studded frame's actual visible module — Norman studs stand at 0.5-0.8 m centres, a finer grid the pack does not model (see gaps) — so this is bound for the range-depth and growth-by-addition logic, not for the stud grid itself.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Explicitly listed in the pack's applies_to. The logis is the single-pile, two-face-lit, hearth-limited room this pack describes almost verbatim, and its dispersed-farmstead growth (colombier, pressoir and etables as separate single-purpose buildings around a hedged enclosure) is the same generative logic — 'a household that needs more room builds another building' — the pack states as the mechanism behind the whole Anglo-American folk-house catalogue, extended here to the Norman farm.",
+      "precedence": 2
+    }
   ]
 }

@@ -234,5 +234,51 @@
     "composition",
     "civic",
     "belle-epoque"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-composite",
+      "role": "primary",
+      "authority": "vignola-composite",
+      "note": "Confirmed in the pack's own applies_to. The style's caractere doctrine (c05) names Composite directly for 'theatres, exhibition and ceremonial buildings' with full sculpture -- the giant-order register for the Palais Garnier, Grand Palais and Petit Palais register of this style.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-corinthian",
+      "role": "secondary",
+      "authority": "vignola-corinthian",
+      "note": "Confirmed in the pack's own applies_to. c05 names Corinthian alongside Composite for the same high-caractere programmes; the more restrained of the two richest orders, and the one this style shares directly with beaux-arts-american's own binding.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. Governs bay division and solid-to-void, though this style pushes every one of the pack's own defaults to its permissive edge: c01's hard requirement that base, shaft and attic resolve with distinct terminations goes well beyond what facade-classical assumes for a domestic front, and the order packs and this style's own constraints carry what the system pack understates.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the void before the surround; a Beaux-Arts opening is often a full aedicule or arched Roman opening rather than the pack's default plain rectangle, so treat its derived ratios as the starting rectangle the surround is built onto.",
+      "precedence": 4
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to. Governs the individual room within the Ecole's axial hierarchy of parti and marche, which is itself outside anything a room-proportion pack models.",
+      "precedence": 5
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Judgment binding: beaux-arts-french is not in storey-graduation's own applies_to (beaux-arts-american is, and carries the identical binding). Bound because this style's own proportional_system states the vertical division directly -- base:shaft:attic approximately 1:2:0.5 -- which is the same diminishing-upward logic the pack encodes, only steeper than its domestic default.",
+      "precedence": 6
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Judgment binding: beaux-arts-french is not in trim-classical's own applies_to (beaux-arts-american is). Bound for the same reason the American branch is: the pedestal:field:entablature wall division is the correct proportional grammar even though real Beaux-Arts interiors ran marble, bronze and run-in-place plaster rather than the pack's default painted joinery -- bind the discipline and expect it executed richer than the pack assumes.",
+      "precedence": 7
+    }
   ]
 }

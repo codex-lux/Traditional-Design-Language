@@ -234,5 +234,19 @@
     "pointed-arch",
     "structural-honesty",
     "polychromy"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "This style is named directly in facade-picturesque's own applies_to list, and the fit is more than nominal: c04 (roof pitch not less than 45 degrees, entrance never centred on a symmetrical front) and c05 (no classical apparatus) are the same design logic the pack reconstructs from measured Victorian Gothic and Queen Anne fabric — a dominant mass, at least two unbroken horizontal datums, and a hierarchy made by massing and projection rather than by axis. The pack's own sources (Robinson, Curtis, Downing) postdate this style but describe the composition method Pugin's plan-driven asymmetry actually produced a generation earlier.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding: gothic-revival-british is not in room-vernacular's applies_to, and its rooms — vicarage studies, High Victorian drawing rooms — sit above the anonymous vernacular median in scale. No better fit exists in the library: room-harmonic is a Palladian ratio system, and c05 forbids classical apparatus throughout, so applying a treatise proportioned from the orders would contradict the style's own founding argument against classicism. Bound instead for the pack's most transferable content, the daylight-depth relationship (a room lit from one side reads dark past about 2 to 2.5 times its window-head height), which is physics rather than period style and which Pugin's own principle — nothing admitted that is not necessary to convenience, construction or propriety — is a moral restatement of. Scoped to ordinary chambers and service rooms, not to the double-height hall or stair, which the style's own massing affinities (villa-tower, h-plan-manor) already govern.",
+      "precedence": 2
+    }
   ]
 }

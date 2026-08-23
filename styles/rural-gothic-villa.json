@@ -228,5 +228,19 @@
     "villa",
     "downing",
     "silhouette"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to, and the best-fitting node in the whole branch for it: the style's own governing_logic is silhouette hierarchy - 'the design is fixed in outline first, against a horizon: one dominant gable, subordinate gables at distinct widths, tower or chimney group completing the profile' - which is this pack's dominant-mass method stated almost verbatim. Constraint c01 (dominant gable at least 1.4x the next largest, equal gables forbidden) is this pack's subordination rule with the style's own numbers attached.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding, and the least comfortable one in this batch: this is an architect-designed, real-budget villa, not a farmer's cottage, so room-vernacular's own authority note (measured from ordinary surviving vernacular building) is a stretch. Bound anyway, over room-harmonic, because the style's own text describes the actual room experience in ordinary rather than treatise terms - 'the rooms are low, small-windowed by later standards, and dim... a general sense of being pleasantly and deliberately enclosed' - with no harmonic ratio or musical-mean language anywhere in the node, and the node's own proportional_system states that elevations (and by extension rooms) 'are resolved afterwards, and are permitted to disagree with one another,' the opposite of a Palladian room-shape discipline. Flagged rather than asserted as confident.",
+      "precedence": 2
+    }
   ]
 }

@@ -234,5 +234,19 @@
     "germanic",
     "urban",
     "rural"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "Fachwerk is a genuine box-frame system and this node is listed directly in the pack's applies_to. The pack's depth_and_pile rule (16-22 ft clear, one joist span, no interior bearing wall) matches the hall-single-cell and linear-ell-farmhouse massing this style favors, and its wing_strategy rule (a rear or ell frame narrower and lower than the main one) matches the courtyard-farm growth pattern described here. Caveat: the pack's own module is calibrated to the English/Anglo-American bent-to-bent bay (16-20 ft), an order of magnitude coarser than Fachwerk's own Gefach panel (0.9-1.3 m / 3-4 ft, stated in this node's own proportional_system) — use it for the building's overall framing bay and depth, not for the individual panel grid, which none of the 36 packs cover.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The Stube and chamber rooms of a Fachwerk house are exactly the daylight- and span-limited vernacular room this pack models: small, low, lit from a panel wall that 'wants small openings.' The pack's hearth_position and daylight_strategy rules match this node's own account of a masonry-stove-heated Stube reached off a smoke-free passage.",
+      "precedence": 2
+    }
   ]
 }

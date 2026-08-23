@@ -212,5 +212,26 @@
     "outdoor-room",
     "bungalow-court",
     "california"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Inherited from the parent craftsman style (regional_of, weight 1) with the same datum-band and roof-dominance logic, and especially apt here: this node's own porch_depth figure (8-12 ft clear) sits almost exactly on this pack's own porch_depth rule ('eight feet... close to a hard number rather than a soft one... the band in which a porch is both usable and survivable for the rooms behind'), and the pack's roof_form ratio (dominant roof covers at least half to 0.85 of the elevation) matches this variant's even lower 3:12-5:12 pitch and 30-48 in eaves better than it matches the national type's.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "authority": "trim-craftsman",
+      "note": "Carried from the parent style: the same catalog carpentry logic, built here in redwood and Douglas fir rather than eastern species, which the pack itself does not distinguish by wood type and does not need to.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "optional",
+      "note": "Bound narrowly for one mechanism: this pack's daylight-strategy conflict entry states plainly that 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth' and that the historic answer was to raise the storey to buy the loss back -- which is exactly this variant's own defining move (ceilings 8 ft 6 in to 9 ft 6 in, 'taller than the eastern type, for stack ventilation,' per its own typical_ratios) and exactly why its sleeping porches and courts are genuinely unheated rooms rather than mere ornament. Not bound for room proportion generally: this is an architect- and pattern-book-derived type, not a span/hearth-constrained folk one, and its rooms are sized by the plan-book programme, which the node's own text describes directly.",
+      "precedence": 3
+    }
   ]
 }

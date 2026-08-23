@@ -241,5 +241,20 @@
     "hearth-centred",
     "structural-ornament",
     "magazine-transmitted"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "authority": "trim-craftsman",
+      "note": "The movement's own governing rule -- ornament must be produced by construction, never applied after the fact -- is this pack's whole argument restated from the furniture side: 'there is no pedestal, no column and no entablature... the module is a board... the room does not generate the trim; the lumber yard does.' Bound as the interior counterpart to the node's own hard constraint (c03) forbidding applied classical orders. The pack's own applies_to list names this node directly, and its sources -- Stickley's Craftsman magazine among them -- are the movement's own transmission mechanism, not an analogous system borrowed from elsewhere.",
+      "precedence": 1
+    },
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Governs the 'balanced-asymmetrical' composition the node's own proportional_system describes only qualitatively (two datums and a structural rhythm, 'dimensional rather than ratio-based'): this pack's window_grouping_rule (openings gathered in groups of two to four between structural posts, adjacent groups differing in count) is precisely the node's own diagnostic that windows 'group into ribbons... the group, not the sash, is the compositional unit,' and its continuous-datum rule (water table and head line unbroken through every mass) is what makes the node's stacked base-shingle-stucco material hierarchy -- a defining characteristic -- read as one wall rather than three. Not given the top role: the movement genuinely has no module of its own at this level of generality, which the node's own proportional_system says outright, so no pack here stands in as an order-equivalent 'primary.'",
+      "precedence": 2
+    }
   ]
 }

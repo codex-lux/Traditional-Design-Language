@@ -237,5 +237,20 @@
     "collegiate",
     "prodigy-house",
     "anglophile"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. This is the least asymmetrical node bound to facade-picturesque in the whole corpus - the style's own symmetry field reads 'near-symmetrical' and its bay_rhythm is 'Regular and grid-driven... the opposite of Tudor Revival's deliberate irregularity' - but it is bound here rather than to facade-classical because facade-classical's own applies_to does not extend to it, and because the governing_logic is explicitly not a bay-and-pier classical rhythm: 'Proportion is set by the window bay - a repeating unit of light width plus mullion - which regulates the elevation horizontally, and by the gable parapet profile, which regulates it vertically.' A mullion grid punctuated by parapeted gables is closer kin to facade-picturesque's datum-and-gable-treatment logic than to a pier-and-cornice classical front, even where the plan itself is symmetrical.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-doric",
+      "role": "optional",
+      "authority": "vignola-doric",
+      "note": "JUDGMENT BINDING for the entrance porch only, following the style's own proportional_system directly: 'There is no classical order except at the entrance porch, where one is deliberately introduced as a quotation.' The lineage record supplies the reasoning for which order: the jacobean ancestor edge (weight 1.0) describes 'the heavy classical porch grafted onto a Gothic body', and Doric is the sturdy, plain order this corpus consistently assigns to load-bearing and entrance-porch work elsewhere (see the Georgian template's Doric-for-the-everyday-order note). Not confirmed in vignola-doric's own applies_to for this node - a general typological choice, held at low precedence and marked optional because the style's own text frames it as a single deliberate quotation, not a governing order for the building.",
+      "precedence": 2
+    }
   ]
 }

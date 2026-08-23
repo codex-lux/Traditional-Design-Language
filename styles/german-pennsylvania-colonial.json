@@ -244,5 +244,32 @@
     "jamb-stove",
     "bank-sited",
     "continental"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "brick-course",
+      "role": "primary",
+      "authority": "brick-course",
+      "note": "The canonical construction — squared limestone or sandstone, 18-30 in, with oversized dressed quoins 1.5 to 2.5 times the height of the field coursing — is a direct match to brick-course's own corner_quoin rule that quoins must be laid up in whole-course multiples so long and short faces alternate. german-pennsylvania-colonial is named directly in the pack's own applies_to. Bound primary, not merely optional, because stone is this style's canonical and most-cited walling: Hans Herr House, Schifferstadt and Fort Zeller are all stone exemplars.",
+      "precedence": 1
+    },
+    {
+      "pack": "log-module",
+      "role": "optional",
+      "note": "Governs the log Einraumhaus of first settlement, listed as a 'common' massing affinity (hall-single-cell) and explicit in the style's own lineage as a hybridization with Scandinavian log construction — 'the Germans adopted it, added V- and dovetail-notching and their own three-room plan.' german-pennsylvania-colonial is named directly in log-module's own applies_to. Bound optional and second because the style's canonical, most-documented built form is the stone Flurküchenhaus, not the log cabin, but the log phase is real, dated (first settlement, pre-stone) and should not be dropped.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "german-pennsylvania-colonial is named directly in the pack's own applies_to. The style's own governing_logic is close to a paraphrase of this pack's argument: 'a kitchen bay of 16-20 ft and a stove-room/chamber bay of the same total width' — a plan sized by function (the jamb-stove wall, the hearth) rather than by a treatise ratio.",
+      "precedence": 3
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The style's own constraint c05 restates sash-light's dated light-count logic almost verbatim: 'small casements... to c.1760; nine-over-six sash c.1760-1800; six-over-six after.' Bound for that dating arithmetic only. The style's own typical_ratios give a window opening ratio 'near 1:1.6' — squarer than sash-light's 1.85-2.6 measured Anglo-American band, and consistent with the style's own diagnostic tell that openings are 'placed by interior need rather than by facade composition.' Do not read sash-light's ratio figure onto this style's windows. opening-proportion was considered and rejected for the same reason, more strongly: its Palladian door-and-window derivation assumes a composed elevation, and this style's own diagnostic tell is that 'windows that do not line up floor to floor, in a house otherwise carefully built' show 'the plan... winning the argument with the elevation.'",
+      "precedence": 4
+    }
   ]
 }

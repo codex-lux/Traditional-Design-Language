@@ -226,5 +226,43 @@
     "upland-south",
     "vernacular",
     "trim-only-classicism"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Bind the wall_section_greek_revival / casing_greek_revival family for the 'plain heavy architraves and a mantel of two flat pilasters and a shelf' the style's own description gives its interiors. NO ORDER PACK IS BOUND ON THIS NODE, and that is deliberate rather than an oversight -- see the report. This entry only covers the interior wall trim; the exterior frieze-board and corner-pilaster system that is this style's actual proportional identity (governing_logic: 'classical proportion carried entirely by board width and eave depth, with no orders present') has no dedicated pack anywhere in the 36. That is a genuine, acknowledged gap, not something this binding claims to solve.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the doorway the style calls 'a courthouse-scale doorway on a farmhouse-scale building -- the surest sign of the stratum' and its own diagnostic tell. Constraint c02 (rectangular transom, sidelights optional, entablature at least 12 in deep, no ellipses or arches) is the style's hard rule layered on top of this pack's general door-sizing logic.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The window-glazing module. Bound but genuinely secondary here -- this style's own diagnostic_tells are all about board width and doorway scale, and sash pattern is not named among them at all.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The one Greek Revival node in this batch that gets room-vernacular rather than room-harmonic, and the corpus's own applies_to cross-reference lists it here specifically -- correctly, since the style's own governing_logic states the underlying plan (I-house, double-pen, dogtrot) is unchanged regional practice that predates the Grecian trim moment entirely: '12 feet square with plain heavy architraves,' composed by inherited habit rather than by a pattern-book room-generating ratio.",
+      "precedence": 4
+    },
+    {
+      "pack": "log-module",
+      "role": "optional",
+      "note": "Bound for the frequent and 'routinely missed' log core this style hybridizes with -- an existing log pen weatherboarded and given Grecian trim, per the style's own lineage note and constraint c05 (encased log core, wall 8-12 in thick, furred to a consistent plane). The corpus's own applies_to cross-reference lists this node for log-module directly.",
+      "precedence": 5
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "The frame (non-log) construction mode -- the weatherboarded I-house or double-pen built new in frame rather than encasing an existing log pen. Bound optional and below log-module because the style's own long description treats the log-to-frame sequence as the more distinctive and more often overlooked case.",
+      "precedence": 6
+    }
   ]
 }

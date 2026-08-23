@@ -225,5 +225,25 @@
     "spring-eave",
     "porch-origin",
     "bergen"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "Bound on inheritance from the parent dutch-colonial-american rather than on this variant's own text, which foregrounds the gambrel roof geometry (the break point set so the upper floor gains full headroom without raising the masonry) rather than the framing bay as its stated governing_logic — no pack among the 36 models gambrel break-point geometry or the curvature of a sprung eave, and that gap is reported rather than papered over. The plan module this variant records — 22-30 ft deep, one or two rooms — is consistent with the wider Dutch H-bent bay rhythm, but new-jersey-dutch-gambrel is not itself named in timber-bay's own applies_to (unlike the parent and the Hudson Valley variant), so this binding is an extension of the family's logic rather than a separately attested one.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "new-jersey-dutch-gambrel is named directly in the pack's own applies_to. One or two rooms deep, gable-end chimneys, no passage until Anglicization — the plan is constrained by span, hearth and daylight exactly as the pack describes, not proportioned by ratio.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Unlike its Hudson Valley sibling, this variant's own proportional_system already classifies its symmetry as 'near-symmetrical' rather than 'additive-vernacular,' and states plainly that the door centres 'once symmetry arrives' after c. 1760 on a five-bay front — which covers most of the variant's later floruit (1730-1820). Bound at facade role rather than merely optional for that reason, while still noting the pack's odd-bay/single-entrance model describes only the post-1760 Anglicized form; earlier Bergen sandstone houses (e.g. the Steuben House's 1752 core) are three-bay and not yet composed to this discipline. brick-course was considered and rejected: the style's own diagnostic tells state the stone is 'laid in courses of unequal height,' which contradicts the pack's core premise of a fixed mason's-gauge-rod coursing, unlike the tighter-coursed Hudson Valley sibling.",
+      "precedence": 3
+    }
   ]
 }

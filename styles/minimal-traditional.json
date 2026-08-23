@@ -240,5 +240,32 @@
     "production-housing",
     "case-study",
     "ancestor-of-ranch"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The FHA minimum room dimensions this node's own constraint c05 states as a historical floor (principal bedroom not less than 9 ft 6 in x 11 ft 0 in, secondary not less than 8 ft 0 in x 10 ft 0 in) and its governing_logic's own claim ('nothing is derived from a module of order') land inside this pack's reconstructed vernacular band -- span-, hearth- (obsolete by this date, replaced by forced air) and daylight-limited rooms clustering at a 1.0-1.5 ratio -- rather than anywhere in the treatise literature this pack is deliberately the counterweight to. The FHA principal bedroom's 9 ft 6 in breadth sits below even this pack's own 11 ft floor for a principal room, which is itself the diagnostic: this is the vernacular room logic pushed one further notch toward the economic minimum, continuing exactly the deletion sequence the node's own lineage entry against craftsman describes.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The style's own defining_characteristics name '6/6 or 2/2' sash directly, which is precisely the light pattern this pack's derived rules emit for cheap, large, early-to-mid-20th-century glass, and the node's constraint c03 (shutter leaf not less than 45 percent of sash width, hinged at the jamb, forbidden on ganged/bay/non-rectangular windows) quotes this pack's own shutter rule almost verbatim. Bound ahead of opening-proportion per this pack's own stated precedence over that one where the two disagree.",
+      "precedence": 2
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Retained for the single-head-datum rule, which still organizes what compositional discipline the elevation has ('the appearance of rhythm on the best examples is the result of a two-room-deep plan happening to produce even spacing'). FLAGGED DEVIATION: the node's own typical_ratios give openings 2 ft 8 in-3 ft 0 in wide by 4 ft 2 in-4 ft 10 in tall -- roughly 1.5:1 to 1.8:1 -- markedly squarer than this pack's canonical 13:6 (2.167:1) and below its documented range floor of 1.75:1, a real measured consequence of the 6 ft 8 in head and 8 ft 0 in plate the governing_logic names. No pack in the library currently states this compressed ratio as its own default; worth flagging for WP-4.6.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "optional",
+      "authority": "trim-craftsman",
+      "note": "Bound as the closest available system, not a close fit. The node's own casing -- 2 1/4 in wide, under 3/4 in projection -- is thinner than even this pack's stated economy floor ('below 3 1/2 in the family stops working, because the head casing has nowhere to overhang to'), so what Minimal Traditional actually built is a further reduction beyond what any pack in this library describes as the cheapest classical-adjacent system. Bound optional and low: the flat-stock, order-indifferent logic is directionally correct, but no pack currently states a system thin enough to describe a 2 1/4 in clamshell casing without extrapolating past its own documented range. Worth flagging for WP-4.6.",
+      "precedence": 4
+    }
   ]
 }

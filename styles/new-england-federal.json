@@ -236,5 +236,63 @@
     "new-england",
     "maritime",
     "wood-imitating-masonry"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-ionic",
+      "role": "primary",
+      "authority": "benjamin-ionic",
+      "note": "The one order run throughout this variant rather than a graded primary/secondary pair -- unlike georgian-colonial-american's Ionic-for-best-rooms/Doric-for-everyday-work hierarchy, Federal ornament is uniformly thin, and this style's own defining_characteristics name the SAME order for both the corner pilasters and the entrance: 'fluted pilasters at the corners' and, in its own typical_ratios, 'colonnette height 10-11 diameters on entrance porticoes.' This pack's column is 20 semidiameter-modules, i.e. exactly 10 diameters -- the bottom of that stated range on the nose. Benjamin over Gibbs because Bulfinch (who designed this variant's own leading exemplar, the Otis House) saw Adam's work in England first-hand in 1785-87 and Benjamin's 1816 plates are the documented transmission for everyone who came after him.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The wall_section_federal / casing_federal family. McIntire's Salem carving is 'so shallow you have to stand at an angle to see it' per the style's own description -- the flattest possible expression of the family this pack encodes, executed here in clear eastern white pine rather than plaster, which is what let the mouldings run this thin and crisp in the first place.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Ranked ahead of opening-proportion, matching the parent style: constraint c02 states the muntin ceiling directly (5/8-7/8 in) and glass size (10x14 to 12x18 in), and the pack's own rule that it wins any disagreement with opening-proportion on window ratio is the reason for the ordering.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs door and window sizing beneath the fanlight-and-sidelight co-occurrence rule the parent style states (single-storey entrance treatment only; a two-storey portico is forbidden). This variant's own description notes the entrance portico 'shelters nothing -- it is a frame, not a roof,' which constraint c05 makes explicit: single storey, 4-6 ft projection, colonnettes no more than 7 in diameter.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the elevation composition -- five-bay frame houses, three-bay townhouses, the centred Palladian window as the only tolerated disturbance of the bay rhythm -- through the same reduced-projection ceiling federal-style's own binding of this pack states (3 in general, 6 in at the door surround).",
+      "precedence": 5
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "This variant states its own three-storey townhouse ratio directly -- storey heights approximately 12 : 10 : 7.5 ft -- which is close to but slightly steeper than this pack's default compounding (0.85 then 0.80, i.e. 12 / 10.2 / 8.16 on a 12 ft base); the variant's own figure is bound as the governing case and the pack supplies the general mechanism and the window-follows-the-storey rule that makes the diminution legible from the street.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Listed directly in this pack's applies_to cross-reference. Bound for the oval and circular rooms this variant's own description names as its interior signature -- Gore Place's bowed oval projections, the free-flying stair at the Ruggles House -- composed geometry rather than accumulated framing.",
+      "precedence": 7
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "PROMOTED ABOVE brick-course here, the reverse of southern-federal's ordering. This variant's own description states plainly that 'the rural and coastal version is the more interesting one' and that the whole enterprise is 'a carpenter's imitation of a mason's architecture' -- clear white pine over a braced frame is the characteristic fabric, with the Boston/Salem brick townhouse as the secondary, urban case.",
+      "precedence": 8
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "The seaport brick minority -- Beacon Hill, Salem's Chestnut Street -- bound optional and demoted below timber-bay for this variant specifically, the inverse of the ranking on southern-federal.",
+      "precedence": 9
+    }
   ]
 }

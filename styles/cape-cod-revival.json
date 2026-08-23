@@ -243,5 +243,43 @@
     "fha",
     "production-home",
     "new-england"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the composed front as a whole: the odd bay count (three or five), the pier arithmetic, and the ranking of horizontals. Cape Cod Revival is the one node in this branch whose facade is nearly pure void-in-wall with almost no cornice to speak of, so this pack's bay-count and solid-to-void rules do the work that a heavier order would do elsewhere in the family; the pack's own three-horizontal ranking is deliberately not fully used here, since the style forbids a projecting cornice and works mostly off the water table and the head datum.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "The rectangle of the door and window openings and, in particular, the single-head-datum rule, which is exactly what Wills's office standard is describing when it fixes the eave 'just above the second-floor window heads' -- there is only one head line on the front and the whole silhouette depends on it staying level and low.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Explicitly applicable and load-bearing here: the node's own hard constraints and typical ratios specify 6/6 or 8/12 sash with 24-36 lights total, and Wills's graduated clapboard exposure (2 3/4 in at the water table rising to 4 1/4 in near the eave) is exactly the kind of measured, dated device this pack exists to record.",
+      "precedence": 3
+    },
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "The node's own bay_rhythm is explicit that 'the rhythm is tighter than general Colonial Revival because the original framing bay is genuinely being reproduced' (7'6\"-9'0\" bay, matching the pack's 16-20 ft frame-bay logic scaled to a one-and-a-half storey house). The pack's own closing note names Cape Cod Revival directly as the test case for this discipline: a correct-looking exterior wrapped around a plan no frame would produce is exactly the failure this pack is written to catch.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Interior trim only, and reduced in scale from the parent style's: a Cape's baseboard, chair rail and door casing are classical-family (raised panel doors, simple backband) rather than craftsman flat stock, but run thin and plain to suit an 11-13 ft ground-floor room rather than a high-style Georgian one. Exterior ornament is explicitly capped by the node's own hard constraint c05 -- door surround, a 4-6 in eave moulding, and corner boards only, with cornice returns, modillions and porches forbidden -- so this pack's exterior wall-section family (water table, belt, entablature) is not invoked; only the interior assemblies are.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding: cape-cod-revival is not in this pack's own applies_to list, but the node's lineage names cape-cod-colonial -- which IS in that list -- as the ancestor whose dimensions 'the revival genuinely tried to reproduce rather than inflate,' and the whole point of the style, per its own description, is discipline rather than costume. The pack's daylight-limited, span-and-hearth-constrained 'ordinary room' logic fits a Cape's low storey (11-13 ft to the eave) far better than room-harmonic's Palladian saloons, which this variant's own text never invokes.",
+      "precedence": 5
+    }
   ]
 }

@@ -227,5 +227,19 @@
     "gothic-survival",
     "courtyard",
     "chimney-display"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "tudor is named directly in timber-bay's applies_to, and the style's own lineage confirms why: it descends_from english-medieval-timber-frame at weight 0.6, and 'below the level of the great house, Tudor is a timber-framing style. The carpentry tradition supplies the roofs and the whole vocabulary of the smaller Tudor house.' No order pack is bound: c02 forbids classical orders being used structurally at all and caps applied Renaissance ornament at roughly 5 percent of the elevation as inset panels only, which is more restrictive than elizabethan and rules out even a cautious reference binding.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding (not in applies_to). Scoped to the smaller, domestic-scale Tudor house — the hall-and-parlor type this style's own massing_affinities record as common 'after the hall is floored over and a lobby-entry stack inserted' — not to the courtyard great houses (Hampton Court, Compton Wynyates), whose halls and state rooms remain governed by the style's own figured ratios and lie well outside the pack's ordinary-room scale.",
+      "precedence": 2
+    }
   ]
 }

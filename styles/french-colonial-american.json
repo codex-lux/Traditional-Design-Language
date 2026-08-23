@@ -246,5 +246,19 @@
     "bousillage",
     "hot-humid",
     "creole"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "primary",
+      "note": "This is the style's own governing_logic in the pack's own words: 'the room as an independent, cross-ventilated cell — dimensioned by the reach of a breeze and the length of a hewn cypress beam, not by a facade module' is close to a paraphrase of room-vernacular's own module description ('dimensioned by... the depth daylight will carry from one window wall'). french-colonial-american is named directly in the pack's own applies_to. Its daylight_strategy rule (room depth capped at about 2 to 2.25 times the window head height, falling to about 1.8x behind a porch) is the direct mechanism behind this style's hard no-corridor, cross-ventilation constraint, and its own conflict note — that 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth,' answered historically by raising the storey — is a sourced explanation of why this style's ceilings run 11-14 ft rather than the 8 ft of a northern vernacular room.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "French doors here run 5'6\"-7'0\" wide overall, at or above the 40 in threshold opening-proportion's own entry_door rule names as the point where its canonical 2:1 door proportion 'belongs and is magnificent' — Palladio's ratio was derived for wide leaves, not the narrow 3 ft leaf that forces most Anglo-American doors away from it. Bound in preference to sash-light, whose apparatus (light count from glass-market supply, muntin dating) is built for double-hung sash windows and has no purchase on a full-height glazed French casement door; opening-proportion's door-from-storey and single-head-datum logic transfers cleanly instead.",
+      "precedence": 2
+    }
   ]
 }

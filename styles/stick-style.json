@@ -222,5 +222,31 @@
     "structural-expression",
     "scully",
     "short-lived"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Explicit in this pack's applies_to. The node's own proportional_system states the stick grid is 'the closest thing in this branch to a modular system, though the module is decorative rather than structural' — the pack's dominance rule and wing-strategy rule apply only loosely, since this node's own hard constraint (c05, soft) caps mass imbalance at 30 percent, well inside the pack's 1.35-2.5 dominance band rather than requiring it. What transfers directly is the datum discipline: the pack's two-continuous-horizontal rule matches this node's own requirement (c01) of a horizontal stick band at every floor line and at the eave, running unbroken around the building.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Explicit in this pack's applies_to. Governs light count and muntin section for the period's (1860-1895) double-hung sash; the stick grid governs the wall around the opening but not the glass within it, which this pack owns throughout the corpus.",
+      "precedence": 2
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Explicit in this pack's applies_to. An imperfect but defensible fit: the node's own hard constraint (c02) — flat sawn boards 1x4 to 1x6, standing 3/4 to 1 in proud, no turned or curved members — describes a squarer, more skeletal vocabulary than trim-craftsman's board-and-batten family, but both are carpentry-derived flat-stock systems rather than order-derived ones, and trim-craftsman is the only pack in the library built on that logic. Trim-classical's room-as-an-order derivation is the wrong family entirely for a style whose whole premise is a wooden building drawn on its own surface rather than dressed as an order.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound for the same reasoning as shingle-style and stick-style's other Victorian siblings: the node states plainly that 'the exterior linear obsession barely enters the rooms' and the plan behind the stickwork is 'a conventional picturesque one with a hall, parlours, and a stair' — an ordinary balloon-framed plan governed by span and daylight, not by a proportional treatise.",
+      "precedence": 4
+    }
   ]
 }

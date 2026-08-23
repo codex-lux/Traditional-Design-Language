@@ -219,5 +219,44 @@
     "postwar",
     "jetty",
     "new-england"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "The pack this variant most directly needs, and explicitly listed in its applies_to. The node's own hard constraint c01 states the overhang 'must read as a plausible joist cantilever' at 8-18 in.; the pack does not carry a jetty-specific rule (its scope is the structural bay generally: post spacing, window-to-post clearance, wing depth against the main frame), but that general framing discipline -- what a real cantilevered second-floor joist can plausibly do -- is the standard the node's own constraint is invoking, and the pack's window-clearance rule (about 15 in. clear of a post) is the same logic the jetty depends on for its drops to land on real corner posts.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Explicitly listed in this pack's applies_to. Governs the door and window rectangle and the single-head-datum rule across the jettied storey break, which the node's own defining_characteristics require ('aligned vertically between storeys').",
+      "precedence": 2
+    },
+    {
+      "pack": "gibbs-doric",
+      "role": "secondary",
+      "authority": "gibbs-doric",
+      "note": "JUDGMENT BINDING: garrison-revival is not in gibbs-doric's own applies_to list. Bound at the everyday, plainer order only -- no Ionic frontispiece -- because the node's own hard constraint c05 caps the entry at 'a pilastered surround or a small pedimented hood not exceeding 6'0\" in width' and states flatly that 'a two-storey portico is incompatible with a jettied elevation.' Doric is the order the parent style uses for its plainer, secondary doorways, and this variant is a builder type through and through, per its own description.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "JUDGMENT BINDING, inherited: the node's lineage states 'kit, openings and entry are the parent style's,' and the front is symmetrical or near-symmetrical five-bay per the node's own defining_characteristics, matching this pack's bay arithmetic directly.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Explicitly listed in this pack's applies_to. The interior below the jetty is ordinary Colonial Revival trim, inherited from the parent per the node's own lineage note.",
+      "precedence": 5
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING: not in this pack's applies_to list, but the node's own typical_ratios state storey heights of 8'6\"-9'0\" for both floors, explicitly 'lower than high-style Colonial Revival, because this is a builder type,' and the whole node reads as an economical mid-century production plan -- 'one move' done cheaply or well, in the node's own words. That register is closer to this pack's daylight-and-span-constrained ordinary room than to room-harmonic's designed Palladian one, which the node's own text never invokes.",
+      "precedence": 6
+    }
   ]
 }

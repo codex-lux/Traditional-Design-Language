@@ -218,5 +218,25 @@
     "courtyard",
     "gable",
     "low-countries"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Explicitly listed in the pack's applies_to. The langgevelhoeve's byre and dwelling rooms are span- and function-limited exactly as the pack describes — this node's own text states fenestration is 'functional, not compositional... openings occur where the internal use requires them,' which is close to a direct restatement of the pack's additive-vernacular bay_rhythm language.",
+      "precedence": 1
+    },
+    {
+      "pack": "brick-course",
+      "role": "facade",
+      "note": "Judgment bind: flemish-vernacular is not listed in brick-course's applies_to, but this node's own proportional_system states outright that 'the brick course plus joint... is the real module' and that 'gable steps are dimensioned in whole courses' — precisely the coursing-governs-every-horizontal logic this pack encodes for Anglo-American brickwork. Recalibrate before use: the pack's default course (2 3/4 in, a 2 1/4 in Anglo-colonial brick with a 1/2 in bed joint) must be reset to this node's own continental figure (~60-65 mm per course) rather than used as-is; the derivation — courses set the water table, string course and step heights — carries over even though the absolute unit does not.",
+      "precedence": 2
+    },
+    {
+      "pack": "timber-bay",
+      "role": "secondary",
+      "note": "Explicitly listed in the pack's applies_to, but applies only to the eastern (Limburg, Kempen, Maasland) vakwerk half of the region, which this node's own lineage entry describes as 'structurally continuous with Rhenish Fachwerk' — the western solid-brick half has no frame for this pack to govern. Bound secondary and narrow in scope for that reason.",
+      "precedence": 3
+    }
   ]
 }

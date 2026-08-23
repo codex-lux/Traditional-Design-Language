@@ -246,5 +246,20 @@
     "tower",
     "loggia",
     "bracketed-eave"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "authority": "facade-picturesque",
+      "note": "This is the type facade-picturesque's own literature points back to: Nash's Cronkhill (1802) is a direct quotation of this diagram, and the pack lists italian-villa-vernacular in its applies_to. The node's hard constraint that the tower must exceed the block's eave height by at least 30 percent and sit off the centre line (c02) is exactly the pack's dominance-and-lever-arm logic - one mass must clearly outrank the others, and a subordinate element earns its compositional weight by standing well clear of the visual centre rather than by size alone. Bound at facade role because the villa is 'balanced but not strictly symmetrical' by design, which is the pack's whole subject.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The node's own governing_logic states plainly that 'proportion is set by the storey height and the opening, not by a module' - no harmonic system, no order outside the loggia. That is room-vernacular's counter-treatise logic exactly: rooms sized by span, storey height and daylight rather than by a proportioned ratio. italian-villa-vernacular is named directly in the pack's applies_to.",
+      "precedence": 2
+    }
   ]
 }

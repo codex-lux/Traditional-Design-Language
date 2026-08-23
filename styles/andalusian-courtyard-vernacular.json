@@ -237,5 +237,14 @@
     "hot-dry",
     "passive-cooling",
     "urban-vernacular"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "authority": "room-vernacular",
+      "note": "The node's own governing_logic states 'Nothing here is compositional - the whole proportional system is a shading calculation and a joist span,' with room depth set to 3.5-5 m clear by the timber joist. That is room-vernacular's own generative logic (span, hearth-reach and single-sided daylight intersecting in roughly the same neighbourhood) rather than a proportioned or harmonic one, and the node is named directly in the pack's applies_to. No facade or order pack is bound: the street elevation 'has no rhythm worth the name and is not meant to,' and the only columns in the type are the plain, unornamented court arcade - there is no entablature and no classical order to invoke.",
+      "precedence": 1
+    }
   ]
 }

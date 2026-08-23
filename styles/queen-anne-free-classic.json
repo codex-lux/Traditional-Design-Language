@@ -212,5 +212,45 @@
     "classical-trim",
     "colonial-revival-bridge",
     "late-queen-anne"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Explicit in this pack's applies_to and unchanged in principle from the parent style: the node's own hard constraint (c02) requires the dominant-mass, non-rectangular-ridge massing to survive under the classical trim, which is precisely what distinguishes this node from colonial-revival. The pack's dominance rule and datum rule still govern the body; only the porch, cornice and one gable window are classical.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-tuscan",
+      "role": "secondary",
+      "authority": "vignola-tuscan",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to (no style-book overlay in this library lists queen-anne-free-classic at all, so any order chosen here is necessarily a judgment call). Tuscan is bound as the modal case because it is the commonest, cheapest catalog porch column of the 1890s-1910s and because the node's own typical_ratios (shaft height 7-9 diameters) sit almost exactly on Vignola's own Tuscan (7 diameters, column 14 semidiameters). No specific pattern-book transmission is documented for these stock millwork columns the way Gibbs is documented for colonial builders' inventories, so citing Vignola's base proportions directly is more honest than inventing a named source for a catalog product. The Fuller House exemplar (1905) is described as having 'Tuscan columns on a wraparound gallery,' which is the concrete case this binding covers.",
+      "precedence": 2
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "optional",
+      "authority": "vignola-ionic",
+      "note": "JUDGMENT BINDING, bound optional and low because the node's own text names Tuscan, Doric or Ionic as alternatives without preferring one, and Ionic (8-9 diameters, matching the node's stated range) is the grander end of the same catalog phenomenon, appropriate where the porch columns are paired with the Palladian window this subtype's gable typically carries. Not primary because Tuscan is the more common case in the surviving stock.",
+      "precedence": 3
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Explicit in this pack's applies_to. Windows of 1890-1918 fall well within the pack's post-1870 large-pane band; the one-per-elevation Palladian or Venetian window this node requires (c04) takes its side-light module from the ordinary sash beside it, per this pack's transom_sidelight rule.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "note": "Explicit in this pack's applies_to — and notably NOT in trim-classical's, despite the exterior columns being classical. This is a real distinction worth preserving rather than overriding: the classical vocabulary here is exterior porch trim bought from a millwork catalog at the same moment the interior of an ordinary American house was moving toward flat-stock carpenter's trim, not a room-as-an-order derivation with a pedestal and entablature. Binding trim-classical instead would import a Federal/Georgian interior system this node's own lineage does not claim.",
+      "precedence": 5
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to, but this is the one Queen Anne variant where it is defensible over room-vernacular: the node's own text states the interior 'usually follows' the classical porch — 'the living hall becomes more formal, the openings get classical casings, and the plan starts to close back up into named rooms' — and colonial-revival, this node's explicit co-parent and successor, IS in room-harmonic's applies_to. The formalizing pressure the node describes is exactly the pressure that produces treatise-proportioned rooms rather than span-constrained ones.",
+      "precedence": 6
+    }
   ]
 }

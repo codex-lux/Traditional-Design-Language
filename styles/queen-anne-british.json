@@ -234,5 +234,31 @@
     "white-paint",
     "garden-suburb",
     "sash-window"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "queen-anne-british is named directly in facade-picturesque's applies_to. This node's own text is explicit that the reading taken here is the picturesque one, not the 'restrained early Georgian classicism' some corpora use for British Queen Anne: governing_logic states 'No applied system. Composition is picturesque and plan-driven,' c05 forbids a centred entry except on a deliberate small-scale quotation of a 1700 house, and symmetry is recorded as 'picturesque-asymmetrical.' The pack's dominant-mass and datum-line logic — Shaw's asymmetrical Kensington and Bedford Park fronts are literally in its authority note — governs the gable, oriel, bay and porch composition directly.",
+      "precedence": 1
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding (not in applies_to): no classical room system is appropriate given the explicit 'no applied system' text, and room-vernacular's daylight and hearth constraints are the only period-agnostic physical rules in the library that still bear on Shaw's plan-driven, irregularly sized rooms. Not a strong fit in scale — a Kensington studio-house room is not an anonymous cottage room — but the alternative, binding nothing, leaves the node with no room-scale governance at all.",
+      "precedence": 4
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Judgment binding (queen-anne-british is not in sash-light's applies_to). Bound narrowly for the sash construction mechanics — muntin proportion, the meeting-rail geometry, the shutter-leaf rule where shutters occur — since the style's own diagnostic tells describe a real sash window ('upper leaf divided into six, eight or more small panes over a single-pane lower leaf'). The pack's DATING scheme (12/12 to 6/6 by decade) does not apply here: this is a Victorian pane pattern quoting 1700 rather than a genuine 1700-1770 progression, and the note exists to flag that explicitly rather than let the dating rule misapply.",
+      "precedence": 3
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "note": "Judgment binding (queen-anne-british is not in brick-course's applies_to, whose native target is Georgian-era coursing). Bound low and optional because 'red brick, finely jointed, with rubbed and cut brick ornament' is a defining characteristic and c01 makes the red-and-white pairing a hard constraint, and Victorian imperial brick is close enough in dimension to Georgian brick that the coursing module transfers reasonably — but this is the pack's first documented use outside its native period and the fit should be treated as approximate rather than sourced.",
+      "precedence": 5
+    }
   ]
 }

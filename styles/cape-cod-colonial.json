@@ -232,5 +232,37 @@
     "growth-grammar",
     "coastal",
     "central-chimney"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "timber-bay",
+      "role": "primary",
+      "note": "The bay still generates the plan -- two rooms flanking the stack, the winder beside it -- but the storey is cut to one-and-a-half rather than two, which is a roof decision (see the massing entry), not a bay decision. The quarter/half/three-quarter/full growth grammar this node leads with is literally this pack's own resolution philosophy for material scarcity in practice: 'hold the bay at 16-20 ft and add bays rather than stretching one, which is what every historic plan type is a record of' (timber-bay's own material-availability conflict entry) -- a Cape is that principle built as a household's actual construction history, one bay added at a time as money allowed. No facade-system pack is bound: the door is deliberately off-centre until the growth sequence completes, which is the opposite of a composed front.",
+      "precedence": 1
+    },
+    {
+      "pack": "timber-bay",
+      "role": "massing",
+      "note": "Roof pitch (9:12-12:12) follows the habitable-loft-versus-wind-load logic this node states directly, and it is a lower, steadier pitch than the two-storey types because the rafter is shorter over a smaller frame. The eave is this pack's near-zero default (6 in or less) -- and uniquely among the four New England nodes bound in this pass, the Cape KEEPS that flush eave through its whole 1700-1850 run rather than acquiring an 18th-century boxed cornice, which is exactly why 'window heads almost touching the cornice' survives as this node's single most reliable diagnostic tell (its own words) long after garrison and saltbox houses had picked up Georgian trim.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Governs the light-count date sequence across this node's unusually long 1700-1850 floruit, and its window_head_masonry rule (head at ~0.78-0.82 of storey) is the arithmetic behind this node's own hard constraint (c01): window head within 14 in of the cornice on an 8-9.5 ft eave.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Bound for the single head-datum rule only, as on the other three nodes in this family; the treatise's 13:6 window ratio is not this tradition's governing figure.",
+      "precedence": 4
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The hall-single-cell (half Cape) and hall-and-parlor (full Cape) room logic is identical to new-england-colonial's, and the pack's own room_adjacency_overrides note -- 'the whole Anglo-American folk-house catalogue is this arithmetic' -- is a direct statement of the growth grammar this node is organized around.",
+      "precedence": 5
+    }
   ]
 }

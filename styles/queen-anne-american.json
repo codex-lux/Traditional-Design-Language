@@ -252,5 +252,25 @@
     "dominant-mass",
     "living-hall",
     "most-popular"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Explicit in this pack's applies_to, and it is close to a direct transcription of the node's own proportional_system: dominant mass at least 1.5x any subordinate (matches the pack's dominance rule range of 1.35-2.5), texture change at a horizontal belt or storey line, a porch that wraps a corner and does the compositional counterweighting. The node's own text states 'governed by mass hierarchy... checked in silhouette and texture, never in module' — this pack is the one system in the library built to formalize exactly that.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Explicit in this pack's applies_to. American Queen Anne windows of 1874-1915 fall in the pack's 1870-1900 glass band (large cylinder and polished plate), typically 1/1 or 2/2 with a single large pane bordered by small coloured panes at the upper sash — the node's own diagnostic tell of a Shaw-derived border-light window, which is a documented late-19th-century departure this pack's light-count arithmetic does not itself derive but does not contradict either.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound because American Queen Anne is balloon-framed, and balloon framing still faces the same joist-span and daylight physics room-vernacular reconstructs — no treatise governs these rooms, and the node explicitly says the composition is 'checked in silhouette and texture, never in module,' which rules out room-harmonic's Palladian ratios as squarely as it rules out a bay system on the elevation. The fit is imperfect at the top end: the living hall, described as the style's organising innovation, is often larger than the pack's 14-18 ft measured band and closer to its noted 'halls in houses of pretension' outlier case, which the pack allows for but does not centrally describe. Ordinary parlours and chambers fit the band comfortably.",
+      "precedence": 3
+    }
   ]
 }

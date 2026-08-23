@@ -211,5 +211,26 @@
     "precut-kit",
     "plan-book",
     "streetcar-suburb"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "facade",
+      "note": "Same composer as the parent style, bounded harder here by the lot: this node's own governing_logic states that the body is 'capped at 24 to 28 ft' by the standard 40-50 ft lot, which is a real-world instance of this pack's dominant-mass module (18-22 ft for 'a bungalow or a cottage where the dominant mass is a single gable') at the small end of its documented range.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-craftsman",
+      "role": "interior",
+      "authority": "trim-craftsman",
+      "note": "The type IS this pack's own primary evidence base -- Sears Modern Homes, Aladdin, the Radford and Ye Planry plan books are cited by both the node and the pack as the same distribution mechanism -- so this is as close to a one-to-one binding as this corpus gets outside the Georgian order packs. Governs the picture-rail datum, the door-head-datum-not-ceiling rule that explains why a house this small tolerates both an 8 ft and a 9 ft 6 in ceiling, and the three-board casing family this node's own diagnostic tells describe directly (a wide flat 4-5 in casing, no mitre).",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Bound for the plan's own tight small-house arithmetic: this node's diagnostic tell that the front door opens directly into the living room with no vestibule is exactly the additive, furniture-and-circulation-first room logic room-vernacular reconstructs, and its ceiling-height rule (post-1900 bungalow band, 8 ft 6 in to 9 ft) matches this node's own 8 ft 6 in figure precisely. Not given the top role: the plan is a catalog product bounded by the lot and the precut package before it is bounded by any physical room constraint, which this node's own proportional_system says outright.",
+      "precedence": 3
+    }
   ]
 }

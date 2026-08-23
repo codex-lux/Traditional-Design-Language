@@ -250,5 +250,63 @@
     "chesapeake",
     "climate-driven",
     "five-part"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-ionic",
+      "role": "primary",
+      "authority": "benjamin-ionic",
+      "note": "The single order run throughout, matching the parent style's choice and the same reasoning: this pack's column stands 10 diameters, inside Federal's stated 9-11 diameter Adam-attenuated range. The style's own distinguished_from clause against jeffersonian-classicism names the diagnostic directly -- 'Adam-thin colonnettes no Roman authority would license' -- which is precisely what this Chambers-descended, carpenter-executed overlay is, as against the correct antique weight of Jefferson's Palladio-sourced orders next door in the same Virginia counties.",
+      "precedence": 1
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The wall_section_federal / casing_federal family, with a material caveat this variant's own description states directly: Southern Federal mouldings are executed in heart pine rather than the clear white pine of new-england-federal, and 'heart pine will not run as crisply,' so the same dimensions read heavier here even though the proportional family is identical.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "The same ranking and reasoning as the parent style and new-england-federal: the sash module wins over opening-proportion where the two disagree, per sash-light's own stated rule.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs door and window sizing beneath constraint c05's porch rule (one storey, colonnettes no more than 8 in diameter; a full-height two-storey portico converts the building to Greek Revival or Neoclassical) -- the same threshold the parent style's fanlight co-occurrence rule states, applied here to a porch that is 'a working shading element' rather than only a doorway frame, per this variant's own description.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the five-part composition with hyphens and dependencies -- far more common here than in New England, per the style's own defining_characteristics -- through the same reduced-projection discipline the whole Federal family imposes. Constraint c04 layers Chesapeake-specific figures on top: Flemish bond joints no wider than 3/8 in, belt course or water table projecting no more than 2 in.",
+      "precedence": 5
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "The variant's own stated ratios -- principal storey 10-13 ft, upper storey 0.75-0.85 of it (constraint c02, hard: ceilings under 9 ft convert the building to Northern Federal proportion regardless of trim) -- are a steeper diminution than New England's, and are bound as the governing figures the pack's general mechanism executes.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Listed directly in this pack's applies_to cross-reference. Bound for the composed geometry the style's own exemplars name -- the Nathaniel Russell House's oval drawing room and cantilevered free-flying stair, the full-height polygonal garden bay -- proportioned rooms rather than accumulated ones.",
+      "precedence": 7
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "PROMOTED ABOVE timber-bay here, the reverse of new-england-federal's ordering. This variant's own description names Flemish-bond brick with thin joints as 'the prestige wall, frame with beaded weatherboard as the vernacular equivalent' -- the masonry case is the style's own stated primary, not merely one option among equals.",
+      "precedence": 8
+    },
+    {
+      "pack": "timber-bay",
+      "role": "optional",
+      "note": "The vernacular frame equivalent, per the style's own wording -- demoted below brick-course for this variant specifically, the inverse of new-england-federal's ranking. Present chiefly on the Piedmont farmer's I-house version, where the style's own massing_affinities note 'Federal trim at the door only.'",
+      "precedence": 9
+    }
   ]
 }

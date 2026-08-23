@@ -201,5 +201,32 @@
     "urban",
     "closest-to-british-source",
     "minority-subtype"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-picturesque",
+      "role": "primary",
+      "note": "Explicit in this pack's applies_to. Governs the massing hierarchy and the datum discipline exactly as for the parent style; the node's own proportional_system explicitly layers this pack's mass rules under a second, masonry-specific module (brick-course) rather than replacing them, which is the same layering facade-picturesque plus brick-course already produces for the corpus's other masonry-Victorian case.",
+      "precedence": 1
+    },
+    {
+      "pack": "brick-course",
+      "role": "massing",
+      "authority": "brick-course",
+      "note": "Explicit in this pack's applies_to, and it is the node's own stated 'dimensional discipline the wooden ones lack': the node's typical_ratios give brick course height 2.5-3 in with belts, panels and arch rises set out in whole courses, which is brick-course's governing logic verbatim. Its window_head_masonry and belt_course rules cover the segmental and flat arches this variant requires (c05); its corbelled-cornice and moulded-water-table assemblies cover the chimney and base. What it does NOT cover is the terra cotta sunflower/foliate panel vocabulary itself (c04) — see report gaps.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "JUDGMENT BINDING. Not in this pack's applies_to, but the node states an opening area of 35-50 percent of the elevation with deep reveals — real double-hung sash in real glass, on the same 1878-1908 timeline as the wooden Queen Anne subtypes, so the same late-cylinder/early-plate glass reasoning applies. The head-height rule is superseded here by brick-course's own window_head_masonry, which is why this binding is opening/secondary rather than primary.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "JUDGMENT BINDING, for the reasoning given on the parent queen-anne-american node. A load-bearing brick townhouse still faces a joist-span limit on its floor framing, and this subtype is explicitly the urban, narrow-lot version of the style (townhouse-row is a common massing affinity), which if anything tightens room breadth toward this pack's measured band rather than loosening it.",
+      "precedence": 4
+    }
   ]
 }

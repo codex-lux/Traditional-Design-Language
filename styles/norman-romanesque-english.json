@@ -200,5 +200,13 @@
     "medieval",
     "round-arch",
     "defensive"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding, and a narrow one: norman-romanesque-english is not in room-vernacular's applies_to, and almost none of the pack's module transfers — this is single-cell, vertically stacked, vaulted masonry construction (undercroft 2.4-3.0 m, hall above 4.5-6.0 m) with no joist-span or hearth-reach logic resembling the pack's 14 ft timber room at all. What does transfer is the one rule the pack itself calls 'physics rather than custom': the daylight-depth relationship. This style's own text confirms the same constraint by observation ('openings small in relation to wall area... splayed inward to gather what light they can'), so the daylight rule is bound as the sole governing content of this pack for this node; the module, hearth and span figures should be disregarded here. No dedicated masonry-mass room or facade system exists in the library for this style — see gaps.",
+      "precedence": 1
+    }
   ]
 }

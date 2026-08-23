@@ -244,5 +244,39 @@
     "geometric",
     "archaeological",
     "enlightenment"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "vignola-corinthian",
+      "role": "primary",
+      "authority": "vignola-corinthian",
+      "note": "Judgment binding: french-neoclassical is not in vignola-corinthian's own applies_to. Bound as primary because this style's own typical_ratios name Corinthian and Ionic as the preferred pair (column height 9.5-10 diameters), and both named exemplars use it: the Petit Trianon's 'four free-standing Corinthian columns on the garden face' and Sainte-Genevieve's 'Corinthian portico on a Greek-cross plan.'",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "authority": "vignola-ionic",
+      "note": "Judgment binding, same reasoning. The second of the style's own named pair; Vignola's Ionic column height (about 9 diameters) sits inside the style's own stated 9.5-10 diameter band for the two orders together.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. Governs the even, unaccented bay rhythm this style's own bay_rhythm field describes -- 'no change in the spacing itself' even where the centre is marked by a portico.",
+      "precedence": 3
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to. Governs the clean rectangular opening this style's own diagnostic_tells describe -- 'a flat architrave, no aedicular surround, no keystone drama' -- which is closer to the pack's own plain-rectangle default than the aedicular Beaux-Arts reading is.",
+      "precedence": 4
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to. Governs the individual room within the primary geometric solid the whole building is resolved into.",
+      "precedence": 5
+    }
   ]
 }

@@ -238,5 +238,46 @@
     "orders",
     "palazzo",
     "treatise"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "palladio-tuscan",
+      "role": "primary",
+      "authority": "palladio-tuscan",
+      "note": "Confirmed in the pack's own applies_to. Palladio is himself an Italian Renaissance architect writing from within this tradition rather than reviving it, which is about as close to zero-derivation as this corpus gets. Named directly by this style's own exemplar: the Tempietto is 'a peripteral Tuscan drum under a hemispherical dome' and 'the purest surviving demonstration that the Renaissance had fully recovered the ancient system.'",
+      "precedence": 1
+    },
+    {
+      "pack": "palladio-doric",
+      "role": "secondary",
+      "authority": "palladio-doric",
+      "note": "Confirmed in the pack's own applies_to. The base-storey register of a superimposed cortile arcade -- 'three superimposed arcades, one order per storey,' as at Palazzo Farnese -- graded heavier below and lighter above, the same logic the style's own storey-height diminution constraint (c01) states for the wall around it.",
+      "precedence": 2
+    },
+    {
+      "pack": "palladio-corinthian",
+      "role": "secondary",
+      "authority": "palladio-corinthian",
+      "note": "Confirmed in the pack's own applies_to. The upper, richest register of the same cortile superimposition, and the order of the piano nobile where a single order is used rather than three stacked ones.",
+      "precedence": 3
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Confirmed in the pack's own applies_to. Governs the even, additive, non-hierarchical bay rhythm this style's own bay_rhythm field states explicitly -- 'no centrepiece and no crescendo' -- and its cornice-projection band (1/12-1/16 of facade height) matches this style's own c03 constraint almost verbatim.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Confirmed in the pack's own applies_to, and by the same author as the order packs above. 'Every window on a facade is the same size and the same distance apart, including the ones next to the door' is this style's own diagnostic_tell, and it is precisely the rule Palladio's chapters on doors and windows state.",
+      "precedence": 5
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Confirmed in the pack's own applies_to, and by the same author. Governs the individual room to the seven approved shapes and the three means; the style's own proportional_system field states 'room and bay proportions 1:1, 3:4, 2:3, 3:5, 1:2' as the same set this pack encodes.",
+      "precedence": 6
+    }
   ]
 }
