@@ -15,8 +15,10 @@ Two example plans ship with it. One is a deliberately ordinary production Coloni
 
 | | fatal | serious | minor |
 |---|---|---|---|
-| Spec Builder Colonial | **3** | 54 | 51 |
-| Tidewater Georgian, careful | **0** | 19 | 60 |
+| Spec Builder Colonial | **3** | 49 | 51 |
+| Tidewater Georgian, careful | **0** | 18 | 60 |
+
+*(These counts are pinned by `tests/test_plan_validator.py` — run `make check` rather than trust this table if the two ever disagree.)*
 
 The three fatals on the first are the powder-room door off the dining room, the primary bedroom over the garage, and a half-width shutter at 0.33 where the corpus wants 0.48.
 
