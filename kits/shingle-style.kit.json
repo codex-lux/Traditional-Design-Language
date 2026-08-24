@@ -558,15 +558,16 @@
         "max_door_width": {
           "value": 10,
           "unit": "ft",
-          "kind": "editorial",
+          "kind": "invented",
           "source": "groupings/garage-and-hyphen.json",
-          "note": "Two openings with a shingled pier between them. Beyond about 10 ft there is too little field left between jamb and corner for the surface to read as continuous, which is the whole strategy."
+          "note": "Two openings with a shingled pier between them. Beyond about 10 ft there is too little field left between jamb and corner for the surface to read as continuous, which is the whole strategy. OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "door_count_preferred": {
           "value": 2,
           "unit": "count",
-          "kind": "editorial",
-          "source": "groupings/garage-and-hyphen.json"
+          "kind": "invented",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "hyphen_length": {
           "range": [

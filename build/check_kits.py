@@ -71,6 +71,28 @@ def eval_expr(pack_id, expr):
     return pe.evaluate_expr(expr, env)
 
 
+def provenance_census(kits_seen):
+    """The kind-of-claim census, computed rather than recounted (OQ 18).
+
+    `docs/open-questions.md` #18 has carried a hand-counted figure for editorial parameters
+    since the migration, and it went stale twice. It is a real number about how much of this
+    corpus is our own convention rather than a sourced fact, and a number that matters that
+    much should not depend on someone remembering to recount it. Printed by every run.
+
+    The figure that matters is not `editorial` -- an editorial call with a note saying what it
+    rests on is the corpus working as designed -- but editorial with NEITHER a source NOR a
+    note: a number nobody can check and nobody said anything about."""
+    lines = []
+    kinds = ("measured", "derived", "editorial", "invented", "code", None)
+    # `editorial-bare` shares this counter and is a SUBSET of `editorial`; summing every key
+    # would count those parameters twice and inflate the denominator every percentage uses.
+    total = sum(kits_seen.get(k, 0) for k in kinds)
+    for k in kinds:
+        n = kits_seen.get(k, 0)
+        if n: lines.append("%s %d (%.1f%%)" % (k or "unlabelled", n, 100.0 * n / max(total, 1)))
+    return total, lines
+
+
 DIMENSIONAL_UNITS = {"in", "ft", "mm", "deg", "rise_in_12", "courses", "percent"}
 
 
@@ -235,6 +257,7 @@ def main():
 
     errs, warns = [], []
     stats = collections.Counter()
+    census = collections.Counter()
     invented, judgment, out_of_cal, populated = [], [], [], []
 
     for f in files:
@@ -262,6 +285,12 @@ def main():
         check_derived_module_family(errs, base, kit, ont_derives)
         check_rule_blocks(errs, warns, base, kit, rule_slots, rooms)
         check_determined_by(errs, warns, base, kit, ont_set)
+        for _s in (kit.get("slots") or {}).values():
+            for _pv in (_s.get("parameters") or {}).values():
+                if not isinstance(_pv, dict): continue
+                census[_pv.get("kind")] += 1
+                if _pv.get("kind") == "editorial" and not _pv.get("source") and not _pv.get("note"):
+                    census["editorial-bare"] += 1
         unknown = set(slots) - ont_set
         missing = ont_set - set(slots)
         if unknown:
@@ -416,8 +445,12 @@ def main():
         print("\nPACK BINDINGS OUT OF CALIBRATION (%d)" % len(out_of_cal))
         for x in out_of_cal:
             print("  ! %s" % x)
-    print("\nparameters by provenance: invented %d, editorial %d"
-          % (stats["param_invented"], stats["param_editorial"]))
+    total, bits = provenance_census(census)
+    print("\nparameters by provenance (%d in all): %s" % (total, ", ".join(bits)))
+    print("  editorial with NEITHER a source NOR a note: %d (%.1f%% of all parameters). "
+          "That is the figure OQ 18 is about -- a number nobody can check and nobody said "
+          "anything about. An editorial call WITH a note is the corpus working as designed."
+          % (census["editorial-bare"], 100.0 * census["editorial-bare"] / max(total, 1)))
 
     if warns:
         print("\n%d WARNINGS" % len(warns))

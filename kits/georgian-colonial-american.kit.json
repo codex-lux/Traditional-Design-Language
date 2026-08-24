@@ -1607,7 +1607,9 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "measured",
+          "source": "georgian-colonial-american.c05",
+          "note": "OQ 18, 24 Aug 2026: was `editorial`, and is not. The style's own constraint c05 states the same band -- water table 24 to 36 in above grade -- with a source, so this was a sourced fact wearing the label for an unsourced one. Found by matching every unsourced editorial number in the corpus against every numeric threshold its own style states, on the constraint's expression name as well as its value; of 166 such numbers this was the only match, which is itself the finding."
         },
         "projection_in": {
           "expr": "part * 0.75",

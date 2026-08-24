@@ -539,7 +539,8 @@
         "door_orientation": {
           "value": "turned off the principal elevation wherever the lot allows",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "invented",
+          "note": "OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "roof_pitch_match": {
           "value": true,
