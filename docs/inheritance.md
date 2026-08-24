@@ -151,3 +151,36 @@ the next ancestor in the chain, which is `gothic-revival-american` — better, a
 eight-hipped roof the type actually has. That belongs in `kits/octagon-house.kit.json` as the
 node's own binding. A scoped edge tells the cascade what NOT to take; what a style genuinely is
 still has to be authored.
+
+## `determined_by` means three things (OQ 19, 24 Aug 2026)
+
+The field named the slots that decide a slot and nothing resolved it, because the schema never
+said what the determination *meant*. `build/check_kits.py::check_determined_by` now holds the
+corpus to three readings:
+
+1. **The determiners must be bound.** A slot that says it is whatever the order requires, on a
+   kit whose `order` slot is empty, is **unjudged** — and it read as specified, which is this
+   project's first discipline inverted.
+2. **The graph is acyclic.** Two slots that each say the other decides them decide nothing.
+3. **A determined slot may not state a dimensional number as an independent claim.** The schema's
+   own note has always said it — *"specifying it separately either restates the order or
+   contradicts it"* — so a number on such a slot must be `kind: derived`, or carry a `source` or
+   `expr` tying it to the determiner, or say in its own note why it is genuinely independent of
+   it. An unsourced editorial number is the one case in which restatement and contradiction are
+   indistinguishable.
+
+## Typed rules on a rule-valued slot (OQ 15)
+
+Seventeen slots are typed `value_type: rule` in the ontology. A kit binding one may carry a
+`rules` array beside the one-sentence `rule` string, each entry stating what **kind** of claim
+the clause is (topology, axis, sequence, daylight, element-placement, hierarchy, orientation) and
+its **effect** on the universal rules in `rooms/` (adds, restricts, suppresses).
+
+`suppresses` is the one that must be machine-readable — it names `{room, key, target}` and
+`build/plan_check.py` reads it across the whole inheritance chain, because a suppression is a
+fact about a tradition and a descendant that did not restate it has not reinstated the rule. A
+suppression that exists only as prose is a rule the validator goes on enforcing while the kit
+says it should not.
+
+A clause whose kind is not `topology` or `sequence` does not belong on
+`room_adjacency_overrides` at all and belongs on the slot that owns that species.

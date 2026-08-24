@@ -591,7 +591,8 @@
             8
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: not an independent claim. `rake_to_cornice_ratio` beside it, 0.5 to 0.7, IS the derivation from the `cornice` slot this record names as its determiner; this range is the band that ratio lands in on a Georgian eave, kept because a builder reads inches and an engine reads the ratio. Where the two disagree the ratio governs, because it is the one that moves with the cornice."
         },
         "rake_to_cornice_ratio": {
           "range": [
@@ -1189,7 +1190,7 @@
           "unit": "in",
           "kind": "derived",
           "source": "brick-course",
-          "note": "The wall steps in by a half brick (about 4.5 in) at each floor level, not continuously."
+          "note": "SUSPECT, flagged 24 Aug 2026 (OQ 19) and deliberately not changed: this reads 13.5 in, which is `masonry_wall_thickness` above it repeated verbatim, and a step at a floor line cannot be the whole thickness of the wall. `reveal_masonry.step_at_floor_in` says 4.5 in, a half brick, and its rule sentence says a half brick. Correcting a number on a guess is worse than recording that two slots disagree, so this is recorded. Whoever has the source decides."
         },
         "timber_bay": {
           "expr": "module",
@@ -1983,151 +1984,51 @@
       "group": "envelope",
       "binding": "specified",
       "parameters": {
-        "brick_wall_thickness_in": {
-          "expr": "13.5",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 13.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "two wythes with a real through-bond; the thickness at which Flemish and English bond are even available"
-        },
-        "stone_wall_thickness_in": {
-          "range": [
-            18,
-            24
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "frame_wall_thickness_in": {
-          "range": [
-            5,
-            7
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
         "step_at_floor_in": {
           "value": 4.5,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: kept here because it is what the REVEAL does at a floor line, which is this slot's own subject -- the wall thicknesses that used to sit beside it are deleted, because `construction_type`, which this slot names as its determiner, states all three of them (masonry 13.5 in, stone 18-24 in, frame 5-7 in) and the copies agreed with it exactly. DISAGREEMENT FOUND AND NOT SILENTLY RESOLVED: `construction_type.wythe_step_at_floor` reads 13.5 in, which is that slot's own masonry WALL THICKNESS repeated, not a step. This slot's rule sentence says the wall steps in by a half brick, and 4.5 in is a half brick. 4.5 is the number this kit means; the 13.5 beside it is flagged there."
         },
-        "reveal_masonry": {
+        "reveal_in": {
           "range": [
             4,
             8
           ],
           "unit": "in",
           "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "solid-masonry-two-wythe",
-              "solid-masonry-three-wythe"
-            ]
-          }
-        },
-        "reveal_frame": {
-          "range": [
-            0.75,
-            2
-          ],
-          "unit": "in",
-          "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "braced-timber-frame"
-            ]
-          },
-          "note": "The frame window is given its depth by a 5-6 in architrave instead of by the wall."
+          "note": "Renamed from `reveal_masonry` and its `applies_when.construction` dropped: a parameter named after its own slot, discriminated on the condition the slot already IS, was the duplication saying so twice."
         }
       },
-      "rule": "The reveal at every opening expresses the real thickness of the wall — 4 to 8 in in masonry, under 2 in in frame — and the wall steps in by a half brick at each floor level, not continuously.",
+      "rule": "The reveal at every masonry opening expresses the real thickness of the wall -- 4 to 8 in -- and the wall steps in by a half brick at each floor level, not continuously.",
       "determined_by": [
         "construction_type"
       ],
       "status": "drafted",
       "confidence": "low",
-      "note": "The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_masonry."
+      "note": "OQ 19, 24 Aug 2026, second pass. OQ 19, 24 Aug 2026. This slot and its trade pair were BYTE-IDENTICAL: OQ 12's split divided the slot in two and copied the whole parameter set into both halves rather than dividing it, leaving each half carrying the other trade's numbers and the per-parameter `applies_when.construction` doing the discrimination the split was supposed to do. Surfaced by giving `determined_by` semantics: a slot that says it is decided by `construction_type` and then states every construction type's answer is not determined by anything. The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_masonry."
     },
     "reveal_frame": {
       "group": "envelope",
       "binding": "specified",
       "parameters": {
-        "brick_wall_thickness_in": {
-          "expr": "13.5",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 13.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "two wythes with a real through-bond; the thickness at which Flemish and English bond are even available"
-        },
-        "stone_wall_thickness_in": {
-          "range": [
-            18,
-            24
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "frame_wall_thickness_in": {
-          "range": [
-            5,
-            7
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "step_at_floor_in": {
-          "value": 4.5,
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "reveal_masonry": {
-          "range": [
-            4,
-            8
-          ],
-          "unit": "in",
-          "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "solid-masonry-two-wythe",
-              "solid-masonry-three-wythe"
-            ]
-          }
-        },
-        "reveal_frame": {
+        "reveal_in": {
           "range": [
             0.75,
             2
           ],
           "unit": "in",
           "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "braced-timber-frame"
-            ]
-          },
-          "note": "The frame window is given its depth by a 5-6 in architrave instead of by the wall."
+          "note": "The frame window is given its depth by a 5-6 in architrave instead of by the wall. Renamed from `reveal_frame` for the same reason its masonry pair was. The frame wall thickness that used to sit beside it is deleted: `construction_type` states it (5-7 in) and this slot names that slot as its determiner, so the copy was the restatement the schema's own note warns about."
         }
       },
-      "rule": "The reveal at every opening expresses the real thickness of the wall — 4 to 8 in in masonry, under 2 in in frame — and the wall steps in by a half brick at each floor level, not continuously.",
+      "rule": "A frame opening sits nearly flush -- under 2 in of reveal -- and is given its depth by the architrave rather than by the wall.",
       "determined_by": [
         "construction_type"
       ],
       "status": "drafted",
       "confidence": "low",
-      "note": "The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_frame."
+      "note": "OQ 19, 24 Aug 2026, second pass. OQ 19, 24 Aug 2026. This slot and its trade pair were BYTE-IDENTICAL: OQ 12's split divided the slot in two and copied the whole parameter set into both halves rather than dividing it, leaving each half carrying the other trade's numbers and the per-parameter `applies_when.construction` doing the discrimination the split was supposed to do. Surfaced by giving `determined_by` semantics: a slot that says it is decided by `construction_type` and then states every construction type's answer is not determined by anything. The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_frame."
     },
     "cornice": {
       "group": "envelope",
@@ -4830,7 +4731,8 @@
             16
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: genuinely independent of the order, which is why it is editorial. The order decides a pilaster's width -- `width_in` above it is derived from the module -- and says nothing about a CORNER pilaster, which is a wider element answering two elevations at once and is a Georgian convention rather than a rule of the order."
         },
         "capital": {
           "value": "the same capital as the column of the bound order, in flat relief",
@@ -4901,12 +4803,14 @@
         "interior_dentil_height_in": {
           "value": 1.75,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: independent of the order, and at a different scale from it. The order-derived members on this slot are the `modillion_*` parameters, which are exterior. An interior dentil is joinery run at room scale -- a chair rail's or a cornice's dentil course -- and no order states its size; that it appears on the same slot as the exterior modillion is the ontology grouping by element rather than by location."
         },
         "interior_dentil_spacing_in": {
           "value": 1.25,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: independent of the order, and at a different scale from it. The order-derived members on this slot are the `modillion_*` parameters, which are exterior. An interior dentil is joinery run at room scale -- a chair rail's or a cornice's dentil course -- and no order states its size; that it appears on the same slot as the exterior modillion is the ontology grouping by element rather than by location."
         },
         "corner_rule": {
           "value": "set out from the centre of the elevation; the corner member must be whole",
@@ -6866,6 +6770,12 @@
               "South Carolina and Georgia low country"
             ]
           }
+        },
+        "breast_position_in_room": {
+          "value": "on the outside wall of the room, opposite or beside the passage door",
+          "unit": "none",
+          "kind": "measured",
+          "note": "Moved here from `room_adjacency_overrides` on 24 Aug 2026 (OQ 15). It was one of six clauses in that slot's flat prose set and it is not an adjacency rule at all -- it says where a physical element sits within a room, which is what this slot is for. The regional `position_*` parameters beside it say where the STACK goes in the building; this says where the breast lands in the room, which is a different question with a different answer and they are both needed to draw the room."
         }
       },
       "rule": "Hearths are paired and symmetrical about the passage axis, never a single central stack, and their position on the gable-to-ridge axis is a climate decision that each region settles differently.",
@@ -6945,18 +6855,6 @@
       "group": "plan-logic",
       "binding": "specified",
       "parameters": {
-        "adjacency_rules": {
-          "set": [
-            "every principal room opens directly off the passage and off nothing else",
-            "doors across the passage align on a common axis, so the enfilade reads through the house",
-            "the chimney breast is on the outside wall of the room, opposite or beside the passage door",
-            "no principal room is a through-route to another principal room",
-            "the best room is at the front, on the side away from the service end",
-            "windows on two walls of every principal room"
-          ],
-          "unit": "none",
-          "kind": "measured"
-        },
         "door_alignment_tolerance": {
           "value": 0,
           "unit": "in",
@@ -6966,7 +6864,24 @@
       "rule": "Every principal room opens off the passage and nothing else; doors align across the passage on a common axis; no room is a route to another.",
       "status": "drafted",
       "confidence": "low",
-      "note": "THE JOIN POINT TO THE ROOM CATALOGUE THAT DOES NOT EXIST YET, and the limitation shows here more than anywhere. These are six rules of very different kinds — a topological rule about the adjacency graph, a geometric rule about axes, a rule about where a wall element goes, and a preference about orientation — all crammed into one 'many'-cardinality slot as a list of prose strings. They are not the same species and no engine could act on them as written. UNCHANGED IN 0.2.0 AND STILL WRONG. These six rules are of four different kinds — a topological rule about the adjacency graph, a geometric rule about axes, a rule about where a wall element goes, and a preference about orientation — and they are still a flat set of prose strings inside one parameter. This is the slot the room catalogue has to fix; no schema change to the kit can. MIGRATED 0.4.0: this slot now holds only style-specific ADDITIONS to or SUPPRESSIONS of the universal room rules in rooms/. Any statement here that merely restates a universal rule should be deleted."
+      "note": "OQ 15, CLOSED 24 Aug 2026. This slot held six rules of four different kinds as a flat set of prose strings in one 'many'-cardinality parameter -- a topological rule about the adjacency graph, a geometric rule about axes, a rule about where a wall element goes, and a preference about orientation. They are not the same species and no engine could act on them as written. Resolved: TWO were about the adjacency graph and are now typed `rules` above (the second of them folding in a clause that restated it). THREE were duplication of slots that already say the same thing, and are deleted rather than moved -- 'the best room is at the front, on the side away from the service end' is `public_private_gradient`'s own rule sentence ('Rank falls front to back'); 'no principal room is a through-route to another' is that same slot's 'no room is entered through another' and this slot's own first clause; 'windows on two walls of every principal room' is `daylight_strategy`'s `walls_lit_per_principal_room: 2` and its rule sentence verbatim. ONE was not about adjacency at all -- the chimney breast's position within the room -- and has moved to `hearth_position`, which owns where the hearth goes. A style that states a universal rule here is duplicating data that will drift; that was true of half of what was here.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "Every principal room opens directly off the passage and off nothing else, so no principal room is a route to another.",
+          "why": "This is what a centre passage IS, and what distinguishes the Georgian plan from the hall-and-parlor it replaced: the passage takes the through traffic so the rooms stop being corridors. The universal room records do not forbid a door between two principal rooms -- an enfilade is a legitimate arrangement elsewhere -- so this narrows them.",
+          "confidence": "high",
+          "note": "Folded in the sixth clause of the old flat set, 'no principal room is a through-route to another principal room', which stated the same restriction a second time (OQ 15)."
+        },
+        {
+          "kind": "axis",
+          "effect": "adds",
+          "statement": "Doors across the passage align on a common axis, so the enfilade reads through the house from front door to rear.",
+          "why": "A requirement no room record makes, and one of the two or three things that most reliably separates a designed Georgian plan from a room list with a corridor. The tolerance is the `door_alignment_tolerance` parameter beside this: zero inches.",
+          "confidence": "high"
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

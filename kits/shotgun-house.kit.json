@@ -714,7 +714,15 @@
       "rule": "Rooms are strung front to back in a fixed linear sequence, typically parlour, bedroom, bedroom, kitchen (own long description); each room is adjacent only to the room immediately in front of and behind it, never side-by-side to a room it does not open into, since the house is one room wide throughout.",
       "confidence": "high",
       "status": "drafted",
-      "group": "plan-logic"
+      "group": "plan-logic",
+      "rules": [
+        {
+          "kind": "sequence",
+          "effect": "restricts",
+          "statement": "Rooms are strung front to back in a fixed linear sequence -- typically parlour, bedroom, bedroom, kitchen -- and each room is adjacent only to the room immediately in front of and behind it.",
+          "why": "The house is one room wide throughout, so there is no side-by-side adjacency to have. The universal records assume a room can have neighbours on more than one side; this says it cannot."
+        }
+      ]
     },
     "service_zone_strategy": {
       "binding": "specified",

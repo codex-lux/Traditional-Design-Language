@@ -434,7 +434,8 @@
         "wall_thickness": {
           "value": 13.5,
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "note": "OQ 19: restates `construction_type.masonry_wall_thickness`, which this slot names as its determiner, and agrees with it. Kept rather than deleted because this variant's whole content is the 4-8 in reveal and the absent exterior architrave, and a reveal is unreadable without the wall it is cut into."
         },
         "reveal": {
           "range": [
@@ -442,7 +443,8 @@
             8
           ],
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "note": "OQ 19: this IS the slot's own claim, not a restatement -- `construction_type` states wall thicknesses and says nothing about how far back the opening sits in them."
         },
         "step_at_floor": {
           "value": 4.5,
@@ -467,41 +469,14 @@
     },
     "reveal_frame": {
       "group": "envelope",
-      "binding": "specified",
-      "parameters": {
-        "wall_thickness": {
-          "value": 13.5,
-          "unit": "in",
-          "kind": "measured"
-        },
-        "reveal": {
-          "range": [
-            4,
-            8
-          ],
-          "unit": "in",
-          "kind": "measured"
-        },
-        "step_at_floor": {
-          "value": 4.5,
-          "unit": "in",
-          "kind": "measured",
-          "note": "A half brick at each floor level."
-        },
-        "exterior_architrave": {
-          "value": "none",
-          "unit": "none",
-          "kind": "measured",
-          "note": "The wall's depth is the window's only surround, and the austerity that follows is a large part of why a Virginia front looks unlike a Massachusetts one at the same size."
-        }
-      },
-      "rule": "The opening is set 4 to 8 in back in a real reveal and has no exterior architrave.",
+      "binding": "extends",
+      "rule": "As georgian-colonial-american: a frame opening sits nearly flush.",
       "determined_by": [
         "construction_type"
       ],
       "confidence": "low",
       "status": "drafted",
-      "note": "MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_frame."
+      "note": "OQ 19, 24 Aug 2026. This slot was a verbatim copy of `reveal_masonry` and therefore stated the MASONRY answer under the frame id: a 13.5 in wall, a 4 to 8 in reveal and no exterior architrave. A frame Tidewater house would have been drawn with a brick wall's reveal. It now extends the parent, which carries the real frame answer (5 to 7 in wall, under 2 in of reveal, depth given by the architrave), and states nothing of its own -- because nothing in this corpus sources a Tidewater DEPARTURE from that, and inventing one to fill the slot is what the copy already did once."
     },
     "cornice": {
       "group": "envelope",

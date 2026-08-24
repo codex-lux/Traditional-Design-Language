@@ -827,7 +827,21 @@
       "confidence": "low",
       "judgment": true,
       "status": "drafted",
-      "group": "plan-logic"
+      "group": "plan-logic",
+      "rules": [
+        {
+          "kind": "sequence",
+          "effect": "restricts",
+          "statement": "Rooms adjoin directly along the additive sequence -- main block to wing to ell -- rather than hanging independently off a passage.",
+          "why": "There is no long formal passage in this type to hang rooms off, so the growth order IS the adjacency order. It narrows the universal records rather than adding to them: they do not forbid a passage plan, this type simply does not have one."
+        },
+        {
+          "kind": "hierarchy",
+          "effect": "adds",
+          "statement": "The kitchen sits in the rearmost, lowest-ranked volume.",
+          "why": "A rank claim, not an adjacency one -- kept here because it is what decides WHICH end of the sequence the kitchen occupies, which is the sequence rule's own missing term."
+        }
+      ]
     },
     "service_zone_strategy": {
       "binding": "specified",

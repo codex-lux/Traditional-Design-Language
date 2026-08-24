@@ -711,7 +711,15 @@
       "judgment": true,
       "status": "drafted",
       "note": "CASCADE FIX. Before this binding, the slot resolved a North German hall-house rule with livestock stalls and family sleeping cupboards sharing one undivided floor (the Diele/Kubbungen/Flett arrangement) -- a Continental barn-house plan with no relationship to the Anglo pen-and-loft plan already fixed at circulation_parti.",
-      "group": "plan-logic"
+      "group": "plan-logic",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "Each pen is one undivided room, and adjacency where more than one pen exists is pen-to-pen -- directly, or across a dogtrot passage -- never a livestock-and-family shared floor.",
+          "why": "Two claims of one kind: what a pen contains, and what may adjoin what. The second half is a prohibition the universal records do not make because they have no vocabulary for livestock in the house."
+        }
+      ]
     },
     "service_zone_strategy": {
       "binding": "specified",

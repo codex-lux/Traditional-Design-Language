@@ -739,7 +739,8 @@
             14
           ],
           "unit": "ft",
-          "kind": "measured"
+          "kind": "measured",
+          "note": "OQ 19: independent of the determiner, and necessarily so. `height_proportion` states RATIOS -- storey diminution 12-22%, piano nobile at least 1.15 of the storey above, a rusticated base at 0.8-1.0 -- and a set of ratios cannot yield a height without an anchor. This is the anchor: the ratios are applied from the parlour floor upward and downward."
         }
       },
       "rule": "Interior ceiling heights follow the exterior storey graduation directly; the double-parlour floor runs fourteen-foot ceilings and eleven-foot windows to the floor.",

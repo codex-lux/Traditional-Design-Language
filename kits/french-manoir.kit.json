@@ -687,7 +687,15 @@
       "status": "drafted",
       "confidence": "high",
       "rule": "Every room on both floors opens directly off the stair tower; there is no corridor anywhere in the plan.",
-      "note": "Direct quote of the long description's second paragraph."
+      "note": "Direct quote of the long description's second paragraph.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "Every room on both floors opens directly off the stair tower; there is no corridor anywhere in the plan.",
+          "why": "The tower is the circulation, vertically and horizontally at once. Same species as the Georgian passage rule with a different hub."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

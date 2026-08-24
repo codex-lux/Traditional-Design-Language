@@ -850,7 +850,15 @@
       "judgment": true,
       "status": "drafted",
       "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian passage-adjacency rule directly contradicted by circulation_parti (family level).",
-      "group": "plan-logic"
+      "group": "plan-logic",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "Rooms open into one another around the hearth rather than each opening independently off a passage; the living room is the circulation hub the Georgian passage would otherwise be.",
+          "why": "The exact inverse of the Georgian restriction, and the reason both need stating: neither is the universal rule, and a checker that assumed either would mark the other's houses wrong."
+        }
+      ]
     },
     "service_zone_strategy": {
       "binding": "specified",

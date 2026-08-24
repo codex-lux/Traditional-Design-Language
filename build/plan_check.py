@@ -94,6 +94,30 @@ def style_chain(style_id, C):
 def excepted(rule, chain):
     return bool(set(rule.get("exceptions") or []) & chain)
 
+
+def kit_suppressions(chain, C):
+    """Universal room rules the style's kit declares it switches OFF (OQ 15).
+
+    `room_adjacency_overrides`'s own note has said since ontology 0.4.0 that the slot holds
+    "only what a style ADDS or SUPPRESSES" -- and nothing read it, so a suppression existed as
+    prose while the validator went on enforcing the rule the kit said should not apply. A rule
+    a style legitimately breaks is not reported: that is this file's own closing sentence, and
+    until now it was true only of the `exceptions` list on the room record, which is the room
+    catalogue's side of the same statement. This is the kit's side.
+
+    Read across the whole inheritance chain, because a suppression is a fact about a tradition
+    and a descendant that did not restate it has not thereby reinstated the rule.
+
+    Returns a set of (room, key, target) triples."""
+    out = set()
+    for sid in chain:
+        slot = ((C.get("kits", {}).get(sid) or {}).get("slots") or {}).get("room_adjacency_overrides")
+        for r in ((slot or {}).get("rules") or []):
+            sup = r.get("suppresses")
+            if r.get("effect") == "suppresses" and sup:
+                out.add((sup.get("room"), sup.get("key"), sup.get("target")))
+    return out
+
 def derive_constraint_vars(plan):
     """Narrow, conservative auto-derivation of a handful of constraint-vocabulary variables
     (build/constraint_vocabulary.py) directly from unambiguous plan structure.
@@ -148,6 +172,7 @@ def check(plan, C=None, strict=False):
     seen_pairs = set()
     style = plan.get("style")
     chain = style_chain(style, C)
+    suppressed = kit_suppressions(chain, C)
     if style not in C["styles"]:
         F.add("fatal", "style", f"Unknown style '{style}'.", fix="Use a style id from the taxonomy.")
 
@@ -341,6 +366,7 @@ def check(plan, C=None, strict=False):
         for kind, key in (("must_adjoin", "must_adjoin"), ("should_adjoin", "should_adjoin")):
             for rule in rt["adjacency"].get(key, []):
                 if excepted(rule, chain): continue
+                if (r["type"], key, rule["room"]) in suppressed: continue
                 relation = rule.get("relation")
                 # --- vertical relations (OQ 35). A rule that IS vertical is satisfied only
                 # vertically; a horizontal rule marked vertical_ok may be satisfied either way.
@@ -386,6 +412,7 @@ def check(plan, C=None, strict=False):
                           room=rid, rule=rule["why"])
         for rule in rt["adjacency"].get("must_not_adjoin", []):
             if excepted(rule, chain): continue
+            if (r["type"], "must_not_adjoin", rule["room"]) in suppressed: continue
             if rule["room"] not in types_adjacent(rid): continue
             relation = rule.get("relation", "")
             for other in adj[rid]:
