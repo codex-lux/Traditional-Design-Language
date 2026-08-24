@@ -191,6 +191,34 @@ def check(plan, C=None, strict=False):
             return len([d for d in adj[x] if d in rooms]) >= 3
         return False
 
+    def types_on_level(delta_from):
+        """Room types on a given level. The vertical half of adjacency (OQ 35)."""
+        out = {}
+        for x, rr in rooms.items():
+            out.setdefault(level_of.get(x, 0), set()).update(_alias(rr["type"]))
+        return out
+
+    _by_level = None
+
+    def types_vertically_from(rid, direction):
+        """Types on the storey directly above or below this room.
+
+        OQ 35, ruled 24 Aug 2026. Adjacency was evaluated within a level only, which made two
+        real arrangements unstateable: an overlook is open to the hall BELOW it, and a great
+        chamber over the parlour is a drawing room whose dining room is a storey down. Both were
+        being worked around -- one rule softened so a right answer was not called a defect, one
+        room retyped to dodge a rule it could never satisfy -- and both workarounds now come out.
+
+        Deliberately checks the LEVEL rather than plan-position overlap: a plan record carries
+        geometry only after the geometry pass has run, and this layer is hand-authorable and runs
+        first. Being on the storey below is the claim the corpus can actually make."""
+        nonlocal _by_level
+        if _by_level is None:
+            _by_level = types_on_level(0)
+        lv = level_of.get(rid, 0)
+        want = lv - 1 if direction == "below" else lv + 1
+        return _by_level.get(want, set())
+
     def types_near(rid):
         """Directly adjacent, plus anything one hop further through a hall.
 
@@ -305,9 +333,26 @@ def check(plan, C=None, strict=False):
         for kind, key in (("must_adjoin", "must_adjoin"), ("should_adjoin", "should_adjoin")):
             for rule in rt["adjacency"].get(key, []):
                 if excepted(rule, chain): continue
-                direct = key == "must_adjoin" and rule.get("relation") == "direct-door"
+                relation = rule.get("relation")
+                # --- vertical relations (OQ 35). A rule that IS vertical is satisfied only
+                # vertically; a horizontal rule marked vertical_ok may be satisfied either way.
+                if relation in ("open-to-below", "open-to-above"):
+                    d = "below" if relation == "open-to-below" else "above"
+                    if rule["room"] in types_vertically_from(rid, d): continue
+                    sev = STRENGTH_SEV.get(rule.get("strength", "strong"), "serious")
+                    if key == "should_adjoin": sev = "minor" if sev == "fatal" else sev
+                    F.add(sev, "adjacency",
+                          f"{label} should be open to a {rule['room'].replace('-', ' ')} on the "
+                          f"storey {d} it, and there is none.",
+                          room=rid, rule=rule["why"])
+                    continue
+                direct = key == "must_adjoin" and relation == "direct-door"
                 near = types_adjacent(rid) if direct else types_near(rid)
                 if rule["room"] in near: continue
+                if rule.get("vertical_ok") and (
+                        rule["room"] in types_vertically_from(rid, "below")
+                        or rule["room"] in types_vertically_from(rid, "above")):
+                    continue
                 # A named intermediary satisfies the rule. The butler's pantry is not a failure
                 # to connect the kitchen to the dining room; it is the connection.
                 if rule.get("via"):

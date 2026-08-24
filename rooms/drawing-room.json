@@ -108,13 +108,14 @@
     "must_adjoin": [
       {
         "room": "dining-room",
-        "why": "THE WITHDRAWAL. The whole company moves from one room to the other as a body, so the two rooms are adjacent and joined by a door - preferably a pair - that a group can pass through together. This is the hardest adjacency rule in the formal plan and it is the room's reason for existing.",
+        "why": "THE WITHDRAWAL. The whole company moves from one room to the other as a body, so the two rooms are adjacent and joined by a door - preferably a pair - that a group can pass through together. This is the hardest adjacency rule in the formal plan and it is the room's reason for existing. OQ 35, ruled 24 Aug 2026: also satisfied vertically. This is a GROUND-FLOOR rule as written, and the great chamber of a Tudor or Jacobean house is a drawing room on the first floor, over the parlour, where the household dined in state once the hall had stopped being used for it — its dining room is a storey below it and always was. Without this the arrangement the type is famous for tripped a fatal.",
         "relation": "direct-door",
         "strength": "hard",
         "exceptions": [
           "English country houses of the eighteenth century where a saloon or an anteroom sits between them, which works because the intermediate room is part of the same processional sequence and is not a room anyone lives in",
           "American plans after about 1920, where the ritual has stopped and the requirement has genuinely lapsed - at which point the room is a living room and should be catalogued as one"
-        ]
+        ],
+        "vertical_ok": true
       }
     ],
     "should_adjoin": [

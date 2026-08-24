@@ -402,8 +402,11 @@
       "same-floor",
       "visible-from",
       "acoustically-separated",
-      "not-visible-from"
-     ]
+      "not-visible-from",
+      "open-to-below",
+      "open-to-above"
+     ],
+     "description": "How the two rooms are related. `open-to-below` and `open-to-above` are VERTICAL and were added by OQ 35: a room may be open to a double-height volume on the storey beneath it, which is the whole of what an overlook is, and no arrangement within one level can satisfy that. plan_check.py evaluates them across levels."
     },
     "strength": {
      "enum": [
@@ -425,6 +428,10 @@
       "type": "string"
      },
      "description": "Room types that legitimately stand between. A direct-door rule with no `via` forbids the very room invented to satisfy it — the butler's pantry between kitchen and dining is the standing case."
+    },
+    "vertical_ok": {
+     "type": "boolean",
+     "description": "Whether a normally horizontal rule is ALSO satisfied by the target sitting directly above or below. Added by OQ 35 for the case the corpus could not express: a great chamber over the parlour is a drawing room, and drawing-room's hard rule that it must reach a dining room is a GROUND-FLOOR rule -- an upper-floor state room can satisfy it only vertically, and without this it trips a fatal for the one arrangement the type is famous for. Defaults to false, so no existing rule changes meaning."
     }
    }
   }

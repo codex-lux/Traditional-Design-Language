@@ -203,7 +203,7 @@
     },
     {
       "id": "greatchamber",
-      "type": "library",
+      "type": "drawing-room",
       "level": 1,
       "name": "Great Chamber",
       "exterior_walls": [
@@ -220,7 +220,7 @@
       ],
       "stacks_over": "parlour",
       "area_weight": 0.13,
-      "note": "The best room in the house, over the parlour at the high end. In the sixteenth century it is where the household dined in state once the hall had stopped being used for it. TYPED library, and the choice is a compromise worth stating: every public and living room in the catalogue carries a ground-floor adjacency rule - drawing-room must reach a dining room, parlor and best-parlor and morning-room an entrance-hall, sitting-room a parlor - and an upper-floor state room can satisfy none of them. Typed drawing-room, which is what it most nearly is, the plan trips a FATAL for not reaching a dining room that is a storey below it. library's rule is 'strong' rather than 'hard', so the same impossibility is reported as serious rather than fatal and the diagram stays composable. The catalogue has no upper-floor state room; that is an open question, not a property of this house."
+      "note": "The best room in the house, over the parlour at the high end. In the sixteenth century it is where the household dined in state once the hall had stopped being used for it. Typed drawing-room, which is what it is. It was typed `library` when this parti was written, purely to dodge drawing-room's hard rule that it must reach a dining room — a ground-floor rule an upper-floor state room can never satisfy, which cost a FATAL for the one arrangement this type is famous for. OQ 35 fixed the rule instead: it is now also satisfied by the dining room sitting a storey below, which is where it actually is."
     },
     {
       "id": "gallery",

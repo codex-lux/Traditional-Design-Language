@@ -348,3 +348,53 @@ class TestConstraintEvaluation:
         assert v["centre_passage_width_ft"] == 12
         assert v["room_count_ground_floor"] == 14
         assert v["ceiling_height_ground_in"] == 132  # 11 ft ground-floor ceiling
+
+
+class TestVerticalAdjacency:
+    """OQ 35, ruled 24 Aug 2026. Adjacency was evaluated within a level only, which made two real
+    arrangements unstateable and forced two workarounds that this change removes."""
+
+    def _two_level(self, plan_check_module, upper_type, lower_type, relation_room):
+        return {
+            "id": "t", "name": "t", "style": "tudor", "massing": "h-plan-manor",
+            "groupings": [], "context": {}, "adjacencies": [], "declared": {},
+            "levels": [
+                {"id": "ground", "index": 0, "floor_to_ceiling_ft": 10, "rooms": [
+                    {"id": "low", "type": lower_type, "name": "Lower", "width_ft": 16,
+                     "length_ft": 20, "doors": []}]},
+                {"id": "upper", "index": 1, "floor_to_ceiling_ft": 9, "rooms": [
+                    {"id": "up", "type": upper_type, "name": "Upper", "width_ft": 6,
+                     "length_ft": 20, "doors": []}]},
+            ]}
+
+    def test_an_overlook_is_satisfied_by_the_hall_on_the_storey_below(self, plan_check_module, corpus):
+        """The rule could never pass before: an overlook's defining relationship is that it is
+        open to a double-height room BENEATH it, and adjacency did not span levels. It was held
+        at 'preferred' with an apology on it so a right answer was not reported as a defect."""
+        plan = self._two_level(plan_check_module, "overlook", "hall", "hall")
+        res = plan_check_module.check(plan, corpus)
+        assert not [f for f in res["findings"]
+                    if "open to a hall" in f["statement"] and f["room"] == "up"]
+
+    def test_an_overlook_with_nothing_below_it_is_reported(self, plan_check_module, corpus):
+        plan = self._two_level(plan_check_module, "overlook", "bedroom", "hall")
+        res = plan_check_module.check(plan, corpus)
+        assert [f for f in res["findings"]
+                if "storey below" in f["statement"] and f["room"] == "up"]
+
+    def test_a_great_chamber_over_the_parlour_no_longer_trips_a_fatal(self, plan_check_module, corpus):
+        """drawing-room's hard must_adjoin dining-room is a GROUND-FLOOR rule, and the great
+        chamber of a Tudor house is a drawing room on the first floor whose dining room is a
+        storey down. It used to be typed `library` purely to dodge this."""
+        plan = self._two_level(plan_check_module, "drawing-room", "dining-room", "dining-room")
+        res = plan_check_module.check(plan, corpus)
+        assert not [f for f in res["findings"]
+                    if f["severity"] == "fatal" and f["room"] == "up"
+                    and "dining room" in f["statement"]]
+
+    def test_the_h_plan_parti_types_its_great_chamber_as_what_it_is(self):
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        p = json.load(open(os.path.join(root, "partis", "great-hall-h-plan.json")))
+        gc = next(r for r in p["rooms"] if r["id"] == "greatchamber")
+        assert gc["type"] == "drawing-room", "the library workaround should be gone"

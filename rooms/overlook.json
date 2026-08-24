@@ -86,9 +86,9 @@
     "should_adjoin": [
       {
         "room": "hall",
-        "why": "the room it overlooks. In the living-hall types this is the whole point - the upper corridor is a balcony onto the house's principal room NOTE (WP-4.5): this is a VERTICAL relationship - the overlook is open to the hall on the storey below - and a plan record expresses adjacency within a level only, so no correct plan can satisfy it as written. Held at 'preferred' rather than 'strong' so a right answer is not reported as a serious defect, and recorded as an open question rather than dropped, because the relationship is real and the corpus simply has no way to state it.",
-        "relation": "visible-from",
-        "strength": "preferred"
+        "why": "the room it overlooks. In the living-hall types this is the whole point — the upper corridor is a balcony onto the house's principal room, and a 'gallery' with nothing open beneath it is just a corridor. OQ 35, ruled 24 Aug 2026: this is a VERTICAL relation and the corpus can now say so. It was held at 'preferred' with an apology attached because adjacency was evaluated within a level only, so the rule could never pass on a correct plan; it is back at 'strong' and means what it says.",
+        "relation": "open-to-below",
+        "strength": "strong"
       },
       {
         "room": "bedroom",
