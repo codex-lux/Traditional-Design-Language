@@ -1,0 +1,21 @@
+# Traditional Design Language — Python dependencies
+#
+# The corpus and every checker in build/ run on the standard library alone, and
+# that property is deliberate: a collaborator can clone the repo and validate the
+# data without installing anything. What follows is what the tooling *above* the
+# data needs.
+#
+# python3 -m pip install -r requirements.txt
+
+# WP-2.3's constraint solver (build/solver.py). Optional at runtime: it is imported
+# inside solve() rather than at module load, and when it is absent the solver falls
+# back to build/geometry.py's heuristic and SAYS SO in geometry_report.solver
+# (engine: "heuristic-fallback", with a reason). A silent fallback would be a
+# lie about how the plan was placed.
+ortools>=9.15
+
+# build/compose.py validates briefs against schema/brief.schema.json on the CLI path.
+jsonschema>=4.0
+
+# The behaviour suite; build/check_all.py shells out to it as its last check.
+pytest>=7.0

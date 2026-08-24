@@ -110,6 +110,14 @@ The massing catalog is therefore a separate namespace, joined to styles through 
 
 ## Extending it
 
+The data and every checker run on the standard library alone. `requirements.txt`
+covers the tooling above the data — the CP-SAT solver, brief schema validation and
+the test suite:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
 ```bash
 python3 build/validate.py            # taxonomy: schema, references, acyclicity, chronology
 python3 build/check_orders.py        # proportion packs: sums, invariants, overlay integrity
@@ -133,8 +141,7 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
 
 ## What is deliberately not here yet
 
-- **Compositional constraints in the geometry solver.** It satisfies adjacency; it does not compose an elevation. The entrance is not reliably on the entrance front and the ceremonial sequence is not yet a constraint — both are already stated in `composition_parti` and the style constraints, and neither is read.
-- **The remaining 129 kits.** Georgian Colonial, Tidewater Georgian and English Georgian are filled; everything else is a real, versioned skeleton with every slot at `binding: "open"`. The point of doing one properly first was to break the schema before filling 129 files against a broken one, and it worked — the exercise produced kit schema 0.2.1 and seven new slots.
+- **A solver that proves what it composes.** WP-2.2 gave the geometry pass compositional terms — the entrance on the entrance front, principal rooms forward, service to the rear, the ceremonial sequence — read from `entrance_faces` and the style's own constraints. They are *scored*, and heavily weighted, but a 250-candidate random search converging toward a preference is not a solver enforcing a constraint, and an infeasible brief still returns the least-bad plan rather than naming what conflicts. That is WP-2.3.
 - **Date-conditional resolution.** `applies_when.date_range` exists and is populated; nothing selects on it yet.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.
 
@@ -142,7 +149,7 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
 
 ## Open questions, flagged rather than silently decided
 
-The dataset was audited adversarially before release, and every layer added since has kept the same discipline: a judgement call gets a number and a place to live rather than a silent decision. That single list — taxonomy questions, proportion-layer gaps, the kit-authoring findings, and the structural questions gating later phases — is `docs/open-questions.md`, and it is kept there rather than duplicated here, because a second copy is exactly how the slot-count and tool-count drift this README itself suffered happened in the first place. As of this writing 30 questions are recorded there; 10 are marked resolved and one in progress. See `docs/README.md` for how every doc in this repo fits together.
+The dataset was audited adversarially before release, and every layer added since has kept the same discipline: a judgement call gets a number and a place to live rather than a silent decision. That single list — taxonomy questions, proportion-layer gaps, the kit-authoring findings, and the structural questions gating later phases — is `docs/open-questions.md`, and it is kept there rather than duplicated here, because a second copy is exactly how the slot-count and tool-count drift this README itself suffered happened in the first place. As of this writing 31 questions are recorded there. See `docs/README.md` for how every doc in this repo fits together.
 
 ## Known issues
 

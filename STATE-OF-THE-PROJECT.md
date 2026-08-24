@@ -1,6 +1,8 @@
 # Traditional Design Language — State of the Project
 
-*Originally written 23 August 2026 against v0.6. **Revised 24 August 2026**, after Phases 0–3 closed and Phase 4 ran through WP-4.2. Everything below was verified by running the toolchain, not by reading the docs — every checker, the proportion engine selftest, both plan validations, both composer briefs, the geometry solver, and the full 291-test suite were executed, and the numbers here are what they returned. Where a figure has moved since the 23 August review, the old figure is named so the direction of travel is visible.*
+*Originally written 23 August 2026 against v0.6. **Revised 24 August 2026**, after Phases 0–3 closed and Phase 4 ran through WP-4.2. Everything below was verified by running the toolchain, not by reading the docs — every checker, the proportion engine selftest, both plan validations, both composer briefs, the geometry solver, and the full test suite were executed, and the numbers here are what they returned. Where a figure has moved since the 23 August review, the old figure is named so the direction of travel is visible.*
+
+*Figures reconciled again late on 24 August 2026, after OQ 28 and WP-4.3 landed: 17 groupings (was 16), 304 tests across 16 files (was 291 across 14), 31 open questions (was 30), the suite back to a single ~2-minute run, and two rows the appendix had never carried — `construction/` and `docs/reports/`. Part III's OQ 28 and garage entries are struck through rather than deleted, in this document's own habit of leaving the old reading legible beside the new.*
 
 ---
 
@@ -28,7 +30,7 @@ The system is a stack of nine layers. Reading it bottom-up, each layer is a prec
 
 **5. The solecisms.** The fault corpus (`faults/`) — 209 named errors, hung *element-first* off slots rather than styles, because the half-width shutter is wrong on every house that has shutters. Style enters through 846 exceptions (496 with numeric bounds): a Georgian five-foot portico is fatal by Craftsman rules and correct by its own. Every fault carries a cause with a named driver (exactly one of 209 is ignorance; the rest are stock sizes, trade sequences, catalog defaults and code minima), three tiers of fix (`right`, `cheap`, `dishonest`), two severity axes (how it reads, how it lives), and an executable `test`. The corpus returns *unjudged* for what it cannot evaluate, never *passed*.
 
-**6. The phrase layer.** 16 groupings (`groupings/`) — the hall-and-parlor pair, the centre-passage core, the entry sequence, the service core, the primary suite — with internal rules carrying severities and tests, and the join field `attaches_to`, which says how the grouping lands in a massing and at what fit. This is the scale people actually design at, and it is the hinge that makes rooms and skeletons composable. Twelve partis (`partis/`) then give canonical sentence patterns: topology and roles only, with dimensions always pulled from the room catalog so nothing can drift.
+**6. The phrase layer.** 17 groupings (`groupings/`, was 16 before WP-4.3 added `garage-and-hyphen`) — the hall-and-parlor pair, the centre-passage core, the entry sequence, the service core, the primary suite — with internal rules carrying severities and tests, and the join field `attaches_to`, which says how the grouping lands in a massing and at what fit. This is the scale people actually design at, and it is the hinge that makes rooms and skeletons composable. Twelve partis (`partis/`) then give canonical sentence patterns: topology and roles only, with dimensions always pulled from the room catalog so nothing can drift.
 
 **7. The critic.** The plan schema and validator (`schema/plan.schema.json`, `build/plan_check.py`): a hand-authorable plan record checked across room, adjacency-and-privacy, grouping, fault, code, style-constraint and elevation layers. Built *before* the composer, because a composer needs a fitness function and this is it. Two worked examples ship — a deliberately ordinary production Colonial and the same corpus applied carefully — alongside a 14-plan reference corpus transcribed from real drawings.
 
@@ -66,7 +68,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **The fault corpus.** `check_faults.py` passes: 209 faults, every slot covered, every fault carrying a test.
 
-**Rooms, groupings and partis.** `check_rooms.py` passes. All 58 rooms carry furniture with clearances, daylight, adjacency, privacy rank, and — better than the last review recorded — a `style_variation` block on every one of the 58. All 16 groupings carry `attaches_to`. The 12 partis name 39 styles between them as native.
+**Rooms, groupings and partis.** `check_rooms.py` passes. All 58 rooms carry furniture with clearances, daylight, adjacency, privacy rank, and — better than the last review recorded — a `style_variation` block on every one of the 58. All 17 groupings carry `attaches_to`. The 12 partis name 39 styles between them as native.
 
 **The plan validator.** Both example plans run and produce their documented results. Two-hop adjacency through a hall, rank-transparent circulation, the two-ended daylight correction, the `via` field, style constraints and the elevation layer are all implemented.
 
@@ -84,7 +86,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **The reference corpus (WP-2.1).** 14 of the Plan Examples transcribed into schema-valid plan records — 7 good, 7 bad — and scored. This was the experiment that tested whether the validator agrees with Lucas's eye.
 
-**A real regression suite.** 291 tests across 14 files, each named for the finding it protects. `make check` is the single entry point. This did not exist at the last review.
+**A real regression suite.** 304 tests across 16 files, each named for the finding it protects (was 291 across 14 before WP-4.3 and the OQ 28 fix added `test_garage.py` and `test_modcache.py`). `make check` is the single entry point, and since OQ 28 it completes in one run of about two minutes. This did not exist at the last review.
 
 **The MCP server.** 24 tools registered, imports cleanly, `core.py` callable directly.
 
@@ -98,9 +100,9 @@ Taken together: **Phases 0, 1 and 3 are complete, Phase 2 is complete but for it
 
 **The solver is still a hill-climb, not an optimiser — and this is now the single largest structural gap.** WP-2.2 added the compositional terms, but `docs/geometry.md` is exact about what they are: *strongly-weighted preferences a 250-candidate random search converges toward, not hard constraints a solver enforces*. Search improves with more candidates (537 → 489 → 463 from 40 to 800), which is the signature of hill-climbing rather than optimisation. Two consequences matter. First, a composition that satisfies the constraints today can silently stop doing so tomorrow, because nothing enforces them. Second — and this is what a plan-development partner most needs — an infeasible brief returns the least-bad plan rather than a named conflict set saying *why* it cannot be done. This is WP-2.3, and everything downstream inherits the softness.
 
-**The performance ceiling (OQ 28) is unfixed and now actively taxing.** `plan_check.py`'s `_load()` re-imports `mcp_server/core.py` fresh on every `check()` call, defeating `core._data()`'s own cache. It was a harmless pattern until the full constraint payload landed; now `compose()` runs 30–40 s per brief and the 291-test suite no longer fits a single run — it takes roughly twelve minutes in three chunks. Every future work package pays this tax on every verification pass. It is diagnosed, small, and worth fixing before the next large body of work rather than after.
+~~**The performance ceiling (OQ 28).**~~ **Fixed, later on 24 August 2026.** `plan_check.py`'s `_load()` re-imported `mcp_server/core.py` fresh on every `check()` call, defeating `core._data()`'s own cache; one `check()` executed plan_check 16 times and geometry 8. `build/modcache.py` now caches by realpath and every local `_mod`/`_load` delegates to it. `check()` 3.06 s → 0.31 s, `compose()` 30–40 s → 7–9 s, and the suite is back to a single run at roughly two minutes rather than twelve in three chunks. `tests/test_modcache.py` counts module executions so a reinstated local loader is caught. See `docs/reports/oq-28-module-cache.md`.
 
-**The garage is nearly done but its acceptance criterion is not met.** 54 nodes now carry a `garage_strategy` binding, and only four living nodes lack one. What is missing is the catalog side WP-4.3 actually asks for: a `garage` room, a `garage-and-hyphen` grouping with `attaches_to`, and a composer rule that places the garage by the grouping's attachment rather than by adjacency. The acceptance test — that the spec Colonial's garage-beside-primary-bedroom fatal *cannot be reproduced* by the composer — is not yet true.
+~~**The garage.**~~ **Closed, 24 August 2026 (WP-4.3).** The catalog side the package asked for is built: `rooms/garage.json`, `groupings/garage-and-hyphen.json` (8 internal rules, 14 `attaches_to` entries including one `forbidden` massing), and `compose.py`'s `attach_garage()`, which places the garage by the grouping's attachment and refuses with a stated reason where the grouping records none — never by adjacency. All four remaining living nodes were bound, taking the corpus to 58 `garage_strategy` bindings. The acceptance holds and is tested both ways: the composer cannot reproduce the garage-beside-primary-bedroom fatal, and a guard test asserts the hand-authored spec Colonial still trips it, so the acceptance cannot pass because the rule broke. One finding was left standing on purpose — the daylight-depth rule is unsatisfiable for a garage and probably for every non-habitable room, recorded as OQ 31. See `docs/reports/wp-4.3-the-garage.md`.
 
 **Partis: still 39 of 132 styles.** Unmoved since the last review, and now the weakest link in Phase 4's breadth. The plan names the likely dozen: telescope, connected farmstead, hall-house, courtyard, the Creole gallery-and-cabinet variants, split-level Ranch, Foursquare with side hall, Shingle-style living hall. A style with a canonical massing and no native parti cannot be composed for at all, so this gates the composer's reach more directly than any kit work did.
 
@@ -128,7 +130,7 @@ Taken together: **Phases 0, 1 and 3 are complete, Phase 2 is complete but for it
 
 **Non-Western trunks (WP-4.7).** Five traditions are modelled. Japanese, Islamic, South Asian and African traditions would each be a peer trunk; the schema extends unchanged; `shotgun-house` and `cape-dutch` already point at ancestors the graph cannot name. Scope only, by design.
 
-**Continuous integration.** The 291 tests exist; nothing runs them automatically.
+**Continuous integration.** The 304 tests exist; nothing runs them automatically.
 
 ---
 
@@ -138,13 +140,13 @@ The shape of the project has changed since the last review, and the change is wo
 
 What is left divides cleanly into three kinds of work, and they are not equally urgent.
 
-**The rigour gap.** The solver composes by preference, not by proof. This is the one place where the system's own documentation says it is weaker than it looks, and it undercuts a claim the project needs to be able to make: that it can tell a builder *early* that a brief cannot be built in a parti, and why. WP-2.3 is the fix. The small enabler underneath it — OQ 28's caching bug — should go first, because it makes every verification pass afterward cheaper, and the solver work will involve many of them.
+**The rigour gap.** The solver composes by preference, not by proof. This is the one place where the system's own documentation says it is weaker than it looks, and it undercuts a claim the project needs to be able to make: that it can tell a builder *early* that a brief cannot be built in a parti, and why. WP-2.3 is the fix, and with OQ 28 fixed and WP-4.3 closed it is now the next package rather than the third.
 
-**The breadth gap.** Partis at 39 of 132 now gate the composer harder than kits ever did; missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) is a small closing task with a named acceptance test, worth finishing while the kit work is fresh.
+**The breadth gap.** Partis at 39 of 132 now gate the composer harder than kits ever did; missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) was the small closing task here and is done.
 
 **The last mile.** Details, guidelines, export, a workbench, ingestion. These turn a correct internal representation into something a builder and a plan-development lead can actually hold — and they are what the partnership, when it exists, will judge the system by.
 
-So the sequence: fix **OQ 28** (small, and it pays back on every run after it); close **WP-4.3** (small, mostly done, kills a named fatal); build **WP-2.3**, the real solver, which is the deepest remaining structural gap and the last thing standing between Phase 2 and finished; then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images; then Phase 5's last mile.
+So the sequence: ~~fix **OQ 28**~~ (done — it pays back on every run after it); ~~close **WP-4.3**~~ (done — it killed a named fatal); build **WP-2.3**, the real solver, which is the deepest remaining structural gap and the last thing standing between Phase 2 and finished; then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images; then Phase 5's last mile.
 
 That order keeps faith with the project's own founding discipline — validator before composer, spine before breadth, the drawing as a render of the data — and it means that at each step the system produces something more *like a house* rather than merely more data about houses. The aim was never a taxonomy. It was a language fluent enough that a production builder could speak it, and a house built in it would feel, to the people who live there, like it belongs. The grammar for that is written, and now it is bound to its vocabulary. The work now is to make the compiler prove what it composes.
 
@@ -162,7 +164,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Vocabulary | constraints | 660 migrated, 365 tested, **61.5% of hard** | Clears the ≥60% bar |
 | Bindings | `kits/` | **159 files, 159 populated** | Complete (was 3 of 132) |
 | Solecisms | `faults/` | 209, 846 exceptions, all tested | Complete |
-| Phrases | `groupings/`, `partis/` | 16 / 12 (**39 of 132 styles native**) | Groupings complete; **partis are the gap** |
+| Phrases | `groupings/`, `partis/` | 17 / 12 (**39 of 132 styles native**) | Groupings complete; **partis are the gap** |
 | Critic | `plan_check.py` | 7 layers incl. constraints + elevation | Functional; code advisory only |
 | Critic | `plans/reference/` | 14 transcribed (7 good, 7 bad) | Complete |
 | Generator | `compose.py`, 2 briefs | 4 candidates per brief, lot-aware | Functional |
@@ -172,6 +174,8 @@ That order keeps faith with the project's own founding discipline — validator 
 | Interface | `mcp_server/` | 24 tools | Functional |
 | Interface | `dist/` | html × 2, json, agent.md | Current |
 | Evidence | `assets/manifest.json` | 322 wanted, **0 sourced** | Records only — WP-4.4 |
-| Governance | `docs/open-questions.md` | 30 items | OQ 20 answered; 24, 28, 29, 30 live |
+| Back-end | `construction/` | 2 catalogs (wall assemblies, floor structure) | Complete — WP-3.1's data side |
+| Governance | `docs/open-questions.md` | 31 items | OQ 20, 24, 28 answered; **27, 29, 30, 31 live** |
+| Governance | `docs/reports/` | 17 package reports | One per completed WP, plus OQ 28 |
 | Checks | `build/check_*.py`, `validate.py` | 9 checkers | All pass |
-| Checks | `tests/` | **291 tests, 14 files** | All pass; ~12 min in 3 chunks (OQ 28); no CI |
+| Checks | `tests/` | **304 tests, 16 files** | All pass; one run, ~2 min (OQ 28 fixed); no CI |
