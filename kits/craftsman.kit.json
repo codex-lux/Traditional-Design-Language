@@ -10,18 +10,44 @@
       "status": "empty"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gable",
+          "status": "canonical",
+          "note": "Craftsman's own defining_characteristics #1: 'Low-pitched gabled roof, front- or side-facing.'"
+        },
+        {
+          "id": "hip",
+          "status": "forbidden",
+          "note": "Prairie's device, not Craftsman's; see the parent family's own roof_form note on the split."
+        }
+      ],
+      "rule": "The principal roof is gabled, front- or side-facing, low-pitched.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the parent's deliberately-open gable/hip split with Craftsman's own documented answer, stopping the cascade here rather than letting it reach either the parent's open pairing or any distant ancestor.",
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Principal roof pitch between 3:12 and 6:12 (own hard constraint c03).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Restates the node's own hard constraint c03 directly; the parent's identical 3:12-6:12 band already resolves this correctly, but this node's own constraint is the more specific and more authoritative source.",
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -31,11 +57,34 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exposed-rafter-tails",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "projection_in": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c01: eave and rake overhang 24-36 in, equal on eave and rake within 6 in; an overhang under 18 in disqualifies the node."
+        },
+        "eave_rake_equality_tolerance_in": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Eave and rake overhang shall be between 24 and 36 in, and shall be equal on eave and rake within 6 in (own hard constraint c01).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Narrows the parent's shared 24-48 in family band to Craftsman's own tighter, hard-constrained figure, and resolves the parent's own open gable/hip branch point down to the exposed-rafter-tails answer Craftsman alone canonically takes.",
+      "group": "massing-and-roof"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -52,11 +101,12 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The gable is built of an exposed truss with a projecting purlin running through the gable-end wall, a knee brace under the overhang, and (in high-craft work) a shaped and rounded beam end -- the Swiss chalet and Japanese-timber inheritances made visible.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in defining_characteristics #2 and the node's own long description of its Swiss-chalet and Japanese parents' contributions (exposed purlin, projecting ridge beam, knee brace, shaped beam end).",
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -66,11 +116,12 @@
       "status": "empty"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The chimney is faced in river boulder, arroyo stone, or over-fired clinker brick, laid deliberately irregular against the regular woodwork, and is expressed as a solid mass rather than a decorative accent.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in the node's own diagnostic_tells: 'River boulder, arroyo stone, or over-fired clinker brick used for chimney, porch base, and foundation -- deliberately irregular masonry against regular woodwork.'",
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -87,11 +138,13 @@
       "status": "empty"
     },
     "wing_strategy": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The house is a single dominant volume rather than an additive assembly of wings; where a wing occurs it is subordinate in ridge height, consistent with the one-to-one-and-a-half-storey norm.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Not stated directly by the node; inferred from its own massing_affinities (bungalow-linear canonical, gable-front-and-wing only 'possible') and the general absence of any additive-growth discussion in its own text (contrast with american-farmhouse-vernacular, whose whole identity is additive growth).",
+      "group": "massing-and-roof"
     },
     "construction_type": {
       "group": "envelope",
@@ -109,11 +162,26 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wood-shingle",
+          "status": "canonical"
+        },
+        {
+          "id": "clapboard",
+          "status": "permitted"
+        },
+        {
+          "id": "stucco",
+          "status": "permitted"
+        }
+      ],
+      "rule": "Cladding stacks base to top -- stone or clinker brick base, shingle or clapboard middle, stucco or shingle gable -- with each change at a structural line (material_change_rule, family level).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Grounded in defining_characteristics #5 ('Stacked natural materials expressing base, wall, and gable, with each transition at a structural line').",
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -130,11 +198,12 @@
       "status": "empty"
     },
     "foundation_expression": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The foundation is exposed rough masonry -- river boulder, arroyo stone, or clinker brick -- matching the chimney and porch base, not a smooth poured skirt.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Same source as chimney, above: the node's own diagnostic tell names foundation alongside chimney and porch base.",
+      "group": "envelope"
     },
     "water_table": {
       "group": "envelope",
@@ -217,11 +286,12 @@
       "status": "empty"
     },
     "window_proportion": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Upper sash divided into three or four vertical lights; lower sash undivided -- a vertical division within a sash whose overall proportion is set by the storey, not by a wide horizontal ratio.",
+      "confidence": "medium",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Tudor-derived 'wide rather than tall... horizontal multi-light grid' proportion from tudor-jacobean -- the opposite of a double-hung sash's own vertical proportion, and inconsistent with window_type (already fixed on this node to double-hung, forbidding casement-leaded). Grounded in the node's own typical_ratios: 'Upper sash divided into three or four vertical lights; lower sash undivided.'",
+      "group": "openings"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -238,11 +308,11 @@
       "status": "empty"
     },
     "window_head_wood": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The window head is a flat, wide casing, unmoulded, sharing the datum of every other window and door head on the storey (see own proportional_system: 'window and door heads at 6 ft 8 in to 7 ft 0 in on a single datum').",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "openings"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -259,11 +329,12 @@
       "status": "empty"
     },
     "window_sill": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The sill is a plain projecting wood member sized like the casing, not a moulded classical sill.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "group": "openings"
     },
     "window_grouping_rule": {
       "group": "openings",
@@ -315,11 +386,31 @@
       "status": "empty"
     },
     "garage_strategy": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-rear-lot",
+          "status": "canonical",
+          "note": "A detached single- or double-bay garage at the rear of the lot, trimmed in the same wide-board vocabulary and roofed to match the house, reached by a driveway along one side."
+        },
+        {
+          "id": "attached-side-recessed",
+          "status": "permitted",
+          "note": "Set back from the principal facade plane and subordinate in height, its door never on the entrance elevation."
+        },
+        {
+          "id": "attached-front-facing",
+          "status": "forbidden",
+          "note": "A garage door on the entrance elevation defeats the porch-forward composition this style depends on."
+        }
+      ],
+      "rule": "The garage is a subordinate volume, ideally detached at the rear of the lot; where attached, it is recessed behind the principal facade plane and its door is never on the entrance elevation.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No historical precedent exists for this slot (garage_strategy, per docs/inheritance.md), so this is authored rather than retrieved, per docs/inheritance.md's own guidance that the slot 'should be specified on every contemporary buildable variant.' Craftsman remains one of the most commonly built-anew styles in this family today, which is the basis for specifying it here rather than leaving it open.",
+      "group": "openings"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -383,25 +474,59 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The porch roof must be framed under the primary roof -- either as a continuation of the main slope or as a subordinate gable tied into it. A shed roof applied to the wall below the main eave is forbidden (own hard constraint c02).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "threshold"
     },
     "porch_depth": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            7,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "width_pct_facade_min": {
+          "value": 60,
+          "unit": "percent",
+          "kind": "measured"
+        }
+      },
+      "rule": "Porch depth 7 to 9 ft clear; porch width not less than 60 percent of the facade.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly from the node's own typical_ratios.",
+      "group": "threshold"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "base_width_in": {
+          "range": [
+            24,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured"
+        },
+        "beam_taper_in": {
+          "range": [
+            12,
+            18
+          ],
+          "unit": "in",
+          "kind": "measured"
+        }
+      },
+      "rule": "Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide (own hard constraint c04); base width 24 to 36 in, tapering to 12 to 18 in at the beam.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "threshold"
     },
     "porch_rail": {
       "group": "threshold",
@@ -439,11 +564,11 @@
       "status": "empty"
     },
     "trim_family": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The picture rail sits at door-head datum and the casing family is three boards: a 1x4 leg, a 1x6 head, and a 1x8 base, per the node's own bound trim-craftsman pack.",
+      "status": "drafted",
+      "note": "Extends the family's own trim_family binding with Craftsman's own more specific three-board casing figure (already cited in the node's own proportion_packs note for trim-craftsman).",
+      "group": "interior"
     },
     "baseboard": {
       "group": "interior",
@@ -453,11 +578,26 @@
       "status": "empty"
     },
     "casing": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "leg_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured",
+          "note": "1x4 leg casing per trim-craftsman."
+        },
+        "head_in": {
+          "value": 6,
+          "unit": "in",
+          "kind": "measured",
+          "note": "1x6 head casing."
+        }
+      },
+      "rule": "Casing is a three-board family: a 1x4 leg, a 1x6 head, and a 1x8 base, per the node's own bound trim-craftsman pack.",
+      "confidence": "medium",
+      "status": "drafted",
+      "note": "Overrides the parent's generic 4-5 in casing width with Craftsman's own more specific three-board schedule.",
+      "group": "interior"
     },
     "crown": {
       "group": "interior",
@@ -537,18 +677,18 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The front door opens directly into the living room with no vestibule in the small plan-book examples, and the kitchen moves close to the dining space with a built-in buffet replacing the sideboard -- a servantless-household plan.",
+      "status": "drafted",
+      "note": "Extends the family's own open-plan rule with Craftsman's own specific evidence for it, drawn from its own long description.",
+      "group": "plan-logic"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The hearth sits on an interior wall of the living room and is the room's organizing object; built-in bookcases flank it (built_ins, family level).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "plan-logic"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -579,11 +719,23 @@
       "status": "empty"
     },
     "depth_and_pile": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "body_width_ft": {
+          "range": [
+            24,
+            28
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Craftsman Bungalow's own typical_ratios; carried up to the parent style as its dominant expression."
+        }
+      },
+      "rule": "Single-pile to shallow double-pile depending on plan size; the bungalow-linear massing (canonical) is fundamentally a single-loaded plan.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "group": "plan-logic"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -617,11 +769,12 @@
       "status": "empty"
     },
     "orientation_rule": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The porch elevation faces the street or the principal approach; beyond that, orientation is set by site and sun rather than by a fixed compass rule.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "group": "site"
     },
     "outbuilding_types": {
       "group": "site",

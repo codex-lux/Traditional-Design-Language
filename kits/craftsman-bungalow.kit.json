@@ -59,11 +59,32 @@
       "status": "empty"
     },
     "dormer": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "shed",
+          "status": "canonical",
+          "note": "Own defining_characteristics: 'Dormer, usually shed, providing habitable roof space in the one-and-a-half storey version.'"
+        }
+      ],
+      "parameters": {
+        "setback_from_eave_in": {
+          "value": 24,
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c04: not less than 24 in."
+        },
+        "max_pct_roof_width": {
+          "value": 60,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Own hard constraint c04: must not exceed 60 percent of the roof plane's width."
+        }
+      },
+      "rule": "Dormers must be set back not less than 24 in from the eave line and must not exceed 60 percent of the roof plane's width (own hard constraint c04, soft).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -80,11 +101,22 @@
       "status": "empty"
     },
     "height_proportion": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "storeys": {
+          "range": [
+            1,
+            1.5
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "note": "Own hard constraint c03: 1 to 1.5 storeys; a full second storey disqualifies the node."
+        }
+      },
+      "rule": "Conditioned floor area 800 to 1,600 sq ft on one to one and a half storeys. A full second storey disqualifies the node and moves it to the foursquare massing under the parent style (own hard constraint c03).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -315,11 +347,26 @@
       "status": "empty"
     },
     "garage_strategy": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-rear-lot",
+          "status": "canonical",
+          "note": "Reached by a shared or side driveway on the standard 40-50 ft streetcar-suburb lot this variant's own governing_logic describes."
+        },
+        {
+          "id": "attached-front-facing",
+          "status": "forbidden",
+          "note": "A garage door on the entrance elevation contradicts the full-width front porch this variant's own hard constraint (c01) requires."
+        }
+      ],
+      "rule": "The garage is a small detached structure at the rear of the lot, sized and trimmed to match the house, reached by a driveway along one side -- the answer this type's own narrow 40-50 ft lot and full-width front porch (c01) leave available.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No historical precedent exists for this slot; the type predates the private automobile garage as a standard feature. Authored per docs/inheritance.md's guidance that garage_strategy 'should be specified on every contemporary buildable variant' -- this is one of the most commonly built-anew house forms in the New Urbanist and cottage-infill markets today.",
+      "group": "openings"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -383,11 +430,19 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "width_pct_facade_min": {
+          "value": 60,
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Own hard constraint c01."
+        }
+      },
+      "rule": "Front porch depth not less than 7 ft clear and width not less than 60 percent of the facade, framed under the primary roof (own hard constraint c01).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",
@@ -453,11 +508,22 @@
       "status": "empty"
     },
     "casing": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "width_in": {
+          "range": [
+            4,
+            5
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own diagnostic tell: 'a wide flat casing 4 to 5 in deep around every opening.'"
+        }
+      },
+      "rule": "A wide flat casing 4 to 5 in deep around every opening, with three- or four-over-one sash.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "interior"
     },
     "crown": {
       "group": "interior",
@@ -509,11 +575,10 @@
       "status": "empty"
     },
     "built_ins": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The hearth and its flanking built-ins must occupy a full wall of the principal living room; if the plan has no hearth wall the node is a bungalow in massing only (own hard constraint c05, soft).",
+      "status": "drafted",
+      "group": "interior"
     },
     "floor_material": {
       "group": "interior",
@@ -537,11 +602,11 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The front door opens directly into the living room with no vestibule -- this is the plan's own diagnostic fingerprint.",
+      "status": "drafted",
+      "note": "Own diagnostic_tells, quoted directly.",
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -579,11 +644,30 @@
       "status": "empty"
     },
     "depth_and_pile": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "body_width_ft": {
+          "range": [
+            24,
+            28
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "body_depth_ft": {
+          "range": [
+            32,
+            44
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Body width 24 to 28 ft, capped by the standard 40-50 ft lot; depth 32 to 44 ft.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in own proportional_system.governing_logic and typical_ratios.",
+      "group": "plan-logic"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -603,11 +687,13 @@
       "status": "empty"
     },
     "street_relationship": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The porch faces the sidewalk at conversational distance across a shallow setback -- the streetcar-suburb lot's own defining social geometry.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Grounded in own long description: 'the porch... faces the sidewalk at conversational distance.'",
+      "group": "site"
     },
     "setback_rule": {
       "group": "site",
@@ -617,11 +703,12 @@
       "status": "empty"
     },
     "orientation_rule": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The porch faces the street; the whole street shares one massing with the ridge alternately parallel and perpendicular to the road (own diagnostic tells).",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "group": "site"
     },
     "outbuilding_types": {
       "group": "site",

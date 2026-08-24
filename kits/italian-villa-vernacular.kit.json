@@ -6,15 +6,55 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "balanced-asymmetrical-off-axis-tower",
+          "status": "canonical",
+          "note": "italian-villa-vernacular.c02 (hard): the tower must be off the centre line and exceed the block's eave height by at least 30 percent."
+        },
+        {
+          "id": "strict-bilateral-classical",
+          "status": "forbidden",
+          "note": "italian-villa-vernacular.c02: a tower centred on the facade converts the composition into a symmetrical villa -- a different, Palladian type, not this one."
+        }
+      ],
+      "parameters": {
+        "tower_eave_height_excess_min_pct": {
+          "value": 30,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.c02"
+        }
+      },
+      "rule": "Balanced but not strictly symmetrical: the tower -- off the centre line and exceeding the block's own eave height by at least 30 percent -- and the loggia deliberately unbalance an otherwise regular block.",
+      "note": "OVERRIDES a cascade fill from antique-classical ('the principal elevation is strictly bilaterally symmetrical about a central axis'), which directly contradicts this node's own proportional_system.symmetry field ('balanced-asymmetrical') and its own hard constraint c02. The family kit (mediterranean-vernacular) deliberately left this slot open at the family level, stating explicitly: 'Symmetry class is the primary thing that tells the two members apart and is resolved at the style level, not here.' Resolved here, on this node's own kit, exactly as that note directs -- not fixed on the family kit or any other ancestor."
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "defining_characteristics point 1; italian-villa-vernacular.c01 (hard)."
+        },
+        {
+          "id": "low-gable",
+          "status": "permitted",
+          "note": "defining_characteristics point 1 ('a single shallow hipped or low-gabled tile roof')."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Not attested anywhere in this style's own text; a northern-European form."
+        }
+      ],
+      "rule": "A single shallow hipped, occasionally low-gabled, tile roof over a compact block."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -67,10 +107,12 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The chimney carries a small tile cap on piers -- a little roof over the flue -- a Tuscan detail with no northern equivalent.",
+      "note": "diagnostic_tells point 5, direct quote. Held at medium/judgment because it is named once as a diagnostic tell rather than given its own dimensioned treatment."
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -81,10 +123,39 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "block_plan_ratio": {
+          "range": [
+            1.0,
+            1.3
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios"
+        },
+        "eave_height_to_shorter_plan_dim": {
+          "range": [
+            0.8,
+            1.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios"
+        },
+        "tower_height_to_block_eave_height": {
+          "range": [
+            1.3,
+            1.8
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios"
+        }
+      },
+      "rule": "The principal block is near-cubic (plan 1:1 to 1:1.3, eave height 0.8-1.0 of the shorter plan dimension); the tower rises 1.3-1.8 times the block's own eave height."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -211,17 +282,65 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "round-headed",
+          "status": "canonical",
+          "note": "defining_characteristics point 5; loggia arches are semicircular per c03 (rise = half span, within 3 percent)."
+        },
+        {
+          "id": "square-headed",
+          "status": "canonical",
+          "note": "defining_characteristics point 5."
+        },
+        {
+          "id": "pointed-or-tudor-arch",
+          "status": "forbidden",
+          "note": "italian-villa-vernacular.c03: pointed and Tudor arches 'are outside the tradition entirely.'"
+        }
+      ],
+      "parameters": {
+        "arch_rise_to_span": {
+          "range": [
+            0.47,
+            0.53
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.c03 (hard, tested)"
+        }
+      },
+      "rule": "Round-headed or square-headed openings only, graded in size by storey; where an opening is arched (loggia or window), the rise is half the span within 3 percent."
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "piano_nobile_proportion": {
+          "range": [
+            1.8,
+            2.2
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios ('Window proportions 1:1.8 to 1:2.2 at the piano nobile')"
+        },
+        "top_storey_proportion": {
+          "range": [
+            1.3,
+            1.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios ('1:1.3 to 1:1.5 at the top storey')"
+        }
+      },
+      "rule": "Windows grade taller and narrower at the piano nobile (1:1.8-1:2.2) and squarer at the top storey (1:1.3-1:1.5), reinforcing the storey-height diminution."
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -274,10 +393,11 @@
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "External operable shutters are used throughout the elevation.",
+      "note": "defining_characteristics point 5, direct."
     },
     "special_window": {
       "group": "openings",
@@ -316,10 +436,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "No traditional precedent exists for any style (docs/inheritance.md); invented honestly for this contemporary-buildable (status: living) variant."
+      },
+      "rule": "Where a garage is required, it sits in a detached or link-connected volume clad to match the principal block, set off-axis the way the tower is set off-axis -- never centred on or competing with the loggia elevation -- with no garage door on the principal, loggia-facing front.",
+      "note": "This style's status is 'living' and its revival lineage (Italianate, Mediterranean Revival) is still actively built; per docs/inheritance.md this slot 'should be specified on every contemporary buildable variant' and is authored honestly as invention where no historical precedent exists."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +511,38 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "loggia-arcade",
+          "status": "canonical",
+          "note": "defining_characteristics point 4; the style's principal outdoor room."
+        }
+      ],
+      "parameters": {
+        "bay_count": {
+          "range": [
+            3,
+            5
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios"
+        },
+        "clear_span": {
+          "range": [
+            6.6,
+            9.8
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios ('clear span 2.0-3.0 m')"
+        }
+      },
+      "rule": "An arcaded loggia of three to five equal semicircular arches, on the ground or upper floor, oriented for shade and view -- the family's principal columnar element and its designed outdoor room.",
+      "note": "Distinguished explicitly from tuscan-vernacular's working portico: 'the villa has a loggia designed for sitting in; the farm has a portico for working under' (distinguished_from)."
     },
     "porch_depth": {
       "group": "threshold",
@@ -398,10 +553,31 @@
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "pier_width_to_span": {
+          "range": [
+            0.35,
+            0.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios"
+        },
+        "impost_height_to_arch_height": {
+          "range": [
+            0.55,
+            0.65
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios"
+        }
+      },
+      "rule": "Loggia arches spring from an unfluted Tuscan or Doric pier carrying a simple impost band directly, never a moulded capital-and-entablature combination -- consistent with `column` (specified at the family level) and `entablature`/`pediment`/`pilaster` (forbidden at the family level).",
+      "note": "italian-villa-vernacular.c04 (soft)."
     },
     "porch_rail": {
       "group": "threshold",
@@ -433,10 +609,24 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "parameters": {
+        "storey_height_ratio": {
+          "set": [
+            10,
+            9,
+            7.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-villa-vernacular.json typical_ratios ('Storey heights diminishing upward roughly 10:9:7.5')"
+        }
+      },
+      "rule": "Ceiling height is not derived from a room's own plan proportion by a harmonic mean. It is set by storey, diminishing upward roughly 10:9:7.5 from the ground floor to the top storey, consistent with the style's own governing_logic ('proportion is set by the storey height and the opening, not by a module').",
+      "note": "OVERRIDES a cascade fill from renaissance-classical (a harmonic-mean-of-plan-proportion rule, reached via the italian-renaissance hybridization edge) that contradicts this node's own bound room-role proportion pack: this style's own proportion_packs binds `room-vernacular` (precedence 2, span/storey-driven) as its room pack and explicitly rejects the module-and-order system room-harmonic assumes, and its own governing_logic states plainly there is 'no module' governing rooms. Confirmed with `resolve_kit.py italian-villa-vernacular --slot ceiling_height_rule --verbose`: the PACK RESOLUTION for this exact slot shows room-vernacular, not room-harmonic, as the pack that actually 'governs' by precedence, even though the inherited prose rule described a harmonic-mean derivation the resolved numbers do not use. The identical bug and fix recur on mexican-colonial.kit.json and mexican-hacienda.kit.json (via a different lineage path) and, as a Palladian-flavoured variant, on arts-and-crafts-british.kit.json. Fixed here per WP-4.2 instructions rather than on any ancestor kit."
     },
     "trim_family": {
       "group": "interior",

@@ -87,11 +87,38 @@
       "status": "empty"
     },
     "wing_strategy": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Subordinate wings (barchesse) step down from the dominant centre in BOTH height and order -- a lower eave line and a plainer order (Doric, against Ionic or Corinthian at the centre) -- carrying real agricultural or service functions. Equal wings destroy the hierarchy the composition depends on.",
+      "parameters": {
+        "wing_eave_height_fraction": {
+          "range": [
+            0.5,
+            0.7
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "palladian.json proportional_system.typical_ratios"
+        }
+      },
+      "variants": [
+        {
+          "id": "subordinate-barchesse-lower-and-plainer-order",
+          "status": "canonical",
+          "note": "palladian.c02, hard constraint."
+        },
+        {
+          "id": "equal-height-and-order-wings",
+          "status": "forbidden",
+          "note": "palladian.c02: equal wings destroy the hierarchy the composition depends on."
+        }
+      ],
+      "sources": [
+        "palladian.json defining_characteristics, constraints (palladian.c02), proportional_system.typical_ratios"
+      ],
+      "group": "massing-and-roof"
     },
     "construction_type": {
       "group": "envelope",
@@ -130,11 +157,29 @@
       "status": "empty"
     },
     "foundation_expression": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The piano nobile sits on a plain or rusticated service basement not less than 1.2 m (47.2 in) high, reached by the external steps -- the plinth-like base that the storey-graduation pack governs against the raised principal floor above it.",
+      "parameters": {
+        "min_basement_height_in": {
+          "value": 47.2,
+          "unit": "in",
+          "kind": "measured",
+          "source": "palladian.json constraints (palladian.c04)"
+        }
+      },
+      "variants": [
+        {
+          "id": "rusticated-or-plain-service-basement",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "palladian.json defining_characteristics, constraints (palladian.c04)"
+      ],
+      "group": "envelope"
     },
     "water_table": {
       "group": "envelope",
@@ -179,18 +224,49 @@
       "status": "empty"
     },
     "cornice": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A full crowning cornice terminates the composition above a real, treatise-derived entablature -- part of the same continuous entablature the family kit already specifies runs above the order (renaissance-classical.kit.json).",
+      "variants": [
+        {
+          "id": "classical-crowning-cornice",
+          "status": "canonical"
+        },
+        {
+          "id": "no-applied-cornice-corbelled-eave-only",
+          "status": "forbidden",
+          "note": "CASCADE FIX. Inherited from mediterranean-vernacular via the real but weight-0.4 italian-villa-vernacular hybridizes_with lineage edge ('half its DNA is the Veneto agricultural building'), and wrong at the level it was wrongly applied: Palladian's own defining_characteristics headline is 'the temple front -- a pedimented portico of engaged or free-standing columns -- applied to a domestic building,' which requires a real crowning entablature and cornice. The vernacular's corbelled-eave logic correctly governs the barchesse farm wings (see column), not the classically-ordered principal block."
+        }
+      ],
+      "note": "CASCADE FIX -- one of the most consequential in this batch. Palladian sits directly on the lineage chain that english-georgian and its descendants (tidewater-georgian, and per docs/inheritance.md's worked example the whole American Georgian branch) walk through, so an incorrect blanket 'no cornice' at this node would silently strip the crowning member from every downstream Georgian-family kit that does not independently re-specify it.",
+      "sources": [
+        "palladian.json defining_characteristics, proportion_packs[trim-classical]"
+      ],
+      "group": "envelope"
     },
     "frieze": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A classical frieze band runs as part of the same continuous entablature as the cornice, module-derived from the bound order (Ionic primary, Corinthian secondary, Doric for the subordinate wings).",
+      "variants": [
+        {
+          "id": "classical-frieze-band",
+          "status": "canonical"
+        },
+        {
+          "id": "no-frieze-band",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same mechanism and same lineage edge as `cornice`."
+        }
+      ],
+      "sources": [
+        "palladian.json defining_characteristics, proportion_packs"
+      ],
+      "group": "envelope"
     },
     "parapet": {
       "group": "envelope",
@@ -280,11 +356,26 @@
       "status": "empty"
     },
     "special_window": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The serliana (arched centre light flanked by two square-headed lights on columns) is used at most once per elevation, on axis or as a terminal compositional event -- never repeated as a standard window type.",
+      "variants": [
+        {
+          "id": "serliana-single-terminal-event",
+          "status": "canonical"
+        },
+        {
+          "id": "serliana-repeated-as-standard-window",
+          "status": "forbidden",
+          "note": "palladian.c05: 'a Georgian and Colonial Revival habit, not a Palladian one.'"
+        }
+      ],
+      "sources": [
+        "palladian.json diagnostic_tells, constraints (palladian.c05)"
+      ],
+      "group": "openings"
     },
     "entry_door": {
       "group": "openings",
@@ -334,11 +425,51 @@
       "status": "empty"
     },
     "column": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The temple-front portico carries real, module-proportioned free-standing or engaged columns of the Ionic or Corinthian order (portico of four or six columns, occupying 1/2 to 3/5 of the block width); the subordinate barchesse and flanking wings carry the same logic in a plainer Doric order, sized smaller and never competing with the centre -- not a bare unfluted pier carrying only an impost.",
+      "parameters": {
+        "portico_columns": {
+          "set": [
+            4,
+            6
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "palladian.json proportional_system.typical_ratios"
+        },
+        "portico_width_fraction": {
+          "range": [
+            0.5,
+            0.6
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "palladian.json proportional_system.typical_ratios"
+        }
+      },
+      "variants": [
+        {
+          "id": "module-proportioned-order-centre-ionic-corinthian",
+          "status": "canonical"
+        },
+        {
+          "id": "module-proportioned-order-wings-doric",
+          "status": "canonical",
+          "note": "palladian.c02 (hard): wings subordinate in both height and order; the style's own proportion_packs binds palladio-doric specifically 'for the barchesse and flanking wings.'"
+        },
+        {
+          "id": "unfluted-pier-with-impost-no-order",
+          "status": "forbidden",
+          "note": "CASCADE FIX. mediterranean-vernacular specifies the family's 'only columnar element' as a bare unfluted pier carrying an impost, 'never a moulded capital-and-full-entablature combination' -- correct for the plain vernacular loggia of italian-villa-vernacular and tuscan-vernacular, and directly contradicted for Palladian by the style's own defining_characteristics, its c02 hard constraint on ordered wings, and its own bound palladio-ionic/corinthian/doric proportion packs."
+        }
+      ],
+      "sources": [
+        "palladian.json defining_characteristics, constraints (palladian.c02), proportional_system.typical_ratios, proportion_packs"
+      ],
+      "group": "classical-apparatus"
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -355,11 +486,27 @@
       "status": "empty"
     },
     "pilaster": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Engaged pilasters may articulate secondary bays and the barchesse wings where a full free-standing or engaged column would compete with the dominant centre -- consistent with the style's own defining_characteristics naming 'engaged or free-standing columns' for the temple front, and with c02's requirement that wings be subordinate in order as well as height.",
+      "variants": [
+        {
+          "id": "engaged-pilaster-on-secondary-bays-and-wings",
+          "status": "permitted"
+        },
+        {
+          "id": "no-pilaster-of-any-kind",
+          "status": "forbidden",
+          "note": "CASCADE FIX. mediterranean-vernacular's blanket 'no applied pilaster order occurs' -- itself only an inference from italian-villa-vernacular's own text, not a direct quotation, per that binding's own note -- is wrong for a treatise-derived order style whose defining identity is a full classical apparatus applied to a domestic front."
+        }
+      ],
+      "note": "Held at medium confidence because Palladian's own text names engaged and free-standing COLUMNS explicitly but does not use the word 'pilaster'; this is a reasonable reading of 'engaged... columns' rather than a verbatim citation.",
+      "sources": [
+        "palladian.json defining_characteristics, constraints (palladian.c02)"
+      ],
+      "group": "classical-apparatus"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -376,18 +523,48 @@
       "status": "empty"
     },
     "ornament_vocabulary": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Ornament is the disciplined vocabulary of the orders themselves -- module-derived mouldings, capitals and the serliana as a single compositional event -- kept restrained relative to Baroque richness, but never reduced to the vernacular's 'ornament almost entirely absent, concentrated where it is unavoidable.' The style's whole identity is built from a fixed, published classical vocabulary transmissible by treatise.",
+      "variants": [
+        {
+          "id": "disciplined-treatise-order-vocabulary",
+          "status": "canonical"
+        },
+        {
+          "id": "serliana-as-terminal-compositional-event",
+          "status": "permitted",
+          "note": "palladian.c05 (soft): used at most once per elevation, on axis or as a terminal event; repeating it as a standard window is a later Georgian/Colonial Revival habit."
+        },
+        {
+          "id": "ornament-almost-entirely-absent-construction-only",
+          "status": "forbidden",
+          "note": "CASCADE FIX. This is mediterranean-vernacular's own rule, quoted verbatim from italian-villa-vernacular's defining_characteristics -- correct for the working farm buildings, flatly contradicted by Palladio's own treatise-derived order system, which is this style's entire reason for existing."
+        }
+      ],
+      "sources": [
+        "palladian.json defining_characteristics, constraints (palladian.c05), description"
+      ],
+      "group": "classical-apparatus"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A pedimented temple-front portico of engaged or free-standing columns, projecting from the dominant centre -- the style's own fastest diagnostic tell: 'a pediment over a house rather than over a church.'",
+      "variants": [
+        {
+          "id": "pedimented-temple-front-portico",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "palladian.json defining_characteristics, diagnostic_tells"
+      ],
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",
@@ -397,11 +574,31 @@
       "status": "empty"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Ionic or Corinthian columns, four or six across, occupying one half to three fifths of the block's width.",
+      "parameters": {
+        "column_count": {
+          "set": [
+            4,
+            6
+          ],
+          "unit": "count",
+          "kind": "measured"
+        }
+      },
+      "variants": [
+        {
+          "id": "ionic-or-corinthian-portico-columns",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "palladian.json proportional_system.typical_ratios"
+      ],
+      "group": "threshold"
     },
     "porch_rail": {
       "group": "threshold",
@@ -418,11 +615,34 @@
       "status": "empty"
     },
     "steps_and_stoop": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "An external flight of steps rises to the piano nobile, raised not less than 1.2 m (47.2 in) above grade on a plain or rusticated service basement. A portico landing at grade is a later, nineteenth-century compression, not the type.",
+      "parameters": {
+        "min_rise_in": {
+          "value": 47.2,
+          "unit": "in",
+          "kind": "measured",
+          "source": "palladian.json constraints (palladian.c04)"
+        }
+      },
+      "variants": [
+        {
+          "id": "external-steps-to-raised-piano-nobile",
+          "status": "canonical"
+        },
+        {
+          "id": "portico-at-grade",
+          "status": "forbidden",
+          "note": "palladian.c04's own note: 'a Palladian portico landing at grade is a nineteenth-century compression, not the type.'"
+        }
+      ],
+      "sources": [
+        "palladian.json constraints (palladian.c04)"
+      ],
+      "group": "threshold"
     },
     "entry_sequence": {
       "group": "threshold",
@@ -537,11 +757,21 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The plan is generated first, from a closed set of harmonically-proportioned rooms graded in size about a cross axis; the elevation is whatever falls out of that arrangement.",
+      "variants": [
+        {
+          "id": "plan-first-graded-rooms-about-cross-axis",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "palladian.json description, defining_characteristics"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -572,18 +802,39 @@
       "status": "empty"
     },
     "service_zone_strategy": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Service function lives in the subordinate barchesse wings and the rusticated basement below the piano nobile -- real agricultural and estate-management work, not decoration.",
+      "variants": [
+        {
+          "id": "barchesse-wings-and-service-basement",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "palladian.json description, defining_characteristics"
+      ],
+      "group": "plan-logic"
     },
     "depth_and_pile": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The compact villa block (Rotonda, Foscari, Emo) is a double-pile square around a central hall -- the same skeleton the Georgians later standardise.",
+      "variants": [
+        {
+          "id": "double-pile-square-around-central-hall",
+          "status": "permitted"
+        }
+      ],
+      "note": "own massing_affinities rates 'four-over-four' as common (not canonical); no dimensioned figure is given so no parameter is asserted.",
+      "sources": [
+        "palladian.json massing_affinities"
+      ],
+      "group": "plan-logic"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -617,11 +868,33 @@
       "status": "empty"
     },
     "orientation_rule": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "There is no single required compass bearing. A dominant entrance front is normally oriented to its approach and prospect (as at Villa Barbaro's temple front over the working farm); the omnidirectional case is real and canonical, not exceptional -- the Rotonda has four identical porticoes facing four directions, 'the building has no back,' and rotates around a domed central hall rather than proceeding front to rear.",
+      "variants": [
+        {
+          "id": "single-dominant-approach-front",
+          "status": "canonical",
+          "note": "The ordinary working-villa case (Barbaro, Maser)."
+        },
+        {
+          "id": "four-fronted-omnidirectional",
+          "status": "permitted",
+          "note": "Villa La Rotonda's own defining condition, this style's own most cited exemplar."
+        },
+        {
+          "id": "loggia-must-face-southeast-to-southwest",
+          "status": "forbidden",
+          "note": "CASCADE FIX. mediterranean-vernacular's rigid bearing_range [135,225] deg constraint is inherited from italian-villa-vernacular's own hard-adjacent c05 for the ordinary agricultural loggia, and is directly falsified by this style's own most prominent exemplar, whose entire architectural argument is that it has no single privileged orientation at all."
+        }
+      ],
+      "note": "CASCADE FIX. Held at medium confidence/judgment because the two permitted variants are both real and the style's own text does not rank one over the other; what is fixed with high confidence is only that the inherited single rigid bearing requirement is wrong.",
+      "sources": [
+        "palladian.json exemplars (Villa La Rotonda, Villa Barbaro), description"
+      ],
+      "group": "site"
     },
     "outbuilding_types": {
       "group": "site",

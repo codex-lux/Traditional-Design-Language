@@ -66,11 +66,10 @@
       "status": "empty"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Standing entirely outside the gable wall where possible, tapering in field stone, base 5-7 ft wide to a 2-3 ft stack (own hard constraint c05, soft).",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -94,9 +93,10 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "No log wall may exceed 20 ft between notched corners; 16-18 ft is normal (own hard constraint c01, the single rule that generates every type in the family and must not be relaxed).",
+      "status": "drafted",
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -151,11 +151,10 @@
       "status": "empty"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Half-dovetail notching with the log ends sloping outward and downward is the southern mountain signature, distinct from the square notching of the Ozarks and the V-notch of Pennsylvania; log ends project 2-6 in beyond the joint (own hard constraint c02).",
+      "status": "drafted",
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -266,11 +265,10 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Openings stop at least 24 in short of any notched corner; glazed area larger than about 12 sq ft in a single log wall is structurally dishonest to the system (own hard constraint c04).",
+      "status": "drafted",
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -315,11 +313,21 @@
       "status": "empty"
     },
     "garage_strategy": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-outbuilding",
+          "status": "canonical",
+          "note": "Sited informally like the outbuilding cluster this variant's own site logic already describes."
+        }
+      ],
+      "rule": "The car is housed in a small detached structure sited informally, in the same dispersed-outbuilding pattern documented for the parent style.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No historical precedent exists for this slot. Authored per docs/inheritance.md's guidance; this node's own revival_periods note describes an active second-home log industry, supporting specifying rather than leaving open.",
+      "group": "openings"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -537,11 +545,10 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Growth is by pen combination -- saddlebag (shared chimney), double pen (two doors, two chimneys), dogtrot (open passage; see dogtrot-vernacular), two-storey, or rear shed -- never by lengthening a log wall.",
+      "status": "drafted",
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -579,11 +586,28 @@
       "status": "empty"
     },
     "depth_and_pile": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pen_width_ft": {
+          "range": [
+            16,
+            20
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        },
+        "pen_depth_ft": {
+          "range": [
+            14,
+            18
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule_append": "Pen dimension 16-20 ft by 14-18 ft, a near-square plan, set by log handling limits (own typical_ratios).",
+      "status": "drafted",
+      "group": "plan-logic"
     },
     "daylight_strategy": {
       "group": "plan-logic",

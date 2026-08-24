@@ -17,11 +17,24 @@
       "status": "empty"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "pitch_min_deg": {
+          "value": 48,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "english-medieval-timber-frame.json proportional_system.typical_ratios",
+          "note": "Refines the family's own 45 deg floor: this style's own typical_ratios state 48-55 degrees, a full 3 degrees tighter at the low end."
+        }
+      },
+      "note": "Extends rather than replaces: the family's thatch/stone-slate floor (medieval-british.kit.json, 50-55 deg) is already correct and unrestated; only the general (non-thatch) floor is tightened from the family's 45 deg to this style's own documented 48 deg.",
+      "sources": [
+        "english-medieval-timber-frame.json proportional_system.typical_ratios, constraints (english-medieval-timber-frame.c03)"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -31,11 +44,26 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Eave height 2.1-2.7 m at the wall plate, under a steep roof (48-55 degrees) demanded by thatch, stone slate or plain clay tile.",
+      "parameters": {
+        "eave_height_mm": {
+          "range": [
+            2100,
+            2700
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "english-medieval-timber-frame.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "english-medieval-timber-frame.json proportional_system.typical_ratios"
+      ],
+      "group": "massing-and-roof"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -94,9 +122,36 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A jointed hardwood frame -- cruck (curved blade pairs, dominant west/north) or box (rectilinear cage of sill, post, tie-beam, plate, diagonally braced) -- carries all vertical and lateral load; wall panels are non-structural infill only. Mortice-and-tenon joints secured by riven oak pegs; no metal fasteners in the primary frame.",
+      "variants": [
+        {
+          "id": "box-frame",
+          "status": "canonical"
+        },
+        {
+          "id": "cruck-frame",
+          "status": "canonical",
+          "note": "Dominant in the west and north."
+        },
+        {
+          "id": "balloon-frame",
+          "status": "forbidden",
+          "note": "1830s, three centuries too late."
+        },
+        {
+          "id": "platform-frame",
+          "status": "forbidden",
+          "note": "20th-century American, anachronistic."
+        }
+      ],
+      "sources": [
+        "english-medieval-timber-frame.json defining_characteristics"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -104,16 +159,66 @@
       "status": "empty"
     },
     "wall_thickness_frame": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Post section 200-300 mm square; tie beam 250-350 mm deep -- the frame member sizes that set the whole building's grain.",
+      "parameters": {
+        "post_section_mm": {
+          "range": [
+            200,
+            300
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "english-medieval-timber-frame.json proportional_system.typical_ratios"
+        },
+        "tie_beam_depth_mm": {
+          "range": [
+            250,
+            350
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "english-medieval-timber-frame.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "english-medieval-timber-frame.json proportional_system.typical_ratios"
+      ],
+      "group": "envelope"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Infill panels of wattle and daub (earliest), later brick nogging or lath and plaster, sitting flush or slightly recessed behind the timber face -- never covering the frame, and never structural. The same house may show infill from three different centuries because changing it never touches the structure.",
+      "variants": [
+        {
+          "id": "wattle-and-daub-infill",
+          "status": "canonical"
+        },
+        {
+          "id": "brick-nogging-infill",
+          "status": "canonical",
+          "note": "Later, replacing daub panel by panel."
+        },
+        {
+          "id": "lath-and-plaster-infill",
+          "status": "permitted"
+        },
+        {
+          "id": "frame-concealed-under-applied-siding",
+          "status": "forbidden",
+          "note": "The frame itself is never covered; this is exactly what distinguishes structural timber frame from the applied half-timbering of the revival (own distinguished_from -- not this node, but shared corpus convention)."
+        }
+      ],
+      "sources": [
+        "english-medieval-timber-frame.json defining_characteristics, description"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -123,11 +228,15 @@
       "status": "empty"
     },
     "material_change_rule": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Infill material may change panel by panel across centuries without altering the structural frame, because the frame carries everything and the infill carries nothing.",
+      "sources": [
+        "english-medieval-timber-frame.json description"
+      ],
+      "group": "envelope"
     },
     "foundation_expression": {
       "group": "envelope",
@@ -266,11 +375,26 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Openings are cut within a panel and may never interrupt a principal post or tie beam; window width is therefore a whole number of stud bays, dictated by the frame rather than the other way round.",
+      "variants": [
+        {
+          "id": "opening-within-single-panel-whole-bay-widths",
+          "status": "canonical"
+        },
+        {
+          "id": "opening-crossing-a-principal-post",
+          "status": "forbidden",
+          "note": "english-medieval-timber-frame.c04: window width is a whole number of stud bays."
+        }
+      ],
+      "sources": [
+        "english-medieval-timber-frame.json constraints (english-medieval-timber-frame.c04), proportional_system.bay_rhythm"
+      ],
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -537,18 +661,72 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Before the Great Rebuilding (c.1570-1640), an open hall with screens passage at the low end, service rooms beyond; after it, hall and parlour flank an inserted lobby-entry stack once the open hall is floored over.",
+      "variants": [
+        {
+          "id": "open-hall-with-screens-passage",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1180,
+              1570
+            ]
+          }
+        },
+        {
+          "id": "hall-and-parlor-lobby-entry-stack",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1570,
+              1700
+            ]
+          },
+          "note": "W. G. Hoskins's 'Great Rebuilding', roughly 1570-1640, per own sources."
+        }
+      ],
+      "sources": [
+        "english-medieval-timber-frame.json description, massing_affinities, sources (Hoskins 1953)"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Before the Great Rebuilding, an open hearth serves the open hall directly beneath the roof; after it, a full-height masonry stack is inserted -- usually into the old screens passage -- and should read as an insertion (full-height, of different material, breaking the panel grid), because that is historically what it is.",
+      "variants": [
+        {
+          "id": "open-hearth-in-open-hall",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1180,
+              1570
+            ]
+          }
+        },
+        {
+          "id": "inserted-masonry-stack-in-former-screens-passage",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1570,
+              1700
+            ]
+          },
+          "note": "english-medieval-timber-frame.c05 (advisory): should read as a visible insertion, not an original feature."
+        }
+      ],
+      "sources": [
+        "english-medieval-timber-frame.json constraints (english-medieval-timber-frame.c05), diagnostic_tells, description"
+      ],
+      "group": "plan-logic"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -579,11 +757,26 @@
       "status": "empty"
     },
     "depth_and_pile": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Structural bay length 3.0-5.0 m, set by the length of sound oak a carpenter could get (roughly 4.5 m at the practical limit); the open hall is normally two bays, crosswings one to two bays each.",
+      "parameters": {
+        "bay_length_mm": {
+          "range": [
+            3000,
+            5000
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "english-medieval-timber-frame.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "english-medieval-timber-frame.json proportional_system, massing_affinities"
+      ],
+      "group": "plan-logic"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -603,11 +796,22 @@
       "status": "empty"
     },
     "street_relationship": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Jettied timber ranges stand party-walled in a continuous street row, gable-end or eaves-on to the street -- a real urban row type, not only a rural farmhouse tradition.",
+      "variants": [
+        {
+          "id": "jettied-party-walled-street-row",
+          "status": "permitted",
+          "note": "Own massing_affinities (townhouse-row, common): Lavenham, Shrewsbury, Chester, York."
+        }
+      ],
+      "sources": [
+        "english-medieval-timber-frame.json massing_affinities, exemplars (Lavenham Guildhall)"
+      ],
+      "group": "site"
     },
     "setback_rule": {
       "group": "site",

@@ -18,10 +18,39 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "pitch_north_min_deg": {
+          "value": 40,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "french-provincial-farmhouse.typical_ratios",
+          "applies_when": {
+            "regions": [
+              "Brittany",
+              "Bresse",
+              "Alsace"
+            ]
+          }
+        },
+        "pitch_north_max_deg": {
+          "value": 55,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "french-provincial-farmhouse.typical_ratios",
+          "applies_when": {
+            "regions": [
+              "Brittany",
+              "Bresse",
+              "Alsace"
+            ]
+          }
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "In the north and west, roof pitch is steep -- 40 to 55 degrees, in slate or flat tile with gable chimneys -- a climatically opposite answer to the southern canal-tile roof the inherited [3,6] rise-in-12 band describes.",
+      "note": "Extends the cascade's inherited southern pitch (mediterranean-vernacular, correct for Provence) with this node's own documented northern band, which the family-level figure omits entirely. Direct quote of typical_ratios."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +61,37 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "genoise-corbelled-tile-courses",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "Provence",
+              "Rhone valley"
+            ]
+          }
+        }
+      ],
+      "parameters": {
+        "genoise_courses_min": {
+          "value": 2,
+          "unit": "courses",
+          "kind": "measured",
+          "source": "french-provincial-farmhouse.c02"
+        },
+        "genoise_projection_min_mm": {
+          "value": 200,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "french-provincial-farmhouse.c02"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A genoise -- two, three, or four courses of the same canal tile corbelled out and bedded in mortar -- throws water clear of the wall; the number of courses was, quite literally, a statement of the owner's standing. A minimum of two courses and 200 mm projection is required (hard constraint c02); a fascia-and-gutter eave is prohibited on southern work.",
+      "note": "Direct quote of the long description's second paragraph and constraint c02. Overrides the cascade's generic inherited eave rule (mediterranean-vernacular, via the family's own real lineage to tuscan-vernacular), which describes the shared functional principle but not this node's own specific term, figure, or the fascia-and-gutter prohibition."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -67,10 +123,33 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gable-end-north",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "Brittany",
+              "Alsace"
+            ]
+          }
+        },
+        {
+          "id": "cheminee-sarrasine-freestanding-timber-and-daub",
+          "status": "atypical",
+          "applies_when": {
+            "regions": [
+              "Bresse"
+            ]
+          },
+          "note": "A freestanding timber-and-daub chimney carried up through the roof as a separate structure, unique to the Bressan farm (exemplar: Ferme de la Foret)."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Gable chimneys in the north and west; the Bressan farm uniquely carries the chimney as a freestanding timber-and-daub structure through the roof, separate from the frame.",
+      "note": "Direct quote of the long description's third paragraph and the Ferme de la Foret exemplar note."
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -95,13 +174,44 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "timber-frame-on-brick-plinth",
+          "status": "permitted",
+          "op": "add",
+          "applies_when": {
+            "regions": [
+              "Bresse",
+              "Alsace"
+            ]
+          },
+          "note": "'The northern and western half is timber-framed and steep-roofed, and shares carpentry, dispersal and roof logic with Normandy' (lineage: hybridizes_with norman-vernacular, weight 0.2)."
+        }
+      ],
+      "rule_append": "In the north and west (Bresse, Alsace) the same social type is realised in timber frame rather than load-bearing masonry -- a regional variant the family's own masonry-only binding does not carry.",
+      "note": "Extends the cascade's inherited load-bearing-masonry-only binding (mediterranean-vernacular, via the real lineage to tuscan-vernacular) with this node's own documented northern timber-frame variant, sourced from its hybridizes_with edge to norman-vernacular and the long description's third paragraph."
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "thickness_range_mm": {
+          "range": [
+            500,
+            700
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "french-provincial-farmhouse.c03"
+        }
+      },
+      "rule": "Rubble masonry walls 500 to 700 mm thick (hard constraint c03) -- this node's own precise figure, within but tighter than the family's blended 400-700 mm band.",
+      "note": "Direct quote of constraint c03."
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -110,10 +220,51 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rubble-limestone-lime-render",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "Provence",
+              "Rhone valley"
+            ]
+          },
+          "note": "Lime render 'leaves the aggregate faintly visible.'"
+        },
+        {
+          "id": "granite-longere",
+          "status": "permitted",
+          "applies_when": {
+            "regions": [
+              "Brittany"
+            ]
+          }
+        },
+        {
+          "id": "colombage-brick-plinth-timber-frame",
+          "status": "permitted",
+          "applies_when": {
+            "regions": [
+              "Bresse"
+            ]
+          }
+        },
+        {
+          "id": "fachwerk-alsatian",
+          "status": "permitted",
+          "applies_when": {
+            "regions": [
+              "Alsace"
+            ]
+          }
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Rubble limestone or river cobble bedded in lime mortar, rendered in lime that leaves the aggregate faintly visible, in the southern hearth; the same social type produces climatically opposite regional constructions in the north and west -- granite longeres in Brittany, a Bressan timber frame on a brick plinth, an Alsatian Fachwerk courtyard block.",
+      "note": "Direct quote of the long description's second and third paragraphs."
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -232,10 +383,20 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "opening_width_max_without_relieving_arch_ft": {
+          "value": 3.94,
+          "unit": "ft",
+          "kind": "derived",
+          "source": "french-provincial-farmhouse.c03",
+          "note": "Converted from the source's own 1.2 m."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Openings not wider than 1.2 m without a stone relieving arch or a full-bearing timber lintel; a wide opening in a rubble wall requires dressed stone jambs (hard constraint c03).",
+      "note": "Direct quote of constraint c03."
     },
     "window_head_wood": {
       "group": "openings",
@@ -267,17 +428,25 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Irregular and functional: openings are placed by room and by use, with no governing datum. Window and door openings of visibly different sizes and heights on one elevation is the diagnostic, not the failure -- the fenestration follows the room, never a composition.",
+      "note": "Direct quote of proportional_system.bay_rhythm and diagnostic_tells item 5. Deliberately the opposite convention from the Mid-Century Traditional family's single-head-datum rule -- a genuine, and genuinely documented, difference between production housing and a working vernacular farmhouse."
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "solid-below-louvred-above-hinged-to-masonry-reveal",
+          "status": "canonical"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Every opening carries an external shutter, hinged to the masonry reveal (not to a frame): solid boarded below, louvred above. Shutters are the primary environmental control; a mas with fixed glazing and no shutters is a facade, not a building (hard constraint c04).",
+      "note": "Direct quote of constraint c04 and diagnostic_tells item 4."
     },
     "special_window": {
       "group": "openings",
@@ -295,10 +464,11 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Ornament is essentially absent. Where money was spent it went into dressed stone at the door surround and into the number of genoise courses, not into applied decoration (advisory constraint c05).",
+      "note": "Direct quote of constraint c05."
     },
     "transom_sidelight": {
       "group": "openings",
@@ -594,8 +764,11 @@
     },
     "storage_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The ground floor is not primarily for living: it is given to the crop -- the cave and cuverie in the south, the byre or cider press in the north, the grain floor in Beauce. People live above it or beside it, and the stair up to them is often external.",
+      "note": "Direct quote of the long description's fourth paragraph and defining_characteristics item 5."
     },
     "services_strategy": {
       "group": "plan-logic",
@@ -618,10 +791,25 @@
     },
     "orientation_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "nw_elevation_glazed_max_pct": {
+          "value": 5,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "french-provincial-farmhouse.c01"
+        },
+        "principal_openings_bearing": {
+          "value": "south to south-east",
+          "unit": "none",
+          "kind": "measured",
+          "source": "french-provincial-farmhouse.c01"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "In the Rhone valley and Provence, the north-west elevation must be effectively closed: openings not to exceed 5 percent of its wall area, none at ground level, and no principal entrance. Principal openings and outdoor living space face south to south-east -- a machine for surviving the mistral, not a compositional preference.",
+      "note": "Direct quote of constraint c01 and the long description's opening paragraph. Overrides the cascade's generic inherited bearing range (mediterranean-vernacular's [135,225] degrees, via the family's real lineage), which captures the direction correctly but omits this node's own sharper, percentage-based prohibition on the opposite face."
     },
     "outbuilding_types": {
       "group": "site",

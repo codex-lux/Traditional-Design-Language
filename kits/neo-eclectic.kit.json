@@ -6,22 +6,63 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "symmetry": {
+          "value": "picturesque-asymmetrical",
+          "unit": "none",
+          "kind": "measured",
+          "source": "neo-eclectic.proportional_system.symmetry"
+        }
+      },
+      "rule": "Composition is picturesque-asymmetrical: openings follow the plan behind them, apparent rhythm is coincidental, and it is usually broken by the garage bay at one end and the entry mass at the other.",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited 'strict-bilateral-odd-bay' (eclectic-revivals + colonial-revival, via the family splice), which directly contradicts this node's own stated symmetry attribute."
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cross-gable-multi-gable",
+          "status": "canonical",
+          "note": "The two-storey multi-gabled mass is the style's default skeleton (massing_affinities, cross-gable-victorian, common), arrived at by additive plan growth rather than picturesque intent."
+        },
+        {
+          "id": "mansard-neo",
+          "status": "permitted",
+          "note": "The 1965-1980 neo-mansard subtype, a device for concealing a second storey or apartment bulk (lineage: references second-empire, weight 0.3)."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). No member text or exemplar names a gambrel roof."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Multiple gables of near-equal width and identical pitch, with no dominant roof form -- 'the eye cannot find a primary roof and the building has no top' (long description, 'gable proliferation'). Maximum three gables per principal elevation; the dominant gable must exceed the next largest by not less than 25 percent in width (hard constraint c04).",
+      "note": "Direct quote of defining_characteristics item 4 and constraint c04. Fixes a cascade bug: the previously-resolved gambrel roof is Shingle Style's own device, unrelated to this node."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_typical": {
+          "set": [
+            "8:12",
+            "10:12"
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "neo-eclectic.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Four to seven gables per principal elevation, pitches identical at 8:12 or 10:12.",
+      "note": "Direct quote of typical_ratios. Fixes a cascade bug: the previously-resolved 'pitch_min=9:12, pitch_typical_range=[9,14]' is queen-anne-american's own steep-Victorian figure (via the family splice), overshooting this node's own documented pitch band at the top end and misstating it as a minimum rather than the flat, uniform figure the style actually uses."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +73,22 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "overhang_range_in": {
+          "range": [
+            6,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "neo-eclectic.defining_characteristics and typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Shallow eave and rake overhang, typically 6 to 12 in -- 'overhangs of six to twelve inches, leaving no shadow line, which forces every applied detail to grow in size and colour contrast to remain visible' (long description, eave collapse).",
+      "note": "Direct quote of defining_characteristics item 8. Fixes a cascade bug: the previously-resolved shingle-style eave rule (via the family splice) happens to share a similar ceiling but is sourced from an unrelated style and omits this node's own causal point about why the ornament reads loud."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -110,10 +163,28 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "brick-or-stone-veneer-street-elevation-only",
+          "status": "permitted",
+          "note": "Applied to the street elevation and required to return not less than 24 in onto the side before terminating (hard constraint c01) -- the return-failure is the node's single most named diagnostic."
+        },
+        {
+          "id": "vinyl-or-aluminum-siding-remaining-elevations",
+          "status": "permitted",
+          "note": "The three non-street elevations, per defining_characteristics item 3."
+        },
+        {
+          "id": "shingle-continuous-field",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). Shingle Style's whole discipline is a continuous shingle field wrapping every elevation and corner without exception; neo-eclectic's defining move is the opposite -- masonry on the front only, cladding change at the corner -- and is a large part of why the two nodes are structurally opposed."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Masonry or stone applied to the street elevation only, with vinyl or panel siding on the remaining three. A masonry veneer must be applied to all elevations of the mass it clads, or terminate at an inside corner or a change of plane of not less than 24 in; a return of less than 24 in onto a side elevation is forbidden (hard constraint c01).",
+      "note": "Direct quote of defining_characteristics item 3, diagnostic_tells item 1 ('Brick front with a 6-to-12-inch return onto the side elevation, then vinyl'), and constraint c01. Fixes a cascade bug: shingle-style's continuous-field rule (inherited via the family splice) is the structural opposite of what this node actually does and what it is diagnosed by."
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -124,10 +195,19 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "return_min_in": {
+          "value": 24,
+          "unit": "in",
+          "kind": "measured",
+          "source": "neo-eclectic.c01"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A masonry veneer must be applied to all elevations of the mass it clads, or terminate at an inside corner or a change of plane of not less than 24 in. A return of less than 24 in is forbidden and is the style's single most-named failure: 'brick or stone covers the front elevation and turns the corner by six to twelve inches before giving way to vinyl, which announces that the masonry is a face rather than a wall.'",
+      "note": "Direct quote of constraint c01 and the long description's own naming of 'material return failure' as the first of its seven named failure modes."
     },
     "foundation_expression": {
       "group": "envelope",
@@ -206,15 +286,21 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Ornament, being applied in shallow extruded polymer, vinyl, or aluminum with no shadow depth, relies on size and colour contrast rather than profile to remain legible -- the mechanism the node's own text gives for why the ornament 'looks loud.'",
+      "note": "Direct paraphrase of the long description's 'eave collapse' paragraph. Marked judgment because the node does not state a literal colour-strategy rule; this restates its own causal argument about contrast substituting for shadow, one register up from where it is stated (trim, not body colour)."
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule_append": "No more than two distinct window shapes on one principal elevation; three or more -- rectangular, arched, half-round, octagonal, on a single wall -- is this style's own named diagnostic overreach, not a canonical target (diagnostic_tells item 4).",
+      "note": "Adds a clause the inherited double-hung-sash binding (british-picturesque, via the family splice) does not carry. Marked judgment: the node's own text names the three-or-more-shapes condition as a failure to diagnose, not as an explicit numeric ceiling, so the two-shape cap is an inference from that diagnostic rather than a directly stated rule."
     },
     "window_proportion": {
       "group": "openings",
@@ -281,10 +367,18 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "half-round-or-palladian-in-gable",
+          "status": "atypical",
+          "note": "'A half-round or \"Palladian\" window filling a gable, unrelated in width to anything below it' -- present and characteristic, but named as a diagnostic tell of scale failure, not a canonical target to reproduce uncritically."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Where a special window occurs it is a half-round or Palladian assembly filling a gable, frequently at 1.5 to 2 times the scale the wall beneath it can actually carry.",
+      "note": "Direct quote of diagnostic_tells item 3 and typical_ratios ('Entry element 1.5 to 2 times the height of the adjacent wall opening')."
     },
     "entry_door": {
       "group": "openings",
@@ -316,10 +410,30 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "three_car_split_or_turn_required": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "source": "neo-eclectic.c05"
+        },
+        "as_built_door_width_pct_diagnostic": {
+          "range": [
+            55,
+            80
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "neo-eclectic.typical_ratios",
+          "diagnostic": true,
+          "note": "'Garage doors 32 to 48 ft of a 50 to 60 ft frontage -- 55 to 80 percent, against the 33 percent that a coherent frontage tolerates.' Recorded as the style's own documented as-built violation, not a target."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "Three-car garages must be split or turned (c05) -- this node's own sharper form of the family's shared 33-percent-width ceiling.",
+      "note": "Extends the family's already-correct attached-set-back-or-side-loaded binding with this node's own additional c05 clause and its own diagnostic as-built figures, which the family kit (necessarily blending all three members) does not carry at this precision."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,10 +442,23 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "applied-motif-no-module",
+          "status": "canonical",
+          "note": "'Motifs are quoted -- pediment, keystone, fanlight, dentil, shutter, Palladian window -- with no transmission of the proportional system that generated them' (lineage note against colonial-revival)."
+        },
+        {
+          "id": "correctly-derived-order-with-module",
+          "status": "forbidden",
+          "note": "The defining absence. distinguished_from[colonial-revival]: 'Neo-eclectic quotes the same motifs without the system.'"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Where classical order-derived elements appear they are selected from a printed elevation menu and applied to a plan generated independently of them, never derived from a declared module or column diameter.",
+      "note": "Fixes a conceptual cascade bug, not just a numeric one: the resolved kit inherits colonial-revival's genuine, module-derived order (ionic-scamozzi) as though this node runs the same system. That contradicts the node's own defining argument -- procedural decoupling of elevation from plan -- which is the entire reason this node exists as distinct from colonial-revival. Direct quote of the lineage entry against colonial-revival and the long description's opening paragraph."
     },
     "column": {
       "group": "classical-apparatus",
@@ -377,10 +504,11 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Two or more unrelated historical grammars quoted on a single building, or one grammar quoted at incorrect scale: Colonial, French Country, Craftsman, and neo-Mediterranean packages selected from a printed menu labelled A through F, not generated from any one coherent proportional system.",
+      "note": "Direct quote of defining_characteristics item 2 and the long description's founding definition of the node."
     },
     "porch_type": {
       "group": "threshold",
@@ -426,10 +554,25 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "entry_element_height_ratio": {
+          "range": [
+            1.5,
+            2.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "neo-eclectic.typical_ratios",
+          "diagnostic": true,
+          "note": "The style's own documented as-built condition -- an oversized two-storey foyer volume -- not a target to reproduce."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A two-storey entry element with a half-round or Palladian assembly, opening into a twenty-foot volume in a plan twelve to fourteen feet wide: entry inflation is the fifth of the node's own seven named failure modes and is recorded here diagnostically, not prescriptively.",
+      "note": "Direct quote of typical_ratios and the long description's 'entry inflation' paragraph. Marked judgment/diagnostic because this parameter documents an observed excess, not a design target -- see the schema's own `diagnostic` field, used here as intended."
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -440,10 +583,18 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gibbsian-bolection",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (english-georgian, via colonial-revival's family). Real classical-depth trim is precisely the thing this node's own text names as what neo-eclectic quotes and fails to deliver."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Trim of minimal profile depth in extruded polymer, vinyl, or aluminum, compensating with size and colour contrast for the absence of shadow -- against 'three to six inches in the sources quoted.'",
+      "note": "Direct quote of defining_characteristics item 6 and typical_ratios."
     },
     "baseboard": {
       "group": "interior",

@@ -11,10 +11,25 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "flat-or-low-roof-behind-gable-screen",
+          "status": "canonical",
+          "note": "Hard structural constraint c02: 'Party walls are fire walls and must be carried a minimum 300 mm above the roof plane. The gable is a SCREEN IN FRONT OF THE ROOF, not the end of it.'"
+        },
+        {
+          "id": "front-gable-roof-end",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular as 'the gable, not the eave, is the composed and entered face' -- i.e. a roof that genuinely ends in a gable. This node's own hard constraint c02 states the opposite in almost these exact terms: the gable is a screen IN FRONT OF the roof, explicitly not its end."
+        }
+      ],
+      "rule": "The gable is a decorated masonry screen standing in front of a flat or low roof behind the party-wall fire walls -- never the actual gabled end of the roof structure (hard constraint c02).",
+      "sources": [
+        "dutch-urban-gable-house.json constraints c02, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -74,10 +89,32 @@
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "vlucht_lean": {
+          "range": [
+            0.017,
+            0.04
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "dutch-urban-gable-house.json proportional_system.typical_ratios, constraints c03",
+          "note": "Forward lean 1:25 to 1:60 of facade height, expressed as a ratio (0.017-0.04)."
+        }
+      },
+      "variants": [
+        {
+          "id": "centred-hoisting-beam",
+          "status": "canonical",
+          "note": "Hard structural constraint c03: 'Where a hoisting beam is present the facade must be built leaning forward between 1:25 and 1:60 of its height, and the hoist must be centred on the gable axis.'"
+        }
+      ],
+      "rule": "A hoisting beam projects at the gable apex, centred on the gable's own vertical axis, with the whole facade built leaning forward (vlucht) 1:25 to 1:60 of its height so a hoisted load clears the windows below.",
+      "sources": [
+        "dutch-urban-gable-house.json constraints c03, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "height_proportion": {
       "group": "massing-and-roof",
@@ -95,8 +132,25 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "brick-party-wall-masonry",
+          "status": "canonical",
+          "note": "defining_characteristics #2: 'Load-bearing brick party walls carried above the roof as fire walls, with timber floor beams spanning the narrow dimension.' The timber is confined to floor beams spanning BETWEEN masonry party walls, never a structural frame in its own right."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular (spliced in via this node's own hybridizes_with edge to flemish-vernacular, which in turn hybridizes with german-fachwerk) as a load-bearing exposed timber frame -- directly contradicted by this node's own defining_characteristics and by hard constraint c01, which caps facade width by what a timber FLOOR BEAM spanning masonry-to-masonry can carry, a figure that only makes sense for a party-wall masonry building, not a self-framing timber one."
+        }
+      ],
+      "rule": "Load-bearing brick party walls, carried a minimum 300 mm above the roof plane as fire walls (hard constraint c02); timber floor beams span the narrow dimension between them, never forming an exposed structural frame.",
+      "sources": [
+        "dutch-urban-gable-house.json defining_characteristics, constraints c01, c02"
+      ],
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +164,25 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "brick-with-sandstone-speklagen",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'White or sandstone horizontal bands (speklagen) crossing dark brick.' Exemplar Huis Bartolotti: 'brick with sandstone speklagen.'"
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular. See `construction_type`."
+        }
+      ],
+      "rule": "Brick, banded with white or sandstone speklagen at floor lines, built deliberately leaning forward (vlucht) where a hoisting beam is present (hard constraint c03).",
+      "sources": [
+        "dutch-urban-gable-house.json diagnostic_tells, constraints c03"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -131,10 +200,20 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "driven-timber-pile",
+          "status": "canonical",
+          "note": "description.long: 'Holland is peat and clay; every substantial house sits on driven timber piles.' This is genuinely a timber element, but a PILE foundation under a masonry wall, not the germanic sill-and-post logic wrongly attached elsewhere in this cascade."
+        }
+      ],
+      "rule": "Every substantial house sits on driven timber piles into the peat and clay -- expensive enough that it is a rational reason the wall above is built light (thin party walls, minimal ornament weight) rather than heavy.",
+      "sources": [
+        "dutch-urban-gable-house.json description.long"
+      ],
+      "status": "drafted"
     },
     "water_table": {
       "group": "envelope",
@@ -152,17 +231,27 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular's timber-post reasoning. The real reason is different: this is a party-wall building whose only visible face is the narrow gable-end street elevation, expressed by anchor plates (muurankers) at every floor line rather than a corner treatment (diagnostic_tells) -- there is no free corner to quoin on a shared-wall unit.",
+      "note": "EDITORIAL: 'corner_quoin' is not itemized in this node's own text (which describes anchor plates instead); the correction removes the wrong timber-frame reasoning without inventing a masonry quoin detail this type does not use.",
+      "sources": [
+        "dutch-urban-gable-house.json diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Same correction as `corner_quoin` -- no applied corner board on a shared brick party-wall unit; the anchor plate (muuranker) is the type's own corner-adjacent expressed device.",
+      "note": "EDITORIAL.",
+      "sources": [
+        "dutch-urban-gable-house.json diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -211,10 +300,36 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "window_area_pct_wall": {
+          "range": [
+            50,
+            65
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "dutch-urban-gable-house.json proportional_system.typical_ratios"
+        }
+      },
+      "variants": [
+        {
+          "id": "kruiskozijn-cross-mullioned",
+          "status": "canonical",
+          "note": "defining_characteristics #5: 'Very high window-to-wall ratio on the front, with cross-mullioned (kruiskozijn) or later sash openings and external shutters.'"
+        },
+        {
+          "id": "later-sash",
+          "status": "permitted",
+          "note": "Later in the style's floruit, the kruiskozijn is superseded by the sash as classicism arrives (description.long)."
+        }
+      ],
+      "rule": "Window area is 50-65 percent of the front wall (typical_ratios) -- 'impossible if the front wall were bearing' (diagnostic_tells) -- glazed with the cross-mullioned kruiskozijn, later the sash, always with external shutters (soft climatic constraint c05).",
+      "sources": [
+        "dutch-urban-gable-house.json defining_characteristics, diagnostic_tells, constraints c05"
+      ],
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
@@ -267,10 +382,13 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Two to four window bays per floor, diminishing in number as the gable narrows toward the apex, terminating in a single opening or oculus under the hoist (own bay_rhythm).",
+      "sources": [
+        "dutch-urban-gable-house.json proportional_system.bay_rhythm"
+      ],
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -316,10 +434,24 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "none-no-vehicular-frontage",
+          "status": "canonical",
+          "note": "INVENTED, and the honest answer here is closer to 'not applicable' than 'invented solution': the type's own defining logic (a taxed, narrow, party-walled frontage directly on a canal or street with no side access) leaves no vehicular frontage to put a garage door in at all. A contemporary building in this idiom would site parking off-site or behind, never as a ground-floor bay competing with the gable's own composed opening."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent, and the type's own narrow party-wall lot genuinely has nowhere to put one -- off-site or rear parking is the honest contemporary answer, not a ground-floor door in the gable itself.",
+      "note": "kind: invented -- honestly flagged.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)",
+        "dutch-urban-gable-house.json description.long (lot logic)"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -349,17 +481,47 @@
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "quoted-triangular-pediment-on-gable",
+          "status": "permitted",
+          "note": "description.long, on the Amsterdam classicist gable: 'a triangular pediment on top of a gable that is still doing medieval work behind it.' Quoted from Serlio and Vredeman de Vries's pattern sheets (lineage, references italian-renaissance) -- surface, not structural."
+        },
+        {
+          "id": "pediment",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX (corrected FROM this blanket forbidding, wrongly inherited via the flemish-vernacular -> german-fachwerk -> germanic-vernacular hybridization chain, whose own reasoning -- 'quoted onto the timber... not a real order' -- describes a German half-timbered building, not this one)."
+        }
+      ],
+      "rule": "A pediment appears quoted flat onto the gable's own medieval structure, applied surface ornament in the Serlio/Vredeman de Vries pattern-book tradition, never a load-bearing classical member.",
+      "sources": [
+        "dutch-urban-gable-house.json description.long, lineage (italian-renaissance reference)"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "quoted-flat-pilaster-strip",
+          "status": "permitted",
+          "note": "lineage note (references italian-renaissance, weight 0.35): 'Pilasters, entablature bands, scrolls and obelisks are quoted from Serlio and from Vredeman de Vries's engraved pattern sheets and applied as a flat surface order to a wall whose structure, plan and section owe Italy nothing.'"
+        },
+        {
+          "id": "pilaster",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX (corrected FROM this blanket forbidding, same wrong path as `pediment`)."
+        }
+      ],
+      "rule": "Same correction and source as `pediment`: a flat quoted pilaster strip, applied surface only.",
+      "sources": [
+        "dutch-urban-gable-house.json lineage (italian-renaissance reference)"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -377,10 +539,13 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "CASCADE-PROVENANCE FIX (corrected from a blanket forbidding wrongly inherited via the germanic-vernacular splice). Pilasters, entablature bands, scrolls and obelisks quoted from Vredeman de Vries's engraved pattern sheets, applied as a flat surface order to a wall whose own structure, plan and section owe Italy nothing (lineage note) -- 'the prints, not the buildings, travelled.'",
+      "sources": [
+        "dutch-urban-gable-house.json lineage (italian-renaissance reference)"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -538,10 +703,13 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Stair and passage pinned against one party wall, front and back rooms in file -- the plan a narrow two-window frontage forces. A shallow, bright front room, a dark unlit middle, and a back room opening onto a small garden or light court (description.long).",
+      "sources": [
+        "dutch-urban-gable-house.json massing_affinities, description.long"
+      ],
+      "status": "drafted"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -580,10 +748,39 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "facade_width_max": {
+          "value": 24.6,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "dutch-urban-gable-house.json constraints c01",
+          "note": "7.5 m maximum unsupported floor-beam span onto the two party walls."
+        },
+        "frontage_to_depth_ratio": {
+          "range": [
+            0.125,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "dutch-urban-gable-house.json proportional_system.typical_ratios",
+          "note": "Frontage to depth roughly 1:4 to 1:8."
+        }
+      },
+      "variants": [
+        {
+          "id": "double-pile-side-hall",
+          "status": "canonical",
+          "note": "own massing_affinities: 'side-hall-double-pile: common -- stair and passage pinned to one party wall, front and back rooms in file -- the plan that a two-window frontage forces.'"
+        }
+      ],
+      "rule": "Depth is set by the taxed frontage, not by span: a house 5.7-8.5 m (20-30 Amsterdam feet) wide runs 4 to 8 times as deep (typical_ratios), with the floor beams' unsupported span capped at 7.5 m (24.6 ft, hard constraint c01) -- a wider house needs an internal bearing wall or a double structural bay.",
+      "sources": [
+        "dutch-urban-gable-house.json constraints c01, proportional_system.typical_ratios, massing_affinities"
+      ],
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",

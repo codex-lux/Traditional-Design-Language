@@ -11,10 +11,30 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "steep-gabled-cross-gable",
+          "status": "canonical",
+          "note": "own massing_affinities: massed-picturesque canonical (Cragside, Grim's Dyke), cross-gable-victorian canonical (Bedford Park). defining_characteristics #4: 'steep tile roofs with tall, thin, multiple chimney stacks.'"
+        },
+        {
+          "id": "hip-symmetrical-quotation",
+          "status": "permitted",
+          "note": "own massing_affinities: four-over-four 'possible: the smaller Queen Anne rectory or dower house, symmetrical and hipped, quoting the 1700 house directly' -- a real but secondary case, not the family's dominant picturesque massing."
+        },
+        {
+          "id": "hip-behind-parapet-invisible",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-palladian as the canonical form ('the roof is never the composed feature... kept behind a parapet') -- this is the WRONG hip roof: an invisible, parapet-concealed Palladian roof contradicts this style's own steep, visible, chimney-topped tile roof (already correctly bound at the family level in roof_pitch/chimney). The narrower 'quoted symmetrical dower house' hip case is real (see permitted, above) but is a visible tiled hip roof, not a Palladian one hidden behind a balustrade."
+        }
+      ],
+      "rule": "The dominant, canonical roof is a steep, visible, multi-gabled tile roof carrying tall chimney stacks as a primary silhouette element; a hipped roof survives only as the deliberate small-scale quotation of a genuine 1700 house, and even then is a visible tiled roof, never one concealed behind a classical parapet.",
+      "sources": [
+        "queen-anne-british.json massing_affinities, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -25,10 +45,25 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "plain-clay-tile",
+          "status": "canonical",
+          "note": "defining_characteristics #4: 'steep tile roofs.' typical_ratios: 'Roof pitch 45-55 degrees in plain clay tile.'"
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from mediterranean-vernacular -- a Mediterranean half-round barrel tile with no place in this style, which names plain clay tile explicitly."
+        }
+      ],
+      "rule": "Plain clay roofing tile, 45-55 degrees, and (in country 'Old English' work) tile-hanging on the upper storey wall as well as the roof.",
+      "sources": [
+        "queen-anne-british.json proportional_system.typical_ratios, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -110,17 +145,40 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "confidence": "high",
+      "parameters": {
+        "brick_color": {
+          "value": "red",
+          "unit": "none",
+          "kind": "measured",
+          "source": "queen-anne-british.json constraints c01",
+          "note": "Hard co-occurrence constraint c01: brick 'must be red, finely jointed... breaking the red-and-white pairing removes the style's primary identity.'"
+        }
+      },
+      "rule_append": "Brick must specifically be RED (hard constraint c01), finely jointed, with cut and rubbed brick ornament at openings -- this is stricter than the inherited Georgian Flemish-bond binding, which does not fix a colour.",
+      "rule": "The inherited Georgian brick-Flemish-bond binding describes the bond correctly but is silent on colour; this style's own hard constraint (c01) makes red specifically non-negotiable, paired always with white-painted joinery.",
+      "sources": [
+        "queen-anne-british.json constraints c01, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "tile-hanging-upper-storey",
+          "status": "canonical",
+          "note": "defining_characteristics #6: 'tile-hanging on upper storeys, half-timbered gables.' Hard structural constraint c03: 'Where tile-hanging occurs it must begin at a floor level and be carried on a proper oversailing course, never start mid-storey.'"
+        }
+      ],
+      "rule": "Tile-hanging (often fishscale or club-patterned) over the upper storey, beginning exactly at a floor line on a real oversailing course -- a construction event, not a decorative one (hard constraint c03).",
+      "sources": [
+        "queen-anne-british.json defining_characteristics, constraints c03"
+      ],
+      "status": "drafted"
     },
     "material_change_rule": {
       "group": "envelope",
@@ -194,10 +252,13 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "confidence": "high",
+      "rule": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-baroque as a classical balustraded parapet concealing the roof with urns and statuary. Wrong on two counts: the family's own order/column/entablature bindings already forbid true classical apparatus ('applied Victorian ornament copied flat onto a wall, never a real order'), and this style's own roof is a visible, chimney-topped tile roof (roof_form, above), never one concealed behind a parapet. Where a balustrade occurs in this style it is white-painted joinery on a porch or balcony (see `balustrade`), not a stone roofline parapet.",
+      "sources": [
+        "queen-anne-british.json defining_characteristics, british-picturesque.kit.json order note"
+      ],
+      "status": "drafted"
     },
     "rainwater": {
       "group": "envelope",
@@ -267,10 +328,25 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "grouped-by-room-irregular",
+          "status": "canonical",
+          "note": "own bay_rhythm: 'Irregular by intent. Windows are grouped in twos and threes where rooms need them, with wide blank brick between groups... a frontal symmetry, where it occurs, is local rather than overall.'"
+        },
+        {
+          "id": "vertical-bay-alignment-without-exception",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-classical -- a rule stated to hold 'without exception... across every register of the family,' which is a rule about the CLASSICAL family and directly contradicts this style's own bay_rhythm text quoted above."
+        }
+      ],
+      "rule": "Windows group in twos and threes by room, separated by wide blank brick; alignment is local to a group, not a whole-facade grid.",
+      "sources": [
+        "queen-anne-british.json proportional_system.bay_rhythm"
+      ],
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -281,10 +357,25 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "oriel-and-bay",
+          "status": "canonical",
+          "note": "defining_characteristics #5: 'oriels, bays, balconies and recessed porches.' Exemplar Old Swan House: 'Three tall oriels on the first floor over a recessed ground storey.'"
+        },
+        {
+          "id": "venetian-serliana",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-palladian -- a licensed classical exotic window with no place in a style whose classical-apparatus slots are family-forbidden."
+        }
+      ],
+      "rule": "The special opening is the projecting oriel or bay window, not a classical Venetian or Diocletian window.",
+      "sources": [
+        "queen-anne-british.json defining_characteristics, exemplars"
+      ],
+      "status": "drafted"
     },
     "entry_door": {
       "group": "openings",
@@ -316,10 +407,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "invented-informal-outbuilding",
+          "status": "permitted",
+          "note": "No historical precedent. Treated as one more informal, picturesquely massed volume -- tile-hung or brick, gabled -- consistent with the style's own plan-driven, asymmetrical logic, never centred on the composed front."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent. An informal gabled outbuilding, in the same red-brick-and-tile-hanging vocabulary as the house.",
+      "note": "kind: invented -- honestly flagged.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -349,17 +453,47 @@
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "shaped-scrolled-pedimented-gable",
+          "status": "canonical",
+          "note": "defining_characteristics #4: 'Shaped, scrolled or pedimented Dutch gables.' A gable-top device, from the dutch-urban-gable-house hybridization (own lineage, weight 0.4), not a portico or doorcase pediment."
+        },
+        {
+          "id": "whole-triangular-pediment-on-rusticated-basement",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from antique-classical+english-palladian as a rigorously proportioned Palladian centrepiece pediment 'landing on the rusticated basement.' This style has no rusticated basement and no such formal system -- its pediment is a gable-top scroll/curve quoted from the Dutch gable, applied Victorian ornament, not part of a proportioned classical order."
+        }
+      ],
+      "rule": "Where a pediment occurs it caps a shaped or scrolled Dutch-derived gable, applied as domestic ornament -- not the base of a proportioned classical portico.",
+      "sources": [
+        "queen-anne-british.json defining_characteristics, lineage (dutch-urban-gable-house)"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "flat-brick-relief-panel",
+          "status": "canonical",
+          "note": "defining_characteristics #1: 'Red brick, finely jointed, with rubbed and cut brick ornament -- aprons, panels, pilasters, sunflower and swag reliefs.' Applied surface relief, not a load-bearing member."
+        },
+        {
+          "id": "window-aedicule-order",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-palladian as a fully proportioned window-aedicule pilaster under hard constraint c03 -- this style's own pilasters are flat cut-brick relief ornament, not a proportioned classical order member."
+        }
+      ],
+      "rule": "The pilaster appears only as flat, cut and rubbed brick relief -- one more piece of applied ornament alongside the sunflower and swag panels, never a proportioned classical member.",
+      "sources": [
+        "queen-anne-british.json defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -370,17 +504,35 @@
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "white-painted-timber-joinery-balustrade",
+          "status": "canonical",
+          "note": "defining_characteristics #2: 'White-painted joinery throughout: sashes, balconies, balustrades, porches and eaves.' A porch and balcony rail, in the white-against-red-brick pairing hard constraint c01 requires."
+        },
+        {
+          "id": "plain-balustraded-parapet-concealing-roofline",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-palladian as a stone parapet balustrade concealing the roofline -- see `parapet`: this style's roof is never concealed, and its balustrades are white-painted timber joinery on porches and balconies, not a masonry roofline device."
+        }
+      ],
+      "rule": "A white-painted timber balustrade on porches and balconies -- part of the red-brick/white-joinery pairing hard constraint c01 makes non-negotiable -- never a stone parapet concealing the roof.",
+      "sources": [
+        "queen-anne-british.json defining_characteristics, constraints c01"
+      ],
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "CASCADE-PROVENANCE FIX (family left this slot open for this exact member; the cascade below it wrongly supplied a classical 'licensed-points-only' rule). Corrected to this style's own documented vocabulary: cut and rubbed brick sunflowers, swags and pilaster panels (the sunflower being 'practically the movement's trademark'), plus terracotta enrichment after the 1862 International Exhibition's Japanese-detail influence -- diagnostic_tells, defining_characteristics.",
+      "sources": [
+        "queen-anne-british.json diagnostic_tells, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -433,17 +585,57 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "ground_storey_m": {
+          "range": [
+            3.0,
+            3.6
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "SOURCE UNIT NOTE: own typical_ratios states this in metres (3.0-3.6 m); recorded as the numeric value despite the ft unit field, since no ft-denominated source figure exists and no metric unit exists in the schema's enum."
+        },
+        "above_ground_storey_m": {
+          "range": [
+            2.9,
+            3.3
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Same source-unit caveat as above."
+        }
+      },
+      "rule": "CASCADE-PROVENANCE FIX. Wrongly resolved as a Palladian arithmetic/geometric/harmonic-mean derivation checkable 'against a published plate' -- directly contradicted by this style's own governing_logic: 'No applied system. Composition is picturesque and plan-driven, with proportion controlled locally.' Storey heights are 'much less graduated than Georgian, since the composition no longer depends on it' (own typical_ratios) -- rooms vary in size and ceiling height as their USE requires (description.long), not as a plan-ratio formula dictates.",
+      "sources": [
+        "queen-anne-british.json proportional_system.governing_logic, typical_ratios, description.long"
+      ],
+      "status": "drafted"
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "informal-light-victorian-domestic",
+          "status": "canonical",
+          "note": "description.long: 'inglenooks, window seats, and stairs that turn around a landing with a window on it.' Rooms 'vary in size and ceiling height as their use requires.'"
+        },
+        {
+          "id": "gibbsian-bolection",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-georgian -- a heavy formal classical profile family inconsistent with this style's own described informality and its family-level rejection of a true classical order."
+        }
+      ],
+      "rule": "A lighter, informal domestic trim register -- inglenooks, window seats, turned stair landings -- consistent with the style's own described cheerfulness and comfort rather than a graded classical entablature system.",
+      "note": "EDITORIAL: specific trim profile dimensions are not itemized in this node's own text; the correction is grounded directly in its described interior character.",
+      "sources": [
+        "queen-anne-british.json description.long"
+      ],
+      "status": "drafted"
     },
     "baseboard": {
       "group": "interior",
@@ -538,10 +730,25 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "picturesque-informal-plan-driven",
+          "status": "canonical",
+          "note": "defining_characteristics #5: 'Picturesque asymmetrical composition generated by an informally planned interior, with oriels, bays, balconies and recessed porches.'"
+        },
+        {
+          "id": "center-hall-side-hall-classical",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from english-classical, which explicitly forbids the very informal/irregular partis this style's own defining_characteristics describe directly."
+        }
+      ],
+      "rule": "The plan is informally arranged first, with rooms of irregular size and shape as use requires; the elevation -- oriels, bays, gables -- is the plan's consequence, not a governing classical hall-and-stair figure.",
+      "sources": [
+        "queen-anne-british.json defining_characteristics, description.long"
+      ],
+      "status": "drafted"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -587,10 +794,25 @@
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "abundant-large-window-daylight",
+          "status": "canonical",
+          "note": "defining_characteristics #7: 'Abundant daylight and a deliberate cheerfulness of colour and detail, in explicit contrast to High Victorian Gothic.' description.long: 'the light is abundant and the view is uninterrupted at eye level.'"
+        },
+        {
+          "id": "thermal-mass-small-aperture",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from mediterranean-vernacular's 5-20% aperture-to-wall thermal-mass figure -- the opposite of this style's own explicitly stated abundant daylight."
+        }
+      ],
+      "rule": "Generous, large-paned windows -- clear glass below the small-paned upper sash -- are a deliberate design principle, in direct, stated contrast to Gothic Revival's darker interiors.",
+      "sources": [
+        "queen-anne-british.json defining_characteristics, description.long"
+      ],
+      "status": "drafted"
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -639,10 +861,20 @@
     },
     "landscape_idiom": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "garden-suburb-with-preserved-trees",
+          "status": "canonical",
+          "note": "description.long: Bedford Park, begun 1875, 'modest brick houses with tile-hung gables, white-painted balconies and existing trees preserved between them. It is the first garden suburb, the direct ancestor of Hampstead, Letchworth and every leafy suburb in the English-speaking world.'"
+        }
+      ],
+      "rule": "The house sits informally in a leafy setting with mature trees preserved rather than cleared -- the garden-suburb model this style itself originated at Bedford Park (1875).",
+      "sources": [
+        "queen-anne-british.json description.long, exemplars (Bedford Park)"
+      ],
+      "status": "drafted"
     },
     "grade_relationship": {
       "group": "site",

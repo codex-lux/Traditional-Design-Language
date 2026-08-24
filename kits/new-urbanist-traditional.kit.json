@@ -6,8 +6,19 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "symmetry": {
+          "value": "near-symmetrical",
+          "unit": "none",
+          "kind": "measured",
+          "source": "new-urbanist-traditional.proportional_system.symmetry"
+        }
+      },
+      "rule": "Regular vertical openings at 8 to 12 ft centres on the principal frontage, with solid-to-void of roughly 60:40 on the ground storey and more solid above -- near-symmetrical, not the strict-bilateral classical composition of its New Classical sibling.",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited 'strict-bilateral-odd-bay' (eclectic-revivals + colonial-revival, via the family splice), overstating the discipline this node's own regional-vernacular fabric actually carries -- explicit in its own stated symmetry attribute."
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -124,10 +135,11 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "One regional stylistic vocabulary per building, applied to all elevations including alley and side; mixing grammars on a single building is forbidden alongside changing material at an outside corner (soft constraint c05).",
+      "note": "Extends the family's already-correct material_change_rule binding with this node's own additional clause forbidding mixed regional grammars, which the family kit (necessarily generic across all three members) does not state."
     },
     "foundation_expression": {
       "group": "envelope",
@@ -267,10 +279,19 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "ground_storey_transparency_min_pct": {
+          "value": 30,
+          "unit": "percent",
+          "kind": "code",
+          "source": "new-urbanist-traditional.c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "Ground storey transparency on the principal frontage not less than 30 percent (hard constraint c04) -- this node's own additional glazing floor, alongside the family's shared single-datum rule.",
+      "note": "Extends the family's already-correct single-datum binding with this node's own additional, code-specific transparency requirement, which the family kit does not carry."
     },
     "shutter": {
       "group": "openings",
@@ -288,10 +309,23 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "plain-panel-door",
+          "status": "canonical",
+          "note": "Four- or six-panel, flat or bead profile -- 'trim follows the plain carpenter-stock tradition... does not enter the interior trim family, which stays a board is a board' (trim_family, folk-victorian ancestor)."
+        },
+        {
+          "id": "six-panel-raised-and-fielded",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (georgian-colonial-american, via colonial-revival's family). Contradicts the plain, factory-turned-ornament-confined-to-porch-and-cornice discipline this node's own real lineage (folk-victorian) states, and the flat-casing door_surround already correctly bound at this node from the same ancestor."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A plain panel door consistent with the carpenter-stock tradition the coded fabric actually builds in; ornament, where it appears at all, is confined to the porch, cornice, and gable, not the door leaf.",
+      "note": "Fixes a cascade bug: the previously-resolved six-panel raised-and-fielded door (via the family splice) is inconsistent with this node's own, correctly-inherited plain door_surround (flat-casing) and trim_family (carpenter-plain-stock)."
     },
     "door_surround": {
       "group": "openings",
@@ -316,10 +350,58 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "alley-loaded",
+          "status": "canonical",
+          "note": "Required wherever an alley serves the lot."
+        },
+        {
+          "id": "set-back-20ft-or-side-loaded",
+          "status": "permitted",
+          "note": "Where no alley exists."
+        },
+        {
+          "id": "street-facing",
+          "status": "forbidden",
+          "note": "Forbidden outright where an alley exists (hard constraint c01)."
+        }
+      ],
+      "parameters": {
+        "no_alley_setback_min_ft": {
+          "value": 20,
+          "unit": "ft",
+          "kind": "code",
+          "source": "new-urbanist-traditional.c01"
+        },
+        "alley_width_range_ft": {
+          "range": [
+            12,
+            20
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "new-urbanist-traditional.typical_ratios"
+        },
+        "garage_setback_off_alley_range_ft": {
+          "range": [
+            5,
+            20
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "new-urbanist-traditional.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Where an alley serves the lot, garages must be alley-loaded and street-facing garage doors are forbidden. Where no alley exists, the garage face must be set back not less than 20 ft behind the front facade plane, or be side-loaded (hard constraint c01).",
+      "edit_provenance": {
+        "kind": "code",
+        "source": "new-urbanist-traditional.c01",
+        "note": "Not marked invented, unlike the family's general framing: this is the one node in the batch where the garage answer is literally an enforced ordinance (kind: code) rather than an authored design convention, since this node's whole subject is the form-based code itself."
+      }
     },
     "glazing_assembly": {
       "group": "openings",
@@ -391,10 +473,34 @@
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "porch_min_depth_ft": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "code",
+          "source": "new-urbanist-traditional.c02"
+        },
+        "porch_min_facade_pct": {
+          "value": 60,
+          "unit": "percent",
+          "kind": "code",
+          "source": "new-urbanist-traditional.c02"
+        },
+        "front_setback_range_ft": {
+          "range": [
+            10,
+            20
+          ],
+          "unit": "ft",
+          "kind": "code",
+          "source": "new-urbanist-traditional.c02"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Front porch not less than 8 ft clear depth and not less than 60 percent of the facade width, at a front setback of 10 to 20 ft (hard constraint c02) -- 'close enough to speak across and far enough not to be intruded upon, a distance the movement rediscovered empirically.'",
+      "note": "Direct quote of constraint c02 and the long description's fifth paragraph."
     },
     "porch_support": {
       "group": "threshold",
@@ -426,10 +532,11 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The porch stands in direct conversational relation to the sidewalk -- 8 to 12 ft deep at a setback of 12 to 18 ft, 'close enough to speak across and far enough not to be intruded upon.'",
+      "note": "Direct quote of defining_characteristics item 3 and the long description's fifth paragraph."
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -604,17 +711,48 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "height_to_street_width_ratio_range": {
+          "range": [
+            0.33,
+            0.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "new-urbanist-traditional.typical_ratios",
+          "note": "The source states 'building height to street width roughly 1:2 to 1:3', recorded here as height/width."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Narrow street sections, 18 to 24 ft of pavement with parking on one or both sides, designed as public rooms rather than traffic conduits: buildings on both sides are in view at once, and vistas terminate in a civic building, a tower, or a tree.",
+      "note": "Direct quote of typical_ratios and the long description's closing paragraph."
     },
     "setback_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "facade_min_pct_of_lot_width": {
+          "value": 70,
+          "unit": "percent",
+          "kind": "code",
+          "source": "new-urbanist-traditional.c03"
+        },
+        "front_setback_range_ft": {
+          "range": [
+            10,
+            20
+          ],
+          "unit": "ft",
+          "kind": "code",
+          "source": "new-urbanist-traditional.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The principal facade must occupy not less than 70 percent of the lot width at the build-to line (hard constraint c03), at a front setback of 10 to 20 ft -- the build-to line is fixed by the code before any building is designed.",
+      "note": "Direct quote of constraint c03 and typical_ratios."
     },
     "orientation_rule": {
       "group": "site",
@@ -632,10 +770,19 @@
     },
     "fence_wall": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "gap_closure_min_ft": {
+          "value": 3,
+          "unit": "ft",
+          "kind": "code",
+          "source": "new-urbanist-traditional.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Gaps in the build-to line must be closed by a fence, wall, or hedge of not less than 3 ft continuing the line -- 'a hard build-to line: adjacent facades line up within a foot or two, and the fence or hedge continues the line across the gaps' (diagnostic_tells).",
+      "note": "Direct quote of constraint c03 and diagnostic_tells item 3."
     },
     "landscape_idiom": {
       "group": "site",

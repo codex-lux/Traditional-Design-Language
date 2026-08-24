@@ -5,16 +5,54 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The house continues Elizabethan's frontal, wholly composed symmetry, with shaped gables ranged symmetrically along the front or paired on end pavilions and the porch as a symmetrical entrance event.",
+      "variants": [
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "canonical"
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "jacobean.c01 requires shaped gables to occur in a repeated symmetrical set; a single asymmetrical composition is not this style's own convention."
+        }
+      ],
+      "note": "PINNED at this node for the same reason as elizabethan.kit.json: this style's own proportional_system.symmetry states 'strict-bilateral' directly, and jacobean.c01 requires shaped gables to occur 'in a symmetrical set of at least three, or paired on end pavilions' -- a real, specific symmetry constraint that should be the cited source, not the distant antique-classical binding. Also prevents tudor.kit.json's newly-fixed picturesque-asymmetrical binding from leaking forward through the shared elizabethan-tudor lineage step.",
+      "sources": [
+        "jacobean.json proportional_system.symmetry, constraints (jacobean.c01)"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Roofs are gabled, not hipped -- the reference contrast in this style's own text is with English Baroque, whose 'roofs are hipped behind balustrades' where 'Jacobean roofs are gabled.' The house is composed frontally, with shaped Netherlandish gables repeated symmetrically along the ridge line as the dominant roofline incident.",
+      "variants": [
+        {
+          "id": "gabled-with-repeated-shaped-gables",
+          "status": "canonical"
+        },
+        {
+          "id": "front-gable-single-entered-gable-end",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same reasoning as elizabethan.kit.json. Inherited from germanic-vernacular's narrow, single-gable-fronted urban house logic via the flemish-vernacular ornament-scale lineage edge; Jacobean's own text describes a wide frontal house with MULTIPLE gables ranged along a front, the opposite massing logic."
+        },
+        {
+          "id": "hipped",
+          "status": "forbidden",
+          "note": "jacobean.json distinguished_from[english-baroque]: 'Baroque roofs are hipped behind balustrades; Jacobean roofs are gabled.'"
+        }
+      ],
+      "sources": [
+        "jacobean.json distinguished_from[english-baroque], defining_characteristics"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -52,11 +90,41 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "shaped-scrolled-dutch-gable-with-small-pediment",
+          "status": "canonical",
+          "op": "add",
+          "note": "The style's own single most recognisable device: 'concave and convex scrolls stepping up to a pediment... Elizabethan gables are straight-sided and finialled; Jacobean gables curve' (diagnostic_tells)."
+        },
+        {
+          "id": "straight-sided-finialled-gable",
+          "status": "atypical",
+          "op": "add",
+          "note": "The Elizabethan precedent, current only in the overlap years (1600-1615)."
+        }
+      ],
+      "parameters": {
+        "gable_width_mm": {
+          "range": [
+            3500,
+            5500
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "jacobean.json proportional_system.typical_ratios",
+          "note": "Converted from the source's 3.5-5.5 m. Height to pediment apex roughly 0.6-0.8 of the gable width."
+        }
+      },
+      "note": "Extends the family's low-countries-vernacular gable binding with Jacobean's own, sharply distinct geometry (shaped/scrolled/curved, capped by a small pediment) versus Elizabethan's straight-sided finialled form.",
+      "sources": [
+        "jacobean.json diagnostic_tells, defining_characteristics, proportional_system.typical_ratios"
+      ],
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -94,9 +162,22 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "light-timber-frame",
+          "status": "permitted",
+          "op": "replace",
+          "note": "CASCADE FIX, parallel to tudor and elizabethan. The style's own proportion_packs note for timber-bay states it 'governs the roof and floor carpentry and the smaller-house frame even though the great prodigy houses (Hatfield, Blickling, Audley End) are brick with stone dressings' -- direct evidence of a smaller-scale timber-framed Jacobean house the blanket antique-classical masonry-only binding wrongly excludes."
+        }
+      ],
+      "sources": [
+        "jacobean.json proportion_packs[timber-bay].note"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -109,11 +190,32 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Red brick walling with contrasting pale stone dressings at quoins, mullions, copings and porch is the default great-house material in the lowlands (Hatfield, Blickling, Audley End); Cotswold limestone appears where the region supplies it (Chastleton). Light timber frame with infill below the great-house scale (see construction_type). Never an exposed unclad frame as the visible finish of a principal elevation.",
+      "variants": [
+        {
+          "id": "red-brick-with-pale-stone-dressings",
+          "status": "canonical",
+          "note": "'The period's colour signature' -- own description."
+        },
+        {
+          "id": "coursed-limestone",
+          "status": "permitted",
+          "note": "Chastleton, in Cotswold stone rather than brick."
+        },
+        {
+          "id": "half-timber-infill-exposed-frame",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same reasoning as elizabethan.kit.json: inherited from germanic-vernacular via the ornament-scale flemish-vernacular lineage edge, and contradicted by every one of this style's own named exemplars."
+        }
+      ],
+      "sources": [
+        "jacobean.json description, exemplars"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -130,11 +232,16 @@
       "status": "empty"
     },
     "foundation_expression": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "A continuous masonry (brick or stone) foundation and plinth, not the raised timber-sill-on-a-Sockel-plinth logic of a Continental exposed frame.",
+      "note": "CASCADE FIX, low confidence, parallel to elizabethan.kit.json. Corrects only the wrongly inherited germanic-vernacular Sockel-plinth claim; no replacement dimension is sourced.",
+      "sources": [
+        "jacobean.json exemplars (brick/stone construction), editorial inference"
+      ],
+      "group": "envelope"
     },
     "water_table": {
       "group": "envelope",
@@ -151,11 +258,26 @@
       "status": "empty"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Stone quoins are required wherever brick walling occurs, alongside dressings at every opening and coping; unrelieved brick with no dressings reads as later vernacular, not Jacobean.",
+      "variants": [
+        {
+          "id": "stone-quoin",
+          "status": "canonical"
+        },
+        {
+          "id": "exposed-structural-post-no-masonry-quoin",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same reasoning as elizabethan.kit.json."
+        }
+      ],
+      "sources": [
+        "jacobean.json constraints (jacobean.c03), diagnostic_tells"
+      ],
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -210,11 +332,37 @@
       "status": "empty"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Mullioned and transomed windows in flush grids, glazing reduced from the Elizabethan extreme to roughly 30-45 percent of the principal elevation; leaded lights throughout. Sash windows are forbidden outright -- where they occur on a genuine Jacobean house they are a later, eighteenth-century alteration.",
+      "parameters": {
+        "glazed_pct_wall": {
+          "range": [
+            30,
+            45
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "jacobean.json constraints (jacobean.c05)"
+        }
+      },
+      "variants": [
+        {
+          "id": "mullion-transom-flush-grid-leaded",
+          "status": "canonical"
+        },
+        {
+          "id": "double-hung-sash",
+          "status": "forbidden",
+          "note": "jacobean.c04: sash windows on a genuine Jacobean house are always a later alteration."
+        }
+      ],
+      "sources": [
+        "jacobean.json constraints (jacobean.c04, jacobean.c05), defining_characteristics"
+      ],
+      "group": "openings"
     },
     "window_proportion": {
       "group": "openings",
@@ -327,18 +475,61 @@
       "status": "empty"
     },
     "order": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A real, structurally projecting columned porch of one or two orders with paired columns stands proud of the wall plane and carries a chamber above it -- approximated from Serlio and de Vries engravings and stacked by rule of thumb, not proportioned to a real module (own distinguished_from[english-baroque]).",
+      "variants": [
+        {
+          "id": "projecting-columned-porch-approximate-order",
+          "status": "canonical",
+          "note": "jacobean.c02: the porch projects at least 1.2 m and carries a room above it -- real structural presence, unlike Elizabethan's flat applied frontispiece."
+        },
+        {
+          "id": "true-modular-order-with-structural-role",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same reasoning as elizabethan.kit.json. Jacobean's own text is explicit that even though the porch projects and carries real load, its orders are 'approximated from engravings... not proportioned to a module the way a correct order is.'"
+        }
+      ],
+      "note": "CASCADE FIX. Same medieval-british over-forbidding this family-wide slot inherited incorrectly for Elizabethan; see elizabethan.kit.json for the full mechanism note. Jacobean's own porch is genuinely MORE structurally real than Elizabethan's flat frontispiece (jacobean.c02 vs elizabethan.c02), which the family's own tudor-jacobean.kit.json vignola-tuscan pack note already recognises as 'the genuine cusp' member of the family.",
+      "sources": [
+        "jacobean.json constraints (jacobean.c02), distinguished_from[english-baroque], proportion_packs[vignola-tuscan]"
+      ],
+      "group": "classical-apparatus"
     },
     "column": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Paired columns of the porch order, roughly 6 to 8 diameters -- noticeably stubbier than any canonical order, and itself a period dating tell.",
+      "parameters": {
+        "height_in_diameters": {
+          "range": [
+            6,
+            8
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "jacobean.json proportional_system.typical_ratios"
+        }
+      },
+      "variants": [
+        {
+          "id": "paired-columns-approximate-6-to-8-diameters",
+          "status": "canonical"
+        },
+        {
+          "id": "no-classical-column",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same reasoning as `order`."
+        }
+      ],
+      "sources": [
+        "jacobean.json proportional_system.typical_ratios, constraints (jacobean.c02)"
+      ],
+      "group": "classical-apparatus"
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -348,46 +539,151 @@
       "status": "empty"
     },
     "pediment": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A small segmental or triangular pediment tops the shaped gable, and a strapwork cartouche or achievement of arms crowns the porch above the columns.",
+      "variants": [
+        {
+          "id": "small-pediment-atop-shaped-gable",
+          "status": "canonical",
+          "note": "Own diagnostic_tells: the shaped gable is 'capped by a small pediment.'"
+        },
+        {
+          "id": "temple-front-portico-pediment",
+          "status": "forbidden",
+          "note": "No pedimented projecting portico dominates a Jacobean front the way it does a Palladian one; the pediment here is a small cap on the gable or porch, not a temple-front gable end."
+        }
+      ],
+      "note": "CASCADE FIX. medieval-british's blanket 'no pediment, triangular or otherwise, appears over any opening in this family' is wrong for Jacobean, whose own text names a real, if small, pediment on the gable.",
+      "sources": [
+        "jacobean.json diagnostic_tells, defining_characteristics"
+      ],
+      "group": "classical-apparatus"
     },
     "pilaster": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Confined to the porch and gable frontispiece, alongside the paired columns; carried into Artisan Mannerist work below the great-house scale as vigorous, approximate compositions of gables, pediments and pilasters.",
+      "variants": [
+        {
+          "id": "confined-to-porch-and-gable-frontispiece",
+          "status": "permitted",
+          "note": "Own description: Summerson's 'Artisan Mannerism' -- craftsmen 'assembling gables, pediments and pilasters into vigorous, incorrect compositions.'"
+        }
+      ],
+      "note": "CASCADE FIX, medium confidence: the style's own text names pilasters explicitly (in the Artisan Mannerist description) but does not give proportion or placement detail beyond the porch/gable frontispiece.",
+      "sources": [
+        "jacobean.json description (Artisan Mannerism)"
+      ],
+      "group": "classical-apparatus"
     },
     "modillion_dentil": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "Where present at all, confined to the porch entablature; never a real classical run elsewhere on the elevation.",
+      "variants": [
+        {
+          "id": "confined-to-porch-entablature",
+          "status": "permitted"
+        },
+        {
+          "id": "classical-run-elsewhere-on-elevation",
+          "status": "forbidden",
+          "note": "Would imply a real classical run outside the crude applied order this style's own text documents, which no source supports."
+        }
+      ],
+      "note": "CASCADE FIX, held at low confidence for the same reason as the parallel elizabethan.kit.json binding: an inference from the already-permitted approximate porch order, not a direct citation.",
+      "sources": [
+        "jacobean.json (inference from constraints jacobean.c02 and the approximate porch order)"
+      ],
+      "group": "classical-apparatus"
     },
     "balustrade": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A minor, incidental feature only -- at a terrace, forecourt wall or stair -- never the roofline device it is for Elizabethan. Jacobean's own roof is gabled and visible (see roof_form), so it has no need of Elizabethan's balustraded-parapet-conceals-the-roof logic.",
+      "variants": [
+        {
+          "id": "minor-incidental-terrace-or-stair-balustrade",
+          "status": "permitted"
+        },
+        {
+          "id": "balustraded-parapet-concealing-roof-pitch",
+          "status": "atypical",
+          "note": "This is Elizabethan's own device (own distinguished_from[elizabethan]: 'Elizabethan crests its parapet... Jacobean shapes its gables and projects its porch'), and would otherwise be inherited unmodified through the real elizabethan lineage edge -- correct for Elizabethan, not for a style whose own roof is gabled and visible rather than concealed."
+        }
+      ],
+      "note": "Without this binding, jacobean's own balustrade slot resolves through its real lineage to elizabethan's balustraded-parapet-conceals-roof-pitch rule, which is internally inconsistent with jacobean's own gabled, visible roof (fixed separately on this node's own roof_form). Pinned here for consistency, at medium confidence since jacobean's own text does not discuss balustrades directly.",
+      "sources": [
+        "jacobean.json distinguished_from[elizabethan], defining_characteristics (roof_form fix)"
+      ],
+      "group": "classical-apparatus"
     },
     "ornament_vocabulary": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Strapwork thickened into deep, fleshy, three-dimensional cartouches and pendants (rather than Elizabethan's flat interlaced bands) is the primary ornament, on porch, gable and interior alike. A crude, approximate classical vocabulary is confined to the porch and gable frontispiece.",
+      "variants": [
+        {
+          "id": "deep-fleshy-strapwork-cartouche",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'strapwork that has thickened into deep, fleshy, three-dimensional cartouches and pendants rather than the flat interlaced bands of the 1580s.'"
+        },
+        {
+          "id": "crude-classical-porch-gable-mouldings",
+          "status": "permitted"
+        },
+        {
+          "id": "no-classical-ornament-vocabulary-anywhere",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same reasoning as elizabethan.kit.json."
+        }
+      ],
+      "sources": [
+        "jacobean.json diagnostic_tells, defining_characteristics"
+      ],
+      "group": "classical-apparatus"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A columned porch of one or two orders, standing proud of the wall plane by not less than 1.2 m and carrying a chamber above it, with a strapwork cartouche or achievement of arms over the entrance.",
+      "parameters": {
+        "min_projection_in": {
+          "value": 47.2,
+          "unit": "in",
+          "kind": "measured",
+          "source": "jacobean.json constraints (jacobean.c02)"
+        }
+      },
+      "variants": [
+        {
+          "id": "projecting-columned-porch-with-room-over",
+          "status": "canonical",
+          "note": "jacobean.c02, hard constraint."
+        },
+        {
+          "id": "flat-applied-frontispiece-no-projection",
+          "status": "forbidden",
+          "note": "Own distinguished_from[elizabethan]: 'A flat applied frontispiece belongs to Elizabethan' (jacobean.c02 note)."
+        }
+      ],
+      "sources": [
+        "jacobean.json constraints (jacobean.c02), diagnostic_tells"
+      ],
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",
@@ -439,11 +735,21 @@
       "status": "empty"
     },
     "trim_family": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Full-height oak panelling to a moulded cornice, under an enriched plaster ceiling of ribs, pendants and modelled foliage -- the darkest and most tactile interior tradition in English domestic architecture.",
+      "variants": [
+        {
+          "id": "full-height-oak-panelling-enriched-plaster-ceiling",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "jacobean.json description, defining_characteristics"
+      ],
+      "group": "interior"
     },
     "baseboard": {
       "group": "interior",
@@ -495,18 +801,40 @@
       "status": "empty"
     },
     "newel_balustrade": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Square newel posts rise well above the handrail and terminate in carved obelisks, finials or heraldic beasts -- a detail this style's own text calls 'almost unique to this half-century.'",
+      "variants": [
+        {
+          "id": "square-newel-obelisk-or-beast-finial",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "jacobean.json diagnostic_tells, defining_characteristics"
+      ],
+      "group": "interior"
     },
     "fireplace_surround": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A two-storey architectural chimneypiece in coloured marbles and alabaster, with caryatids and strapwork -- often the single most expensive object in the house, and a deliberate compression of light and volume moving from a bright stair into a panelled great chamber.",
+      "variants": [
+        {
+          "id": "two-storey-marble-alabaster-with-caryatids-strapwork",
+          "status": "canonical",
+          "note": "Own description, in the passage on the interior experience of the house."
+        }
+      ],
+      "note": "Marked judgment:true because the description is qualitative and evocative rather than dimensioned; no size, proportion or specific material list is given as a hard figure.",
+      "sources": [
+        "jacobean.json description"
+      ],
+      "group": "interior"
     },
     "built_ins": {
       "group": "interior",
@@ -537,11 +865,22 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A broad open-well or dogleg oak stair, with square newels carrying obelisks, finials or heraldic beasts, is the ceremonial spine of a more compact, double-pile-emerging plan; the long gallery on an upper floor persists as the centre of indoor social life for a household that increasingly stayed inside.",
+      "variants": [
+        {
+          "id": "open-well-or-dogleg-stair-as-ceremonial-spine",
+          "status": "canonical",
+          "note": "Own defining_characteristics: 'a broad open-well or dogleg oak stair with square newels carrying obelisks, finials or heraldic beasts, treated as the ceremonial spine of the house.'"
+        }
+      ],
+      "sources": [
+        "jacobean.json defining_characteristics, description"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",

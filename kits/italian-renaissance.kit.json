@@ -5,9 +5,40 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "bay_count_range": {
+          "range": [
+            5,
+            11
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "italian-renaissance.json proportional_system.bay_rhythm"
+        }
+      },
+      "variants": [
+        {
+          "id": "even-additive-no-centrepiece",
+          "status": "canonical",
+          "op": "add",
+          "note": "own bay_rhythm: 'no centrepiece and no crescendo... terminated by quoins and a cornice.' Every window on the facade is the same size and the same distance apart, including next to the door (own diagnostic_tells)."
+        },
+        {
+          "id": "dominant-centre-with-flanking-wings",
+          "status": "forbidden",
+          "op": "add",
+          "note": "This is precisely what distinguishes Palladio: own distinguished_from[palladian] states 'the earlier Renaissance composes an even, unaccented, planar wall with no centrepiece.'"
+        }
+      ],
+      "note": "Extends the family's strict-bilateral-symmetry binding with the specific even, non-hierarchical bay logic that separates this member from Palladian's dominant-centre composition.",
+      "sources": [
+        "italian-renaissance.json proportional_system.bay_rhythm, diagnostic_tells, distinguished_from[palladian]"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -144,18 +175,39 @@
       "status": "empty"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A string course marks every storey, restating the horizontal against the wall's verticality; rustication may change only at a string course or storey line, never mid-storey.",
+      "variants": [
+        {
+          "id": "string-course-per-storey",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json defining_characteristics, constraints (italian-renaissance.c04)"
+      ],
+      "group": "envelope"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Corner quoins terminate the even bay field -- the composition has no centrepiece, so the quoins and the cornice, not a dominant middle bay, are what close the elevation.",
+      "variants": [
+        {
+          "id": "graded-rustication-quoin",
+          "status": "canonical",
+          "note": "Rustication grades heavy/rock-faced at the base to progressively flatter above (diagnostic_tells)."
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json proportional_system.bay_rhythm, diagnostic_tells"
+      ],
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -179,11 +231,32 @@
       "status": "empty"
     },
     "cornice": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A single deep crowning cornice, projecting 1/12 to 1/16 of total facade height with projection at least equal to its own vertical dimension, ends the composition absolutely and throws the whole wall into a single band of shadow. No gable stands behind it and the roof is invisible from the street.",
+      "parameters": {
+        "projection_to_height_ratio": {
+          "range": [
+            0.0625,
+            0.0833
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-renaissance.json constraints (italian-renaissance.c03)"
+        }
+      },
+      "variants": [
+        {
+          "id": "single-deep-crowning-cornice",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json constraints (italian-renaissance.c03), diagnostic_tells, description"
+      ],
+      "group": "envelope"
     },
     "frieze": {
       "group": "envelope",
@@ -217,11 +290,35 @@
       "status": "empty"
     },
     "window_proportion": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Window aperture 1:1.6 to 1:2 width to height, with a pier-to-opening ratio between 1:1 and 1:1.5.",
+      "parameters": {
+        "aperture_w_to_h": {
+          "range": [
+            0.5,
+            0.625
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-renaissance.json proportional_system.typical_ratios"
+        },
+        "pier_to_opening": {
+          "range": [
+            1.0,
+            1.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-renaissance.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "italian-renaissance.json proportional_system.typical_ratios"
+      ],
+      "group": "openings"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -231,11 +328,37 @@
       "status": "empty"
     },
     "window_head_masonry": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Round-headed arches only, springing from an impost with the rise exactly half the span within 2 percent -- no segmental, pointed or elliptical arches, except at service openings below the piano nobile.",
+      "parameters": {
+        "arch_rise_to_span": {
+          "range": [
+            0.48,
+            0.52
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-renaissance.json constraints (italian-renaissance.c02)"
+        }
+      },
+      "variants": [
+        {
+          "id": "semicircular-arch-impost-sprung",
+          "status": "canonical"
+        },
+        {
+          "id": "segmental-pointed-or-elliptical",
+          "status": "forbidden",
+          "note": "italian-renaissance.c02, hard, except at service openings below the piano nobile."
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json constraints (italian-renaissance.c02), diagnostic_tells"
+      ],
+      "group": "openings"
     },
     "window_head_wood": {
       "group": "openings",
@@ -266,11 +389,26 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Every window on the facade is the same size and the same distance apart, including the ones next to the door -- no window is more important than any other. Emphasis, if any, comes only from centring the portal and at most slightly enlarging the central window; there is no hierarchical grouping.",
+      "variants": [
+        {
+          "id": "uniform-identical-repeated-bays",
+          "status": "canonical"
+        },
+        {
+          "id": "hierarchical-emphasised-grouping",
+          "status": "forbidden",
+          "note": "Contradicts the style's own diagnostic_tells (every window the same size and spacing) and bay_rhythm ('no centrepiece and no crescendo'); hierarchical grouping is the Palladian, not the earlier Renaissance, move."
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json diagnostic_tells, proportional_system.bay_rhythm"
+      ],
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -355,11 +493,32 @@
       "status": "empty"
     },
     "pilaster": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Flat, shallow pilasters (projection about 1/6 to 1/8 of their width) apply the order to the continuous wall plane; they do not carry anything, and the wall behind them remains continuous.",
+      "parameters": {
+        "projection_to_width": {
+          "range": [
+            0.125,
+            0.167
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-renaissance.json proportional_system.typical_ratios"
+        }
+      },
+      "variants": [
+        {
+          "id": "flat-shallow-non-load-bearing-pilaster",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json defining_characteristics, diagnostic_tells, proportional_system.typical_ratios"
+      ],
+      "group": "classical-apparatus"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -376,18 +535,38 @@
       "status": "empty"
     },
     "ornament_vocabulary": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A fixed, published vocabulary of mouldings and orders, specifiable and defensible in argument, transmissible by treatise independent of any craft lodge -- reduced from Gothic's naturalistic, proliferating ornament to a closed, teachable set.",
+      "variants": [
+        {
+          "id": "fixed-treatise-moulding-vocabulary",
+          "status": "canonical"
+        },
+        {
+          "id": "gothic-naturalistic-proliferating-ornament",
+          "status": "forbidden",
+          "note": "own description: the explicit reaction against, characterised as 'barbarous and northern.'"
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json defining_characteristics, description"
+      ],
+      "group": "classical-apparatus"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "No projecting porch of any kind. The doorway is simply the one opening in the wall plane you can walk through, without a pedimented projecting portico -- reserved for churches until Palladio.",
+      "note": "italian-renaissance.c05 (soft, cultural): 'No pedimented projecting portico on a domestic front; the temple front is reserved for churches until Palladio.'",
+      "sources": [
+        "italian-renaissance.json constraints (italian-renaissance.c05), description"
+      ],
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",
@@ -537,11 +716,21 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The arcaded internal courtyard (cortile) is the organising void of the urban palace, with rooms on all four sides and all significant light borrowed from the court behind a blank, rusticated street face.",
+      "variants": [
+        {
+          "id": "cortile-organising-void",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json defining_characteristics, massing_affinities, description"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -603,11 +792,25 @@
       "status": "empty"
     },
     "street_relationship": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The palazzo presents a blank, rusticated street face with no significant light borrowed from it; the palazzetto sits in a continuous street wall and reads as a unit of the block rather than a free-standing object.",
+      "variants": [
+        {
+          "id": "blank-rusticated-street-face-courtyard-lit",
+          "status": "canonical"
+        },
+        {
+          "id": "palazzetto-in-continuous-street-wall",
+          "status": "permitted"
+        }
+      ],
+      "sources": [
+        "italian-renaissance.json massing_affinities, description"
+      ],
+      "group": "site"
     },
     "setback_rule": {
       "group": "site",

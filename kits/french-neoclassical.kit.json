@@ -11,10 +11,36 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "low-hip-behind-balustrade",
+          "status": "canonical",
+          "note": "Hard constraint c01: roof 'must not be visible from a normal standing viewpoint at the building line... concealed behind a balustrade or blocking course.' diagnostic_tells: 'No visible roof.'"
+        },
+        {
+          "id": "mansard",
+          "status": "atypical",
+          "note": "own massing_affinities marks mansard-block 'atypical: Neoclassicism actively suppresses the mansard in favour of a low roof behind a balustrade. A mansard indicates either a survival from the previous century or the nineteenth-century revival.'"
+        }
+      ],
+      "parameters": {
+        "pitch": {
+          "range": [
+            5,
+            8
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "french-neoclassical.json constraints c01"
+        }
+      },
+      "rule": "A low hipped roof, 5:12 to 8:12, concealed behind a balustrade or blocking course at least 1/16 the wall height (hard constraint c01) -- never visible from grade.",
+      "sources": [
+        "french-neoclassical.json constraints c01, diagnostic_tells, massing_affinities"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -110,10 +136,31 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "plain-ashlar-stone",
+          "status": "canonical",
+          "note": "typical_ratios: rustication where used confined to ground storey, joints 10-20mm, no rock face. Petit Trianon exemplar: 'a stone cube... there is no ornament anywhere except the capitals, a balustrade and a single stringcourse.'"
+        }
+      ],
+      "parameters": {
+        "rustication_joint_width": {
+          "range": [
+            10,
+            20
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "french-neoclassical.json proportional_system.typical_ratios"
+        }
+      },
+      "rule": "Plain ashlar stone, fine-jointed, with plain wall dominating the elevation -- aperture area must not exceed 25 percent of any principal elevation (hard constraint c03). Rustication, where used at all, is confined to the ground storey with fine 10-20 mm joints and no rock face.",
+      "sources": [
+        "french-neoclassical.json proportional_system.typical_ratios, constraints c03, exemplars (Petit Trianon)"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -211,10 +258,20 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "clean-rectangle-flat-architrave",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Windows cut into the wall as clean rectangles with a flat architrave, no aedicular surround, and no keystone drama.'"
+        }
+      ],
+      "rule": "A clean rectangular opening with a flat architrave -- no aedicule, no keystone. Separated from its neighbour by at least its own width (hard constraint c03).",
+      "sources": [
+        "french-neoclassical.json diagnostic_tells, constraints c03"
+      ],
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
@@ -316,10 +373,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "invented-subordinate-range",
+          "status": "permitted",
+          "note": "No historical precedent. Housed in a subordinate flanking range, never breaking the plain-wall, low-aperture-ratio principal elevation (c03) or the concealed-roof silhouette (c01)."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent. Subordinate flanking range, off the primary block.",
+      "note": "kind: invented -- honestly flagged.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,59 +398,166 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "free-standing-column-real-entablature",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Free-standing columns carrying a real entablature in preference to engaged columns and pilasters.' Structurally justified per hard constraint c05: decorative free-standing columns supporting nothing 'invert the style's founding argument.'"
+        }
+      ],
+      "parameters": {
+        "column_height_diameters": {
+          "range": [
+            9.5,
+            10
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-neoclassical.json proportional_system.typical_ratios"
+        },
+        "intercolumniation_diameters": {
+          "range": [
+            2.25,
+            3.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-neoclassical.json constraints c05"
+        }
+      },
+      "rule": "Corinthian and Ionic preferred (bound proportion packs), column height 9.5-10 diameters, shafts unfluted or fluted only above 1/3 height. A free-standing column must carry a real vault or floor above it -- never merely decorative (hard constraint c05).",
+      "sources": [
+        "french-neoclassical.json defining_characteristics, proportional_system.typical_ratios, constraints c05"
+      ],
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Same cascade correction as `order`: this slot is wrongly forbidden by the vernacular family spliced in via french-renaissance-chateau's hybridization edge. Corrected: free-standing, load-bearing, spaced 2.25-3.0 diameters, unfluted or fluted only above 1/3 height.",
+      "sources": [
+        "french-neoclassical.json constraints c05, proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "entablature_to_column_height": {
+          "value": 0.2,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "1/5 of column height, against the Baroque 1/4 -- own distinguished_from note against french-baroque."
+        }
+      },
+      "rule": "Same cascade correction as `order`. Entablature reduced to 1/5 of column height (typical_ratios), always structurally real -- carried by a genuine load, never applied over a flat-roofed projection with nothing behind it (c02).",
+      "sources": [
+        "french-neoclassical.json proportional_system.typical_ratios, constraints c02"
+      ],
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "pediment-over-real-portico-or-roof",
+          "status": "canonical",
+          "note": "Hard constraint c02: 'A pediment may appear only where a real roof or a real portico is behind it. Applying a pediment over a flat-roofed projection is the exact practice Laugier's critique was aimed at.'"
+        },
+        {
+          "id": "pediment-over-flat-roofed-projection",
+          "status": "forbidden",
+          "note": "Exactly what c02 forbids -- decorative pediment with no real roof or portico behind it."
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected with high confidence and the style's own sharpest rule: a pediment is legitimate only where a real roof or a real portico stands behind it (hard constraint c02) -- this is the specific practice Laugier's 1753 critique targeted.",
+      "sources": [
+        "french-neoclassical.json constraints c02, description.long"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "exterior-pilaster",
+          "status": "atypical",
+          "note": "defining_characteristics states free-standing columns are preferred 'IN PREFERENCE TO engaged columns and pilasters' on the exterior -- not forbidden, but the secondary choice."
+        },
+        {
+          "id": "interior-straight-fluted-pilaster",
+          "status": "canonical",
+          "note": "description.long: the Louis XVI interior answer to Rococo is 'rectilinear panelling, straight fluted pilasters, Vitruvian scroll and guilloche' -- pilasters ARE the interior norm even where the exterior prefers a free column."
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected: exterior pilasters are permitted but secondary to a free-standing column; interior pilasters (straight, fluted, rectilinear) are the Louis XVI norm and the diagnostic break from Rococo boiserie.",
+      "sources": [
+        "french-neoclassical.json defining_characteristics, description.long"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "restrained-modillion",
+          "status": "atypical",
+          "note": "Consistent with the style's disciplined, banded ornament (c04) but not directly named; held atypical rather than canonical given the general austerity."
+        }
+      ],
+      "rule": "Same cascade correction as `pediment`. Not directly documented; the style's general austerity (plain wall dominant, ornament banded per c04) argues against a rich modillion course as the norm.",
+      "note": "EDITORIAL, low confidence.",
+      "sources": [
+        "french-neoclassical.json constraints c04 (banded ornament)"
+      ],
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "balustrade_to_wall_height": {
+          "value": 0.0625,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "At least 1/16 of the wall height, per hard constraint c01."
+        }
+      },
+      "rule": "Same cascade bug as `order`, corrected with high confidence. A plain classical balustrade, at least 1/16 the wall height, conceals the low hipped roof at the cornice line (hard constraint c01) -- the style's single most reliable diagnostic tell.",
+      "sources": [
+        "french-neoclassical.json constraints c01, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "banded-archaeological-ornament",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Archaeologically derived detail -- Greek key, Vitruvian scroll, guilloche, paterae, husk garlands -- used in narrow disciplined bands.' Hard-adjacent co-occurrence rule c04: 'Ornament is banded, not scattered... free-floating swags and cartouches on open wall belong to the Baroque.'"
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected with high confidence. Archaeologically correct ornament (Greek key, Vitruvian scroll, guilloche, paterae, husk garlands) confined to continuous horizontal bands or a single framed panel -- never scattered free-floating swags (soft constraint c04).",
+      "sources": [
+        "french-neoclassical.json defining_characteristics, constraints c04"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -580,10 +757,36 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "forbidden",
+          "note": "Wrongly inherited from french-vernacular -- false here: own massing_affinities states the four-over-four type is canonical and explicitly 'a compact near-cubic double-pile block around a central hall or vestibule.'"
+        },
+        {
+          "id": "compact-double-pile-near-cube",
+          "status": "canonical",
+          "note": "The Petit Trianon (23 m square) is the reference object -- plan approaching 1:1 to 1:1.3, height 0.8-1.0 of plan width."
+        }
+      ],
+      "parameters": {
+        "plan_ratio": {
+          "range": [
+            1.0,
+            1.3
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-neoclassical.json proportional_system.typical_ratios"
+        }
+      },
+      "rule": "A compact, near-cubic double-pile block around a central hall or vestibule -- the maison de plaisance type -- never the single-pile range wrongly inherited from the vernacular family.",
+      "sources": [
+        "french-neoclassical.json massing_affinities, proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",

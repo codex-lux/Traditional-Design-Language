@@ -53,10 +53,44 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "gable_overhang": {
+          "range": [
+            3.9,
+            6.6
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "swiss-chalet.c03",
+          "note": "1.2-2.0 m in the source, converted to ft (unit vocabulary has no metre)."
+        },
+        "purlin_steps": {
+          "value": "3 to 5, each shorter than the one below",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "variants": [
+        {
+          "id": "log-gallery-gable-with-stepped-overhang",
+          "status": "canonical",
+          "note": "Log courses run continuous and visible to the apex, carrying a very deep stepped overhang on shaped, stacked purlin ends; a full-width gallery (Lauben) with a sawn or turned balustrade sits under the overhang, with a carved bargeboard and a dated, carved or painted inscription band below it. All ornament in the family concentrates here (c05, soft)."
+        },
+        {
+          "id": "half-timbered-gable",
+          "status": "forbidden",
+          "note": "Correct for the Fachwerk-hybrid zone of the Swiss Mittelland and northern cantons (this node's own lineage: hybridizes_with german-fachwerk, weight 0.25) but not for the alpine chalet proper this node describes, whose hearth is the Bernese Oberland and central Switzerland and whose defining_characteristics are unambiguous Blockbau."
+        }
+      ],
+      "rule": "The gable face is the building's entire architectural statement: a very deep stepped overhang on shaped purlin ends, a full-width gallery with a balustrade, a carved bargeboard and an inscribed facade band — never a half-timbered gable, which belongs to the lowland Fachwerk-hybrid end of the family, not the alpine chalet.",
+      "note": "CASCADE-PROVENANCE FIX (WP-4.2 wave B2): left open, this slot resolves through the germanic-vernacular family (spliced in via the hybridizes_with edge to german-fachwerk) to 'half-timbered' — a real fact about the Swiss Mittelland/northern-canton Fachwerk-hybrid zone, but wrong for this node's own alpine chalet, which is built in log throughout and whose gable is entirely dominated by the overhang/gallery/purlin system described here. Fixed on this node's own kit, not on germanic-vernacular, nordic-alpine-vernacular, or german-fachwerk.",
+      "sources": [
+        "swiss-chalet.json defining_characteristics, diagnostic_tells, description.long, c03"
+      ]
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -159,10 +193,15 @@
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "No applied corner board. There is no structural post at the corner to conceal or to trim around at all — the corner is the interlocking, notched log ends themselves (see corner_quoin), and the whole point of the joint is that it stays exposed and projecting, not boxed.",
+      "note": "CASCADE-PROVENANCE FIX (reasoning only; the binding outcome was already correct): the inherited germanic-vernacular forbidding reasons from 'the structural corner post is exposed... not concealed under trim' — a Fachwerk-frame concept this log (Blockbau) building does not have. Restated here with this node's own construction reality; corner_quoin (specified at nordic-alpine-vernacular) already states the correct log-notch mechanism.",
+      "sources": [
+        "swiss-chalet.json diagnostic_tells, defining_characteristics"
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -206,8 +245,28 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "bare-weathered-unpainted",
+          "status": "canonical",
+          "op": "replace",
+          "note": "This node's own text states this without qualification: timber left bare, the sun-blackened larch of a two-hundred-year-old south face called 'the finest weathering material in Europe.' c05 (soft) keeps the log wall itself plain."
+        },
+        {
+          "id": "falu-red-white-trim",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The Nordic farm's answer, not the chalet's — this node's own distinguished_from entry states the contrast directly: 'The chalet leaves timber bare; the Nordic farm paints it red.'"
+        }
+      ],
+      "note": "Narrows the family's family-wide either/or split (both permitted at nordic-alpine-vernacular) to this member's own single, unambiguous answer.",
+      "sources": [
+        "swiss-chalet.json distinguished_from, c05, description.long"
+      ]
     },
     "window_type": {
       "group": "openings",
@@ -267,10 +326,25 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "lights_per_band": {
+          "range": [
+            3,
+            6
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "note": "'chalet windows come in bands of three, four or six small lights' (description.long)."
+        }
+      },
+      "note": "The family's own window_grouping_rule binding explicitly leaves this number open: 'chalet additionally organises its small openings into a banded Fensterband... which is NOT independently attested for the Nordic branch and is left as a chalet-specific refinement, not asserted here at family level.' This is that refinement.",
+      "sources": [
+        "swiss-chalet.json description.long, proportional_system.bay_rhythm"
+      ]
     },
     "shutter": {
       "group": "openings",
@@ -316,10 +390,25 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "garage-in-masonry-ground-storey",
+          "status": "canonical",
+          "note": "Invented: no historical precedent exists for any traditional style. The traditional ground storey is masonry or earth-set, holding the byre and cellar, with the log storey never meeting grade (defining_characteristics). A garage door fits that same masonry storey in place of the historic byre function, leaving the log storey, overhang and gallery on the principal elevation completely undisturbed."
+        },
+        {
+          "id": "garage-door-in-log-storey",
+          "status": "forbidden",
+          "note": "Invented judgment: a wide door cut into the log storey would violate the settlement-gap and small-grouped-opening logic (window_grouping_rule, window_surround_wood) that governs every opening in a solid log wall."
+        }
+      ],
+      "rule": "Where a garage is wanted, it is built into the masonry or earth-set ground storey that traditionally held the byre and cellar — never as an opening cut into the log storey above.",
+      "note": "swiss-chalet is explicitly named in the task brief as a plausible contemporary-buildable reinterpretation, and is 'living' status with a continuing revival lineage into craftsman. Invented per docs/inheritance.md's own guidance: no traditional style has a historical answer for this slot."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,17 +473,49 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "integral-full-width-gallery-lauben",
+          "status": "canonical",
+          "note": "massing_affinities: gallery-house, canonical. This node's own text: 'The Lauben are integral, not applied: they are circulation, drying space for hay and washing, and the social edge of the house.'"
+        },
+        {
+          "id": "applied-verandah",
+          "status": "forbidden",
+          "note": "The gallery is structural and integral to the gable composition, not a trimmed-on porch added after the fact."
+        }
+      ],
+      "rule": "The gallery (Lauben) runs the full width of the gable face under the deep overhang and is structurally integral to the building, not an applied porch — it functions as circulation, hay-drying and washing space, and the house's principal social edge.",
+      "sources": [
+        "swiss-chalet.json massing_affinities, description.long"
+      ]
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "parameters": {
+        "gallery_depth": {
+          "range": [
+            3.3,
+            4.9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "swiss-chalet.json proportional_system.typical_ratios",
+          "note": "1.0-1.5 m in the source, converted to ft (unit vocabulary has no metre)."
+        }
+      },
+      "rule": "The Lauben gallery is 1.0-1.5 m (roughly 3'3\"-4'11\") deep, running the full width of the gable face.",
+      "sources": [
+        "swiss-chalet.json proportional_system.typical_ratios"
+      ]
     },
     "porch_support": {
       "group": "threshold",
@@ -433,10 +554,23 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "parameters": {
+        "stube_ceiling_height_max": {
+          "value": 8.2,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "'a ceiling under two and a half metres' (description.long), converted to ft; stated as an upper bound only — no lower figure is given in the source and none is invented here."
+        }
+      },
+      "rule": "The Stube ceiling is low — under about 2.5 m (8'2\") — consistent with the log-course coursing module and the room's small scale.",
+      "note": "Marked judgment/low confidence because the source states only an upper bound ('under two and a half metres'), not a range; no lower figure is invented here.",
+      "sources": [
+        "swiss-chalet.json description.long"
+      ]
     },
     "trim_family": {
       "group": "interior",
@@ -545,10 +679,14 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "rule": "The one heated room (Stube) is warmed by a corner masonry stove (Kachelofen) fired from the passage, so no smoke or draught enters the room — the same log-compatible heating strategy used across the Fachwerk-hybrid zone this style borders.",
+      "sources": [
+        "swiss-chalet.json description.long"
+      ]
     },
     "stair_position": {
       "group": "plan-logic",

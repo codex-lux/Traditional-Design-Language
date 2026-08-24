@@ -6,22 +6,74 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "symmetry": {
+          "value": "balanced-asymmetrical",
+          "unit": "none",
+          "kind": "measured",
+          "source": "ranch-style.proportional_system.symmetry"
+        }
+      },
+      "rule": "Asymmetrical facade organized by the competing claims of the entry and the garage: no vertical hierarchy survives at all, and where a ranch elevation looks well proportioned it is because someone controlled the ridge line, the head datum, and the position of the garage by eye.",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited 'strict-bilateral-odd-bay' (eclectic-revivals + colonial-revival, via the family splice), which directly contradicts this node's own stated symmetry attribute and its own defining_characteristics item 8."
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "low-hip-long-unbroken-ridge",
+          "status": "canonical",
+          "note": "'Roof ridge running unbroken for 40 ft or more at a pitch under 5:12' (diagnostic_tells)."
+        },
+        {
+          "id": "low-gable",
+          "status": "canonical"
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). No source names a gambrel roof; the ranch roof is a single simple low plane."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A low-pitched hipped or gabled roof with a long unbroken ridge, no base, no piano nobile, no attic, and frequently no cornice.",
+      "note": "Direct quote of defining_characteristics item 2 and diagnostic_tells item 3. Fixes a cascade bug."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "ranch-style.c03"
+        },
+        "pitch_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "ranch-style.c03"
+        },
+        "eave_overhang_range_in": {
+          "range": [
+            18,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "ranch-style.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Roof pitch 3:12 to 5:12 with eave and rake overhang between 18 and 36 in -- a hard constraint (c03). Overhang under 12 in disqualifies the node; a pitch over 6:12 makes the horizontal reading impossible.",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited 'pitch_min=9:12' from queen-anne-american (via the family splice), which is nearly triple this node's own documented ceiling and contradicts its own hard constraint c03 directly."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -32,10 +84,22 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "overhang_range_in": {
+          "range": [
+            18,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "ranch-style.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Eave overhang of 18 to 36 in, deep enough to be a primary horizontal element of the composition -- unlike the family's own later, shallower members.",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited shingle-style's 'closed-tight-no-brackets, not exceeding 12 in' rule (via the family splice), which is roughly a third of this node's own documented overhang and describes the opposite condition -- Shingle Style's tight eave versus the ranch's deliberately deep one."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -67,10 +131,24 @@
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "minimal-or-absent",
+          "status": "canonical",
+          "note": "'Forced-air heating in the slab or in the attic removed the chimney's necessity' (long description). A chimney, where present at all, is a small, low, unremarkable stack."
+        },
+        {
+          "id": "tall-multiple-vertical-accent",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (british-picturesque, via colonial-revival's family). A chimney used as a deliberate, conspicuous vertical accent is the opposite of this node's own stated horizontal discipline -- 'no vertical hierarchy survives at all.'"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Mechanical systems, not the fireplace, carry the heating load in the great majority of built examples, and the chimney is correspondingly minor or absent -- never a picturesque vertical accent.",
+      "note": "Direct paraphrase of the long description's technology paragraph. Marked judgment because the node does not state a chimney rule as a numbered constraint; this is inferred from its own stated mechanical-systems narrative."
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -88,10 +166,22 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "ranch-l-corner-lot-side-load",
+          "status": "canonical",
+          "note": "'The type's answer to a corner lot and to the desire for a sheltered rear terrace; it is also the massing in which side-loading the garage becomes natural' (massing_affinities)."
+        },
+        {
+          "id": "ranch-linear-extension",
+          "status": "canonical"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Growth and corner-lot resolution both happen by turning the linear bar into an L, which simultaneously shelters a rear terrace and lets the garage side-load rather than face the street.",
+      "note": "Direct quote of massing_affinities note on ranch-l."
     },
     "construction_type": {
       "group": "envelope",
@@ -281,10 +371,28 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "picture-window-fixed-center-flanked-by-operable-sash",
+          "status": "canonical"
+        }
+      ],
+      "parameters": {
+        "picture_window_width_range_ft": {
+          "range": [
+            6,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "ranch-style.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A picture window composed as a wide fixed centre light flanked by narrow operable sash, 6 to 9 ft wide, head aligned with the general door head datum -- in place of individually punched openings on the principal elevation.",
+      "note": "Direct quote of defining_characteristics item 6, diagnostic_tells item 2, and typical_ratios."
     },
     "entry_door": {
       "group": "openings",
@@ -316,10 +424,19 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "attached-carport",
+          "status": "permitted",
+          "op": "add",
+          "note": "'The model that replaced the 1947 Cape mid-build-out, with a carport and a rear-facing living room' -- the Levittown ranch model exemplar. An open-sided variant of the attached strategy, still subject to the family's 4 ft setback / 33 percent width figures."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "Where the garage is not fully enclosed, an attached open carport is a permitted, historically documented variant of the attached strategy (Levittown ranch model, 1949), subject to the same setback and width figures.",
+      "note": "Extends the family's already-correct attached-set-back-or-side-loaded binding with this node's own exemplar detail, which the family kit does not carry."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +501,11 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "No habitable front porch; entry as a recessed or hooded stoop. Air conditioning, spreading fast after 1955, removed the porch's function: 'a covered outdoor room facing the street has no function in a house you keep sealed and cooled.'",
+      "note": "Direct quote of defining_characteristics item 7 and the long description's own mechanical explanation."
     },
     "porch_depth": {
       "group": "threshold",
@@ -426,10 +544,21 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "front_door_visibility": {
+          "value": "frequently invisible from the point of arrival",
+          "unit": "none",
+          "kind": "measured",
+          "source": "ranch-style long description",
+          "diagnostic": true,
+          "note": "Documents the style's own named unsolved condition, not a target."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The front door is the smallest and least visible opening on the front of the house; the driveway, not the front walk, is the real approach. 'The public face of the American house was moved to the back garden in about 1950, and the street elevation has been an unsolved leftover ever since.'",
+      "note": "Direct quote of the long description's closing paragraphs, used diagnostically per the schema's own `diagnostic` field."
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -538,10 +667,11 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Plan opened by trussed roof framing: living, dining, and kitchen spaces continuous or only partly divided, made possible by the engineered light wood truss eliminating interior bearing walls.",
+      "note": "Direct quote of defining_characteristics item 4 and the long description's technology paragraph."
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -580,17 +710,39 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "body_depth_range_ft": {
+          "range": [
+            24,
+            32
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "ranch-style.typical_ratios"
+        },
+        "overall_length_range_ft": {
+          "range": [
+            50,
+            80
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "ranch-style.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A body twenty-four to thirty-two feet deep and fifty to eighty feet long, lying parallel to the street -- a plan one room deep along most of its length, opened by trussed roof framing.",
+      "note": "Direct quote of the long description and typical_ratios."
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Direct indoor-outdoor relationship to a private rear yard through a sliding or french door, with the finish floor near grade -- the concrete slab actually producing the indoor-outdoor life the marketing promised, not the glazing alone.",
+      "note": "Direct quote of defining_characteristics item 5 and the long description's own causal claim about the slab."
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -599,8 +751,15 @@
     },
     "services_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Forced-air heating in the slab or attic removes the chimney's necessity; residential air conditioning, spreading fast after 1955, removes the porch's -- both mechanical facts before they are social ones.",
+      "edit_provenance": {
+        "kind": "measured",
+        "source": "ranch-style long description",
+        "note": "Retrieved from the node's own documented technology, not invented, unlike the family's more general services_strategy framing (which the family kit marks invented)."
+      }
     },
     "street_relationship": {
       "group": "site",
@@ -646,10 +805,19 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "floor_above_grade_max_in": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "ranch-style.diagnostic_tells"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Finish floor within about 12 in of exterior grade, with one or two steps at the entry rather than a raised stoop -- the slab-on-grade construction that removed the basement in the West.",
+      "note": "Direct quote of diagnostic_tells item 4."
     }
   }
 }

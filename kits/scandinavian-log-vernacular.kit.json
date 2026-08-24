@@ -25,10 +25,30 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "determined_by": [
+        "roof_pitch"
+      ],
+      "variants": [
+        {
+          "id": "sod-on-birch-bark",
+          "status": "canonical",
+          "note": "Turf (torvtak) over a birch-bark waterproofing layer, retained at the edge by a log or board; matches the family's pitch_snow_dominant band (18-30 deg family / 22-30 deg this node's own c04)."
+        },
+        {
+          "id": "split-shingle",
+          "status": "canonical",
+          "note": "Riven shingle on the steeper, rain-dominant roofs; matches the family's pitch_rain_or_shingle band (35-45 deg)."
+        }
+      ],
+      "rule": "Roof material tracks the same two-band split the family's own roof_pitch binding already establishes: sod over birch bark where snow dominates (22-30 degrees, c04), split shingle where rain does (35-45 degrees).",
+      "sources": [
+        "scandinavian-log-vernacular.c04",
+        "scandinavian-log-vernacular.json defining_characteristics"
+      ]
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -316,10 +336,25 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "detached-single-purpose-outbuilding",
+          "status": "canonical",
+          "note": "Invented: no historical precedent exists for any traditional style. Consistent with this type's own settlement logic (see outbuilding_types), a garage is simply one more single-purpose log building added to the yard cluster, standing apart from the stue rather than attached to or cut into it."
+        },
+        {
+          "id": "attached-garage-bay",
+          "status": "forbidden",
+          "note": "Invented judgment: an attached bay has no precedent in a tradition whose entire settlement pattern is dispersal into separate small buildings, and it would require a wall opening far wider than the log-course/settlement-gap logic (window_grouping_rule, window_surround_wood) permits."
+        }
+      ],
+      "rule": "A garage, where wanted, is treated as one more single-purpose building in the farm cluster — log-built or sympathetically clad, standing apart from the house — rather than as an attached bay or an integral opening.",
+      "note": "scandinavian-log-vernacular is 'living' status with an explicit continuing trade (revival_periods: 'laft is still taught, licensed and built in Norway and Sweden'), so this slot is genuinely live; still invented per docs/inheritance.md, since no traditional style has an answer."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -538,17 +573,61 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "single-cell-stue",
+          "status": "canonical",
+          "note": "massing_affinities: hall-single-cell, canonical — 'the type specimen and the unit everything else is assembled from.' One room, one hearth, one door."
+        },
+        {
+          "id": "parstuga-central-passage",
+          "status": "canonical",
+          "note": "The plan formalises into two rooms — an everyday room and a finer, colder festroom — either side of a central entry passage; massing_affinities rates double-pen common and names this 'the direct ancestor of the American double pen.'"
+        }
+      ],
+      "rule": "The plan is either the single-cell stue or, once formalised, the parstuga — two rooms flanking a central passage — but a room is never simply enlarged past what one log wall allows: growth multiplies rooms and buildings instead (see wing_strategy, outbuilding_types).",
+      "sources": [
+        "scandinavian-log-vernacular.json description.long, massing_affinities"
+      ]
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "open-hearth-central-arestue",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              800,
+              1400
+            ]
+          },
+          "note": "The earliest surviving type (arestue): an open hearth in the middle of the floor with a smoke hole (ljore) in the roof and no chimney at all."
+        },
+        {
+          "id": "corner-fireplace-with-hood",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1300,
+              1950
+            ]
+          },
+          "note": "From the 14th century in Sweden, the 16th in Norway: a corner fireplace with a hood (peis) and a stone flue, letting the ceiling come down."
+        }
+      ],
+      "rule": "Hearth type dates the building: the earliest arestue plan has a central open hearth with a smoke hole and no chimney; from the 14th-16th century a corner fireplace with a hood and stone flue supersedes it.",
+      "sources": [
+        "scandinavian-log-vernacular.json description.long"
+      ]
     },
     "stair_position": {
       "group": "plan-logic",
@@ -625,10 +704,34 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "parameters": {
+        "building_count_min": {
+          "value": 8,
+          "unit": "count",
+          "kind": "measured",
+          "note": "diagnostic_tells: 'A farmyard with eight or more separate small buildings and no single large one.'"
+        }
+      },
+      "variants": [
+        {
+          "id": "dispersed-single-purpose-cluster",
+          "status": "canonical",
+          "note": "The farm (tun/gard) is a cluster of many small single-purpose log buildings around a yard: stue (living), stabbur/loft (raised storehouse for grain and textiles), eldhus (baking/brewing, kept separate because it burns), fjos (cattle), stall (horses), smie (smith), badstue (sauna)."
+        },
+        {
+          "id": "single-consolidated-building",
+          "status": "forbidden",
+          "note": "The swiss-chalet answer to the identical log-length constraint — house, byre and hay store combined in one tall building. Explicitly the opposite strategy: this node's own distinguished_from entry states 'Same construction system, opposite settlement strategy... the Nordic farm disperses into many small buildings around a flat yard.'"
+        }
+      ],
+      "rule": "The farm is a cluster of at least eight small single-purpose log buildings around a yard, not one consolidated house — the direct settlement-level consequence of a wall that cannot be lengthened: a household that needs a new function builds a new building rather than enlarging the old one.",
+      "sources": [
+        "scandinavian-log-vernacular.json defining_characteristics, diagnostic_tells, distinguished_from"
+      ]
     },
     "fence_wall": {
       "group": "site",

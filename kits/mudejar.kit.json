@@ -6,22 +6,50 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Composition is near-symmetrical, not strictly bilateral: towers are panelled with two or three tall recessed divisions per face, subdivided by horizontal ornament bands, and naves are rhythmed by the diaphragm arches carrying the timber roof -- a near-regular, brick-module-driven order rather than a classical axial symmetry.",
+      "note": "OVERRIDES a cascade fill from antique-classical ('strictly bilaterally symmetrical about a central axis... no picturesque or additive massing'), which directly contradicts this node's own proportional_system.symmetry field, stated in as many words as 'near-symmetrical.' The antique-classical figure reaches this node only through the generic classical-apparatus-adjacent chain (roman-classical/antique-classical/greek-classical), a route that was never meant to license a stricter symmetry than this node's own text supports. Fixed here per WP-4.2 instructions rather than on any ancestor kit."
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "par-y-nudillo",
+          "status": "canonical",
+          "note": "Tie-beam, rafters and collar as one assembly, boarded and worked into an interlace of small timbers (lazo). The ceiling and the roof are the same object."
+        },
+        {
+          "id": "suspended-ceiling-below-separate-roof",
+          "status": "forbidden",
+          "note": "mudejar.c02 (hard): 'a suspended ceiling below a separate roof is a different tradition.'"
+        }
+      ],
+      "rule": "Timber roofs are armadura de par y nudillo -- tie-beam, rafters and collar built and finished as a single assembly, its underside boarded and worked into interlaced strapwork (lazo). There is no structural roof above and a decorative ceiling below; they are one object.",
+      "note": "mudejar.c02 (hard); defining_characteristics point 3; description, long."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "pitch_deg": {
+          "set": [
+            26.5,
+            33.7
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "mudejar.json proportional_system / typical_ratios ('cartabon de armadura cuadrada, giving a pitch near 26.5 degrees'; 'commonly 26.5 or 33.7 degrees')"
+        }
+      },
+      "rule": "Pitch is fixed for the whole building by a single cartabon (a fixed wooden setting-out square), not chosen independently room by room; the commonest gives a pitch near 26.5 or 33.7 degrees.",
+      "note": "governing_logic, direct."
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -81,10 +109,23 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "parameters": {
+        "tower_slenderness": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "mudejar.json typical_ratios ('Tower shaft slenderness roughly 1:4 to 1:6, square in plan')"
+        }
+      },
+      "rule": "Where this style's dominant vertical element -- the Almohad-type square brick tower -- occurs, its shaft runs roughly 1:4 to 1:6, slenderness to plan width.",
+      "note": "Scoped explicitly to the tower type (bell tower / minaret-derived), the style's own dominant vertical element per massing_affinities ('the Aragonese church tower gives a Mudejar ensemble a dominant vertical shaft'); not a general building height:width figure, since the style's own typology (church, palace, courtyard house) has no single shared massing height. Held at medium/judgment for that scoping reason."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -145,10 +186,31 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "course_height": {
+          "range": [
+            2.4,
+            2.8
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "mudejar.json typical_ratios ('Brick course plus joint 60-70 mm'), converted"
+        },
+        "band_depth": {
+          "range": [
+            3,
+            9
+          ],
+          "unit": "courses",
+          "kind": "measured",
+          "source": "mudejar.json typical_ratios ('ornamental bands 3-9 courses deep')"
+        }
+      },
+      "rule": "Wall ornament is generated entirely by offsetting, corbelling and rotating whole bricks -- dogtooth bands (esquinillas), sunken panels, interlaced blind arcading -- never by carving, moulding or casting a brick profile. Bands are dimensioned in whole brick courses, 3-9 courses deep.",
+      "note": "mudejar.c01 (hard): 'Brick ornament must be generated by whole-brick offsets, rotations and corbels. Carved, moulded or cast brick profiles are prohibited.' diagnostic_tells point 1."
     },
     "corner_quoin": {
       "group": "envelope",
@@ -377,10 +439,11 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Surface ornament is geometric, vegetal and epigraphic only. Figural imagery does not appear in the fabric, even where the patron and the building are Christian; figures belong to the altarpiece, not to the structure.",
+      "note": "mudejar.c04 (soft, direct quote)."
     },
     "porch_type": {
       "group": "threshold",

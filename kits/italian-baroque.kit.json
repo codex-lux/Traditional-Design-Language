@@ -5,9 +5,40 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "bay_narrowing_pct_per_step": {
+          "range": [
+            10,
+            25
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "italian-baroque.json constraints (italian-baroque.c03)"
+        }
+      },
+      "variants": [
+        {
+          "id": "curved-wall-plan-accelerating-bays",
+          "status": "canonical",
+          "op": "add",
+          "note": "The wall itself is a continuous deformable surface in plan (defining_characteristics), and the bay rhythm accelerates toward the axis (A-B-C-B-A, c03 hard)."
+        },
+        {
+          "id": "flat-planar-wall-even-bays",
+          "status": "forbidden",
+          "op": "add",
+          "note": "own distinguished_from[italian-renaissance]: 'the Renaissance wall is flat, the bays are even... If the plasticity comes from a curved wall surface it is Italian [Baroque]'."
+        }
+      ],
+      "note": "Extends the family's strict-bilateral-symmetry binding (symmetry about the axis is retained -- 'Baroque irregularity is always resolved about an axis', own massing_affinities) with the curved-wall, accelerating-bay geometry that is this style's whole point.",
+      "sources": [
+        "italian-baroque.json defining_characteristics, constraints (italian-baroque.c03), massing_affinities, distinguished_from[italian-renaissance]"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -94,9 +125,23 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "min_wall_thickness_to_span": {
+          "value": 0.1,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-baroque.json constraints (italian-baroque.c04)"
+        }
+      },
+      "note": "Extends the family's masonry construction_type binding with this style's own additional, curved-wall-specific requirement: masonry or reinforced construction with wall thickness at least 1/10 the clear span wherever the wall curves in plan -- the geometry is not achievable in light frame without losing the depth of reveal that makes the curve read.",
+      "sources": [
+        "italian-baroque.json constraints (italian-baroque.c04)"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -334,11 +379,38 @@
       "status": "empty"
     },
     "column": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A single bay may carry a pilaster, a half-column, a three-quarter column and a free-standing column, each in a different plane, so the facade reads as depth rather than pattern. Projection must increase monotonically toward the axis -- pilaster, then half, then three-quarter, then free-standing; random alternation of planes is noise, not Baroque layering.",
+      "parameters": {
+        "plane_step_in_modules": {
+          "range": [
+            0.5,
+            1.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "italian-baroque.json proportional_system.typical_ratios"
+        }
+      },
+      "variants": [
+        {
+          "id": "multi-plane-monotonic-projection-toward-axis",
+          "status": "canonical",
+          "note": "italian-baroque.c02, hard constraint."
+        },
+        {
+          "id": "single-plane-columns",
+          "status": "forbidden",
+          "note": "own distinguished_from[italian-renaissance]: 'single versus multiple planes of column projection'."
+        }
+      ],
+      "sources": [
+        "italian-baroque.json defining_characteristics, constraints (italian-baroque.c02), proportional_system.typical_ratios"
+      ],
+      "group": "classical-apparatus"
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -348,11 +420,28 @@
       "status": "empty"
     },
     "pediment": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Pediments are broken, segmental or scrolled, used as compositional openings for a cartouche, a statue, or a window admitting light -- never merely decorative. A whole, unbroken pediment is the earlier Renaissance's device, not this one's.",
+      "variants": [
+        {
+          "id": "broken-segmental-or-scrolled-pediment",
+          "status": "canonical",
+          "note": "italian-baroque.c05 (advisory): the break must be FOR something -- an empty break is a decorative tic, not a Baroque device."
+        },
+        {
+          "id": "whole-unbroken-triangular-pediment",
+          "status": "forbidden",
+          "note": "CASCADE FIX. Inherited from antique-classical ('whole-triangular-pediment... broken/scrolled forbidden'), which is correct for Greek/Roman antiquity and for Palladian and italian-renaissance (both of which genuinely keep whole pediments, per their own distinguished_from text) but directly wrong for italian-baroque, whose own defining_characteristics headlines 'broken, segmental and scrolled pediments' as a diagnostic trait and whose own distinguished_from[italian-renaissance] states outright: 'whole versus broken pediments.'"
+        }
+      ],
+      "note": "CASCADE FIX. This is the sharpest contradiction found in this batch: the family-level fix on tudor-jacobean.kit.json for entablature has a close analogue here, where a distant antique-classical binding (correct for two of the three renaissance-classical members) directly negates italian-baroque's own headline defining trait. Fixed on this node only, per WP-4.2 guidance -- italian-renaissance and palladian keep the inherited whole-pediment rule correctly.",
+      "sources": [
+        "italian-baroque.json defining_characteristics, diagnostic_tells, constraints (italian-baroque.c05), distinguished_from[italian-renaissance]"
+      ],
+      "group": "classical-apparatus"
     },
     "pilaster": {
       "group": "classical-apparatus",
@@ -376,11 +465,26 @@
       "status": "empty"
     },
     "ornament_vocabulary": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Concealed and directed light (hidden lanterns, openings behind cornices) and a populated silhouette against the sky -- statues, urns, volutes, scrolled buttresses -- rather than a horizontal cornice termination. Ornament is sculptural and dynamic, organised toward a single controlled emotional effect, not a restrained, evenly-distributed treatise vocabulary.",
+      "variants": [
+        {
+          "id": "sculptural-dynamic-concealed-light-populated-skyline",
+          "status": "canonical"
+        },
+        {
+          "id": "restrained-even-treatise-vocabulary",
+          "status": "forbidden",
+          "note": "This is the italian-renaissance/palladian condition, explicitly contrasted in own distinguished_from[italian-renaissance]."
+        }
+      ],
+      "sources": [
+        "italian-baroque.json defining_characteristics, diagnostic_tells"
+      ],
+      "group": "classical-apparatus"
     },
     "porch_type": {
       "group": "threshold",
@@ -638,11 +742,22 @@
       "status": "empty"
     },
     "landscape_idiom": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The building is composed with its urban void -- piazza, obelisk, fountain and street axis designed as one work -- rather than as an object considered independently of the space around it.",
+      "variants": [
+        {
+          "id": "urban-void-composed-as-single-work",
+          "status": "canonical",
+          "note": "Piazza San Pietro colonnade: 'architecture used to shape an urban void rather than an enclosure' (own exemplars)."
+        }
+      ],
+      "sources": [
+        "italian-baroque.json defining_characteristics, description, exemplars (Piazza San Pietro)"
+      ],
+      "group": "site"
     },
     "grade_relationship": {
       "group": "site",

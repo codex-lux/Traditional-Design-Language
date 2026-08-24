@@ -18,24 +18,67 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "pitch": {
+          "range": [
+            45,
+            50
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "north-german-hall-house.c03",
+          "note": "Narrower than the family's union band (45-60): this node's own reed thatch is specifically 45-50 degrees."
+        }
+      },
+      "note": "The family's rule sentence ('steep — not less than about 45 degrees') and its inherited status stay true; only the numeric band narrows to this member's own thatch figure.",
+      "sources": [
+        "north-german-hall-house.c03"
+      ]
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "reed-thatch",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Reed thatch at 45-50 degrees, eaves carried down to about 1.5-2 m above grade over the byre aisles.'"
+        }
+      ],
+      "rule": "Reed thatch, at the family-narrowed 45-50 degree pitch (see roof_pitch), is the only roof covering this node's own sources record.",
+      "sources": [
+        "north-german-hall-house.json defining_characteristics"
+      ]
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "eave_height_above_grade": {
+          "range": [
+            4.9,
+            6.6
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "north-german-hall-house.c03",
+          "note": "1.5-2.0 m in the source, converted to ft (unit vocabulary has no metre)."
+        }
+      },
+      "rule": "The thatch eave over the byre aisles comes down to about 1.5-2.0 m above grade — low enough to touch — and is structural, thermal and functional together; it cannot be raised without producing a different building (c03, hard).",
+      "sources": [
+        "north-german-hall-house.c03"
+      ]
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -53,10 +96,14 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "The gable apex is finished with crossed horse-head (Pferdekopfe) finials at the ridge — a detail unique to this member of the family and not shared with german-fachwerk.",
+      "sources": [
+        "north-german-hall-house.json diagnostic_tells"
+      ]
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -88,10 +135,45 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "bay_length": {
+          "range": [
+            7.2,
+            9.2
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "north-german-hall-house.c01",
+          "note": "2.2-2.8 m in the source, converted to ft (unit vocabulary has no metre)."
+        }
+      },
+      "variants": [
+        {
+          "id": "bay-addition-at-hearth-end",
+          "status": "canonical",
+          "note": "c01, hard: overall length must be a whole number of bays; growth is by adding a bay at the hearth end, never by stretching a bay."
+        },
+        {
+          "id": "enclosure-around-a-yard",
+          "status": "forbidden",
+          "note": "The low-countries-vernacular family answer (Cape Dutch letter-plan, Flemish vierkantshoeve) this slot would otherwise inherit through the hybridizes_with edge to flemish-vernacular. Wrong for this node: the Diele must run unbroken from Grootdor to Flett with no cross wall (c02, hard), which enclosure-style growth around a yard would require."
+        },
+        {
+          "id": "fixed-urban-lot-no-lateral-growth",
+          "status": "forbidden",
+          "note": "The dutch-urban-gable-house answer, also carried by the same family binding. Wrong here: this is a rural farm type whose whole point is that it grows, by bays, as the farm prospers."
+        }
+      ],
+      "rule": "The building is one continuous three-aisled hall that grows only by adding a further structural bay (Fach, roughly 2.5 m) at the hearth end; it never grows by enclosing a yard with separate ranges and never sits on a fixed lot with no room to grow.",
+      "note": "CASCADE-PROVENANCE FIX (WP-4.2 wave B2): left open, this slot resolves through low-countries-vernacular (spliced in via the hybridizes_with edge to flemish-vernacular, weight 0.2, inherits_kit:true) to a binding about enclosure-around-a-yard or a fixed urban lot — real facts about the Low Countries family, but not this node's own documented growth mechanism, which is bay-addition along one axis. Fixed on this node's own kit, not on low-countries-vernacular or any ancestor.",
+      "sources": [
+        "north-german-hall-house.c01",
+        "north-german-hall-house.json defining_characteristics, description.long"
+      ]
     },
     "construction_type": {
       "group": "envelope",
@@ -288,17 +370,32 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "grootdor-wagon-door",
+          "status": "canonical",
+          "note": "A single great door filling the lower half of the entrance gable, on the building's long axis, sized to admit a fully loaded harvest wagon — not a door at human/domestic scale."
+        }
+      ],
+      "rule": "The principal, and effectively only, entry is the Grootdor: a wagon-scaled door in the gable, wide enough for a loaded hay wagon to be driven the length of the Diele and threshed under cover.",
+      "sources": [
+        "north-german-hall-house.json defining_characteristics, diagnostic_tells, description.long"
+      ]
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A carved and dated lintel beam runs the full width of the wall above the Grootdor, carrying the owners' names, the date, and often a Bible verse in Low German — the building's one piece of applied ornament besides the ridge finials, and the only elevation ever composed (see color_strategy-equivalent restriction: carving belongs to the entrance gable alone, per c05, soft).",
+      "sources": [
+        "north-german-hall-house.json defining_characteristics, diagnostic_tells"
+      ]
     },
     "transom_sidelight": {
       "group": "openings",
@@ -538,17 +635,46 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "single-axis-grootdor-to-flett",
+          "status": "canonical",
+          "note": "c02, hard: the Diele must run unbroken from the Grootdor to the Flett; no cross wall, stair or partition may interrupt it."
+        },
+        {
+          "id": "cross-wall-interrupted",
+          "status": "forbidden",
+          "note": "c02: 'the type dies the moment one does.'"
+        }
+      ],
+      "rule": "A single unbroken axis runs the full length of the building, from the great door in the gable to the open hearth at the far end; the Diele threshing floor occupies the whole central aisle, with cattle stalled in the flanking aisles facing inward toward it.",
+      "sources": [
+        "north-german-hall-house.c02",
+        "north-german-hall-house.json description.long"
+      ]
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "flett-open-hearth-no-chimney",
+          "status": "canonical",
+          "note": "c04, soft: no masonry chimney in the original type. An open hearth on a raised clay pad, unchimneyed, at the end of the Diele opposite the Grootdor."
+        }
+      ],
+      "rule": "The Flett — an open hearth on a raised clay pad with no chimney — sits at the far end of the Diele from the Grootdor; smoke rises freely into the roof space to cure meat, dry grain and preserve the frame rather than being carried out through a flue.",
+      "sources": [
+        "north-german-hall-house.c04",
+        "north-german-hall-house.json description.long"
+      ]
     },
     "stair_position": {
       "group": "plan-logic",
@@ -566,10 +692,14 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Livestock stand in the two side aisles (Kubbungen), heads turned inward toward the Diele so they are fed, watered, milked and watched from the working floor; the family's beds are built into the wall as cupboards around the Flett, with no door or partition anywhere between the sleeping area and the cattle stalls.",
+      "sources": [
+        "north-german-hall-house.json description.long"
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",
@@ -594,8 +724,14 @@
     },
     "storage_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "rule": "Grain is stored on a loft over the Diele, and hams and sausages are cured hanging in the smoke-filled roof space above the Flett; there is no separate granary or root cellar within this type's own logic — the unchimneyed smoke does the curing work a separate outbuilding would otherwise have to.",
+      "sources": [
+        "north-german-hall-house.json description.long"
+      ]
     },
     "services_strategy": {
       "group": "plan-logic",

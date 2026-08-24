@@ -5,44 +5,82 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "rule": "additive-vernacular: openings are placed by use and by the corner-clearance rule (window_grouping_rule, below), not composed to a bilateral axis; the apparent front symmetry of a double pen is an artefact of two identical pens, not a compositional decision.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'strict-bilateral-odd-bay' from english-georgian, directly contradicted by the node's own proportional_system.symmetry field, which reads 'additive-vernacular' verbatim.",
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A simple gable roof over each pen, front- or side-facing depending on the combination; no hip, no complex form -- own defining_characteristics: 'Riven shingle or shake roof on light pole rafters or purlins, with no ridge beam required.'",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'front-gable' from germanic-vernacular as an absolute rule ('the gable, not the eave, is the composed and entered face'), overstating a Continental compositional claim this frontier vernacular's own text does not make -- pen orientation is a plan decision (see dogtrot-vernacular and appalachian-log-house), not a facade composition rule.",
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "8:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Roof pitch 8:12 to 12:12 for riven shingles; lower pitches fail with hand-split roofing (own hard constraint, and own typical_ratios).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Nordic pitch pair expressed in DEGREES (18-30 deg) rather than this schema's rise_in_12 unit used everywhere else in the corpus, and keyed to a snow-load/rain-shedding split with no demonstrated relevance to this style's own Appalachian/Ozark/Piedmont climate range.",
+      "group": "massing-and-roof"
     },
     "roof_material": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "riven-shake-shingle",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Riven shingle or shake roof on light pole rafters or purlins, with no ridge beam required (own defining_characteristics #6).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "projection_in": {
+          "range": [
+            18,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c04: at least 18 in, 24-36 preferred."
+        }
+      },
+      "rule": "Eave overhang at least 18 in (24-36 preferred) on all elevations to keep water off the chinking; boxed soffits and clipped eaves destroy the wall (own hard constraint c04, soft).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Mediterranean paired-bracket/corbelled-tile eave rule (mediterranean-vernacular) whose own two source members' overhang figures 'barely overlap' by that node's own admission -- no relationship to a log wall's chinking-protection logic. Specified (not extended) so the wrong Mediterranean base is replaced outright rather than merged onto.",
+      "group": "massing-and-roof"
     },
     "rake_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The rake carries the same eave overhang as the eave itself (eave_condition, above) -- at least 18 in, 24-36 preferred -- for the same chinking-protection reason, not a separately-derived Fachwerk verge figure.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a German Fachwerk verge-overhang rule stated in millimetres against a rain-off-the-daub logic (protecting an infill panel this construction does not have).",
+      "group": "massing-and-roof"
     },
     "cornice_return": {
       "group": "massing-and-roof",
@@ -52,11 +90,13 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The gable is the log wall carried up in diminishing courses to the ridge, or a light-frame infill above the plate -- never a half-timbered composed face in the German Fachwerk sense.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'half-timbered, jettied and jointed at the German street front' from germanic-vernacular -- the Continental Fachwerk vocabulary this node's own distinguished_from entry against german-pennsylvania-colonial explicitly separates itself from.",
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -66,11 +106,22 @@
       "status": "empty"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "position": {
+          "set": [
+            "gable-end-exterior",
+            "gable-end-interior"
+          ],
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "Chimney at the gable end, exterior or partly exterior, of stone, or of stick-and-clay in the poorest work (own defining_characteristics #7).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX -- one of the most consequential in this file. Before this binding, the slot resolved 'central-single-stack' from german-pennsylvania-colonial, whose own hard constraint c01 states 'moving it to the gable ends dissolves the plan type' -- the exact opposite of this node's own defining characteristic. This node's own distinguished_from entry against german-pennsylvania-colonial is explicit that the Continental central-chimney Flurkuchenhaus plan is a DIFFERENT node from this one: 'Where the plan is Anglo... the building belongs here.'",
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -80,11 +131,30 @@
       "status": "empty"
     },
     "height_proportion": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "courses_to_plate": {
+          "range": [
+            8,
+            10
+          ],
+          "unit": "courses",
+          "kind": "measured"
+        },
+        "storey_height_ft": {
+          "range": [
+            7,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "Wall height 8-10 log courses, roughly 7-9 ft to the plate per storey (own typical_ratios); no jettied oversailing storey, which presupposes a framed floor structure a solid log wall does not build.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a German Fachwerk jetty rule (each storey oversails the one below by 200-400 mm on projecting floor-beam ends) -- a half-timbered framing device with no equivalent in a solid-log wall, which has no floor beams to project.",
+      "group": "massing-and-roof"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -94,14 +164,19 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Corner joints are notched (V, half-dovetail, full dovetail, square or saddle) and, except in saddle notching, slope outward to shed water (own hard constraint c02); log faces are hewn flat on interior and exterior, wall thickness 6-9 in after hewing (own hard constraint c03).",
+      "status": "drafted",
+      "note": "Restates own c02/c03 directly on top of the correctly-inherited 'construction=log' base fact from nordic-alpine-vernacular.",
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "There is no masonry wall in this construction; wall thickness is entirely a function of the hewn log (construction_type, already specified).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a 400-700 mm Mediterranean load-bearing masonry thickness range with no relevance to a log wall.",
+      "group": "envelope"
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -137,25 +212,26 @@
       "status": "empty"
     },
     "water_table": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No water table; the wall is one continuous log assembly from sill to plate.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "group": "envelope"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No belt course; nothing interrupts the log coursing.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "group": "envelope"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The notch profile is regional: half-dovetail and full dovetail dominate the Upland South, square notching the Ozarks, V-notch Pennsylvania -- see the regional variant nodes for the specific figure.",
+      "status": "drafted",
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -179,11 +255,12 @@
       "status": "empty"
     },
     "cornice": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No classical cornice or entablature; the eave is the plate log and the roof structure directly, per own eave_condition.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'modillion-cornice' -- a classical entablature member directly contradicted by the family-level classical-apparatus prohibitions already correctly resolving below.",
+      "group": "envelope"
     },
     "frieze": {
       "group": "envelope",
@@ -193,11 +270,12 @@
       "status": "empty"
     },
     "parapet": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No parapet; the roof is shown.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Baroque 'balustraded' parapet -- both the classical device and the already-forbidden turned balustrade own classical-apparatus group correctly rules out elsewhere.",
+      "group": "envelope"
     },
     "rainwater": {
       "group": "envelope",
@@ -205,23 +283,30 @@
       "status": "empty"
     },
     "color_strategy": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Bare, weathered, unpainted log with a lime-white chinking band between courses; no Scandinavian falu-red tradition exists in the American channel.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Nordic 'bare-weathered-unpainted, falu-red-white-trim' pairing; falu-red is a specifically Swedish paint tradition with no American log attestation anywhere in this node's own text, which instead describes 'the chinking is the maintenance problem and the visual signature both: a two-inch band of white lime between dark logs.'",
+      "group": "envelope"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A small wood-framed opening cut into the log wall after the wall was raised, glazed with a single sash or, in the earliest work, an unglazed shuttered opening -- not a counterweighted double-hung sash box, which presupposes a wall thin enough to house it.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian counterweighted double-hung sash box from english-georgian, a wall-thickness and joinery system with no relationship to a solid 6-9 in hewn log wall.",
+      "group": "openings"
     },
     "window_proportion": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "No fixed proportion; the opening is small and sized to interrupt as few log courses as possible, not composed to a ratio.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Tudor wide-multi-light-grid proportion; window_grouping_rule (already correctly resolving from nordic-alpine-vernacular) already states directly that 'a large or ribboned opening is structurally impossible in a solid log wall' -- this restates the same fact for the proportion slot specifically.",
+      "group": "openings"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -231,18 +316,20 @@
       "status": "empty"
     },
     "window_head_masonry": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "There is no masonry window head; construction_type (already specified) is solid log throughout, so window_head_wood is the only applicable slot.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Renaissance 'semicircular-arch-impost-sprung' masonry head, structurally impossible in a log wall.",
+      "group": "openings"
     },
     "window_head_wood": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The head is a solid log spanning the opening directly, or a pegged wood lintel jamb -- no applied head assembly of any kind.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Grounded in own hard constraint c05: 'their jambs must be pegged or spiked to the cut log ends.'",
+      "group": "openings"
     },
     "window_surround_masonry": {
       "group": "openings",
@@ -280,25 +367,28 @@
       "status": "empty"
     },
     "special_window": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No special window of any kind -- Venetian, Diocletian, or otherwise; own hard constraint c05: 'Corner windows and full-height glazed walls are structurally impossible in this system.'",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Palladian 'venetian-serliana' special window, a classical composite opening with zero structural relationship to a solid log wall.",
+      "group": "openings"
     },
     "entry_door": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "There is no separate entry_door slot content beyond door_surround (already specified): a plain plank door hung in a pegged log frame. The wagon-scaled Grootdor is a North German barn-house device with no place in a domestic pen.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'grootdor-wagon-door' from north-german-hall-house -- a door sized to drive a loaded hay wagon through, absurd at the scale of a 16-20 ft domestic pen.",
+      "group": "openings"
     },
     "door_surround": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A plain wood door with pegged jambs against the cut log ends; no applied hood, moulding, or surround of any kind.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Restates own hard constraint c05 more precisely than the inherited 'plain-hood' answer, which still implies an applied hood member this node's own construction logic does not support.",
+      "group": "openings"
     },
     "transom_sidelight": {
       "group": "openings",
@@ -315,11 +405,26 @@
       "status": "empty"
     },
     "garage_strategy": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-outbuilding",
+          "status": "canonical",
+          "note": "A small detached log or frame outbuilding sited informally, consistent with the type's own additive, use-driven siting logic."
+        },
+        {
+          "id": "attached-integral",
+          "status": "forbidden",
+          "note": "An attached bay would require a log span this system's own 16-20 ft wall limit (c01) cannot honestly accommodate without breaking the pen logic."
+        }
+      ],
+      "rule": "The car is housed in a small detached outbuilding, sited informally like any other frontier outbuilding -- never integrated into the pen itself.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No historical precedent exists for this slot. Authored per docs/inheritance.md's guidance; this node's own status field reads 'living' and its own revival note describes an active modern kit-log industry, both of which support specifying rather than leaving this open.",
+      "group": "openings"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -383,11 +488,13 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where a porch occurs at all it is a shallow shed roof extension on log or pole posts along the entry wall, never a temple-front portico.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Palladian 'pedimented-temple-front-portico' -- the single most incongruous leak found in this batch, a temple-front colonnade projected onto an 18x20 ft hewn-log pen.",
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",
@@ -397,11 +504,13 @@
       "status": "empty"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Plain log or pole posts, unhewn or lightly hewn, never a classical column.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'ionic-or-corinthian-portico-columns, four or six across' from palladian.",
+      "group": "threshold"
     },
     "porch_rail": {
       "group": "threshold",
@@ -418,18 +527,22 @@
       "status": "empty"
     },
     "steps_and_stoop": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A single stone slab or a short run of log or stone steps at grade -- not an external flight to a raised piano nobile.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Palladian external stair to a piano nobile raised 47 in above grade on a rusticated service basement -- this type has no raised principal floor or basement of that kind.",
+      "group": "threshold"
     },
     "entry_sequence": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Direct: the door opens straight into the pen at grade, with no intervening stair, landing, or working ground floor to pass through.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Tuscan farmhouse rule about an external stair bypassing a ground-floor stalla (animal barn) -- a two-storey Mediterranean farmhouse section this one-storey pen does not have.",
+      "group": "threshold"
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -439,11 +552,12 @@
       "status": "empty"
     },
     "trim_family": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "There is no applied interior trim family; the hewn log wall is its own finished surface. Where later frame additions occur they carry their own separate, un-derived trim.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'gibbsian-bolection' classical trim family graded room by room -- own proportional_system.governing_logic states plainly 'there is no applied proportional system, and adding one falsifies the type.'",
+      "group": "interior"
     },
     "baseboard": {
       "group": "interior",
@@ -495,18 +609,22 @@
       "status": "empty"
     },
     "newel_balustrade": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "No newel or balustrade; the stair is a ladder or an open boxed run with a plain rail if any (stair_position, already specified).",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Jacobean 'square-newel-obelisk-or-beast-finial' stair post -- a carved heraldic newel with no relationship to a ladder or boxed corner stair.",
+      "group": "interior"
     },
     "fireplace_surround": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A plain stone or clay-and-stick firebox opening, unornamented -- not an architectural chimneypiece of any kind.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Jacobean 'two-storey marble-and-alabaster chimneypiece with caryatids and strapwork... often the single most expensive object in the house' -- about as far as this corpus's cascade travels from a frontier log cabin's own firebox.",
+      "group": "interior"
     },
     "built_ins": {
       "group": "interior",
@@ -516,18 +634,21 @@
       "status": "empty"
     },
     "floor_material": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Riven puncheon or sawn board floor, laid directly on sleepers -- no finish material.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Grounded in appalachian-log-house's own long description: 'floored in riven puncheon or sawn boards.'",
+      "group": "interior"
     },
     "hardware": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Hand-forged iron strap hinges and a wood or iron thumb latch; no graded brass hardware.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "group": "interior"
     },
     "light_fixture_family": {
       "group": "interior",
@@ -537,25 +658,44 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "single-pen-hall",
+          "status": "canonical"
+        },
+        {
+          "id": "double-pen-two-doors",
+          "status": "canonical",
+          "note": "Two equal pens, two front doors, two end chimneys -- own massing_affinities."
+        },
+        {
+          "id": "asymmetric-three-room-flurkuchenhaus",
+          "status": "forbidden",
+          "note": "The Continental German plan. Own distinguished_from entry against german-pennsylvania-colonial: 'Where the plan is Anglo -- hall, hall-and-parlor, double pen with two front doors -- the building belongs here.'"
+        }
+      ],
+      "rule": "The plan is Anglo -- hall, hall-and-parlor, double pen with two front doors -- built up by pen combination, not the Continental three-room Flurkuchenhaus plan organized around a central chimney.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX -- directly grounded in the node's own distinguished_from entry, which the pre-fix cascade's german-pennsylvania-colonial binding contradicted outright.",
+      "group": "plan-logic"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "At the gable end of each pen (per chimney, above); a central stack shared between rooms is the Continental Flurkuchenhaus plan this node's own text distinguishes itself from.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "plan-logic"
     },
     "stair_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A ladder or a boxed corner stair rising in the corner of the pen to the loft -- not a formal passage stair.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Grounded in own long description: 'the loft above them is reached by a ladder or a boxed corner stair.'",
+      "group": "plan-logic"
     },
     "public_private_gradient": {
       "group": "plan-logic",
@@ -565,18 +705,22 @@
       "status": "empty"
     },
     "room_adjacency_overrides": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Each pen is one undivided room; adjacency, where more than one pen exists, is pen-to-pen (directly, or across a dogtrot passage), never a livestock-and-family shared-floor arrangement.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a North German hall-house rule with livestock stalls and family sleeping cupboards sharing one undivided floor (the Diele/Kubbungen/Flett arrangement) -- a Continental barn-house plan with no relationship to the Anglo pen-and-loft plan already fixed at circulation_parti.",
+      "group": "plan-logic"
     },
     "service_zone_strategy": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "There is no separate service zone; the single pen is the whole house, and any service function (storage, a lean-to kitchen) is a later, informally sited shed addition.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Palladian 'barchesse-wings-and-service-basement' rule -- an estate-management apparatus (subordinate agricultural wings, a rusticated basement) with no relationship to a single-pen frontier house.",
+      "group": "plan-logic"
     },
     "depth_and_pile": {
       "group": "plan-logic",
@@ -603,11 +747,13 @@
       "status": "empty"
     },
     "street_relationship": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "There is no street relationship in the urban sense; the house sits informally on its cleared ground, oriented by the site and the slope rather than by a street wall.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Renaissance palazzo 'blank-rusticated-street-face-courtyard-lit' rule -- an urban Italian palace-front device with no relevance to an isolated frontier clearing.",
+      "group": "site"
     },
     "setback_rule": {
       "group": "site",
@@ -624,11 +770,13 @@
       "status": "empty"
     },
     "outbuilding_types": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A dispersed cluster of small single-purpose log or frame outbuildings around a yard -- smokehouse, corn crib, springhouse -- consistent with a wall that cannot be lengthened, so a new function gets a new building rather than an enlargement of the old one.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Retains the substance of the inherited scandinavian-log-vernacular answer (a real and directly relevant parallel -- a wall length limit produces a dispersed farmstead in both traditions) but restated on this node's own ground without that source's specific 'at least eight buildings' figure, which is not independently attested for the American branch.",
+      "group": "site"
     },
     "fence_wall": {
       "group": "site",
@@ -638,11 +786,13 @@
       "status": "empty"
     },
     "landscape_idiom": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A frontier clearing worked by the household itself -- no designed garden of any kind, terraced or otherwise; the working ground is a cleared field, not a composed landscape.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Mediterranean terraced-retaining-wall-and-axial-approach idiom (italian-villa-vernacular / tuscan-vernacular) with no textual relationship to the American frontier clearing this node's own long description repeatedly evokes.",
+      "group": "site"
     },
     "grade_relationship": {
       "group": "site",

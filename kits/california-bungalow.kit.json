@@ -17,11 +17,24 @@
       "status": "empty"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "5:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "This assembly -- 3:12 to 5:12 pitch, deep unlined eaves, single-wall or minimally insulated walls, unheated rooms -- is native to IECC zones 2B, 3B and 3C only (own hard constraint c01).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Narrows the parent Craftsman's 3:12-6:12 band to this variant's own tighter, climatically-native figure.",
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -31,11 +44,22 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "projection_in": {
+          "range": [
+            30,
+            48
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own hard constraint c02: not less than 30 in."
+        }
+      },
+      "rule": "Eave and rake overhang not less than 30 in (own hard constraint c02) -- deeper than the parent style's 24-36 in band, for shade rather than snow-shedding.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -80,11 +104,23 @@
       "status": "empty"
     },
     "height_proportion": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "ceiling_ft": {
+          "range": [
+            8.5,
+            9.5
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own typical_ratios: taller than the eastern type, for stack ventilation."
+        }
+      },
+      "rule": "Ceiling 8 ft 6 in to 9 ft 6 in -- taller than the national type -- because the roof and eave are designed first and the raised storey buys back the depth the deep porch costs the rooms behind it.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Grounded in own typical_ratios and the room-vernacular pack note quoted in this node's own proportion_packs entry.",
+      "group": "massing-and-roof"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -94,9 +130,11 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "In the Central Valley single-wall board-and-batten construction is permitted, since no continuous thermal envelope is required in this climate.",
+      "status": "drafted",
+      "note": "Own long description: 'The climate... removes the need for a continuous thermal envelope, which permits single-wall board-and-batten construction in the Central Valley.'",
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -109,11 +147,23 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "stucco",
+          "status": "canonical",
+          "op": "add",
+          "note": "More common here than in the parent style; own defining_characteristics: 'Stucco, redwood shingle, or wide board-and-batten wall surfaces rather than the eastern type's clapboard.'"
+        },
+        {
+          "id": "clapboard",
+          "status": "forbidden",
+          "op": "replace",
+          "note": "The eastern type's material; explicitly not this variant's."
+        }
+      ],
+      "status": "drafted",
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -130,11 +180,10 @@
       "status": "empty"
     },
     "foundation_expression": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Masonry at porch base, chimney, and foundation must be a locally rough material laid with raked joints; smooth-faced manufactured veneer with returns of less than 24 in is forbidden (own hard constraint c03).",
+      "status": "drafted",
+      "group": "envelope"
     },
     "water_table": {
       "group": "envelope",
@@ -315,11 +364,26 @@
       "status": "empty"
     },
     "garage_strategy": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-rear-lot",
+          "status": "canonical",
+          "note": "Reached along the side property line from the street; matches the type's own standard 50x150 ft lot."
+        },
+        {
+          "id": "attached-front-facing",
+          "status": "forbidden",
+          "note": "A garage door on the entrance elevation defeats the deep-porch, outdoor-room composition this variant depends on."
+        }
+      ],
+      "rule": "The garage is a detached structure at the rear of the standard Southern Californian lot, reached by a side driveway, trimmed to match the house.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No historical precedent exists for this slot; authored per docs/inheritance.md's guidance that garage_strategy 'should be specified on every contemporary buildable variant.' This variant remains a common target of new construction and infill in Southern California, which is the basis for specifying rather than leaving it open.",
+      "group": "openings"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -383,18 +447,29 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The roof plane is frequently extended further by a pergola, trellis, or open beam extension beyond the enclosed wall.",
+      "status": "drafted",
+      "note": "Own defining_characteristics: 'the roof plane frequently extended further by pergola, trellis, or beam extension.'",
+      "group": "threshold"
     },
     "porch_depth": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own typical_ratios; deeper than the parent style's 7-9 ft band."
+        }
+      },
+      "rule": "Porch depth not less than 8 ft clear (own hard constraint c02).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "threshold"
     },
     "porch_support": {
       "group": "threshold",
@@ -586,11 +661,12 @@
       "status": "empty"
     },
     "daylight_strategy": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "At least one genuinely unheated or open room -- sleeping porch, screened porch, or pergola-covered terrace of not less than 80 sq ft -- is integral to the plan (own hard constraint c05, soft).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the parent's generic daylight_strategy with this variant's own defining outdoor-room requirement.",
+      "group": "plan-logic"
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -624,11 +700,13 @@
       "status": "empty"
     },
     "outbuilding_types": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where the site is a bungalow court, individual units are detached bungalows facing a shared landscaped walk rather than the street (own massing_affinities: courtyard-u, 'possible... the bungalow court reads as a courtyard-U at site scale').",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Grounded in the node's own description of Bowen Court and the bungalow-court type.",
+      "group": "site"
     },
     "fence_wall": {
       "group": "site",

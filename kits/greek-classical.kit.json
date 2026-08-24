@@ -18,10 +18,25 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "roof_slope_deg": {
+          "range": [
+            12,
+            17
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "greek-classical.c01"
+        }
+      },
+      "rule": "Very shallow — 12 to 17 degrees, so the gable reads almost flat compared with any post-medieval revival. Above 20 degrees the profile reads Roman or Renaissance; above 30 it reads as a domestic gable with a pediment drawn on it (c01, hard).",
+      "sources": [
+        "greek-classical.c01"
+      ]
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -95,8 +110,37 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "structural_logic": {
+          "value": "trabeated",
+          "unit": "none",
+          "kind": "measured",
+          "source": "greek-classical.json defining_characteristics"
+        }
+      },
+      "variants": [
+        {
+          "id": "trabeated-dressed-ashlar-no-mortar",
+          "status": "canonical",
+          "op": "add",
+          "note": "Post and lintel in dressed, unmortared stone — no arch, no vault, no mortar anywhere in the primary structure. Practical lintel spans top out around 5-6 m (c03), which is why the colonnade is dense and becomes the architectural subject."
+        },
+        {
+          "id": "arcuated-concrete-or-brick",
+          "status": "forbidden",
+          "op": "add",
+          "note": "The Roman answer to the same family-level masonry binding — see roman-classical's own construction_type, where this is canonical."
+        }
+      ],
+      "rule_append": "Specifically trabeated: post-and-lintel dressed stone with no arch, no vault and no mortar anywhere in the primary structure.",
+      "note": "Resolves the family's own explicitly-left-open trabeated/arcuated split (antique-classical.construction_type note: 'It deliberately does NOT resolve trabeated (Greek) versus arcuated (Roman) structural logic... that disagreement is real and stays open for the style to decide'). See roman-classical's own construction_type for the mirror-image resolution.",
+      "sources": [
+        "greek-classical.json defining_characteristics"
+      ]
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -187,10 +231,32 @@
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "doric-triglyph-metope-contracted-corner",
+          "status": "canonical",
+          "note": "A triglyph sits over every column axis and must also land flush at the corner; since that is geometrically impossible at constant spacing, the last one or two intercolumniations contract by roughly half a triglyph width (c05, hard). The single most reliable proof of authentic Doric grammar."
+        },
+        {
+          "id": "doric-uncontracted-corner",
+          "status": "forbidden",
+          "note": "c05, hard: 'an uncontracted corner with a half-metope is a revivalist error, not a Greek option.'"
+        },
+        {
+          "id": "ionic-continuous-sculptured-frieze",
+          "status": "permitted",
+          "note": "Where the Ionic order is used, the frieze may instead run as a continuous sculptured band with no triglyph module."
+        }
+      ],
+      "rule": "Where the Doric order is used, corner contraction is mandatory wherever a triglyph frieze is used — not a refinement but a rule (c05, hard).",
+      "sources": [
+        "greek-classical.c05",
+        "greek-classical.json proportional_system.bay_rhythm"
+      ]
     },
     "parapet": {
       "group": "envelope",
@@ -335,10 +401,65 @@
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "column_height_doric_diameters": {
+          "range": [
+            4,
+            6.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "In lower column diameters. The tradition steadily lightens: Archaic Paestum ~4.3, Parthenon 5.48, late Hellenistic ~6.5."
+        },
+        "entasis_diminution": {
+          "range": [
+            0.1667,
+            0.2
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "greek-classical.c04",
+          "note": "1/6 to 1/5 of the lower diameter."
+        },
+        "intercolumniation_diameters": {
+          "range": [
+            1.2,
+            1.7
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "greek-classical.c03",
+          "note": "Clear span between column axes, in lower diameters."
+        }
+      },
+      "variants": [
+        {
+          "id": "doric-baseless",
+          "status": "canonical",
+          "note": "c02, hard: 'A Doric column may not be given a moulded base... if a base is required, the order must change to Ionic or the reference must change to Roman.' The single sharpest diagnostic separating Greek from Roman practice."
+        },
+        {
+          "id": "doric-with-moulded-base",
+          "status": "forbidden",
+          "note": "Roman, not Greek — see roman-classical's own column binding, where a moulded base is canonical for Doric and Tuscan."
+        },
+        {
+          "id": "ionic-with-base",
+          "status": "permitted",
+          "note": "The base/no-base fault line is specifically the Doric order; the Erechtheion's own Ionic columns are based."
+        }
+      ],
+      "rule": "Doric stands directly on the stylobate with no base at all. Entasis begins only above roughly the lower third of the shaft, diminishing by 1/6 to 1/5 of the lower diameter with a maximum swell of 1.5-2 percent over a straight-line taper (c04, soft). Corner columns are thickened and set closer than the typical bay — an optical correction against a bright sky.",
+      "sources": [
+        "greek-classical.c02",
+        "greek-classical.c03",
+        "greek-classical.c04",
+        "greek-classical.json proportional_system"
+      ]
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -349,10 +470,18 @@
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "determined_by": [
+        "roof_pitch"
+      ],
+      "rule_append": "In this style the rake is shallow enough that the gable reads almost flat — see roof_pitch for the governing 12-17 degree range (c01, hard).",
+      "note": "Cross-references roof_pitch rather than restating its number, per determined_by's own purpose (schema: 'slot ids that decide this slot, where it is not an independent variable').",
+      "sources": [
+        "greek-classical.c01"
+      ]
     },
     "pilaster": {
       "group": "classical-apparatus",
@@ -604,10 +733,22 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "blind-wall-inward-courtyard",
+          "status": "canonical",
+          "note": "massing_affinities: courtyard-full, canonical."
+        }
+      ],
+      "rule": "The Greek house (oikos) presents a nearly blind wall to the street; the architectural investment goes into the inward-facing court, not the public face. Domestic and temple architecture in this style share almost nothing — the temple is an exterior object meant to be walked around, the house turns inward.",
+      "note": "Judgment: drawn from massing_affinities (courtyard-full, canonical) together with the description's own explicit statement ('The Greek oikos is an inward-turning court house presenting a nearly blind wall to the street; the domestic architecture and the temple architecture share almost nothing') rather than from a numbered constraint.",
+      "sources": [
+        "greek-classical.json massing_affinities, description.long"
+      ]
     },
     "setback_rule": {
       "group": "site",

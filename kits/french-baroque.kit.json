@@ -11,10 +11,49 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "brisee-mansard",
+          "status": "canonical",
+          "note": "defining_characteristics: 'The brisee or mansard roof, steep below and shallow above, preserving the habitable attic while cutting the silhouette.' Each pavilion carries its own independently terminated roof mass (hard constraint c02)."
+        }
+      ],
+      "parameters": {
+        "lower_slope_deg": {
+          "range": [
+            65,
+            75
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "french-baroque.json constraints c03"
+        },
+        "upper_slope_deg": {
+          "range": [
+            20,
+            30
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "french-baroque.json constraints c03"
+        },
+        "break_point_fraction": {
+          "range": [
+            0.6,
+            0.7
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Fraction of total roof height at which the slope breaks."
+        }
+      },
+      "rule": "The brisee/mansard roof: lower slope 65-75 degrees, upper slope 20-30 degrees, breaking at 0.6-0.7 of total roof height (hard constraint c03) -- outside that range it reads as a Victorian mansard block. Every projecting pavilion carries its own independently terminated roof mass (c02).",
+      "sources": [
+        "french-baroque.json defining_characteristics, constraints c02, c03"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -25,10 +64,21 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "slate",
+          "status": "canonical",
+          "note": "Own exemplar description of Vaux-le-Vicomte: 'the slate roofs are dark and enormous and take the whole composition up into a silhouette.'"
+        }
+      ],
+      "rule": "Dark slate, laid steep on the lower brisee slope, shallow above.",
+      "sources": [
+        "french-baroque.json description.long (Vaux-le-Vicomte)"
+      ],
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -110,10 +160,25 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "dressed-ashlar-stone",
+          "status": "canonical",
+          "note": "'The wall stays flat, the mouldings stay orthogonal, the orders stay correct' -- coursed dressed stone throughout, never a curved or plastic surface (hard constraint c01)."
+        },
+        {
+          "id": "rusticated-channelled-ground-storey",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Rusticated or channelled ground storey supporting a piano nobile.'"
+        }
+      ],
+      "rule": "Dressed ashlar stone, coursed and jointed to a tolerance -- 'stone cut to a tolerance that has never been bettered in France' (Chateau de Maisons exemplar) -- with the ground storey rusticated or channelled.",
+      "sources": [
+        "french-baroque.json defining_characteristics, exemplars (Chateau de Maisons)"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -180,10 +245,13 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "A full entablature and balustrade terminate the piano nobile before the attic or roof begins -- the standing crown of the rusticated-base-plus-piano-nobile composition (defining_characteristics).",
+      "sources": [
+        "french-baroque.json defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -211,10 +279,20 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "floor-length-french-window",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Tall French windows running to the floor, with the sill line suppressed on the piano nobile.' Own proportion_packs note flags this directly as a genuine departure the bound opening-proportion pack's sill-datum assumptions do not model."
+        }
+      ],
+      "rule": "The fenetre a la francaise: a tall window running to the floor on the piano nobile, sill line suppressed -- not the sill-datum sash window the bound opening-proportion pack assumes by default.",
+      "sources": [
+        "french-baroque.json defining_characteristics, proportion_packs (opening-proportion note)"
+      ],
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
@@ -316,10 +394,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "invented-service-court",
+          "status": "permitted",
+          "note": "No historical precedent (docs/inheritance.md). Housed off-axis in a service court or subordinate aile, never breaking the corps de logis's flat, orthogonal principal wall (c01) or the enfilade's aligned openings (c04)."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent. Off-axis in a service court or subordinate wing.",
+      "note": "kind: invented -- honestly flagged.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,59 +419,158 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "giant-order-two-storey",
+          "status": "canonical",
+          "note": "typical_ratios: 'Giant order spanning the two principal storeys.'"
+        },
+        {
+          "id": "coupled-columns",
+          "status": "canonical",
+          "note": "'Coupled Corinthian columns on a rusticated base -- the manifesto of the flat French wall' (Louvre east front exemplar)."
+        }
+      ],
+      "rule": "Same cascade bug as beaux-arts-french: this slot is wrongly forbidden by the vernacular family spliced in via the near-symmetrical/vernacular french-manoir hybridization edge on french-renaissance-chateau. Corrected here: a giant order spanning the two principal storeys, or coupled columns, correctly proportioned per Perrault's own Ordonnance (1683).",
+      "sources": [
+        "french-baroque.json proportional_system.typical_ratios, exemplars (Louvre east front)"
+      ],
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "coupling_gap_diameters": {
+          "range": [
+            0.5,
+            1.0
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        },
+        "pair_spacing_diameters": {
+          "range": [
+            3,
+            4
+          ],
+          "unit": "ratio",
+          "kind": "measured"
+        }
+      },
+      "rule": "Same cascade correction as `order`. Coupled columns set 0.5 to 1.0 lower diameters apart, the paired unit spaced 3 to 4 diameters from the next pair -- diagnostic_tells: 'coupled columns (pairs set half a diameter to a diameter apart) rather than evenly spaced single columns.'",
+      "sources": [
+        "french-baroque.json proportional_system.typical_ratios, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "entablature_to_column_height": {
+          "range": [
+            0.2,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "1/5 to 1/4 of column height."
+        }
+      },
+      "rule": "Same cascade correction as `order`. Full entablature, 1/5 to 1/4 of column height, terminating the piano nobile and carrying the balustrade above.",
+      "sources": [
+        "french-baroque.json proportional_system.typical_ratios, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "occasional-centrepiece-pediment",
+          "status": "atypical",
+          "note": "Not directly documented in this node's own text (the exemplars emphasize the avant-corps block and dome rather than a named pediment); the style's massing logic is stepped rectangular projection rather than a triangular pediment, so this is held atypical and low-confidence rather than canonical."
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected from a blanket forbidding to an open, atypical possibility. Not directly documented -- the style's own compositional logic (stepped block projection, c01/c02) does most of the work a pediment would do elsewhere, so a pediment is neither required nor forbidden.",
+      "note": "EDITORIAL, low confidence: this node's own text never names 'pediment.'",
+      "sources": [
+        "french-baroque.json (absence of contrary evidence)"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "flat-wall-pilaster",
+          "status": "permitted",
+          "note": "Consistent with the flat, orthogonal wall this style's own c01 requires, as an alternative to a full engaged or free column on the connecting curtain bays; not directly named in this node's own text."
+        }
+      ],
+      "rule": "Same cascade correction as `pediment`. Held at low confidence and editorial.",
+      "note": "EDITORIAL: not directly documented.",
+      "sources": [
+        "french-baroque.json constraints c01 (flat wall requirement)"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "enriched-modillion-cornice",
+          "status": "permitted",
+          "note": "Consistent with the 'academically codified orders' governing_logic and Corinthian/Composite pack binding, though not directly named."
+        }
+      ],
+      "rule": "Same cascade correction as `pediment`.",
+      "note": "EDITORIAL: not directly documented.",
+      "sources": [
+        "french-baroque.json proportion_packs (vignola-corinthian, vignola-composite)"
+      ],
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "entablature-crowning-balustrade",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Rusticated or channelled ground storey supporting a piano nobile and terminated by a full entablature and balustrade.'"
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected with high confidence: a balustrade crowns the full entablature above the piano nobile, directly stated in this node's own defining characteristics.",
+      "sources": [
+        "french-baroque.json defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "rule": "Same cascade bug as `order`, corrected. Ornament is concentrated at the centre -- the avant-corps piles up incident while the recessed curtain bays stay plain (own distinguished_from note against french-neoclassical: 'Where the Baroque piles up incident at the centre, Neoclassicism holds an even, unaccented plane').",
+      "sources": [
+        "french-baroque.json distinguished_from"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -538,10 +728,30 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "enfilade_room_count": {
+          "range": [
+            5,
+            9
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "french-baroque.json defining_characteristics"
+        },
+        "door_alignment_tolerance": {
+          "value": 25,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "french-baroque.json constraints c04"
+        }
+      },
+      "rule": "The enfilade: doorways aligned on a single axis through five to nine rooms, the axis extended into the garden -- 'a single device that makes a building of ordinary rooms feel like an ordered world.'",
+      "sources": [
+        "french-baroque.json defining_characteristics, description.long"
+      ],
+      "status": "drafted"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -580,10 +790,25 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "forbidden",
+          "note": "Wrongly inherited from french-vernacular ('every principal range is single-pile... no family member has a double-pile precedent') -- false for this style: the enfilade runs five to nine rooms deep on a single aligned axis (hard constraint c04), which no single-pile range could hold."
+        },
+        {
+          "id": "enfilade-multi-room-depth",
+          "status": "canonical",
+          "note": "Doors aligned within 25 mm across the whole run, five to nine rooms (c04) -- depth is set by the enfilade sequence, not a fixed clear-span figure."
+        }
+      ],
+      "rule": "The plan is deep, multi-room, and organised on the enfilade: five to nine rooms aligned on one axis, doors agreeing within 25 mm (hard constraint c04) -- never a single-pile vernacular range.",
+      "sources": [
+        "french-baroque.json constraints c04, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",

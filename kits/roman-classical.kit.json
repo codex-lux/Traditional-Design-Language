@@ -95,8 +95,38 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "structural_logic": {
+          "value": "arcuated",
+          "unit": "none",
+          "kind": "measured",
+          "source": "roman-classical.json defining_characteristics"
+        }
+      },
+      "variants": [
+        {
+          "id": "arcuated-concrete-or-brick",
+          "status": "canonical",
+          "op": "add",
+          "note": "The arch, the barrel/groin vault and opus caementicium (brick-faced concrete) free the wall from the colonnade; the order becomes an applied articulating grid rather than the load path itself. Any span above roughly 6 m must be arched or vaulted, not lintelled (c01, hard)."
+        },
+        {
+          "id": "trabeated-dressed-ashlar-no-mortar",
+          "status": "forbidden",
+          "op": "add",
+          "note": "The Greek answer to the same family-level masonry binding — see greek-classical's own construction_type, where this is canonical."
+        }
+      ],
+      "rule_append": "Specifically arcuated: arched and vaulted concrete or brick-faced concrete, with the order applied over the structure rather than carrying it.",
+      "note": "Resolves the family's own explicitly-left-open trabeated/arcuated split (antique-classical.construction_type note: 'It deliberately does NOT resolve trabeated (Greek) versus arcuated (Roman) structural logic... that disagreement is real and stays open for the style to decide'). See greek-classical's own construction_type for the mirror-image resolution.",
+      "sources": [
+        "roman-classical.json defining_characteristics",
+        "roman-classical.c01"
+      ]
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -131,10 +161,48 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "podium_height_ratio": {
+          "range": [
+            0.1667,
+            0.333
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "roman-classical.c04"
+        },
+        "podium_height_range": {
+          "range": [
+            6.6,
+            13.1
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "roman-classical.json diagnostic_tells",
+          "note": "2-4 m in the source, converted to ft (unit vocabulary has no metre)."
+        }
+      },
+      "variants": [
+        {
+          "id": "high-podium-frontal-stair",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Temple standing on a podium 2 to 4 m high with steps only on the entrance front.'"
+        },
+        {
+          "id": "all-round-stepped-crepidoma",
+          "status": "forbidden",
+          "note": "Greek, not Roman — see greek-classical's own composition. Roman temples are pseudoperipteral and frontal, approached on one face only."
+        }
+      ],
+      "rule": "The temple stands on a high podium, approached by a frontal stair on the entrance face only — never an all-round stepped base. Podium height runs between 1/5 and 1/3 of the column height; below about 1/6 the building loses the frontality that distinguishes it from Greek practice (c04, soft).",
+      "sources": [
+        "roman-classical.c04",
+        "roman-classical.json diagnostic_tells"
+      ]
     },
     "water_table": {
       "group": "envelope",
@@ -232,10 +300,28 @@
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "arched-head-aligned-to-impost",
+          "status": "canonical",
+          "note": "Where an opening sits within an applied arch order, its head is a real structural arch whose springing aligns with a horizontal member of the order and whose crown clears the main entablature soffit by at least half a module (c03, hard)."
+        },
+        {
+          "id": "flat-lintel-over-6m-span",
+          "status": "forbidden",
+          "note": "c01, hard: 'Any span above roughly 6 m must be arched or vaulted, not lintelled. A flat stone lintel spanning 8 m is not Roman; it is a modern steel beam with stone cladding.'"
+        }
+      ],
+      "rule": "Openings within an applied arch order take a real structural arch as their head, coordinated with the order's own impost line — never a flat lintel pretending to be load-bearing over a wide span.",
+      "note": "Judgment: applies the general arcuated-structure rules (c01, c03) specifically to the window_head_masonry slot, which the style's own text does not name by that vocabulary directly.",
+      "sources": [
+        "roman-classical.c01",
+        "roman-classical.c03"
+      ]
     },
     "window_head_wood": {
       "group": "openings",
@@ -328,24 +414,93 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule_append": "In this style the order is characteristically APPLIED rather than load-bearing: an engaged half-column or pilaster set against a structural pier, spanned by a real arch, repeated as a bay and stacked in superimposed registers — the Colosseum bay (Tuscan, Ionic, Corinthian) is the paradigm case and the ancestor of every arcuated classical facade since. The order still varies as one graduated system (shaft, capital and entablature together); what changes from the family's generic statement is that the structure no longer requires it to.",
+      "sources": [
+        "roman-classical.json defining_characteristics, description.long"
+      ]
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "intercolumniation_classes": {
+          "set": [
+            "pycnostyle 1.5D",
+            "systyle 2D",
+            "eustyle 2.25D (central bay 3D)",
+            "diastyle 3D",
+            "araeostyle 4D"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "source": "Vitruvian intercolumniations, per proportional_system.typical_ratios"
+        },
+        "canonical_order_heights_diameters": {
+          "set": [
+            "Tuscan 7D",
+            "Doric 8D",
+            "Ionic 9D",
+            "Corinthian/Composite 10D"
+          ],
+          "unit": "none",
+          "kind": "measured",
+          "source": "as later codified by Vignola, per this node's own proportional_system"
+        }
+      },
+      "variants": [
+        {
+          "id": "doric-or-tuscan-with-moulded-base",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Roman Doric and Tuscan columns have bases; Greek Doric never does.'"
+        },
+        {
+          "id": "doric-baseless",
+          "status": "forbidden",
+          "note": "Exclusively Greek — see greek-classical's own column binding, where this is canonical."
+        },
+        {
+          "id": "superimposition-heavy-to-light",
+          "status": "canonical",
+          "note": "c02, hard: superimposed orders must ascend Tuscan/Doric, then Ionic, then Corinthian/Composite."
+        },
+        {
+          "id": "superimposition-inverted",
+          "status": "forbidden",
+          "note": "c02, hard: 'Inverting this order is a hard error.'"
+        }
+      ],
+      "rule": "Doric and Tuscan columns always carry a moulded base — bare stylobate contact is exclusively Greek practice. Where orders are superimposed in a multi-storey arcade they must ascend from heavier to lighter: Tuscan or Doric at the base, Ionic next, Corinthian or Composite above.",
+      "sources": [
+        "roman-classical.c02",
+        "roman-classical.json diagnostic_tells, proportional_system"
+      ]
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "entablature_to_column_ratio": {
+          "value": 0.25,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "'Entablature approximately 1/4 of column height' per proportional_system.typical_ratios — against a Greek Doric third."
+        }
+      },
+      "rule_append": "Where an order is applied to an arcade, the arch springing must align with a horizontal member of the applied order (impost or subordinate entablature), and the arch crown must clear the main entablature soffit by at least half a module (c03, hard).",
+      "sources": [
+        "roman-classical.c03",
+        "roman-classical.json proportional_system.typical_ratios"
+      ]
     },
     "pediment": {
       "group": "classical-apparatus",
@@ -604,10 +759,26 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "blank-plain-domestic-exterior",
+          "status": "canonical",
+          "note": "'Domestic Roman exteriors are plain to the point of blankness' — the architectural investment goes into the interior (atrium/peristyle) or, on a public building, into the podium-mounted temple face."
+        },
+        {
+          "id": "temple-front-applied-to-house",
+          "status": "atypical",
+          "note": "c05, advisory (not hard): 'Applying temple-front articulation to the street face of a house has no Roman precedent and should be flagged as a Renaissance or later move.'"
+        }
+      ],
+      "rule": "Domestic exteriors are plain to the point of blankness. Applying temple-front articulation — portico, pediment, full order — to the street face of an ordinary house has no Roman precedent (c05, advisory).",
+      "sources": [
+        "roman-classical.c05"
+      ]
     },
     "setback_rule": {
       "group": "site",

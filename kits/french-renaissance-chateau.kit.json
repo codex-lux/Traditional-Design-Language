@@ -6,15 +6,59 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "near-symmetrical-with-heraldic-irregularity",
+          "status": "canonical",
+          "note": "Own proportional_system.symmetry field states 'near-symmetrical' directly. Chambord, the paradigm exemplar, is topped by 'an asymmetrical roofscape of eleven tower types and three chimney types arranged with no symmetry whatsoever' -- 'a Renaissance plan under a Gothic sky.'"
+        },
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Before this override, composition_parti wrongly resolved to 'strict-bilateral-symmetry' (forbidding this very variant) sourced from renaissance-classical -- italian-renaissance's own family, spliced in per the WP-4.2 mechanism because this node's descends_from edge to italian-renaissance (weight 0.6, inherits_kit true) is real. But italian-renaissance's family generalization ('all three members... unambiguously symmetrical') does not describe THIS node: this node's own proportional_system.symmetry is literally 'near-symmetrical,' and its own family kit (continental-baroque-neoclassical) deliberately left composition_parti OPEN specifically to avoid this exact collision -- 'three of the four members state strict-bilateral... but the fourth and earliest, french-renaissance-chateau, states near-symmetrical... forcing strict-bilateral here would silently overwrite a real, sourced difference in the earliest member.' The family's own open binding does not stop a further-removed ancestor's binding from leaking through beneath it, so it has to be corrected here, on this node's own kit, per docs/inheritance.md's cascade-bug guidance."
+        }
+      ],
+      "rule": "The wall below is symmetrical or near-symmetrical, generated on the travee grid, but the roofscape above it is not symmetrized to match -- towers, dormers and chimneys are heraldic and are not forced into an axial figure the way a French Baroque or Neoclassical roof would be.",
+      "sources": [
+        "french-renaissance-chateau.json proportional_system.symmetry, exemplars (Chambord), continental-baroque-neoclassical.kit.json composition_parti note"
+      ],
+      "status": "drafted"
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "roof_to_wall_height_ratio": {
+          "range": [
+            0.8,
+            1.2
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-renaissance-chateau.json proportional_system.typical_ratios"
+        },
+        "roof_to_wall_height_min": {
+          "value": 0.7,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-renaissance-chateau.json constraints c01"
+        }
+      },
+      "variants": [
+        {
+          "id": "steep-dominant-roofscape",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'The roof is as tall as the wall -- if the roof is subordinate, it is a later French classical building, not a Renaissance chateau.'"
+        }
+      ],
+      "rule": "The roof occupies a height comparable to the wall below -- 0.8 to 1.2 times the wall height, never less than 0.7 (hard constraint c01) -- pitched 55-70 degrees. This is THE diagnostic separating this style from its own French Baroque descendant, where the roof is subordinated.",
+      "sources": [
+        "french-renaissance-chateau.json diagnostic_tells, constraints c01, proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -25,10 +69,23 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "slate",
+          "status": "canonical"
+        },
+        {
+          "id": "flat-clay-tile",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Steep roofs of 55 to 70 degrees in slate or flat clay tile (defining_characteristics).",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -60,17 +117,73 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "dormer_to_travee_width": {
+          "range": [
+            0.6,
+            0.9
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-renaissance-chateau.json proportional_system.typical_ratios"
+        },
+        "dormer_height_to_storey_below": {
+          "range": [
+            0.5,
+            0.8
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-renaissance-chateau.json proportional_system.typical_ratios"
+        }
+      },
+      "variants": [
+        {
+          "id": "stone-frontispiece-with-pilaster-and-pediment",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Dormers (lucarnes) rising from the wall plane, carried up as stone frontispieces with their own pilasters and pediments, aligned exactly on the travee axes.'"
+        },
+        {
+          "id": "dormer-off-travee-axis",
+          "status": "forbidden",
+          "note": "Hard co-occurrence constraint c02: 'a dormer floating between two windows is a hard error.' Dormer count must equal bay count (tested)."
+        }
+      ],
+      "rule": "Every travee carries a dormer, aligned exactly on that travee's axis and matching the bay count exactly (hard constraint c02, tested). Each dormer is a stone frontispiece with its own pilasters and pediment, standing on the wall plane rather than set back on the roof slope (diagnostic_tells).",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics, constraints c02, diagnostic_tells, proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "chimney": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "stack_height_above_ridge": {
+          "range": [
+            0.25,
+            0.5
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "1/4 to 1/2 of the roof's own height, per typical_ratios."
+        }
+      },
+      "variants": [
+        {
+          "id": "tall-panelled-individually-articulated-stack",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Chimney stacks tall enough to compete with the towers, panelled and moulded on all four faces.'"
+        }
+      ],
+      "rule": "Chimney stacks are treated as a designed element of the silhouette, individually panelled and moulded on all four faces, tall enough to compete visually with the corner towers (defining_characteristics, diagnostic_tells).",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics, diagnostic_tells, proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -110,10 +223,20 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "tufa-limestone",
+          "status": "canonical",
+          "note": "description.long: 'soft white tufa that weathers to grey and picks up rain in every moulding.' The croisee window is 'in light-coloured limestone or tufa against a plainer wall' (defining_characteristics)."
+        }
+      ],
+      "rule": "Light-coloured tufa or limestone, weathering soft grey, against which the vertical travee of windows and dormers reads as bright and thin.",
+      "sources": [
+        "french-renaissance-chateau.json description.long, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -211,10 +334,33 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "opening_ratio_w_to_h": {
+          "value": 0.5,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Approximately 1:2 (w:h), per typical_ratios."
+        }
+      },
+      "variants": [
+        {
+          "id": "croisee-cross-mullioned",
+          "status": "canonical",
+          "note": "defining_characteristics: 'The croisee window: a large opening quartered by a stone mullion and transom.' Quartered into four lights of roughly 2:3 each (typical_ratios)."
+        },
+        {
+          "id": "double-hung-sash",
+          "status": "forbidden",
+          "note": "Anachronistic by well over a century -- the sliding sash does not exist yet in this style's floruit (1515-1600)."
+        }
+      ],
+      "rule": "The croisee: a large opening quartered by a stone mullion and transom into four lights of roughly 2:3 each, opening approximately 1:2 overall (w:h) -- getting very large very fast once the style stops worrying about arrows (description.long).",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics, proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
@@ -316,10 +462,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "invented-outbuilding-off-travee-grid",
+          "status": "permitted",
+          "note": "No historical precedent. Housed in a subordinate outbuilding off the travee grid, never breaking the dormer-per-bay alignment rule (c02) on the principal range."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent. Subordinate outbuilding, off the travee grid.",
+      "note": "kind: invented -- honestly flagged.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,59 +487,131 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "rule": "Same cascade bug as the other three family members (this slot wrongly forbidden by french-vernacular, spliced in through this node's own hybridizes_with edge to french-manoir). Corrected: Italian classical ornament (pilasters, candelabra panels) arrives here as an imported VOCABULARY laid over the wall, not as a governing proportional system the way it is for italian-renaissance or beaux-arts-french -- this node's own bound proportion pack (vignola-composite) is explicitly noted 'optional' and low-precedence for exactly this reason.",
+      "sources": [
+        "french-renaissance-chateau.json description.long, proportion_packs (vignola-composite note)"
+      ],
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "free-standing-column",
+          "status": "atypical",
+          "note": "The style's own vocabulary is pilaster-based (surface ornament), not column-based; a free-standing structural column is not part of the documented type."
+        }
+      ],
+      "rule": "Same cascade correction as `order`. Not a defining feature -- the style's classical vocabulary is carried by the pilaster, not the free column.",
+      "note": "EDITORIAL, low confidence.",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics (pilaster-centred vocabulary)"
+      ],
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "full-projecting-entablature-interrupting-travee",
+          "status": "forbidden",
+          "note": "Hard-adjacent proportional constraint c04: 'Applied pilaster orders must not be given a full projecting entablature that interrupts a travee. In this style the horizontal system yields to the vertical one; where it does not, the building has crossed into seventeenth-century classicism.'"
+        }
+      ],
+      "rule": "Same cascade bug as `order`, but the correction here is the opposite of the other three family members: rather than reinstating a full entablature, this node's own hard constraint (c04) FORBIDS one from interrupting the travee. Pilasters run past a string course or die into a moulding rather than carrying an entablature -- diagnostic_tells calls this out directly: 'the ornament does not know what it is holding up.'",
+      "sources": [
+        "french-renaissance-chateau.json constraints c04, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "dormer-pediment",
+          "status": "canonical",
+          "note": "defining_characteristics: dormers carried up as stone frontispieces 'with their own pilasters and pediments.'"
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected with high confidence: pediments occur on the dormer frontispieces, aligned on the travee axes (c02) -- not as a centrepiece portico pediment, which belongs to the later French classical descendants.",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "surface-pilaster-dying-into-moulding",
+          "status": "canonical",
+          "note": "defining_characteristics: 'Italian classical ornament - pilasters, candelabra pilaster panels, shell niches, medallions - applied as surface to a wall it does not proportion.' diagnostic_tells: 'Classical pilasters running past a string course or dying into a moulding rather than carrying an entablature.'"
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected with high confidence and the style's own strongest documented content: pilasters and candelabra pilaster panels are applied to the wall surface as an imported vocabulary, without ever taking on the load-bearing logic (a real entablature) their Italian source implies (see `entablature`, c04).",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics, diagnostic_tells, constraints c04"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "modillion-dentil",
+          "status": "atypical",
+          "note": "Not part of the documented vocabulary (candelabra pilaster panels, shell niches, medallions), which is Renaissance surface ornament rather than a classical cornice enrichment."
+        }
+      ],
+      "rule": "Same cascade correction as `order`. Not documented; the wall's own ornament (pilaster panels, niches, medallions) is a different register from a classical modillion/dentil cornice.",
+      "note": "EDITORIAL, low confidence.",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics (absence)"
+      ],
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "balustrade",
+          "status": "atypical",
+          "note": "Not documented in this node's own text; the roof is the dominant, visible feature (roof_form), which argues against a roofline-concealing balustrade of the kind the later Neoclassical descendant uses."
+        }
+      ],
+      "rule": "Same cascade correction as `order`. Not documented, and would contradict the style's own diagnostic principle that the roof is tall, visible and dominant rather than concealed.",
+      "note": "EDITORIAL, low confidence.",
+      "sources": [
+        "french-renaissance-chateau.json diagnostic_tells (roof-as-tall-as-wall)"
+      ],
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Same cascade bug as `order`, corrected with high confidence: pilasters, candelabra pilaster panels, shell niches and medallions, all Italian-derived and applied as surface ornament (defining_characteristics) -- not a structural classical system.",
+      "sources": [
+        "french-renaissance-chateau.json defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -580,10 +811,25 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "single-pile-courtyard-range",
+          "status": "canonical",
+          "note": "The common case: courtyard-u and h-plan-manor ranges (own massing_affinities, both canonical/common) are typically one room deep around the court, consistent with the wrongly-general french-vernacular figure for the ordinary range."
+        },
+        {
+          "id": "double-depth-centralized-donjon",
+          "status": "permitted",
+          "note": "The exceptional case the inherited french-vernacular rule wrongly denies exists at all ('no family member has a double-pile precedent'): Chambord's Greek-cross donjon is a genuinely double-depth, centrally-planned mass, not a one-room-deep range."
+        }
+      ],
+      "rule": "Ordinary courtyard ranges are single-pile, one room deep around the cour d'honneur -- but the inherited french-vernacular claim that 'no family member has a double-pile precedent' overclaims: this node's own paradigm exemplar, Chambord, is an explicitly centralized Greek-cross donjon with real depth, not a range at all.",
+      "sources": [
+        "french-renaissance-chateau.json massing_affinities, exemplars (Chambord)"
+      ],
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",

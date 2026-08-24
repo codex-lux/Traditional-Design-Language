@@ -6,8 +6,12 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "rule": "There is no composed principal elevation: the exterior street wall is high, blind and undesigned (see `street_relationship`). Composition happens on the plan, in the sequence of courts -- and there, at the scale of a single court, the arrangement is bilaterally symmetrical about its long axis, with a hall at each end (e.g. the Court of the Myrtles). This is a plan symmetry, not a composed facade the building does not have.",
+      "note": "OVERRIDES a cascade fill from antique-classical ('The principal elevation is strictly bilaterally symmetrical about a central axis'), which is correct only if misapplied from plan to elevation -- this node's own text is explicit that 'there is no facade in the ordinary sense: the exterior wall is high, blind, and... undesigned' (description) and that composition governs 'the court, the water in it, and the way light moves across it' rather than an elevation. The antique-classical figure reaches this node only through a real but narrow lineage edge to roman-classical (descends_from, weight 0.35, reused Roman columns/capitals and the horseshoe arch's Visigothic root) that was never meant to license a composed classical FACADE this node explicitly does not have. Fixed here per WP-4.2 instructions rather than on any ancestor kit."
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -81,10 +85,22 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "court_width_to_range_height": {
+          "range": [
+            0.6,
+            1.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "moorish-andalusian.c01 (hard)"
+        }
+      },
+      "rule": "Court width runs 0.6 to 1.0 times the height of the enclosing ranges at 36-38 degrees north -- wider and the court floor bakes through the afternoon, narrower and it becomes a lightwell admitting no winter sun. This governs the court, not an exterior massing height, since the exterior has no composed massing (see composition_parti).",
+      "note": "moorish-andalusian.c01 (hard, tested)."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -211,10 +227,43 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "horseshoe-arch",
+          "status": "canonical",
+          "note": "The founding form. diagnostic_tells: 'An arch whose curve continues below its springing line by a quarter to a third of the radius -- the true horseshoe.'"
+        },
+        {
+          "id": "cusped-arch",
+          "status": "permitted",
+          "note": "Later development, defining_characteristics point 7."
+        },
+        {
+          "id": "muqarnas-arch",
+          "status": "permitted",
+          "note": "Stalactite-vaulted transition, defining_characteristics point 7 and diagnostic_tells point 4."
+        },
+        {
+          "id": "round-arch",
+          "status": "forbidden",
+          "note": "moorish-andalusian.c04 (hard): 'Less than [a quarter to a third of the radius below springing] and it is a round arch with a stylistic pretension.'"
+        }
+      ],
+      "parameters": {
+        "horseshoe_curve_below_springing": {
+          "range": [
+            0.25,
+            0.33
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "moorish-andalusian.c04, typical_ratios"
+        }
+      },
+      "rule": "Openings of consequence are horseshoe-arched, later cusped or muqarnas, always enclosed by an alfiz (see window_surround_masonry, inherited from the family). The horseshoe must continue its curve below the springing line by a quarter to a third of its radius; less than that reads as a round arch with a stylistic pretension."
     },
     "window_proportion": {
       "group": "openings",
@@ -281,10 +330,12 @@
     },
     "special_window": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "On the short ends of a court, a portico of three or five bays may be marked at its centre by a taller arch or a projecting mirador -- a small enclosed balcony window overlooking the court.",
+      "note": "bay_rhythm, direct: 'on the short ends of a court, a portico of three or five bays with the centre emphasised by a taller arch or a projecting mirador.' Held at medium/judgment because the mirador is named once, in passing, rather than given its own dimensioned treatment."
     },
     "entry_door": {
       "group": "openings",
@@ -335,10 +386,22 @@
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "slenderness": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "moorish-andalusian.json typical_ratios and diagnostic_tells ('shaft height 8-12 diameters')"
+        }
+      },
+      "rule": "Arcade columns are of extreme slenderness (shaft height 8-12 diameters), carrying brick or plaster arches directly -- never a stone entablature.",
+      "note": "diagnostic_tells point 5; consistent with `entablature` (forbidden, inherited from iberian-islamic)."
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -377,10 +440,11 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Geometric interlace (laceria), generated by rotating a square to produce root-2 and root-3 rectangles and by subdividing an eight- or sixteen-pointed star into a repeating cell, is cut by its own frame rather than composed to fit within it -- the pattern reads as excerpted from an infinite field, not as a bounded composition.",
+      "note": "defining_characteristics point 8; description, direct: 'the laceria interlace is generated from a repeating star polygon and continues past every frame, so the wall reads as a cut-out from an infinite pattern rather than a bounded composition, which is a theological position as much as a decorative one.'"
     },
     "porch_type": {
       "group": "threshold",
@@ -426,10 +490,20 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "thresholds_crossed": {
+          "value": 1,
+          "unit": "count",
+          "kind": "measured",
+          "source": "moorish-andalusian.json description",
+          "note": "One controlled door; the passage that follows it is bent rather than gated a second time -- contrast andalusian-courtyard-vernacular's later two-threshold zaguan-plus-cancela, which makes the same passage visually transparent instead of physically bent."
+        }
+      },
+      "rule": "A single door at the street opens onto a passage that is bent or set deliberately off-axis so that no line of sight from the street ever reaches the court -- concealment, not transparency, is the device.",
+      "note": "description, direct: 'a single door, often set off-axis and reached through a bent passage so that no one on the street can see in.' distinguished_from andalusian-courtyard-vernacular states the vernacular descendant keeps the diagram but the cancela later makes the court visible-but-inaccessible instead -- a real point of divergence worth keeping explicit on both nodes."
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -639,10 +713,11 @@
     },
     "landscape_idiom": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Water -- a still basin, a channel, or a fountain -- is required on the principal axis of any court of consequence. A dry court is a yard, not the type.",
+      "note": "moorish-andalusian.c05 (hard). The family kit (iberian-islamic) deliberately left `landscape_idiom` open, noting explicitly that this fact 'is not restated anywhere in mudejar's own text... belongs on moorish-andalusian's own style kit' -- specified here per that note. The Court of the Myrtles (a 34 m still basin) is the style's own example of the device at its fullest."
     },
     "grade_relationship": {
       "group": "site",

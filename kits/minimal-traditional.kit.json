@@ -6,36 +6,96 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "symmetry": {
+          "value": "near-symmetrical",
+          "unit": "none",
+          "kind": "measured",
+          "source": "minimal-traditional.proportional_system.symmetry"
+        }
+      },
+      "rule": "The facade is near-symmetrical, not strict-bilateral: openings are located by the rooms behind them and then nudged toward apparent balance, so exact symmetry is a frequent outcome rather than a governing rule.",
+      "note": "Overrides the cascade's inherited strict-bilateral-odd-bay (via colonial-revival's own family, eclectic-revivals), which is the wrong composition mode for this node: the style's own governing_logic states plainly 'nothing is derived from a module of order' and that apparent rhythm is a residual of plan-driven openings, not a designed symmetry system."
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "The FHA's most-published elevation and Levitt's chosen form (cape-cod-massing, canonical massing affinity)."
+        },
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Named directly in defining_characteristics: 'gabled or hipped.'"
+        },
+        {
+          "id": "gable-front-and-wing",
+          "status": "permitted",
+          "note": "The single-storey version with a projecting entry or living-room gable, the one compositional move the style allows itself (massing_affinities, common)."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). No source names a gambrel roof for this node; the roof is a simple gable or hip throughout."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Compact rectangular or shallow-L massing under a simple gable or hip roof, one storey or one and a half. No secondary roof form of any complexity.",
+      "note": "Direct quote of defining_characteristics item 1-2. Fixes a cascade bug: the resolved kit previously inherited 'gambrel' from shingle-style (spliced in via colonial-revival's own family, eclectic-revivals), which contradicts this node's own stated roof forms."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "minimal-traditional.c02 and typical_ratios"
+        },
+        "pitch_max": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "minimal-traditional.c02 and typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Roof pitch 4:12 to 6:12 -- a hard constraint (c02) and a repeated figure in typical_ratios.",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited 'pitch_min=9:12' from queen-anne-american (spliced in via colonial-revival's own family), which is nearly double this node's own documented ceiling and directly contradicts its own hard constraint c02."
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Low-fired clay barrel tile (the cascade's inherited value from mediterranean-vernacular, spliced in via a distant family branch) has no basis anywhere in this node's own text or lineage and is climatically and economically wrong for an FHA production house of the 1930s-1950s in climate zones 2-6.",
+      "note": "Forbidding only, not specifying a replacement: the node's own text never names a roofing material directly, so asserting one (asphalt composition shingle is the well-known historical answer) would be an unsourced positive claim. Marked judgment because the forbidding itself is inferred from context (region, era, cost-engineering) rather than from an explicit statement."
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "overhang_max_in": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "minimal-traditional.c01"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Eave and rake overhang not exceeding 12 in and frequently under 6 in, closed tight to the wall plane with no bracket, rafter tail, or purlin end -- 'a recognizably traditional shape with essentially no eave... the roof surface stops at the wall surface and the two meet without a shadow line' (diagnostic_tells).",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited shingle-style's eave rule verbatim (spliced in via colonial-revival's own family), which happens to share the same 12 in ceiling by coincidence but is sourced from an unrelated style and omits this node's own, far more diagnostic point -- that the overhang is frequently zero and the wall meets the sky with no shadow at all."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -53,17 +113,26 @@
     },
     "gable_treatment": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A single small gabled or hipped entry projection or bay is permitted as the only three-dimensional event on the whole elevation; anything more is outside the node.",
+      "note": "Direct quote of diagnostic_tells item 4."
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "shed-dormer-rear-addition",
+          "status": "atypical",
+          "note": "A later, non-original expansion of the attic on one-and-a-half storey examples, not part of the style's original vocabulary."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "rule": "Dormers are not part of the original design vocabulary; where one appears on a one-and-a-half storey example it is a shed dormer added at the rear in a later remodel, not an original feature.",
+      "note": "Direct quote of diagnostic_tells item 5."
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -288,17 +357,26 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "six-panel-raised-and-fielded",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (georgian-colonial-american, via colonial-revival's family). A door this elaborate contradicts the node's own description of a budget-permitting 'simple door surround' at most."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The door itself carries no ornament beyond, at most, a simple applied surround if the budget allowed; it sits in the plane of the wall with a reveal of an inch or less and no projecting surround.",
+      "note": "Direct quote of the long description ('a simple door surround') and diagnostic_tells item 3. Fixes a cascade bug: the previously-resolved six-panel raised-and-fielded door is Georgian-Colonial-American's own high-style door, wholly inconsistent with this node's cost-engineered minimalism."
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "No projecting classical surround of any kind. The door lies in the plane of the wall with a reveal of an inch or less; a pilasters-and-entablature treatment (the cascade's inherited value) is exactly the kind of expensive, cost-engineered-out element this style deleted first.",
+      "note": "Direct quote of diagnostic_tells item 3 ('the front door lies in the plane of the wall with a reveal of an inch or less and no projecting surround'). Fixes a cascade bug: the previously-resolved pilasters-and-entablature surround is inherited from english-georgian/colonial-revival via the family splice and directly contradicts this diagnostic."
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +394,27 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-rear-of-lot",
+          "status": "canonical",
+          "note": "This node's own, actually-built answer: 'a detached garage at the rear of the lot, reached by a driveway beside the house' (distinguished_from vs ranch-style). Retrieved from documented practice, not invented -- Minimal Traditional predates the attached-garage problem the rest of the family exists to solve."
+        },
+        {
+          "id": "attached-set-back-or-side-loaded",
+          "status": "permitted",
+          "note": "Where the type is reproduced on a modern infill lot without room for a detached rear garage, the family's own 4 ft-setback / 33-percent-width answer (mid-century-traditional.garage_strategy) applies. This half of the entry is an editorial extension for contemporary buildability, not a historical fact about the 1930s-50s house."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The type's own historical answer to the garage predates the problem the rest of the family exists to solve: keep it detached at the rear of the lot. A contemporary reproduction on a lot too narrow for that reverts to the family's later, invented answer.",
+      "edit_provenance": {
+        "kind": "measured",
+        "source": "minimal-traditional.distinguished_from[ranch-style]",
+        "note": "The canonical variant is retrieved directly from the node's own text, not invented -- unlike ranch-style and neo-eclectic, Minimal Traditional's garage is a solved problem by its own account. The permitted contemporary-infill variant is an honest editorial addition, flagged as such rather than presented as period fact."
+      }
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,10 +479,11 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "No full- or partial-width habitable porch (hard constraint c04, soft severity on the entry-cover-projection number). Entry is a stoop, at most under a small hood or shallow entry gable, with cover projection not more than 3 ft.",
+      "note": "Direct quote of minimal-traditional.c04 and defining_characteristics item 3."
     },
     "porch_depth": {
       "group": "threshold",
@@ -419,10 +515,11 @@
     },
     "steps_and_stoop": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Entry is a plain stoop, occasionally under a small hood; there is nowhere to stand out of the rain beyond it.",
+      "note": "Direct quote of the long description's own summary of the style's felt experience ('there is nowhere to stand out of the rain')."
     },
     "entry_sequence": {
       "group": "threshold",
@@ -440,10 +537,22 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-minimal-stock",
+          "status": "canonical"
+        },
+        {
+          "id": "gibbsian-bolection",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (english-georgian, via colonial-revival's family). This node's whole point is the absence of a classical-depth trim system."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Trim of minimal profile depth: flat frieze board, narrow clamshell or ranch casing (2 1/4 in wide, under 3/4 in projection -- see the already-specified `casing` slot), and no cornice return of any consequence.",
+      "note": "Direct quote of defining_characteristics item 5. Fixes a cascade bug: english-georgian's real, deep classical trim system (gibbsian-bolection) is inherited via the family splice and is precisely what this style deleted."
     },
     "baseboard": {
       "group": "interior",
@@ -538,10 +647,12 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A cellular plan of small, individually-walled rooms rather than an open or flowing plan; circulation is not itself a compositional device.",
+      "note": "Direct quote of distinguished_from[ranch-style] ('Minimal Traditional is an upright compact block with a cellular plan'). Marked judgment because the node's own text names the plan type in passing, in a comparison to another node, rather than describing it directly as its own subject."
     },
     "hearth_position": {
       "group": "plan-logic",

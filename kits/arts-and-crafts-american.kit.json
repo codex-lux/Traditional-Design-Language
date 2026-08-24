@@ -5,16 +5,55 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "symmetry": {
+          "value": "balanced-asymmetrical",
+          "unit": "none",
+          "kind": "measured"
+        }
+      },
+      "rule": "The plan is composed from use, sun and structural bay first; the elevation follows the plan rather than governing it, and the resulting massing is balanced by visual weight, not by an axis of symmetry.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "The node's own proportional_system.symmetry field states 'balanced-asymmetrical' directly. Specified here to fix provenance -- the cascade previously resolved this correctly by value but from british-arts-and-crafts, a coincidence of an unrelated (if related-in-spirit) ancestor rather than this node's own stated fact.",
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gable",
+          "status": "permitted",
+          "note": "Canonical in the Craftsman lineage (craftsman, california-bungalow, craftsman-bungalow)."
+        },
+        {
+          "id": "hip",
+          "status": "permitted",
+          "note": "Canonical in Prairie School specifically; see that node's own hard constraint (c01)."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "A Dutch Colonial / Shingle Style device with no textual support anywhere in this family."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "A Second Empire device, explicitly foreign to this family's reform argument against applied period ornament."
+        },
+        {
+          "id": "flat",
+          "status": "forbidden",
+          "note": "No member's roof_pitch is anywhere near flat; the family-wide pitch floor is 3:12."
+        }
+      ],
+      "rule": "Gable and hip are both canonical somewhere in the family, and which one applies is the family's largest internal split (see the family kit's own note on this slot); every other roof form is foreign to it.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'hip' from english-palladian -- a distant Palladian-villa ancestor reached through arts-and-crafts-british's own lineage chain, justified there by a parapet-and-piano-nobile logic that has nothing to do with this family. Specifying both canonical options here (rather than leaving the slot fully open) blocks that leak while deliberately not resolving the gable-vs-hip question the family itself leaves open: craftsman, california-bungalow and craftsman-bungalow specify gable directly on their own kits and prairie-school specifies hip directly on its own kit, each stopping its own cascade before it would ever reach this binding.",
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -24,11 +63,33 @@
       "status": "empty"
     },
     "roof_material": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wood-shingle",
+          "status": "canonical",
+          "note": "The overwhelming majority of surviving and photographed exemplars across the family; not quoted verbatim by any single member's own text, so held at medium confidence."
+        },
+        {
+          "id": "composition-shingle-plain",
+          "status": "permitted"
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "A Mission Revival / Mediterranean device. Foreign to the American branch's own vocabulary; California Bungalow's own distinguished_from entry names Mission Revival's tile roof as the thing that separates the two."
+        },
+        {
+          "id": "slate",
+          "status": "atypical"
+        }
+      ],
+      "rule": "Roofing is a plain shingle material, wood by strong preference, never fired clay tile.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved clay-tile-barrel from mediterranean-vernacular, a wholly unrelated Italian/Spanish lineage branch reached through the same distant chain as the roof_form leak. No member of this family specifies a roof material by name; wood shingle is the historically dominant and textually consistent choice (color_strategy's own materials list -- 'unpainted or matte-stained wood, clinker brick, river rock, stucco, matte tile' -- names tile only as a wall or trim accent, never as roofing), so this is marked judgment/editorial rather than measured.",
+      "group": "massing-and-roof"
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -38,39 +99,82 @@
       "status": "empty"
     },
     "rake_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The rake overhangs at the same depth as the eave and by the same logic -- deep enough to throw the gable wall into shadow -- with no bargeboard, pierced or otherwise: ornament at the rake, where it exists at all, is the exposed purlin or ridge beam end, not an applied trim board.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a pierced bargeboard from gothic-revival-american -- a Gothic Revival ornament device that directly contradicts this family's own defining rule that ornament must be produced by construction, not applied to a surface (defining_characteristics #1, #6; c03's ban on applied classical/Victorian ornament by extension). No member states a rake figure explicitly; the deep, undecorated rake is inferred from the family's shared eave_condition slot (already specified at family level) applying equally to eave and rake, which is directly true of craftsman's own typical_ratios ('Eave and rake overhang 24 to 36 in, equal on all four sides').",
+      "group": "massing-and-roof"
     },
     "cornice_return": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No mitred or classical cornice return occurs at the gable; where the eave and rake meet it is a plain carpentry junction, sometimes with an exposed purlin or beam end continuing through, never a boxed and returned classical cornice.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'forbidden' from gothic-revival-american with no rule text -- an accidental agreement in outcome (both forbid a classical return) reached for an unrelated reason. Restated here on this family's own ground: a mitred, classical-profile cornice return is exactly the kind of applied ornament order/entablature/modillion_dentil already forbid at the family level.",
+      "group": "massing-and-roof"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The gable is the wall's structure made visible -- an exposed truss, a projecting purlin or ridge beam, a knee brace, or (in the Craftsman-lineage members) shingle or stucco continuing the wall's own material up into the peak -- never a shaped or applied classical or Gothic gable screen.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a 'free-standing-screen-gable' / 'structural-gable' pairing from low-countries-vernacular -- Flemish stepped-gable vocabulary with zero textual connection to this family. Restated from the family's own repeatedly stated principle (defining_characteristics #1: 'ornament produced by construction... rafter tails, purlins, brackets') and craftsman's own diagnostic tell of 'knee braces under the gable overhang, and rafter tails visible along the eave, both structurally continuous.'",
+      "group": "massing-and-roof"
     },
     "dormer": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "shed",
+          "status": "canonical",
+          "note": "The most common device for lighting a habitable half-storey across the family's bungalow-linear exemplars."
+        },
+        {
+          "id": "gabled",
+          "status": "permitted"
+        },
+        {
+          "id": "pedimented",
+          "status": "forbidden",
+          "note": "A classical device; see the family-wide classical-apparatus prohibition."
+        }
+      ],
+      "rule": "Where a dormer occurs it is set back from the eave line, framed and trimmed in the same wide flat vocabulary as the rest of the house, and never carries a pediment or a classical surround.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a pedimented/gabled Georgian dormer pairing from georgian-colonial-american and greek-revival-american, contradicting the family's own classical prohibition outright. Shed dormers are craftsman-bungalow's own documented device ('Dormer, usually shed, providing habitable roof space in the one-and-a-half storey version').",
+      "group": "massing-and-roof"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "exterior-masonry-mass",
+          "status": "canonical",
+          "note": "Stone, clinker brick or river rock, expressed as a visibly heavy, textured mass -- Craftsman Farms and the Gamble House both build the chimney as the single heaviest object on the elevation."
+        },
+        {
+          "id": "central-masonry-pinwheel",
+          "status": "permitted",
+          "note": "Prairie's own device: the plan pinwheels about a central chimney mass (see prairie-school's own c05)."
+        },
+        {
+          "id": "thin-multiplied-accent",
+          "status": "forbidden",
+          "note": "A Queen Anne device: multiplied thin decorative stacks. This family's chimney is a single heavy mass, the opposite gesture."
+        }
+      ],
+      "rule": "The chimney is built of rough, unpainted masonry -- fieldstone, river rock, or clinker brick -- and is deliberately the heaviest, most textured object in the composition, never a thin decorative accent.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'tall-multiple-vertical-accent' from british-picturesque -- the Gothic/Queen Anne clustered-thin-stack device this family's own diagnostic_tells and color_strategy directly contradict ('river boulder, arroyo stone, or over-fired clinker brick used for chimney' per craftsman's own diagnostic tells). Central-pinwheel is kept permitted because it is Prairie's own documented device and Prairie shares this slot via the family cascade unless it specifies its own override.",
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -80,11 +184,32 @@
       "status": "empty"
     },
     "height_proportion": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "wall_plate_ft": {
+          "range": [
+            8.5,
+            9.0
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Directly stated in AAC's own typical_ratios: 'Wall plate 8 ft 6 in to 9 ft 0 in at the principal floor.'"
+        },
+        "opening_head_height_ft": {
+          "range": [
+            6.67,
+            7.0
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "AAC's own typical_ratios: 'Window and door heads aligned at a single datum, 6 ft 8 in to 7 ft 0 in above finish floor.'"
+        }
+      },
+      "rule": "One or one and a half storeys is the norm; a full second storey is atypical and the system's own dimensional (not ratio-based) logic 'scales badly upward -- an Arts and Crafts house of more than two storeys loses its logic' (own governing_logic).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in the node's own proportional_system.typical_ratios and governing_logic, both quoted above.",
+      "group": "massing-and-roof"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -109,11 +234,41 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wood-shingle",
+          "status": "canonical"
+        },
+        {
+          "id": "clapboard",
+          "status": "permitted"
+        },
+        {
+          "id": "stucco",
+          "status": "permitted"
+        },
+        {
+          "id": "board-and-batten",
+          "status": "permitted"
+        },
+        {
+          "id": "clinker-brick",
+          "status": "permitted",
+          "note": "Base and accent use principally; see material_change_rule."
+        },
+        {
+          "id": "vinyl-siding",
+          "status": "forbidden",
+          "note": "Not a period material and incompatible with the family's own governing rule that a material must be shown honestly and unpainted -- the reform argument this family exists to make."
+        }
+      ],
+      "rule": "The primary wall material is left in its own colour and texture per the family's own color_strategy (already specified at family level); wood shingle is the single most common choice across the family's exemplars, with clapboard, stucco and board-and-batten all in period use.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Not quoted verbatim by any member as 'primary cladding' by name, but drawn directly from the family's own diagnostic_tells ('Two or three natural materials stacked base-to-top... stone base, shingle middle, stucco gable') and color_strategy, already specified at family level.",
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -130,11 +285,13 @@
       "status": "empty"
     },
     "foundation_expression": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The foundation is exposed, rough, and load-bearing in appearance -- fieldstone, clinker brick, or river rock -- expressed as the base tier of the family's own stacked-material logic (material_change_rule, family level), never concealed behind a skirt or a continuous smooth plinth.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Drawn from craftsman's own diagnostic tell ('River boulder, arroyo stone, or over-fired clinker brick used for chimney, porch base, and foundation') and AAC's own diagnostic_tells ('Battered (tapered) porch piers standing on heavy masonry bases at least two feet wide').",
+      "group": "envelope"
     },
     "water_table": {
       "group": "envelope",
@@ -179,11 +336,12 @@
       "status": "empty"
     },
     "cornice": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "There is no applied classical cornice; the eave is a plain fascia and soffit assembly (see eave_condition, family level), a carpentry termination rather than an entablature member.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a 'modillion-cornice' from english-georgian -- a fully classical, modillion-bearing entablature member directly forbidden by this family's own classical-apparatus group (entablature and modillion_dentil are both already forbidden at family level). This is one of the clearest cases in the whole family of an ornament-group prohibition being defeated by an envelope-group slot the family kit happened to leave open.",
+      "group": "envelope"
     },
     "frieze": {
       "group": "envelope",
@@ -193,16 +351,21 @@
       "status": "empty"
     },
     "parapet": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No parapet conceals the roof; the roof is shown, per the family's own low, wide-eaved massing.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a 'balustraded' parapet from english-baroque -- a fully classical device (with a forbidden turned balustrade, no less) that contradicts both this family's rejection of applied classical ornament and its own diagnostic emphasis on a visible, deep-shadowed eave.",
+      "group": "envelope"
     },
     "rainwater": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Rainwater is taken off the deep eave in a plain half-round gutter and round downspout, unornamented, matching the family's plain-carpentry ethic; a no-gutter drip edge is atypical given how far the eave already throws water clear of the wall.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'no-gutter-drip-to-grade' rule keyed to a cornice-projection formula that no longer applies once cornice is forbidden above. No member states a rainwater strategy explicitly; held at low confidence and marked judgment.",
+      "group": "envelope"
     },
     "color_strategy": {
       "group": "envelope",
@@ -210,11 +373,29 @@
       "status": "empty"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "double-hung",
+          "status": "canonical",
+          "note": "Craftsman's own diagnostic tell names this as the single detail separating the style from every neighbour in the graph."
+        },
+        {
+          "id": "casement",
+          "status": "permitted",
+          "note": "More common in the Prairie branch and in high-craft (Greene and Greene) work, per california-bungalow and prairie-school's own texts."
+        },
+        {
+          "id": "casement-leaded",
+          "status": "forbidden",
+          "note": "The specifically English Arts and Crafts leaded-casement vocabulary. Diamond-leaded glazing is explicitly forbidden already at family level (special_window); the American branch's own art glass is rectilinear sash glazing, not an imported English casement system."
+        }
+      ],
+      "rule": "Double-hung sash is the family's own dominant window type, not the casement the British parent uses; where casements occur (Prairie, and high-craft custom work) they are rectilinear-banded, never leaded diamond lights.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'casement-leaded' from british-arts-and-crafts -- directly contradicted by craftsman's own diagnostic_tells: 'Four-over-one or three-over-one double-hung sash -- vertical muntins in the upper sash only. This single detail separates Craftsman from every neighbour in the graph.'",
+      "group": "openings"
     },
     "window_proportion": {
       "group": "openings",
@@ -224,11 +405,19 @@
       "status": "empty"
     },
     "window_lite_pattern": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "multi-light-over-single-light",
+          "status": "canonical",
+          "note": "Three- or four-over-one, per craftsman's own diagnostic tells."
+        }
+      ],
+      "rule": "The upper sash carries three or four vertical lights; the lower sash is a single undivided light.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Restated directly (not merely inherited from shingle-style, where it resolved correctly by coincidence) because craftsman's own diagnostic_tells state this exact pattern as the family's single fastest identifying detail.",
+      "group": "openings"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -266,11 +455,12 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Windows group into bands of two to four units between structural posts rather than standing as isolated punched openings; the group, not the sash, is the compositional unit, and adjacent groups are permitted to differ in count.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly quoted from the node's own proportional_system.bay_rhythm. Restated here (not left to cascade) to fix provenance -- the family kit was already correct on this point via facade-picturesque but the rule text is this node's own, word for word.",
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -287,32 +477,55 @@
       "status": "empty"
     },
     "entry_door": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "vertical-plank-battens",
+          "status": "permitted"
+        },
+        {
+          "id": "three-panel-with-glazed-upper",
+          "status": "canonical",
+          "note": "A single wide light or a small art-glass panel over one or two horizontal panels, the family's own diagnostic vocabulary applied to the door."
+        },
+        {
+          "id": "six-panel-raised-and-fielded",
+          "status": "forbidden",
+          "note": "A Georgian device; contradicts the family's own classical-apparatus prohibition and its rejection of Colonial Revival's applied classical vocabulary (own distinguished_from entry against colonial-revival)."
+        }
+      ],
+      "rule": "The door is a plank or panel-and-glazed assembly, wide and flat like the rest of the family's trim, sized to the opening rather than to a catalogue moulding; where glass occurs it is the family's own rectilinear art glass (special_window, family level), not a fanlight or sidelight system.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'six-panel-raised-and-fielded' door -- correct for a classical family, wrong for one whose whole reform argument is against exactly this kind of applied refinement.",
+      "group": "openings"
     },
     "door_surround": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No pilaster-and-entablature or classical architrave door surround occurs anywhere in the family; the door is trimmed in the same wide flat casing as every other opening (window_surround_wood, family level).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX -- one of the most consequential in this file. Before this binding, the slot resolved 'pilasters-and-entablature' from english-georgian, directly and explicitly forbidden already by this family's own classical-apparatus group (pilaster and entablature are both forbidden at family level). An entry door composed of two family-forbidden classical members had leaked in through an openings-group slot the family kit happened to leave open.",
+      "group": "openings"
     },
     "transom_sidelight": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where a transom or sidelight occurs it is glazed in the family's own rectilinear art glass (special_window, family level), never a radiating or elliptical fanlight.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a 'radiating-fanlight' from adam-style -- a Federal-era classical device with no place in this family's vocabulary.",
+      "group": "openings"
     },
     "secondary_door": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Secondary and service doors are the same plain plank-and-panel family as the entry door, graduated down in refinement rather than in classical rank; there is no separate 'service' architectural order to graduate into.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian rear-door-on-passage-axis rule keyed to a percentage graduation off a six-panel classical door this family forbids. No member states a secondary-door rule explicitly; held at low confidence.",
+      "group": "openings"
     },
     "garage_strategy": {
       "group": "openings",
@@ -383,32 +596,76 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "full-width-under-primary-roof",
+          "status": "canonical",
+          "note": "Craftsman's own hard constraint (c02): the porch roof must be framed under the primary roof, either as a continuation of the main slope or a subordinate gable tied into it; a shed roof applied below the main eave is forbidden."
+        },
+        {
+          "id": "recessed-loggia",
+          "status": "forbidden",
+          "note": "A void carved from the volume rather than a room formed under the roof -- the family's porch is habitable depth added to the plan, not a subtraction from it."
+        }
+      ],
+      "rule": "The porch is a room of habitable depth, roofed by the primary roof itself continuing down or by a subordinate gable tied into it, never by a shed applied beneath the main eave and never a recessed void.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'recessed-loggia, engaged-under-roof' from shingle-style -- the recessed-loggia half of that pairing is close to the opposite move from what craftsman's own c02 requires (a porch framed forward, under the roof's own continuation, not carved as a void).",
+      "group": "threshold"
     },
     "porch_depth": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "depth_ft": {
+          "range": [
+            7,
+            9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "AAC's own typical_ratios: 'Porch depth 7 to 9 ft -- deep enough to furnish.'"
+        }
+      },
+      "rule": "The porch is deep enough to furnish, not merely to shelter a doorway.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in the node's own proportional_system.typical_ratios, quoted above. Restated to fix provenance -- the slot previously resolved a compatible-but-not-this-node's-own figure from queen-anne-american.",
+      "group": "threshold"
     },
     "porch_support": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "battered-pier-on-masonry-base",
+          "status": "canonical",
+          "note": "AAC's own diagnostic tell: 'Battered (tapered) porch piers standing on heavy masonry bases at least two feet wide.'"
+        },
+        {
+          "id": "square-post",
+          "status": "permitted"
+        },
+        {
+          "id": "post-and-diagonal-brace",
+          "status": "forbidden",
+          "note": "The Stick Style's exposed-truss vocabulary, not this family's battered-pier language."
+        }
+      ],
+      "rule": "Porch supports are square posts or battered (tapered) piers on masonry bases not less than 24 in wide (already the family's own hard constraint, c03), never a turned column and never a Stick Style diagonal-brace frame.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'post-and-diagonal-brace' from stick-style -- close to correct in spirit (both reject the classical column) but the wrong specific device: this family's own diagnostic tell and hard constraint (arts-and-crafts-american.c03) both name the battered masonry pier specifically.",
+      "group": "threshold"
     },
     "porch_rail": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The rail, where one exists at all, is a simple square or battered picket or a low solid masonry wall matching the pier material, never a turned classical baluster and never cast iron.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Regency 'cast-iron-balcony-rail' -- a wrought/cast metal classical device wholly outside this family's carpentry-and-masonry vocabulary. Follows directly from balustrade already being forbidden at family level ('a rail, where used, is a simple square or battered picket').",
+      "group": "threshold"
     },
     "porch_ceiling": {
       "group": "threshold",
@@ -418,18 +675,22 @@
       "status": "empty"
     },
     "steps_and_stoop": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Steps rise in the same rough masonry as the porch base and foundation -- fieldstone, clinker brick, or poured concrete left textured -- never a dressed stone platform matched to a classical door surround.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'stone-block-steps' rule keyed to a classical entrance composition (platform width derived from facade-classical's module) this family does not have. No member states a steps figure explicitly; held at low confidence.",
+      "group": "threshold"
     },
     "entry_sequence": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The porch itself is the threshold: arrival happens through the deep, furnished porch rather than at a formal composed doorstep, and the porch is where the household is understood to actually receive visitors.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian three-threshold formal sequence (gate, platform, door) foreign to this family's informal, servantless-household reform programme (own description: 'informal, servantless, sunlit, out of doors' per california-bungalow).",
+      "group": "threshold"
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -467,25 +728,31 @@
       "status": "empty"
     },
     "chair_rail": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where a chair rail occurs it is the same flat board family as the casing, at a height set by the room's own datum rather than by a classical order-derived proportion; it is frequently absent altogether in favour of the plate rail (already the family's own built_ins slot) as the room's organizing horizontal.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian chair rail with three order-derived height formulas (from_order via gibbs-ionic, from_wall_division via trim-classical) -- exactly the kind of order-derived proportion trim_family (family level) explicitly rejects ('No classical profile family is mixed in').",
+      "group": "interior"
     },
     "wainscot": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where wainscot occurs it is flat board wainscot or a plain plywood/beaded panel in the family's own trim vocabulary, capped by the picture rail, not a raised-and-fielded classical dado.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'raised-and-fielded-panel-dado', a classical panelling system directly contradicting trim_family's own prohibition on mixed classical profile families.",
+      "group": "interior"
     },
     "interior_door": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Interior doors are flat-panel or glazed-and-panel in the family's own trim vocabulary -- typically five horizontal panels -- never the six-panel raised-and-fielded Georgian door.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'six-panel-raised-and-fielded' interior door, the same classical device already fixed at entry_door above.",
+      "group": "interior"
     },
     "stair_type": {
       "group": "interior",
@@ -502,11 +769,13 @@
       "status": "empty"
     },
     "fireplace_surround": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The hearth is faced in the family's own natural masonry -- clinker brick, river rock, or matte tile -- with a plain wood or masonry shelf, never a bolection-moulded classical architrave surround.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian bolection-moulding fireplace surround with an architrave. Grounded instead in the family's own repeated description of the hearth as 'the largest object in the room' faced in honest natural material (AAC's own long description: 'The hearth is the largest object in the room').",
+      "group": "interior"
     },
     "built_ins": {
       "group": "interior",
@@ -516,18 +785,22 @@
       "status": "empty"
     },
     "floor_material": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Floors are quarter-sawn oak or fir strip flooring, or matte tile in service spaces, in the wood's own colour; wide-plank softwood floor of the Georgian/Colonial kind is atypical rather than canonical here.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved Georgian 'wide-plank-pine' flooring. Not directly stated by any member; held at low confidence, but oak strip flooring is the material consistently shown in this family's own high-craft exemplars (Gamble House) and is at minimum not the Georgian random-width softwood plank the cascade had substituted.",
+      "group": "interior"
     },
     "hardware": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Hardware is hand-wrought or hammered iron or bronze in a flat, unpolished finish -- strap hinges, hammered pulls -- never a brass box lock graded by room rank.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian wrought-iron-HL-hinge/brass-box-lock pairing that grades hardware by a room-rank hierarchy foreign to this family's programme of eliminating rank-graded rooms (circulation_parti, family level).",
+      "group": "interior"
     },
     "light_fixture_family": {
       "group": "interior",
@@ -544,39 +817,49 @@
       "status": "empty"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The hearth sits on the interior wall of the principal living space, at or near the plan's own centre of gravity, never paired symmetrically at the gable ends as in the Georgian passage plan.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'gable-end-paired' hearth position, directly contradicting circulation_parti's own family-level rule that the plan opens around 'a hearth-centred living space' -- one hearth generating the plan, not two paired ones flanking a formal passage.",
+      "group": "plan-logic"
     },
     "stair_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The stair rises from within the open living space itself, or from a short unceremonious hall off it, never from within a formal Georgian passage running the depth of the house.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian passage-stair rule that presupposes the centre-passage plan circulation_parti (family level) explicitly eliminates.",
+      "group": "plan-logic"
     },
     "public_private_gradient": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Public and private zones are separated by depth into the plan rather than by a graded sequence of increasingly formal rooms off a passage; the front door opens directly into the public zone with no vestibule (craftsman-bungalow's own diagnostic tell).",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian passage-based rank gradient the family's own reform programme explicitly eliminates (circulation_parti, family level).",
+      "group": "plan-logic"
     },
     "room_adjacency_overrides": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Rooms open into one another around the hearth rather than each opening independently off a passage; the living room is the circulation hub the Georgian passage would otherwise be.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian passage-adjacency rule directly contradicted by circulation_parti (family level).",
+      "group": "plan-logic"
     },
     "service_zone_strategy": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The kitchen moves close to the dining space and the service wing is compact and attached, not detached to a separate dependency; this is a servantless-household plan, and the family's own economic history (the collapse of domestic-servant supply in the 1890s) is the direct cause.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian detached-dependency strategy from a plantation-plan household this family's own description explicitly contrasts itself against ('the domestic servant supply collapsed... the back stair... became a liability').",
+      "group": "plan-logic"
     },
     "depth_and_pile": {
       "group": "plan-logic",
@@ -593,21 +876,32 @@
       "status": "empty"
     },
     "storage_strategy": {
-      "group": "plan-logic",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Storage is built in -- bookcases, buffets, window seats, closets flanking the hearth -- and is original fabric, per built_ins (family level), rather than an attic or a detached outbuilding.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Follows directly from built_ins, already specified at family level.",
+      "group": "plan-logic"
     },
     "services_strategy": {
-      "group": "plan-logic",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Vertical services run in a compact interior chase, typically beside the chimney mass, in a house with no dependency or basement service zone to carry them; the plan is small enough that a single chase generally suffices.",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No member text speaks to plumbing/services routing directly, so this is closer to invented than measured. CASCADE FIX in the sense that the prior Georgian binding assumed a dependency-plant strategy this family's compact plan does not have.",
+      "group": "plan-logic"
     },
     "street_relationship": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The house sits informally on its lot rather than presenting one composed, axial front; where a formal front does exist it is set by the porch's own orientation, not by a symmetrical approach axis.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'frontal-to-the-road' rule presupposing an axial, symmetrical composition this family's balanced-asymmetrical parti (composition_parti, above) does not have.",
+      "group": "site"
     },
     "setback_rule": {
       "group": "site",
@@ -617,25 +911,31 @@
       "status": "empty"
     },
     "orientation_rule": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Orientation follows the porch and the site's own sun and view rather than a fixed compass rule; per the node's own governing_logic, the building is composed from the inside out around use, sun and view.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Mediterranean loggia-orientation bearing range with no textual connection to this family.",
+      "group": "site"
     },
     "outbuilding_types": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where an outbuilding occurs it is a garage or a garden structure built in the same trim vocabulary as the house, not a composed, axially placed Georgian dependency.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'detached-kitchen' rule the family's own service_zone_strategy (above) already rules out.",
+      "group": "site"
     },
     "fence_wall": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Where a fence or low wall occurs it is built of the same natural materials as the house -- fieldstone, or unpainted wood -- rather than a painted picket fence set on a formal entrance axis.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian painted-picket-fence rule, and 'painted' directly contradicts color_strategy's own family-level rule against painting a material that should be shown honestly.",
+      "group": "site"
     },
     "landscape_idiom": {
       "group": "site",
@@ -645,11 +945,13 @@
       "status": "empty"
     },
     "grade_relationship": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The house sits close to grade, on a shallow exposed foundation rather than a tall plinth, consistent with the low, horizontal massing the family's own defining_characteristics describe.",
+      "confidence": "low",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian 'low-plinth-on-a-level-site' rule with a 24-36 in exposed water-table height inconsistent with this family's ground-hugging massing.",
+      "group": "site"
     }
   }
 }

@@ -6,36 +6,125 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "symmetry": {
+          "value": "near-symmetrical",
+          "unit": "none",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.proportional_system.symmetry"
+        }
+      },
+      "rule": "Regular ganged openings at 8 to 14 ft centres on the principal elevation, with the garage terminating one end; heads generally aligned within a storey.",
+      "note": "Fixes a cascade bug: the resolved kit previously inherited 'strict-bilateral-odd-bay' (eclectic-revivals + colonial-revival, via the family splice), overstating this node's own near-symmetrical, plan-driven composition as a strict classical one."
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "simple-dominant-gable",
+          "status": "canonical",
+          "note": "'Simple dominant gable forms with minimal cross-gabling and a legible single roof hierarchy' (defining_characteristics)."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). Not named anywhere in this node's own text; the roof is one clear gable, not a broken multi-plane form."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Simple dominant gable forms with minimal cross-gabling and a legible single roof hierarchy -- the opposite of the neo-eclectic gable proliferation this node reacts against.",
+      "note": "Direct quote of defining_characteristics item 1."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "6:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c01"
+        },
+        "pitch_preferred": {
+          "value": "10:12",
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c01"
+        },
+        "pitch_as_built_typical_range": {
+          "set": [
+            "6:12",
+            "8:12"
+          ],
+          "unit": "rise_in_12",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.typical_ratios",
+          "diagnostic": true,
+          "note": "The market-built figure, below the style's own vernacular source of 10:12-12:12 -- recorded diagnostically."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Principal gable pitch not less than 6:12, and 10:12 preferred; below 8:12 the mass reads as a shed and the quoted vernacular silhouette is lost (hard constraint c01).",
+      "note": "Direct quote of constraint c01. Fixes a cascade bug: the resolved kit previously inherited 'pitch_min=9:12' from queen-anne-american (via the family splice) as though it were this node's own hard floor, when in fact 9:12 sits well inside this node's own preferred range and above its actual hard floor of 6:12 -- overstating the requirement while citing the wrong source entirely."
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "standing-seam-metal",
+          "status": "canonical",
+          "note": "'At porches, dormers, or the whole roof' (defining_characteristics)."
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (mediterranean-vernacular, via the family splice). Nothing in this node's text or lineage supports a Mediterranean clay tile roof."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Standing-seam metal roofing at porches, dormers, or the whole roof -- one of the style's own named defining characteristics.",
+      "note": "Direct quote of defining_characteristics item 4."
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "eave_overhang_min_in": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c02"
+        },
+        "rake_overhang_min_in": {
+          "value": 8,
+          "unit": "in",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c02"
+        },
+        "as_built_overhang_range_in": {
+          "range": [
+            0,
+            8
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.typical_ratios",
+          "diagnostic": true,
+          "note": "The market-built figure, below the style's own hard floor -- recorded diagnostically."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner; zero-overhang boxed rakes are forbidden (hard constraint c02).",
+      "note": "Direct quote of constraint c02. Fixes a cascade bug: the resolved kit previously inherited shingle-style's 12 in ceiling (via the family splice) as a maximum, when this node's own text states 12 in as a floor -- the opposite direction, and the exact deviation the node's own long description names as one of its five measurable failures."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -81,17 +170,30 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "ground_plate_range_ft": {
+          "range": [
+            9,
+            10
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Ground plate 9 to 10 ft, with window head at 8 ft 0 in -- the open great-room plan's own driver of the head-to-soffit gap that constraint c03 exists to close.",
+      "note": "Direct quote of typical_ratios and defining_characteristics item 6."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Grows by an ell rather than a stacked gable -- 'the ell gives a secondary mass without requiring a stacked gable' (massing_affinities), the massing the idiom handles best.",
+      "note": "Direct quote of massing_affinities note on linear-ell-farmhouse (canonical)."
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +212,43 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "board-and-batten",
+          "status": "canonical"
+        },
+        {
+          "id": "narrow-lap-siding",
+          "status": "canonical"
+        },
+        {
+          "id": "shingle-continuous-field",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). No source names shingle cladding for this node."
+        }
+      ],
+      "parameters": {
+        "batten_spacing_in": {
+          "set": [
+            16,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c04"
+        },
+        "batten_projection_min_in": {
+          "value": 0.75,
+          "unit": "in",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Vertical board-and-batten or narrow lap siding, or the two combined by storey, in a single light value. Battens at 16 or 24 in on centre aligned to the framing, minimum 1x2 nominal with not less than 3/4 in projection; battens at 12 in centres or under 1/2 in projection read as stripes rather than boarding (soft constraint c04).",
+      "note": "Direct quote of defining_characteristics item 2 and constraint c04."
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -206,8 +341,19 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "wall_to_trim_contrast_min_ratio": {
+          "value": 8,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.typical_ratios"
+        }
+      },
+      "rule": "High-contrast dark window frames, trim, and roof accents against a light wall -- a strict two-value palette, with wall-to-trim luminance contrast greater than 8:1, doing the work of profile depth that shallow overhangs and boxed rakes no longer do.",
+      "note": "Direct quote of defining_characteristics item 3 and typical_ratios. Fixes a cascade bug: the resolved kit previously inherited gothic-revival-american's 'landscape-tone-body' rule (via the family splice) forbidding white body colour -- the literal opposite of this style's white-wall, black-trim signature."
     },
     "window_type": {
       "group": "openings",
@@ -267,10 +413,19 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "head_to_soffit_max_in": {
+          "value": 10,
+          "unit": "in",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "Window heads shall sit not more than 10 in below the soffit or frieze line. Where the plate exceeds 9 ft, either raise the head or introduce a transom to close the gap (hard constraint c03) -- a genuine advance over neo-eclectic's unaligned heads, and a sharper rule than the family's shared single-datum principle alone states.",
+      "note": "Extends the family's already-correct single-datum binding with this node's own additional numeric ceiling on head-to-soffit distance, which the node's own text names as one of its five measurable failure dimensions when violated (typical_ratios: 'as built 12 to 24 in; vernacular source 6 to 10 in')."
     },
     "shutter": {
       "group": "openings",
@@ -288,17 +443,33 @@
     },
     "entry_door": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "six-panel-raised-and-fielded",
+          "status": "forbidden",
+          "note": "A real classical-depth element this node's own ornament-absent aesthetic does not carry."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "rule": "'Ornament essentially absent: no shutters, no keystones, no applied classical elements' (defining_characteristics item 7) rules out a raised-and-fielded panel door as much as it rules out a classical surround; no positive door type is named in the node's own text.",
+      "note": "Fixes a cascade bug: the previously-resolved value (georgian-colonial-american, via the family splice) is Georgian Colonial's own high-style door and contradicts defining_characteristics item 7 directly. Only the forbidding is sourced; no canonical replacement is asserted because the node's own text does not describe an entry door directly and a positive claim would be unsourced."
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilasters-and-entablature",
+          "status": "forbidden",
+          "note": "Exactly the kind of applied classical element this node's own text rules out."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "'Ornament essentially absent: no shutters, no keystones, no applied classical elements, no material changes at an outside corner' (defining_characteristics item 7); the surround, where present at all, is flat and unornamented.",
+      "note": "Direct quote of defining_characteristics item 7. Fixes a cascade bug: the previously-resolved pilasters-and-entablature surround (english-georgian/colonial-revival, via the family splice) is exactly the applied classical element this node rules out."
     },
     "transom_sidelight": {
       "group": "openings",
@@ -316,10 +487,22 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "attached-street-facing",
+          "status": "canonical",
+          "note": "'Attached garage on the frontage' -- inherited unmodified from ranch-style via the production-builder apparatus (lineage note against ranch-style)."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The garage remains attached on the frontage, an unexamined structural holdover from the ranch and neo-eclectic apparatus this node otherwise reforms. Under a form-based code, the same idiom relegates the garage to an alley or a deep setback and 'produces a visibly better version of the same style' (distinguished_from vs new-urbanist-traditional).",
+      "edit_provenance": {
+        "kind": "measured",
+        "source": "modern-farmhouse-traditional.lineage[ranch-style] and distinguished_from[new-urbanist-traditional]",
+        "note": "Not marked invented: unlike the family's general framing, this node's answer is retrieved directly from its own documented practice -- the market-dominant, as-built condition -- rather than newly authored. The better, alley-relegated answer already exists in the family as new-urbanist-traditional's own garage_strategy and is cross-referenced here rather than duplicated."
+      }
     },
     "glazing_assembly": {
       "group": "openings",
@@ -391,10 +574,36 @@
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "porch_min_depth_ft": {
+          "value": 8,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c05"
+        },
+        "porch_min_facade_pct": {
+          "value": 40,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.c05"
+        },
+        "as_built_depth_range_ft": {
+          "range": [
+            5,
+            6
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "modern-farmhouse-traditional.typical_ratios",
+          "diagnostic": true,
+          "note": "'Vernacular source 8 to 10 ft full width' -- the market-built figure falls well short and is recorded diagnostically, not as a target."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A covered space may be described as a porch only at 8 ft or more of clear depth across not less than 40 percent of the facade; shallower entry roofs are hoods and must be detailed as such (soft constraint c05).",
+      "note": "Direct quote of constraint c05 and typical_ratios."
     },
     "porch_support": {
       "group": "threshold",
@@ -440,10 +649,18 @@
     },
     "trim_family": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gibbsian-bolection",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (english-georgian, via colonial-revival's family)."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Flat-stock, board-and-batten-derived trim, sized against the framing module (see constraint c04) -- no surviving classical-order-derived trim tradition. This is the primary and effectively only trim system genuinely present, per this node's own bound trim-craftsman pack.",
+      "note": "Direct quote of defining_characteristics item 7 and the style's own pack-binding note for trim-craftsman."
     },
     "baseboard": {
       "group": "interior",

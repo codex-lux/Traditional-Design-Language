@@ -10,18 +10,44 @@
       "status": "empty"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Own hard constraint c01: 'A gabled principal roof... disqualifies the node.'"
+        },
+        {
+          "id": "gable",
+          "status": "forbidden",
+          "note": "Craftsman's device, not Prairie's; own c01 disqualifies a gabled principal roof outright."
+        }
+      ],
+      "rule": "Principal roof hipped at 3:12 to 4:12; a gabled principal roof disqualifies the node (own hard constraint c01).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the parent's deliberately-open gable/hip pairing with Prairie's own documented and hard-constrained answer -- specified directly here (not left to cascade) so this node's provenance is its own c01, not an accidental agreement with a distant Palladian-villa ancestor several links away in the arts-and-crafts-british lineage chain, which was the pre-fix source for this exact value.",
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "3:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "4:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Principal roof hipped at 3:12 to 4:12 (own hard constraint c01) -- narrower than the family's shared 3:12-6:12 band.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Narrows the family's own roof_pitch (3:12-6:12) to Prairie's own tighter, hipped-only figure.",
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -31,18 +57,42 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "closed-soffit-continuous-plane",
+          "status": "canonical",
+          "note": "Own hard constraint c02: 'The eave soffit is a continuous closed plane,' and own diagnostic_tells: 'The eave soffit is clean: no rafter tails, no knee braces, no brackets. This is the fastest separation from Craftsman.'"
+        },
+        {
+          "id": "exposed-rafter-tails",
+          "status": "forbidden",
+          "note": "Craftsman's device, explicitly forbidden by own c02."
+        }
+      ],
+      "parameters": {
+        "projection_in": {
+          "range": [
+            30,
+            48
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "note": "Own defining_characteristics: eaves projecting 30 in to 48 in."
+        }
+      },
+      "rule": "Exposed rafter tails, knee braces, applied brackets, shutters, and any classical or revival ornament are forbidden; the eave soffit is a continuous closed plane (own hard constraint c02).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Resolves the family's own deliberately-open eave_condition branch (exposed-rafter-tails vs closed-soffit) to Prairie's own documented answer.",
+      "group": "massing-and-roof"
     },
     "rake_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The rake carries the same closed, continuous soffit plane as the eave; no bargeboard, exposed purlin, or knee brace of any kind.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "cornice_return": {
       "group": "massing-and-roof",
@@ -52,25 +102,29 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "There is effectively no gable to treat: the principal roof is hipped throughout (roof_form, above), so no gable wall arises for ornament to occupy.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Follows directly from the node's own hipped-roof requirement (c01).",
+      "group": "massing-and-roof"
     },
     "dormer": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No dormer interrupts the continuous hipped roof plane and eave band; a dormer would break the unbroken horizontal lines (fascia, lintel band, sill band, water table) the node's own c03 requires to return unbroken around every corner.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Not stated explicitly by name, but follows directly from the node's own emphasis on the roof reading as 'an unbroken floating plane' and c03's continuous-band requirement; no exemplar or description mentions a dormer anywhere in the node's own text.",
+      "group": "massing-and-roof"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The chimney is a massive central masonry mass about which the plan pinwheels, visibly the fattest and heaviest object in the composition, terminating above the highest roof plane (own hard constraint c05).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in defining_characteristics #4 and diagnostic_tells ('The chimney is visibly the fattest object in the composition and the plan turns around it') and own hard constraint c05.",
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -80,11 +134,31 @@
       "status": "empty"
     },
     "height_proportion": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "compressed_ceiling_ft": {
+          "range": [
+            6.83,
+            7.33
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own typical_ratios: 6 ft 10 in to 7 ft 4 in at compression (entry, circulation)."
+        },
+        "released_ceiling_ft": {
+          "range": [
+            9.0,
+            10.0
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own typical_ratios: 9 ft 0 in to 10 ft 0 in at release (living space)."
+        }
+      },
+      "rule": "Ceiling heights are deliberately differentiated between compressed circulation and released living volume rather than held constant storey to storey.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -109,11 +183,27 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "stucco-with-wood-banding",
+          "status": "canonical"
+        },
+        {
+          "id": "roman-brick",
+          "status": "canonical",
+          "note": "Own diagnostic tell: brick roughly twice as long and half as tall as standard, laid with raked horizontal and flush vertical joints so only the horizontal reads."
+        },
+        {
+          "id": "wood-shingle",
+          "status": "forbidden",
+          "note": "The Craftsman-lineage material; Prairie's wall is continuous and unornamented, not a textured natural-shingle field."
+        }
+      ],
+      "rule": "Wall surfaces are continuous and unornamented: stucco with wood banding, or long thin Roman brick in raked horizontal joints (own defining_characteristics).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -137,32 +227,35 @@
       "status": "empty"
     },
     "water_table": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The water table is one of the four continuous horizontal bands (own c03); it must return unbroken around every corner.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "envelope"
     },
     "belt_course": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "A continuous water table, sill course, lintel course, and fascia are drawn unbroken around the whole building -- four horizontal lines that must return around every corner without interruption (own hard constraint c03).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in own c03 and defining_characteristics #2.",
+      "group": "envelope"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No quoin or masonry corner relief occurs; corners are dissolved with glass or turned by a projecting pier, never articulated by a classical masonry device.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Follows from the node's own long description ('Corners are dissolved with glass or turned by a projecting pier') and the family-level corner_quoin prohibition, restated here for provenance since Prairie diverges from the Craftsman-lineage corner_board answer entirely.",
+      "group": "envelope"
     },
     "corner_board": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The corner is either dissolved in continuous glazing or turned by a projecting masonry pier; there is no applied board at all.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the family's own 'plain-board' answer (the Craftsman-lineage device) with Prairie's own corner treatment, directly quoted above.",
+      "group": "envelope"
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -179,11 +272,11 @@
       "status": "empty"
     },
     "cornice": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No projecting classical cornice occurs; the fascia is one of the four continuous horizontal bands (belt_course, above), not an entablature member.",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "envelope"
     },
     "frieze": {
       "group": "envelope",
@@ -210,11 +303,24 @@
       "status": "empty"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "casement",
+          "status": "canonical",
+          "note": "Own diagnostic tell: 'Casement windows in continuous ribbons.'"
+        },
+        {
+          "id": "double-hung",
+          "status": "forbidden",
+          "note": "Craftsman's own device; Prairie's is the casement band."
+        }
+      ],
+      "rule": "Windows are casements gathered into continuous horizontal bands.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the parent style's own double-hung binding, which is correct for the Craftsman lineage but wrong here.",
+      "group": "openings"
     },
     "window_proportion": {
       "group": "openings",
@@ -224,11 +330,12 @@
       "status": "empty"
     },
     "window_lite_pattern": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Art glass is rectilinear geometric with no curves, its pattern derived from the plan's own geometry (own diagnostic tells: 'art glass in rectilinear geometry and no curves').",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the parent's 'multi-light-over-single-light' double-hung pattern, which does not apply to a casement band.",
+      "group": "openings"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -266,11 +373,30 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "band_length_units": {
+          "range": [
+            3,
+            8
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "unit_width_ft": {
+          "range": [
+            1.83,
+            2.33
+          ],
+          "unit": "ft",
+          "kind": "measured"
+        }
+      },
+      "rule": "The compositional unit is the continuous band, not the individual sash; window bands run 3 to 8 casement units of roughly 1 ft 10 in to 2 ft 4 in each, and solid wall occurs between bands rather than between windows.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in the node's own proportional_system.typical_ratios and bay_rhythm.",
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -383,11 +509,13 @@
       "status": "empty"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "There is no habitable-depth porch of the Craftsman kind; where a sheltered outdoor space occurs it is a low terrace or a porte-cochere integrated into the horizontal massing, not a room framed under a subordinate gable.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "Not stated as a prohibition explicitly, but no exemplar or description in the node's own text mentions a porch; the family's own porch_type binding (specified for the Craftsman lineage) is explicitly wrong here since it presupposes a gabled roof continuation this node's own c01 forbids.",
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",
@@ -425,11 +553,12 @@
       "status": "empty"
     },
     "entry_sequence": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Arrival is a sequence rather than an announcement: the entry is displaced, often around a corner or behind the chimney mass, and approached at right angles to the direction of arrival; the primary entry may not be centred on the principal street elevation (own hard constraint c04).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Directly grounded in defining_characteristics #5, diagnostic_tells ('You cannot find the front door from the sidewalk'), and own hard constraint c04.",
+      "group": "threshold"
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -537,18 +666,18 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "The plan pinwheels about the central chimney mass rather than opening toward a single hearth wall, and Wright's own stated programme was to 'eliminate the attic, the cellar stair, the porch spindle, the bric-a-brac, and the room-by-room subdivision of the ground floor.'",
+      "status": "drafted",
+      "group": "plan-logic"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The hearth sits within the massive central chimney about which the plan pinwheels -- the tallest and heaviest element of the composition -- not at a gable end and not paired.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the family's Georgian-derived gable-end-paired hearth answer with Prairie's own central-mass answer.",
+      "group": "plan-logic"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -617,11 +746,12 @@
       "status": "empty"
     },
     "orientation_rule": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The entry is approached at right angles to the direction of arrival rather than square-on (own hard constraint c04); orientation otherwise follows the site's own geometry.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "group": "site"
     },
     "outbuilding_types": {
       "group": "site",

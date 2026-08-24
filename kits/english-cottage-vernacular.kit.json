@@ -25,17 +25,55 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "thatch-wheat-reed-water-reed-combed-straw",
+          "status": "canonical"
+        },
+        {
+          "id": "plain-clay-tile",
+          "status": "permitted",
+          "note": "Later and eastern examples."
+        },
+        {
+          "id": "boxed-dormer-breaking-the-thatch",
+          "status": "forbidden",
+          "note": "c01, hard: 'thatch must run as an unbroken surface with no valleys, no hard verges and no interruption by boxed dormers.'"
+        }
+      ],
+      "rule": "Thatch — wheat reed, water reed or combed straw — or, in later and eastern examples, plain clay tile, always treated as a continuous unbroken surface: no valleys, no hard verges, no boxed dormer interrupting it (c01, hard).",
+      "sources": [
+        "english-cottage-vernacular.c01",
+        "english-cottage-vernacular.json defining_characteristics"
+      ]
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "parameters": {
+        "eaves_height": {
+          "range": [
+            6.6,
+            8.9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-cottage-vernacular.c04",
+          "note": "2.0-2.7 m in the source, converted to ft."
+        }
+      },
+      "rule": "Eaves low enough to touch, 6'6\"-8'9\" at the wall plate (c04, soft), with a generous roof overhang protecting the wall below — no stated threshold for the overhang itself, only that it must be generous (c02: 'a good hat and a good pair of boots... neither is optional').",
+      "sources": [
+        "english-cottage-vernacular.c04",
+        "english-cottage-vernacular.c02"
+      ]
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -60,10 +98,31 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "eyebrow-swept-dormer-within-thatch",
+          "status": "canonical",
+          "note": "Formed within the thatch itself, not boxed on top of it — diagnostic_tells: 'swept dormers... because cob will not hold a sharp arris' extends to the roof detailing too."
+        },
+        {
+          "id": "catslide-over-rear-outshot",
+          "status": "permitted",
+          "note": "massing_affinities: saltbox, common — 'the English original of which the New England saltbox is the transplanted and formalised descendant.'"
+        },
+        {
+          "id": "boxed-dormer",
+          "status": "forbidden",
+          "note": "c01, hard."
+        }
+      ],
+      "rule": "An eyebrow or swept dormer formed within the continuous thatch surface, or a catslide carried down over a rear outshot — never a boxed dormer interrupting the roof plane.",
+      "sources": [
+        "english-cottage-vernacular.json defining_characteristics, massing_affinities"
+      ]
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -95,8 +154,41 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "cob",
+          "status": "canonical",
+          "note": "Devon, Dorset."
+        },
+        {
+          "id": "clay-lump",
+          "status": "canonical",
+          "note": "Norfolk."
+        },
+        {
+          "id": "flint-or-chalk",
+          "status": "permitted",
+          "note": "The downs."
+        },
+        {
+          "id": "rubble",
+          "status": "permitted",
+          "note": "The west."
+        },
+        {
+          "id": "low-timber-frame-daub-infill",
+          "status": "permitted",
+          "note": "Everywhere there was oak; a minority condition, governed by wall_thickness_frame rather than wall_thickness_masonry, per british-vernacular's own note on that slot."
+        }
+      ],
+      "rule": "Mass wall in whatever the ground provided within a few hundred metres — cob, clay lump, flint, chalk or rubble — or, everywhere there was oak, a low timber frame with daub infill. No single material is universal; geography decides.",
+      "sources": [
+        "english-cottage-vernacular.json defining_characteristics, description.long"
+      ]
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +202,25 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "limewash",
+          "status": "canonical"
+        },
+        {
+          "id": "cement-render",
+          "status": "forbidden",
+          "note": "c03, hard: 'Cement render on a cob or rubble wall traps water and will collapse the wall from within.'"
+        }
+      ],
+      "rule": "Limewash over cob, clay lump, flint, chalk, rubble or daub infill — never a hard or impermeable finish.",
+      "sources": [
+        "english-cottage-vernacular.c03"
+      ]
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -131,10 +238,23 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "plinth_height_min": {
+          "value": 1.5,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "english-cottage-vernacular.c02",
+          "note": "450 mm in the source, converted to ft."
+        }
+      },
+      "rule": "Cob and clay walls sit on a masonry or rubble plinth at least 1'6\" above grade — 'a good hat and a good pair of boots,' and neither is optional (c02, hard).",
+      "sources": [
+        "english-cottage-vernacular.c02"
+      ]
     },
     "water_table": {
       "group": "envelope",
@@ -152,10 +272,14 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "No dressed quoin of any kind. In a mass-wall cottage the corner is simply the wall material itself, rounded rather than arrised — cob in particular will not hold a sharp corner at all (diagnostic_tells: 'wall corners visibly curved because cob will not hold a sharp arris'). Contrast cotswold-vernacular, whose corners take a dressed ashlar quoin.",
+      "sources": [
+        "english-cottage-vernacular.json diagnostic_tells"
+      ]
     },
     "corner_board": {
       "group": "envelope",
@@ -206,22 +330,73 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "rule": "Lime mortar, lime render and limewash only — cement is a hard prohibition (c03). Ochre-tinted limewash is well attested (Selworthy Green, rebuilt 1828, is described as 'ochre-tinted limewashed cob').",
+      "sources": [
+        "english-cottage-vernacular.c03",
+        "english-cottage-vernacular.json exemplars"
+      ]
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "small-side-hung-casement",
+          "status": "canonical",
+          "note": "'Small side-hung casement windows with leaded lights or timber glazing bars, set in deep reveals with few and irregular openings' (defining_characteristics)."
+        }
+      ],
+      "rule": "Small side-hung casements, leaded or with timber glazing bars, set in deep reveals — never a sliding sash, and never many or large.",
+      "sources": [
+        "english-cottage-vernacular.json defining_characteristics"
+      ]
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "opening_width": {
+          "range": [
+            2.0,
+            3.3
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "600-1000 mm in the source, converted to ft."
+        },
+        "opening_height": {
+          "range": [
+            2.3,
+            3.9
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "700-1200 mm in the source, converted to ft."
+        },
+        "glazed_area_pct_floor": {
+          "range": [
+            4,
+            8
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "note": "Against 15-20 percent in a Georgian house of the same date; the window tax (1696-1851) is part of the reason."
+        }
+      },
+      "rule": "Openings are small — roughly 2'0\"-3'3\" wide by 2'3\"-3'11\" high — and few: glazed area runs only 4-8 percent of floor area, well under a Georgian house's 15-20 percent of the same date.",
+      "sources": [
+        "english-cottage-vernacular.json proportional_system.typical_ratios"
+      ]
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -316,10 +491,25 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "detached-low-outbuilding-off-principal-elevation",
+          "status": "canonical",
+          "note": "Invented: no historical precedent exists for any traditional style. Consistent with this type's own additive-by-cell-and-outshot growth logic (wing_strategy), a garage is a further low, thatched-or-tiled cell kept off the principal street elevation rather than a door cut into it."
+        },
+        {
+          "id": "garage-door-in-principal-elevation",
+          "status": "forbidden",
+          "note": "Invented judgment: this style's whole diagnostic is the absence of hard edges and vertical alignment (diagnostic_tells: 'no hard edges anywhere... openings placed by internal need and never in vertical alignment'); a garage door is the hardest, most regular edge imaginable and would read as a different building type wearing a thatched hat (c04's own phrase, applied here by extension)."
+        }
+      ],
+      "rule": "A garage, where wanted, is built as a further low, additive cell or outshot off the principal elevation, never as a door cut into the thatched street front.",
+      "note": "Explicitly named as a plausible contemporary-buildable reinterpretation in this wave's brief; english-cottage-vernacular is 'living' status. Invented per docs/inheritance.md's own guidance: no traditional style has a historical answer for this slot."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -433,10 +623,25 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "ceiling_height": {
+          "range": [
+            6.6,
+            7.2
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "2.0-2.2 m per description.long, converted to ft; ceilings crossed by chamfered beams low enough to hit if tall."
+        }
+      },
+      "rule": "Ceilings run 6'6\"-7'3\", crossed by chamfered beams a tall visitor will hit — a direct consequence of material limits (governing_logic: 'None applied. Dimensions come from material limits'), not of any applied proportion.",
+      "sources": [
+        "english-cottage-vernacular.json description.long, proportional_system.governing_logic"
+      ]
     },
     "trim_family": {
       "group": "interior",
@@ -545,10 +750,30 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "parameters": {
+        "stack_ground_floor_share": {
+          "value": 0.2,
+          "unit": "ratio",
+          "kind": "editorial",
+          "note": "'occupies perhaps a fifth of the ground floor' per description.long — an approximate qualitative claim converted to a number; marked editorial rather than measured."
+        }
+      },
+      "variants": [
+        {
+          "id": "lobby-entry-single-dominant-stack",
+          "status": "canonical",
+          "note": "c05, soft: one chimney stack must dominate the composition, rising at least 1 m above the ridge; multiple equal stacks belong to a farmhouse or gentry house, not a cottage."
+        }
+      ],
+      "rule": "A single dominant stack — central lobby-entry or gable-end — occupies roughly a fifth of the ground floor and radiates heat for hours after the fire is out; the front door typically opens directly against its side.",
+      "sources": [
+        "english-cottage-vernacular.c05",
+        "english-cottage-vernacular.json description.long"
+      ]
     },
     "stair_position": {
       "group": "plan-logic",

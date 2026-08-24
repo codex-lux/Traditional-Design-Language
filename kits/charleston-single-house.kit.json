@@ -5,9 +5,12 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The street (gable) elevation is deliberately off-axis -- two or three bays with the entrance bay off-centre or absent entirely, since the false door sits in the piazza screen wall, not in the house wall itself; the piazza flank alone carries a regular five-bay rhythm.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'strict-bilateral-symmetry... forbidding a picturesque or balanced-asymmetrical parti outright' from georgian-colonial-american -- directly contradicted by this node's own proportional_system.bay_rhythm: 'entrance bay off-centre or absent entirely (the false door sits in the piazza screen).' Georgian bilateral symmetry is real on the five-bay piazza flank (window_grouping_rule, below) but not on the street gable, and the family-of-origin binding could not make that distinction.",
+      "group": "massing-and-roof"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -66,11 +69,12 @@
       "status": "empty"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Chimneys sit on the rear wall or the blind flank, never symmetrically paired on the street gable (own diagnostic tell).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian gable-end-paired chimney rule directly contradicted by this node's own diagnostic_tells: 'Chimneys on the rear wall or the blind flank rather than symmetrically paired on the street gable.'",
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -266,11 +270,12 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The street gable carries two or three bays with the entrance bay off-centre or absent; the piazza flank carries five even bays with the true entrance in the second bay from the street, column spacing 8 to 10 ft.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved 'single-openings-odd-bays... entrance in the centre bay' from georgian-colonial-american -- true of the piazza flank but false of the street gable, which is this type's own most distinctive composition and the opposite of a centred entrance.",
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -315,11 +320,26 @@
       "status": "empty"
     },
     "garage_strategy": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rear-lane-detached",
+          "status": "canonical",
+          "note": "Charleston's narrow, deep lots are historically served by a rear service lane; a small detached garage there continues the same footprint the detached kitchen dependency already occupies."
+        },
+        {
+          "id": "attached-street-facing",
+          "status": "forbidden",
+          "note": "A garage door on the street gable would occupy the same narrow frontage the false door and piazza screen depend on, destroying the type's single most recognisable move."
+        }
+      ],
+      "rule": "The car is housed in a small structure at the rear of the deep lot, reached from the service lane where one exists, in the footprint tradition already occupied by the detached kitchen dependency.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No historical precedent exists for this slot. Authored per docs/inheritance.md's guidance -- this node's own text states the type 'has never actually stopped being built' on the Charleston peninsula, making it one of the clearest contemporary-buildable cases in this batch.",
+      "group": "openings"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -544,11 +564,12 @@
       "status": "empty"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Hearths sit at the rear wall or the blind flank, following the chimney position (chimney, above) -- not paired symmetrically about the passage axis at the gable ends, which is the inherited Georgian answer for a house seen frontally.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian gable-end-paired hearth rule that presupposes the house is composed frontally -- own street_relationship (already correctly resolving from charleston-georgian) states directly that 'the house is not seen frontally as the inherited Georgian family assumes.'",
+      "group": "plan-logic"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -610,11 +631,23 @@
       "status": "empty"
     },
     "setback_rule": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "flank_setback_ft": {
+          "range": [
+            0,
+            3
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own hard constraint c05: at or within 3 ft of the property line."
+        }
+      },
+      "rule": "The flank opposite the piazza sits at or within 3 ft of the property line and carries no more than token openings -- a fire wall, a response to the Charleston fires of 1740 and 1778 (own hard constraint c05).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Restates own c05 directly; this slot was previously unresolved (open) despite the node's own text speaking to it directly.",
+      "group": "site"
     },
     "orientation_rule": {
       "group": "site",
@@ -638,11 +671,13 @@
       "status": "empty"
     },
     "landscape_idiom": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "The walled garden, the piazza, and the detached kitchen dependency together form one privacy and climate system, regulating sightlines from the street as much as composing a formal geometric garden.",
+      "confidence": "medium",
+      "judgment": true,
+      "status": "drafted",
+      "note": "CASCADE FIX (partial -- a real garden exists, but its logic is privacy/climate, not purely axial composition). Before this binding, the slot resolved a generic Georgian 'geometric-forecourt' idiom; grounded instead in own long description: 'the walled garden, the detached dependency and the gated piazza are a system for regulating who can see whom.'",
+      "group": "site"
     },
     "grade_relationship": {
       "group": "site",

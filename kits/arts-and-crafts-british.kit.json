@@ -100,8 +100,22 @@
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "thickness": {
+          "range": [
+            15.7,
+            23.6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "arts-and-crafts-british.json typical_ratios ('Wall thickness 400-600 mm')"
+        }
+      },
+      "rule": "Wall thickness runs 400-600 mm (15.7-23.6 in), giving window seats 350-500 mm deep (see window_sill).",
+      "note": "REPLACES a cascade fill from mediterranean-vernacular (400-700mm/16-28in, a Tuscan/Italian mass-masonry union range) with this node's own tighter, directly stated figure -- the two ranges happen to overlap substantially, but the source and the underlying reason (a masonry wall sized to hold a window seat, not a hot-climate thermal-mass wall) are different facts that should not share one inherited citation."
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -166,10 +180,22 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "reveal_depth": {
+          "range": [
+            13.8,
+            19.7
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "arts-and-crafts-british.json typical_ratios ('window seats of 350-500 mm depth')"
+        }
+      },
+      "rule": "The reveal is deep enough to form a real window seat, 350-500 mm (13.8-19.7 in).",
+      "note": "REPLACES a cascade fill from mediterranean-vernacular for the same reason as `wall_thickness_masonry` -- the underlying fact here is a window seat, not thermal-mass shading."
     },
     "reveal_frame": {
       "group": "envelope",
@@ -260,10 +286,22 @@
     },
     "window_sill": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "seat_depth": {
+          "range": [
+            13.8,
+            19.7
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "arts-and-crafts-british.json typical_ratios"
+        }
+      },
+      "rule": "The sill is deep enough to form a seat, cut into the wall's own thickness -- not a separate applied stool.",
+      "note": "description, direct ('window seats are cut into thick walls')."
     },
     "window_grouping_rule": {
       "group": "openings",
@@ -316,10 +354,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "No traditional precedent exists for any style; invented honestly for this contemporary-buildable (status: living) variant, which the node's own period.revival_periods records as 'a continuous minority practice in British house-building' through the present."
+      },
+      "rule": "Where a garage is required, it is treated as one more subordinate volume in the composition -- clad in the same single honest material as the mass it adjoins, its own roof plane continuing the family's long low silhouette -- never a flat-roofed or applied-veneer box bolted onto the elevation.",
+      "note": "Invented per docs/inheritance.md guidance and consistent with `material_change_rule` (specified at the family level)."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -510,10 +555,11 @@
     },
     "built_ins": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A bench is built into the inglenook recess; window seats are cut into the thick wall wherever a window occurs (see reveal_masonry).",
+      "note": "description, direct."
     },
     "floor_material": {
       "group": "interior",
@@ -545,10 +591,11 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The hearth sits in an inglenook -- a room within the hall, with a bench, a window and the fire -- and the hall-and-hearth is the point the plan is organised around, not a gable-end or corner position chosen for the elevation's sake.",
+      "note": "description, direct: 'the inglenook is a room within a room, with a bench, a window and a fire.' defining_characteristics point 2 ('The plan generated from the inside out around a hall and hearth')."
     },
     "stair_position": {
       "group": "plan-logic",
@@ -618,10 +665,12 @@
     },
     "orientation_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "rule": "Orientation follows use, sun and view as the plan itself dictates, not a fixed compass bearing for a single designed feature; a long low room is turned to end in a bright bay where the site allows it.",
+      "note": "OVERRIDES a cascade fill from mediterranean-vernacular (a fixed 135-225 degree loggia-facing bearing), which is specific to that family's hot-dry-climate loggia/aia siting logic and has no basis in this style's own text -- arts-and-crafts-british sits in climate zones 4C/5A (cool, humid Britain), not the Mediterranean family's 3B/3C/2B, and its own governing_logic states plainly that the building is 'composed from the inside out around use, sun, and view' with 'no applied system,' not a fixed bearing rule. This node's own description corroborates: 'Light is handled carefully and often sparingly, so a long low room ends in a bright bay' -- a per-room, per-site judgment, not a fixed orientation figure. The Mediterranean fact reaches this node's cascade only because italian-villa-vernacular is a real, distant lineage ancestor several links up the classical-adjacent chain (see docs/inheritance.md's own worked cascade example, which shows the identical insertion point for tidewater-georgian), not because of any documented Mediterranean influence on this style. Fixed here per WP-4.2 instructions rather than on any ancestor kit."
     },
     "outbuilding_types": {
       "group": "site",
@@ -639,10 +688,11 @@
     },
     "landscape_idiom": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "House and garden are designed as one composition: terraces, walls, steps and planting continue the plan outdoors, rather than a garden of a separate, ornamental architectural character. (Contrast the Mediterranean family's working-agricultural-ground idiom, which does not apply here.)",
+      "note": "OVERRIDES a cascade fill from mediterranean-vernacular ('the house is inseparable from its working agricultural ground... terraced retaining walls and an axial approach... the aia'), a Tuscan/Italian farm-economy fact with no basis in this style's own text. This node's own defining_characteristics states the actual, well-documented fact directly: 'House and garden designed as one composition, with terraces, walls, steps and planting continuing the plan outdoors' -- the Lutyens/Jekyll partnership is the type case. Fixed here per WP-4.2 instructions rather than on any ancestor kit."
     },
     "grade_relationship": {
       "group": "site",

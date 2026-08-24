@@ -194,10 +194,12 @@
     },
     "parapet": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Where a cresteria occurs, it is a pierced-stonework or pinnacled cresting running along the parapet, compositionally independent of the roof behind it -- decoration of the skyline, not a functional roof-edge detail.",
+      "note": "diagnostic_tells: 'A cresting (cresteria) of pierced stonework or pinnacles running along the parapet, unrelated to any roof behind it.' Held at medium confidence and marked judgment because the source names this as a diagnostic tell rather than stating it as a universal requirement of every example."
     },
     "rainwater": {
       "group": "envelope",
@@ -335,10 +337,34 @@
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "basket-capital",
+          "status": "canonical",
+          "note": "defining_characteristics point 6."
+        },
+        {
+          "id": "corinthianising-capital",
+          "status": "canonical",
+          "note": "An inventive near-Corinthian capital rather than a correct antique one; defining_characteristics point 6 ('basket or Corinthianising capitals')."
+        }
+      ],
+      "parameters": {
+        "slenderness": {
+          "range": [
+            7,
+            9
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "spanish-plateresque.json typical_ratios ('Patio arcade column slenderness 7-9 diameters')"
+        }
+      },
+      "rule": "The patio arcade runs on slender columns, 7-9 diameters, with basket or Corinthianising capitals -- an inventive vocabulary rather than a correct antique order.",
+      "note": "This is the exact figure the style's own vignola-tuscan proportion-pack binding (precedence 1, style level) is scoped to: shaft proportion only, not the capital, which the style's own text calls an invention rather than a correct Tuscan capital."
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -356,10 +382,23 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "candelieri-pilaster",
+          "status": "canonical",
+          "note": "A pilaster carrying Italian Renaissance grotesque/candelabra ornament -- grotesques, candelieri, medallions, putti, balusters -- used as a framing device for a register, never carrying a real entablature across the whole facade."
+        },
+        {
+          "id": "estipite",
+          "status": "forbidden",
+          "note": "distinguished_from churrigueresque, direct: 'Plateresque keeps its frames crisp and its registers legible' and is 'defined by a member -- the estipite -- that Plateresque never uses.' Using it converts the building into the later, more dissolved Churrigueresque phase, a century and a half later."
+        }
+      ],
+      "rule": "Columns and pilasters frame the registers of the retablo composition and carry Italian Renaissance motif ornament (grotesques, candelieri, medallions, putti, shell niches, balusters) in deeply undercut relief; they are compositional framing devices, never a real order regulating the wall.",
+      "note": "defining_characteristics points 3 and 5; spanish-plateresque.c02 (hard): columns and pilasters 'must not carry a continuous entablature across the facade.'"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -370,10 +409,11 @@
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A carved or wrought balustrade crowns the patio arcade, and a cresteria -- a cresting of pierced stonework or pinnacles -- runs along the parapet, compositionally unrelated to any roof form behind it.",
+      "note": "defining_characteristics point 6 ('Arcaded patio on slender columns... and a carved or wrought balustrade above') and diagnostic_tells point 5 ('A cresting (cresteria) of pierced stonework or pinnacles running along the parapet, unrelated to any roof behind it')."
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",

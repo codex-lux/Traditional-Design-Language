@@ -11,10 +11,20 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "structural-gable-roof-end",
+          "status": "canonical",
+          "note": "Restated from the correct family-level gable_treatment binding with this node's own direct wording: the gable here 'is genuinely the end of a roof rather than a screen in front of one' -- the OPPOSITE condition from dutch-urban-gable-house's screen gable (own distinguished_from note)."
+        }
+      ],
+      "rule": "The gable is genuinely the end of the roof structure -- crow-stepped, capped in stone or tile -- not a decorative screen standing in front of a hidden roof (contrast dutch-urban-gable-house).",
+      "sources": [
+        "flemish-vernacular.json distinguished_from, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -25,17 +35,61 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "pitch_pantile": {
+          "range": [
+            45,
+            55
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "flemish-vernacular.json constraints c03"
+        },
+        "pitch_thatch_min": {
+          "value": 50,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "flemish-vernacular.json constraints c03"
+        }
+      },
+      "variants": [
+        {
+          "id": "pantile",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Pantiles (golfpannen) rather than flat tiles.' Hard climatic constraint c03: 45-55 degrees."
+        },
+        {
+          "id": "thatch",
+          "status": "permitted",
+          "note": "Rural, not below 50 degrees (c03)."
+        }
+      ],
+      "rule": "Pantile (golfpannen) at 45-55 degrees, or thatch not below 50 degrees (hard constraint c03), coming down to about head height over the byre side.",
+      "sources": [
+        "flemish-vernacular.json diagnostic_tells, constraints c03"
+      ],
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "eave_projection_min": {
+          "value": 11.8,
+          "unit": "in",
+          "kind": "measured",
+          "source": "flemish-vernacular.json constraints c03",
+          "note": "300 mm minimum, unconditional."
+        }
+      },
+      "rule": "Eaves overhang at least 300 mm (11.8 in), carried lower over the working (byre and midden) side to shelter the doors (hard constraint c03) -- 'a roof that comes down to about head height over the byre side' (diagnostic_tells).",
+      "sources": [
+        "flemish-vernacular.json constraints c03, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -95,8 +149,25 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "solid-brick-masonry",
+          "status": "canonical",
+          "note": "description.long: brick from an early date, 'a hard, small, red-orange brick laid in thick lime mortar' -- the primary material across the whole region, west especially: 'West of the Scheldt the Flemish wall is solid brick and the frame disappears entirely' (own distinguished_from note against german-fachwerk)."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "permitted",
+          "note": "CASCADE-PROVENANCE PARTIAL FIX. The inherited germanic-vernacular binding made timber frame the sole canonical form, which overstates it: this node's own text scopes timber framing to 'the eastern (Limburg, Kempen, Maasland) half of the region,' 'structurally continuous with Rhenish Fachwerk,' with solid brick as the western and more general case. Hard constraint c01 is explicit both are legitimate but ARE ALTERNATIVES, NOT LAYERS: 'a vakwerk elevation must stand on a fired-brick or stone plinth... and must not be applied decoratively over a masonry wall.'"
+        }
+      ],
+      "rule": "Solid brick is the general and western case; timber frame with brick nogging (vakwerk) survives only in the eastern Limburg/Kempen/Maasland belt, on its own fired-brick or stone plinth at least 400 mm above grade (hard constraint c01) -- the two are alternative systems, never one applied decoratively over the other.",
+      "sources": [
+        "flemish-vernacular.json description.long, distinguished_from, constraints c01, proportion_packs (timber-bay note)"
+      ],
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +181,25 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "banded-brick-and-stone-speklagen",
+          "status": "canonical",
+          "note": "defining_characteristics #1: 'Small hard local brick laid in lime mortar, frequently banded with imported white stone (speklagen) at sills, lintels and floor lines.' Hard structural constraint c02: bands must fall at real structural lines, never float free."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "permitted",
+          "note": "The eastern vakwerk case only -- see `construction_type`."
+        }
+      ],
+      "rule": "Red-orange brick banded with imported white Ledian or Gobertange stone at sills, lintels, floor lines and arch springings -- 'the expensive material goes where it does the most work... the pattern is what is left over' (description.long). Bands floating free of a structural line are prohibited (hard constraint c02).",
+      "sources": [
+        "flemish-vernacular.json defining_characteristics, description.long, constraints c02"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -267,10 +353,13 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Additive and irregular in the countryside -- openings are functional, not compositional, and ignore the structural bay; regular and countable in town, where each floor holds two or three openings and the gable reduces them upward (own bay_rhythm).",
+      "sources": [
+        "flemish-vernacular.json proportional_system.bay_rhythm, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "shutter": {
       "group": "openings",
@@ -316,10 +405,24 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "invented-secondary-range-opening",
+          "status": "permitted",
+          "note": "No historical precedent. Cut as a secondary opening through a range, never as a second gate in the outer wall of a closed farm -- hard constraint c04 forbids a second wagon gate outright, and that logic transfers directly to a modern vehicle door."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent. A secondary opening cut through an existing range -- never a second gate through the courtyard's outer wall (c04 forbids this for the historical wagon gate and the same logic applies).",
+      "note": "kind: invented -- honestly flagged.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)",
+        "flemish-vernacular.json constraints c04"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -349,17 +452,47 @@
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "antwerp-mannerist-quoted-pediment",
+          "status": "permitted",
+          "note": "lineage note (references italian-renaissance, weight 0.25): 'Antwerp Mannerism, and specifically Vredeman de Vries's engraved sheets published there from 1560, quote Italian ornament onto a wholly Flemish wall. The prints, not the buildings, are what travelled.'"
+        },
+        {
+          "id": "pediment",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX (corrected FROM this blanket forbidding, wrongly inherited via the german-fachwerk hybridization edge, whose own reasoning describes German timber-carved ornament, not this node's own documented Antwerp Mannerist wall quotation)."
+        }
+      ],
+      "rule": "A pediment appears only as quoted Antwerp Mannerist surface ornament from a Vredeman de Vries pattern sheet, applied flat to the wall, never a load-bearing classical member.",
+      "sources": [
+        "flemish-vernacular.json lineage (italian-renaissance reference)"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "antwerp-mannerist-quoted-pilaster",
+          "status": "permitted",
+          "note": "Same lineage note as `pediment`."
+        },
+        {
+          "id": "pilaster",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX, same correction as `pediment`."
+        }
+      ],
+      "rule": "Same correction and source as `pediment`.",
+      "sources": [
+        "flemish-vernacular.json lineage (italian-renaissance reference)"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -377,10 +510,13 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "rule": "CASCADE-PROVENANCE FIX (corrected from a blanket forbidding wrongly inherited via german-fachwerk). Antwerp Mannerist ornament -- quoted from Vredeman de Vries's engraved pattern sheets -- applied as flat surface decoration onto a wall it does not proportion; 'the prints, not the buildings, travelled.' Otherwise, ornament is confined to real structural stone banding (speklagen) and crow-step capping.",
+      "sources": [
+        "flemish-vernacular.json lineage (italian-renaissance reference), defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -580,10 +716,32 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "range_depth": {
+          "range": [
+            18.0,
+            23.0
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "flemish-vernacular.json proportional_system.typical_ratios",
+          "note": "5.5-7 m clear."
+        }
+      },
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical",
+          "note": "typical_ratios: 'Farm range depth 5.5-7 m clear, one room or one byre deep.'"
+        }
+      ],
+      "rule": "Every range is single-pile, one room or one byre deep, set out in structural bays of 3.5-4.5 m fixed by the roof truss or vakwerk post spacing.",
+      "sources": [
+        "flemish-vernacular.json proportional_system.typical_ratios, governing_logic"
+      ],
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -625,10 +783,32 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "courtyard_span": {
+          "range": [
+            65.6,
+            131.2
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "flemish-vernacular.json proportional_system.typical_ratios",
+          "note": "Closed farm courtyard 20-40 m across."
+        }
+      },
+      "variants": [
+        {
+          "id": "vierkantshoeve-single-gate",
+          "status": "canonical",
+          "note": "Hard co-occurrence constraint c04: 'A closed farm must have exactly one wagon gate; secondary pedestrian doors are cut through a range, never through a second arch in the outer wall.'"
+        }
+      ],
+      "rule": "The prosperous farm closes into a vierkantshoeve, a walled courtyard 20-40 m across with exactly one gated wagon entrance (hard constraint c04) -- growth proceeds single range to L to three-sided to fully closed square.",
+      "sources": [
+        "flemish-vernacular.json constraints c04, proportional_system.typical_ratios, description.long"
+      ],
+      "status": "drafted"
     },
     "fence_wall": {
       "group": "site",

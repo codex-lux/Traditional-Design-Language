@@ -5,9 +5,28 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The elevation is irregular and additive except across the composed gatehouse entrance range, where a centred arch, flanking turrets and an oriel establish a local three-part symmetry that does not extend around the corner. This is Tudor's own proportional_system.symmetry ('near-symmetrical') and bay_rhythm ('Irregular and additive except across the composed entrance range... Windows are placed where rooms need them'), and it directly overrides an incorrectly inherited strict-bilateral-symmetry binding that reached this node only through italian-renaissance, a lineage edge Tudor's own text says is 'confined to ornament... No Tudor building is proportioned classically.' A whole-elevation classical symmetry claim has no business governing a style whose own source explicitly denies classical proportion.",
+      "note": "CASCADE FIX. Before this binding, composition_parti resolved to antique-classical's 'strict-bilateral-symmetry' (forbidding picturesque-asymmetrical outright), reached via tudor's weight-0.2 references-only lineage to italian-renaissance ('transmission is real but confined to ornament'). That is architecturally wrong: Tudor's own proportional_system.symmetry is 'near-symmetrical', not strict-bilateral, and its own bay_rhythm text is explicit that the plan is irregular and additive outside the entrance range. Fixed here rather than on any ancestor kit, per WP-4.2 guidance.",
+      "variants": [
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "canonical",
+          "note": "The whole-house condition: courtyard ranges laid out as function requires, with windows placed where rooms need them rather than to a facade grid."
+        },
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "atypical",
+          "note": "Achieved only locally, at the composed gatehouse entrance range (centred arch, flanking turrets, oriel above) -- and even there it 'does not extend around the corner' (own proportional_system.bay_rhythm). Treating the whole elevation as strictly symmetrical is the mistake this binding corrects."
+        }
+      ],
+      "sources": [
+        "tudor.json proportional_system.symmetry and bay_rhythm"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -94,9 +113,23 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "light-timber-frame",
+          "status": "permitted",
+          "op": "replace",
+          "note": "CASCADE FIX. Tudor's own lineage note is explicit and direct: 'Below the level of the great house, Tudor is a timber-framing style. The carpentry tradition supplies the roofs and the whole vocabulary of the smaller Tudor house' (descends_from english-medieval-timber-frame, weight 0.6). The inherited antique-classical binding forbade light timber frame outright for the whole family; that is correct for the great houses (Hampton Court, Layer Marney, brick and stone) but wrong for the ordinary Tudor house below that scale, which this style's own text says IS a timber-framing tradition."
+        }
+      ],
+      "note": "Extends rather than replaces: the masonry side of the inherited binding (brick as the fashionable great-house material, dressed stone at openings) is correct and stays inherited unrestated; only the forbidden-timber-frame variant is flipped, and only for Tudor, not for the family as a whole (Elizabethan and Jacobean each carry their own parallel fix, since the same lineage-confusion applies to both independently).",
+      "sources": [
+        "tudor.json lineage[english-medieval-timber-frame], defining_characteristics"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -109,11 +142,32 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Red brick, laid in English bond and patterned with vitrified (burnt) headers into diaper lozenges across the whole elevation, with stone dressings at openings, quoins and copings; ashlar stone (frequently salvaged monastic material) at the grandest houses; timber frame with wattle-and-daub or brick-nogged infill below the great-house scale.",
+      "variants": [
+        {
+          "id": "red-brick-diaper-pattern",
+          "status": "canonical",
+          "note": "English bond with vitrified-header diaper patterning -- the period's fashionable, expensive material and the single most Tudor surface."
+        },
+        {
+          "id": "ashlar-stone",
+          "status": "permitted",
+          "note": "The great courtyard houses; often reused dressed stone from the dissolved monasteries, per the style's own description."
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "permitted",
+          "note": "The smaller, timber-framed Tudor house below the great-house scale (see construction_type)."
+        }
+      ],
+      "sources": [
+        "tudor.json defining_characteristics, description"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -151,11 +205,21 @@
       "status": "empty"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Stone dressings mark quoins on the masonry houses, consistent with the style's own defining_characteristics ('stone dressings at openings, quoins and copings'); no explicit dimension is given in the style's own text, so no proportion is asserted here.",
+      "variants": [
+        {
+          "id": "stone-quoin",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "tudor.json defining_characteristics"
+      ],
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -193,11 +257,26 @@
       "status": "empty"
     },
     "parapet": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Crenellated parapets, corner turrets and gatehouse towers are used as non-defensive display, never as working military apparatus -- battlements you cannot fight from. Arrow loops, machicolation and portcullis grooves are false archaeology and forbidden.",
+      "variants": [
+        {
+          "id": "crenellated-display",
+          "status": "canonical"
+        },
+        {
+          "id": "working-military-apparatus",
+          "status": "forbidden",
+          "note": "Tudor gentry were forbidden to build seriously fortified houses; per tudor.c05, only where the composition is clearly non-defensive."
+        }
+      ],
+      "sources": [
+        "tudor.json defining_characteristics, constraints (tudor.c05)"
+      ],
+      "group": "envelope"
     },
     "rainwater": {
       "group": "envelope",
@@ -231,11 +310,26 @@
       "status": "empty"
     },
     "window_head_masonry": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A hood mould (label mould) with carved or moulded spandrels stands above every principal window and doorway, shedding water clear of the reveal -- the single most reliable Tudor diagnostic tell, and the detail that most clearly separates Tudor from Elizabethan at fifty feet (Elizabethan drops the hood mould by the 1580s).",
+      "variants": [
+        {
+          "id": "hood-mould-carved-spandrels",
+          "status": "canonical"
+        },
+        {
+          "id": "flush-no-hood-mould",
+          "status": "forbidden",
+          "note": "This is precisely the Elizabethan departure (own distinguished_from[elizabethan]); a flush mullion grid with no hood mould is not Tudor."
+        }
+      ],
+      "sources": [
+        "tudor.json diagnostic_tells, distinguished_from[elizabethan]"
+      ],
+      "group": "openings"
     },
     "window_head_wood": {
       "group": "openings",
@@ -280,18 +374,54 @@
       "status": "empty"
     },
     "special_window": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "An oriel window is corbelled out on moulded stone brackets directly over the entrance arch, marking the great chamber inside -- one of the two decisive Tudor diagnostic tells alongside the four-centred arch and hood mould.",
+      "variants": [
+        {
+          "id": "oriel-over-entrance-corbelled",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "tudor.json diagnostic_tells"
+      ],
+      "group": "openings"
     },
     "entry_door": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The entrance is a true four-centred (Tudor) arch struck from four centres -- two short radii at the springing, two long radii to the apex -- with a rise to span of roughly 1:3 to 1:4, set within a rectangular label mould with carved spandrels. A flattened ellipse, a segmental arch or a moulded one-piece head is forbidden.",
+      "parameters": {
+        "arch_rise_to_span": {
+          "range": [
+            0.25,
+            0.333
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "tudor.json constraints (tudor.c01)"
+        }
+      },
+      "variants": [
+        {
+          "id": "four-centred-arch-in-voussoirs",
+          "status": "canonical"
+        },
+        {
+          "id": "flattened-ellipse-or-segmental",
+          "status": "forbidden",
+          "note": "Forbidden per tudor.c01: only a true four-centred arch struck from four centres is Tudor; a flattened ellipse or segmental head belongs to a later or different idiom."
+        }
+      ],
+      "sources": [
+        "tudor.json constraints (tudor.c01), diagnostic_tells"
+      ],
+      "group": "openings"
     },
     "door_surround": {
       "group": "openings",
@@ -376,11 +506,36 @@
       "status": "empty"
     },
     "ornament_vocabulary": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Renaissance figural ornament -- a terracotta roundel of a Roman emperor, a putto, a shell or a cartouche -- appears only as an inset panel, roundel or cresting set into an otherwise Gothic surface, and may not exceed roughly 5 percent of the elevation. It is never assembled into a classical order, entablature or applied system: this is Renaissance MOTIF borrowed as jewellery, not the classical ornament vocabulary (swag-and-urn, guttae-triglyph, acanthus, fan-and-patera) that would imply a real order stands behind it.",
+      "parameters": {
+        "max_coverage_pct": {
+          "value": 5,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "tudor.json constraints (tudor.c02)"
+        }
+      },
+      "variants": [
+        {
+          "id": "renaissance-inset-panel-roundel-cresting",
+          "status": "canonical",
+          "note": "Terracotta roundels (Giovanni da Maiano's Hampton Court emperors, 1521), putti, shells -- transmitted by Italian craftsmen working physically in England, per own lineage note, but confined to surface insets."
+        },
+        {
+          "id": "applied-classical-order-or-entablature",
+          "status": "forbidden",
+          "note": "tudor.c02: classical orders may not be used structurally at all; this is a stricter rule than the family's own blanket ornament prohibition, which the medieval-british family kit correctly leaves as the default but which this node's own text lets nuance: SOME Renaissance ornament is real and documented, capped and confined."
+        }
+      ],
+      "note": "Refines rather than contradicts the family-inherited forbidden binding on this slot (medieval-british's 'no classical ornament vocabulary... anywhere' remains true of the classical vocabulary proper -- swag-and-urn, triglyph, acanthus); this specification adds the nuance that Tudor's own text documents, that isolated Renaissance FIGURAL insets (distinct from an applied classical system) are real, sourced and capped at 5 percent.",
+      "sources": [
+        "tudor.json constraints (tudor.c02), description, lineage[italian-renaissance]"
+      ],
+      "group": "classical-apparatus"
     },
     "porch_type": {
       "group": "threshold",
@@ -537,11 +692,22 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The medieval hall-dais-screens-service sequence is retained at the heart of the house, entered off-centre through a screens passage, even as the gatehouse range in front of it is composed as a symmetrical face. The great hall remains the largest room, cold at the low end, with a warren of private chambers off the dais end.",
+      "variants": [
+        {
+          "id": "hall-dais-screens-service-off-centre-entry",
+          "status": "canonical",
+          "note": "Inherited from english-gothic's own domestic plan (Tudor's own lineage: 'unbroken... the same masons' lodges'), retained even as the composed gatehouse front is added in advance of it."
+        }
+      ],
+      "sources": [
+        "tudor.json description, defining_characteristics"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",

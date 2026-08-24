@@ -32,17 +32,41 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "eave_overhang_min": {
+          "value": 400,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "german-fachwerk.c04"
+        }
+      },
+      "rule": "Eave overhang not less than 400 mm, to keep driving rain off the exposed daub infill panels below.",
+      "sources": [
+        "german-fachwerk.c04"
+      ]
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "gable_verge_min": {
+          "value": 250,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "german-fachwerk.c04"
+        }
+      },
+      "rule": "Gable verge overhang not less than 250 mm — the same rain-off-the-daub logic as the eave, applied at the gable.",
+      "sources": [
+        "german-fachwerk.c04"
+      ]
     },
     "cornice_return": {
       "group": "massing-and-roof",
@@ -81,17 +105,59 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "parameters": {
+        "storey_diminution_ratio": {
+          "range": [
+            0.85,
+            0.9
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Storey heights diminish upward by roughly 10-15 percent, per proportional_system.typical_ratios."
+        },
+        "jetty_projection": {
+          "range": [
+            200,
+            400
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "german-fachwerk.c03",
+          "note": "Jetty projection between 200 and 400 mm per storey; beyond 400 mm a bracket (Knagge) is required at every beam end (c03, hard)."
+        }
+      },
+      "rule": "Storeys diminish in height going up the building, and each storey above the ground floor oversails the one below by a jetty of 200-400 mm carried on the projecting floor-beam ends.",
+      "sources": [
+        "german-fachwerk.json proportional_system.typical_ratios",
+        "german-fachwerk.c03"
+      ]
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "fixed-party-wall-vertical-growth",
+          "status": "canonical",
+          "note": "The urban type (massing_affinities: townhouse-row, canonical) is built to a fixed, taxed, party-walled lot with no room to grow sideways; where the building grows at all it is vertically, by adding a further jettied storey, not by adding a wing."
+        },
+        {
+          "id": "courtyard-farm-ranges",
+          "status": "permitted",
+          "note": "The rural Franconian/Hessian courtyard farm (massing_affinities: linear-ell-farmhouse, common) strings house, barn and stable in framed ranges around a yard — genuine lateral growth, but only in the rural setting."
+        }
+      ],
+      "rule": "Growth strategy depends on setting: the taxed urban lot has no lateral room and grows upward by jettied storey instead of by wing; only the rural courtyard farm adds ranges around a yard.",
+      "sources": [
+        "german-fachwerk.json massing_affinities"
+      ]
     },
     "construction_type": {
       "group": "envelope",
@@ -145,10 +211,14 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A carved and inscribed sill beam (Schwelle) runs the full width of the wall across the projecting floor-beam ends at every jetty, doubling as the building's belt course and its inscription band — owner's name, date, and often a line of scripture — never left plain.",
+      "sources": [
+        "german-fachwerk.json defining_characteristics, description.long"
+      ]
     },
     "corner_quoin": {
       "group": "envelope",
@@ -211,10 +281,22 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "paired-casement",
+          "status": "canonical",
+          "note": "Description: 'the windows are a few paired casements in the middle of a wall of clay.' No sash of any kind belongs to this construction system."
+        }
+      ],
+      "rule": "Small paired casements set within a single infill panel (or a pair of panels), not a sash — the panel wall wants small openings and the frame grid governs where they can go (see window_grouping_rule).",
+      "note": "Marked judgment because the source is descriptive prose rather than a numbered constraint; no specific light count or dimension is given and none is invented here.",
+      "sources": [
+        "german-fachwerk.json description.long"
+      ]
     },
     "window_proportion": {
       "group": "openings",
@@ -267,10 +349,14 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Openings are made by omitting a whole panel, or a pair of panels, from the Gefach grid, so every window position falls on a panel boundary and is always a whole number of panels from the corner; the fenestration can never float free of the frame.",
+      "sources": [
+        "german-fachwerk.json proportional_system.bay_rhythm"
+      ]
     },
     "shutter": {
       "group": "openings",
@@ -316,10 +402,25 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "detached-framed-outbuilding",
+          "status": "canonical",
+          "note": "Invented: no historical precedent exists for any traditional style (docs/inheritance.md). Built as its own small panel-framed structure in the same Gefach logic, set back from or beside the principal jettied street elevation, rather than as an integral bay or a door cut into the exposed frame."
+        },
+        {
+          "id": "garage-door-cut-into-jettied-elevation",
+          "status": "forbidden",
+          "note": "Invented judgment: a wide garage-door opening would break the panel grid the whole wall depends on (see window_grouping_rule) and would have no jetty above it to carry."
+        }
+      ],
+      "rule": "Where a garage is wanted at all, it is built as a separate small timber-framed outbuilding in the same panel logic as the house, not cut into the principal jettied and gridded elevation.",
+      "note": "german-fachwerk has a continuing living trade (revival_periods 1945-2026: 'a continuing living trade of Zimmerleute repairing and building new frames'), so this slot is genuinely live rather than academic; still invented, since no traditional precedent exists for any style."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -545,10 +646,14 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "rule": "The Stube (heated room) is warmed by a masonry stove fed from the passage outside the room, so no smoke enters the living space at all — a heating strategy the panel-wall construction depends on, since an open hearth inside a timber-and-daub room would be a fire risk the frame cannot absorb.",
+      "sources": [
+        "german-fachwerk.json description.long"
+      ]
     },
     "stair_position": {
       "group": "plan-logic",
@@ -587,10 +692,15 @@
     },
     "daylight_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Rooms are dim by construction, not by neglect: a panel wall wants small openings (see window_grouping_rule), so daylight comes through a few small paired casements and the interior stays dark relative to a masonry or full-glazed tradition.",
+      "note": "Judgment: an inference from the style's own descriptive prose ('the rooms are small and warm and dark... dark because the windows are a few paired casements') rather than a numbered constraint.",
+      "sources": [
+        "german-fachwerk.json description.long"
+      ]
     },
     "storage_strategy": {
       "group": "plan-logic",

@@ -5,9 +5,38 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Heavy and slow bay rhythm at piers or vault responds, 3.0-5.0 m centres, set by what a groin vault of the available mortar could be trusted to span. Windows do not establish a rhythm of their own; they sit where the wall can spare the material -- the composition is governed by mass and structural bay, not by a symmetrical facade grid.",
+      "parameters": {
+        "bay_spacing_range_mm": {
+          "range": [
+            3000,
+            5000
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json proportional_system.bay_rhythm"
+        }
+      },
+      "variants": [
+        {
+          "id": "mass-governed-structural-bay",
+          "status": "canonical"
+        },
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "forbidden",
+          "note": "CASCADE FIX. Inherited from antique-classical via this style's own weight-0.3 descends_from edge to roman-classical -- real but explicitly attenuated transmission ('the round arch... reach Normandy through Carolingian and Lombard intermediaries, not by direct study of Roman buildings... no Norman mason had read Vitruvius'). Wrong for a style whose own proportional_system.symmetry is 'near-symmetrical', not strict-bilateral, and whose own text states directly that 'windows do not establish a rhythm of their own.'"
+        }
+      ],
+      "note": "CASCADE FIX, parallel to the same mechanism corrected on english-gothic.kit.json. norman-romanesque-english's own weight-0.3 lineage to roman-classical is real (the round arch and ashlar course genuinely reach Normandy via Carolingian/Lombard intermediaries) but is explicitly NOT a claim about facade composition, and letting it drive composition_parti via the family-cascade splice was an overreach the family kit correctly left open at the medieval-british level.",
+      "sources": [
+        "norman-romanesque-english.json proportional_system.symmetry and bay_rhythm"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -99,9 +128,41 @@
       "status": "empty"
     },
     "wall_thickness_masonry": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Principal walls not less than 900 mm thick, running 1/8 to 1/5 of the clear span they enclose, up to 1.8 m at the heaviest.",
+      "parameters": {
+        "min_thickness_mm": {
+          "value": 900,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json constraints (norman-romanesque-english.c02)"
+        },
+        "thickness_range_mm": {
+          "range": [
+            900,
+            1800
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json defining_characteristics"
+        },
+        "thickness_to_span": {
+          "range": [
+            0.125,
+            0.2
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "norman-romanesque-english.json defining_characteristics, constraints (norman-romanesque-english.c02), proportional_system.typical_ratios"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -109,11 +170,26 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Coursed rubble field walling, with ashlar reserved for quoins, jambs, voussoirs, string courses, shafts and fireplace hoods. Continuous fine ashlar over a whole elevation reads as Georgian regardless of the arch profile.",
+      "variants": [
+        {
+          "id": "coursed-rubble-field-ashlar-dressings",
+          "status": "canonical"
+        },
+        {
+          "id": "continuous-fine-ashlar-whole-elevation",
+          "status": "forbidden",
+          "note": "norman-romanesque-english.c03, hard."
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json defining_characteristics, constraints (norman-romanesque-english.c03)"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -151,11 +227,21 @@
       "status": "empty"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Ashlar quoins at the corners, of the rubble field wall, per the style's own dressed-stone-at-quoins rule.",
+      "variants": [
+        {
+          "id": "ashlar-quoin-in-rubble-field",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json defining_characteristics, constraints (norman-romanesque-english.c03)"
+      ],
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -165,11 +251,35 @@
       "status": "empty"
     },
     "reveal_masonry": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Openings are deeply splayed through the full wall thickness at 30-45 degrees, so the internal opening reads two to three times the external one and the wall's thickness is legible from inside.",
+      "parameters": {
+        "splay_angle_deg": {
+          "range": [
+            30,
+            45
+          ],
+          "unit": "deg",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json constraints (norman-romanesque-english.c02)"
+        },
+        "internal_to_external_opening": {
+          "range": [
+            2.0,
+            3.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json diagnostic_tells"
+        }
+      },
+      "sources": [
+        "norman-romanesque-english.json constraints (norman-romanesque-english.c02), diagnostic_tells"
+      ],
+      "group": "envelope"
     },
     "reveal_frame": {
       "group": "envelope",
@@ -210,18 +320,54 @@
       "status": "empty"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Small semicircular-headed openings, grouped as twin lights with a central colonnette under a shared containing arch where more light is needed, never enlarged at the expense of wall mass.",
+      "variants": [
+        {
+          "id": "small-round-headed-twin-light-with-colonnette",
+          "status": "canonical"
+        },
+        {
+          "id": "pointed-arch-window",
+          "status": "forbidden",
+          "note": "A single pointed arch reclassifies the building as Transitional or Early English Gothic (own diagnostic_tells)."
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json defining_characteristics, diagnostic_tells"
+      ],
+      "group": "openings"
     },
     "window_proportion": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "External opening height to width roughly 2.5:1 to 3:1; the internal splayed opening roughly 1.5:1.",
+      "parameters": {
+        "external_h_to_w": {
+          "range": [
+            2.5,
+            3.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json proportional_system.typical_ratios"
+        },
+        "internal_h_to_w": {
+          "value": 1.5,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "norman-romanesque-english.json proportional_system.typical_ratios"
+      ],
+      "group": "openings"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -231,11 +377,34 @@
       "status": "empty"
     },
     "window_head_masonry": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Every arched opening is semicircular with rise exactly half the span. Segmental, stilted, four-centred and pointed heads are forbidden; a single pointed arch reclassifies the building as Transitional.",
+      "parameters": {
+        "arch_rise_to_span": {
+          "value": 0.5,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json constraints (norman-romanesque-english.c01)"
+        }
+      },
+      "variants": [
+        {
+          "id": "semicircular-arch-half-span-rise",
+          "status": "canonical"
+        },
+        {
+          "id": "segmental-stilted-four-centred-or-pointed",
+          "status": "forbidden",
+          "note": "norman-romanesque-english.c01, hard."
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json constraints (norman-romanesque-english.c01)"
+      ],
+      "group": "openings"
     },
     "window_head_wood": {
       "group": "openings",
@@ -418,25 +587,75 @@
       "status": "empty"
     },
     "steps_and_stoop": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "An external stair reaches the first-floor hall entrance -- removable or defensible in a genuinely military context, but present in every surviving domestic example.",
+      "variants": [
+        {
+          "id": "external-stair-to-first-floor-entry",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json description, diagnostic_tells"
+      ],
+      "group": "threshold"
     },
     "entry_sequence": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Domestic entry is at first-floor level, by an external stair, with the undercroft below either blind or given only slit openings -- a security diagram before it is an architectural one.",
+      "variants": [
+        {
+          "id": "first-floor-entry-by-external-stair",
+          "status": "canonical",
+          "note": "norman-romanesque-english.c05 (soft)."
+        },
+        {
+          "id": "ground-floor-front-door",
+          "status": "forbidden",
+          "note": "Own diagnostic_tells: 'no ground-floor front door at all.'"
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json constraints (norman-romanesque-english.c05), diagnostic_tells, description"
+      ],
+      "group": "threshold"
     },
     "ceiling_height_rule": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Undercroft clear height 2.4-3.0 m; hall above 4.5-6.0 m.",
+      "parameters": {
+        "undercroft_height_mm": {
+          "range": [
+            2400,
+            3000
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json proportional_system.typical_ratios"
+        },
+        "hall_height_mm": {
+          "range": [
+            4500,
+            6000
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "norman-romanesque-english.json proportional_system.typical_ratios"
+      ],
+      "group": "interior"
     },
     "trim_family": {
       "group": "interior",
@@ -537,18 +756,41 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A vaulted or beamed undercroft at grade for storage, with the living hall stacked directly above it and reached only by the external stair -- one room per level, entered directly, rather than a range of rooms in sequence.",
+      "variants": [
+        {
+          "id": "undercroft-below-hall-above-single-cell-stacked",
+          "status": "canonical",
+          "note": "Own massing_affinities (hall-single-cell, canonical): 'stacked vertically -- one room per level, entered directly.'"
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json massing_affinities, description"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A great round-backed fireplace under a massive ashlar hood serves the first-floor hall.",
+      "variants": [
+        {
+          "id": "round-backed-fireplace-ashlar-hood-in-hall",
+          "status": "canonical",
+          "note": "Own named exemplar, Boothby Pagnell: 'hall above with a round-backed fireplace under a massive ashlar hood.'"
+        }
+      ],
+      "note": "Held at medium confidence: this is a specific exemplar detail (Boothby Pagnell) generalised to the type by the style's own description ('Upstairs in the hall... a great round-backed fireplace with an ashlar hood'), not repeated across all four named exemplars individually.",
+      "sources": [
+        "norman-romanesque-english.json description, exemplars (Boothby Manor House)"
+      ],
+      "group": "plan-logic"
     },
     "stair_position": {
       "group": "plan-logic",
@@ -586,11 +828,24 @@
       "status": "empty"
     },
     "daylight_strategy": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Glazed area does not exceed roughly 8 percent of the elevation; beyond that the wall stops reading as mass and the style collapses.",
+      "parameters": {
+        "glazed_pct_wall_max": {
+          "value": 8,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "norman-romanesque-english.json constraints (norman-romanesque-english.c04)",
+          "diagnostic": true
+        }
+      },
+      "sources": [
+        "norman-romanesque-english.json constraints (norman-romanesque-english.c04)"
+      ],
+      "group": "plan-logic"
     },
     "storage_strategy": {
       "group": "plan-logic",
@@ -603,11 +858,22 @@
       "status": "empty"
     },
     "street_relationship": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Twelfth-century urban stone housing stands in a street line with party or near-party walls -- a genuine row type, not only the isolated fortified manor.",
+      "variants": [
+        {
+          "id": "stone-townhouse-in-street-row",
+          "status": "permitted",
+          "note": "Own named exemplars: the Jew's House, Lincoln; Southampton's Norman stone houses."
+        }
+      ],
+      "sources": [
+        "norman-romanesque-english.json massing_affinities, exemplars (The Jew's House)"
+      ],
+      "group": "site"
     },
     "setback_rule": {
       "group": "site",

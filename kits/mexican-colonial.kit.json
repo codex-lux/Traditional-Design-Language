@@ -433,10 +433,12 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Ceiling height is not derived by a harmonic mean of the room's own plan proportion. It follows the storey and the general scale of a two-storey courtyard block; the governing dimension is the viga (roof beam) span setting room depth, not a proportioned ceiling height.",
+      "note": "OVERRIDES a cascade fill from renaissance-classical (a harmonic-mean-of-plan-proportion rule) reached via the churrigueresque/spanish-plateresque -> italian-renaissance lineage chain. This contradicts the node's own bound room-role pack: this style's own proportion_packs binds `room-vernacular` (precedence 1) as a judgment binding specifically because 'span-limited breadth and single-pile daylight depth are exactly what room-vernacular encodes' (the node's own note), and its own governing_logic states plainly that the proportional system is 'the arcade bay and the viga,' not a harmonic module. Confirmed with `resolve_kit.py mexican-colonial --slot ceiling_height_rule --verbose`, whose PACK RESOLUTION shows room-vernacular, not room-harmonic, as the pack that actually governs this slot by precedence. Fixed here per WP-4.2 instructions rather than on any ancestor kit; the identical fix is made on mexican-hacienda.kit.json for the same reason."
     },
     "trim_family": {
       "group": "interior",
@@ -517,10 +519,12 @@
     },
     "floor_material": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The zaguan and principal ground-floor passages are paved in stone.",
+      "note": "description, direct: 'the zaguan -- high, dark, wide enough for a carriage, paved in stone.' Held at medium/judgment since this is stated once, for the zaguan specifically, rather than as a general floor specification for every room."
     },
     "hardware": {
       "group": "interior",
@@ -611,10 +615,12 @@
     },
     "setback_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "At religious sites, the church is set back from the street within its walled atrio, with a processional route around it, rather than built to the street line.",
+      "note": "mexican-colonial.c05 (soft): 'Placing a colonial-type church on the street line removes the element that most distinguishes New Spain from Spain.' Held at judgment because the constraint is soft and cultural, not a hard geometric rule."
     },
     "orientation_rule": {
       "group": "site",
@@ -625,10 +631,11 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "At religious sites, the church stands within a walled atrio large enough to hold a crowd outdoors, with a raised capilla abierta (open chapel) for saying mass to that crowd and four posa chapels at the atrio's corners for processional stations -- a New World invention with no Spanish precedent.",
+      "note": "defining_characteristics point 8, direct: 'The walled atrio with open chapel and posa chapels at religious sites -- a New World type with no Spanish precedent.' description, long, paragraph 2 (the Franciscan/Dominican/Augustinian mass-conversion programme of the 1530s-40s)."
     },
     "fence_wall": {
       "group": "site",

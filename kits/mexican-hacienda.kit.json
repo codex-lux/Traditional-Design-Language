@@ -138,10 +138,28 @@
     },
     "water_table": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "socle_height": {
+          "range": [
+            47.2,
+            70.9
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "mexican-hacienda.json diagnostic_tells ('1.2-1.8 m high')"
+        },
+        "socle_height_min": {
+          "value": 47.2,
+          "unit": "in",
+          "kind": "measured",
+          "source": "mexican-hacienda.c01 (hard, 'at least 1.2 m high')"
+        }
+      },
+      "rule": "The wall base sits on a raised stone or fired-brick socle at least 1.2 m (47 in) high, typically 1.2-1.8 m, that must read as a visibly different, unrendered material from the plastered adobe wall above it. Rain splash and rising damp destroy an adobe wall from the bottom; the socle is not optional.",
+      "note": "mexican-hacienda.c01 (hard, direct quote); diagnostic_tells point 2."
     },
     "belt_course": {
       "group": "envelope",
@@ -316,10 +334,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "No traditional precedent exists for any style; invented honestly. mexican-hacienda's own status is 'historical' (the type effectively ended with agrarian reform after 1917), but it is named explicitly in the WP-4.2 task brief as a plausibly contemporary-buildable reinterpretation -- surviving cascos are widely reused as hotels and residential estates, and the vocabulary is actively reproduced in new construction across the US Southwest and Mexico."
+      },
+      "rule": "Where a garage is required, it is treated as one more range under the corredor bay logic -- a working outbuilding within the walled casco, never a freestanding volume -- and its door never breaks the continuous arcade rhythm on the casa grande's own principal elevation.",
+      "note": "Invented per docs/inheritance.md guidance, honestly flagged as such."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -384,24 +409,65 @@
     },
     "porch_type": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "continuous-arcade-corredor",
+          "status": "canonical",
+          "note": "The organising architectural element of the whole type -- circulation, shade, working floor and social space in one."
+        }
+      ],
+      "parameters": {
+        "bay_count": {
+          "range": [
+            8,
+            20
+          ],
+          "unit": "count",
+          "kind": "measured",
+          "source": "mexican-hacienda.json typical_ratios"
+        },
+        "bay_width": {
+          "range": [
+            9.8,
+            13.1
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "mexican-hacienda.json typical_ratios ('Corredor bay 3-4 m')"
+        }
+      },
+      "rule": "A continuous arcade of eight to twenty repeated bays runs along the ranges it serves; the rhythm is relentlessly even, and any attempt to accent, group or break it works against the building.",
+      "note": "bay_rhythm and governing_logic, direct. Distinct from mexican-colonial's own even-but-shorter patio arcade -- the hacienda's run is longer and its evenness is stated as the type's single most characteristic effect."
     },
     "porch_depth": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "depth": {
+          "range": [
+            8.2,
+            13.1
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "mexican-hacienda.c03 (hard, tested: 'at least 2.5 m deep'; typical_ratios give 2.5-4 m)"
+        }
+      },
+      "rule": "The corredor must be at least 2.5 m (8.2 ft) deep and continuous along the ranges it serves; a discontinuous arcade forces internal corridors the type does not have.",
+      "note": "mexican-hacienda.c03 (hard)."
     },
     "porch_support": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Arcade piers are plain and evenly repeated, sized by the corredor bay and depth rather than by any order -- consistent with `order` (forbidden at the family level) and the style's own governing_logic ('nothing is derived from an order, and no elevation is composed as a whole').",
+      "note": "governing_logic, direct."
     },
     "porch_rail": {
       "group": "threshold",
@@ -433,10 +499,12 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Ceiling height is not derived by a harmonic mean of the room's own plan proportion. Nothing here is composed as a whole; the governing dimensions are the corredor bay (3-4 m) and the viga span fixing range depth (5-6 m), not a proportioned ceiling height.",
+      "note": "OVERRIDES a cascade fill from renaissance-classical (a harmonic-mean-of-plan-proportion rule). This contradicts the node's own bound room-role pack: this style's own proportion_packs binds `room-vernacular` (precedence 1), and its own governing_logic states in as many words that 'nothing is derived from an order, and no elevation is composed as a whole -- the composition is a plan.' Confirmed with `resolve_kit.py mexican-hacienda --slot ceiling_height_rule --verbose`, whose PACK RESOLUTION shows room-vernacular, not room-harmonic, as the pack that actually governs this slot by precedence. Fixed here per WP-4.2 instructions; the identical fix is made on mexican-colonial.kit.json for the same reason."
     },
     "trim_family": {
       "group": "interior",
@@ -625,10 +693,11 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The casco must include, at minimum, the casa grande, the chapel and at least one production building (trojes/granaries, tinacal, mill or desfibradora depending on what the estate produces), plus workshops, store and workers' housing as needed. A freestanding casa grande without its working precinct is not a hacienda.",
+      "note": "mexican-hacienda.c04 (hard, direct quote); defining_characteristics points 1 and 8."
     },
     "fence_wall": {
       "group": "site",

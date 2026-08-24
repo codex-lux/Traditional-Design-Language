@@ -25,24 +25,86 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "course_size_eaves": {
+          "range": [
+            1.8,
+            2.0
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "550-600 mm in the source, converted to ft."
+        },
+        "course_size_ridge": {
+          "value": 0.5,
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Roughly 150 mm in the source, converted to ft."
+        }
+      },
+      "variants": [
+        {
+          "id": "graded-stone-slate-large-to-small",
+          "status": "canonical"
+        },
+        {
+          "id": "uniform-course-slate-or-imitation",
+          "status": "forbidden",
+          "note": "c02, hard, and cotswold-cottage-revival's own distinguished_from entry: 'uniform machine-cut slates or swept composition shingles imitating graded stone.'"
+        }
+      ],
+      "rule": "Cotswold stone slate, graded course by course from large at the eaves down to small at the ridge; uniform coursing destroys the roof and with it the whole reading of the building (c02, hard).",
+      "sources": [
+        "cotswold-vernacular.c02",
+        "cotswold-vernacular.json proportional_system.typical_ratios"
+      ]
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "eave_overhang_max": {
+          "value": 75,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "cotswold-vernacular.c04"
+        }
+      },
+      "rule": "Little or no eaves overhang — not more than about 75 mm. The roof edge is closed with stone, not extended in timber (c04, hard).",
+      "sources": [
+        "cotswold-vernacular.c04"
+      ]
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "kneelers-and-raised-coping",
+          "status": "canonical",
+          "note": "Kneeler stones at the foot of every gable and a coping standing proud of the slates, frequently with a ball, ogee or finial at the apex — a raised stone edge in place of a timber barge board."
+        },
+        {
+          "id": "timber-barge-board",
+          "status": "forbidden",
+          "note": "c04, hard: 'No barge boards.'"
+        }
+      ],
+      "rule": "No barge board of any kind. Gables are finished with kneelers at the foot and a raised, mortar-bedded stone coping, often carrying a finial at the apex (c04, hard).",
+      "sources": [
+        "cotswold-vernacular.c04",
+        "cotswold-vernacular.json defining_characteristics"
+      ]
     },
     "cornice_return": {
       "group": "massing-and-roof",
@@ -60,10 +122,26 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "wall-dormer-flush-with-wall-below",
+          "status": "canonical",
+          "note": "Gabled dormers rise through the eaves with their faces flush and continuous with the wall below, so they read as gables of the wall rather than boxes on the roof."
+        },
+        {
+          "id": "roof-set-back-dormer",
+          "status": "forbidden",
+          "note": "cotswold-cottage-revival's own distinguished_from entry names 'dormers set back on the slope' as a marker of the revival, not the original."
+        }
+      ],
+      "rule": "Dormers rise through the eaves, breaking the eaves line, with their front face flush and continuous with the wall below — never set back on the roof slope in a box.",
+      "sources": [
+        "cotswold-vernacular.json defining_characteristics, diagnostic_tells"
+      ]
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -152,10 +230,21 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "dressed-ashlar-quoin",
+          "status": "canonical",
+          "note": "defining_characteristics: dressed ashlar 'reserved for mullions, jambs, lintels, quoins, kneelers and copings' against the coursed or random rubble field."
+        }
+      ],
+      "rule": "Corners are finished in dressed ashlar quoins where the coursed or random rubble wall meets, matching the dressed stone used at mullions, jambs, lintels, kneelers and copings.",
+      "sources": [
+        "cotswold-vernacular.json defining_characteristics"
+      ]
     },
     "corner_board": {
       "group": "envelope",
@@ -206,8 +295,26 @@
     },
     "color_strategy": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "lime-mortar-limewash",
+          "status": "canonical"
+        },
+        {
+          "id": "cement-pointing-or-render",
+          "status": "forbidden",
+          "note": "c05, hard: 'Cement pointing and impermeable render trap moisture in a rubble wall and will spall the stone within a generation.'"
+        }
+      ],
+      "rule": "Lime mortar and limewash only. The stone weathers within one range across the district: honey and gold in the north around Broadway and Stanton, greyer and cooler toward Tetbury in the south.",
+      "sources": [
+        "cotswold-vernacular.c05",
+        "cotswold-vernacular.json description.long"
+      ]
     },
     "window_type": {
       "group": "openings",
@@ -218,24 +325,96 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "overall_width_to_height": {
+          "range": [
+            1.5,
+            2.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "cotswold-vernacular.json proportional_system.typical_ratios",
+          "note": "'a three-light window is typically 1.5:1 to 2:1 wide to high' — this node's own directly measured figure, replacing the inherited tudor-jacobean family editorial estimate (2.0-4.0)."
+        }
+      },
+      "note": "Correction, not a contradiction: the inherited tudor-jacobean binding's own note honestly marks its family-wide range as 'this author's reasonable extension across the family, not an independently sourced figure for each member.' This node has its own directly stated ratio and uses it.",
+      "sources": [
+        "cotswold-vernacular.json proportional_system.typical_ratios"
+      ]
     },
     "window_lite_pattern": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "light_count": {
+          "range": [
+            2,
+            5
+          ],
+          "unit": "count",
+          "kind": "measured"
+        },
+        "light_width": {
+          "range": [
+            1.0,
+            1.5
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "300-450 mm in the source, converted to ft."
+        },
+        "light_height": {
+          "range": [
+            2.0,
+            3.0
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "600-900 mm in the source, converted to ft."
+        }
+      },
+      "rule": "Stone-mullioned windows of two to five lights, ovolo- or cavetto-moulded, each light roughly 1'0\"-1'6\" wide by 2'0\"-3'0\" high, glazed in leaded quarries of roughly 4 x 6 in, with a hood mould or drip over the head.",
+      "sources": [
+        "cotswold-vernacular.json defining_characteristics, proportional_system.typical_ratios"
+      ]
     },
     "window_head_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "clear_span_max": {
+          "value": 5.9,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "cotswold-vernacular.c03",
+          "note": "'roughly 1.8 m' in the source, converted to ft."
+        }
+      },
+      "variants": [
+        {
+          "id": "stone-lintel-or-relieving-arch-with-hood-mould",
+          "status": "canonical"
+        },
+        {
+          "id": "wide-single-light-no-mullion",
+          "status": "forbidden",
+          "note": "c03, hard: 'wider openings must be subdivided by structural mullions, not by glazing bars.'"
+        }
+      ],
+      "rule": "A stone lintel or relieving arch spans the opening, with a hood mould (drip) above the head; clear span is limited to roughly 5'11\" — wider openings are subdivided by structural stone mullions, never by glazing bars (c03, hard).",
+      "sources": [
+        "cotswold-vernacular.c03"
+      ]
     },
     "window_head_wood": {
       "group": "openings",
@@ -316,10 +495,25 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "detached-stone-outbuilding-matched-coursing",
+          "status": "canonical",
+          "note": "Invented: no historical precedent exists for any traditional style. Built as a detached stone outbuilding in the same coursing, wall thickness and graded-slate roof as the house — consistent with the district's own logic that 'everything in the district is the same stone: house, boundary wall, gatepost, barn, church' (diagnostic_tells) — rather than a bay or door cut into the principal elevation."
+        },
+        {
+          "id": "garage-door-in-principal-elevation",
+          "status": "forbidden",
+          "note": "Invented judgment: a wide garage-door opening exceeds the roughly 1.8 m clear span a stone lintel or relieving arch can carry (c03, hard) without a run of structural mullions across it, which would misread as a shopfront, not an opening in a rubble wall."
+        }
+      ],
+      "rule": "A garage is built as its own detached stone outbuilding, coursed and roofed to match the house, rather than as an opening cut into the principal elevation.",
+      "note": "Explicitly named as a plausible contemporary-buildable reinterpretation in this wave's brief; cotswold-vernacular is 'living' status. Invented per docs/inheritance.md's own guidance: no traditional style has a historical answer for this slot."
     },
     "glazing_assembly": {
       "group": "openings",
@@ -433,10 +627,44 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "parameters": {
+        "storey_height_ground": {
+          "range": [
+            6.9,
+            8.5
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "2.1-2.6 m in the source, converted to ft (unit vocabulary has no metre)."
+        },
+        "storey_height_upper": {
+          "range": [
+            6.2,
+            7.5
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "1.9-2.3 m in the source, converted to ft."
+        },
+        "eaves_height_two_storey": {
+          "range": [
+            13.1,
+            16.4
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "4.0-5.0 m in the source, converted to ft."
+        }
+      },
+      "rule": "Room and storey height come from structural and material logic — joist span, wall coursing, what a rubble wall of the period could economically raise — never from an applied plan-proportion formula. Ground-floor storeys run 6'11\"-8'6\", upper storeys 6'3\"-7'6\", and total eaves height for a two-storey house is 13'1\"-16'5\".",
+      "note": "CASCADE-PROVENANCE FIX (WP-4.2 wave B2): left open, this slot resolves through this style's own real lineage descent (english-gothic, weight 0.6; tudor, weight 0.4) into the deep classical chain the docs' own worked example traces (norman-romanesque-english -> roman-classical -> antique-classical -> greek-classical, and separately tudor -> tudor-jacobean -> ... -> italian-renaissance -> renaissance-classical) to renaissance-classical's Palladian arithmetic/geometric/harmonic-mean room-height derivation. That rule is real and correctly bound for the drawn classical tradition it comes from, but it flatly contradicts this style's own documented governing_logic ('Material logic, not applied proportion... Nothing is drawn; everything is set out on site'). Fixed on this node's own kit with this style's own measured typical_ratios figures, not on renaissance-classical, italian-renaissance, or any other ancestor.",
+      "sources": [
+        "cotswold-vernacular.json proportional_system.governing_logic, typical_ratios"
+      ]
     },
     "trim_family": {
       "group": "interior",

@@ -18,24 +18,78 @@
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_thatch_min_deg": {
+          "value": 50,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "norman-vernacular.c03"
+        },
+        "pitch_tile_min_deg": {
+          "value": 45,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "norman-vernacular.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Roof pitch not less than 50 degrees for thatch or 45 degrees for flat tile (hard constraint c03).",
+      "note": "Direct quote of constraint c03."
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "thatch-wheat-straw-or-reed",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1300,
+              1700
+            ]
+          }
+        },
+        {
+          "id": "flat-clay-tile",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1900
+            ]
+          },
+          "note": "The later material, at a slightly lower minimum pitch than thatch."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Thatch of wheat straw or reed on early work, later flat clay tile.",
+      "note": "Direct quote of the long description's second paragraph and defining_characteristics item 4."
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "eave_overhang_min_mm": {
+          "value": 350,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-vernacular.c03"
+        },
+        "verge_overhang_min_mm": {
+          "value": 250,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-vernacular.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Overhang at least 350 mm at the eave and 250 mm at the verge, substantial by comparison with the close-studded wall below it. The rain-bearing westerly elevation should be slate- or shingle-hung, or given a wider overhang.",
+      "note": "Direct quote of constraint c03."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -95,8 +149,17 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "close-studded-oak-frame-on-stone-soubassement",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Close-studded oak frame, posts at roughly 0.5-0.8 m centres, standing on a stone or brick soubassement of at least 400 mm above finished grade; no structural timber in contact with the ground (hard constraint c01). Clay ground plus an oak sill at grade is a ten-year building.",
+      "note": "Direct quote of constraint c01 and defining_characteristics item 1."
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,17 +173,59 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "torchis-clay-and-chopped-straw",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1300,
+              1700
+            ]
+          }
+        },
+        {
+          "id": "brick-nogging-herringbone-or-chequer",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1900
+            ]
+          }
+        }
+      ],
+      "parameters": {
+        "torchis_panel_max_width_in": {
+          "value": 23.6,
+          "unit": "in",
+          "kind": "derived",
+          "source": "norman-vernacular.c02",
+          "note": "Converted from the source's own 0.6 m clear width."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Panels of torchis (clay and chopped straw over riven laths) on early work, not exceeding about 0.6 m clear width; from the 17th century, brick nogging laid in herringbone or a chequer of red and vitrified black. Torchis and brick nogging belong to different centuries and must not be mixed on one elevation (soft constraint c05).",
+      "note": "Direct quote of defining_characteristics item 2, constraint c02, and constraint c05."
     },
     "secondary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "essentage-slate-or-split-shingle-hung",
+          "status": "canonical",
+          "applies_when": {
+            "note": "the westerly, rain-bearing elevation only"
+          }
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The rain-bearing elevation -- always the westerly one -- is frequently hung entirely in slate or split chestnut shingle over the frame, a technique called essentage. It never appears on more than one elevation.",
+      "note": "Direct quote of the long description's second paragraph and diagnostic_tells item 5 ('slate or shingle hanging on one elevation only, and always the westerly one')."
     },
     "material_change_rule": {
       "group": "envelope",
@@ -131,10 +236,19 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "soubassement_min_mm": {
+          "value": 400,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-vernacular.c01"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A stone or brick soubassement of at least 400 mm above finished grade, with a drip or oversail, carries the frame clear of the ground -- always visible, never hidden by planting in an authentic example.",
+      "note": "Direct quote of constraint c01 and diagnostic_tells item 2."
     },
     "water_table": {
       "group": "envelope",
@@ -267,10 +381,11 @@
     },
     "window_grouping_rule": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Openings are formed by omitting whole studs and framing the resulting gap -- an opening cannot be cut through a stud, so every opening sits on the stud grid, in dense, uniform vertical striping with no accentuated bay (hard constraint c02).",
+      "note": "Direct quote of constraint c02 and proportional_system.bay_rhythm. Placed here rather than under `window_type` because the fact documented is the structural logic that positions openings, not the sash mechanism, which the node's own text never states."
     },
     "shutter": {
       "group": "openings",
@@ -433,10 +548,23 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "storey_height_range_ft": {
+          "range": [
+            6.9,
+            8.2
+          ],
+          "unit": "ft",
+          "kind": "derived",
+          "source": "norman-vernacular.typical_ratios",
+          "note": "Converted from the source's own 2.1-2.5 m."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Storey height 2.1 to 2.5 m (about 6.9-8.2 ft) -- low, dark and heavily beamed, per the long description's fourth paragraph.",
+      "note": "Direct quote of typical_ratios, unit-converted from the source's metric figure."
     },
     "trim_family": {
       "group": "interior",
@@ -517,10 +645,33 @@
     },
     "floor_material": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "beaten-earth",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1300,
+              1700
+            ]
+          }
+        },
+        {
+          "id": "terracotta-tomettes",
+          "status": "permitted",
+          "applies_when": {
+            "date_range": [
+              1700,
+              1900
+            ]
+          }
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Beaten earth on early work, later terracotta tomettes.",
+      "note": "Direct quote of the long description's fourth paragraph."
     },
     "hardware": {
       "group": "interior",
@@ -545,10 +696,11 @@
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A wide open hearth in a gable wall, with a bread oven bulging out behind it -- the sole heat source in a low, dark, heavily beamed room.",
+      "note": "Direct quote of the long description's fourth paragraph."
     },
     "stair_position": {
       "group": "plan-logic",
@@ -580,10 +732,20 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "clear_range_depth_max_ft": {
+          "value": 19.7,
+          "unit": "ft",
+          "kind": "derived",
+          "source": "norman-vernacular.c04",
+          "note": "Converted from the source's own 6 m -- this node's own precise figure, tighter than the family's blended 18-23 ft band."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Single-pile only: clear range depth not to exceed 6 m (about 19.7 ft). Depth is added by a second detached building in the enclosure, not by thickening the range (hard constraint c04).",
+      "note": "Direct quote of constraint c04."
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -625,17 +787,42 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pressoir-with-horse-driven-apple-mill",
+          "status": "canonical"
+        },
+        {
+          "id": "charreterie",
+          "status": "canonical"
+        },
+        {
+          "id": "etable",
+          "status": "canonical"
+        },
+        {
+          "id": "boulangerie",
+          "status": "permitted"
+        },
+        {
+          "id": "colombier",
+          "status": "permitted",
+          "note": "A freestanding privilege of the seigneurie -- not every farm has one."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A dispersed farmstead of separate single-purpose buildings within a hedged or walled enclosure, not merged under one roof: logis, pressoir, charreterie, etable, boulangerie, and often a freestanding colombier.",
+      "note": "Direct quote of the long description's third paragraph and defining_characteristics item 6."
     },
     "fence_wall": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A hedged or walled enclosure planted with apple trees encloses the dispersed farmstead.",
+      "note": "Direct quote of the long description's third paragraph."
     },
     "landscape_idiom": {
       "group": "site",

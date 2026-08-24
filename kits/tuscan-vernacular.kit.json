@@ -6,8 +6,28 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "additive-vernacular",
+          "status": "canonical",
+          "note": "The node's own proportional_system.symmetry, verbatim."
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "massing_affinities: 'the irregularity is a byproduct of accretion, never a composition... reads immediately as false here.'"
+        },
+        {
+          "id": "strict-bilateral-classical",
+          "status": "forbidden",
+          "note": "tuscan-vernacular.c04 (soft): 'imposed symmetry converts the building into a villa' -- a different member of this family, not this one."
+        }
+      ],
+      "rule": "Growth is by repetition of a roughly 4.0-4.5 m cell along the contour, with openings placed by what is behind them; imposed symmetry or a designed picturesque irregularity are both outside the type. Openings do not need to stack between storeys.",
+      "note": "OVERRIDES a cascade fill from antique-classical ('strictly bilaterally symmetrical... no picturesque or additive massing'), which is the near-exact opposite of this node's own bay_rhythm field and its own soft constraint c04. The family kit (mediterranean-vernacular) deliberately left this slot open, stating explicitly: 'Symmetry class is the primary thing that tells the two members apart and is resolved at the style level, not here.' Resolved here per that note -- not fixed on the family kit or any other ancestor."
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -32,10 +52,30 @@
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "overhang_depth": {
+          "range": [
+            11.8,
+            23.6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "tuscan-vernacular.json defining_characteristics / typical_ratios ('projecting corbelled tile eave (gronda) of 300-600 mm', 'on two or three corbelled courses of tile and brick')"
+        },
+        "corbel_courses": {
+          "range": [
+            2,
+            3
+          ],
+          "unit": "courses",
+          "kind": "measured",
+          "source": "tuscan-vernacular.json typical_ratios"
+        }
+      },
+      "note": "The family kit (mediterranean-vernacular) states this slot's shared functional principle but explicitly withholds a figure, noting 'the two members' own overhang dimensions barely overlap... so no single figure or bracket-vs-corbel choice is stated here.' This adds the corbelled-tile-course figure that belongs specifically to this member (italian-villa-vernacular's own bracket figure belongs on that node's kit instead, not here)."
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -88,10 +128,28 @@
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "cell_width": {
+          "range": [
+            13.1,
+            14.8
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "tuscan-vernacular.json defining_characteristics / typical_ratios ('roughly 4-4.5 m')"
+        },
+        "cell_width_max": {
+          "value": 16.4,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "tuscan-vernacular.c01 (hard, 5.0 m maximum)"
+        }
+      },
+      "rule": "The house grows one cell at a time along the contour, each cell fixed to the clear span of a locally available chestnut or oak beam (4.0-4.5 m, 5.0 m maximum without a masonry vault or intermediate wall) -- never by subdividing a designed whole.",
+      "note": "defining_characteristics point 4; tuscan-vernacular.c01 (hard)."
     },
     "construction_type": {
       "group": "envelope",
@@ -316,10 +374,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "No traditional precedent exists for any style; invented honestly for this contemporary-buildable (status: living) variant, currently under active restoration and agriturismo reuse."
+      },
+      "rule": "Where a garage is required, it is a detached, cell-scaled outbuilding added along the contour in the same additive logic as the house itself -- never a volume subordinated into or centred on the principal block, and never the source of a symmetrical facade the type does not have.",
+      "note": "This style's status is 'living,' with an active 1970-2026 restoration and agriturismo reuse wave documented in its own period.revival_periods; per docs/inheritance.md this slot 'should be specified on every contemporary buildable variant.'"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -426,10 +491,11 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "An external stair or landing gives the family direct access to the upper living floor without passing through the working ground floor (the stalla).",
+      "note": "defining_characteristics point 3, direct."
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -552,10 +618,11 @@
     },
     "stair_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The principal stair to the living floor is exterior, bypassing the stalla entirely -- the working ground floor and the family's living floor are reached independently.",
+      "note": "defining_characteristics point 3."
     },
     "public_private_gradient": {
       "group": "plan-logic",
@@ -573,10 +640,11 @@
     },
     "service_zone_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Animals are stabled on the ground floor (the stalla) and the family lives above; the stalla's body heat rises deliberately through the terracotta floor into the living rooms.",
+      "note": "defining_characteristics point 2, and description, direct: 'the stalla on the ground floor, where the animals' body heat rises through the terracotta into the living rooms above.'"
     },
     "depth_and_pile": {
       "group": "plan-logic",
@@ -594,8 +662,12 @@
     },
     "storage_strategy": {
       "group": "plan-logic",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Grain is stored in the roof space (the granary), consistent with the type's economy of one house serving one working podere with almost no cash in it.",
+      "note": "description, direct: 'the granary in the roof space.' Held at medium/judgment as it is named once in the long description rather than given its own dimensioned treatment."
     },
     "services_strategy": {
       "group": "plan-logic",
@@ -625,10 +697,31 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "colombaia_height_to_eave": {
+          "range": [
+            1.3,
+            1.8
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "tuscan-vernacular.json typical_ratios"
+        },
+        "colombaia_plan": {
+          "range": [
+            9.8,
+            13.1
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "tuscan-vernacular.json typical_ratios ('tower plan 3-4 m square')"
+        }
+      },
+      "rule": "A colombaia (dovecote tower), rising one to two storeys above the main roof, is the type's characteristic outbuilding -- originally freestanding, later absorbed into the block. It supplied both meat and, more importantly to the economy, the most valuable fertiliser available before industrial nitrates.",
+      "note": "defining_characteristics point 5; description, direct (fertiliser economy)."
     },
     "fence_wall": {
       "group": "site",
@@ -646,10 +739,11 @@
     },
     "grade_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The building is sited along the contour and grows sideways at grade, cell by cell, rather than terracing a platform -- the opposite move from italian-villa-vernacular's composed, terraced approach.",
+      "note": "governing_logic ('extended along the contour rather than composed'); description, direct ('grows sideways along the contour, because that is where the level ground is')."
     }
   }
 }

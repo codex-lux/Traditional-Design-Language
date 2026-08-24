@@ -11,10 +11,29 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip-roof-classical-composition",
+          "status": "permitted",
+          "note": "Implied by the canonical five-part-palladian massing, whose classical precedent is characteristically hipped."
+        },
+        {
+          "id": "gable-pedimented-temple-front",
+          "status": "permitted",
+          "note": "Implied by the temple-front-with-wings massing affinity."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). No source, massing affinity, or exemplar names a gambrel roof for this node; it belongs to an unrelated American Shingle Style vocabulary."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Roof form follows from the classical massing (five-part-palladian, center-passage-single-pile, temple-front-with-wings) rather than being separately stated in the node's own text.",
+      "note": "Marked judgment: the node's own text never states a roof form directly; this is inferred from its own massing_affinities rather than quoted. The forbidding of gambrel, however, is a direct, high-confidence fix of a cascade bug."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -25,10 +44,12 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Low-fired clay barrel tile (the cascade's inherited value from mediterranean-vernacular, spliced in via a distant family branch reached through italian-renaissance/roman-classical) has no basis in this node's own Georgian, Palladian, or Beaux-Arts lineage, all of which are named directly in its sources.",
+      "note": "Forbidding only: the node's own text never names a roofing material, so a positive replacement would be unsourced. Marked judgment because the forbidding is inferred from the node's stated lineage and sources, not from an explicit statement."
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -81,17 +102,36 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "storey_diminution_ratio_range": {
+          "range": [
+            1.2,
+            1.4
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "new-classical.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Principal storey 1.2 to 1.4 times the storey above it, and storey heights diminish upward -- the classical module's own consequence, not an independently chosen figure.",
+      "note": "Direct quote of typical_ratios and defining_characteristics item 6."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flanking-hyphens-and-dependencies",
+          "status": "canonical"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Centre block with hyphens and dependencies is the movement's signature parti for large houses, and the one that solves the garage by turning it into a dependency.",
+      "note": "Direct quote of massing_affinities note on five-part-palladian."
     },
     "construction_type": {
       "group": "envelope",
@@ -110,10 +150,26 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "load-bearing-or-thick-veneer-masonry",
+          "status": "canonical"
+        },
+        {
+          "id": "real-stone-or-cast-stone",
+          "status": "canonical"
+        },
+        {
+          "id": "shingle-continuous-field",
+          "status": "forbidden",
+          "note": "Overrides the cascade's inherited value (shingle-style, via colonial-revival's family). Contradicts this node's own defining_characteristics directly."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Materials used structurally or in a manner that convincingly expresses structure: load-bearing or thick-veneer masonry, real stone or cast stone, solid timber joinery -- 'a brick wall with a genuine water table, belt course, and moulded cap, all returning around every corner' is the node's own diagnostic tell.",
+      "note": "Direct quote of defining_characteristics item 7 and diagnostic_tells item 4. Fixes a cascade bug: shingle-style's continuous-shingle-field rule (via the family splice) is structurally opposed to this node's own masonry-and-stone discipline."
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -124,10 +180,19 @@
     },
     "material_change_rule": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "veneer_return_min_in": {
+          "value": 24,
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-classical.c05"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "Veneer with a return under 24 in is forbidden throughout (hard constraint c05) -- this node's own precise numeric floor for the family's shared 'return fully around every corner' rule.",
+      "note": "Extends the family's already-correct material_change_rule binding with this node's own hard 24 in figure, which the family kit (blending three members) does not state at this precision."
     },
     "foundation_expression": {
       "group": "envelope",
@@ -180,10 +245,26 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "projection_min_fraction_of_wall_height": {
+          "value": 0.0417,
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "new-classical.c03",
+          "note": "1/24 of the wall height it terminates."
+        },
+        "projection_absolute_min_in": {
+          "value": 8,
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-classical.c03"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "Principal cornice projection not less than 1/24 of the wall height it terminates, and in no case less than 8 in (hard constraint c03) -- the node's own numeric floor, well above the neo-eclectic quotation this family's diagnostic_tells uses as its point of comparison ('under two inches, it is quotation').",
+      "note": "Extends the cascade's inherited cornice binding (english-georgian + colonial-revival, via real lineage -- itself a reasonably good fit) with this node's own explicit, testable numeric floor."
     },
     "frieze": {
       "group": "envelope",
@@ -218,10 +299,31 @@
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "opening_ratio_range": {
+          "range": [
+            1.9,
+            2.1
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "new-classical.typical_ratios"
+        },
+        "solid_to_void_pct_range": {
+          "range": [
+            60,
+            70
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "new-classical.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Window opening 1:1.9 to 1:2.1, diminishing in height with each storey above the principal floor; solid dominates void on the principal elevation at 60:40 to 70:30.",
+      "note": "Direct quote of typical_ratios."
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -246,10 +348,25 @@
     },
     "window_surround_masonry": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "reveal_min_masonry_in": {
+          "value": 4,
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-classical.c02"
+        },
+        "reveal_min_wood_in": {
+          "value": 2,
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-classical.c02"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Window and door openings shall be recessed not less than 4 in from the wall face in masonry, and not less than 2 in in wood construction. Flush-mounted windows are forbidden (hard constraint c02) -- 'a shadow at the edge of every opening' is the node's own diagnostic signature.",
+      "note": "Direct quote of constraint c02 and diagnostic_tells item 1."
     },
     "window_surround_wood": {
       "group": "openings",
@@ -316,10 +433,22 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "dependency-wing",
+          "status": "canonical",
+          "note": "The five-part-palladian massing's own signature move: 'solves the garage by turning it into a dependency' (massing_affinities)."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The garage is absorbed into a hyphen-and-dependency composition -- a genuinely new use of a historical device (the Palladian dependency never housed a car), and this node's own realization of the family's shared alley-or-setback answer.",
+      "edit_provenance": {
+        "kind": "invented",
+        "source": "new-classical.massing_affinities[five-part-palladian]",
+        "note": "No historical five-part-Palladian dependency ever housed an automobile; using the dependency wing to solve the garage is a genuine invention of the contemporary practice, honestly marked as such, even though the compositional device itself (the dependency) is centuries old."
+      }
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,10 +457,19 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "parameters": {
+        "module_declaration_required": {
+          "value": true,
+          "unit": "none",
+          "kind": "measured",
+          "source": "new-classical.c01"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule_append": "All facade dimensions shall be derived from one declared module; the module and the chosen order must be recorded with the design, and elements not derivable from it are forbidden (hard constraint c01). Where orders are superimposed they ascend in canonical sequence -- Tuscan or Doric below, then Ionic, then Corinthian or Composite above -- diminishing in diameter upward (hard constraint c04).",
+      "note": "Extends the cascade's inherited order binding (colonial-revival, via real lineage -- ionic-scamozzi, a reasonable fit) with this node's own harder, code-like discipline: the module must be declared and recorded, not merely used. Direct quote of constraints c01 and c04."
     },
     "column": {
       "group": "classical-apparatus",
@@ -538,10 +676,12 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A centre passage on axis organizes the plan in the workhorse massing (center-passage-single-pile), 'the one on which the proportional discipline is most easily verified.'",
+      "note": "Direct quote of massing_affinities note. Marked judgment because the massing's own name, not an explicit plan-logic statement, is the source."
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -580,10 +720,19 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "permitted",
+          "note": "'Center-passage-single-pile' is named directly as a common massing affinity for houses of moderate size."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Single-pile planning is common at moderate scale (center-passage-single-pile massing), alongside the double-pile precedent implied by the larger five-part-palladian and temple-front massings.",
+      "note": "Marked judgment: inferred from the name of a massing affinity rather than from a direct statement about plan depth."
     },
     "daylight_strategy": {
       "group": "plan-logic",

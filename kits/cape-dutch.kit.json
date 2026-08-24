@@ -11,10 +11,27 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "hipped-thatch-with-applied-gable-screen",
+          "status": "canonical",
+          "note": "The style's own gable is described as 'standing free above the EAVE line of a thatched roof' (defining_characteristics #1, emphasis on eave rather than ridge/gable-end) and diagnostic_tells describes 'the eave of a thatch roof cut square and level over a stoep' -- a continuous eave line around the building is a hip-roof condition; the gable rises as a freestanding decorated screen through that eave line, not as the actual end of a gabled roof."
+        },
+        {
+          "id": "front-gable-roof-end",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular as 'the gable, not the eave, is the composed and entered face' -- a roof genuinely ending in a gable. This node's own text is explicit that the gable stands FREE of the roof edge ('above the eave line'), the opposite relationship."
+        }
+      ],
+      "rule": "A hipped thatch roof with a continuous eave; the front (and subordinate rear/wing) gable is a decorated plastered screen standing free above that eave, centred on the door -- not the roof's own gable end.",
+      "note": "EDITORIAL: this node's own text does not use the words 'hip' or 'gable roof' directly; the reading is inferred from its own repeated 'eave line' language and cross-checked against dutch-urban-gable-house's own explicit parent statement of the same free-standing-screen-versus-roof-end distinction (c02 there).",
+      "sources": [
+        "cape-dutch.json defining_characteristics, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -25,17 +42,47 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "reed-thatch",
+          "status": "canonical",
+          "note": "defining_characteristics #3: 'Steeply pitched reed thatch over a brandsolder.' Hard climatic constraint c02: thatch pitch 45-50 degrees."
+        },
+        {
+          "id": "clay-tile-barrel",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from mediterranean-vernacular -- flatly contradicted; this style's roofing material is reed thatch, stated repeatedly and directly."
+        }
+      ],
+      "rule": "Reed thatch, 45-50 degrees (hard constraint c02), cut from the local vleis, over a brandsolder -- a brick-on-timber fire floor spanning the whole plan, required beneath any thatch.",
+      "sources": [
+        "cape-dutch.json defining_characteristics, constraints c02"
+      ],
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "square-level-eave-over-stoep",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'The eave of a thatch roof cut square and level over a stoep supported on plain plastered piers.'"
+        },
+        {
+          "id": "bracketed-mediterranean-overhang",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from mediterranean-vernacular -- no brackets in this style's own description."
+        }
+      ],
+      "rule": "The thatch eave is cut square and level, carried over the stoep on plain plastered piers -- no decorative brackets.",
+      "sources": [
+        "cape-dutch.json diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "rake_condition": {
       "group": "massing-and-roof",
@@ -95,8 +142,25 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "sun-dried-brick-or-rubble-masonry",
+          "status": "canonical",
+          "note": "defining_characteristics #2: 'Thick sun-dried brick or rubble walls, lime-plastered and limewashed white.' Hard climatic constraint c03: external walls minimum 450 mm."
+        },
+        {
+          "id": "braced-timber-frame",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular ('load-bearing exposed timber frame') via this node's own hybridizes_with edge to north-german-hall-house -- flatly contradicted by this node's own hard constraint c03 and its own explanatory text on WHY it is masonry: 'there is no useful building timber in the Western Cape... structural timber was imported at ruinous cost... walls are thick sun-dried brick or rubble... because the material is free.' The north-german-hall-house hybridization is real but contributes THATCHING PRACTICE only (own lineage note: 'the enormous reed-thatch roof... is Low German and rural Dutch thatching practice'), not wall construction -- the cascade mechanism cannot distinguish which part of a hybridizing parent's practice transmitted, so it wrongly carried the German wall system along with the German roof system."
+        }
+      ],
+      "rule": "Thick masonry -- sun-dried brick or rubble -- minimum 450 mm, lime-plastered and limewashed white (hard constraint c03). Never a timber frame: the Western Cape had no useful building timber and structural timber was imported at ruinous cost from Batavia.",
+      "sources": [
+        "cape-dutch.json defining_characteristics, description.long, constraints c03"
+      ],
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -110,10 +174,30 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "lime-plaster-limewash-white",
+          "status": "canonical",
+          "note": "defining_characteristics #2. Hard constraint c03: 'Cement render is prohibited: it traps moisture in an earth wall and destroys it.'"
+        },
+        {
+          "id": "half-timber-infill",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular. See `construction_type` -- the wall is solid masonry, not a timber frame with infill panels."
+        },
+        {
+          "id": "cement-render",
+          "status": "forbidden",
+          "note": "Hard constraint c03: prohibited outright -- traps moisture in the earth wall."
+        }
+      ],
+      "rule": "Lime plaster, limewashed white annually -- 'a performance layer against driving rain' (description.long) -- never cement render (hard constraint c03) and never timber infill.",
+      "sources": [
+        "cape-dutch.json defining_characteristics, constraints c03, description.long"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -131,10 +215,37 @@
     },
     "foundation_expression": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "stoep_height": {
+          "range": [
+            15.7,
+            23.6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "cape-dutch.json proportional_system.typical_ratios",
+          "note": "400-600 mm above the werf."
+        }
+      },
+      "variants": [
+        {
+          "id": "raised-stoep",
+          "status": "canonical",
+          "note": "typical_ratios: 'stoep height 400-600 mm above the werf.' A raised masonry stoep, not a timber sill plinth."
+        },
+        {
+          "id": "germanic-timber-sill-plinth",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular ('primary structural timber never touches the earth') -- reasoning for a timber-frame building this style is not (see `construction_type`)."
+        }
+      ],
+      "rule": "A raised masonry stoep, 400-600 mm above the surrounding werf, supported on plain plastered piers.",
+      "sources": [
+        "cape-dutch.json proportional_system.typical_ratios, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "water_table": {
       "group": "envelope",
@@ -152,17 +263,23 @@
     },
     "corner_quoin": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "confidence": "high",
+      "rule": "CASCADE-PROVENANCE FIX. Wrongly resolved from germanic-vernacular ('the corner is a structural timber post') -- wrong construction assumption entirely (see `construction_type`). The correct reason quoins are absent is different: diagnostic_tells describes the wall's 'corners... visibly rounded and soft -- plastered earth brick, not stone.' A crisp masonry quoin would contradict the soft-plastered corner this style is diagnosed by.",
+      "sources": [
+        "cape-dutch.json diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "corner_board": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "confidence": "high",
+      "rule": "Same correction as `corner_quoin` -- no applied corner board on a lime-plastered masonry wall with soft rounded corners; the wrongly-inherited timber-frame reasoning does not apply.",
+      "sources": [
+        "cape-dutch.json diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "reveal_masonry": {
       "group": "envelope",
@@ -211,10 +328,20 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "small-paned-casement-or-sash-deep-reveal",
+          "status": "canonical",
+          "note": "defining_characteristics #6: 'Small-paned casements or sash in deep reveals, with external shutters, symmetrically disposed about the central door.'"
+        }
+      ],
+      "rule": "Small-paned casements or sash, set deep in the thick wall, with external shutters -- green or dark-painted, the only colour against uniform white (diagnostic_tells) -- symmetrically placed about the central door.",
+      "sources": [
+        "cape-dutch.json defining_characteristics, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "window_proportion": {
       "group": "openings",
@@ -316,10 +443,24 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "invented-werf-outbuilding",
+          "status": "permitted",
+          "note": "No historical precedent (docs/inheritance.md) -- but this style is genuinely LIVING (status: living, continuous Western Cape wine-estate practice), so the question is not hypothetical. Housed as one more outbuilding within the werf enclosure, in the same lime-plastered masonry vocabulary, never attached to or breaking the H-plan homestead's own single-pile ranges."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent, though this style is actively built today. A werf outbuilding, lime-plastered masonry, never attached to the main homestead ranges.",
+      "note": "kind: invented -- honestly flagged.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)",
+        "cape-dutch.json period.status (living)"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -349,17 +490,47 @@
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "louis-xvi-quoted-gable-pediment",
+          "status": "permitted",
+          "note": "own lineage note (french-neoclassical, references, weight 0.2): 'The late gables of the 1790s-1810s... quote Louis XVI neoclassical profiles -- concave-convex holbol curves, urns, pediments, fluted pilasters -- onto a wall and plan that do not change at all.' A quoted surface motif on the gable, not part of a governing order."
+        },
+        {
+          "id": "pediment",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX (corrected FROM this blanket forbidding). Wrongly resolved from germanic-vernacular via the north-german-hall-house hybridization edge -- that member 'has no classical reference of any kind,' which is true of it but not of cape-dutch, whose own lineage explicitly documents Anreith-era Louis XVI pediments quoted onto the late gables."
+        }
+      ],
+      "rule": "A pediment motif is permitted on the late (1790s-1810s) neoclassical gable as quoted Louis XVI surface ornament -- Anreith's own documented practice -- never as part of a real load-bearing order (order/column/entablature remain correctly forbidden family-wide).",
+      "sources": [
+        "cape-dutch.json lineage (french-neoclassical reference)"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "louis-xvi-quoted-fluted-pilaster",
+          "status": "permitted",
+          "note": "Same lineage note as `pediment`: 'fluted pilasters... onto a wall and plan that do not change at all.'"
+        },
+        {
+          "id": "pilaster",
+          "status": "forbidden",
+          "note": "CASCADE-PROVENANCE FIX (corrected FROM this blanket forbidding), for the same reason as `pediment`."
+        }
+      ],
+      "rule": "Same correction and same source as `pediment`: fluted pilasters appear as quoted Louis XVI surface ornament on the late gable, never as a real order.",
+      "sources": [
+        "cape-dutch.json lineage (french-neoclassical reference)"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -377,10 +548,13 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "rule": "CASCADE-PROVENANCE FIX (corrected from a blanket forbidding wrongly inherited via the north-german-hall-house hybridization edge). This style's actual gable ornament runs from moulded plaster curvilinear (holbol) profiles in the earlier period to quoted Louis XVI motifs (urns, pediments, fluted pilasters, concave-convex curves) in the later gables of the 1790s-1810s -- Anton Anreith's documented practice. All of it is applied to a wall and plan that otherwise never change.",
+      "sources": [
+        "cape-dutch.json defining_characteristics, lineage (french-neoclassical reference)"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -580,10 +754,32 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "clear_range_depth": {
+          "range": [
+            18.0,
+            21.3
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "source": "cape-dutch.json proportional_system.typical_ratios, constraints c01",
+          "note": "5.5-6.5 m clear, this node's own precise figure -- narrower and better-sourced than the inherited french-vernacular range (18.0-23.0 ft)."
+        }
+      },
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "canonical",
+          "note": "Hard constraint c01: 'All ranges are single-pile. Clear internal depth must not exceed 6.5 m; a double-pile Cape house is not a Cape house, because the roof cannot be made without an interior bearing wall the type does not have.'"
+        }
+      ],
+      "rule": "Every range is single-pile, depth fixed by what an undressed imported or local rafter will carry -- 5.5 to 6.5 m clear (hard constraint c01). This is one of the few slots where the inherited french-vernacular binding is directionally correct; restated here with this node's own more precise, directly-sourced figure rather than the borrowed one.",
+      "sources": [
+        "cape-dutch.json constraints c01, proportional_system.typical_ratios, proportion_packs (timber-bay note)"
+      ],
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -618,10 +814,22 @@
     },
     "orientation_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "nw_elevation_glazed_pct_max": {
+          "value": 15,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "cape-dutch.json constraints c03",
+          "note": "Hard constraint c03: openings on the north-west (summer sun and south-easter wind) elevation limited to about 15 percent of wall area."
+        }
+      },
+      "rule": "CASCADE-PROVENANCE FIX. Wrongly resolved from mediterranean-vernacular's loggia-facing rule (a Mediterranean device this style does not have). Corrected to this style's own documented figure: openings on the north-west elevation -- facing the summer sun and the south-easter wind -- limited to about 15 percent of wall area (hard constraint c03).",
+      "sources": [
+        "cape-dutch.json constraints c03"
+      ],
+      "status": "drafted"
     },
     "outbuilding_types": {
       "group": "site",
@@ -639,10 +847,13 @@
     },
     "landscape_idiom": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "CASCADE-PROVENANCE FIX. Wrongly resolved from mediterranean-vernacular's loggia/aia siting logic, which has no equivalent here. Corrected: the homestead is incomplete without its werf -- a low limewashed enclosing wall and at least the wine cellar and one outbuilding (advisory constraint c05) -- 'the boundary of the working farm and the boundary of the household in the widest colonial sense of that word... the part of the ensemble that most plainly records who lived there and on what terms.'",
+      "sources": [
+        "cape-dutch.json constraints c05, description.long"
+      ],
+      "status": "drafted"
     },
     "grade_relationship": {
       "group": "site",

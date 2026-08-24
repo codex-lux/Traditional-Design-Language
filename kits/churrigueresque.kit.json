@@ -335,10 +335,11 @@
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "No ordinary classical column occurs. The estipite (see `pilaster`) has entirely displaced the column as the portada's vertical member.",
+      "note": "churrigueresque.json description, direct: 'a column that has stopped being a column.' Where a vertical member appears in the portada it is the estipite, not a column proper."
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -356,10 +357,48 @@
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "estipite",
+          "status": "canonical",
+          "note": "An inverted-obelisk shaft assembled as a stack -- truncated pyramid, cube, baluster, capital -- narrower at the base than the top, so the member appears to be balancing rather than supporting. The module of the whole portada is set from its width and the count of blocks in its stack."
+        },
+        {
+          "id": "solomonic-shaft",
+          "status": "forbidden",
+          "note": "The barley-sugar twisted column of the earlier Salomonico Baroque phase. churrigueresque.c01 (hard, definitional): a facade of this ornamental density using a solomonic or ordinary shaft is Salomonico Baroque, an earlier and different phase, not Churrigueresque -- the estipite is definitional."
+        },
+        {
+          "id": "fluted-classical-pilaster",
+          "status": "forbidden",
+          "note": "An ordinary classical pilaster with entasis or fluting belongs to the orders this style systematically dismantles, not to it; see `order` (forbidden, inherited from spanish-classical)."
+        }
+      ],
+      "parameters": {
+        "slenderness": {
+          "range": [
+            8,
+            11
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "churrigueresque.json typical_ratios ('Estipite slenderness roughly 1:8 to 1:11 overall')"
+        },
+        "base_block_fraction": {
+          "range": [
+            0.25,
+            0.35
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "churrigueresque.json typical_ratios ('the pyramidal base block 0.25-0.35 of shaft height')"
+        }
+      },
+      "rule": "The estipite is the governing member and module of the whole portada: an inverted-obelisk pilaster assembled from a truncated pyramid, a cube, a baluster and a capital, narrower at the bottom than the top. Once present it sets the bay of the portada and the count of blocks in its shaft sets the register heights -- the single defining device that separates this style from every other member of its family.",
+      "note": "churrigueresque.c01 (hard, definitional): 'A facade of this ornamental density using a normal column or a solomonic (barley-sugar) shaft is Salomonico Baroque, an earlier and different phase, not Churrigueresque.' defining_characteristics point 1 and governing_logic both restate the estipite as the style's governing module. This was the single most important slot in this kit and was entirely open at both the family and node level before this pass -- the estipite is the one fact that most distinguishes churrigueresque from spanish-plateresque, and it had no home anywhere in the cascade."
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
@@ -377,10 +416,32 @@
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Ornament is not applied to a frame; it consumes the frame. Niche-pilasters (a niche with a figure cut directly into the body of the estipite), continuous deeply undercut relief, and sculpture, architecture and framing treated as one fabric with no legible boundary between figure and structural member. Ornament belongs to the west front, the transept portal, the sacristy and the retablo; nave and flank walls stay plain.",
+      "parameters": {
+        "relief_depth": {
+          "range": [
+            4,
+            10
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "churrigueresque.json typical_ratios ('Relief depth 100-250 mm')",
+          "note": "100-250mm converted to inches."
+        },
+        "niche_recess_depth": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "churrigueresque.json typical_ratios ('niche recesses 300-600 mm')"
+        }
+      },
+      "note": "defining_characteristics points 4-6 and diagnostic_tells point 4 (niche-pilasters); churrigueresque.c05 (soft, ornament confined to west front/transept portal/sacristy/retablo, nave and flank walls plain)."
     },
     "porch_type": {
       "group": "threshold",

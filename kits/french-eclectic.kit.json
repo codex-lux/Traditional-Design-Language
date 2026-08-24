@@ -488,22 +488,34 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "extends",
+      "binding": "specified",
       "variants": [
         {
           "id": "attached-subordinate-hip-wing",
           "status": "canonical",
-          "op": "add",
-          "note": "Continues the wall material and the constant-pitch hip roof discipline (c01), the style's own equivalent to the inherited tudor-revival cross-gable wing, which does not fit a house with no dominant gable to subordinate to."
+          "note": "Continues the wall material and the constant-pitch hip roof discipline (c01) -- the style's own equivalent to a subordinate wing, authored to a house with no dominant gable to subordinate anything to."
         },
         {
           "id": "attached-subordinate-cross-gable",
           "status": "forbidden",
-          "op": "replace",
-          "note": "The inherited canonical value presumes a gabled massing vocabulary this style does not have."
+          "note": "Presumes a gabled massing vocabulary this style does not have (c01: no front-facing gable may exceed 25 percent of the primary elevation width -- see roof_form). Stated as a full override rather than an `extends` delta because which ancestor's own garage_strategy binding is nearest in the cascade is not stable across a corpus this large as sibling kits are authored -- this slot should stand on the style's own roof discipline (c01) regardless."
+        },
+        {
+          "id": "detached-matching-outbuilding",
+          "status": "permitted",
+          "note": "Matches the wall material and roof pitch of the main house, sited off the principal elevation."
         }
       ],
-      "parameters": {},
+      "parameters": {
+        "roof_pitch_match": {
+          "value": true,
+          "unit": "none",
+          "kind": "editorial",
+          "note": "The garage wing's roof continues the main roof's own constant hip pitch (c01) rather than a shallower applied lean-to."
+        }
+      },
+      "rule": "No traditional precedent exists; the garage is authored as one more hip-roofed subordinate volume continuing the wall material and constant-pitch roof discipline (c01), its door turned away from the principal elevation. A cross-gable wing is forbidden outright -- it presumes a gabled massing vocabulary this style does not have.",
+      "invented": true,
       "status": "drafted",
       "confidence": "medium",
       "judgment": true

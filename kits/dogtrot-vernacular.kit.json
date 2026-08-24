@@ -5,23 +5,33 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "A three-part rhythm of pen-void-pen, in which the void (the passage) is narrower than the solids -- own proportional_system.bay_rhythm: a passage as wide as a pen reads as a breezeway between two buildings rather than as one house.",
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "One continuous unbroken ridge runs over both pens and the passage; a break in the ridge destroys the reading of a single house (own hard constraint c03).",
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min": {
+          "value": "8:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        },
+        "pitch_max": {
+          "value": "12:12",
+          "unit": "rise_in_12",
+          "kind": "measured"
+        }
+      },
+      "rule": "Roof pitch 8:12 to 12:12, one unbroken ridge; eave overhang 24 to 36 in (own typical_ratios).",
+      "confidence": "high",
+      "status": "drafted",
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -66,11 +76,9 @@
       "status": "empty"
     },
     "chimney": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "rule_append": "Each pen carries its own gable-end chimney; a single chimney serving both pens indicates a saddlebag, a different type, and a central chimney is structurally impossible in this plan (own hard constraint c04).",
+      "group": "massing-and-roof"
     },
     "roof_penetration_rules": {
       "group": "massing-and-roof",
@@ -315,11 +323,20 @@
       "status": "empty"
     },
     "garage_strategy": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "detached-outbuilding",
+          "status": "canonical"
+        }
+      ],
+      "rule": "The car is housed in a small detached outbuilding, sited informally, never occupying or enclosing the passage itself.",
+      "confidence": "medium",
+      "judgment": true,
+      "invented": true,
+      "status": "drafted",
+      "note": "No historical precedent exists for this slot. Authored per docs/inheritance.md's guidance; this node's own revival_periods note describes an active second life in Southern regional modernism (Fay Jones, Lake|Flato, Rural Studio), directly supporting a specified answer rather than an open one -- and the prohibition on enclosing the passage follows directly from own hard constraint c01.",
+      "group": "openings"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -537,11 +554,30 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "two-pens-open-passage",
+          "status": "canonical",
+          "note": "Own defining_characteristics: two pens under one continuous roof, separated by an open central passage."
+        }
+      ],
+      "parameters": {
+        "passage_width_ft": {
+          "range": [
+            8,
+            12
+          ],
+          "unit": "ft",
+          "kind": "measured",
+          "note": "Own hard constraint c02."
+        }
+      },
+      "rule": "The passage must be open at both ends, unheated, and unglazed, 8 to 12 ft wide and never as wide as the pen it separates (own hard constraint c01, c02). Screening is tolerable; enclosing it converts the building to a center-passage house and must be recorded as such.",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the parent style's own single-pen/double-pen/hall-and-parlor circulation_parti with the specific open-passage configuration that is this variant's whole identity.",
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -617,11 +653,12 @@
       "status": "empty"
     },
     "orientation_rule": {
-      "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "rule": "Orient the passage axis to the prevailing summer breeze -- generally south to southwest in the Upland South -- and keep it shaded at both ends; the passage is a cooling device before it is a circulation space (own hard constraint c05, soft).",
+      "confidence": "high",
+      "status": "drafted",
+      "note": "Overrides the parent style's own slope-sited orientation_rule with this variant's own breeze-driven answer, directly grounded in its own hard constraint c05.",
+      "group": "site"
     },
     "outbuilding_types": {
       "group": "site",

@@ -6,8 +6,11 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The street elevation has no rhythm worth composing and is not meant to be read as one; what symmetry exists belongs to the court arcade (three to five bays a side, evenly spaced) and is near-symmetrical rather than strictly axial.",
+      "note": "OVERRIDES a cascade fill from antique-classical ('the principal elevation is strictly bilaterally symmetrical'), which directly contradicts this node's own bay_rhythm field, stated in as many words: 'The street elevation has no rhythm worth the name and is not meant to.' Its own proportional_system.symmetry is 'near-symmetrical,' not 'strict-bilateral.' Fixed here per WP-4.2 instructions rather than on any ancestor kit."
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -316,10 +319,17 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "No traditional precedent exists for any style; invented honestly for this contemporary-buildable (status: living) variant."
+      },
+      "rule": "Where a garage is required it is reached from a rear lane or an independent opening well away from the zaguan, never as a second street entrance -- the single controlled entry is the type's own hard rule and a garage door on the principal street elevation would break it outright.",
+      "note": "Invented per docs/inheritance.md guidance, and directly consistent with andalusian-courtyard-vernacular.c03 (hard): 'A second street entrance... breaks the type.'"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -517,10 +527,21 @@
     },
     "floor_material": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "glazed-tile",
+          "status": "canonical"
+        },
+        {
+          "id": "unglazed-tile",
+          "status": "canonical"
+        }
+      ],
+      "rule": "Court floor and gallery are glazed or unglazed tile, matching the tiled dado on the surrounding walls (see wainscot).",
+      "note": "defining_characteristics point 7, direct."
     },
     "hardware": {
       "group": "interior",
@@ -559,10 +580,11 @@
     },
     "public_private_gradient": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The same court diagram runs across the whole social range at one scale per building type -- a Cordoban palace with a dozen courts, a two-storey merchant's house, a single-court artisan house, and the corral de vecinos, in which twenty families share one patio, a well, a sink and a privy. Privacy is graded less room by room within a dwelling than by how much of the diagram one household controls.",
+      "note": "description, long, direct: 'The social range of the type is very wide... The corral is the courtyard house as tenement.'"
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
@@ -604,17 +626,19 @@
     },
     "street_relationship": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A near-blind street wall is pierced only by small, high, grilled (reja) openings and the single zaguan door. Unlike the Moorish palace tradition it descends from, the passage is straight, not bent, and it ends at a cancela -- a light iron gate that leaves the whole patio visible from the street while remaining physically closed. The house shows itself and stays shut; concealment is not the device here.",
+      "note": "OVERRIDES a cascade fill from iberian-islamic ('the passage is bent or set off-axis specifically so the court is never visible from the street'), which is explicitly attributed to Moorish work in the family's own rule text and is the opposite of this node's own, best-known diagnostic tell: 'A patio fully visible from the street through an iron gate, and completely inaccessible' (diagnostic_tells point 1), and description, direct: 'Through it, from the street, a passerby can see the whole patio... and cannot enter. The house shows itself and stays shut.' Fixed here per WP-4.2 instructions rather than on the iberian-islamic family kit, which correctly scopes the bent-passage detail to Moorish work only -- the bug was this node inheriting the family's general framing without restating its own, opposite mechanism."
     },
     "setback_rule": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Party-walled and built to the property line; there is no setback, and the block, not the individual house, is the unit of the street.",
+      "note": "massing_affinities: townhouse-row 'canonical... these are party-walled urban houses in continuous blocks; the block, not the house, is the unit of the street.'"
     },
     "orientation_rule": {
       "group": "site",

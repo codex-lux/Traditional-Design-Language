@@ -5,23 +5,72 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The principal elevation is absolutely symmetrical about the entrance axis, including chimney and turret placement, on a house composed as a single frontal object rather than a set of accreted ranges. Side elevations may relax.",
+      "variants": [
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "canonical"
+        },
+        {
+          "id": "picturesque-asymmetrical",
+          "status": "forbidden",
+          "note": "Elizabethan is the family's decisive break from Tudor's gatehouse-and-hidden-plan irregularity into a house composed frontally as a single resolved object -- the opposite of Tudor's own additive, picturesque massing."
+        }
+      ],
+      "note": "PINNED at this node rather than left to inherit from the distant antique-classical binding. Two independent reasons: (1) this style's OWN text states it directly and with a hard constraint (elizabethan.c03: 'Facade symmetry about the entrance axis is absolute'), so the resolved kit should cite the real source, not an ornament-only Greek/Roman ancestor four steps removed; (2) practically, once tudor.kit.json (a nearer cascade ancestor) specifies its OWN composition_parti as irregular/picturesque (see tudor.kit.json fix), leaving this slot open on elizabethan would let Tudor's irregular massing incorrectly leak forward onto Elizabethan, which is exactly wrong -- Elizabethan's own text is unambiguous that it abandons Tudor's irregularity.",
+      "sources": [
+        "elizabethan.json proportional_system.symmetry, constraints (elizabethan.c03), description"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The house is composed as a single broad symmetrical block seen frontally, with the long entrance elevation as the composed face -- never a narrow gable-fronted volume where a single gable end is the entered face. Turrets, banqueting rooms and chimneys treated as classical piers punctuate a low or hidden roofline (see roof_pitch); the roofscape is a populated skyline, not a dominant gable.",
+      "variants": [
+        {
+          "id": "broad-frontal-block-low-or-hidden-roof",
+          "status": "canonical"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "CASCADE FIX. Inherited from germanic-vernacular ('the gable, not the eave, is the composed and entered face') via the real but ornament-scale flemish-vernacular lineage edge (weight 0.35). That rule describes a narrow, single-bay Continental urban house; it is the wrong massing logic entirely for a broad, frontally-composed English prodigy house like Hardwick or Longleat, whose defining diagnostic tell is 'more window than wall on a principal elevation... the single quickest Elizabethan identification' -- a description of a wide composed front, not a gable end."
+        }
+      ],
+      "sources": [
+        "elizabethan.json description, diagnostic_tells, exemplars"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_pitch": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Roof pitch is low or concealed entirely behind a balustraded or strapwork parapet; a dominant visible steep roof slope belongs to Tudor or to the vernacular, not here. The silhouette's incident is carried by the parapet, turrets and chimneys, not by a visible roof plane.",
+      "variants": [
+        {
+          "id": "low-or-concealed-behind-parapet",
+          "status": "canonical"
+        },
+        {
+          "id": "steep-visible-slope",
+          "status": "forbidden",
+          "note": "elizabethan.c04 states directly: 'a dominant visible roof slope belongs to Tudor or to the vernacular, not here.'"
+        }
+      ],
+      "note": "CASCADE FIX. Before this binding, roof_pitch resolved to medieval-british's 'not less than 45 degrees' -- a family rule written for the hammerbeam/crown-post open-roof tradition of Gothic and timber-frame construction, and directly contradicted by Elizabethan's own soft constraint (elizabethan.c04). Elizabethan spends its roof budget on a concealing parapet, not a steep pitch; the two nearer members of the family (Tudor, and per the same logic Jacobean's gabled roof) do not share this trait, which is why it is fixed here rather than on tudor-jacobean.kit.json.",
+      "sources": [
+        "elizabethan.json constraints (elizabethan.c04)"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_material": {
       "group": "massing-and-roof",
@@ -31,18 +80,28 @@
       "status": "empty"
     },
     "eave_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The roof is hidden behind a balustraded or strapwork parapet (see roof_pitch); there is no exposed, projecting eave to detail the way a gabled timber roof has.",
+      "note": "CASCADE FIX. Inherited from german-fachwerk's own eave figure (400 mm minimum overhang, 'to keep driving rain off the exposed daub infill panels below') via the same ornament-scale flemish-vernacular lineage edge -- a rationale that presupposes an exposed timber-framed daub wall under a projecting gabled eave, neither of which applies once roof_pitch is correctly fixed to 'low or concealed behind a parapet.' No replacement dimension is asserted; the parapet condition makes the question largely moot.",
+      "sources": [
+        "elizabethan.json constraints (elizabethan.c04) -- consequence of the roof_pitch fix"
+      ],
+      "group": "massing-and-roof"
     },
     "rake_condition": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "No exposed gable verge in the ordinary sense; the roofline terminates at the parapet, not at a projecting gable rake.",
+      "note": "CASCADE FIX, same reasoning as eave_condition: german-fachwerk's 250 mm gable-verge-overhang figure is sized for an exposed daub-infilled gable end and does not apply once the roof is correctly concealed behind a parapet.",
+      "sources": [
+        "elizabethan.json constraints (elizabethan.c04) -- consequence of the roof_pitch fix"
+      ],
+      "group": "massing-and-roof"
     },
     "cornice_return": {
       "group": "massing-and-roof",
@@ -52,11 +111,29 @@
       "status": "empty"
     },
     "gable_treatment": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "variants": [
+        {
+          "id": "straight-sided-finialled-gable",
+          "status": "canonical",
+          "op": "add",
+          "note": "Elizabethan's own distinguished_from[jacobean] states the contrast directly: 'Jacobean shapes its gables and projects its porch; Elizabethan crests its parapet... Elizabethan silhouettes are spiky; Jacobean silhouettes are curved.' Where a gable is used at all it is straight-sided and finialled, not the later shaped-and-scrolled Dutch form."
+        },
+        {
+          "id": "shaped-scrolled-dutch-gable",
+          "status": "atypical",
+          "op": "add",
+          "note": "Jacobean's own device, not Elizabethan's; where it appears on an Elizabethan house at all it marks the overlap years (1600-1615) noted in both styles' own distinguished_from entries."
+        }
+      ],
+      "note": "Extends the family's low-countries-vernacular gable binding (real transmission via flemish-vernacular is correctly inherited and unrestated) with the style-specific geometry Elizabethan's own text distinguishes sharply from Jacobean's.",
+      "sources": [
+        "elizabethan.json distinguished_from[jacobean]"
+      ],
+      "group": "massing-and-roof"
     },
     "dormer": {
       "group": "massing-and-roof",
@@ -94,9 +171,23 @@
       "status": "empty"
     },
     "construction_type": {
-      "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "extends",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "light-timber-frame",
+          "status": "permitted",
+          "op": "replace",
+          "note": "CASCADE FIX, parallel to the one on tudor.kit.json. The style's own proportion_packs note for timber-bay is explicit: 'the prodigy houses themselves (Hardwick, Wollaton, Longleat) are stone, but the bay module still governs the great mass of lesser Elizabethan gentry building, which remained timber-framed at this date.' The inherited antique-classical binding forbids timber frame outright, which is correct for the named prodigy houses but wrong for the ordinary Elizabethan house below that scale."
+        }
+      ],
+      "note": "Lower confidence than the parallel tudor fix because the evidence here is the style's own proportion_packs note rather than body text, but it is still this style's own JSON, not an inference from a cousin node.",
+      "sources": [
+        "elizabethan.json proportion_packs[timber-bay].note"
+      ],
+      "group": "envelope"
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -109,11 +200,31 @@
       "status": "empty"
     },
     "primary_cladding": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Ashlar or coursed stone at the great prodigy houses (Hardwick, Wollaton, Montacute in Ham Hill stone), with the wall largely dissolved into a mullion-and-transom grid of glass and stone piers; light timber frame with infill below the great-house scale (see construction_type). Never an exposed, unclad timber frame with wattle-and-daub or nogged infill as the visible finish of a principal elevation.",
+      "variants": [
+        {
+          "id": "ashlar-or-coursed-stone",
+          "status": "canonical",
+          "note": "Longleat, Wollaton, Hardwick, Montacute -- the named prodigy-house exemplars are all stone."
+        },
+        {
+          "id": "brick-with-stone-dressings",
+          "status": "permitted"
+        },
+        {
+          "id": "half-timber-infill-exposed-frame",
+          "status": "forbidden",
+          "note": "CASCADE FIX. Inherited from germanic-vernacular via the flemish-vernacular lineage edge, which is real but explicitly ornament-scale (strapwork, gable form), not a claim about primary wall construction. The exposed-frame-with-infill idiom is a Continental urban vernacular; no Elizabethan exemplar in this style's own text is built that way, and the lesser timber-framed gentry houses the style DOES document (see construction_type fix) are not documented as exposed-frame either."
+        }
+      ],
+      "sources": [
+        "elizabethan.json exemplars, description, diagnostic_tells"
+      ],
+      "group": "envelope"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -130,11 +241,16 @@
       "status": "empty"
     },
     "foundation_expression": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "A continuous masonry (stone or brick) foundation and plinth, not the raised timber-sill-on-a-Sockel-plinth logic of a Continental exposed frame.",
+      "note": "CASCADE FIX, low confidence. Elizabethan's own text states nothing specific about foundation depth or plinth height; this binding only corrects the wrongly inherited germanic-vernacular claim (a masonry or fired-brick Sockel plinth 300-400 mm high, sized for a timber-sill construction) that has no bearing on this style's stone and brick great houses. No replacement dimension is asserted -- none is sourced.",
+      "sources": [
+        "elizabethan.json exemplars (stone/brick construction), editorial inference"
+      ],
+      "group": "envelope"
     },
     "water_table": {
       "group": "envelope",
@@ -151,11 +267,27 @@
       "status": "empty"
     },
     "corner_quoin": {
-      "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Where the wall is stone, the corner is expressed in dressed ashlar consistent with the rest of the masonry, not concealed or left as an exposed structural timber post.",
+      "variants": [
+        {
+          "id": "ashlar-corner",
+          "status": "canonical"
+        },
+        {
+          "id": "exposed-structural-post-no-masonry-quoin",
+          "status": "forbidden",
+          "note": "CASCADE FIX. The germanic-vernacular forbidding of any masonry quoin ('the corner is a structural timber post, exposed') is correct for an exposed Fachwerk frame and wrong for the ashlar or coursed-stone prodigy houses this style's own exemplars document."
+        }
+      ],
+      "note": "Editorial judgment: no explicit quoin dimension or treatment is stated in elizabethan.json; this only corrects the wrongly inherited claim that NO masonry corner treatment exists.",
+      "sources": [
+        "elizabethan.json exemplars (stone construction)"
+      ],
+      "group": "envelope"
     },
     "corner_board": {
       "group": "envelope",
@@ -210,11 +342,26 @@
       "status": "empty"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A regular grid of stone mullions and transoms carrying leaded glazing, approaching or exceeding the area of solid wall on principal elevations, and set flush with no hood mould from about the 1580s onward.",
+      "variants": [
+        {
+          "id": "mullion-transom-grid-flush-no-hood-mould",
+          "status": "canonical"
+        },
+        {
+          "id": "casement-with-hood-mould",
+          "status": "atypical",
+          "note": "The Tudor precedent; own diagnostic_tells state the hood mould is dropped by the 1580s and its absence 'distinguishes Elizabethan from Tudor at fifty feet.'"
+        }
+      ],
+      "sources": [
+        "elizabethan.json diagnostic_tells, description"
+      ],
+      "group": "openings"
     },
     "window_proportion": {
       "group": "openings",
@@ -266,11 +413,32 @@
       "status": "empty"
     },
     "window_grouping_rule": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Glazed area runs 45-60 percent of a principal elevation, and higher at Hardwick; the elevation reads as a woven grid field with towers or bay windows as accents at the ends and centre, not as a wall punched with separated openings.",
+      "parameters": {
+        "glazed_pct_wall_min": {
+          "value": 40,
+          "unit": "percent",
+          "kind": "measured",
+          "source": "elizabethan.json constraints (elizabethan.c01)"
+        },
+        "glazed_pct_wall_typical": {
+          "range": [
+            45,
+            60
+          ],
+          "unit": "percent",
+          "kind": "measured",
+          "source": "elizabethan.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "elizabethan.json constraints (elizabethan.c01), proportional_system"
+      ],
+      "group": "openings"
     },
     "shutter": {
       "group": "openings",
@@ -327,18 +495,50 @@
       "status": "empty"
     },
     "order": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Where the classical orders appear at all, it is only on a central entrance frontispiece, applied as flat, superimposed storeys -- typically Doric over Ionic over Corinthian -- carrying no structural load and cut by mason-architects working from engraved plates rather than from any theory of proportion. They may not run across a whole elevation, carry a roof, or form a portico.",
+      "variants": [
+        {
+          "id": "superimposed-frontispiece-applied-order",
+          "status": "canonical",
+          "note": "Longleat's own exemplar note: 'superimposed orders as flat pilaster strips'. Applied storeys of Doric-Ionic-Corinthian, non-structural."
+        },
+        {
+          "id": "true-modular-order-with-structural-role",
+          "status": "forbidden",
+          "note": "CASCADE FIX. Inherited from medieval-british, whose 'no classical order of any kind is used anywhere in this family' is correct for Tudor and correctly left open at the family level, but is wrong for Elizabethan, whose own defining_characteristics names 'a central frontispiece of superimposed classical orders' outright."
+        }
+      ],
+      "note": "CASCADE FIX. medieval-british forbids order/column/pilaster/modillion_dentil/balustrade/ornament_vocabulary blanket-wide for the whole medieval-british family (Norman, Gothic, timber-frame -- correctly, per that family's own sources), and that forbidding reaches Elizabethan and Jacobean through the shared lineage from Tudor to english-gothic/english-medieval-timber-frame, even though Elizabethan and Jacobean are NOT medieval-british members -- they are Tudor-Jacobean, and their own documented text is explicit that a crude, rule-of-thumb classical apparatus DOES appear on the entrance frontispiece. entablature was already correctly fixed at the tudor-jacobean family level ('applied-crude-entablature'); this fixes the remaining classical-apparatus slots the family binding left wrongly forbidden for this specific member.",
+      "sources": [
+        "elizabethan.json defining_characteristics, proportional_system.governing_logic, constraints (elizabethan.c02)"
+      ],
+      "group": "classical-apparatus"
     },
     "column": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Columns of the applied frontispiece order are frequently reduced to flat pilaster strips rather than fully modelled free-standing shafts -- Longleat's own exemplar note describes 'superimposed orders as flat pilaster strips' -- cut by mason-architects working from engraved plates, not proportioned to a real module.",
+      "variants": [
+        {
+          "id": "flat-pilaster-strip-or-shallow-engaged-column",
+          "status": "canonical"
+        },
+        {
+          "id": "correctly-proportioned-freestanding-column",
+          "status": "forbidden",
+          "note": "CASCADE FIX, same reasoning as `order`: medieval-british's blanket 'there is no classical column' is wrong here."
+        }
+      ],
+      "sources": [
+        "elizabethan.json exemplars (Longleat), proportional_system.governing_logic"
+      ],
+      "group": "classical-apparatus"
     },
     "entablature": {
       "group": "classical-apparatus",
@@ -355,39 +555,120 @@
       "status": "empty"
     },
     "pilaster": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Flat pilaster strips carry the superimposed frontispiece order, confined to the entrance bay.",
+      "variants": [
+        {
+          "id": "flat-pilaster-strip-frontispiece-only",
+          "status": "canonical"
+        }
+      ],
+      "note": "CASCADE FIX, same reasoning as `order` and `column`.",
+      "sources": [
+        "elizabethan.json exemplars (Longleat)"
+      ],
+      "group": "classical-apparatus"
     },
     "modillion_dentil": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "Where present at all, confined to the applied crude entablature of the entrance frontispiece; never a real classical run elsewhere on the elevation.",
+      "variants": [
+        {
+          "id": "confined-to-frontispiece-entablature",
+          "status": "permitted",
+          "note": "Plausible given the crude applied entablature this family's own binding already permits on the frontispiece (tudor-jacobean.kit.json), but Elizabethan's own text does not name modillions or dentils specifically."
+        },
+        {
+          "id": "classical-run-elsewhere-on-elevation",
+          "status": "forbidden",
+          "note": "Would imply a real classical run outside the crude applied order this style's own text documents, which no source supports."
+        }
+      ],
+      "note": "CASCADE FIX, held at low confidence because it is this author's inference from the already-permitted crude frontispiece entablature, not a direct citation in elizabethan.json. Marked judgment:true for that reason -- this only corrects the wrongly inherited blanket 'no modillion or dentil course appears anywhere in this family' (which is correct for Norman/Gothic/timber-frame but overclaims for Elizabethan's own frontispiece).",
+      "sources": [
+        "elizabethan.json (inference from proportional_system.governing_logic and the frontispiece order)"
+      ],
+      "group": "classical-apparatus"
     },
     "balustrade": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A balustraded parapet is the canonical way roof pitch is concealed and the skyline finished, alongside strapwork cresting as the alternative.",
+      "variants": [
+        {
+          "id": "balustraded-parapet",
+          "status": "canonical",
+          "note": "Directly named in elizabethan.c04: roof pitch is 'concealed behind a balustraded or strapwork parapet.'"
+        },
+        {
+          "id": "strapwork-cresting-parapet",
+          "status": "canonical",
+          "note": "The alternative named in the same constraint; strapwork cresting is also elizabethan's own defining_characteristics #6."
+        }
+      ],
+      "note": "CASCADE FIX. medieval-british's blanket 'no classical turned balustrade appears anywhere in this family' is directly contradicted by elizabethan's own explicit text.",
+      "sources": [
+        "elizabethan.json constraints (elizabethan.c04), defining_characteristics"
+      ],
+      "group": "classical-apparatus"
     },
     "ornament_vocabulary": {
-      "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Strapwork -- interlaced flat bands derived from Vredeman de Vries's Antwerp engravings -- is the primary ornament, applied to parapets, gables, chimneypieces and plaster ceilings, often incorporating the owner's initials or device. A crude, rule-of-thumb classical vocabulary (mouldings and capitals of the frontispiece order) is confined to the entrance bay alone.",
+      "variants": [
+        {
+          "id": "strapwork-primary",
+          "status": "canonical",
+          "note": "Hardwick's own parapet 'carries her initials in cut stone' (exemplars); strapwork is the family's Netherlandish inheritance via flemish-vernacular, weight 0.35."
+        },
+        {
+          "id": "crude-classical-frontispiece-mouldings",
+          "status": "permitted",
+          "note": "Confined to the entrance bay; see order/column/pilaster."
+        },
+        {
+          "id": "no-classical-ornament-vocabulary-anywhere",
+          "status": "forbidden",
+          "note": "CASCADE FIX. This is what medieval-british's blanket forbidding actually claimed; it is wrong on both counts for Elizabethan, which has real strapwork AND a real (if crude) frontispiece order."
+        }
+      ],
+      "sources": [
+        "elizabethan.json defining_characteristics, diagnostic_tells, exemplars, lineage[flemish-vernacular]"
+      ],
+      "group": "classical-apparatus"
     },
     "porch_type": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "No projecting porch. The entrance is marked by a flat, applied frontispiece of superimposed orders standing in the wall plane, not by a porch projecting from it and carrying a room above.",
+      "variants": [
+        {
+          "id": "flat-applied-frontispiece-no-projection",
+          "status": "canonical"
+        },
+        {
+          "id": "projecting-porch-with-room-over",
+          "status": "forbidden",
+          "note": "Elizabethan's own distinguished_from[jacobean] states the contrast directly: Jacobean 'uses a columned porch rather than a flat frontispiece'; a projecting porch with a chamber above belongs to Jacobean (jacobean.c02), not here."
+        }
+      ],
+      "sources": [
+        "elizabethan.json distinguished_from[jacobean], defining_characteristics"
+      ],
+      "group": "threshold"
     },
     "porch_depth": {
       "group": "threshold",
@@ -537,11 +818,27 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The hall is turned through ninety degrees onto the entrance axis, finally ending the medieval off-centre screens-passage sequence that Tudor still retains. A stone stair rises through the full height of the house, gaining light at every landing, to deliver visitors at the top into the largest and grandest room in the building.",
+      "variants": [
+        {
+          "id": "hall-on-entrance-axis-ascending-stair-to-top-floor-state-rooms",
+          "status": "canonical",
+          "note": "Hardwick's stair 'rises through the whole house... and delivers you at the top into the High Great Chamber, which is the largest and grandest room in the building and is on the second floor.'"
+        },
+        {
+          "id": "off-centre-screens-passage-entry",
+          "status": "forbidden",
+          "note": "This is precisely the Tudor and Gothic device Elizabethan's own description says the turned hall 'finally kills... as an organising device.'"
+        }
+      ],
+      "sources": [
+        "elizabethan.json description, defining_characteristics"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
       "group": "plan-logic",

@@ -6,29 +6,67 @@
   "slots": {
     "composition_parti": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "parameters": {
+        "symmetry": {
+          "value": "balanced-asymmetrical",
+          "unit": "none",
+          "kind": "measured",
+          "source": "french-manoir.proportional_system.symmetry"
+        }
+      },
+      "rule": "Three to seven bays on the principal range, one dormer per bay, but the rhythm is broken deliberately by the stair turret, which lands where the plan needs it rather than where symmetry wants it. The vertical accent is placed by circulation, not by composition.",
+      "note": "Direct quote of proportional_system.bay_rhythm and governing_logic."
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A very steep roof -- 50 to 60 degrees, in slate or flat tile -- with stone or timber lucarnes rising through the cornice line, one per bay. Roof volume is equal to or greater than the wall height beneath it.",
+      "note": "Direct quote of defining_characteristics items 4 and typical_ratios / diagnostic_tells item 5."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "pitch_min_deg": {
+          "value": 50,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "french-manoir.c04"
+        },
+        "pitch_max_deg": {
+          "value": 60,
+          "unit": "deg",
+          "kind": "measured",
+          "source": "french-manoir.c04"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Roof pitch 50 to 60 degrees, in slate or flat tile -- a hard constraint (c04).",
+      "note": "Direct quote of constraint c04."
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "slate",
+          "status": "canonical"
+        },
+        {
+          "id": "flat-tile",
+          "status": "canonical"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Slate or flat tile, at the very steep pitch the type requires (c04).",
+      "note": "Direct quote of constraint c04."
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -60,10 +98,23 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "wall-dormer-through-eave-stone-or-timber",
+          "status": "canonical",
+          "note": "'Dormers whose bases cut through the eave line and stand on the wall below, not perched on the roof slope' (diagnostic_tells)."
+        },
+        {
+          "id": "roof-slope-perched-dormer",
+          "status": "forbidden",
+          "note": "'Dormers sitting on the roof slope belong to a later and different tradition' (c04)."
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Dormers must be wall dormers rising through the eave line, carried on the wall below, one per bay, pedimented and finialled. A dormer perched on the roof slope rather than rising through the eave is a different, later tradition and is forbidden.",
+      "note": "Direct quote of constraint c04 and diagnostic_tells item 3."
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -81,10 +132,11 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Roof height equal to or greater than wall height -- the roof does 'a full storey of work' through its dormers, and this proportion is itself diagnostic of the type.",
+      "note": "Direct quote of typical_ratios and diagnostic_tells item 5."
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -95,8 +147,44 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "variants": [
+        {
+          "id": "limestone-or-roussard-rubble-dressed-openings",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "Perche",
+              "lower Normandy"
+            ]
+          },
+          "note": "Dressed stone at every opening."
+        },
+        {
+          "id": "colombage-over-stone-base",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "Pays d'Auge"
+            ]
+          },
+          "note": "The same close-studded frame as the vernacular farms, but with carved brackets, moulded sills, and often a jettied upper storey."
+        },
+        {
+          "id": "granite",
+          "status": "canonical",
+          "applies_when": {
+            "regions": [
+              "Brittany"
+            ]
+          },
+          "note": "Smaller openings and heavier lintels than the other two, because granite is worked with difficulty."
+        }
+      ],
+      "rule": "Construction divides by region and by what the ground gives: limestone or roussard rubble with dressed stone in the Perche and lower Normandy; colombage (timber frame) over a stone base in the Pays d'Auge; granite throughout in Brittany.",
+      "note": "Direct quote of the long description's third paragraph."
     },
     "wall_thickness_masonry": {
       "group": "envelope",
@@ -211,17 +299,27 @@
     },
     "window_type": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Stone-mullioned croisee windows: a cross of one vertical mullion and one transom, moulded, with the transom set high, at roughly two-thirds of the opening height. Removing the mullion to gain glass area destroys the proportion the whole elevation depends on (hard constraint c03).",
+      "note": "Direct quote of defining_characteristics item 3 and constraint c03."
     },
     "window_proportion": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "opening_ratio_w_to_h": {
+          "value": "2:3",
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "french-manoir.typical_ratios"
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The croisee opening is roughly 2:3 in width to height, with the transom at about two-thirds of the opening height.",
+      "note": "Direct quote of typical_ratios."
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -433,10 +531,23 @@
     },
     "ceiling_height_rule": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "salle_ceiling_height_range_ft": {
+          "range": [
+            11.5,
+            14.75
+          ],
+          "unit": "ft",
+          "kind": "derived",
+          "source": "french-manoir.typical_ratios",
+          "note": "Converted from the source's own 3.5-4.5 m; the schema's unit enum has no metres option. 'A stone room with a four-metre ceiling' (long description, paragraph 4) sits near the top of this converted band."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Storey height 3.5 to 4.5 m (about 11.5-14.75 ft) in the salle.",
+      "note": "Direct quote of typical_ratios and the long description's fourth paragraph, unit-converted from the source's metric figure."
     },
     "trim_family": {
       "group": "interior",
@@ -489,10 +600,11 @@
     },
     "stair_type": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A polygonal or round tower projecting into the courtyard face, containing a stone or oak newel stair, rising above the eave and capped with its own conical or polygonal roof.",
+      "note": "Direct quote of the long description's second paragraph."
     },
     "newel_balustrade": {
       "group": "interior",
@@ -503,10 +615,12 @@
     },
     "fireplace_surround": {
       "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A stone chimneypiece occupying most of one gable wall of the salle, without a classical surround system -- see the classical-apparatus group, forbidden at the family level for exactly this reason.",
+      "note": "Direct paraphrase of the long description's fourth paragraph. Marked judgment because the node describes the chimneypiece's scale and position, not its surround profile in the schema's sense."
     },
     "built_ins": {
       "group": "interior",
@@ -538,24 +652,27 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Enfilade planning: rooms open directly into one another and off the stair, with no corridors. Because the stair is external, every room on both floors opens off it directly, and the tower is the plan's only circulation node.",
+      "note": "Direct quote of defining_characteristics item 7 and the long description's second paragraph."
     },
     "hearth_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A stone chimneypiece takes most of one gable wall of the hall -- the only heat in a stone room with a ceiling of four metres.",
+      "note": "Direct quote of the long description's fourth paragraph."
     },
     "stair_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "The stair turret must project into the courtyard or a re-entrant angle, never from the outer face, and must rise above the eave of the range it serves. A stair turret on the entrance front is a revival invention (hard constraint c02).",
+      "note": "Direct quote of constraint c02 and diagnostic_tells item 1."
     },
     "public_private_gradient": {
       "group": "plan-logic",
@@ -566,10 +683,11 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Every room on both floors opens directly off the stair tower; there is no corridor anywhere in the plan.",
+      "note": "Direct quote of the long description's second paragraph."
     },
     "service_zone_strategy": {
       "group": "plan-logic",
@@ -580,10 +698,20 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "parameters": {
+        "clear_range_depth_max_ft": {
+          "value": 23,
+          "unit": "ft",
+          "kind": "derived",
+          "source": "french-manoir.c01",
+          "note": "Converted from the source's own 7 m -- this node's own precise figure, tighter than the family's blended 18-23 ft band, which averages across all three French Vernacular members."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "Principal ranges are single-pile, clear depth not exceeding 7 m (23 ft). A double-pile manoir requires an internal bearing wall and an internal stair, at which point it has become a chateau or a later house.",
+      "note": "Direct quote of constraint c01. Specified rather than left to the family's blended `extends`-eligible range because this node's own number is exact and the family's is a cross-member average."
     },
     "daylight_strategy": {
       "group": "plan-logic",
@@ -625,17 +753,42 @@
     },
     "outbuilding_types": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "chapel",
+          "status": "canonical"
+        },
+        {
+          "id": "colombier",
+          "status": "canonical",
+          "note": "Round or square, conical roof, ring of flight holes -- 'a freestanding colombier... in the same enclosure' is itself a diagnostic tell."
+        },
+        {
+          "id": "pressoir",
+          "status": "canonical"
+        },
+        {
+          "id": "granges",
+          "status": "canonical"
+        },
+        {
+          "id": "porterie-gatehouse",
+          "status": "canonical"
+        }
+      ],
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A manoir is defined by its ensemble: logis, chapel, dovecote, gatehouse, cider press and granges within a walled, hedged or moated cour. A freestanding logis without at least two ancillary buildings is a large house, not a manoir (advisory constraint c05).",
+      "note": "Direct quote of defining_characteristics item 5, diagnostic_tells item 4, and constraint c05."
     },
     "fence_wall": {
       "group": "site",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "rule": "A walled, hedged, or moated cour encloses the ensemble -- the surviving defensive vocabulary retained as ornament rather than function.",
+      "note": "Direct quote of defining_characteristics items 5 and 6."
     },
     "landscape_idiom": {
       "group": "site",

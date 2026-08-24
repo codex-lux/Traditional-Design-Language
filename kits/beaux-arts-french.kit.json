@@ -11,10 +11,25 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "mansard-block",
+          "status": "canonical",
+          "note": "own massing_affinities marks mansard-block canonical: 'the mansard returns as a fully occupiable attic and as the device that gives an otherwise flat-topped block a silhouette.' Also the crowning member of the base:shaft:attic three-part division named in defining_characteristics."
+        },
+        {
+          "id": "low-roof-behind-balustrade",
+          "status": "forbidden",
+          "note": "own distinguished_from note against french-neoclassical is explicit: 'the invisible roof behind a balustrade is Neoclassical' -- Beaux-Arts reinstates 'a visible mansard or attic.'"
+        }
+      ],
+      "rule": "The roof is a fully occupiable mansard or a flat-topped attic storey, always visible and always the crowning term of the three-part vertical composition -- never suppressed behind a balustrade the way the Neoclassical parent conceals it.",
+      "sources": [
+        "beaux-arts-french.json massing_affinities, distinguished_from"
+      ],
+      "status": "drafted"
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -81,10 +96,45 @@
     },
     "height_proportion": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "base_fraction": {
+          "range": [
+            0.25,
+            0.35
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "beaux-arts-french.json proportional_system.typical_ratios",
+          "note": "Rusticated base, one to two storeys."
+        },
+        "shaft_to_base_ratio": {
+          "value": 2.0,
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Base:shaft:attic approximately 1:2:0.5."
+        },
+        "attic_to_base_ratio": {
+          "value": 0.5,
+          "unit": "ratio",
+          "kind": "measured"
+        },
+        "attic_to_principal_ratio": {
+          "range": [
+            0.5,
+            0.7
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "Attic or mansard storey relative to the principal storey height."
+        }
+      },
+      "rule": "Every elevation resolves into base, shaft and attic in a fixed proportional hierarchy of roughly 1:2:0.5 -- this is the style's own hard constraint (c01): 'an undifferentiated wall of repeated identical storeys is not Beaux-Arts, whatever ornament is applied to it.'",
+      "sources": [
+        "beaux-arts-french.json proportional_system.typical_ratios, constraints c01"
+      ],
+      "status": "drafted"
     },
     "wing_strategy": {
       "group": "massing-and-roof",
@@ -100,8 +150,22 @@
     },
     "wall_thickness_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "wall_thickness_min": {
+          "value": 23.6,
+          "unit": "in",
+          "kind": "measured",
+          "source": "beaux-arts-french.json constraints c03",
+          "note": "600 mm minimum at the principal storeys, so the wall can absorb poche -- stairs, flues, closets, lightwells."
+        }
+      },
+      "rule": "Minimum 600 mm (23.6 in) wall thickness at the principal storeys -- the style's own hard constraint (c03) -- so the wall can absorb poche.",
+      "sources": [
+        "beaux-arts-french.json constraints c03"
+      ],
+      "status": "drafted"
     },
     "wall_thickness_frame": {
       "group": "envelope",
@@ -110,10 +174,30 @@
     },
     "primary_cladding": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "stone-ashlar",
+          "status": "canonical",
+          "note": "The academic stone envelope -- Gare d'Orsay's 'academic stone hotel-and-station front,' Grand Palais's 'Classical stone shell.'"
+        },
+        {
+          "id": "terracotta-panel",
+          "status": "permitted",
+          "note": "Wrapped around the modern frame alongside stone; the Grand Palais envelope is explicit about this settlement."
+        },
+        {
+          "id": "masonry-veneer-over-frame",
+          "status": "forbidden",
+          "note": "The envelope must still be built and detailed to genuine masonry-mass discipline (c03) even where it wraps a modern frame -- a thin applied veneer defeats the poche the style depends on."
+        }
+      ],
+      "rule": "A masonry or masonry-and-terracotta stone envelope, always detailed to real masonry-mass discipline regardless of the modern iron, steel or reinforced-concrete frame it may wrap.",
+      "sources": [
+        "beaux-arts-french.json description.long (Grand Palais, Gare d'Orsay), constraints c03"
+      ],
+      "status": "drafted"
     },
     "secondary_cladding": {
       "group": "envelope",
@@ -166,10 +250,22 @@
     },
     "reveal_masonry": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "reveal_min": {
+          "value": 7.9,
+          "unit": "in",
+          "kind": "measured",
+          "source": "beaux-arts-french.json constraints c03",
+          "note": "200 mm minimum, so openings read as cut into mass rather than punched through a veneer."
+        }
+      },
+      "rule": "Reveals of at least 200 mm (7.9 in) at every window -- the style's own hard constraint (c03) -- so openings read as cut into mass.",
+      "sources": [
+        "beaux-arts-french.json constraints c03"
+      ],
+      "status": "drafted"
     },
     "reveal_frame": {
       "group": "envelope",
@@ -180,10 +276,25 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "judgment": true,
+      "parameters": {
+        "crowning_cornice_projection": {
+          "range": [
+            0.056,
+            0.071
+          ],
+          "unit": "ratio",
+          "kind": "derived",
+          "note": "1/14 to 1/18 of total facade height, from proportional_system.typical_ratios."
+        }
+      },
+      "rule": "A heavily enriched crowning cornice terminates the attic or mansard, projecting 1/14 to 1/18 of the total facade height -- calibrated to viewing distance across a boulevard (c04), not to a domestic eye.",
+      "sources": [
+        "beaux-arts-french.json proportional_system.typical_ratios, constraints c04"
+      ],
+      "status": "drafted"
     },
     "frieze": {
       "group": "envelope",
@@ -316,10 +427,23 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "invented": true,
+      "variants": [
+        {
+          "id": "invented-service-court-or-poche-bay",
+          "status": "permitted",
+          "note": "No historical precedent exists for any style in this taxonomy (docs/inheritance.md). For a contemporary Beaux-Arts-composed building, a vehicle bay is treated as a service element absorbed into the poche or a subordinate court off the main axis, never breaking the composed principal elevation's base-shaft-attic hierarchy (c01)."
+        }
+      ],
+      "rule": "INVENTED, no historical precedent (docs/inheritance.md's standing note on this slot). Housed in a service court or poche bay off-axis, never on the principal composed elevation.",
+      "note": "kind: invented -- honestly flagged, no source exists because the building type predates the automobile entirely.",
+      "sources": [
+        "docs/inheritance.md (garage_strategy guidance)"
+      ],
+      "status": "drafted"
     },
     "glazing_assembly": {
       "group": "openings",
@@ -328,59 +452,152 @@
     },
     "order": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "giant-order-two-storey",
+          "status": "canonical",
+          "note": "Own typical_ratios: 'Giant order spanning two storeys.'"
+        },
+        {
+          "id": "coupled-columns",
+          "status": "canonical",
+          "note": "'Coupled columns set 0.5 to 1.0 diameters apart, pairs at 4 to 5 diameters on centre.'"
+        }
+      ],
+      "rule": "This slot is FORBIDDEN by the cascade as inherited (via french-vernacular, spliced in through the near-symmetrical/vernacular french-manoir hybridization edge on french-renaissance-chateau) -- 'no classical order or apparatus appears... all three family members are vernacular/folk building traditions.' That is a real bug for this node: Beaux-Arts is the most classically apparatus-laden style in the taxonomy (c05 caractere doctrine names Corinthian, Composite, Doric and Tuscan by name; three of four proportion packs bound to this style are order packs). Overridden here to the style's own documented practice: a giant or coupled order, Composite or Corinthian for high-caractere programmes (c05), Doric or Tuscan for utilitarian ones.",
+      "sources": [
+        "beaux-arts-french.json proportional_system.typical_ratios, constraints c05, proportion_packs"
+      ],
+      "status": "drafted"
     },
     "column": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "coupled-columns-giant-order",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'Coupled columns, usually of a giant order, marking a projecting central pavilion on a symmetrical front.'"
+        },
+        {
+          "id": "single-evenly-spaced-column",
+          "status": "atypical",
+          "note": "The coupled pairing is the diagnostic signature; single unpaired columns read as the plainer Neoclassical parent."
+        }
+      ],
+      "rule": "Same cascade bug as `order` -- corrected here. Coupled columns, 0.5 to 1.0 diameters apart, are the diagnostic device (diagnostic_tells), not the single evenly-spaced column of the Neoclassical parent.",
+      "sources": [
+        "beaux-arts-french.json diagnostic_tells, proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "entablature": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "parameters": {
+        "entablature_to_column_height": {
+          "range": [
+            0.2,
+            0.25
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "note": "1/4 to 1/5 of column height, per proportional_system.typical_ratios."
+        }
+      },
+      "rule": "Same cascade bug as `order` -- corrected here. A full entablature, 1/4 to 1/5 of the column height, runs continuously beneath the crowning cornice.",
+      "sources": [
+        "beaux-arts-french.json proportional_system.typical_ratios"
+      ],
+      "status": "drafted"
     },
     "pediment": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "segmental-or-triangular-over-aedicule",
+          "status": "permitted",
+          "note": "Standard Beaux-Arts academic vocabulary for window and door aedicules at the centrepiece; not named explicitly in this node's own text, hence editorial rather than sourced."
+        }
+      ],
+      "rule": "Same cascade bug as `order` (inherited forbidden from french-vernacular, wrong for an academically classical style). Corrected to open/permitted use rather than forbidden. Not directly documented in this node's own text, so held at low confidence and flagged as editorial judgment rather than a sourced fact.",
+      "note": "EDITORIAL: this node's own text never names 'pediment' directly. The correction removes a clear error (blanket forbidding of all classical apparatus) without asserting more precision than the sources support.",
+      "sources": [
+        "beaux-arts-french.json (absence of contrary evidence); general Beaux-Arts academic practice"
+      ],
+      "status": "drafted"
     },
     "pilaster": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "low",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "connecting-bay-pilaster",
+          "status": "permitted",
+          "note": "Standard on the plainer connecting bays between projecting pavilions, articulating the wall without repeating the giant order's full column; editorial, not directly sourced in this node's own text."
+        }
+      ],
+      "rule": "Same cascade correction as `pediment` -- not documented directly, held at low confidence and flagged editorial.",
+      "note": "EDITORIAL: not directly named in this node's own text.",
+      "sources": [
+        "general Beaux-Arts academic practice"
+      ],
+      "status": "drafted"
     },
     "modillion_dentil": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "medium",
+      "judgment": true,
+      "variants": [
+        {
+          "id": "modillion-cornice",
+          "status": "permitted",
+          "note": "Consistent with the heavily enriched crowning cornice (proportional_system) and the Composite/Corinthian order register (proportion_packs primary/secondary); not named as a discrete term in this node's own text."
+        }
+      ],
+      "rule": "Same cascade correction -- the enriched crowning cornice this style's own typical_ratios describe is consistent with a modillion or dentil course, though the term itself is not used in the node's own text.",
+      "note": "EDITORIAL, medium confidence: inferred from the bound Composite/Corinthian order packs and the described cornice enrichment, not a direct quotation.",
+      "sources": [
+        "beaux-arts-french.json proportion_packs (vignola-composite, vignola-corinthian)"
+      ],
+      "status": "drafted"
     },
     "balustrade": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "skyline-balustrade-with-sculpture",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'A skyline populated with sculpture, quadrigae, cartouches and gilt attic figures above the main cornice' -- the balustrade is the literal structure that carries this sculpture at the roofline."
+        }
+      ],
+      "rule": "Same cascade bug as `order`, corrected here with high confidence: a balustrade at the cornice or attic line carries the sculptural skyline this style's own diagnostic_tells describe directly.",
+      "sources": [
+        "beaux-arts-french.json diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "ornament_vocabulary": {
       "group": "classical-apparatus",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Same cascade bug as `order`, corrected here. Sculpture and enrichment concentrated at entrance, centrepiece, corners and skyline; connecting bays comparatively plain (hard constraint c02). Members calibrated to viewing distance across a boulevard, at least 1/40 of facade height (c04) -- a keystone the size of a person, garlands two metres across.",
+      "sources": [
+        "beaux-arts-french.json constraints c02, c04, diagnostic_tells"
+      ],
+      "status": "drafted"
     },
     "porch_type": {
       "group": "threshold",
@@ -426,10 +643,13 @@
     },
     "entry_sequence": {
       "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Arrival is staged along a cut axis: a base to climb, an arcaded loggia, the giant order, then the interior stair hall -- 'architecture designed around the truth that in a public building, the most important room is usually the one you pass through.'",
+      "sources": [
+        "beaux-arts-french.json description.long"
+      ],
+      "status": "drafted"
     },
     "ceiling_height_rule": {
       "group": "interior",
@@ -538,10 +758,13 @@
     },
     "circulation_parti": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "rule": "Marche: circulation is designed as an experience, not left over as corridor. The plan is drawn first, on a dominant axis with cross-axes, spaces ranked by size and ceiling height and position in the sequence -- 'the most important room is usually the one you pass through.'",
+      "sources": [
+        "beaux-arts-french.json description.long, defining_characteristics"
+      ],
+      "status": "drafted"
     },
     "hearth_position": {
       "group": "plan-logic",
@@ -552,10 +775,20 @@
     },
     "stair_position": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "grand-stair-as-principal-event",
+          "status": "canonical",
+          "note": "diagnostic_tells: 'A grand exterior or interior stair treated as the principal architectural event, larger than any single room it serves.' Palais Garnier's grand escalier and its foyers 'occupy more of the building than the auditorium' (exemplars)."
+        }
+      ],
+      "rule": "The grand stair is positioned as the building's principal architectural event -- on the dominant axis, ahead of or larger than the room it nominally serves -- not tucked beside the entrance hall.",
+      "sources": [
+        "beaux-arts-french.json diagnostic_tells, exemplars (Palais Garnier)"
+      ],
+      "status": "drafted"
     },
     "public_private_gradient": {
       "group": "plan-logic",
@@ -580,10 +813,25 @@
     },
     "depth_and_pile": {
       "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "variants": [
+        {
+          "id": "single-pile",
+          "status": "forbidden",
+          "note": "Wrongly inherited from french-vernacular ('every principal range is single-pile... no family member has a double-pile precedent') -- that generalization is about the vernacular/folk lineage and is flatly false for this style: a Beaux-Arts plan is poche, a thickened wall carved out for stairs, closets, flues and lightwells (defining_characteristics), which requires depth no single-pile range provides."
+        },
+        {
+          "id": "poche-hierarchical-depth",
+          "status": "canonical",
+          "note": "Room depth is set by the plan's hierarchy (parti), not by a fixed clear-span figure -- major rooms deep and tall, service and circulation space carved from the thickened wall around them."
+        }
+      ],
+      "rule": "The plan is generated on a dominant axis with cross-axes and is deep and hierarchical, never a single-pile vernacular range; the wall itself (poche) is thick enough to absorb stairs, flues, closets and lightwells (defining_characteristics).",
+      "sources": [
+        "beaux-arts-french.json defining_characteristics, description.long"
+      ],
+      "status": "drafted"
     },
     "daylight_strategy": {
       "group": "plan-logic",

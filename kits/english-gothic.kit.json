@@ -5,9 +5,38 @@
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Regular structural bays set by the roof trusses or vault ribs, 3.5-5.0 m apart, with openings centred in their own bay -- the bay, not the facade, is the unit of composition. The plan is additive and grows by function (hall, solar, service) rather than by a symmetrical facade grid.",
+      "parameters": {
+        "bay_spacing_range_mm": {
+          "range": [
+            3500,
+            5000
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "english-gothic.json proportional_system.bay_rhythm"
+        }
+      },
+      "variants": [
+        {
+          "id": "additive-vernacular-bay-composition",
+          "status": "canonical"
+        },
+        {
+          "id": "strict-bilateral-symmetry",
+          "status": "forbidden",
+          "note": "CASCADE FIX. Inherited from antique-classical via this style's own weight-0.3 descends_from edge to roman-classical (itself reached only through norman-romanesque-english's real but attenuated lineage -- 'no Norman mason had read Vitruvius'). That is architecturally wrong: english-gothic's own proportional_system.symmetry is 'additive-vernacular', and its own bay_rhythm text is explicit that 'the bay, not the facade, is the unit of composition' -- the opposite of a classical facade-driven symmetry."
+        }
+      ],
+      "note": "CASCADE FIX. A distant, ornament-scale lineage edge (Gothic's own roman-classical ancestry runs through Norman masonry practice, weight 0.3, and is explicitly 'attenuated... no Norman mason had read Vitruvius') was letting a classical symmetry rule from antique-classical override this style's own directly documented additive massing.",
+      "sources": [
+        "english-gothic.json proportional_system.symmetry and bay_rhythm"
+      ],
+      "group": "massing-and-roof"
     },
     "roof_form": {
       "group": "massing-and-roof",
@@ -73,11 +102,26 @@
       "status": "empty"
     },
     "roof_penetration_rules": {
-      "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The open roof (arch-braced, crown-post or hammerbeam) is left exposed and moulded as the principal architectural display of the hall interior, with no ceiling; a plastered ceiling over a hall means it was floored over later, usually in the sixteenth or seventeenth century.",
+      "variants": [
+        {
+          "id": "carpented-open-roof-exposed-no-ceiling",
+          "status": "canonical"
+        },
+        {
+          "id": "plastered-ceiling-over-hall",
+          "status": "atypical",
+          "note": "Indicates a later insertion, not the original condition -- own diagnostic_tells."
+        }
+      ],
+      "sources": [
+        "english-gothic.json defining_characteristics, diagnostic_tells"
+      ],
+      "group": "massing-and-roof"
     },
     "height_proportion": {
       "group": "massing-and-roof",
@@ -210,18 +254,69 @@
       "status": "empty"
     },
     "window_type": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Pointed-arch traceried windows -- plate, then geometric bar, then flowing curvilinear, then rectilinear Perpendicular panel tracery, in that historical sequence -- always finished with a hood mould or weathered label above. Tracery flush in a wall with no drip is a modern detail and will fail in a British rain.",
+      "variants": [
+        {
+          "id": "pointed-traceried-with-hood-mould",
+          "status": "canonical"
+        },
+        {
+          "id": "round-headed-window",
+          "status": "forbidden",
+          "note": "The moment a pointed arch appears you have left Norman for Transitional or Gothic (own distinguished_from[norman-romanesque-english])."
+        }
+      ],
+      "sources": [
+        "english-gothic.json defining_characteristics, diagnostic_tells, constraints (english-gothic.c02)"
+      ],
+      "group": "openings"
     },
     "window_proportion": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Lancet openings run 4:1 to 6:1 height to width in the earliest (Early English) phase; Perpendicular windows, later, run 2:1 to 3:1 overall as tracery opens the wall to more glass.",
+      "parameters": {
+        "lancet_h_to_w": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-gothic.json proportional_system.typical_ratios",
+          "applies_when": {
+            "date_range": [
+              1180,
+              1275
+            ]
+          }
+        },
+        "perpendicular_h_to_w": {
+          "range": [
+            2,
+            3
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-gothic.json proportional_system.typical_ratios",
+          "applies_when": {
+            "date_range": [
+              1375,
+              1540
+            ]
+          }
+        }
+      },
+      "sources": [
+        "english-gothic.json proportional_system.typical_ratios"
+      ],
+      "group": "openings"
     },
     "window_lite_pattern": {
       "group": "openings",
@@ -231,11 +326,26 @@
       "status": "empty"
     },
     "window_head_masonry": {
-      "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A hood mould or weathered label is required above every traceried window, throwing water clear of the tracery. Arch heads are pointed; a depressed head, where used, must be a true four-centred arch, only after roughly 1400.",
+      "variants": [
+        {
+          "id": "pointed-arch-hood-mould-required",
+          "status": "canonical"
+        },
+        {
+          "id": "four-centred-arch",
+          "status": "permitted",
+          "note": "english-gothic.c01: only after roughly 1400 -- the transition into Tudor practice."
+        }
+      ],
+      "sources": [
+        "english-gothic.json constraints (english-gothic.c01, english-gothic.c02)"
+      ],
+      "group": "openings"
     },
     "window_head_wood": {
       "group": "openings",
@@ -425,18 +535,53 @@
       "status": "empty"
     },
     "entry_sequence": {
-      "group": "threshold",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Arriving through the screens passage means arriving at the low end, in shadow, looking up the length of the hall toward the dais -- a deliberate social gradient built from a sequence of thresholds and a fall of light, not a straight-on approach to the room's centre.",
+      "variants": [
+        {
+          "id": "screens-passage-low-end-shadow-to-dais-light",
+          "status": "canonical"
+        }
+      ],
+      "sources": [
+        "english-gothic.json description"
+      ],
+      "group": "threshold"
     },
     "ceiling_height_rule": {
-      "group": "interior",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The great hall's wall-plate height is not less than the hall's own clear width -- a hall wider than it is tall is a room, not a hall. Subsidiary chambers off the dais end and service rooms beyond the screens are governed separately, at ordinary domestic scale.",
+      "parameters": {
+        "hall_width_m": {
+          "range": [
+            7500,
+            9000
+          ],
+          "unit": "mm",
+          "kind": "measured",
+          "source": "english-gothic.json proportional_system.typical_ratios",
+          "note": "Converted from the source's 7.5-9.0 m."
+        },
+        "hall_length_to_width": {
+          "range": [
+            1.5,
+            2.0
+          ],
+          "unit": "ratio",
+          "kind": "measured",
+          "source": "english-gothic.json proportional_system.typical_ratios"
+        }
+      },
+      "sources": [
+        "english-gothic.json constraints (english-gothic.c04), proportional_system.typical_ratios"
+      ],
+      "group": "interior"
     },
     "trim_family": {
       "group": "interior",
@@ -537,18 +682,66 @@
       "status": "empty"
     },
     "circulation_parti": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Entry to the hall is always through a screens passage at the low end, off-centre, never centrally on the long side and never at the dais end -- described in the style's own text as 'the load-bearing rule of the whole domestic plan.' The sequence dais / hall / screens / service is the single most consequential diagram in British domestic architecture, and descends directly into the H- and E-plan manor and every later British habit of entering off-centre through a passage.",
+      "variants": [
+        {
+          "id": "screens-passage-at-low-end-off-centre",
+          "status": "canonical",
+          "note": "english-gothic.c03, hard: 'the load-bearing rule of the whole domestic plan.'"
+        },
+        {
+          "id": "central-entry-on-long-side",
+          "status": "forbidden",
+          "note": "english-gothic.c03: entry is never centrally on the long side."
+        },
+        {
+          "id": "entry-at-dais-end",
+          "status": "forbidden",
+          "note": "english-gothic.c03: entry is never at the dais (high) end."
+        }
+      ],
+      "sources": [
+        "english-gothic.json constraints (english-gothic.c03), description, defining_characteristics"
+      ],
+      "group": "plan-logic"
     },
     "hearth_position": {
-      "group": "plan-logic",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A central open hearth serves the hall until wall fireplaces and chimney stacks become general in the fifteenth century, after which the hearth moves to a wall fireplace.",
+      "variants": [
+        {
+          "id": "central-open-hearth",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1180,
+              1450
+            ]
+          },
+          "note": "Penshurst Place's own exemplar: 'central octagonal hearth.'"
+        },
+        {
+          "id": "wall-fireplace-with-stack",
+          "status": "canonical",
+          "applies_when": {
+            "date_range": [
+              1450,
+              1540
+            ]
+          }
+        }
+      ],
+      "sources": [
+        "english-gothic.json description, exemplars (Penshurst Place)"
+      ],
+      "group": "plan-logic"
     },
     "stair_position": {
       "group": "plan-logic",
