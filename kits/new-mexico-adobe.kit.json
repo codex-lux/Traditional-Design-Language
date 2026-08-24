@@ -467,10 +467,100 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "detached-in-the-dependency-position",
+          "op": "replace",
+          "status": "canonical",
+          "note": "Restated in this region's terms: a separate flat-roofed block set behind the placita wall or standing at the end of the room-file, entered from the service side, never opening onto the court. The inherited reasoning -- the Spanish house hides what the Anglo house presents -- holds here unchanged."
+        },
+        {
+          "id": "last-block-in-the-room-file",
+          "op": "add",
+          "status": "permitted",
+          "note": "The file of rooms is additive and grows along its own length before it turns a corner, so a block at the far end of the service arm is native to the type's growth logic in a way an applied wing is not. It stays a block: same wall, same flat roof, same parapet, one more cell in the string."
+        },
+        {
+          "id": "single-clear-span-two-car-opening",
+          "op": "add",
+          "status": "forbidden",
+          "note": "c02 is hard and limits clear span to 16 ft, the practical viga length; any wider room requires an intermediate bearing and is not of the tradition. A single 18-22 ft vehicle opening can only be got with a concealed steel header, which lies about the one structural fact the entire style is built from. Two bays with an adobe pier between them is the answer -- and it is what groupings/garage-and-hyphen.json already prefers on compositional grounds, arrived at here by structure instead."
+        },
+        {
+          "id": "pitched-or-shed-roofed-garage",
+          "op": "add",
+          "status": "forbidden",
+          "note": "c03: no pitched roof, no gable, no eave, anywhere. A shallow shed roof over the bays with applied viga ends stuck under it is the commonest failure and is simultaneously the clearest Pueblo Revival tell (c05, non-structural applied vigas)."
+        },
+        {
+          "id": "vehicle-court-inside-the-placita",
+          "op": "add",
+          "status": "forbidden",
+          "note": "The placita is the house's principal outdoor room, not a forecourt. Vehicles stop outside the service gate; driving into the court replaces the one space the courtyard-u plan exists to make."
+        }
+      ],
+      "parameters": {
+        "max_clear_span": {
+          "value": 16,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "new-mexico-adobe.c02",
+          "note": "The viga length. It is the reason a two-car garage in this style is two bays with a bearing pier and not one opening -- the span limit is retrieved, the consequence for the garage is authored."
+        },
+        "door_count_preferred": {
+          "value": 2,
+          "unit": "count",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "Preferred by the grouping and required here by c02."
+        },
+        "max_door_width": {
+          "value": 10,
+          "unit": "ft",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json"
+        },
+        "parapet_height": {
+          "range": [
+            12,
+            24
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "new-mexico-adobe.c03",
+          "note": "The garage block carries the same parapet as everything else, with not fewer than one canale per roof plane."
+        },
+        "wall_and_finish": {
+          "value": "load-bearing adobe on a stone footing, mud plaster or lime wash; cement stucco prohibited",
+          "unit": "none",
+          "kind": "measured",
+          "source": "new-mexico-adobe.c04",
+          "note": "Retrieved rule, authored application. A frame-and-cement-stucco garage beside an adobe house is the point at which the whole wall system stops being true, and c04 already refuses the finish."
+        },
+        "subordination_expression": {
+          "value": "no ridge ratio applies -- there is no ridge; subordination is expressed by parapet height and by the block being one cell wide",
+          "unit": "none",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "The grouping's hierarchy rule is stated as a ridge ratio of 0.6-0.8 and cannot be applied to a flat-roofed, parapeted type. Recorded rather than silently dropped, and replaced by the terms this style actually has."
+        }
+      },
+      "rule_append": "In New Mexico the block that houses the car is built like every other block in the file -- flat behind its own parapet, drained by its own canale, in the same adobe -- and is held to the 16 ft viga span, so a two-car garage is necessarily two bays with a bearing pier between them rather than one wide opening.",
+      "invented": true,
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted",
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "The inherited spanish-colonial-american answer -- detached, behind the blind wall, entered from a service gate -- is right for this node and is kept. What is added is authored: the consequences of the viga span and the flat parapeted roof for a building type the tradition never had."
+      },
+      "sources": [
+        "Authored, not retrieved. There is no historical precedent for a garage in this or any traditional style (docs/inheritance.md).",
+        "groupings/garage-and-hyphen.json (two narrow doors preferred over one wide one, doors off the principal elevation, hierarchy rule -- the last of which does not apply to a flat-roofed type and is recorded as inapplicable)",
+        "new-mexico-adobe constraints c02 (viga span), c03 (flat roof and parapet), c04 (mud plaster and lime wash), c05 (applied vigas)"
+      ],
+      "note": "Extends rather than replaces: the inherited inward-facing, service-gate logic is correct here; the delta is what the viga span and the parapet do to it."
     },
     "glazing_assembly": {
       "group": "openings",

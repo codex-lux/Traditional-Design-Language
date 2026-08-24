@@ -14,13 +14,13 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **1 — Executable constraints** | WP-1.1, 1.2, 1.3 | **Complete** — 660/660 constraints migrated, 61.5% of hard constraints tested (bar was ≥60%) |
 | **2 — Composition** | WP-2.1, 2.2, 2.4 complete · **WP-2.3 not started** | **Incomplete** — the solver is still a hill-climb, not an optimiser |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
-| **4 — Breadth** | WP-4.1, 4.2 complete · 4.3 part-done · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
+| **4 — Breadth** | WP-4.1, 4.2, 4.3 complete · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
 | **5 — Platform** | none | **Not started** |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
-1. **OQ 28** — fix `plan_check._load()`'s cache defeat. Not a work package, a small enabler: it currently costs 30–40 s per `compose()` and forces the 291-test suite into three chunks totalling ~12 minutes. Every package after it pays that tax on every verification pass.
-2. **WP-4.3** — small, mostly done incidentally during WP-4.2, and it has a named acceptance test that is not yet true.
+1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
+2. ~~**WP-4.3**~~ — **done 24 Aug 2026**. See `docs/reports/wp-4.3-the-garage.md`.
 3. **WP-2.3** — the real solver. The deepest remaining structural gap and the last thing between Phase 2 and finished.
 4. **WP-4.5** — partis (39 of 132) now gate the composer's reach harder than kits ever did.
 5. **WP-4.6**, then **WP-4.4** — packs (list ready from WP-4.1/OQ 30), then images.
@@ -351,7 +351,7 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 ### WP-4.3 The garage
 
-**Status: PART DONE — acceptance not yet met.** 54 nodes carry a `garage_strategy` binding as a side effect of WP-4.2 (only 4 living nodes lack one). Still missing: the `garage` room, the `garage-and-hyphen` grouping with `attaches_to`, and the composer rule placing the garage by attachment rather than adjacency — which is what the acceptance test actually turns on.
+**Status: COMPLETE (24 Aug 2026).** `groupings/garage-and-hyphen.json` authored (8 internal rules, 14 `attaches_to` entries incl. one `forbidden` massing); `compose.py`'s `attach_garage()` places by attachment and refuses with a stated reason where the grouping records none; the last 4 living nodes bound, taking the corpus to 58 `garage_strategy` bindings with every living style covered. Acceptance met and tested both ways — the composer cannot produce the garage-beside-bedroom fatal (a composed garage has exactly one interior neighbour, a mudroom), and a guard test asserts the hand-authored spec Colonial still trips that fatal so the acceptance cannot pass because the rule broke. One unsatisfiable daylight finding left standing on purpose and recorded as OQ 31. See `docs/reports/wp-4.3-the-garage.md`.
 
 **Depends on:** WP-4.2 in progress. **Size:** small but consequential.
 

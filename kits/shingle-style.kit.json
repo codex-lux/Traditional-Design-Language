@@ -495,10 +495,114 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "absorbed-under-the-continuous-shingle-field",
+          "status": "canonical",
+          "note": "A subordinate volume pulled under the house's own skin and linked by a low shingled hyphen the main roof sweeps down over -- the catslide move the saltbox affinity already uses to bring the roof to the ground. This style unifies its massing by the surface rather than by articulation, so it can absorb an extra volume more cheaply than any other style in the corpus: the shingle field simply continues across it."
+        },
+        {
+          "id": "detached-shingled-outbuilding",
+          "status": "permitted",
+          "note": "Standing free on the lot in the same skin, the same shallow tight-cut eave and the same plain butt. Correct where the lot has a service drive, but it gives up the one thing the attached version buys -- a single continuously modelled mass."
+        },
+        {
+          "id": "garage-volume-with-its-own-trim-vocabulary",
+          "status": "forbidden",
+          "note": "c01 admits no exceptions: the shingle field runs across every storey line, corner and change of plane, with no corner board, water table, belt course or frieze board interrupting it. A garage given corner boards and a cased door is the exact move that makes a Shingle Style house a Queen Anne one (diagnostic tell 1), and it does it at the largest opening on the building."
+        },
+        {
+          "id": "pedimented-or-hooded-vehicle-door",
+          "status": "forbidden",
+          "note": "c03 prohibits projecting hoods, crowns, pedimented heads and moulded sills and caps casing at 3 in. The vehicle opening reads as punched into the shingle field like every other opening, or it does not belong to this style."
+        },
+        {
+          "id": "doors-on-the-principal-elevation",
+          "status": "forbidden",
+          "note": "The principal elevation's large openings are voids carved out of the volume -- porches and loggias, and horizontal bands of sash under one head. A pair of vehicle doors is an applied plane of moving hardware that cannot read as a carved void, and its width has no relative anywhere in the window banding. Turn them onto a flank or a court, per groupings/garage-and-hyphen.json."
+        }
+      ],
+      "parameters": {
+        "cladding_continuity": {
+          "value": "one shingle field, unbroken from the house across the hyphen and around all four sides of the garage volume, at the same exposure",
+          "unit": "none",
+          "kind": "editorial",
+          "source": "shingle-style.c01",
+          "note": "The rule is the style's own and is retrieved; extending it over a volume the style never built is the authored part. It is also what makes the strategy work -- an absorbed garage is invisible in a way it can never be in a trimmed style."
+        },
+        "shingle_exposure": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "shingle-style.c04",
+          "note": "Same exposure on the garage as on the house; a coarser shingle on the outbuilding is the commonest way the field stops reading as one surface."
+        },
+        "max_casing_width": {
+          "value": 3,
+          "unit": "in",
+          "kind": "measured",
+          "source": "shingle-style.c03",
+          "note": "Applies to the vehicle door as to every other opening, which in practice means no surround at all."
+        },
+        "max_eave_projection": {
+          "value": 12,
+          "unit": "in",
+          "kind": "measured",
+          "source": "shingle-style.c02",
+          "note": "The garage and the hyphen carry the same shallow tight-cut eave; a deeper overhang over the bays is the giveaway that the volume was designed separately."
+        },
+        "max_door_width": {
+          "value": 10,
+          "unit": "ft",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "Two openings with a shingled pier between them. Beyond about 10 ft there is too little field left between jamb and corner for the surface to read as continuous, which is the whole strategy."
+        },
+        "door_count_preferred": {
+          "value": 2,
+          "unit": "count",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json"
+        },
+        "hyphen_length": {
+          "range": [
+            12,
+            20
+          ],
+          "unit": "ft",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "Taken unchanged from the grouping, which takes it in turn from dependency-and-hyphen. Here the link is shingled and roofed by the main roof continuing down over it, so it reads as modelling rather than as a connector."
+        },
+        "ridge_ratio_to_main_block": {
+          "range": [
+            0.6,
+            0.8
+          ],
+          "unit": "ratio",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json"
+        }
+      },
+      "rule": "No traditional precedent exists; the garage is authored as one more freely modelled volume pulled under the house's own continuous shingle field, joined by a low hyphen the main roof sweeps down over, because this style is unified by its skin rather than by its articulation and can therefore absorb a subordinate volume at no cost to the composition -- while a garage given its own corner boards, casing or eave breaks c01, the one rule the style has that admits no exceptions.",
+      "invented": true,
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted",
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "Specified rather than extended: the inherited answer reaching this node from queen-anne-british is an informal gabled outbuilding 'in the same red-brick-and-tile-hanging vocabulary as the house', which is Old English and not this style's vocabulary at all. The structural idea behind it -- one more informally massed volume, never centred on the composed front -- survives; the materials and the trim do not."
+      },
+      "sources": [
+        "Authored, not retrieved. There is no historical precedent for a garage in this or any traditional style (docs/inheritance.md).",
+        "groupings/garage-and-hyphen.json (hyphen length, ridge ratio, door width and count, doors off the principal elevation)",
+        "shingle-style constraints c01 (continuous field), c02 (eave), c03 (casing), c04 (exposure), and its saltbox massing affinity"
+      ],
+      "note": "Overrides the cascade rather than extending it, because the inherited vocabulary is wrong for this node even though the inherited logic is not."
     },
     "glazing_assembly": {
       "group": "openings",

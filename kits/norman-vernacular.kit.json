@@ -431,10 +431,95 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "separate-cell-in-the-enclosure",
+          "status": "canonical",
+          "note": "One more single-purpose building standing free in the hedged or walled enclosure, in the same close-studded frame on its own stone soubassement, one range deep -- the position outbuilding_types already gives the pressoir, the charreterie and the etable. The charreterie is a cart shed and is NOT offered here as a precedent for housing a car: it is open-fronted, unheated and undoored, and what is borrowed from it is a position in the scatter, nothing else."
+        },
+        {
+          "id": "detached-across-the-cour-from-the-logis",
+          "status": "permitted",
+          "note": "Where the enclosure is loose enough, set on the far side of the yard so the car is parked outside the domestic half of the enclosure rather than beside it."
+        },
+        {
+          "id": "linked-to-the-logis-by-a-hyphen",
+          "status": "forbidden",
+          "note": "This is the corpus's own default garage answer (groupings/garage-and-hyphen.json) and this style must refuse it. Defining characteristic 6 and constraint c04 both say the Norman farmstead is dispersed and nothing is attached to anything -- depth is added by a second detached building, not by extending or linking the range. A hyphen turns the farm into the connected type the German and Flemish traditions built at the same latitude, and that contrast is the sharpest thing this style has."
+        },
+        {
+          "id": "frame-on-a-slab-at-grade",
+          "status": "forbidden",
+          "note": "A car wants a flat threshold, which is exactly the temptation c01 exists to stop: the sill must sit on a soubassement of at least 400 mm, because oak set into Auge clay at grade is a ten-year building. The garage floor drops to the vehicle, the frame does not."
+        },
+        {
+          "id": "one-wide-opening-in-the-close-studding",
+          "status": "forbidden",
+          "note": "c02 forms an opening by omitting whole studs and framing the gap; an opening cannot be cut through a stud. A single wide door removes so many studs at once that the close-studded striping -- the one thing that reads as Normandy from a kilometre away -- stops reading on that elevation."
+        }
+      ],
+      "parameters": {
+        "attachment": {
+          "value": "detached: no hyphen, no shared wall, no shared roof",
+          "unit": "none",
+          "kind": "editorial",
+          "note": "The style-specific departure from groupings/garage-and-hyphen.json, whose hyphen is the whole point of the grouping elsewhere."
+        },
+        "soubassement_min": {
+          "value": 400,
+          "unit": "mm",
+          "kind": "measured",
+          "source": "norman-vernacular.c01",
+          "note": "The figure is the style's own and is retrieved; carrying it onto a building type the tradition never built is the editorial part."
+        },
+        "max_range_depth": {
+          "value": 19.7,
+          "unit": "ft",
+          "kind": "measured",
+          "source": "norman-vernacular.c04",
+          "note": "c04's single-pile limit is stated as 6 m; 19.7 ft is that figure converted, not a new one. It happens to garage a car nose-in with room to open a door, so the vehicle cell can be genuinely single-pile like everything else in the enclosure. Two cars are got by length along the range, never by doubling the depth."
+        },
+        "max_door_width": {
+          "value": 10,
+          "unit": "ft",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "The grouping's stated preference for two narrower doors over one wide one, which here is also a framing rule: an opening is a whole number of stud bays at 0.5-0.8 m centres (c02), and the post between two doors is a real post."
+        },
+        "door_count_preferred": {
+          "value": 2,
+          "unit": "count",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json"
+        },
+        "ridge_ratio_to_logis": {
+          "range": [
+            0.6,
+            0.8
+          ],
+          "unit": "ratio",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "Taken unchanged from the grouping's hierarchy rule. The steep 45-60 degree roof of this type makes the drop very legible, which is the point."
+        }
+      },
+      "rule": "No traditional precedent exists for housing a car, and this style's answer is not the corpus's default one: the garage is authored as one more separate single-purpose building standing free in the enclosure, its own close-studded frame on its own 400 mm soubassement and one range deep, because the Norman farmstead's defining characteristic is that nothing is attached to anything and a hyphen would convert it into the connected type it exists in contrast to.",
+      "invented": true,
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted",
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "Authored for a node whose status is 'living', per the docs/inheritance.md ruling that garage_strategy 'should be specified on every contemporary buildable variant'. Nothing here is retrieved except the numbers, each of which cites either this style's own constraints or the grouping."
+      },
+      "sources": [
+        "Authored, not retrieved. There is no historical Norman precedent for a garage.",
+        "groupings/garage-and-hyphen.json (door width and count, ridge ratio, doors turned off the principal elevation) -- and its hyphen rule deliberately refused here",
+        "norman-vernacular constraints c01 (soubassement), c02 (stud bays and openings), c04 (single-pile depth) and its own outbuilding_types binding",
+        "docs/inheritance.md (garage_strategy guidance)"
+      ],
+      "note": "The one node in this group that rejects the grouping's central move. Recorded as a refusal rather than silently omitted, so a reviewer can argue with it."
     },
     "glazing_assembly": {
       "group": "openings",

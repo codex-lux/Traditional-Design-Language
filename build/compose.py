@@ -115,8 +115,9 @@ def instantiate(parti_id, brief):
                 rooms.append(q)
             continue
         rooms.append(copy.deepcopy(r))
-    if brief.get("context", {}).get("garage_bays") and not any(r["type"] == "garage" for r in rooms):
-        log.append("The brief asks for a garage and the diagram has none; it is not being invented here — pick a parti that carries one.")
+    # The garage is attached after the plan record exists, because it is placed by the
+    # grouping's `attaches_to` against the chosen MASSING (WP-4.3) and the massing is not
+    # settled until then. See attach_garage() below.
     for m in must:
         if not any(r["type"] == m for r in rooms):
             log.append(f"JUDGMENT: the brief requires a {m.replace('-', ' ')} and this diagram has no place for one. Not added — the position matters more than the presence.")
@@ -217,9 +218,167 @@ def instantiate(parti_id, brief):
             "adjacencies": [a for a in p.get("adjacencies", [])
                             if any(a["a"] == x["id"] for x in rooms) and any(a["b"] == x["id"] for x in rooms)],
             "note": f"Composed from the {p['name']} parti. {p['trades_away']}"}
+    attach_garage(plan, brief, log)
     symmetrise_doors(plan)
     plan["declared"] = canonical_choices(brief["style"])
     return plan, log, p
+
+# --------------------------------------------------------------------- the garage
+# WP-4.3. The garage is the one function no traditional style has a rule for, so it is the
+# one room this composer AUTHORS a position for rather than retrieving one. The rule the
+# plan of action asks for: it is placed by the `garage-and-hyphen` grouping's own
+# `attaches_to` against the chosen massing, NEVER by adjacency. That distinction is the
+# whole point. Placing by adjacency asks "what may the garage touch?", which is how the
+# spec-builder Colonial ended up with a two-car garage against the primary bedroom -- every
+# individual adjacency was locally plausible and the result is a code, noise and fume
+# failure. Placing by attachment asks "where does a dependency land on this skeleton?", and
+# the answer comes from the massing's own expansion logic, so the bedroom question never
+# arises: the garage's only neighbour is the hyphen it arrived through.
+
+# WHERE THE GARAGE LANDS, and why the hyphen is not a room.
+#
+# The first attempt here modelled the hyphen as its own room, typed `back-hall` and then
+# `mudroom`. Both fail, and they fail for the same instructive reason: every service room
+# in the catalogue that could plausibly BE a hyphen carries a hard `must_adjoin` on the
+# kitchen (back-hall: "the back hall's entire reason for existing is to connect the kitchen
+# to the rest of the house"; mudroom: "the groceries have to reach the kitchen without
+# crossing a living space"). A 14 ft link out to a detached dependency cannot also touch
+# the kitchen, so any hyphen modelled as one of those rooms is born failing a hard rule.
+#
+# The catalogue has no room type for a pure link, and inventing one here would be a room
+# with no furniture, no daylight rule and no privacy rank -- WP-4.5's business, not this
+# package's. So the hyphen is modelled as what it physically is: a property of the
+# ATTACHMENT (its length is carried on the garage record and governed by the grouping's own
+# 12-20 ft rule), not a room in the plan graph.
+#
+# That turns out to be what the corpus already said. rooms/back-hall.json states the modern
+# sequence outright -- "garage, mudroom, back hall, kitchen, and the sequence is the same one
+# the tradesman's entrance had" -- so the room the garage lands on is the MUDROOM, which is
+# also exactly what rooms/garage.json's own must_adjoin requires by direct door. The garage
+# then has precisely one interior neighbour, that neighbour is a threshold room, and the
+# bedroom question cannot arise.
+GARAGE_ANCHOR = "mudroom"
+
+def attach_garage(plan, brief, log):
+    """Attach garage-and-hyphen to the plan's massing, or refuse and say why."""
+    bays = (brief.get("context") or {}).get("garage_bays")
+    if not bays:
+        return
+    ground = next((lv for lv in plan["levels"] if lv.get("index") == 0), None)
+    if ground is None:
+        return
+    if any(r["type"] == "garage" for lv in plan["levels"] for r in lv["rooms"]):
+        return
+
+    path = f"{ROOT}/groupings/garage-and-hyphen.json"
+    if not os.path.exists(path):
+        return
+    G = json.load(open(path))
+    massing = plan.get("massing")
+    entry = next((a for a in G["attaches_to"] if a["massing"] == massing), None)
+
+    if entry is None:
+        log.append(f"JUDGMENT: the brief asks for {bays} garage bays and `garage-and-hyphen` "
+                   f"records no attachment for the {massing} massing. Not placed — a garage put "
+                   f"somewhere the grouping has no rule for is exactly the guess this package "
+                   f"exists to stop.")
+        return
+    if entry.get("fit") == "forbidden":
+        log.append(f"REFUSED: the brief asks for {bays} garage bays and `garage-and-hyphen` marks "
+                   f"the {massing} massing FORBIDDEN — {entry.get('note', 'no flank and no lane')}. "
+                   f"Not placed. The honest answer is a rear-lane detached structure that is not "
+                   f"part of this house's composition, or a different massing.")
+        return
+
+    anchor = next((r for r in ground["rooms"] if r["type"] == GARAGE_ANCHOR), None)
+    made_anchor = False
+    if anchor is None:
+        kitchen = next((r for r in ground["rooms"] if r["type"] == "kitchen"), None)
+        if kitchen is None:
+            log.append(f"JUDGMENT: the brief asks for {bays} garage bays and this diagram has "
+                       f"neither a mudroom for the car to land in nor a kitchen to put one beside. "
+                       f"Not placed — the alternative is dooring the garage into a formal room, "
+                       f"which garage-and-hyphen forbids outright.")
+            return
+        # Doored onto the kitchen (its own hard rule) and, where the diagram has one, onto the
+        # back hall as well -- which is not decoration. rooms/back-hall.json states the modern
+        # sequence explicitly, "garage, mudroom, back hall, kitchen, and the sequence is the
+        # same one the tradesman's entrance had", and it carries its own should_adjoin on the
+        # mudroom. Adding a mudroom that the existing back hall cannot reach would satisfy the
+        # garage's rule by breaking the back hall's.
+        doors = [{"to": kitchen["id"], "width_ft": 3.0}]
+        back = next((r for r in ground["rooms"] if r["type"] == "back-hall"), None)
+        if back:
+            doors.append({"to": back["id"], "width_ft": 3.0})
+        anchor = {"id": "garage-mudroom", "type": "mudroom", "name": "Mudroom",
+                  "width_ft": 7.0, "length_ft": 9.0, "ceiling_ft": 8.5,
+                  "doors": doors,
+                  "note": "Added with the garage. Without it the kitchen becomes the mudroom, "
+                          "which is the failure rooms/garage.json names. Sits on the service "
+                          "sequence the back hall's own record describes: garage, mudroom, "
+                          "back hall, kitchen."}
+        made_anchor = True
+
+    w, l = room_default_dims("garage")
+    bay_w = 11.0                                   # rooms/garage.json width band starts at 11
+    width = round(max(w, bay_w * int(bays)), 1)
+    # Clamp depth into the catalogue's own 20-26 ft band. The midpoint-derived figure runs
+    # past it, and a garage deeper than it needs to be is the room that then fails its own
+    # daylight rule -- a detached dependency has flanks to light from, so use them.
+    lo_l, hi_l = (C["rooms"].get("garage", {}).get("dimensions", {}).get("length_ft") or [20, 26])
+    l = lo_l   # the shallow end of the band: 20 ft takes a 16 ft car with clearance,
+               # and every foot past that is depth the room cannot daylight
+    hyphen_len = 14.0                              # inside the grouping's own 12-20 ft rule
+
+    garage = {"id": "garage", "type": "garage", "name": f"{int(bays)}-Car Garage",
+              "width_ft": width, "length_ft": round(l, 1), "ceiling_ft": 9.0,
+              "exterior_walls": ["N", "E", "S"],
+              # A window in the side wall, not a glazed vehicle door: rooms/garage.json is
+              # explicit that "glazed garage doors are a contemporary convention with no
+              # traditional precedent; where light is wanted, a window in the side wall costs
+              # less and reads correctly." Kept inside the room's own 0-10% glazing band.
+              "window_head_ft": 7.5,
+              "windows": [{"wall": wall, "width_ft": 2.8, "height_ft": 3.6,
+                           "count": 2, "operable": True, "egress": False}
+                          for wall in ("E", "N")],
+              "doors": [{"to": anchor["id"], "width_ft": 3.0}]
+                       + [{"to": "exterior", "width_ft": 9.0, "type": "garage",
+                           "note": "Turned off the principal elevation; two 9 ft openings with a "
+                                   "pier between them rather than one wide door."}
+                          for _ in range(int(bays))],
+              "note": (f"Placed as a dependency on the {massing} massing "
+                       f"({entry.get('position', 'per garage-and-hyphen.attaches_to')}), not by adjacency. "
+                       f"Linked back by a {hyphen_len:g} ft hyphen — inside garage-and-hyphen's own "
+                       f"12-20 ft rule; the link is a property of the attachment, not a room, because "
+                       f"every service room that could model it hard-requires a kitchen door it cannot "
+                       f"have. Ridge 60-80% of the main ridge, per the same grouping. Authored, not "
+                       f"retrieved — no traditional style has a rule for this room.")}
+    if made_anchor:
+        ground["rooms"].append(anchor)
+    ground["rooms"].append(garage)
+
+    plan.setdefault("groupings", [])
+    if "garage-and-hyphen" not in plan["groupings"]:
+        plan["groupings"].append("garage-and-hyphen")
+
+    log.append(f"AUTHORED: {int(bays)} garage bays placed as a dependency off the "
+               f"{anchor.get('name') or anchor['type']}"
+               f"{' (added with it)' if made_anchor else ''}, per garage-and-hyphen.attaches_to for the "
+               f"{massing} massing ({entry.get('fit', 'possible')} fit: {entry.get('position', 'unspecified position')}). "
+               f"Placed by attachment, never by adjacency — the garage's only interior neighbour is "
+               f"that one threshold room, which is why it cannot land against a bedroom. Linked back "
+               f"by a {hyphen_len:g} ft hyphen. No traditional style has a rule for this room; this is "
+               f"invented and should be shown to a client as such.")
+    if any(lv.get("index", 0) > 0 for lv in plan["levels"]):
+        log.append("NOT SOLVED: whether an upper-storey room ends up over the garage is a geometry "
+                   "question this composer does not answer — it places rooms, not volumes. "
+                   "garage-and-hyphen forbids a habitable room above the bays; check the placed plan.")
+    log.append("KNOWN FINDING, not a defect: the garage will report a daylight-depth failure. Two "
+               "bays are 20 ft by 22 ft at the shallow end of the catalogue's own band, and no real "
+               "two-car garage is shallow enough for daylight to reach its back wall — the finding "
+               "is unsatisfiable rather than wrong, and the room is not distorted to silence it. "
+               "Daylight depth is a habitability rule and the garage is not habitable. Recorded as "
+               "OQ 31 rather than suppressed.")
 
 def symmetrise_doors(plan):
     """A parti declares each door once; a plan needs it on both rooms."""

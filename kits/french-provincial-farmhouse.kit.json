@@ -486,10 +486,94 @@
     },
     "garage_strategy": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "extends",
+      "variants": [
+        {
+          "id": "detached-cell-on-the-cour",
+          "op": "add",
+          "status": "canonical",
+          "note": "Gives the inherited rule an id in this type's terms: a separate, cell-scaled outbuilding standing on the working yard, added end to end in the same additive logic as the rest of the holding, its roof stepping down from the logis. The inherited binding states this in prose and carries no variant record, so a generator had nothing to reach for."
+        },
+        {
+          "id": "range-on-the-working-cour",
+          "op": "add",
+          "status": "permitted",
+          "note": "The mas closes three sides of a working yard (massing_affinities: courtyard-u), and the garage takes one of them as a low range with its doors into the cour. This is the one style in this group where a bay under the house's own roof is defensible rather than a compromise, because the ground floor of this type is already given over to production and storage -- cave, cuverie, byre, press -- with living above or alongside it."
+        },
+        {
+          "id": "doors-on-the-north-west-elevation",
+          "op": "add",
+          "status": "forbidden",
+          "note": "c01 requires the north-west elevation to be effectively closed: openings not more than 5 percent of its wall area, none at ground level, no principal entrance. A garage door is the largest ground-level opening the house has, and it would face the mistral, which is the single condition the type is organised against."
+        },
+        {
+          "id": "doors-on-the-south-to-south-east-facade",
+          "op": "add",
+          "status": "forbidden",
+          "note": "That elevation carries the large shuttered openings, the terrace and the shade tree, and it is the whole reason for the plan's orientation. Turning it into a car court is the same error as rotating the mas ninety degrees: what is left looks like one and does not work like one."
+        },
+        {
+          "id": "symmetrical-garage-pavilions-flanking-the-front",
+          "op": "add",
+          "status": "forbidden",
+          "note": "Restates the inherited prohibition in this type's terms and is worth stating because it is the commonest way the type is misbuilt: fenestration here follows the room and never a composition (diagnostic tell 5), so a paired, centred, composed front is a Beaux-Arts habit imported onto a farm."
+        }
+      ],
+      "parameters": {
+        "door_orientation": {
+          "value": "into the working cour; never on the north-west (mistral) elevation and never on the south-to-south-east living facade",
+          "unit": "none",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "The grouping says the doors turn off the principal elevation wherever the lot allows; in this type the climatic constraint c01 closes the opposite elevation as well, which leaves the yard as the only face that will take them."
+        },
+        "lintel_rule": {
+          "value": "any vehicle opening requires a stone relieving arch or a full-bearing timber lintel with dressed stone jambs",
+          "unit": "none",
+          "kind": "editorial",
+          "source": "french-provincial-farmhouse.c03",
+          "note": "c03 sets that threshold at 1.2 m of clear width in a 500-700 mm rubble wall, and no garage door is narrower than that. Retrieved as a rule, applied editorially to an opening the tradition never cut."
+        },
+        "max_door_width": {
+          "value": 10,
+          "unit": "ft",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "Two openings with a pier of masonry between them, which in a rubble wall is a structural preference as much as a compositional one -- each arch or lintel spans less and the pier carries the thrust between them."
+        },
+        "ridge_ratio_to_main_block": {
+          "range": [
+            0.6,
+            0.8
+          ],
+          "unit": "ratio",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "The grouping's hierarchy rule, and consistent with this type's own stepping roofs where ranges are added end to end."
+        },
+        "habitable_room_above": {
+          "value": "prohibited over the bays, except where a range's own living-over-working section genuinely continues across; a bedroom above is prohibited outright",
+          "unit": "none",
+          "kind": "editorial",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "An honest conflict rather than a rule. This type puts living quarters over a working ground floor as a matter of course, and the grouping prohibits a habitable room over the bays (strong, acoustic) and a bedroom over them absolutely (hard, and IRC R302.5.1). The bedroom rule wins without argument; the rest is a judgment that requires a rated, sealed and acoustically separated deck to be defensible at all."
+        }
+      },
+      "rule_append": "In this type the garage takes a side of the working cour with its doors turned into the yard -- never on the north-west elevation, which c01 requires to stay effectively blind at ground level, and never on the south-to-south-east facade the entire orientation of the plan exists to protect.",
+      "invented": true,
+      "judgment": true,
+      "confidence": "medium",
+      "status": "drafted",
+      "edit_provenance": {
+        "kind": "invented",
+        "note": "The inherited answer from tuscan-vernacular -- a detached, cell-scaled outbuilding added in the same additive logic as the house, never centred on the principal block -- is right for this node and is kept. What is added is authored, not retrieved: where the thing goes in a courtyard plan, and which two elevations this type's climatic logic closes to it."
+      },
+      "sources": [
+        "Authored, not retrieved. There is no historical precedent for a garage in this or any traditional style (docs/inheritance.md).",
+        "groupings/garage-and-hyphen.json (door width and count, ridge ratio, doors off the principal elevation, no habitable room above the bays, IRC R302.5.1)",
+        "french-provincial-farmhouse constraints c01 (closed north-west elevation), c03 (opening width in rubble masonry) and its courtyard-u massing affinity"
+      ],
+      "note": "Extends rather than replaces: tuscan-vernacular's detached, cell-scaled, additive outbuilding is the correct genus, and this delta only places it in the cour and states which elevations are closed to it."
     },
     "glazing_assembly": {
       "group": "openings",

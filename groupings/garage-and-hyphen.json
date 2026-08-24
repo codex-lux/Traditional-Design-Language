@@ -1,0 +1,181 @@
+{
+  "id": "garage-and-hyphen",
+  "name": "Garage and Hyphen",
+  "aka": [
+    "motor dependency",
+    "linked garage",
+    "detached garage with connector"
+  ],
+  "scale": "wing",
+  "confidence": "medium",
+  "description": "The garage handled as a dependency rather than as a room of the house: a subordinate volume set off the principal elevation and joined back to the service side by a low, shallow link. It is a narrowing of `dependency-and-hyphen` to the one modern function no traditional style has a rule for, and it exists as its own grouping because the garage is the only dependency whose *placement* has to be constrained rather than merely preferred — a library in a flanking wing that lands beside a bedroom is an oddity, a garage that lands beside a bedroom is a code, noise and fume failure at once. Everything here is authored rather than retrieved, in the sense docs/inheritance.md means when it says garage_strategy is the slot where a modern kit must invent; the invention is disciplined by taking the proportions from the traditional dependency the corpus already carries, not by inventing those too.",
+  "rooms": [
+    {
+      "room": "garage",
+      "role": "primary",
+      "count": "1",
+      "note": "The dependency itself. Two bays is the assumed default; three abreast defeats the subordination this grouping exists to preserve and should become two plus one on a return."
+    },
+    {
+      "room": "back-hall",
+      "role": "connector",
+      "count": "1",
+      "note": "The hyphen in use — the link is a room, not a corridor, and it is what keeps the garage from touching the house proper."
+    },
+    {
+      "room": "mudroom",
+      "role": "secondary",
+      "count": "0-1",
+      "note": "The car-to-house transition wants a dirty room to land in, or the kitchen becomes it (garage.adjacency.must_adjoin)."
+    },
+    {
+      "room": "laundry",
+      "role": "optional",
+      "count": "0-1",
+      "note": "Shares the service zone and the drainage; a common and defensible occupant of the hyphen."
+    },
+    {
+      "room": "workshop",
+      "role": "optional",
+      "count": "0-1"
+    }
+  ],
+  "internal_rules": [
+    {
+      "statement": "The garage never adjoins a bedroom — not beside it, not beneath it, not across a shared wall. This is the one rule in the grouping that is absolute: it is simultaneously an acoustic problem, a fume problem and a fire-separation problem that IRC R302.5.1 addresses by requiring rated separation and forbidding an opening into a sleeping room.",
+      "kind": "adjacency",
+      "severity": "hard",
+      "test": "garage_to_bedroom_adjacency equals 0"
+    },
+    {
+      "statement": "The garage is reached from the house only through the hyphen, and the hyphen is entered from the service side — a mudroom, back hall or rear passage. A door from the garage into a formal room, or directly into the kitchen, defeats the grouping.",
+      "kind": "sequence",
+      "severity": "hard"
+    },
+    {
+      "statement": "The garage ridge sits demonstrably below the main ridge — 60 to 80 percent. This is `dependency-and-hyphen`'s own hierarchy rule, unchanged, because the garage earns subordination the same way any dependency does. A token difference reads as a mistake rather than as hierarchy.",
+      "kind": "hierarchy",
+      "severity": "hard",
+      "test": "dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8"
+    },
+    {
+      "statement": "Hyphen length 12 to 20 ft. Shorter and the two volumes collide; longer and the connection stops being used. Inherited unchanged from `dependency-and-hyphen`.",
+      "kind": "dimension",
+      "severity": "strong",
+      "test": "hyphen_length_ft between 12 and 20"
+    },
+    {
+      "statement": "The vehicle doors turn off the principal elevation wherever the lot allows — onto a flank, a rear lane, or a court. Where they must face the approach, they sit behind the plane of the principal facade, never forward of it.",
+      "kind": "sequence",
+      "severity": "hard",
+      "exceptions": [
+        "A townhouse-row or otherwise party-walled lot with no flank and no lane, where the only legal vehicle access is the street frontage. There the composition problem is real and unsolved, and the honest answer is to say so rather than to pretend the doors are subordinate."
+      ]
+    },
+    {
+      "statement": "Two narrower doors with a pier between them compose better than one wide door of the same total width, and cost about the same. A 16 ft opening has no proportional relative anywhere in a traditional facade; a 9 ft opening is merely a wide door.",
+      "kind": "dimension",
+      "severity": "preferred",
+      "test": "garage_door_width_ft at-most 10"
+    },
+    {
+      "statement": "No habitable room is placed above the garage. A bonus room over the bays is the commonest way the bedroom-over-garage failure re-enters a plan that avoided it on the ground floor.",
+      "kind": "acoustic",
+      "severity": "strong"
+    }
+  ],
+  "attaches_to": [
+    {
+      "massing": "five-part-palladian",
+      "fit": "canonical",
+      "position": "one flanking dependency, the service flank",
+      "note": "The five-part plan is the one traditional composition that already has a place for a subordinate volume at the end of a link. The garage takes the service dependency; where both flanks are wanted symmetrically, the opposite dependency takes a library or a kitchen so the pair reads as intended."
+    },
+    {
+      "massing": "four-over-four",
+      "fit": "canonical",
+      "position": "one flank or the rear, off the service corner"
+    },
+    {
+      "massing": "linear-ell-farmhouse",
+      "fit": "canonical",
+      "position": "the far link in the chain, beyond the kitchen ell",
+      "note": "The connected farmstead's own logic — the big house to the little house to the back house to the barn — receives a garage more naturally than any other massing in the catalog, because the barn is exactly what the garage replaced."
+    },
+    {
+      "massing": "telescope-house",
+      "fit": "canonical",
+      "position": "the smallest and last section"
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "fit": "common",
+      "position": "rear flank, off the service end of the passage"
+    },
+    {
+      "massing": "i-house",
+      "fit": "common",
+      "position": "rear ell beyond the kitchen"
+    },
+    {
+      "massing": "cape-cod-massing",
+      "fit": "common",
+      "position": "detached to the rear, or linked by a short hyphen off the gable end",
+      "note": "The Cape's own expansion logic runs half to three-quarter to full and then to an ell; the garage joins at the ell, never by widening the front."
+    },
+    {
+      "massing": "gable-front-and-wing",
+      "fit": "common",
+      "position": "beyond the wing, on the wing's own axis"
+    },
+    {
+      "massing": "ranch-l",
+      "fit": "common",
+      "position": "the short leg of the L",
+      "note": "The Ranch is the type that first organised itself around the car and never solved the street elevation. The L is a dependency without the hyphen; adding even a 12 ft link transforms how it reads."
+    },
+    {
+      "massing": "ranch-linear",
+      "fit": "common",
+      "position": "one end of the run, set back from the front plane"
+    },
+    {
+      "massing": "bungalow-linear",
+      "fit": "possible",
+      "position": "detached to the rear of the lot, on the lane where one exists",
+      "note": "The bungalow's period answer was a detached motor house at the back of the lot, and that remains the best one."
+    },
+    {
+      "massing": "foursquare",
+      "fit": "atypical",
+      "note": "The cube resists subordination — its whole dignity is that it is one volume. A detached garage at the rear of the lot is the only honest answer; a linked wing makes the cube read as a fragment."
+    },
+    {
+      "massing": "charleston-single",
+      "fit": "atypical",
+      "note": "The single house turns its narrow end to the street and gives its long flank to the piazza; there is no elevation left for a garage. Rear-lane detached, or not at all."
+    },
+    {
+      "massing": "townhouse-row",
+      "fit": "forbidden",
+      "note": "Party walls on both flanks and a facade that belongs to the street. A garage here is either off a rear lane and not part of this grouping at all, or it is the ground floor of the house, which is a different type with a different name."
+    }
+  ],
+  "expansion_logic": "A third bay is added on a return rather than abreast, so the elevation gains a corner instead of another 9 ft of door. Where a lot cannot take the return, the honest answer is two bays and a stated refusal, not three abreast.",
+  "privacy_span": [
+    3,
+    4
+  ],
+  "servicing_strategy": "The hyphen carries the service run — the garage itself takes only light circuits, a 50 A EV feed as the current default assumption, and mechanical ventilation where attached. Heat stops at the hyphen.",
+  "circulation_parti": [
+    "additive"
+  ],
+  "typical_area_sf": [
+    440,
+    900
+  ],
+  "sources": [
+    "Authored, not retrieved. Ridge ratio and hyphen length taken unchanged from groupings/dependency-and-hyphen.json; prohibitions from rooms/garage.json's own adjacency block and IRC R302.5.1; placement positions are editorial judgments about each massing's own expansion logic, not historical practice.",
+    "Hubka, Big House, Little House, Back House, Barn (for the connected-farmstead attachment)"
+  ]
+}
