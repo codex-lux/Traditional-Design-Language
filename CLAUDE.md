@@ -56,15 +56,24 @@ Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_cons
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 not started.
 
-164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 58 rooms · 16 groupings ·
-**21 partis naming 129 of 132 styles, 0 uncovered** · 36 packs (129 of 132 nodes bound) ·
-660 constraints migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits
-populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · 344 tests.
+164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 60 rooms · 17 groupings ·
+**21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
+style** · 36 packs (129 of 132 nodes bound) · 660 constraints migrated, 61.5% of hard ones
+tested · 209 faults · **159 of 159 kits populated** · 1,556 kit parameters (74.6% measured,
+10.5% editorial with neither source nor note) · 322 image records, 0 sourced · 14 reference
+plans · 24 MCP tools · **22 checks, 419 tests**.
+
+**Every open question Lucas had ruled on is executed** as of 24 Aug 2026 — OQ 12, 13, 14, 26,
+27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 15 and 19 besides. Seven remain open and
+three of them are new and want a ruling: **OQ 40** (`area_weight` never read as a share),
+**OQ 41** (a fault's secondary tests applied to every style), **OQ 42** (`types_present` not
+aliased). **OQ 18** is open on purpose and needs sources, not code.
 
 **Next, in order:**
 1. **WP-4.6** — missing proportion packs. List ready from WP-4.1; OQ 30 names the
    Islamic/Moorish arch-and-ornament system as the most-corroborated gap, and WP-4.5 has
-   just added a courtyard parti for the styles that want it.
+   added a courtyard parti for the styles that want it — which OQ 33 and 39 have since made
+   draw correctly, so the packs land on a diagram that works.
 2. **WP-4.4** (HABS images), then Phase 5.
 
 WP-2.3 closed Phase 2 on 24 Aug 2026: `build/solver.py` states placement to CP-SAT, enforces
@@ -101,15 +110,35 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   routinely outranks a native one — at 6, five serious findings outweighed being the right
   diagram, and a Tidewater Georgian brief came back recommending an octagon. The hard refusal
   still exists only in `core.py`'s `list_partis`.
-- **Outdoor rooms are dropped before placement.** `geometry.py` and `solver.py` both filter on
-  `is_indoor`, so a courtyard — the void 19 styles are built around — composes and renders as
-  solid. Pre-existing, and OQ 33.
+- **Reserved voids, and the two things they break.** OQ 33 is built: an outdoor room whose own
+  record says it sits within the block (courtyard, piazza, loggia) is placed and dimensioned,
+  excluded from the heated envelope, and drawn open. Two traps came with it. On a courtyard
+  massing `depth_rooms` describes the RANGE, not the block, so the block's depth target is
+  `ranges × pile + the void band` — read the massing's own `footprint` field, not its pile. And
+  **the heuristic cannot find a ring**: four thousand candidates put the court in the block's
+  corner every time, so `courtyard_slice()` states the ring as a guillotine tree rather than
+  searching for one. `solver.py` inherits it, because it reads its topology off the heuristic.
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.
-- **Open questions are live.** `docs/open-questions.md` (31). OQ 27, 29, 30, 31 and the
-  `hybridizes_with` problem await Lucas's ruling. OQ 31 is a new category the corpus has no
-  vocabulary for: not "unjudged", but *judged where the judgment does not apply*.
+- **Every parti must work for the style it was written for.** `check_partis.py` check 10
+  composes each parti against its own first native style and fails on a fatal. It is
+  **differential** against a control diagram: three of the Cape parti's four original fatals
+  belonged to `cape-cod-colonial`'s kit and fired for every diagram, and blaming the parti for
+  them would make the check a generator of false accusations.
+- **Unjudged reported as failed is the dangerous direction.** Twice found in one package.
+  `elevation.py` reported an unmodelled chimney as `visible_chimney_count: 0`, so the fault
+  corpus failed a parti named `cape-central-chimney` for having no chimney; and a fault finding
+  quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
+  generator did not model something, the measurement must be **absent**, not zero.
+- **Open questions are live.** `docs/open-questions.md` (42, of which 8 are open). Everything
+  Lucas ruled on 24 Aug is executed. Still open and needing a ruling: **OQ 41** (a fault's
+  secondary tests are written for one style and run against every style — why
+  `cape-cod-colonial` cannot currently return a clean plan under any diagram), **OQ 42**
+  (`types_present` is not aliased), **OQ 40** (`area_weight` is read as a boolean, never as a
+  share). **OQ 18** stays open on purpose: 164 parameters are editorial with neither a source
+  nor a note, 156 of them on the Georgian kit, and closing it needs real sources rather than
+  more code.
 
 ## Conventions
 

@@ -23,8 +23,25 @@ Every package below carries a **Status** line. This is the summary. Original pac
 2. ~~**WP-4.3**~~ — **done 24 Aug 2026**. See `docs/reports/wp-4.3-the-garage.md`.
 3. ~~**WP-2.3**~~ — **done 24 Aug 2026**, closing Phase 2. `build/solver.py`. See `docs/reports/wp-2.3-real-solver.md`.
 4. ~~**WP-4.5**~~ — **done 24 Aug 2026**: 21 partis, 129 of 132 styles native, 0 uncovered. See `docs/reports/wp-4.5-partis-to-full-coverage.md`.
-5. **WP-4.6**, then **WP-4.4** — packs (list ready from WP-4.1/OQ 30), then images. **WP-4.6 is next.**
-6. **Phase 5** — the last mile.
+5. ~~**The open-question pass**~~ — **done 24 Aug 2026**. Every question Lucas had ruled on is
+   executed: OQ 12, 13, 14, 26, 27, 29, 31, 32, 33, 34, 35, 36, and 15, 18, 19, 37, 38, 39
+   besides. Reports: `docs/reports/oq-33-reserved-voids.md` and
+   `docs/reports/oq-37-partis-that-fail-their-own-style.md`. The two that changed the compiler
+   rather than the corpus are **OQ 33** (courtyards are placed, and the heuristic gained a
+   stated ring layout because it cannot search for one) and **OQ 37** (`check_partis.py` check
+   10 — five of twenty-one partis were carrying fatal findings against the styles they were
+   written for, so the composer would not recommend them; 21 of 21 compose now).
+6. **WP-4.6**, then **WP-4.4** — packs (list ready from WP-4.1/OQ 30), then images.
+   **WP-4.6 is next.**
+7. **Phase 5** — the last mile.
+
+**Three open questions want a ruling before or alongside WP-4.6**, all raised by the pass above
+and none of them blocking: **OQ 40** (`area_weight` is read as a boolean and never as a share of
+anything, so every parti's weights read as a considered distribution and are not one), **OQ 41**
+(a fault's secondary tests are written for one style and run against every style — it is why
+`cape-cod-colonial` cannot currently return a clean plan under any diagram), and **OQ 42**
+(`types_present` is not aliased, so a plan that models a room under an equivalent name is told it
+models none). **OQ 18** is open on purpose and needs sources rather than code.
 
 WP-4.7 stays scope-only by design.
 
