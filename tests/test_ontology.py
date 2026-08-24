@@ -138,3 +138,104 @@ def test_validate_rejects_self_referential_derives_from_module():
     finally:
         with open(path, "w") as f:
             f.write(backup)
+
+
+# --- OQ 13's semantic half, added 24 Aug 2026 -------------------------------
+# WP-1.3 built the cross-reference and validate.py checks that it resolves.
+# Neither checked what the ruling was actually for: that a chair rail's module
+# derives from the same run as the exterior cornice. check_kits.py's
+# check_derived_module_family() is that check; these pin it.
+
+def _check_kits():
+    import check_kits
+    return check_kits
+
+
+def _kit(slots):
+    return {"slots": slots}
+
+
+DERIVES = {"cornice": "entablature", "chair_rail": "entablature",
+           "crown": "entablature", "frieze": "entablature",
+           "modillion_dentil": "entablature"}
+
+
+def test_family_members_computed_against_one_context_pass():
+    """A member recording a partial context is not in conflict with one
+    recording more -- a chair rail derived from the ceiling height alone
+    agrees with a cornice that also knew the opening width."""
+    ck = _check_kits()
+    errs = []
+    kit = _kit({
+        "cornice": {"parameters": {"projection_in": {
+            "computed_at": {"ceiling_height_in": 108.0, "opening_width_in": 36.0}}}},
+        "chair_rail": {"parameters": {"height_in": {
+            "computed_at": {"ceiling_height_in": 108.0}}}},
+    })
+    ck.check_derived_module_family(errs, "test-style", kit, DERIVES)
+    assert errs == []
+
+
+def test_family_members_computed_against_different_contexts_fail():
+    """Two entablatures, not one at two scales. This is the case the OQ 13
+    ruling named: 'a chair rail's module actually derives from the same run
+    as the exterior cornice, rather than being independently invented'."""
+    ck = _check_kits()
+    errs = []
+    kit = _kit({
+        "cornice": {"parameters": {"projection_in": {
+            "computed_at": {"storey_height_in": 120.0}}}},
+        "chair_rail": {"parameters": {"height_in": {
+            "computed_at": {"storey_height_in": 96.0}}}},
+    })
+    ck.check_derived_module_family(errs, "test-style", kit, DERIVES)
+    assert len(errs) == 1
+    assert "storey_height_in" in errs[0] and "OQ 13" in errs[0]
+
+
+def test_the_module_root_is_held_to_the_same_context_as_its_family():
+    """entablature itself has no derives_from_module, but when a kit binds it
+    it IS the run everything else must agree with -- so it joins the
+    comparison rather than sitting outside it."""
+    ck = _check_kits()
+    errs = []
+    kit = _kit({
+        "entablature": {"parameters": {"height_in": {
+            "computed_at": {"column_diameter_in": 12.0}}}},
+        "crown": {"parameters": {"height_in": {
+            "computed_at": {"column_diameter_in": 15.0}}}},
+    })
+    ck.check_derived_module_family(errs, "test-style", kit, DERIVES)
+    assert len(errs) == 1
+    assert "column_diameter_in" in errs[0]
+
+
+def test_a_lone_family_member_is_not_a_conflict():
+    """Most kits bind one or two of the six. One member can't disagree with
+    anything, and must not be reported as if it could."""
+    ck = _check_kits()
+    errs = []
+    ck.check_derived_module_family(
+        errs, "test-style",
+        _kit({"cornice": {"parameters": {"projection_in": {
+            "computed_at": {"storey_height_in": 120.0}}}}}),
+        DERIVES)
+    assert errs == []
+
+
+def test_the_corpus_itself_passes_the_family_check():
+    """The measured state on 24 Aug 2026: only georgian-colonial-american
+    binds the family with computed parameters, and its two contexts are
+    subset/superset (ceiling_height_in=108 in both), not a contradiction.
+    If a future kit breaks this, that is the check earning its place."""
+    import glob
+    ck = _check_kits()
+    d = load_slots()
+    derives = {s["id"]: s["derives_from_module"]
+               for g in d["groups"] for s in g["slots"]
+               if s.get("derives_from_module")}
+    errs = []
+    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        nid = os.path.basename(path)[: -len(".kit.json")]
+        ck.check_derived_module_family(errs, nid, json.load(open(path)), derives)
+    assert errs == [], errs

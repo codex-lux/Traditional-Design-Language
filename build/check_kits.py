@@ -43,12 +43,14 @@ ORDER_MODULE = 5.0
 
 def ontology():
     doc = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
-    slots, groups = [], {}
+    slots, groups, derives = [], {}, {}
     for g in doc["groups"]:
         for s in g["slots"]:
             slots.append(s["id"])
             groups[s["id"]] = g["id"]
-    return doc["version"], slots, groups
+            if s.get("derives_from_module"):
+                derives[s["id"]] = s["derives_from_module"]
+    return doc["version"], slots, groups, derives
 
 
 def graph():
@@ -68,13 +70,51 @@ def eval_expr(pack_id, expr):
     return pe.evaluate_expr(expr, env)
 
 
+def check_derived_module_family(errs, nid, kit, derives):
+    """OQ 13: a chair rail's module must derive from the same run as the exterior cornice.
+
+    `derives_from_module` has existed since WP-1.3 and validate.py already checks that the
+    reference resolves. What it did not check is the thing the ruling was actually about: that
+    the members of a family were computed against the SAME context. A cornice worked out at a
+    120 in storey and a chair rail worked out at a 96 in one are not one entablature at two
+    scales, they are two entablatures -- and the whole point of the cross-reference is that they
+    are one object.
+
+    Compares only keys the two records share, and requires those to agree. A member that records
+    a partial context (a chair rail derived from the ceiling height alone) is not in conflict
+    with one that records more; a member that records the SAME key with a different value is."""
+    fam = {}
+    for sid in (kit.get("slots") or {}):
+        base = derives.get(sid)
+        if base:
+            fam.setdefault(base, []).append(sid)
+    for base, members in fam.items():
+        seen = {}                       # context key -> (value, where it was first seen)
+        for sid in sorted(members) + ([base] if base in (kit.get("slots") or {}) else []):
+            sl = (kit["slots"].get(sid) or {})
+            for pname, pv in (sl.get("parameters") or {}).items():
+                ca = pv.get("computed_at")
+                if not isinstance(ca, dict):
+                    continue
+                for ck, cv in ca.items():
+                    if ck == "value":
+                        continue
+                    if ck in seen and seen[ck][0] != cv:
+                        errs.append(
+                            "%s: %s.%s computes against %s=%s but %s used %s=%s; the %s family "
+                            "must derive from one run (OQ 13)"
+                            % (nid, sid, pname, ck, cv, seen[ck][1], ck, seen[ck][0], base))
+                    else:
+                        seen.setdefault(ck, (cv, f"{sid}.{pname}"))
+
+
 def main():
     ap = argparse.ArgumentParser(description="Validate the kit corpus")
     ap.add_argument("style", nargs="?", help="check one kit only")
     ap.add_argument("--verbose", action="store_true")
     a = ap.parse_args()
 
-    ont_version, ont_slots, ont_groups = ontology()
+    ont_version, ont_slots, ont_groups, ont_derives = ontology()
     ont_set = set(ont_slots)
     g = graph()
     schema_path = os.path.join(ROOT, "schema", "kit.schema.json")
@@ -109,6 +149,7 @@ def main():
             errs.append("%s: kit_version %s, schema is %s" % (base, kit.get("kit_version"), schema.get("version")))
 
         slots = kit.get("slots", {})
+        check_derived_module_family(errs, base, kit, ont_derives)
         unknown = set(slots) - ont_set
         missing = ont_set - set(slots)
         if unknown:
