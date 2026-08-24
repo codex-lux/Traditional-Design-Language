@@ -19,6 +19,7 @@ One doc per layer, in stack order — bottom (the alphabet) to top (the platform
 | 13 | Generator — elevation | [`elevation.md`](elevation.md) | Bay layout, window sizing (head-first-sill-second-width-third), the entrance composition and its doorcase order, the eave cornice as "the style's entablature reduction," water table and belt course, and a scope gate keeping this Palladian system off styles it was never sourced for. |
 | 14 | Evidence — images | [`assets.md`](assets.md) | Records authored before files exist; `license` never `unknown`; good/bad pairs. |
 | 15 | Governance | [`open-questions.md`](open-questions.md) | 27 numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
+| 16 | Platform — the human interface | [`product/UI-SPEC.md`](product/UI-SPEC.md), [`product/UI-PROMPT.md`](product/UI-PROMPT.md) | The Workbench: ten surfaces for a plan-development lead, specced against WP-5.2 and the Part IV gap "a human interface for plans." The spec sheet is the reference; the prompt doc is the self-contained brief for a design tool. Nine product principles derived from the corpus's own ethics — three-state judgment, provenance as a column, refusals as content, four candidates never one. |
 | — | Reports | [`reports/`](reports/) | One file per completed work package from the Plan of Action — `reports/<wp-id>-<slug>.md` — what was built, what was found, what was deliberately not done, and any new open question it raised. |
 
 ## Regenerating things instead of hand-editing them
