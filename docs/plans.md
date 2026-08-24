@@ -53,3 +53,42 @@ Converting two Georgian slots to `extends` made the third level appear in the pr
 ## Next
 
 The composer. It now has a scoring function, two worked examples of what good and bad look like against it, and a target: assemble groupings into a plan record that scores zero fatal.
+
+
+## The room-type alias groups (`EQUIVALENT`)
+
+Some room types are interchangeable *for the purpose of an adjacency rule* and for no other
+purpose. A rule that says the entry porch must reach an entrance hall is satisfied by a
+vestibule or a stair hall, because what the rule is protecting against is a front door that
+leads nowhere, and any of the three receives a person. `build/plan_check.py` holds eight such
+groups in `EQUIVALENT`, and `_alias()` widens every adjacency test through them.
+
+| group | what it protects |
+|---|---|
+| `stair-hall`, `landing` | the stair, read as one thing across its two levels |
+| `entrance-hall`, `vestibule`, `stair-hall`, `gallery-corridor` | the room that receives a person at the door |
+| `parlor`, `living-room`, `sitting-room`, `family-room`, `great-room`, `drawing-room`, `best-parlor` | the principal sitting room, whatever a period calls it |
+| `dining-room`, `eat-in-kitchen-area`, `breakfast-room` | where the household eats |
+| `bedroom`, `bedchamber`, `primary-bedroom` | a room slept in |
+| `bathroom`, `primary-bathroom` | a room washed in |
+| `kitchen`, `scullery` | where food is cooked |
+| `pantry`, `butlers-pantry`, `larder` | food store and service between kitchen and dining |
+| `closet`, `walk-in-closet`, `linen-press` | enclosed storage |
+
+**This list is data, not convenience.** It is validator data in the same sense a fault or a
+style constraint is, and it changes results: WP-0.3 found a test fixture that was passing for
+the wrong reason, because a "stair hall standing between two rooms" satisfied an entrance-hall
+rule through *aliasing* rather than through the two-hop-through-circulation mechanism the test
+was actually written to exercise. If you are writing a fixture, know which of the two you are
+testing.
+
+`gallery-corridor` was added to the entrance-hall group by WP-4.5 on WP-2.1's evidence: two of
+the reference corpus's good examples use a Gallery as the room the front door and every
+principal room open off, which is functionally what an entrance hall *is*, and without it a
+grand house whose entrance sequence is a gallery failed a rule written to catch an entry porch
+leading nowhere.
+
+**What the groups are NOT.** They do not make two room types the same room. A drawing room and
+a family room alias for adjacency and differ in every other respect the corpus models —
+dimension band, furniture, privacy rank, trim grade, style variation. Aliasing is a statement
+about what a *rule* means, not about what a room is.

@@ -47,3 +47,35 @@ Anything the corpus could not judge is returned as **unjudged, never as passed**
 ## Provenance
 
 Derived from HABS documentation, NPS Preservation Briefs, the model codes, period millwork and sash catalogues, Asher Benjamin, manufacturer literature for the modern failure modes, and first principles. The corpus deliberately does not reproduce the text, structure or illustration sequence of any in-copyright book; it stands on its own sources, cited per entry.
+
+
+## Guards, rails and the period baluster — one principle, three conflicts
+
+`balustrade`, `porch_rail` and `newel_balustrade` are three slots, and OQ 14 asked whether they
+were one assembly carrying one code conflict stated three times. Reading the records settled it:
+they are **three different conflicts**, and the slots stay three.
+
+| slot | period value | code | reference |
+|---|---|---|---|
+| `balustrade` | 30–33 in to the top of the rail | 36 in minimum guard | IRC R312.1.2 |
+| `porch_rail` | 30–33 in, balusters at 4–6 in centres | 36 in guard **and** 4 in maximum sphere | IRC R312.1.2, R312.1.3 |
+| `newel_balustrade` | handrail 30–32 in above the nosing | 34 in minimum, 38 in maximum | IRC **R311.7.8.1** |
+
+Three trades, three locations, three code sections — and the last is a *handrail* rule rather
+than a guard rule, which is a different requirement with a different number for a different
+reason. Collapsing the slots would have merged three conflicts into one and lost two of them.
+
+**What IS shared is the resolution, and it is worth stating once because it applies wherever a
+period rail meets a modern dimension:**
+
+> Never absorb the difference in the baluster. A baluster is a turned profile with a fixed
+> relationship between its vase, its neck and its fillets, and stretching it to reach a code
+> height changes that proportion visibly from the ground — which is the single most common way a
+> correctly-detailed rail is spoiled. Absorb the difference in the plinth, the newel, or the
+> ramp-and-ease: raise the whole assembly on a taller pedestal, lengthen the newel and re-cut
+> the ramp. Where the spacing rather than the height is the conflict, take the tight end of the
+> period band — 4 in centres are period-correct anyway, and the conflict disappears without a
+> substitution.
+
+The corresponding faults are `guard-height-against-the-period-rail`, `baluster-spacing-as-fence`,
+`baluster-too-thin`, `newel-too-thin` and `rail-without-a-bottom-rail`.

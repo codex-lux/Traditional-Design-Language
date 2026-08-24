@@ -398,3 +398,27 @@ class TestVerticalAdjacency:
         p = json.load(open(os.path.join(root, "partis", "great-hall-h-plan.json")))
         gc = next(r for r in p["rooms"] if r["id"] == "greatchamber")
         assert gc["type"] == "drawing-room", "the library workaround should be gone"
+
+
+class TestTheAliasGroupsAreDocumented:
+    """OQ 26, ruled 24 Aug 2026. `EQUIVALENT` is validator data in the same sense a fault is —
+    it changes results, and WP-0.3 found a fixture passing for the wrong reason through it — but
+    it existed only as an unexplained list in the source. It is documented in docs/plans.md now,
+    and this pins the documentation to the code so the table cannot quietly go stale."""
+
+    def test_every_alias_group_in_the_code_appears_in_the_docs(self, plan_check_module):
+        import os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        doc = open(os.path.join(root, "docs", "plans.md")).read()
+        assert "`EQUIVALENT`" in doc, "docs/plans.md should describe the alias groups"
+        for grp in plan_check_module.EQUIVALENT:
+            for room_type in grp:
+                assert f"`{room_type}`" in doc, (
+                    f"{room_type} is aliased in plan_check.EQUIVALENT but appears nowhere in "
+                    f"docs/plans.md's table")
+
+    def test_gallery_corridor_is_documented_as_an_entrance_hall_alias(self, plan_check_module):
+        import os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        doc = open(os.path.join(root, "docs", "plans.md")).read()
+        assert "gallery-corridor" in doc and "entrance hall" in doc.lower()
