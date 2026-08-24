@@ -38,7 +38,7 @@ for f in glob.glob(f"{ROOT}/partis/*.json"):
 SEV_W = {"fatal": 100, "serious": 8, "minor": 1, "advisory": 0.5, "info": 0}
 
 # ---------------------------------------------------------------- selection
-def pick_partis(brief, limit=6):
+def pick_partis(brief, limit=12):
     style = brief["style"]
     chain = PC.style_chain(style, C)
     st = C["styles"].get(style, {})
@@ -55,7 +55,17 @@ def pick_partis(brief, limit=6):
         if style in p["styles"]: fit += 3.0; why.append(f"native to {style}")
         elif set(p["styles"]) & chain: fit += 1.6; why.append("native to an ancestor or relative of the style")
         else: why.append("NOT native to this style — the composer is borrowing a diagram")
-        a = aff.get(p["massing"])
+        # The affinity of the BEST massing this parti can be built on, not only its
+        # primary. A parti reached through its alternate_massings is still that
+        # style's canonical diagram -- 23 of the nodes WP-4.5 covers reach their
+        # parti that way, and reading only p["massing"] gave them the nativity bonus
+        # while withholding the canonical-massing one, so they still lost to a
+        # lineage relative sitting on a canonical primary (1.6 + 2.0 > 3.0).
+        RANK = {"canonical": 4, "common": 3, "acceptable": 2, "rare": 1, "forbidden": 0}
+        cands = [aff.get(m) for m in ({p["massing"]} | set(p.get("alternate_massings") or []))]
+        cands = [c for c in cands if c]
+        a = max(cands, key=lambda c: RANK.get(c, 1)) if cands else None
+        if a and "forbidden" in cands: a = "forbidden"   # a forbidden massing taints the pick
         if a == "canonical": fit += 2.0; why.append(f"{p['massing']} is a canonical massing for the style")
         elif a == "common": fit += 1.2; why.append(f"{p['massing']} is a common massing for the style")
         elif a == "forbidden": fit -= 4.0; why.append(f"the style marks {p['massing']} FORBIDDEN")
@@ -67,7 +77,12 @@ def pick_partis(brief, limit=6):
         else: fit -= 1.5; why.append(f"{area:.0f} sf is outside the diagram's range of {ar[0]:.0f}-{ar[1]:.0f}")
         gset = set(p.get("groupings", []))
         out.append({"parti": p["id"], "fit": round(fit, 2), "why": why, "groupings": sorted(gset)})
-    out.sort(key=lambda x: -x["fit"])
+    # Sorted by fit, then by id. The tie-break is not cosmetic: PARTIS is built by
+    # glob(), so without it a tie is broken by filesystem order, and most partis that
+    # are neither native nor massing-matched land on exactly the same fit. Which
+    # diagram a brief was offered would then depend on the order the directory
+    # happened to be read in. (WP-4.5)
+    out.sort(key=lambda x: (-x["fit"], x["parti"]))
     return out[:limit]
 
 # ---------------------------------------------------------------- instantiation
@@ -532,6 +547,12 @@ def footprint(plan, parti):
              if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
     bm = (parti.get("scaling") or {}).get("bay_module_ft") or 10
     mx = (parti.get("scaling") or {}).get("max_bay_count") or 5
+    # The floor a diagram cannot go below. Three is right for almost everything and is the
+    # default, but a one-room hall house is 250-500 sf and one or two bays wide by its own
+    # catalogue entry; floored at three it was not merely inflated, it was declared
+    # lot-infeasible and DROPPED. geometry.py has always used a floor of 2 here, so the two
+    # engines disagreed; the parti now says which it means. (WP-4.5)
+    mn = (parti.get("scaling") or {}).get("min_bay_count") or 3
     notes = []
     # WP-2.4: a lot caps how many bays this diagram may ever reach here, regardless of what
     # the parti's own catalogue maximum allows -- "a 24 ft town-house parti for a 30 ft lot;
@@ -544,11 +565,11 @@ def footprint(plan, parti):
             notes.append(f"Lot caps this diagram at {lot_mx} bays instead of its usual {mx}: "
                           f"{usable:.0f} ft usable width ({bm:.0f} ft bays) after side setbacks.")
         mx = min(mx, lot_mx)
-        if lot_mx < 3:
+        if lot_mx < mn:
             lot_infeasible = True
-            notes.append(f"This diagram needs at least 3 bays ({3*bm:.0f} ft) and the lot clears only "
+            notes.append(f"This diagram needs at least {mn} bays ({mn*bm:.0f} ft) and the lot clears only "
                           f"{usable:.0f} ft usable width after side setbacks. It does not fit this lot.")
-    bays = max(3, min(mx, round(math.sqrt(a0 * 1.6) / bm)))
+    bays = max(mn, min(mx, round(math.sqrt(a0 * 1.6) / bm)))
     width = round(bays * bm, 1)
     depth = round(a0 / width, 1) if width else 0
     if depth > 38: notes.append(f"Footprint {width} x {depth} ft — deeper than about 38 ft, which needs a double-pile section and will leave interior rooms unlit.")
@@ -558,7 +579,9 @@ def footprint(plan, parti):
 
 # ---------------------------------------------------------------- compose
 def compose(brief, candidates=4):
-    picks = pick_partis(brief, limit=max(candidates + 2, 6))
+    # A window wide enough that a new parti cannot evict an existing one merely by
+    # tying with it. With a catalogue in the twenties, +2 searched a quarter of it.
+    picks = pick_partis(brief, limit=max(candidates + 4, 12))
     out, dropped_lot = [], []
     for pick in picks:
         plan, log, parti = instantiate(pick["parti"], brief)

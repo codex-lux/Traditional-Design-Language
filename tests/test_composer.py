@@ -32,9 +32,18 @@ class TestFamilyGeorgianBrief:
     def test_single_pile_centre_passage_now_carries_two_real_elevation_fatals(self, compose_module):
         """Confirms the two fatals traced in this file's own module docstring are still exactly
         even-bay-front and truss-flattened-pitch -- if this ever changes, the ranking test below
-        needs re-tracing, not just re-pinning to whatever the new number happens to be."""
-        result = compose_module.compose(_brief("family-georgian"))
-        single_pile = next(c for c in result["candidates"] if c["parti_name"] == "Centre Passage, Single Pile")
+        needs re-tracing, not just re-pinning to whatever the new number happens to be.
+
+        WP-4.5 widened compose()'s pick window from 6 partis to 12, which found four candidates
+        with zero fatal on this brief -- so this two-fatal candidate correctly no longer appears
+        in the returned top four. That is the window working, not a regression. The finding this
+        test exists to pin is about the PARTI, not its rank, so it is now scored directly rather
+        than fished out of a truncated list: the old `next(...)` raised StopIteration the moment
+        the candidate placed fifth, which reads as a crash rather than as the pin it is."""
+        brief = _brief("family-georgian")
+        plan, _log, _parti = compose_module.instantiate("centre-passage-single-pile", brief)
+        res = compose_module.PC.check(plan)
+        single_pile = {"counts": res["counts"], "worst": res["findings"]}
         assert single_pile["counts"].get("fatal", 0) == 2
         rules = {w["statement"].split(":")[0] for w in single_pile["worst"] if w["severity"] == "fatal"}
         assert any("Front With No Centre" in r for r in rules)
