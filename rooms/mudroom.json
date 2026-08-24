@@ -107,11 +107,15 @@
     "must_adjoin": [
       {
         "room": "kitchen",
-        "why": "the two loads that come in through this door are people and groceries, and the groceries have to reach the kitchen without crossing a living space",
+        "why": "the two loads that come in through this door are people and groceries, and the groceries have to reach the kitchen without crossing a living space WP-4.5 adds a via list. The rule is right about the destination and too strict about the route: in the connected farmstead and in most nineteenth-century service planning a back kitchen or a laundry sits BETWEEN the mudroom and the kitchen, and that intermediate room is the point — it is where the wet and dirty work stops before it reaches the room food is made in. Read as a direct door only, the rule reported the traditional arrangement as a fatal defect. The same reasoning the kitchen's own rule already uses for the butler's pantry between it and the dining room.",
         "relation": "direct-door",
         "strength": "hard",
         "exceptions": [
           "american-farmhouse-vernacular, where the sequence is yard - back kitchen - kitchen and the mudroom's ancestor is itself a working room"
+        ],
+        "via": [
+          "back-hall",
+          "laundry"
         ]
       }
     ],

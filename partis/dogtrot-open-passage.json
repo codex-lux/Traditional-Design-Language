@@ -1,0 +1,174 @@
+{
+  "id": "dogtrot-open-passage",
+  "name": "Dogtrot",
+  "aka": [
+    "possum trot",
+    "breezeway house",
+    "two pens and a passage"
+  ],
+  "description": "Two square pens under one roof with an open, roofed passage between them. The passage is the house's front door, its hall, its summer living room and its climate device all at once, and it is open at both ends - not glazed, not enclosed, open. That is the whole type: the same continuous roof spans both pens and the gap, so the gap is shaded all day and pulls air through it whenever there is any, and the two pens are separated by enough distance to keep the cooking heat out of the sleeping pen. It is the direct descendant of the single-cell hall, built twice.",
+  "massing": "dogtrot",
+  "alternate_massings": [
+    "double-pen",
+    "hall-single-cell"
+  ],
+  "styles": [
+    "dogtrot-vernacular"
+  ],
+  "groupings": [
+    "keeping-room-hearth-cluster"
+  ],
+  "circulation_parti": "none-direct-entry",
+  "storeys": 1,
+  "area_range_sf": [
+    600,
+    1600
+  ],
+  "bedroom_range": [
+    1,
+    3
+  ],
+  "rooms": [
+    {
+      "id": "trot",
+      "type": "breezeway",
+      "level": 0,
+      "name": "Dogtrot",
+      "exterior_walls": [
+        "S",
+        "N"
+      ],
+      "doors": [
+        "exterior",
+        "hall",
+        "chamber",
+        "porch"
+      ],
+      "area_weight": 0.14,
+      "note": "Open at both ends, under the main roof, between the two pens. Typed breezeway, which is the catalogue's word for exactly this. Enclosing it - which almost every surviving example eventually suffered - destroys the type: the through-draught stops, both pens lose a lit and ventilated wall, and what is left is a small centre-passage house that works worse than either."
+    },
+    {
+      "id": "hall",
+      "type": "hall",
+      "level": 0,
+      "name": "Hall Pen",
+      "exterior_walls": [
+        "S",
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "trot",
+        "kitchen"
+      ],
+      "area_weight": 0.3,
+      "note": "The living pen, with the hearth on the outside gable wall. One room, in the older sense the catalogue's rooms/hall.json carries."
+    },
+    {
+      "id": "chamber",
+      "type": "bedchamber",
+      "level": 0,
+      "name": "Chamber Pen",
+      "exterior_walls": [
+        "S",
+        "N",
+        "E"
+      ],
+      "lit_from": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "trot",
+        "bath"
+      ],
+      "area_weight": 0.26,
+      "note": "The sleeping pen, across the passage, with its own gable hearth. The separation is the point: a fire for cooking and a fire for warmth, in two buildings that share a roof."
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "hall"
+      ],
+      "fixtures": [
+        "sink",
+        "range"
+      ],
+      "area_weight": 0.14,
+      "note": "A shed addition off the back of the hall pen, which is where it went once cooking moved off the hearth. In the earliest version there is no kitchen room at all - the hall's fire is the kitchen."
+    },
+    {
+      "id": "bath",
+      "type": "bathroom",
+      "level": 0,
+      "name": "Bath",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "doors": [
+        "chamber"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "shower"
+      ],
+      "note": "As unhistoric here as in every other vernacular type in this catalogue, and added at the back of the chamber pen for the same reason: it is where the drain can go."
+    },
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Porch",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "trot",
+        "exterior"
+      ],
+      "note": "Where there is one it runs the full front across both pens and the passage, which makes the shaded outdoor room continuous around two sides."
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "adding-a-storey",
+      "adding-a-link"
+    ],
+    "bay_module_ft": 9,
+    "min_bay_count": 2,
+    "max_bay_count": 3,
+    "note": "The pens are square and stay square - each is a single crib of whatever length the available logs allow, which is what fixes them at 16 to 20 ft. Growth is upward into a loft over both pens, or backward as shed rooms. Widening a pen is not an option the material permits, and widening the passage past about 12 ft stops it shading itself."
+  },
+  "trades_away": "Everything that depends on being able to get from one half of the house to the other without going outside. In rain you get wet crossing your own hall; in winter both pens lose heat to a passage that is by definition unheated. It trades away any interior circulation, any privacy gradient beyond the crude one of two pens, and the possibility of a second storey without changing the type. What it buys is a house that is bearable in a hot humid summer, built from what grows on the site.",
+  "exemplars": [
+    "The dogtrot cabins recorded by HABS across Alabama, Mississippi and east Texas",
+    "Cades Cove, Great Smoky Mountains National Park, Tennessee - several surviving examples",
+    "The Ruggles House, Big Thicket, Texas"
+  ],
+  "sources": [
+    "massings/catalog.json: dogtrot, double-pen",
+    "rooms/breezeway.json, which is this passage",
+    "styles/dogtrot-vernacular.json",
+    "editorial: the pen dimensions follow the log-crib limit rather than a published figure"
+  ],
+  "confidence": "high"
+}

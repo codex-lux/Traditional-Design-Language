@@ -99,6 +99,7 @@
   "circulation_parti": [
     "center-hall",
     "double-pile-stair-hall",
+    "enfilade",
     "open-plan",
     "side-hall"
   ],
@@ -119,6 +120,7 @@
   "sources": [
     "IRC R311.7",
     "Waterman, The Dwellings of Colonial America",
-    "WP-4.5: 'open-plan' added — the living-hall types run their stair IN the hall rather than in a hall of its own, which is an open-plan circulation with a stair core in it, not the absence of one."
+    "WP-4.5: 'open-plan' added — the living-hall types run their stair IN the hall rather than in a hall of its own, which is an open-plan circulation with a stair core in it, not the absence of one.",
+    "WP-4.5: 'enfilade' added — the great-hall H-plan reaches its chambers through a room-to-room sequence rather than a corridor, which is what an enfilade is. The grouping itself is unchanged by the circulation in front of it."
   ]
 }

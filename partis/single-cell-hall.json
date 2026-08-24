@@ -1,0 +1,149 @@
+{
+  "id": "single-cell-hall",
+  "name": "Single-Cell Hall House",
+  "aka": [
+    "one-room plan",
+    "the hall house",
+    "single pen",
+    "stue"
+  ],
+  "description": "One room, with a hearth, and everything else subordinate to it. This is the irreducible house and the ancestor of most of the others in this catalogue: put a partition in it and you have hall and parlor, put a passage beside it and you have a side-hall plan, build a second one across a breezeway and you have a dogtrot. The single cell is not a small version of a bigger diagram - it is a complete one, in which the hall is kitchen, dining room, parlour and often bedroom at once, and the only rooms that separate out are the ones that must: a store, a stair to the loft, and later a bathroom. Its planning question is not how to arrange rooms but how to arrange a single room so that four uses can share it, which is what the hearth wall and the door position do.",
+  "massing": "hall-single-cell",
+  "alternate_massings": [
+    "double-pen",
+    "dogtrot"
+  ],
+  "styles": [
+    "norman-vernacular",
+    "norman-romanesque-english",
+    "scandinavian-log-vernacular",
+    "appalachian-log-house",
+    "log-vernacular-american"
+  ],
+  "groupings": [
+    "keeping-room-hearth-cluster"
+  ],
+  "circulation_parti": "none-direct-entry",
+  "storeys": 1,
+  "area_range_sf": [
+    350,
+    1100
+  ],
+  "bedroom_range": [
+    1,
+    3
+  ],
+  "rooms": [
+    {
+      "id": "hall",
+      "type": "hall",
+      "level": 0,
+      "name": "Hall",
+      "exterior_walls": [
+        "S",
+        "E",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "exterior",
+        "store",
+        "loftstair",
+        "chamber",
+        "bath"
+      ],
+      "area_weight": 0.45,
+      "note": "The house. Entered directly from outside with no lobby of any kind, which is what circulation_parti 'none-direct-entry' means and why this parti has no hall room in the Georgian sense - this IS the hall, in the older meaning the catalogue's rooms/hall.json carries as 'houseplace'."
+    },
+    {
+      "id": "store",
+      "type": "larder",
+      "level": 0,
+      "name": "Store",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "doors": [
+        "hall"
+      ],
+      "note": "The first thing to separate out of the single cell, because food needs to be cool and the hall is the warmest place in the building."
+    },
+    {
+      "id": "chamber",
+      "type": "bedchamber",
+      "level": 0,
+      "name": "Chamber",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "W"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "hall"
+      ],
+      "area_weight": 0.2,
+      "note": "The second thing to separate out, and the step that turns this type into hall-and-parlor. Optional on purpose: the pure single cell has none, and a brief that needs two of these has asked for a different diagram."
+    },
+    {
+      "id": "bath",
+      "type": "bathroom",
+      "level": 0,
+      "name": "Bath",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "doors": [
+        "hall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "shower"
+      ],
+      "note": "Wholly unhistoric - the type's sanitation was a privy at the end of the garden, which rooms/privy.json carries - and wholly non-negotiable in a contemporary brief. Placed off the hall because there is nowhere else for it to be."
+    },
+    {
+      "id": "loftstair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Loft Stair",
+      "required": false,
+      "doors": [
+        "hall"
+      ],
+      "note": "A ladder stair or a winder in the corner beside the hearth, taking whatever space is left. In the true single cell it is furniture rather than a room."
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "adding-a-link",
+      "adding-a-storey"
+    ],
+    "bay_module_ft": 9,
+    "min_bay_count": 1,
+    "max_bay_count": 3,
+    "note": "min_bay_count is 1, and this parti is the reason that field exists. massings/catalog.json gives this type 250-500 sf and '1-2' bays; every other diagram in the catalogue floors at 3, and compose.py's footprint() used to enforce that floor for everything - which did not merely inflate a one-room house, it declared it lot-infeasible and dropped it before scoring. The type grows by adding a second pen (double-pen), by adding one across an open passage (dogtrot), or upward into the loft - never by widening, because a single cell wider than about 20 ft cannot be spanned by the timber it was built with."
+  },
+  "trades_away": "Nearly everything a contemporary brief assumes. There is no privacy gradient worth the name - the bath and the chamber open off the room the whole household occupies - no separation of cooking from sitting, no circulation at all, and no possibility of a second bedroom without becoming a different type. What it buys is the cheapest, warmest, most easily built house in this catalogue, and the only one a family could raise in a season with the timber off its own ground.",
+  "exemplars": [
+    "Nothnagle Log House, Gibbstown, New Jersey, c. 1638-1643 - dating contested, see the style node",
+    "Cape Dutch and Norman single-cell longhouses across northern France",
+    "Stabbur and årestue, Norwegian log vernacular",
+    "The single-pen cabins recorded across the southern Appalachians by HABS"
+  ],
+  "sources": [
+    "massings/catalog.json: hall-single-cell, double-pen, dogtrot",
+    "rooms/hall.json, whose 'houseplace' and 'firehouse' aka carry exactly this meaning of the word",
+    "styles/scandinavian-log-vernacular.json, styles/appalachian-log-house.json",
+    "editorial: the room list is the type reduced to what a contemporary brief will accept, and the bath says so"
+  ],
+  "confidence": "high"
+}

@@ -96,18 +96,47 @@ def room_default_dims(room_type):
     w = math.sqrt(a / ratio)
     return round(w, 1), round(w * ratio, 1)
 
+def _as_feet(m):
+    """A ceiling height in whatever unit the kit's author wrote it in.
+
+    Kits state these in feet, in inches and (in the medieval British nodes) in millimetres.
+    Anything that lands outside a plausible storey height after conversion is refused rather
+    than guessed at, because a number this function cannot read is better dropped than turned
+    into a ceiling nobody meant."""
+    if m is None: return None
+    if m > 200: m = m / 304.8          # millimetres
+    elif m > 20: m = m / 12.0          # inches
+    return m if 6.0 <= m <= 24.0 else None
+
+
 def ceilings_for(style):
-    """Ceiling heights from the style's own kit, falling back to a sensible default."""
+    """Ceiling heights from the style's own kit, falling back to a sensible default.
+
+    Two passes, and the second one is WP-4.5's. The first reads storey-specific keys. The
+    second accepts a generic one, because half the kits that trouble to state a ceiling height
+    at all do not name a storey in the key: shotgun-house says `ceiling_height_min_ft`,
+    norman-vernacular says `storey_height_range_ft`, swiss-chalet says
+    `stube_ceiling_height_max`. Thirteen kits were read and thirteen were ignored, and the
+    ignored ones silently got the 9.0 ft default — which is how a shotgun house, whose own kit
+    specifies a 10 ft minimum and 11-12 ft preferred and whose whole character is a tall room
+    on a small footprint, was composed with nine-foot ceilings and then failed its own style's
+    transom-datum constraint at fatal. The style had spoken and nothing was listening."""
     kit = (C["kits"].get(style) or {}).get("slots", {})
     rec = kit.get("ceiling_height_rule") or {}
+    params = (rec.get("parameters") or {})
     g = u = None
-    for k, v in (rec.get("parameters") or {}).items():
+    generic = None
+    for k, v in params.items():
         val = v.get("range") or ([v["value"]] if isinstance(v.get("value"), (int, float)) else None)
         if not val: continue
-        m = sum(val) / len(val)
-        if m > 20: m = m / 12.0
+        m = _as_feet(sum(val) / len(val))
+        if m is None: continue
         if "first" in k or "ground" in k or "principal" in k: g = g or m
         elif "second" in k or "upper" in k or "chamber" in k: u = u or m
+        elif "ceiling" in k or "storey" in k or "story" in k:
+            # prefer a stated preference over a stated minimum, which is what the kits mean
+            if generic is None or "preferred" in k or "typical" in k: generic = m
+    g = g or generic
     return (g or 9.0, u or (g or 9.0) - 1.0)
 
 def instantiate(parti_id, brief):
@@ -594,7 +623,24 @@ def compose(brief, candidates=4):
         tol = brief.get("area_tolerance", 0.12)
         miss = abs(area - brief["target_area_sf"]) / brief["target_area_sf"]
         counts = res["counts"]
-        total = score(res) + (60 if miss > tol else 0) - pick["fit"] * 6
+        # NATIVITY_W: what a native diagram is worth against the validator's own findings.
+        #
+        # It was 6, and at 6 it did not work. fit runs about 0 to 7 (native +3.0, canonical
+        # massing +2.0, beds and area +1.0 each), so full nativity bought 42 points against 8
+        # for a serious finding: five serious findings outweighed being the right diagram
+        # entirely. The composer duly said "NOT native to this style -- the composer is
+        # borrowing a diagram" in the decision log and then ranked the borrowed one first, and
+        # WP-4.5 made that visible by adding nine partis for it to borrow from: a tidewater-
+        # georgian brief came back recommending an OCTAGON, on 27 serious against the native
+        # side-hall town house's 30.
+        #
+        # At 20 the same spread is worth 140 against 40 -- roughly twelve serious findings --
+        # so the right diagram wins unless it is genuinely much worse. It is deliberately NOT
+        # enough to outrank a fatal, which is 100 apiece: a native plan with a fatal in it
+        # should still lose to a clean borrowed one, because a fatal is a thing that is wrong
+        # rather than a thing that is foreign. (WP-4.5)
+        NATIVITY_W = 20
+        total = score(res) + (60 if miss > tol else 0) - pick["fit"] * NATIVITY_W
         fp = footprint(plan, parti)
         if fp["lot_infeasible"]:
             # WP-2.4 acceptance: a candidate that cannot physically fit the stated lot is

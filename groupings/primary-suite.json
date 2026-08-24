@@ -103,6 +103,7 @@
   "servicing_strategy": "Bathroom stacked over or beside another wet room. An isolated primary bath on the far side of the plan is the single most expensive plumbing decision most clients make without knowing it.",
   "circulation_parti": [
     "center-hall",
+    "enfilade",
     "gallery",
     "open-plan",
     "side-hall"
@@ -126,6 +127,7 @@
     "Kerr, The Gentleman's House",
     "Wright, Building the Dream",
     "IRC R310",
-    "WP-4.5: 'gallery' added — in the courtyard types the primary suite opens onto the walk rather than onto an interior passage; the suite is unchanged, the thing it opens onto is not."
+    "WP-4.5: 'gallery' added — in the courtyard types the primary suite opens onto the walk rather than onto an interior passage; the suite is unchanged, the thing it opens onto is not.",
+    "WP-4.5: 'enfilade' added — the great-hall H-plan reaches its chambers through a room-to-room sequence rather than a corridor, which is what an enfilade is. The grouping itself is unchanged by the circulation in front of it."
   ]
 }
