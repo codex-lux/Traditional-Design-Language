@@ -106,9 +106,12 @@
     "must_adjoin": [
       {
         "room": "primary-bathroom",
-        "why": "Direct, private, and NOT through the closet alone - a bathroom reachable only through a closet puts the closet's contents in a humid room twice a day and gives you nowhere to go at 3 am without turning on the closet light.",
+        "why": "Direct, private, and NOT through the closet alone - a bathroom reachable only through a closet puts the closet's contents in a humid room twice a day and gives you nowhere to go at 3 am without turning on the closet light. WP-4.5 adds dressing-room to the via list on WP-2.1's evidence: good-05 and good-07 independently draw a dressing room between the bedroom and the bath, which is not an idiosyncrasy of one transcription but a hallmark of good suite planning -- this room's own should_adjoin note on the closet already calls it 'the lock between the bedroom and the bath'. The rule as written could not see a dressing room doing exactly that job.",
         "relation": "direct-door",
-        "strength": "hard"
+        "strength": "hard",
+        "via": [
+          "dressing-room"
+        ]
       },
       {
         "room": "walk-in-closet",

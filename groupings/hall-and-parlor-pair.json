@@ -69,8 +69,9 @@
   ],
   "servicing_strategy": "Paired gable-end stacks, or one central stack with back-to-back fireboxes; the choice decides the roof and the facade.",
   "circulation_parti": [
+    "central-chimney-lobby",
     "hall-and-parlor",
-    "central-chimney-lobby"
+    "side-hall"
   ],
   "style_variation": [
     {
@@ -90,6 +91,7 @@
   "sources": [
     "Glassie, Folk Housing in Middle Virginia",
     "Cummings, The Framed Houses of Massachusetts Bay",
-    "Upton and Vlach, Common Places"
+    "Upton and Vlach, Common Places",
+    "WP-4.5 widened circulation_parti: Widened by WP-4.5: the gable-front-and-wing parti is side-hall and names this pair, which is correct - the wing's two rooms are a hall and parlor whatever the circulation in front of them."
   ]
 }

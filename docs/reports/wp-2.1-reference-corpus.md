@@ -77,3 +77,32 @@ Expressed as concrete, reviewable edits rather than a formalised test — these 
 ## New open questions raised
 
 None. This package's findings are corpus data-quality observations (a missing `EQUIVALENT` alias, a missing `via` entry, several missing room-catalogue ids) with an obvious next owner and no unresolved judgment call of the kind the existing 27 open questions record — they are proposals to fix, not forks in the road.
+
+---
+
+## Amendment, 24 August 2026 (WP-4.5)
+
+Both room-catalogue gaps this report's "where the validator is blind" section rests its argument
+on have been closed, and the four tests in `tests/test_reference_corpus.py` that pinned them have
+been inverted to pin the fix instead — which is what their own docstrings asked for ("if this ever
+passes, either the alias list was fixed... or something else changed").
+
+1. **`gallery-corridor` is now an entrance-hall equivalent** in `plan_check.py`'s `EQUIVALENT`
+   list. `good-05` no longer trips the Lobby/stair-hall fatal.
+2. **`dressing-room` is now in the `via` list** for the primary-bedroom/primary-bathroom rule.
+   `good-07` no longer trips it.
+
+**A finding this report did not have, surfaced by making the fix:** that rule is declared on
+*both* rooms. This report proposed the `via` addition from the bedroom's side only, and adding it
+there left `good-07` still failing — from `rooms/primary-bathroom.json`'s own reciprocal
+`must_adjoin primary-bedroom`, which had no `via` of its own. Both sides now carry it. Any future
+proposal to relax a `must_adjoin` should check whether the rule is stated once or twice before
+concluding the fix is complete.
+
+The `overlook` room this report asked for (§"Missing catalogue rooms", item 4 — recurring
+independently in `bad-05` and `good-05` while overloading `landing`) is authored as
+`rooms/overlook.json`. The other six unmapped room types are deliberately still deferred; see
+`docs/reports/wp-4.5-*.md` for why.
+
+Nothing else in this report is superseded. Its finding counts, its skew analysis and its
+transcription caveats stand as written.

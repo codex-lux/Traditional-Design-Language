@@ -42,7 +42,13 @@ EQUIVALENT = [
     {"bathroom", "primary-bathroom"},
     {"dining-room", "eat-in-kitchen-area", "breakfast-room"},
     {"parlor", "living-room", "sitting-room", "family-room", "great-room", "drawing-room", "best-parlor"},
-    {"entrance-hall", "vestibule", "stair-hall"},
+    # gallery-corridor added by WP-4.5, on WP-2.1's evidence: two of the reference
+    # corpus's good examples (good-01, good-05) use a Gallery as the room the front
+    # door and every principal room open off, which is functionally what an entrance
+    # hall IS. Without it, a grand house whose entrance sequence is a gallery rather
+    # than a discrete "hall" failed a rule that exists to catch an entry porch
+    # leading nowhere -- when it led exactly where it should.
+    {"entrance-hall", "vestibule", "stair-hall", "gallery-corridor"},
     {"kitchen", "scullery"},
     {"pantry", "butlers-pantry", "larder"},
     {"bedroom", "bedchamber", "primary-bedroom"},
