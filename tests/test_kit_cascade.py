@@ -253,3 +253,47 @@ class TestCheckKitsCatchesDanglingReplace:
             capture_output=True, text=True, cwd=ROOT,
         )
         assert "ERROR" not in proc.stdout.upper()
+
+
+class TestScopedLineageEdges:
+    """OQ 36, ruled 24 Aug 2026. A `hybridizes_with` edge drawn to carry one narrow aspect of a
+    donor's practice transmitted that donor's ENTIRE kit, because the cascade could not partition
+    a donor's bindings by which aspect the edge was drawn for. An edge may now name the slots it
+    carries; an edge that names none carries everything, as it always did."""
+
+    def test_an_unscoped_edge_still_carries_everything(self, resolve_kit_module):
+        """The default must not change, or every kit in the corpus moves at once."""
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        graph = json.load(open(os.path.join(root, "dist", "taxonomy.json")))
+        scoped = [nid for nid, n in graph["nodes"].items() if n.get("_cascade_scope")]
+        assert len(scoped) < 10, "scoping is deliberately incremental; most edges carry everything"
+
+    def test_the_octagon_no_longer_takes_its_roof_from_italianate_dress(self, resolve_kit_module):
+        """The worked case. `octagon-house hybridizes_with italianate-american` says in its own
+        note that the octagon is a plan thesis with no ornamental vocabulary of its own and so
+        wears Italianate dress. Unscoped, that edge also handed it roof_form, roof_pitch and
+        height_proportion — and an octagon's roof is eight hips meeting at a point because its
+        plan is eight-sided, not because Italianate builders did it that way."""
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        graph = json.load(open(os.path.join(root, "dist", "taxonomy.json")))
+        chain = resolve_kit_module.chain_for(graph, "octagon-house")
+        scope = resolve_kit_module.scope_for(graph, "octagon-house")
+        assert "italianate-american" in scope
+        slots, _ = resolve_kit_module.resolve_slots(graph, chain, scope)
+        for sid in ("roof_form", "roof_pitch", "height_proportion"):
+            v = slots.get(sid)
+            if v:
+                assert v.get("_source") != "italianate-american", (
+                    f"{sid} should no longer come from the dress edge")
+
+    def test_a_scoped_edge_still_carries_what_it_was_drawn_for(self, resolve_kit_module):
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        graph = json.load(open(os.path.join(root, "dist", "taxonomy.json")))
+        chain = resolve_kit_module.chain_for(graph, "octagon-house")
+        scope = resolve_kit_module.scope_for(graph, "octagon-house")
+        slots, _ = resolve_kit_module.resolve_slots(graph, chain, scope)
+        still = [s for s, v in slots.items() if v and v.get("_source") == "italianate-american"]
+        assert len(still) >= 10, "the dress itself must still come through the edge"

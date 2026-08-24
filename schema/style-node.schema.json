@@ -1,495 +1,508 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://traditional-design-language.org/schema/style-node.schema.json",
-  "title": "Style Node",
-  "description": "A single taxon in the Traditional Design Language style graph. Nodes form a directed acyclic graph via typed lineage edges, and a separate strict single-parent containment hierarchy via member_of.",
-  "type": "object",
-  "required": [
-    "id",
-    "name",
-    "rank",
-    "period",
-    "geography",
-    "description",
-    "defining_characteristics"
-  ],
-  "additionalProperties": false,
-  "properties": {
-    "id": {
-      "type": "string",
-      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-      "description": "Stable kebab-case identifier. Never reused, never renamed. This is the address the kit-of-parts directory hangs off."
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://traditional-design-language.org/schema/style-node.schema.json",
+ "title": "Style Node",
+ "description": "A single taxon in the Traditional Design Language style graph. Nodes form a directed acyclic graph via typed lineage edges, and a separate strict single-parent containment hierarchy via member_of.",
+ "type": "object",
+ "required": [
+  "id",
+  "name",
+  "rank",
+  "period",
+  "geography",
+  "description",
+  "defining_characteristics"
+ ],
+ "additionalProperties": false,
+ "properties": {
+  "id": {
+   "type": "string",
+   "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+   "description": "Stable kebab-case identifier. Never reused, never renamed. This is the address the kit-of-parts directory hangs off."
+  },
+  "name": {
+   "type": "string"
+  },
+  "aka": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "Alternate and historical names. Feeds fuzzy lookup for agents and search."
+  },
+  "rank": {
+   "enum": [
+    "tradition",
+    "family",
+    "style",
+    "variant"
+   ],
+   "description": "tradition = civilizational trunk; family = coherent grouping sharing a generative logic; style = the nameable style a client would select; variant = regional/period expression at which a kit of parts is actually buildable."
+  },
+  "member_of": {
+   "type": [
+    "string",
+    "null"
+   ],
+   "description": "Single-parent containment for browsing/UI. NOT lineage. A variant's member_of is its style; a style's is its family; a family's is its tradition. Null only for traditions."
+  },
+  "status": {
+   "enum": [
+    "historical",
+    "living",
+    "revival",
+    "extinct",
+    "emergent"
+   ],
+   "default": "historical",
+   "description": "living = still built by practicing traditional builders; revival = a later re-adoption node; emergent = contemporary (New Traditional, etc.)."
+  },
+  "period": {
+   "type": "object",
+   "required": [
+    "floruit_start",
+    "floruit_end"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "origin": {
+     "type": [
+      "integer",
+      "null"
+     ],
+     "description": "First appearance year (approximate)."
     },
-    "name": {
-      "type": "string"
+    "floruit_start": {
+     "type": "integer",
+     "description": "Start of the period of dominant/characteristic production."
     },
-    "aka": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Alternate and historical names. Feeds fuzzy lookup for agents and search."
+    "floruit_end": {
+     "type": "integer",
+     "description": "End of that period."
     },
-    "rank": {
-      "enum": [
-        "tradition",
-        "family",
-        "style",
-        "variant"
-      ],
-      "description": "tradition = civilizational trunk; family = coherent grouping sharing a generative logic; style = the nameable style a client would select; variant = regional/period expression at which a kit of parts is actually buildable."
+    "decline_end": {
+     "type": [
+      "integer",
+      "null"
+     ],
+     "description": "Last meaningful vernacular production before revival, if any."
     },
-    "member_of": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "description": "Single-parent containment for browsing/UI. NOT lineage. A variant's member_of is its style; a style's is its family; a family's is its tradition. Null only for traditions."
+    "circa": {
+     "type": "boolean",
+     "default": true,
+     "description": "Dates are conventional and soft; true for nearly all nodes."
     },
-    "status": {
-      "enum": [
-        "historical",
-        "living",
-        "revival",
-        "extinct",
-        "emergent"
-      ],
-      "default": "historical",
-      "description": "living = still built by practicing traditional builders; revival = a later re-adoption node; emergent = contemporary (New Traditional, etc.)."
-    },
-    "period": {
+    "revival_periods": {
+     "type": "array",
+     "items": {
       "type": "object",
       "required": [
-        "floruit_start",
-        "floruit_end"
+       "start",
+       "end"
       ],
       "additionalProperties": false,
       "properties": {
-        "origin": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "description": "First appearance year (approximate)."
-        },
-        "floruit_start": {
-          "type": "integer",
-          "description": "Start of the period of dominant/characteristic production."
-        },
-        "floruit_end": {
-          "type": "integer",
-          "description": "End of that period."
-        },
-        "decline_end": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "description": "Last meaningful vernacular production before revival, if any."
-        },
-        "circa": {
-          "type": "boolean",
-          "default": true,
-          "description": "Dates are conventional and soft; true for nearly all nodes."
-        },
-        "revival_periods": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "start",
-              "end"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "start": {
-                "type": "integer"
-              },
-              "end": {
-                "type": "integer"
-              },
-              "revival_node": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "description": "id of the node that IS the revival, if it is modelled separately."
-              },
-              "note": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
-    },
-    "geography": {
-      "type": "object",
-      "required": [
-        "regions"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "regions": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string"
-          },
-          "description": "Where it was actually built. Use consistent region tokens (see schema/regions.json)."
-        },
-        "hearth": {
-          "type": "string",
-          "description": "The originating locus, if identifiable (e.g. 'Tidewater Virginia', 'Pasadena, California')."
-        },
-        "climate_zones": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "IECC climate zones where the style's assemblies are natively appropriate. Constrains buildability."
-        }
-      }
-    },
-    "lineage": {
-      "type": "array",
-      "description": "The DAG. Multiple parents are normal and expected. Edge TYPE carries most of the meaning.",
-      "items": {
-        "type": "object",
-        "required": [
-          "target",
-          "type"
+       "start": {
+        "type": "integer"
+       },
+       "end": {
+        "type": "integer"
+       },
+       "revival_node": {
+        "type": [
+         "string",
+         "null"
         ],
-        "additionalProperties": false,
-        "properties": {
-          "target": {
-            "type": "string",
-            "description": "id of the ancestor/related node."
-          },
-          "type": {
-            "enum": [
-              "descends_from",
-              "references",
-              "reacts_against",
-              "hybridizes_with",
-              "regional_of",
-              "revives"
-            ],
-            "description": "descends_from = actual transmission of building practice (builders, pattern books, trade knowledge). references = claimed/quoted ancestry the style imitates without descending from it. reacts_against = defined by inversion of a predecessor. hybridizes_with = reticulation, a co-parent of equal weight. regional_of = a variant's relation to its parent style. revives = deliberate resurrection after a gap."
-          },
-          "weight": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 1,
-            "default": 1,
-            "description": "Relative strength of this inheritance. Drives cascade precedence and edge rendering."
-          },
-          "inherits_kit": {
-            "type": "boolean",
-            "default": false,
-            "description": "If true, this edge participates in the kit-of-parts cascade. Only descends_from / regional_of edges should normally set this."
-          },
-          "note": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "description": {
-      "type": "object",
-      "required": [
-        "short",
-        "long"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "short": {
-          "type": "string",
-          "description": "One sentence. Used in the tree UI and in agent context windows."
-        },
-        "long": {
-          "type": "string",
-          "description": "2-4 paragraphs: what it is, what produced it, what it was reacting to, what it feels like to stand in."
-        }
-      }
-    },
-    "defining_characteristics": {
-      "type": "array",
-      "minItems": 3,
-      "items": {
+        "description": "id of the node that IS the revival, if it is modelled separately."
+       },
+       "note": {
         "type": "string"
-      },
-      "description": "The features without which it is not this style. Necessary conditions, not a feature list."
-    },
-    "diagnostic_tells": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Fast field-identification cues that distinguish it from its nearest siblings. The 'if you see X and Y together, it is this' set."
-    },
-    "distinguished_from": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "node",
-          "difference"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "node": {
-            "type": "string"
-          },
-          "difference": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "Explicit disambiguation against commonly-confused neighbours. High value for both humans and agents."
-    },
-    "proportional_system": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "governing_logic": {
-          "type": "string",
-          "description": "e.g. 'classical orders, module = column diameter', 'structural bay of timber frame', 'none — picturesque massing'."
-        },
-        "typical_ratios": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "bay_rhythm": {
-          "type": "string"
-        },
-        "symmetry": {
-          "enum": [
-            "strict-bilateral",
-            "near-symmetrical",
-            "balanced-asymmetrical",
-            "picturesque-asymmetrical",
-            "additive-vernacular"
-          ]
-        }
+       }
       }
-    },
-    "massing_affinities": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "massing",
-          "affinity"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "massing": {
-            "type": "string",
-            "description": "id from the massing catalog. Massings are style-independent skeletons."
-          },
-          "affinity": {
-            "enum": [
-              "canonical",
-              "common",
-              "possible",
-              "atypical",
-              "forbidden"
-            ]
-          },
-          "note": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "Massing is NOT style. This is the join table between the skeleton catalog and the style grammar."
-    },
-    "kit": {
-      "type": "object",
-      "description": "Inline slot overrides. The full slot directory for a style lives at kits/<id>.kit.json; this field is for the small number of bindings worth carrying on the taxonomy record itself. Slots absent from both are inherited via the cascade; see docs/inheritance.md.",
-      "additionalProperties": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "binding": {
-            "enum": [
-              "specified",
-              "inherited",
-              "open",
-              "forbidden"
-            ],
-            "default": "open"
-          },
-          "variants": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "parameters": {
-            "type": "object"
-          },
-          "rule": {
-            "type": "string",
-            "description": "Prose constraint, pending formalization."
-          },
-          "note": {
-            "type": "string"
-          },
-          "status": {
-            "enum": [
-              "empty",
-              "stub",
-              "drafted",
-              "reviewed"
-            ],
-            "default": "empty"
-          }
-        }
-      }
-    },
-    "constraints": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "kind",
-          "statement"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+\\.c[0-9]{2,3}$",
-            "description": "Present once migrated (docs/open-questions.md #24). <style-id>.c01, c02, ... Stable, never reused; see schema/constraint.schema.json for the full shape this mirrors."
-          },
-          "kind": {
-            "enum": [
-              "co-occurrence",
-              "proportional",
-              "structural",
-              "climatic",
-              "code",
-              "cultural"
-            ]
-          },
-          "statement": {
-            "type": "string"
-          },
-          "severity": {
-            "enum": [
-              "hard",
-              "soft",
-              "advisory"
-            ],
-            "default": "soft"
-          },
-          "scope": {
-            "enum": ["plan", "elevation", "site", "section", "judgment"],
-            "description": "Present once migrated. See schema/constraint.schema.json."
-          },
-          "deprecated_in_favour_of": {
-            "type": "string"
-          },
-          "test": {
-            "type": "object",
-            "description": "Present once migrated and only when scope != judgment and the statement supplies a number or enumerable set. Full shape validated separately by build/check_constraints.py against schema/constraint.schema.json — kept loose here (not $ref'd cross-file, to match this project's existing convention of self-contained schema files) so a style node can still be checked standalone."
-          }
-        }
-      },
-      "description": "Assembly rules. Hard constraints are what keep the generator from producing incoherent houses. `id` and `scope` are present once a constraint has been migrated to the executable rule language (WP-1.1); constraints not yet migrated are still valid records without them — migration is in progress across the corpus, not a hard cutover."
-    },
-    "exemplars": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "year": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "note": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "sources": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "confidence": {
-      "enum": [
-        "high",
-        "medium",
-        "low"
-      ],
-      "default": "medium",
-      "description": "Editorial confidence in the dates and lineage claims of this node."
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "proportion_packs": {
-      "type": "array",
-      "description": "The grammar this style is written in. Element slots supply the alphabet; a proportion pack supplies the rules that dimension them. A style with no pack bound has a vocabulary and no syntax.",
-      "items": {
-        "type": "object",
-        "required": [
-          "pack",
-          "role"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "pack": {
-            "type": "string",
-            "description": "proportion pack id"
-          },
-          "role": {
-            "enum": [
-              "primary",
-              "secondary",
-              "interior",
-              "opening",
-              "facade",
-              "room",
-              "massing",
-              "optional"
-            ],
-            "description": "Which layer of the building this pack governs. A style normally binds several: an order for the classical apparatus, a module system for the envelope, a trim system for the interior."
-          },
-          "authority": {
-            "type": "string",
-            "description": "Preferred authority overlay for this style, e.g. gibbs-ionic for colonial Georgian, benjamin-ionic for Federal."
-          },
-          "note": {
-            "type": "string"
-          },
-          "precedence": {
-            "type": "integer",
-            "description": "Lower wins where two packs bind the same slot. Required because the Georgian exercise found 32 of 82 slots spoken to by two or more packs, with a 10-inch spread on the chair rail and no rule for choosing."
-          }
-        }
-      }
+     }
     }
+   }
+  },
+  "geography": {
+   "type": "object",
+   "required": [
+    "regions"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "regions": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "string"
+     },
+     "description": "Where it was actually built. Use consistent region tokens (see schema/regions.json)."
+    },
+    "hearth": {
+     "type": "string",
+     "description": "The originating locus, if identifiable (e.g. 'Tidewater Virginia', 'Pasadena, California')."
+    },
+    "climate_zones": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "IECC climate zones where the style's assemblies are natively appropriate. Constrains buildability."
+    }
+   }
+  },
+  "lineage": {
+   "type": "array",
+   "description": "The DAG. Multiple parents are normal and expected. Edge TYPE carries most of the meaning.",
+   "items": {
+    "type": "object",
+    "required": [
+     "target",
+     "type"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "target": {
+      "type": "string",
+      "description": "id of the ancestor/related node."
+     },
+     "type": {
+      "enum": [
+       "descends_from",
+       "references",
+       "reacts_against",
+       "hybridizes_with",
+       "regional_of",
+       "revives"
+      ],
+      "description": "descends_from = actual transmission of building practice (builders, pattern books, trade knowledge). references = claimed/quoted ancestry the style imitates without descending from it. reacts_against = defined by inversion of a predecessor. hybridizes_with = reticulation, a co-parent of equal weight. regional_of = a variant's relation to its parent style. revives = deliberate resurrection after a gap."
+     },
+     "weight": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 1,
+      "description": "Relative strength of this inheritance. Drives cascade precedence and edge rendering."
+     },
+     "inherits_kit": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, this edge participates in the kit-of-parts cascade. Only descends_from / regional_of edges should normally set this."
+     },
+     "note": {
+      "type": "string"
+     },
+     "slots": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "Slot ids this edge transmits, when it transmits only some. Absent means the edge carries the ancestor's whole kit, which is the historical behaviour and stays the default. Added by OQ 36 for `hybridizes_with`: an edge drawn to carry one narrow aspect of a donor's practice - a porch treatment, a roof form, a decorative vocabulary - transmitted that donor's ENTIRE kit, because the cascade could not partition a donor's bindings by which aspect the edge was drawn for. WP-4.2 hit about twenty-six real merge problems that way across 129 kits and patched every one at the node instead of at the mechanism. Scoping an edge fixes the class and makes those node-level patches removable one at a time."
+     }
+    }
+   }
+  },
+  "description": {
+   "type": "object",
+   "required": [
+    "short",
+    "long"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "short": {
+     "type": "string",
+     "description": "One sentence. Used in the tree UI and in agent context windows."
+    },
+    "long": {
+     "type": "string",
+     "description": "2-4 paragraphs: what it is, what produced it, what it was reacting to, what it feels like to stand in."
+    }
+   }
+  },
+  "defining_characteristics": {
+   "type": "array",
+   "minItems": 3,
+   "items": {
+    "type": "string"
+   },
+   "description": "The features without which it is not this style. Necessary conditions, not a feature list."
+  },
+  "diagnostic_tells": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "Fast field-identification cues that distinguish it from its nearest siblings. The 'if you see X and Y together, it is this' set."
+  },
+  "distinguished_from": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "node",
+     "difference"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "node": {
+      "type": "string"
+     },
+     "difference": {
+      "type": "string"
+     }
+    }
+   },
+   "description": "Explicit disambiguation against commonly-confused neighbours. High value for both humans and agents."
+  },
+  "proportional_system": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "governing_logic": {
+     "type": "string",
+     "description": "e.g. 'classical orders, module = column diameter', 'structural bay of timber frame', 'none — picturesque massing'."
+    },
+    "typical_ratios": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "bay_rhythm": {
+     "type": "string"
+    },
+    "symmetry": {
+     "enum": [
+      "strict-bilateral",
+      "near-symmetrical",
+      "balanced-asymmetrical",
+      "picturesque-asymmetrical",
+      "additive-vernacular"
+     ]
+    }
+   }
+  },
+  "massing_affinities": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "massing",
+     "affinity"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "massing": {
+      "type": "string",
+      "description": "id from the massing catalog. Massings are style-independent skeletons."
+     },
+     "affinity": {
+      "enum": [
+       "canonical",
+       "common",
+       "possible",
+       "atypical",
+       "forbidden"
+      ]
+     },
+     "note": {
+      "type": "string"
+     }
+    }
+   },
+   "description": "Massing is NOT style. This is the join table between the skeleton catalog and the style grammar."
+  },
+  "kit": {
+   "type": "object",
+   "description": "Inline slot overrides. The full slot directory for a style lives at kits/<id>.kit.json; this field is for the small number of bindings worth carrying on the taxonomy record itself. Slots absent from both are inherited via the cascade; see docs/inheritance.md.",
+   "additionalProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "binding": {
+      "enum": [
+       "specified",
+       "inherited",
+       "open",
+       "forbidden"
+      ],
+      "default": "open"
+     },
+     "variants": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "parameters": {
+      "type": "object"
+     },
+     "rule": {
+      "type": "string",
+      "description": "Prose constraint, pending formalization."
+     },
+     "note": {
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "empty",
+       "stub",
+       "drafted",
+       "reviewed"
+      ],
+      "default": "empty"
+     }
+    }
+   }
+  },
+  "constraints": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "kind",
+     "statement"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+\\.c[0-9]{2,3}$",
+      "description": "Present once migrated (docs/open-questions.md #24). <style-id>.c01, c02, ... Stable, never reused; see schema/constraint.schema.json for the full shape this mirrors."
+     },
+     "kind": {
+      "enum": [
+       "co-occurrence",
+       "proportional",
+       "structural",
+       "climatic",
+       "code",
+       "cultural"
+      ]
+     },
+     "statement": {
+      "type": "string"
+     },
+     "severity": {
+      "enum": [
+       "hard",
+       "soft",
+       "advisory"
+      ],
+      "default": "soft"
+     },
+     "scope": {
+      "enum": [
+       "plan",
+       "elevation",
+       "site",
+       "section",
+       "judgment"
+      ],
+      "description": "Present once migrated. See schema/constraint.schema.json."
+     },
+     "deprecated_in_favour_of": {
+      "type": "string"
+     },
+     "test": {
+      "type": "object",
+      "description": "Present once migrated and only when scope != judgment and the statement supplies a number or enumerable set. Full shape validated separately by build/check_constraints.py against schema/constraint.schema.json — kept loose here (not $ref'd cross-file, to match this project's existing convention of self-contained schema files) so a style node can still be checked standalone."
+     }
+    }
+   },
+   "description": "Assembly rules. Hard constraints are what keep the generator from producing incoherent houses. `id` and `scope` are present once a constraint has been migrated to the executable rule language (WP-1.1); constraints not yet migrated are still valid records without them — migration is in progress across the corpus, not a hard cutover."
+  },
+  "exemplars": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "name"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "location": {
+      "type": "string"
+     },
+     "year": {
+      "type": [
+       "integer",
+       "null"
+      ]
+     },
+     "note": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "sources": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "confidence": {
+   "enum": [
+    "high",
+    "medium",
+    "low"
+   ],
+   "default": "medium",
+   "description": "Editorial confidence in the dates and lineage claims of this node."
+  },
+  "tags": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "proportion_packs": {
+   "type": "array",
+   "description": "The grammar this style is written in. Element slots supply the alphabet; a proportion pack supplies the rules that dimension them. A style with no pack bound has a vocabulary and no syntax.",
+   "items": {
+    "type": "object",
+    "required": [
+     "pack",
+     "role"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "pack": {
+      "type": "string",
+      "description": "proportion pack id"
+     },
+     "role": {
+      "enum": [
+       "primary",
+       "secondary",
+       "interior",
+       "opening",
+       "facade",
+       "room",
+       "massing",
+       "optional"
+      ],
+      "description": "Which layer of the building this pack governs. A style normally binds several: an order for the classical apparatus, a module system for the envelope, a trim system for the interior."
+     },
+     "authority": {
+      "type": "string",
+      "description": "Preferred authority overlay for this style, e.g. gibbs-ionic for colonial Georgian, benjamin-ionic for Federal."
+     },
+     "note": {
+      "type": "string"
+     },
+     "precedence": {
+      "type": "integer",
+      "description": "Lower wins where two packs bind the same slot. Required because the Georgian exercise found 32 of 82 slots spoken to by two or more packs, with a 10-inch spread on the chair rail and no rule for choosing."
+     }
+    }
+   }
   }
+ }
 }

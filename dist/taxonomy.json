@@ -9349,7 +9349,18 @@
           "type": "hybridizes_with",
           "weight": 0.5,
           "inherits_kit": true,
-          "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them."
+          "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them. SCOPED (OQ 36, 24 Aug 2026) to the list this note already enumerates - the carpentry, the trim, the sash, the stair and the corridor. Unscoped it also carried `chimney`, which the note does not claim and which is wrong: a Monterey chimney is the Hispanic adobe half of the house, not the Anglo half the shipmasters brought.",
+          "slots": [
+            "stair_position",
+            "stair_type",
+            "chair_rail",
+            "crown",
+            "cornice_return",
+            "gable_treatment",
+            "transom_sidelight",
+            "architrave",
+            "sash_pattern"
+          ]
         }
       ],
       "description": {
@@ -9584,6 +9595,19 @@
         "english-cottage-vernacular",
         "british-vernacular"
       ],
+      "_cascade_scope": {
+        "new-england-colonial": [
+          "architrave",
+          "chair_rail",
+          "cornice_return",
+          "crown",
+          "gable_treatment",
+          "sash_pattern",
+          "stair_position",
+          "stair_type",
+          "transom_sidelight"
+        ]
+      },
       "_children": [],
       "_descendants": [
         {
@@ -32309,7 +32333,27 @@
           "type": "hybridizes_with",
           "weight": 0.65,
           "inherits_kit": true,
-          "note": "Genuine blending. The octagon is a plan thesis with no ornamental vocabulary of its own, so nearly every built example wears Italianate dress: bracketed eaves, a cupola, round-arched windows, and a wrapping veranda."
+          "note": "Genuine blending. The octagon is a plan thesis with no ornamental vocabulary of its own, so nearly every built example wears Italianate dress: bracketed eaves, a cupola, round-arched windows, and a wrapping veranda. SCOPED (OQ 36, 24 Aug 2026) to the dress this note actually claims. Unscoped, the edge also carried roof_form, roof_pitch and height_proportion, and those are the three things an octagon does NOT get from Italianate practice: its roof is eight hips meeting at a point because its plan is eight-sided, and its proportion is Fowler's arithmetic about wall length per enclosed area. The octagon is a plan thesis wearing Italianate clothes; the clothes are what the edge transmits.",
+          "slots": [
+            "balustrade",
+            "belt_course",
+            "column",
+            "corner_quoin",
+            "cornice",
+            "eave_condition",
+            "entablature",
+            "modillion_dentil",
+            "order",
+            "ornament_vocabulary",
+            "pediment",
+            "pilaster",
+            "porch_support",
+            "rake_condition",
+            "window_grouping_rule",
+            "window_head_wood",
+            "window_proportion",
+            "window_type"
+          ]
         },
         {
           "target": "greek-revival-american",
@@ -32536,6 +32580,28 @@
         "georgian-colonial-american",
         "american-colonial"
       ],
+      "_cascade_scope": {
+        "italianate-american": [
+          "balustrade",
+          "belt_course",
+          "column",
+          "corner_quoin",
+          "cornice",
+          "eave_condition",
+          "entablature",
+          "modillion_dentil",
+          "order",
+          "ornament_vocabulary",
+          "pediment",
+          "pilaster",
+          "porch_support",
+          "rake_condition",
+          "window_grouping_rule",
+          "window_head_wood",
+          "window_proportion",
+          "window_type"
+        ]
+      },
       "_children": [],
       "_descendants": []
     },

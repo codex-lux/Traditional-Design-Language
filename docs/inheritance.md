@@ -106,3 +106,46 @@ They are prose, deliberately written to be enforceable — with numbers and thre
 Hard constraints are what stop a generator from producing incoherent houses. They are also the most valuable thing in the dataset, and the part most worth arguing about with plan development leads.
 
 Since WP-1.1 (23 Aug 2026), a constraint can additionally carry a formal `test` — the fault corpus's own `expression`/`threshold`/`direction` pattern, extended with a `one-of` direction and a `scope` field — so the statement above is no longer only prose a person reads; it can be an expression the validator, composer or geometry solver evaluates directly, with the same "unjudged, not passed" honesty as everything else in this corpus when the sources don't determine a number. See **`docs/constraints.md`** for the full rule language, and note that this is a migration in progress, not a completed conversion: as of this writing 140 of the corpus's 660 constraints (the `english-classical` and `american-colonial` families, as a worked example) have been migrated to carry `id`/`scope`/`test`; the rest are still the prose-with-kind-and-severity shape described above, which remains a perfectly valid record — migration adds fields, it does not invalidate what came before it.
+
+
+## Scoping an edge to the slots it was drawn for (OQ 36)
+
+A lineage edge may carry a `slots` list. When it does, that edge transmits those slots and
+nothing else. When it does not — which is almost every edge — it transmits the ancestor's whole
+kit, which is what every edge did before and stays the default.
+
+The problem it answers is specific to `hybridizes_with`. That edge is reticulation: a co-parent
+of comparable weight, drawn because two traditions genuinely met. But the meeting is usually
+about *one thing* — a porch treatment, a roof form, a decorative vocabulary, a way of ordering
+a house from a catalogue — and the cascade had no way to say so, so the edge handed over the
+donor's entire kit. WP-4.2 hit about twenty-six real merge problems that way across 129 kits and
+patched every one at the node.
+
+**Measured, 24 August 2026:** 36 nodes carry a kit-bearing `hybridizes_with` edge, and on 20 of
+them the donor actually wins slots in the resolved kit — **123 slots corpus-wide**. That is the
+size of the exposure, and it is why the mechanism was worth a schema version rather than another
+node-level patch.
+
+The worked case is `octagon-house hybridizes_with italianate-american`, whose own note is
+unusually clear about what it means: *"The octagon is a plan thesis with no ornamental vocabulary
+of its own, so nearly every built example wears Italianate dress."* Unscoped, that edge handed
+the octagon 21 slots — including `roof_form`, `roof_pitch` and `height_proportion`, which are the
+three things an octagon most certainly does not get from Italianate practice. Its roof is eight
+hips meeting at a point because its plan is eight-sided; its proportion is Fowler's arithmetic
+about wall length per enclosed area. Scoped to the dress, the edge now carries 18 slots and those
+three resolve elsewhere.
+
+**Two things to know before scoping an edge.**
+
+First, **an edge's own note usually already says what it carries.** `monterey-colonial
+hybridizes_with new-england-colonial` enumerates it outright — braced-frame carpentry, a
+wood-shingled hip roof, milled architrave trim, double-hung sash, an interior stair and corridor
+— and the scope is a transcription of that sentence. Where a note does not say, do not guess:
+leave the edge unscoped and it behaves as it always has.
+
+Second, and this is the honest limit of the mechanism: **scoping stops a wrong donor, it does not
+supply a right one.** With the Italianate edge scoped, the octagon's `roof_form` falls through to
+the next ancestor in the chain, which is `gothic-revival-american` — better, and still not the
+eight-hipped roof the type actually has. That belongs in `kits/octagon-house.kit.json` as the
+node's own binding. A scoped edge tells the cascade what NOT to take; what a style genuinely is
+still has to be authored.

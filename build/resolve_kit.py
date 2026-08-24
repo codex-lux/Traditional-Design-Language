@@ -74,6 +74,16 @@ def chain_for(graph, style_id):
     return [style_id] + list(n.get("_cascade", []))
 
 
+def scope_for(graph, style_id):
+    """Which ancestors in this node's chain may contribute only SOME slots (OQ 36).
+
+    Absent for almost every ancestor, and absent entirely for a node with no scoped edge, which
+    is the historical behaviour: an edge with no `slots` list carries the donor's whole kit. An
+    edge that names slots carries those and nothing else, which is what a `hybridizes_with` edge
+    drawn for one aspect of a donor's practice actually means."""
+    return dict((graph["nodes"].get(style_id) or {}).get("_cascade_scope") or {})
+
+
 # ---------------------------------------------------------------- extends merge
 MERGE_REPLACE = ("rule", "packs", "code_conflict", "determined_by",
                  "judgment", "invented", "confidence", "sources", "status")
@@ -170,15 +180,23 @@ def merge_extends(base, delta, base_src, delta_src):
     return out, prov
 
 
-def resolve_slots(graph, chain):
+def resolve_slots(graph, chain, scope=None):
     kits = {nid: load_kit(nid) for nid in chain}
     inline = {nid: (graph["nodes"][nid].get("kit") or {}) for nid in chain}
     out = collections.OrderedDict()
     savings = {"slots": 0, "fields": 0, "detail": []}
+    scope = scope or {}
 
     for sid, group, name in slot_order(graph):
         deltas, rec, src = [], None, None
         for nid in chain:
+            # OQ 36: an ancestor reached by a scoped edge contributes only the slots that edge
+            # was drawn for. Skipping it here rather than filtering its kit means the walk
+            # simply continues past it to the next ancestor, which is exactly what "this edge
+            # does not carry that slot" should mean.
+            allowed = scope.get(nid)
+            if allowed is not None and sid not in allowed:
+                continue
             v, tag = None, ""
             for store, t in ((inline[nid], " (inline)"), (kits[nid], "")):
                 cand = store.get(sid)
@@ -421,7 +439,7 @@ def main():
 
     graph = load_graph()
     chain = chain_for(graph, a.style)
-    slots, savings = resolve_slots(graph, chain)
+    slots, savings = resolve_slots(graph, chain, scope_for(graph, a.style))
     packs = resolve_packs(graph, chain)
     ctx = {"ceiling_height": a.ceiling,
            "storey_height": a.storey if a.storey else a.ceiling + 12.0,
