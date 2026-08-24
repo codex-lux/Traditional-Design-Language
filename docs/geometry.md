@@ -167,3 +167,35 @@ putting a 20–55 s solve inside candidate ranking would make composition cost m
 the heuristic should refuse to place a room below its band the way the solver does — it puts the
 spec Colonial's dining room at 91 sf against a 122 sf minimum, on every seed — is OQ 32.
 
+
+## Reserved voids (OQ 33, 24 Aug 2026)
+
+An outdoor room whose own record says it sits within the block — a courtyard, a piazza, a
+loggia — is **placed and dimensioned like any other room**, and excluded from the heated
+envelope rather than from the drawing. `rooms/<id>.json`'s `void` block carries the two facts
+placement needs: `within_footprint` (does it take a rectangle?) and `roofed` (may anything sit
+above it?). A room with no `void` block stays out of placement, which is the behaviour before
+the ruling and is the right answer for a terrace.
+
+`footprint.area_sf` keeps its meaning: the gross block, what the roof spans and the lot must
+hold. `heated_area_sf` and `void_area_sf` state the split, and are derived from each other so
+the three numbers add up.
+
+**Nothing sits over an unroofed void.** `vertical_score` charges 40 and names it; `solver.py`
+states it as a hard constraint. A roofed void is exempt on purpose — a Charleston single's upper
+piazza sits on its lower one.
+
+**Courtyard massings are laid out, not searched.** `courtyard_slice()` states the ring as a
+guillotine tree (cut at the court's south and north edges for three bands; cut the middle band
+at its west and east) because the ordinary search cannot find one: four thousand candidates put
+the court in the block's corner every time. The ranges are still sliced by the ordinary search.
+`ring_depth()` solves the range depth from the court's own declared area against the block and
+returns `None` — the ordinary slicer, and a report that says the court is a notch — when the
+block cannot hold it with ranges deep enough to be rooms.
+
+Two things about a ring massing that the ordinary footprint arithmetic gets wrong, and which
+`derive_footprint` now handles: `depth_rooms` on `courtyard-full` / `courtyard-u` describes the
+**range**, not the block (feeding the court's area into a 22 ft target made a 121 × 24.6 ft
+strip), and the growth loops optimise the block when what matters is the **court's** proportion
+(they made it 16 × 40, outside `rooms/courtyard.json`'s own 1.0–2.2 band). The bay count is
+re-chosen against that band.

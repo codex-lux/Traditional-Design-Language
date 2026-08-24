@@ -78,6 +78,10 @@ def render(plan, path, scale=7.0):
              f'.win{{stroke:{PAL["brass"]};stroke-width:2.6;fill:none}}'
              f'.dr{{stroke:{PAL["verd"]};stroke-width:1.5;fill:none}}'
              f'</style>')
+    # OQ 33: the hatch a reserved void that is open to the sky is filled with.
+    s.append(f'<defs><pattern id="openvoid" width="9" height="9" patternUnits="userSpaceOnUse" '
+             f'patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" '
+             f'stroke="{PAL["rule"]}" stroke-width="0.9" opacity="0.7"/></pattern></defs>')
     s.append(f'<text class="hd" x="{pad}" y="34">{_esc(plan["name"])}</text>')
     s.append(f'<text class="lb" x="{pad}" y="54">{_esc(plan.get("style",""))} · '
              f'{fp.get("bays","?")} BAYS OF {fp.get("bay_module_ft","?")} FT · '
@@ -121,8 +125,20 @@ def render(plan, path, scale=7.0):
             if not g: continue
             fc = FILL.get(C["rooms"].get(r["type"], {}).get("function_class"), "#16303F")
             x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
+            # OQ 33: a reserved void is drawn OPEN -- the ground colour, not a room fill, so a
+            # court reads as the outside it is rather than as a dark room. A roofed void keeps a
+            # faint fill, because a loggia is covered and a patio is not, and the drawing is
+            # supposed to be able to tell you which.
+            if g.get("void"):
+                fc = "#12293A" if g["void"].get("roofed") else PAL["ground"]
             s.append(f'<rect x="{X(x):.1f}" y="{Y(y+h):.1f}" width="{w*scale:.1f}" height="{h*scale:.1f}" '
                      f'fill="{fc}" stroke="{PAL["rule"]}" stroke-width="0.8"/>')
+            if g.get("void") and not g["void"].get("roofed"):
+                # open to the sky: hatched over the ground colour, so it cannot be mistaken for
+                # a room someone forgot to label. A tiling <pattern> rather than clipped lines --
+                # the pattern is defined once in <defs> and cannot spill past the rect.
+                s.append(f'<rect x="{X(x):.1f}" y="{Y(y+h):.1f}" width="{w*scale:.1f}" '
+                         f'height="{h*scale:.1f}" fill="url(#openvoid)"/>')
         # walls on top so they read as continuous
         for r in lv["rooms"]:
             g = r.get("geometry")
@@ -143,8 +159,11 @@ def render(plan, path, scale=7.0):
                     s.append(f'<text class="dm" x="{cx:.1f}" y="{cy+3:.1f}" text-anchor="middle">{_esc(nm[:9])}</text>')
                 continue
             s.append(f'<text class="nm" x="{cx:.1f}" y="{cy-1:.1f}" text-anchor="middle">{_esc(nm)}</text>')
+            tail = ""
+            if g.get("void"):
+                tail = " · roofed, unheated" if g["void"].get("roofed") else " · open to sky"
             s.append(f'<text class="dm" x="{cx:.1f}" y="{cy+11:.1f}" text-anchor="middle">'
-                     f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf</text>')
+                     f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf{tail}</text>')
         # windows on exterior walls
         for r in lv["rooms"]:
             g = r.get("geometry")

@@ -378,6 +378,28 @@
     "medium",
     "low"
    ]
+  },
+  "void": {
+   "type": "object",
+   "description": "Only meaningful on a room whose `function_class` is `outdoor`. OQ 33, ruled 24 Aug 2026: the placement engines carry outdoor rooms as reserved voids -- placed and dimensioned, excluded from the area budget and from the heated envelope, drawn open. To place one you have to know two facts about it that no field carried, and they are independent: whether the void sits INSIDE the block outline (a courtyard, a Charleston piazza) or is appended to it at grade (a terrace), and whether it is ROOFED (a loggia is; a courtyard is not). The first decides whether it takes a rectangle in the footprint; the second decides whether anything may sit above it. Absent, a room is treated as `within_footprint: false` -- the behaviour before this ruling, which is to leave it out of placement entirely. This is not the `void` function_class the ruling rejected as option (b): function_class is untouched, nothing is re-typed, and the field is descriptive rather than a second classification axis.",
+   "additionalProperties": false,
+   "required": [
+    "within_footprint",
+    "roofed"
+   ],
+   "properties": {
+    "within_footprint": {
+     "type": "boolean",
+     "description": "True when the void occupies a rectangle inside the building's own block -- the house is built around it or beside it under one outline. False when it is appended at grade and the block would be the same shape without it."
+    },
+    "roofed": {
+     "type": "boolean",
+     "description": "True when the void is covered -- under the main roof or a shed off it. An unroofed void is a hole in the roof plane and nothing may be placed over it; a roofed one will carry an upper storey (a Charleston single's upper piazza sits on its lower one)."
+    },
+    "note": {
+     "type": "string"
+    }
+   }
   }
  },
  "$defs": {

@@ -1,252 +1,257 @@
 {
-  "id": "courtyard",
-  "name": "Courtyard",
-  "aka": [
-    "patio",
-    "patio andaluz",
-    "court",
-    "peristyle",
-    "atrium",
-    "cortile",
-    "placita (New Mexico)"
+ "id": "courtyard",
+ "name": "Courtyard",
+ "aka": [
+  "patio",
+  "patio andaluz",
+  "court",
+  "peristyle",
+  "atrium",
+  "cortile",
+  "placita (New Mexico)"
+ ],
+ "function_class": "outdoor",
+ "description": "The void the house is built around, and the only room in the catalogue that is defined by what encloses it rather than by what it contains. A courtyard is not a garden the house happens to face and not a terrace attached to its flank: it is an outdoor room with building on three or four sides, and in the types that use it, it is simultaneously the plan's daylight source, its circulation hub and its climate machine. Every room in a full courtyard house opens onto it and onto nothing else, which is why the diagram has no interior corridor at all. Get the court's proportion wrong and you do not get a slightly worse house, you get a light well.",
+ "history": {
+  "appears": -800,
+  "declines": null,
+  "note": "The oldest continuously-built domestic diagram there is, and one that arrived in the Americas by two independent routes that then met in the Southwest. The Roman atrium and peristyle house give it to the Mediterranean; Islamic Spain develops the small deep planted patio to an extraordinary pitch in Cordoba and Seville; Spain carries it to Mexico as the patio of the casa and the hacienda, and it reaches New Mexico and California as the placita. THE MECHANISM, which most revivals miss: a courtyard is a nocturnal cold-air trap. On a clear night the court's floor and the surrounding wall faces radiate to the sky and chill the air in the court, which is denser than the air above and so stays put; the mass of the surrounding walls stores that coolness and gives it back through the afternoon. This only works if the court is deep enough relative to its width to hold the pool and shade its own floor for most of the day, and if the enclosure has real mass. A wide shallow court in stud framing is a sun trap that does the opposite of what the type is for, which is exactly what most Mediterranean Revival tract housing builds."
+ },
+ "dimensions": {
+  "area_sf": [
+   200,
+   1200
   ],
-  "function_class": "outdoor",
-  "description": "The void the house is built around, and the only room in the catalogue that is defined by what encloses it rather than by what it contains. A courtyard is not a garden the house happens to face and not a terrace attached to its flank: it is an outdoor room with building on three or four sides, and in the types that use it, it is simultaneously the plan's daylight source, its circulation hub and its climate machine. Every room in a full courtyard house opens onto it and onto nothing else, which is why the diagram has no interior corridor at all. Get the court's proportion wrong and you do not get a slightly worse house, you get a light well.",
-  "history": {
-    "appears": -800,
-    "declines": null,
-    "note": "The oldest continuously-built domestic diagram there is, and one that arrived in the Americas by two independent routes that then met in the Southwest. The Roman atrium and peristyle house give it to the Mediterranean; Islamic Spain develops the small deep planted patio to an extraordinary pitch in Cordoba and Seville; Spain carries it to Mexico as the patio of the casa and the hacienda, and it reaches New Mexico and California as the placita. THE MECHANISM, which most revivals miss: a courtyard is a nocturnal cold-air trap. On a clear night the court's floor and the surrounding wall faces radiate to the sky and chill the air in the court, which is denser than the air above and so stays put; the mass of the surrounding walls stores that coolness and gives it back through the afternoon. This only works if the court is deep enough relative to its width to hold the pool and shade its own floor for most of the day, and if the enclosure has real mass. A wide shallow court in stud framing is a sun trap that does the opposite of what the type is for, which is exactly what most Mediterranean Revival tract housing builds."
+  "width_ft": [
+   14,
+   40
+  ],
+  "length_ft": [
+   14,
+   45
+  ],
+  "proportion": [
+   1.0,
+   2.2
+  ],
+  "ceiling_min_ft": null,
+  "critical_dimension": "THE RATIO OF THE COURT'S WIDTH TO THE HEIGHT OF THE WALLS AROUND IT, and it is the number that decides whether the room works at all. Call it W/H. Below about 0.8 the court is a light well: its floor never sees the sun, the rooms around it are dim, and it is a shaft rather than a room. Between about 1.0 and 2.0 it is a courtyard proper - shaded through the middle of the day, sunlit at its edges morning and evening, and deep enough to hold the night's cold air. Above about 3.0 it has stopped being a court and become a yard the house happens to surround: the cold-air pool blows out, the floor bakes, and the enclosure is doing nothing the walls of a garden would not do. A single-storey house with a 10 ft eave therefore wants a court roughly 10 to 20 ft across; a two-storey Mexican patio with a 22 ft eave wants 22 to 44. THE SECOND DIMENSION is the covered walk around it, which in the courtyard types IS the house's corridor: 6 ft is the floor for passing, 9 ft if it is also to be dined in - see rooms/loggia.json, which is that walk. The third is the smallest court that can still be planted and still be walked around, which is about 14 ft square; below that, drop the planting and accept a light well. ON THE BAND ABOVE: it is set for the court of a HOUSE - roughly 14 to 40 ft across, which covers the Andalusian patio, the New Mexico placita and the revival patio. The great hacienda courts run to 60 or 70 ft and 3,000 sf and are deliberately outside it: at that size the court is a working yard the ranges enclose, the cold-air pool no longer forms, and the building is an estate rather than a house. Composing against a 3,000 sf midpoint would put half a brief's floor area into the void before a single room was sized."
+ },
+ "void": {
+  "within_footprint": true,
+  "roofed": false,
+  "note": "Within the block because that is the room's whole definition -- 'the void the house is built around... defined by what encloses it rather than by what it contains'. Unroofed: it is open to the sky, so it is a hole in the roof plane and nothing may sit above it."
+ },
+ "furniture": [
+  {
+   "item": "fountain, well head or cistern mouth at the centre",
+   "footprint_in": [
+    48,
+    48
+   ],
+   "clearance_in": 36,
+   "note": "Not decoration. The evaporating surface is part of the cooling, the sound covers the street, and in the older houses the court IS the cistern's catchment - which is why the floor drains to the middle rather than to the edge."
   },
-  "dimensions": {
-    "area_sf": [
-      200,
-      1200
-    ],
-    "width_ft": [
-      14,
-      40
-    ],
-    "length_ft": [
-      14,
-      45
-    ],
-    "proportion": [
-      1.0,
-      2.2
-    ],
-    "ceiling_min_ft": null,
-    "critical_dimension": "THE RATIO OF THE COURT'S WIDTH TO THE HEIGHT OF THE WALLS AROUND IT, and it is the number that decides whether the room works at all. Call it W/H. Below about 0.8 the court is a light well: its floor never sees the sun, the rooms around it are dim, and it is a shaft rather than a room. Between about 1.0 and 2.0 it is a courtyard proper - shaded through the middle of the day, sunlit at its edges morning and evening, and deep enough to hold the night's cold air. Above about 3.0 it has stopped being a court and become a yard the house happens to surround: the cold-air pool blows out, the floor bakes, and the enclosure is doing nothing the walls of a garden would not do. A single-storey house with a 10 ft eave therefore wants a court roughly 10 to 20 ft across; a two-storey Mexican patio with a 22 ft eave wants 22 to 44. THE SECOND DIMENSION is the covered walk around it, which in the courtyard types IS the house's corridor: 6 ft is the floor for passing, 9 ft if it is also to be dined in - see rooms/loggia.json, which is that walk. The third is the smallest court that can still be planted and still be walked around, which is about 14 ft square; below that, drop the planting and accept a light well. ON THE BAND ABOVE: it is set for the court of a HOUSE - roughly 14 to 40 ft across, which covers the Andalusian patio, the New Mexico placita and the revival patio. The great hacienda courts run to 60 or 70 ft and 3,000 sf and are deliberately outside it: at that size the court is a working yard the ranges enclose, the cold-air pool no longer forms, and the building is an estate rather than a house. Composing against a 3,000 sf midpoint would put half a brief's floor area into the void before a single room was sized."
+  {
+   "item": "outdoor dining table for six to eight",
+   "footprint_in": [
+    40,
+    84
+   ],
+   "clearance_in": 36,
+   "essential": false,
+   "note": "Usually under the covered walk rather than in the open court, which is why the walk's depth and not the court's area is what decides whether the house dines outside"
   },
-  "furniture": [
-    {
-      "item": "fountain, well head or cistern mouth at the centre",
-      "footprint_in": [
-        48,
-        48
-      ],
-      "clearance_in": 36,
-      "note": "Not decoration. The evaporating surface is part of the cooling, the sound covers the street, and in the older houses the court IS the cistern's catchment - which is why the floor drains to the middle rather than to the edge."
-    },
-    {
-      "item": "outdoor dining table for six to eight",
-      "footprint_in": [
-        40,
-        84
-      ],
-      "clearance_in": 36,
-      "essential": false,
-      "note": "Usually under the covered walk rather than in the open court, which is why the walk's depth and not the court's area is what decides whether the house dines outside"
-    },
-    {
-      "item": "planting bed or pots to the court's edge",
-      "footprint_in": [
-        30,
-        120
-      ],
-      "clearance_in": 24,
-      "essential": false,
-      "note": "Transpiration is the other half of the cooling; a paved court with no planting runs several degrees hotter than a planted one of the same size"
-    },
-    {
-      "item": "clear route around all four sides",
-      "footprint_in": [
-        42,
-        240
-      ],
-      "clearance_in": null,
-      "note": "In the full courtyard type this route is the entire circulation of the house. If the furniture or the planting breaks it, rooms stop being reachable"
-    }
-  ],
-  "daylight": {
-    "depth_multiplier": 2.2,
-    "sides_lit": 4,
-    "orientation": "The court is its own orientation and lights every range around it, so the question is not which way the court faces but which range gets which sun. The north range of a court in the northern hemisphere faces south across it and is the good one - it takes winter sun and is easy to shade in summer, and it is where the principal rooms belong. The south range faces north across the court and is cool and even, which suits sleeping and service. The west range takes the afternoon sun on its face and is the one that needs the deep walk, the shutter or the vine.",
-    "note": "NOTE ON THIS ROOM'S depth_multiplier, which means something different here than anywhere else in the catalogue. Everywhere else it is the useful depth of a room as a multiple of its window head height. A courtyard is not lit through a wall - it IS the aperture - so the schema's field is used for the analogous ratio the type actually turns on: the widest the court may be as a multiple of the height of the walls enclosing it before it stops behaving like a court. 2.2 is the top of that band; see critical_dimension for the whole range and what happens at each end of it. Reused rather than left null because the field is required, and saying so is better than a number that quietly means something else.\n\nThis room has no depth_multiplier because it is not lit through a wall - it is the aperture. What matters is what the court gives the rooms around it, and the arithmetic is unforgiving: a room opening onto a covered walk onto a court is lit at the walk's reduced multiplier (about 1.8, see rooms/loggia.json) from a source whose own brightness falls with the court's W/H. That is why the single-pile range is not a stylistic preference in this type but a requirement - a double-pile range around a courtyard has an inner tier of rooms lit by nothing at all. It is also why the historic courtyard house puts stores, service and sleeping where the court is narrowest and the principal rooms where it is widest."
+  {
+   "item": "planting bed or pots to the court's edge",
+   "footprint_in": [
+    30,
+    120
+   ],
+   "clearance_in": 24,
+   "essential": false,
+   "note": "Transpiration is the other half of the cooling; a paved court with no planting runs several degrees hotter than a planted one of the same size"
   },
-  "adjacency": {
-    "must_adjoin": [
-      {
-        "room": "loggia",
-        "why": "the covered walk is the court's inhabited edge and the house's corridor; a court with no covered edge is a yard, and the rooms around it have no sheltered way to reach each other",
-        "relation": "direct-door",
-        "strength": "strong",
-        "exceptions": [
-          "the smallest Andalusian patios, where one range only is arcaded and the other three are blank wall",
-          "the New Mexico placita, where the portal may run one or two sides rather than all four"
-        ]
-      }
-    ],
-    "should_adjoin": [
-      {
-        "room": "cross-passage",
-        "why": "the controlled entry - the zaguan - is the whole threshold of this type: street, passage, court. It is the only opening in an otherwise closed street face and it carries the entire arrival sequence",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "entrance-hall",
-        "why": "where the type has been Anglicised and a hall has been inserted, the court still wants to be what the hall opens onto rather than a space reached through the back of the house",
-        "relation": "direct-door",
-        "strength": "preferred"
-      },
-      {
-        "room": "dining-room",
-        "why": "the court is the summer dining room in every climate that has one",
-        "relation": "direct-door",
-        "strength": "preferred"
-      },
-      {
-        "room": "kitchen",
-        "why": "in the hacienda and the larger patio houses the kitchen opens onto the court or onto a second service court behind it, and food crosses the court rather than a corridor",
-        "relation": "same-floor",
-        "strength": "preferred"
-      }
-    ],
-    "must_not_adjoin": [
-      {
-        "room": "garage",
-        "why": "the court is the house's best room and its only outlook; giving it a car door and a paved apron turns the diagram inside out. Where a car must reach the house, it belongs in a forecourt or a second court, never in this one",
-        "relation": "not-visible-from",
-        "strength": "strong"
-      }
-    ],
-    "entered_from": [
-      "cross-passage",
-      "entrance-hall",
-      "loggia",
-      "street",
-      "garden"
-    ],
-    "never_a_through_room": false
+  {
+   "item": "clear route around all four sides",
+   "footprint_in": [
+    42,
+    240
+   ],
+   "clearance_in": null,
+   "note": "In the full courtyard type this route is the entire circulation of the house. If the furniture or the planting breaks it, rooms stop being reachable"
+  }
+ ],
+ "daylight": {
+  "depth_multiplier": 2.2,
+  "sides_lit": 4,
+  "orientation": "The court is its own orientation and lights every range around it, so the question is not which way the court faces but which range gets which sun. The north range of a court in the northern hemisphere faces south across it and is the good one - it takes winter sun and is easy to shade in summer, and it is where the principal rooms belong. The south range faces north across the court and is cool and even, which suits sleeping and service. The west range takes the afternoon sun on its face and is the one that needs the deep walk, the shutter or the vine.",
+  "note": "NOTE ON THIS ROOM'S depth_multiplier, which means something different here than anywhere else in the catalogue. Everywhere else it is the useful depth of a room as a multiple of its window head height. A courtyard is not lit through a wall - it IS the aperture - so the schema's field is used for the analogous ratio the type actually turns on: the widest the court may be as a multiple of the height of the walls enclosing it before it stops behaving like a court. 2.2 is the top of that band; see critical_dimension for the whole range and what happens at each end of it. Reused rather than left null because the field is required, and saying so is better than a number that quietly means something else.\n\nThis room has no depth_multiplier because it is not lit through a wall - it is the aperture. What matters is what the court gives the rooms around it, and the arithmetic is unforgiving: a room opening onto a covered walk onto a court is lit at the walk's reduced multiplier (about 1.8, see rooms/loggia.json) from a source whose own brightness falls with the court's W/H. That is why the single-pile range is not a stylistic preference in this type but a requirement - a double-pile range around a courtyard has an inner tier of rooms lit by nothing at all. It is also why the historic courtyard house puts stores, service and sleeping where the court is narrowest and the principal rooms where it is widest."
+ },
+ "adjacency": {
+  "must_adjoin": [
+   {
+    "room": "loggia",
+    "why": "the covered walk is the court's inhabited edge and the house's corridor; a court with no covered edge is a yard, and the rooms around it have no sheltered way to reach each other",
+    "relation": "direct-door",
+    "strength": "strong",
+    "exceptions": [
+     "the smallest Andalusian patios, where one range only is arcaded and the other three are blank wall",
+     "the New Mexico placita, where the portal may run one or two sides rather than all four"
+    ]
+   }
+  ],
+  "should_adjoin": [
+   {
+    "room": "cross-passage",
+    "why": "the controlled entry - the zaguan - is the whole threshold of this type: street, passage, court. It is the only opening in an otherwise closed street face and it carries the entire arrival sequence",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "entrance-hall",
+    "why": "where the type has been Anglicised and a hall has been inserted, the court still wants to be what the hall opens onto rather than a space reached through the back of the house",
+    "relation": "direct-door",
+    "strength": "preferred"
+   },
+   {
+    "room": "dining-room",
+    "why": "the court is the summer dining room in every climate that has one",
+    "relation": "direct-door",
+    "strength": "preferred"
+   },
+   {
+    "room": "kitchen",
+    "why": "in the hacienda and the larger patio houses the kitchen opens onto the court or onto a second service court behind it, and food crosses the court rather than a corridor",
+    "relation": "same-floor",
+    "strength": "preferred"
+   }
+  ],
+  "must_not_adjoin": [
+   {
+    "room": "garage",
+    "why": "the court is the house's best room and its only outlook; giving it a car door and a paved apron turns the diagram inside out. Where a car must reach the house, it belongs in a forecourt or a second court, never in this one",
+    "relation": "not-visible-from",
+    "strength": "strong"
+   }
+  ],
+  "entered_from": [
+   "cross-passage",
+   "entrance-hall",
+   "loggia",
+   "street",
+   "garden"
+  ],
+  "never_a_through_room": false
+ },
+ "privacy_rank": 2,
+ "servicing": {
+  "plumbing": "light",
+  "ventilation": "open",
+  "heat": "None, and the point is the opposite. Where a modern court gets a fire pit or an outdoor fireplace it should sit at the court's edge under the walk, not in the middle, where it would occupy the one part of the floor the cold-air pool depends on.",
+  "electrical": "Wet-rated, low, and warm. Light the walk and the planting, never the court's centre from above - a bright fixture overhead destroys both the sky the court is there to frame and the night-sky radiation that cools it. DRAINAGE IS THE REAL SERVICE HERE and it is why plumbing is 'light' rather than 'none': a courtyard is a rain collector with the house's rooms around its perimeter, and the traditional floor falls to a central grate over a cistern rather than to the edges. Falling to the edges puts standing water against the base of every wall enclosing it, which in an adobe or rubble house is how the house dies.",
+  "stack_proximity_ft": null
+ },
+ "style_variation": [
+  {
+   "style": "andalusian-courtyard-vernacular",
+   "name_in_style": "patio",
+   "trim_grade": "middle",
+   "note": "The type at its most concentrated: small, deep, heavily planted, often only 14 to 20 ft across against two storeys, with a fountain and a marble or pebble floor. Frequently arcaded on two levels, the upper walk serving the chambers. The smallness is the point - this is the version tuned hardest for the cold-air pool."
   },
-  "privacy_rank": 2,
-  "servicing": {
-    "plumbing": "light",
-    "ventilation": "open",
-    "heat": "None, and the point is the opposite. Where a modern court gets a fire pit or an outdoor fireplace it should sit at the court's edge under the walk, not in the middle, where it would occupy the one part of the floor the cold-air pool depends on.",
-    "electrical": "Wet-rated, low, and warm. Light the walk and the planting, never the court's centre from above - a bright fixture overhead destroys both the sky the court is there to frame and the night-sky radiation that cools it. DRAINAGE IS THE REAL SERVICE HERE and it is why plumbing is 'light' rather than 'none': a courtyard is a rain collector with the house's rooms around its perimeter, and the traditional floor falls to a central grate over a cistern rather than to the edges. Falling to the edges puts standing water against the base of every wall enclosing it, which in an adobe or rubble house is how the house dies.",
-    "stack_proximity_ft": null
+  {
+   "style": "moorish-andalusian",
+   "name_in_style": "sahn",
+   "trim_grade": "highest",
+   "note": "Geometric paving, a central water channel or basin, and the court read as the ordered centre of a world whose outside face gives nothing away. The relationship between the court's geometry and the ornament of the arcade around it is the whole architecture, and it is the part no proportion pack in this corpus yet encodes (see OQ 30)."
   },
-  "style_variation": [
-    {
-      "style": "andalusian-courtyard-vernacular",
-      "name_in_style": "patio",
-      "trim_grade": "middle",
-      "note": "The type at its most concentrated: small, deep, heavily planted, often only 14 to 20 ft across against two storeys, with a fountain and a marble or pebble floor. Frequently arcaded on two levels, the upper walk serving the chambers. The smallness is the point - this is the version tuned hardest for the cold-air pool."
-    },
-    {
-      "style": "moorish-andalusian",
-      "name_in_style": "sahn",
-      "trim_grade": "highest",
-      "note": "Geometric paving, a central water channel or basin, and the court read as the ordered centre of a world whose outside face gives nothing away. The relationship between the court's geometry and the ornament of the arcade around it is the whole architecture, and it is the part no proportion pack in this corpus yet encodes (see OQ 30)."
-    },
-    {
-      "style": "mexican-hacienda",
-      "name_in_style": "patio",
-      "trim_grade": "middle",
-      "note": "Large - 40 to 70 ft across is ordinary - with a continuous corredor on all four sides that is the house's only corridor. A second, plainer court behind it takes the service and the animals. The scale means the cooling works less by cold-air pooling than by shade and mass."
-    },
-    {
-      "style": "spanish-colonial-revival",
-      "name_in_style": "patio",
-      "trim_grade": "high",
-      "note": "Usually a U rather than a full square, open on the garden side, tiled, with a fountain and a wrought-iron gate closing the fourth side. The revival gets the shape and loses the mechanism: a stud-framed stucco enclosure has almost none of the thermal mass the type runs on, so the court is a pretty outdoor room rather than a climate device. Worth saying plainly rather than pretending the two are the same."
-    },
-    {
-      "style": "new-mexico-adobe",
-      "name_in_style": "placita",
-      "trim_grade": "plain",
-      "note": "Small, walled, often irregular, with a portal on one or two sides rather than four, and grown by accretion as rooms were added end to end around it rather than laid out at once. The adobe mass is enormous and the mechanism works better here than anywhere else in North America."
-    },
-    {
-      "style": "italian-renaissance",
-      "name_in_style": "cortile",
-      "trim_grade": "highest",
-      "note": "Formal, arcaded on all four sides, often on two orders with the finer above, and set on axis with the entrance so the court is seen through the passage from the street. This is the version where the court is a composed room rather than a climate device, and its proportion is set by the orders around it."
-    },
-    {
-      "style": "tudor",
-      "name_in_style": "court",
-      "trim_grade": "middle",
-      "note": "Present but different in kind: the Tudor courtyard is a defensive and hierarchical enclosure formed by ranges around a hall, entered through a gatehouse, and it is neither planted nor climatic. Where the H-plan is the courtyard opened out on one side, the court that remains is a forecourt - which is why an H-plan manor's void should not be typed as this room without a note."
-    },
-    {
-      "style": "georgian-colonial-american",
-      "present": false,
-      "note": "Absent, and its absence is diagnostic. The Anglo-American tradition puts its outdoor rooms on the face of the house as porches and its service functions in detached dependencies around an open yard; it never encloses a void. A Georgian house with a courtyard has been given a diagram from another lineage."
-    },
-    {
-      "style": "cape-cod-colonial",
-      "present": false,
-      "note": "Absent and climatically absurd: an enclosed outdoor room in a cold wet windy climate is a place that collects snow and never dries."
-    }
-  ],
-  "code": [
-    {
-      "requirement": "An enclosed court that rooms rely on for light and ventilation is treated as a yard or court with minimum dimensions in most codes, and an inner court fully enclosed on four sides may require access for firefighting and a means of draining that does not rely on a single blockable outlet.",
-      "ref": "IRC R303.1 (light and ventilation openings onto a court or yard)",
-      "conflict": "The smallest historic patios - 14 ft across against two storeys - are below the minimum court dimension some jurisdictions set for a court serving habitable rooms. The honest response is to check the local figure before drawing the small deep court, not to widen it silently: widening it past W/H of about 2 destroys the behaviour the room exists for."
-    },
-    {
-      "requirement": "Emergency escape and rescue openings must discharge to a public way; a bedroom whose only window opens onto a fully enclosed inner court may not comply.",
-      "ref": "IRC R310",
-      "conflict": "This is the real constraint on the full four-sided court in contemporary construction and the reason most modern versions are U-shaped. Where the court is closed on all four sides, the sleeping rooms need a second route out or the court needs a through-passage a person can escape along."
-    },
-    {
-      "requirement": "Positive drainage away from foundations, with the finished court surface below the adjacent floor level.",
-      "conflict": "A court that drains to its perimeter puts water against the base of every wall enclosing it. The traditional central drain to a cistern is the correct detail and is usually cheaper than a perimeter system."
-    }
-  ],
-  "massing_fit": [
-    "courtyard-full",
-    "courtyard-u",
-    "gallery-house",
-    "h-plan-manor",
-    "villa-tower",
-    "temple-front-with-wings"
-  ],
-  "slots": [
-    "entry_sequence",
-    "street_relationship",
-    "orientation_rule",
-    "daylight_strategy",
-    "grade_relationship",
-    "setback_rule",
-    "wall_thickness_masonry"
-  ],
-  "faults": [
-    "blank-wall-to-the-street",
-    "room-deeper-than-its-daylight",
-    "stucco-with-no-arris",
-    "arch-that-carries-nothing",
-    "pier-narrower-than-the-opening"
-  ],
-  "sources": [
-    "massings/catalog.json: courtyard-full ('one controlled entry - the zaguan - carries the entire threshold sequence') and courtyard-u",
-    "rooms/loggia.json, which is this room's covered edge and carries the shading and daylight arithmetic",
-    "styles/andalusian-courtyard-vernacular.json and styles/mexican-hacienda.json, for the two scales of the type",
-    "Vitruvius, De architectura, Book VI, on the atrium and peristyle house",
-    "editorial: the W/H bands in critical_dimension are this corpus's own reading of the surviving examples' geometry rather than a figure taken from a published source, and are marked as judgment for that reason"
-  ],
-  "confidence": "high"
+  {
+   "style": "mexican-hacienda",
+   "name_in_style": "patio",
+   "trim_grade": "middle",
+   "note": "Large - 40 to 70 ft across is ordinary - with a continuous corredor on all four sides that is the house's only corridor. A second, plainer court behind it takes the service and the animals. The scale means the cooling works less by cold-air pooling than by shade and mass."
+  },
+  {
+   "style": "spanish-colonial-revival",
+   "name_in_style": "patio",
+   "trim_grade": "high",
+   "note": "Usually a U rather than a full square, open on the garden side, tiled, with a fountain and a wrought-iron gate closing the fourth side. The revival gets the shape and loses the mechanism: a stud-framed stucco enclosure has almost none of the thermal mass the type runs on, so the court is a pretty outdoor room rather than a climate device. Worth saying plainly rather than pretending the two are the same."
+  },
+  {
+   "style": "new-mexico-adobe",
+   "name_in_style": "placita",
+   "trim_grade": "plain",
+   "note": "Small, walled, often irregular, with a portal on one or two sides rather than four, and grown by accretion as rooms were added end to end around it rather than laid out at once. The adobe mass is enormous and the mechanism works better here than anywhere else in North America."
+  },
+  {
+   "style": "italian-renaissance",
+   "name_in_style": "cortile",
+   "trim_grade": "highest",
+   "note": "Formal, arcaded on all four sides, often on two orders with the finer above, and set on axis with the entrance so the court is seen through the passage from the street. This is the version where the court is a composed room rather than a climate device, and its proportion is set by the orders around it."
+  },
+  {
+   "style": "tudor",
+   "name_in_style": "court",
+   "trim_grade": "middle",
+   "note": "Present but different in kind: the Tudor courtyard is a defensive and hierarchical enclosure formed by ranges around a hall, entered through a gatehouse, and it is neither planted nor climatic. Where the H-plan is the courtyard opened out on one side, the court that remains is a forecourt - which is why an H-plan manor's void should not be typed as this room without a note."
+  },
+  {
+   "style": "georgian-colonial-american",
+   "present": false,
+   "note": "Absent, and its absence is diagnostic. The Anglo-American tradition puts its outdoor rooms on the face of the house as porches and its service functions in detached dependencies around an open yard; it never encloses a void. A Georgian house with a courtyard has been given a diagram from another lineage."
+  },
+  {
+   "style": "cape-cod-colonial",
+   "present": false,
+   "note": "Absent and climatically absurd: an enclosed outdoor room in a cold wet windy climate is a place that collects snow and never dries."
+  }
+ ],
+ "code": [
+  {
+   "requirement": "An enclosed court that rooms rely on for light and ventilation is treated as a yard or court with minimum dimensions in most codes, and an inner court fully enclosed on four sides may require access for firefighting and a means of draining that does not rely on a single blockable outlet.",
+   "ref": "IRC R303.1 (light and ventilation openings onto a court or yard)",
+   "conflict": "The smallest historic patios - 14 ft across against two storeys - are below the minimum court dimension some jurisdictions set for a court serving habitable rooms. The honest response is to check the local figure before drawing the small deep court, not to widen it silently: widening it past W/H of about 2 destroys the behaviour the room exists for."
+  },
+  {
+   "requirement": "Emergency escape and rescue openings must discharge to a public way; a bedroom whose only window opens onto a fully enclosed inner court may not comply.",
+   "ref": "IRC R310",
+   "conflict": "This is the real constraint on the full four-sided court in contemporary construction and the reason most modern versions are U-shaped. Where the court is closed on all four sides, the sleeping rooms need a second route out or the court needs a through-passage a person can escape along."
+  },
+  {
+   "requirement": "Positive drainage away from foundations, with the finished court surface below the adjacent floor level.",
+   "conflict": "A court that drains to its perimeter puts water against the base of every wall enclosing it. The traditional central drain to a cistern is the correct detail and is usually cheaper than a perimeter system."
+  }
+ ],
+ "massing_fit": [
+  "courtyard-full",
+  "courtyard-u",
+  "gallery-house",
+  "h-plan-manor",
+  "villa-tower",
+  "temple-front-with-wings"
+ ],
+ "slots": [
+  "entry_sequence",
+  "street_relationship",
+  "orientation_rule",
+  "daylight_strategy",
+  "grade_relationship",
+  "setback_rule",
+  "wall_thickness_masonry"
+ ],
+ "faults": [
+  "blank-wall-to-the-street",
+  "room-deeper-than-its-daylight",
+  "stucco-with-no-arris",
+  "arch-that-carries-nothing",
+  "pier-narrower-than-the-opening"
+ ],
+ "sources": [
+  "massings/catalog.json: courtyard-full ('one controlled entry - the zaguan - carries the entire threshold sequence') and courtyard-u",
+  "rooms/loggia.json, which is this room's covered edge and carries the shading and daylight arithmetic",
+  "styles/andalusian-courtyard-vernacular.json and styles/mexican-hacienda.json, for the two scales of the type",
+  "Vitruvius, De architectura, Book VI, on the atrium and peristyle house",
+  "editorial: the W/H bands in critical_dimension are this corpus's own reading of the surviving examples' geometry rather than a figure taken from a published source, and are marked as judgment for that reason"
+ ],
+ "confidence": "high"
 }

@@ -620,6 +620,25 @@ class _Model:
                 self.m.AddBoolOr(opts).OnlyEnforceIf(aligned)
                 self._pen(2.0, aligned.Not())        # vertical_score's own per-edge weight
 
+        # --- OQ 33: nothing sits over an UNROOFED reserved void. Hard, and stated as a
+        # disjunction of four separations rather than as a penalty, because this is not a
+        # preference the optimiser may buy its way out of: a room over a court has no floor
+        # under it and the roof it needs is the hole. A ROOFED void is deliberately not
+        # constrained -- a Charleston single's upper piazza sits on its lower one, and that is
+        # the diagram rather than a defect.
+        open_voids = [r for r in g if isinstance(r["room"].get("_void"), dict)
+                      and not r["room"]["_void"].get("roofed")]
+        for r in u:
+            if isinstance(r["room"].get("_void"), dict): continue     # void over void is fine
+            for q in open_voids:
+                sides = []
+                for a, b in ((r["x"] + r["w"], q["x"]), (q["x"] + q["w"], r["x"]),
+                             (r["y"] + r["h"], q["y"]), (q["y"] + q["h"], r["y"])):
+                    e = self.m.NewBoolVar("")
+                    self.m.Add(a <= b).OnlyEnforceIf(e)
+                    sides.append(e)
+                self.m.AddBoolOr(sides)
+
         # --- an upper wet room lands over a lower one. Asserted only where the ground floor
         # HAS a wet room: where it has none the requirement is unsatisfiable by construction,
         # and an unsatisfiable requirement is an observation for the report, not a conflict.
@@ -767,6 +786,18 @@ def unmet_requirements(ground, upper, prep, plan, W, H):
             if not any(ground[q][0] <= cx <= ground[q][0] + ground[q][2]
                        and ground[q][1] <= cy <= ground[q][1] + ground[q][3] for q in wet_g):
                 out.append(f"wet-stack:{rid}")
+    # OQ 33: measured from the rectangles, the same as everything above -- what the drawing in
+    # your hand actually does, not what the model was asked to insist on.
+    open_voids = {rid: (ground or {})[rid] for rid in (ground or {})
+                  if isinstance((g_rooms.get(rid) or {}).get("_void"), dict)
+                  and not g_rooms[rid]["_void"].get("roofed")}
+    for room in prep.get(1, []):
+        rid = room["id"]
+        if rid not in (upper or {}) or isinstance(room.get("_void"), dict): continue
+        x, y, w, h = upper[rid]
+        for vid, (vx, vy, vw, vh) in open_voids.items():
+            if min(x + w, vx + vw) - max(x, vx) > 1.0 and min(y + h, vy + vh) - max(y, vy) > 1.0:
+                out.append(f"open-void:{rid}~{vid}")
     return sorted(set(out))
 
 
@@ -779,6 +810,7 @@ _KIND_PROSE = {
     "entrance-hall": "bring {names} to the entrance front",
     "spanning": "run {names} the full depth of the house",
     "wet-stack": "land {names} over a wet room below",
+    "open-void": "keep {names} clear of the void below, which is open to the sky",
 }
 
 def _kind(name): return name.split(":", 1)[0]
@@ -823,6 +855,8 @@ def conflict_prose(core, prep, fp, plan):
             clauses.append(f"run the {joined} the full depth of the house")
         elif kind == "wet-stack":
             clauses.append(f"land the {joined} over a wet room below")
+        elif kind == "open-void":
+            clauses.append(f"keep the {joined} clear of the void below, which is open to the sky")
         else:
             clauses.append(name)
     bits = []
@@ -1154,7 +1188,8 @@ def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
                             "note": ("Both layouts scored by geometry.py's own scoring functions, "
                                      "so the comparison is one metric and not two engines grading "
                                      "themselves.")},
-            "fallback_reason": None}}
+            "fallback_reason": None},
+        "voids": GEO.voids_report({0: chosen, 1: chosen_upper}, prep)}
     if mode == "both" and h_score is not None:
         report["solver"]["cross_check"]["heuristic_relaxations"] = h_score["relaxations"]
     return GEO.write_record(plan, levels, chosen, chosen_upper, chosen_fp, report)

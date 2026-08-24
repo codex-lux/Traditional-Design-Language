@@ -134,6 +134,23 @@ def wall_lines(level_rooms, W, H):
             key = (seg[0], round(seg[1], 1), round(seg[2], 1), round(seg[3], 1))
             if key in seen: continue
             seen.add(key)
+            # OQ 33: a wall between a room and a reserved void that is open to the sky is an
+            # EXTERIOR wall. It is weather-facing, it is on the thermal envelope, and it is
+            # bearing -- which is the whole structural point of a courtyard house and was
+            # invisible while the court was not placed at all. Calling it an interior partition
+            # would put the court inside the envelope, which is the error this ruling exists to
+            # end. A ROOFED void does not do this: a loggia is under the same roof, and the wall
+            # behind it is the ordinary interior/exterior question it always was.
+            def _open_void(room):
+                v = (room.get("geometry") or {}).get("void")
+                return bool(v) and not v.get("roofed")
+            if _open_void(r) != _open_void(o):
+                court = r if _open_void(r) else o
+                walls.append({"role": "exterior", "wall": "court", "axis": seg[0],
+                              "position_ft": round(seg[1], 2), "lo_ft": round(seg[2], 2),
+                              "hi_ft": round(seg[3], 2), "rooms": [r["id"], o["id"]],
+                              "why": f"faces {court['id']}, which is open to the sky"})
+                continue
             walls.append({"role": "interior", "axis": seg[0], "position_ft": round(seg[1], 2),
                           "lo_ft": round(seg[2], 2), "hi_ft": round(seg[3], 2),
                           "rooms": [r["id"], o["id"]]})

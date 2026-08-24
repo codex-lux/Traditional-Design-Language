@@ -1,242 +1,247 @@
 {
-  "id": "piazza",
-  "name": "Piazza",
-  "aka": [
-    "Charleston piazza",
-    "side porch",
-    "double piazza",
-    "veranda (elsewhere)"
+ "id": "piazza",
+ "name": "Piazza",
+ "aka": [
+  "Charleston piazza",
+  "side porch",
+  "double piazza",
+  "veranda (elsewhere)"
+ ],
+ "function_class": "outdoor",
+ "description": "A one- or two-storey covered gallery running the full length of a house's long flank, entered from the street through a door in a screen that is not the house's door. It is the Lowcountry's principal room for eight months of the year - it is where people sat, ate, slept, received and worked - and it is a piece of environmental engineering that happens to be beautiful. The name in Charleston is not a synonym for porch. It is a specific room in a specific position doing a specific job, and calling a 6 ft front porch a piazza is the local equivalent of calling a stoop a hall.",
+ "history": {
+  "appears": 1740,
+  "declines": 1900,
+  "note": "The piazza arrives in Charleston in the mid eighteenth century - the West Indian and Barbadian connection is the usual and probably correct explanation, since Barbadian planters settled Carolina and brought a Caribbean gallery tradition with them - and it becomes near-universal by 1800 for a reason that is legal as much as climatic. Charleston lots were long and narrow with short street frontage, and taxation and lot geometry made a house turned end-on to the street the only sensible plan. Once you turn the house sideways you have a long south or west flank exposed to the afternoon sun and to whatever breeze there is, and the piazza is the answer to both at once: it shades the wall, it is the outdoor room the lot has no yard for, and it takes the breeze off the harbour. THE FALSE DOOR is the detail that everyone notices and few explain: the door on the street is a garden gate raised to the dignity of a front door, and it opens onto the piazza. Standing open, it signals that callers are welcome; shut, it does not. That is a piece of social signalling built into the plan, and it is the reason the type cannot be flipped or simplified without losing its point."
+ },
+ "dimensions": {
+  "area_sf": [
+   180,
+   700
   ],
-  "function_class": "outdoor",
-  "description": "A one- or two-storey covered gallery running the full length of a house's long flank, entered from the street through a door in a screen that is not the house's door. It is the Lowcountry's principal room for eight months of the year - it is where people sat, ate, slept, received and worked - and it is a piece of environmental engineering that happens to be beautiful. The name in Charleston is not a synonym for porch. It is a specific room in a specific position doing a specific job, and calling a 6 ft front porch a piazza is the local equivalent of calling a stoop a hall.",
-  "history": {
-    "appears": 1740,
-    "declines": 1900,
-    "note": "The piazza arrives in Charleston in the mid eighteenth century - the West Indian and Barbadian connection is the usual and probably correct explanation, since Barbadian planters settled Carolina and brought a Caribbean gallery tradition with them - and it becomes near-universal by 1800 for a reason that is legal as much as climatic. Charleston lots were long and narrow with short street frontage, and taxation and lot geometry made a house turned end-on to the street the only sensible plan. Once you turn the house sideways you have a long south or west flank exposed to the afternoon sun and to whatever breeze there is, and the piazza is the answer to both at once: it shades the wall, it is the outdoor room the lot has no yard for, and it takes the breeze off the harbour. THE FALSE DOOR is the detail that everyone notices and few explain: the door on the street is a garden gate raised to the dignity of a front door, and it opens onto the piazza. Standing open, it signals that callers are welcome; shut, it does not. That is a piece of social signalling built into the plan, and it is the reason the type cannot be flipped or simplified without losing its point."
+  "width_ft": [
+   8,
+   14
+  ],
+  "length_ft": [
+   24,
+   60
+  ],
+  "proportion": [
+   2.0,
+   6.0
+  ],
+  "ceiling_min_ft": 10,
+  "critical_dimension": "DEPTH, AND 8 FT IS THE FLOOR BECAUSE THE PIAZZA IS A DINING ROOM. A table for six is 36 x 72 in; 36 in of chair pull each side gives 108 in = 9 ft, and the measured Charleston piazzas run 8 to 12 ft for exactly this reason - they were dined on, slept on and sat on simultaneously. A 6 ft piazza takes rockers in a row and nothing else. THE SECOND DIMENSION IS THE CEILING AND IT IS THE ONE THAT GETS FORGOTTEN: an 8 to 12 ft deep gallery over a window drops the daylight multiplier of the room behind it from 2.25 to about 1.8, which on a 9 ft storey costs over three feet of usable room depth. Charleston's answer was to raise the storey to 11, 12 and even 14 ft, which lifts the window head high enough to carry the loss and vents the room's hot air above head height at the same time. THE TALL CEILING AND THE DEEP PIAZZA ARE ONE DECISION, not two, and a modern reproduction with a 12 ft piazza and a 9 ft ceiling has taken the cost and refused the payment."
+ },
+ "void": {
+  "within_footprint": true,
+  "roofed": true,
+  "note": "Within the block: the piazza runs the full length of the flank under the house's own roof and the Charleston single reads as one rectangle, not a block with a porch stuck on. Roofed, and the two-storey case is the reason `roofed` is a separate fact from `within_footprint` -- an upper piazza sits on the lower one, which an unroofed void could never carry."
+ },
+ "furniture": [
+  {
+   "item": "dining table for six",
+   "footprint_in": [
+    36,
+    72
+   ],
+   "clearance_in": 36,
+   "note": "the piazza is the summer dining room; this is what sets the 9 ft depth"
   },
-  "dimensions": {
-    "area_sf": [
-      180,
-      700
-    ],
-    "width_ft": [
-      8,
-      14
-    ],
-    "length_ft": [
-      24,
-      60
-    ],
-    "proportion": [
-      2.0,
-      6.0
-    ],
-    "ceiling_min_ft": 10,
-    "critical_dimension": "DEPTH, AND 8 FT IS THE FLOOR BECAUSE THE PIAZZA IS A DINING ROOM. A table for six is 36 x 72 in; 36 in of chair pull each side gives 108 in = 9 ft, and the measured Charleston piazzas run 8 to 12 ft for exactly this reason - they were dined on, slept on and sat on simultaneously. A 6 ft piazza takes rockers in a row and nothing else. THE SECOND DIMENSION IS THE CEILING AND IT IS THE ONE THAT GETS FORGOTTEN: an 8 to 12 ft deep gallery over a window drops the daylight multiplier of the room behind it from 2.25 to about 1.8, which on a 9 ft storey costs over three feet of usable room depth. Charleston's answer was to raise the storey to 11, 12 and even 14 ft, which lifts the window head high enough to carry the loss and vents the room's hot air above head height at the same time. THE TALL CEILING AND THE DEEP PIAZZA ARE ONE DECISION, not two, and a modern reproduction with a 12 ft piazza and a 9 ft ceiling has taken the cost and refused the payment."
+  {
+   "item": "row of rocking chairs",
+   "footprint_in": [
+    26,
+    30
+   ],
+   "clearance_in": 30,
+   "note": "26 deep plus 30 in of rock plus a 36 in route is 92 in, which is 7 ft 8 in and is why 8 ft is the real floor even without the table"
   },
-  "furniture": [
-    {
-      "item": "dining table for six",
-      "footprint_in": [
-        36,
-        72
-      ],
-      "clearance_in": 36,
-      "note": "the piazza is the summer dining room; this is what sets the 9 ft depth"
-    },
-    {
-      "item": "row of rocking chairs",
-      "footprint_in": [
-        26,
-        30
-      ],
-      "clearance_in": 30,
-      "note": "26 deep plus 30 in of rock plus a 36 in route is 92 in, which is 7 ft 8 in and is why 8 ft is the real floor even without the table"
-    },
-    {
-      "item": "joggling board",
-      "footprint_in": [
-        192,
-        16
-      ],
-      "clearance_in": 24,
-      "essential": false,
-      "note": "a 16 ft springy plank on rocker ends, a genuine Lowcountry piece of furniture, and it needs the piazza's full length"
-    },
-    {
-      "item": "hanging bed or swing",
-      "footprint_in": [
-        78,
-        40
-      ],
-      "clearance_in": 36,
-      "essential": false,
-      "note": "sleeping on the piazza was normal practice before air conditioning and the swing bed is its survivor"
-    },
-    {
-      "item": "clear route from the street door to the house door",
-      "footprint_in": [
-        42,
-        180
-      ],
-      "clearance_in": null,
-      "note": "and it must NOT pass through the seating group, which is why the house door is one bay back from the street end rather than opposite the gate"
-    }
-  ],
-  "daylight": {
-    "depth_multiplier": 1.8,
-    "sides_lit": 1,
-    "orientation": "HARD CONSTRAINT: within 45 degrees of south-west. The piazza has two jobs - shade the long wall from the afternoon sun and catch the prevailing summer breeze off the water - and both point the same way. A piazza on the north flank is decoration and defeats the type; the style node states this as a hard constraint and it is one of the few orientation rules in the catalogue that cannot be traded away.",
-    "glazing_fraction": [
-      0.5,
-      0.9
-    ],
-    "note": "Louvred blinds or jalousies between the piazza columns are part of the working type, not an addition: they cut the low western sun without cutting the air, which is the one thing depth cannot do. This is the same problem the west loggia has and the piazza's answer is better, because a movable vertical screen tracks the sun and a fixed roof cannot."
+  {
+   "item": "joggling board",
+   "footprint_in": [
+    192,
+    16
+   ],
+   "clearance_in": 24,
+   "essential": false,
+   "note": "a 16 ft springy plank on rocker ends, a genuine Lowcountry piece of furniture, and it needs the piazza's full length"
   },
-  "adjacency": {
-    "must_adjoin": [
-      {
-        "room": "entrance-hall",
-        "why": "in the Charleston single house the piazza is the arrival room: the street door is on the piazza screen and the house's own door opens off the piazza, one bay back, into the side hall. The privacy sequence is street(0) - piazza(1) - hall(1) - rooms(2), and it has one more step than an Anglo centre-passage plan.",
-        "relation": "direct-door",
-        "strength": "hard"
-      }
-    ],
-    "should_adjoin": [
-      {
-        "room": "parlor",
-        "why": "the principal rooms open onto the piazza through full-height windows or French doors so that the room and the gallery are one space when the weather allows",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "dining-room",
-        "why": "the piazza is the summer dining room and the food has to reach it; in the historic type it came from a detached kitchen house across the yard, which is why the rear end of the piazza matters",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "bedchamber",
-        "why": "the upper piazza serves the chambers directly and was slept on. This looks like a privacy violation by Anglo rules and is not one here, because the piazza is screened from the street by the house's own gable and the neighbouring lot's wall.",
-        "relation": "direct-door",
-        "strength": "strong",
-        "exceptions": [
-          "applies only where the lot's geometry gives the piazza a private flank; a piazza facing a street or a neighbour's windows cannot serve chambers"
-        ]
-      }
-    ],
-    "must_not_adjoin": [
-      {
-        "room": "kitchen",
-        "why": "in the historic type the kitchen is a detached kitchen house in the rear yard, for fire, heat and smell; a kitchen opening onto the piazza puts cooking heat into the one cool room on the lot",
-        "relation": "not-visible-from",
-        "strength": "preferred",
-        "exceptions": [
-          "modern reconstructions almost always attach the kitchen, and the honest move is then to put it at the far rear end of the piazza with its own extract, not to pretend the constraint has gone"
-        ]
-      }
-    ],
-    "entered_from": [
-      "street",
-      "exterior",
-      "yard",
-      "garden"
-    ],
-    "never_a_through_room": false
+  {
+   "item": "hanging bed or swing",
+   "footprint_in": [
+    78,
+    40
+   ],
+   "clearance_in": 36,
+   "essential": false,
+   "note": "sleeping on the piazza was normal practice before air conditioning and the swing bed is its survivor"
   },
-  "privacy_rank": 1,
-  "servicing": {
-    "plumbing": "none",
-    "ventilation": "open, and the ventilation of the whole house depends on it: air enters through the piazza side, crosses the single-pile section, and leaves through the rear windows. A double-pile 'single house' has lost this and the piazza then shades a room it cannot ventilate.",
-    "heat": "none",
-    "electrical": "Ceiling fans - anachronistic before 1890 and correct now, because the type's whole logic is air movement and a fan is the cheapest possible extension of it. Haint-blue painted ceiling is the traditional finish and is a folk practice rather than a technical one; say so rather than claiming it repels insects.",
-    "stack_proximity_ft": null
+  {
+   "item": "clear route from the street door to the house door",
+   "footprint_in": [
+    42,
+    180
+   ],
+   "clearance_in": null,
+   "note": "and it must NOT pass through the seating group, which is why the house door is one bay back from the street end rather than opposite the gate"
+  }
+ ],
+ "daylight": {
+  "depth_multiplier": 1.8,
+  "sides_lit": 1,
+  "orientation": "HARD CONSTRAINT: within 45 degrees of south-west. The piazza has two jobs - shade the long wall from the afternoon sun and catch the prevailing summer breeze off the water - and both point the same way. A piazza on the north flank is decoration and defeats the type; the style node states this as a hard constraint and it is one of the few orientation rules in the catalogue that cannot be traded away.",
+  "glazing_fraction": [
+   0.5,
+   0.9
+  ],
+  "note": "Louvred blinds or jalousies between the piazza columns are part of the working type, not an addition: they cut the low western sun without cutting the air, which is the one thing depth cannot do. This is the same problem the west loggia has and the piazza's answer is better, because a movable vertical screen tracks the sun and a fixed roof cannot."
+ },
+ "adjacency": {
+  "must_adjoin": [
+   {
+    "room": "entrance-hall",
+    "why": "in the Charleston single house the piazza is the arrival room: the street door is on the piazza screen and the house's own door opens off the piazza, one bay back, into the side hall. The privacy sequence is street(0) - piazza(1) - hall(1) - rooms(2), and it has one more step than an Anglo centre-passage plan.",
+    "relation": "direct-door",
+    "strength": "hard"
+   }
+  ],
+  "should_adjoin": [
+   {
+    "room": "parlor",
+    "why": "the principal rooms open onto the piazza through full-height windows or French doors so that the room and the gallery are one space when the weather allows",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "dining-room",
+    "why": "the piazza is the summer dining room and the food has to reach it; in the historic type it came from a detached kitchen house across the yard, which is why the rear end of the piazza matters",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "bedchamber",
+    "why": "the upper piazza serves the chambers directly and was slept on. This looks like a privacy violation by Anglo rules and is not one here, because the piazza is screened from the street by the house's own gable and the neighbouring lot's wall.",
+    "relation": "direct-door",
+    "strength": "strong",
+    "exceptions": [
+     "applies only where the lot's geometry gives the piazza a private flank; a piazza facing a street or a neighbour's windows cannot serve chambers"
+    ]
+   }
+  ],
+  "must_not_adjoin": [
+   {
+    "room": "kitchen",
+    "why": "in the historic type the kitchen is a detached kitchen house in the rear yard, for fire, heat and smell; a kitchen opening onto the piazza puts cooking heat into the one cool room on the lot",
+    "relation": "not-visible-from",
+    "strength": "preferred",
+    "exceptions": [
+     "modern reconstructions almost always attach the kitchen, and the honest move is then to put it at the far rear end of the piazza with its own extract, not to pretend the constraint has gone"
+    ]
+   }
+  ],
+  "entered_from": [
+   "street",
+   "exterior",
+   "yard",
+   "garden"
+  ],
+  "never_a_through_room": false
+ },
+ "privacy_rank": 1,
+ "servicing": {
+  "plumbing": "none",
+  "ventilation": "open, and the ventilation of the whole house depends on it: air enters through the piazza side, crosses the single-pile section, and leaves through the rear windows. A double-pile 'single house' has lost this and the piazza then shades a room it cannot ventilate.",
+  "heat": "none",
+  "electrical": "Ceiling fans - anachronistic before 1890 and correct now, because the type's whole logic is air movement and a fan is the cheapest possible extension of it. Haint-blue painted ceiling is the traditional finish and is a folk practice rather than a technical one; say so rather than claiming it repels insects.",
+  "stack_proximity_ft": null
+ },
+ "style_variation": [
+  {
+   "style": "charleston-single-house",
+   "trim_grade": "high",
+   "note": "The canonical case, and the whole type: single pile, end to the street, piazza on the south or west flank behind a false street door, two or three storeys of it stacked. Columns Tuscan or Doric below and Ionic above where there are two levels, following the superposition rule."
   },
-  "style_variation": [
-    {
-      "style": "charleston-single-house",
-      "trim_grade": "high",
-      "note": "The canonical case, and the whole type: single pile, end to the street, piazza on the south or west flank behind a false street door, two or three storeys of it stacked. Columns Tuscan or Doric below and Ionic above where there are two levels, following the superposition rule."
-    },
-    {
-      "style": "charleston-georgian",
-      "trim_grade": "highest",
-      "note": "The same room with better joinery - a proper entablature on the piazza order, a moulded rail, and the street screen door given a full architrave and a fanlight, which is where the type's oddity is at its most striking: a fully classical doorway leading to an outdoor room."
-    },
-    {
-      "style": "southern-federal",
-      "trim_grade": "high",
-      "note": "Lighter columns, an elliptical fanlight on the screen door, and the upper piazza often given a delicate turned or square-section rail."
-    },
-    {
-      "style": "greek-revival-southern-plantation",
-      "name_in_style": "gallery",
-      "trim_grade": "highest",
-      "note": "Different room, and worth distinguishing: the plantation gallery runs the FRONT of a broad house behind a colossal order, is a symmetrical ceremonial element, and is not entered sideways. Both are called piazzas locally, which is where much of the confusion comes from."
-    },
-    {
-      "style": "raised-creole-plantation",
-      "name_in_style": "gallery",
-      "trim_grade": "middle",
-      "note": "Encircles the house on all sides at the principal floor, above a raised masonry basement, and every room opens onto it through French doors. It is the same environmental idea taken to its full conclusion - the house has no interior corridor at all."
-    },
-    {
-      "style": "shotgun-house",
-      "present": false,
-      "note": "Absent. The shotgun's porch is a small front stoop at the gable end, on the street, one bay wide, and it is the only social space the house has - a fundamentally different object from a piazza."
-    },
-    {
-      "style": "new-england-georgian",
-      "present": false,
-      "note": "Absent, and the absence is climatic. A deep gallery on the long flank in New England shades a wall that needs the sun and creates a permanently damp surface in a freeze-thaw climate."
-    }
-  ],
-  "code": [
-    {
-      "requirement": "Guard 36 in high where the floor is more than 30 in above grade; a two-storey piazza's upper level always triggers it.",
-      "ref": "IRC R312.1",
-      "conflict": "Historic piazza rails run 30 to 32 in. The compliant 36 in rail lands in the middle of the column shaft and changes the elevation's proportion visibly. The best available fix is to raise the rail to 36 in and keep the period baluster diameter, spacing rhythm and cap profile, accepting a taller balustrade rather than a thinner one."
-    },
-    {
-      "requirement": "Exterior stairs, guards and their attachments to resist a 200 lb concentrated load; ledger connections to be through-bolted, not nailed.",
-      "ref": "IRC R507",
-      "conflict": "The historic piazza is framed into the house rather than hung off it, which is structurally better than any modern ledger detail. Where a new piazza is built as a deck bolted to a wall, it is a porch pretending to be a piazza - see fault porch-hung-on-the-wall."
-    }
-  ],
-  "massing_fit": [
-    "charleston-single",
-    "raised-cottage",
-    "gallery-house",
-    "townhouse-row",
-    "creole-cottage",
-    "linear-ell-farmhouse"
-  ],
-  "slots": [
-    "porch_type",
-    "porch_depth",
-    "porch_support",
-    "porch_rail",
-    "porch_ceiling",
-    "entry_sequence",
-    "orientation_rule",
-    "street_relationship",
-    "daylight_strategy"
-  ],
-  "faults": [
-    "porch-too-shallow-to-inhabit",
-    "porch-without-the-height-to-pay-for-it",
-    "porch-hung-on-the-wall",
-    "single-pile-type-built-double-pile",
-    "plan-flipped-without-the-sun",
-    "guard-height-against-the-period-rail",
-    "column-height-outside-the-authorities",
-    "blank-wall-to-the-street"
-  ],
-  "sources": [
-    "styles/charleston-single-house.json and styles/charleston-georgian.json, hard constraint on piazza orientation within 45 degrees of south-west",
-    "massings/catalog.json: charleston-single, constraints on the street door opening onto the piazza",
-    "Bernard L. Herman, Town House: Architecture and Material Life in the Early American City (2005)",
-    "proportions/systems/room-vernacular.json, ceiling_height_rule note on the Tidewater and Deep South 10-12 ft ceiling as a climate response"
-  ],
-  "confidence": "high"
+  {
+   "style": "charleston-georgian",
+   "trim_grade": "highest",
+   "note": "The same room with better joinery - a proper entablature on the piazza order, a moulded rail, and the street screen door given a full architrave and a fanlight, which is where the type's oddity is at its most striking: a fully classical doorway leading to an outdoor room."
+  },
+  {
+   "style": "southern-federal",
+   "trim_grade": "high",
+   "note": "Lighter columns, an elliptical fanlight on the screen door, and the upper piazza often given a delicate turned or square-section rail."
+  },
+  {
+   "style": "greek-revival-southern-plantation",
+   "name_in_style": "gallery",
+   "trim_grade": "highest",
+   "note": "Different room, and worth distinguishing: the plantation gallery runs the FRONT of a broad house behind a colossal order, is a symmetrical ceremonial element, and is not entered sideways. Both are called piazzas locally, which is where much of the confusion comes from."
+  },
+  {
+   "style": "raised-creole-plantation",
+   "name_in_style": "gallery",
+   "trim_grade": "middle",
+   "note": "Encircles the house on all sides at the principal floor, above a raised masonry basement, and every room opens onto it through French doors. It is the same environmental idea taken to its full conclusion - the house has no interior corridor at all."
+  },
+  {
+   "style": "shotgun-house",
+   "present": false,
+   "note": "Absent. The shotgun's porch is a small front stoop at the gable end, on the street, one bay wide, and it is the only social space the house has - a fundamentally different object from a piazza."
+  },
+  {
+   "style": "new-england-georgian",
+   "present": false,
+   "note": "Absent, and the absence is climatic. A deep gallery on the long flank in New England shades a wall that needs the sun and creates a permanently damp surface in a freeze-thaw climate."
+  }
+ ],
+ "code": [
+  {
+   "requirement": "Guard 36 in high where the floor is more than 30 in above grade; a two-storey piazza's upper level always triggers it.",
+   "ref": "IRC R312.1",
+   "conflict": "Historic piazza rails run 30 to 32 in. The compliant 36 in rail lands in the middle of the column shaft and changes the elevation's proportion visibly. The best available fix is to raise the rail to 36 in and keep the period baluster diameter, spacing rhythm and cap profile, accepting a taller balustrade rather than a thinner one."
+  },
+  {
+   "requirement": "Exterior stairs, guards and their attachments to resist a 200 lb concentrated load; ledger connections to be through-bolted, not nailed.",
+   "ref": "IRC R507",
+   "conflict": "The historic piazza is framed into the house rather than hung off it, which is structurally better than any modern ledger detail. Where a new piazza is built as a deck bolted to a wall, it is a porch pretending to be a piazza - see fault porch-hung-on-the-wall."
+  }
+ ],
+ "massing_fit": [
+  "charleston-single",
+  "raised-cottage",
+  "gallery-house",
+  "townhouse-row",
+  "creole-cottage",
+  "linear-ell-farmhouse"
+ ],
+ "slots": [
+  "porch_type",
+  "porch_depth",
+  "porch_support",
+  "porch_rail",
+  "porch_ceiling",
+  "entry_sequence",
+  "orientation_rule",
+  "street_relationship",
+  "daylight_strategy"
+ ],
+ "faults": [
+  "porch-too-shallow-to-inhabit",
+  "porch-without-the-height-to-pay-for-it",
+  "porch-hung-on-the-wall",
+  "single-pile-type-built-double-pile",
+  "plan-flipped-without-the-sun",
+  "guard-height-against-the-period-rail",
+  "column-height-outside-the-authorities",
+  "blank-wall-to-the-street"
+ ],
+ "sources": [
+  "styles/charleston-single-house.json and styles/charleston-georgian.json, hard constraint on piazza orientation within 45 degrees of south-west",
+  "massings/catalog.json: charleston-single, constraints on the street door opening onto the piazza",
+  "Bernard L. Herman, Town House: Architecture and Material Life in the Early American City (2005)",
+  "proportions/systems/room-vernacular.json, ceiling_height_rule note on the Tidewater and Deep South 10-12 ft ceiling as a climate response"
+ ],
+ "confidence": "high"
 }

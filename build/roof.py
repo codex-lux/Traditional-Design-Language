@@ -171,7 +171,41 @@ def main_roof(plan, section, style):
     else:
         result["note"] = f"Roof form '{form}' is not one of gable/hip/gambrel/cross-gable -- geometry not modelled; grade_to_eave_ft is the only number this file adds for it."
 
+    result["openings"] = _roof_openings(plan)
     return result
+
+
+def _roof_openings(plan):
+    """Reserved voids that are open to the sky, as holes in the roof volume above (OQ 33).
+
+    Stated, not modelled -- and the distinction is the point. This file computes ONE ridge over
+    one rectangle; a court cuts that volume into ranges with their own eaves, valleys and
+    (in the Spanish and Mediterranean cases) inward-falling pitches draining to the court. None
+    of that is derived here, and pretending it were would be worse than saying so: every height
+    above is computed as if the roof spanned the whole block, which over the court it does not.
+    What this DOES do is put the hole in the record with its own dimensions, so no reader and no
+    downstream pass can take the single-ridge figures for a complete description of the roof."""
+    holes = []
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            g = r.get("geometry") or {}
+            v = g.get("void")
+            if not v or v.get("roofed"): continue
+            holes.append({"room": r["id"], "name": r.get("name") or r["id"],
+                          "x_ft": g["x_ft"], "y_ft": g["y_ft"],
+                          "width_ft": g["width_ft"], "depth_ft": g["depth_ft"],
+                          "area_sf": g.get("area_sf")})
+    if not holes:
+        return {"count": 0, "rooms": [], "note": "No opening in the roof volume."}
+    return {"count": len(holes), "rooms": holes,
+            "note": ("SCHEMATIC, and knowingly incomplete here: the roof volume above has a hole "
+                     "in it. Every ridge and eave figure in this record was computed for a single "
+                     "ridge over the whole rectangle, which over an open court it is not -- the "
+                     "real roof is ranges around the void, each with its own eave, meeting in "
+                     "valleys, and in the Spanish and Mediterranean cases falling inward to drain "
+                     "to the court. That geometry is not derived by this file. The opening's own "
+                     "dimensions are recorded so nobody reads the single-ridge numbers as a "
+                     "complete description of the roof (OQ 33).")}
 
 def _hip_lines(W, D, axis, ridge_from, ridge_to):
     """Four diagonal hip lines, each running from a footprint corner to the nearest ridge
