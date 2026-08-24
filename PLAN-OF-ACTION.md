@@ -82,6 +82,7 @@ python3 build/check_systems.py
 python3 build/check_kits.py
 python3 build/check_faults.py
 python3 build/check_rooms.py
+python3 build/check_partis.py
 python3 build/proportion_engine.py selftest
 python3 build/plan_check.py plans/spec-builder-colonial.json
 python3 build/plan_check.py plans/tidewater-georgian-careful.json
@@ -375,7 +376,9 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 ### WP-4.5 Rooms, groupings and partis to full coverage
 
-**Status: NOT STARTED, and now the sharper breadth gap.** Rooms are further along than this package assumes — all 58 already carry `style_variation`. Partis are unmoved at **39 of 132 styles**, and a style with a canonical massing but no native parti cannot be composed for at all.
+**Status: NOT STARTED, and now the sharper breadth gap.** Rooms are further along than this package assumes — all 58 already carry `style_variation`. Partis are unmoved at **39 of 132 styles**, and a style with a canonical massing but no native parti is served another style's diagram instead. `compose.py`'s `pick_partis` never refuses: nativity is worth +3.0 and a lineage relative +1.6, but the ranking subtracts only `fit * 6` against 100 per fatal, so a borrowed diagram with fewer fatals routinely outranks a native one. Measured: `spanish-colonial-revival`, whose canonical massing is `courtyard-u`, is composed as a Foursquare; so is `shingle-style`, whose canonical massing is `massed-picturesque`. Every layer downstream then works on the wrong diagram. The hard refusal exists only in `mcp_server/core.py`'s `list_partis`, which returns nothing for the 93 unnamed styles.
+
+**The package text and this status line both used to say such a style "cannot be composed for at all." That was wrong, and the truth is worse** — a silent wrong answer rather than a refusal. Verified against the code and by running the composer, 24 Aug 2026.
 
 **Depends on:** WP-2.1 (for the missing-room list). **Size:** medium.
 

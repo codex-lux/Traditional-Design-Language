@@ -25,6 +25,7 @@ CHECKS = [
     ("check_pack_bindings.py", ["--strict"]),
     ("check_faults.py", []),
     ("check_rooms.py", []),
+    ("check_partis.py", []),
     ("proportion_engine.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),

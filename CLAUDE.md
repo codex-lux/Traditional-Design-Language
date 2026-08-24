@@ -37,7 +37,7 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 
 ```
 python3 -m pip install -r requirements.txt   # ortools, jsonschema, pytest
-python3 build/check_all.py     # 21 checks incl. the full pytest suite. ~3 min. Must be green.
+python3 build/check_all.py     # 22 checks incl. the full pytest suite. ~3 min. Must be green.
 ```
 
 The data and every checker run on the standard library alone, deliberately — `requirements.txt`
@@ -46,7 +46,8 @@ pytest` rather than the bare `pytest`: WP-2.3 found those were different interpr
 sixteen tests were skipping while the run reported success.
 
 Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_constraints.py`,
-`build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_faults.py`,
+`build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_partis.py`,
+`build/check_faults.py`,
 `build/proportion_engine.py selftest`. Useful while authoring:
 `python3 build/resolve_kit.py <style-id> --verbose` shows a kit's full provenance chain, and
 `python3 build/solver.py <plan> --time 60` places a plan by constraint rather than by search.
@@ -95,6 +96,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   rooms each declare *opposite* walls, so each would have to span the full depth of the house.
   They are weights, at the 14 points `exterior_score` charges. Do not promote them to
   constraints; the corpus does not mean them that way.
+- **The composer does NOT refuse a style with no native parti — it borrows another style's
+  diagram and says so in a `why` string nobody reads.** Nativity is worth `+3.0` in
+  `pick_partis`, but the ranking subtracts only `fit * 6` against 100 per fatal, so a borrowed
+  diagram with fewer fatals routinely wins. `spanish-colonial-revival` (canonical massing
+  `courtyard-u`) composes as a Foursquare. The hard refusal exists only in `core.py`'s
+  `list_partis`. This is what WP-4.5 is for; do not read "39 of 132" as a gate that blocks.
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.
