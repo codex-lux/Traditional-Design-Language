@@ -2,7 +2,7 @@
 
 *Originally written 23 August 2026 against v0.6. **Revised 24 August 2026**, after Phases 0–3 closed and Phase 4 ran through WP-4.2. Everything below was verified by running the toolchain, not by reading the docs — every checker, the proportion engine selftest, both plan validations, both composer briefs, the geometry solver, and the full test suite were executed, and the numbers here are what they returned. Where a figure has moved since the 23 August review, the old figure is named so the direction of travel is visible.*
 
-*Figures reconciled again late on 24 August 2026, after OQ 28 and WP-4.3 landed: 17 groupings (was 16), 304 tests across 16 files (was 291 across 14), 31 open questions (was 30), the suite back to a single ~2-minute run, and two rows the appendix had never carried — `construction/` and `docs/reports/`. Part III's OQ 28 and garage entries are struck through rather than deleted, in this document's own habit of leaving the old reading legible beside the new.*
+*Figures reconciled again late on 24 August 2026, after OQ 28 and WP-4.3 landed: 17 groupings (was 16), 31 open questions (was 30), and two rows the appendix had never carried — `construction/` and `docs/reports/`. Then **WP-2.3 closed Phase 2** the same day: `build/solver.py`, 330 tests across 17 files (was 291 across 14), 32 open questions, the suite one ~3-minute run. Part III's entries for OQ 28, the garage and the hill-climbing solver are struck through rather than deleted, in this document's own habit of leaving the old reading legible beside the new.*
 
 ---
 
@@ -92,13 +92,15 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **Repository hygiene and documentation.** The repo is consolidated, git-tracked (24 commits), `_to_delete/` cleared, duplicate root files removed, every README count script-reproducible, and no doc references a path that does not exist.
 
-Taken together: **Phases 0, 1 and 3 are complete, Phase 2 is complete but for its optimiser, and Phase 4 is complete through WP-4.2.** The language now has an alphabet, a grammar bound to its vocabulary, a full set of bindings, a critic that reads executable rules, a composer, a solver that composes, and a building with walls, a roof and a front.
+Taken together: **Phases 0, 1, 2 and 3 are complete, and Phase 4 is complete through WP-4.3.** The language now has an alphabet, a grammar bound to its vocabulary, a full set of bindings, a critic that reads executable rules, a composer, a solver that composes, and a building with walls, a roof and a front.
 
 ---
 
 ## Part III — What is begun but needs to be fleshed out
 
-**The solver is still a hill-climb, not an optimiser — and this is now the single largest structural gap.** WP-2.2 added the compositional terms, but `docs/geometry.md` is exact about what they are: *strongly-weighted preferences a 250-candidate random search converges toward, not hard constraints a solver enforces*. Search improves with more candidates (537 → 489 → 463 from 40 to 800), which is the signature of hill-climbing rather than optimisation. Two consequences matter. First, a composition that satisfies the constraints today can silently stop doing so tomorrow, because nothing enforces them. Second — and this is what a plan-development partner most needs — an infeasible brief returns the least-bad plan rather than a named conflict set saying *why* it cannot be done. This is WP-2.3, and everything downstream inherits the softness.
+~~**The solver is still a hill-climb, not an optimiser.**~~ **Closed, later on 24 August 2026 (WP-2.3), and with it Phase 2.** `build/solver.py` states placement to CP-SAT over the same bay grid: room minimums, the entrance front and the spanning passage are enforced constraints rather than scored preferences, and an infeasible brief now returns a deletion-minimised, named conflict set with no geometry written — *"a 2-bay, 20 x 25.96 ft single pile house cannot hold the dining-room, drawing-room and library at their stated minimums at once, and the lot allows no more bays."* Scored by `geometry.py`'s own functions, it beats the best of 800 heuristic candidates on both shipped plans and both briefs (13.1%, 14.8%, 23.6%, 9.7%), inside 60 s each; the Tidewater plan's transfer beams fell from 16 to 7.
+
+The formulation the plan of action named had to be replaced on evidence, which is the finding worth carrying forward: loose rectangles whose areas sum to the footprint is a tiling stated as `sum(w*h) == W*H` over a dozen nonlinear products, and CP-SAT could not decide it on the spec Colonial in 240 s with four workers *while holding a hint that was itself a valid tiling*. Reading the slicing tree back off a heuristic layout makes tiling structural instead of arithmetic and leaves only the cut positions to solve — linear, and proven optimal in under a second. The heuristic proposes the topology; the solver proves the geometry. Optimality is therefore per topology rather than global, and the record says so. Two further findings: a plan's `exterior_walls` are aspirations rather than rectangle edges and cannot all be asserted at once, and the heuristic silently places the spec Colonial's dining room 26% below its band on every seed tried — OQ 32, and the heuristic is still the default engine. See `docs/reports/wp-2.3-real-solver.md`.
 
 ~~**The performance ceiling (OQ 28).**~~ **Fixed, later on 24 August 2026.** `plan_check.py`'s `_load()` re-imported `mcp_server/core.py` fresh on every `check()` call, defeating `core._data()`'s own cache; one `check()` executed plan_check 16 times and geometry 8. `build/modcache.py` now caches by realpath and every local `_mod`/`_load` delegates to it. `check()` 3.06 s → 0.31 s, `compose()` 30–40 s → 7–9 s, and the suite is back to a single run at roughly two minutes rather than twelve in three chunks. `tests/test_modcache.py` counts module executions so a reinstated local loader is caught. See `docs/reports/oq-28-module-cache.md`.
 
@@ -140,15 +142,15 @@ The shape of the project has changed since the last review, and the change is wo
 
 What is left divides cleanly into three kinds of work, and they are not equally urgent.
 
-**The rigour gap.** The solver composes by preference, not by proof. This is the one place where the system's own documentation says it is weaker than it looks, and it undercuts a claim the project needs to be able to make: that it can tell a builder *early* that a brief cannot be built in a parti, and why. WP-2.3 is the fix, and with OQ 28 fixed and WP-4.3 closed it is now the next package rather than the third.
+~~**The rigour gap.**~~ **Closed.** The solver composed by preference; now it proves. WP-2.3 landed the same day, and with it Phase 2 — see Part III. What the package could not do it says plainly rather than implying: optimality is per slicing topology, not global.
 
-**The breadth gap.** Partis at 39 of 132 now gate the composer harder than kits ever did; missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) was the small closing task here and is done.
+**The breadth gap.** Partis at 39 of 132 now gate the composer harder than anything else in the system — with Phase 2 closed they are the single thing most limiting what the compiler can be asked for, since a style with a canonical massing and no native parti cannot be composed for at all. Missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) was the small closing task here and is done.
 
 **The last mile.** Details, guidelines, export, a workbench, ingestion. These turn a correct internal representation into something a builder and a plan-development lead can actually hold — and they are what the partnership, when it exists, will judge the system by.
 
-So the sequence: ~~fix **OQ 28**~~ (done — it pays back on every run after it); ~~close **WP-4.3**~~ (done — it killed a named fatal); build **WP-2.3**, the real solver, which is the deepest remaining structural gap and the last thing standing between Phase 2 and finished; then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images; then Phase 5's last mile.
+So the sequence: ~~fix **OQ 28**~~ (done — it pays back on every run after it); ~~close **WP-4.3**~~ (done — it killed a named fatal); ~~build **WP-2.3**, the real solver~~ (done — Phase 2 is closed); then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images; then Phase 5's last mile.
 
-That order keeps faith with the project's own founding discipline — validator before composer, spine before breadth, the drawing as a render of the data — and it means that at each step the system produces something more *like a house* rather than merely more data about houses. The aim was never a taxonomy. It was a language fluent enough that a production builder could speak it, and a house built in it would feel, to the people who live there, like it belongs. The grammar for that is written, and now it is bound to its vocabulary. The work now is to make the compiler prove what it composes.
+That order keeps faith with the project's own founding discipline — validator before composer, spine before breadth, the drawing as a render of the data — and it means that at each step the system produces something more *like a house* rather than merely more data about houses. The aim was never a taxonomy. It was a language fluent enough that a production builder could speak it, and a house built in it would feel, to the people who live there, like it belongs. The grammar for that is written, and now it is bound to its vocabulary. The work now is breadth: the compiler proves what it composes, and the next thing it needs is more sentences it knows how to say.
 
 ---
 
@@ -168,14 +170,15 @@ That order keeps faith with the project's own founding discipline — validator 
 | Critic | `plan_check.py` | 7 layers incl. constraints + elevation | Functional; code advisory only |
 | Critic | `plans/reference/` | 14 transcribed (7 good, 7 bad) | Complete |
 | Generator | `compose.py`, 2 briefs | 4 candidates per brief, lot-aware | Functional |
-| Geometry | `geometry.py`, `render_plan.py` | coordinates + SVG, compositional terms | **Functional but a hill-climb — WP-2.3** |
+| Geometry | `geometry.py`, `render_plan.py` | coordinates + SVG, compositional terms | Functional; the default engine, still a hill-climb |
+| Geometry | `solver.py` (WP-2.3) | CP-SAT over the bay grid, named conflict sets | **Complete — beats best-of-800 by 10–24%** |
 | Back-end | `structure.py`, `roof.py`, `elevation.py` | walls, section, roof plan, front elevation | Functional; elevation evaluates 83 faults |
 | Site | `site` on plan/brief schemas | lot, setbacks, bearing, slope | Functional |
 | Interface | `mcp_server/` | 24 tools | Functional |
 | Interface | `dist/` | html × 2, json, agent.md | Current |
 | Evidence | `assets/manifest.json` | 322 wanted, **0 sourced** | Records only — WP-4.4 |
 | Back-end | `construction/` | 2 catalogs (wall assemblies, floor structure) | Complete — WP-3.1's data side |
-| Governance | `docs/open-questions.md` | 31 items | OQ 20, 24, 28 answered; **27, 29, 30, 31 live** |
+| Governance | `docs/open-questions.md` | 32 items | OQ 20, 24, 28 answered; **27, 29, 30, 31, 32 live** |
 | Governance | `docs/reports/` | 17 package reports | One per completed WP, plus OQ 28 |
 | Checks | `build/check_*.py`, `validate.py` | 9 checkers | All pass |
-| Checks | `tests/` | **304 tests, 16 files** | All pass; one run, ~2 min (OQ 28 fixed); no CI |
+| Checks | `tests/` | **330 tests, 17 files** | All pass; one run, ~3 min; no CI |

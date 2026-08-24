@@ -731,14 +731,25 @@ def brief_schema():
 
 
 # ----------------------------------------------------------------- geometry
-def place_plan(plan, parti=None, candidates=250, svg_path=None):
-    """Place room rectangles in a footprint. Both levels are solved together."""
+def place_plan(plan, parti=None, candidates=250, svg_path=None, solver="heuristic",
+               time_budget_s=60.0):
+    """Place room rectangles in a footprint. Both levels are solved together.
+
+    `solver` selects the engine: "heuristic" (the randomised search in build/geometry.py, the
+    default and the historical behaviour) or "cp" / "both" (the constraint solver of WP-2.3,
+    which enforces the room minimums rather than scoring them and returns a named conflict set
+    when a brief cannot be housed). The CP path needs OR-Tools; without it the solver falls back
+    to the heuristic and says so in geometry_report.solver."""
     geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     pt = None
     if parti:
         f = os.path.join(ROOT, "partis", f"{parti}.json")
         if os.path.exists(f): pt = json.load(open(f))
-    out = geo.solve(copy_json(plan), pt, candidates)
+    if solver == "heuristic":
+        out = geo.solve(copy_json(plan), pt, candidates)
+    else:
+        sv = _mod("solver", os.path.join(ROOT, "build", "solver.py"))
+        out = sv.solve(copy_json(plan), pt, time_budget_s=time_budget_s, mode=solver)
     if "error" in out: return out
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))

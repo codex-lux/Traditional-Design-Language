@@ -36,35 +36,43 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 ## Verifying
 
 ```
+python3 -m pip install -r requirements.txt   # ortools, jsonschema, pytest
 python3 build/check_all.py     # 21 checks incl. the full pytest suite. ~3 min. Must be green.
 ```
+
+The data and every checker run on the standard library alone, deliberately — `requirements.txt`
+covers only the tooling above the data. `check_all.py` runs the suite as `sys.executable -m
+pytest` rather than the bare `pytest`: WP-2.3 found those were different interpreters here, and
+sixteen tests were skipping while the run reported success.
 
 Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_constraints.py`,
 `build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_faults.py`,
 `build/proportion_engine.py selftest`. Useful while authoring:
-`python3 build/resolve_kit.py <style-id> --verbose` shows a kit's full provenance chain.
+`python3 build/resolve_kit.py <style-id> --verbose` shows a kit's full provenance chain, and
+`python3 build/solver.py <plan> --time 60` places a plan by constraint rather than by search.
 
 ## Where the work stands (24 Aug 2026)
 
-Phases 0, 1, 3 complete. Phase 2 complete **except WP-2.3**. Phase 4 complete through WP-4.3.
-Phase 5 not started.
+Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3. Phase 5 not started.
 
 164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 58 rooms · 16 groupings ·
 **12 partis naming only 39 of 132 styles** · 36 packs (129 of 132 nodes bound) ·
 660 constraints migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits
-populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · 304 tests.
+populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · 330 tests.
 
 **Next, in order:**
-1. **WP-2.3 — a real solver.** The largest remaining structural gap. `docs/geometry.md`
-   says it plainly: the compositional terms from WP-2.2 are *strongly-weighted preferences
-   a 250-candidate random search converges toward, not hard constraints a solver enforces*.
-   An infeasible brief returns the least-bad plan rather than a named conflict set, which is
-   the thing a plan-development partner most needs to hear early. CP-SAT over the same bay grid.
-2. **WP-4.5 — partis.** 39 of 132 now gates the composer's reach harder than kits ever did;
-   a style with a canonical massing but no native parti cannot be composed for at all. Note
-   the package text is stale on rooms — all 58 already carry `style_variation`.
-3. **WP-4.6** (missing packs; list ready, OQ 30 names the Islamic/Moorish system as the
+1. **WP-4.5 — partis.** 39 of 132 now gates the composer's reach harder than anything else
+   in the system; a style with a canonical massing but no native parti cannot be composed
+   for at all. Note the package text is stale on rooms — all 58 already carry `style_variation`.
+2. **WP-4.6** (missing packs; list ready, OQ 30 names the Islamic/Moorish system as the
    most-corroborated gap), then **WP-4.4** (HABS images), then Phase 5.
+
+WP-2.3 closed Phase 2 on 24 Aug 2026: `build/solver.py` states placement to CP-SAT, enforces
+room minimums instead of scoring them, and returns a named conflict set when a brief cannot be
+housed. Read `docs/reports/wp-2.3-real-solver.md` before touching geometry — the exact-tiling
+formulation the plan of action named does not work (CP-SAT could not decide it in 240 s while
+holding a valid solution), and the solver reads the slicing tree off a heuristic layout instead.
+`build/geometry.py` remains the default engine everywhere.
 
 ## Traps worth knowing before you hit them
 
@@ -77,6 +85,16 @@ populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tool
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
+- **Two placement engines, and the default is the weaker one.** `build/geometry.py` searches
+  and `build/solver.py` proves; every caller defaults to the search. The search will place a
+  room below the floor of its own band and say nothing — the spec Colonial's dining room comes
+  out 26% short on every seed — because `level_score` charges a flat 12 points and a candidate
+  can win while paying it. The plan record still reads 12 x 12 and `plan_check.py` never reads
+  `room.geometry`, so no layer of the critic sees it. That is OQ 32, unruled.
+- **A plan's `exterior_walls` are aspirations, not rectangle edges.** Three Tidewater ground
+  rooms each declare *opposite* walls, so each would have to span the full depth of the house.
+  They are weights, at the 14 points `exterior_score` charges. Do not promote them to
+  constraints; the corpus does not mean them that way.
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.

@@ -41,7 +41,7 @@ Footprint depth comes from the **massing's own pile** — single-pile 22 ft, dou
 
 It produces **valid, dimensioned, drawable plans with every compromise reported**. It does not yet produce plans an architect would sign.
 
-- **Search is shallow.** Randomised slicing improves with more candidates (537 → 489 → 463 from 40 to 800) but it is hill-climbing over a heuristic, not a real optimiser. WP-2.3 (a real solver, CP-SAT) is the fix, and is still not built — the compositional terms below are scored, weighted heavily where they matter, but they are still preferences a search hill-climbs toward, not hard constraints a solver enforces.
+- ~~**Search is shallow.**~~ **Fixed in WP-2.3** — see "The solver" below. `build/geometry.py`'s own search is still a hill-climb and is still the default engine; `build/solver.py` states the same problem to CP-SAT, enforces the room minimums instead of scoring them, and returns a named conflict set when a brief cannot be housed. It beats the best of 800 heuristic candidates by 10–24% on both shipped plans and both briefs.
 - **No wall thickness, no structural grid, no roof.** Rooms are clear dimensions. Turning them into a framed building is WP-3.1.
 - **Doors are centred on the shared wall and now drawn with a swing arc**, but door position is still not placed *by rule* in the fuller sense PLAN-OF-ACTION.md's WP-2.2 brief describes — never in a window bay, never visible from a lavatory. See "What was deliberately not done" below.
 - **`room-harmonic` proportions are not checked.** A style that binds that proportion pack does not yet have its principal rooms scored against it — that is a materially separate integration (reading a resolved proportion pack's ratio into a placement score) and is deferred, not silently skipped without a record.
@@ -68,8 +68,102 @@ The acceptance example's third clause — *"the drawing room and dining room fla
 - **`room-harmonic` proportion checking.** Reading a resolved proportion pack's ratio into a placement score is a materially separate integration from the scoring terms above and was not attempted this pass.
 - **Door placement beyond centring.** Doors are still centred on the shared wall (unchanged) and now drawn with a swing arc, but "never visible from the lavatory" and "never in the bay a window occupies" are not checked — both need the elevation-scale bay/window layout WP-3.2 (the elevation generator) actually produces; attempting them against clear-dimension room rectangles alone would be guessing at a bay grid that does not exist yet at this layer.
 - **`ceremonial_score` is scoped to direct, rank-increasing door hops**, not an arbitrary-length path search across the whole plan for "no backtracking anywhere." A full graph traversal is a reasonable next step but a distinctly separate piece of work from the direct porch→hall→principal-room case PLAN-OF-ACTION.md's own acceptance example names.
-- **This remains a heuristic hill-climb**, per "what this does not yet do" above — the compositional terms are strongly-weighted preferences a 250-candidate random search converges toward, not hard constraints a solver enforces or proves infeasible. That is WP-2.3.
+- **This remains a heuristic hill-climb**, per "what this does not yet do" above — the compositional terms are strongly-weighted preferences a 250-candidate random search converges toward, not hard constraints a solver enforces or proves infeasible. That is WP-2.3, and it is now built: see below.
+
+---
+
+## The solver (WP-2.3)
+
+```
+python3 build/solver.py plans/tidewater-georgian-careful.json --time 60 --svg dist/plans/out.svg
+python3 build/geometry.py plans/<id>.json --solver cp          # same thing through the old CLI
+```
+
+`build/solver.py` states the placement problem to CP-SAT over the same bay grid. The heuristic
+above is kept and is still the default engine; the solver runs it first and uses it three ways —
+as the hint it opens on, as the cross-check that decides which layout is really better, and as
+the fallback when OR-Tools is not installed.
+
+### Two questions, two tiers
+
+**Does this brief fit at all?** Only the room minimums are asserted, every placement
+requirement is soft, and no objective is attached, because feasibility is what is being asked.
+An infeasibility here means the rooms asked for do not fit at the sizes that keep them the
+rooms they are named as — and CP-SAT's assumption core names which ones. The set is then
+minimised by deletion, and where a drop cannot be decided in time it is kept and the report
+says the set is minimal *up to the time budget*.
+
+**Where do the walls go?** The heuristic proposes a slicing topology; CP-SAT places every cut
+in it to proven optimality. Up to six topologies from different seeds are tried and the best by
+this file's own scoring wins.
+
+### Why the obvious model does not work
+
+Loose rectangles that may not overlap, with areas summing to the footprint, *is* a tiling — and
+it is unusable. It needs `sum(w*h) == W*H` over a dozen nonlinear products, and on the spec
+Colonial CP-SAT could not decide it in 240 s with four workers **while holding a hint that was
+itself a valid tiling**. Not solved badly: could not tell whether a solution existed, with one
+in hand.
+
+Reading the slicing structure removes the problem instead of solving it. This file's slicer
+produces guillotine layouts by construction, so the tree can be read back off a finished layout
+— `guillotine_tree()` — without touching the slicer or changing a number it computes. A tree of
+cuts tiles whatever it covers at *any* cut position, so the tiling constraint disappears, and
+what remains — where each cut goes — is linear and solves in well under a second. The heuristic
+proposes the topology; the solver proves the geometry.
+
+### What is a constraint and what is a weight
+
+Room minimums, the entrance front, and the spanning passage are **constraints**. Exterior walls,
+doors and wet stacks are **weights**, at exactly the weights this file already charged.
+
+That split is a finding, not a preference. Asserting every declared exterior wall makes the
+Tidewater plan infeasible outright: `passage`, `backhall` and `kitchen` each declare walls on
+opposite sides, so each must run the full depth, while `porch` declares both E and W and so must
+run the full width across the front. A plan record's `exterior_walls` means "this room has
+exposure on these sides" — which a real plan delivers with an ell or a bay — and read literally
+as rectangle edges they are wishes. The 14-point preference was always the right reading.
+
+### Disclosures
+
+- **The footprint's depth is bounded** by the massing's own pile times 1.18. Without that
+  bound, a lot-capped footprint grows deeper without limit and the overstuffed brief comes back
+  as a "feasible" 20 × 75 ft single-pile house, which is a different massing wearing the name.
+  The bound is also what makes an infeasible brief reachable at all: while the footprint is
+  derived from the rooms it holds, the rooms always fit and no conflict could ever be reported.
+- **Coordinates are quarter-foot integers**, and the footprint depth is written back at the
+  quarter foot the solver worked in, so the rooms tile the outline exactly rather than leaving
+  an inch of nothing along the back wall.
+- **Relaxations are recounted** from the finished layout as distinct off-grid wall lines, where
+  this file counts them per cut during generation. The two are close, not equal, by
+  construction.
+- **The CP objective is never the reported score.** Both layouts are re-scored by this file's
+  own scoring functions and the better one is kept, so the comparison is one metric rather than
+  two engines grading themselves. The objective uses linear proxies where CP-SAT needs one
+  (notably for aspect ratio), which is precisely why it is not trusted as the score.
+- **Optimality is per topology.** The solver proves the best cut positions for the topologies
+  it is given; it does not prove those are the best topologies. Six is a sampling, not a search.
+- **The fallback is always reported** in `geometry_report.solver` — engine, status, and a
+  stated reason. A plan placed by a different engine than the caller believes is a lie about
+  the drawing.
+
+### Measured
+
+Default 60 s budget, one worker, seed 7, against the best of 800 heuristic candidates:
+
+| case | heuristic | cp-sat | better by |
+|---|---|---|---|
+| `tidewater-georgian-careful` | 540.4 | **469.8** | 13.1% |
+| `spec-builder-colonial` | 509.2 | **433.8** | 14.8% |
+| brief `bungalow-small` | 502.5 | **383.7** | 23.6% |
+| brief `family-georgian` | 350.7 | **316.8** | 9.7% |
+
+On the Tidewater plan the transfer-beam count fell from 16 to 7.
 
 ## Next
 
-WP-2.3: replace the randomised slicing with a real solver (CP-SAT is the obvious choice) over the same bay grid, encoding this package's compositional terms as hard or heavily-weighted constraints instead of search preferences, and returning a minimal infeasible subset on failure rather than the best of a fixed candidate pool. WP-3.1 (walls, structure, storeys) is the other unblocked next step now that this package has landed.
+`compose.py` still ranks candidates on its own footprint estimate and does not call the solver;
+putting a 20–55 s solve inside candidate ranking would make composition cost minutes. Whether
+the heuristic should refuse to place a room below its band the way the solver does — it puts the
+spec Colonial's dining room at 91 sf against a 122 sf minimum, on every seed — is OQ 32.
+

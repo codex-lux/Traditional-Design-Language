@@ -409,8 +409,42 @@ def lot_usable_width_ft(plan):
     side = site.get("setback_side_ft") or 0
     return max(0.0, lot_width - 2 * side)
 
-def solve(plan, parti=None, candidates=250, seed=7):
-    rng = random.Random(seed)
+def prepare_rooms(plan):
+    """Indoor rooms per level, each carrying the `_area` its own record declares.
+
+    Shared with build/solver.py (WP-2.3) so both engines place the same set of rooms
+    against the same target areas. Returns (prep, levels) or (None, levels) when there
+    is no ground level."""
+    levels = {lv.get("index", i): lv for i, lv in enumerate(plan["levels"])}
+    prep = {}
+    for idx, lv in levels.items():
+        rs = []
+        for r in lv["rooms"]:
+            if not is_indoor(r["type"]): continue
+            q = dict(r); q["_area"] = (r.get("width_ft") or 10) * (r.get("length_ft") or 12)
+            rs.append(q)
+        prep[idx] = rs
+    return (prep if 0 in prep else None), levels
+
+
+# Footprint depth from the MASSING's own pile: a single-pile house is one room deep and a
+# double-pile two, and inventing an aspect ratio instead produces a house that is the right
+# area and the wrong shape.
+PILE = {"single-pile": 22.0, "one-and-a-half-pile": 28.0, "double-pile": 36.0,
+        "triple-pile": 46.0, "variable": 32.0}
+
+
+def derive_footprint(plan, parti, prep):
+    """Bay module, bay count and footprint, with the lot cap and the growth ordering.
+
+    Extracted from solve() in WP-2.3 so the CP-SAT solver derives its footprint from
+    exactly the same rule rather than a second copy that could drift: decision #11's
+    "grow the footprint before compromising a room" is a settled decision, and it should
+    have one implementation. Behaviour is verbatim what solve() did inline; the pinned
+    relaxation count in tests/test_geometry.py is what proves it.
+
+    Returns a dict of footprint facts, or one carrying `error` when the lot cannot hold
+    even the minimum two bays."""
     bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
     catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
     maxbay = catalog_maxbay
@@ -432,25 +466,8 @@ def solve(plan, parti=None, candidates=250, seed=7):
             return {"error": f"lot too narrow: {lot_usable:.0f} ft usable width after side setbacks "
                               f"cannot hold even this diagram's minimum 2 bays ({2*bay:.0f} ft) at its "
                               f"{bay:.0f} ft bay module."}
-    tol = bay * 0.28                                    # the relaxation allowance
-    levels = {lv.get("index", i): lv for i, lv in enumerate(plan["levels"])}
-    prep = {}
-    for idx, lv in levels.items():
-        rs = []
-        for r in lv["rooms"]:
-            if not is_indoor(r["type"]): continue
-            q = dict(r); q["_area"] = (r.get("width_ft") or 10) * (r.get("length_ft") or 12)
-            rs.append(q)
-        prep[idx] = rs
-    if 0 not in prep: return {"error": "no ground level"}
     a0 = sum(r["_area"] for r in prep[0])
     au = sum(r["_area"] for r in prep.get(1, []))
-
-    # --- footprint depth from the MASSING's own pile: a single-pile house is one room deep
-    # and a double-pile two, and inventing an aspect ratio instead produces a house that is
-    # the right area and the wrong shape.
-    PILE = {"single-pile": 22.0, "one-and-a-half-pile": 28.0, "double-pile": 36.0,
-            "triple-pile": 46.0, "variable": 32.0}
     m = C["massings"].get(plan.get("massing") or "", {})
     target_depth = PILE.get(m.get("depth_rooms"), 32.0)
     need = max(a0, au)
@@ -469,7 +486,43 @@ def solve(plan, parti=None, candidates=250, seed=7):
     while bays > 2 and need / ((bays - 1) * bay) <= target_depth * 1.18:
         bays -= 1
     W = round(bays * bay, 2); H = round(need / W, 2)
-    slack = (W * H) - max(a0, au)
+    return {"bay": bay, "bays": bays, "W": W, "H": H, "slack": (W * H) - max(a0, au),
+            "grown": grown, "lot_usable": lot_usable, "lot_maxbay": lot_maxbay,
+            "catalog_maxbay": catalog_maxbay, "growth_ceiling": growth_ceiling,
+            "target_depth": target_depth, "need": need}
+
+
+def write_record(plan, levels, ground, upper, fp, report):
+    """Write coordinates, footprint and geometry_report back into the plan record.
+
+    Shared with build/solver.py so both engines emit an identically-shaped record --
+    the drawing is a render of the data (decision #11), and two engines writing two
+    slightly different records would make that guarantee engine-dependent."""
+    for idx, lv in levels.items():
+        src = ground if idx == 0 else (upper if idx == 1 else {})
+        for r in lv["rooms"]:
+            if r["id"] in src:
+                x, y, w, h = src[r["id"]]
+                r["geometry"] = {"x_ft": x, "y_ft": y, "width_ft": round(w, 2), "depth_ft": round(h, 2),
+                                 "area_sf": round(w * h)}
+    plan["footprint"] = {"width_ft": fp["W"], "depth_ft": fp["H"], "bays": fp["bays"],
+                         "bay_module_ft": fp["bay"], "area_sf": round(fp["W"] * fp["H"]),
+                         "slack_sf": round(fp["slack"])}
+    if fp.get("lot_usable") is not None:
+        plan["footprint"]["lot_usable_width_ft"] = round(fp["lot_usable"], 1)
+    plan["geometry_report"] = report
+    return plan
+
+
+def solve(plan, parti=None, candidates=250, seed=7):
+    rng = random.Random(seed)
+    prep, levels = prepare_rooms(plan)
+    if prep is None: return {"error": "no ground level"}
+    fp = derive_footprint(plan, parti, prep)
+    if "error" in fp: return {"error": fp["error"]}
+    bay, bays, W, H = fp["bay"], fp["bays"], fp["W"], fp["H"]
+    grown, lot_maxbay, catalog_maxbay = fp["grown"], fp["lot_maxbay"], fp["catalog_maxbay"]
+    tol = bay * 0.28                                    # the relaxation allowance
 
     # WP-2.2: composition_parti (the style's kit) and entrance_faces (the plan's own context)
     # feed the compositional scoring terms below. composition_parti is read for completeness
@@ -500,19 +553,8 @@ def solve(plan, parti=None, candidates=250, seed=7):
                     "relaxations": grelax + urelax, "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
 
     # --- write coordinates back into the plan
-    for idx, lv in levels.items():
-        src = best["ground"] if idx == 0 else (best["upper"] if idx == 1 else {})
-        for r in lv["rooms"]:
-            if r["id"] in src:
-                x, y, w, h = src[r["id"]]
-                r["geometry"] = {"x_ft": x, "y_ft": y, "width_ft": round(w, 2), "depth_ft": round(h, 2),
-                                 "area_sf": round(w * h)}
-    plan["footprint"] = {"width_ft": W, "depth_ft": H, "bays": bays, "bay_module_ft": bay,
-                         "area_sf": round(W * H), "slack_sf": round(slack)}
-    if lot_usable is not None:
-        plan["footprint"]["lot_usable_width_ft"] = round(lot_usable, 1)
     rel = best["relaxations"]
-    plan["geometry_report"] = {
+    report = {
         "score": best["score"], "ground_score": best["sg"], "upper_score": best["su"], "vertical_score": best["sv"],
         "bays_grown": grown,
         "lot_capped": (lot_maxbay is not None and lot_maxbay < catalog_maxbay),
@@ -523,18 +565,31 @@ def solve(plan, parti=None, candidates=250, seed=7):
         "vertical": best["vnotes"] or ["Every upper wall continues to a wall below and every stack lands."],
         "reading": ("Ground and upper were solved together and scored as a pair, so an upper layout that would "
                     "score better alone is rejected when it leaves walls unsupported.")}
-    return plan
+    return write_record(plan, levels, best["ground"], best["upper"], fp, report)
 
 # ---------------------------------------------------------------- cli
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("plan"); ap.add_argument("--out"); ap.add_argument("--svg")
     ap.add_argument("--parti"); ap.add_argument("--candidates", type=int, default=250)
+    ap.add_argument("--solver", default="heuristic", choices=["heuristic", "cp", "both"],
+                    help="heuristic (this file's search, the default and the historical "
+                         "behaviour) or cp / both (build/solver.py's constraint solver, WP-2.3)")
+    ap.add_argument("--time", type=float, default=60.0, help="solver time budget, seconds")
     a = ap.parse_args()
     plan = json.load(open(a.plan))
     parti = json.load(open(f"{ROOT}/partis/{a.parti}.json")) if a.parti else None
-    out = solve(plan, parti, a.candidates)
-    if "error" in out: print(out["error"]); return
+    if a.solver == "heuristic":
+        out = solve(plan, parti, a.candidates)
+    else:
+        # Loaded lazily: solver.py imports OR-Tools, and nothing else in this toolchain should
+        # need it installed to run.
+        sv = _mod("solver", f"{ROOT}/build/solver.py")
+        out = sv.solve(plan, parti, time_budget_s=a.time, mode=a.solver)
+    if "error" in out:
+        print(out["error"])
+        for r in (out.get("conflict") or {}).get("requirements", []): print(f"    · {r}")
+        return
     fp, gr = out["footprint"], out["geometry_report"]
     print(f"\n  {plan['name']}")
     print(f"  footprint {fp['width_ft']} x {fp['depth_ft']} ft, {fp['bays']} bays of {fp['bay_module_ft']} ft, {fp['area_sf']} sf gross")

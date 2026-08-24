@@ -51,7 +51,14 @@ def main():
         results.append((label, proc.returncode == 0))
 
     print("\n=== pytest tests/ " + "=" * 42)
-    pytest_proc = subprocess.run(["pytest", "tests/"], cwd=str(ROOT))
+    # `sys.executable -m pytest`, not the bare `pytest` on PATH. Every checker above already
+    # runs under this interpreter, and a `pytest` from somewhere else runs the suite against a
+    # different set of installed packages -- which is not a hypothetical: WP-2.3 found the
+    # suite quietly SKIPPING all sixteen of its solver tests here while they passed when run
+    # directly, because the `pytest` first on PATH belonged to another environment that had no
+    # OR-Tools in it. A skipped test reports success, so the whole point of the entry point was
+    # being lost without a word.
+    pytest_proc = subprocess.run([sys.executable, "-m", "pytest", "tests/"], cwd=str(ROOT))
     results.append(("pytest tests/", pytest_proc.returncode == 0))
 
     print("\n" + "=" * 60)

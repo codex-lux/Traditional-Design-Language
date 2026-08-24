@@ -12,7 +12,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 |---|---|---|
 | **0 — Consolidation** | WP-0.1, 0.2, 0.3 | **Complete** |
 | **1 — Executable constraints** | WP-1.1, 1.2, 1.3 | **Complete** — 660/660 constraints migrated, 61.5% of hard constraints tested (bar was ≥60%) |
-| **2 — Composition** | WP-2.1, 2.2, 2.4 complete · **WP-2.3 not started** | **Incomplete** — the solver is still a hill-climb, not an optimiser |
+| **2 — Composition** | WP-2.1, 2.2, 2.3, 2.4 | **Complete** — `build/solver.py` beats the best of 800 heuristic candidates by 10–24% and names a conflict set when a brief cannot be housed |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3 complete · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
 | **5 — Platform** | none | **Not started** |
@@ -21,8 +21,8 @@ Every package below carries a **Status** line. This is the summary. Original pac
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
 2. ~~**WP-4.3**~~ — **done 24 Aug 2026**. See `docs/reports/wp-4.3-the-garage.md`.
-3. **WP-2.3** — the real solver. The deepest remaining structural gap and the last thing between Phase 2 and finished.
-4. **WP-4.5** — partis (39 of 132) now gate the composer's reach harder than kits ever did.
+3. ~~**WP-2.3**~~ — **done 24 Aug 2026**, closing Phase 2. `build/solver.py`. See `docs/reports/wp-2.3-real-solver.md`.
+4. **WP-4.5** — partis (39 of 132) now gate the composer's reach harder than kits ever did. **Next.**
 5. **WP-4.6**, then **WP-4.4** — packs (list ready from WP-4.1/OQ 30), then images.
 6. **Phase 5** — the last mile.
 
@@ -253,7 +253,11 @@ Batch the migration by family (27 families) so agents can run in parallel; one a
 
 ### WP-2.3 A real solver
 
-**Status: NOT STARTED — the largest remaining structural gap.** Next substantial package after OQ 28 and WP-4.3.
+**Status: COMPLETE (24 Aug 2026), closing Phase 2 — with the formulation the task text names replaced on evidence.** `build/solver.py` states placement to CP-SAT over the same bay grid, keeps the heuristic as hint, cross-check and reported fallback, and beats the best of 800 heuristic candidates on both shipped plans and both briefs (13.1% / 14.8% / 23.6% / 9.7%), inside 60 s every time. An infeasible brief returns a named, deletion-minimised conflict set and no geometry.
+
+The one departure from the task text is load-bearing and was made on measurement, not preference. "Integer room rectangles on bay multiples, no-overlap" — loose rectangles whose areas sum to the footprint — needs `sum(w*h) == W*H` over a dozen nonlinear products, and CP-SAT could not decide that on the shipped spec Colonial **in 240 s with four workers while holding a hint that was itself a valid tiling**. The slicing tree is read back off a heuristic layout instead, which makes tiling structural rather than arithmetic and leaves only the cut positions to solve — linear, and proven optimal in well under a second. The heuristic proposes the topology; the solver proves the geometry. Optimality is therefore per topology, not global, and the report says so rather than claiming an optimum never established.
+
+Three findings came out of it: the heuristic silently places the spec Colonial's dining room 26% below its band on every seed (OQ 32); a plan record's `exterior_walls` are aspirations rather than rectangle edges, and cannot all be asserted (three Tidewater rooms each declare opposite walls); and `check_all.py` was running the suite under a different interpreter than its checkers, skipping all sixteen solver tests and reporting success. See `docs/reports/wp-2.3-real-solver.md`.
 
 **Depends on:** WP-2.2. **Size:** large. **Optional but recommended.**
 

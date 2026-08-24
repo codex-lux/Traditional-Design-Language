@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 95 element slots · 40 massings · 58 rooms · 16 groupings · 36 executable proportion packs · 209 named faults · 322 specified images · 12 partis · 24 MCP tools**
+**164 taxa · 476 lineage edges · 95 element slots · 40 massings · 58 rooms · 17 groupings · 36 executable proportion packs · 209 named faults · 322 specified images · 12 partis · 24 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->
@@ -40,7 +40,7 @@ One file per style, variant, *and* family (159 total — 132 style/variant plus 
 **Georgian Colonial is filled end to end** as the depth-first proof: 88 of 95 slots specified or forbidden (95 as of WP-1.3's `wall_thickness_masonry`/`wall_thickness_frame` split — both open, unfilled, on every kit including this one), 417 variant records of which **119 are `forbidden`**, 417 typed parameters (172 `editorial`, 14 `invented`), 33 slots with proportion-pack precedence, 5 code conflicts, 4 slots marked `invented` because no precedent exists. Tidewater Georgian is then written as a 24-parameter override and English Georgian as an 8-parameter override, each resolving the rest from the parent — `build/resolve_kit.py` prints the provenance with a source column.
 
 **5. Rooms and groupings** (`rooms/`, `groupings/`) — see `docs/rooms.md`
-58 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 16 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
+58 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 17 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
 
 **6. The fault corpus** (`faults/`) — see `docs/faults.md`
 209 named errors, **element-first**: they hang off slots, not styles, because the half-width shutter is wrong on every house that has shutters. 93 of 95 slots covered — the two newest (`wall_thickness_masonry`/`wall_thickness_frame`, added in WP-1.3) have no fault authored against them yet. 846 style exceptions, 496 with numeric bounds — because a Georgian five-foot portico is a fatal fault by Craftsman rules and correct by its own. Every fault carries a `test`, so the corpus is executable: give it measurements from a photograph and it tells you which faults are present, which are clear, and which it could not judge.
@@ -53,8 +53,14 @@ The critic, built before the composer, because a composer needs a fitness functi
 **8. The composer** (`schema/brief.schema.json`, `partis/`, `build/compose.py`, `briefs/`) — see `docs/compose.md`
 Seeds from 12 canonical partis native to the style, sizes every room from the room catalogue, repairs against the validator until it stops improving, and returns four contrasting candidates ranked by fatal findings then style fidelity — each with what it trades away and a log of every assumption it made.
 
-**9. Geometry** (`build/geometry.py`, `build/render_plan.py`) — see `docs/geometry.md`
-Bay-grid slicing with the relaxations counted, both levels solved together so vertical alignment is a constraint rather than an afterthought. Emits coordinates into the plan record and an SVG rendered from them. Produces valid, dimensioned, drawable plans with every compromise reported — not yet plans an architect would sign, and the doc says exactly where the gap is.
+**9. Geometry** (`build/geometry.py`, `build/solver.py`, `build/render_plan.py`) — see `docs/geometry.md`
+Bay-grid slicing with the relaxations counted, both levels solved together so vertical alignment is a constraint rather than an afterthought. Emits coordinates into the plan record and an SVG rendered from them.
+
+Two engines share that record. `geometry.py` searches: 250 randomised slicings, scored, best kept — fast, and the default. `solver.py` (WP-2.3) proves: it states the same problem to CP-SAT over the same bay grid, where a room's own dimensional band is a constraint rather than a 12-point penalty, and it beats the best of 800 heuristic candidates by 10–24% on both shipped plans and both briefs. The difference that matters is not the score. Asked for a house that cannot be built, the search returns its least-bad plan; the solver returns *which requirements conflict* — "a 2-bay, 20 x 25.96 ft single pile house cannot hold the dining-room, drawing-room and library at their stated minimums at once, and the lot allows no more bays after its side setbacks" — and draws nothing.
+
+```
+python3 build/solver.py plans/tidewater-georgian-careful.json --time 60
+```
 
 **10. The image layer** (`assets/manifest.json`) — see `docs/assets.md`
 Format-agnostic records authored **before** the images exist. 292 wanted records, 136 of them good/bad pairs, each generated from a `forbidden` variant, an `invented` slot, a code conflict, or a proportion-pack assembly. Every record carries a shot spec and alt text written to be reasoned from, so the gap is visible, the shot list exists, and an agent can use the record while the file is still missing.
