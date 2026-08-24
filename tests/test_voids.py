@@ -276,3 +276,103 @@ def test_both_engines_report_the_reservation_the_same_way(geometry_module):
     assert solver.GEO.voids_report.__code__.co_filename == geometry_module.voids_report.__code__.co_filename
     empty = geometry_module.voids_report({0: {}}, {0: []})
     assert empty["count"] == 0 and empty["ring_layout"] is None
+
+
+# ---------------------------------------------------------------- OQ 39, the portal ring
+
+
+def test_the_portal_is_four_records_one_per_range():
+    """A continuous roofed walk around four sides of a court cannot be one rectangle. It was
+    one, so the engines placed it along one side and the other three ranges were entered from
+    nothing -- and the validator missed it, because the door graph was satisfied by the record
+    and plan_check.py never reads room.geometry."""
+    d = json.load(open(os.path.join(ROOT, "partis", "courtyard-and-portal.json")))
+    walks = [r for r in d["rooms"] if r["type"] == "loggia"]
+    assert [w["id"] for w in walks] == ["walk-s", "walk-w", "walk-e", "walk-n"], \
+        "the four walks must be listed in geometry.py's own band order S W E N"
+    for w in walks:                      # the ring is continuous
+        assert sum(1 for x in w["doors"] if x.startswith("walk-")) == 2, w["id"]
+        assert "court" in w["doors"]
+    served = {t for w in walks for t in w["doors"] if not t.startswith("walk-") and t != "court"}
+    others = {r["id"] for r in d["rooms"] if r["type"] not in ("loggia", "courtyard")}
+    # every room either opens off a range, or off a room that does (a larder off its kitchen)
+    reach = set(served)
+    for _ in range(3):
+        for r in d["rooms"]:
+            if r["id"] in reach: continue
+            if any(t in reach for t in (r.get("doors") or [])): reach.add(r["id"])
+    assert others <= reach, others - reach
+
+
+def test_every_range_is_served_by_its_own_walk(geometry_module, court_plan):
+    """The placement each range assignment produces: four walks, one per band, and the rooms
+    that door to each sitting in that band rather than wherever the area happened to fall."""
+    out = geometry_module.solve(copy.deepcopy(court_plan),
+                                json.load(open(os.path.join(ROOT, "partis", "courtyard-and-portal.json"))))
+    rects = {r["id"]: r["geometry"] for r in out["levels"][0]["rooms"] if r.get("geometry")}
+    for wid in ("walk-s", "walk-w", "walk-e", "walk-n"):
+        assert wid in rects, wid
+        assert rects[wid]["void"] == {"heated": False, "roofed": True}
+    # each walk touches the court
+    court = rects["court"]
+    for wid in ("walk-s", "walk-w", "walk-e", "walk-n"):
+        w = rects[wid]
+        ox = min(w["x_ft"] + w["width_ft"], court["x_ft"] + court["width_ft"]) - max(w["x_ft"], court["x_ft"])
+        oy = min(w["y_ft"] + w["depth_ft"], court["y_ft"] + court["depth_ft"]) - max(w["y_ft"], court["y_ft"])
+        assert ox > -0.5 and oy > -0.5, "%s does not reach the court" % wid
+
+
+def test_the_range_assignment_reads_doors_to_a_walk_before_doors_to_a_neighbour(geometry_module):
+    """The bug this ordering fixes: assigning rooms in one pass let a room inherit a range from
+    a sibling assigned earlier in the same pass, which put the kitchen in the street range
+    because it happened to list the dining room before its own corredor."""
+    def room(rid, area, doors, void=False):
+        # doors on a PLAN record are {"to": id} dicts; in a parti file they are bare strings
+        return {"id": rid, "type": "loggia" if void else "kitchen", "name": rid, "_area": area,
+                "doors": [{"to": x} for x in doors],
+                "_void": ({"within_footprint": True, "roofed": True} if void else False)}
+    ring = [room("w0", 90, ["court"], True), room("w1", 90, ["court"], True),
+            room("w2", 90, ["court"], True), room("w3", 90, ["court"], True),
+            room("dining", 200, ["w0"]), room("kitchen", 200, ["dining", "w1"]),
+            room("larder", 80, ["kitchen"]),
+            room("a", 200, ["w2"]), room("b", 200, ["w3"])]
+    court = {"id": "court", "type": "courtyard", "name": "court", "_area": 500, "doors": [],
+             "_void": {"within_footprint": True, "roofed": False}}
+    out, relax = {}, []
+    import random
+    ok = geometry_module.courtyard_slice([court] + ring, 56.0, 56.0, 8.0, 2.0,
+                                         random.Random(3), out, relax, 4)
+    assert ok
+    # the kitchen sits in w1's band, not w0's -- measured by which walk it touches
+    def touch(a, b):
+        ax, ay, aw, ah = out[a]; bx, by, bw, bh = out[b]
+        return (min(ax + aw, bx + bw) - max(ax, bx) > -0.6
+                and min(ay + ah, by + bh) - max(ay, by) > -0.6)
+    assert touch("kitchen", "w1")
+    assert touch("larder", "kitchen")
+
+
+# ---------------------------------------------------------------- the brief's target
+
+
+def test_the_briefs_target_is_heated_area_not_the_block():
+    """instantiate() scaled every room against the target, outdoor rooms included, while
+    reclaim() measured area with outdoor rooms excluded: two passes sizing against two different
+    quantities, only one of them the brief's. Invisible on a plan with no placed void. On the
+    courtyard parti, whose court and corredor are a third of the block, a 3,000 sf brief came
+    back as an 1,834 sf house that the composer reported as 38.9% off and could not fix."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import compose
+    brief = {"id": "t", "name": "t", "style": "spanish-colonial-revival", "target_area_sf": 3000,
+             "bedrooms": 3, "bathrooms": 2.5,
+             "context": {"climate_zone": "3B", "lot_width_ft": 140, "entrance_faces": "S",
+                         "jurisdiction": "IRC model text, advisory", "budget_tier": "custom"},
+             "household": "x"}
+    plan, log, parti = compose.instantiate("courtyard-and-portal", brief)
+    heated = sum(r["width_ft"] * r["length_ft"] for lv in plan["levels"] for r in lv["rooms"]
+                 if compose.C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+    assert abs(heated - 3000) / 3000 < 0.20, heated
+    void = sum(r["width_ft"] * r["length_ft"] for lv in plan["levels"] for r in lv["rooms"]
+               if compose.C["rooms"].get(r["type"], {}).get("function_class") == "outdoor")
+    assert void > 0, "the voids should still be sized, just not out of the brief's budget"

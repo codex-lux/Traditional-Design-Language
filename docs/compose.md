@@ -50,3 +50,17 @@ The single-pile winning a Tidewater brief is the right answer and it was not the
 ## Next
 
 Geometry. The composer emits topology plus a footprint check; it does not place rectangles. That is a constraint-packing problem and it now has a well-defined input — a plan record whose rooms are already sized and whose adjacencies are already legal.
+
+## The brief's target is heated area (OQ 33, 24 Aug 2026)
+
+`instantiate()` holds reserved voids out of the scaling loop entirely: a court or a corredor
+keeps the size its own weight and catalogue give it, and the rooms around it are scaled to reach
+`target_area_sf`. `reclaim()` has always measured area with outdoor rooms excluded, so before
+this the two passes were sizing against two different quantities and only one of them was the
+brief's. On a plan with no placed void the difference is a rounding error. On the courtyard
+parti, whose court and four-range corredor are about a third of the block, a 3,000 sf brief came
+back as an **1,834 sf house** which the composer reported, correctly, as 38.9% off its own target
+and could not fix — from its point of view the area had been spent.
+
+So a courtyard brief now returns a house of the requested heated area inside a visibly larger
+block, and `footprint.heated_area_sf` beside `footprint.area_sf` is where the difference is read.

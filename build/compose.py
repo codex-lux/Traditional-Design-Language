@@ -182,15 +182,28 @@ def instantiate(parti_id, brief):
         rt = C["rooms"].get(rtype, {})
         lo, hi = (rt.get("dimensions", {}).get("area_sf") or [40, 900])
         return lo, hi
+    # OQ 33: the brief's target is HEATED area, and a reserved void does not spend it.
+    #
+    # This loop used to scale every room in `dims` against the target, outdoor rooms included,
+    # while reclaim() below measures area with outdoor rooms excluded -- so the two passes were
+    # sizing against two different quantities and only one of them was the brief's. On a plan
+    # with no placed void the difference was a rounding error and nobody saw it. On the
+    # courtyard parti, whose court and four-range corredor are 40% of the block, it made a
+    # 3,000 sf brief come back as an 1,834 sf house that the composer reported, correctly, as
+    # 38.9% off its own target and could not fix, because from its point of view the area had
+    # been spent. A void is now held out of the scaling entirely: it keeps the size its own
+    # weight and catalogue give it, and the ranges around it are scaled to the brief.
+    voids = {r["id"] for r in rooms
+             if C["rooms"].get(r["type"], {}).get("function_class") == "outdoor"}
     frozen = set()
     for _ in range(4):
-        total = sum(w * l for w, l in dims.values())
-        free = sum(dims[r][0] * dims[r][1] for r in dims if r not in frozen)
+        total = sum(w * l for rid, (w, l) in dims.items() if rid not in voids)
+        free = sum(dims[r][0] * dims[r][1] for r in dims if r not in frozen and r not in voids)
         fixed = total - free
         if free <= 0: break
         k = max(0.4, min(1.8, (target - fixed) / free)) ** 0.5
         for r in list(dims):
-            if r in frozen: continue
+            if r in frozen or r in voids: continue
             w, l = dims[r][0] * k, dims[r][1] * k
             rtype = next(x["type"] for x in rooms if x["id"] == r)
             lo, hi = band(r, rtype)
@@ -198,11 +211,13 @@ def instantiate(parti_id, brief):
             if a < lo: f = math.sqrt(lo / a); w, l = w * f, l * f; frozen.add(r)
             elif a > hi: f = math.sqrt(hi / a); w, l = w * f, l * f; frozen.add(r)
             dims[r] = [round(w, 1), round(l, 1)]
-        if abs(sum(w * l for w, l in dims.values()) - target) / target <= tol: break
+        heated = sum(w * l for rid, (w, l) in dims.items() if rid not in voids)
+        if abs(heated - target) / target <= tol: break
 
     # If it is still too big, drop optional rooms from the back — the diagram says which may go.
     dropped = []
-    def area_now(): return sum(dims[r["id"]][0] * dims[r["id"]][1] for r in rooms if r["id"] in dims)
+    def area_now(): return sum(dims[r["id"]][0] * dims[r["id"]][1] for r in rooms
+                               if r["id"] in dims and r["id"] not in voids)
     # A room that satisfies a HARD adjacency is not optional however the parti marked it.
     # Dropping the butler's pantry to save area severs the kitchen from the dining room.
     load_bearing = set()

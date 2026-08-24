@@ -199,3 +199,17 @@ Two things about a ring massing that the ordinary footprint arithmetic gets wron
 strip), and the growth loops optimise the block when what matters is the **court's** proportion
 (they made it 16 × 40, outside `rooms/courtyard.json`'s own 1.0–2.2 band). The bay count is
 re-chosen against that band.
+
+### The band order, and why it is a convention rather than a schema field
+
+`courtyard_slice()` lays a ring out in the order **S, W, E, N** — the street range first,
+because this file's coordinate convention puts the street at `y = 0`. When a parti gives its
+covered walk one record per range (OQ 39), the i-th walk takes the i-th band, so a parti listing
+`walk-s, walk-w, walk-e, walk-n` gets its entry passage on the street. Every other room is
+assigned to the band of the walk it has a door to, and a room with no walk door follows the room
+it does open off — which is how a larder reaches its kitchen's range and a primary bathroom its
+bedroom's. That ordering is the only thing about the four-record portal that would have needed a
+schema field, so it is stated here instead.
+
+A parti whose walk is still one record falls back to filling the bands by area in the order the
+parti wrote its rooms.

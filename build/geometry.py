@@ -171,23 +171,62 @@ def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
     bands += [("W", 0.0, y0, d, ch), ("E", W - d, y0, d, ch), ("N", 0.0, y0 + ch, W, d)]
     out[court["id"]] = (round(d, 2), round(y0, 2), round(cw, 2), round(ch, 2))
 
-    # Rooms go round the ring in the order the parti wrote them, which is the order its author
-    # walked the house. Each band takes rooms until it has its own area; nothing is re-sorted,
-    # because the sequence IS the adjacency information a parti carries about a ring.
     caps = [(k, x, y, w, h, w * h) for (k, x, y, w, h) in bands]
-    total = sum(c[5] for c in caps)
-    have = sum(r["_area"] for r in ring)
     groups = {c[0]: [] for c in caps}
-    i, queue = 0, list(ring)
-    for n, c in enumerate(caps):
-        want = c[5] / total * have
-        acc = 0.0
-        remaining_bands = len(caps) - n - 1
-        while i < len(queue) and (acc < want or len(queue) - i > remaining_bands * 6):
-            if acc >= want and len(queue) - i <= remaining_bands: break
-            groups[c[0]].append(queue[i]); acc += queue[i]["_area"]; i += 1
-            if remaining_bands and len(queue) - i <= remaining_bands: break
-    for r in queue[i:]: groups[caps[-1][0]].append(r)
+
+    # OQ 39: when the parti gives the covered walk one record per range -- as many roofed voids
+    # as there are bands -- that IS the range assignment, and it is read rather than guessed:
+    # the i-th walk takes the i-th band (the parti lists them in this file's own band order, S
+    # W E N, so the range holding the entry passage is the one on the street), and every other
+    # room goes to the band of the walk it has a door to. A room with no door to any walk
+    # follows the room it does open off, which is how a larder reaches the kitchen's range and a
+    # primary bathroom its bedroom's. That is the diagram stating its own topology; falling back
+    # to filling bands by area would place a room in a range whose corredor it cannot reach.
+    walks = [r for r in ring if isinstance(r.get("_void"), dict) and r["_void"].get("roofed")]
+    assigned = False
+    if len(walks) == len(caps):
+        band_of = {}
+        for c, wroom in zip(caps, walks):
+            groups[c[0]].append(wroom); band_of[wroom["id"]] = c[0]
+        rest = [r for r in ring if r["id"] not in band_of]
+        walk_ids = set(band_of)
+        def _doors(r):
+            return [(d["to"] if isinstance(d, dict) else d) for d in (r.get("doors") or [])]
+        # A door to a WALK first, for every room, before any room is placed by a neighbour.
+        # Doing both in one pass lets a room inherit a range from a sibling that was itself
+        # assigned earlier in the same pass -- which put the kitchen in the street range because
+        # it happened to list the dining room before its own corredor.
+        for r in rest:
+            hit = next((d for d in _doors(r) if d in walk_ids), None)
+            if hit: band_of[r["id"]] = band_of[hit]; groups[band_of[hit]].append(r)
+        for _pass in range(3):
+            for r in rest:
+                if r["id"] in band_of: continue
+                for tid in _doors(r):
+                    if tid in band_of:
+                        band_of[r["id"]] = band_of[tid]; groups[band_of[tid]].append(r); break
+        if all(r["id"] in band_of for r in rest):
+            assigned = True
+        else:
+            groups = {c[0]: [] for c in caps}
+
+    if not assigned:
+        # Rooms go round the ring in the order the parti wrote them, which is the order its
+        # author walked the house. Each band takes rooms until it has its own area; nothing is
+        # re-sorted, because the sequence IS the adjacency information a parti carries about a
+        # ring. This is the path for a parti whose walk is still one record.
+        total = sum(c[5] for c in caps)
+        have = sum(r["_area"] for r in ring)
+        i, queue = 0, list(ring)
+        for n, c in enumerate(caps):
+            want = c[5] / total * have
+            acc = 0.0
+            remaining_bands = len(caps) - n - 1
+            while i < len(queue) and (acc < want or len(queue) - i > remaining_bands * 6):
+                if acc >= want and len(queue) - i <= remaining_bands: break
+                groups[c[0]].append(queue[i]); acc += queue[i]["_area"]; i += 1
+                if remaining_bands and len(queue) - i <= remaining_bands: break
+        for r in queue[i:]: groups[caps[-1][0]].append(r)
     if any(not groups[c[0]] for c in caps): return False
     for (k, x, y, w, h, _a) in caps:
         slice_rect(copy.deepcopy(groups[k]), x, y, w, h, module, tol, rng, out, relax)
