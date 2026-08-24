@@ -11,12 +11,13 @@
     "i-house"
   ],
   "styles": [
-    "tidewater-georgian",
-    "greek-revival-american",
-    "greek-revival-southern-plantation",
     "american-farmhouse-vernacular",
     "federal-style",
-    "southern-federal"
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "greek-revival-upland-vernacular",
+    "southern-federal",
+    "tidewater-georgian"
   ],
   "groupings": [
     "centre-passage-core",

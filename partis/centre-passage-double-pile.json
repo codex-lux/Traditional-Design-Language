@@ -11,15 +11,20 @@
     "five-part-palladian"
   ],
   "styles": [
-    "georgian-colonial-american",
-    "new-england-georgian",
-    "mid-atlantic-georgian",
-    "tidewater-georgian",
-    "federal-style",
-    "greek-revival-american",
+    "beaux-arts-american",
     "colonial-revival",
+    "dutch-colonial-revival",
+    "federal-style",
+    "georgian-colonial-american",
     "georgian-revival",
-    "neoclassical-revival"
+    "greek-revival-american",
+    "greek-revival-northern",
+    "italian-renaissance-revival",
+    "mid-atlantic-georgian",
+    "neoclassical-revival",
+    "new-england-federal",
+    "new-england-georgian",
+    "tidewater-georgian"
   ],
   "groupings": [
     "centre-passage-core",

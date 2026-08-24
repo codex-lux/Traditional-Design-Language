@@ -12,12 +12,19 @@
     "gable-front"
   ],
   "styles": [
+    "adam-style",
+    "beaux-arts-french",
+    "charleston-georgian",
+    "colonial-revival",
+    "dutch-urban-gable-house",
+    "english-georgian",
+    "english-georgian-townhouse",
     "federal-style",
     "greek-revival-american",
     "italianate-townhouse",
-    "second-empire",
-    "charleston-georgian",
-    "colonial-revival"
+    "regency",
+    "renaissance-revival-american",
+    "second-empire"
   ],
   "groupings": [
     "public-enfilade",

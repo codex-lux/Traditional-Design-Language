@@ -10,13 +10,18 @@
     "four-over-four"
   ],
   "styles": [
-    "tidewater-georgian",
-    "georgian-colonial-american",
-    "jeffersonian-classicism",
-    "federal-style",
     "colonial-revival",
+    "english-baroque",
+    "english-georgian-country-house",
+    "english-palladian",
+    "federal-style",
+    "georgian-colonial-american",
     "georgian-revival",
-    "neoclassical-revival"
+    "jeffersonian-classicism",
+    "neoclassical-revival",
+    "new-classical",
+    "palladian",
+    "tidewater-georgian"
   ],
   "groupings": [
     "centre-passage-core",

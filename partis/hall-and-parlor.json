@@ -11,11 +11,19 @@
     "cape-cod-massing"
   ],
   "styles": [
-    "new-england-colonial",
     "american-farmhouse-vernacular",
-    "log-vernacular-american",
+    "cape-cod-colonial",
+    "cotswold-vernacular",
+    "dutch-colonial-american",
+    "english-cottage-vernacular",
     "folk-victorian",
-    "cape-cod-colonial"
+    "garrison-colonial",
+    "german-pennsylvania-colonial",
+    "hudson-valley-dutch",
+    "log-vernacular-american",
+    "new-england-colonial",
+    "new-jersey-dutch-gambrel",
+    "pennsylvania-bank-house"
   ],
   "groupings": [
     "hall-and-parlor-pair",
