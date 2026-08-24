@@ -86,9 +86,9 @@
     "should_adjoin": [
       {
         "room": "hall",
-        "why": "the room it overlooks. In the living-hall types this is the whole point - the upper corridor is a balcony onto the house's principal room",
+        "why": "the room it overlooks. In the living-hall types this is the whole point - the upper corridor is a balcony onto the house's principal room NOTE (WP-4.5): this is a VERTICAL relationship - the overlook is open to the hall on the storey below - and a plan record expresses adjacency within a level only, so no correct plan can satisfy it as written. Held at 'preferred' rather than 'strong' so a right answer is not reported as a serious defect, and recorded as an open question rather than dropped, because the relationship is real and the corpus simply has no way to state it.",
         "relation": "visible-from",
-        "strength": "strong"
+        "strength": "preferred"
       },
       {
         "room": "bedroom",

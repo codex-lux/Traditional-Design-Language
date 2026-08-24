@@ -18,15 +18,21 @@
     "andalusian-courtyard-vernacular",
     "andalusian-spanish-revival",
     "california-mission-colonial",
+    "churrigueresque",
+    "french-baroque",
+    "french-renaissance-chateau",
+    "greek-classical",
+    "italian-baroque",
     "italian-renaissance",
+    "mediterranean-revival",
     "mexican-colonial",
     "mexican-hacienda",
     "moorish-andalusian",
     "mudejar",
+    "roman-classical",
     "spanish-colonial-american",
     "spanish-colonial-revival",
-    "roman-classical",
-    "greek-classical"
+    "spanish-plateresque"
   ],
   "groupings": [
     "kitchen-work-core",

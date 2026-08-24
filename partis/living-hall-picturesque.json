@@ -1,0 +1,400 @@
+{
+  "id": "living-hall-picturesque",
+  "name": "Living Hall, Picturesque",
+  "aka": [
+    "the living hall plan",
+    "Shingle-style hall plan",
+    "hall-centred picturesque"
+  ],
+  "description": "A large hall that is a room rather than a passage, with the stair rising through it, a hearth in an inglenook off it, and the principal rooms opening from it directly - all wrapped in a deliberately irregular, dominated mass. The move that makes it is the inversion of the Georgian idea: where a centre passage is circulation you pass through to reach rooms, the living hall is the room you occupy, and circulation is what happens at its edges. Everything follows from that. There is no separate parlor because the hall took its job; the stair is furniture rather than plumbing; the upper corridor becomes a gallery open to the hall below; and the plan's irregularity is possible only because no facade has to be symmetrical about a door. The type's own risk is stated in its massing: it requires a dominant mass or it disintegrates into a pile of gables.",
+  "massing": "massed-picturesque",
+  "alternate_massings": [
+    "cross-gable-victorian",
+    "villa-tower"
+  ],
+  "styles": [
+    "shingle-style",
+    "richardsonian-romanesque",
+    "queen-anne-american",
+    "queen-anne-british",
+    "tudor-revival",
+    "cotswold-cottage-revival",
+    "french-eclectic",
+    "french-normandy-revival",
+    "chateauesque",
+    "scottish-baronial",
+    "storybook-style",
+    "rural-gothic-villa",
+    "arts-and-crafts-british"
+  ],
+  "groupings": [
+    "stair-and-landing-core",
+    "kitchen-work-core",
+    "primary-suite",
+    "secondary-bedroom-cluster",
+    "library-study-pair"
+  ],
+  "circulation_parti": "open-plan",
+  "storeys": 2,
+  "area_range_sf": [
+    2200,
+    7000
+  ],
+  "bedroom_range": [
+    3,
+    6
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Entrance Porch",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "exterior",
+        "vestibule"
+      ],
+      "note": "Deep and low and often tucked under the main roof rather than applied to the front - the entrance in this type is found rather than announced."
+    },
+    {
+      "id": "vestibule",
+      "type": "vestibule",
+      "level": 0,
+      "name": "Vestibule",
+      "required": false,
+      "doors": [
+        "porch",
+        "livinghall"
+      ],
+      "note": "A short lock between the door and the hall. Without it the front door opens directly into the room the family occupies, which is the type's most common planning complaint and the reason the better examples always have one."
+    },
+    {
+      "id": "livinghall",
+      "type": "hall",
+      "level": 0,
+      "name": "Living Hall",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "backhall",
+        "dining",
+        "exterior",
+        "inglenook",
+        "library",
+        "parlor",
+        "stair",
+        "veranda",
+        "vestibule"
+      ],
+      "area_weight": 0.2,
+      "note": "The room the whole diagram is named for, and it must be big enough to be furnished as a room and still be walked through - see rooms/hall.json's critical_dimension. A living hall you cannot put a sofa in without blocking a route is a wide corridor with a fireplace."
+    },
+    {
+      "id": "inglenook",
+      "type": "sitting-room",
+      "level": 0,
+      "name": "Inglenook",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "doors": [
+        "livinghall"
+      ],
+      "area_weight": 0.04,
+      "note": "The hearth alcove off the hall, with built-in seats either side of the fire and usually a low ceiling against the hall's high one. Typed as a sitting-room because the catalogue has no inglenook and this is what it functionally is: a small seated room open to a larger one. Its smallness is the point and it should not be scaled up with the house."
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Stair",
+      "doors": [
+        "livinghall"
+      ],
+      "area_weight": 0.06,
+      "note": "Rising IN the hall, not in a room of its own - a broad first flight, a landing with a window seat, and the whole thing read as the hall's principal furniture."
+    },
+    {
+      "id": "parlor",
+      "type": "parlor",
+      "level": 0,
+      "name": "Parlor",
+      "required": false,
+      "exterior_walls": [
+        "W"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "dining",
+        "livinghall"
+      ],
+      "area_weight": 0.1,
+      "note": "Optional on purpose. In the fully developed type the hall has absorbed the parlor entirely, and a brief that asks for both is asking for the earlier Queen Anne arrangement rather than the Shingle one."
+    },
+    {
+      "id": "dining",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Dining Room",
+      "exterior_walls": [
+        "W",
+        "N"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "livinghall",
+        "pantry"
+      ],
+      "area_weight": 0.12
+    },
+    {
+      "id": "library",
+      "type": "library",
+      "level": 0,
+      "name": "Library",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "livinghall"
+      ],
+      "area_weight": 0.09
+    },
+    {
+      "id": "veranda",
+      "type": "piazza",
+      "level": 0,
+      "name": "Veranda",
+      "required": false,
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "doors": [
+        "dining",
+        "exterior",
+        "livinghall"
+      ],
+      "note": "Wrapping the seaward or garden corner and often turning into a round tower-end. It is the reason the type reads as horizontal despite its gables."
+    },
+    {
+      "id": "pantry",
+      "type": "butlers-pantry",
+      "level": 0,
+      "name": "Butler's Pantry",
+      "required": false,
+      "doors": [
+        "dining",
+        "kitchen"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "pantry",
+        "backhall",
+        "dining"
+      ],
+      "fixtures": [
+        "sink",
+        "range",
+        "dishwasher"
+      ],
+      "area_weight": 0.1
+    },
+    {
+      "id": "backhall",
+      "type": "back-hall",
+      "level": 0,
+      "name": "Back Hall",
+      "required": false,
+      "exterior_walls": [
+        "N"
+      ],
+      "doors": [
+        "kitchen",
+        "exterior",
+        "powder"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "required": false,
+      "doors": [
+        "backhall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "gallery",
+      "type": "overlook",
+      "level": 1,
+      "name": "Upper Gallery",
+      "doors": [
+        "landing",
+        "primary",
+        "chamber1",
+        "chamber2",
+        "hallbath"
+      ],
+      "stacks_over": "livinghall",
+      "area_weight": 0.06,
+      "note": "The upper corridor open to the hall below on one side. This is the type's signature at the upper level and the reason rooms/overlook.json exists as a room distinct from a landing."
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "doors": [
+        "gallery",
+        "stair"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Primary Bedroom",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "gallery",
+        "primarybath"
+      ],
+      "area_weight": 0.12
+    },
+    {
+      "id": "primarybath",
+      "type": "primary-bathroom",
+      "level": 1,
+      "name": "Primary Bath",
+      "doors": [
+        "primary"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub",
+        "shower"
+      ],
+      "stacks_over": "powder"
+    },
+    {
+      "id": "chamber1",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "gallery"
+      ],
+      "area_weight": 0.09
+    },
+    {
+      "id": "chamber2",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "gallery"
+      ],
+      "area_weight": 0.08
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Bath",
+      "doors": [
+        "gallery"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "stacks_over": "pantry"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "widening",
+      "adding-a-storey"
+    ],
+    "bay_module_ft": 12,
+    "min_bay_count": 3,
+    "max_bay_count": 7,
+    "note": "This diagram grows by extending wings off the hall rather than by adding bays to a front, which is why the massing catalogue calls it picturesque and why its bay module is loose. The constraint that matters is the massing's own: one mass must stay visibly dominant. Growth that produces two equal gables has destroyed the type even where every room is correct."
+  },
+  "trades_away": "Symmetry, and any possibility of a composed classical front - the type cannot be given one without ceasing to be itself. It trades away the separate parlor, which a formal brief may want back. It trades acoustic privacy hardest of all: the hall is a two-storey volume with an open gallery around it and bedroom doors onto that gallery, so every sound in the house travels, which is why rooms/overlook.json marks a primary bedroom opening straight onto one as a fault to avoid. And it is expensive per square foot - the irregular plan, the multiple roof intersections and the double-height hall all cost, and none of them is floor area you can furnish.",
+  "exemplars": [
+    "Isaac Bell House, Newport, Rhode Island, McKim Mead & White, 1883 - the canonical living hall",
+    "William Watts Sherman House, Newport, H. H. Richardson, 1874",
+    "Kragsyde, Manchester-by-the-Sea, Massachusetts, Peabody & Stearns, 1885",
+    "Stoughton House, Cambridge, Massachusetts, H. H. Richardson, 1883",
+    "Cragside, Northumberland, Norman Shaw, from 1869 - the British parent of the arrangement"
+  ],
+  "sources": [
+    "massings/catalog.json: massed-picturesque, and its constraint that the type requires a dominant mass",
+    "rooms/hall.json, whose style_variation carries the living-hall reading of this room",
+    "rooms/overlook.json, authored in this package for the upper gallery this diagram needs",
+    "Vincent Scully, The Shingle Style and the Stick Style (rev. ed. 1971), on the living hall as the type's organising idea",
+    "editorial: the room list is a composable reduction of the type, not a transcription of any one house"
+  ],
+  "confidence": "high"
+}

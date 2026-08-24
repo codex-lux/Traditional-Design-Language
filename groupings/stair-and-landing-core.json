@@ -98,8 +98,9 @@
   "servicing_strategy": "The stack of the house: an opening landing window is the cheapest summer ventilation available, and the stair is the path the air takes.",
   "circulation_parti": [
     "center-hall",
-    "side-hall",
-    "double-pile-stair-hall"
+    "double-pile-stair-hall",
+    "open-plan",
+    "side-hall"
   ],
   "style_variation": [
     {
@@ -117,6 +118,7 @@
   ],
   "sources": [
     "IRC R311.7",
-    "Waterman, The Dwellings of Colonial America"
+    "Waterman, The Dwellings of Colonial America",
+    "WP-4.5: 'open-plan' added — the living-hall types run their stair IN the hall rather than in a hall of its own, which is an open-plan circulation with a stair core in it, not the absence of one."
   ]
 }
