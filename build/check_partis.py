@@ -22,12 +22,25 @@ Checks, in order:
   8. level sanity, and that a parti declaring storeys > 1 actually places rooms above
   9. circulation_parti agrees with the groupings it names (a grouping carries an
      ARRAY of acceptable values; a parti carries one scalar - they must intersect)
- 10. coverage: which buildable nodes with a canonical massing no parti names
+ 10. COMPOSABILITY (OQ 37): every parti is instantiated against the first style in its
+     own `styles` array and run through plan_check. A FATAL finding is an error here.
+     Everything above this line checks that a parti is well FORMED; this checks that the
+     diagram works - that it satisfies the room catalogue's own hard adjacency rules,
+     which is what plan_check will hold any plan built from it to.
+ 11. coverage: which buildable nodes with a canonical massing no parti names
 
-Check 10 is the one WP-4.5 exists to move, so it is reported as a count and a list
+Check 11 is the one WP-4.5 exists to move, so it is reported as a count and a list
 rather than an error - a partial catalogue is a state of the project, not a defect.
 
+Check 10 was added after five of twenty-one partis were found carrying fatal findings
+against their OWN native style, so the composer would not recommend them for the styles
+they were written for: a Charleston-single-house brief came back with a centre-passage
+single pile, because a fatal is 100 points and nativity is worth at most 140. That was
+the composer working exactly as designed on data that was wrong, and nothing looked at
+the data. It runs in about four seconds for the whole catalogue.
+
     python3 build/check_partis.py            # everything
+    python3 build/check_partis.py --no-compose   # skip check 10 (no compose.py import)
     python3 build/check_partis.py --strict   # warnings become errors
     python3 build/check_partis.py --coverage # print the uncovered-node work list
 """
@@ -194,6 +207,83 @@ def check_parti(rep, path, p, u):
         rep.err(where, f"bedroom_range {br} is not ascending")
 
 
+def check_composability(rep, partis):
+    """Instantiate each parti against its own first native style and run plan_check on it.
+
+    OQ 37. Everything else in this file checks that a parti is well FORMED. This checks that
+    the diagram WORKS: that it satisfies the room catalogue's own hard adjacency rules, which
+    is what plan_check holds any plan built from it to. Five of twenty-one partis were carrying
+    fatal findings against the styles they were written for, and the composer -- correctly, on
+    100 points a fatal against at most 140 for nativity -- was refusing to recommend them. A
+    Charleston-single-house brief came back with a centre-passage single pile.
+
+    Deliberately run on the plan AS INSTANTIATED, before compose.py's repair pass. Repair
+    widens rooms and adds doors to clear findings; a diagram that only works after repair is a
+    diagram whose author left the work to the machine, and the five real failures here are
+    identical before and after it, so nothing is lost by checking the stricter thing.
+
+    Returns the per-parti fatal counts so the caller can print them; errors go into `rep`."""
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import compose
+    except Exception as e:                       # pragma: no cover - environment, not data
+        rep.warn("<setup>", f"compose.py could not be imported - composability check skipped: {e}")
+        return None
+    def fatal_keys(pid, style):
+        """The fatal findings a parti produces against a style, keyed so two runs can be
+        subtracted. The key deliberately includes the REQUIREMENT and not the measured value:
+        a style-level fault fires the same test for every parti, so it cancels, while a parti
+        that fails a DIFFERENT test of the same fault does not."""
+        brief = {"id": "check", "name": "check", "style": style,
+                 "target_area_sf": 2600, "bedrooms": 3, "bathrooms": 2.0,
+                 "context": {"climate_zone": "3A", "lot_width_ft": 120, "entrance_faces": "S",
+                             "jurisdiction": "IRC model text, advisory", "budget_tier": "custom"},
+                 "household": "check"}
+        plan, _log, _parti = compose.instantiate(pid, brief)
+        res = compose.PC.check(plan, compose.C)
+        out = {}
+        for f in res["findings"]:
+            if f["severity"] != "fatal": continue
+            stmt = f["statement"]
+            req = stmt.split(" against ", 1)[1] if " against " in stmt else ""
+            out[(f.get("layer"), f.get("rule"), f.get("room"), req)] = stmt
+        return out
+
+    # A control diagram, run against the SAME style, so what this check reports is what the
+    # PARTI does and not what the style does. Three of cape-central-chimney's four fatals fire
+    # identically for every parti composed for cape-cod-colonial -- they are facts about that
+    # style's kit and its elevation, and blaming the parti for them would make this check a
+    # generator of false accusations against exactly the files it exists to protect. The
+    # control is the simplest diagram in the catalogue and is never itself the parti under test
+    # except in the one case where it is, which is skipped.
+    CONTROL = "hall-and-parlor"
+
+    counts = {}
+    for p in partis:
+        pid = p.get("id")
+        styles = p.get("styles") or []
+        if not styles:
+            rep.warn(f"parti:{pid}", "names no styles, so there is nothing to compose it against")
+            continue
+        style = styles[0]
+        try:
+            mine = fatal_keys(pid, style)
+            base = {} if pid == CONTROL else fatal_keys(CONTROL, style)
+        except Exception as e:
+            rep.err(f"parti:{pid}", f"cannot be composed for its own style '{style}': {e}")
+            continue
+        own = {k: v for k, v in mine.items() if k not in base}
+        counts[pid] = len(own)
+        for k in sorted(own, key=lambda k: own[k]):
+            rep.err(f"parti:{pid}", f"FATAL against its own style '{style}': {own[k]}")
+        shared = len(mine) - len(own)
+        if shared:
+            rep.warn(f"parti:{pid}",
+                     f"{shared} further fatal finding(s) against '{style}' are the STYLE's, not "
+                     f"this diagram's -- the control parti produces them too")
+    return counts
+
+
 def coverage(partis, u):
     """Which buildable nodes with a canonical massing does no parti name?
 
@@ -213,6 +303,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--strict", action="store_true", help="warnings are errors")
     ap.add_argument("--coverage", action="store_true", help="print the uncovered-node work list")
+    ap.add_argument("--no-compose", action="store_true",
+                    help="skip the composability check (check 10), which imports compose.py")
     args = ap.parse_args()
 
     rep = Report()
@@ -239,11 +331,19 @@ def main():
     for dup in [k for k, n in Counter(p.get("id") for p in partis).items() if n > 1]:
         rep.err("<catalogue>", f"duplicate parti id '{dup}'")
 
+    fatals = None if args.no_compose else check_composability(rep, partis)
+
     named, uncovered = coverage(partis, u)
 
     print(f"partis: {len(partis)}   native styles: {len(named)} of {len(u['buildable'])} buildable")
     print(f"buildable nodes with a canonical massing: {len(u['canonical'])}")
     print(f"  ...of which no parti names: {len(uncovered)}")
+    if fatals is not None:
+        broken = {k: v for k, v in fatals.items() if v}
+        print(f"composable against their own first native style: "
+              f"{len(fatals) - len(broken)} of {len(fatals)}")
+        for pid in sorted(broken, key=lambda k: -broken[k]):
+            print(f"  {broken[pid]:>3} fatal  {pid}")
 
     by_massing = defaultdict(list)
     for sid, cm in uncovered.items():

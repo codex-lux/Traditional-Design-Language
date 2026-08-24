@@ -48,7 +48,15 @@ EQUIVALENT = [
     # hall IS. Without it, a grand house whose entrance sequence is a gallery rather
     # than a discrete "hall" failed a rule that exists to catch an entry porch
     # leading nowhere -- when it led exactly where it should.
-    {"entrance-hall", "vestibule", "stair-hall", "gallery-corridor"},
+    # centre-passage added 24 Aug 2026 (OQ 37), on the same evidence and the same reasoning
+    # that added gallery-corridor: in an Anglo-American plan the centre passage IS the entrance
+    # hall -- the front door opens into it and every principal room opens off it, which is the
+    # definition this group holds. Without it a hyphen or gallery landing on the passage failed
+    # gallery-corridor's own must_adjoin stair-hall, and the five-part Palladian -- a diagram
+    # whose whole structure is a passage with wings off it -- could not be composed for its own
+    # style. The rule exists to catch a corridor that leads nowhere; a centre passage is the
+    # opposite of that.
+    {"entrance-hall", "vestibule", "stair-hall", "gallery-corridor", "centre-passage"},
     {"kitchen", "scullery"},
     {"pantry", "butlers-pantry", "larder"},
     {"bedroom", "bedchamber", "primary-bedroom"},
@@ -578,13 +586,26 @@ def check(plan, C=None, strict=False):
         elev = EL.build_elevation(plan)
         if "error" not in elev:
             for k, v in elev.get("measurements", {}).items():
+                # A None is the elevation layer saying it could not judge that quantity, and it
+                # must not enter the measurements dict at all: a key present with a None value
+                # is a measurement the fault evaluator will try to compare, and the only reason
+                # that did not already produce nonsense is that it threw and was swallowed.
+                # Absent is what "unjudged" looks like here (OQ 37).
+                if v is None: continue
                 meas.setdefault(k, v)
     except Exception:
         pass
     fr = core.check_measurements(meas, style=style) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
     for x in fr.get("faults_present", []):
+        # Quote the test that FAILED, not the first one that ran. A fault carrying secondary
+        # tests can have its primary pass and a secondary fail; reading results[0] then printed
+        # the passing measurement as the evidence for the fault -- "The House With No Fire: 2
+        # against at-least 1" on a Cape that has two chimneys. core.check_measurements now
+        # hands back `failing` beside `results`; the fallback keeps this working against an
+        # older core.
+        ev = (x.get("failing") or x["results"])[0]
         F.add(x["severity"] if x["severity"] in SEV_ORDER else "serious", "fault",
-              f"{x['name']}: {x['results'][0].get('value')} against {x['results'][0].get('required')}.",
+              f"{x['name']}: {ev.get('value')} against {ev.get('required')}.",
               rule=x["fault"], fix=x.get("fix_cheap"))
 
     counts = {}

@@ -1,116 +1,117 @@
 {
-  "id": "landing",
-  "name": "Landing",
-  "aka": [
-    "half-pace",
-    "quarter-pace",
-    "stair head"
+ "id": "landing",
+ "name": "Landing",
+ "aka": [
+  "half-pace",
+  "quarter-pace",
+  "stair head"
+ ],
+ "function_class": "circulation",
+ "privacy_rank": 3,
+ "confidence": "high",
+ "description": "The pause in a stair, and the place where the upper floor's privacy gradient is actually set. A landing that is merely a corner is a fault; a landing with a window is the cheapest good room in the house.",
+ "history": {
+  "appears": 1650,
+  "note": "The dog-leg stair with a half-pace landing arrives in England in the seventeenth century and replaces the newel stair. It is what makes a stair a piece of architecture rather than a device, and the window on the half-pace is the reason a Georgian stair hall is lit at all."
+ },
+ "dimensions": {
+  "area_sf": [
+   16,
+   60
   ],
-  "function_class": "circulation",
-  "privacy_rank": 3,
-  "confidence": "high",
-  "description": "The pause in a stair, and the place where the upper floor's privacy gradient is actually set. A landing that is merely a corner is a fault; a landing with a window is the cheapest good room in the house.",
-  "history": {
-    "appears": 1650,
-    "note": "The dog-leg stair with a half-pace landing arrives in England in the seventeenth century and replaces the newel stair. It is what makes a stair a piece of architecture rather than a device, and the window on the half-pace is the reason a Georgian stair hall is lit at all."
+  "width_ft": [
+   3,
+   8
+  ],
+  "ceiling_min_ft": 6.67,
+  "critical_dimension": "Landing depth must be at least the stair width, which is code and also the point at which two people can pass. Below that it is a turn, not a landing."
+ },
+ "furniture": [
+  {
+   "item": "window seat",
+   "footprint_in": [
+    18,
+    60
+   ],
+   "clearance_in": 30,
+   "essential": false,
+   "note": "The half-pace window seat is the single best return on square footage in a traditional plan."
+  }
+ ],
+ "daylight": {
+  "depth_multiplier": 2.0,
+  "sides_lit": 1,
+  "orientation": "North is fine and often best — the light is even and the stair is not a room you linger in for warmth.",
+  "glazing_fraction": [
+   0.15,
+   0.4
+  ],
+  "note": "A tall window on the half-pace lights two storeys at once, which is why it is worth more than its area suggests and why the Palladian window ended up there so often."
+ },
+ "adjacency": {
+  "must_adjoin": [
+   {
+    "room": "stair-hall",
+    "why": "By definition. VERTICAL_OK added 24 Aug 2026 (OQ 37, using OQ 35's mechanism): a landing is the top of a stair, and the stair hall it belongs to is on the storey BELOW it. Read as a same-floor rule this could only be satisfied by a house with a second stair hall upstairs, so every two-storey parti with a landing failed it -- which is the rule asking for the one thing a landing structurally cannot have.",
+    "relation": "direct-door",
+    "strength": "hard",
+    "vertical_ok": true
+   }
+  ],
+  "should_adjoin": [],
+  "must_not_adjoin": [
+   {
+    "room": "primary-bedroom",
+    "why": "A bedroom door opening directly onto a landing that is visible from the hall below removes the privacy buffer the upper floor depends on.",
+    "relation": "not-visible-from",
+    "strength": "preferred"
+   }
+  ],
+  "entered_from": [
+   "stair-hall"
+  ],
+  "never_a_through_room": false
+ },
+ "servicing": {
+  "plumbing": "none",
+  "ventilation": "The stack of the house: a landing window that opens is the cheapest summer ventilation available.",
+  "heat": "None needed",
+  "electrical": "Switched from both floors, which is code and is still got wrong.",
+  "stack_proximity_ft": null
+ },
+ "style_variation": [
+  {
+   "style": "georgian-colonial-american",
+   "trim_grade": "highest",
+   "note": "The half-pace window is often the most elaborate on the house — a Palladian or Venetian window on the rear elevation lighting the stair."
   },
-  "dimensions": {
-    "area_sf": [
-      16,
-      60
-    ],
-    "width_ft": [
-      3,
-      8
-    ],
-    "ceiling_min_ft": 6.67,
-    "critical_dimension": "Landing depth must be at least the stair width, which is code and also the point at which two people can pass. Below that it is a turn, not a landing."
-  },
-  "furniture": [
-    {
-      "item": "window seat",
-      "footprint_in": [
-        18,
-        60
-      ],
-      "clearance_in": 30,
-      "essential": false,
-      "note": "The half-pace window seat is the single best return on square footage in a traditional plan."
-    }
-  ],
-  "daylight": {
-    "depth_multiplier": 2.0,
-    "sides_lit": 1,
-    "orientation": "North is fine and often best — the light is even and the stair is not a room you linger in for warmth.",
-    "glazing_fraction": [
-      0.15,
-      0.4
-    ],
-    "note": "A tall window on the half-pace lights two storeys at once, which is why it is worth more than its area suggests and why the Palladian window ended up there so often."
-  },
-  "adjacency": {
-    "must_adjoin": [
-      {
-        "room": "stair-hall",
-        "why": "By definition.",
-        "relation": "direct-door",
-        "strength": "hard"
-      }
-    ],
-    "should_adjoin": [],
-    "must_not_adjoin": [
-      {
-        "room": "primary-bedroom",
-        "why": "A bedroom door opening directly onto a landing that is visible from the hall below removes the privacy buffer the upper floor depends on.",
-        "relation": "not-visible-from",
-        "strength": "preferred"
-      }
-    ],
-    "entered_from": [
-      "stair-hall"
-    ],
-    "never_a_through_room": false
-  },
-  "servicing": {
-    "plumbing": "none",
-    "ventilation": "The stack of the house: a landing window that opens is the cheapest summer ventilation available.",
-    "heat": "None needed",
-    "electrical": "Switched from both floors, which is code and is still got wrong.",
-    "stack_proximity_ft": null
-  },
-  "style_variation": [
-    {
-      "style": "georgian-colonial-american",
-      "trim_grade": "highest",
-      "note": "The half-pace window is often the most elaborate on the house — a Palladian or Venetian window on the rear elevation lighting the stair."
-    },
-    {
-      "style": "craftsman",
-      "trim_grade": "high",
-      "note": "Landing seat with storage beneath, treated as joinery."
-    }
-  ],
-  "code": [
-    {
-      "requirement": "Landing depth not less than the stair width, minimum 36 in",
-      "ref": "IRC R311.7.6"
-    }
-  ],
-  "massing_fit": [
-    "four-over-four",
-    "side-hall-double-pile",
-    "foursquare",
-    "i-house",
-    "townhouse-row"
-  ],
-  "slots": [
-    "stair_type",
-    "newel_balustrade",
-    "daylight_strategy",
-    "special_window"
-  ],
-  "sources": [
-    "IRC R311.7.6",
-    "Waterman, The Dwellings of Colonial America"
-  ]
+  {
+   "style": "craftsman",
+   "trim_grade": "high",
+   "note": "Landing seat with storage beneath, treated as joinery."
+  }
+ ],
+ "code": [
+  {
+   "requirement": "Landing depth not less than the stair width, minimum 36 in",
+   "ref": "IRC R311.7.6"
+  }
+ ],
+ "massing_fit": [
+  "four-over-four",
+  "side-hall-double-pile",
+  "foursquare",
+  "i-house",
+  "townhouse-row"
+ ],
+ "slots": [
+  "stair_type",
+  "newel_balustrade",
+  "daylight_strategy",
+  "special_window"
+ ],
+ "sources": [
+  "IRC R311.7.6",
+  "Waterman, The Dwellings of Colonial America"
+ ]
 }

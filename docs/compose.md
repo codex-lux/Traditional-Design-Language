@@ -64,3 +64,16 @@ and could not fix — from its point of view the area had been spent.
 
 So a courtyard brief now returns a house of the requested heated area inside a visibly larger
 block, and `footprint.heated_area_sf` beside `footprint.area_sf` is where the difference is read.
+
+## Every parti must work for the style it was written for (OQ 37)
+
+`build/check_partis.py` check 10 instantiates each parti against the first style in its own
+`styles` array and runs `plan_check` on the result. A fatal is an error. It is **differential**:
+each parti is compared against a control diagram run on the same style, keyed on the requirement
+rather than the measured value, so a fault that belongs to the style's own kit or elevation is
+reported as the style's and not blamed on the diagram.
+
+This exists because five of twenty-one partis were carrying fatal findings against their own
+native styles, and a fatal is 100 points against at most 140 for nativity — so the composer,
+working exactly as designed, would not recommend them. A Charleston-single-house brief came back
+with a centre-passage single pile. See `docs/reports/oq-37-partis-that-fail-their-own-style.md`.

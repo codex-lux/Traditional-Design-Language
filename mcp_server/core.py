@@ -496,6 +496,13 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
                  (s["severity"] for s in f.get("severity_by_style", []) if s["style"] == style), f["severity"]),
                "slots": f["slots"], "results": ev}
         if failing:
+            # The tests that actually failed, kept apart from the ones that merely ran. A fault
+            # with secondary tests can have its PRIMARY pass and a secondary fail -- which is
+            # the fault being present -- and a caller reporting results[0] then quotes the
+            # passing number as the evidence. build/plan_check.py did exactly that: a Cape with
+            # two chimneys was reported as "The House With No Fire: 2 against at-least 1", a
+            # sentence in which every number is right and the claim is nonsense.
+            row["failing"] = failing
             row["symptom"] = f["symptom"]
             row["fix_cheap"] = (f.get("fixes") or {}).get("cheap")
             row["fix_right"] = (f.get("fixes") or {}).get("right")

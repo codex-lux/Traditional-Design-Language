@@ -537,16 +537,16 @@ def _derive_measurements(elev):
         "main_block_ridge_height": roof.get("grade_to_ridge_in"), "main_block_height_in": roof.get("grade_to_ridge_in"),
         "count_of_distinct_ridge_heights_on_the_main_block": 1, "count_of_distinct_roof_slope_angles_on_the_building": 1,
         "min_absolute_difference_between_distinct_slope_angles_deg": 0.0,
-        "visible_chimney_count": roof.get("visible_chimney_count", 0),
+        "visible_chimney_count": roof.get("visible_chimney_count"),
         "stack_height_above_ridge_in": roof.get("stack_height_above_ridge_in"),
         "cap_projection_beyond_stack_face_in": 4.0, "chimney_least_plan_dimension_in": 36.0, "chimney_width_in": 36.0,
         "chimney_depth_in": 20.0, "chimney_visible_face_width_in": 36.0,
-        "count_of_stacks_with_a_visible_consequence_at_the_wall": roof.get("visible_chimney_count", 0),
+        "count_of_stacks_with_a_visible_consequence_at_the_wall": roof.get("visible_chimney_count"),
         "count_of_sheet_metal_caps_or_louvred_shrouds_at_the_stack_head": 0,
         "count_of_horizontal_shadow_lines_in_the_top_18in_of_the_stack": 1,
         "dormer_count": 0,
         "total_ridge_length_in": front["outside_width_in"], "ridge_length_finished_in_the_roofs_own_material_in": front["outside_width_in"],
-        "visible_stack_count": roof.get("visible_chimney_count", 0),
+        "visible_stack_count": roof.get("visible_chimney_count"),
         "total_eave_to_ridge_height_in": roof.get("roof_eave_to_ridge_height_in"),
         "main_roof_pitch": elev["roof_record"]["main"].get("pitch_rise_per_12"),
         # These are honest absence facts, not guesses: this generator places chimneys, windows,
@@ -736,7 +736,20 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "roof_eave_to_ridge_height_in": round((ridge_ft - grade_to_eave_ft) * 12, 2) if ridge_ft else None,
         "wall_height_grade_to_eave_in": round((grade_to_eave_ft - ground["grade_to_floor_ft"]) * 12, 2),
         "grade_to_ridge_in": round(ridge_ft * 12, 2) if ridge_ft else None,
-        "visible_chimney_count": len(roof.get("chimneys", {}).get("positions", [])),
+        # OQ 37: None, not 0, when the roof pass did not PLACE chimneys as opposed to placing
+        # none. roof.py models gable-end stacks only and says so in its own note -- a
+        # central-stack massing (cape-cod-massing, saltbox, garrison-block) comes back with an
+        # empty positions list meaning "not modelled here", and reporting that as a count of
+        # zero handed the fault corpus an evaluated measurement where it had none. The
+        # consequence was faults/chimney-omitted.json firing FATAL on a parti named
+        # cape-central-chimney for having no chimney, which is unjudged reported as
+        # evaluated-and-failed -- the corpus's first discipline, inverted.
+        # roof.py never concludes "this house has no chimney" -- every branch that returns an
+        # empty positions list says in its own note that it did not model the case (a central
+        # stack, a hipped roof with no gable end, a ridge it could not judge). So an empty list
+        # is could-not-evaluate, and the only honest count is None.
+        "visible_chimney_count": (len(roof["chimneys"]["positions"])
+                                  if (roof.get("chimneys") or {}).get("positions") else None),
         "stack_height_above_ridge_in": round(roof["chimneys"]["positions"][0]["height_above_ridge_ft"] * 12, 2) if roof.get("chimneys", {}).get("positions") else None,
     }
 

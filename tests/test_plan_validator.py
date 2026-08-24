@@ -29,7 +29,11 @@ class TestShippedPlans:
         result = plan_check_module.check(plan, corpus)
         assert result["counts"]["fatal"] == 4
         assert result["counts"]["serious"] == 70
-        assert result["counts"]["minor"] == 59
+        # 59 -> 57 on 24 Aug 2026 (OQ 37): centre-passage joined the entrance-hall EQUIVALENT
+        # group, so two rooms opening off the passage stopped being reported as wanting an
+        # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
+        # and serious are unmoved, which is what says this removed noise and not signal.
+        assert result["counts"]["minor"] == 57
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -50,7 +54,8 @@ class TestShippedPlans:
         result = plan_check_module.check(plan, corpus)
         assert result["counts"].get("fatal", 0) == 0
         assert result["counts"]["serious"] == 39
-        assert result["counts"]["minor"] == 67
+        # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 37).
+        assert result["counts"]["minor"] == 64
 
 
 class TestAdjacencyMechanics:
@@ -90,7 +95,13 @@ class TestAdjacencyMechanics:
             {"id": "pr", "type": "powder-room", "name": "Powder Room",
              "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
              "doors": [{"to": "cp", "width_ft": 2.5}]},
-            {"id": "cp", "type": "centre-passage", "name": "Centre Passage",
+            # RE-PINNED 24 Aug 2026 (OQ 37): this was a centre-passage, chosen as a room that
+            # is emphatically not an entrance hall. It is one -- the front door opens into it
+            # and every principal room opens off it -- and it joined plan_check's EQUIVALENT
+            # group, so the fixture stopped testing what it was written to test. A back hall is
+            # circulation and is genuinely not the entrance sequence, which is the property
+            # these two tests actually need. The assertions are unchanged.
+            {"id": "cp", "type": "back-hall", "name": "Back Hall",
              "width_ft": 10, "length_ft": 14, "exterior_walls": ["S"],
              "windows": [{"wall": "S", "width_ft": 3, "height_ft": 5, "count": 1}],
              "doors": [{"to": "pr", "width_ft": 2.5}, {"to": "exterior", "width_ft": 3.5}]},
@@ -113,7 +124,13 @@ class TestAdjacencyMechanics:
             {"id": "pr", "type": "powder-room", "name": "Powder Room",
              "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
              "doors": [{"to": "cp", "width_ft": 2.5}]},
-            {"id": "cp", "type": "centre-passage", "name": "Centre Passage",
+            # RE-PINNED 24 Aug 2026 (OQ 37): this was a centre-passage, chosen as a room that
+            # is emphatically not an entrance hall. It is one -- the front door opens into it
+            # and every principal room opens off it -- and it joined plan_check's EQUIVALENT
+            # group, so the fixture stopped testing what it was written to test. A back hall is
+            # circulation and is genuinely not the entrance sequence, which is the property
+            # these two tests actually need. The assertions are unchanged.
+            {"id": "cp", "type": "back-hall", "name": "Back Hall",
              "width_ft": 10, "length_ft": 14, "exterior_walls": ["S"],
              "windows": [{"wall": "S", "width_ft": 3, "height_ft": 5, "count": 1}],
              "doors": [{"to": "pr", "width_ft": 2.5}, {"to": "exterior", "width_ft": 3.5}]},
