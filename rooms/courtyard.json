@@ -20,22 +20,22 @@
   "dimensions": {
     "area_sf": [
       200,
-      3000
+      1200
     ],
     "width_ft": [
       14,
-      60
+      40
     ],
     "length_ft": [
       14,
-      70
+      45
     ],
     "proportion": [
       1.0,
       2.2
     ],
     "ceiling_min_ft": null,
-    "critical_dimension": "THE RATIO OF THE COURT'S WIDTH TO THE HEIGHT OF THE WALLS AROUND IT, and it is the number that decides whether the room works at all. Call it W/H. Below about 0.8 the court is a light well: its floor never sees the sun, the rooms around it are dim, and it is a shaft rather than a room. Between about 1.0 and 2.0 it is a courtyard proper - shaded through the middle of the day, sunlit at its edges morning and evening, and deep enough to hold the night's cold air. Above about 3.0 it has stopped being a court and become a yard the house happens to surround: the cold-air pool blows out, the floor bakes, and the enclosure is doing nothing the walls of a garden would not do. A single-storey house with a 10 ft eave therefore wants a court roughly 10 to 20 ft across; a two-storey Mexican patio with a 22 ft eave wants 22 to 44. THE SECOND DIMENSION is the covered walk around it, which in the courtyard types IS the house's corridor: 6 ft is the floor for passing, 9 ft if it is also to be dined in - see rooms/loggia.json, which is that walk. The third is the smallest court that can still be planted and still be walked around, which is about 14 ft square; below that, drop the planting and accept a light well."
+    "critical_dimension": "THE RATIO OF THE COURT'S WIDTH TO THE HEIGHT OF THE WALLS AROUND IT, and it is the number that decides whether the room works at all. Call it W/H. Below about 0.8 the court is a light well: its floor never sees the sun, the rooms around it are dim, and it is a shaft rather than a room. Between about 1.0 and 2.0 it is a courtyard proper - shaded through the middle of the day, sunlit at its edges morning and evening, and deep enough to hold the night's cold air. Above about 3.0 it has stopped being a court and become a yard the house happens to surround: the cold-air pool blows out, the floor bakes, and the enclosure is doing nothing the walls of a garden would not do. A single-storey house with a 10 ft eave therefore wants a court roughly 10 to 20 ft across; a two-storey Mexican patio with a 22 ft eave wants 22 to 44. THE SECOND DIMENSION is the covered walk around it, which in the courtyard types IS the house's corridor: 6 ft is the floor for passing, 9 ft if it is also to be dined in - see rooms/loggia.json, which is that walk. The third is the smallest court that can still be planted and still be walked around, which is about 14 ft square; below that, drop the planting and accept a light well. ON THE BAND ABOVE: it is set for the court of a HOUSE - roughly 14 to 40 ft across, which covers the Andalusian patio, the New Mexico placita and the revival patio. The great hacienda courts run to 60 or 70 ft and 3,000 sf and are deliberately outside it: at that size the court is a working yard the ranges enclose, the cold-air pool no longer forms, and the building is an estate rather than a house. Composing against a 3,000 sf midpoint would put half a brief's floor area into the void before a single room was sized."
   },
   "furniture": [
     {

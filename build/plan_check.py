@@ -172,8 +172,24 @@ def check(plan, C=None, strict=False):
         return out
 
     def circulation(x):
+        """Does this room carry the plan's movement?
+
+        Normally that is its function_class. But a whole family of house types -- the courtyard
+        corredor, the Creole gallery, the Charleston piazza -- run their entire circulation
+        through a room the catalogue types as `outdoor`, because it is roofed and open rather
+        than enclosed. In those plans the gallery IS the corridor: every room opens onto it and
+        onto nothing else. Judged on function_class alone the validator cannot see that, and
+        reports every bedroom in a courtyard house as failing to reach a bathroom -- which is
+        the corridor, the correct answer, being read as a fault. The test is what the plan does
+        with the room rather than what the room is: an outdoor room with doors to three or more
+        rooms is being used as circulation. Two doors is a porch you pass through; three is a
+        gallery. (WP-4.5)"""
         t = C["rooms"].get(rooms[x]["type"])
-        return bool(t) and t["function_class"] in ("circulation", "threshold")
+        if not t: return False
+        if t["function_class"] in ("circulation", "threshold"): return True
+        if t["function_class"] == "outdoor":
+            return len([d for d in adj[x] if d in rooms]) >= 3
+        return False
 
     def types_near(rid):
         """Directly adjacent, plus anything one hop further through a hall.

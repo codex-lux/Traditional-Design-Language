@@ -1,0 +1,305 @@
+{
+  "id": "courtyard-and-portal",
+  "name": "Courtyard and Portal",
+  "aka": [
+    "patio plan",
+    "casa de patio",
+    "hacienda plan",
+    "peristyle plan",
+    "placita plan"
+  ],
+  "description": "Rooms in single-pile ranges around an open court, entered from a covered walk on the court rather than from any interior corridor. The house turns a nearly blind face to the street and opens entirely inward through one controlled passage. This is the oldest domestic diagram still in use and the most durable hot-climate house there is, and its logic is the exact inverse of the Anglo-American plan: there is no hall, no central stair, and no principal facade in the Georgian sense - the court is the hall, the walk is the corridor, and the composed face is the one nobody outside can see. Because every room is one room deep and opens on the court, every room is cross-ventilated and lit from two sides; because the ranges enclose the court, the court holds the night's cold air through the afternoon. Take either half away and the diagram stops working.",
+  "massing": "courtyard-full",
+  "alternate_massings": [
+    "courtyard-u",
+    "gallery-house"
+  ],
+  "styles": [
+    "andalusian-courtyard-vernacular",
+    "andalusian-spanish-revival",
+    "california-mission-colonial",
+    "italian-renaissance",
+    "mexican-colonial",
+    "mexican-hacienda",
+    "moorish-andalusian",
+    "mudejar",
+    "spanish-colonial-american",
+    "spanish-colonial-revival",
+    "roman-classical",
+    "greek-classical"
+  ],
+  "groupings": [
+    "kitchen-work-core",
+    "primary-suite",
+    "secondary-bedroom-cluster"
+  ],
+  "circulation_parti": "gallery",
+  "storeys": 1,
+  "area_range_sf": [
+    1800,
+    9000
+  ],
+  "bedroom_range": [
+    2,
+    6
+  ],
+  "rooms": [
+    {
+      "id": "zaguan",
+      "type": "cross-passage",
+      "level": 0,
+      "name": "Zaguán",
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "exterior",
+        "court"
+      ],
+      "note": "The one controlled entry, and the whole threshold of the type. A passage deep enough and dark enough that the street is left behind before the court is reached - in the Mexican houses wide enough to admit a horse and cart, in the Andalusian ones just wide enough for two people and closed at the court end by a grille that lets the patio be seen and not entered."
+    },
+    {
+      "id": "court",
+      "type": "courtyard",
+      "level": 0,
+      "name": "Patio",
+      "doors": [
+        "zaguan",
+        "walk"
+      ],
+      "area_weight": 0.18,
+      "note": "The organising void. Its width against the height of the ranges around it is the number the whole diagram turns on - see rooms/courtyard.json's critical_dimension."
+    },
+    {
+      "id": "walk",
+      "type": "loggia",
+      "level": 0,
+      "name": "Corredor",
+      "doors": [
+        "court",
+        "sala",
+        "comedor",
+        "kitchen",
+        "chamber1",
+        "chamber2",
+        "chamber3",
+        "primary",
+        "study"
+      ],
+      "area_weight": 0.12,
+      "note": "The covered walk IS the corridor. Every room is entered from it and from nothing else, which is why this parti has no back-hall, no passage and no landing: the house's entire circulation is this one continuous roofed edge around the court."
+    },
+    {
+      "id": "sala",
+      "type": "living-room",
+      "level": 0,
+      "name": "Sala",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "walk",
+        "comedor"
+      ],
+      "area_weight": 0.14,
+      "note": "The principal room, and it belongs in the range that faces south across the court - the one that takes winter sun and is easy to shade in summer."
+    },
+    {
+      "id": "comedor",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Comedor",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "walk",
+        "sala"
+      ],
+      "area_weight": 0.1
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Cocina",
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "comedor",
+        "despensa",
+        "walk"
+      ],
+      "fixtures": [
+        "sink",
+        "range"
+      ],
+      "area_weight": 0.09,
+      "note": "On the court like everything else. Food crosses the walk rather than a service corridor, which is the arrangement the type has always had and the one a modern brief usually wants changed. A direct door to the comedor as well as the walk: the two sit in adjacent ranges and the historic houses have both routes, the door for service and the corredor for everything else. Without it the plan trips the kitchen-to-dining-room rule at fatal, and it would be tripping it for a route the type genuinely has."
+    },
+    {
+      "id": "despensa",
+      "type": "larder",
+      "level": 0,
+      "name": "Despensa",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 0,
+      "name": "Recámara Principal",
+      "exterior_walls": [
+        "W"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "walk",
+        "primarybath"
+      ],
+      "area_weight": 0.11
+    },
+    {
+      "id": "primarybath",
+      "type": "primary-bathroom",
+      "level": 0,
+      "name": "Bath",
+      "required": false,
+      "doors": [
+        "primary"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "shower"
+      ],
+      "note": "Not historic - the type predates the fitted bathroom entirely - but a contemporary brief will not accept its absence, and it is placed off the primary rather than off the walk so the suite is a suite."
+    },
+    {
+      "id": "chamber1",
+      "type": "bedroom",
+      "level": 0,
+      "name": "Recámara",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "W"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "walk"
+      ],
+      "area_weight": 0.08
+    },
+    {
+      "id": "chamber2",
+      "type": "bedroom",
+      "level": 0,
+      "name": "Recámara",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "walk"
+      ],
+      "area_weight": 0.08
+    },
+    {
+      "id": "chamber3",
+      "type": "bedroom",
+      "level": 0,
+      "name": "Recámara",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "walk"
+      ],
+      "area_weight": 0.07
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 0,
+      "name": "Bath",
+      "required": false,
+      "doors": [
+        "walk"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ]
+    },
+    {
+      "id": "study",
+      "type": "study",
+      "level": 0,
+      "name": "Despacho",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "walk"
+      ],
+      "area_weight": 0.06
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "widening",
+      "adding-a-link"
+    ],
+    "bay_module_ft": 11,
+    "min_bay_count": 3,
+    "max_bay_count": 8,
+    "note": "This diagram does not grow the way an Anglo house does. It grows by lengthening the ranges around the court, which widens the court with them, and past a certain size by adding a SECOND court behind the first for service and animals rather than by making one court bigger - the massing catalogue's own expansion_logic says so. Widening the court past about twice the height of the ranges is not growth, it is the loss of the thing that made it a court."
+  },
+  "trades_away": "Every interior corridor, and with it the possibility of moving through the house under cover in bad weather - the walk is roofed but open, and in the wet season you get wet. It also trades away the compact heated envelope: a single-pile range around a court has roughly twice the exterior wall of a double-pile box of the same area, which is exactly what makes it work in Seville and exactly what makes it expensive to heat anywhere with a winter. And it trades away the street: there is no front to compose, no principal facade to be judged by, and a brief that wants both kerb appeal and a courtyard is asking for two different houses.",
+  "exemplars": [
+    "Casa de Pilatos, Seville, from 1483 - the patio at its most developed",
+    "Hacienda de San Gabriel de Barrera, Guanajuato, Mexico, 18th century",
+    "Palacio de las Dueñas, Seville - the two-court arrangement, principal and service",
+    "Casa del Fauno, Pompeii - the Roman atrium-and-peristyle version of the same idea",
+    "El Palacio de Los Gobernadores, Santa Fe, from 1610 - the placita at its plainest"
+  ],
+  "sources": [
+    "massings/catalog.json: courtyard-full ('one controlled entry - the zaguan - carries the entire threshold sequence') and courtyard-u",
+    "rooms/courtyard.json and rooms/loggia.json, which carry this diagram's two defining rooms and the arithmetic behind them",
+    "styles/mexican-hacienda.json, styles/andalusian-courtyard-vernacular.json, styles/spanish-colonial-american.json",
+    "editorial: the room list is this corpus's reduction of the type to a composable minimum, not a transcription of any one house"
+  ],
+  "confidence": "high"
+}

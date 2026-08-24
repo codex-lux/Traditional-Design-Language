@@ -106,6 +106,7 @@
     "center-hall",
     "central-chimney-lobby",
     "enfilade",
+    "gallery",
     "hall-and-parlor",
     "open-plan",
     "side-hall"
@@ -128,6 +129,7 @@
     "Cromley, The Food Axis",
     "University of Illinois Small Homes Council kitchen studies, 1949-1954",
     "NKBA planning guidelines",
-    "WP-4.5 widened circulation_parti: Widened by WP-4.5. The list held only additive, enfilade and open-plan, which excluded every centre-hall and side-hall house in the corpus - and every Georgian in it has a kitchen work core. Nothing had ever cross-referenced partis against groupings, so the under-enumeration was invisible until build/check_partis.py looked."
+    "WP-4.5 widened circulation_parti: Widened by WP-4.5. The list held only additive, enfilade and open-plan, which excluded every centre-hall and side-hall house in the corpus - and every Georgian in it has a kitchen work core. Nothing had ever cross-referenced partis against groupings, so the under-enumeration was invisible until build/check_partis.py looked.",
+    "WP-4.5: 'gallery' added — a courtyard house's kitchen work core is entered from the covered walk like every other room, which is what a gallery circulation IS."
   ]
 }
