@@ -12,9 +12,23 @@ import json, os, glob, re, functools, math, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+def _mod(name, path):
+    """Load a sibling module by path, once per process.
+
+    Delegates to build/modcache.py (OQ 28): the by-path pattern this corpus
+    uses everywhere returns a fresh module object per call, which meant
+    _data()'s lru_cache below was rebuilt from the whole corpus on every
+    entry point. Same signature and same standalone behaviour, one execution.
+    """
+    import sys as _sys
+    _b = os.path.join(ROOT, "build")
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache as _mc
+    return _mc.load(name, path)
+
 def _load_engine():
-    spec = importlib.util.spec_from_file_location("pe", os.path.join(ROOT, "build", "proportion_engine.py"))
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+    return _mod("pe", os.path.join(ROOT, "build", "proportion_engine.py"))
 
 @functools.lru_cache(maxsize=1)
 def _data():
@@ -410,9 +424,7 @@ def _eval_test(t, measurements):
             "required": required, "passes": ok, "units": t.get("units")}
 
 def _load_constraint_vocab():
-    spec = importlib.util.spec_from_file_location("constraint_vocabulary",
-                                                    os.path.join(ROOT, "build", "constraint_vocabulary.py"))
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+    return _mod("constraint_vocabulary", os.path.join(ROOT, "build", "constraint_vocabulary.py"))
 
 def check_style_constraints(style, measurements):
     """Evaluate a style's own constraint tests (schema/constraint.schema.json, WP-1.1) against a
@@ -661,8 +673,7 @@ def check_plan(plan, strict=False):
     return pc.check(plan, strict=strict)
 
 def _load_plan_checker():
-    spec = importlib.util.spec_from_file_location("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+    return _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
 
 def plan_schema():
     return {"schema": json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))),
@@ -675,8 +686,7 @@ def plan_schema():
 
 # ----------------------------------------------------------------- compose
 def _composer():
-    spec = importlib.util.spec_from_file_location("compose", os.path.join(ROOT, "build", "compose.py"))
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+    return _mod("compose", os.path.join(ROOT, "build", "compose.py"))
 
 def compose(brief, candidates=4, include_plans=False):
     try:
@@ -723,8 +733,7 @@ def brief_schema():
 # ----------------------------------------------------------------- geometry
 def place_plan(plan, parti=None, candidates=250, svg_path=None):
     """Place room rectangles in a footprint. Both levels are solved together."""
-    spec = importlib.util.spec_from_file_location("geometry", os.path.join(ROOT, "build", "geometry.py"))
-    geo = importlib.util.module_from_spec(spec); spec.loader.exec_module(geo)
+    geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     pt = None
     if parti:
         f = os.path.join(ROOT, "partis", f"{parti}.json")
@@ -732,8 +741,7 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None):
     out = geo.solve(copy_json(plan), pt, candidates)
     if "error" in out: return out
     if svg_path:
-        spec2 = importlib.util.spec_from_file_location("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
-        rp = importlib.util.module_from_spec(spec2); spec2.loader.exec_module(rp)
+        rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         rp.render(out, svg_path); out["svg"] = svg_path
     return {"footprint": out["footprint"], "geometry_report": out["geometry_report"],
             "rooms": [{"level": lv.get("index"), "id": r["id"], "name": r.get("name"),

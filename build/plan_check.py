@@ -21,8 +21,17 @@ STRENGTH_SEV = {"hard": "fatal", "strong": "serious", "preferred": "minor"}
 CONSTRAINT_SEV = {"hard": "serious", "soft": "minor", "advisory": "advisory"}
 
 def _load(name, path):
-    spec = importlib.util.spec_from_file_location(name, path)
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+    # Delegates to build/modcache.py so a module is executed once per process
+    # rather than once per call. Same signature, same standalone-script
+    # behaviour; see that file's header for why (OQ 28). Loaded by path here
+    # because this file is itself usually loaded by path, so `build/` is not
+    # necessarily on sys.path yet.
+    import sys as _sys
+    _b = os.path.join(ROOT, "build")
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache as _mc
+    return _mc.load(name, path)
 
 # Genuinely interchangeable room types. A landing IS the stair hall at the head of the stair;
 # a walk-in closet satisfies a rule written for a closet. Without this the validator flags

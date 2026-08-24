@@ -36,7 +36,17 @@ import json, os, math, argparse, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
-    s = importlib.util.spec_from_file_location(n, p); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
+    # Delegates to build/modcache.py so a module is executed once per process
+    # rather than once per call. Same signature, same standalone-script
+    # behaviour; see that file's header for why (OQ 28). Loaded by path here
+    # because this file is itself usually loaded by path, so `build/` is not
+    # necessarily on sys.path yet.
+    import sys as _sys
+    _b = os.path.join(ROOT, "build")
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache as _mc
+    return _mc.load(n, p)
 PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
 GEOM = _mod("geometry", f"{ROOT}/build/geometry.py")
 ST = _mod("structure", f"{ROOT}/build/structure.py")
