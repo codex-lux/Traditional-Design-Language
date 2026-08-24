@@ -2,6 +2,8 @@
 
 One doc per layer, in stack order — bottom (the alphabet) to top (the platform). Read `../README.md` first for the overview; this index exists so a doc is never more than one hop from the layer it describes, and so nothing gets re-derived by hand from the data (see `../build/gen_readme_counts.py` for why that matters).
 
+Before the layers: [`../VISION.md`](../VISION.md) is the zoomed-out statement of what the project is for — the pattern-book lineage it resumes, the thesis that a house is a sentence in a language, and the commitments (unjudged is not passed; sources or an honest mark; prose beside the test) that the layers below are built to keep. It carries no counts and no status by design, so it cannot drift.
+
 | # | Layer | Doc | What it covers |
 |---|---|---|---|
 | 1 | Alphabet — style graph | [`model.md`](model.md) | Ranks, the two inheritance hierarchies (`member_of` vs `lineage`), edge semantics (`descends_from` / `references` / `regional_of` / `reacts_against` / `revives`), why the cascade only follows the first two. |

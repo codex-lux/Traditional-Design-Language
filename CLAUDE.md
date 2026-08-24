@@ -7,13 +7,15 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 
 ## Read these before doing anything
 
-1. **`STATE-OF-THE-PROJECT.md`** — what exists, what is half-built, what is unstarted.
+1. **`VISION.md`** — what the project is *for*, zoomed out. No counts, no status, so it does
+   not go stale. Read it once; it is what the rules below are protecting.
+2. **`STATE-OF-THE-PROJECT.md`** — what exists, what is half-built, what is unstarted.
    Revised 24 Aug 2026 against verified counts. Part III is the honest list of gaps.
-2. **`PLAN-OF-ACTION.md`** — the progress board at the top, then §1 "Operating rules for
+3. **`PLAN-OF-ACTION.md`** — the progress board at the top, then §1 "Operating rules for
    every agent" (non-negotiable), then the work package you are doing. Every WP carries a
    **Status** line. Original package text is left as written even where the work is done,
    so what was asked for stays legible beside what was delivered.
-3. The `docs/*.md` file for the layer you are touching. `docs/model.md` and
+4. The `docs/*.md` file for the layer you are touching. `docs/model.md` and
    `docs/inheritance.md` are the two that explain the data model itself.
 
 ## The rules that matter most
