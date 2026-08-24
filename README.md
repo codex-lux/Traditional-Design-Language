@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 95 element slots · 40 massings · 58 rooms · 17 groupings · 36 executable proportion packs · 209 named faults · 322 specified images · 12 partis · 24 MCP tools**
+**164 taxa · 476 lineage edges · 95 element slots · 40 massings · 60 rooms · 17 groupings · 36 executable proportion packs · 209 named faults · 322 specified images · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->
@@ -40,7 +40,7 @@ One file per style, variant, *and* family (159 total — 132 style/variant plus 
 **Georgian Colonial is filled end to end** as the depth-first proof: 88 of 95 slots specified or forbidden (95 as of WP-1.3's `wall_thickness_masonry`/`wall_thickness_frame` split — both open, unfilled, on every kit including this one), 417 variant records of which **119 are `forbidden`**, 417 typed parameters (172 `editorial`, 14 `invented`), 33 slots with proportion-pack precedence, 5 code conflicts, 4 slots marked `invented` because no precedent exists. Tidewater Georgian is then written as a 24-parameter override and English Georgian as an 8-parameter override, each resolving the rest from the parent — `build/resolve_kit.py` prints the provenance with a source column.
 
 **5. Rooms and groupings** (`rooms/`, `groupings/`) — see `docs/rooms.md`
-58 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 17 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
+60 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 17 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
 
 **6. The fault corpus** (`faults/`) — see `docs/faults.md`
 209 named errors, **element-first**: they hang off slots, not styles, because the half-width shutter is wrong on every house that has shutters. 93 of 95 slots covered — the two newest (`wall_thickness_masonry`/`wall_thickness_frame`, added in WP-1.3) have no fault authored against them yet. 846 style exceptions, 496 with numeric bounds — because a Georgian five-foot portico is a fatal fault by Craftsman rules and correct by its own. Every fault carries a `test`, so the corpus is executable: give it measurements from a photograph and it tells you which faults are present, which are clear, and which it could not judge.
@@ -51,7 +51,7 @@ Exactly one of 209 faults has `driver: ignorance`. The rest are stock sizes, tra
 The critic, built before the composer, because a composer needs a fitness function and this is it. Reads a hand-authorable plan record and checks it across five layers — rooms, adjacency and privacy, groupings, faults, code and style. Two worked examples ship with it: a deliberately ordinary production Colonial (4 fatal) and the same corpus applied carefully (0 fatal). The style layer's 660 constraints (`schema/constraint.schema.json`, `docs/constraints.md`) are now fully migrated — every constraint on every node that carries one has an id, a scope, and either a `test` (365, 55%) or an honest `scope: judgment` (295) — so a hard constraint's presence, clearance, or unjudged status is reported the same way a fault's is, never silently passed.
 
 **8. The composer** (`schema/brief.schema.json`, `partis/`, `build/compose.py`, `briefs/`) — see `docs/compose.md`
-Seeds from 12 canonical partis native to the style, sizes every room from the room catalogue, repairs against the validator until it stops improving, and returns four contrasting candidates ranked by fatal findings then style fidelity — each with what it trades away and a log of every assumption it made.
+Seeds from 21 canonical partis native to the style — as of WP-4.5 every buildable style with a canonical massing has at least one, where 39 of 132 did before — sizes every room from the room catalogue, repairs against the validator until it stops improving, and returns four contrasting candidates ranked by fatal findings then style fidelity — each with what it trades away and a log of every assumption it made.
 
 **9. Geometry** (`build/geometry.py`, `build/solver.py`, `build/render_plan.py`) — see `docs/geometry.md`
 Bay-grid slicing with the relaxations counted, both levels solved together so vertical alignment is a constraint rather than an afterthought. Emits coordinates into the plan record and an SVG rendered from them.

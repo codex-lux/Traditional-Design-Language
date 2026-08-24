@@ -14,7 +14,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **1 — Executable constraints** | WP-1.1, 1.2, 1.3 | **Complete** — 660/660 constraints migrated, 61.5% of hard constraints tested (bar was ≥60%) |
 | **2 — Composition** | WP-2.1, 2.2, 2.3, 2.4 | **Complete** — `build/solver.py` beats the best of 800 heuristic candidates by 10–24% and names a conflict set when a brief cannot be housed |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
-| **4 — Breadth** | WP-4.1, 4.2, 4.3 complete · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
+| **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5 complete · **4.4, 4.6, 4.7 not started** | **In progress** |
 | **5 — Platform** | none | **Not started** |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
@@ -22,8 +22,8 @@ Every package below carries a **Status** line. This is the summary. Original pac
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
 2. ~~**WP-4.3**~~ — **done 24 Aug 2026**. See `docs/reports/wp-4.3-the-garage.md`.
 3. ~~**WP-2.3**~~ — **done 24 Aug 2026**, closing Phase 2. `build/solver.py`. See `docs/reports/wp-2.3-real-solver.md`.
-4. **WP-4.5** — partis (39 of 132) now gate the composer's reach harder than kits ever did. **Next.**
-5. **WP-4.6**, then **WP-4.4** — packs (list ready from WP-4.1/OQ 30), then images.
+4. ~~**WP-4.5**~~ — **done 24 Aug 2026**: 21 partis, 129 of 132 styles native, 0 uncovered. See `docs/reports/wp-4.5-partis-to-full-coverage.md`.
+5. **WP-4.6**, then **WP-4.4** — packs (list ready from WP-4.1/OQ 30), then images. **WP-4.6 is next.**
 6. **Phase 5** — the last mile.
 
 WP-4.7 stays scope-only by design.
@@ -376,9 +376,11 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 ### WP-4.5 Rooms, groupings and partis to full coverage
 
-**Status: NOT STARTED, and now the sharper breadth gap.** Rooms are further along than this package assumes — all 58 already carry `style_variation`. Partis are unmoved at **39 of 132 styles**, and a style with a canonical massing but no native parti is served another style's diagram instead. `compose.py`'s `pick_partis` never refuses: nativity is worth +3.0 and a lineage relative +1.6, but the ranking subtracts only `fit * 6` against 100 per fatal, so a borrowed diagram with fewer fatals routinely outranks a native one. Measured: `spanish-colonial-revival`, whose canonical massing is `courtyard-u`, is composed as a Foursquare; so is `shingle-style`, whose canonical massing is `massed-picturesque`. Every layer downstream then works on the wrong diagram. The hard refusal exists only in `mcp_server/core.py`'s `list_partis`, which returns nothing for the 93 unnamed styles.
+**Status: COMPLETE (24 Aug 2026) on the parti criterion; the `style_variation` clause declared met at the corpus's own bar and out of scope at the literal one.** Partis 12 -> 21, native styles **39 -> 129 of 132**, nodes with a canonical massing and no native parti **90 -> 0**. Nine new diagrams (courtyard-and-portal, living-hall-picturesque, great-hall-h-plan, connected-farmstead, single-cell-hall, tower-villa, shotgun-linear, dogtrot-open-passage, octagon-radial) plus 36 style-list placements into diagrams that already existed. Two rooms authored (`courtyard`, `overlook`), eleven others deliberately not — `hall` already carries the great hall and the living hall, `cross-passage` the screens passage. `build/check_partis.py` added as a 22nd check, because nothing validated this catalogue at all.
 
-**The package text and this status line both used to say such a style "cannot be composed for at all." That was wrong, and the truth is worse** — a silent wrong answer rather than a refusal. Verified against the code and by running the composer, 24 Aug 2026.
+Three of the package's named dozen were skipped on the data and are named rather than dropped: `telescope` (canonical for no style — 0 unblocked), `split-level` (0 unblocked, and needs the schema decision now recorded as OQ 34), `foursquare side hall` (<=1, and `foursquare-quadrant` is already `circulation_parti: "side-hall"`).
+
+Four composer bugs found by running the diagrams rather than reading them: pick order was decided by filesystem order; massing affinity ignored `alternate_massings`; half the kits that state a ceiling height were never read; and the 3-bay floor *dropped* a one-room house rather than inflating it. And the finding that mattered most — nativity was worth `fit * 6` against 8 per serious finding, so a borrowed diagram routinely beat a native one, which adding nine partis turned into a Tidewater Georgian brief recommending an octagon. `NATIVITY_W` is now 20. See `docs/reports/wp-4.5-partis-to-full-coverage.md`; OQ 33, 34, 35 raised.
 
 **Depends on:** WP-2.1 (for the missing-room list). **Size:** medium.
 

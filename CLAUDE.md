@@ -54,19 +54,18 @@ Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_cons
 
 ## Where the work stands (24 Aug 2026)
 
-Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3. Phase 5 not started.
+Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 not started.
 
 164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 58 rooms · 16 groupings ·
-**12 partis naming only 39 of 132 styles** · 36 packs (129 of 132 nodes bound) ·
+**21 partis naming 129 of 132 styles, 0 uncovered** · 36 packs (129 of 132 nodes bound) ·
 660 constraints migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits
-populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · 330 tests.
+populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · 344 tests.
 
 **Next, in order:**
-1. **WP-4.5 — partis.** 39 of 132 now gates the composer's reach harder than anything else
-   in the system; a style with a canonical massing but no native parti cannot be composed
-   for at all. Note the package text is stale on rooms — all 58 already carry `style_variation`.
-2. **WP-4.6** (missing packs; list ready, OQ 30 names the Islamic/Moorish system as the
-   most-corroborated gap), then **WP-4.4** (HABS images), then Phase 5.
+1. **WP-4.6** — missing proportion packs. List ready from WP-4.1; OQ 30 names the
+   Islamic/Moorish arch-and-ornament system as the most-corroborated gap, and WP-4.5 has
+   just added a courtyard parti for the styles that want it.
+2. **WP-4.4** (HABS images), then Phase 5.
 
 WP-2.3 closed Phase 2 on 24 Aug 2026: `build/solver.py` states placement to CP-SAT, enforces
 room minimums instead of scoring them, and returns a named conflict set when a brief cannot be
@@ -97,11 +96,14 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   They are weights, at the 14 points `exterior_score` charges. Do not promote them to
   constraints; the corpus does not mean them that way.
 - **The composer does NOT refuse a style with no native parti — it borrows another style's
-  diagram and says so in a `why` string nobody reads.** Nativity is worth `+3.0` in
-  `pick_partis`, but the ranking subtracts only `fit * 6` against 100 per fatal, so a borrowed
-  diagram with fewer fatals routinely wins. `spanish-colonial-revival` (canonical massing
-  `courtyard-u`) composes as a Foursquare. The hard refusal exists only in `core.py`'s
-  `list_partis`. This is what WP-4.5 is for; do not read "39 of 132" as a gate that blocks.
+  diagram and says so in a `why` string nobody reads.** WP-4.5 closed the coverage gap (129 of
+  132 styles now native) and raised `NATIVITY_W` from 6 to 20 so a borrowed diagram no longer
+  routinely outranks a native one — at 6, five serious findings outweighed being the right
+  diagram, and a Tidewater Georgian brief came back recommending an octagon. The hard refusal
+  still exists only in `core.py`'s `list_partis`.
+- **Outdoor rooms are dropped before placement.** `geometry.py` and `solver.py` both filter on
+  `is_indoor`, so a courtyard — the void 19 styles are built around — composes and renders as
+  solid. Pre-existing, and OQ 33.
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.

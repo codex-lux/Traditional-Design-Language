@@ -106,7 +106,7 @@ The formulation the plan of action named had to be replaced on evidence, which i
 
 ~~**The garage.**~~ **Closed, 24 August 2026 (WP-4.3).** The catalog side the package asked for is built: `rooms/garage.json`, `groupings/garage-and-hyphen.json` (8 internal rules, 14 `attaches_to` entries including one `forbidden` massing), and `compose.py`'s `attach_garage()`, which places the garage by the grouping's attachment and refuses with a stated reason where the grouping records none — never by adjacency. All four remaining living nodes were bound, taking the corpus to 58 `garage_strategy` bindings. The acceptance holds and is tested both ways: the composer cannot reproduce the garage-beside-primary-bedroom fatal, and a guard test asserts the hand-authored spec Colonial still trips it, so the acceptance cannot pass because the rule broke. One finding was left standing on purpose — the daylight-depth rule is unsatisfiable for a garage and probably for every non-habitable room, recorded as OQ 31. See `docs/reports/wp-4.3-the-garage.md`.
 
-**Partis: still 39 of 132 styles.** Unmoved since the last review, and now the weakest link in Phase 4's breadth. The plan names the likely dozen: telescope, connected farmstead, hall-house, courtyard, the Creole gallery-and-cabinet variants, split-level Ranch, Foursquare with side hall, Shingle-style living hall. **Correcting this document's own earlier claim:** such a style is not refused, it is served another style's diagram. `compose.py`'s `pick_partis` scores nativity at +3.0 and a lineage relative at +1.6, but the ranking subtracts only `fit * 6` against 100 per fatal, so a borrowed diagram with fewer fatals routinely wins. Run the composer for `spanish-colonial-revival` (canonical massing `courtyard-u`) and it returns a Foursquare; `shingle-style` (canonical `massed-picturesque`) likewise. Geometry, structure, roof, elevation and the fault corpus then all work on the wrong diagram. The refusal exists only in `mcp_server/core.py`'s `list_partis`, which returns nothing for the 93 unnamed styles. A silent wrong answer gates the composer's reach more insidiously than a refusal would.
+~~**Partis: still 39 of 132 styles.**~~ **Closed, 24 August 2026 (WP-4.5).** 21 partis, **129 of 132 styles native, 0 uncovered** — every buildable style with a canonical massing now has a diagram of its own. Nine new partis and 36 style-list placements into diagrams that already existed. The gap was also described wrongly here, and the correction is above: such a style was never refused, it was silently served another style's diagram, and WP-4.5 found the reason — nativity was worth `fit * 6` in the composer's ranking against 8 points for a serious finding, so a borrowed diagram routinely beat a native one. Adding nine partis for it to borrow from turned that into a Tidewater Georgian brief recommending an octagon; the weight is now 20. See `docs/reports/wp-4.5-partis-to-full-coverage.md`.
 
 **Missing proportion packs (WP-4.6).** WP-4.1 produced the list and OQ 30 records the most-corroborated item: an Islamic/Moorish arch-and-ornament system, independently requested by three unrelated batches. Also wanted: Greek Doric as a standalone order, a Gothic Revival facade system, a Craftsman opening system and Prairie trim family, adobe and rammed-earth modules, a Dutch gambrel roof system, an ironwork system.
 
@@ -144,7 +144,7 @@ What is left divides cleanly into three kinds of work, and they are not equally 
 
 ~~**The rigour gap.**~~ **Closed.** The solver composed by preference; now it proves. WP-2.3 landed the same day, and with it Phase 2 — see Part III. What the package could not do it says plainly rather than implying: optimality is per slicing topology, not global.
 
-**The breadth gap.** Partis at 39 of 132 now gate the composer harder than anything else in the system — with Phase 2 closed they are the single thing most limiting what the compiler can be asked for, since a style with a canonical massing and no native parti is silently served another style's diagram (see Part III). Missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) was the small closing task here and is done.
+**The breadth gap.** Partis are closed (WP-4.5): 129 of 132 styles native, 0 uncovered. What remains is missing packs (WP-4.6, list ready and OQ 30 naming the most-corroborated item) and unsourced images (WP-4.4). WP-4.6 is next.
 
 **The last mile.** Details, guidelines, export, a workbench, ingestion. These turn a correct internal representation into something a builder and a plan-development lead can actually hold — and they are what the partnership, when it exists, will judge the system by.
 
@@ -160,13 +160,13 @@ That order keeps faith with the project's own founding discipline — validator 
 |---|---|---|---|
 | Alphabet | `elements/slots.json` | 95 slots / 8 groups (ontology 0.5.0) | Complete |
 | Alphabet | `massings/catalog.json` | 40, all with expansion logic | Complete |
-| Alphabet | `rooms/` | 58, all with `style_variation` | Complete |
+| Alphabet | `rooms/` | **60**, all with `style_variation` | Complete (+`courtyard`, `overlook` in WP-4.5) |
 | Grammar | `proportions/` | 36 packs, 158 conflicts | Complete; **bound to 129 of 132** |
 | Vocabulary | `styles/` | 164 nodes, 476 edges, 660 constraints, 624 affinities, 482 exemplars | Complete; **constraints executable** |
 | Vocabulary | constraints | 660 migrated, 365 tested, **61.5% of hard** | Clears the ≥60% bar |
 | Bindings | `kits/` | **159 files, 159 populated** | Complete (was 3 of 132) |
 | Solecisms | `faults/` | 209, 846 exceptions, all tested | Complete |
-| Phrases | `groupings/`, `partis/` | 17 / 12 (**39 of 132 styles native**) | Groupings complete; **partis are the gap** |
+| Phrases | `groupings/`, `partis/` | 17 / **21** (**129 of 132 styles native, 0 uncovered**) | **Complete — WP-4.5** |
 | Critic | `plan_check.py` | 7 layers incl. constraints + elevation | Functional; code advisory only |
 | Critic | `plans/reference/` | 14 transcribed (7 good, 7 bad) | Complete |
 | Generator | `compose.py`, 2 briefs | 4 candidates per brief, lot-aware | Functional |
@@ -178,7 +178,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Interface | `dist/` | html × 2, json, agent.md | Current |
 | Evidence | `assets/manifest.json` | 322 wanted, **0 sourced** | Records only — WP-4.4 |
 | Back-end | `construction/` | 2 catalogs (wall assemblies, floor structure) | Complete — WP-3.1's data side |
-| Governance | `docs/open-questions.md` | 32 items | OQ 20, 24, 28 answered; **27, 29, 30, 31, 32 live** |
+| Governance | `docs/open-questions.md` | 35 items | OQ 20, 24, 28 answered; **27, 29, 30, 31, 32, 33, 34, 35 live** |
 | Governance | `docs/reports/` | 17 package reports | One per completed WP, plus OQ 28 |
-| Checks | `build/check_*.py`, `validate.py` | 9 checkers | All pass |
-| Checks | `tests/` | **330 tests, 17 files** | All pass; one run, ~3 min; no CI |
+| Checks | `build/check_*.py`, `validate.py` | 10 checkers (+`check_partis.py`) | All pass |
+| Checks | `tests/` | **344 tests, 18 files** | All pass; one run, ~4 min; no CI |
