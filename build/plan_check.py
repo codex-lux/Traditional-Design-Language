@@ -276,7 +276,18 @@ def check(plan, C=None, strict=False):
         two_ended = any(OPP.get(w) in walls for w in walls)
         effective_depth = (l / 2.0) if (two_ended and l) else l
         reach = dm * wh * (1.5 if len(walls) >= 2 and not two_ended else 1.0) if wh else None
-        if wh and effective_depth and dm < 10 and reach and effective_depth > reach * 1.05:
+        # OQ 31, ruled 24 Aug 2026: a room may declare that this rule does not govern it. That is
+        # a THIRD state, not a pass -- the depth was never in question for a garage, which is
+        # deeper than any window can light and is not thereby defective. Reported at `info` so it
+        # appears in the record as a rule deliberately not applied, rather than vanishing, because
+        # a rule that quietly stops looking is exactly what this corpus refuses elsewhere.
+        governs = rt["daylight"].get("depth_governs", True)
+        if not governs and wh and effective_depth and reach and effective_depth > reach * 1.05:
+            F.add("info", "daylight",
+                  f"{label} is deeper than its daylight would reach, and the depth rule does not "
+                  f"govern this room type — not evaluated rather than passed.",
+                  room=rid, rule="rooms/%s.json daylight.depth_governs is false" % r["type"])
+        if governs and wh and effective_depth and dm < 10 and reach and effective_depth > reach * 1.05:
             how = ("lit from both ends, so measured at half its length" if two_ended
                    else "cross-lit, so the reach is relaxed by half" if len(walls) >= 2
                    else "lit from one side")

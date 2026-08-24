@@ -492,6 +492,34 @@ def derive_footprint(plan, parti, prep):
             "target_depth": target_depth, "need": need}
 
 
+def under_band(rects_by_level, prep):
+    """Rooms this layout placed below the floor of their own catalogue band.
+
+    OQ 32, ruled 24 Aug 2026. `level_score` charges a flat 12 points for a room under its band
+    and a candidate can win the search while paying it, so the spec Colonial's dining room comes
+    out at 91 sf against a 122 sf floor -- on every seed. Nothing reported it: the plan RECORD
+    still says 12 x 12, only the placement shrinks the room, and `plan_check.py` never reads
+    `room.geometry`, so no layer of the critic was looking at the number that changed.
+
+    The ruling was to report it here rather than to make the search refuse (which could leave a
+    brief with no candidate and no explanation) or to teach the critic to read geometry (a much
+    larger change every plan layer would feel). The search keeps its freedom to trade a room's
+    size against everything else, which is what a heuristic is for. It stops doing it silently."""
+    out = []
+    for idx, rects in rects_by_level.items():
+        for r in prep.get(idx, []):
+            rect = rects.get(r["id"])
+            if not rect: continue
+            got = rect[2] * rect[3]
+            lo, _hi = band(r["type"])
+            floor = lo * 0.85
+            if got < floor - 0.5:
+                out.append({"room": r["id"], "name": r.get("name") or r["id"], "type": r["type"],
+                            "placed_sf": round(got), "band_floor_sf": round(floor),
+                            "short_by_pct": round(100 * (floor - got) / floor)})
+    return sorted(out, key=lambda d: -d["short_by_pct"])
+
+
 def write_record(plan, levels, ground, upper, fp, report):
     """Write coordinates, footprint and geometry_report back into the plan record.
 
@@ -565,6 +593,16 @@ def solve(plan, parti=None, candidates=250, seed=7):
         "vertical": best["vnotes"] or ["Every upper wall continues to a wall below and every stack lands."],
         "reading": ("Ground and upper were solved together and scored as a pair, so an upper layout that would "
                     "score better alone is rejected when it leaves walls unsupported.")}
+    ub = under_band({0: best["ground"], 1: best["upper"]}, prep)
+    report["under_band"] = {
+        "count": len(ub), "rooms": ub,
+        "note": ("Rooms placed below the floor of their own catalogue band. The search is allowed to "
+                 "trade a room's size against everything else it is scoring, and it charges itself 12 "
+                 "points each time -- but the plan record still carries the room's DECLARED size, and "
+                 "nothing downstream reads these coordinates, so without this list the trade is "
+                 "invisible. A room below its band is a defect that survives the life of the building. "
+                 "build/solver.py refuses to make this trade at all (OQ 32)." if ub
+                 else "Every room was placed at or above the floor of its own catalogue band.")}
     return write_record(plan, levels, best["ground"], best["upper"], fp, report)
 
 # ---------------------------------------------------------------- cli
