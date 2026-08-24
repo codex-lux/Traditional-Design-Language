@@ -108,14 +108,21 @@ Several packages are blocked on decisions that are design judgments rather than 
 - ~~**OQ 20 — the cascade at depth.**~~ Answered with corpus-wide data in WP-4.2 wave B: ~26 real merge problems across 129 kits, of three kinds, none a mechanism failure. See `docs/reports/wp-4.2-wave-b-kit-fill.md`.
 - ~~**OQ 23, 25**~~ — struck in WP-0.2.
 
-**Live, and worth Lucas's attention:**
+**All ruled, 24 August 2026.** Every question that was blocking a package now has a decision recorded against it in `docs/open-questions.md`; nothing in the remaining plan waits on a judgment.
 
-- **OQ 28 — the `_load()` performance ceiling.** Not a design judgment, an unfixed bug with a known cause; first item in the revised order above.
-- **OQ 29 — the three deliberately unbound proportion-pack nodes.** WP-4.1 honoured the task text ("do not bind the wrong pack") over the literal 132-of-132 acceptance line. Worth confirming that call stands.
-- **OQ 30 — the missing Islamic/Moorish arch-and-ornament pack**, independently requested by three unrelated WP-4.1 batches. Feeds WP-4.6.
-- **OQ 27 — tagging date-blocked judgment constraints.** Undecided; the untagged pool is now 295 constraints.
-- **The `hybridizes_with` transmission problem** (new, from WP-4.2): an edge drawn to carry one narrow aspect of a donor's practice transmits the donor's whole kit. Patched node-by-node; a slot-scope allowlist would fix the class. Needs a ruling on whether to spend a schema change on it.
-- **OQ 1, 2, 3, 4, 6** — taxonomy judgments, still not blocking.
+- **OQ 33 — the courtyard void.** Ruled: reserved voids. Both placement engines carry outdoor rooms as placed, dimensioned voids, excluded from the area budget and the envelope, drawn as open.
+- **OQ 35 — vertical adjacency.** Ruled: adjacency rules may declare `relation: above` / `below`, and `plan_check.py` evaluates them across levels. Removes both of WP-4.5's workarounds.
+- **OQ 12 and OQ 13 — the ontology changes ruled long ago and never executed.** Ruled: execute both, as ontology 0.6.0 — split `window_head` by trade, enforce the entablature cross-references.
+- **OQ 36 — `hybridizes_with`.** Ruled: spend the schema change, a slot-scope allowlist on the edge.
+- **OQ 32 — the heuristic's silent under-band placement.** Ruled: report it in `geometry_report`, do not make the heuristic refuse and do not teach `plan_check` to read `room.geometry`.
+- **OQ 31 — the garage daylight rule.** Ruled: a `daylight.depth_governs: false` opt-out on the room record.
+- **OQ 34 — no half-storey.** Ruled: add an optional `level_offset_ft` beside `level`, which keeps its meaning.
+- **OQ 30 — the Islamic/Moorish pack.** Ruled: build it first in WP-4.6.
+- **OQ 27 — untagged judgment constraints.** Ruled: tag with `blocked_by` during WP-4.6.
+- **OQ 14 — three rail slots.** Ruled: keep the three, state the shared code conflict once. **OQ 26** folds into the same pass.
+- **OQ 21 — variant `op` string matching.** Closed: the checker is enough.
+- **OQ 29 — the three unbound nodes.** Confirmed; OQ 30's pack retires two of them.
+- **OQ 3, 4, 5, 6** — left as standing disclosures. They are recorded uncertainties about history, not defects in the model.
 
 ---
 
