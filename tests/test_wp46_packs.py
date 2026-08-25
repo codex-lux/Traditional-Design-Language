@@ -3123,3 +3123,50 @@ def test_the_worst_addresses_are_annotated_and_their_quantities_differ():
     assert len(qs("height_proportion", "ratio")) >= 6
     assert "head_height_above_floor" in qs("window_head_masonry", "height")
     assert "lintel_or_arch_depth" in qs("window_head_masonry", "height")
+
+
+# --- OQ 50: the rationing pattern, measured ----------------------------------------------------
+
+
+def test_no_node_in_the_corpus_requires_ornament_to_be_evenly_distributed():
+    """The strong form of OQ 50's claim, and the one worth a test: eight nodes say in their own
+    words that distributing ornament destroys the style, and none says the opposite."""
+    import glob, re
+    NEG = re.compile(r"(distribut\w*|evenly|uniformly)[^.]{0,90}ornament"
+                     r"|ornament[^.]{0,90}(evenly|uniformly|distribut)", re.I)
+    condemn = set()
+    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+        d = json.load(open(f))
+        if d.get("rank") not in ("style", "variant"):
+            continue
+        blob = [c.get("statement", "") for c in (d.get("constraints") or [])]
+        for k in ("defining_characteristics", "diagnostic_tells"):
+            blob += [t for t in (d.get(k) or []) if isinstance(t, str)]
+        for t in blob:
+            for m in NEG.finditer(t or ""):
+                seg = t[max(0, m.start() - 60):m.end() + 90]
+                if re.search(r"forbid|convert|misread|destroy|never|imitation|voids", seg, re.I):
+                    condemn.add(d["id"])
+    assert len(condemn) >= 6, sorted(condemn)
+    for nid in ("california-mission-colonial", "churrigueresque", "mexican-colonial",
+                "scottish-baronial", "spanish-colonial-american", "spanish-plateresque"):
+        assert nid in condemn, nid
+
+
+def test_the_pattern_has_exactly_one_control_case_and_it_is_named_by_its_opposite():
+    """`spanish-plateresque` names Italian work as the tradition that distributes, and
+    `italian-renaissance`'s own bay rhythm agrees. A pattern with a boundary is a finding; one
+    without is an artefact of how the records were written."""
+    assert "distributes ornament across it" in json.dumps(node("spanish-plateresque"))
+    assert "even, additive and non-hierarchical" in \
+        json.dumps(node("italian-renaissance")).lower()
+
+
+def test_oq_50_states_what_it_does_not_claim():
+    """26 of 132 is not most of the corpus, and the other 106 are silent rather than disagreeing.
+    A conditional claim stated as a universal one is how a finding becomes folklore."""
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "50. **OPEN" in oq
+    assert "**What is NOT claimed.**" in oq
+    assert "has not voted" in oq
+    assert "reading disposed of 14 of them" in oq

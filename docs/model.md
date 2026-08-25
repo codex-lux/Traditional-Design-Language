@@ -56,3 +56,29 @@ Years are integers; BC is negative. `circa` is true on nearly every node, and sh
 - Every `massing_affinities.massing` exists in the catalog; every `kit` key is a real slot
 - `floruit_start <= floruit_end`
 - Warning where a node begins more than 25 years before an ancestor it descends from
+
+## Ornament is rationed, not distributed (OQ 50)
+
+Wherever a node in this corpus states a rule about *where* ornament goes, it states
+**concentration**: ornament confined to named places — a doorcase, a portada, a wall head, a gable
+face, a porch — with a plain field around it that is a designed element in its own right, and often
+with a stated minimum size. Twenty-six of the 132 buildable nodes say so, across at least nine
+traditions that share no vocabulary: Iberian and colonial Spanish, English Georgian and Palladian,
+Victorian American, Scottish, Swiss, Norman, French, Mexican.
+
+Eight of them condemn the opposite in their own words. Even distribution "destroys the hierarchy
+that carries the composition"; it "converts the complex into" another style; it is "a revival
+misreading"; it "destroys the style outright". **No node requires ornament to be evenly
+distributed.**
+
+There is exactly one control case, and it is named by the tradition that most opposes it.
+`spanish-plateresque` says "Italian work regulates the whole facade by an order and distributes
+ornament across it", and `italian-renaissance`'s own bay rhythm agrees — "even, additive and
+non-hierarchical: five to eleven identical bays across a front". That is the pattern's boundary
+rather than a counter-example to it.
+
+**What this does not say.** The other 106 nodes are mostly silent, and a node that says nothing about
+where ornament goes has not voted. The claim is conditional and should be stated that way. Whether it
+should become a fault — `evenly-distributed-ornament`, with `italian-renaissance` exempted — is
+open; the fault layer would first need a way to see ornament *zones*, which `elevation.py` does not
+model.
