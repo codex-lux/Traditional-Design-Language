@@ -66,7 +66,7 @@ def render_section(section, path, scale=7.0):
     s.append(_style_block())
     s.append(f'<text class="hd" x="{pad}" y="26">{_esc(section.get("plan_id",""))} — SECTION</text>')
     s.append(f'<text class="lb" x="{pad}" y="42">{_esc(section.get("style",""))} · '
-              f'{section["wall"]["construction_type"]} · SPAN {_fmt(span_ft)}</text>')
+              f'{_esc(section["wall"]["construction_type"])} · SPAN {_fmt(span_ft)}</text>')
 
     # grade
     s.append(f'<line class="gr" x1="{ox-24:.1f}" y1="{Y(0):.1f}" x2="{ox+pw+24:.1f}" y2="{Y(0):.1f}"/>')

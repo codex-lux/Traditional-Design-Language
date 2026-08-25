@@ -102,7 +102,7 @@ await page.screenshot({ path: SHOTS + 'candidates.png' });
 await page.getByRole('button', { name: /Drawing Set/ }).click();
 await page.waitForSelector('text=83 of', { timeout: 40000 });
 const ds = await page.locator('main').innerText();
-check('drawing set: WP-3.2 disclosure on-sheet', /83 of its named 100/i.test(ds));
+check('drawing set: WP-3.2 disclosure on-sheet', /83 of the 177 applicable/i.test(ds));
 await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
 await page.getByRole('button', { name: 'bearing lines' }).click();
 await page.waitForTimeout(3000);
@@ -114,6 +114,7 @@ await page.waitForSelector('text=forthcoming', { timeout: 15000 });
 const ex = await page.locator('main').innerText();
 check('export: unbuilt work named with its WP', /WP-5\.1 is not built/.test(ex));
 check('export: no costing engine implied', /No costing engine exists/i.test(ex));
+check('export: conflict count is the recorded 158', /158 recorded pack conflicts/.test(ex));
 await page.screenshot({ path: SHOTS + 'export.png' });
 
 // the rail's honest no-key state

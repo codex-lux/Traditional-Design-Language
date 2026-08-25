@@ -65,7 +65,8 @@ export const mutations = {
   setStyle: (styleId) => (p) => ({ ...p, style: styleId }),
 
   resizeRoom: (levelIdx, roomId, patch) => (p) => {
-    const lv = p.levels[levelIdx];
+    const lv = levelIdx >= 0 ? p.levels[levelIdx] : null;
+    if (!lv) return p;   // an unknown level index must not corrupt the record
     lv.rooms = lv.rooms.map((r) => (r.id === roomId ? { ...r, ...patch } : r));
     return p;
   },

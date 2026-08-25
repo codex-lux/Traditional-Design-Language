@@ -167,9 +167,9 @@ palette to Graphic Standard № 1's tokens (glazing to coal, verdigris to green-
 iron to brick, the room fills to pale warm washes), fonts included. Re-rendered,
 never redrawn — the two-registers rule applied to a whole pipeline, with zero
 `build/` edits; a proper `palette=` parameter upstream stays noted as future work.
-The elevation sheet carries WP-3.2's disclosure permanently and on-sheet ("83 of its
-named 100 photograph-measurable faults; the remainder have no model at this layer
-yet"). A generator that refuses (a record without what it needs) renders as a
+The elevation sheet carries WP-3.2's disclosure permanently and on-sheet (83 of the
+177 applicable photograph-measurable faults — corrected in the audit below from an
+earlier phrasing that used the mistaken acceptance target of 100 as denominator). A generator that refuses (a record without what it needs) renders as a
 refusal card, not an error. A test pins the mapping as *total* over the four
 renderers' palettes, so a new renderer colour cannot ship half-dark.
 
@@ -185,7 +185,85 @@ The left rail now lists no forthcoming surfaces; the honesty moved into the Expo
 surface's cards, and the e2e walk's assertion moved with it (20 checks green;
 30 server tests green).
 
-## 7. Open questions raised
+## 7. Adversarial audit (25 Aug 2026)
+
+Three independent adversarial reviews — server correctness and security, frontend
+correctness, deployment readiness and principle compliance — were run over
+everything this package built, every finding verified against the running system
+before being accepted, and the confirmed ones fixed the same day. The full ledger
+is in this section because the findings matter as much as the code.
+
+**Fixed — the product lying about numbers** (the worst class, by its own standards):
+the Export surface claimed "236 recorded pack conflicts … with ranked honest and
+dishonest substitutions" — the recorded count is 158 (236 double-counts overlays
+re-inheriting the spine's conflicts) and no substitution structure exists in the
+corpus at all, so the clause now names it as planned structure; "32 faults carry
+cost_saved" understated the corpus 6.5× (every one of the 209 faults carries it, 86
+priced in dollars); and the elevation disclosure read "83 of its named 100" where
+WP-3.2's own honest denominator is 177 applicable faults — 83% implied where 47% is
+true. CLAUDE.md's test count was also stale (304 → 307).
+
+**Fixed — crashes and inert interactions:** expanding a kit slot carrying pack
+precedence white-screened the app (SlotRow renders pack entries as children; they
+were objects); kit fault links rendered blank and cited `fault:undefined`; the kit's
+slot-detail cache was keyed by slot only, so a style switch served the previous
+style's record under the new style's name; and the assert-a-fact flow was provably
+inert three ways — the client asserted the other room's display *name* as an id
+(silently dropped by the validator), the validator's door-derived relation always
+defeated the declared one (`rel.setdefault`), and a regex miss asserted a room
+against itself. The client now resolves the id against the record's own rooms and
+offers the button only where it can, and `plan_check.py` keeps declared relations
+in their own map consulted by the must-not-adjoin skip — the fix the finding's own
+text ("record the relation as 'not-visible-from' if the separation is real") had
+been promising and the checker could not honour. Pinned by a new root test.
+
+**Fixed — concurrency under the threadpool:** `build/modcache.py`'s
+register-before-exec cycle guard could hand a second thread a half-executed module
+(the workbench is its first multi-threaded consumer) — an RLock now serializes cold
+loads while keeping same-thread re-entrancy, pinned by a threaded root test; the
+rail's stub-FastMCP loader takes a lock for the same reason; a compose job's SSE
+queue is single-consumer, so a reconnect or second tab could miss the terminal
+event — a finished job now closes every late stream with a synthetic `done`.
+
+**Fixed — honest failure modes:** a missing `jsonschema` no longer masquerades as
+"plan does not match the schema" (OQ 35, resolved with an explicit ImportError
+branch in `core.check_plan` and the brief validator); a failed evaluation no longer
+leaves the previous verdict silently rendered against the new record (the workbench
+states "not evaluated" and names what is stale); a taken port no longer exits 0
+behind a banner claiming the URL (`WORKBENCH_PORT` override added); the feasibility
+strip no longer borrows pass/fail verdict marks for advisory facts; the daylight
+overlay is gated on the windows the sheet actually draws, with a caption tally for
+declared-not-drawn openings; the exterior-door convention is stated on the plate
+(render_plan omits them; the sheet places them conventionally — the parity claim in
+docs/workbench.md was corrected accordingly).
+
+**Fixed — smaller correctness:** refresh mid-compose now reattaches to a running
+job (and a job is only forgotten on a server 404); compose completion no longer
+teleports the user to the Candidate Set from wherever they are; drag handles handle
+pointercancel; the ghost level is the nearest level below, not hardcoded 0; a busy
+rail no longer eats the typed message; `candidate:` citations select their column;
+`parti:` and `constraint:` citations validate against their live registries (the
+ref grammar now admits the dots in constraint ids); the SSE client joins multi-line
+data per spec; the TypeError fallback around compose() became a signature check.
+
+**Verified clean, so the absence is informative:** no XSS path from a pasted plan
+record into the served SVG (every user string passes `_esc` in text context — one
+defense-in-depth gap in `render_section.py` closed); no path traversal; the rail's
+sync generator does not block the event loop (Starlette wraps it in the
+threadpool); no ReDoS; the re-tokenization map is total over all four renderers'
+palettes; the corpus-count copy elsewhere is right ("295 of 660" exact, "93 of
+132" exact, "exactly one is ignorance" exact and computed live); P4 holds (no
+crown, trades-away never behind a disclosure); the three-state components never
+collapse unjudged; git history carries no secrets, node_modules, or dist.
+
+**Known limitations accepted and recorded, not fixed:** citation kinds beyond
+style/slot/kit/fault/pack/candidate/finding/plan navigate to their surface without
+a per-item highlight; the e2e walk needs a Playwright the repo does not vendor
+(documented as a prerequisite); `geometry.solve()` still records no relaxation
+positions (OQ 33); composer decisions remain prose (OQ 34); findings still have no
+server-minted id (OQ 32) — the client hash carries the diff for now.
+
+## 8. Open questions raised
 
 Appended to `docs/open-questions.md` as OQ 32–35: stable finding ids; relaxation
 positions in `geometry.solve()`; structured composer decisions; and

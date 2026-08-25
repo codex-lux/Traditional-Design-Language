@@ -7,7 +7,7 @@
    flipped inside <Model>. Ported from the mockup Sheet; generalised from its one
    hardcoded 64×44 plan to any footprint. */
 import React from 'react';
-import { WALL_T, levelRooms, partitions, windows, doors, bayLines, ft } from './derive.js';
+import { WALL_T, levelRooms, partitions, windows, doors, bayLines, litWalls, ft } from './derive.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -110,6 +110,14 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
       const now = toModel(ev);
       setDelta(axis === 'x' ? now.x - start.x : now.y - start.y);
     };
+    const detach = () => {
+      setDelta(0);
+      e.target.removeEventListener('pointermove', move);
+      e.target.removeEventListener('pointerup', up);
+      e.target.removeEventListener('pointercancel', cancel);
+      e.target.removeEventListener('lostpointercapture', cancel);
+    };
+    const cancel = () => detach();   // touch-scroll or capture loss: drop the drag cleanly
     const up = (ev) => {
       const now = toModel(ev);
       let d = axis === 'x' ? now.x - start.x : now.y - start.y;
@@ -120,14 +128,14 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
           if (Math.abs(room.x + size - b) < 0.75) { size = b - room.x; break; }
         }
       }
-      setDelta(0);
-      e.target.releasePointerCapture(ev.pointerId);
-      e.target.removeEventListener('pointermove', move);
-      e.target.removeEventListener('pointerup', up);
+      try { e.target.releasePointerCapture(ev.pointerId); } catch { /* already lost */ }
+      detach();
       onCommit(axis, size);
     };
     e.target.addEventListener('pointermove', move);
     e.target.addEventListener('pointerup', up);
+    e.target.addEventListener('pointercancel', cancel);
+    e.target.addEventListener('lostpointercapture', cancel);
   }
 
   const hx = axis === 'x' ? x + delta : x;
@@ -238,16 +246,18 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           return <rect key={'pv' + r.id} x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
             fill="var(--sepia)" opacity={0.04 + (rank / 6) * 0.20} />;
         })}
-        {ov.daylight && rooms.map((r) => (r.windows || []).map((win) => {
+        {ov.daylight && rooms.map((r) => litWalls(r, W, H).map((wall) => {
+          // gated on the walls the placement actually lit — the overlay may never
+          // claim daylight from a window the sheet does not draw
           const head = r.window_head_ft || 7;
           const mult = roomsMeta[r.type]?.daylight_multiplier || 2.25;
           const reach = mult * head;
           let box;
-          if (win.wall === 'S') box = { x: r.x, y: -r.y - Math.min(r.h, reach), width: r.w, height: Math.min(r.h, reach) };
-          else if (win.wall === 'N') box = { x: r.x, y: -r.y - r.h, width: r.w, height: Math.min(r.h, reach) };
-          else if (win.wall === 'W') box = { x: r.x, y: -r.y - r.h, width: Math.min(r.w, reach), height: r.h };
+          if (wall === 'S') box = { x: r.x, y: -r.y - Math.min(r.h, reach), width: r.w, height: Math.min(r.h, reach) };
+          else if (wall === 'N') box = { x: r.x, y: -r.y - r.h, width: r.w, height: Math.min(r.h, reach) };
+          else if (wall === 'W') box = { x: r.x, y: -r.y - r.h, width: Math.min(r.w, reach), height: r.h };
           else box = { x: Math.max(r.x, r.x + r.w - reach), y: -r.y - r.h, width: Math.min(r.w, reach), height: r.h };
-          return <rect key={'dl' + r.id + win.wall} {...box} fill="var(--green)" opacity=".16" />;
+          return <rect key={'dl' + r.id + wall} {...box} fill="var(--green)" opacity=".16" />;
         }))}
         {ov.wet && rooms.filter((r) => {
           const m = roomsMeta[r.type] || {};
@@ -353,6 +363,10 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           {relax
             ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft` : ''}. `
             : ''}
+          {wins.dropped
+            ? `${wins.dropped} declared window(s) not situated on this footprint — declared, not drawn. `
+            : ''}
+          Exterior door openings are drawn at conventional mid-wall position.
           The grid remains — evidence the plan was composed, not arranged.
         </div>
       </div>

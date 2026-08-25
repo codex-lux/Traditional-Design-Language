@@ -13,6 +13,7 @@ import typing
 from . import corpus
 
 _REGISTRY = {}
+_LOAD_LOCK = __import__("threading").Lock()
 
 
 class _StubFastMCP:
@@ -30,6 +31,16 @@ class _StubFastMCP:
 
 
 def _load_server_tools():
+    if _REGISTRY:
+        return _REGISTRY
+    with _LOAD_LOCK:
+        return _load_server_tools_locked()
+
+
+def _load_server_tools_locked():
+    # Two concurrent first rail turns would otherwise both mutate sys.modules and
+    # race each other's finally-restore — one can ImportError mid-exec, or leave
+    # the stub mcp resident. The lock makes the one-time load atomic.
     if _REGISTRY:
         return _REGISTRY
     stub_pkg = types.ModuleType("mcp")

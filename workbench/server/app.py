@@ -220,7 +220,13 @@ def example_plan(name: str):
     path = os.path.join(corpus.ROOT, "plans", safe if safe.endswith(".json") else safe + ".json")
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail={"error": f"no example plan '{safe}'"})
-    return json.load(open(path))
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except Exception as e:  # a malformed shipped example is a clean 422, not a 500
+        raise HTTPException(status_code=422,
+                            detail={"error": f"example plan '{safe}' is not readable JSON",
+                                    "detail": str(e)[:200]})
 
 
 # ----------------------------------------------------------------- the workbench loop

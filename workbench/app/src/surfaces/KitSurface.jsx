@@ -37,8 +37,11 @@ function adaptRow(row, distances) {
     rule: row.rule, note: row.note,
     parameters: params,
     variants: variants.length ? variants : null,
-    packs: row.packs ? row.packs.map((p) => ({ id: p.pack, role: p.note ? 'governs' : '',
-      prec: p.precedence })) : null,
+    // SlotRow renders each pack entry directly as a child — strings, not objects
+    // (an object here white-screened the whole app on the default style's kit)
+    packs: row.packs
+      ? row.packs.map((p) => `${p.pack} · precedence ${p.precedence}`)
+      : null,
     faults: row.faults || null,
     judgment: row.judgment, invented: row.invented, code_conflict: row.code_conflict,
   };
@@ -75,12 +78,17 @@ export function KitSurface({ onCite, selection }) {
   }, [styleId, specifiedOnly]);
 
   React.useEffect(() => {
-    if (!openSlot || detail[openSlot]) return;
+    const key = `${styleId}:${openSlot}`;   // keyed by style too — a style switch
+    if (!openSlot || detail[key]) return;   // must never serve the old style's record
     Promise.all([
       fetch(`/api/kit/${styleId}/slot/${openSlot}`).then((r) => (r.ok ? r.json() : null)),
       api.faults({ slot: openSlot, style: styleId, limit: 8 }).catch(() => null),
     ]).then(([d, fl]) => {
-      if (d) setDetail((prev) => ({ ...prev, [openSlot]: { ...d, faults: (fl?.faults || []).map((f) => f.id) } }));
+      if (d) setDetail((prev) => ({ ...prev, [key]: {
+        ...d,
+        // SlotRow reads fl.id and fl.name per fault — keep both
+        faults: (fl?.faults || []).map((f) => ({ id: f.id, name: f.name })),
+      } }));
     });
   }, [openSlot, styleId]);
 
@@ -88,7 +96,10 @@ export function KitSurface({ onCite, selection }) {
   (cascade?.cascade || []).forEach((r) => { distances[r.id] = r.distance; });
   const rows = (kit?.slots || [])
     .filter((s) => !group || s.group === group)
-    .map((s) => adaptRow(detail[s.slot] ? { ...s, ...detail[s.slot] } : s, distances));
+    .map((s) => {
+      const d = detail[`${styleId}:${s.slot}`];
+      return adaptRow(d ? { ...s, ...d } : s, distances);
+    });
 
   const cascadeRows = (cascade?.cascade || []).map((r) => ({
     distance: r.distance, id: r.id,

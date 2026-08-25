@@ -2,13 +2,18 @@
 before a citation is ever streamed. A citation that navigates nowhere is worse than
 none, so an unresolvable ref is downgraded to plain text and reported.
 """
+import functools
+import glob
+import json
+import os
 import re
 
 from . import corpus
 
 core = corpus.core
 
-REF_RE = re.compile(r"^([a-z]+):([A-Za-z0-9_-]+)(?:#([A-Za-z0-9_-]+))?$")
+# ids allow dots: constraint ids are style-id.cNN
+REF_RE = re.compile(r"^([a-z]+):([A-Za-z0-9_.-]+)(?:#([A-Za-z0-9_-]+))?$")
 
 
 def _known_ids(kind):
@@ -27,7 +32,33 @@ def _known_ids(kind):
         return D["massings"]
     if kind == "pack":
         return D["engine"].PACKS
+    if kind == "parti":
+        return _parti_ids()
+    if kind == "constraint":
+        return _constraint_ids()
     return None
+
+
+@functools.lru_cache(maxsize=1)
+def _parti_ids():
+    out = set()
+    for f in glob.glob(os.path.join(corpus.ROOT, "partis", "*.json")):
+        try:
+            out.add(json.load(open(f))["id"])
+        except Exception:
+            pass
+    return out
+
+
+@functools.lru_cache(maxsize=1)
+def _constraint_ids():
+    D = core._data()
+    out = set()
+    for s in D["styles"].values():
+        for c in s.get("constraints", []):
+            if c.get("id"):
+                out.add(c["id"])
+    return out
 
 
 def validate(ref, context=None):
@@ -49,6 +80,6 @@ def validate(ref, context=None):
         if n is not None and (not ident.isdigit() or not (0 <= int(ident) < n)):
             return False, f"candidate {ident} is not in the current set"
         return True, None
-    if kind in ("finding", "plan", "constraint", "brief", "asset", "parti"):
+    if kind in ("finding", "plan", "brief", "asset"):
         return True, None  # session- or corpus-file-scoped; the client resolves
     return False, f"unknown citation kind '{kind}'"

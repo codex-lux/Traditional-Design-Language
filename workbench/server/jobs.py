@@ -53,10 +53,14 @@ def _run(job):
                 "n": len(done), "parti": summary.get("parti"),
                 "parti_name": summary.get("parti_name"), "score": summary.get("score")}})
 
-        try:
+        # Detect the callback parameter by signature rather than catching
+        # TypeError around the call — a genuine TypeError inside a working
+        # compose() must surface once, not silently re-run the whole ~8s job.
+        import inspect
+        takes_callback = "on_candidate" in inspect.signature(composer.compose).parameters
+        if takes_callback:
             result = composer.compose(job.brief, job.candidates, on_candidate=on_candidate)
-        except TypeError:
-            # composer without the callback parameter — indeterminate progress
+        else:
             job.events.put({"event": "stage", "data": {"stage": "composing",
                             "note": "repairing candidates against the validator (~8 s)"}})
             result = composer.compose(job.brief, job.candidates)
@@ -82,8 +86,13 @@ def submit(brief, candidates=4):
 
 
 def _validate_brief(brief):
-    import jsonschema
     import os
+    try:
+        import jsonschema
+    except ImportError:
+        # an absent validator is an environment fact, never a verdict on the brief
+        return {"error": "could not validate: the jsonschema package is not installed",
+                "detail": "pip install -r workbench/requirements.txt"}
     try:
         schema = json.load(open(os.path.join(corpus.ROOT, "schema", "brief.schema.json")))
         jsonschema.validate(brief, schema)
@@ -94,6 +103,7 @@ def _validate_brief(brief):
 
 
 def get(job_id):
+    _reap()   # the TTL is enforced on every touch, not only on the next submit
     job = _JOBS.get(job_id)
     if not job:
         return None
@@ -112,12 +122,19 @@ def candidate_plan(job_id, n):
 
 
 def events(job_id):
-    """Generator of SSE lines for one job. Replays nothing; attach before submit races
-    are avoided because submit() returns before the worker can finish seeding."""
+    """Generator of SSE lines for one job.
+
+    The per-job queue is single-consumer: whichever stream drains an event owns
+    it. A second consumer (a reconnect, a second tab, React StrictMode's double
+    mount) can therefore find the queue empty — so a finished job always closes
+    with a synthetic terminal event from the job's own state, and a late attach
+    on a finished job gets its result rather than a silent stream."""
     job = _JOBS.get(job_id)
     if not job:
         yield _sse("error", {"error": "unknown job"})
         return
+    _reap()
+    saw_terminal = False
     while True:
         if job.status in ("done", "error") and job.events.empty():
             break
@@ -128,7 +145,13 @@ def events(job_id):
             continue
         yield _sse(ev["event"], ev["data"])
         if ev["event"] in ("done", "error"):
+            saw_terminal = True
             break
+    if not saw_terminal and job.status in ("done", "error"):
+        if job.status == "done" and job.result is not None:
+            yield _sse("done", _strip_plans(job.result))
+        else:
+            yield _sse("error", {"error": job.error or "job failed"})
 
 
 def _sse(event, data):

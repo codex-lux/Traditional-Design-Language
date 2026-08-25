@@ -110,9 +110,9 @@ export function ExportDetails({ lastEval }) {
               'exceptions, pack bindings, rendered orders and details. HTML and PDF, from data, ' +
               'so it cannot drift.' },
             { t: 'The details library', wp: 'WP-5.3', body:
-              'Every measured detail rendered by the engine, and all 236 recorded pack conflicts ' +
-              'with their ranked honest and dishonest substitutions — the knowledge that lives ' +
-              'in senior architects’ heads, written down as executable rules.' },
+              'Every measured detail rendered by the engine, and all 158 recorded pack conflicts ' +
+              'with their resolution prose. Ranked substitution sets are planned structure the ' +
+              'corpus does not yet hold — this card will not pretend otherwise.' },
             { t: 'Drawing-to-record ingestion', wp: 'WP-5.5', body:
               'A structured transcription form that produces a plan record from a drawing by ' +
               'tracing, and a DXF importer for a drafter’s plan. Fourteen reference plans ' +
@@ -132,9 +132,10 @@ export function ExportDetails({ lastEval }) {
 
         <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
           margin: '24px 0 0', maxWidth: '76ch' }}>
-          No costing engine exists: 32 faults carry a recorded <span style={{ fontFamily: 'var(--mono)' }}>cost_saved</span>
-          {' '}and nothing here prices a plan. Code findings are advisory IRC model text and are
-          never rendered as compliance.
+          No costing engine exists: every one of the 209 faults carries a recorded{' '}
+          <span style={{ fontFamily: 'var(--mono)' }}>cost_saved</span> (86 of them priced in
+          dollars) and nothing here prices a plan. Code findings are advisory IRC model text
+          and are never rendered as compliance.
         </p>
       </div>
     </div>

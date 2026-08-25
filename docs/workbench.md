@@ -56,12 +56,16 @@ answer; the authoritative re-solved geometry is what gets drawn.
 
 `app/src/sheet/Sheet.jsx` draws only from record + placement (P6): poché from the
 footprint, partitions from deduped shared room edges, windows spaced along exterior
-walls and doors with swing arcs exactly as `build/render_plan.py` computes them
-(`derive.js` is a line-for-line port of `_shared` and the window spacing — the two
-renders of one record cannot quietly disagree). Every room is clickable to its
-record; the selected room grows drag handles; relaxations are reported as the honest
-tally (`count`, `max_off_grid_ft`) because `geometry.solve()` records no positions
-for them (OQ 33).
+walls and interior doors with swing arcs exactly as `build/render_plan.py` computes
+them (`derive.js` is a line-for-line port of `_shared` and the window spacing).
+Two deliberate departures, both stated on the plate itself: exterior door openings
+are drawn at conventional mid-wall position (`render_plan.py` omits them entirely),
+and a declared window whose room the solver did not place on that wall is dropped
+with a caption tally — declared, not drawn — and the daylight overlay is gated on
+the same test, so overlay and drawing cannot contradict each other. Every room is
+clickable to its record; the selected room grows drag handles; relaxations are
+reported as the honest tally (`count`, `max_off_grid_ft`) because `geometry.solve()`
+records no positions for them (OQ 33).
 
 ## The rail
 
@@ -89,6 +93,13 @@ ref  := kind ":" id ("#" fragment)?
 kind := style | slot | kit | fault | room | grouping | massing | parti | pack
       | constraint | candidate | finding | brief | plan | asset
 ```
+
+Corpus-backed kinds (style, slot, kit, fault, room, grouping, massing, pack, parti,
+constraint) validate against their live registries; candidate validates against the
+session's set; finding/plan/brief/asset are session- or file-scoped and resolve
+client-side. Kinds beyond style/slot/kit/fault/pack/candidate/finding/plan currently
+navigate to their surface without a per-item highlight — a known limitation recorded
+in the WP-5.2 audit section.
 
 ## The three-state rule, in components
 

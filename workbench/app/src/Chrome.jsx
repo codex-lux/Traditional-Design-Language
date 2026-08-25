@@ -1,7 +1,7 @@
 /* The instrument's fixed frame: masthead, the 236px left rail, the vocabulary filter
    strip. Ported from the mockup; the counts stop being literals and come from
-   /api/overview, and the surfaces not yet built stay listed as forthcoming rather
-   than hidden — the corpus's own honesty rule applies to the interface too. */
+   /api/overview. All ten surfaces are live — the forthcoming-not-hidden treatment now
+   lives on the Export surface's cards, where the unbuilt work packages are named. */
 import React from 'react';
 import { Eyebrow } from './components/Eyebrow.jsx';
 import { Icon } from './components/Icon.jsx';

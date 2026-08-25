@@ -101,11 +101,13 @@ export async function railTurn(body, onEvent) {
     let i;
     while ((i = buf.indexOf('\n\n')) >= 0) {
       const chunk = buf.slice(0, i); buf = buf.slice(i + 2);
-      let event = 'message', data = '';
+      let event = 'message';
+      const dataLines = [];
       for (const line of chunk.split('\n')) {
         if (line.startsWith('event: ')) event = line.slice(7);
-        else if (line.startsWith('data: ')) data += line.slice(6);
+        else if (line.startsWith('data: ')) dataLines.push(line.slice(6));
       }
+      const data = dataLines.join('\n');   // the SSE spec joins multi-line data with \n
       if (data) onEvent(event, JSON.parse(data));
     }
   }

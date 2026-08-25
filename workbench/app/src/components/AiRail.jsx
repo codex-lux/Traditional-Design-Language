@@ -217,8 +217,9 @@ function AiRail({
     placeholder: placeholder || 'Ask the corpus\u2026',
     onKeyDown: onSend ? function (e) {
       if (e.key === 'Enter') {
-        onSend(e.currentTarget.value);
-        e.currentTarget.value = '';
+        // only clear when the host accepted the message — a busy rail must not
+        // silently eat what the user typed
+        if (onSend(e.currentTarget.value) !== false) e.currentTarget.value = '';
       }
     } : undefined,
     style: {

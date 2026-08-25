@@ -23,8 +23,13 @@ export function RailHost({ onCite, surface, plan, lastEval, railAvailable }) {
     unjudged: railAvailable === false ? 'I cannot evaluate anything: the rail is off.' : undefined,
   }];
 
-  async function send(text) {
-    if (!text || busy) return;
+  function send(text) {
+    if (!text || busy) return false;   // refuse (and keep the input) while a turn runs
+    run(text);
+    return true;
+  }
+
+  async function run(text) {
     setBusy(true);
     historyRef.current.push({ role: 'user', content: text });
     session.pushTurn({ role: 'user', text });
@@ -48,10 +53,13 @@ export function RailHost({ onCite, surface, plan, lastEval, railAvailable }) {
         if (event === 'tool_call') {
           session.patchLastTurn((t) => ({ ...t, calls: [...(t.calls || []), { tool: data.tool, detail: data.detail, pending: true }] }));
         } else if (event === 'tool_done') {
-          session.patchLastTurn((t) => ({
-            ...t,
-            calls: (t.calls || []).map((c) => (c.tool === data.tool && c.pending ? { ...c, pending: false } : c)),
-          }));
+          session.patchLastTurn((t) => {
+            let flipped = false;   // flip only the FIRST pending call of that tool
+            return { ...t, calls: (t.calls || []).map((c) => {
+              if (!flipped && c.tool === data.tool && c.pending) { flipped = true; return { ...c, pending: false }; }
+              return c;
+            }) };
+          });
         } else if (event === 'text') {
           session.patchLastTurn((t) => ({ ...t, text: (t.text ? t.text + '\n\n' : '') + data.text }));
         } else if (event === 'cites') {

@@ -17,10 +17,11 @@ const KINDS = [
 ];
 
 const DISCLOSURE = {
-  elevation: 'The elevation generator evaluates 83 of its named 100 photograph-measurable ' +
-    'faults; the remainder have no model at this layer yet (WP-3.2, disclosed rather than ' +
-    'closed by fabricating data). Sash lights are set for the declared date; the cornice is ' +
-    'the style’s own entablature reduction at the real storey height.',
+  elevation: 'The elevation generator evaluates 83 of the 177 applicable photograph-measurable ' +
+    'faults — the acceptance text had named 100 — and the remainder have no model at this ' +
+    'layer yet (WP-3.2, disclosed rather than closed by fabricating data). Sash lights are ' +
+    'set for the declared date; the cornice is the style’s own entablature reduction at the ' +
+    'real storey height.',
   section: 'Cut from the same record as the plan. Storey heights come from the ' +
     'storey-graduation pack; nothing is drawn that is not in the section record.',
   bearing: 'Every upper wall line that does not continue to a wall below is a transfer ' +

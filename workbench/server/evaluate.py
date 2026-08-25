@@ -41,7 +41,9 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250):
     out["fault_unjudged"] = check.get("fault_unjudged", [])
     if place:
         t2 = time.perf_counter()
-        placement = core.place_plan(core.copy_json(plan), parti=parti, candidates=candidates)
+        # place_plan deep-copies its input itself (geo.solve(copy_json(plan), …));
+        # copying here too would serialize the record twice for nothing.
+        placement = core.place_plan(plan, parti=parti, candidates=candidates)
         out["timing_ms"]["place"] = round((time.perf_counter() - t2) * 1000)
         if "error" in placement:
             out["placement_error"] = placement["error"]

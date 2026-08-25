@@ -36,20 +36,39 @@ function adaptCandidate(c, i, nativePartis) {
   };
 }
 
-export function CandidateSet({ onCite, go }) {
+export function CandidateSet({ onCite, go, selection }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
   const [sel, setSel] = React.useState(null);
+  React.useEffect(() => {   // a candidate: citation selects its column
+    if (selection?.candidate != null) setSel('c' + selection.candidate);
+  }, [selection?.candidate]);
   const [sort, setSort] = React.useState('score');
   const [nativePartis, setNativePartis] = React.useState(null);
   const result = s.result;
   const brief = s.brief || result?.brief_record;
 
   React.useEffect(() => {
-    // reattach to a job that survived a refresh
+    // reattach to a job that survived a refresh — including one still RUNNING
+    // (the SSE endpoint supports late attach and closes with a synthetic done)
     if (s.jobId && !s.result) {
       api.job(s.jobId).then((j) => {
-        if (j.status === 'done') session.set({ result: j.result });
-      }).catch(() => session.set({ jobId: null }));
+        if (j.status === 'done') {
+          session.set({ result: j.result });
+        } else if (j.status === 'error') {
+          session.set({ jobId: null });
+        } else {
+          jobEvents(s.jobId, {
+            stage: (d) => session.pushProgress(d),
+            candidate: (d) => session.pushProgress(d),
+            done: (d) => session.set({ result: d }),
+            error: () => {},
+          });
+        }
+      }).catch((e) => {
+        // only forget the job when the server says it no longer exists —
+        // a transient network failure must not strand a live job
+        if (e.status === 404) session.set({ jobId: null });
+      });
     }
   }, [s.jobId]);
 

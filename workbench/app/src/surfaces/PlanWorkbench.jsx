@@ -24,8 +24,10 @@ function findingKey(f) {
 
 function adaptFinding(f) {
   const isFault = f.layer === 'fault';
+  // only offer the assertion where the statement names the other room in the form
+  // the resolver can actually parse — a button that no-ops is worse than none
   const assertable = (f.layer === 'adjacency' || f.layer === 'privacy')
-    && /visible|adjoin|overlook/i.test(f.statement)
+    && /adjoins .+?, which it should not/i.test(f.statement)
     ? 'not-visible-from' : null;
   return {
     id: findingKey(f),
@@ -51,7 +53,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const [styleOptions, setStyleOptions] = React.useState([]);
   const [examples, setExamples] = React.useState([]);
   const [prevKeys, setPrevKeys] = React.useState(null);
+  const [evalError, setEvalError] = React.useState(null);
   const evalRef = React.useRef(0);
+  const lastFindingsRef = React.useRef(null);   // keys of the last APPLIED evaluation
 
   React.useEffect(() => {
     api.styles({ limit: 200 }).then((r) => setStyleOptions((r.results || []).map((s) => s.id).sort()));
@@ -69,14 +73,21 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
     api.evaluate(p, { strict, place: true, candidates: opts.candidates ?? seeds })
       .then((res) => {
         if (seq !== evalRef.current) return;
-        setLastEval((prev) => {
-          if (prev?.check?.findings) {
-            setPrevKeys(new Set(prev.check.findings.map((f) => findingKey(f))));
-          }
-          return res;
-        });
+        // updaters stay pure: the previous run's keys live in a ref, and both
+        // state sets happen at this level (the seq guard already serializes)
+        setPrevKeys(lastFindingsRef.current);
+        lastFindingsRef.current = res?.check?.findings
+          ? new Set(res.check.findings.map((f) => findingKey(f)))
+          : null;
+        setEvalError(res?.check?.error || null);
+        setLastEval(res);
       })
-      .catch(() => {})
+      .catch((e) => {
+        if (seq !== evalRef.current) return;
+        // a silent catch would leave the OLD verdict rendered against a NEW
+        // record — the one failure mode this product must never have
+        setEvalError(e.body?.detail?.error || e.message || 'evaluation failed');
+      })
       .finally(() => { if (seq === evalRef.current) setBusy(false); });
   }, [strict, seeds, setLastEval]);
 
@@ -212,10 +223,19 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                     onLocate={f.at ? () => setRoom(f.at) : undefined}
                     onCite={f.rule_ref ? () => onCite && onCite(f.rule_ref) : undefined}
                     onAssert={f.assertable && f.at ? () => {
-                      const other = /adjoins ([A-Za-z ]+?)[,.]/.exec(f.statement);
-                      planDoc.update(mutations.assertRelation(
-                        f.at, other ? other[1].trim().toLowerCase().replace(/ /g, '-') : f.at,
-                        'not-visible-from'));
+                      // The statement names the other room by display NAME; the record
+                      // wants its id. Resolve by matching names across the record's own
+                      // rooms — and never assert at all if no room matches.
+                      const m = /adjoins (.+?), which/.exec(f.statement);
+                      const otherName = m && m[1].trim().toLowerCase();
+                      let otherId = null;
+                      for (const lv of plan.levels || []) {
+                        for (const r of lv.rooms || []) {
+                          if ((r.name || '').toLowerCase() === otherName) otherId = r.id;
+                        }
+                      }
+                      if (!otherId || otherId === f.at) return;
+                      planDoc.update(mutations.assertRelation(f.at, otherId, 'not-visible-from'));
                     } : undefined} />
                 ))}
               </div>
@@ -277,13 +297,16 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                 {(plan.levels.find((l) => (l.index ?? 0) === level) || {}).name || 'level ' + level}
                 {' '}· both levels solved together
               </Eyebrow>
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 6 }}>
-                {relax
-                  ? `${relax.count} cut(s) off the bay line` +
-                    (relax.count ? ` · worst ${relax.max_off_grid_ft} ft — each is a joist run that does not land on a bearing wall` : '')
-                  : lastEval?.placement_error
-                    ? 'placement failed: ' + lastEval.placement_error
-                    : 'placing…'}
+              <div style={{ font: 'var(--type-data-s)',
+                color: evalError ? 'var(--sev-serious)' : 'var(--ink-2)', marginTop: 6 }}>
+                {evalError
+                  ? `not evaluated: ${evalError} — what is shown below is the LAST successful evaluation`
+                  : relax
+                    ? `${relax.count} cut(s) off the bay line` +
+                      (relax.count ? ` · worst ${relax.max_off_grid_ft} ft — each is a joist run that does not land on a bearing wall` : '')
+                    : lastEval?.placement_error
+                      ? 'placement failed: ' + lastEval.placement_error
+                      : 'placing…'}
               </div>
             </div>
             {check && (
@@ -297,7 +320,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
             <div style={{ maxWidth: 1000, opacity: busy ? 0.45 : 1, transition: 'opacity .3s' }}>
               <Sheet plan={plan} placement={placement} levelIndex={level}
                 overlays={{ ...ov, meta: lastEval?.rooms_meta }}
-                ghost={ghost && level !== 0 ? 0 : null}
+                ghost={(() => {   // ghost the nearest level BELOW the one in view
+                  if (!ghost) return null;
+                  const below = levelIndices.filter((i) => i < level);
+                  return below.length ? Math.max(...below) : null;
+                })()}
                 selectedRoom={room}
                 onPickRoom={(r) => { setRoom(room === r.id ? null : r.id); setLayer(null); }}
                 onResizeRoom={(r, axis, size) => {

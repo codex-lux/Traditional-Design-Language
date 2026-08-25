@@ -44,3 +44,59 @@ def test_compose_without_callback_unchanged():
     brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
     res = comp.compose(brief, 2)
     assert res["candidates"]
+
+
+def test_declared_relation_clears_must_not_adjoin():
+    """A declared not-visible-from clears the adjacency finding EVEN when the pair is
+    joined by a door — the finding's own fix text ("record the relation as
+    'not-visible-from' if the separation is real") promises exactly this, and before
+    the workbench audit the door-derived relation silently always won."""
+    pc = _load("plan_check")
+    plan = json.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")))
+    target = "Dining Room adjoins Powder Room, which it should not."
+    assert target in [f["statement"] for f in pc.check(plan)["findings"]]
+    plan2 = json.loads(json.dumps(plan))
+    plan2.setdefault("adjacencies", []).append(
+        {"a": "dining", "b": "powder", "relation": "not-visible-from"})
+    res = pc.check(plan2)
+    assert target not in [f["statement"] for f in res["findings"]]
+    # and entered_from logic is untouched: same finding count delta of exactly one
+    assert sum(pc.check(plan)["counts"].values()) - sum(res["counts"].values()) == 1
+
+
+def test_modcache_concurrent_cold_load_is_safe():
+    """Two threads racing the same cold load must both receive a fully-executed
+    module — the register-before-exec cycle guard must not leak a half-built module
+    across threads (the workbench serves these loads from a threadpool)."""
+    import threading
+    import textwrap
+    import tempfile
+
+    src = textwrap.dedent("""
+        import time
+        time.sleep(0.3)
+        MARKER = 42
+    """)
+    with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as f:
+        f.write(src)
+        path = f.name
+    try:
+        results, errors = [], []
+
+        def worker():
+            try:
+                m = modcache.load("slowmod_test", path)
+                results.append(m.MARKER)
+            except Exception as e:
+                errors.append(repr(e))
+
+        threads = [threading.Thread(target=worker) for _ in range(4)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        assert not errors, errors
+        assert results == [42, 42, 42, 42]
+    finally:
+        modcache.invalidate(path)
+        os.unlink(path)

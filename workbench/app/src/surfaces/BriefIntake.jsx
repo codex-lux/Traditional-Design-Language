@@ -12,6 +12,25 @@ import { FilterStrip, Chip } from '../Chrome.jsx';
 
 const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
+/* An advisory fact, deliberately NOT a JudgmentMark: pass/fail belongs to evaluation
+   against a plan, and this surface promises never to imply feasibility was proved.
+   tone="limit" marks a corpus limit or out-of-band fact in ink, not in a verdict hue. */
+function Advisory({ label, detail, tone }) {
+  return (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+      <span aria-hidden="true" style={{ width: 9, height: 9, flex: 'none', marginTop: 4,
+        border: '1px solid var(--ink-3)',
+        background: tone === 'limit' ? 'transparent' : 'var(--ink-3)' }} />
+      <span>
+        <span style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)',
+          color: tone === 'limit' ? 'var(--ink)' : 'var(--ink-2)' }}>{label}</span>
+        {detail && <span style={{ display: 'block', font: 'var(--fw-reg) 12px/1.5 var(--body)',
+          color: 'var(--ink-3)' }}>{detail}</span>}
+      </span>
+    </div>
+  );
+}
+
 const label = { font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase', color: 'var(--ink-3)', display: 'block', marginBottom: 5 };
 const input = { background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)',
@@ -19,16 +38,20 @@ const input = { background: 'var(--paper-mat)', border: '1px solid var(--rule-so
 
 export function BriefIntake({ go }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
-  const [brief, setBrief] = React.useState(s.brief || {
+  const defaults = {
     id: 'new-brief', name: '', style: 'tidewater-georgian',
     target_area_sf: 3200, bedrooms: 4, bathrooms: 3.5,
     must_have: [], context: {}, household: '', candidates: 4,
-  });
+  };
+  // merge over defaults: a brief persisted by an older shape must never crash the form
+  const [brief, setBrief] = React.useState(
+    { ...defaults, ...(s.brief || {}), context: { ...(s.brief?.context || {}) } });
   const [styleOptions, setStyleOptions] = React.useState([]);
   const [partis, setPartis] = React.useState(null);
   const [rooms, setRooms] = React.useState([]);
   const [composing, setComposing] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const unsubRef = React.useRef(null);
 
   React.useEffect(() => {
     api.styles({ limit: 200 }).then((r) => setStyleOptions((r.results || []).map((x) => x.id).sort()));
@@ -65,10 +88,14 @@ export function BriefIntake({ go }) {
     try {
       const { job_id } = await api.compose(clean, brief.candidates || 4);
       session.set({ jobId: job_id });
-      jobEvents(job_id, {
+      if (unsubRef.current) unsubRef.current();   // a superseded compose drops its stream
+      unsubRef.current = jobEvents(job_id, {
         stage: (d) => session.pushProgress(d),
         candidate: (d) => session.pushProgress(d),
-        done: (d) => { session.set({ result: d }); setComposing(false); go('candidates'); },
+        // no navigation here: yanking the user to the Candidate Set minutes later,
+        // from wherever they are, is worse than letting the rail chip or the nav
+        // take them — the immediate go() below already lands them there once
+        done: (d) => { session.set({ result: d }); setComposing(false); },
         error: (d) => { setError(d.error); setComposing(false); },
       });
       go('candidates');
@@ -217,31 +244,30 @@ export function BriefIntake({ go }) {
               {partis === null ? (
                 <JudgmentMark state="unjudged" label="native partis unknown" reason="reading the corpus…" />
               ) : native.length === 0 ? (
-                <JudgmentMark state="fail"
+                <Advisory tone="limit"
                   label={`${brief.style} has no native parti — the composer will borrow diagrams`}
-                  reason="93 of 132 styles have none; every candidate will carry the NOT-native label. A corpus limit, not a bad result." />
+                  detail="93 of 132 styles have none; every candidate will carry the NOT-native label. A corpus limit, not a bad result." />
               ) : (
-                <JudgmentMark state="pass"
+                <Advisory
                   label={`${native.length} parti${native.length === 1 ? '' : 's'} native to ${brief.style}`}
-                  reason={native.map((p) => p.name).join(' · ')} />
+                  detail={native.map((p) => p.name).join(' · ')} />
               )}
             </div>
 
             {native.length > 0 && (
               <div style={{ marginBottom: 12 }}>
                 {areaHit.length > 0
-                  ? <JudgmentMark state="pass"
-                      label={`${brief.target_area_sf?.toLocaleString()} sf sits inside ${areaHit.length} native area band${areaHit.length === 1 ? '' : 's'}`} />
-                  : <JudgmentMark state="fail"
+                  ? <Advisory label={`${brief.target_area_sf?.toLocaleString()} sf sits inside ${areaHit.length} native area band${areaHit.length === 1 ? '' : 's'}`} />
+                  : <Advisory tone="limit"
                       label={`${brief.target_area_sf?.toLocaleString()} sf is outside every native parti's area band`}
-                      reason={native.map((p) => `${p.name}: ${p.area_range_sf?.[0]}–${p.area_range_sf?.[1]} sf`).join(' · ')} />}
+                      detail={native.map((p) => `${p.name}: ${p.area_range_sf?.[0]}–${p.area_range_sf?.[1]} sf`).join(' · ')} />}
               </div>
             )}
             {native.length > 0 && brief.bedrooms != null && (
               <div style={{ marginBottom: 12 }}>
                 {bedHit.length > 0
-                  ? <JudgmentMark state="pass" label={`${brief.bedrooms} bedrooms fits ${bedHit.length} native diagram${bedHit.length === 1 ? '' : 's'}`} />
-                  : <JudgmentMark state="fail" label={`${brief.bedrooms} bedrooms is outside the native bedroom ranges`} />}
+                  ? <Advisory label={`${brief.bedrooms} bedrooms fits ${bedHit.length} native diagram${bedHit.length === 1 ? '' : 's'}`} />
+                  : <Advisory tone="limit" label={`${brief.bedrooms} bedrooms is outside the native bedroom ranges`} />}
               </div>
             )}
 

@@ -76,19 +76,35 @@ export function partitions(rooms, W, H, tol = 0.6) {
    build/render_plan.py spaces them: k+1 of n+1 along the wall. */
 export function windows(rooms, W, H, tol = 0.6) {
   const out = [];
+  let dropped = 0;   // declared windows whose room the solver did not place on that wall
   for (const r of rooms) {
     for (const win of r.windows) {
       const n = win.count || 1;
       const wallW = win.width_ft || 3;
       for (let k = 0; k < n; k++) {
         const t = (k + 1) / (n + 1);
-        if (win.wall === 'S' && r.y <= tol) out.push({ wall: 'S', x: r.x + r.w * t, y: 0, w: wallW });
-        else if (win.wall === 'N' && r.y + r.h >= H - tol) out.push({ wall: 'N', x: r.x + r.w * t, y: H, w: wallW });
-        else if (win.wall === 'W' && r.x <= tol) out.push({ wall: 'W', x: 0, y: r.y + r.h * t, w: wallW });
-        else if (win.wall === 'E' && r.x + r.w >= W - tol) out.push({ wall: 'E', x: W, y: r.y + r.h * t, w: wallW });
+        if (win.wall === 'S' && r.y <= tol) out.push({ wall: 'S', x: r.x + r.w * t, y: 0, w: wallW, room: r.id });
+        else if (win.wall === 'N' && r.y + r.h >= H - tol) out.push({ wall: 'N', x: r.x + r.w * t, y: H, w: wallW, room: r.id });
+        else if (win.wall === 'W' && r.x <= tol) out.push({ wall: 'W', x: 0, y: r.y + r.h * t, w: wallW, room: r.id });
+        else if (win.wall === 'E' && r.x + r.w >= W - tol) out.push({ wall: 'E', x: W, y: r.y + r.h * t, w: wallW, room: r.id });
+        else dropped += 1;
       }
     }
   }
+  out.dropped = dropped;
+  return out;
+}
+
+/* Which of a room's declared window-walls the placement actually put on the footprint
+   boundary — the daylight overlay must agree with the DRAWN windows, not the declared
+   list, or the overlay and the drawing contradict each other on the same sheet. */
+export function litWalls(r, W, H, tol = 0.6) {
+  const walls = new Set((r.windows || []).map((w) => w.wall));
+  const out = [];
+  if (walls.has('S') && r.y <= tol) out.push('S');
+  if (walls.has('N') && r.y + r.h >= H - tol) out.push('N');
+  if (walls.has('W') && r.x <= tol) out.push('W');
+  if (walls.has('E') && r.x + r.w >= W - tol) out.push('E');
   return out;
 }
 

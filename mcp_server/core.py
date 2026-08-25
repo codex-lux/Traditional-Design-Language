@@ -666,6 +666,13 @@ def check_plan(plan, strict=False):
     pc = _load_plan_checker()
     try:
         import jsonschema
+    except ImportError:
+        # An absent validator is an environment fact, not a verdict about the plan.
+        # Collapsing it into "does not match the schema" was OQ 35's exact complaint:
+        # a dependency problem laundered as a data judgment.
+        return {"error": "could not validate: the jsonschema package is not installed",
+                "detail": "pip install jsonschema", "unvalidated": True}
+    try:
         jsonschema.validate(plan, json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))))
     except Exception as e:
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400],

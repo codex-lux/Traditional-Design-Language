@@ -155,10 +155,19 @@ def check(plan, C=None, strict=False):
                 continue
             adj[rid].add(t); adj[t].add(rid)
             rel[(rid, t)] = rel[(t, rid)] = "direct-door"
+    # Declared relations are kept beside the door-derived ones, not merged under
+    # them: a pair can legitimately be joined by a door AND declared
+    # not-visible-from (the door sits around a jog). The must-not-adjoin skip
+    # below consults both; entered_from keeps reading the door-derived map only.
+    # Before this, rel.setdefault meant a direct-door pair could NEVER satisfy
+    # "record the relation as 'not-visible-from' if the separation is real" --
+    # the exact interaction the finding's own fix text promises.
+    declared_rel = {}
     for a in plan.get("adjacencies", []):
         if a["a"] in rooms and a["b"] in rooms:
             adj[a["a"]].add(a["b"]); adj[a["b"]].add(a["a"])
             rel.setdefault((a["a"], a["b"]), a["relation"]); rel.setdefault((a["b"], a["a"]), a["relation"])
+            declared_rel[(a["a"], a["b"])] = declared_rel[(a["b"], a["a"])] = a["relation"]
     types_present = {r["type"] for r in rooms.values()}
     def types_adjacent(rid):
         out = set()
@@ -304,7 +313,9 @@ def check(plan, C=None, strict=False):
             relation = rule.get("relation", "")
             for other in adj[rid]:
                 if rooms[other]["type"] != rule["room"]: continue
-                if relation in ("acoustically-separated", "not-visible-from") and rel.get((rid, other)) == relation:
+                if relation in ("acoustically-separated", "not-visible-from") and (
+                        rel.get((rid, other)) == relation
+                        or declared_rel.get((rid, other)) == relation):
                     continue
                 pair = tuple(sorted((rid, other)))
                 if pair in seen_pairs: continue          # a mutual prohibition is one finding, not two
